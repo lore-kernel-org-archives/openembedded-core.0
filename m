@@ -2,270 +2,650 @@ Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8C5C54E67
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FDCCD11DD
 	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 07:50:57 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
  by mx.groups.io with SMTP id smtpd.web10.10366.1711612249907302998
  for <openembedded-core@lists.openembedded.org>;
  Thu, 28 Mar 2024 00:50:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=YLLaj93B;
+ dkim=pass header.i=@intel.com header.s=Intel header.b=F4MKi13h;
  spf=pass (domain: intel.com, ip: 198.175.65.12, mailfrom: chee.yang.lee@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711612250; x=1743148250;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=E2tN7bGBhA3st4Hu3S1b98xhAOYfuINCKJulTRGgwwg=;
-  b=YLLaj93BWjq+M01cVNsOC9YU0Zyr0NmqcHf92+z70rfUtCm28Kx16e2o
-   oq/THyY1o9b3r0nBRmdNR9EYrtNQD/Lk8hpUpMppSljf0LlhlvHILZYRJ
-   8kbDJwi2se58zx4U8FM6tMBs4LN/8ruOeVjb0IAtSmHr3aW6Ons+v0Dmv
-   nrS1mx0pBAPpeodXWAbwMsqqTGNNB+TX2bmB2RUx2t5c9WBZWaE0w0gYA
-   cs+w5vCx4jEGi17MGYecoRN+JtAnTAYAkTuU7KtzGrpaCoAJGQvt4RsJ+
-   S36N+URd2NSCkdw1qsDLiv2MzrVY94rib/5jjLvZ4pauePK3MxWVjfp+D
-   w==;
-X-CSE-ConnectionGUID: EQSa/q4dQLmNxPWbBstEQw==
-X-CSE-MsgGUID: wYup0ugnQsSi759w+aq4Pg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="18185087"
+  t=1711612251; x=1743148251;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=OcY80wePdfyHI8nXzZwFmHv9xUDF2O0m8182B5jZ7i4=;
+  b=F4MKi13hLjWKe2pojLvT4ZT9yubVtmguhg/FNlgPzgL7PFKSqytgn6Lw
+   bkC/861VBRoyAuficGF5/UJLqPQwcSTLRvIderQpA18AEX9u2mDSjgFR4
+   bRlRNeo2LBWV7n7LMOdWhu1vvif36CcRd2g5OQL7Y3b5AptgPZa34GE+E
+   sdnoukvVPs/bEceJGABw/ZkFZBvGSFEVIuTAB/DFwexnBZwGuo2XuHH4I
+   nmziUd9LT4b1EYMhYsnsRce64npPci5M3hSZy1I0nMb9sSbZ/9pZJRxk7
+   8tEhuiDzwMwIRduAuuwErqfxwIH6ABio5QJKX2u6f8FJfnZPeTTJWi4A/
+   g==;
+X-CSE-ConnectionGUID: D0x9l4u5Q3WjF1i1vpGp2A==
+X-CSE-MsgGUID: vZ0kXx2ETliPJLpGocWvlQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="18185089"
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="18185087"
+   d="scan'208";a="18185089"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 00:50:49 -0700
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 00:50:50 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="47547202"
+   d="scan'208";a="47547207"
 Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orviesa002.jf.intel.com with ESMTP; 28 Mar 2024 00:50:49 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 Mar 2024 00:50:50 -0700
 From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH 1/3] xwayland: fix CVE-2023-6816 CVE-2024-0408/0409
-Date: Thu, 28 Mar 2024 15:50:31 +0800
-Message-Id: <20240328075033.3800753-1-chee.yang.lee@intel.com>
+Subject: [kirkstone][PATCH 2/3] tiff: fix CVE-2023-52356 CVE-2023-6277
+Date: Thu, 28 Mar 2024 15:50:32 +0800
+Message-Id: <20240328075033.3800753-2-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20240328075033.3800753-1-chee.yang.lee@intel.com>
+References: <20240328075033.3800753-1-chee.yang.lee@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 07:50:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197570
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197571
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-fix CVE-2023-6816 CVE-2024-0408 CVE-2024-0409
+import patch from ubuntu to fix CVE-2023-52356 CVE-2023-6277
+import from
+http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../xwayland/xwayland/CVE-2023-6816.patch     | 57 ++++++++++++++++
- .../xwayland/xwayland/CVE-2024-0408.patch     | 65 +++++++++++++++++++
- .../xwayland/xwayland/CVE-2024-0409.patch     | 47 ++++++++++++++
- .../xwayland/xwayland_22.1.8.bb               |  3 +
- 4 files changed, 172 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-6816.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0408.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2024-0409.patch
+ .../libtiff/tiff/CVE-2023-52356.patch         |  55 ++++++
+ .../libtiff/tiff/CVE-2023-6277-1.patch        | 179 ++++++++++++++++++
+ .../libtiff/tiff/CVE-2023-6277-2.patch        | 152 +++++++++++++++
+ .../libtiff/tiff/CVE-2023-6277-3.patch        |  47 +++++
+ .../libtiff/tiff/CVE-2023-6277-4.patch        |  94 +++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   5 +
+ 6 files changed, 532 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-1.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-2.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-3.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-4.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2023-6816.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-6816.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
 new file mode 100644
-index 0000000000..5c68bfb3c1
+index 0000000000..6c3c5adc52
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-6816.patch
-@@ -0,0 +1,57 @@
-+CVE: CVE-2023-6816
-+Upstream-Status: Backport [ https://gitlab.freedesktop.org/xorg/xserver/-/commit/b5cb27032d3e486ba84a491e1420e85171c4c0a3 ]
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
+@@ -0,0 +1,55 @@
++CVE: CVE-2023-52356
++Upstream-Status: Backport 
++[ upstream : https://gitlab.com/libtiff/libtiff/-/commit/51558511bdbbcffdce534db21dbaf5d54b31638a 
++ubuntu : http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz ]
 +Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+From b5cb27032d3e486ba84a491e1420e85171c4c0a3 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 14 Dec 2023 11:29:49 +1000
-+Subject: [PATCH] dix: allocate enough space for logical button maps
++[Ubuntu note: Backport of the following patch from upstream, with a few changes
++to match the current version of the file in the present Ubuntu release:
++ . using TIFFErrorExt instead of TIFFErrorExtR (the latter did not exist yet);
++-- Rodrigo Figueiredo Zaiden]
 +
-+Both DeviceFocusEvent and the XIQueryPointer reply contain a bit for
-+each logical button currently down. Since buttons can be arbitrarily mapped
-+to anything up to 255 make sure we have enough bits for the maximum mapping.
++Backport of:
 +
-+CVE-2023-6816, ZDI-CAN-22664, ZDI-CAN-22665
++From 51558511bdbbcffdce534db21dbaf5d54b31638a Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 31 Oct 2023 15:58:41 +0100
++Subject: [PATCH] TIFFReadRGBAStrip/TIFFReadRGBATile: add more validation of
++ col/row (fixes #622)
 +
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+(cherry picked from commit 9e2ecb2af8302dedc49cb6a63ebe063c58a9e7e3)
 +---
-+ Xi/xiquerypointer.c | 3 +--
-+ dix/enterleave.c    | 5 +++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
++ libtiff/tif_getimage.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
 +
-+diff --git a/Xi/xiquerypointer.c b/Xi/xiquerypointer.c
-+index 5b77b1a444..2b05ac5f39 100644
-+--- a/Xi/xiquerypointer.c
-++++ b/Xi/xiquerypointer.c
-+@@ -149,8 +149,7 @@ ProcXIQueryPointer(ClientPtr client)
-+     if (pDev->button) {
-+         int i;
++
++--- tiff-4.3.0.orig/libtiff/tif_getimage.c
+++++ tiff-4.3.0/libtiff/tif_getimage.c
++@@ -2942,6 +2942,13 @@ TIFFReadRGBAStripExt(TIFF* tif, uint32_t
++     }
 + 
-+-        rep.buttons_len =
-+-            bytes_to_int32(bits_to_bytes(pDev->button->numButtons));
-++        rep.buttons_len = bytes_to_int32(bits_to_bytes(256)); /* button map up to 255 */
-+         rep.length += rep.buttons_len;
-+         buttons = calloc(rep.buttons_len, 4);
-+         if (!buttons)
-+diff --git a/dix/enterleave.c b/dix/enterleave.c
-+index 867ec74363..ded8679d76 100644
-+--- a/dix/enterleave.c
-++++ b/dix/enterleave.c
-+@@ -784,8 +784,9 @@ DeviceFocusEvent(DeviceIntPtr dev, int type, int mode, int detail,
++     if (TIFFRGBAImageOK(tif, emsg) && TIFFRGBAImageBegin(&img, tif, stop_on_error, emsg)) {
+++        if (row >= img.height)
+++        {
+++            TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
+++                          "Invalid row passed to TIFFReadRGBAStrip().");
+++            TIFFRGBAImageEnd(&img);
+++            return (0);
+++        }
 + 
-+     mouse = IsFloating(dev) ? dev : GetMaster(dev, MASTER_POINTER);
++         img.row_offset = row;
++         img.col_offset = 0;
++@@ -3018,6 +3025,14 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t
++ 	    return( 0 );
++     }
 + 
-+-    /* XI 2 event */
-+-    btlen = (mouse->button) ? bits_to_bytes(mouse->button->numButtons) : 0;
-++    /* XI 2 event contains the logical button map - maps are CARD8
-++     * so we need 256 bits for the possibly maximum mapping */
-++    btlen = (mouse->button) ? bits_to_bytes(256) : 0;
-+     btlen = bytes_to_int32(btlen);
-+     len = sizeof(xXIFocusInEvent) + btlen * 4;
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0408.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0408.patch
-new file mode 100644
-index 0000000000..9063cd00b2
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0408.patch
-@@ -0,0 +1,65 @@
-+CVE: CVE-2024-0408
-+Upstream-Status: Backport [ https://gitlab.freedesktop.org/xorg/xserver/-/commit/4093057b98bc5a178f130c9ba6b0b28385e24ae5 ]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+From 4093057b98bc5a178f130c9ba6b0b28385e24ae5 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 6 Dec 2023 12:09:41 +0100
-+Subject: [PATCH] glx: Call XACE hooks on the GLX buffer
-+
-+The XSELINUX code will label resources at creation by checking the
-+access mode. When the access mode is DixCreateAccess, it will call the
-+function to label the new resource SELinuxLabelResource().
-+
-+However, GLX buffers do not go through the XACE hooks when created,
-+hence leaving the resource actually unlabeled.
-+
-+When, later, the client tries to create another resource using that
-+drawable (like a GC for example), the XSELINUX code would try to use
-+the security ID of that object which has never been labeled, get a NULL
-+pointer and crash when checking whether the requested permissions are
-+granted for subject security ID.
-+
-+To avoid the issue, make sure to call the XACE hooks when creating the
-+GLX buffers.
-+
-+Credit goes to Donn Seeley <donn@xmission.com> for providing the patch.
-+
-+CVE-2024-0408
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-+(cherry picked from commit e5e8586a12a3ec915673edffa10dc8fe5e15dac3)
-+---
-+ glx/glxcmds.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/glx/glxcmds.c b/glx/glxcmds.c
-+index fc26a2e345..1e46d0c723 100644
-+--- a/glx/glxcmds.c
-++++ b/glx/glxcmds.c
-+@@ -48,6 +48,7 @@
-+ #include "indirect_util.h"
-+ #include "protocol-versions.h"
-+ #include "glxvndabi.h"
-++#include "xace.h"
-+ 
-+ static char GLXServerVendorName[] = "SGI";
-+ 
-+@@ -1392,6 +1393,13 @@ DoCreatePbuffer(ClientPtr client, int screenNum, XID fbconfigId,
-+     if (!pPixmap)
-+         return BadAlloc;
-+ 
-++    err = XaceHook(XACE_RESOURCE_ACCESS, client, glxDrawableId, RT_PIXMAP,
-++                   pPixmap, RT_NONE, NULL, DixCreateAccess);
-++    if (err != Success) {
-++        (*pGlxScreen->pScreen->DestroyPixmap) (pPixmap);
-++        return err;
+++    if (col >= img.width || row >= img.height)
+++    {
+++        TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
+++                      "Invalid row/col passed to TIFFReadRGBATile().");
+++        TIFFRGBAImageEnd(&img);
+++        return (0);
 ++    }
 ++
-+     /* Assign the pixmap the same id as the pbuffer and add it as a
-+      * resource so it and the DRI2 drawable will be reclaimed when the
-+      * pbuffer is destroyed. */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0409.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0409.patch
++     /*
++      * The TIFFRGBAImageGet() function doesn't allow us to get off the
++      * edge of the image, even to fill an otherwise valid tile.  So we
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-1.patch
 new file mode 100644
-index 0000000000..de3396a410
+index 0000000000..6882529cfb
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2024-0409.patch
-@@ -0,0 +1,47 @@
-+CVE: CVE-2024-0409
-+Upstream-Status: Backport [ https://gitlab.freedesktop.org/xorg/xserver/-/commit/51be9e767a02cdc6a524dc895dcc81abb689d50b ]
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-1.patch
+@@ -0,0 +1,179 @@
++CVE: CVE-2023-6277
++Upstream-Status: Backport 
++[ upstream : https://gitlab.com/libtiff/libtiff/-/commit/5320c9d89c054fa805d037d84c57da874470b01a 
++ubuntu : http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz ]
 +Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+From 51be9e767a02cdc6a524dc895dcc81abb689d50b Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 6 Dec 2023 11:51:56 +0100
-+Subject: [PATCH] ephyr,xwayland: Use the proper private key for cursor
++[Ubuntu note: Backport of the following patch from upstream, with a few changes
++to match the current version of the file in the present Ubuntu release:
++ . using TIFFWarningExt instead of TIFFWarningExtR (the latter did not exist yet);
++ . calling _TIFFfree(data) instead of _TIFFfreeExt(tif, data) (the latter did not exist yet);
++-- Rodrigo Figueiredo Zaiden]
 +
-+The cursor in DIX is actually split in two parts, the cursor itself and
-+the cursor bits, each with their own devPrivates.
++Backport of:
 +
-+The cursor itself includes the cursor bits, meaning that the cursor bits
-+devPrivates in within structure of the cursor.
++From 5320c9d89c054fa805d037d84c57da874470b01a Mon Sep 17 00:00:00 2001
++From: Su Laus <sulau@freenet.de>
++Date: Tue, 31 Oct 2023 15:43:29 +0000
++Subject: [PATCH] Prevent some out-of-memory attacks
 +
-+Both Xephyr and Xwayland were using the private key for the cursor bits
-+to store the data for the cursor, and when using XSELINUX which comes
-+with its own special devPrivates, the data stored in that cursor bits'
-+devPrivates would interfere with the XSELINUX devPrivates data and the
-+SELINUX security ID would point to some other unrelated data, causing a
-+crash in the XSELINUX code when trying to (re)use the security ID.
++Some small fuzzer files fake large amounts of data and provoke out-of-memory situations. For non-compressed data content / tags, out-of-memory can be prevented by comparing with the file size.
 +
-+CVE-2024-0409
++At image reading, data size of some tags / data structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) is compared with file size to prevent provoked out-of-memory attacks.
 +
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-+(cherry picked from commit 2ef0f1116c65d5cb06d7b6d83f8a1aea702c94f7)
++See issue https://gitlab.com/libtiff/libtiff/-/issues/614#note_1602683857
 +---
-+ hw/xwayland/xwayland-cursor.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ libtiff/tif_dirread.c | 92 ++++++++++++++++++++++++++++++++++++++++++-
++ 1 file changed, 90 insertions(+), 2 deletions(-)
 +
-+diff --git a/hw/xwayland/xwayland-cursor.c b/hw/xwayland/xwayland-cursor.c
-+index e3c1aaa50c..bd94b0cfbb 100644
-+--- a/hw/xwayland/xwayland-cursor.c
-++++ b/hw/xwayland/xwayland-cursor.c
-+@@ -431,7 +431,7 @@ static miPointerScreenFuncRec xwl_pointer_screen_funcs = {
-+ Bool
-+ xwl_screen_init_cursor(struct xwl_screen *xwl_screen)
-+ {
-+-    if (!dixRegisterPrivateKey(&xwl_cursor_private_key, PRIVATE_CURSOR_BITS, 0))
-++    if (!dixRegisterPrivateKey(&xwl_cursor_private_key, PRIVATE_CURSOR, 0))
-+         return FALSE;
++--- tiff-4.3.0.orig/libtiff/tif_dirread.c
+++++ tiff-4.3.0/libtiff/tif_dirread.c
++@@ -866,6 +866,21 @@ static enum TIFFReadDirEntryErr TIFFRead
++ 	datasize=(*count)*typesize;
++ 	assert((tmsize_t)datasize>0);
 + 
-+     return miPointerInitialize(xwl_screen->screen,
-+-- 
-+GitLab
+++	/* Before allocating a huge amount of memory for corrupted files, check if
+++	 * size of requested memory is not greater than file size.
+++	 */
+++	uint64_t filesize = TIFFGetFileSize(tif);
+++	if (datasize > filesize)
+++	{
+++		TIFFWarningExt(tif->tif_clientdata, "ReadDirEntryArray",
+++						"Requested memory size for tag %d (0x%x) %" PRIu32
+++						" is greather than filesize %" PRIu64
+++						". Memory not allocated, tag not read",
+++						direntry->tdir_tag, direntry->tdir_tag, datasize,
+++						filesize);
+++		return (TIFFReadDirEntryErrAlloc);
+++	}
+++
++ 	if( isMapped(tif) && datasize > (uint64_t)tif->tif_size )
++ 		return TIFFReadDirEntryErrIo;
++ 
++@@ -4593,6 +4608,20 @@ EstimateStripByteCounts(TIFF* tif, TIFFD
++         if( !_TIFFFillStrilesInternal( tif, 0 ) )
++             return -1;
++ 
+++	/* Before allocating a huge amount of memory for corrupted files, check if
+++	 * size of requested memory is not greater than file size. */
+++	uint64_t filesize = TIFFGetFileSize(tif);
+++	uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
+++	if (allocsize > filesize)
+++	{
+++		TIFFWarningExt(tif->tif_clientdata, module,
+++						"Requested memory size for StripByteCounts of %" PRIu64
+++						" is greather than filesize %" PRIu64
+++						". Memory not allocated",
+++						allocsize, filesize);
+++		return -1;
+++	}
+++
++ 	if (td->td_stripbytecount_p)
++ 		_TIFFfree(td->td_stripbytecount_p);
++ 	td->td_stripbytecount_p = (uint64_t*)
++@@ -4603,9 +4632,7 @@ EstimateStripByteCounts(TIFF* tif, TIFFD
++ 
++ 	if (td->td_compression != COMPRESSION_NONE) {
++ 		uint64_t space;
++-		uint64_t filesize;
++ 		uint16_t n;
++-		filesize = TIFFGetFileSize(tif);
++ 		if (!(tif->tif_flags&TIFF_BIGTIFF))
++ 			space=sizeof(TIFFHeaderClassic)+2+dircount*12+4;
++ 		else
++@@ -4913,6 +4940,20 @@ TIFFFetchDirectory(TIFF* tif, uint64_t d
++ 			dircount16 = (uint16_t)dircount64;
++ 			dirsize = 20;
++ 		}
+++		/* Before allocating a huge amount of memory for corrupted files, check
+++		 * if size of requested memory is not greater than file size. */
+++		uint64_t filesize = TIFFGetFileSize(tif);
+++		uint64_t allocsize = (uint64_t)dircount16 * dirsize;
+++		if (allocsize > filesize)
+++		{
+++			TIFFWarningExt(
+++				tif->tif_clientdata, module,
+++				"Requested memory size for TIFF directory of %" PRIu64
+++				" is greather than filesize %" PRIu64
+++				". Memory not allocated, TIFF directory not read",
+++				allocsize, filesize);
+++			return 0;
+++		}
++ 		origdir = _TIFFCheckMalloc(tif, dircount16,
++ 		    dirsize, "to read TIFF directory");
++ 		if (origdir == NULL)
++@@ -5016,6 +5057,20 @@ TIFFFetchDirectory(TIFF* tif, uint64_t d
++ 			             "Sanity check on directory count failed, zero tag directories not supported");
++ 			return 0;
++ 		}
+++		/* Before allocating a huge amount of memory for corrupted files, check
+++		 * if size of requested memory is not greater than file size. */
+++		uint64_t filesize = TIFFGetFileSize(tif);
+++		uint64_t allocsize = (uint64_t)dircount16 * dirsize;
+++		if (allocsize > filesize)
+++		{
+++			TIFFWarningExt(
+++				tif->tif_clientdata, module,
+++				"Requested memory size for TIFF directory of %" PRIu64
+++				" is greather than filesize %" PRIu64
+++				". Memory not allocated, TIFF directory not read",
+++				allocsize, filesize);
+++			return 0;
+++		}
++ 		origdir = _TIFFCheckMalloc(tif, dircount16,
++ 						dirsize,
++ 						"to read TIFF directory");
++@@ -5059,6 +5114,8 @@ TIFFFetchDirectory(TIFF* tif, uint64_t d
++ 			}
++ 		}
++ 	}
+++	/* No check against filesize needed here because "dir" should have same size
+++	 * than "origdir" checked above. */
++ 	dir = (TIFFDirEntry*)_TIFFCheckMalloc(tif, dircount16,
++ 						sizeof(TIFFDirEntry),
++ 						"to read TIFF directory");
++@@ -5853,6 +5910,20 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEn
++ 			return(0);
++ 		}
++ 
+++		/* Before allocating a huge amount of memory for corrupted files, check
+++		 * if size of requested memory is not greater than file size. */
+++		uint64_t filesize = TIFFGetFileSize(tif);
+++		uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
+++		if (allocsize > filesize)
+++		{
+++			TIFFWarningExt(tif->tif_clientdata, module,
+++							"Requested memory size for StripArray of %" PRIu64
+++							" is greather than filesize %" PRIu64
+++							". Memory not allocated",
+++							allocsize, filesize);
+++			_TIFFfree(data);
+++			return (0);
+++		}
++ 		resizeddata=(uint64_t*)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t), "for strip array");
++ 		if (resizeddata==0) {
++ 			_TIFFfree(data);
++@@ -5948,6 +6019,23 @@ static void allocChoppedUpStripArrays(TI
++     }
++     bytecount = last_offset + last_bytecount - offset;
++ 
+++	/* Before allocating a huge amount of memory for corrupted files, check if
+++	 * size of StripByteCount and StripOffset tags is not greater than
+++	 * file size.
+++	 */
+++	uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
+++	uint64_t filesize = TIFFGetFileSize(tif);
+++	if (allocsize > filesize)
+++	{
+++		TIFFWarningExt(tif->tif_clientdata, "allocChoppedUpStripArrays",
+++						"Requested memory size for StripByteCount and "
+++						"StripOffsets %" PRIu64
+++						" is greather than filesize %" PRIu64
+++						". Memory not allocated",
+++						allocsize, filesize);
+++		return;
+++	}
+++
++     newcounts = (uint64_t*) _TIFFCheckMalloc(tif, nstrips, sizeof (uint64_t),
++                                              "for chopped \"StripByteCounts\" array");
++     newoffsets = (uint64_t*) _TIFFCheckMalloc(tif, nstrips, sizeof (uint64_t),
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-2.patch
+new file mode 100644
+index 0000000000..fab43c0bc6
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-2.patch
+@@ -0,0 +1,152 @@
++CVE: CVE-2023-6277
++Upstream-Status: Backport 
++[ upstream : https://gitlab.com/libtiff/libtiff/-/commit/0b025324711213a75e38b52f7e7ba60235f108aa 
++ubuntu : http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index e6e17d7da5..133c65fbc3 100644
---- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -13,6 +13,9 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2023-5367.patch \
-            file://CVE-2023-6377.patch \
-            file://CVE-2023-6478.patch \
-+           file://CVE-2023-6816.patch \
-+           file://CVE-2024-0408.patch \
-+           file://CVE-2024-0409.patch \
- "
- SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
++[Ubuntu note: Backport of the following patch from upstream, with a few changes
++to match the current version of the file in the present Ubuntu release:
++ . using TIFFWarningExt instead of TIFFWarningExtR (the latter did not exist yet);
++-- Rodrigo Figueiredo Zaiden]
++
++Backport of:
++
++From 0b025324711213a75e38b52f7e7ba60235f108aa Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 31 Oct 2023 19:47:22 +0100
++Subject: [PATCH] tif_dirread.c: only issue TIFFGetFileSize() for large enough
++ RAM requests
++
++Ammends 5320c9d89c054fa805d037d84c57da874470b01a
++
++This fixes a performance regression caught by the GDAL regression test
++suite.
++---
++ libtiff/tif_dirread.c | 83 +++++++++++++++++++++++++------------------
++ 1 file changed, 48 insertions(+), 35 deletions(-)
++
++--- tiff-4.3.0.orig/libtiff/tif_dirread.c
+++++ tiff-4.3.0/libtiff/tif_dirread.c
++@@ -866,19 +866,22 @@ static enum TIFFReadDirEntryErr TIFFRead
++ 	datasize=(*count)*typesize;
++ 	assert((tmsize_t)datasize>0);
++ 
++-	/* Before allocating a huge amount of memory for corrupted files, check if
++-	 * size of requested memory is not greater than file size.
++-	 */
++-	uint64_t filesize = TIFFGetFileSize(tif);
++-	if (datasize > filesize)
+++	if (datasize > 100 * 1024 * 1024)
++ 	{
++-		TIFFWarningExt(tif->tif_clientdata, "ReadDirEntryArray",
++-						"Requested memory size for tag %d (0x%x) %" PRIu32
++-						" is greather than filesize %" PRIu64
++-						". Memory not allocated, tag not read",
++-						direntry->tdir_tag, direntry->tdir_tag, datasize,
++-						filesize);
++-		return (TIFFReadDirEntryErrAlloc);
+++		/* Before allocating a huge amount of memory for corrupted files, check
+++		 * if size of requested memory is not greater than file size.
+++		 */
+++		const uint64_t filesize = TIFFGetFileSize(tif);
+++		if (datasize > filesize)
+++		{
+++			TIFFWarningExt(tif->tif_clientdata, "ReadDirEntryArray",
+++							"Requested memory size for tag %d (0x%x) %" PRIu32
+++							" is greater than filesize %" PRIu64
+++							". Memory not allocated, tag not read",
+++							direntry->tdir_tag, direntry->tdir_tag, datasize,
+++							filesize);
+++			return (TIFFReadDirEntryErrAlloc);
+++		}
++ 	}
++ 
++ 	if( isMapped(tif) && datasize > (uint64_t)tif->tif_size )
++@@ -4608,18 +4611,22 @@ EstimateStripByteCounts(TIFF* tif, TIFFD
++         if( !_TIFFFillStrilesInternal( tif, 0 ) )
++             return -1;
++ 
++-	/* Before allocating a huge amount of memory for corrupted files, check if
++-	 * size of requested memory is not greater than file size. */
++-	uint64_t filesize = TIFFGetFileSize(tif);
++-	uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
++-	if (allocsize > filesize)
+++	const uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
+++	uint64_t filesize = 0;
+++	if (allocsize > 100 * 1024 * 1024)
++ 	{
++-		TIFFWarningExt(tif->tif_clientdata, module,
++-						"Requested memory size for StripByteCounts of %" PRIu64
++-						" is greather than filesize %" PRIu64
++-						". Memory not allocated",
++-						allocsize, filesize);
++-		return -1;
+++		/* Before allocating a huge amount of memory for corrupted files, check
+++		 * if size of requested memory is not greater than file size. */
+++		filesize = TIFFGetFileSize(tif);
+++		if (allocsize > filesize)
+++		{
+++			TIFFWarningExt(
+++				tif->tif_clientdata, module,
+++				"Requested memory size for StripByteCounts of %" PRIu64
+++				" is greater than filesize %" PRIu64 ". Memory not allocated",
+++				allocsize, filesize);
+++			return -1;
+++		}
++ 	}
++ 
++ 	if (td->td_stripbytecount_p)
++@@ -4666,11 +4673,13 @@ EstimateStripByteCounts(TIFF* tif, TIFFD
++                             return -1;
++ 			space+=datasize;
++ 		}
+++		if (filesize == 0)
+++			filesize = TIFFGetFileSize(tif);
++ 		if( filesize < space )
++-                    /* we should perhaps return in error ? */
++-                    space = filesize;
++-                else
++-                    space = filesize - space;
+++			/* we should perhaps return in error ? */
+++			space = filesize;
+++		else
+++			space = filesize - space;
++ 		if (td->td_planarconfig == PLANARCONFIG_SEPARATE)
++ 			space /= td->td_samplesperpixel;
++ 		for (strip = 0; strip < td->td_nstrips; strip++)
++@@ -4940,19 +4949,23 @@ TIFFFetchDirectory(TIFF* tif, uint64_t d
++ 			dircount16 = (uint16_t)dircount64;
++ 			dirsize = 20;
++ 		}
++-		/* Before allocating a huge amount of memory for corrupted files, check
++-		 * if size of requested memory is not greater than file size. */
++-		uint64_t filesize = TIFFGetFileSize(tif);
++-		uint64_t allocsize = (uint64_t)dircount16 * dirsize;
++-		if (allocsize > filesize)
+++		const uint64_t allocsize = (uint64_t)dircount16 * dirsize;
+++		if (allocsize > 100 * 1024 * 1024)
++ 		{
++-			TIFFWarningExt(
++-				tif->tif_clientdata, module,
++-				"Requested memory size for TIFF directory of %" PRIu64
++-				" is greather than filesize %" PRIu64
++-				". Memory not allocated, TIFF directory not read",
++-				allocsize, filesize);
++-			return 0;
+++			/* Before allocating a huge amount of memory for corrupted files,
+++			 * check if size of requested memory is not greater than file size.
+++			 */
+++			const uint64_t filesize = TIFFGetFileSize(tif);
+++			if (allocsize > filesize)
+++			{
+++				TIFFWarningExt(
+++					tif->tif_clientdata, module,
+++					"Requested memory size for TIFF directory of %" PRIu64
+++					" is greater than filesize %" PRIu64
+++					". Memory not allocated, TIFF directory not read",
+++					allocsize, filesize);
+++				return 0;
+++			}
++ 		}
++ 		origdir = _TIFFCheckMalloc(tif, dircount16,
++ 		    dirsize, "to read TIFF directory");
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-3.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-3.patch
+new file mode 100644
+index 0000000000..e88fb278ef
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-3.patch
+@@ -0,0 +1,47 @@
++CVE: CVE-2023-6277
++Upstream-Status: Backport 
++[ upstream : https://gitlab.com/libtiff/libtiff/-/commit/de7bfd7d4377c266f81849579f696fa1ad5ba6c3 
++ubuntu : http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++Backport of:
++
++From de7bfd7d4377c266f81849579f696fa1ad5ba6c3 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 31 Oct 2023 20:13:45 +0100
++Subject: [PATCH] TIFFFetchDirectory(): remove useless allocsize vs filesize
++ check
++
++CoverityScan rightly points that the max value for dircount16 * dirsize
++is 4096 * 20. That's small enough not to do any check
++---
++ libtiff/tif_dirread.c | 18 ------------------
++ 1 file changed, 18 deletions(-)
++
++--- tiff-4.3.0.orig/libtiff/tif_dirread.c
+++++ tiff-4.3.0/libtiff/tif_dirread.c
++@@ -4949,24 +4949,6 @@ TIFFFetchDirectory(TIFF* tif, uint64_t d
++ 			dircount16 = (uint16_t)dircount64;
++ 			dirsize = 20;
++ 		}
++-		const uint64_t allocsize = (uint64_t)dircount16 * dirsize;
++-		if (allocsize > 100 * 1024 * 1024)
++-		{
++-			/* Before allocating a huge amount of memory for corrupted files,
++-			 * check if size of requested memory is not greater than file size.
++-			 */
++-			const uint64_t filesize = TIFFGetFileSize(tif);
++-			if (allocsize > filesize)
++-			{
++-				TIFFWarningExt(
++-					tif->tif_clientdata, module,
++-					"Requested memory size for TIFF directory of %" PRIu64
++-					" is greater than filesize %" PRIu64
++-					". Memory not allocated, TIFF directory not read",
++-					allocsize, filesize);
++-				return 0;
++-			}
++-		}
++ 		origdir = _TIFFCheckMalloc(tif, dircount16,
++ 		    dirsize, "to read TIFF directory");
++ 		if (origdir == NULL)
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-4.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-4.patch
+new file mode 100644
+index 0000000000..2ab7e2e9da
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-4.patch
+@@ -0,0 +1,94 @@
++CVE: CVE-2023-6277
++Upstream-Status: Backport 
++[ upstream : https://gitlab.com/libtiff/libtiff/-/commit/dbb825a8312f30e63a06c272010967d51af5c35a
++ubuntu : http://archive.ubuntu.com/ubuntu/pool/main/t/tiff/tiff_4.3.0-6ubuntu0.8.debian.tar.xz ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++[Ubuntu note: Backport of the following patch from upstream, with a few changes
++to match the current version of the file in the present Ubuntu release:
++ . using TIFFWarningExt instead of TIFFWarningExtR (the latter did not exist yet);
++ . calling _TIFFfree(data) instead of _TIFFfreeExt(tif, data) (the latter did not exist yet);
++-- Rodrigo Figueiredo Zaiden]
++
++Backport of:
++
++From dbb825a8312f30e63a06c272010967d51af5c35a Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 31 Oct 2023 21:30:58 +0100
++Subject: [PATCH] tif_dirread.c: only issue TIFFGetFileSize() for large enough
++ RAM requests
++
++---
++ libtiff/tif_dirread.c | 54 +++++++++++++++++++++++++------------------
++ 1 file changed, 31 insertions(+), 23 deletions(-)
++
++--- tiff-4.3.0.orig/libtiff/tif_dirread.c
+++++ tiff-4.3.0/libtiff/tif_dirread.c
++@@ -5905,19 +5905,24 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEn
++ 			return(0);
++ 		}
++ 
++-		/* Before allocating a huge amount of memory for corrupted files, check
++-		 * if size of requested memory is not greater than file size. */
++-		uint64_t filesize = TIFFGetFileSize(tif);
++-		uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
++-		if (allocsize > filesize)
+++		const uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
+++		if (allocsize > 100 * 1024 * 1024)
++ 		{
++-			TIFFWarningExt(tif->tif_clientdata, module,
++-							"Requested memory size for StripArray of %" PRIu64
++-							" is greather than filesize %" PRIu64
++-							". Memory not allocated",
++-							allocsize, filesize);
++-			_TIFFfree(data);
++-			return (0);
+++			/* Before allocating a huge amount of memory for corrupted files,
+++			 * check if size of requested memory is not greater than file size.
+++			 */
+++			const uint64_t filesize = TIFFGetFileSize(tif);
+++			if (allocsize > filesize)
+++			{
+++				TIFFWarningExt(
+++					tif->tif_clientdata, module,
+++					"Requested memory size for StripArray of %" PRIu64
+++					" is greater than filesize %" PRIu64
+++					". Memory not allocated",
+++					allocsize, filesize);
+++				_TIFFfree(data);
+++				return (0);
+++			}
++ 		}
++ 		resizeddata=(uint64_t*)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t), "for strip array");
++ 		if (resizeddata==0) {
++@@ -6018,17 +6023,20 @@ static void allocChoppedUpStripArrays(TI
++ 	 * size of StripByteCount and StripOffset tags is not greater than
++ 	 * file size.
++ 	 */
++-	uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
++-	uint64_t filesize = TIFFGetFileSize(tif);
++-	if (allocsize > filesize)
+++	const uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
+++	if (allocsize > 100 * 1024 * 1024)
++ 	{
++-		TIFFWarningExt(tif->tif_clientdata, "allocChoppedUpStripArrays",
++-						"Requested memory size for StripByteCount and "
++-						"StripOffsets %" PRIu64
++-						" is greather than filesize %" PRIu64
++-						". Memory not allocated",
++-						allocsize, filesize);
++-		return;
+++		const uint64_t filesize = TIFFGetFileSize(tif);
+++		if (allocsize > filesize)
+++		{
+++			TIFFWarningExt(tif->tif_clientdata, "allocChoppedUpStripArrays",
+++							"Requested memory size for StripByteCount and "
+++							"StripOffsets %" PRIu64
+++							" is greater than filesize %" PRIu64
+++							". Memory not allocated",
+++							allocsize, filesize);
+++			return;
+++		}
++ 	}
++ 
++     newcounts = (uint64_t*) _TIFFCheckMalloc(tif, nstrips, sizeof (uint64_t),
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index d284100ab2..b4af179e76 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -48,6 +48,11 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-40745.patch \
+            file://CVE-2023-41175.patch \
+            file://CVE-2023-6228.patch \
++           file://CVE-2023-52356.patch \
++           file://CVE-2023-6277-1.patch \
++           file://CVE-2023-6277-2.patch \
++           file://CVE-2023-6277-3.patch \
++           file://CVE-2023-6277-4.patch \
+            "
  
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
 2.37.3
 
