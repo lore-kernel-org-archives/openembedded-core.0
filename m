@@ -2,123 +2,414 @@ Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 350A6C54E64
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:03:49 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web11.18761.1711638222043116051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14E3EC54E67
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:03:59 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web11.18769.1711638229901774407
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 08:03:42 -0700
+ Thu, 28 Mar 2024 08:03:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hJgLavzg;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: danismostlikely@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7c897ac777aso28578039f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:03:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Drp5V56J;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: danismostlikely@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-222b6a05bb1so683577fac.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711638221; x=1712243021; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLZG7vGxI6Wr0c54z3XSsE1E5ls+ubxTEisK8pIrRhE=;
-        b=hJgLavzgSPeNNtcZldMSjAYmBK+mht/x0ExUyEOjgWQ214EzIzTtUXU259leRVPepG
-         k5fvBYwH6oJKsvb6gT6PGcWGSpV5jmkuVJpy32CuG5N0KyHpFNU3J3ELzb892PQXFGeU
-         290ErlvyCA1P/3lBuPf9ckWEbcHue9yaTkT6lWXVQ4+EGDl7TQvyJ7s1sH4g/reEyghr
-         zgjHWGiKo//h2moOr/tKBcld+soxUFqnsseQsTA4JVVTWklT/YT7ynvJS9HX03mffDyz
-         RUbL3CVqJjHzNe+wX1biSrYUZQes2lfvMCbMSweLfTUaAD8LIASj/PDiSaNBE7jgomsi
-         glpQ==
+        d=gmail.com; s=20230601; t=1711638229; x=1712243029; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PiBkJUjEOI3bWy3TZyf2DHzICe3zAe0Ym3ss7aM4osw=;
+        b=Drp5V56JPTg1wRyMPPWMOS6pCI0iDbYMQi8uW/ok8hWq6CYBhSigjhxCBG7wMXCHkj
+         BCxPAJ1tcKPB5g1fA90w7mRBEbxkR15ey8Rawp9s4iqxFaX62wCiQJ4Nvl9TkiAPI8Th
+         lgn3yt1vmBW0B5GAmwE1O+NmH+8atWK8I4eE/nOxosA1rqry8DBUHYFaq73+46ZcEA3N
+         QYUUuk9pZoR61UKLDq4X84ApWbJsJSKNdpvWXt9dlD2lniKTBSsbKa6CVM85lxe3I+eR
+         XhFVKsOAEKsXWncSZrVXlkCcPAy09vP5hgltl7XA4grmBpbBL1rdxlQMjhhWn7WBHohq
+         toAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711638221; x=1712243021;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SLZG7vGxI6Wr0c54z3XSsE1E5ls+ubxTEisK8pIrRhE=;
-        b=NcidhfGFttZ3msDis60CVxDSd7KfDZuxLAHKSiqeh/MHpVex2zclNhLCw+3Do1wWh6
-         cBl8PSPSL5TLJPLuoYqduILs+5FmV4iNT5OgwAmT7enW4S8W5DhOGW/qhKQKxnC6LfXA
-         SwhnZyMtImyot8dvn51TT520fW5+elGtVD6dggNW2IRspcuVXNFmR683tRIwStg6IoAE
-         nVSEv8S6dwSZU5toAP5AVo+XQAcPeDWccU9+Gu5pQ/qzn82d7MA2TP8CUdlDlWRTJEig
-         lJ7gJuMkjcJBoQC6TNFSnx4JApGEoANcDxfo4ybABLRE/xsEPa3jFoUTBwUxGhyfbjVm
-         FY7A==
-X-Gm-Message-State: AOJu0Yz7dBAfXYyo3TS4RaVreq/9Nsf8sF1o5d4w6LXJrtV7w3sghDCa
-	Pb2kq2BMnIXVS9FVmohN65VQavPMaAI79rlDaNCNm4ojQIiBTRKqpPkptBca
-X-Google-Smtp-Source: AGHT+IHcjfn8BKNW/1ayn2A+m6l31yIUrpGF0t2Ij0aEj1oUgCEgP6oKLLlkui/kkm2xtDMNMwf/pg==
-X-Received: by 2002:a6b:6c0e:0:b0:7d0:8b9e:e27d with SMTP id a14-20020a6b6c0e000000b007d08b9ee27dmr2194836ioh.15.1711638220954;
-        Thu, 28 Mar 2024 08:03:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711638229; x=1712243029;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PiBkJUjEOI3bWy3TZyf2DHzICe3zAe0Ym3ss7aM4osw=;
+        b=m9Ty815l0kkYNpbXVgbC9hNSG0dE3dhYAB0/Ka2i1soPwiVBVzKzR1iDbJC4ePT2lR
+         9Z/UMITmQlKE1RfbcfJ+A8InzGEBOzGvQSONP1sz0s/mmu47m+1SBdoogwTPT7ONR9UB
+         r7q5QAq0af0s4QslcWpIQvTBcfmvDz2LUNAn+k68THuZ5mHPwh0dyZazGVKCFZFPwBag
+         Kng1g+mgakJVfSVTGzzUxFdJWZ6+7IE/iQvyPJGR/ycA6Dxlc4yDbSgBrYe4RJKl1aAn
+         3h87Zyf60Df12yIWFgCodogGsyG6TFeWnUBroI9D76s/IDjJYiRC1cIXFZre4/PpzG3N
+         Biaw==
+X-Gm-Message-State: AOJu0YzUVIDKKv87z3wzqwqJfV3AJzi8JJCuf/4bqZQMB7l1Mo390y6I
+	Xf0qngWReEu6eTZ1rRJLxhqJdINMsD8uABRl21qIPBun4vbrKH2blKNP8/tG
+X-Google-Smtp-Source: AGHT+IF2H1LfLZSUGjraMUjT64fIhM8T9vXU3+/MR+spNbAwc3n2OfdWCC9AcJZ2PwC1w4FyknlZOg==
+X-Received: by 2002:a05:6870:89a8:b0:229:7fe1:5674 with SMTP id f40-20020a05687089a800b002297fe15674mr3052833oaq.29.1711638228426;
+        Thu, 28 Mar 2024 08:03:48 -0700 (PDT)
 Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id f27-20020a02cadb000000b0047ecf5bd069sm237659jap.39.2024.03.28.08.03.40
+        by smtp.gmail.com with ESMTPSA id f27-20020a02cadb000000b0047ecf5bd069sm237659jap.39.2024.03.28.08.03.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 08:03:40 -0700 (PDT)
+        Thu, 28 Mar 2024 08:03:48 -0700 (PDT)
 From: Daniel McGregor <danismostlikely@gmail.com>
 X-Google-Original-From: Daniel McGregor <daniel.mcgregor@vecima.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [PATCH 1/3] nfs-utils: clean up startup
-Date: Thu, 28 Mar 2024 09:03:34 -0600
-Message-ID: <20240328150337.501372-1-daniel.mcgregor@vecima.com>
+Subject: [PATCH 2/3] nfs-utils: Use upstream systemd service files
+Date: Thu, 28 Mar 2024 09:03:35 -0600
+Message-ID: <20240328150337.501372-2-daniel.mcgregor@vecima.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240328150337.501372-1-daniel.mcgregor@vecima.com>
+References: <20240328150337.501372-1-daniel.mcgregor@vecima.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:03:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197575
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:03:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197576
 
-Change the sysvinit script to start at the S runlevel, this matches
-Debian, and prevents systemd from generating a unit file for it.
-Also have the nfsd systemd service request the nfsd kernel filesystem
-mountpoint. This avoids startup failures in unpriviled containers
-or other setups that don't support the filesystem.
+Reduce diffs against upstream by using the service files provided
+by them. This reduces our dependence on patches that simply change
+the names of a service.
+This also changes the way some nfs options get set for systemd, it
+introduces the nfs.conf file for configuration, which all daemons
+already support.
 
 Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
 ---
- meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon | 4 ++--
- meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb  | 9 ++++-----
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ .../bugfix-adjust-statd-service-name.patch    | 39 -----------------
+ .../nfs-utils/nfs-utils/nfs-mountd.service    | 18 --------
+ .../nfs-utils/nfs-utils/nfs-server.service    | 24 -----------
+ .../nfs-utils/nfs-utils/nfs-statd.service     | 16 -------
+ .../nfs-utils-debianize-start-statd.patch     | 42 -------------------
+ .../nfs-utils/nfs-utils/nfs-utils.conf        | 35 ----------------
+ .../nfs-utils/nfs-utils/proc-fs-nfsd.mount    |  8 ----
+ .../nfs-utils/nfs-utils_2.6.4.bb              | 35 ++++++----------
+ 8 files changed, 12 insertions(+), 205 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-index 992267d5a16..4c1ad17c3c6 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
-@@ -3,7 +3,7 @@
- # Provides:          nfs-common
- # Required-Start:    $portmap hwclock
- # Required-Stop:     $portmap hwclock
--# Default-Start:     2 3 4 5
-+# Default-Start:     S
- # Default-Stop:      0 1 6
- # Short-Description: NFS support for both client and server
- # Description:       NFS is a popular protocol for file sharing across
-@@ -20,7 +20,7 @@
- . /etc/init.d/functions
- 
- test -x "$NFS_STATD" || NFS_STATD=/usr/sbin/rpc.statd
--test -z "$STATD_PID" && STATD_PID=/var/run/rpc.statd.pid
-+test -z "$STATD_PID" && STATD_PID=/run/rpc.statd.pid
- #
- # The default state directory is /var/lib/nfs
- test -n "$NFS_STATEDIR" || NFS_STATEDIR=/var/lib/nfs
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch
+deleted file mode 100644
+index f13d7b380ca..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 398fed3bb0350cb1229e54e7020ae0e044c206d1 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+-Date: Wed, 17 Feb 2016 08:33:45 +0100
+-Subject: bugfix: adjust statd service name
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream uses 'rpc-statd.service' and Yocto introduced 'nfs-statd.service'
+-instead but forgot to update the mount.nfs helper 'start-statd' accordingly.
+-
+-Upstream-Status: Inappropriate [other]
+-
+-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+-
+-Rebase it.
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- utils/statd/start-statd | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/utils/statd/start-statd b/utils/statd/start-statd
+-index af5c950..df9b9be 100755
+---- a/utils/statd/start-statd
+-+++ b/utils/statd/start-statd
+-@@ -28,10 +28,10 @@ fi
+- # First try systemd if it's installed.
+- if [ -d /run/systemd/system ]; then
+-     # Quit only if the call worked.
+--    if systemctl start rpc-statd.service; then
+-+    if systemctl start nfs-statd.service; then
+-         # Ensure systemd knows not to stop rpc.statd or its dependencies
+-         # on 'systemctl isolate ..'
+--        systemctl add-wants --runtime remote-fs.target rpc-statd.service
+-+        systemctl add-wants --runtime remote-fs.target nfs-statd.service
+-         exit 0
+-     fi
+- fi
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+deleted file mode 100644
+index ebfe64b9ced..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
++++ /dev/null
+@@ -1,18 +0,0 @@
+-[Unit]
+-Description=NFS Mount Daemon
+-DefaultDependencies=no
+-After=rpcbind.socket
+-Requires=proc-fs-nfsd.mount
+-After=proc-fs-nfsd.mount
+-After=network.target local-fs.target
+-BindsTo=nfs-server.service
+-ConditionPathExists=@SYSCONFDIR@/exports
+-
+-[Service]
+-EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
+-ExecStart=@SBINDIR@/rpc.mountd -F $MOUNTD_OPTS
+-LimitNOFILE=@HIGH_RLIMIT_NOFILE@
+-StateDirectory=nfs
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
+deleted file mode 100644
+index 15ceee04d0d..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
++++ /dev/null
+@@ -1,24 +0,0 @@
+-[Unit]
+-Description=NFS server and services
+-DefaultDependencies=no
+-Requires=network.target proc-fs-nfsd.mount
+-Requires=nfs-mountd.service
+-Wants=rpcbind.service
+-After=local-fs.target
+-After=network.target proc-fs-nfsd.mount rpcbind.service nfs-mountd.service
+-ConditionPathExists=@SYSCONFDIR@/exports
+-
+-[Service]
+-Type=oneshot
+-EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
+-ExecStartPre=@SBINDIR@/exportfs -r
+-ExecStart=@SBINDIR@/rpc.nfsd $NFSD_OPTS $NFSD_COUNT
+-ExecStop=@SBINDIR@/rpc.nfsd 0
+-ExecStopPost=@SBINDIR@/exportfs -au
+-ExecStopPost=@SBINDIR@/exportfs -f
+-ExecReload=@SBINDIR@/exportfs -r
+-RemainAfterExit=yes
+-StateDirectory=nfs
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
+deleted file mode 100644
+index b519194121c..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
++++ /dev/null
+@@ -1,16 +0,0 @@
+-[Unit]
+-Description=NFS status monitor for NFSv2/3 locking.
+-DefaultDependencies=no
+-Conflicts=umount.target
+-Requires=nss-lookup.target rpcbind.service
+-After=network.target nss-lookup.target rpcbind.service
+-ConditionPathExists=@SYSCONFDIR@/exports
+-
+-[Service]
+-EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
+-ExecStart=@SBINDIR@/rpc.statd -F $STATD_OPTS
+-LimitNOFILE=@HIGH_RLIMIT_NOFILE@
+-StateDirectory=nfs
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch
+deleted file mode 100644
+index ede0dcefc49..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-[PATCH] nfs-utils: debianize start-statd
+-
+-Upstream-Status: Pending
+-
+-make start-statd command to use nfscommon configure, too.
+-
+-Signed-off-by: Henrik Riomar <henrik.riomar@ericsson.com>
+-Signed-off-by: Li Wang <li.wang@windriver.com>
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+----
+- utils/statd/start-statd | 10 +++++++++-
+- 1 file changed, 9 insertions(+), 1 deletion(-)
+-
+-diff --git a/utils/statd/start-statd b/utils/statd/start-statd
+-index 2fd6039..f591b34 100755
+---- a/utils/statd/start-statd
+-+++ b/utils/statd/start-statd
+-@@ -17,6 +17,14 @@ then
+-     # statd already running - must have been slow to respond.
+-     exit 0
+- fi
+-+
+-+# Read config
+-+DEFAULTFILE=/etc/default/nfs-common
+-+NEED_IDMAPD=
+-+if [ -f $DEFAULTFILE ]; then
+-+    . $DEFAULTFILE
+-+fi
+-+
+- # First try systemd if it's installed.
+- if [ -d /run/systemd/system ]; then
+-     # Quit only if the call worked.
+-@@ -25,4 +33,4 @@ fi
+- 
+- cd /
+- # Fall back to launching it ourselves.
+--exec rpc.statd --no-notify
+-+exec rpc.statd --no-notify $STATDOPTS
+--- 
+-2.6.6
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
+deleted file mode 100644
+index a1007a7fbf4..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
++++ /dev/null
+@@ -1,35 +0,0 @@
+-# Parameters to be passed to nfs-utils (clients & server) service files.
+-#
+-
+-# Options to pass to rpc.nfsd.
+-NFSD_OPTS=""
+-
+-# Number of servers to start up; the default is 8 servers.
+-NFSD_COUNT=""
+-
+-# Where to mount nfsd filesystem; the default is "/proc/fs/nfsd".
+-PROCNFSD_MOUNTPOINT=""
+-
+-# Options used to mount nfsd filesystem; the default is "rw,nodev,noexec,nosuid".
+-PROCNFSD_MOUNTOPTS=""
+-
+-# Options for rpc.mountd.
+-# If you have a port-based firewall, you might want to set up
+-# a fixed port here using the --port option.
+-MOUNTD_OPTS=""
+-
+-# Parameters to be passed to nfs-common (nfs clients & server) init script.
+-#
+-
+-# If you do not set values for the NEED_ options, they will be attempted
+-# autodetected; this should be sufficient for most people. Valid alternatives
+-# for the NEED_ options are "yes" and "no".
+-
+-# Do you want to start the statd daemon? It is not needed for NFSv4.
+-NEED_STATD=""
+-
+-# Options to pass to rpc.statd.
+-# N.B. statd normally runs on both client and server, and run-time
+-# options should be specified accordingly.
+-# STATD_OPTS="-p 32765 -o 32766"
+-STATD_OPTS=""
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount b/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
+deleted file mode 100644
+index 630801b3751..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
++++ /dev/null
+@@ -1,8 +0,0 @@
+-[Unit]
+-Description=NFSD configuration filesystem
+-After=systemd-modules-load.service
+-
+-[Mount]
+-What=nfsd
+-Where=/proc/fs/nfsd
+-Type=nfsd
 diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
-index 2f2644f9a83..527fcd609c1 100644
+index 527fcd609c1..8d3bf21a67c 100644
 --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
 +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
-@@ -132,15 +132,14 @@ do_install:append () {
- 	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_system_unitdir}/
- 	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_system_unitdir}/
- 	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_system_unitdir}/
-+	install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
- 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
- 		-e 's,@HIGH_RLIMIT_NOFILE@,${HIGH_RLIMIT_NOFILE},g' \
- 		${D}${systemd_system_unitdir}/*.service
--	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
--		install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
--		install -d ${D}${systemd_system_unitdir}/sysinit.target.wants/
--		ln -sf ../proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/sysinit.target.wants/proc-fs-nfsd.mount
--	fi
-+	# Add compatibility symlinks for the sysvinit scripts
-+	ln -s nfs-server.service ${D}${systemd_system_unitdir}/nfsserver.service
-+	ln -s /dev/null ${D}${systemd_system_unitdir}/nfscommon.service
+@@ -21,13 +21,6 @@ USERADD_PARAM:${PN}-client = "--system  --home-dir /var/lib/nfs \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.xz \
+            file://nfsserver \
+            file://nfscommon \
+-           file://nfs-utils.conf \
+-           file://nfs-server.service \
+-           file://nfs-mountd.service \
+-           file://nfs-statd.service \
+-           file://proc-fs-nfsd.mount \
+-           file://nfs-utils-debianize-start-statd.patch \
+-           file://bugfix-adjust-statd-service-name.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://clang-warnings.patch \
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+@@ -48,8 +41,8 @@ INITSCRIPT_PARAMS:${PN}-client = "defaults 19 21"
+ inherit autotools-brokensep update-rc.d systemd pkgconfig
  
- 	# kernel code as of 3.8 hard-codes this path as a default
- 	install -d ${D}/var/lib/nfs/v4recovery
+ SYSTEMD_PACKAGES = "${PN} ${PN}-client"
+-SYSTEMD_SERVICE:${PN} = "nfs-server.service nfs-mountd.service"
+-SYSTEMD_SERVICE:${PN}-client = "nfs-statd.service"
++SYSTEMD_SERVICE:${PN} = "nfs-server.service"
++SYSTEMD_SERVICE:${PN}-client = "nfs-client.target"
+ 
+ # --enable-uuid is need for cross-compiling
+ EXTRA_OECONF = "--with-statduser=rpcuser \
+@@ -58,6 +51,7 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
+                 --enable-uuid \
+                 --disable-gss \
+                 --disable-nfsdcltrack \
++                --disable-sbin-override \
+                 --with-statdpath=/var/lib/nfs/statd \
+                 --with-rpcgen=${HOSTTOOLS_DIR}/rpcgen \
+                "
+@@ -65,7 +59,7 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
+ LDFLAGS:append = " -lsqlite3 -levent"
+ 
+ PACKAGECONFIG ??= "tcp-wrappers \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd', d)} \
+ "
+ PACKAGECONFIG:remove:libc-musl = "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+@@ -74,6 +68,7 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmapper"
+ # keyutils is available in meta-oe
+ PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
++PACKAGECONFIG[systemd] = "--with-systemd=${systemd_unitdir}/system,--without-systemd"
+ 
+ PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl"
+ 
+@@ -81,14 +76,16 @@ CONFFILES:${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/rmtab \
+ 			   ${localstatedir}/lib/nfs/xtab \
+ 			   ${localstatedir}/lib/nfs/statd/state \
++			   ${sysconfdir}/nfs.conf \
+ 			   ${sysconfdir}/nfsmount.conf"
+ 
+ FILES:${PN}-client = "${sbindir}/*statd \
+ 		      ${libdir}/libnfsidmap.so.* \
+ 		      ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
+ 		      ${sbindir}/showmount ${sbindir}/nfsstat \
++		      ${sbindir}/nfsconf \
+ 		      ${localstatedir}/lib/nfs \
+-		      ${sysconfdir}/nfs-utils.conf \
++		      ${sysconfdir}/nfs.conf \
+ 		      ${sysconfdir}/nfsmount.conf \
+ 		      ${sysconfdir}/init.d/nfscommon \
+ 		      ${systemd_system_unitdir}/nfs-statd.service"
+@@ -125,18 +122,10 @@ do_install:append () {
+ 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+ 	install -m 0755 ${WORKDIR}/nfscommon ${D}${sysconfdir}/init.d/nfscommon
+ 
+-	install -m 0755 ${WORKDIR}/nfs-utils.conf ${D}${sysconfdir}
+-	install -m 0755 ${S}/utils/mount/nfsmount.conf ${D}${sysconfdir}
+-
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_system_unitdir}/
+-	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_system_unitdir}/
+-	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_system_unitdir}/
+-	install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
+-	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+-		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-		-e 's,@HIGH_RLIMIT_NOFILE@,${HIGH_RLIMIT_NOFILE},g' \
+-		${D}${systemd_system_unitdir}/*.service
++	install -m 0644 ${S}/nfs.conf ${D}${sysconfdir}
++
++	# Retain historical service name so old scripts keep working
++	ln -s rpc-statd.service ${D}${systemd_system_unitdir}/nfs-statd.service
+ 	# Add compatibility symlinks for the sysvinit scripts
+ 	ln -s nfs-server.service ${D}${systemd_system_unitdir}/nfsserver.service
+ 	ln -s /dev/null ${D}${systemd_system_unitdir}/nfscommon.service
 -- 
 2.41.0
 
