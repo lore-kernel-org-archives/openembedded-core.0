@@ -1,99 +1,116 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6558CD1283
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:50:09 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.20269.1711641005770840202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3A2CD1283
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:54:39 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web10.20365.1711641271758024841
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 08:50:05 -0700
+ Thu, 28 Mar 2024 08:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZWNzedqO;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dydjPCRC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018e85c10b7f-a19a9261-1065-47d5-a2f5-b4e5ac1eeddf-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711641005; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=hTrFxOEcnAOJQ1RH8GYD7cmSLaDJvFz64Y2cJ/TaRi8=;
-	b=ZWNzedqOEthMO3maS4dMxs8IPf+qrzTRB/Gi39f0Hu9iqoixt87du6ExRKP9CrAe
-	F1cXCO/DXNxW69Oi7ChkQM2iBW4wVqrFsWLKyg4xlzdpRS3gXg6d4g6g07qTJYTbx8a
-	uMaIm1fPyOS6eTXtOsU1ZitdCbnxQtAlVeBkua3c=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711641005;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=hTrFxOEcnAOJQ1RH8GYD7cmSLaDJvFz64Y2cJ/TaRi8=;
-	b=dydjPCRCkGQRW6ePbH9rSR6FHF6+CbLiIBQH1YQfkVayU32om/hcmoCDc3LdkkiN
-	14NzGSKVi/ACTErBEXk814s+xPXjQ1bo6yWA5ZsfzO19kYOJ8FT6waW+aCuR+58xwJd
-	d3ZY8/Z+99ToMlZDEcf+ehUibORwJZRFVo3hLHFE=
-From: patchtest@automation.yoctoproject.org
-To: Daniel McGregor <danismostlikely@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
-In-Reply-To: <20240328154107.503537-1-daniel.mcgregor@vecima.com>
-References: <20240328154107.503537-1-daniel.mcgregor@vecima.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018e85c10b7f-a19a9261-1065-47d5-a2f5-b4e5ac1eeddf-000000@us-west-2.amazonses.com>
-Date: Thu, 28 Mar 2024 15:50:04 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.28-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LzvPiyRl;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso12671531fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711641270; x=1712246070; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WsswBLM4CWatjj81clAypTVce77oA4Ex4rUwxlX7LZQ=;
+        b=LzvPiyRlgZDiZbRwSBsim0+HcjmLfOmtnSmeFAb5Vl4Z8wRZMPrk+73kfnXePsY5lJ
+         8St42lJ7O6UydZOOH/mehkysS2/1i35L5lhh4Z3srUCdKcq2wdcIxsmsXetYAfJS1nhC
+         j2JQG5WA7uoBNOn29GWXtJb0dbaF3jY033Xjhn0XnUDGXZ0qZmKAW4Bf3IUPzXmNWpqN
+         CGhdbg6Br//4UJnE84Gsfa8F8S/4Dn59HMxWRllXZDLhNbJi9NFL2AoL61X0mzZ7FrMl
+         gO5SMEkU+/q9EnvwkyUJSQmRh0872Cu/Ql1Ytggv8bXesvlJKluUA0BGxll4ymyIBMJC
+         83mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711641270; x=1712246070;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WsswBLM4CWatjj81clAypTVce77oA4Ex4rUwxlX7LZQ=;
+        b=fY/MPMbvVrElLUMgGesuoiEpFyh/xVn4i9XTH+UVjX+syHDL0v/gr0METgHCCtnIpe
+         PysPI6XbVJ2+XLmMUxHDEzvdf9QJrtkMEThA1wG7GTgYc1L8NlMLM3gbbICJ+Q5ab9EC
+         6dyjpaV1TCTQOl/UZZuufkges2lVWFDTHsCZx7bTtOCRz3zm9C6rpvIMwStpiolaZUBR
+         1Ds/XsvBE3SX+po9KIEkVH2lWCYadh+IkR+YqeGjK2kdYnkZt2F9MM1+p1WOnC1Hrfvl
+         jMu6TLO01S28qM7oN+eT/eFSyLXUf/t/eT/ODuBc06xE85gB6NUW2iwrQNAoxHZMtWea
+         avEg==
+X-Gm-Message-State: AOJu0YzDIjlJiurCOkGB3EZWPN+YzXc8okjuLVm+rLR2o2rAufWNGlEk
+	KBYtL4jzl3to3gOn6DWOVYGgzAQTYBr4c333HCGVdf1o7CKMa31DZ+CNxzmCVcAYX8+6c0FYDpr
+	4jBTNjNgfqq8Yt8Mv8cpEWshBm2M=
+X-Google-Smtp-Source: AGHT+IH8ryOAphgVkgGmD6RESqwAoQq+zUCzHDkN0pYwmA5IwwhiXHvpbJl1Kq870fi9MDdJ713LPqXgBETs5QZqd5E=
+X-Received: by 2002:a2e:b0e7:0:b0:2d4:37eb:21ad with SMTP id
+ h7-20020a2eb0e7000000b002d437eb21admr2410283ljl.40.1711641269586; Thu, 28 Mar
+ 2024 08:54:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240328153243.4101823-1-jdmason@kudzu.us>
+In-Reply-To: <20240328153243.4101823-1-jdmason@kudzu.us>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 28 Mar 2024 16:54:17 +0100
+Message-ID: <CANNYZj_n5bf=Fh1Pq1eb1HeTNfW6a4krFcyrC0Vt_f7kPQT4VA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipeutils: use UPSTREAM_CHECK_URI in get_recipe_upstream_version
+To: Jon Mason <jdmason@kudzu.us>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:50:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197583
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:54:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197584
 
---NextPart
-Content-Type: text/plain
+Unfortunately this isn't correct either. UPSTREAM_CHECK_URI is already
+checked by the wget fetcher to override the default (which is first
+entry in SRC_URI), so if you need it in other fetchers (e.g git), you
+should either add support for it there as well, or remove the code
+from wget fetcher at the same time. Otherwise, this change will make
+things very inconsistent and confusing.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Alex
 
----
-Testing patch /home/patchtest/share/mboxes/v2-3-3-nfs-utils-Configure-nfsv4-ID-mapping-Kerberos.patch
-
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-gssd-use-printf-format-specifiers.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Thu, 28 Mar 2024 at 16:32, Jon Mason <jdmason@kudzu.us> wrote:
+>
+> Currently, get_recipe_upstream_version blindly takes the first entry in
+> SRC_URI to see if the recipe is at the latest version.  If
+> UPSTREAM_CHECK_URI is specified in a recipe, it is probably what should
+> be used to check for the latest version.  Use that as the first check,
+> otherwise default back to the first entry in SRC_URI.
+>
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> ---
+>  meta/lib/oe/recipeutils.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+> index de1fbdd3a8c8..a42609060cd9 100644
+> --- a/meta/lib/oe/recipeutils.py
+> +++ b/meta/lib/oe/recipeutils.py
+> @@ -1041,8 +1041,13 @@ def get_recipe_upstream_version(rd):
+>          ru['datetime'] = datetime.now()
+>          return ru
+>
+> -    # XXX: we suppose that the first entry points to the upstream sources
+> -    src_uri = src_uris.split()[0]
+> +    # If UPSTREAM_CHECK_URI is specified, assume it is correct and use
+> +    # it.  Otherwise, use the first SRC_URI specified to determine the
+> +    # latest version.
+> +    if rd.getVar('UPSTREAM_CHECK_URI'):
+> +        src_uri = str(rd.getVar('UPSTREAM_CHECK_URI'))
+> +    else:
+> +        src_uri = src_uris.split()[0]
+>      uri_type, _, _, _, _, _ =  decodeurl(src_uri)
+>
+>      (pv, pfx, sfx) = get_recipe_pv_with_pfx_sfx(rd.getVar('PV'), uri_type)
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197580): https://lists.openembedded.org/g/openembedded-core/message/197580
+> Mute This Topic: https://lists.openembedded.org/mt/105198896/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
