@@ -1,112 +1,194 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6415CD1283
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 17:02:15 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.1967.1711645332073071891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAEECD11DD
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 17:07:15 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web11.2101.1711645626516028128
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 10:02:12 -0700
+ Thu, 28 Mar 2024 10:07:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C8L9KOhs;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-341cf28e013so727006f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 10:02:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aEKwUaOy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: danismostlikely@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-61130dd21c1so12879387b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 10:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711645330; x=1712250130; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aqM9jgyDVLYe2n/6mo++KobrGWg9PTW71kpzNoMmc28=;
-        b=C8L9KOhsopZvOZUWmZFKdH7RqN4M4JMopYDjBosR7dBMH4xEnlwCt1vTkIrsKyb61z
-         UIYhLCISwtGKZzUWTaj9PWh6YvrfRC/6JptYBHYdML2E2FgTHRy+qz+UGNemfq8ElLIP
-         bKsxsT1T8rsmONWwJVcEhhX6vc1J8Gawxy/wen4GL2zU+Ti29pl2K3H4QkJhDLKVtxkJ
-         uM1FMfqYO0JfWJGfv1p4Lz7vfhwiwe80jRTNY14CtGmNu4kKIRGq3OVs2Al+qDbK/+/b
-         3ly/NE6H+iKM9I0QAa0nVmPzf8ZfwIIbLWbkATs98IvonDAEptOTbuHeA9XyYQDOugAd
-         Km7Q==
+        d=gmail.com; s=20230601; t=1711645625; x=1712250425; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Z1E7GZgxzoeWlZSljYopPPeS3212VjES5//Yc3PEMU=;
+        b=aEKwUaOym6v6wP/fvOT2kNF2aobSyJoVxAuUrFVdkr4Lv4H+n+H6Im+jhcvW8sJ6DV
+         7jNjc0kmVwaO4fbKzuM+XcEMKO4qsngUQ1vM3AGnRLnDjXSnvgGdbt9605hz4nQ8KMkj
+         Ahe3+9P4/OAv/0xqAzyfhf/DN2J9bD3x2eW4ktZ2Wq6uuG2ShPmsjUrnFU+QCCXZDsSS
+         Zix0/brqyqPOy8C3GIV675/Bv5ioA6/xE1dt9dwnZSyYKTOTd5OJ8X92jkAX/lRI6MTG
+         HkwjV3KLRyjdaI3G4yUFlVhg3x/EIvvFmTViQgS+PI9XQKBuX0aCZrzCRWi29mUXgM9J
+         c7DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711645330; x=1712250130;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aqM9jgyDVLYe2n/6mo++KobrGWg9PTW71kpzNoMmc28=;
-        b=O64quiQhXx29nwF/Mn6E0r5IpZQszH1OZ9I1YGmKKvSLGVYFG8O288dnXsmhCyzDfM
-         7XpIwaZ/+rY6vfhMDMD6oMGEam3e8Gp/13nHuCIvT2htOvo0EjM24C+eQetbb4ifzfr+
-         +px+bH8emw81yN3INbdfJlox5blZCv9LOnhRCm4JaV5sS6RF6Sc44C2IXNOYll47D8im
-         lBiMmCfSmgxQEPCVB7y3p0clH7N7rJX9+d3PeisD3BUCIdkdOpn5FMbRpdRhI9HVi1c6
-         o+XFhsAWBKGm5n7ia+ZyDBg2RmKBbmexCt5KW54oUlszZL3TuTl5zDXI/jZXMQYKNYPq
-         Gd5w==
-X-Gm-Message-State: AOJu0YwFi+mVLKxtsDvFolT7DlbW/t9MTYFZ4GeM3p7TV1GmQbbqbY+n
-	S4Px4JCEa3zQCjmBJXAd9KwNCRqa8ipCbca4wlLSoUERFZVdzby3yt3GsVTO
-X-Google-Smtp-Source: AGHT+IHuEZ+xoK95SQW737hu+GZt+VW/Jqeg8qnt7ryzvtyvt+PY+wPhg/LlE0f2Cq+JTWF5Ur5XGA==
-X-Received: by 2002:a5d:6d8b:0:b0:33e:d2ef:26f8 with SMTP id l11-20020a5d6d8b000000b0033ed2ef26f8mr3291816wrs.53.1711645330272;
-        Thu, 28 Mar 2024 10:02:10 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id bx6-20020a5d5b06000000b00341e67a7a90sm2272335wrb.19.2024.03.28.10.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 10:02:09 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] selftest/sstatetests: run CDN check twice, ignoring errors the first time
-Date: Thu, 28 Mar 2024 18:02:00 +0100
-Message-Id: <20240328170200.981712-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1711645626; x=1712250426;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Z1E7GZgxzoeWlZSljYopPPeS3212VjES5//Yc3PEMU=;
+        b=P5UwonlcMYZSdH2uK/hWjJsAinKqnmEGu41qv0pmiW5GwpHo6Frb3DeKe813H5kR7m
+         wqdOTlV1KdJukCCZwVlb3pAiVAxDmfzqI/sGXAV5VyZ1MI9MqP0w01G6X/HgbkRAHJsw
+         1UAs3Xchdtt7ivXmR2vezA/KrpksWNRHYMhaQ+G80nadWiICHPLCUqNM2pC7wO2YJ1Qp
+         yxA822GnX8L1tOM0m6g0rJE/bUqNz/cUuQCZO6HZhAtC2UfyM6rdMtNUzHwTql9GTdb4
+         zHhkjPPcE+TK2tItsey0SiT81TszxHOMwnYdDUzSNYqRMm47DSfGFSku7lMkbl0kgohT
+         As3Q==
+X-Gm-Message-State: AOJu0YzryOXpSvyq8JQu9DaSCCDNeZmkx7OaEnuAsHch78UnUWjplkdz
+	mEThxWCjOoCNLlNYfxEr6DAYHQIgtINRjO0QKzpVDUrKfL0ILJuflQ77NKSH7CaR6nSOMKZxgHE
+	/LTqFiGjsNfBHGXQvlYLSHN3Czw8=
+X-Google-Smtp-Source: AGHT+IE4GH+HroUzvnN6Mc24ZV2NKt6ih6WI03yyRtcdshMFZoabvXqJAvkfAyu41jH5XJkuF3oWxOfLoLgvcSCdOxg=
+X-Received: by 2002:a81:9216:0:b0:60a:1d7d:c0de with SMTP id
+ j22-20020a819216000000b0060a1d7dc0demr70188ywg.16.1711645625665; Thu, 28 Mar
+ 2024 10:07:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240328154340.503623-1-daniel.mcgregor@vecima.com>
+ <CAMKF1sr9_08xAKaVjEFaraUZtUxcuCTowUj1yM0YKveSB0SkBQ@mail.gmail.com>
+ <CACS+7ZTwJ_0-JA2fSSetW99YpkNprTA4TcrQR3BwKe6=P-TzjQ@mail.gmail.com> <CAMKF1so5H11Gwq4unRiDXm=gaae+zp+8YPWGFmceUhvjC0COwA@mail.gmail.com>
+In-Reply-To: <CAMKF1so5H11Gwq4unRiDXm=gaae+zp+8YPWGFmceUhvjC0COwA@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Thu, 28 Mar 2024 11:06:54 -0600
+Message-ID: <CACS+7ZSWRzc1uRhquGtdB_FpkRO-ZKq8JOq2D26dwUhyWeXF7Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: Allow using libc++
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Daniel McGregor <daniel.mcgregor@vecima.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:02:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197597
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:07:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197598
 
-The current CDN isn't able to serve all objects on first request, and it
-was suggested to work around that by trying again:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15335#c16
+On Thu, 28 Mar 2024 at 10:59, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Thu, Mar 28, 2024 at 9:29=E2=80=AFAM Dan McGregor <danismostlikely@gma=
+il.com> wrote:
+> >
+> > On Thu, 28 Mar 2024 at 10:11, Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > On Thu, Mar 28, 2024 at 8:43=E2=80=AFAM Dan McGregor <danismostlikely=
+@gmail.com> wrote:
+> > > >
+> > > > With the addition of the C++ runtime setting added recently, allow
+> > > > gcc to use libc++ as its runtime. There's some minor fixes still
+> > > > required, such as allowing setting the unwinder library. But this
+> > > > allows for testing libc++ with gcc.
+> > > >
+> > > > Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> > > > ---
+> > > >  meta/recipes-devtools/gcc/gcc-13.2.inc           | 6 ------
+> > > >  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 1 +
+> > > >  meta/recipes-devtools/gcc/gcc-cross.inc          | 1 +
+> > > >  meta/recipes-devtools/gcc/gcc-target.inc         | 1 +
+> > > >  4 files changed, 3 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-=
+devtools/gcc/gcc-13.2.inc
+> > > > index 603377a49a2..a19ceadeaae 100644
+> > > > --- a/meta/recipes-devtools/gcc/gcc-13.2.inc
+> > > > +++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+> > > > @@ -109,11 +109,5 @@ EXTRA_OECONF_INITIAL =3D "\
+> > > >      --disable-libssp \
+> > > >  "
+> > > >
+> > > > -EXTRA_OECONF_PATHS =3D "\
+> > > > -    --with-gxx-include-dir=3D/not/exist{target_includedir}/c++/${B=
+INV} \
+> > > > -    --with-sysroot=3D/not/exist \
+> > > > -    --with-build-sysroot=3D${STAGING_DIR_TARGET} \
+> > > > -"
+> > >
+> > > this include is used by almost all of gcc based recipes including
+> > > runtime libraries
+> > > if we remove it here, then I guess they will be impacted in some way.
+> > > e.g. libgcc
+> > > Can you check what the effect is ?
+> >
+> > All of the recipes I looked at explicitly set this value
+> > independently, either in the recipe, or another common(ish) include
+> > file.
+> > I thought about leaving this in, but it threw me off when I started
+> > this, so I figured it's best to remove it so others don't hit the same
+> > issue.
+>
+> If it is redundant then perhaps its ok, I would suggest to do nativesdk b=
+uilds
+> and mingw builds with this change.
 
-Once CDN moves to a better location this can probably be reverted.
+Ah, yes. I didn't try mingw. I did try nativesdk, though.
 
-[YOCTO #15335]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/sstatetests.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 031c2266ace..e2f509c3e83 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -959,7 +959,7 @@ class SStateMirrors(SStateBase):
-         self.assertEqual(len(failed_urls), missing_objects, "Amount of reported missing objects does not match failed URLs: {}\nFailed URLs:\n{}\nFetcher diagnostics:\n{}".format(missing_objects, "\n".join(failed_urls), "\n".join(failed_urls_extrainfo)))
-         self.assertEqual(len(failed_urls), 0, "Missing objects in the cache:\n{}\nFetcher diagnostics:\n{}".format("\n".join(failed_urls), "\n".join(failed_urls_extrainfo)))
- 
--    def run_test(self, machine, targets, exceptions, check_cdn = True):
-+    def run_test(self, machine, targets, exceptions, check_cdn = True, ignore_errors = False):
-         # sstate is checked for existence of these, but they never get written out to begin with
-         exceptions += ["{}.*image_qa".format(t) for t in targets.split()]
-         exceptions += ["{}.*deploy_source_date_epoch".format(t) for t in targets.split()]
-@@ -984,14 +984,18 @@ MACHINE = "{}"
- """.format(machine))
-         result = bitbake("-DD -n {}".format(targets))
-         bitbake("-S none {}".format(targets))
-+        if ignore_errors:
-+            return
-         self.check_bb_output(result.output, exceptions, check_cdn)
- 
-     def test_cdn_mirror_qemux86_64(self):
-         exceptions = []
-+        self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, ignore_errors = True)
-         self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
- 
-     def test_cdn_mirror_qemuarm64(self):
-         exceptions = []
-+        self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, ignore_errors = True)
-         self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
- 
-     def test_local_cache_qemux86_64(self):
--- 
-2.39.2
-
+>
+> >
+> > >
+> > > > -
+> > > >  CVE_STATUS[CVE-2021-37322] =3D "cpe-incorrect: Is a binutils 2.26 =
+issue, not gcc"
+> > > >  CVE_STATUS[CVE-2023-4039] =3D "fixed-version: Fixed via CVE-2023-4=
+039.patch included here. Set the status explictly to deal with all recipes =
+that share the gcc-source"
+> > > > diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/met=
+a/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > > > index ec87b462193..7c4233c2115 100644
+> > > > --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > > > +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> > > > @@ -12,6 +12,7 @@ require gcc-configure-common.inc
+> > > >  EXTRA_OECONF +=3D "--with-plugin-ld=3Dld"
+> > > >  EXTRA_OECONF_PATHS =3D "\
+> > > >      --with-gxx-include-dir=3D/not/exist${target_includedir}/c++/${=
+BINV} \
+> > > > +    --with-gxx-libcxx-include-dir=3D/not/exist${target_includedir}=
+/c++/v1 \
+> > > >      --with-build-time-tools=3D${STAGING_DIR_NATIVE}${prefix_native=
+}/${TARGET_SYS}/bin \
+> > > >      --with-sysroot=3D/not/exist \
+> > > >      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
+> > > > diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes=
+-devtools/gcc/gcc-cross.inc
+> > > > index a540fb2434a..5b0ca15d476 100644
+> > > > --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> > > > +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> > > > @@ -37,6 +37,7 @@ EXTRA_OECONF:remove:libc-newlib =3D "--enable-thr=
+eads=3Dposix"
+> > > >
+> > > >  EXTRA_OECONF_PATHS =3D "\
+> > > >      --with-gxx-include-dir=3D/not/exist${target_includedir}/c++/${=
+BINV} \
+> > > > +    --with-gxx-libcxx-include-dir=3D/not/exist${target_includedir}=
+/c++/v1 \
+> > > >      --with-sysroot=3D/not/exist \
+> > > >      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
+> > > >  "
+> > > > diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipe=
+s-devtools/gcc/gcc-target.inc
+> > > > index 7dac3ef422c..82da5ef82be 100644
+> > > > --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> > > > +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> > > > @@ -2,6 +2,7 @@ GCCMULTILIB =3D "--enable-multilib"
+> > > >  require gcc-configure-common.inc
+> > > >
+> > > >  EXTRA_OECONF_PATHS =3D "\
+> > > > +    --with-gxx-libcxx-include-dir=3D${target_includedir}/c++/v1 \
+> > > >      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
+> > > >  "
+> > > >
+> > > > --
+> > > > 2.41.0
+> > > >
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#197582): https://lists.openembedded.org/g/opene=
+mbedded-core/message/197582
+> > > > Mute This Topic: https://lists.openembedded.org/mt/105199106/199791=
+4
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub [raj.khem@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
 
