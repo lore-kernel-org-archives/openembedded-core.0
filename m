@@ -1,182 +1,82 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F9CCD1283
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 16:23:15 +0000 (UTC)
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
- by mx.groups.io with SMTP id smtpd.web11.782.1711642994142630585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E20CD1283
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 16:24:35 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.802.1711643068660601037
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 09:23:14 -0700
+ Thu, 28 Mar 2024 09:24:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=Y4zS/ANt;
- spf=pass (domain: konsulko.com, ip: 209.85.214.193, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-1dddbe47ac1so15133585ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 09:23:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TWiONeDb;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dfff641d10so9183235ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 09:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1711642993; x=1712247793; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1711643068; x=1712247868; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pr9T/1YbJ8dHYGOrpU6g7oOWIqOa6e11PT6YsG68X/Q=;
-        b=Y4zS/ANtoSCj6C3Di1QvzORVLj/0UvdHL1oUjGSt21QBtGQQV/DU1nlg/wGOPkmcYT
-         5CXB7nkmWvySLytqwQBIfTetonYFB1p2HDDzq3cGkvxgwoRQNGHAL2qUtMeWI6pBv2Vc
-         748vx2XgihRxko7tYhhvrgUhF52kfjJF6w0ss=
+        bh=bTlPDCEG0+44oA1H1nMg3gjKwoiDHtieYW9ow7zN7A8=;
+        b=TWiONeDbFNa50whbdxbMCbZHI9vB9iNBSRf+Ti0PtjzguN2mIx1RKDgrh6ZDrDyuiQ
+         TpSbDYANanEU5OhD9RiKp0W6/iQLCYEj8TZa89oru8jDupZYMmrf3u3eB+59zKwQFCkM
+         ttNWR6MzDJtzhWOStOBq8BTtPbsjiC4g9yRJz3+gIpoUVV/uWT+kPwdXm18ANmvo4irI
+         1OevUegXi/yIUXurIl17HSkMCz40dTRFzJVKrfv/Y4Sb/qH33ZfCZ4E9amKktqqMfb5P
+         Bgyosclx3f8cRFAxjUu9q1Yu/WY19vgn7uhFdHNCiiVn8fhO7eylD4YPlz8ST4yv1biU
+         eS1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711642993; x=1712247793;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1711643068; x=1712247868;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pr9T/1YbJ8dHYGOrpU6g7oOWIqOa6e11PT6YsG68X/Q=;
-        b=uuTRYQYd/N1ELgCjhRcMP/gYLFyYCklR7Y0Qx2f4BRHWf4c5XPMpB5XbV372rSO7vo
-         qFfO4OQtVs3dY+BevbNpGH1TSB2GfPEUHx1fMz0Ljh1Z+5lZJji2jNswLbX81f3jrLFz
-         JOAGetAbFIBvPdFoTE8QoptXmXinKUfxHrx1y1Qz2/Z7249Tw3XFozDKet+OHi/PD/wK
-         8/YWzF6yUWSih9LaJjRwEKNJ+5py0MlwxGK63JALizlCbe9+KZM9xiEqVq3yOQuIPVUh
-         TZ3gjfXCPA8bRenVIcMX5BHONyEnshFX6/HDwl28jWFR04oNgJeU9cxG25My+QAA6nfA
-         THyg==
-X-Gm-Message-State: AOJu0Yz3HSs4vUmWczGHNkQEHguJ91JJ1xNSfGV3zRYe1rz1DqWUSyY2
-	g/Rh4xU5UrYWeSZkH9z4vFHiZNuYlX2Ot9ILRgr2oIYSpJjVB+kqkT6vVWLZJqje4Hnef/kBo8T
-	t04mEx/+m
-X-Google-Smtp-Source: AGHT+IGct8lVFr0b5G0M1LmZyT4hQAKIf4VPQHo/U2Q0aqqXfkedjjm+NdHmqbPj6GOygYSIO6Z7rA==
-X-Received: by 2002:a17:902:e844:b0:1e2:118f:e589 with SMTP id t4-20020a170902e84400b001e2118fe589mr3645523plg.32.1711642992722;
-        Thu, 28 Mar 2024 09:23:12 -0700 (PDT)
-Received: from localhost ([2601:1c0:ca00:bd60:6ae3:9cc1:54c1:30c])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170903245200b001e197cfe08fsm1800746pls.59.2024.03.28.09.23.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 09:23:12 -0700 (PDT)
-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] liberror-perl: move to meta-perl
-Date: Thu, 28 Mar 2024 09:22:21 -0700
-Message-Id: <20240328162218.1521815-3-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240328162218.1521815-1-tim.orling@konsulko.com>
-References: <20240328162218.1521815-1-tim.orling@konsulko.com>
+        bh=bTlPDCEG0+44oA1H1nMg3gjKwoiDHtieYW9ow7zN7A8=;
+        b=NtJf4Bicnkbd5Q/ug2KM6w3nS5aHXdB1kuWLceF3KjkHKg9gqo5KkrXvDNN7dVxLk8
+         pN2oa2DVUQ0u5nkmgdvtzP5jsdNHIpJo7cfB4pAwGEL7b9SRHObGBrESpwhadeSX0tkL
+         rkyHaG8YJAvvwbgoujXRxfj3kjRDp5sZGzfITpZiucqe4fLF6VBl01/PBpmSSs8qv52Q
+         4tLxfoKJaYjz7sU1nYHk9yGBqHMR2328QoLx0XtAo949bpISXNhtKeJkH4LVXLEcj2Gt
+         LAbICoRAv9PVVf5S0emWhLqgnFlzbGugtfoem4YZJIhkCB44KPxg8vLhibiQ/ORvfA1+
+         UYLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXGIkR5lSjqBxRWjZ4xtu0DeUd+9sWDMvUcUPHf9T8bvGoh0SQ+kQcoqEI6YTx/FTa32KSb3lNNOz+X3+mWXW1TPy5ZSnEsy4ct7Tm0jl4perK9L/TsCNCo
+X-Gm-Message-State: AOJu0Ywqu8sgLxHFDKexxl/IREIcAXcNQEcZ63lk0wDBFXM3qhrunJe1
+	00Tiv8udwV3ovIeV4oQxh+xpHm6cJ31du58uNwWNDGio6w3pISVZ0D698U9MrkJtOxvRuSL0ZEj
+	NIC96aDHEc3473sxJkCvN6ngZsN4=
+X-Google-Smtp-Source: AGHT+IFxUz3gbQE7NUgfYkCTQQwEiXQWbrMR6llHRrBFHjsmkE205MM/EmBqR6UxDFBG+ezk5N4uC4p6KD3yRqVPItg=
+X-Received: by 2002:a17:902:f607:b0:1e0:b62a:c0a2 with SMTP id
+ n7-20020a170902f60700b001e0b62ac0a2mr3627626plg.51.1711643068079; Thu, 28 Mar
+ 2024 09:24:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOSpxdZ61RdORZc_9nN4RAAUbL9igYAqqiGSgoPrKf-fp_N_5A@mail.gmail.com>
+ <41DC1D74-16D9-4736-BDA6-A87CB6E0FF09@gmail.com>
+In-Reply-To: <41DC1D74-16D9-4736-BDA6-A87CB6E0FF09@gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 28 Mar 2024 17:24:15 +0100
+Message-ID: <CAApg2=SM6TYabzBhbEP1xMxT6kzjvg-5BgUb0r+qgPXtb0sD4g@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 24 Mar
+ 2024 01:00:01 AM HST
+To: Rich Persaud <persaur@gmail.com>
+Cc: Steve Sakoman <steve@sakoman.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 16:23:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197589
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 16:24:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197590
 
-The upstream maintainer for Error has deprecated it for quite some time [1].
-The only dependency in oe-core was coreutils-ptest.
+On Sun, Mar 24, 2024 at 3:25=E2=80=AFPM Rich Persaud <persaur@gmail.com> wr=
+ote:
+>
+> https://www.darkreading.com/cybersecurity-operations/nist-vuln-database-d=
+ownshifts-prompting-questions-about-its-future
+>
+> > Next week, vulnerability researchers will gather for the VulnCon confer=
+ence in Raleigh, N.C., where an "NVD symposium" is on the agenda. Perhaps m=
+ore details will emerge then.
 
-[YOCTO #15461]
+I'm following this closely.
 
-[1] https://metacpan.org/pod/Error#WARNING
-
-    Using the "Error" module is no longer recommended due to the black-magical
-    nature of its syntactic sugar, which often tends to break. Its maintainers
-    have stopped actively writing code that uses it, and discourage people from
-    doing so. See the "SEE ALSO" section below for better recommendations [2].
-
-[2] https://metacpan.org/pod/Error#SEE-ALSO
-
-    SEE ALSO
-    --------
-
-    See Exception::Class for a different module providing Object-Oriented
-    exception handling, along with a convenient syntax for declaring hierarchies
-    for them. It doesn't provide Error's syntactic sugar of try { ... },
-    catch { ... }, etc. which may be a good thing or a bad thing based on what
-    you want. (Because Error's syntactic sugar tends to break.)
-
-    Error::Exception aims to combine Error and Exception::Class "with correct
-    stringification".
-
-    TryCatch and Try::Tiny are similar in concept to Error.pm only providing a
-    syntax that hopefully breaks less.
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../distro/include/ptest-packagelists.inc     |  1 -
- .../perl/liberror-perl_0.17029.bb             | 48 -------------------
- 3 files changed, 50 deletions(-)
- delete mode 100644 meta/recipes-devtools/perl/liberror-perl_0.17029.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4ca5430a941..2d1f9fdec55 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -328,7 +328,6 @@ RECIPE_MAINTAINER:pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br
- RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libepoxy = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-liberation-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER:pn-liberror-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libevdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libevent = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libexif = "Alexander Kanavin <alex.kanavin@gmail.com>"
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 0192146dbd0..84f67644437 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -28,7 +28,6 @@ PTESTS_FAST = "\
-     json-c \
-     json-glib \
-     libconvert-asn1-perl \
--    liberror-perl \
-     libgpg-error\
-     libnl \
-     libpcre \
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17029.bb b/meta/recipes-devtools/perl/liberror-perl_0.17029.bb
-deleted file mode 100644
-index e54bb11ccd3..00000000000
---- a/meta/recipes-devtools/perl/liberror-perl_0.17029.bb
-+++ /dev/null
-@@ -1,48 +0,0 @@
--SUMMARY = "Error - Error/exception handling in an OO-ish way"
--DESCRIPTION = "The Error package provides two interfaces. Firstly \
--Error provides a procedural interface to exception handling. \
--Secondly Error is a base class for errors/exceptions that can \
--either be thrown, for subsequent catch, or can simply be recorded."
--HOMEPAGE = "https://github.com/shlomif/perl-error.pm"
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
--
--LIC_FILES_CHKSUM = "file://LICENSE;md5=8f3499d09ee74a050c0319391ff9d100"
--
--
--DEPENDS += "perl"
--
--RDEPENDS:${PN} += " \
--    perl-module-carp \
--    perl-module-exporter \
--    perl-module-scalar-util \
--    perl-module-overload \
--    perl-module-strict \
--    perl-module-vars \
--    perl-module-warnings \
--"
--
--RDEPENDS:${PN}-ptest += " \
--    perl-module-base \
--    perl-module-file-spec \
--    perl-module-io-handle \
--    perl-module-ipc-open3 \
--    perl-module-lib \
--    perl-module-test-more \
--"
--
--SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "6732b1c6207e4a9a3e2987c88368039a"
--SRC_URI[sha256sum] = "1a23f7913032aed6d4b68321373a3899ca66590f4727391a091ec19c95bf7adc"
--
--S = "${WORKDIR}/Error-${PV}"
--
--inherit cpan ptest-perl
--
--do_install:prepend() {
--	# test requires "-T" (taint) command line option
--	rm -rf ${B}/t/pod-coverage.t
--}
--
--BBCLASSEXTEND = "native"
--- 
-2.34.1
-
+Marta
 
