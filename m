@@ -2,122 +2,180 @@ Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE84CD11DD
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 17:49:55 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.3195.1711648189688276494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02525CD1283
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 17:55:56 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.3347.1711648554962096370
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 10:49:49 -0700
+ Thu, 28 Mar 2024 10:55:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=URhtKmFa;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-34175878e30so871378f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 10:49:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U0n5gkUW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: max.oss.09@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33e285a33bdso805752f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 10:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711648188; x=1712252988; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1711648553; x=1712253353; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gv6yHFcZUnBYYrA8Uf7FVpyPYu7C1vFSgjj8PIvIka4=;
-        b=URhtKmFadjLmsKSNBUpa431mr/sbvuhlihjwtHKnHkyQQC88HInmeZ/o0/vgQ6e9Lf
-         y7nlUJafp/X7T2Lgkis7iq5acB09Kp+745d5UX8iUhpj608rVxu1WY1RKIhj9CDW/1SP
-         pOuEWSLB2TK14eNVyhbcscDks9EDHtroM1gds8jQXLkPvFzsbIU07VhuC8IyRgVEublM
-         d7IbgelI1vCH9k6wUHvmIxMNMglnxltpTug7wIsRULaU4Eybn1FNqWYMZ2Gb9jC+sEPC
-         jVAyroQdQTpnMLryXGhFJmJskjsW8W2LZOY6G3xpF+LkbC8REmRT8Ea3Pqn4I2G10Ybe
-         P0qA==
+        bh=AhWwD/9NvuHb2boGvpGnYrCrV2TgNlzIXaCuCig4OFw=;
+        b=U0n5gkUWKXH1rWt1Y9AKkdveWPpMtn+u+c10fqquMOkWMjjuoQrfbseYbZBiG5MJr7
+         X2edpNMxNX8kMTJz+aZvN3djG2Gtca0eEy4Wz7b90bujZrqZQXRzMtavglWn8OuvFdc3
+         IxALjAgWl/LjlN7wS+25v9+ZOCGwmlVSmNwS7OVXKHFs8WEKmmVLL3k1O3CjVmJ70nGR
+         O+LY96i0mPwruJbxtfAJ/WkBQCs6fZhg2XZOat7kOlHMzOXArxpZ9d8nPhCBF9ySI0i4
+         Q81neyjxkympBENXNz6BKT4bRA9mnJmXGPmNOy4UD+q37TC2tUi+HSJ4lRD8Am6/k67G
+         4TxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711648188; x=1712252988;
+        d=1e100.net; s=20230601; t=1711648553; x=1712253353;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gv6yHFcZUnBYYrA8Uf7FVpyPYu7C1vFSgjj8PIvIka4=;
-        b=Dqg6yoP2Qdl43S5yJQpfQSG7kRXl7yywXfCF48qVAazsPFpgz7Hymt7LVYMFiV7J2J
-         4H3QuFOs+FzOMk9fijLfWjdVcerE5J50vfgySvv7RtEuT+qG/VTi86miS+Apx0kW/Clr
-         rAfI3PtYkUgJZy8+pi7l9CR2M8zXnGk/CUnG+nDaYNPeagQjiz2/RNFZoJBDccL5/mju
-         esaI2VrBLYmZxh9oaFItNwP0mzyRb3NaNQusdFuKDkt4C1tP9jPSfSSxQNMvK2wmiVN3
-         qMfri/HVIBQTl+GZWFr//vWbZmZ6yw+Q659ALoWJRqlAsHX1cWCsm3j72lfcuVjcdU2H
-         4HxQ==
-X-Gm-Message-State: AOJu0YxIJN5au/unFJ5CPLs310w+PNypIGG3AL9Zi5MIF4UuIvAOl13w
-	UwksaYjfactt4Tf3O29qWtUAJwhnUNww1+fGCuWo3H+fPBFJe2Tjb/JekFofXUnWofcTPKYwkNQ
-	QMctPFm8Loxynppwzh3PJpDNLqEc=
-X-Google-Smtp-Source: AGHT+IHcZdofkYUEv5FJLLmfCkOZzItkXzU1DUQN+gHWuyn1wouljDJWYLRUhrFaTmwo89SUaDxHPBOarkfuwy1aLwI=
-X-Received: by 2002:a05:6000:1970:b0:33e:b758:a039 with SMTP id
- da16-20020a056000197000b0033eb758a039mr2589904wrb.28.1711648187871; Thu, 28
- Mar 2024 10:49:47 -0700 (PDT)
+        bh=AhWwD/9NvuHb2boGvpGnYrCrV2TgNlzIXaCuCig4OFw=;
+        b=d5Oe3anbCX/hSUY5sikiW9nGx3rR8TE6StMNC6uq7o/mK/PJR1yUn0XzGiQHCOWid4
+         h5l7Adplhr6Gy7lHsJ6NmvpIfIeEVFM9F8ibkxXsXvrk7ZOHbBzPevKeN5B3DLF0wRkA
+         /XZJ65yd3TXr2vepYxPbkPcWoKARo0Mp1VfbG2Ya6YYR9P365xPIM3ZNZwwm+mdt6YGR
+         H3QxEN48c0uxUI7QBB/T1YN/Qy90h+UWRFXti6O0I+bhT8Nf910fJAdcblB/xgs3d4JG
+         JDIoEaxkAOeUy4Uba5O0/bn0gXJSmAjt6WlFdWdH5OJ6W5kHS6tep4fONycMVRjw93Ou
+         bIpw==
+X-Gm-Message-State: AOJu0YxiXcTgz8vclPh99Wfe326LCGpAVMc02NLtuhwS5U8tg6Kzp9JV
+	uwp3U5bpu4DMNPwGb7H/0PZBGe1CX6DMa4WWCj6+86rJbdLaqqu6eQar9YOdCmKT7HtJoU+VMPd
+	2Weh7EPgvX5FoDtzIQEgt/ENWzFM=
+X-Google-Smtp-Source: AGHT+IHHTxgYr7JEdDJt7iHf7aOA2+0ime+6FA2EBkJOmftZhDaYqSzqNesYrm/aKfHAeP1PPFIchVLyI0xvqigY2y4=
+X-Received: by 2002:adf:c981:0:b0:341:e4f4:4399 with SMTP id
+ f1-20020adfc981000000b00341e4f44399mr1791063wrh.68.1711648553170; Thu, 28 Mar
+ 2024 10:55:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240325102055.1037135-1-max.oss.09@gmail.com>
- <20240325102055.1037135-2-max.oss.09@gmail.com> <f20b7698786cba79ea6b4eaa8cf5d2792b78d193.camel@linuxfoundation.org>
-In-Reply-To: <f20b7698786cba79ea6b4eaa8cf5d2792b78d193.camel@linuxfoundation.org>
+ <CADkTA4PYLUCck7Y0evO_597xOvwooe1vn5kSvJ1pqq+ew98FKg@mail.gmail.com> <CADkTA4M9wf--yDs9+ggQuKwSKnGYVaV994RfK+L+Q5XhUhXT8A@mail.gmail.com>
+In-Reply-To: <CADkTA4M9wf--yDs9+ggQuKwSKnGYVaV994RfK+L+Q5XhUhXT8A@mail.gmail.com>
 From: Max Krummenacher <max.oss.09@gmail.com>
-Date: Thu, 28 Mar 2024 18:49:36 +0100
-Message-ID: <CAEHkU3UVmUmJVfVpikhzMV_wf7aNnnRUvF-MA66ZHaF0jzsRPQ@mail.gmail.com>
-Subject: Re: [OE-core][Patch v1 2/2] perf: tests: fix qa error, missing perl
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com, 
+Date: Thu, 28 Mar 2024 18:55:42 +0100
+Message-ID: <CAEHkU3X2X=sC+xFd5DEwYChnBZcjcA_6+TxZHgASDOzL9cAkwA@mail.gmail.com>
+Subject: Re: [OE-core][Patch v1 1/2] perf: fix build with latest kernel
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
 	Max Krummenacher <max.krummenacher@toradex.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:49:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197600
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:55:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197601
 
-On Tue, Mar 26, 2024 at 6:10=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Tue, Mar 26, 2024 at 6:48=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
+l.com> wrote:
 >
-> On Mon, 2024-03-25 at 11:20 +0100, Max Krummenacher wrote:
-> > From: Max Krummenacher <max.krummenacher@toradex.com>
-> >
-> > Kernel commit 61d348f1e96f ("perf testsuite: Add common output checking
-> > helpers") added with 6.9-rc1 added addional testscripts written in perl=
-.
-> >
-> > Fixes:
-> > > ERROR: perf-1.0-r0 do_package_qa: QA Issue: /usr/libexec/perf-core/te=
-sts/shell/common/check_no_patterns_found.pl contained in package perf-tests=
- requires /usr/bin/perl, but no providers found in RDEPENDS:perf-tests? [fi=
-le-rdeps]
-> >
-> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> > ---
-> >  meta/recipes-kernel/perf/perf.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/per=
+>
+>
+> On Tue, Mar 26, 2024 at 1:46=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gm=
+ail.com> wrote:
+>>
+>>
+>>
+>> On Mon, Mar 25, 2024 at 6:21=E2=80=AFAM <max.oss.09@gmail.com> wrote:
+>>>
+>>> From: Max Krummenacher <max.krummenacher@toradex.com>
+>>>
+>>> Kernel commit 9eea8fafe33e ("libbpf: fix __arg_ctx type enforcement for
+>>> perf_event programs") added with 6.9-rc1 tools/include/uapi/asm/bpf_per=
+f_event.h
+>>> which for arc, arm64, loongarch, riscv and s390 includes headers from
+>>> the arch/${ARCH}/... directories.
+>>> Thus the build in OE fails as those headers are not present.
+>>>
+>>> Fix this by additioanly copying all files in arch/${ARCH}/include/.
+>>>
+>>> Fixes:
+>>> ERROR: perf-1.0-r0 do_compile: oe_runmake failed
+>>> | In file included from work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/=
+tools/include/uapi/linux/bpf_perf_event.h:11,
+>>> |                  from libbpf.c:36:
+>>> | work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/tools/include/uapi/asm=
+/bpf_perf_event.h:2:10: fatal error: ../../arch/arm64/include/uapi/asm/bpf_=
+perf_event.h: No such file or directory
+>>> |     2 | #include "../../arch/arm64/include/uapi/asm/bpf_perf_event.h"
+>>> |       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>
+>>> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+>>> ---
+>>>  meta/recipes-kernel/perf/perf.bb | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/per=
 f/perf.bb
-> > index 6408c65462..4b6834e614 100644
-> > --- a/meta/recipes-kernel/perf/perf.bb
-> > +++ b/meta/recipes-kernel/perf/perf.bb
-> > @@ -383,7 +383,7 @@ RDEPENDS:${PN} +=3D "elfutils bash"
-> >  RDEPENDS:${PN}-archive =3D+ "bash"
-> >  RDEPENDS:${PN}-python =3D+ "bash python3 python3-modules ${@bb.utils.c=
-ontains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
-> >  RDEPENDS:${PN}-perl =3D+ "bash perl perl-modules"
-> > -RDEPENDS:${PN}-tests =3D+ "python3 bash"
-> > +RDEPENDS:${PN}-tests =3D+ "perl python3 bash"
-> >
-> >  RSUGGESTS:${PN} +=3D "${PN}-archive ${PN}-tests \
-> >                      ${@bb.utils.contains('PACKAGECONFIG', 'perl', '${P=
-N}-perl', '', d)} \
+>>> index 4f26813de0..6408c65462 100644
+>>> --- a/meta/recipes-kernel/perf/perf.bb
+>>> +++ b/meta/recipes-kernel/perf/perf.bb
+>>> @@ -139,6 +139,7 @@ PERF_SRC ?=3D "Makefile \
+>>>               tools/scripts \
+>>>               scripts/ \
+>>>               arch/arm64/tools \
+>>> +             arch/${ARCH}/include \
+>>
+>>
+>> We've always tried to stay within the tools/ source umbrella since we re=
+ally
+>> don't want to copy any more of the kernel than we have to, since otherwi=
+se,
+>> we might as well go back to simplifying things and just building against=
+ the
+>> entire kernel source tree.
+>>
+>> I'd like to see if there's a way that we could limit this to the uapi (a=
+nd hence
+>> use our uapi headers), and avoid needing to make the copy. If we need a
+>> copy, then being as specific as possible would be the goal.
+
+I was too lazy to limit this when I came up with the patch.
+Currently the only header missing is
+../../arch/arm64/include/uapi/asm/bpf_perf_event.h,
+so limiting to arch/${ARCH}/include/uapi should work fine, I'm unsure if
+the header file itself exists for every ${ARCH} so only copying the one
+file is probably a dangerous way forward.
+
 >
-> Does perf avoid perl dependencies currently? Would it make more sense
-> to put that script in ${PN}-perl?
+>
+>
+> I meant to also add that I'm not talking about the libc-headers for the
+> uapi bits, as they are not tracking the latest kernel by design. Although
+> it would be interesting to see how perf does treat the older uapi against
+> the new kernel, so we can document the tested combinations.
+>
+> Bruce
 
-There's a packageconfig which enables the ${PN}-perl content. Whatever
-that stuff is used for.
-
-However kernel 6.9-rc1 added new *.pl files which are called from a
-shell script deployed into ${PN}-tests. So I think those new perl
-scripts need to go into ${PN}-tests.
-
-Regards
+Let's wait till you give linux-yocto-dev a try run.Happy Easter.
 Max
-
 >
-> Cheers,
 >
-> Richard
+>>
+>>
+>> I'm not moving linux-yocto-dev to the latest -dev until next week, but I=
+  can
+>> look into this more then.
+>>
+>> Bruce
+>>
+>>
+>>>
+>>>               arch/${ARCH}/Makefile \
+>>>  "
+>>>
+>>> --
+>>> 2.42.0
+>>>
+>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await th=
+ee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
 >
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 
