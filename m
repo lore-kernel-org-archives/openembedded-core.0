@@ -1,167 +1,93 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8017ECD1283
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 16:11:45 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.406.1711642299383002035
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7C8CD11DD
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 16:22:35 +0000 (UTC)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web10.745.1711642951332821306
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 09:11:39 -0700
+ Thu, 28 Mar 2024 09:22:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Uzc04rDR;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2218a0f55e1so618112fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 09:11:39 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=PQDsLDlP;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.194, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-1dddbe47ac1so15128605ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 09:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711642298; x=1712247098; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9KoIdWjtrSkheC124IqSqu5g3AjIhukI/qGSssUFVrM=;
-        b=Uzc04rDRiOYCjODdewpHoSsHjoAsRVDccQ35cXdLbI+p9XhFjViTcqTj4OgiPMWyJr
-         e4BVtz5EwmsgS5Y9nx4QDKCOZoG1aOWnp8ZgyUuqfEIScetO+V8+E0J64ur3Qa4SRBwV
-         KYIzWQz3TYHz2gCxRUiSYf7OJaBX2S+DxTDhe2v1ByY0Yk1qivXk8Y3ITa/IRUAgdCi2
-         ZM9pflZboTo2m+G/G19w8zJ9IXoIAclOB9lkhfAjW+w4st01jBCnSt//vTMWS//KWLO0
-         uP7E/DIKoUegn65GR9RU3ZGM3EmAgd4tvBFSdsExDn1pYuefYsX7z3z0GadyuluLqcvk
-         NSGg==
+        d=konsulko.com; s=google; t=1711642950; x=1712247750; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QStgXhrXQ3GyPyYZOUQCYGC22pPsQIJqNf3b6ASNERI=;
+        b=PQDsLDlP13JiqEh1UjVc+khcLw7Er/GrRtt4ql+E/R9pbA9GEuWyJRnUCgjV0wuas6
+         LTIL26S5KPrqmHQcKWhw8GNLeNzW5JUorp0Kcz3MEAgt1EIKWWGVmV2q/vdUxLHCJ0Gu
+         vTUOcXLsl2C7TIS3jl6NLBHfJT5wudAahX8G0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711642298; x=1712247098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9KoIdWjtrSkheC124IqSqu5g3AjIhukI/qGSssUFVrM=;
-        b=XwRWSYf66U6XaDqiVMUk8IAz2ggCt6MLQ6SxL33VtqefMm+uuU/Bmm13OnSr1FipF3
-         fEdEVT9BFS63dWBgtQ+UT4cgrLQucWHcYKeELLed8B20aqzkJjqiZXExzTfWgV8f3xDy
-         kKLZ/rFwy4/em59kYKs3tLiBF8poApL344iIN52ShgB2je4kzkwAaNukiDXzjNEA7vOa
-         U3cQWc8kNJHRT6Wv66hDGuMEFUt1OMzV2zEgN40qpd2xGs+hR5/lUxtXP5mEYVaH5RSH
-         w1Vqg90UctjR+hW/c7xg084+7WvF90I5BlNMKdHSzVVMPCnnjFZ0m2JPbkoraU1z8TeN
-         x8bA==
-X-Gm-Message-State: AOJu0YwaymASGD++r6TJ7uUJcx9pE/hz/+5rxOtGXN2EdjqaMJlNfpxs
-	PtJyIO0o4Ugkv2TJxEc4PBsB0Xm3+fjLUQYrZHL5ur4zNr8/mSChZsLr4uqaXTuNhIE5BSMMFd/
-	nIYvutxkgV2dU7Q84Ahathclg2IydFiT5
-X-Google-Smtp-Source: AGHT+IESMtA3maRGsKZ0m61bf6hmCzwR9WTcTgUh/ZwH5UdkRh0/IKhsr/PUXYs0VQU0PcEsnHoWARbiqbZcsVwwwKc=
-X-Received: by 2002:a05:6870:a187:b0:221:141:1ef0 with SMTP id
- a7-20020a056870a18700b0022101411ef0mr3446769oaf.53.1711642298504; Thu, 28 Mar
- 2024 09:11:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711642950; x=1712247750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QStgXhrXQ3GyPyYZOUQCYGC22pPsQIJqNf3b6ASNERI=;
+        b=ix+BUg1BjmR3fAXkC5EFVTSJBVDD2QUSwf+WaS0BZ6F11hLk11UDyizi7O/h7YjM5J
+         e66VN1Ahjym4t3Fh5Za7ErI5JZej4EyLCAE9LdCYukURwsT6AKgisD0DdAejyWIUTjF6
+         4+SvRHdDZOjSGBLKPxKijHg3mVZd4WFLJXXty7hMcPS66yUwAtj+2netL3OAJ8qkBDpb
+         UUOBEsGHDIq4HKG+JdHWklMVtgrmd2uvQA6rALwYQu/WwJ9sFMDJPH5hRtgIUCrEzRpv
+         0mncTEWEImQNbf6PkeHEp9QBC//nkBq1sDbLF76HKtCrB7Vd1P1K8oii4f7ay8x3uoZq
+         BABg==
+X-Gm-Message-State: AOJu0YyBq8QCxS096mj5lVRCQt+czDGH2QJiEzuUIImJXHw8s1s+jCQl
+	UFIxKxBlgfiLDyltWUMhXyIIybZn6/eYp2OGnHmHZbra5hVCzeJwq+jB4MPTmgzSlX3WhzwiHfm
+	+4vZWUlh5
+X-Google-Smtp-Source: AGHT+IH9f7nDwxw9UYCUhIIRiTMVhwy+oxjyM9M8ofl61FbMFvVZEnz9JccMo86YR54pfQeXXhJBKQ==
+X-Received: by 2002:a17:902:ea0e:b0:1e0:abdc:1507 with SMTP id s14-20020a170902ea0e00b001e0abdc1507mr4564684plg.17.1711642949946;
+        Thu, 28 Mar 2024 09:22:29 -0700 (PDT)
+Received: from localhost ([2601:1c0:ca00:bd60:6ae3:9cc1:54c1:30c])
+        by smtp.gmail.com with ESMTPSA id n14-20020a170902e54e00b001e0f2dc4165sm1791322plf.60.2024.03.28.09.22.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 09:22:29 -0700 (PDT)
+From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 0/2] Move liberror-perl to meta-perl
+Date: Thu, 28 Mar 2024 09:22:16 -0700
+Message-Id: <20240328162218.1521815-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240328154340.503623-1-daniel.mcgregor@vecima.com>
-In-Reply-To: <20240328154340.503623-1-daniel.mcgregor@vecima.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Mar 2024 09:11:12 -0700
-Message-ID: <CAMKF1sr9_08xAKaVjEFaraUZtUxcuCTowUj1yM0YKveSB0SkBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc: Allow using libc++
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Daniel McGregor <daniel.mcgregor@vecima.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 16:11:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197586
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 16:22:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197587
 
-On Thu, Mar 28, 2024 at 8:43=E2=80=AFAM Dan McGregor <danismostlikely@gmail=
-.com> wrote:
->
-> With the addition of the C++ runtime setting added recently, allow
-> gcc to use libc++ as its runtime. There's some minor fixes still
-> required, such as allowing setting the unwinder library. But this
-> allows for testing libc++ with gcc.
->
-> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-13.2.inc           | 6 ------
->  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 1 +
->  meta/recipes-devtools/gcc/gcc-cross.inc          | 1 +
->  meta/recipes-devtools/gcc/gcc-target.inc         | 1 +
->  4 files changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-13.2.inc
-> index 603377a49a2..a19ceadeaae 100644
-> --- a/meta/recipes-devtools/gcc/gcc-13.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
-> @@ -109,11 +109,5 @@ EXTRA_OECONF_INITIAL =3D "\
->      --disable-libssp \
->  "
->
-> -EXTRA_OECONF_PATHS =3D "\
-> -    --with-gxx-include-dir=3D/not/exist{target_includedir}/c++/${BINV} \
-> -    --with-sysroot=3D/not/exist \
-> -    --with-build-sysroot=3D${STAGING_DIR_TARGET} \
-> -"
+This perl package has not seen any updates since 2020.
 
-this include is used by almost all of gcc based recipes including
-runtime libraries
-if we remove it here, then I guess they will be impacted in some way.
-e.g. libgcc
-Can you check what the effect is ?
+The upstream author of Error has deprecated it for quite some time.
 
-> -
->  CVE_STATUS[CVE-2021-37322] =3D "cpe-incorrect: Is a binutils 2.26 issue,=
- not gcc"
->  CVE_STATUS[CVE-2023-4039] =3D "fixed-version: Fixed via CVE-2023-4039.pa=
-tch included here. Set the status explictly to deal with all recipes that s=
-hare the gcc-source"
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/reci=
-pes-devtools/gcc/gcc-cross-canadian.inc
-> index ec87b462193..7c4233c2115 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> @@ -12,6 +12,7 @@ require gcc-configure-common.inc
->  EXTRA_OECONF +=3D "--with-plugin-ld=3Dld"
->  EXTRA_OECONF_PATHS =3D "\
->      --with-gxx-include-dir=3D/not/exist${target_includedir}/c++/${BINV} =
-\
-> +    --with-gxx-libcxx-include-dir=3D/not/exist${target_includedir}/c++/v=
-1 \
->      --with-build-time-tools=3D${STAGING_DIR_NATIVE}${prefix_native}/${TA=
-RGET_SYS}/bin \
->      --with-sysroot=3D/not/exist \
->      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-> index a540fb2434a..5b0ca15d476 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> @@ -37,6 +37,7 @@ EXTRA_OECONF:remove:libc-newlib =3D "--enable-threads=
-=3Dposix"
->
->  EXTRA_OECONF_PATHS =3D "\
->      --with-gxx-include-dir=3D/not/exist${target_includedir}/c++/${BINV} =
-\
-> +    --with-gxx-libcxx-include-dir=3D/not/exist${target_includedir}/c++/v=
-1 \
->      --with-sysroot=3D/not/exist \
->      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
->  "
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devt=
-ools/gcc/gcc-target.inc
-> index 7dac3ef422c..82da5ef82be 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -2,6 +2,7 @@ GCCMULTILIB =3D "--enable-multilib"
->  require gcc-configure-common.inc
->
->  EXTRA_OECONF_PATHS =3D "\
-> +    --with-gxx-libcxx-include-dir=3D${target_includedir}/c++/v1 \
->      --with-build-sysroot=3D${STAGING_DIR_TARGET} \
->  "
->
-> --
-> 2.41.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197582): https://lists.openembedded.org/g/openembedde=
-d-core/message/197582
-> Mute This Topic: https://lists.openembedded.org/mt/105199106/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+https://metacpan.org/pod/Error#WARNING
+
+    'Using the "Error" module is no longer recommended due to the
+     black-magical nature of its syntactic sugar, which often tends
+     to break. Its maintainers have stopped actively writing code
+     that uses it, and discourage people from doing so.'
+
+The only recipe in oe-core which had any depdency on it was coreutils-ptest,
+and that has now been removed. All ptests passed for core-image-ptest-coreutils
+on qemux86-64.
+
+It is not clear when the dependency in coreutils was present, but it is
+definitely not needed in the current v9.4 release.
+
+Tim Orling (2):
+  coreutils: drop obsolete liberror-perl RDEPENDS
+  liberror-perl: move to meta-perl
+
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../distro/include/ptest-packagelists.inc     |  1 -
+ meta/recipes-core/coreutils/coreutils_9.4.bb  |  4 +-
+ .../perl/liberror-perl_0.17029.bb             | 48 -------------------
+ 4 files changed, 2 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/liberror-perl_0.17029.bb
+
+-- 
+2.34.1
+
 
