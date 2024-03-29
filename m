@@ -1,1370 +1,1464 @@
-Return-Path: <meenali.gupta@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DD9C6FD1F
-	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 05:03:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.10780.1711688592456489793
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25B4AC6FD1F
+	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 05:34:35 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.10933.1711690472310714239
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 22:03:12 -0700
+ Thu, 28 Mar 2024 22:34:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=igtk37YC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4818e71fb8=meenali.gupta@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 42T4XLSa028119
-	for <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 05:03:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=Otx3A00ZHc60Tf4uL0
-	6HUy4at39juLB3zDkAvmxSgiE=; b=igtk37YCeC/fhQUFFgMTcVGMrc31tRZuPx
-	hJ0dpwIiDxiH9BnilQCuJhhjCFFqm1RyoZMYdtny9LEcvfRahY3O6d2IktNs/GRk
-	RzPYBmOpKsnQlMmcD5Hbj4NaP73UwB70aEz/XADcz/4X2UuTooQWuXjJW9T+A6K3
-	c0+HV8M+m22Vzq2QGEUdvcM9brUenRHqBujRbV6I1Dmt7BiVm2docEFWLqrrbjSA
-	Z8iZjAJjR/qMDqfOqZHWhIx5GXvAObOHK/Nl8xR/nfTWeEsyZq54KFnmQH9VXfAh
-	0jy6iGA9Tvg6RQ7HgW1hpf5ODwLRskdDjWMRp2lP3hTXcR/uzA+g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x1m9xquty-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 05:03:11 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Thu, 28 Mar 2024 22:03:08 -0700
-From: mgupta1 <meenali.gupta@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] expat: fix CVE-2023-52425
-Date: Fri, 29 Mar 2024 05:02:50 +0000
-Message-ID: <20240329050250.3293077-1-meenali.gupta@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CGSP6Znc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d46dd5f222so24953851fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 22:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711690470; x=1712295270; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oxPuAlW+ifEEMmKVLuPhWeytqOWifnzQWTCkHbkl24o=;
+        b=CGSP6ZncYVivrKs/4bmYGsg+6yLddje05tWea3k2O9kA5CD9bQyJGFS471iGuHJFOi
+         LX15HRZNFtmPAXcWJ1K1+Yn+3YFjSVQq3NCtHtvDMpCO/VrqkOn/Kt5cR+guMmz2AhLF
+         19wTMBKzM66fLoqQXcSgTeWMU6EDMYsdGAYqTuJUXy7XgiM7x+ccyXhLdDTpAUcXtL23
+         U8y8i7X/Bbk1N/LUszR+MAHfvgU8st4SCMKVdoNI6FUPCeE/GcXAUNZhMWGQe0iw6WZv
+         qLLJSNuu4rcoRxLRsH0gxJxoPyz3sG4VzejUEQOg6LVI7W8JPcbM9e3AYOc4pnsVS/a/
+         pJ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711690470; x=1712295270;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oxPuAlW+ifEEMmKVLuPhWeytqOWifnzQWTCkHbkl24o=;
+        b=LHROGuI+jKKky+0ru+msC5/5t0hjdzKEhGl2CneptoaKg/+VYRFCGqzykNPwiNMHv3
+         d0v54ef7KnPV7bA/ZfLLh6inVu1mfZZywVpqdDTSHdqcg2v+nC3JZ6aNH6Hj5SgXzrIY
+         nK39CbABAyC92gVoLC5hJupbRsGrAQ8YUwcCTnE7I1lejCwHY7gE7FZcDUvfIglmS37L
+         Ueyq5vjAjtbZZGzqKi0QueCwkgvCHCnoXSXOF3hqQYmd5PW7ULih1L1EDnpMpTkEsIR5
+         68leCEJQLXCEkwJhv9Z6x4iOMAVxn5AK+g0h/HFdoRT135EnqlZ1LqI9GWIVxW+DFb1r
+         qcsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVXyyH0bFgkYfE4VvJwsdVoHeGd42zamSn1knnxTpZ3H8ubtmhEgOArxt5w54fCIcm5jkCcF0UAQm2MPzLV0VKCBXO9fUOzhzvmOZvZXuONSV4vLgSEDjnI
+X-Gm-Message-State: AOJu0YzhEX5003sukqyFe8uIxyXJa4hU3LHhkEvgQLca/qU0J9xLLKEb
+	6TbOYliprZLCIQF/qs5MU6G+hEzfD126fNcKP9ZhakPAGz1IhMz4phyZhOA/R4cZ7sUtjCjY+WY
+	AnuC/4tUhQvY2vhigKQOmLLdvVFc=
+X-Google-Smtp-Source: AGHT+IFPqwDB//J0NtdHKUbEqr1/F12F9ACstKiwXbP3hN8krQgy7YATfbksT8I+KmtfLC6xojFouhtEIjTfRYfR1Yo=
+X-Received: by 2002:a2e:680d:0:b0:2d6:f16a:857f with SMTP id
+ c13-20020a2e680d000000b002d6f16a857fmr743192lja.0.1711690469937; Thu, 28 Mar
+ 2024 22:34:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: anYO4IWS25vbfsZy3y7tR8rvIB0YZUEH
-X-Proofpoint-ORIG-GUID: anYO4IWS25vbfsZy3y7tR8rvIB0YZUEH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-29_03,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 malwarescore=0 mlxscore=0
- spamscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
- definitions=main-2403290037
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 42T4XLSa028119
+References: <20240329012413.892379-1-danismostlikely@gmail.com> <20240329012413.892379-3-danismostlikely@gmail.com>
+In-Reply-To: <20240329012413.892379-3-danismostlikely@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 29 Mar 2024 06:34:18 +0100
+Message-ID: <CANNYZj-gCSWA+P4NdbggqWLGB4jEtv8VKtxAxRMctCw_mcG67Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Daniel McGregor <daniel.mcgregor@vecima.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006db36e0614c5fe07"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 05:03:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197621
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 05:34:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197622
 
-From: Meenali Gupta <meenali.gupta@windriver.com>
+--0000000000006db36e0614c5fe07
+Content-Type: text/plain; charset="UTF-8"
 
-libexpat through 2.5.0 allows a denial of service (resource consumption) =
-because
-many full reparsings are required in the case of a large token for which =
-multiple
-buffer fills are needed.
+Do not add pending patches please. Upstream submission first.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-52425
+Even better if you can review already present patches and submit them too.
 
-Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
----
- .../expat/expat/CVE-2023-52425-0001.patch     |  39 ++++
- .../expat/expat/CVE-2023-52425-0002.patch     |  86 +++++++
- .../expat/expat/CVE-2023-52425-0003.patch     | 221 ++++++++++++++++++
- .../expat/expat/CVE-2023-52425-0004.patch     |  41 ++++
- .../expat/expat/CVE-2023-52425-0005.patch     |  68 ++++++
- .../expat/expat/CVE-2023-52425-0006.patch     |  66 ++++++
- .../expat/expat/CVE-2023-52425-0007.patch     | 158 +++++++++++++
- .../expat/expat/CVE-2023-52425-0008.patch     |  94 ++++++++
- .../expat/expat/CVE-2023-52425-0009.patch     |  51 ++++
- .../expat/expat/CVE-2023-52425-0010.patch     | 110 +++++++++
- .../expat/expat/CVE-2023-52425-0011.patch     |  88 +++++++
- meta/recipes-core/expat/expat_2.5.0.bb        |  11 +
- 12 files changed, 1033 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0001.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0002.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0003.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0004.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0005.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0006.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0007.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0008.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0009.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0010.pat=
-ch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425-0011.pat=
-ch
+Alex
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0001.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0001.patch
-new file mode 100644
-index 0000000000..c2434f0d67
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0001.patch
-@@ -0,0 +1,39 @@
-+From d5b02e96ab95d2a7ae0aea72d00054b9d036d76d Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Thu, 9 Nov 2023 19:28:05 +0100
-+Subject: [PATCH] xmlwf: Document argument "-q"
-+
-+Rebased-and-adapted-by: Snild Dolkow <snild@sony.com>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/d=
-5b02e96ab95d2a7ae0aea72d00054b9d036d76d]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ doc/xmlwf.xml | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/doc/xmlwf.xml b/doc/xmlwf.xml
-+index 9603abf..3d35393 100644
-+--- a/doc/xmlwf.xml
-++++ b/doc/xmlwf.xml
-+@@ -313,6 +313,16 @@ supports both.
-+         </listitem>
-+       </varlistentry>
-+
-++      <varlistentry>
-++        <term><option>-q</option></term>
-++        <listitem>
-++          <para>
-++            Disable reparse deferral, and allow quadratic parse runtime
-++            on large tokens (default: reparse deferral enabled).
-++          </para>
-++        </listitem>
-++      </varlistentry>
-++
-+       <varlistentry>
-+         <term><option>-r</option></term>
-+         <listitem>
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0002.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0002.patch
-new file mode 100644
-index 0000000000..8d7467a972
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0002.patch
-@@ -0,0 +1,86 @@
-+From 09fdf998e7cf3f8f9327e6602077791095aedd4d Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Thu, 9 Nov 2023 19:14:14 +0100
-+Subject: [PATCH] xmlwf: Support disabling reparse deferral
-+
-+Rebased-and-adapted-by: Snild Dolkow <snild@sony.com>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0=
-9fdf998e7cf3f8f9327e6602077791095aedd4d]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ xmlwf/xmlwf.c          | 20 ++++++++++++++++++++
-+ xmlwf/xmlwf_helpgen.py |  4 ++++
-+ 2 files changed, 24 insertions(+)
-+
-+diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
-+index dd023a9..9a5441c 100644
-+--- a/xmlwf/xmlwf.c
-++++ b/xmlwf/xmlwf.c
-+@@ -911,6 +911,9 @@ usage(const XML_Char *prog, int rc) {
-+       T("billion laughs attack protection:\n")
-+       T("  NOTE: If you ever need to increase these values for non-atta=
-ck payload, please file a bug report.\n")
-+       T("\n")
-++      T("reparse deferral:\n")
-++      T("  -q             disable reparse deferral, and allow [q]uadrat=
-ic parse runtime with large tokens\n")
-++      T("\n")
-+       T("  -a FACTOR     set maximum tolerated [a]mplification factor (=
-default: 100.0)\n")
-+       T("  -b BYTES      set number of output [b]ytes needed to activat=
-e (default: 8 MiB)\n")
-+       T("\n")
-+@@ -967,6 +970,8 @@ tmain(int argc, XML_Char **argv) {
-+   unsigned long long attackThresholdBytes;
-+   XML_Bool attackThresholdGiven =3D XML_FALSE;
-+
-++  XML_Bool disableDeferral =3D XML_FALSE;
-++
-+   int exitCode =3D XMLWF_EXIT_SUCCESS;
-+   enum XML_ParamEntityParsing paramEntityParsing
-+       =3D XML_PARAM_ENTITY_PARSING_NEVER;
-+@@ -1091,6 +1096,11 @@ tmain(int argc, XML_Char **argv) {
-+ #endif
-+       break;
-+     }
-++    case T('q'): {
-++      disableDeferral =3D XML_TRUE;
-++      j++;
-++      break;
-++    }
-+     case T('\0'):
-+       if (j > 1) {
-+         i++;
-+@@ -1136,6 +1146,16 @@ tmain(int argc, XML_Char **argv) {
-+ #endif
-+     }
-+
-++    if (disableDeferral) {
-++      const XML_Bool success =3D XML_SetReparseDeferralEnabled(parser, =
-XML_FALSE);
-++      if (! success) {
-++        // This prevents tperror(..) from reporting misleading "[..]: S=
-uccess"
-++        errno =3D EINVAL;
-++        tperror(T("Failed to disable reparse deferral"));
-++        exit(XMLWF_EXIT_INTERNAL_ERROR);
-++      }
-++    }
-++
-+     if (requireStandalone)
-+       XML_SetNotStandaloneHandler(parser, notStandalone);
-+     XML_SetParamEntityParsing(parser, paramEntityParsing);
-+diff --git a/xmlwf/xmlwf_helpgen.py b/xmlwf/xmlwf_helpgen.py
-+index c2a527f..1bd0a0a 100755
-+--- a/xmlwf/xmlwf_helpgen.py
-++++ b/xmlwf/xmlwf_helpgen.py
-+@@ -81,6 +81,10 @@ billion_laughs.add_argument('-a', metavar=3D'FACTOR',
-+                             help=3D'set maximum tolerated [a]mplificati=
-on factor (default: 100.0)')
-+ billion_laughs.add_argument('-b', metavar=3D'BYTES', help=3D'set number=
- of output [b]ytes needed to activate (default: 8 MiB)')
-+
-++reparse_deferral =3D parser.add_argument_group('reparse deferral')
-++reparse_deferral.add_argument('-q', metavar=3D'FACTOR',
-++                            help=3D'disable reparse deferral, and allow=
- [q]uadratic parse runtime with large tokens')
-++
-+ parser.add_argument('files', metavar=3D'FILE', nargs=3D'*', help=3D'fil=
-e to process (default: STDIN)')
-+
-+ info =3D parser.add_argument_group('info arguments')
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0003.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0003.patch
-new file mode 100644
-index 0000000000..e6234163e1
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0003.patch
-@@ -0,0 +1,221 @@
-+From 9cdf9b8d77d5c2c2a27d15fb68dd3f83cafb45a1 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Thu, 17 Aug 2023 16:25:26 +0200
-+Subject: [PATCH] Skip parsing after repeated partials on the same token =
-When
-+ the parse buffer contains the starting bytes of a token but not all of =
-them,
-+ we cannot parse the token to completion. We call this a partial token. =
- When
-+ this happens, the parse position is reset to the start of the token, an=
-d the
-+ parse() call returns. The client is then expected to provide more data =
-and
-+ call parse() again.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+In extreme cases, this means that the bytes of a token may be parsed
-+many times: once for every buffer refill required before the full token
-+is present in the buffer.
-+
-+Math:
-+  Assume there's a token of T bytes
-+  Assume the client fills the buffer in chunks of X bytes
-+  We'll try to parse X, 2X, 3X, 4X ... until mX =3D=3D T (technically >=3D=
-)
-+  That's (m=C2=B2+m)X/2 =3D (T=C2=B2/X+T)/2 bytes parsed (arithmetic pro=
-gression)
-+  While it is alleviated by larger refills, this amounts to O(T=C2=B2)
-+
-+Expat grows its internal buffer by doubling it when necessary, but has
-+no way to inform the client about how much space is available. Instead,
-+we add a heuristic that skips parsing when we've repeatedly stopped on
-+an incomplete token. Specifically:
-+
-+ * Only try to parse if we have a certain amount of data buffered
-+ * Every time we stop on an incomplete token, double the threshold
-+ * As soon as any token completes, the threshold is reset
-+
-+This means that when we get stuck on an incomplete token, the threshold
-+grows exponentially, effectively making the client perform larger buffer
-+fills, limiting how many times we can end up re-parsing the same bytes.
-+
-+Math:
-+  Assume there's a token of T bytes
-+  Assume the client fills the buffer in chunks of X bytes
-+  We'll try to parse X, 2X, 4X, 8X ... until (2^k)X =3D=3D T (or larger)
-+  That's (2^(k+1)-1)X bytes parsed -- e.g. 15X if T =3D 8X
-+  This is equal to 2T-X, which amounts to O(T)
-+
-+We could've chosen a faster growth rate, e.g. 4 or 8. Those seem to
-+increase performance further, at the cost of further increasing the
-+risk of growing the buffer more than necessary. This can easily be
-+adjusted in the future, if desired.
-+
-+This is all completely transparent to the client, except for:
-+1. possible delay of some callbacks (when our heuristic overshoots)
-+2. apps that never do isFinal=3DXML_TRUE could miss data at the end
-+
-+For the affected testdata, this change shows a 100-400x speedup.
-+The recset.xml benchmark shows no clear change either way.
-+
-+Before:
-+benchmark -n ../testdata/largefiles/recset.xml 65535 3
-+  3 loops, with buffer size 65535. Average time per loop: 0.270223
-+benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 15.033048
-+benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.018027
-+benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 11.775362
-+benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 11.711414
-+benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.019362
-+
-+After:
-+./run.sh benchmark -n ../testdata/largefiles/recset.xml 65535 3
-+  3 loops, with buffer size 65535. Average time per loop: 0.269030
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.044794
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.016377
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.027022
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.099360
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.017956
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/9=
-cdf9b8d77d5c2c2a27d15fb68dd3f83cafb45a1]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 58 +++++++++++++++++++++++++++++++++-----------------
-+ 1 file changed, 39 insertions(+), 19 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index bbffcaa..5695417 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -81,6 +81,7 @@
-+ #  endif
-+ #endif
-+
-++#include <stdbool.h>
-+ #include <stddef.h>
-+ #include <string.h> /* memset(), memcpy() */
-+ #include <assert.h>
-+@@ -629,6 +630,7 @@ struct XML_ParserStruct {
-+   const char *m_bufferLim;
-+   XML_Index m_parseEndByteIndex;
-+   const char *m_parseEndPtr;
-++  size_t m_partialTokenBytesBefore; /* used in heuristic to avoid O(n^2=
-) */
-+   XML_Char *m_dataBuf;
-+   XML_Char *m_dataBufEnd;
-+   XML_StartElementHandler m_startElementHandler;
-+@@ -960,6 +962,32 @@ get_hash_secret_salt(XML_Parser parser) {
-+   return parser->m_hash_secret_salt;
-+ }
-+
-++static enum XML_Error
-++callProcessor(XML_Parser parser, const char *start, const char *end,
-++              const char **endPtr) {
-++  const size_t have_now =3D EXPAT_SAFE_PTR_DIFF(end, start);
-++
-++  if (! parser->m_parsingStatus.finalBuffer) {
-++    // Heuristic: don't try to parse a partial token again until the am=
-ount of
-++    // available data has increased significantly.
-++    const size_t had_before =3D parser->m_partialTokenBytesBefore;
-++    const bool enough =3D (have_now >=3D 2 * had_before);
-++
-++    if (! enough) {
-++      *endPtr =3D start; // callers may expect this to be set
-++      return XML_ERROR_NONE;
-++    }
-++  }
-++  const enum XML_Error ret =3D parser->m_processor(parser, start, end, =
-endPtr);
-++  // if we consumed nothing, remember what we had on this parse attempt.
-++  if (*endPtr =3D=3D start) {
-++    parser->m_partialTokenBytesBefore =3D have_now;
-++  } else {
-++    parser->m_partialTokenBytesBefore =3D 0;
-++  }
-++  return ret;
-++}
-++
-+ static XML_Bool /* only valid for root parser */
-+ startParsing(XML_Parser parser) {
-+   /* hash functions must be initialized before setContext() is called *=
-/
-+@@ -1141,6 +1169,7 @@ parserInit(XML_Parser parser, const XML_Char *enco=
-dingName) {
-+   parser->m_bufferEnd =3D parser->m_buffer;
-+   parser->m_parseEndByteIndex =3D 0;
-+   parser->m_parseEndPtr =3D NULL;
-++  parser->m_partialTokenBytesBefore =3D 0;
-+   parser->m_declElementType =3D NULL;
-+   parser->m_declAttributeId =3D NULL;
-+   parser->m_declEntity =3D NULL;
-+@@ -1872,29 +1901,20 @@ XML_Parse(XML_Parser parser, const char *s, int =
-len, int isFinal) {
-+        to detect errors based on that fact.
-+     */
-+     parser->m_errorCode
-+-        =3D parser->m_processor(parser, parser->m_bufferPtr,
-+-                              parser->m_parseEndPtr, &parser->m_bufferP=
-tr);
-++        =3D callProcessor(parser, parser->m_bufferPtr, parser->m_parseE=
-ndPtr,
-++                        &parser->m_bufferPtr);
-+
-+     if (parser->m_errorCode =3D=3D XML_ERROR_NONE) {
-+       switch (parser->m_parsingStatus.parsing) {
-+       case XML_SUSPENDED:
-+-        /* It is hard to be certain, but it seems that this case
-+-         * cannot occur.  This code is cleaning up a previous parse
-+-         * with no new data (since len =3D=3D 0).  Changing the parsing
-+-         * state requires getting to execute a handler function, and
-+-         * there doesn't seem to be an opportunity for that while in
-+-         * this circumstance.
-+-         *
-+-         * Given the uncertainty, we retain the code but exclude it
-+-         * from coverage tests.
-+-         *
-+-         * LCOV_EXCL_START
-+-         */
-++        /* While we added no new data, the finalBuffer flag may have ca=
-used
-++         * us to parse previously-unparsed data in the internal buffer.
-++         * If that triggered a callback to the application, it would ha=
-ve
-++         * had an opportunity to suspend parsing. */
-+         XmlUpdatePosition(parser->m_encoding, parser->m_positionPtr,
-+                           parser->m_bufferPtr, &parser->m_position);
-+         parser->m_positionPtr =3D parser->m_bufferPtr;
-+         return XML_STATUS_SUSPENDED;
-+-        /* LCOV_EXCL_STOP */
-+       case XML_INITIALIZED:
-+       case XML_PARSING:
-+         parser->m_parsingStatus.parsing =3D XML_FINISHED;
-+@@ -1924,7 +1944,7 @@ XML_Parse(XML_Parser parser, const char *s, int le=
-n, int isFinal) {
-+     parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+
-+     parser->m_errorCode
-+-        =3D parser->m_processor(parser, s, parser->m_parseEndPtr =3D s =
-+ len, &end);
-++        =3D callProcessor(parser, s, parser->m_parseEndPtr =3D s + len,=
- &end);
-+
-+     if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+       parser->m_eventEndPtr =3D parser->m_eventPtr;
-+@@ -2027,8 +2047,8 @@ XML_ParseBuffer(XML_Parser parser, int len, int is=
-Final) {
-+   parser->m_parseEndByteIndex +=3D len;
-+   parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+
-+-  parser->m_errorCode =3D parser->m_processor(
-+-      parser, start, parser->m_parseEndPtr, &parser->m_bufferPtr);
-++  parser->m_errorCode =3D callProcessor(parser, start, parser->m_parseE=
-ndPtr,
-++                                      &parser->m_bufferPtr);
-+
-+   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+     parser->m_eventEndPtr =3D parser->m_eventPtr;
-+@@ -2220,7 +2240,7 @@ XML_ResumeParser(XML_Parser parser) {
-+   }
-+   parser->m_parsingStatus.parsing =3D XML_PARSING;
-+
-+-  parser->m_errorCode =3D parser->m_processor(
-++  parser->m_errorCode =3D callProcessor(
-+       parser, parser->m_bufferPtr, parser->m_parseEndPtr, &parser->m_bu=
-fferPtr);
-+
-+   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0004.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0004.patch
-new file mode 100644
-index 0000000000..0edcc9ab88
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0004.patch
-@@ -0,0 +1,41 @@
-+From 1b9d398517befeb944cbbadadf10992b07e96fa2 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Mon, 4 Sep 2023 17:21:14 +0200
-+Subject: [PATCH] [PATCH] Don't update partial token heuristic on error
-+
-+Suggested-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1=
-b9d398517befeb944cbbadadf10992b07e96fa2]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 12 +++++++-----
-+ 1 file changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 5695417..5c66f54 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -979,11 +979,13 @@ callProcessor(XML_Parser parser, const char *start=
-, const char *end,
-+     }
-+   }
-+   const enum XML_Error ret =3D parser->m_processor(parser, start, end, =
-endPtr);
-+-  // if we consumed nothing, remember what we had on this parse attempt.
-+-  if (*endPtr =3D=3D start) {
-+-    parser->m_partialTokenBytesBefore =3D have_now;
-+-  } else {
-+-    parser->m_partialTokenBytesBefore =3D 0;
-++  if (ret =3D=3D XML_ERROR_NONE) {
-++    // if we consumed nothing, remember what we had on this parse attem=
-pt.
-++    if (*endPtr =3D=3D start) {
-++      parser->m_partialTokenBytesBefore =3D have_now;
-++    } else {
-++      parser->m_partialTokenBytesBefore =3D 0;
-++    }
-+   }
-+   return ret;
-+ }
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0005.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0005.patch
-new file mode 100644
-index 0000000000..2a57f59f21
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0005.patch
-@@ -0,0 +1,68 @@
-+From 09957b8ced725b96a95acff150facda93f03afe1 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Thu, 26 Oct 2023 10:41:00 +0200
-+Subject: [PATCH] Allow XML_GetBuffer() with len=3D0 on a fresh parser
-+
-+len=3D0 was previously OK if there had previously been a non-zero call.
-+It makes sense to allow an application to work the same way on a
-+newly-created parser, and not have to care if its incoming buffer
-+happens to be 0.
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0=
-9957b8ced725b96a95acff150facda93f03afe1]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 22 +++++++++++-----------
-+ 1 file changed, 11 insertions(+), 11 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 5c66f54..5b112c6 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -2095,7 +2095,8 @@ XML_GetBuffer(XML_Parser parser, int len) {
-+   default:;
-+   }
-+
-+-  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEn=
-d)) {
-++  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEn=
-d)
-++      || parser->m_buffer =3D=3D NULL) {
-+ #ifdef XML_CONTEXT_BYTES
-+     int keep;
-+ #endif /* defined XML_CONTEXT_BYTES */
-+@@ -2118,8 +2119,9 @@ XML_GetBuffer(XML_Parser parser, int len) {
-+     }
-+     neededSize +=3D keep;
-+ #endif /* defined XML_CONTEXT_BYTES */
-+-    if (neededSize
-+-        <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buffer)=
-) {
-++    if (parser->m_buffer && parser->m_bufferPtr
-++        && neededSize
-++               <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_=
-buffer)) {
-+ #ifdef XML_CONTEXT_BYTES
-+       if (keep < EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buf=
-fer)) {
-+         int offset
-+@@ -2133,14 +2135,12 @@ XML_GetBuffer(XML_Parser parser, int len) {
-+         parser->m_bufferPtr -=3D offset;
-+       }
-+ #else
-+-      if (parser->m_buffer && parser->m_bufferPtr) {
-+-        memmove(parser->m_buffer, parser->m_bufferPtr,
-+-                EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buff=
-erPtr));
-+-        parser->m_bufferEnd
-+-            =3D parser->m_buffer
-+-              + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buff=
-erPtr);
-+-        parser->m_bufferPtr =3D parser->m_buffer;
-+-      }
-++       memmove(parser->m_buffer, parser->m_bufferPtr,
-++              EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
-Ptr));
-++      parser->m_bufferEnd
-++          =3D parser->m_buffer
-++            + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
-Ptr);
-++      parser->m_bufferPtr =3D parser->m_buffer;
-+ #endif /* not defined XML_CONTEXT_BYTES */
-+     } else {
-+       char *newBuf;
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0006.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0006.patch
-new file mode 100644
-index 0000000000..db70e79cd3
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0006.patch
-@@ -0,0 +1,66 @@
-+From 9fe3672459c1bf10926b85f013aa1b623d855545 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Mon, 18 Sep 2023 20:32:55 +0200
-+Subject: [PATCH] tests: Run both with and without partial token heuristi=
-c
-+
-+If we always run with the heuristic enabled, it may hide some bugs by
-+grouping up input into bigger parse attempts.
-+
-+CI-fighting-assistance-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/9=
-fe3672459c1bf10926b85f013aa1b623d855545]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/internal.h | 3 +++
-+ lib/xmlparse.c | 5 ++++-
-+ 2 files changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/internal.h b/lib/internal.h
-+index 03c8fde..1df417f 100644
-+--- a/lib/internal.h
-++++ b/lib/internal.h
-+@@ -31,6 +31,7 @@
-+    Copyright (c) 2016-2022 Sebastian Pipping <sebastian@pipping.org>
-+    Copyright (c) 2018      Yury Gribov <tetra2005@gmail.com>
-+    Copyright (c) 2019      David Loffredo <loffredo@steptools.com>
-++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.=
-com>
-+    Licensed under the MIT license:
-+
-+    Permission is  hereby granted,  free of charge,  to any  person obta=
-ining
-+@@ -160,6 +161,8 @@ unsigned long long testingAccountingGetCountBytesInd=
-irect(XML_Parser parser);
-+ const char *unsignedCharToPrintable(unsigned char c);
-+ #endif
-+
-++extern XML_Bool g_reparseDeferralEnabledDefault; // written ONLY in run=
-tests.c
-++						 //
-+ #ifdef __cplusplus
-+ }
-+ #endif
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 5b112c6..be6dd92 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -615,6 +615,8 @@ static unsigned long getDebugLevel(const char *varia=
-bleName,
-+        ? 0                                                             =
-        \
-+        : ((*((pool)->ptr)++ =3D c), 1))
-+
-++XML_Bool g_reparseDeferralEnabledDefault =3D XML_TRUE; // write ONLY in=
- runtests.c
-++						     //
-+ struct XML_ParserStruct {
-+   /* The first member must be m_userData so that the XML_GetUserData
-+      macro works. */
-+@@ -967,7 +969,8 @@ callProcessor(XML_Parser parser, const char *start, =
-const char *end,
-+               const char **endPtr) {
-+   const size_t have_now =3D EXPAT_SAFE_PTR_DIFF(end, start);
-+
-+-  if (! parser->m_parsingStatus.finalBuffer) {
-++  if (g_reparseDeferralEnabledDefault
-++      && ! parser->m_parsingStatus.finalBuffer) {
-+     // Heuristic: don't try to parse a partial token again until the am=
-ount of
-+     // available data has increased significantly.
-+     const size_t had_before =3D parser->m_partialTokenBytesBefore;
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0007.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0007.patch
-new file mode 100644
-index 0000000000..c0914d54de
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0007.patch
-@@ -0,0 +1,158 @@
-+From 1d3162da8a85a398ab451aadd6c2ad19587e5a68 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Mon, 11 Sep 2023 15:31:24 +0200
-+Subject: [PATCH] Add app setting for enabling/disabling reparse heuristi=
-c
-+
-+Suggested-by: Sebastian Pipping <sebastian@pipping.org>
-+CI-fighting-assistance-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1=
-d3162da8a85a398ab451aadd6c2ad19587e5a68]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ doc/reference.html     | 30 ++++++++++++++++++++++++------
-+ lib/expat.h            |  5 +++++
-+ lib/libexpat.def.cmake |  2 ++
-+ lib/xmlparse.c         | 13 ++++++++++++-
-+ 4 files changed, 43 insertions(+), 7 deletions(-)
-+
-+diff --git a/doc/reference.html b/doc/reference.html
-+index 9953aa7..7dd9370 100644
-+--- a/doc/reference.html
-++++ b/doc/reference.html
-+@@ -151,10 +151,11 @@ interface.</p>
-+     </ul>
-+     </li>
-+     <li>
-+-      <a href=3D"#billion-laughs">Billion Laughs Attack Protection</a>
-++      <a href=3D"#attack-protection">Attack Protection</a>
-+       <ul>
-+         <li><a href=3D"#XML_SetBillionLaughsAttackProtectionMaximumAmpl=
-ification">XML_SetBillionLaughsAttackProtectionMaximumAmplification</a></=
-li>
-+         <li><a href=3D"#XML_SetBillionLaughsAttackProtectionActivationT=
-hreshold">XML_SetBillionLaughsAttackProtectionActivationThreshold</a></li=
+On Fri 29. Mar 2024 at 2.24, Dan McGregor <danismostlikely@gmail.com> wrote:
+
+> From: Daniel McGregor <daniel.mcgregor@vecima.com>
 >
-++	<li><a href=3D"#XML_SetReparseDeferralEnabled">XML_SetReparseDeferralE=
-nabled</a></li>
-+       </ul>
-+     </li>
-+     <li><a href=3D"#miscellaneous">Miscellaneous Functions</a>
-+@@ -2123,11 +2124,7 @@ parse position may be before the beginning of the=
- buffer.</p>
-+ return NULL.</p>
-+ </div>
-+
-+-<h3><a name=3D"billion-laughs">Billion Laughs Attack Protection</a></h3=
+> Add support for the nfsv4 user ID mapping daemon, configured with
+> a sensible default, and add a packageconfig for Kerberos support.
 >
-+-
-+-<p>The functions in this section configure the built-in
-+-  protection against various forms of
-+-  <a href=3D"https://en.wikipedia.org/wiki/Billion_laughs_attack">billi=
-on laughs attacks</a>.</p>
-++<h3><a name=3D"attack-protection">Attack Protection</a><a name=3D"billi=
-on-laughs"></a></h3>
-+
-+ <h4 id=3D"XML_SetBillionLaughsAttackProtectionMaximumAmplification">XML=
-_SetBillionLaughsAttackProtectionMaximumAmplification</h4>
-+ <pre class=3D"fcndec">
-+@@ -2215,6 +2212,27 @@ XML_SetBillionLaughsAttackProtectionActivationThr=
-eshold(XML_Parser p,
-+   </p>
-+ </div>
-+
-++<h4 id=3D"XML_SetReparseDeferralEnabled">XML_SetReparseDeferralEnabled<=
-/h4>
-++<pre class=3D"fcndec">
-++/* Added in Expat 2.6.0. */
-++XML_Bool XMLCALL
-++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled);
-++</pre>
-++<div class=3D"fcndef">
-++  <p>
-++    Large tokens may require many parse calls before enough data is ava=
-ilable for Expat to parse it in full.
-++    If Expat retried parsing the token on every parse call, parsing cou=
-ld take quadratic time.
-++    To avoid this, Expat only retries once a significant amount of new =
-data is available.
-++    This function allows disabling this behavior.
-++  </p>
-++  <p>
-++    The <code>enabled</code> argument should be <code>XML_TRUE</code> o=
-r <code>XML_FALSE</code>.
-++  </p>
-++  <p>
-++    Returns <code>XML_TRUE</code> on success, and <code>XML_FALSE</code=
-> on error.
-++  </p>
-++</div>
-++
-+ <h3><a name=3D"miscellaneous">Miscellaneous functions</a></h3>
-+
-+ <p>The functions in this section either obtain state information from
-+diff --git a/lib/expat.h b/lib/expat.h
-+index 9e64174..73dda6d 100644
-+--- a/lib/expat.h
-++++ b/lib/expat.h
-+@@ -16,6 +16,7 @@
-+    Copyright (c) 2016      Thomas Beutlich <tc@tbeu.de>
-+    Copyright (c) 2017      Rhodri James <rhodri@wildebeest.org.uk>
-+    Copyright (c) 2022      Thijs Schreijer <thijs@thijsschreijer.nl>
-++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.=
-com>
-+    Licensed under the MIT license:
-+
-+    Permission is  hereby granted,  free of charge,  to any  person obta=
-ining
-+@@ -1054,6 +1055,10 @@ XML_SetBillionLaughsAttackProtectionActivationThr=
-eshold(
-+     XML_Parser parser, unsigned long long activationThresholdBytes);
-+ #endif
-+
-++/* Added in Expat 2.6.0. */
-++XMLPARSEAPI(XML_Bool)
-++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled);
-++
-+ /* Expat follows the semantic versioning convention.
-+    See http://semver.org.
-+ */
-+diff --git a/lib/libexpat.def.cmake b/lib/libexpat.def.cmake
-+index 61a4f00..10ee9cd 100644
-+--- a/lib/libexpat.def.cmake
-++++ b/lib/libexpat.def.cmake
-+@@ -77,3 +77,5 @@ EXPORTS
-+ ; added with version 2.4.0
-+ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionActivati=
-onThreshold @69
-+ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumA=
-mplification @70
-++; added with version 2.6.0
-++  XML_SetReparseDeferralEnabled @71
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index be6dd92..8cf32e0 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -633,6 +633,7 @@ struct XML_ParserStruct {
-+   XML_Index m_parseEndByteIndex;
-+   const char *m_parseEndPtr;
-+   size_t m_partialTokenBytesBefore; /* used in heuristic to avoid O(n^2=
-) */
-++  XML_Bool m_reparseDeferralEnabled;
-+   XML_Char *m_dataBuf;
-+   XML_Char *m_dataBufEnd;
-+   XML_StartElementHandler m_startElementHandler;
-+@@ -969,7 +970,7 @@ callProcessor(XML_Parser parser, const char *start, =
-const char *end,
-+               const char **endPtr) {
-+   const size_t have_now =3D EXPAT_SAFE_PTR_DIFF(end, start);
-+
-+-  if (g_reparseDeferralEnabledDefault
-++  if (parser->m_reparseDeferralEnabled
-+       && ! parser->m_parsingStatus.finalBuffer) {
-+     // Heuristic: don't try to parse a partial token again until the am=
-ount of
-+     // available data has increased significantly.
-+@@ -1175,6 +1176,7 @@ parserInit(XML_Parser parser, const XML_Char *enco=
-dingName) {
-+   parser->m_parseEndByteIndex =3D 0;
-+   parser->m_parseEndPtr =3D NULL;
-+   parser->m_partialTokenBytesBefore =3D 0;
-++  parser->m_reparseDeferralEnabled =3D g_reparseDeferralEnabledDefault;
-+   parser->m_declElementType =3D NULL;
-+   parser->m_declAttributeId =3D NULL;
-+   parser->m_declEntity =3D NULL;
-+@@ -2601,6 +2603,15 @@ XML_SetBillionLaughsAttackProtectionActivationThr=
-eshold(
-+ }
-+ #endif /* XML_GE =3D=3D 1 */
-+
-++XML_Bool XMLCALL
-++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled) {
-++  if (parser !=3D NULL && (enabled =3D=3D XML_TRUE || enabled =3D=3D XM=
-L_FALSE)) {
-++    parser->m_reparseDeferralEnabled =3D enabled;
-++    return XML_TRUE;
-++  }
-++  return XML_FALSE;
-++}
-++
-+ /* Initially tag->rawName always points into the parse buffer;
-+    for those TAG instances opened while the current parse buffer was
-+    processed, and not yet closed, we need to store tag->rawName in a mo=
-re
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0008.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0008.patch
-new file mode 100644
-index 0000000000..5d50d3d449
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0008.patch
-@@ -0,0 +1,94 @@
-+From 8ddd8e86aa446d02eb8d398972d3b10d4cad908a Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Fri, 29 Sep 2023 10:14:59 +0200
-+Subject: [PATCH] Try to parse even when incoming len is zero
-+
-+If the reparse deferral setting has changed, it may be possible to
-+finish a token.
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/8=
-ddd8e86aa446d02eb8d398972d3b10d4cad908a]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 55 ++++++++------------------------------------------
-+ 1 file changed, 8 insertions(+), 47 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 8cf32e0..f4ff66e 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -1896,46 +1896,8 @@ XML_Parse(XML_Parser parser, const char *s, int l=
-en, int isFinal) {
-+     parser->m_parsingStatus.parsing =3D XML_PARSING;
-+   }
-+
-+-  if (len =3D=3D 0) {
-+-    parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+-    if (! isFinal)
-+-      return XML_STATUS_OK;
-+-    parser->m_positionPtr =3D parser->m_bufferPtr;
-+-    parser->m_parseEndPtr =3D parser->m_bufferEnd;
-+-
-+-    /* If data are left over from last buffer, and we now know that the=
-se
-+-       data are the final chunk of input, then we have to check them ag=
-ain
-+-       to detect errors based on that fact.
-+-    */
-+-    parser->m_errorCode
-+-        =3D callProcessor(parser, parser->m_bufferPtr, parser->m_parseE=
-ndPtr,
-+-                        &parser->m_bufferPtr);
-+-
-+-    if (parser->m_errorCode =3D=3D XML_ERROR_NONE) {
-+-      switch (parser->m_parsingStatus.parsing) {
-+-      case XML_SUSPENDED:
-+-        /* While we added no new data, the finalBuffer flag may have ca=
-used
-+-         * us to parse previously-unparsed data in the internal buffer.
-+-         * If that triggered a callback to the application, it would ha=
-ve
-+-         * had an opportunity to suspend parsing. */
-+-        XmlUpdatePosition(parser->m_encoding, parser->m_positionPtr,
-+-                          parser->m_bufferPtr, &parser->m_position);
-+-        parser->m_positionPtr =3D parser->m_bufferPtr;
-+-        return XML_STATUS_SUSPENDED;
-+-      case XML_INITIALIZED:
-+-      case XML_PARSING:
-+-        parser->m_parsingStatus.parsing =3D XML_FINISHED;
-+-        /* fall through */
-+-      default:
-+-        return XML_STATUS_OK;
-+-      }
-+-    }
-+-    parser->m_eventEndPtr =3D parser->m_eventPtr;
-+-    parser->m_processor =3D errorProcessor;
-+-    return XML_STATUS_ERROR;
-+-  }
-+ #ifndef XML_CONTEXT_BYTES
-+-  else if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
-++  if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
-+     const char *end;
-+     int nLeftOver;
-+     enum XML_Status result;
-+@@ -2006,15 +1968,14 @@ XML_Parse(XML_Parser parser, const char *s, int =
-len, int isFinal) {
-+     return result;
-+   }
-+ #endif /* not defined XML_CONTEXT_BYTES */
-+-  else {
-+-    void *buff =3D XML_GetBuffer(parser, len);
-+-    if (buff =3D=3D NULL)
-+-      return XML_STATUS_ERROR;
-+-    else {
-+-      memcpy(buff, s, len);
-+-      return XML_ParseBuffer(parser, len, isFinal);
-+-    }
-++  void *buff =3D XML_GetBuffer(parser, len);
-++  if (buff =3D=3D NULL)
-++    return XML_STATUS_ERROR;
-++  if (len > 0) {
-++    assert(s !=3D NULL); // make sure s=3D=3DNULL && len!=3D0 was rejec=
-ted above
-++    memcpy(buff, s, len);
-+   }
-++  return XML_ParseBuffer(parser, len, isFinal);
-+ }
-+
-+ enum XML_Status XMLCALL
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0009.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0009.patch
-new file mode 100644
-index 0000000000..7c9320dc49
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0009.patch
-@@ -0,0 +1,51 @@
-+From ad9c01be8ee5d3d5cac2bfd3949ad764541d35e7 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Thu, 26 Oct 2023 13:55:02 +0200
-+Subject: [PATCH]  Make external entity parser inherit partial token heur=
-istic
-+ setting
-+
-+The test is essentially a copy of the existing test for the setter,
-+adapted to run on the external parser instead of the original one.
-+
-+Suggested-by: Sebastian Pipping <sebastian@pipping.org>
-+CI-fighting-assistance-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a=
-d9c01be8ee5d3d5cac2bfd3949ad764541d35e7]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index f4ff66e..6746d70 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -1346,6 +1346,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParse=
-r, const XML_Char *context,
-+      to worry which hash secrets each table has.
-+   */
-+   unsigned long oldhash_secret_salt;
-++  XML_Bool oldReparseDeferralEnabled;
-+
-+   /* Validate the oldParser parameter before we pull everything out of =
-it */
-+   if (oldParser =3D=3D NULL)
-+@@ -1390,6 +1391,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParse=
-r, const XML_Char *context,
-+      to worry which hash secrets each table has.
-+   */
-+   oldhash_secret_salt =3D parser->m_hash_secret_salt;
-++  oldReparseDeferralEnabled =3D parser->m_reparseDeferralEnabled;
-+
-+ #ifdef XML_DTD
-+   if (! context)
-+@@ -1442,6 +1444,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParse=
-r, const XML_Char *context,
-+   parser->m_defaultExpandInternalEntities =3D oldDefaultExpandInternalE=
-ntities;
-+   parser->m_ns_triplets =3D oldns_triplets;
-+   parser->m_hash_secret_salt =3D oldhash_secret_salt;
-++  parser->m_reparseDeferralEnabled =3D oldReparseDeferralEnabled;
-+   parser->m_parentParser =3D oldParser;
-+ #ifdef XML_DTD
-+   parser->m_paramEntityParsing =3D oldParamEntityParsing;
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0010.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0010.patch
-new file mode 100644
-index 0000000000..8ca364e4eb
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0010.patch
-@@ -0,0 +1,110 @@
-+From 60b74209899a67d426d208662674b55a5eed918c Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Wed, 4 Oct 2023 16:00:14 +0200
-+Subject: [PATCH] Bypass partial token heuristic when close to maximum bu=
-ffer
-+ size
-+
-+For huge tokens, we may end up in a situation where the partial token
-+parse deferral heuristic demands more bytes than Expat's maximum buffer
-+size (currently ~half of INT_MAX) could fit.
-+
-+INT_MAX/2 is 1024 MiB on most systems. Clearly, a token of 950 MiB could
-+fit in that buffer, but the reparse threshold might be such that
-+callProcessor() will defer it, allowing the app to keep filling the
-+buffer until XML_GetBuffer() eventually returns a memory error.
-+
-+By bypassing the heuristic when we're getting close to the maximum
-+buffer size, it will once again be possible to parse tokens in the size
-+range INT_MAX/2/ratio < size < INT_MAX/2 reliably.
-+
-+We subtract the last buffer fill size as a way to detect that the next
-+XML_GetBuffer() call has a risk of returning a memory error -- assuming
-+that the application is likely to keep using the same (or smaller) fill.
-+
-+We subtract XML_CONTEXT_BYTES because that's the maximum amount of bytes
-+that could remain at the start of the buffer, preceding the partial
-+token. Technically, it could be fewer bytes, but XML_CONTEXT_BYTES is
-+normally small relative to INT_MAX, and is much simpler to use.
-+
-+Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/6=
-0b74209899a67d426d208662674b55a5eed918c]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 23 ++++++++++++++++++++++-
-+ 1 file changed, 22 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 6746d70..32c57f6 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -205,6 +205,8 @@ typedef char ICHAR;
-+ /* Do safe (NULL-aware) pointer arithmetic */
-+ #define EXPAT_SAFE_PTR_DIFF(p, q) (((p) && (q)) ? ((p) - (q)) : 0)
-+
-++#define EXPAT_MIN(a, b) (((a) < (b)) ? (a) : (b))
-++
-+ #include "internal.h"
-+ #include "xmltok.h"
-+ #include "xmlrole.h"
-+@@ -634,6 +636,7 @@ struct XML_ParserStruct {
-+   const char *m_parseEndPtr;
-+   size_t m_partialTokenBytesBefore; /* used in heuristic to avoid O(n^2=
-) */
-+   XML_Bool m_reparseDeferralEnabled;
-++  int m_lastBufferRequestSize;
-+   XML_Char *m_dataBuf;
-+   XML_Char *m_dataBufEnd;
-+   XML_StartElementHandler m_startElementHandler;
-+@@ -975,7 +978,18 @@ callProcessor(XML_Parser parser, const char *start,=
- const char *end,
-+     // Heuristic: don't try to parse a partial token again until the am=
-ount of
-+     // available data has increased significantly.
-+     const size_t had_before =3D parser->m_partialTokenBytesBefore;
-+-    const bool enough =3D (have_now >=3D 2 * had_before);
-++    // ...but *do* try anyway if we're close to reaching the max buffer=
- size.
-++    size_t close_to_maxbuf =3D INT_MAX / 2 + (INT_MAX & 1); // round up
-++#if XML_CONTEXT_BYTES > 0
-++    // subtract XML_CONTEXT_BYTES, but don't go below zero
-++    close_to_maxbuf -=3D EXPAT_MIN(close_to_maxbuf, XML_CONTEXT_BYTES);
-++#endif
-++    // subtract the last buffer fill size, but don't go below zero
-++    // m_lastBufferRequestSize is never assigned a value < 0, so the ca=
-st is ok
-++    close_to_maxbuf
-++        -=3D EXPAT_MIN(close_to_maxbuf, (size_t)parser->m_lastBufferReq=
-uestSize);
-++    const bool enough
-++        =3D (have_now >=3D 2 * had_before) || (have_now > close_to_maxb=
-uf);
-+
-+     if (! enough) {
-+       *endPtr =3D start; // callers may expect this to be set
-+@@ -1177,6 +1191,7 @@ parserInit(XML_Parser parser, const XML_Char *enco=
-dingName) {
-+   parser->m_parseEndPtr =3D NULL;
-+   parser->m_partialTokenBytesBefore =3D 0;
-+   parser->m_reparseDeferralEnabled =3D g_reparseDeferralEnabledDefault;
-++  parser->m_lastBufferRequestSize =3D 0;
-+   parser->m_declElementType =3D NULL;
-+   parser->m_declAttributeId =3D NULL;
-+   parser->m_declEntity =3D NULL;
-+@@ -1911,6 +1926,9 @@ XML_Parse(XML_Parser parser, const char *s, int le=
-n, int isFinal) {
-+       parser->m_processor =3D errorProcessor;
-+       return XML_STATUS_ERROR;
-+     }
-++    // though this isn't a buffer request, we assume that `len` is the =
-app's
-++    // preferred buffer fill size, and therefore save it here.
-++    parser->m_lastBufferRequestSize =3D len;
-+     parser->m_parseEndByteIndex +=3D len;
-+     parser->m_positionPtr =3D s;
-+     parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+@@ -2064,6 +2082,9 @@ XML_GetBuffer(XML_Parser parser, int len) {
-+   default:;
-+   }
-+
-++  // whether or not the request succeeds, `len` seems to be the app's p=
-referred
-++  // buffer fill size; remember it.
-++  parser->m_lastBufferRequestSize =3D len;
-+   if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEn=
-d)
-+       || parser->m_buffer =3D=3D NULL) {
-+ #ifdef XML_CONTEXT_BYTES
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425-0011.patch b/me=
-ta/recipes-core/expat/expat/CVE-2023-52425-0011.patch
-new file mode 100644
-index 0000000000..64797df3e6
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425-0011.patch
-@@ -0,0 +1,88 @@
-+From 3d8141d26a3b01ff948e00956cb0723a89dadf7f Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Mon, 20 Nov 2023 16:11:24 +0100
-+Subject: [PATCH] Bypass partial token heuristic when nearing full buffer
-+
-+...instead of only when approaching the maximum buffer size INT/2+1.
-+
-+We'd like to give applications a chance to finish parsing a large token
-+before buffer reallocation, in case the reallocation fails.
-+
-+By bypassing the reparse deferral heuristic when getting close to the
-+filling the buffer, we give them this chance -- if the whole token is
-+present in the buffer, it will be parsed at that time.
-+
-+This may come at the cost of some extra reparse attempts. For a token
-+of n bytes, these extra parses cause us to scan over a maximum of
-+2n bytes (... + n/8 + n/4 + n/2 + n). Therefore, parsing of big tokens
-+remains O(n) in regard how many bytes we scan in attempts to parse. The
-+cost in reality is lower than that, since the reparses that happen due
-+to the bypass will affect m_partialTokenBytesBefore, delaying the next
-+ratio-based reparse. Furthermore, only the first token that "breaks
-+through" a buffer ceiling takes that extra reparse attempt; subsequent
-+large tokens will only bypass the heuristic if they manage to hit the
-+new buffer ceiling.
-+
-+Note that this cost analysis depends on the assumption that Expat grows
-+its buffer by doubling it (or, more generally, grows it exponentially).
-+If this changes, the cost of this bypass may increase. Hopefully, this
-+would be caught by test_big_tokens_take_linear_time or the new test.
-+
-+The bypass logic assumes that the application uses a consistent fill.
-+If the app increases its fill size, it may miss the bypass (and the
-+normal heuristic will apply). If the app decreases its fill size, the
-+bypass may be hit multiple times for the same buffer size. The very
-+worst case would be to always fill half of the remaining buffer space,
-+in which case parsing of a large n-byte token becomes O(n log n).
-+
-+As an added bonus, the new test case should be faster than the old one,
-+since it doesn't have to go all the way to 1GiB to check the behavior.
-+
-+Finally, this change necessitated a small modification to two existing
-+tests related to reparse deferral. These tests are testing the deferral
-+enabled setting, and assume that reparsing will not happen for any other
-+reason. By pre-growing the buffer, we make sure that this new deferral
-+does not affect those test cases.
-+
-+CVE: CVE-2023-52425
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3=
-d8141d26a3b01ff948e00956cb0723a89dadf7f]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/xmlparse.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 32c57f6..2830c1e 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -978,18 +978,18 @@ callProcessor(XML_Parser parser, const char *start=
-, const char *end,
-+     // Heuristic: don't try to parse a partial token again until the am=
-ount of
-+     // available data has increased significantly.
-+     const size_t had_before =3D parser->m_partialTokenBytesBefore;
-+-    // ...but *do* try anyway if we're close to reaching the max buffer=
- size.
-+-    size_t close_to_maxbuf =3D INT_MAX / 2 + (INT_MAX & 1); // round up
-++    // ...but *do* try anyway if we're close to causing a reallocation.
-++    size_t available_buffer
-++        =3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buffer);
-+ #if XML_CONTEXT_BYTES > 0
-+-    // subtract XML_CONTEXT_BYTES, but don't go below zero
-+-    close_to_maxbuf -=3D EXPAT_MIN(close_to_maxbuf, XML_CONTEXT_BYTES);
-++      available_buffer -=3D EXPAT_MIN(available_buffer, XML_CONTEXT_BYT=
-ES);
-+ #endif
-+-    // subtract the last buffer fill size, but don't go below zero
-++    available_buffer
-++        +=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferE=
-nd);
-+     // m_lastBufferRequestSize is never assigned a value < 0, so the ca=
-st is ok
-+-    close_to_maxbuf
-+-        -=3D EXPAT_MIN(close_to_maxbuf, (size_t)parser->m_lastBufferReq=
-uestSize);
-+     const bool enough
-+-        =3D (have_now >=3D 2 * had_before) || (have_now > close_to_maxb=
-uf);
-++         =3D (have_now >=3D 2 * had_before)
-++          || ((size_t)parser->m_lastBufferRequestSize > available_buffe=
-r);
-+
-+     if (! enough) {
-+       *endPtr =3D start; // callers may expect this to be set
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/e=
-xpat/expat_2.5.0.bb
-index 31e989cfe2..ba971d7ac5 100644
---- a/meta/recipes-core/expat/expat_2.5.0.bb
-+++ b/meta/recipes-core/expat/expat_2.5.0.bb
-@@ -22,6 +22,17 @@ SRC_URI =3D "https://github.com/libexpat/libexpat/rele=
-ases/download/R_${VERSION_TA
- 	   file://CVE-2023-52426-009.patch \
- 	   file://CVE-2023-52426-010.patch \
- 	   file://CVE-2023-52426-011.patch \
-+	   file://CVE-2023-52425-0001.patch \
-+           file://CVE-2023-52425-0002.patch \
-+           file://CVE-2023-52425-0003.patch \
-+           file://CVE-2023-52425-0004.patch \
-+           file://CVE-2023-52425-0005.patch \
-+           file://CVE-2023-52425-0006.patch \
-+           file://CVE-2023-52425-0007.patch \
-+           file://CVE-2023-52425-0008.patch \
-+           file://CVE-2023-52425-0009.patch \
-+           file://CVE-2023-52425-0010.patch \
-+           file://CVE-2023-52425-0011.patch \
-            "
-=20
- UPSTREAM_CHECK_URI =3D "https://github.com/libexpat/libexpat/releases/"
---=20
-2.40.0
+> This is reasonably tested in production in our environment, but only
+> systemd support. There'll be some more work to do to get GSSAPI and
+> NFS idmapd support integreated into that.
+>
+> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> ---
+>  ...01-gssd-use-printf-format-specifiers.patch | 181 ++++++++++++++++++
+>  .../0002-Use-nogroup-for-nobody-group.patch   |  38 ++++
+>  .../0003-find-OE-provided-Kerberos.patch      |  42 ++++
+>  .../nfs-utils/nfs-utils/clang-warnings.patch  |  81 +++++++-
+>  .../nfs-utils/nfs-utils_2.6.4.bb              |  37 +++-
+>  5 files changed, 367 insertions(+), 12 deletions(-)
+>  create mode 100644
+> meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+>  create mode 100644
+> meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+>  create mode 100644
+> meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+>
+> diff --git
+> a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+> new file mode 100644
+> index 00000000000..ab6517a30ed
+> --- /dev/null
+> +++
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+> @@ -0,0 +1,181 @@
+> +From 094b965b7044e7d102542ac30e95b556ca82654b Mon Sep 17 00:00:00 2001
+> +From: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +Date: Wed, 29 Nov 2023 07:10:58 -0600
+> +Subject: [PATCH] gssd: use printf format specifiers
+> +
+> +This function takes a printf format specifier, tell the compiler about
+> +that. This adds the ability for GCC to warn about misuses, and prevents
+> +Clang from warning on the implementation.
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +---
+> + utils/gssd/err_util.h     |  2 +-
+> + utils/gssd/gss_names.c    |  4 ++--
+> + utils/gssd/gss_util.c     |  2 +-
+> + utils/gssd/gssd.c         |  4 ++--
+> + utils/gssd/gssd_proc.c    |  8 ++++----
+> + utils/gssd/krb5_util.c    | 10 +++++-----
+> + utils/gssd/svcgssd_proc.c |  8 ++++----
+> + 7 files changed, 19 insertions(+), 19 deletions(-)
+> +
+> +diff --git a/utils/gssd/err_util.h b/utils/gssd/err_util.h
+> +index 6fa9d3d..61f5a31 100644
+> +--- a/utils/gssd/err_util.h
+> ++++ b/utils/gssd/err_util.h
+> +@@ -32,7 +32,7 @@
+> + #define _ERR_UTIL_H_
+> +
+> + void initerr(char *progname, int verbosity, int fg);
+> +-void printerr(int priority, char *format, ...);
+> ++void printerr(int priority, char *format, ...) __attribute__ ((format
+> (printf, 2, 3)));
+> + int get_verbosity(void);
+> + char * sec2time(int);
+> +
+> +diff --git a/utils/gssd/gss_names.c b/utils/gssd/gss_names.c
+> +index 982b96f..0548c33 100644
+> +--- a/utils/gssd/gss_names.c
+> ++++ b/utils/gssd/gss_names.c
+> +@@ -65,7 +65,7 @@ get_krb5_hostbased_name(gss_buffer_desc *name, char
+> **hostbased_name)
+> +       if (strchr(name->value, '@') && strchr(name->value, '/')) {
+> +               if ((sname = calloc(name->length, 1)) == NULL) {
+> +                       printerr(0, "ERROR: get_krb5_hostbased_name failed
+> "
+> +-                               "to allocate %d bytes\n", name->length);
+> ++                               "to allocate %zd bytes\n", name->length);
+> +                       return -1;
+> +               }
+> +               /* read in name and instance and replace '/' with '@' */
+> +@@ -102,7 +102,7 @@ get_hostbased_client_name(gss_name_t client_name,
+> gss_OID mech,
+> +       }
+> +       if (name.length >= 0xffff) {        /* don't overflow */
+> +               printerr(0, "ERROR: get_hostbased_client_name: "
+> +-                       "received gss_name is too long (%d bytes)\n",
+> ++                       "received gss_name is too long (%zd bytes)\n",
+> +                        name.length);
+> +               goto out_rel_buf;
+> +       }
+> +diff --git a/utils/gssd/gss_util.c b/utils/gssd/gss_util.c
+> +index a4b2777..7d41a94 100644
+> +--- a/utils/gssd/gss_util.c
+> ++++ b/utils/gssd/gss_util.c
+> +@@ -304,7 +304,7 @@ gssd_acquire_cred(char *server_name, const gss_OID
+> oid)
+> +                               target_name, &pbuf, NULL);
+> +               if (ignore_maj_stat == GSS_S_COMPLETE) {
+> +                       printerr(1, "Unable to obtain credentials for
+> '%.*s'\n",
+> +-                               pbuf.length, pbuf.value);
+> ++                               (int)pbuf.length, (char *)pbuf.value);
+> +                       ignore_maj_stat =
+> gss_release_buffer(&ignore_min_stat,
+> +                                                            &pbuf);
+> +               }
+> +diff --git a/utils/gssd/gssd.c b/utils/gssd/gssd.c
+> +index 833d8e0..380116a 100644
+> +--- a/utils/gssd/gssd.c
+> ++++ b/utils/gssd/gssd.c
+> +@@ -518,9 +518,9 @@ scan_active_thread_list(void)
+> +                                       do_error_downcall(info->fd,
+> info->uid, -ETIMEDOUT);
+> +                               } else {
+> +                                       if (!(info->flags &
+> UPCALL_THREAD_WARNED)) {
+> +-                                              printerr(0, "watchdog:
+> thread id 0x%lx running for %ld seconds\n",
+> ++                                              printerr(0, "watchdog:
+> thread id 0x%lx running for %lld seconds\n",
+> +                                                               info->tid,
+> +-                                                              now.tv_sec
+> - info->timeout.tv_sec + upcall_timeout);
+> ++                                                              (long long
+> int)(now.tv_sec - info->timeout.tv_sec + upcall_timeout));
+> +                                               info->flags |=
+> UPCALL_THREAD_WARNED;
+> +                                       }
+> +                               }
+> +diff --git a/utils/gssd/gssd_proc.c b/utils/gssd/gssd_proc.c
+> +index ae568f1..574eb4b 100644
+> +--- a/utils/gssd/gssd_proc.c
+> ++++ b/utils/gssd/gssd_proc.c
+> +@@ -168,7 +168,7 @@ do_downcall(int k5_fd, uid_t uid, struct
+> authgss_private_data *pd,
+> +
+> +       if (get_verbosity() > 1)
+> +               printerr(2, "do_downcall(0x%lx): lifetime_rec=%s
+> acceptor=%.*s\n",
+> +-                      tid, sec2time(lifetime_rec), acceptor->length,
+> acceptor->value);
+> ++                      tid, sec2time(lifetime_rec),
+> (int)acceptor->length, (char *)acceptor->value);
+> +       buf_size = sizeof(uid) + sizeof(timeout) + sizeof(pd->pd_seq_win) +
+> +               sizeof(pd->pd_ctx_hndl.length) + pd->pd_ctx_hndl.length +
+> +               sizeof(context_token->length) + context_token->length +
+> +@@ -284,14 +284,14 @@ populate_port(struct sockaddr *sa, const socklen_t
+> salen,
+> +
+> +       port = nfs_getport(sa, salen, program, version, protocol);
+> +       if (!port) {
+> +-              printerr(0, "ERROR: unable to obtain port for prog %ld "
+> +-                          "vers %ld\n", program, version);
+> ++              printerr(0, "ERROR: unable to obtain port for prog %lu "
+> ++                          "vers %lu\n", (long unsigned int)program,
+> (long unsigned int)version);
+> +               return 0;
+> +       }
+> +
+> + set_port:
+> +       printerr(2, "DEBUG: setting port to %hu for prog %lu vers %lu\n",
+> port,
+> +-               program, version);
+> ++               (long unsigned int)program, (long unsigned int)version);
+> +
+> +       switch (sa->sa_family) {
+> +       case AF_INET:
+> +diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
+> +index e3f270e..28f7d84 100644
+> +--- a/utils/gssd/krb5_util.c
+> ++++ b/utils/gssd/krb5_util.c
+> +@@ -304,9 +304,9 @@ gssd_find_existing_krb5_ccache(uid_t uid, char
+> *dirname,
+> +                               score++;
+> +
+> +                       printerr(3, "CC '%s'(%s@%s) passed all checks and"
+> +-                                  " has mtime of %u\n",
+> ++                                  " has mtime of %llu\n",
+> +                                buf, princname, realm,
+> +-                               tmp_stat.st_mtime);
+> ++                               (long long unsigned)tmp_stat.st_mtime);
+> +                       /*
+> +                        * if more than one match is found, return the most
+> +                        * recent (the one with the latest mtime), and
+> +@@ -341,10 +341,10 @@ gssd_find_existing_krb5_ccache(uid_t uid, char
+> *dirname,
+> +                               }
+> +                               printerr(3, "CC '%s:%s/%s' is our "
+> +                                           "current best match "
+> +-                                          "with mtime of %u\n",
+> +-                                       cctype, dirname,
+> ++                                          "with mtime of %llu\n",
+> ++                                       *cctype, dirname,
+> +                                        best_match_dir->d_name,
+> +-                                       best_match_stat.st_mtime);
+> ++                                       (long long
+> unsigned)best_match_stat.st_mtime);
+> +                       }
+> +                       free(princname);
+> +                       free(realm);
+> +diff --git a/utils/gssd/svcgssd_proc.c b/utils/gssd/svcgssd_proc.c
+> +index b403143..7fecd1a 100644
+> +--- a/utils/gssd/svcgssd_proc.c
+> ++++ b/utils/gssd/svcgssd_proc.c
+> +@@ -102,10 +102,10 @@ do_svc_downcall(gss_buffer_desc *out_handle, struct
+> svc_cred *cred,
+> +       qword_addint(&bp, &blen, cred->cr_uid);
+> +       qword_addint(&bp, &blen, cred->cr_gid);
+> +       qword_addint(&bp, &blen, cred->cr_ngroups);
+> +-      printerr(2, "mech: %s, hndl len: %d, ctx len %d, timeout: %d (%d
+> from now), "
+> ++      printerr(2, "mech: %s, hndl len: %zd, ctx len %zd, timeout: %lld
+> (%lld from now), "
+> +                "clnt: %s, uid: %d, gid: %d, num aux grps: %d:\n",
+> +                fname, out_handle->length, context_token->length,
+> +-               endtime, endtime - time(0),
+> ++               (long long int)endtime, (long long int)(endtime -
+> time(0)),
+> +                client_name ? client_name : "<null>",
+> +                cred->cr_uid, cred->cr_gid, cred->cr_ngroups);
+> +       for (i=0; i < cred->cr_ngroups; i++) {
+> +@@ -232,7 +232,7 @@ get_ids(gss_name_t client_name, gss_OID mech, struct
+> svc_cred *cred)
+> +       }
+> +       if (name.length >= 0xffff || /* be certain name.length+1 doesn't
+> overflow */
+> +           !(sname = calloc(name.length + 1, 1))) {
+> +-              printerr(0, "WARNING: get_ids: error allocating %d bytes "
+> ++              printerr(0, "WARNING: get_ids: error allocating %zd bytes "
+> +                       "for sname\n", name.length + 1);
+> +               gss_release_buffer(&min_stat, &name);
+> +               goto out;
+> +@@ -360,7 +360,7 @@ handle_nullreq(char *cp) {
+> +       if (in_handle.length != 0) { /* CONTINUE_INIT case */
+> +               if (in_handle.length != sizeof(ctx)) {
+> +                       printerr(0, "WARNING: handle_nullreq: "
+> +-                                  "input handle has unexpected length
+> %d\n",
+> ++                                  "input handle has unexpected length
+> %zd\n",
+> +                                   in_handle.length);
+> +                       goto out_err;
+> +               }
+> diff --git
+> a/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+> new file mode 100644
+> index 00000000000..3c238f851ba
+> --- /dev/null
+> +++
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+> @@ -0,0 +1,38 @@
+> +From 6095b5a9208eac37b73e05f81c090d8183138c6a Mon Sep 17 00:00:00 2001
+> +From: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +Date: Tue, 6 Jun 2023 16:07:53 -0600
+> +Subject: [PATCH] Use "nogroup" for nobody group
+> +
+> +Upstream-Status: Inappropriate [oe-core specific, configuration]
+> +Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +---
+> + support/nfsidmap/idmapd.conf | 2 +-
+> + utils/idmapd/idmapd.c        | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/support/nfsidmap/idmapd.conf b/support/nfsidmap/idmapd.conf
+> +index 2a2f79a1..e6f3724f 100644
+> +--- a/support/nfsidmap/idmapd.conf
+> ++++ b/support/nfsidmap/idmapd.conf
+> +@@ -41,7 +41,7 @@
+> + [Mapping]
+> +
+> + #Nobody-User = nobody
+> +-#Nobody-Group = nobody
+> ++#Nobody-Group = nogroup
+> +
+> + [Translation]
+> +
+> +diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
+> +index cd9a965f..3be805e9 100644
+> +--- a/utils/idmapd/idmapd.c
+> ++++ b/utils/idmapd/idmapd.c
+> +@@ -89,7 +89,7 @@
+> + #endif
+> +
+> + #ifndef NFS4NOBODY_GROUP
+> +-#define NFS4NOBODY_GROUP "nobody"
+> ++#define NFS4NOBODY_GROUP "nogroup"
+> + #endif
+> +
+> + /* From Niels */
+> diff --git
+> a/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+> new file mode 100644
+> index 00000000000..4f15aaec4ea
+> --- /dev/null
+> +++
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+> @@ -0,0 +1,42 @@
+> +From f4f4a226bfd71ddc0f53dd54159e3eaa835b18e6 Mon Sep 17 00:00:00 2001
+> +From: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +Date: Wed, 8 Nov 2023 16:24:20 -0600
+> +Subject: [PATCH] find OE provided Kerberos
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> +---
+> + aclocal/kerberos5.m4 | 6 ++++--
+> + 1 file changed, 4 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/aclocal/kerberos5.m4 b/aclocal/kerberos5.m4
+> +index f96f0fd..ad85fdf 100644
+> +--- a/aclocal/kerberos5.m4
+> ++++ b/aclocal/kerberos5.m4
+> +@@ -22,8 +22,8 @@ AC_DEFUN([AC_KERBEROS_V5],[
+> +     dnl This ugly hack brought on by the split installation of
+> +     dnl MIT Kerberos on Fedora Core 1
+> +     K5CONFIG=""
+> +-    if test -f $dir/bin/krb5-config; then
+> +-      K5CONFIG=$dir/bin/krb5-config
+> ++    if test -f $dir/bin/crossscripts/krb5-config; then
+> ++      K5CONFIG=$dir/bin/crossscripts/krb5-config
+> +     elif test -f "/usr/kerberos/bin/krb5-config"; then
+> +       K5CONFIG="/usr/kerberos/bin/krb5-config"
+> +     elif test -f "/usr/lib/mit/bin/krb5-config"; then
+> +@@ -72,6 +72,7 @@ AC_DEFUN([AC_KERBEROS_V5],[
+> +   AC_MSG_RESULT($KRBDIR)
+> +
+> +   dnl Check if -rpath=$(KRBDIR)/lib is needed
+> ++  if false; then
+> +   echo "The current KRBDIR is $KRBDIR"
+> +   if test "$KRBDIR/lib" = "/lib" -o "$KRBDIR/lib" = "/usr/lib" \
+> +        -o "$KRBDIR/lib" = "//lib" -o "$KRBDIR/lib" = "/usr//lib" ; then
+> +@@ -81,6 +82,7 @@ AC_DEFUN([AC_KERBEROS_V5],[
+> +   else
+> +     KRBLDFLAGS="-Wl,-rpath=$KRBDIR/lib"
+> +   fi
+> ++  fi
+> +
+> +   dnl Now check for functions within gssapi library
+> +   AC_CHECK_LIB($gssapi_lib, gss_krb5_export_lucid_sec_context,
+> diff --git
+> a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+> index fde99b599eb..ff697477b08 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+> @@ -1,4 +1,4 @@
+> -From 1ab0c326405c6daa06f1a7eb4b0b60bf4e0584c2 Mon Sep 17 00:00:00 2001
+> +From 7d04566b7b8e57114533360cc4b933a74ed6b314 Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Tue, 31 Dec 2019 08:15:34 -0800
+>  Subject: [PATCH] Detect warning options during configure
+> @@ -16,11 +16,14 @@ Upstream-Status: Pending
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+>  ---
+> - support/nfs/xcommon.c | 3 +++
+> - 1 file changed, 3 insertions(+)
+> + support/nfs/xcommon.c          | 6 ++++++
+> + support/nfs/xlog.c             | 6 ++++++
+> + support/nfsidmap/libnfsidmap.c | 3 +++
+> + utils/exportfs/exportfs.c      | 3 +++
+> + 4 files changed, 18 insertions(+)
+>
+>  diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
+> -index 3989f0b..e080423 100644
+> +index 3989f0bc..ff438c18 100644
+>  --- a/support/nfs/xcommon.c
+>  +++ b/support/nfs/xcommon.c
+>  @@ -98,7 +98,10 @@ nfs_error (const char *fmt, ...) {
+> @@ -34,3 +37,73 @@ index 3989f0b..e080423 100644
+>        va_end (args);
+>        free (fmt2);
+>   }
+> +@@ -132,7 +135,10 @@ die(int err, const char *fmt, ...) {
+> +       va_list args;
+> +
+> +       va_start(args, fmt);
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+> +       vfprintf(stderr, fmt, args);
+> ++#pragma GCC diagnostic pop
+> +       fprintf(stderr, "\n");
+> +       va_end(args);
+> +
+> +diff --git a/support/nfs/xlog.c b/support/nfs/xlog.c
+> +index fa125cef..dc4c9ea1 100644
+> +--- a/support/nfs/xlog.c
+> ++++ b/support/nfs/xlog.c
+> +@@ -178,11 +178,16 @@ xlog_backend(int kind, const char *fmt, va_list
+> args)
+> +               fprintf(stderr, "%s: ", log_name);
+> + #endif
+> +               va_copy(args2, args);
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+> +               vfprintf(stderr, fmt, args2);
+> ++#pragma GCC diagnostic pop
+> +               fprintf(stderr, "\n");
+> +               va_end(args2);
+> +       }
+> +
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+> +       if (log_syslog) {
+> +               switch (kind) {
+> +               case L_FATAL:
+> +@@ -203,6 +208,7 @@ xlog_backend(int kind, const char *fmt, va_list args)
+> +                       break;
+> +               }
+> +       }
+> ++#pragma GCC diagnostic pop
+> +
+> +       if (kind == L_FATAL)
+> +               exit(1);
+> +diff --git a/support/nfsidmap/libnfsidmap.c
+> b/support/nfsidmap/libnfsidmap.c
+> +index 0a912e52..95eb64d2 100644
+> +--- a/support/nfsidmap/libnfsidmap.c
+> ++++ b/support/nfsidmap/libnfsidmap.c
+> +@@ -99,7 +99,10 @@ static void default_logger(const char *fmt, ...)
+> +       va_list vp;
+> +
+> +       va_start(vp, fmt);
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+> +       vsyslog(LOG_WARNING, fmt, vp);
+> ++#pragma GCC diagnostic pop
+> +       va_end(vp);
+> + }
+> +
+> +diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
+> +index b03a047b..eac1ff2a 100644
+> +--- a/utils/exportfs/exportfs.c
+> ++++ b/utils/exportfs/exportfs.c
+> +@@ -646,7 +646,10 @@ dumpopt(char c, char *fmt, ...)
+> +
+> +       va_start(ap, fmt);
+> +       printf("%c", c);
+> ++#pragma GCC diagnostic push
+> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+> +       vprintf(fmt, ap);
+> ++#pragma GCC diagnostic pop
+> +       va_end(ap);
+> +       return ',';
+> + }
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> index 3896fac6ed5..bb65ba33a74 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> @@ -26,6 +26,9 @@ SRC_URI =
+> "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+>             file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+>             file://0001-tools-locktest-Use-intmax_t-to-print-off_t.patch \
+>
+> file://0001-reexport.h-Include-unistd.h-to-compile-with-musl.patch \
+> +           file://0001-gssd-use-printf-format-specifiers.patch \
+> +           file://0002-Use-nogroup-for-nobody-group.patch \
+> +           file://0003-find-OE-provided-Kerberos.patch \
+>             "
+>  SRC_URI[sha256sum] =
+> "01b3b0fb9c7d0bbabf5114c736542030748c788ec2fd9734744201e9b0a1119d"
+>
+> @@ -49,10 +52,9 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
+>                  --enable-mountconfig \
+>                  --enable-libmount-mount \
+>                  --enable-uuid \
+> -                --disable-gss \
+> -                --disable-nfsdcltrack \
+>                  --disable-sbin-override \
+>                  --with-statdpath=/var/lib/nfs/statd \
+> +                --with-pluginpath=${libdir}/libnfsidmap \
+>                  --with-rpcgen=${HOSTTOOLS_DIR}/rpcgen \
+>                 "
+>
+> @@ -61,13 +63,16 @@ LDFLAGS:append = " -lsqlite3 -levent"
+>  PACKAGECONFIG ??= "tcp-wrappers \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd', d)} \
+>  "
+> +
+>  PACKAGECONFIG:remove:libc-musl = "tcp-wrappers"
+> +#krb5 is available in meta-oe
+> +PACKAGECONFIG[gssapi] = "--with-krb5=${STAGING_EXECPREFIXDIR}
+> --enable-gss --enable-svcgss,--disable-gss --disable-svcgss,krb5"
+>  PACKAGECONFIG[tcp-wrappers] =
+> "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+>  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+>  # libdevmapper is available in meta-oe
+>  PACKAGECONFIG[nfsv41] =
+> "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmapper"
+>  # keyutils is available in meta-oe
+> -PACKAGECONFIG[nfsv4] =
+> "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
+> +PACKAGECONFIG[nfsv4] = "--enable-nfsv4
+> --enable-nfsdcltrack,--disable-nfsv4
+> --disable-nfsdcltrack,keyutils,python3-core"
+>  PACKAGECONFIG[systemd] =
+> "--with-systemd=${systemd_unitdir}/system,--without-systemd"
+>
+>  PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl"
+> @@ -76,19 +81,34 @@ CONFFILES:${PN}-client +=
+> "${localstatedir}/lib/nfs/etab \
+>                            ${localstatedir}/lib/nfs/rmtab \
+>                            ${localstatedir}/lib/nfs/xtab \
+>                            ${localstatedir}/lib/nfs/statd/state \
+> +                          ${sysconfdir}/idmapd.conf \
+>                            ${sysconfdir}/nfs.conf \
+>                            ${sysconfdir}/nfsmount.conf"
+>
+>  FILES:${PN}-client = "${sbindir}/*statd \
+> -                     ${libdir}/libnfsidmap.so.* \
+>                       ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
+>                       ${sbindir}/showmount ${sbindir}/nfsstat \
+> +                     ${sbindir}/rpc.gssd \
+>                       ${sbindir}/nfsconf \
+> +                     ${libdir}/libnfsidmap.so.* \
+> +                     ${libdir}/libnfsidmap/*.so \
+> +                     ${libexecdir}/nfsrahead \
+>                       ${localstatedir}/lib/nfs \
+> +                     ${sysconfdir}/idmapd.conf \
+> +                     ${sysconfdir}/init.d/nfscommon \
+>                       ${sysconfdir}/nfs.conf \
+>                       ${sysconfdir}/nfsmount.conf \
+> -                     ${sysconfdir}/init.d/nfscommon \
+> -                     ${systemd_system_unitdir}/nfs-statd.service"
+> +                     ${systemd_system_unitdir}/auth-rpcgss-module.service
+> \
+> +                     ${systemd_system_unitdir}/nfs-client.target \
+> +                     ${systemd_system_unitdir}/nfs-idmapd.service \
+> +                     ${systemd_system_unitdir}/nfs-statd.service \
+> +                     ${systemd_system_unitdir}/nfscommon.service \
+> +                     ${systemd_system_unitdir}/rpc-gssd.service \
+> +                     ${systemd_system_unitdir}/rpc-statd-notify.service \
+> +                     ${systemd_system_unitdir}/rpc-statd.service \
+> +                     ${systemd_system_unitdir}/rpc_pipefs.target \
+> +
+>  ${systemd_system_unitdir}/var-lib-nfs-rpc_pipefs.mount \
+> +                     ${nonarch_libdir}/udev/rules.d/*"
+>  RDEPENDS:${PN}-client = "${PN}-mount rpcbind"
+>
+>  FILES:${PN}-mount = "${base_sbindir}/*mount.nfs*"
+> @@ -104,8 +124,8 @@ FILES:${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
+>  FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/
+> ${nonarch_libdir}/modprobe.d"
+>
+>  do_configure:prepend() {
+> -       sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+> -               ${S}/utils/mount/Makefile.am
+> +       sed -i -e 's,udev_rulesdir = /usr/lib/udev/rules.d/,udev_rulesdir
+> = ${nonarch_base_libdir}/udev/rules.d/,g' \
+> +           ${S}/systemd/Makefile.am ${S}/tools/nfsrahead/Makefile.am
+>  }
+>
+>  # Make clean needed because the package comes with
+> @@ -122,6 +142,7 @@ do_install:append () {
+>         install -m 0755 ${WORKDIR}/nfsserver
+> ${D}${sysconfdir}/init.d/nfsserver
+>         install -m 0755 ${WORKDIR}/nfscommon
+> ${D}${sysconfdir}/init.d/nfscommon
+>
+> +       install -m 0644 ${S}/support/nfsidmap/idmapd.conf ${D}${sysconfdir}
+>         install -m 0644 ${S}/nfs.conf ${D}${sysconfdir}
+>
+>         install -d ${D}${systemd_system_unitdir}
+> --
+> 2.41.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197618):
+> https://lists.openembedded.org/g/openembedded-core/message/197618
+> Mute This Topic: https://lists.openembedded.org/mt/105209256/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--0000000000006db36e0614c5fe07
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Do not add pending patches please. Upstream submission fi=
+rst.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Even better if you =
+can review already present patches and submit them too.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 29. Mar 2024 at 2.24, Dan M=
+cGregor &lt;<a href=3D"mailto:danismostlikely@gmail.com">danismostlikely@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padd=
+ing-left:1ex;border-left-color:rgb(204,204,204)">From: Daniel McGregor &lt;=
+<a href=3D"mailto:daniel.mcgregor@vecima.com" target=3D"_blank">daniel.mcgr=
+egor@vecima.com</a>&gt;<br>
+<br>
+Add support for the nfsv4 user ID mapping daemon, configured with<br>
+a sensible default, and add a packageconfig for Kerberos support.<br>
+<br>
+This is reasonably tested in production in our environment, but only<br>
+systemd support. There&#39;ll be some more work to do to get GSSAPI and<br>
+NFS idmapd support integreated into that.<br>
+<br>
+Signed-off-by: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima=
+.com" target=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
+---<br>
+=C2=A0...01-gssd-use-printf-format-specifiers.patch | 181 +++++++++++++++++=
++<br>
+=C2=A0.../0002-Use-nogroup-for-nobody-group.patch=C2=A0 =C2=A0|=C2=A0 38 ++=
+++<br>
+=C2=A0.../0003-find-OE-provided-Kerberos.patch=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+42 ++++<br>
+=C2=A0.../nfs-utils/nfs-utils/clang-warnings.patch=C2=A0 |=C2=A0 81 +++++++=
+-<br>
+=C2=A0.../nfs-utils/<a href=3D"http://nfs-utils_2.6.4.bb" rel=3D"noreferrer=
+" target=3D"_blank">nfs-utils_2.6.4.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 37 +++-<br>
+=C2=A05 files changed, 367 insertions(+), 12 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001=
+-gssd-use-printf-format-specifiers.patch<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0002=
+-Use-nogroup-for-nobody-group.patch<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0003=
+-find-OE-provided-Kerberos.patch<br>
+<br>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-pr=
+intf-format-specifiers.patch b/meta/recipes-connectivity/nfs-utils/nfs-util=
+s/0001-gssd-use-printf-format-specifiers.patch<br>
+new file mode 100644<br>
+index 00000000000..ab6517a30ed<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-fo=
+rmat-specifiers.patch<br>
+@@ -0,0 +1,181 @@<br>
++From 094b965b7044e7d102542ac30e95b556ca82654b Mon Sep 17 00:00:00 2001<br>
++From: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima.com" ta=
+rget=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++Date: Wed, 29 Nov 2023 07:10:58 -0600<br>
++Subject: [PATCH] gssd: use printf format specifiers<br>
++<br>
++This function takes a printf format specifier, tell the compiler about<br>
++that. This adds the ability for GCC to warn about misuses, and prevents<br=
+>
++Clang from warning on the implementation.<br>
++<br>
++Upstream-Status: Pending<br>
++Signed-off-by: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecim=
+a.com" target=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++---<br>
++ utils/gssd/err_util.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
++ utils/gssd/gss_names.c=C2=A0 =C2=A0 |=C2=A0 4 ++--<br>
++ utils/gssd/gss_util.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
++ utils/gssd/gssd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++--<br>
++ utils/gssd/gssd_proc.c=C2=A0 =C2=A0 |=C2=A0 8 ++++----<br>
++ utils/gssd/krb5_util.c=C2=A0 =C2=A0 | 10 +++++-----<br>
++ utils/gssd/svcgssd_proc.c |=C2=A0 8 ++++----<br>
++ 7 files changed, 19 insertions(+), 19 deletions(-)<br>
++<br>
++diff --git a/utils/gssd/err_util.h b/utils/gssd/err_util.h<br>
++index 6fa9d3d..61f5a31 100644<br>
++--- a/utils/gssd/err_util.h<br>
+++++ b/utils/gssd/err_util.h<br>
++@@ -32,7 +32,7 @@<br>
++ #define _ERR_UTIL_H_<br>
++ <br>
++ void initerr(char *progname, int verbosity, int fg);<br>
++-void printerr(int priority, char *format, ...);<br>
+++void printerr(int priority, char *format, ...) __attribute__ ((format (pr=
+intf, 2, 3)));<br>
++ int get_verbosity(void);<br>
++ char * sec2time(int);<br>
++ <br>
++diff --git a/utils/gssd/gss_names.c b/utils/gssd/gss_names.c<br>
++index 982b96f..0548c33 100644<br>
++--- a/utils/gssd/gss_names.c<br>
+++++ b/utils/gssd/gss_names.c<br>
++@@ -65,7 +65,7 @@ get_krb5_hostbased_name(gss_buffer_desc *name, char **ho=
+stbased_name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (strchr(name-&gt;value, &#39;@&#39;) &amp;&a=
+mp; strchr(name-&gt;value, &#39;/&#39;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((sname =3D call=
+oc(name-&gt;length, 1)) =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0printerr(0, &quot;ERROR: get_krb5_hostbased_name failed &quot;<br=
+>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;to allocate %d bytes\n&quot;, n=
+ame-&gt;length);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;to allocate %zd bytes\n&quot;, =
+name-&gt;length);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* read in name and=
+ instance and replace &#39;/&#39; with &#39;@&#39; */<br>
++@@ -102,7 +102,7 @@ get_hostbased_client_name(gss_name_t client_name, gss_=
+OID mech,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (name.length &gt;=3D 0xffff) {=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /* don&#39;t overflow */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0printerr(0, &quot;E=
+RROR: get_hostbased_client_name: &quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&quot;received gss_name is too long (%d bytes)\n&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&quot;received gss_name is too long (%zd bytes)\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 name.length);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_rel_buf;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++diff --git a/utils/gssd/gss_util.c b/utils/gssd/gss_util.c<br>
++index a4b2777..7d41a94 100644<br>
++--- a/utils/gssd/gss_util.c<br>
+++++ b/utils/gssd/gss_util.c<br>
++@@ -304,7 +304,7 @@ gssd_acquire_cred(char *server_name, const gss_OID oid=
+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_name, &amp;pbuf, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ignore_maj_stat=
+ =3D=3D GSS_S_COMPLETE) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0printerr(1, &quot;Unable to obtain credentials for &#39;%.*s&#39;=
+\n&quot;,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pbuf.length, pbuf.value);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(int)pbuf.length, (char *)pbuf.value)=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ignore_maj_stat =3D gss_release_buffer(&amp;ignore_min_stat,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;pbuf);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++diff --git a/utils/gssd/gssd.c b/utils/gssd/gssd.c<br>
++index 833d8e0..380116a 100644<br>
++--- a/utils/gssd/gssd.c<br>
+++++ b/utils/gssd/gssd.c<br>
++@@ -518,9 +518,9 @@ scan_active_thread_list(void)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0do_error_=
+downcall(info-&gt;fd, info-&gt;uid, -ETIMEDOUT);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(inf=
+o-&gt;flags &amp; UPCALL_THREAD_WARNED)) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 printerr(0, &quot;watchdog: thread id 0x%lx running for %ld s=
+econds\n&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 printerr(0, &quot;watchdog: thread id 0x%lx running for %lld =
+seconds\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0info-&gt;tid,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 now.t=
+v_sec - info-&gt;timeout.tv_sec + upcall_timeout);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long=
+ long int)(now.tv_sec - info-&gt;timeout.tv_sec + upcall_timeout));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0info-&gt;flags |=3D UPCALL_THREAD_WARNED;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++diff --git a/utils/gssd/gssd_proc.c b/utils/gssd/gssd_proc.c<br>
++index ae568f1..574eb4b 100644<br>
++--- a/utils/gssd/gssd_proc.c<br>
+++++ b/utils/gssd/gssd_proc.c<br>
++@@ -168,7 +168,7 @@ do_downcall(int k5_fd, uid_t uid, struct authgss_priva=
+te_data *pd,<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (get_verbosity() &gt; 1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0printerr(2, &quot;d=
+o_downcall(0x%lx): lifetime_rec=3D%s acceptor=3D%.*s\n&quot;,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 tid, sec2time(lifetime_rec), acceptor-&gt;length, acceptor-&gt;value);<=
+br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 tid, sec2time(lifetime_rec), (int)acceptor-&gt;length, (char *)acceptor=
+-&gt;value);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0buf_size =3D sizeof(uid) + sizeof(timeout) + si=
+zeof(pd-&gt;pd_seq_win) +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(pd-&gt;pd_ct=
+x_hndl.length) + pd-&gt;pd_ctx_hndl.length +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(context_toke=
+n-&gt;length) + context_token-&gt;length +<br>
++@@ -284,14 +284,14 @@ populate_port(struct sockaddr *sa, const socklen_t s=
+alen,<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0port =3D nfs_getport(sa, salen, program, versio=
+n, protocol);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!port) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printerr(0, &quot;ERROR:=
+ unable to obtain port for prog %ld &quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;vers %ld\n&quot;, program, version);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printerr(0, &quot;ERROR:=
+ unable to obtain port for prog %lu &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;vers %lu\n&quot;, (long unsigned int)program, (long=
+ unsigned int)version);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++ <br>
++ set_port:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0printerr(2, &quot;DEBUG: setting port to %hu fo=
+r prog %lu vers %lu\n&quot;, port,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0program, version);=
+<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long unsigned int=
+)program, (long unsigned int)version);<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (sa-&gt;sa_family) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0case AF_INET:<br>
++diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c<br>
++index e3f270e..28f7d84 100644<br>
++--- a/utils/gssd/krb5_util.c<br>
+++++ b/utils/gssd/krb5_util.c<br>
++@@ -304,9 +304,9 @@ gssd_find_existing_krb5_ccache(uid_t uid, char *dirnam=
+e,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0score++;<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0printerr(3, &quot;CC &#39;%s&#39;(%s@%s) passed all checks and&qu=
+ot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; has mtime of %u\n&quot=
+;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; has mtime of %llu\n&qu=
+ot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf, princname, realm, <br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tmp_stat.st_mtime);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long unsigned)tmp_stat.st_mtime=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 * if more than one match is found, return the most<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 * recent (the one with the latest mtime), and<br>
++@@ -341,10 +341,10 @@ gssd_find_existing_krb5_ccache(uid_t uid, char *dirn=
+ame,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0printerr(3, &quot;CC &#39;%s:%s/%s&#3=
+9; is our &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&quot;current best match &quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
+quot;with mtime of %u\n&quot;,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cctype, d=
+irname,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
+quot;with mtime of %llu\n&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*cctype, =
+dirname,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 best_mat=
+ch_dir-&gt;d_name,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0best_matc=
+h_stat.st_mtime);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long lon=
+g unsigned)best_match_stat.st_mtime);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0free(princname);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0free(realm);<br>
++diff --git a/utils/gssd/svcgssd_proc.c b/utils/gssd/svcgssd_proc.c<br>
++index b403143..7fecd1a 100644<br>
++--- a/utils/gssd/svcgssd_proc.c<br>
+++++ b/utils/gssd/svcgssd_proc.c<br>
++@@ -102,10 +102,10 @@ do_svc_downcall(gss_buffer_desc *out_handle, struct =
+svc_cred *cred,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0qword_addint(&amp;bp, &amp;blen, cred-&gt;cr_ui=
+d);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0qword_addint(&amp;bp, &amp;blen, cred-&gt;cr_gi=
+d);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0qword_addint(&amp;bp, &amp;blen, cred-&gt;cr_ng=
+roups);<br>
++-=C2=A0 =C2=A0 =C2=A0 printerr(2, &quot;mech: %s, hndl len: %d, ctx len %d=
+, timeout: %d (%d from now), &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 printerr(2, &quot;mech: %s, hndl len: %zd, ctx len %=
+zd, timeout: %lld (%lld from now), &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;clnt: %s, ui=
+d: %d, gid: %d, num aux grps: %d:\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fname, out_handle-=
+&gt;length, context_token-&gt;length,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0endtime, endtime -=
+ time(0),<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long int)end=
+time, (long long int)(endtime - time(0)),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 client_name ? clie=
+nt_name : &quot;&lt;null&gt;&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cred-&gt;cr_uid, c=
+red-&gt;cr_gid, cred-&gt;cr_ngroups);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i=3D0; i &lt; cred-&gt;cr_ngroups; i++) {<=
+br>
++@@ -232,7 +232,7 @@ get_ids(gss_name_t client_name, gss_OID mech, struct s=
+vc_cred *cred)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (name.length &gt;=3D 0xffff || /* be certain=
+ name.length+1 doesn&#39;t overflow */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!(sname =3D calloc(name.length + =
+1, 1))) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printerr(0, &quot;WARNIN=
+G: get_ids: error allocating %d bytes &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printerr(0, &quot;WARNIN=
+G: get_ids: error allocating %zd bytes &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&quot;for sname\n&quot;, name.length + 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gss_release_buffer(=
+&amp;min_stat, &amp;name);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
++@@ -360,7 +360,7 @@ handle_nullreq(char *cp) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (in_handle.length !=3D 0) { /* CONTINUE_INIT=
+ case */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (in_handle.lengt=
+h !=3D sizeof(ctx)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0printerr(0, &quot;WARNING: handle_nullreq: &quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;input handle has unexpe=
+cted length %d\n&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;input handle has unexpe=
+cted length %zd\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0in_handle.length);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0goto out_err;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup=
+-for-nobody-group.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/000=
+2-Use-nogroup-for-nobody-group.patch<br>
+new file mode 100644<br>
+index 00000000000..3c238f851ba<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-no=
+body-group.patch<br>
+@@ -0,0 +1,38 @@<br>
++From 6095b5a9208eac37b73e05f81c090d8183138c6a Mon Sep 17 00:00:00 2001<br>
++From: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima.com" ta=
+rget=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++Date: Tue, 6 Jun 2023 16:07:53 -0600<br>
++Subject: [PATCH] Use &quot;nogroup&quot; for nobody group<br>
++<br>
++Upstream-Status: Inappropriate [oe-core specific, configuration]<br>
++Signed-off-by: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecim=
+a.com" target=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++---<br>
++ support/nfsidmap/idmapd.conf | 2 +-<br>
++ utils/idmapd/idmapd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
++ 2 files changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/support/nfsidmap/idmapd.conf b/support/nfsidmap/idmapd.conf<b=
+r>
++index 2a2f79a1..e6f3724f 100644<br>
++--- a/support/nfsidmap/idmapd.conf<br>
+++++ b/support/nfsidmap/idmapd.conf<br>
++@@ -41,7 +41,7 @@<br>
++ [Mapping]<br>
++ <br>
++ #Nobody-User =3D nobody<br>
++-#Nobody-Group =3D nobody<br>
+++#Nobody-Group =3D nogroup<br>
++ <br>
++ [Translation]<br>
++ <br>
++diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c<br>
++index cd9a965f..3be805e9 100644<br>
++--- a/utils/idmapd/idmapd.c<br>
+++++ b/utils/idmapd/idmapd.c<br>
++@@ -89,7 +89,7 @@<br>
++ #endif<br>
++ <br>
++ #ifndef NFS4NOBODY_GROUP<br>
++-#define NFS4NOBODY_GROUP &quot;nobody&quot;<br>
+++#define NFS4NOBODY_GROUP &quot;nogroup&quot;<br>
++ #endif<br>
++ <br>
++ /* From Niels */<br>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-pro=
+vided-Kerberos.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-f=
+ind-OE-provided-Kerberos.patch<br>
+new file mode 100644<br>
+index 00000000000..4f15aaec4ea<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-K=
+erberos.patch<br>
+@@ -0,0 +1,42 @@<br>
++From f4f4a226bfd71ddc0f53dd54159e3eaa835b18e6 Mon Sep 17 00:00:00 2001<br>
++From: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima.com" ta=
+rget=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++Date: Wed, 8 Nov 2023 16:24:20 -0600<br>
++Subject: [PATCH] find OE provided Kerberos<br>
++<br>
++Upstream-Status: Inappropriate [oe-core specific]<br>
++Signed-off-by: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecim=
+a.com" target=3D"_blank">daniel.mcgregor@vecima.com</a>&gt;<br>
++---<br>
++ aclocal/kerberos5.m4 | 6 ++++--<br>
++ 1 file changed, 4 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/aclocal/kerberos5.m4 b/aclocal/kerberos5.m4<br>
++index f96f0fd..ad85fdf 100644<br>
++--- a/aclocal/kerberos5.m4<br>
+++++ b/aclocal/kerberos5.m4<br>
++@@ -22,8 +22,8 @@ AC_DEFUN([AC_KERBEROS_V5],[<br>
++=C2=A0 =C2=A0 =C2=A0dnl This ugly hack brought on by the split installatio=
+n of<br>
++=C2=A0 =C2=A0 =C2=A0dnl MIT Kerberos on Fedora Core 1<br>
++=C2=A0 =C2=A0 =C2=A0K5CONFIG=3D&quot;&quot;<br>
++-=C2=A0 =C2=A0 if test -f $dir/bin/krb5-config; then<br>
++-=C2=A0 =C2=A0 =C2=A0 K5CONFIG=3D$dir/bin/krb5-config<br>
+++=C2=A0 =C2=A0 if test -f $dir/bin/crossscripts/krb5-config; then<br>
+++=C2=A0 =C2=A0 =C2=A0 K5CONFIG=3D$dir/bin/crossscripts/krb5-config<br>
++=C2=A0 =C2=A0 =C2=A0elif test -f &quot;/usr/kerberos/bin/krb5-config&quot;=
+; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0K5CONFIG=3D&quot;/usr/kerberos/bin/krb5-config&=
+quot;<br>
++=C2=A0 =C2=A0 =C2=A0elif test -f &quot;/usr/lib/mit/bin/krb5-config&quot;;=
+ then<br>
++@@ -72,6 +72,7 @@ AC_DEFUN([AC_KERBEROS_V5],[<br>
++=C2=A0 =C2=A0AC_MSG_RESULT($KRBDIR)<br>
++ <br>
++=C2=A0 =C2=A0dnl Check if -rpath=3D$(KRBDIR)/lib is needed<br>
+++=C2=A0 if false; then<br>
++=C2=A0 =C2=A0echo &quot;The current KRBDIR is $KRBDIR&quot;<br>
++=C2=A0 =C2=A0if test &quot;$KRBDIR/lib&quot; =3D &quot;/lib&quot; -o &quot=
+;$KRBDIR/lib&quot; =3D &quot;/usr/lib&quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 -o &quot;$KRBDIR/lib&quot; =3D &quot;//lib&quo=
+t; -o &quot;$KRBDIR/lib&quot; =3D &quot;/usr//lib&quot; ; then<br>
++@@ -81,6 +82,7 @@ AC_DEFUN([AC_KERBEROS_V5],[<br>
++=C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0KRBLDFLAGS=3D&quot;-Wl,-rpath=3D$KRBDIR/lib&quot;<br>
++=C2=A0 =C2=A0fi<br>
+++=C2=A0 fi<br>
++ <br>
++=C2=A0 =C2=A0dnl Now check for functions within gssapi library<br>
++=C2=A0 =C2=A0AC_CHECK_LIB($gssapi_lib, gss_krb5_export_lucid_sec_context,<=
+br>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.p=
+atch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch<b=
+r>
+index fde99b599eb..ff697477b08 100644<br>
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch<br=
+>
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch<br=
+>
+@@ -1,4 +1,4 @@<br>
+-From 1ab0c326405c6daa06f1a7eb4b0b60bf4e0584c2 Mon Sep 17 00:00:00 2001<br>
++From 7d04566b7b8e57114533360cc4b933a74ed6b314 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_b=
+lank">raj.khem@gmail.com</a>&gt;<br>
+=C2=A0Date: Tue, 31 Dec 2019 08:15:34 -0800<br>
+=C2=A0Subject: [PATCH] Detect warning options during configure<br>
+@@ -16,11 +16,14 @@ Upstream-Status: Pending<br>
+=C2=A0Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
+get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+<br>
+=C2=A0---<br>
+- support/nfs/xcommon.c | 3 +++<br>
+- 1 file changed, 3 insertions(+)<br>
++ support/nfs/xcommon.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 6 ++++++<br>
++ support/nfs/xlog.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +++=
++++<br>
++ support/nfsidmap/libnfsidmap.c | 3 +++<br>
++ utils/exportfs/exportfs.c=C2=A0 =C2=A0 =C2=A0 | 3 +++<br>
++ 4 files changed, 18 insertions(+)<br>
+<br>
+=C2=A0diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c<br>
+-index 3989f0b..e080423 100644<br>
++index 3989f0bc..ff438c18 100644<br>
+=C2=A0--- a/support/nfs/xcommon.c<br>
+=C2=A0+++ b/support/nfs/xcommon.c<br>
+=C2=A0@@ -98,7 +98,10 @@ nfs_error (const char *fmt, ...) {<br>
+@@ -34,3 +37,73 @@ index 3989f0b..e080423 100644<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0va_end (args);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0free (fmt2);<br>
+=C2=A0 }<br>
++@@ -132,7 +135,10 @@ die(int err, const char *fmt, ...) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_list args;<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_start(args, fmt);<br>
+++#pragma GCC diagnostic push<br>
+++#pragma GCC diagnostic ignored &quot;-Wformat-nonliteral&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vfprintf(stderr, fmt, args);<br>
+++#pragma GCC diagnostic pop<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_end(args);<br>
++ <br>
++diff --git a/support/nfs/xlog.c b/support/nfs/xlog.c<br>
++index fa125cef..dc4c9ea1 100644<br>
++--- a/support/nfs/xlog.c<br>
+++++ b/support/nfs/xlog.c<br>
++@@ -178,11 +178,16 @@ xlog_backend(int kind, const char *fmt, va_list args=
+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &qu=
+ot;%s: &quot;, log_name);<br>
++ #endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0va_copy(args2, args=
+);<br>
+++#pragma GCC diagnostic push<br>
+++#pragma GCC diagnostic ignored &quot;-Wformat-nonliteral&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vfprintf(stderr, fm=
+t, args2);<br>
+++#pragma GCC diagnostic pop<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &qu=
+ot;\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0va_end(args2);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++ <br>
+++#pragma GCC diagnostic push<br>
+++#pragma GCC diagnostic ignored &quot;-Wformat-nonliteral&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (log_syslog) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (kind) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case L_FATAL:<br>
++@@ -203,6 +208,7 @@ xlog_backend(int kind, const char *fmt, va_list args)<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++#pragma GCC diagnostic pop<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (kind =3D=3D L_FATAL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(1);<br>
++diff --git a/support/nfsidmap/libnfsidmap.c b/support/nfsidmap/libnfsidmap=
+.c<br>
++index 0a912e52..95eb64d2 100644<br>
++--- a/support/nfsidmap/libnfsidmap.c<br>
+++++ b/support/nfsidmap/libnfsidmap.c<br>
++@@ -99,7 +99,10 @@ static void default_logger(const char *fmt, ...)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_list vp;<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_start(vp, fmt);<br>
+++#pragma GCC diagnostic push<br>
+++#pragma GCC diagnostic ignored &quot;-Wformat-nonliteral&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vsyslog(LOG_WARNING, fmt, vp);<br>
+++#pragma GCC diagnostic pop<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_end(vp);<br>
++ }<br>
++ <br>
++diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c<br>
++index b03a047b..eac1ff2a 100644<br>
++--- a/utils/exportfs/exportfs.c<br>
+++++ b/utils/exportfs/exportfs.c<br>
++@@ -646,7 +646,10 @@ dumpopt(char c, char *fmt, ...)<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_start(ap, fmt);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0printf(&quot;%c&quot;, c);<br>
+++#pragma GCC diagnostic push<br>
+++#pragma GCC diagnostic ignored &quot;-Wformat-nonliteral&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vprintf(fmt, ap);<br>
+++#pragma GCC diagnostic pop<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_end(ap);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;,&#39;;<br>
++ }<br>
+diff --git a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-util=
+s_2.6.4.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.6.4.bb</a> b/m=
+eta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.6.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">nfs-utils_2.6.4.bb</a><br>
+index 3896fac6ed5..bb65ba33a74 100644<br>
+--- a/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.6.4=
+.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.6.4.bb</a><br>
++++ b/meta/recipes-connectivity/nfs-utils/<a href=3D"http://nfs-utils_2.6.4=
+.bb" rel=3D"noreferrer" target=3D"_blank">nfs-utils_2.6.4.bb</a><br>
+@@ -26,6 +26,9 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/utils/nfs-uti=
+ls/${PV}/nfs-utils-${PV}.tar.x<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-locktest-Makefile.am-=
+Do-not-use-build-flags.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-tools-locktest-Use-in=
+tmax_t-to-print-off_t.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-reexport.h-Include-un=
+istd.h-to-compile-with-musl.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-gssd-use-printf-forma=
+t-specifiers.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-Use-nogroup-for-nobod=
+y-group.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-find-OE-provided-Kerb=
+eros.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;01b3b0fb9c7d0bbabf5114c736542030748c788e=
+c2fd9734744201e9b0a1119d&quot;<br>
+<br>
+@@ -49,10 +52,9 @@ EXTRA_OECONF =3D &quot;--with-statduser=3Drpcuser \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-moun=
+tconfig \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-libm=
+ount-mount \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-uuid=
+ \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-gss \<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-nfsdcltr=
+ack \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-sbi=
+n-override \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-statdp=
+ath=3D/var/lib/nfs/statd \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --with-pluginpath=
+=3D${libdir}/libnfsidmap \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-rpcgen=
+=3D${HOSTTOOLS_DIR}/rpcgen \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+@@ -61,13 +63,16 @@ LDFLAGS:append =3D &quot; -lsqlite3 -levent&quot;<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;tcp-wrappers \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;ipv6=
+ systemd&#39;, d)} \<br>
+=C2=A0&quot;<br>
++<br>
+=C2=A0PACKAGECONFIG:remove:libc-musl =3D &quot;tcp-wrappers&quot;<br>
++#krb5 is available in meta-oe<br>
++PACKAGECONFIG[gssapi] =3D &quot;--with-krb5=3D${STAGING_EXECPREFIXDIR} --e=
+nable-gss --enable-svcgss,--disable-gss --disable-svcgss,krb5&quot;<br>
+=C2=A0PACKAGECONFIG[tcp-wrappers] =3D &quot;--with-tcp-wrappers,--without-t=
+cp-wrappers,tcp-wrappers&quot;<br>
+=C2=A0PACKAGECONFIG[ipv6] =3D &quot;--enable-ipv6,--disable-ipv6,&quot;<br>
+=C2=A0# libdevmapper is available in meta-oe<br>
+=C2=A0PACKAGECONFIG[nfsv41] =3D &quot;--enable-nfsv41,--disable-nfsv41,libd=
+evmapper,libdevmapper&quot;<br>
+=C2=A0# keyutils is available in meta-oe<br>
+-PACKAGECONFIG[nfsv4] =3D &quot;--enable-nfsv4,--disable-nfsv4,keyutils,pyt=
+hon3-core&quot;<br>
++PACKAGECONFIG[nfsv4] =3D &quot;--enable-nfsv4 --enable-nfsdcltrack,--disab=
+le-nfsv4 --disable-nfsdcltrack,keyutils,python3-core&quot;<br>
+=C2=A0PACKAGECONFIG[systemd] =3D &quot;--with-systemd=3D${systemd_unitdir}/=
+system,--without-systemd&quot;<br>
+<br>
+=C2=A0PACKAGES =3D+ &quot;${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl=
+&quot;<br>
+@@ -76,19 +81,34 @@ CONFFILES:${PN}-client +=3D &quot;${localstatedir}/lib/=
+nfs/etab \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir}/lib/nfs/rmtab \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir}/lib/nfs/xtab \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir}/lib/nfs/statd/state \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ${sysconfdir}/idmapd.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/nfs.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/nfsmount.conf&quot;<br>
+<br>
+=C2=A0FILES:${PN}-client =3D &quot;${sbindir}/*statd \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${libdir}/libnfsidmap.so.* \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${sbindir}/showmount ${sbindir}/nfsstat \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${sbindir}/rpc.gssd \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${sbindir}/nfsconf \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${libdir}/libnfsidmap.so.* \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${libdir}/libnfsidmap/*.so \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${libexecdir}/nfsrahead \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${localstatedir}/lib/nfs \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${sysconfdir}/idmapd.conf \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${sysconfdir}/init.d/nfscommon \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${sysconfdir}/nfs.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ${sysconfdir}/nfsmount.conf \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${sysconfdir}/init.d/nfscommon \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/nfs-statd.service&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/auth-rpcgss-module.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/nfs-client.target \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/nfs-idmapd.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/nfs-statd.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/nfscommon.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/rpc-gssd.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/rpc-statd-notify.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/rpc-statd.service \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/rpc_pipefs.target \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${systemd_system_unitdir}/var-lib-nfs-rpc_pipefs.mount \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0${nonarch_libdir}/udev/rules.d/*&quot;<br>
+=C2=A0RDEPENDS:${PN}-client =3D &quot;${PN}-mount rpcbind&quot;<br>
+<br>
+=C2=A0FILES:${PN}-mount =3D &quot;${base_sbindir}/*mount.nfs*&quot;<br>
+@@ -104,8 +124,8 @@ FILES:${PN}-staticdev +=3D &quot;${libdir}/libnfsidmap/=
+*.a&quot;<br>
+=C2=A0FILES:${PN} +=3D &quot;${systemd_unitdir} ${libdir}/libnfsidmap/ ${no=
+narch_libdir}/modprobe.d&quot;<br>
+<br>
+=C2=A0do_configure:prepend() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,sbindir =3D /sbin,sbindir =3D =
+${base_sbindir},g&#39; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/utils/mount/Ma=
+kefile.am<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,udev_rulesdir =3D /usr/lib/ude=
+v/rules.d/,udev_rulesdir =3D ${nonarch_base_libdir}/udev/rules.d/,g&#39; \<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/systemd/Makefile.am ${S}/too=
+ls/nfsrahead/Makefile.am<br>
+=C2=A0}<br>
+<br>
+=C2=A0# Make clean needed because the package comes with<br>
+@@ -122,6 +142,7 @@ do_install:append () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/nfsserver ${D}${sysc=
+onfdir}/init.d/nfsserver<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/nfscommon ${D}${sysc=
+onfdir}/init.d/nfscommon<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${S}/support/nfsidmap/idmapd.co=
+nf ${D}${sysconfdir}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/nfs.conf ${D}${sysconfdir}=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${systemd_system_unitdir}<br>
+-- <br>
+2.41.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#197618): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/197618" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/197618</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105209256/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/105209256/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000006db36e0614c5fe07--
 
