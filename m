@@ -1,133 +1,138 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 705E1C6FD1F
-	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 16:07:56 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.137.1711728469716725418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89058CD128D
+	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 16:17:56 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.410.1711729067687647482
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Mar 2024 09:07:49 -0700
+ Fri, 29 Mar 2024 09:17:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=msy7Z8l3;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e6afb754fcso2005637b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 09:07:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O/q2hkXg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.182, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d718ee7344so9294121fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 09:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711728469; x=1712333269; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nEDJp35/YOKYAhSSsZx3+tVzeiQfuBihqRqVHMSKBqg=;
-        b=msy7Z8l3iimZJF8bb4mq9y/FF6OeC4e7CwX1aVKPMtf6+aBRPveH/wYjEekWa5Ca4K
-         8pjBWRrIti1zDkwlPpms6fGdG8lvtv6VMF/lKsKqPf73i09jjUpkAFxnFnbmvhZYaEAc
-         xd/Hts457l/mrbZVLKU4m2ISugdsHnVeNXsD2K+A1mHNqJjfo50lP4r04VSotea3FFVW
-         0R0lOvSyJIDI+k9Co6mIpKv8lE0A7CTU/aGs7XeppvV5cTZsDOt25xp+lRSvXTDBTx/U
-         xpQZJBNJGkptiJMgmEbzxmio2aR8yHe5fji2nA0b/Tjh9NMCs0b7LNE0eJ0qLPwkB746
-         8etw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711728469; x=1712333269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1711729065; x=1712333865; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nEDJp35/YOKYAhSSsZx3+tVzeiQfuBihqRqVHMSKBqg=;
-        b=MUia46O9YBvr3ktC6qHdU7R9YAEwX6u/OtBHKYL4Yvm8i1aKfOKtDLglTayp93zV2N
-         C9hAe29a8ubPxB7yUQjMi3vOzT8jQ3JiZkJcZso97mvARQ+qCIFMQfps1ZYiiOx94+A9
-         z08QKAxQRbB6U6M+P+OQ9nACq/X5MO/KCNqYird7xWW3tgFH0Mo0wtPODKxIoq7Cyn1u
-         UKr36qRABL6DDkc3l8Xj/S6V2UILNZmk6FeLChsD2AfrTlmI84BE2P8pE63P6SvNeYn6
-         v3PoIDe5orViO7RSeYp24YARdCsd2IL2gF0RD4LrvdxU6B+4xn3byJfGqfbojQAI7Qby
-         Np5Q==
-X-Gm-Message-State: AOJu0YwAFT4ycoicSPWVKe+TiMl1350VQBw4haZupieh6NPRvsQlSHX4
-	n5HDS4ysKM5vuAP2qmA+H+Il24QM44R6DwhACmTNlg9Q9k293wxkB7VSEVhc
-X-Google-Smtp-Source: AGHT+IFh7TphGrtCs0NrOLXMV1DvR9PROfCIwpvzE581p/OuN83+l1Te7pHT0pTn8Pw6bOHs7/w5fw==
-X-Received: by 2002:a05:6a21:7898:b0:1a1:6803:69a3 with SMTP id bf24-20020a056a21789800b001a1680369a3mr2805200pzc.0.1711728468688;
-        Fri, 29 Mar 2024 09:07:48 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::dfbb])
-        by smtp.gmail.com with ESMTPSA id x1-20020a17090ab00100b0029de90f4d44sm5370541pjq.9.2024.03.29.09.07.48
+        bh=Kgi+JRHNTGLitdNxMNuuVo1P43xvDMB57eA3DxF4rD8=;
+        b=O/q2hkXgyguk2Z0Wm/GuoAarcPm/qXD1c4juq6Ejl2d6ddmGRSYosOoKlZjqwrrgAx
+         /VHFVK0n3Cw6FLi25F25zmcuWFu0H00b/v3UXlyBEQOcxb8t/N2/fxQ2L7v0x2zh8hwC
+         FVIk95U7vKJXPGKEvEJB6hB4YNotInx8s0IpY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711729065; x=1712333865;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kgi+JRHNTGLitdNxMNuuVo1P43xvDMB57eA3DxF4rD8=;
+        b=bJjfcaB97/h17puriE7hdt5o2twvgUWO7Y1fMvw5xu7SK9ltY8EqMzBX9ZO6g6dapb
+         0geWa6PnIN9hgCQenR2eh6smzxKuJSwgrEmxbAlYFUv8WV+9e8JJEigQnE66leeQgW4T
+         2YCoZOGbSWJ3CarKbQ23lzrIZUyBGAuN4nyXMK5N2OCXg/6FjFtxt8MRcnVXDjVv+49R
+         dRYuRXJtPodn+v2tOw6Sgm3olMMzbQeNlyZTyTnDNjt2J/m3JtxszPR/FqXhlfkz2TX2
+         uFU6usAZ+O1+7mrwwu2DfUNIUb8m1LxxCAA7megBNcsKCNJ27CoT/NgpK7BQfbwNnSSy
+         IVDg==
+X-Gm-Message-State: AOJu0Yy3QnN3M/bXxmTRtndmLhZsCT4IWh9qP8pNaZ6enyQvC7ou4FYi
+	uo2IVoQ2PION6PN49OHdDPCEksZ81SrmysJviKhpYabop61hkkvB780uAmtiEYSeEf1dXFbZFoy
+	B
+X-Google-Smtp-Source: AGHT+IEWH2HPxwonx8C1Z8cxH+SS/NPwTMqBtcUvkHVhkfRJRewt5XVwni1J/nHoLbLfBjKOOX/eFA==
+X-Received: by 2002:a2e:a4c1:0:b0:2d7:b78:4109 with SMTP id p1-20020a2ea4c1000000b002d70b784109mr1331000ljm.53.1711729065486;
+        Fri, 29 Mar 2024 09:17:45 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fdd:6f2d:e3d5:9b0e])
+        by smtp.gmail.com with ESMTPSA id g16-20020a05600c311000b004148670f9ecsm5954702wmo.23.2024.03.29.09.17.44
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 09:07:48 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Fri, 29 Mar 2024 09:17:45 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] mesa: Drop LLVM-17 patch
-Date: Fri, 29 Mar 2024 09:07:46 -0700
-Message-ID: <20240329160746.1787388-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.44.0
+Subject: [PATCH 3/3] run-postinsts: Add workaround for locking deadlock issue
+Date: Fri, 29 Mar 2024 16:17:42 +0000
+Message-Id: <20240329161742.910250-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240329161742.910250-1-richard.purdie@linuxfoundation.org>
+References: <20240329161742.910250-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 16:07:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197639
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 16:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197642
 
-This patch is no longer needed with llvm/clang 18+
+When run-postinsts is installed, a service is added for system which can run
+while the package is still being installed. This calls "opkg configure" and if
+package management is still running, it can deadlock and error.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+To work around this, call fcntl-lock on the opkg lock file and if the lock
+was held, it would wait to obtain it. This wait gives the package management
+time to finish the install before the configure can then take the lock and run.
+
+Note the dependency in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS otherwise we'd see
+sstate selftest failures.
+
+Also ensure that if the configure fails, the scripts returns an error. This
+applies to opkg and dpkg.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-gallium-Fix-build-with-llvm-17.patch | 40 -------------------
- meta/recipes-graphics/mesa/mesa.inc           |  1 -
- 2 files changed, 41 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+ meta/conf/layer.conf                                  |  1 +
+ .../run-postinsts/run-postinsts/run-postinsts         | 11 +++++++++--
+ .../run-postinsts/run-postinsts_1.0.bb                |  2 ++
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-deleted file mode 100644
-index ceb0153f8d3..00000000000
---- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 3e1e5c475b52651657c906e6b03ee13567cccdd7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 23 Jun 2023 01:20:38 -0700
--Subject: [PATCH] gallium: Fix build with llvm 17
--
--These headers are not available for C files in llvm 17+
--and they seem to be not needed to compile after all with llvm 17
--so add conditions to exclude them for llvm >= 17
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/auxiliary/gallivm/lp_bld_init.c
--index cd2108f..b1a4d03 100644
----- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
--+++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
--@@ -46,15 +46,19 @@
-- #if GALLIVM_USE_NEW_PASS == 1
-- #include <llvm-c/Transforms/PassBuilder.h>
-- #elif GALLIVM_HAVE_CORO == 1
--+#if LLVM_VERSION_MAJOR < 17
-- #include <llvm-c/Transforms/Scalar.h>
---#if LLVM_VERSION_MAJOR >= 7
--+#endif
--+#if LLVM_VERSION_MAJOR >= 7 && LLVM_VERSION_MAJOR < 17
-- #include <llvm-c/Transforms/Utils.h>
-- #endif
-- #if LLVM_VERSION_MAJOR <= 8 && (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
-- #include <llvm-c/Transforms/IPO.h>
-- #endif
--+#if LLVM_VERSION_MAJOR < 17
-- #include <llvm-c/Transforms/Coroutines.h>
-- #endif
--+#endif
-- 
-- unsigned gallivm_perf = 0;
-- 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a8088e6fb6a..6e961900845 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,7 +17,6 @@ PE = "2"
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
--           file://0001-gallium-Fix-build-with-llvm-17.patch \
-            file://0001-drisw-fix-build-without-dri3.patch \
-            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
-            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 62f86f361ad..efbf2610f99 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -87,6 +87,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   sato-icon-theme->gtk+3 \
+   adwaita-icon-theme->gdk-pixbuf \
+   adwaita-icon-theme->gtk+3 \
++  run-postinsts->util-linux \
+ "
+ 
+ # Avoid adding bison-native to the sysroot without a specific
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index 95dccb9cae1..1f3e692029c 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -81,11 +81,18 @@ remove_rcsd_link=1
+ if $pm_installed; then
+ 	case $pm in
+ 		"ipk")
+-			eval opkg configure $append_log
++			if ! `fcntl-lock --wait 30 /run/opkg.lock true`; then
++				eval echo "Unable to obtain the opkg lock, deadlock?" $append_log
++			fi
++			if ! eval "opkg configure $append_log"; then
++			    exit 1
++			fi
+ 			;;
+ 
+ 		"deb")
+-			eval dpkg --configure -a $append_log
++			if ! eval "eval dpkg --configure -a $append_log"; then
++			    exit 1
++			fi
+ 			;;
+ 	esac
+ else
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+index 72ba8c02270..e977942de87 100644
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+@@ -12,6 +12,8 @@ S = "${WORKDIR}"
+ 
+ inherit allarch systemd update-rc.d
+ 
++RDEPENDS:${PN} = "util-linux-fcntl-lock"
++
+ INITSCRIPT_NAME = "run-postinsts"
+ INITSCRIPT_PARAMS = "start 99 S ."
+ 
 -- 
-2.44.0
+2.40.1
 
 
