@@ -2,129 +2,125 @@ Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D2CD1288
-	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 00:00:33 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.web11.6450.1711670428731419542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AF0CD1284
+	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 01:24:33 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web10.7696.1711675465691071077
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 17:00:28 -0700
+ Thu, 28 Mar 2024 18:24:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BTPBJLnN;
- spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: danismostlikely@gmail.com)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a15449303so17143627b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:00:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U3G0INrd;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: danismostlikely@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7d031abe8f8so52510939f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 18:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711670428; x=1712275228; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hTVpBqxJb5wBfT/JVvit916IAuMNvb9n4zjALinrkxI=;
-        b=BTPBJLnNqVVornSh2K/2dyRsRyfG2pgZJ7GbnaoYoV43rtoDXYJ1fof1+8kZD2bquv
-         Vrqts2Sd4lvF0I+c8Gb+ikQpve5Q6/vGuZlq8TMnQWvd26seshW4rIwfmPwr9gxYlqWE
-         iGY92uNet3/I6QwIS/hORxp4WNhpPdukOlKKowRIrzHiTjJS1R5JmgcHv6PfnRVHeHGy
-         zQb/+5CEk+22vVUDr/6dOLOOVgDxNCBKHKntPNYhdN6GFaXBvyOSd82D9diOfPRLGmR2
-         SDnF6aFlZSKBYDKNN63/PGdepgtnm+umMr6WjMCl/C0LYLOuo9/kHt0c9hWf4T2lWyQv
-         q1LQ==
+        d=gmail.com; s=20230601; t=1711675464; x=1712280264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0r3nKQ94H17sYgp+iRQ+qEjvkxEIEyXzvEY1Emk6BRA=;
+        b=U3G0INrdVqaWPHOHRdwpVOAYbLeieJ7D6aKzzdoJT0f2V0whfF00jKTHcS9S01h6B2
+         J+Y0Q8FxYkmnUVwbfCkGXupwJcBKt5nqhLar4DzLTx15VY9B4RokpxJZjAC5VyEZj1YT
+         Oy4uZEZ5Jd49O0e+fDCe9pSxv3RqCMWHSaxChfk4YY6xiNuYSZWYYLmwlhXYteStNine
+         BLDSvsX1AlVz/LjMJKH5yUvSKui3Xa7QRbOoz7fkvz0tHtl4w0G/FX/kEtOK95Yb5LS6
+         QQpujID1npQSoUk3GNexRAeXTFcixeUXlQhih4y04NkI1TEMjxpQpgz+xt5puKVUgFEo
+         oX/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711670428; x=1712275228;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1711675464; x=1712280264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hTVpBqxJb5wBfT/JVvit916IAuMNvb9n4zjALinrkxI=;
-        b=PuDx9sRBRXkxQ5UFelB/Z5NNgAuZcPr2sRrSGCWQ3CMfGI3jPDVPCFBFqXpChgns3e
-         /rsHebSpQ0hsJX0h4UrhGeUOvdwncudJDM8Z6c8RnPkh03lGYgfcCsdm1b88E1fJX/G8
-         T0FIsagC3bUPTmOX5yAoh06y7R9o6Lqlzvscz23z6Aldq9uae8/lJ/Op9WjLwv68zvyw
-         pmLi5P9vY84BsTVM1/DkFflC8jX8bOK/81/MX6OAdY4ASdAY1EaRQWxJnLvAooyRWdkq
-         23aBVfz70vvQp0SR7M9FIHVCsVnNsp1vXxSBcwKd74G+WfNfrlL4trkiQfueLiysprTg
-         A79g==
-X-Gm-Message-State: AOJu0YzdmDz8RpxHKut/6c3NSGDET7AINRAcXnQW6WznLtnJPBEQQuSK
-	mdaFg8D4MKKDgjfBgfAMJdw6Nhe/P9l5Lti9xkIfxhTzaTK49Hj44FFOlwkaonyGpWGhWbJ1hfl
-	4BrHawN3AW8L1zhydoVxm6JfLolg=
-X-Google-Smtp-Source: AGHT+IHVhqIM6xSiOXipNcH6HQLXeUucyiyomIS/3Cxd+gVLaNM07L96A7ihxskI1+mxYyw9ePnbLjRQKhQlrUp6GdU=
-X-Received: by 2002:a81:6cd7:0:b0:613:ecca:78ce with SMTP id
- h206-20020a816cd7000000b00613ecca78cemr1007880ywc.30.1711670427837; Thu, 28
- Mar 2024 17:00:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240328231950.818134-1-danismostlikely@gmail.com>
- <20240328231950.818134-4-danismostlikely@gmail.com> <6bdf10c7c7722322c467ecbb0247957b36616e6f.camel@linuxfoundation.org>
-In-Reply-To: <6bdf10c7c7722322c467ecbb0247957b36616e6f.camel@linuxfoundation.org>
+        bh=0r3nKQ94H17sYgp+iRQ+qEjvkxEIEyXzvEY1Emk6BRA=;
+        b=kYjU776mDjN8qGnyK3oLq9w5ZgwYMvmgBkzMC4RBKUYRvt8/IpSXneppJDwJaZJUdH
+         P0M7QGhkC8/9hcbY5np7e/BDv/oILjMAr/agcM6cfJg/n0U/z4/GwcRjHDhRLWM8ODDO
+         sPGwQYuhdU8mFy3HNDkM2/tiAEv4K+ZKmueh9mJG552CUIXMVLRowhgxp4Fl5ZreCrqg
+         dmdCSBSoHr2QVSlWbbIUA413nAq45Qg+a4C20x2KM3BhTqbEh+AyfRWI5pEuWszI+Ohd
+         3nnxnr0nPNhzh7ZLh3wlnY1fxtIRqVB/K1//q2UZ+nlLRxe9vWVjrcZ/h88V1emcYqfV
+         Za7g==
+X-Gm-Message-State: AOJu0YzMCJDL+mVoq0lf1AYutpaJdUIir36ooXfumU4OVpKNoWDVtVuI
+	9k5e6EsYf40kU2GwdgR+8CbCptUZuRhfTHR3gm2ViCdq1bi4bw/bAHXzVK/D8/A=
+X-Google-Smtp-Source: AGHT+IGaM1OrtTZwWsJ2cMxes9btaYstsXXYn655ixCN0vPpKHufbMlCO87U5gNy+ADxe5LmwuA6vw==
+X-Received: by 2002:a5d:848a:0:b0:7d0:785e:f1f7 with SMTP id t10-20020a5d848a000000b007d0785ef1f7mr3072910iom.2.1711675464618;
+        Thu, 28 Mar 2024 18:24:24 -0700 (PDT)
+Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
+        by smtp.gmail.com with ESMTPSA id t21-20020a028795000000b0047c0d5be2casm694756jai.24.2024.03.28.18.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 18:24:24 -0700 (PDT)
 From: Dan McGregor <danismostlikely@gmail.com>
-Date: Thu, 28 Mar 2024 18:00:15 -0600
-Message-ID: <CACS+7ZSrQs_An=LMvnQdjFG7rkvke8+cvOVOEW7HmN_7OwvaaA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Daniel McGregor <daniel.mcgregor@vecima.com>
-Content-Type: multipart/alternative; boundary="000000000000d2f0bf0614c15326"
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
+Subject: [PATCH v5 1/3] nfs-utils: clean up startup
+Date: Thu, 28 Mar 2024 19:24:10 -0600
+Message-ID: <20240329012413.892379-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 00:00:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197615
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 01:24:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197616
 
---000000000000d2f0bf0614c15326
-Content-Type: text/plain; charset="UTF-8"
+From: Daniel McGregor <daniel.mcgregor@vecima.com>
 
-On Thu, Mar 28, 2024, 17:39 Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Change the sysvinit script to start at the S runlevel, this matches
+Debian, and prevents systemd from generating a unit file for it.
+Also have the nfsd systemd service request the nfsd kernel filesystem
+mountpoint. This avoids startup failures in unpriviled containers
+or other setups that don't support the filesystem.
 
-> On Thu, 2024-03-28 at 17:17 -0600, Dan McGregor wrote:
-> > From: Daniel McGregor <daniel.mcgregor@vecima.com>
-> >
-> > Add support for the nfsv4 user ID mapping daemon, configured with
-> > a sensible default, and add a packageconfig for Kerberos support.
-> >
-> > This is reasonably tested in production in our environment, but only
-> > systemd support. There'll be some more work to do to get GSSAPI and
-> > NFS idmapd support integreated into that.
->
-> Something in the series caused a failure in testing:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/9103/steps/13/logs/stdio
+Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+---
+ meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon | 4 ++--
+ meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb  | 9 ++++-----
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+index 992267d5a16..4c1ad17c3c6 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+@@ -3,7 +3,7 @@
+ # Provides:          nfs-common
+ # Required-Start:    $portmap hwclock
+ # Required-Stop:     $portmap hwclock
+-# Default-Start:     2 3 4 5
++# Default-Start:     S
+ # Default-Stop:      0 1 6
+ # Short-Description: NFS support for both client and server
+ # Description:       NFS is a popular protocol for file sharing across
+@@ -20,7 +20,7 @@
+ . /etc/init.d/functions
+ 
+ test -x "$NFS_STATD" || NFS_STATD=/usr/sbin/rpc.statd
+-test -z "$STATD_PID" && STATD_PID=/var/run/rpc.statd.pid
++test -z "$STATD_PID" && STATD_PID=/run/rpc.statd.pid
+ #
+ # The default state directory is /var/lib/nfs
+ test -n "$NFS_STATEDIR" || NFS_STATEDIR=/var/lib/nfs
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+index 2f2644f9a83..527fcd609c1 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+@@ -132,15 +132,14 @@ do_install:append () {
+ 	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_system_unitdir}/
+ 	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_system_unitdir}/
+ 	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_system_unitdir}/
++	install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
+ 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+ 		-e 's,@HIGH_RLIMIT_NOFILE@,${HIGH_RLIMIT_NOFILE},g' \
+ 		${D}${systemd_system_unitdir}/*.service
+-	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-		install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/
+-		install -d ${D}${systemd_system_unitdir}/sysinit.target.wants/
+-		ln -sf ../proc-fs-nfsd.mount ${D}${systemd_system_unitdir}/sysinit.target.wants/proc-fs-nfsd.mount
+-	fi
++	# Add compatibility symlinks for the sysvinit scripts
++	ln -s nfs-server.service ${D}${systemd_system_unitdir}/nfsserver.service
++	ln -s /dev/null ${D}${systemd_system_unitdir}/nfscommon.service
+ 
+ 	# kernel code as of 3.8 hard-codes this path as a default
+ 	install -d ${D}/var/lib/nfs/v4recovery
+-- 
+2.41.0
 
-Thanks. This is what I get for not testing the no-systemd case. I know
-exactly what the issue is.
-
->
->
-
---000000000000d2f0bf0614c15326
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Mar 28, 2024, 17:39 Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2024-=
-03-28 at 17:17 -0600, Dan McGregor wrote:<br>
-&gt; From: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima.com=
-" target=3D"_blank" rel=3D"noreferrer">daniel.mcgregor@vecima.com</a>&gt;<b=
-r>
-&gt; <br>
-&gt; Add support for the nfsv4 user ID mapping daemon, configured with<br>
-&gt; a sensible default, and add a packageconfig for Kerberos support.<br>
-&gt; <br>
-&gt; This is reasonably tested in production in our environment, but only<b=
-r>
-&gt; systemd support. There&#39;ll be some more work to do to get GSSAPI an=
-d<br>
-&gt; NFS idmapd support integreated into that.<br>
-<br>
-Something in the series caused a failure in testing:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/23/build=
-s/9103/steps/13/logs/stdio" rel=3D"noreferrer noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/9103/ste=
-ps/13/logs/stdio</a></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Thanks. This is what I get for not testing the no-systemd c=
-ase. I know exactly what the issue is.</div><div dir=3D"auto"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><br></blockquote></div></div><=
-div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---000000000000d2f0bf0614c15326--
 
