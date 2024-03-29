@@ -1,94 +1,130 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE07CD1288
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 23:40:03 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.5990.1711669198564029980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D2CD1288
+	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 00:00:33 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web11.6450.1711670428731419542
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 16:39:58 -0700
+ Thu, 28 Mar 2024 17:00:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZzcucEfF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4149529f410so14198915e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 16:39:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BTPBJLnN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: danismostlikely@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a15449303so17143627b3.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 17:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1711669197; x=1712273997; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1QoJP+RzZIRKy9eTgXLhxkOV5FCrVfhAtuyX92yxmg0=;
-        b=ZzcucEfFTYtw9/UhvJ43WncwMCje9aEQtreP5y3q9kxJd+PUYHferQdpwUTDwLP2Vr
-         xpH0rp2xSdeYKsxl9aB8ZnCalzn0LI4TOYRIQSsIB8u+mZ1eaHfB2VLaeUyzg3LsIiB8
-         LHD1DkCqn1Am2O4cY7dbm7PlIugXlg2+GetRo=
+        d=gmail.com; s=20230601; t=1711670428; x=1712275228; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTVpBqxJb5wBfT/JVvit916IAuMNvb9n4zjALinrkxI=;
+        b=BTPBJLnNqVVornSh2K/2dyRsRyfG2pgZJ7GbnaoYoV43rtoDXYJ1fof1+8kZD2bquv
+         Vrqts2Sd4lvF0I+c8Gb+ikQpve5Q6/vGuZlq8TMnQWvd26seshW4rIwfmPwr9gxYlqWE
+         iGY92uNet3/I6QwIS/hORxp4WNhpPdukOlKKowRIrzHiTjJS1R5JmgcHv6PfnRVHeHGy
+         zQb/+5CEk+22vVUDr/6dOLOOVgDxNCBKHKntPNYhdN6GFaXBvyOSd82D9diOfPRLGmR2
+         SDnF6aFlZSKBYDKNN63/PGdepgtnm+umMr6WjMCl/C0LYLOuo9/kHt0c9hWf4T2lWyQv
+         q1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711669197; x=1712273997;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1QoJP+RzZIRKy9eTgXLhxkOV5FCrVfhAtuyX92yxmg0=;
-        b=lBcJETw/nconffRq4CXgtXEVQnZ9LwKm4NetJST4IAwuFBLI/4mgZnD48dGJyLn7LO
-         P7LO25J6BD6Y7/sKN3cl7uL19KgRjnCJrclw8o/R1/0D+m94D+Vw2K4+vpumai9HWrAz
-         dVI2jZ6Ctd4enEb1+s1dswxkpqcy0FvPn3AZAbyKXMcZGkT/9lAepZ6Nk+aBrmdCV1ml
-         rrtsu/bv6Ei7lur5GzeTQSmFNmEJQK6CdKh26GQH2qrgVFpR2IAU8IrwDnLdMSuMgzPi
-         dn4DXc7rZwzz4t7cy3rhoB6elWJOIf/UAc0fweSjrCrCOIuwhF+cUThR2H3FKAF9huxi
-         DKhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUVKEiuCodPPHJ8j2YIEOA9g4MbNn0lpLR5eM/wp46aeFsPz/scDfphokw/FgkJmMlHyUWgDIoX/BDHBwLvEryG9uHLrH2BdlJ2k1Y8sgrGcKPfhbhIxjF
-X-Gm-Message-State: AOJu0YypHwSNpu/09aPpCZTgdPbhg7NgvUR9IoAYOoJ4lEXdkQqBezly
-	YM4+y1ihAhT9tLULDSekL//aH6DCRFsvlT/ylrGTK90Q027Bgu0DwwiNajTtUEs=
-X-Google-Smtp-Source: AGHT+IFxExXFTEzgk0uHRaX5Zfk2BpSeG4hS94VUzuSXZFz014/mTubkisZSc/LC1bTyQMZMbqiLfQ==
-X-Received: by 2002:a05:6000:228:b0:33e:cf33:65bf with SMTP id l8-20020a056000022800b0033ecf3365bfmr368122wrz.35.1711669196962;
-        Thu, 28 Mar 2024 16:39:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fdd:6f2d:e3d5:9b0e? ([2001:8b0:aba:5f3c:fdd:6f2d:e3d5:9b0e])
-        by smtp.gmail.com with ESMTPSA id n2-20020a5d4002000000b00341ce4a3bd6sm2841568wrp.13.2024.03.28.16.39.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 16:39:56 -0700 (PDT)
-Message-ID: <6bdf10c7c7722322c467ecbb0247957b36616e6f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 3/3] nfs-utils: Configure nfsv4 ID mapping
- & Kerberos
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dan McGregor <danismostlikely@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Date: Thu, 28 Mar 2024 23:39:55 +0000
-In-Reply-To: <20240328231950.818134-4-danismostlikely@gmail.com>
-References: <20240328231950.818134-1-danismostlikely@gmail.com>
-	 <20240328231950.818134-4-danismostlikely@gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1711670428; x=1712275228;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hTVpBqxJb5wBfT/JVvit916IAuMNvb9n4zjALinrkxI=;
+        b=PuDx9sRBRXkxQ5UFelB/Z5NNgAuZcPr2sRrSGCWQ3CMfGI3jPDVPCFBFqXpChgns3e
+         /rsHebSpQ0hsJX0h4UrhGeUOvdwncudJDM8Z6c8RnPkh03lGYgfcCsdm1b88E1fJX/G8
+         T0FIsagC3bUPTmOX5yAoh06y7R9o6Lqlzvscz23z6Aldq9uae8/lJ/Op9WjLwv68zvyw
+         pmLi5P9vY84BsTVM1/DkFflC8jX8bOK/81/MX6OAdY4ASdAY1EaRQWxJnLvAooyRWdkq
+         23aBVfz70vvQp0SR7M9FIHVCsVnNsp1vXxSBcwKd74G+WfNfrlL4trkiQfueLiysprTg
+         A79g==
+X-Gm-Message-State: AOJu0YzdmDz8RpxHKut/6c3NSGDET7AINRAcXnQW6WznLtnJPBEQQuSK
+	mdaFg8D4MKKDgjfBgfAMJdw6Nhe/P9l5Lti9xkIfxhTzaTK49Hj44FFOlwkaonyGpWGhWbJ1hfl
+	4BrHawN3AW8L1zhydoVxm6JfLolg=
+X-Google-Smtp-Source: AGHT+IHVhqIM6xSiOXipNcH6HQLXeUucyiyomIS/3Cxd+gVLaNM07L96A7ihxskI1+mxYyw9ePnbLjRQKhQlrUp6GdU=
+X-Received: by 2002:a81:6cd7:0:b0:613:ecca:78ce with SMTP id
+ h206-20020a816cd7000000b00613ecca78cemr1007880ywc.30.1711670427837; Thu, 28
+ Mar 2024 17:00:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240328231950.818134-1-danismostlikely@gmail.com>
+ <20240328231950.818134-4-danismostlikely@gmail.com> <6bdf10c7c7722322c467ecbb0247957b36616e6f.camel@linuxfoundation.org>
+In-Reply-To: <6bdf10c7c7722322c467ecbb0247957b36616e6f.camel@linuxfoundation.org>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Thu, 28 Mar 2024 18:00:15 -0600
+Message-ID: <CACS+7ZSrQs_An=LMvnQdjFG7rkvke8+cvOVOEW7HmN_7OwvaaA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Daniel McGregor <daniel.mcgregor@vecima.com>
+Content-Type: multipart/alternative; boundary="000000000000d2f0bf0614c15326"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 23:40:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197614
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 00:00:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197615
 
-On Thu, 2024-03-28 at 17:17 -0600, Dan McGregor wrote:
-> From: Daniel McGregor <daniel.mcgregor@vecima.com>
->=20
-> Add support for the nfsv4 user ID mapping daemon, configured with
-> a sensible default, and add a packageconfig for Kerberos support.
->=20
-> This is reasonably tested in production in our environment, but only
-> systemd support. There'll be some more work to do to get GSSAPI and
-> NFS idmapd support integreated into that.
+--000000000000d2f0bf0614c15326
+Content-Type: text/plain; charset="UTF-8"
 
-Something in the series caused a failure in testing:
+On Thu, Mar 28, 2024, 17:39 Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/9103/step=
-s/13/logs/stdio
+> On Thu, 2024-03-28 at 17:17 -0600, Dan McGregor wrote:
+> > From: Daniel McGregor <daniel.mcgregor@vecima.com>
+> >
+> > Add support for the nfsv4 user ID mapping daemon, configured with
+> > a sensible default, and add a packageconfig for Kerberos support.
+> >
+> > This is reasonably tested in production in our environment, but only
+> > systemd support. There'll be some more work to do to get GSSAPI and
+> > NFS idmapd support integreated into that.
+>
+> Something in the series caused a failure in testing:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/9103/steps/13/logs/stdio
 
-Cheers,
 
-Richard
+Thanks. This is what I get for not testing the no-systemd case. I know
+exactly what the issue is.
+
+>
+>
+
+--000000000000d2f0bf0614c15326
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Mar 28, 2024, 17:39 Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2024-=
+03-28 at 17:17 -0600, Dan McGregor wrote:<br>
+&gt; From: Daniel McGregor &lt;<a href=3D"mailto:daniel.mcgregor@vecima.com=
+" target=3D"_blank" rel=3D"noreferrer">daniel.mcgregor@vecima.com</a>&gt;<b=
+r>
+&gt; <br>
+&gt; Add support for the nfsv4 user ID mapping daemon, configured with<br>
+&gt; a sensible default, and add a packageconfig for Kerberos support.<br>
+&gt; <br>
+&gt; This is reasonably tested in production in our environment, but only<b=
+r>
+&gt; systemd support. There&#39;ll be some more work to do to get GSSAPI an=
+d<br>
+&gt; NFS idmapd support integreated into that.<br>
+<br>
+Something in the series caused a failure in testing:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/23/build=
+s/9103/steps/13/logs/stdio" rel=3D"noreferrer noreferrer" target=3D"_blank"=
+>https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/9103/ste=
+ps/13/logs/stdio</a></blockquote></div></div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">Thanks. This is what I get for not testing the no-systemd c=
+ase. I know exactly what the issue is.</div><div dir=3D"auto"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><br></blockquote></div></div><=
+div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--000000000000d2f0bf0614c15326--
 
