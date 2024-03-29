@@ -2,687 +2,818 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6A3CD1283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C30ACD1288
 	for <webhook@archiver.kernel.org>; Fri, 29 Mar 2024 05:50:45 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.11054.1711691439869464044
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.11056.1711691441695092879
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 22:50:39 -0700
+ Thu, 28 Mar 2024 22:50:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QkDfTlnD;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e223025ccbso6438505ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 22:50:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fZKA5WK1;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e0d8403257so14915945ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 22:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711691439; x=1712296239; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=frE0TYfmrMKBqhudYb50gaXYZ7aRQUteKUZkJVwTd8w=;
-        b=QkDfTlnDOwbVO9WdHGRiqyEa1MuAjn2a+PL4hX1G2WfsKU/sxkpyV2g/d46fdWxusd
-         23d7fKppoSZLrF4+SCpYXDmBH3ATQW69P5U9qliV6WSa1hShve9qyqPf1L4SjN7VGTMx
-         1iLCnBrz1ZpXn5AXr4zhhxVSCFqYlCxJMy60L5DHZKNCo3PC/hBjwl4y20FPxfbrVrdG
-         q//t0haEsUS3QU9/3FSjy0Dop70MF1XgdyD8KD8I+oq8IpMkpsjUx1sdgrfOFsSbGdSA
-         lWrvXSoyQh/3qSDJ4pjOLJtmzqUT74u3SN0QP8/xaMpjIfUzuBkmAPDgj16PHDrPtGI+
-         Lgww==
+        d=gmail.com; s=20230601; t=1711691441; x=1712296241; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HcM27zp0VNSvDWGzmrSVXgPilzXdEYQupAekELqxiL8=;
+        b=fZKA5WK1x9i1O6kXylmC9RROkZkOUOK1OoDomnyeSFt2fqiuxrOwn0/2MFJFBthOLM
+         HqcNeALrV8/sLc7GDJ8+ApYTmzRBf23zaC578XJug8ZKwwugWWlxCipaNcv/w5jVePR4
+         5KvdC0Ie7fXG33c/KF0JI56ZcVtoS6vmNQqjOUqW+/onr+AKLjQf/r1N+Aeerl2kqmGn
+         1HlKj+uhP3sqH/bb5J0XcTakffm8UFmyQEP9TCSQBwGnSlFzP8ZWEWmIykpjYWA7azDD
+         1EruPnGQN2qPmah60plWDNeTfFGl+1nzAwGpj8aycwxbIdoiTiPW4QrYmbFCMpPniW5f
+         PcuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711691439; x=1712296239;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=frE0TYfmrMKBqhudYb50gaXYZ7aRQUteKUZkJVwTd8w=;
-        b=sRZfbZYKkg3xBAoeWVlnlizcGm00IgetK2Mp1vUkDVEgPNLx3CTiP2a5o2W+sDsCro
-         54BE8APLKybWoDXu8OMBEm+IgpQq0lZDr7W9FQS+eOmJCutBDhY3/aQ8eao/j0uNpvMU
-         m9uDOEME2idJpHcudeU+RCQ6talRXxjsapLQpnLC6Cd/AKyDzfh1PM8aynbxUwF63R3g
-         FI6XBTPduzctL/PAmam9sy1CrlJJ39CYsOh3qsSDlbwBAYtBuuyNhU4CRw1JNa0I82T5
-         KKUAQdZMpy1MobM5mwqhUtrAakc5iX0w0pSMA8xOOv8l+dn3C1jcJ1NTlM0+TRKnDdAA
-         jhCw==
-X-Gm-Message-State: AOJu0Yym393T/gRaXnRzDOSNvrl5mkDDRjCNhBwuB0NjGBmfMrRbpgRQ
-	oG26x5QYkB9szftHrvLnrKKOYzFZJdoog4QVomiMdxT6M5Q0QA9zi9fhHepL
-X-Google-Smtp-Source: AGHT+IGLkea2ha89fjRPd0m0oRNnmQ7MBCEQB2X6rWJ2yIBdAir6MhBFIIuSKOKIWKfVWrgZ8Y2QFw==
-X-Received: by 2002:a17:903:228b:b0:1e0:c567:bb42 with SMTP id b11-20020a170903228b00b001e0c567bb42mr1843733plh.59.1711691438589;
-        Thu, 28 Mar 2024 22:50:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711691441; x=1712296241;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HcM27zp0VNSvDWGzmrSVXgPilzXdEYQupAekELqxiL8=;
+        b=Gigw1IbSxmhKzIdvWoYhmhtRdnSC6btE4CnjiHFZC/AhK55WRC6cDWRofkoXW4tvIH
+         hgfoM+z/plfPzdpXPGpOTdvL6nThcDf2FfyMgJo8SuO+kl2birvwXSkDC9bXhXBdqjgI
+         i+FI/kGxfOSbWAK+rseT4AwEpjL89pNI5fFDqGLBTJpJ7B/xUFGJW6RXvrg6Hu8NLxjq
+         i1RyIWwzHnazWbNPVOADtzd862WPe2wAg+fBqATYKMRRKI2Q6gdqPae8BufGOUQE01M6
+         idHQMzBtQEiiLblg+OT7FXMula6UhJyAccfUT28R65pAVbJHZ/F0SoIeowrzTW2jJlbI
+         qv/A==
+X-Gm-Message-State: AOJu0Yx8hCiDjVxHd8+8Ns2ZQeGOIjYZL44Vy6fdinI3Z6FGpqpx3/Wy
+	B37m3DoRsYcOu4lPsmgmR13s1AyEd4kYkB92qMeHpwcJHpSpP4LihozFiLm7
+X-Google-Smtp-Source: AGHT+IECdfBXGCe7+w2XLQYqPHMTtl/i6Iot0glcsoa+CIrhvUqEuLD7FHharyC/vJo+/sDTquaWRA==
+X-Received: by 2002:a17:902:d510:b0:1e0:d9da:b126 with SMTP id b16-20020a170902d51000b001e0d9dab126mr1986249plg.15.1711691440528;
+        Thu, 28 Mar 2024 22:50:40 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::dfbb])
-        by smtp.gmail.com with ESMTPSA id k10-20020a170902694a00b001e088a9e2bcsm2611573plt.292.2024.03.28.22.50.37
+        by smtp.gmail.com with ESMTPSA id k10-20020a170902694a00b001e088a9e2bcsm2611573plt.292.2024.03.28.22.50.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 22:50:38 -0700 (PDT)
+        Thu, 28 Mar 2024 22:50:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] valgrind: Backport fixes from 3.22 branch
-Date: Thu, 28 Mar 2024 22:50:32 -0700
-Message-ID: <20240329055034.3942360-1-raj.khem@gmail.com>
+Subject: [PATCH 3/3] readline: Apply patches from readline-8.2-patches
+Date: Thu, 28 Mar 2024 22:50:34 -0700
+Message-ID: <20240329055034.3942360-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240329055034.3942360-1-raj.khem@gmail.com>
+References: <20240329055034.3942360-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Mar 2024 05:50:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197625
 
-These fixes are helping some ptests on musl and 6.6 kernel
+These patches are submitted/backported to 8.2 release
+and address issues reported by different distros.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ....py-regular-expressions-should-use-r.patch |  64 +++++
- ...ind-3.22.0-fails-on-assertion-when-l.patch | 147 ++++++++++++
- .../0003-Add-fchmodat2-syscall-on-linux.patch | 221 ++++++++++++++++++
- ...ind-incompatibility-with-binutils-2..patch | 137 +++++++++++
- .../valgrind/valgrind_3.22.0.bb               |   4 +
- 5 files changed, 573 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-valgrind-monitor.py-regular-expressions-should-use-r.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-Bug-476548-valgrind-3.22.0-fails-on-assertion-when-l.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0003-Add-fchmodat2-syscall-on-linux.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0004-Bug-478624-Valgrind-incompatibility-with-binutils-2..patch
+ .../readline/readline/readline82-001.patch    |  45 ++++++++
+ .../readline/readline/readline82-002.patch    |  51 +++++++++
+ .../readline/readline/readline82-003.patch    |  46 ++++++++
+ .../readline/readline/readline82-004.patch    |  68 ++++++++++++
+ .../readline/readline/readline82-005.patch    |  53 +++++++++
+ .../readline/readline/readline82-006.patch    | 102 ++++++++++++++++++
+ .../readline/readline/readline82-007.patch    |  51 +++++++++
+ .../readline/readline/readline82-008.patch    |  80 ++++++++++++++
+ .../readline/readline/readline82-009.patch    |  76 +++++++++++++
+ .../readline/readline/readline82-010.patch    |  70 ++++++++++++
+ meta/recipes-core/readline/readline_8.2.bb    |  12 +++
+ 11 files changed, 654 insertions(+)
+ create mode 100644 meta/recipes-core/readline/readline/readline82-001.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-002.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-003.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-004.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-005.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-006.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-007.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-008.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-009.patch
+ create mode 100644 meta/recipes-core/readline/readline/readline82-010.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-monitor.py-regular-expressions-should-use-r.patch b/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-monitor.py-regular-expressions-should-use-r.patch
+diff --git a/meta/recipes-core/readline/readline/readline82-001.patch b/meta/recipes-core/readline/readline/readline82-001.patch
 new file mode 100644
-index 00000000000..80a8e3a10b1
+index 00000000000..4e9839db9c8
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-monitor.py-regular-expressions-should-use-r.patch
-@@ -0,0 +1,64 @@
-+From 027b649fdb831868e71be01cafdacc49a5f419ab Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Fri, 17 Nov 2023 14:01:21 +0100
-+Subject: [PATCH 1/4] valgrind-monitor.py regular expressions should use raw
-+ strings
++++ b/meta/recipes-core/readline/readline/readline82-001.patch
+@@ -0,0 +1,45 @@
++			   READLINE PATCH REPORT
++			   =====================
 +
-+With python 3.12 gdb will produce the following SyntaxWarning when
-+loading valgrind-monitor-def.py:
++Readline-Release: 8.2
++Patch-ID: readline82-001
 +
-+  /usr/share/gdb/auto-load/valgrind-monitor-def.py:214:
-+  SyntaxWarning: invalid escape sequence '\['
-+    if re.fullmatch("^0x[0123456789ABCDEFabcdef]+\[[^\[\]]+\]$", arg_str):
++Bug-Reported-by:	Kan-Ru Chen <koster@debian.org>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1021109
 +
-+In a future python version this will become an SyntaxError.
++Bug-Description:
 +
-+Use a raw strings for the regular expression.
++Starting a readline application with an invalid locale specification for
++LC_ALL/LANG/LC_CTYPE can cause it crash on the first call to readline.
 +
-+https://bugs.kde.org/show_bug.cgi?id=476708
-+(cherry picked from commit 0fbfbe05028ad18efda786a256a2738d2c231ed4)
++Patch (apply with `patch -p0'):
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=valgrind.git;a=commit;h=027b649fdb831868e71be01cafdacc49a5f419ab]
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ NEWS                                          | 13 +++++++++++++
-+ coregrind/m_gdbserver/valgrind-monitor-def.py |  2 +-
-+ 2 files changed, 14 insertions(+), 1 deletion(-)
 +
-+diff --git a/NEWS b/NEWS
-+index f11da4be8..ee5b4ff11 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,3 +1,16 @@
-++Branch 3.22
-++~~~~~~~~~~~
-++
-++* ==================== FIXED BUGS ====================
-++
-++The following bugs have been fixed or resolved on this branch.
-++
-++476708  valgrind-monitor.py regular expressions should use raw strings
-++
-++To see details of a given bug, visit
-++  https://bugs.kde.org/show_bug.cgi?id=XXXXXX
-++where XXXXXX is the bug number as listed above.
-++
-+ Release 3.22.0 (31 Oct 2023)
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ 
-+diff --git a/coregrind/m_gdbserver/valgrind-monitor-def.py b/coregrind/m_gdbserver/valgrind-monitor-def.py
-+index b4e7b992d..d74b1590c 100644
-+--- a/coregrind/m_gdbserver/valgrind-monitor-def.py
-++++ b/coregrind/m_gdbserver/valgrind-monitor-def.py
-+@@ -211,7 +211,7 @@ class Valgrind_ADDR_LEN_opt(Valgrind_Command):
-+ For compatibility reason with the Valgrind gdbserver monitor command,
-+ we detect and accept usages such as 0x1234ABCD[10]."""
-+     def invoke(self, arg_str : str, from_tty : bool) -> None:
-+-        if re.fullmatch("^0x[0123456789ABCDEFabcdef]+\[[^\[\]]+\]$", arg_str):
-++        if re.fullmatch(r"^0x[0123456789ABCDEFabcdef]+\[[^\[\]]+\]$", arg_str):
-+             arg_str = arg_str.replace("[", " ")
-+             arg_str = arg_str.replace("]", " ")
-+         eval_execute_2(self, arg_str,
-+-- 
-+2.44.0
++*** ../readline-8.2-patched/nls.c	2022-08-15 09:38:51.000000000 -0400
++--- nls.c	2022-10-05 09:23:22.000000000 -0400
++***************
++*** 142,145 ****
++--- 142,149 ----
++      lspec = "";
++    ret = setlocale (LC_CTYPE, lspec);	/* ok, since it does not change locale */
+++   if (ret == 0 || *ret == 0)
+++     ret = setlocale (LC_CTYPE, (char *)NULL);
+++   if (ret == 0 || *ret == 0)
+++     ret = RL_DEFAULT_LOCALE;
++  #else
++    ret = (lspec == 0 || *lspec == 0) ? RL_DEFAULT_LOCALE : lspec;
 +
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0002-Bug-476548-valgrind-3.22.0-fails-on-assertion-when-l.patch b/meta/recipes-devtools/valgrind/valgrind/0002-Bug-476548-valgrind-3.22.0-fails-on-assertion-when-l.patch
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 0
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 1
+diff --git a/meta/recipes-core/readline/readline/readline82-002.patch b/meta/recipes-core/readline/readline/readline82-002.patch
 new file mode 100644
-index 00000000000..5759fa039a3
+index 00000000000..5629685dc1b
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0002-Bug-476548-valgrind-3.22.0-fails-on-assertion-when-l.patch
-@@ -0,0 +1,147 @@
-+From 1d00e5ce0fb069911c4b525ec38289fb5d9021b0 Mon Sep 17 00:00:00 2001
-+From: Paul Floyd <pjfloyd@wanadoo.fr>
-+Date: Sat, 18 Nov 2023 08:49:34 +0100
-+Subject: [PATCH 2/4] Bug 476548 - valgrind 3.22.0 fails on assertion when
-+ loading debuginfo file produced by mold
++++ b/meta/recipes-core/readline/readline/readline82-002.patch
+@@ -0,0 +1,51 @@
++			   READLINE PATCH REPORT
++			   =====================
 +
-+(cherry picked from commit 9ea4ae66707a4dcc6f4328e11911652e4418c585)
++Readline-Release: 8.2
++Patch-ID: readline82-002
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=valgrind.git;a=commit;h=1d00e5ce0fb069911c4b525ec38289fb5d9021b0]
++Bug-Reported-by:	srobertson@peratonlabs.com
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-bash/2022-09/msg00049.html
++
++Bug-Description:
++
++It's possible for readline to try to zero out a line that's not null-
++terminated, leading to a memory fault.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ NEWS                               |  2 ++
-+ coregrind/m_debuginfo/image.c      | 14 +++++++++
-+ coregrind/m_debuginfo/priv_image.h |  4 +++
-+ coregrind/m_debuginfo/readelf.c    | 49 ++++++++++++++++++++++++++++--
-+ 4 files changed, 66 insertions(+), 3 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index ee5b4ff11..6cd13429a 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -5,6 +5,8 @@ Branch 3.22
-+ 
-+ The following bugs have been fixed or resolved on this branch.
-+ 
-++476548  valgrind 3.22.0 fails on assertion when loading debuginfo
-++        file produced by mold
-+ 476708  valgrind-monitor.py regular expressions should use raw strings
-+ 
-+ To see details of a given bug, visit
-+diff --git a/coregrind/m_debuginfo/image.c b/coregrind/m_debuginfo/image.c
-+index 02e509071..445f95555 100644
-+--- a/coregrind/m_debuginfo/image.c
-++++ b/coregrind/m_debuginfo/image.c
-+@@ -1221,6 +1221,20 @@ Int ML_(img_strcmp_c)(DiImage* img, DiOffT off1, const HChar* str2)
-+    }
-+ }
-+ 
-++Int ML_(img_strcmp_n)(DiImage* img, DiOffT off1, const HChar* str2, Word n)
-++{
-++   ensure_valid(img, off1, 1, "ML_(img_strcmp_c)");
-++   while (n) {
-++      UChar c1 = get(img, off1);
-++      UChar c2 = *(const UChar*)str2;
-++      if (c1 < c2) return -1;
-++      if (c1 > c2) return 1;
-++      if (c1 == 0) return 0;
-++      off1++; str2++; --n;
-++   }
-++   return 0;
-++}
-++
-+ UChar ML_(img_get_UChar)(DiImage* img, DiOffT offset)
-+ {
-+    ensure_valid(img, offset, 1, "ML_(img_get_UChar)");
-+diff --git a/coregrind/m_debuginfo/priv_image.h b/coregrind/m_debuginfo/priv_image.h
-+index a49846f14..c91e49f01 100644
-+--- a/coregrind/m_debuginfo/priv_image.h
-++++ b/coregrind/m_debuginfo/priv_image.h
-+@@ -115,6 +115,10 @@ Int ML_(img_strcmp)(DiImage* img, DiOffT off1, DiOffT off2);
-+    cast to HChar before comparison. */
-+ Int ML_(img_strcmp_c)(DiImage* img, DiOffT off1, const HChar* str2);
-+ 
-++/* Do strncmp of a C string in the image vs a normal one.  Chars are
-++   cast to HChar before comparison. */
-++Int ML_(img_strcmp_n)(DiImage* img, DiOffT off1, const HChar* str2, Word n);
-++
-+ /* Do strlen of a C string in the image. */
-+ SizeT ML_(img_strlen)(DiImage* img, DiOffT off);
-+ 
-+diff --git a/coregrind/m_debuginfo/readelf.c b/coregrind/m_debuginfo/readelf.c
-+index fb64ed976..46f8c8343 100644
-+--- a/coregrind/m_debuginfo/readelf.c
-++++ b/coregrind/m_debuginfo/readelf.c
-+@@ -2501,8 +2501,7 @@ Bool ML_(read_elf_object) ( struct _DebugInfo* di )
-+             di->rodata_avma += inrw1->bias;
-+             di->rodata_bias = inrw1->bias;
-+             di->rodata_debug_bias = inrw1->bias;
-+-         }
-+-         else {
-++         } else {
-+             BAD(".rodata");  /* should not happen? */
-+          }
-+          di->rodata_present = True;
-+@@ -2977,6 +2976,46 @@ Bool ML_(read_elf_object) ( struct _DebugInfo* di )
-+    return retval;
-+ }
-+ 
-++static void find_rodata(Word i, Word shnum, DiImage* dimg, struct _DebugInfo* di, DiOffT shdr_dioff,
-++                        UWord shdr_dent_szB, DiOffT shdr_strtab_dioff, PtrdiffT rw_dbias)
-++{
-++   ElfXX_Shdr a_shdr;
-++   ElfXX_Shdr a_extra_shdr;
-++   ML_(img_get)(&a_shdr, dimg,
-++                INDEX_BIS(shdr_dioff, i, shdr_dent_szB),
-++                sizeof(a_shdr));
-++   if (di->rodata_present &&
-++       0 == ML_(img_strcmp_c)(dimg, shdr_strtab_dioff
-++                                    + a_shdr.sh_name, ".rodata")) {
-++      Word sh_size = a_shdr.sh_size;
-++      Word j;
-++      Word next_addr = a_shdr.sh_addr + a_shdr.sh_size;
-++      for (j = i  + 1; j < shnum; ++j) {
-++         ML_(img_get)(&a_extra_shdr, dimg,
-++                      INDEX_BIS(shdr_dioff, j, shdr_dent_szB),
-++                      sizeof(a_shdr));
-++         if (0 == ML_(img_strcmp_n)(dimg, shdr_strtab_dioff
-++                                             + a_extra_shdr.sh_name, ".rodata", 7)) {
-++            if (a_extra_shdr.sh_addr ==
-++                VG_ROUNDUP(next_addr, a_extra_shdr.sh_addralign)) {
-++               sh_size = VG_ROUNDUP(sh_size, a_extra_shdr.sh_addralign) + a_extra_shdr.sh_size;
-++            }
-++            next_addr = a_extra_shdr.sh_addr + a_extra_shdr.sh_size;
-++         } else {
-++            break;
-++         }
-++      }
-++      vg_assert(di->rodata_size == sh_size);
-++      vg_assert(di->rodata_avma +  a_shdr.sh_addr + rw_dbias);
-++      di->rodata_debug_svma = a_shdr.sh_addr;
-++      di->rodata_debug_bias = di->rodata_bias +
-++                             di->rodata_svma - di->rodata_debug_svma;
-++      TRACE_SYMTAB("acquiring .rodata  debug svma = %#lx .. %#lx\n",
-++                   di->rodata_debug_svma,
-++                   di->rodata_debug_svma + di->rodata_size - 1);
-++      TRACE_SYMTAB("acquiring .rodata debug bias = %#lx\n", (UWord)di->rodata_debug_bias);
-++   }
-++}
-+ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
-+ {
-+    Word     i, j;
-+@@ -3391,7 +3430,11 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
-+             FIND(text,   rx)
-+             FIND(data,   rw)
-+             FIND(sdata,  rw)
-+-            FIND(rodata, rw)
-++            // https://bugs.kde.org/show_bug.cgi?id=476548
-++            // special handling for rodata as adjacent
-++            // rodata sections may have been merged in ML_(read_elf_object)
-++            //FIND(rodata, rw)
-++            find_rodata(i, ehdr_dimg.e_shnum, dimg, di, shdr_dioff, shdr_dent_szB, shdr_strtab_dioff, rw_dbias);
-+             FIND(bss,    rw)
-+             FIND(sbss,   rw)
-+ 
-+-- 
-+2.44.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0003-Add-fchmodat2-syscall-on-linux.patch b/meta/recipes-devtools/valgrind/valgrind/0003-Add-fchmodat2-syscall-on-linux.patch
++*** ../readline-8.2-patched/display.c	2022-04-05 10:47:31.000000000 -0400
++--- display.c	2022-12-13 13:11:22.000000000 -0500
++***************
++*** 2684,2692 ****
++  
++    if (visible_line)
++!     {
++!       temp = visible_line;
++!       while (*temp)
++! 	*temp++ = '\0';
++!     }
++    rl_on_new_line ();
++    forced_display++;
++--- 2735,2740 ----
++  
++    if (visible_line)
++!     memset (visible_line, 0, line_size);
++! 
++    rl_on_new_line ();
++    forced_display++;
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 1
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 2
+diff --git a/meta/recipes-core/readline/readline/readline82-003.patch b/meta/recipes-core/readline/readline/readline82-003.patch
 new file mode 100644
-index 00000000000..2a09ca52b77
+index 00000000000..61570bf4f41
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0003-Add-fchmodat2-syscall-on-linux.patch
-@@ -0,0 +1,221 @@
-+From a43e62dddcf51ec6578a90c5988a41e856b44b05 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Sat, 18 Nov 2023 21:17:02 +0100
-+Subject: [PATCH 3/4] Add fchmodat2 syscall on linux
++++ b/meta/recipes-core/readline/readline/readline82-003.patch
+@@ -0,0 +1,46 @@
++			   READLINE PATCH REPORT
++			   =====================
 +
-+fchmodat2 is a new syscall on linux 6.6. It is a variant of fchmodat
-+that takes an extra flags argument.
++Readline-Release: 8.2
++Patch-ID: readline82-003
 +
-+https://bugs.kde.org/show_bug.cgi?id=477198
++Bug-Reported-by:	Stefan Klinger <readline-gnu.org@stefan-klinger.de>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2023-08/msg00018.html
 +
-+(cherry picked from commit 372d09fd9a8d76847c81092ebff71c80fd6c145d)
++Bug-Description:
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=valgrind.git;a=commit;h=a43e62dddcf51ec6578a90c5988a41e856b44b05]
++Patch (apply with `patch -p0'):
++
++The custom color prefix that readline uses to color possible completions
++must have a leading `.'.
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ NEWS                                         |  1 +
-+ coregrind/m_syswrap/priv_syswrap-linux.h     |  3 +++
-+ coregrind/m_syswrap/syswrap-amd64-linux.c    |  2 ++
-+ coregrind/m_syswrap/syswrap-arm-linux.c      |  2 ++
-+ coregrind/m_syswrap/syswrap-arm64-linux.c    |  2 ++
-+ coregrind/m_syswrap/syswrap-linux.c          | 11 +++++++++++
-+ coregrind/m_syswrap/syswrap-mips32-linux.c   |  2 ++
-+ coregrind/m_syswrap/syswrap-mips64-linux.c   |  1 +
-+ coregrind/m_syswrap/syswrap-nanomips-linux.c |  1 +
-+ coregrind/m_syswrap/syswrap-ppc32-linux.c    |  2 ++
-+ coregrind/m_syswrap/syswrap-ppc64-linux.c    |  2 ++
-+ coregrind/m_syswrap/syswrap-s390x-linux.c    |  2 ++
-+ coregrind/m_syswrap/syswrap-x86-linux.c      |  2 ++
-+ include/vki/vki-scnums-shared-linux.h        |  2 ++
-+ 14 files changed, 35 insertions(+)
 +
-+diff --git a/NEWS b/NEWS
-+index 6cd13429a..da0f8c1aa 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -8,6 +8,7 @@ The following bugs have been fixed or resolved on this branch.
-+ 476548  valgrind 3.22.0 fails on assertion when loading debuginfo
-+         file produced by mold
-+ 476708  valgrind-monitor.py regular expressions should use raw strings
-++477198  Add fchmodat2 syscall on linux
-+ 
-+ To see details of a given bug, visit
-+   https://bugs.kde.org/show_bug.cgi?id=XXXXXX
-+diff --git a/coregrind/m_syswrap/priv_syswrap-linux.h b/coregrind/m_syswrap/priv_syswrap-linux.h
-+index 7c9decf5a..798c456c9 100644
-+--- a/coregrind/m_syswrap/priv_syswrap-linux.h
-++++ b/coregrind/m_syswrap/priv_syswrap-linux.h
-+@@ -331,6 +331,9 @@ DECL_TEMPLATE(linux, sys_openat2);
-+ // Linux-specific (new in Linux 5.14)
-+ DECL_TEMPLATE(linux, sys_memfd_secret);
-+ 
-++// Since Linux 6.6
-++DECL_TEMPLATE(linux, sys_fchmodat2);
-++
-+ /* ---------------------------------------------------------------------
-+    Wrappers for sockets and ipc-ery.  These are split into standalone
-+    procedures because x86-linux hides them inside multiplexors
-+diff --git a/coregrind/m_syswrap/syswrap-amd64-linux.c b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+index 008600798..fe17d118b 100644
-+--- a/coregrind/m_syswrap/syswrap-amd64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+@@ -886,6 +886,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_epoll_pwait2,      sys_epoll_pwait2),      // 441
-+ 
-+    LINXY(__NR_memfd_secret,      sys_memfd_secret),      // 447
-++
-++   LINX_(__NR_fchmodat2,         sys_fchmodat2),         // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/coregrind/m_syswrap/syswrap-arm-linux.c b/coregrind/m_syswrap/syswrap-arm-linux.c
-+index 9a7a1e0d2..811931d3b 100644
-+--- a/coregrind/m_syswrap/syswrap-arm-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm-linux.c
-+@@ -1059,6 +1059,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINX_(__NR_faccessat2,    sys_faccessat2),           // 439
-+ 
-+    LINXY(__NR_epoll_pwait2,      sys_epoll_pwait2),      // 441
-++
-++   LINX_(__NR_fchmodat2,         sys_fchmodat2),         // 452
-+ };
-+ 
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-arm64-linux.c b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+index 6af7bab83..3307bc2ca 100644
-+--- a/coregrind/m_syswrap/syswrap-arm64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+@@ -840,6 +840,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY(__NR_epoll_pwait2,      sys_epoll_pwait2),      // 441
-+ 
-+    LINXY(__NR_memfd_secret,      sys_memfd_secret),      // 447
-++
-++   LINX_(__NR_fchmodat2,         sys_fchmodat2),         // 452
-+ };
-+ 
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-linux.c b/coregrind/m_syswrap/syswrap-linux.c
-+index d571fc327..efa47f2e6 100644
-+--- a/coregrind/m_syswrap/syswrap-linux.c
-++++ b/coregrind/m_syswrap/syswrap-linux.c
-+@@ -6059,6 +6059,17 @@ PRE(sys_fchmodat)
-+    PRE_MEM_RASCIIZ( "fchmodat(path)", ARG2 );
-+ }
-+ 
-++PRE(sys_fchmodat2)
-++{
-++   PRINT("sys_fchmodat2 ( %ld, %#" FMT_REGWORD "x(%s), %" FMT_REGWORD "u, %"
-++	  FMT_REGWORD "u )",
-++         SARG1, ARG2, (HChar*)(Addr)ARG2, ARG3, ARG4);
-++   PRE_REG_READ4(long, "fchmodat2",
-++                 int, dfd, const char *, path, vki_mode_t, mode,
-++                 unsigned int, flags);
-++   PRE_MEM_RASCIIZ( "fchmodat2(pathname)", ARG2 );
-++}
-++
-+ PRE(sys_faccessat)
-+ {
-+    PRINT("sys_faccessat ( %ld, %#" FMT_REGWORD "x(%s), %ld )",
-+diff --git a/coregrind/m_syswrap/syswrap-mips32-linux.c b/coregrind/m_syswrap/syswrap-mips32-linux.c
-+index 6268a00dd..74a1f6eac 100644
-+--- a/coregrind/m_syswrap/syswrap-mips32-linux.c
-++++ b/coregrind/m_syswrap/syswrap-mips32-linux.c
-+@@ -1143,6 +1143,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINX_ (__NR_faccessat2,             sys_faccessat2),              // 439
-+ 
-+    LINXY(__NR_epoll_pwait2,      sys_epoll_pwait2),      // 441
-++
-++   LINX_(__NR_fchmodat2,               sys_fchmodat2),               // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) (UInt sysno)
-+diff --git a/coregrind/m_syswrap/syswrap-mips64-linux.c b/coregrind/m_syswrap/syswrap-mips64-linux.c
-+index 6cdf25893..4e8508b7a 100644
-+--- a/coregrind/m_syswrap/syswrap-mips64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-mips64-linux.c
-+@@ -820,6 +820,7 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY (__NR_close_range, sys_close_range),
-+    LINX_ (__NR_faccessat2, sys_faccessat2),
-+    LINXY(__NR_epoll_pwait2, sys_epoll_pwait2),
-++   LINX_ (__NR_fchmodat2, sys_fchmodat2),
-+ };
-+ 
-+ SyscallTableEntry * ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/coregrind/m_syswrap/syswrap-nanomips-linux.c b/coregrind/m_syswrap/syswrap-nanomips-linux.c
-+index d724cde74..7859900c1 100644
-+--- a/coregrind/m_syswrap/syswrap-nanomips-linux.c
-++++ b/coregrind/m_syswrap/syswrap-nanomips-linux.c
-+@@ -829,6 +829,7 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY (__NR_close_range,            sys_close_range),
-+    LINX_ (__NR_faccessat2,             sys_faccessat2),
-+    LINXY (__NR_epoll_pwait2,           sys_epoll_pwait2),
-++   LINX_ (__NR_fchmodat2,              sys_fchmodat2),
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) (UInt sysno)
-+diff --git a/coregrind/m_syswrap/syswrap-ppc32-linux.c b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+index c0cfef235..1e19116ee 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc32-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+@@ -1063,6 +1063,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINX_(__NR_faccessat2,        sys_faccessat2),       // 439
-+ 
-+    LINXY (__NR_epoll_pwait2,     sys_epoll_pwait2),      // 441
-++
-++   LINX_ (__NR_fchmodat2,        sys_fchmodat2),         // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/coregrind/m_syswrap/syswrap-ppc64-linux.c b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+index f5976f30c..1097212a4 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+@@ -1032,6 +1032,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINX_(__NR_faccessat2,        sys_faccessat2),       // 439
-+ 
-+    LINXY (__NR_epoll_pwait2,     sys_epoll_pwait2),      // 441
-++
-++   LINX_ (__NR_fchmodat2,        sys_fchmodat2),         // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/coregrind/m_syswrap/syswrap-s390x-linux.c b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+index afba154e7..3588672c7 100644
-+--- a/coregrind/m_syswrap/syswrap-s390x-linux.c
-++++ b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+@@ -873,6 +873,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINX_(__NR_faccessat2,  sys_faccessat2),                           // 439
-+ 
-+    LINXY(__NR_epoll_pwait2, sys_epoll_pwait2),                        // 441
-++
-++   LINX_ (__NR_fchmodat2, sys_fchmodat2),                             // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/coregrind/m_syswrap/syswrap-x86-linux.c b/coregrind/m_syswrap/syswrap-x86-linux.c
-+index da4fd8fa2..58badc6b0 100644
-+--- a/coregrind/m_syswrap/syswrap-x86-linux.c
-++++ b/coregrind/m_syswrap/syswrap-x86-linux.c
-+@@ -1658,6 +1658,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_epoll_pwait2,      sys_epoll_pwait2),     // 441
-+ 
-+    LINXY(__NR_memfd_secret,      sys_memfd_secret),      // 447
-++
-++   LINX_(__NR_fchmodat2,         sys_fchmodat2),         // 452
-+ };
-+ 
-+ SyscallTableEntry* ML_(get_linux_syscall_entry) ( UInt sysno )
-+diff --git a/include/vki/vki-scnums-shared-linux.h b/include/vki/vki-scnums-shared-linux.h
-+index 542382b53..a4cd87149 100644
-+--- a/include/vki/vki-scnums-shared-linux.h
-++++ b/include/vki/vki-scnums-shared-linux.h
-+@@ -50,4 +50,6 @@
-+ 
-+ #define __NR_memfd_secret		447
-+ 
-++#define __NR_fchmodat2		452
-++
-+ #endif
-+-- 
-+2.44.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0004-Bug-478624-Valgrind-incompatibility-with-binutils-2..patch b/meta/recipes-devtools/valgrind/valgrind/0004-Bug-478624-Valgrind-incompatibility-with-binutils-2..patch
++*** ../readline-8.2-patched/colors.c	2021-12-08 11:38:25.000000000 -0500
++--- colors.c	2023-08-28 16:40:04.000000000 -0400
++***************
++*** 74,78 ****
++  static void restore_default_color (void);
++  
++! #define RL_COLOR_PREFIX_EXTENSION	"readline-colored-completion-prefix"
++  
++  COLOR_EXT_TYPE *_rl_color_ext_list = 0;
++--- 74,78 ----
++  static void restore_default_color (void);
++  
++! #define RL_COLOR_PREFIX_EXTENSION	".readline-colored-completion-prefix"
++  
++  COLOR_EXT_TYPE *_rl_color_ext_list = 0;
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 2
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 3
+diff --git a/meta/recipes-core/readline/readline/readline82-004.patch b/meta/recipes-core/readline/readline/readline82-004.patch
 new file mode 100644
-index 00000000000..4e9185508a5
+index 00000000000..cedc3d0fe44
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0004-Bug-478624-Valgrind-incompatibility-with-binutils-2..patch
-@@ -0,0 +1,137 @@
-+From 41ff9aa49f6c54c66d0e6b37f265fd9cb0176057 Mon Sep 17 00:00:00 2001
-+From: Paul Floyd <pjfloyd@wanadoo.fr>
-+Date: Sun, 17 Dec 2023 14:18:51 +0100
-+Subject: [PATCH 4/4] Bug 478624 - Valgrind incompatibility with binutils-2.42
-+ on x86 with new nop patterns (unhandled instruction bytes: 0x2E 0x8D 0xB4
-+ 0x26)
++++ b/meta/recipes-core/readline/readline/readline82-004.patch
+@@ -0,0 +1,68 @@
++			   READLINE PATCH REPORT
++			   =====================
 +
-+It was a bit of a struggle to get the testcase to build
-+with both clang and gcc (oddly enough gcc was more difficult) so
-+I just resorted to using .byte arrays.
++Readline-Release: 8.2
++Patch-ID: readline82-004
 +
-+(cherry picked from commit d35005cef8ad8207542738812705ceabf137d7e0)
++Bug-Reported-by:	Henry Bent <henry.r.bent@gmail.com>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-bash/2022-11/msg00044.html
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=valgrind.git;a=commit;h=41ff9aa49f6c54c66d0e6b37f265fd9cb0176057]
++Bug-Description:
++
++Patch (apply with `patch -p0'):
++
++There are systems that supply one of select or pselect, but not both.
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ .gitignore                                 |  1 +
-+ NEWS                                       |  2 ++
-+ VEX/priv/guest_x86_toIR.c                  | 22 +++++++++++++-
-+ none/tests/x86/Makefile.am                 |  2 ++
-+ none/tests/x86/gnu_binutils_nop.c          | 34 ++++++++++++++++++++++
-+ none/tests/x86/gnu_binutils_nop.stderr.exp |  0
-+ none/tests/x86/gnu_binutils_nop.vgtest     |  2 ++
-+ 7 files changed, 62 insertions(+), 1 deletion(-)
-+ create mode 100644 none/tests/x86/gnu_binutils_nop.c
-+ create mode 100644 none/tests/x86/gnu_binutils_nop.stderr.exp
-+ create mode 100644 none/tests/x86/gnu_binutils_nop.vgtest
 +
-+--- a/NEWS
-++++ b/NEWS
-+@@ -9,6 +9,8 @@ The following bugs have been fixed or re
-+         file produced by mold
-+ 476708  valgrind-monitor.py regular expressions should use raw strings
-+ 477198  Add fchmodat2 syscall on linux
-++478624  Valgrind incompatibility with binutils-2.42 on x86 with new nop patterns
-++        (unhandled instruction bytes: 0x2E 0x8D 0xB4 0x26)
-+ 
-+ To see details of a given bug, visit
-+   https://bugs.kde.org/show_bug.cgi?id=XXXXXX
-+--- a/VEX/priv/guest_x86_toIR.c
-++++ b/VEX/priv/guest_x86_toIR.c
-+@@ -8198,7 +8198,7 @@ DisResult disInstr_X86_WRK (
-+          delta += 5;
-+          goto decode_success;
-+       }
-+-      /* Don't barf on recent binutils padding,
-++      /* Don't barf on recent (2010) binutils padding,
-+          all variants of which are: nopw %cs:0x0(%eax,%eax,1)
-+          66 2e 0f 1f 84 00 00 00 00 00
-+          66 66 2e 0f 1f 84 00 00 00 00 00
-+@@ -8222,6 +8222,26 @@ DisResult disInstr_X86_WRK (
-+             goto decode_success;
-+          }
-+       }
-++
-++      /* bug478624 GNU binutils uses a leal of esi into itself with
-++         a zero offset and CS prefix as an 8 byte no-op (Dec 2023).
-++         Since the CS prefix is hardly ever used we don't do much
-++         to decode it, just a few cases for conditional branches.
-++         So add handling here with other pseudo-no-ops.
-++       */
-++      if (code[0] == 0x2E && code[1] == 0x8D) {
-++         if (code[2] == 0x74 && code[3] == 0x26 && code[4] == 0x00) {
-++            DIP("leal %%cs:0(%%esi,%%eiz,1),%%esi\n");
-++            delta += 5;
-++            goto decode_success;
-++         }
-++         if (code[2] == 0xB4 && code[3] == 0x26 && code[4] == 0x00
-++             && code[5] == 0x00 && code[6] == 0x00 && code[7] == 0x00) {
-++            DIP("leal %%cs:0(%%esi,%%eiz,1),%%esi\n");
-++            delta += 8;
-++            goto decode_success;
-++         }
-++      }
-+ 
-+       // Intel CET requires the following opcodes to be treated as NOPs
-+       // with any prefix and ModRM, SIB and disp combination:
-+--- a/none/tests/x86/Makefile.am
-++++ b/none/tests/x86/Makefile.am
-+@@ -52,6 +52,7 @@ EXTRA_DIST = \
-+ 	fxtract.stdout.exp fxtract.stderr.exp fxtract.vgtest \
-+ 	fxtract.stdout.exp-older-glibc \
-+ 	getseg.stdout.exp getseg.stderr.exp getseg.vgtest \
-++	gnu_binutils_nop.stderr.exp gnu_binutils_nop.vgtest \
-+ 	incdec_alt.stdout.exp incdec_alt.stderr.exp incdec_alt.vgtest \
-+ 	int.stderr.exp int.stdout.exp int.disabled \
-+ 	$(addsuffix .stderr.exp,$(INSN_TESTS)) \
-+@@ -100,6 +101,7 @@ check_PROGRAMS = \
-+ 	fpu_lazy_eflags \
-+ 	fxtract \
-+ 	getseg \
-++	gnu_binutils_nop \
-+ 	incdec_alt \
-+ 	$(INSN_TESTS) \
-+ 	int \
-+--- /dev/null
-++++ b/none/tests/x86/gnu_binutils_nop.c
-+@@ -0,0 +1,34 @@
-++int main(void)
-++{
-++    // GNU binutils uses various opcodes as alternatives for nop
-++    // the idea is that it is faster to execute one large opcode
-++    // with no side-effects than multiple repetitions of the
-++    // single byte 'nop'. This gives more choice when code
-++    // needs to be padded.
-++   
-++   // the following is based on
-++   // https://sourceware.org/cgit/binutils-gdb/tree/gas/config/tc-i386.c#n1256
-++
-++    // one byte
-++    __asm__ __volatile__("nop");
-++    // two bytes
-++    __asm__ __volatile__("xchg %ax,%ax");
-++    // three bytes
-++    //__asm__ __volatile__("leal 0(%esi),%esi");
-++    __asm__ __volatile__(".byte 0x8d,0x76,0x00");
-++    // four bytes
-++    //__asm__ __volatile__("leal 0(%esi,%eiz),%esi");
-++    __asm__ __volatile__(".byte 0x8d,0x74,0x26,0x00");
-++    // five bytes
-++    //__asm__ __volatile__("leal %cs:0(%esi,%eiz),%esi");
-++    __asm__ __volatile__(".byte 0x2e,0x8d,0x74,0x26,0x00");
-++    // six bytes
-++    //__asm__ __volatile__("leal 0L(%esi),%esi");
-++    __asm__ __volatile__(".byte 0x8d,0xb6,0x00,0x00,0x00,0x00");
-++    // seven bytes
-++    //__asm__ __volatile__("leal 0L(%esi,%eiz),%esi");
-++    __asm__ __volatile__(".byte 0x8d,0xb4,0x26,0x00,0x00,0x00,0x00");
-++    // eight bytes
-++    //__asm__ __volatile__("leal %cs:0L(%esi,%eiz),%esi");
-++    __asm__ __volatile__(".byte 0x2e,0x8d,0xb4,0x26,0x00,0x00,0x00,0x00");
-++}
-+--- /dev/null
-++++ b/none/tests/x86/gnu_binutils_nop.vgtest
-+@@ -0,0 +1,2 @@
-++prog: gnu_binutils_nop
-++vgopts: -q
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-index 74ac7ec9d5c..563d99f0e22 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-@@ -33,6 +33,10 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-docs-Disable-manual-validation.patch \
-+           file://0001-valgrind-monitor.py-regular-expressions-should-use-r.patch \
-+           file://0002-Bug-476548-valgrind-3.22.0-fails-on-assertion-when-l.patch \
-+           file://0003-Add-fchmodat2-syscall-on-linux.patch \
-+           file://0004-Bug-478624-Valgrind-incompatibility-with-binutils-2..patch \
-            "
- SRC_URI[sha256sum] = "c811db5add2c5f729944caf47c4e7a65dcaabb9461e472b578765dd7bf6d2d4c"
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
++*** ../readline-8.2-patched/input.c	2022-04-08 15:43:24.000000000 -0400
++--- input.c	2022-11-28 09:41:08.000000000 -0500
++***************
++*** 152,156 ****
++--- 152,158 ----
++  int _rl_timeout_init (void);
++  int _rl_timeout_sigalrm_handler (void);
+++ #if defined (RL_TIMEOUT_USE_SELECT)
++  int _rl_timeout_select (int, fd_set *, fd_set *, fd_set *, const struct timeval *, const sigset_t *);
+++ #endif
++  
++  static void _rl_timeout_handle (void);
++***************
++*** 249,253 ****
++    int chars_avail, k;
++    char input;
++! #if defined(HAVE_SELECT)
++    fd_set readfds, exceptfds;
++    struct timeval timeout;
++--- 251,255 ----
++    int chars_avail, k;
++    char input;
++! #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
++    fd_set readfds, exceptfds;
++    struct timeval timeout;
++***************
++*** 806,810 ****
++    unsigned char c;
++    int fd;
++! #if defined (HAVE_PSELECT)
++    sigset_t empty_set;
++    fd_set readfds;
++--- 815,819 ----
++    unsigned char c;
++    int fd;
++! #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
++    sigset_t empty_set;
++    fd_set readfds;
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 3
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 4
+diff --git a/meta/recipes-core/readline/readline/readline82-005.patch b/meta/recipes-core/readline/readline/readline82-005.patch
+new file mode 100644
+index 00000000000..69c2e4f77a2
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-005.patch
+@@ -0,0 +1,53 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-005
++
++Bug-Reported-by:	Simon Marchi <simon.marchi@polymtl.ca>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-09/msg00005.html
++
++Bug-Description:
++
++If an application is using readline in callback mode, and a signal arrives
++after readline checks for it in rl_callback_read_char() but before it
++restores the application's signal handlers, it won't get processed until the
++next time the application calls rl_callback_read_char(). Readline needs to
++check for and resend any pending signals after restoring the application's
++signal handlers.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/callback.c	2022-04-29 12:02:56.000000000 -0400
++--- callback.c	2022-10-11 10:59:06.000000000 -0400
++***************
++*** 116,120 ****
++    do { \
++      if (rl_persistent_signal_handlers == 0) \
++!       rl_clear_signals (); \
++      return; \
++    } while (0)
++--- 116,123 ----
++    do { \
++      if (rl_persistent_signal_handlers == 0) \
++!       { \
++!         rl_clear_signals (); \
++!         if (_rl_caught_signal) _rl_signal_handler (_rl_caught_signal); \
++!       } \
++      return; \
++    } while (0)
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 4
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 5
+diff --git a/meta/recipes-core/readline/readline/readline82-006.patch b/meta/recipes-core/readline/readline/readline82-006.patch
+new file mode 100644
+index 00000000000..d66afe82c9d
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-006.patch
+@@ -0,0 +1,102 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-006
++
++Bug-Reported-by:	Tom de Vries <tdevries@suse.de>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-09/msg00001.html
++
++Bug-Description:
++
++This is a variant of the same issue as the one fixed by patch 5. In this
++case, the signal arrives and is pending before readline calls rl_getc().
++When this happens, the pending signal will be handled by the loop, but may
++alter or destroy some state that the callback uses. Readline needs to treat
++this case the same way it would if a signal interrupts pselect/select, so
++compound operations like searches and reading numeric arguments get cleaned
++up properly.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/input.c	2022-12-22 16:15:48.000000000 -0500
++--- input.c	2023-01-10 11:53:45.000000000 -0500
++***************
++*** 812,816 ****
++  rl_getc (FILE *stream)
++  {
++!   int result;
++    unsigned char c;
++    int fd;
++--- 812,816 ----
++  rl_getc (FILE *stream)
++  {
++!   int result, ostate, osig;
++    unsigned char c;
++    int fd;
++***************
++*** 823,828 ****
++--- 823,842 ----
++    while (1)
++      {
+++       osig = _rl_caught_signal;
+++       ostate = rl_readline_state;
+++ 
++        RL_CHECK_SIGNALS ();
++  
+++ #if defined (READLINE_CALLBACKS)
+++       /* Do signal handling post-processing here, but just in callback mode
+++ 	 for right now because the signal cleanup can change some of the
+++ 	 callback state, and we need to either let the application have a
+++ 	 chance to react or abort some current operation that gets cleaned
+++ 	 up by rl_callback_sigcleanup(). If not, we'll just run through the
+++ 	 loop again. */
+++       if (osig != 0 && (ostate & RL_STATE_CALLBACK))
+++ 	goto postproc_signal;
+++ #endif
+++ 
++        /* We know at this point that _rl_caught_signal == 0 */
++  
++***************
++*** 888,891 ****
++--- 902,908 ----
++  
++  handle_error:
+++       osig = _rl_caught_signal;
+++       ostate = rl_readline_state;
+++ 
++        /* If the error that we received was EINTR, then try again,
++  	 this is simply an interrupted system call to read ().  We allow
++***************
++*** 928,933 ****
++--- 945,959 ----
++  #endif  /* SIGALRM */
++  
+++ postproc_signal:
+++       /* POSIX says read(2)/pselect(2)/select(2) don't return EINTR for any
+++ 	 reason other than being interrupted by a signal, so we can safely
+++ 	 call the application's signal event hook. */
++        if (rl_signal_event_hook)
++  	(*rl_signal_event_hook) ();
+++ #if defined (READLINE_CALLBACKS)
+++       else if (osig == SIGINT && (ostate & RL_STATE_CALLBACK) && (ostate & (RL_STATE_ISEARCH|RL_STATE_NSEARCH|RL_STATE_NUMERICARG)))
+++         /* just these cases for now */
+++         _rl_abort_internal ();
+++ #endif
++      }
++  }
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 5
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 6
+diff --git a/meta/recipes-core/readline/readline/readline82-007.patch b/meta/recipes-core/readline/readline/readline82-007.patch
+new file mode 100644
+index 00000000000..9fa1ccb552e
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-007.patch
+@@ -0,0 +1,51 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-007
++
++Bug-Reported-by:	Kevin Pulo <kev@pulo.com.au>
++Bug-Reference-ID:
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-11/msg00002.html
++
++Bug-Description:
++
++If readline is called with no prompt, it should display a newline if return
++is typed on an empty line. It should still suppress the final newline if
++return is typed on the last (empty) line of a multi-line command.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/display.c	2022-04-05 10:47:31.000000000 -0400
++--- display.c	2022-12-13 13:11:22.000000000 -0500
++***************
++*** 3342,3348 ****
++  		 &last_face[_rl_screenwidth - 1 + woff], 1);
++      }
++!   _rl_vis_botlin = 0;
++!   if (botline_length > 0 || _rl_last_c_pos > 0)
++      rl_crlf ();
++    fflush (rl_outstream);
++    rl_display_fixed++;
++--- 3394,3400 ----
++  		 &last_face[_rl_screenwidth - 1 + woff], 1);
++      }
++!   if ((_rl_vis_botlin == 0 && botline_length == 0) || botline_length > 0 || _rl_last_c_pos > 0)
++      rl_crlf ();
+++   _rl_vis_botlin = 0;
++    fflush (rl_outstream);
++    rl_display_fixed++;
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 6
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 7
+diff --git a/meta/recipes-core/readline/readline/readline82-008.patch b/meta/recipes-core/readline/readline/readline82-008.patch
+new file mode 100644
+index 00000000000..660cb1e00bd
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-008.patch
+@@ -0,0 +1,80 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-008
++
++Bug-Reported-by:
++Bug-Reference-ID:
++Bug-Reference-URL:
++
++Bug-Description:
++
++Add missing prototypes for several function declarations.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/text.c	Wed Oct 27 11:03:59 2021
++--- text.c	Thu Nov 16 16:24:58 2023
++***************
++*** 1765,1770 ****
++  #if defined (READLINE_CALLBACKS)
++  static int
++! _rl_char_search_callback (data)
++!      _rl_callback_generic_arg *data;
++  {
++    _rl_callback_func = 0;
++--- 1765,1769 ----
++  #if defined (READLINE_CALLBACKS)
++  static int
++! _rl_char_search_callback (_rl_callback_generic_arg *data)
++  {
++    _rl_callback_func = 0;
++*** ../readline-8.2-patched/bind.c	Wed Feb  9 11:02:22 2022
++--- bind.c	Thu Nov 16 16:25:17 2023
++***************
++*** 1168,1174 ****
++  
++  static int
++! parse_comparison_op (s, indp)
++!      const char *s;
++!      int *indp;
++  {
++    int i, peekc, op;
++--- 1168,1172 ----
++  
++  static int
++! parse_comparison_op (const char *s, int *indp)
++  {
++    int i, peekc, op;
++*** ../readline-8.2-patched/rltty.c	Fri Feb 18 11:14:22 2022
++--- rltty.c	Thu Nov 16 16:25:36 2023
++***************
++*** 81,86 ****
++     to get the tty settings. */
++  static void
++! set_winsize (tty)
++!      int tty;
++  {
++  #if defined (TIOCGWINSZ)
++--- 81,85 ----
++     to get the tty settings. */
++  static void
++! set_winsize (int tty)
++  {
++  #if defined (TIOCGWINSZ)
++
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 7
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 8
+diff --git a/meta/recipes-core/readline/readline/readline82-009.patch b/meta/recipes-core/readline/readline/readline82-009.patch
+new file mode 100644
+index 00000000000..1fcf7b3535b
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-009.patch
+@@ -0,0 +1,76 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-009
++
++Bug-Reported-by:	Stefan H. Holek <stefan@epy.co.at>
++Bug-Reference-ID:	<50F8DA45-B7F3-4DE1-AB94-19AE42649CDC@epy.co.at>
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-10/msg00021.html
++
++Bug-Description:
++
++Fix issue where the directory name portion of the word to be completed (the
++part that is passed to opendir()) requires both tilde expansion and dequoting.
++Readline only performed tilde expansion in this case, so filename completion
++would fail.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/complete.c	2022-04-05 10:47:06.000000000 -0400
++--- complete.c	2022-10-26 15:08:51.000000000 -0400
++***************
++*** 2527,2531 ****
++  	  xfree (dirname);
++  	  dirname = temp;
++! 	  tilde_dirname = 1;
++  	}
++  
++--- 2527,2532 ----
++  	  xfree (dirname);
++  	  dirname = temp;
++! 	  if (*dirname != '~')
++! 	    tilde_dirname = 1;	/* indicate successful tilde expansion */
++  	}
++  
++***************
++*** 2546,2554 ****
++  	  users_dirname = savestring (dirname);
++  	}
++!       else if (tilde_dirname == 0 && rl_completion_found_quote && rl_filename_dequoting_function)
++  	{
++! 	  /* delete single and double quotes */
++  	  xfree (dirname);
++! 	  dirname = savestring (users_dirname);
++  	}
++        directory = opendir (dirname);
++--- 2547,2560 ----
++  	  users_dirname = savestring (dirname);
++  	}
++!       else if (rl_completion_found_quote && rl_filename_dequoting_function)
++  	{
++! 	  /* We already ran users_dirname through the dequoting function.
++! 	     If tilde_dirname == 1, we successfully performed tilde expansion
++! 	     on dirname. Now we need to reconcile those results. We either
++! 	     just copy the already-dequoted users_dirname or tilde expand it
++! 	     if we tilde-expanded dirname. */
++! 	  temp = tilde_dirname ? tilde_expand (users_dirname) : savestring (users_dirname);
++  	  xfree (dirname);
++! 	  dirname = temp;
++  	}
++        directory = opendir (dirname);
++
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 8
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 9
+diff --git a/meta/recipes-core/readline/readline/readline82-010.patch b/meta/recipes-core/readline/readline/readline82-010.patch
+new file mode 100644
+index 00000000000..6152953e913
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/readline82-010.patch
+@@ -0,0 +1,70 @@
++			   READLINE PATCH REPORT
++			   =====================
++
++Readline-Release: 8.2
++Patch-ID: readline82-010
++
++Bug-Reported-by:	Martin Castillo <castilma@uni-bremen.de>
++Bug-Reference-ID:	<2d42153b-cf65-caba-dff1-cd3bc6268c7e@uni-bremen.de>
++Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2023-01/msg00000.html
++
++Bug-Description:
++
++Fix the case where text to be completed from the line buffer (quoted) is
++compared to the common prefix of the possible matches (unquoted) and the
++quoting makes the former appear to be longer than the latter. Readline
++assumes the match doesn't add any characters to the word and doesn't display
++multiple matches.
++
++Patch (apply with `patch -p0'):
++
++Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++*** ../readline-8.2-patched/complete.c	Tue Apr  5 10:47:06 2022
++--- complete.c	Sat Jan  7 14:19:45 2023
++***************
++*** 2032,2038 ****
++    text = rl_copy_text (start, end);
++    matches = gen_completion_matches (text, start, end, our_func, found_quote, quote_char);
++    /* nontrivial_lcd is set if the common prefix adds something to the word
++       being completed. */
++!   nontrivial_lcd = matches && compare_match (text, matches[0]) != 0;
++    if (what_to_do == '!' || what_to_do == '@')
++      tlen = strlen (text);
++--- 2038,2060 ----
++    text = rl_copy_text (start, end);
++    matches = gen_completion_matches (text, start, end, our_func, found_quote, quote_char);
+++   /* If TEXT contains quote characters, it will be dequoted as part of
+++      generating the matches, and the matches will not contain any quote
+++      characters. We need to dequote TEXT before performing the comparison.
+++      Since compare_match performs the dequoting, and we only want to do it
+++      once, we don't call compare_matches after dequoting TEXT; we call
+++      strcmp directly. */
++    /* nontrivial_lcd is set if the common prefix adds something to the word
++       being completed. */
++!   if (rl_filename_completion_desired && rl_filename_quoting_desired &&
++!       rl_completion_found_quote && rl_filename_dequoting_function)
++!     {
++!       char *t;
++!       t = (*rl_filename_dequoting_function) (text, rl_completion_quote_character);
++!       xfree (text);
++!       text = t;
++!       nontrivial_lcd = matches && strcmp (text, matches[0]) != 0;
++!     }
++!   else
++!     nontrivial_lcd = matches && strcmp (text, matches[0]) != 0;
++    if (what_to_do == '!' || what_to_do == '@')
++      tlen = strlen (text);
++
++*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
++--- patchlevel	2014-03-21 08:28:40.000000000 -0400
++***************
++*** 1,3 ****
++  # Do not edit -- exists only for use by patch
++  
++! 9
++--- 1,3 ----
++  # Do not edit -- exists only for use by patch
++  
++! 10
+diff --git a/meta/recipes-core/readline/readline_8.2.bb b/meta/recipes-core/readline/readline_8.2.bb
+index 3a47297fe19..f0dba31251f 100644
+--- a/meta/recipes-core/readline/readline_8.2.bb
++++ b/meta/recipes-core/readline/readline_8.2.bb
+@@ -2,4 +2,16 @@ require readline.inc
+ 
+ SRC_URI += "  file://norpath.patch"
+ 
++SRC_URI += "file://readline82-001.patch;striplevel=0 \
++            file://readline82-002.patch;striplevel=0 \
++            file://readline82-003.patch;striplevel=0 \
++            file://readline82-004.patch;striplevel=0 \
++            file://readline82-005.patch;striplevel=0 \
++            file://readline82-006.patch;striplevel=0 \
++            file://readline82-007.patch;striplevel=0 \
++            file://readline82-008.patch;striplevel=0 \
++            file://readline82-009.patch;striplevel=0 \
++            file://readline82-010.patch;striplevel=0 \
++           "
++
+ SRC_URI[archive.sha256sum] = "3feb7171f16a84ee82ca18a36d7b9be109a52c04f492a053331d7d1095007c35"
 -- 
 2.44.0
 
