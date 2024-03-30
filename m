@@ -1,246 +1,104 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21667CD128E
-	for <webhook@archiver.kernel.org>; Sat, 30 Mar 2024 12:08:37 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.12519.1711800511686897688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B77FCD1288
+	for <webhook@archiver.kernel.org>; Sat, 30 Mar 2024 12:26:47 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.12774.1711801597136661826
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Mar 2024 05:08:31 -0700
+ Sat, 30 Mar 2024 05:26:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZiB+i2T1;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2a209b8af12so1603616a91.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Mar 2024 05:08:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IdSGS6Hv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.175, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d68c6a4630so28916701fa.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Mar 2024 05:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711800511; x=1712405311; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7xh8xHkJaCdQuFAWeqaI3YIeLFy1KbPiclLIIJ+ik8A=;
-        b=ZiB+i2T1O35ou2INU6N2Kyx3K4s2AgcygxNu15JIEAeD6AAg3sDo3krS5ZeQkA+y1A
-         ygnooTGr6GhmIm2NsGyJW+kOrmQyrL4PeXbOWWFF8cR2KoPznF5ujRi+TZ/HRHHf4xuC
-         bKc3bvNM4Jr1TbUeFn4UPKd2n9eFTATZZu0zcyuytyPv/j2qXAEMnDjVeQNPGesJvc+v
-         uI7VXQBBhvVU1303KfF9f9b+zpLsG9a8N5eQVyVJkojt/UMjZ6JYm/2mIiQcB/4Udn0N
-         +sSVpy1Vay8K+kLgbmOOql/cOp5MaGbBK70YXXrGLHjji0qIqvM0R0gqpuxS/wqspY8m
-         atcQ==
+        d=linuxfoundation.org; s=google; t=1711801595; x=1712406395; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5Wl5a6mhNWJWygZAOFl5BY7n919+S7PJUrPolpk0Seg=;
+        b=IdSGS6Hva4x6j48gSP7HdaCxDAiyh6M9/faJb+w3nzovevwFgl7nqtUrCMZjz/rBq/
+         lKDPmNSC2bJTMDqXFOwno5h0jJzHF1eNsngaNSmme68JbD8G8Vpb5ypYB6oW6ChV+/ZY
+         giq4sU82Gz6XW6+gAHMKYjh4SZLV8WEV4vkYQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711800511; x=1712405311;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7xh8xHkJaCdQuFAWeqaI3YIeLFy1KbPiclLIIJ+ik8A=;
-        b=sVKNAK63KUfj90fdhOLL8ZN4O0p2RqAmQpLwrtyfyagzc9tjwiN+EApgiaZPfnVBEq
-         35y22rXuZFYGqfWEROeBal4T/HM7qSXQ3l2NirewD12T1Owcw79LZxSCLVWmHN5t2STh
-         AbU4cgYSNeEUfMUQIXx77t7L2yKCFD93MBgYJeXmSKF+1fsWm2C8jG6DHF2aoDMriOun
-         7PYZwOxhFhMeW4MUGQckIRwewUd44GM2aPGy9oxeJV4/vl6WYK+zQfkvMsGFdFHwjLrp
-         soQq0imXlt8kj46qe3gJfJfAXgfPHmJuSBwRtz2/A0H/h/FlMRbKfL/61QUbGwQcuHA1
-         PuvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXqTKXshVA8/XWugRKbfsPPm74Ql1CREntkbTH+gG0luVJR5pbyGymdrU+dvxysmSW+fJNyztYNzUsVmBhwoAuYgk+4a3MdTLhJAr1/QEJn29oLeLvey3j
-X-Gm-Message-State: AOJu0YzRBVmksNKaz4wtg7lYrL04bi3+Fg719OlQded1FrlVkA3DfRNv
-	OyWHSz3qKefxt5Uz+l+jTCH4LwZlRQV0p10IpLzfTc8+qPmr4Yhv7e2l9P/LvG/9AquRaT+Jqfm
-	qdTiB382bYEKrraT5v9ibV4nPCRs=
-X-Google-Smtp-Source: AGHT+IE76WGDxn8UJdIH93oPbgQpSwhglsRcBZ079iNmf50EOhLftPNRFdJd3x3s1LyklP+a6+F1VxH8wGcaBWSCWR0=
-X-Received: by 2002:a17:90a:4989:b0:29f:e0ef:4d8c with SMTP id
- d9-20020a17090a498900b0029fe0ef4d8cmr4054325pjh.44.1711800510856; Sat, 30 Mar
- 2024 05:08:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
- <1710313714-12541-36-git-send-email-wangmy@fujitsu.com> <2d88c7fc227e44acf14470103dadd92e026b62f9.camel@linuxfoundation.org>
- <36b1d7d1-c1ea-4d1a-b7a7-27ff550cdcc7@kernel.crashing.org>
-In-Reply-To: <36b1d7d1-c1ea-4d1a-b7a7-27ff550cdcc7@kernel.crashing.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Sat, 30 Mar 2024 13:08:18 +0100
-Message-ID: <CAApg2=Tq7i4u3+U9iNXQufH8kKwnfty2OG=OUeL23j9PT9gFJA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1711801595; x=1712406395;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Wl5a6mhNWJWygZAOFl5BY7n919+S7PJUrPolpk0Seg=;
+        b=km9+W8VcpErytCylDvIUBo+TvFsJ3mF0DT7qE47Z2FxVHxL6lhDoFObIQmgMzUUPP1
+         D3NISs5BKQl3mV73VKDimu9mcIXg/qbPoAHOcelAemHUz6+/TSUVBlgCwWYcBj3GMsNt
+         ABkQB4iirfO80sJByGgzbaTld+26Rtl8Pm+KbOiNP4I2a7KsdaELdD4b4p9G34hQ719P
+         5Vz5cJv+pWZn1R+wwZav0Q7dosnVsvWdxNZ+DSEmAMTk2wtve5jn5q0FapOTQiGdIlHv
+         uVnLdUAAAVYTDXWhrkQZkdQFoZ7TPDF4yc7Dy+Qu2PIfIZsgtSMiAD6cV9D/azE3cPhE
+         cuDg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2YUqF6/1QqZdYO7+euaYjF9DTjk8CK2u0mUSgNK71JU+gwmu8XtuquLTdKf1BK1XM9JHexA540w9ny0461zZGlt9putTBcrooigv6kmNhXq1dwUjTptJy
+X-Gm-Message-State: AOJu0YzcMQZzGeNEaenMdwXR/CHO/Ms69Jrw2vicgSoe5cC4V2VVZnji
+	eK877u/1guoqKb543edXE3hOrwmczrEbV1ulsfsJJm365r4FhBWFyhWgYrdqrbU=
+X-Google-Smtp-Source: AGHT+IE+o+nzkFK7zSu0yCpcpq83wt0Yd41T9MHpPjFcJy6tfKomu0qj/IDGjQr8v3qMm/JiaeV7vA==
+X-Received: by 2002:a2e:a9a1:0:b0:2d6:a8c3:7f37 with SMTP id x33-20020a2ea9a1000000b002d6a8c37f37mr4054819ljq.1.1711801595120;
+        Sat, 30 Mar 2024 05:26:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6060:712a:2cf4:ea86? ([2001:8b0:aba:5f3c:6060:712a:2cf4:ea86])
+        by smtp.gmail.com with ESMTPSA id v8-20020a05600c470800b004149543c82fsm10824817wmo.39.2024.03.30.05.26.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Mar 2024 05:26:34 -0700 (PDT)
+Message-ID: <d21d06c112a43b8d29ab98a05a3088a16c5d4dac.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 36/36] xz: upgrade 5.4.6 -> 5.6.1 _WARNING_
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, wangmy@fujitsu.com, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000604b130614df9db6"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <rybczynska@gmail.com>, Mark Hatle
+	 <mark.hatle@kernel.crashing.org>
+Cc: wangmy@fujitsu.com, OE-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 30 Mar 2024 12:26:33 +0000
+In-Reply-To: <CAApg2=Tq7i4u3+U9iNXQufH8kKwnfty2OG=OUeL23j9PT9gFJA@mail.gmail.com>
+References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
+	 <1710313714-12541-36-git-send-email-wangmy@fujitsu.com>
+	 <2d88c7fc227e44acf14470103dadd92e026b62f9.camel@linuxfoundation.org>
+	 <36b1d7d1-c1ea-4d1a-b7a7-27ff550cdcc7@kernel.crashing.org>
+	 <CAApg2=Tq7i4u3+U9iNXQufH8kKwnfty2OG=OUeL23j9PT9gFJA@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Mar 2024 12:08:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197648
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Mar 2024 12:26:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197649
 
---000000000000604b130614df9db6
-Content-Type: text/plain; charset="UTF-8"
+On Sat, 2024-03-30 at 13:08 +0100, Marta Rybczynska wrote:
+> Absolutely confirm. DO NOT UPDATE
+>=20
+> Marta
+>=20
+> On Sat, 30 Mar 2024, 02:04 Mark Hatle,
+> <mark.hatle@kernel.crashing.org> wrote:
+> > I know this request is a week or so old..
+> >=20
+> > But do NOT upgrade to 'xz' 5.6.0 or 5.6.1.=C2=A0 It has been
+> > compromised:
+> >=20
+> > https://www.openwall.com/lists/oss-security/2024/03/29/4
+> >=20
+> > --Mark
 
-Absolutely confirm. DO NOT UPDATE
+We're not going to. The upgrade was already dropped after it failed
+build testing. I do wonder why it failed.
 
-Marta
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/8737
 
-On Sat, 30 Mar 2024, 02:04 Mark Hatle, <mark.hatle@kernel.crashing.org>
-wrote:
+I've ensured the sources were removed from our mirrors too.
 
-> I know this request is a week or so old..
->
-> But do NOT upgrade to 'xz' 5.6.0 or 5.6.1.  It has been compromised:
->
-> https://www.openwall.com/lists/oss-security/2024/03/29/4
->
-> --Mark
->
-> On 3/14/24 8:40 AM, Richard Purdie wrote:
-> > On Wed, 2024-03-13 at 15:08 +0800, wangmy via lists.openembedded.org
-> > wrote:
-> >> From: Wang Mingyu <wangmy@fujitsu.com>
-> >>
-> >> License-Update:
-> >> ================
-> >> *COPYING:
-> >>   Add the license for the XZ logo.
-> >>   Change most public domain parts to 0BSD.
-> >>   Update COPYING about the man pages of the scripts.
-> >> *getopt.c
-> >>   MSVC: Don't #include <unistd.h>.
-> >>   lib/getopt*.c: Include <config.h> only HAVE_CONFIG_H is defined.
-> >>   lib: Update getopt.c from Gnulib with modifications.
-> >>   lib: Silence -Wsign-conversion in getopt.c.
-> >>   Add SPDX license identifiers to GPL, LGPL, and FSFULLR files.
-> >>
-> >> Changelog:
-> >> =============
-> >> * liblzma: Fixed two bugs relating to GNU indirect function (IFUNC)
-> >>    with GCC.
-> >> * xz: Changed the messages for thread reduction due to memory
-> >>    constraints to only appear under the highest verbosity level.
-> >> * Build:
-> >>      - Fixed a build issue when the header file <linux/landlock.h>
-> >>        was present on the system but the Landlock system calls were
-> >>        not defined in <sys/syscall.h>.
-> >>      - The CMake build now warns and disables NLS if both gettext
-> >>        tools and pre-created .gmo files are missing. Previously,
-> >>        this caused the CMake build to fail.
-> >> * Minor improvements to man pages.
-> >> * Minor improvements to tests.
-> >
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/8737
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197643):
-> https://lists.openembedded.org/g/openembedded-core/message/197643
-> Mute This Topic: https://lists.openembedded.org/mt/105226831/5827677
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> rybczynska@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Cheers,
 
---000000000000604b130614df9db6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Absolutely confirm. DO NOT UPDATE<div dir=3D"auto"><br></=
-div><div dir=3D"auto">Marta</div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Sat, 30 Mar 2024, 02:04 Mark Hatle, &lt=
-;<a href=3D"mailto:mark.hatle@kernel.crashing.org">mark.hatle@kernel.crashi=
-ng.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I know this r=
-equest is a week or so old..<br>
-<br>
-But do NOT upgrade to &#39;xz&#39; 5.6.0 or 5.6.1.=C2=A0 It has been compro=
-mised:<br>
-<br>
-<a href=3D"https://www.openwall.com/lists/oss-security/2024/03/29/4" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">https://www.openwall.com/lists/os=
-s-security/2024/03/29/4</a><br>
-<br>
---Mark<br>
-<br>
-On 3/14/24 8:40 AM, Richard Purdie wrote:<br>
-&gt; On Wed, 2024-03-13 at 15:08 +0800, wangmy via <a href=3D"http://lists.=
-openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.ope=
-nembedded.org</a><br>
-&gt; wrote:<br>
-&gt;&gt; From: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" target=
-=3D"_blank" rel=3D"noreferrer">wangmy@fujitsu.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; License-Update:<br>
-&gt;&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt;&gt; *COPYING:<br>
-&gt;&gt;=C2=A0 =C2=A0Add the license for the XZ logo.<br>
-&gt;&gt;=C2=A0 =C2=A0Change most public domain parts to 0BSD.<br>
-&gt;&gt;=C2=A0 =C2=A0Update COPYING about the man pages of the scripts.<br>
-&gt;&gt; *getopt.c<br>
-&gt;&gt;=C2=A0 =C2=A0MSVC: Don&#39;t #include &lt;unistd.h&gt;.<br>
-&gt;&gt;=C2=A0 =C2=A0lib/getopt*.c: Include &lt;config.h&gt; only HAVE_CONF=
-IG_H is defined.<br>
-&gt;&gt;=C2=A0 =C2=A0lib: Update getopt.c from Gnulib with modifications.<b=
-r>
-&gt;&gt;=C2=A0 =C2=A0lib: Silence -Wsign-conversion in getopt.c.<br>
-&gt;&gt;=C2=A0 =C2=A0Add SPDX license identifiers to GPL, LGPL, and FSFULLR=
- files.<br>
-&gt;&gt;<br>
-&gt;&gt; Changelog:<br>
-&gt;&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt;&gt; * liblzma: Fixed two bugs relating to GNU indirect function (IFUNC=
-)<br>
-&gt;&gt;=C2=A0 =C2=A0 with GCC.<br>
-&gt;&gt; * xz: Changed the messages for thread reduction due to memory<br>
-&gt;&gt;=C2=A0 =C2=A0 constraints to only appear under the highest verbosit=
-y level.<br>
-&gt;&gt; * Build:<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0 - Fixed a build issue when the header fil=
-e &lt;linux/landlock.h&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 was present on the system but=
- the Landlock system calls were<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 not defined in &lt;sys/syscal=
-l.h&gt;.<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0 - The CMake build now warns and disables =
-NLS if both gettext<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tools and pre-created .gmo fi=
-les are missing. Previously,<br>
-&gt;&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 this caused the CMake build t=
-o fail.<br>
-&gt;&gt; * Minor improvements to man pages.<br>
-&gt;&gt; * Minor improvements to tests.<br>
-&gt; <br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/48/=
-builds/8737" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobu=
-ilder.yoctoproject.org/typhoon/#/builders/48/builds/8737</a><br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#197643): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/197643" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/197643</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105226831/582=
-7677" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/105226831/5827677</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmai=
-l.com" target=3D"_blank" rel=3D"noreferrer">rybczynska@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000604b130614df9db6--
+Richard
 
