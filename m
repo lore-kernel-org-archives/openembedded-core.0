@@ -1,204 +1,117 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 091F0CD1288
-	for <webhook@archiver.kernel.org>; Sun, 31 Mar 2024 08:28:24 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.13660.1711873701023664048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB17CD1284
+	for <webhook@archiver.kernel.org>; Sun, 31 Mar 2024 11:19:04 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.15339.1711883939862619391
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Mar 2024 01:28:21 -0700
+ Sun, 31 Mar 2024 04:19:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GDfrrn29;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-22963f0e12cso1956523fac.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 Mar 2024 01:28:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xUBH8eLW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.222.172, mailfrom: steve@sakoman.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-789ddcd57f4so218672885a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 Mar 2024 04:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711873700; x=1712478500; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1711883939; x=1712488739; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VTrAkasDdhQkhdluC9MfNwU9vTQpWsuuLZjt7aiHP2w=;
-        b=GDfrrn29n2UBirYlTgCQz0ErOFrdVs+g2xNNuBcLGgBEvyXMhPBgxp4NzIwvlZ5kNq
-         r4zFxRYT7TU4HoPkqYeGlM1WzWqH6e0Ur/V+NaX16MHwYliCjk1qi9bdVIKMI7T22tz9
-         uUdTkBr5ll5SUNqkHyZKg2yWCEyuQHGvk6kWZsKzy5xwSIVex8qMa6jzyE3SdMUog3zf
-         9awZxYaNX2te4p3KAqACWBJE7pR+m/NL4bgrGJsNwco37tlSinmLkWY2Zo4/R1wvzHPf
-         0kH7Vbrkpc6mFkKDNDkWT6gSkxNGsJpRYQiwu6NARuVp65pgbzIJm1SCCZFTsLJPE422
-         zuEQ==
+        bh=hVCgXlVDPMlAEk8m3V+nok8MZyHtl8NrY12D4bln5Is=;
+        b=xUBH8eLWSZB4sENfdESMvwVnoQ7TAkRI2cU2Uy2pBy8r4FmB5tRwZNn+2b7z1If/0C
+         WSCccEfuYrhe2bpC6kK3oV+ra+t1yUAM9Ln8uF4dhJMoSe8gHs/WZ4yHxUDLuaGxModk
+         Zoku7G18wtOg8Ik6MOYtocTiB0t6EMtkUAFP4UjmPS40fAIQlo5Ps2DVtAVKdWq6QR5U
+         yTg5Xq0Di7BfRFKrs1guc0zxHxfnJh64VZFMzUcJPfZkmd5CYMfZFQb6vXitRrAHGqq0
+         vNrYGkjNsKeOi/6ipFelZkDzOTI55pEtZFyC9XtiyfMyg2mcNhd0QWZ6xH4gnwWJCnZm
+         1vLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711873700; x=1712478500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VTrAkasDdhQkhdluC9MfNwU9vTQpWsuuLZjt7aiHP2w=;
-        b=Db4Oh1FJHcVidQr0nI45/0kSuptd42y4PoJ0PVfnIiN7RnK6ldnpffMSEEZgoaoqFy
-         HiSGm5ol/CNU2Ew1MNdbR5q08B+JvGQ5g3+waN6sphqIV4E5/+T8fBv+Ou/ZHsr6faXB
-         2tNNCqr63210i8VgJSUnh3xRBg32yNOyV/uKVy3aLMlE+FSsClx6Qi881hxa4WT78BPR
-         BwSrrdcSV8piJnFf6VJiWmkoSE3ji58EIvfZ99RYeMclTCx0IUGHWcxpQuKSZtxx3z21
-         nhr+SLVeRrWu3t4ZGOCaIb19dM4qyJLqtWA9crERzWkdnH1G2kuVXwHCxkCw2+A1LkXG
-         8r/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXhkZhjTbdVLyJtKbikD4UpIxvMic497Wc1+Ri1u7K4wQK9IjOC2wm9scQF3g9kAifmWudGzQWChv0FbUDOzjerUU4eFYHaG1Qqmis7zDnxjOBcudfFiWlz
-X-Gm-Message-State: AOJu0YxEbjLrJ7rcQwGkLo5WG4tFMN4D/HnNCMHB5uXJDC5WLJ1R9d3O
-	WLjU/LYLXhWln7T3fFWdFok1X+5ZpXzZMd8IcRCCk743GSB47DwDhBO/JBhgvrDRZHu8b2ws2Ld
-	9+l/8j38IvsZIZqRRT7ZABZzcdern7DRv
-X-Google-Smtp-Source: AGHT+IEXSMRLx9On77sTCsMBb6bQTuqaBq+e7qLlKUSYnpmPB1+IOKoQxi+AAJZGXjZ9Mx/jM3fFKAX+8sRrfdGk0iw=
-X-Received: by 2002:a05:6870:ac07:b0:220:8d0d:e25e with SMTP id
- kw7-20020a056870ac0700b002208d0de25emr7140902oab.47.1711873700065; Sun, 31
- Mar 2024 01:28:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240329055034.3942360-1-raj.khem@gmail.com> <20240329055034.3942360-2-raj.khem@gmail.com>
- <36955edbe50ee6fbb2320ff5c304722ae957a344.camel@linuxfoundation.org> <20240331082400af4e1f1f@mail.local>
-In-Reply-To: <20240331082400af4e1f1f@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 31 Mar 2024 01:27:53 -0700
-Message-ID: <CAMKF1sre5e3475zOTpz7T3jM+PTt5P0ooVHabUZBGr77=7T+BQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] valgrind: Re-enable fixed test cases
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20230601; t=1711883939; x=1712488739;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hVCgXlVDPMlAEk8m3V+nok8MZyHtl8NrY12D4bln5Is=;
+        b=Sg4ipD70nfoD8D6rAy4tapsk/wHz2XYZzefFjWB3RQJxoayMbAnSm5faZw49H7EGOs
+         tT23wg25WjLEtf+GN0XACHl8sQYkQd3CldRF1b9HA/8LrYu/eVDSDVNtoBBO9VVTorwT
+         KirgwAl/9QeenBAyrmZCBsVdyHSVDM7jQTkWWEddFfsyBV4Oyx3vTnlsFIRgTaj5aHfh
+         ho00Wr8i0M132pe64tESb4cgcVcFyqsNn0xzGniVzEh1QX4XqsViLQh2i5fCX4Muse+z
+         D87wkb+jiKrRbWyLQ33M0G5zVE9upRnpKJfun9FmCitOAv80uKyBOsvu+mMEY1bn6KLq
+         H31g==
+X-Gm-Message-State: AOJu0YzkrV4lspmJuReDjHszMZLcgTbeahnc8H/ic2GjS75Ojawa86U8
+	WgQitNw4K5Jj9skSW14BarkHQieP34zQkUAcAL229zJB7kgy4a/Z/kWpw8FykTFD3kp2C8R54C5
+	Qs0w=
+X-Google-Smtp-Source: AGHT+IExhpFWViwVj1GZo+OXl5EXnCKkIosKUhJdgTtp6FiLxjW2uQE3SjAz837E0pp0SuLQHpPQog==
+X-Received: by 2002:a05:620a:1d9d:b0:789:ea39:51e3 with SMTP id pj29-20020a05620a1d9d00b00789ea3951e3mr7050921qkn.18.1711883938768;
+        Sun, 31 Mar 2024 04:18:58 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id y1-20020a37e301000000b0078bdd8fa570sm513297qki.106.2024.03.31.04.18.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Mar 2024 04:18:58 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 4603F1068D9; Sun, 31 Mar 2024 01:18:57 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 31 Mar 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 31 Mar 2024 01:18:57 -1000
+Message-Id: <20240331111857.4603F1068D9@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Mar 2024 08:28:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197657
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Mar 2024 11:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197658
 
-yeah drop it for now. I need to check x86 results with gcc
+Branch: master
 
-On Sun, Mar 31, 2024 at 1:24=E2=80=AFAM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> On 30/03/2024 08:31:10+0000, Richard Purdie wrote:
-> > On Thu, 2024-03-28 at 22:50 -0700, Khem Raj wrote:
-> > > These tests have been fixed in prior to 3.22 release
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/recipes-devtools/valgrind/valgrind_3.22.0.bb | 6 ------
-> > >  1 file changed, 6 deletions(-)
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6452/=
-steps/13/logs/stdio
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6257/=
-steps/13/logs/stdio
-> >
-> > Failed ptests:
-> > {'valgrind': ['memcheck/tests/leak_cpp_interior', 'drd/tests/pth_mutex_=
-signal']}
-> >
-> > so they're not fixed.
-> >
->
-> Failed test details...
-> drd/tests/pth_mutex_signal.stderr.diff
-> ************
-> --- pth_mutex_signal.stderr.exp
-> +++ pth_mutex_signal.stderr.out
-> @@ -2,14 +2,34 @@
->  mutex initialized
->  thread attributes initialized
->  thread created
-> -sleeping
-> -signalling
-> -sleeping
-> -nullHandler running
-> -unlocking
-> -contender locked mutex
-> -contender unlocking mutex
-> -contender unlocked mutex
-> -joining thread
->
-> -ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-> +Process terminating with default action of signal 6 (SIGABRT)
-> +   at 0x........: __pthread_kill_implementation (pthread_kill.c:?)
-> +   by 0x........: raise (raise.c:?)
-> +   by 0x........: abort (abort.c:?)
-> +   by 0x........: __libc_message_impl.cold (libc_fatal.c:?)
-> +   by 0x........: __libc_fatal (libc_fatal.c:?)
-> +   by 0x........: futex_fatal_error (futex-internal.h:87)
-> +   by 0x........: __futex_lock_pi64 (futex-internal.c:203)
-> +   by 0x........: __pthread_mutex_lock_full (pthread_mutex_lock.c:?)
-> +   by 0x........: pthread_mutex_lock (drd_pthread_intercepts.c:?)
-> +   by 0x........: contender_start (pth_mutex_signal.c:?)
-> +   by 0x........: vgDrd_thread_wrapper (drd_pthread_intercepts.c:?)
-> +   by 0x........: start_thread
-> +   by 0x........: clone (in /...libc...)
-> +Thread 2:
-> +Destroying locked mutex: mutex 0x........, recursion count 1, owner 1.
-> +   at 0x........: __libc_write (write.c:?)
-> +   by 0x........: write (write.c:?)
-> +   by 0x........: _IO_file_write@@GLIBC_2.2.5 (fileops.c:?)
-> +   by 0x........: new_do_write (fileops.c:?)
-> +   by 0x........: _IO_new_file_xsputn (fileops.c:?)
-> +   by 0x........: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:?)
-> +   by 0x........: fwrite (iofwrite.c:?)
-> +   by 0x........: main (pth_mutex_signal.c:?)
-> +mutex 0x........ was first observed at:
-> +   at 0x........: pthread_mutex_init (drd_pthread_intercepts.c:?)
-> +   by 0x........: main (pth_mutex_signal.c:?)
-> +
-> +
-> +ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
->
-> Failed test details...
-> memcheck/tests/leak_cpp_interior.stderr.diff
-> ************
-> --- leak_cpp_interior.stderr.exp
-> +++ leak_cpp_interior.stderr.out
-> @@ -1,4 +1,7 @@
->
-> +Conditional jump or move depends on uninitialised value(s)
-> +   ...
-> +
->  valgrind output will go to log
->  VALGRIND_DO_LEAK_CHECK
->  x bytes in 1 blocks are definitely lost in loss record ... of ...
-> @@ -35,10 +38,10 @@
->  LEAK SUMMARY:
->     definitely lost: x (+0) bytes in 1 (+0) blocks
->     indirectly lost: 0 (+0) bytes in 0 (+0) blocks
-> -     possibly lost: x (-x) bytes in 5 (+1) blocks
-> -   still reachable: x (+x) bytes in 3 (-1) blocks
-> +     possibly lost: x (-x) bytes in 4 (+0) blocks
-> +   still reachable: x (+x) bytes in 4 (+0) blocks
->                        of which reachable via heuristic:
-> -                        newarray           : x (+x) bytes in 1 (+1) bloc=
-ks
-> +                        newarray           : x (+x) bytes in 2 (+2) bloc=
-ks
->                          multipleinheritance: 0 (-x) bytes in 0 (-2) bloc=
-ks
->  To see details of leaked memory, give 'full' arg to leak_check
->
-> @@ -46,11 +49,11 @@
->  LEAK SUMMARY:
->     definitely lost: x (+0) bytes in 1 (+0) blocks
->     indirectly lost: 0 (+0) bytes in 0 (+0) blocks
-> -     possibly lost: x (-x) bytes in 5 (+0) blocks
-> -   still reachable: x (+x) bytes in 3 (+0) blocks
-> +     possibly lost: x (+x) bytes in 5 (+1) blocks
-> +   still reachable: x (-x) bytes in 3 (-1) blocks
->                        of which reachable via heuristic:
->                          length64           : x (+x) bytes in 1 (+1) bloc=
-ks
-> -                        newarray           : 0 (-x) bytes in 0 (-1) bloc=
-ks
-> +                        newarray           : 0 (-x) bytes in 0 (-2) bloc=
-ks
->  To see details of leaked memory, give 'full' arg to leak_check
->
->  leak_check summary heuristics stdstring
-> @@ -133,5 +136,6 @@
->
->  All heap blocks were freed -- no leaks are possible
->
-> +Use --track-origins=3Dyes to see where uninitialised values come from
->
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+New this week: 0 CVEs
+
+Removed this week: 0 CVEs
+
+Full list:  Found 37 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6356 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6356 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2023-6536 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6536 *
+CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
+CVE-2023-7216 (CVSS3: 5.3 MEDIUM): cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7216 *
+CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
+CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 28
+  busybox: 4
+  cpio: 1
+  gnupg:gnupg-native: 1
+  nasm:nasm-native: 1
+  openssh: 1
+  qemu:qemu-native:qemu-system-native: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
