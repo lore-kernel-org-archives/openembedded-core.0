@@ -1,151 +1,179 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43297CD128A
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 19:58:06 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.47731.1712001476868197463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26920CD128A
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 19:58:46 +0000 (UTC)
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+ by mx.groups.io with SMTP id smtpd.web10.2019.1712001518961943136
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 12:57:56 -0700
+ Mon, 01 Apr 2024 12:58:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZEezCsU3;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2a20a9df742so2793263a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 12:57:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LMkTKHXY;
+ spf=pass (domain: gmail.com, ip: 209.85.161.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5a50880ce2aso2782617eaf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 12:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712001476; x=1712606276; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1712001518; x=1712606318; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dxSAKuvsj2gKnPvMGIGGHyxPebQZ0gAeC6/t+Q++tW8=;
-        b=ZEezCsU3F58Ztc4rrarXPuadUrs9UDp5dJP9/f3Bunz2rJIicMifVo3iNrG6GDD3C2
-         WPfvX/+uN6BXkeP/O0F8lt77ZFKzLmo9pFdUzGwyXSIgzm1kvA4ePdv3Fexs3n14pwYe
-         n/U2hIF5sKOoa2z+yuqNitILWoNqbWZ086+H22hIMvZPTC6bvmv2KFBPeyLyw3Dhw09k
-         h30YJiJT8F6wiWr2NCsR6OFemXVXsMEWivILV/Dkf49JKvgHRk7EeROjwXJu+g49exo8
-         y+BOmr+WE9LXqWqr11bENVQpOcDlsGoDIcSNGPeG+I3RExuKaT2q1m3cdNMhSi0gJpZp
-         hxwA==
+        bh=jjiAXATtdXE8y7LXU/7GbzA+foWqkNQT3yzOX/a6E4o=;
+        b=LMkTKHXYgfYWrQTplzsI28VTRj/RYZsjQEkhksXh2wqRSTBtJcxSIzD2K0gEgRH/AY
+         3ZlHtokRGZZoTR5QiVs026/R73fzS1MJyQ2eHgS/MolSYcNqfgy0IrYsr7T+Wm8WV1q0
+         DZL19tiaT/5NxRbVmbRyWbjf716UIQmOmoy8DljToEe3iS1BS/vSlV1AjEErS2iOajwW
+         szx3bZuq34D5EP4oP7xQJP6CZ/gspRVWDdT4F1zSJFHHw9uli1yrtobxLKY+YKWMMw3V
+         O8Fm49NHQFG8G3Tfirf+7KvFJNfhxzrRrgA3Ew97U1/kXlxTZZ+6uoFv3T5WZDnz6odk
+         aVDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712001476; x=1712606276;
+        d=1e100.net; s=20230601; t=1712001518; x=1712606318;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dxSAKuvsj2gKnPvMGIGGHyxPebQZ0gAeC6/t+Q++tW8=;
-        b=EZ3J7HaUcD4iQrc+jjRWkinBVWs7SACCBbSetarVsvuxx/xlRbFAZFpEodaF2E69gf
-         3Lrakv1eDxNgvjjLRQtYENUCaoe8XAdBMiAqaGdpSgI+VdvM8uQuiyKQcbvlh1Wp0Jlq
-         s99BHc08NqREU6EO6qAbJvHhU1EeGIC9clLjsfF5mXNbtNekhCMntyTn4h4AhJsEw3pU
-         qfzd6w+A80Csmc/USuot3YEPvhEuFcmkuhXoDNqzZRpSzRHFXSVxrXCOqHHn9v7x9L7q
-         y7NDPUzIfrI0ocjRupB5Wv5g5tbUI173pCAvS92uThs4OTEyYZvjwfuXUv+gqGRUqDNm
-         HCnA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdP9LnltxT+P1EUdYCKtsxQt+EDVFWljAHAfAATLdBWHAmUQkcCIN2yNWxZN2LFRnydZCBfjd3rPb9I1PbdpUgoVerp1XZVKLUgC6MD7ux24Y5gWd+RZB8
-X-Gm-Message-State: AOJu0YzvkJz8012c8eJgGe4RU4Jh5xHYvV/uGJQKPbv8avzwb+lQXPo7
-	1gk5DmxoPvldCLb9SvLWUmrYtjIY9mekJKLlVHqSfftDlFJoHjuNp1d9HTqIotlY85Hq7hfLfjW
-	ib2yvJBJyu1x2hsxtkzuaBWnDDZM=
-X-Google-Smtp-Source: AGHT+IHzmpGNbLMT8w/NensTlpWDuieULshDwCAx3Xnj64g69XetLCIOGnip/7sus137gD4iUKfUxcTv02p+TpJVwgI=
-X-Received: by 2002:a17:90a:8d16:b0:2a2:2b83:149a with SMTP id
- c22-20020a17090a8d1600b002a22b83149amr4280033pjo.2.1712001476224; Mon, 01 Apr
- 2024 12:57:56 -0700 (PDT)
+        bh=jjiAXATtdXE8y7LXU/7GbzA+foWqkNQT3yzOX/a6E4o=;
+        b=B4cq4uGZsl5TsyhE9OKA62BcfOev5Au7E5u8whAVXNLJ5LW4E0qxT+aYqd/k7EF0Qw
+         ZdM73UjUG+XiF/swSN70HCpGhyRzKostsstimVIns7tNrnKpxGvzvZt9PrKPt2SqDRD5
+         3B1LqjQhcH7TSCWGRH1E56BZsjQmVh6DWjBPbywnjWjEKXHfDFQcB2K4xcVhdKL1Kjuf
+         GvmJhAPgL4OhnXaM2/SZ9t3EAu1x7QefaD2NBZ+D/55864oXKNw7krHAYsReDEo/uMdg
+         SNKBtaEHXMVv0A3ieebnFqdvcw8U0jwJxCIxgfKvpTE4bBbUSvNlxf5PNpZG1QInqB5C
+         kfzQ==
+X-Gm-Message-State: AOJu0YyWGyb24PP/M+iawEyUTwtJZ3xB9zgE55z3L9B2x+GUgVRUfosM
+	7Tx87hdsZjfZj1KQ7qLGShMxyU8EuxVxtASAAY0Kl9wKKPVmHmCZs5a+8X3PPXdOZSXnl9AbWy4
+	4WJhMeXERPRMQxeJwzzsg6LkDsww=
+X-Google-Smtp-Source: AGHT+IGgTQVIq86qyD7+dl44K3QrAbFdBxQqfmv+jDXGnSbP0aIlPZzUELnAOzyFtrVh7r0zcmZPGIU5di90Iczawug=
+X-Received: by 2002:a05:6870:ebc4:b0:22a:a6eb:19c5 with SMTP id
+ cr4-20020a056870ebc400b0022aa6eb19c5mr13382740oab.8.1712001518056; Mon, 01
+ Apr 2024 12:58:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
- <1710313714-12541-36-git-send-email-wangmy@fujitsu.com> <2d88c7fc227e44acf14470103dadd92e026b62f9.camel@linuxfoundation.org>
- <36b1d7d1-c1ea-4d1a-b7a7-27ff550cdcc7@kernel.crashing.org>
- <CAApg2=Tq7i4u3+U9iNXQufH8kKwnfty2OG=OUeL23j9PT9gFJA@mail.gmail.com>
- <d21d06c112a43b8d29ab98a05a3088a16c5d4dac.camel@linuxfoundation.org>
- <CANNYZj8DCqKE9_ftZTKfj8UY5tnDUnPhETN++3SjeNDT_S4_iA@mail.gmail.com>
- <CA+chaQd5mQv5ciJWbXHG1OdsQ7AW_H8dfVJrNaTV-p7qiqHusw@mail.gmail.com>
- <13c0dc257dd36f6048561a1ce6b2f76e9a04700f.camel@linuxfoundation.org>
- <CAGNsrLBM7DptiF-7t_B5aK=v_uBcYD52Ksp2ebgS44Ny0NvxaA@mail.gmail.com> <20240401190210.GQ6072@denix.org>
-In-Reply-To: <20240401190210.GQ6072@denix.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 1 Apr 2024 21:57:44 +0200
-Message-ID: <CAApg2=RK=kqfv=GLOr_LW-j=ex8dBvEwCSMQaYjbe8Ogu4ZK7Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 36/36] xz: upgrade 5.4.6 -> 5.6.1 _WARNING_
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Fathi Boudra <fathi.boudra@linaro.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Martin Jansa <martin.jansa@gmail.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, Mark Hatle <mark.hatle@kernel.crashing.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, wangmy@fujitsu.com
+References: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+In-Reply-To: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Apr 2024 12:58:11 -0700
+Message-ID: <CAMKF1spGJ_JjvgHezfhaEwuZHAmnyzK2vmWvqGps0AwOfbz2pg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix stale qemu processes left after
+ glibc oe-selftest
+To: Yash.Shinde@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com, 
+	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 19:58:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197850
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 19:58:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197851
 
-On Mon, Apr 1, 2024 at 9:02=E2=80=AFPM Denys Dmytriyenko <denis@denix.org> =
-wrote:
->
-> On Mon, Apr 01, 2024 at 11:42:51AM +0200, Fathi Boudra wrote:
-> > On Sat, 30 Mar 2024 at 17:18, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Sat, 2024-03-30 at 14:06 +0100, Martin Jansa wrote:
-> > > > From what is publicly known it injected malicious code (through m4
-> > > > macro using payload hidden in obfuscated compressed test file) into
-> > > > built liblzma.so.5 which then hijacks RSA_public_decrypt call e.g. =
-in
-> > > > sshd (when sshd is built with patch adding systemd notifications
-> > > > which brings liblzma dependency to sshd e.g. on debian and ubuntu
-> > > > based systems).
-> > > >
-> > > > The build systems which just built this xz version shouldn't be
-> > > > affected (as it won't be using the liblzma.so from the OE build on
-> > > > the host).
-> > > >
-> > > > This publicly known part should be OK for OE, but it's right to be
-> > > > worried about the other things which aren't known (not only from
-> > > > these guys or from xz project).
-> > >
-> > > I concur.
-> > >
-> > > It is worrying but I've kind of been expecting something like this fo=
-r
-> > > a while unfortunately.
-> > >
-> > > We need to watch what is going on and act accordingly if/as anything
-> > > else becomes known.
-> >
-> > https://nvd.nist.gov/vuln/detail/CVE-2024-3094
-> >
-> > Distros have downgraded to older releases, still trying to figure out
-> > which version to use.
->
-> While 5.4.6 version we've upgraded to in February was not yet compromised=
-,
-> it was already being taken over by Jia Tan, moving releases to controlled
-> subdomain of xz.tukaani.org hosted off of GitHub directly, preparing for =
-the
-> malicious release of 5.6.0 and 5.6.1. So, we've pointed to GitHub locatio=
-n
-> accordingly:
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3D9cc6c809c1540=
-19afe3bf6e6d617eab640faa4d0
-> https://git.openembedded.org/openembedded-core/commit/?id=3D5be69fc3ff629=
-6411c736e5c7c9522d99c0be2c6
->
-> But GitHub has suspended the project and associated developer accounts. T=
-he
-> original maintainer has posted some details on this matter here:
->
-> https://tukaani.org/xz-backdoor/
->
-> Again, 5.4.6 tarball wasn't compromised, but it is no longer accessible f=
-rom
-> GitHub - should we revert back to 5.4.5 that was hosted on the original s=
-ite?
-> Though it should be mirrored...
->
+it would be better to disable them just for architectures where it
+fails since it seems to be a workaround, it would be good to keep it
+as small as possible
 
-The repository is disabled by GitHub, and the recipe does not work
-from this end.
-We need to switch to the older mirror and to the last version that was pres=
-ent.
-There are other parts of the attack coming out each day, so we should
-know to which version
-we need to revert quite soon.
-
-Regards,
-Marta
+On Mon, Apr 1, 2024 at 1:10=E2=80=AFAM Shinde, Yash via lists.openembedded.=
+org
+<Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+>
+> qemumips and qemuppc were leaving stale processes behind after
+> running glibc oe-selftest. During analysis, it was found that
+> it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
+> Disable them so that there are no stale processes left behind.
+>
+> [YOCTO #15423]
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15423
+>
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> ---
+>  .../glibc/glibc/0024-qemu-stale-process.patch | 45 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/0024-qemu-stale-process=
+.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch =
+b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+> new file mode 100644
+> index 0000000000..c28fa31b89
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+> @@ -0,0 +1,45 @@
+> +glibc: Fix stale qemu processes left after glibc oe-selftest
+> +
+> +qemumips and qemuppc were leaving stale processes behind after
+> +running glibc oe-selftest. During analysis, it was found that
+> +it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
+> +Disable them so that there are no stale processes left behind.
+> +
+> +[YOCTO #15423]
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15423
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> +---
+> +diff --git a/sysdeps/unix/sysv/linux/Makefile  b/sysdeps/unix/sysv/linux=
+/Makefile
+> +--- a/sysdeps/unix/sysv/linux/Makefile    2024-03-18 01:15:49.019202881 =
+-0700
+> ++++ b/sysdeps/unix/sysv/linux/Makefile  2024-03-14 06:26:18.581404107 -0=
+700
+> +@@ -222,7 +222,6 @@
+> +   tst-process_mrelease \
+> +   tst-quota \
+> +   tst-rlimit-infinity \
+> +-  tst-scm_rights \
+> +   tst-sigtimedwait \
+> +   tst-sync_file_range \
+> +   tst-sysconf-iov_max \
+> +@@ -233,6 +232,8 @@
+> +   tst-timerfd \
+> +   tst-ttyname-direct \
+> +   tst-ttyname-namespace \
+> ++  # Skip this test to avoid stale qemu process
+> ++  # tst-scm_rights \
+> +   # tests
+> +
+> + # process_madvise requires CAP_SYS_ADMIN.
+> +@@ -270,9 +271,10 @@
+> +   tst-ntp_gettimex-time64 \
+> +   tst-ppoll-time64 \
+> +   tst-prctl-time64 \
+> +-  tst-scm_rights-time64 \
+> +   tst-sigtimedwait-time64 \
+> +   tst-timerfd-time64 \
+> ++  # Skip this test to avoid stale qemu process
+> ++  # tst-scm_rights-time64 \
+> +   # tests-time64
+> +
+> + tests-clone-internal =3D \
+> diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/gl=
+ibc/glibc_2.39.bb
+> index b203060064..9122472689 100644
+> --- a/meta/recipes-core/glibc/glibc_2.39.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.39.bb
+> @@ -49,6 +49,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
+me=3Dglibc \
+>             file://0021-fix-create-thread-failed-in-unprivileged-process-=
+BZ-.patch \
+>             file://0022-Avoid-hardcoded-build-time-paths-in-the-output-bi=
+nar.patch \
+>             file://0023-aarch64-configure-Pass-mcpu-along-with-march-to-d=
+ete.patch \
+> +           file://0024-qemu-stale-process.patch \
+>  "
+>  S =3D "${WORKDIR}/git"
+>  B =3D "${WORKDIR}/build-${TARGET_SYS}"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197678): https://lists.openembedded.org/g/openembedde=
+d-core/message/197678
+> Mute This Topic: https://lists.openembedded.org/mt/105259855/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
