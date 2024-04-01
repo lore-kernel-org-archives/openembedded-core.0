@@ -1,186 +1,738 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E0CFCD1292
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 11:34:21 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web11.35182.1711971260582109151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CB9CD1288
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 15:09:05 +0000 (UTC)
+Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
+ by mx.groups.io with SMTP id smtpd.web11.39793.1711984136435186699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 04:34:20 -0700
+ Mon, 01 Apr 2024 08:08:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=J+wB43C5;
- spf=pass (domain: mvista.com, ip: 209.85.161.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5a7bbafb946so279064eaf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 04:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1711971259; x=1712576059; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FMb24XfZZQseA6ktcRyMuS1COLF4WXOEMRR00du30n0=;
-        b=J+wB43C50OxflHK5Joh3STP2Ihw7X25rTWL9E6O6pMGxNKPmwzwb1vKubSkeCkfGni
-         el5g3Vm0qDzVVo7e0cfc4OgNhToErS4VFdk3B/UQ4eJOE9AyPUKqAmayypJemwiKj/6A
-         0qTKopKJorJTK5x7/+LwwDgR4PTjcZhCS2dsE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711971259; x=1712576059;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FMb24XfZZQseA6ktcRyMuS1COLF4WXOEMRR00du30n0=;
-        b=S+LeXTp0I/A2QGERdMnIvwNqsp3NADmFRYoadeam+AeYTmGB3v/Cl8DDGaRoueDnFC
-         KSeyTqvTOZSJm3u/iaKiBpAB+IeTgXs+hza1JH96zlpVS+YeR6dyu2Vgn7sA1KCrUHOu
-         +Ewhmi5fCYMAlRBiJI99GmW2L4NAN44HRtiuWVSscjnJkgY5DpPMSe+MVhBRPHtlvDNc
-         VWOgjOK8nglDBfbFIzxKvq0rQ6DTy7C/bfRwgun+5fr430OOiuzVP+OnvQ3Vsulqu6AM
-         VU5sPInAit/nRhBRYuyx2uHDakbe3mnVd+rhvSkFdnp4wv9YMoGO8UwBAiDtjpg0jtrw
-         /Mlg==
-X-Gm-Message-State: AOJu0YxMzdc4YdWl/VrlDvFECpSp1yEgkUOIslLwAKrt5h8GOwlQ61CX
-	Vl75HSFs3IUifYEukET6meEzOVUGq2FscbFisxUx7YUO6Qha/hkM1DjIUc0QNnu86ReYtn64FyP
-	c
-X-Google-Smtp-Source: AGHT+IGAmE/HsP2EteQ2hdOEkveQ/ws6QgX9GuwnNTVw9iVDHI/JUcOEjZ16V0ueUV6yjg5RXTOFaQ==
-X-Received: by 2002:a05:6358:579e:b0:183:66a7:b23e with SMTP id m30-20020a056358579e00b0018366a7b23emr6207655rwf.28.1711971259063;
-        Mon, 01 Apr 2024 04:34:19 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([2401:4900:1cb1:b5b7:e92f:4f7b:210f:b45])
-        by smtp.gmail.com with ESMTPSA id c192-20020a6335c9000000b005dab535fac2sm7458772pga.90.2024.04.01.04.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Apr 2024 04:34:18 -0700 (PDT)
-From: vanusuri@mvista.com
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout05.t-online.de (Postfix) with SMTP id 335F8926
+	for <openembedded-core@lists.openembedded.org>; Mon,  1 Apr 2024 17:08:54 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.40.13]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rrJHJ-0UgsRF0; Mon, 1 Apr 2024 17:08:53 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] curl: backport Debian patch for CVE-2024-2398
-Date: Mon,  1 Apr 2024 17:04:01 +0530
-Message-Id: <20240401113401.489921-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [meta-oe][PATCHv2] webkitgtk: update 2.42.5 -> 2.44.0
+Date: Mon,  1 Apr 2024 17:08:46 +0200
+Message-ID: <20240401150846.3800683-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1711984133-25A84909-D74C1DFC/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4d47f568-c788-47dd-b5f3-6b5588768bc5
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 11:34:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197684
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 15:09:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197687
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+- add a PACKAGECONFIG for libbacktrace to avoid:
+  | -- Could NOT find LibBacktrace (missing: LIBBACKTRACE_INCLUDE_DIR LIB=
+BACKTRACE_LIBRARY)
+  | CMake Error at Source/cmake/OptionsGTK.cmake:425 (message):
+  |   libbacktrace is required for USE_LIBBACKTRACE
 
-import patch from ubuntu to fix
- CVE-2024-2398
+- while at it also add a PACKAGECONFIG for gamepad
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/?h=ubuntu%2Fjammy-security
-Upstream commit https://github.com/curl/curl/commit/deca8039991886a559b67bcd6701db800a5cf764]
+- remove submitted patch. Issue seems to be fixed. Not entirely
+  sure about that, but there has been rework:
+  [https://bugs.webkit.org/show_bug.cgi?id=3D267349]
+  I also did a test build with oe-core/poky for qemuarm.
+  It completed without error
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+- There is an issue with creating the json files if
+  CMAKE_EXPORT_COMPILE_COMMANDS is enabled. Disable this
+  for now to fix the build:
+  FAILED: CMakeFiles/RewriteCompileCommands DeveloperTools/compile_comman=
+ds.json /home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk=
+/2.44.0/build/CMakeFiles/RewriteCompileCommands /home/flk/poky/build-hypr=
+/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/build/DeveloperTools/comp=
+ile_commands.json
+  cd /home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.=
+44.0/build && /home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/web=
+kitgtk/2.44.0/recipe-sysroot-native/usr/bin/python3-native/python3 /home/=
+flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/webkit=
+gtk-2.44.0/Tools/Scripts/rewrite-compile-commands /home/flk/poky/build-hy=
+pr/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/build/compile_commands.=
+json /home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.=
+44.0/build/DeveloperTools/compile_commands.json /home/flk/poky/build-hypr=
+/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/webkitgtk-2.44.0 /home/fl=
+k/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/build
+  /home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.=
+0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '=
+/home/flk/poky/build-hypr/tmp/work/corei7-64-poky-linux/webkitgtk/2.44.0/=
+webkitgtk-2.44.0/Tools/Scripts/rewrite-compile-commands': [Errno 2] No su=
+ch file or directory
+
+- Add a patch to fix webassembly for riscv64
+
+- Add a backport patch to fix the build for 32bit architectures
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+WebKitGTK 2.44.0
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+What's new in WebKitGTK 2.44.0?
+
+  - Fix connection of UI and web process accessibility tree in GTK4.
+  - Add BubblewrapLauncher sandbox directory for the gstreamer user regis=
+try cache directory.
+  - Fix bug causing preferred language to not be passed to NetworkProcess=
+ if set in WebContext before creating WebView.
+  - Do not use real time priority for the display link thread.
+  - Use a shorter web process cache lifetime.
+  - Fix several crashes and rendering issues.
+  - Translation updates: German, Polish, Swedish, Turkish.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+WebKitGTK 2.43.4
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+What's new in WebKitGTK 2.43.4?
+
+  - Remove key event reinjection in GTK4 to make keyboard shortcuts work =
+in web sites.
+  - Use the new GTK API to create a GdkTexture from a DMA-BUF buffer when=
+ available.
+  - Fix rendering when GTK is using the vulkan renderer.
+  - Fix gamepads detection by correctly handling focused window in GTK4.
+  - Fix rendering after history navigation.
+  - Write bwrapinfo.json to disk for xdg-desktop-portal.
+  - Fixed several memory leaks in media backend.
+  - Fix several crashes and rendering issues.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+WebKitGTK 2.43.3
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+What's new in WebKitGTK 2.43.3?
+
+  - Show vblank monitor information in webkit://gpu.
+  - Fallback to timer based vblank monitor if drmWaitVBlank fails.
+  - Fix several memory leaks in media backend.
+  - Fix several crashes and rendering issues.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+WebKitGTK 2.43.2
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+What's new in WebKitGTK 2.43.2?
+
+  - Remove the X11 and WPE renderers.
+  - Release unused buffers when the view is hidden.
+  - Fix flickering while playing videos with DMA-BUF sink.
+  - Do not special case the "sans" font family name.
+  - Fix webkit_web_context_allow_tls_certificate_for_host() for IPv6 URIs=
+ produced by SoupURI.
+  - Fix several crashes and rendering issues.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+WebKitGTK 2.43.1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+What's new in WebKitGTK 2.43.1?
+
+  - Improve vblank synchronization when rendering.
+  - Improve DMA-BUF buffers handling for video frames.
+  - Use the buffer format preferred by the driver in DMA-BUF renderer.
+  - Do not block the compositing thread waiting for rendering threads.
+  - Improve performance when scaling images in a canvas.
+  - Fix several crashes and rendering
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../curl/curl/CVE-2024-2398.patch             | 89 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-2398.patch
+ ...44e17d258106617b0e6d783d073b188a2548.patch | 310 ------------------
+ ...af379dc70b4b1a63b01d67179eb431f03ac4.patch |  36 ++
+ ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |  65 ++++
+ ...ebkitgtk_2.42.5.bb =3D> webkitgtk_2.44.0.bb} |   9 +-
+ 4 files changed, 107 insertions(+), 313 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d25810661=
+7b0e6d783d073b188a2548.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/2922af379dc70b4b1a=
+63b01d67179eb431f03ac4.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2=
+a29ec3400c927d710a37a8.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.42.5.bb =3D> webkitgtk_2.44=
+.0.bb} (95%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-2398.patch b/meta/recipes-support/curl/curl/CVE-2024-2398.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d7=
+83d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d2581=
+06617b0e6d783d073b188a2548.patch
+deleted file mode 100644
+index a4ef565db0..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b=
+188a2548.patch
++++ /dev/null
+@@ -1,310 +0,0 @@
+-From a180f6821f81c65e320be0cebac72b4dcf86342e Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Thu, 2 Jun 2022 11:19:06 +0300
+-Subject: [PATCH] FELightningNEON.cpp fails to build, NEON fast path seem=
+s
+- unused https://bugs.webkit.org/show_bug.cgi?id=3D241182
+-
+-Reviewed by NOBODY (OOPS!).
+-
+-Move the NEON fast path for the SVG lighting filter effects into
+-FELightingSoftwareApplier, and arrange to actually use them by
+-forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
+-
+-Some changes were needed to adapt platformApplyNeon() to the current
+-state of filters after r286140. This was not detected because the code
+-bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
+-not get used much these days: CPU(ARM_THUMB2) is more common. It should
+-be possible to use the NEON fast paths also in Thumb mode, but that is
+-left for a follow-up fix.
+-
+-* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
+-(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
+-(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
+-(WebCore::FELighting::platformApplyNeonWorker): Deleted.
+-(WebCore::FELighting::getPowerCoefficients): Deleted.
+-* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
+-(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
+-(WebCore::FELighting::platformApplyNeon): Deleted.
+-* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
+-* Source/WebCore/platform/graphics/filters/FELighting.h:
+-* Source/WebCore/platform/graphics/filters/PointLightSource.h:
+-* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
+-* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareAp=
+plier.h:
+-
+-Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
+- .../graphics/cpu/arm/filters/FELightingNEON.h | 52 +++++++++----------
+- .../graphics/filters/DistantLightSource.h     |  4 ++
+- .../platform/graphics/filters/FELighting.h    |  7 ---
+- .../graphics/filters/PointLightSource.h       |  4 ++
+- .../graphics/filters/SpotLightSource.h        |  4 ++
+- .../software/FELightingSoftwareApplier.h      | 16 ++++++
+- 7 files changed, 56 insertions(+), 35 deletions(-)
+-
+-diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELighting=
+NEON.cpp b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEO=
+N.cpp
+-index f6ff8c20..42a97ffc 100644
+---- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cp=
+p
+-+++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cp=
+p
+-@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
+-     return s_FELightingConstantsForNeon;
+- }
+-=20
+--void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon*=
+ parameters)
+-+void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaint=
+ingDataForNeon* parameters)
+- {
+-     neonDrawLighting(parameters);
+- }
+-@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
+-     "b .lightStrengthCalculated" NL
+- ); // NOLINT
+-=20
+--int FELighting::getPowerCoefficients(float exponent)
+-+int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
+- {
+-     // Calling a powf function from the assembly code would require to =
+save
+-     // and reload a lot of NEON registers. Since the base is in range [=
+0..1]
+-diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELighting=
+NEON.h b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.=
+h
+-index b17c603d..e4629cda 100644
+---- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+-+++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
+-@@ -24,14 +24,15 @@
+-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-  */
+-=20
+--#ifndef FELightingNEON_h
+--#define FELightingNEON_h
+-+#pragma once
+-=20
+- #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+-=20
+--#include "FELighting.h"
+-+#include "FELightingSoftwareApplier.h"
+-+#include "ImageBuffer.h"
+- #include "PointLightSource.h"
+- #include "SpotLightSource.h"
+-+#include <wtf/ObjectIdentifier.h>
+- #include <wtf/ParallelJobs.h>
+-=20
+- namespace WebCore {
+-@@ -93,14 +94,14 @@ extern "C" {
+- void neonDrawLighting(FELightingPaintingDataForNeon*);
+- }
+-=20
+--inline void FELighting::platformApplyNeon(const LightingData& data, con=
+st LightSource::PaintingData& paintingData)
+-+inline void FELightingSoftwareApplier::applyPlatformNeon(const FELighti=
+ngSoftwareApplier::LightingData& data, const LightSource::PaintingData& p=
+aintingData)
+- {
+--    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
+--    FELightingPaintingDataForNeon neonData =3D {
+-+    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments=
+;
+-+    WebCore::FELightingPaintingDataForNeon neonData =3D {
+-         data.pixels->data(),
+-         1,
+--        data.widthDecreasedByOne - 1,
+--        data.heightDecreasedByOne - 1,
+-+        data.width - 2,
+-+        data.height - 2,
+-         0,
+-         0,
+-         0,
+-@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeon(const Li=
+ghtingData& data, const LightS
+-     // Set light source arguments.
+-     floatArguments.constOne =3D 1;
+-=20
+--    auto color =3D m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().r=
+esolved();
+-+    auto color =3D data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>(=
+).resolved();
+-=20
+-     floatArguments.colorRed =3D color.red;
+-     floatArguments.colorGreen =3D color.green;
+-     floatArguments.colorBlue =3D color.blue;
+-     floatArguments.padding4 =3D 0;
+-=20
+--    if (m_lightSource->type() =3D=3D LS_POINT) {
+-+    if (data.lightSource->type() =3D=3D LS_POINT) {
+-         neonData.flags |=3D FLAG_POINT_LIGHT;
+--        PointLightSource& pointLightSource =3D static_cast<PointLightSo=
+urce&>(m_lightSource.get());
+-+        const auto& pointLightSource =3D *static_cast<const PointLightS=
+ource*>(data.lightSource);
+-         floatArguments.lightX =3D pointLightSource.position().x();
+-         floatArguments.lightY =3D pointLightSource.position().y();
+-         floatArguments.lightZ =3D pointLightSource.position().z();
+-         floatArguments.padding2 =3D 0;
+--    } else if (m_lightSource->type() =3D=3D LS_SPOT) {
+-+    } else if (data.lightSource->type() =3D=3D LS_SPOT) {
+-         neonData.flags |=3D FLAG_SPOT_LIGHT;
+--        SpotLightSource& spotLightSource =3D static_cast<SpotLightSourc=
+e&>(m_lightSource.get());
+-+        const auto& spotLightSource =3D *static_cast<const SpotLightSou=
+rce*>(data.lightSource);
+-         floatArguments.lightX =3D spotLightSource.position().x();
+-         floatArguments.lightY =3D spotLightSource.position().y();
+-         floatArguments.lightZ =3D spotLightSource.position().z();
+-@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeon(const Ligh=
+tingData& data, const LightS
+-         if (spotLightSource.specularExponent() =3D=3D 1)
+-             neonData.flags |=3D FLAG_CONE_EXPONENT_IS_1;
+-     } else {
+--        ASSERT(m_lightSource->type() =3D=3D LS_DISTANT);
+-+        ASSERT(data.lightSource->type() =3D=3D LS_DISTANT);
+-         floatArguments.lightX =3D paintingData.initialLightingData.ligh=
+tVector.x();
+-         floatArguments.lightY =3D paintingData.initialLightingData.ligh=
+tVector.y();
+-         floatArguments.lightZ =3D paintingData.initialLightingData.ligh=
+tVector.z();
+-@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeon(const Li=
+ghtingData& data, const LightS
+-     // Set lighting arguments.
+-     floatArguments.surfaceScale =3D data.surfaceScale;
+-     floatArguments.minusSurfaceScaleDividedByFour =3D -data.surfaceScal=
+e / 4;
+--    if (m_lightingType =3D=3D FELighting::DiffuseLighting)
+--        floatArguments.diffuseConstant =3D m_diffuseConstant;
+-+    if (data.filterType =3D=3D FilterEffect::Type::FEDiffuseLighting)
+-+        floatArguments.diffuseConstant =3D data.diffuseConstant;
+-     else {
+-         neonData.flags |=3D FLAG_SPECULAR_LIGHT;
+--        floatArguments.diffuseConstant =3D m_specularConstant;
+--        neonData.specularExponent =3D getPowerCoefficients(m_specularEx=
+ponent);
+--        if (m_specularExponent =3D=3D 1)
+-+        floatArguments.diffuseConstant =3D data.specularConstant;
+-+        neonData.specularExponent =3D getPowerCoefficients(data.specula=
+rExponent);
+-+        if (data.specularExponent =3D=3D 1)
+-             neonData.flags |=3D FLAG_SPECULAR_EXPONENT_IS_1;
+-     }
+-     if (floatArguments.diffuseConstant =3D=3D 1)
+-         neonData.flags |=3D FLAG_DIFFUSE_CONST_IS_1;
+-=20
+--    int optimalThreadNumber =3D ((data.widthDecreasedByOne - 1) * (data=
+.heightDecreasedByOne - 1)) / s_minimalRectDimension;
+-+    static constexpr int minimalRectDimension =3D 100 * 100; // Empiric=
+al data limit for parallel jobs
+-+    int optimalThreadNumber =3D ((data.width - 2) * (data.height - 2)) =
+/ minimalRectDimension;
+-     if (optimalThreadNumber > 1) {
+-         // Initialize parallel jobs
+--        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCo=
+re::FELighting::platformApplyNeonWorker, optimalThreadNumber);
+-+        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELig=
+htingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
+-=20
+-         // Fill the parameter array
+-         int job =3D parallelJobs.numberOfJobs();
+-         if (job > 1) {
+-             int yStart =3D 1;
+--            int yStep =3D (data.heightDecreasedByOne - 1) / job;
+-+            int yStep =3D (data.height - 2) / job;
+-             for (--job; job >=3D 0; --job) {
+-                 FELightingPaintingDataForNeon& params =3D parallelJobs.=
+parameter(job);
+-                 params =3D neonData;
+-                 params.yStart =3D yStart;
+--                params.pixels +=3D (yStart - 1) * (data.widthDecreasedB=
+yOne + 1) * 4;
+-+                params.pixels +=3D (yStart - 1) * data.width * 4;
+-                 if (job > 0) {
+-                     params.absoluteHeight =3D yStep;
+-                     yStart +=3D yStep;
+-                 } else
+--                    params.absoluteHeight =3D data.heightDecreasedByOne=
+ - yStart;
+-+                    params.absoluteHeight =3D (data.height - 1) - yStar=
+t;
+-             }
+-             parallelJobs.execute();
+-             return;
+-@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeon(const Ligh=
+tingData& data, const LightS
+- } // namespace WebCore
+-=20
+- #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
+--
+--#endif // FELightingNEON_h
+-diff --git a/Source/WebCore/platform/graphics/filters/DistantLightSource=
+.h b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+-index 70f583b3..7d5d27e5 100644
+---- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+-+++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
+-@@ -26,6 +26,10 @@
+- #include <wtf/ArgumentCoder.h>
+- #include <wtf/Ref.h>
+-=20
+-+namespace WTF {
+-+class TextStream;
+-+} // namespace WTF
+-+
+- namespace WebCore {
+-=20
+- class DistantLightSource : public LightSource {
+-diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Sou=
+rce/WebCore/platform/graphics/filters/FELighting.h
+-index 179edf6d..694d712d 100644
+---- a/Source/WebCore/platform/graphics/filters/FELighting.h
+-+++ b/Source/WebCore/platform/graphics/filters/FELighting.h
+-@@ -35,8 +35,6 @@
+-=20
+- namespace WebCore {
+-=20
+--struct FELightingPaintingDataForNeon;
+--
+- class FELighting : public FilterEffect {
+- public:
+-     bool operator=3D=3D(const FELighting&) const;
+-@@ -68,11 +66,6 @@ protected:
+-=20
+-     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const =
+override;
+-=20
+--#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+--    static int getPowerCoefficients(float exponent);
+--    inline void platformApplyNeon(const LightingData&, const LightSourc=
+e::PaintingData&);
+--#endif
+--
+-     Color m_lightingColor;
+-     float m_surfaceScale;
+-     float m_diffuseConstant;
+-diff --git a/Source/WebCore/platform/graphics/filters/PointLightSource.h=
+ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
+-index a8cfdab8..34f867bb 100644
+---- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
+-+++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
+-@@ -26,6 +26,10 @@
+- #include "LightSource.h"
+- #include <wtf/Ref.h>
+-=20
+-+namespace WTF {
+-+class TextStream;
+-+} // namespace WTF
+-+
+- namespace WebCore {
+-=20
+- class PointLightSource : public LightSource {
+-diff --git a/Source/WebCore/platform/graphics/filters/SpotLightSource.h =
+b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+-index 6404467a..5cac38f2 100644
+---- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+-+++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
+-@@ -26,6 +26,10 @@
+- #include "LightSource.h"
+- #include <wtf/Ref.h>
+-=20
+-+namespace WTF {
+-+class TextStream;
+-+} // namespace WTF
+-+
+- namespace WebCore {
+-=20
+- class SpotLightSource : public LightSource {
+-diff --git a/Source/WebCore/platform/graphics/filters/software/FELightin=
+gSoftwareApplier.h b/Source/WebCore/platform/graphics/filters/software/FE=
+LightingSoftwareApplier.h
+-index c974d921..e2896660 100644
+---- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwa=
+reApplier.h
+-+++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwa=
+reApplier.h
+-@@ -36,6 +36,7 @@
+- namespace WebCore {
+-=20
+- class FELighting;
+-+struct FELightingPaintingDataForNeon;
+-=20
+- class FELightingSoftwareApplier final : public FilterEffectConcreteAppl=
+ier<FELighting> {
+-     WTF_MAKE_FAST_ALLOCATED;
+-@@ -132,8 +133,23 @@ private:
+-=20
+-     static void applyPlatformGenericPaint(const LightingData&, const Li=
+ghtSource::PaintingData&, int startY, int endY);
+-     static void applyPlatformGenericWorker(ApplyParameters*);
+-+
+-+#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+-+    static int getPowerCoefficients(float exponent);
+-+    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*)=
+;
+-+    inline static void applyPlatformNeon(const LightingData&, const Lig=
+htSource::PaintingData&);
+-+
+-+    inline static void applyPlatformGeneric(const LightingData& data, c=
+onst LightSource::PaintingData& paintingData)
+-+    {
+-+        applyPlatformNeon(data, paintingData);
+-+    }
+-+#else
+-     static void applyPlatformGeneric(const LightingData&, const LightSo=
+urce::PaintingData&);
+-+#endif
+-+
+-     static void applyPlatform(const LightingData&);
+- };
+-=20
+- } // namespace WebCore
+-+
+-+#include "FELightingNEON.h"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/2922af379dc70b4b1a63b01d6=
+7179eb431f03ac4.patch b/meta/recipes-sato/webkit/webkitgtk/2922af379dc70b=
+4b1a63b01d67179eb431f03ac4.patch
 new file mode 100644
-index 0000000000..ea55117f4d
+index 0000000000..0f6b9a6335
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-2398.patch
-@@ -0,0 +1,89 @@
-+Backport of:
++++ b/meta/recipes-sato/webkit/webkitgtk/2922af379dc70b4b1a63b01d67179eb4=
+31f03ac4.patch
+@@ -0,0 +1,36 @@
++From 2922af379dc70b4b1a63b01d67179eb431f03ac4 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Mon, 18 Mar 2024 11:14:54 -0700
++Subject: [PATCH] REGRESSION(274077@main): failure to build on i586 (and =
+likely
++ other 32bit arches): static assertion failed: Timer should stay small
++ https://bugs.webkit.org/show_bug.cgi?id=3D271108
 +
-+From deca8039991886a559b67bcd6701db800a5cf764 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Wed, 6 Mar 2024 09:36:08 +0100
-+Subject: [PATCH] http2: push headers better cleanup
++Unreviewed build fix. This changes SameSizeOfTimer to ensure it matches
++the size of Timer on 32-bit platforms.
 +
-+- provide common cleanup method for push headers
++* Source/WebCore/platform/Timer.cpp:
 +
-+Closes #13054
++Canonical link: https://commits.webkit.org/276282@main
 +
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/CVE-2024-2398.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/curl/curl/commit/deca8039991886a559b67bcd6701db800a5cf764]
-+CVE: CVE-2024-2398
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2922a=
+f379dc70b4b1a63b01d67179eb431f03ac4]
 +---
-+ lib/http2.c | 34 +++++++++++++++-------------------
-+ 1 file changed, 15 insertions(+), 19 deletions(-)
++ Source/WebCore/platform/Timer.cpp | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+--- a/lib/http2.c
-++++ b/lib/http2.c
-+@@ -555,6 +555,15 @@ static int set_transfer_url(struct Curl_
-+   return 0;
-+ }
-+ 
-++static void free_push_headers(struct HTTP *stream)
-++{
-++  size_t i;
-++  for(i = 0; i<stream->push_headers_used; i++)
-++    free(stream->push_headers[i]);
-++  Curl_safefree(stream->push_headers);
-++  stream->push_headers_used = 0;
-++}
++diff --git a/Source/WebCore/platform/Timer.cpp b/Source/WebCore/platform=
+/Timer.cpp
++index 4f7c0f5c39ca9..0f3734cca2474 100644
++--- a/Source/WebCore/platform/Timer.cpp
+++++ b/Source/WebCore/platform/Timer.cpp
++@@ -263,7 +263,11 @@ struct SameSizeAsTimer {
++=20
++     WeakPtr<TimerAlignment> timerAlignment;
++     double times[2];
++-    void* pointers[3];
+++    void* pointers[2];
+++#if CPU(ADDRESS32)
+++    uint8_t bitfields;
+++#endif
+++    void* pointer;
++ };
++=20
++ static_assert(sizeof(Timer) =3D=3D sizeof(SameSizeAsTimer), "Timer shou=
+ld stay small");
+diff --git a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec34=
+00c927d710a37a8.patch b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fd=
+aca2a29ec3400c927d710a37a8.patch
+new file mode 100644
+index 0000000000..b2e40a88c8
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d=
+710a37a8.patch
+@@ -0,0 +1,65 @@
++From 1523e00a2a76e285262c8aa3721b5d99f3f2d612 Mon Sep 17 00:00:00 2001
++From: Thomas Devoogdt <thomas.devoogdt@barco.com>
++Date: Mon, 16 Jan 2023 17:03:30 +0100
++Subject: [PATCH] REGRESSION(257865@main): B3Validate.cpp: fix
++
++ !ENABLE(WEBASSEMBLY_B3JIT)
++
++https://bugs.webkit.org/show_bug.cgi?id=3D250681
++
++Reviewed by NOBODY (OOPS!).
++
++WasmTypeDefinition.h isn't included if not ENABLE(WEBASSEMBLY_B3JIT).
++Also, toB3Type and simdScalarType are not defined if it is included.
++
++Signed-off-by: Thomas Devoogdt <thomas.devoogdt@barco.com>
++
++Upstream-Status: Inappropriate [https://bugs.launchpad.net/ubuntu/+sourc=
+e/webkit2gtk/+bug/2008798]
++---
++ Source/JavaScriptCore/b3/B3Validate.cpp | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
++
++diff --git a/Source/JavaScriptCore/b3/B3Validate.cpp b/Source/JavaScript=
+Core/b3/B3Validate.cpp
++index eaaa3749..1d089783 100644
++--- a/Source/JavaScriptCore/b3/B3Validate.cpp
+++++ b/Source/JavaScriptCore/b3/B3Validate.cpp
++@@ -47,6 +47,12 @@
++ #include <wtf/StringPrintStream.h>
++ #include <wtf/text/CString.h>
++=20
+++#if ENABLE(WEBASSEMBLY) && ENABLE(WEBASSEMBLY_B3JIT)
+++#define simdScalarTypeToB3Type(type) toB3Type(Wasm::simdScalarType(type=
+))
+++#else
+++#define simdScalarTypeToB3Type(type) B3::Type()
+++#endif
 ++
-+ static int push_promise(struct Curl_easy *data,
-+                         struct connectdata *conn,
-+                         const nghttp2_push_promise *frame)
-+@@ -568,7 +577,6 @@ static int push_promise(struct Curl_easy
-+     struct curl_pushheaders heads;
-+     CURLMcode rc;
-+     struct http_conn *httpc;
-+-    size_t i;
-+     /* clone the parent */
-+     struct Curl_easy *newhandle = duphandle(data);
-+     if(!newhandle) {
-+@@ -604,11 +612,7 @@ static int push_promise(struct Curl_easy
-+     Curl_set_in_callback(data, false);
-+ 
-+     /* free the headers again */
-+-    for(i = 0; i<stream->push_headers_used; i++)
-+-      free(stream->push_headers[i]);
-+-    free(stream->push_headers);
-+-    stream->push_headers = NULL;
-+-    stream->push_headers_used = 0;
-++    free_push_headers(stream);
-+ 
-+     if(rv) {
-+       DEBUGASSERT((rv > CURL_PUSH_OK) && (rv <= CURL_PUSH_ERROROUT));
-+@@ -1045,10 +1049,10 @@ static int on_header(nghttp2_session *se
-+             stream->push_headers_alloc) {
-+       char **headp;
-+       stream->push_headers_alloc *= 2;
-+-      headp = Curl_saferealloc(stream->push_headers,
-+-                               stream->push_headers_alloc * sizeof(char *));
-++      headp = realloc(stream->push_headers,
-++                      stream->push_headers_alloc * sizeof(char *));
-+       if(!headp) {
-+-        stream->push_headers = NULL;
-++        free_push_headers(stream);
-+         return NGHTTP2_ERR_TEMPORAL_CALLBACK_FAILURE;
-+       }
-+       stream->push_headers = headp;
-+@@ -1214,15 +1218,7 @@ void Curl_http2_done(struct Curl_easy *d
-+      setup */
-+   Curl_dyn_free(&http->header_recvbuf);
-+   Curl_dyn_free(&http->trailer_recvbuf);
-+-  if(http->push_headers) {
-+-    /* if they weren't used and then freed before */
-+-    for(; http->push_headers_used > 0; --http->push_headers_used) {
-+-      free(http->push_headers[http->push_headers_used - 1]);
-+-    }
-+-    free(http->push_headers);
-+-    http->push_headers = NULL;
-+-  }
-+-
-++  free_push_headers(http);
-+   if(!(data->conn->handler->protocol&PROTO_FAMILY_HTTP) ||
-+      !httpc->h2) /* not HTTP/2 ? */
-+     return;
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 383cf415d9..72d8544e08 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -57,6 +57,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-46219-0001.patch \
-            file://CVE-2023-46219-0002.patch \
-            file://CVE-2023-46219-0003.patch \
-+           file://CVE-2024-2398.patch \
++ namespace JSC { namespace B3 {
++=20
++ namespace {
++@@ -454,7 +460,7 @@ public:
++             case VectorExtractLane:
++                 VALIDATE(!value->kind().hasExtraBits(), ("At ", *value)=
+);
++                 VALIDATE(value->numChildren() =3D=3D 1, ("At ", *value)=
+);
++-                VALIDATE(value->type() =3D=3D toB3Type(Wasm::simdScalar=
+Type(value->asSIMDValue()->simdLane())), ("At ", *value));
+++                VALIDATE(value->type() =3D=3D simdScalarTypeToB3Type(va=
+lue->asSIMDValue()->simdLane()), ("At ", *value));
++                 VALIDATE(value->child(0)->type() =3D=3D V128, ("At ", *=
+value));
++                 break;
++             case VectorReplaceLane:
++@@ -462,7 +468,7 @@ public:
++                 VALIDATE(value->numChildren() =3D=3D 2, ("At ", *value)=
+);
++                 VALIDATE(value->type() =3D=3D V128, ("At ", *value));
++                 VALIDATE(value->child(0)->type() =3D=3D V128, ("At ", *=
+value));
++-                VALIDATE(value->child(1)->type() =3D=3D toB3Type(Wasm::=
+simdScalarType(value->asSIMDValue()->simdLane())), ("At ", *value));
+++                VALIDATE(value->child(1)->type() =3D=3D simdScalarTypeT=
+oB3Type(value->asSIMDValue()->simdLane()), ("At ", *value));
++                 break;
++             case VectorDupElement:
++                 VALIDATE(!value->kind().hasExtraBits(), ("At ", *value)=
+);
++@@ -484,7 +490,7 @@ public:
++                 VALIDATE(!value->kind().hasExtraBits(), ("At ", *value)=
+);
++                 VALIDATE(value->numChildren() =3D=3D 1, ("At ", *value)=
+);
++                 VALIDATE(value->type() =3D=3D V128, ("At ", *value));
++-                VALIDATE(value->child(0)->type() =3D=3D toB3Type(Wasm::=
+simdScalarType(value->asSIMDValue()->simdLane())), ("At ", *value));
+++                VALIDATE(value->child(0)->type() =3D=3D simdScalarTypeT=
+oB3Type(value->asSIMDValue()->simdLane()), ("At ", *value));
++                 break;
++=20
++             case VectorPopcnt:
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.42.5.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.44.0.bb
+similarity index 95%
+rename from meta/recipes-sato/webkit/webkitgtk_2.42.5.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.44.0.bb
+index 6790814958..0819f6de0d 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.42.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.44.0.bb
+@@ -12,12 +12,13 @@ LIC_FILES_CHKSUM =3D "file://Source/JavaScriptCore/CO=
+PYING.LIB;md5=3Dd0c6d6397a5d842
+ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-FindGObjectIntrospection.cmake-prefix-variables-o=
+bta.patch \
+            file://reproducibility.patch \
+-           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
+            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAY=
+S_I.patch \
+            file://no-musttail-arm.patch \
+            file://t6-not-declared.patch \
++           file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
++           file://2922af379dc70b4b1a63b01d67179eb431f03ac4.patch \
             "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.25.1
+-SRC_URI[sha256sum] =3D "b64278c1f20b8cfdbfb5ff573c37d871aba74a1db26d9b39=
+f74e8953fe61e749"
++SRC_URI[sha256sum] =3D "c66530e41ba59b1edba4ee89ef20b2188e273bed0497e950=
+84729e3cfbe30c87"
+=20
+ inherit cmake pkgconfig gobject-introspection perlnative features_check =
+upstream-version-is-even gi-docgen
+=20
+@@ -77,6 +78,8 @@ PACKAGECONFIG[journald] =3D "-DENABLE_JOURNALD_LOG=3DON=
+,-DENABLE_JOURNALD_LOG=3DOFF,sy
+ PACKAGECONFIG[avif] =3D "-DUSE_AVIF_LOG=3DON,-DUSE_AVIF=3DOFF,libavif"
+ PACKAGECONFIG[media-recorder] =3D "-DENABLE_MEDIA_RECORDER=3DON,-DENABLE=
+_MEDIA_RECORDER=3DOFF,gstreamer1.0-plugins-bad"
+ PACKAGECONFIG[jpegxl] =3D "-DUSE_JPEGXL=3DON,-DUSE_JPEGXL=3DOFF,libjxl"
++PACKAGECONFIG[backtrace] =3D "-DUSE_LIBBACKTRACE=3DON,-DUSE_LIBBACKTRACE=
+=3DOFF,libbacktrace"
++PACKAGECONFIG[gamepad] =3D "-DENABLE_GAMEPAD=3DON,-DENABLE_GAMEPAD=3DOFF=
+,libmanette"
+=20
+ EXTRA_OECMAKE =3D " \
+                  -DPORT=3DGTK \
+@@ -85,8 +88,8 @@ EXTRA_OECMAKE =3D " \
+                  ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_=
+HINTS=3DON', '-DWEBKIT_NO_INLINE_HINTS=3DOFFF', d)} \
+                  -DENABLE_MINIBROWSER=3DON \
+                  -DENABLE_BUBBLEWRAP_SANDBOX=3DOFF \
+-                 -DENABLE_GAMEPAD=3DOFF \
+                  -DUSE_GTK4=3DON \
++                 -DCMAKE_EXPORT_COMPILE_COMMANDS=3DOFF \
+                  "
+=20
+ # Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size o=
+f the
+--=20
+2.44.0
 
 
