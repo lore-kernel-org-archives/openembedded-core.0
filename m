@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E80CD13CA
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:32 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.44635.1711994601049017979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CACF9CD13A4
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:30 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.44640.1711994601352690202
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 11:03:21 -0700
+ Mon, 01 Apr 2024 11:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Wq4ntObR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kSNYNVwZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e9ad47d94-8568fd54-4b5a-4dfa-a59b-2f70fb13f932-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e+70AZEY;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oYzrWvco;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018e9ad48104-a9ffd71d-04c4-47ea-a2ee-34168148cb99-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711994601;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=drJWPKyFNwgyyTJfqi1mgEGVGMjqSnIlZ/FMA2vPNkw=;
-	b=Wq4ntObRn/8qB3L7WPUMqt9gA5/afgZKadU/34319H1Z2zWxnQSVnxOv4CjlTBZt
-	4TV3OIovATk5RToBzKCh2Sd9qVKtjJ9aRdyx5iE/q0lsrdrtrx9Bchtgv9oqhJZscu+
-	tFHzdC7HvPPOWQviR5WduDMoIyjPFWKApCrS0zCA=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=fe1IeRj9w08mgA8lT1/msQXhhve/foXlg2fYJ9e8H0k=;
+	b=e+70AZEYPW8sGvhAqRzrEGn/vKm+23brss4FMujBikaPU/JDLKLXonFDBnN6hx0v
+	FULNugCvfU82hTVUzBCiJkACZW/cez7vHDc0a8UcKXCVlHAH0/sFgC0qpJ1+JesrPcn
+	oaq+ckt7KhUYiUZxO1OCUzqEfyUGODtFRQq9RMYA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994601;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=drJWPKyFNwgyyTJfqi1mgEGVGMjqSnIlZ/FMA2vPNkw=;
-	b=kSNYNVwZIIitY3R3kNu8skweZkX/nuE/lsrlOq8C93PZyCxc5SY8enhH9Csgw08N
-	Cidh6uFkd/UNJ1hlnXb6EST/6omAgip11ylYlUTIirYeW+JTVZ4jxH/ilmTMPvf/29M
-	Xrzi5KpOU2DpeaFLbR/IlvjKdv5RMyVsOsSbvo/c=
-Content-Type: multipart/mixed; boundary="===============3775973635562417818=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=fe1IeRj9w08mgA8lT1/msQXhhve/foXlg2fYJ9e8H0k=;
+	b=oYzrWvcoTQVaDP6i6LN+P1SGAf9wY0osrOqq1R+KAFTivKbDtOezFJ7q/2rVkBzc
+	lhhns6LerrIIbyd3yVdgZZqVhKle5YP5lK0jQIJwg9HiFAtliJmfm52WPgJ94N8jb45
+	Te2ZniOJH4/ANXfiWPmfwcDChQerx9DGd3bK6f2Q=
+Content-Type: multipart/mixed; boundary="===============8875148912752487791=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdnf: upgrading to 0.73.1 SUCCEEDED
-Message-ID: <0101018e9ad47d94-8568fd54-4b5a-4dfa-a59b-2f70fb13f932-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:03:20 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools: upgrading to 69.2.0 SUCCEEDED
+Message-ID: <0101018e9ad48104-a9ffd71d-04c4-47ea-a2ee-34168148cb99-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:03:21 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.30
+X-SES-Outgoing: 2024.04.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197709
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197743
 
---===============3775973635562417818==
+--===============8875148912752487791==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libdnf* to *0.73.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *69.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdnf-upgrade-0.73.0-0.73.1.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-69.1.1-69.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,110 +71,852 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dbae6ed64f0263f310cf79e7b4159098f34155c6 Mon Sep 17 00:00:00 2001
+From 7c276967ca7b8871c8210b99c89239620f685b7f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 07:12:40 +0000
-Subject: [PATCH] libdnf: upgrade 0.73.0 -> 0.73.1
+Date: Mon, 1 Apr 2024 09:27:42 +0000
+Subject: [PATCH] python3-setuptools: upgrade 69.1.1 -> 69.2.0
 
 ---
- ...1-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch | 2 +-
- ...1-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch | 2 +-
- .../libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch       | 2 +-
- ...4-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch | 2 +-
- meta/recipes-devtools/libdnf/libdnf/armarch.patch               | 2 +-
- .../libdnf/libdnf/enable_test_data_dir_set.patch                | 2 +-
- .../libdnf/{libdnf_0.73.0.bb => libdnf_0.73.1.bb}               | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/libdnf/{libdnf_0.73.0.bb => libdnf_0.73.1.bb} (97%)
+ ...istutils-sysconfig.py-make-it-possible-to-substite.patch | 2 +-
+ ...01-conditionally-do-not-fetch-code-by-easy_install.patch | 6 +++---
+ ...n3-setuptools_69.1.1.bb => python3-setuptools_69.2.0.bb} | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_69.1.1.bb => python3-setuptools_69.2.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
-index 046e09eab2..ec1a74fb9a 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+index 0f6c9d250d..8dee01ec92 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
 @@ -1,4 +1,4 @@
--From 5d6db56791d326e6b486dca54fe2335af0225229 Mon Sep 17 00:00:00 2001
-+From bcd22cb941dd8b3227c586298e31636147aad0e4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 24 Nov 2016 14:33:07 +0200
- Subject: [PATCH] FindGtkDoc.cmake: drop the requirement for
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-index 223c1be218..f27769ee9b 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+-From d393759315b189a738e4b6a2ce31dc18dbbfae29 Mon Sep 17 00:00:00 2001
++From 514a1bfd68cfe93f91c0539d96da5fee3338f163 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 11 May 2022 21:41:14 +0200
+ Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 2a3c71fb62..4066dd1966 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
 @@ -1,4 +1,4 @@
--From bf9bde4af952b67cc357d25b9863889099ea9665 Mon Sep 17 00:00:00 2001
-+From 5cfc013c0462700691bbb539dfea7c3c06a91b0e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 7 Feb 2017 12:16:03 +0200
- Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch b/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
-index 27f76077d7..48f70e70f8 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
-@@ -1,4 +1,4 @@
--From a6b3bc4fb3db996cd6c5616a99c16d085704dae0 Mon Sep 17 00:00:00 2001
-+From f74b298aff19a75186c1c730056b294d2a9ede0e Mon Sep 17 00:00:00 2001
+-From 40648dfa770f9f7b9b9efa501c9ef7af96be9f2d Mon Sep 17 00:00:00 2001
++From 95ab38ea46ceb5238f084afc28cb64980e52080f Mon Sep 17 00:00:00 2001
  From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 1 Jun 2021 10:23:59 +0800
- Subject: [PATCH] drop FindPythonInstDir.cmake
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-index ecab47e5af..1a98083994 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-@@ -1,4 +1,4 @@
--From e40def862bdeb10da295b15c5904fe2829d391c7 Mon Sep 17 00:00:00 2001
-+From d80ebf85542e67d367fb5e47649f44623b26d713 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:24:50 +0200
- Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
-diff --git a/meta/recipes-devtools/libdnf/libdnf/armarch.patch b/meta/recipes-devtools/libdnf/libdnf/armarch.patch
-index 63debdb58f..3c4bc42acb 100644
---- a/meta/recipes-devtools/libdnf/libdnf/armarch.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/armarch.patch
-@@ -1,4 +1,4 @@
--From aa0f8b65feec64420a9b7b61cfcc8bcce161e14b Mon Sep 17 00:00:00 2001
-+From dc1b422902a2747bdd0573fcc61d81918541ed30 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 9 Nov 2023 10:29:31 +0000
- Subject: [PATCH] libdnf: Fix arm arch mapping issues for qemuarmv5
-diff --git a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch b/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
-index e4f6d447f1..5e0b326111 100644
---- a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
-@@ -1,4 +1,4 @@
--From 25229773a9d4472235278bb45f75439e56630cee Mon Sep 17 00:00:00 2001
-+From 60b5a6ccd3fdbc5088244f51b11d63041dc2066a Mon Sep 17 00:00:00 2001
- From: Joe Slater <joe.slater@windriver.com>
- Date: Wed, 22 Jul 2020 13:31:11 -0700
- Subject: [PATCH] libdnf: allow reproducible binary builds
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.73.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.73.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/libdnf/libdnf_0.73.0.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.73.1.bb
-index dc2ddf9492..3ab840b1b0 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.73.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.73.1.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
-            file://armarch.patch \
-            "
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -14,10 +14,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
--SRCREV = "1f30b3479528e8b62754f9047195c8e5a31f07ed"
-+SRCREV = "0120e70747dcf05e716792e2e846c62eccd44319"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 5d6fd5c..377e575 100644
++index cc0c409..948bcf2 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -676,6 +676,11 @@ class easy_install(Command):
++@@ -671,6 +671,11 @@ class easy_install(Command):
+              os.path.exists(tmpdir) and _rmtree(tmpdir)
+  
+      def easy_install(self, spec, deps=False):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
+index 77d4e0aa03..897398afc5 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
+@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "5c0806c7d9af348e6dd3777b4f4dbb42c7ad85b190104837488eab9a7c945cf8"
++SRC_URI[sha256sum] = "0ff4183f8f42cd8fa3acea16c45205521a4ef28f73c6391d8a25e92893134f2e"
+ 
+ DEPENDS += "python3"
+ 
 -- 
 2.42.0
 
 
---===============3775973635562417818==
+--===============8875148912752487791==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/libdnf (sysroot):
-  /usr/lib/python3.12/site-packages/libdnf-0.73.0.dist-info moved to /usr/lib/python3.12/site-packages/libdnf-0.73.1.dist-info
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info -> /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info, added "/usr/lib/python3.12/site-packages/setuptools/compat/py39.py /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/build was removed
+  /usr/lib/python3.12/site-packages/build/lib was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/override.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/override.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/abc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_common.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_legacy.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/readers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/simple.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/context.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/more.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/android.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/api.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/macos.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__main__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/android.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/api.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/macos.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__main__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/unix.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/windows.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/unix.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/windows.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/typing_extensions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/zipp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/zipp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/archive_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/build_meta.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/alias.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_egg.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_rpm.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_clib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_ext.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_py.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/develop.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/dist_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/easy_install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/editable_wheel.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_lib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/alias.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_egg.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_rpm.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_clib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_ext.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_py.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/develop.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/dist_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/easy_install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/editable_wheel.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_lib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/_requirestxt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/rotate.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/saveopts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/sdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/setopt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/test.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload_docs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/_requirestxt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/rotate.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/saveopts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/sdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/setopt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/test.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py310.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py311.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py310.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py311.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_apply_pyprojecttoml.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/expand.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/_apply_pyprojecttoml.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/expand.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/pyprojecttoml.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/setupcfg.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/pyprojecttoml.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/setupcfg.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/error_reporting.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/extra_validations.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_exceptions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_validations.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/formats.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/error_reporting.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/extra_validations.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_exceptions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_validations.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/formats.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_core_metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/depends.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/dep_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/discovery.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/dist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/archive_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/ccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cmd.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_dumb.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_rpm.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_clib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_ext.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_py.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/check.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/clean.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/config.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/_framework_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_data.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_headers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_lib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/py37compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_dumb.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_rpm.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_clib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_ext.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_py.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/check.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/clean.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/_framework_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_data.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_headers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_lib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/py37compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/sdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/sdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/core.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cygwinccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/debug.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dep_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dir_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/errors.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/extension.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/fancy_getopt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/filelist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/file_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_log.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/log.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_macos_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_modified.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py38compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py39compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/archive_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/ccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cmd.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/core.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cygwinccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/debug.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dep_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dir_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/errors.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/extension.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/fancy_getopt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/filelist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/file_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_log.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/log.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_macos_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_modified.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py38compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py39compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/spawn.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/sysconfig.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/text_file.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/unixccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/versionpredicate.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/spawn.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/sysconfig.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/text_file.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/unixccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/versionpredicate.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_entry_points.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/errors.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extension.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/glob.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_importlib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_imp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/installer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/launch.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/logging.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/modified.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/monkey.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/msvc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/namespaces.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_normalization.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/package_index.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_path.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/archive_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/build_meta.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_core_metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/depends.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dep_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/discovery.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_entry_points.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/errors.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/extension.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/glob.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_imp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_importlib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/installer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/launch.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/logging.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/modified.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/monkey.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/msvc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/namespaces.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_normalization.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/package_index.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_path.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_reqs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/sandbox.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/unicode_utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/warnings.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/wheel.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/windows_support.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_reqs.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/sandbox.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/unicode_utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_collections.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_meta.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_py39compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_meta.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_text.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_text.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/abc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_common.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_legacy.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/readers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/simple.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/context.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/more.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/ordered_set.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/ordered_set.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/typing_extensions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/zipp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_re.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_types.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_re.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_types.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/zipp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/warnings.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/wheel.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/windows_support.py was removed
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1559,133 +2300,884 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
 
---===============3775973635562417818==
+--===============8875148912752487791==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-69.1.1-69.2.0.patch"
+
+RnJvbSA3YzI3Njk2N2NhN2I4ODcxYzgyMTBiOTljODkyMzk2MjBmNjg1YjdmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwOToyNzo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA2OS4xLjEgLT4gNjkuMi4wCgotLS0KIC4uLmlzdHV0
+aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIHwgMiAr
+LQogLi4uMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwu
+cGF0Y2ggfCA2ICsrKy0tLQogLi4ubjMtc2V0dXB0b29sc182OS4xLjEuYmIgPT4gcHl0aG9uMy1z
+ZXR1cHRvb2xzXzY5LjIuMC5iYn0gfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9u
+cygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3tweXRob24zLXNldHVwdG9vbHNfNjkuMS4xLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc182OS4y
+LjAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXNldHVwdG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBv
+c3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXNldHVwdG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBv
+c3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoCmluZGV4IDBmNmM5ZDI1MGQuLjhkZWUwMWVjOTIgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xz
+LzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0
+ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29scy8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vi
+c3RpdGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQzOTM3NTkzMTViMTg5YTczOGU0YjZh
+MmNlMzFkYzE4ZGJiZmFlMjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDUxNGExYmZk
+NjhjZmU5M2Y5MWMwNTM5ZDk2ZGE1ZmVlMzMzOGYxNjMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogV2Vk
+LCAxMSBNYXkgMjAyMiAyMTo0MToxNCArMDIwMAogU3ViamVjdDogW1BBVENIXSBfZGlzdHV0aWxz
+L3N5c2NvbmZpZy5weTogbWFrZSBpdCBwb3NzaWJsZSB0byBzdWJzdGl0ZSB0aGUKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEt
+Y29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRp
+dGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCmluZGV4IDJh
+M2M3MWZiNjIuLjQwNjZkZDE5NjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gt
+Y29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1j
+b2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDA2NDhkZmE3
+NzBmOWY3YjliOWVmYTUwMWM5ZWY3YWY5NmJlOWYyZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gOTVhYjM4ZWE0NmNlYjUyMzhmMDg0YWZjMjhjYjY0OTgwZTUyMDgwZiBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNv
+bT4KIERhdGU6IFR1ZSwgMTcgSnVsIDIwMTggMTA6MTM6MzggKzA4MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gY29uZGl0aW9uYWxseSBkbyBub3QgZmV0Y2ggY29kZSBieSBlYXN5X2luc3RhbGwKQEAgLTE0
+LDEwICsxNCwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
+aXZlci5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0
+IGEvc2V0dXB0b29scy9jb21tYW5kL2Vhc3lfaW5zdGFsbC5weSBiL3NldHVwdG9vbHMvY29tbWFu
+ZC9lYXN5X2luc3RhbGwucHkKLWluZGV4IDVkNmZkNWMuLjM3N2U1NzUgMTAwNjQ0CitpbmRleCBj
+YzBjNDA5Li45NDhiY2YyIDEwMDY0NAogLS0tIGEvc2V0dXB0b29scy9jb21tYW5kL2Vhc3lfaW5z
+dGFsbC5weQogKysrIGIvc2V0dXB0b29scy9jb21tYW5kL2Vhc3lfaW5zdGFsbC5weQotQEAgLTY3
+Niw2ICs2NzYsMTEgQEAgY2xhc3MgZWFzeV9pbnN0YWxsKENvbW1hbmQpOgorQEAgLTY3MSw2ICs2
+NzEsMTEgQEAgY2xhc3MgZWFzeV9pbnN0YWxsKENvbW1hbmQpOgogICAgICAgICAgICAgIG9zLnBh
+dGguZXhpc3RzKHRtcGRpcikgYW5kIF9ybXRyZWUodG1wZGlyKQogIAogICAgICBkZWYgZWFzeV9p
+bnN0YWxsKHNlbGYsIHNwZWMsIGRlcHM9RmFsc2UpOgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjkuMS4xLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjkuMi4wLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1zZXR1cHRvb2xzXzY5LjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjkuMi4wLmJiCmluZGV4IDc3ZDRlMGFhMDMuLjg5
+NzM5OGFmYzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1zZXR1cHRvb2xzXzY5LjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtc2V0dXB0b29sc182OS4yLjAuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSTph
+cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1m
+ZXRjaC1jb2RlLWJ5LWUKIFNSQ19VUkkgKz0gIiBcCiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1f
+ZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNo
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWMwODA2YzdkOWFmMzQ4ZTZkZDM3NzdiNGY0ZGJi
+NDJjN2FkODViMTkwMTA0ODM3NDg4ZWFiOWE3Yzk0NWNmOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICIwZmY0MTgzZjhmNDJjZDhmYTNhY2VhMTZjNDUyMDU1MjFhNGVmMjhmNzNjNjM5MWQ4YTI1ZTky
+ODkzMTM0ZjJlIgogCiBERVBFTkRTICs9ICJweXRob24zIgogCi0tIAoyLjQyLjAKCg==
+
+--===============8875148912752487791==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libdnf: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-dbg: PKGSIZE changed from 57949992 to 58038496 (+0%)
-packages/core2-64-poky-linux/libdnf/libdnf-dbg: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-dbg: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-dev: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-dev: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-doc: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-doc: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-as: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-as: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bg: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bg: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bn-in: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bn-in: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bn: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-bn: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ca: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ca: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-cs: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-cs: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-da: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-da: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-de: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-de: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-el: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-el: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-es: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-es: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-eu: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-eu: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fa: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fa: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fi: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fi: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fil: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fil: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fr: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fr: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fur: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-fur: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-gu: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-gu: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-hi: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-hi: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-hu: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-hu: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ia: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ia: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-id: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-id: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-is: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-is: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-it: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-it: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ja: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ja: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ka: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ka: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-kn: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-kn: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ko: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ko: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-mai: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-mai: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ml: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ml: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-mr: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-mr: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-nb: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-nb: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-nl: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-nl: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-or: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-or: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pa: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pa: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pl: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pl: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pt-br: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pt-br: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pt: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-pt: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ru: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ru: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-si: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-si: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sk: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sk: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sq: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sq: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sr+latin: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sr+latin: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sr: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sr: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sv: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-sv: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ta: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-ta: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-te: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-te: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-th: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-th: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-tr: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-tr: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-uk: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-uk: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-cn: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-cn: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-tw: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-tw: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-src: PKGSIZE changed from 7357100 to 7357909 (+0%)
-packages/core2-64-poky-linux/libdnf/libdnf-src: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-src: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf-staticdev: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf-staticdev: PV changed from "0.73.0" to "0.73.1"
-packages/core2-64-poky-linux/libdnf/libdnf: PKGV changed from 0.73.0 [default] to 0.73.1 [default]
-packages/core2-64-poky-linux/libdnf/libdnf: PV changed from "0.73.0" to "0.73.1"
-Changes to packages/core2-64-poky-linux/libdnf (sysroot):
-  /usr/lib/python3.12/site-packages/libdnf-0.73.0.dist-info moved to /usr/lib/python3.12/site-packages/libdnf-0.73.1.dist-info
+packages/core2-64-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-69.1.1.tar.gz;downloadfilename=setuptools-69.1.1.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-69.2.0.tar.gz;downloadfilename=setuptools-69.2.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-64-poky-linux/python3-setuptools: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 1390277 to 1390285 (+0%)
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 4545592 to 4553527 (+0%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info -> /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info, added "/usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/compat/py39.py"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PV changed from "69.1.1" to "69.2.0"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/build was removed
+  /usr/lib/python3.12/site-packages/build/lib was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/override.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/override.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/abc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_common.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_legacy.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/readers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/simple.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/context.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/more.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/android.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/api.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/macos.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__main__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/android.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/api.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/macos.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__main__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/unix.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/windows.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/unix.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/windows.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/typing_extensions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/zipp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/zipp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/archive_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/build_meta.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/alias.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_egg.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_rpm.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_clib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_ext.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_py.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/develop.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/dist_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/easy_install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/editable_wheel.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_lib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/alias.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_egg.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_rpm.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_clib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_ext.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_py.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/develop.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/dist_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/easy_install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/editable_wheel.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_lib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/_requirestxt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/rotate.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/saveopts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/sdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/setopt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/test.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload_docs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/_requirestxt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/rotate.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/saveopts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/sdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/setopt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/test.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py310.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py311.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py310.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py311.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_apply_pyprojecttoml.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/expand.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/_apply_pyprojecttoml.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/expand.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/pyprojecttoml.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/setupcfg.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/pyprojecttoml.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/setupcfg.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/error_reporting.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/extra_validations.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_exceptions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_validations.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/formats.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/error_reporting.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/extra_validations.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_exceptions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_validations.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/formats.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_core_metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/depends.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/dep_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/discovery.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/dist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/archive_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/ccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cmd.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_dumb.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_rpm.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_clib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_ext.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_py.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/check.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/clean.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/config.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/_framework_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_data.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_egg_info.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_headers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_lib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_scripts.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/py37compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_dumb.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_rpm.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_clib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_ext.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_py.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/check.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/clean.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/_framework_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_data.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_egg_info.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_headers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_lib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_scripts.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/py37compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/sdist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/sdist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/core.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cygwinccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/debug.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dep_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dir_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/errors.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/extension.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/fancy_getopt.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/filelist.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/file_util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_log.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/log.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_macos_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_modified.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py38compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py39compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/archive_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/ccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cmd.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/core.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cygwinccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/debug.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dep_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dir_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/errors.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/extension.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/fancy_getopt.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/filelist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/file_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_log.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/log.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_macos_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_modified.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py38compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py39compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/spawn.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/sysconfig.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/text_file.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/unixccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/versionpredicate.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/spawn.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/sysconfig.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/text_file.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/unixccompiler.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/util.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/versionpredicate.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_entry_points.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/errors.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extension.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/glob.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_importlib.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_imp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/installer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/launch.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/logging.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/modified.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/monkey.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/msvc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/namespaces.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_normalization.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/package_index.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_path.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/archive_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/build_meta.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_core_metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/depends.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dep_util.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/discovery.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dist.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_entry_points.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/errors.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/extension.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/glob.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_imp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_importlib.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/installer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/launch.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/logging.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/modified.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/monkey.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/msvc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/namespaces.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_normalization.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/package_index.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_path.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_reqs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/sandbox.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/unicode_utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/warnings.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/wheel.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/windows_support.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_reqs.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/sandbox.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/unicode_utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_collections.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_meta.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_py39compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_meta.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_text.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_text.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/abc.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_adapters.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_common.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_compat.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_legacy.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/readers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/simple.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/context.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/functools.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/context.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/more.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.pyi was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/ordered_set.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/ordered_set.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/typing_extensions.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/zipp.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__init__.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_parser.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_re.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_types.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/py.typed was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_re.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_types.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/typing_extensions.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/zipp.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/version.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/warnings.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/wheel.py was removed
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/windows_support.py was removed
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3069,116 +4561,9 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
 
---===============3775973635562417818==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libdnf-upgrade-0.73.0-0.73.1.patch"
-
-RnJvbSBkYmFlNmVkNjRmMDI2M2YzMTBjZjc5ZTdiNDE1OTA5OGYzNDE1NWM2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwNzoxMjo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmRuZjogdXBncmFkZSAwLjczLjAgLT4gMC43My4xCgotLS0KIC4uLjEtRmluZEd0a0RvYy5jbWFr
-ZS1kcm9wLXRoZS1yZXF1aXJlbWVudC1mb3ItR1RLRE9DX1NDQS5wYXRjaCB8IDIgKy0KIC4uLjEt
-R2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGlic29sdmV4dC1saWJkbi5wYXRj
-aCB8IDIgKy0KIC4uLi9saWJkbmYvbGliZG5mLzAwMDEtZHJvcC1GaW5kUHl0aG9uSW5zdERpci5j
-bWFrZS5wYXRjaCAgICAgICB8IDIgKy0KIC4uLjQtU2V0LWxpYnNvbHYtdmFyaWFibGVzLXdpdGgt
-cGtnLWNvbmZpZy1jbWFrZS1zLW93bi1tby5wYXRjaCB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9saWJkbmYvbGliZG5mL2FybWFyY2gucGF0Y2ggICAgICAgICAgICAgICB8IDIgKy0KIC4u
-Li9saWJkbmYvbGliZG5mL2VuYWJsZV90ZXN0X2RhdGFfZGlyX3NldC5wYXRjaCAgICAgICAgICAg
-ICAgICB8IDIgKy0KIC4uLi9saWJkbmYve2xpYmRuZl8wLjczLjAuYmIgPT4gbGliZG5mXzAuNzMu
-MS5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDcgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25z
-KCspLCA3IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYv
-e2xpYmRuZl8wLjczLjAuYmIgPT4gbGliZG5mXzAuNzMuMS5iYn0gKDk3JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUZpbmRHdGtEb2MuY21h
-a2UtZHJvcC10aGUtcmVxdWlyZW1lbnQtZm9yLUdUS0RPQ19TQ0EucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUZpbmRHdGtEb2MuY21ha2UtZHJvcC10aGUt
-cmVxdWlyZW1lbnQtZm9yLUdUS0RPQ19TQ0EucGF0Y2gKaW5kZXggMDQ2ZTA5ZWFiMi4uZWMxYTc0
-ZmI5YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAw
-MS1GaW5kR3RrRG9jLmNtYWtlLWRyb3AtdGhlLXJlcXVpcmVtZW50LWZvci1HVEtET0NfU0NBLnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDEtRmluZEd0
-a0RvYy5jbWFrZS1kcm9wLXRoZS1yZXF1aXJlbWVudC1mb3ItR1RLRE9DX1NDQS5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gNWQ2ZGI1Njc5MWQzMjZlNmI0ODZkY2E1NGZlMjMzNWFmMDIyNTIy
-OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmNkMjJjYjk0MWRkOGIzMjI3YzU4NjI5
-OGUzMTYzNjE0N2FhZDBlNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyNCBOb3YgMjAx
-NiAxNDozMzowNyArMDIwMAogU3ViamVjdDogW1BBVENIXSBGaW5kR3RrRG9jLmNtYWtlOiBkcm9w
-IHRoZSByZXF1aXJlbWVudCBmb3IKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9s
-aWJkbmYvbGliZG5mLzAwMDEtR2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGli
-c29sdmV4dC1saWJkbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5m
-LzAwMDEtR2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGlic29sdmV4dC1saWJk
-bi5wYXRjaAppbmRleCAyMjNjMWJlMjE4Li5mMjc3NjllZTliIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUdldC1wYXJhbWV0ZXJzLWZvci1ib3Ro
-LWxpYnNvbHYtYW5kLWxpYnNvbHZleHQtbGliZG4ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwMS1HZXQtcGFyYW1ldGVycy1mb3ItYm90aC1saWJzb2x2
-LWFuZC1saWJzb2x2ZXh0LWxpYmRuLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZjliZGU0
-YWY5NTJiNjdjYzM1N2QyNWI5ODYzODg5MDk5ZWE5NjY1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSA1Y2ZjMDEzYzA0NjI3MDA2OTFiYmI1MzlkZmVhN2MzYzA2YTkxYjBlIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiBEYXRlOiBUdWUsIDcgRmViIDIwMTcgMTI6MTY6MDMgKzAyMDAKIFN1YmplY3Q6
-IFtQQVRDSF0gR2V0IHBhcmFtZXRlcnMgZm9yIGJvdGggbGlic29sdiBhbmQgbGlic29sdmV4dCAo
-bGliZG5mIGlzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRu
-Zi8wMDAxLWRyb3AtRmluZFB5dGhvbkluc3REaXIuY21ha2UucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLWRyb3AtRmluZFB5dGhvbkluc3REaXIuY21ha2Uu
-cGF0Y2gKaW5kZXggMjdmNzYwNzdkNy4uNDhmNzBlNzBmOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwMS1kcm9wLUZpbmRQeXRob25JbnN0RGlyLmNt
-YWtlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDEt
-ZHJvcC1GaW5kUHl0aG9uSW5zdERpci5jbWFrZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-YTZiM2JjNGZiM2RiOTk2Y2Q2YzU2MTZhOTljMTZkMDg1NzA0ZGFlMCBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gZjc0YjI5OGFmZjE5YTc1MTg2YzFjNzMwMDU2YjI5NGQyYTllZGUwZSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
-ZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgMSBKdW4gMjAyMSAxMDoyMzo1OSArMDgwMAogU3ViamVj
-dDogW1BBVENIXSBkcm9wIEZpbmRQeXRob25JbnN0RGlyLmNtYWtlCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDA0LVNldC1saWJzb2x2LXZhcmlhYmxl
-cy13aXRoLXBrZy1jb25maWctY21ha2Utcy1vd24tbW8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvbGliZG5mL2xpYmRuZi8wMDA0LVNldC1saWJzb2x2LXZhcmlhYmxlcy13aXRoLXBrZy1j
-b25maWctY21ha2Utcy1vd24tbW8ucGF0Y2gKaW5kZXggZWNhYjQ3ZTVhZi4uMWE5ODA4Mzk5NCAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwNC1TZXQt
-bGlic29sdi12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLWNtYWtlLXMtb3duLW1vLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDQtU2V0LWxpYnNvbHYt
-dmFyaWFibGVzLXdpdGgtcGtnLWNvbmZpZy1jbWFrZS1zLW93bi1tby5wYXRjaApAQCAtMSw0ICsx
-LDQgQEAKLUZyb20gZTQwZGVmODYyYmRlYjEwZGEyOTViMTVjNTkwNGZlMjgyOWQzOTFjNyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDgwZWJmODU1NDJlNjdkMzY3ZmI1ZTQ3NjQ5ZjQ0
-NjIzYjI2ZDcxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogRnJpLCAzMCBEZWMgMjAxNiAxODoy
-NDo1MCArMDIwMAogU3ViamVjdDogW1BBVENIXSBTZXQgbGlic29sdiB2YXJpYWJsZXMgd2l0aCBw
-a2ctY29uZmlnIChjbWFrZSdzIG93biBtb2R1bGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9saWJkbmYvbGliZG5mL2FybWFyY2gucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvbGliZG5mL2xpYmRuZi9hcm1hcmNoLnBhdGNoCmluZGV4IDYzZGViZGI1OGYuLjNjNGJjNDJh
-Y2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2FybWFy
-Y2gucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvYXJtYXJj
-aC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYWEwZjhiNjVmZWVjNjQ0MjBhOWI3YjYxY2Zj
-YzhiY2NlMTYxZTE0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGMxYjQyMjkwMmEy
-NzQ3YmRkMDU3M2ZjYzYxZDgxOTE4NTQxZWQzMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgog
-RGF0ZTogVGh1LCA5IE5vdiAyMDIzIDEwOjI5OjMxICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmRuZjogRml4IGFybSBhcmNoIG1hcHBpbmcgaXNzdWVzIGZvciBxZW11YXJtdjUKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2VuYWJsZV90ZXN0X2RhdGFf
-ZGlyX3NldC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2VuYWJs
-ZV90ZXN0X2RhdGFfZGlyX3NldC5wYXRjaAppbmRleCBlNGY2ZDQ0N2YxLi41ZTBiMzI2MTExIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi9lbmFibGVfdGVz
-dF9kYXRhX2Rpcl9zZXQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9s
-aWJkbmYvZW5hYmxlX3Rlc3RfZGF0YV9kaXJfc2V0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
-bSAyNTIyOTc3M2E5ZDQ0NzIyMzUyNzhiYjQ1Zjc1NDM5ZTU2NjMwY2VlIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQorRnJvbSA2MGI1YTZjY2QzZmRiYzUwODgyNDRmNTFiMTFkNjMwNDFkYzIwNjZh
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9lIFNsYXRlciA8am9lLnNsYXRlckB3
-aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyMiBKdWwgMjAyMCAxMzozMToxMSAtMDcwMAogU3Vi
-amVjdDogW1BBVENIXSBsaWJkbmY6IGFsbG93IHJlcHJvZHVjaWJsZSBiaW5hcnkgYnVpbGRzCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZl8wLjczLjAuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZl8wLjczLjEuYmIKc2ltaWxhcml0
-eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJk
-bmZfMC43My4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRu
-Zl8wLjczLjEuYmIKaW5kZXggZGMyZGRmOTQ5Mi4uM2FiODQwYjFiMCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC43My4wLmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNzMuMS5iYgpAQCAtMTMsNyArMTMsNyBAQCBT
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvbGliZG5m
-O2JyYW5jaD1kbmYtNC1tYXN0ZXI7cAogICAgICAgICAgICBmaWxlOi8vYXJtYXJjaC5wYXRjaCBc
-CiAgICAgICAgICAgICIKIAotU1JDUkVWID0gIjFmMzBiMzQ3OTUyOGU4YjYyNzU0ZjkwNDcxOTVj
-OGU1YTMxZjA3ZWQiCitTUkNSRVYgPSAiMDEyMGU3MDc0N2RjZjA1ZTcxNjc5MmUyZTg0NmM2MmVj
-Y2Q0NDMxOSIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPig/ITRcLjkw
-KVxkKyhcLlxkKykrKSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKLS0gCjIuNDIuMAoK
-
---===============3775973635562417818==--
+--===============8875148912752487791==--
 
