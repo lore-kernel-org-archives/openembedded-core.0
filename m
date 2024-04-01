@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C1ECD12A6
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:11:15 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.2300.1711995071543058392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DB9CD12A5
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:11:14 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.44906.1711995071701328193
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bDMJxJQU;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oIbkvMcf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e9adba95e-21459927-47de-45c8-a5d6-3f575f0901b1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KlMNqEII;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kYmzUFiM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e9adbaacb-a932a092-064f-4dee-abdd-08523a595cf1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711995071;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cOjyMSqVeLMa7mRB59QZfL7dPP3nalZQ8BYbxPes0rE=;
-	b=bDMJxJQULWBLRSrmMO3EpFU54lsajgq5h7N+0PMqCpdBV3zarCtyyT0C2ffhZDrV
-	UA7m8lC+OunlW3oPKK6ny1ZE+kVbnbmrHYgYqxW3BkxEsdMKdH+sVGA5Wyz/P4kKYqO
-	2crn1geivnDR7n85kkPCq1Fe7gfLn3bfXABRcLQg=
+	bh=lcID9IsSFUGQ6iv7AdJyHXRxc1W8AwnFEAO5JqQltA0=;
+	b=KlMNqEIIvYuGpiIIIWfgeTAbqE1zFrVzVr4Zi6SEqeHK5VR6Na6YZ5sfHlrnC3HP
+	yNcycvs0bCEQINYymt3IlGFnNcpOtTci5KYTmkbICGHrbyAA/wCaUtH57Fb1C3VJS+v
+	Wd+KC7wvYppNhlRqrjxYtOZPyUH3vaoyNYN0RTfs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995071;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cOjyMSqVeLMa7mRB59QZfL7dPP3nalZQ8BYbxPes0rE=;
-	b=oIbkvMcfpDIo9Hn5yN728EVTs8bcMcKcvTt9eisBEaaxxAwRsfS2r4/9t1h0BNBq
-	OOVouowNSwFhroQm/pbaPe1vjQuTRlQr7vBxLlsmuIOKe42pTB+HKtAa/tDJOUQLX+O
-	JTWXND/FeptzvCLSdo+uNqhFRYcvqLIAv8SQTsfE=
-Content-Type: multipart/mixed; boundary="===============8502079073997665811=="
+	bh=lcID9IsSFUGQ6iv7AdJyHXRxc1W8AwnFEAO5JqQltA0=;
+	b=kYmzUFiM72oLM3Y4EW6I/SCuPcrjLAzoByTnPCcNsHImGcoqECvldeyFaPp4mRd4
+	s3LnFjSuaTM4pv5przC0/QKVaf5ixwGOaaP2plD7YQGUlCE7riq3ZkzJ511sRys1TpT
+	CNJ2IVWqgQLBmuUFmHb+VHGQ9yGWMvJvsRhuIjwg=
+Content-Type: multipart/mixed; boundary="===============5723034074975488087=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] npth: upgrading to 1.7 FAILED
-Message-ID: <0101018e9adba95e-21459927-47de-45c8-a5d6-3f575f0901b1-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:11:10 +0000
+Subject: [AUH] libpng: upgrading to 1.6.43 SUCCEEDED
+Message-ID: <0101018e9adbaacb-a932a092-064f-4dee-abdd-08523a595cf1-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:11:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.31
+X-SES-Outgoing: 2024.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:11:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197831
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:11:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197834
 
---===============8502079073997665811==
+--===============5723034074975488087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,89 +51,135 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *npth* to *1.7* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libpng* to *1.6.43* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libpng-upgrade-1.6.42-1.6.43.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe npth failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1874 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-02fae59d2234a983972e1a4056a2ee9f28da6562"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:02fae59d2234a983972e1a4056a2ee9f28da6562"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 9 Local 9 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1874 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (920 cached, 2 parsed). 1875 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-02fae59d2234a983972e1a4056a2ee9f28da6562"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:02fae59d2234a983972e1a4056a2ee9f28da6562"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/npth/npth-1.7.tar.bz2...
-INFO: Rebasing devtool onto 73cbb1483416692548067c04abd035a509766c9f
-WARNING: Command 'git rebase 73cbb1483416692548067c04abd035a509766c9f' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/npth
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/npth/npth_1.7.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8502079073997665811==--
+
+-- >8 --
+From 265ac00e68fc5a6042c35eb049196f0bd899fbdb Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 1 Apr 2024 16:07:19 +0000
+Subject: [PATCH] libpng: upgrade 1.6.42 -> 1.6.43
+
+---
+ .../libpng/{libpng_1.6.42.bb => libpng_1.6.43.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.42.bb => libpng_1.6.43.bb} (93%)
+
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.43.bb
+similarity index 93%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.43.bb
+index cadbe957db..44869dce73 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.43.bb
+@@ -11,7 +11,7 @@ DEPENDS = "zlib"
+ LIBV = "16"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
++SRC_URI[sha256sum] = "6a5ca0652392a2d7c9db2ae5b40210843c0bbc081cbd410825ab00cc59f14a6c"
+ 
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
+-- 
+2.42.0
+
+
+--===============5723034074975488087==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.41.0", added "/usr/lib/libpng16.so.16.43.0"
+Changes to packages/core2-64-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.41.0 to libpng16.so.16.43.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.41.0 to libpng16.so.16.43.0
+  /usr/lib/libpng16.so.16.41.0 moved to /usr/lib/libpng16.so.16.43.0
+
+--===============5723034074975488087==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libpng-upgrade-1.6.42-1.6.43.patch"
+
+RnJvbSAyNjVhYzAwZTY4ZmM1YTYwNDJjMzVlYjA0OTE5NmYwYmQ4OTlmYmRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNjowNzoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnBuZzogdXBncmFkZSAxLjYuNDIgLT4gMS42LjQzCgotLS0KIC4uLi9saWJwbmcve2xpYnBuZ18x
+LjYuNDIuYmIgPT4gbGlicG5nXzEuNi40My5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL2xpYnBuZy97bGlicG5nXzEuNi40Mi5iYiA9PiBsaWJwbmdfMS42LjQz
+LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9s
+aWJwbmdfMS42LjQyLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18x
+LjYuNDMuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18xLjYuNDIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjQzLmJiCmluZGV4IGNhZGJlOTU3ZGIuLjQ0ODY5
+ZGNlNzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
+MS42LjQyLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42
+LjQzLmJiCkBAIC0xMSw3ICsxMSw3IEBAIERFUEVORFMgPSAiemxpYiIKIExJQlYgPSAiMTYiCiAK
+IFNSQ19VUkkgPSAiJHtTT1VSQ0VGT1JHRV9NSVJST1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7
+TElCVn0vJHtCUH0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM5MTlkYmMxMWY0YzAz
+YjA1YWJhM2Y4ODg0ZDhlYjdhZGZlMzU3MmFkMjI4YWY5NzJiYjYwMDU3YmRiNDg0NTAiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiNmE1Y2EwNjUyMzkyYTJkN2M5ZGIyYWU1YjQwMjEwODQzYzBiYmMw
+ODFjYmQ0MTA4MjVhYjAwY2M1OWYxNGE2YyIKIAogTUlSUk9SUyArPSAiJHtTT1VSQ0VGT1JHRV9N
+SVJST1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vICR7U09VUkNFRk9SR0VfTUlSUk9S
+fS9wcm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9L29sZGVyLXJlbGVhc2VzLyIKIAotLSAKMi40
+Mi4wCgo=
+
+--===============5723034074975488087==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libpng: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/project/libpng/libpng16/libpng-1.6.42.tar.xz" to "https://downloads.sourceforge.net/project/libpng/libpng16/libpng-1.6.43.tar.xz"
+packages/core2-64-poky-linux/libpng: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-dbg: PKGSIZE changed from 789992 to 790432 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-dbg: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.41.0", added "/usr/lib/.debug/libpng16.so.16.43.0"
+packages/core2-64-poky-linux/libpng/libpng-dev: PKGSIZE changed from 174169 to 174214 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-dev: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268658 to 268667 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-doc: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-locale: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-src: PKGSIZE changed from 1400483 to 1400624 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-src: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-src: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng-tools: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng: PV changed from "1.6.42" to "1.6.43"
+packages/core2-64-poky-linux/libpng/libpng: PKGV changed from 1.6.42 [default] to 1.6.43 [default]
+packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.41.0", added "/usr/lib/libpng16.so.16.43.0"
+Changes to packages/core2-64-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.41.0 to libpng16.so.16.43.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.41.0 to libpng16.so.16.43.0
+  /usr/lib/libpng16.so.16.41.0 moved to /usr/lib/libpng16.so.16.43.0
+
+--===============5723034074975488087==--
 
