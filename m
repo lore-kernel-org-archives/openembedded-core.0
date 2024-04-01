@@ -2,728 +2,629 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF536CD344D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF10CD344A
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:33 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1985.1711994600711238198
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.1988.1711994601233172126
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:03:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ghZtaEMy;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=q79SK5Pp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e9ad47c34-bad5bc82-81b8-408e-a2f0-749ea0202d74-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WezKFyDe;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CU554xdT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018e9ad47b64-958778a3-f9ff-49d8-b1e0-bdaf55d4f631-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711994600;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6Gn0ISb+JrTVcz4Ta3tZVRhZCqDrMBLeqhoQSpRS2RE=;
-	b=ghZtaEMyODPinHOQ8gIGorvaxzRs7lblXgGqyInNm41BAvEbWv/yjEqblrFpUNfB
-	eVVm4sbtvrtzpVdHQBaAAPm44bUZ7VljjIc0TO+nZyNyQ7Q+0TWEF7TVPeE/CJ+51ix
-	W9Y3V5VmdEFKBtFyZi+tjsbkVvz/6iOdXBiy0OOE=
+	bh=p+7a5z/7AjOWz2gwq/qlAw+AtmXeRytqToItaMAf6IU=;
+	b=WezKFyDem9wivjLp+mVSz9bgl3F0ITtRkIAGxR5YGYwt1gLOM3v6Tm0Boot3xpwg
+	aJWFA7g+B7ImpuMZnu2IevxIuN9K/E+bdzF1uEoT9qzNmqBauWrBthplqz8dPbKXiWZ
+	4CWUJQu/K4rHJbHk2L9w1wnUQPWUwMcpRdy3OwKw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994600;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6Gn0ISb+JrTVcz4Ta3tZVRhZCqDrMBLeqhoQSpRS2RE=;
-	b=q79SK5Pp78Nj0Q1Dgm6cWqMb2Uu8J/Pg9zGXJTCg7OFIhOV+APcEe6LafqKthRbH
-	R0QxxsFMuoizJvBbjl1CnV0/R5DBVw0gANkm1o+JFBZ92tXpbwLDPY6XKQkRyUjdfYu
-	SubuzyhZ3cxVxcbAXD3pAdeNtJqKvf6KmfndnFsA=
-Content-Type: multipart/mixed; boundary="===============8226033578304689149=="
+	bh=p+7a5z/7AjOWz2gwq/qlAw+AtmXeRytqToItaMAf6IU=;
+	b=CU554xdTfmx690jlpoJXhX5RNE/ALobTN+Wl14am+aR+AzwrYWIriq5ay34tveTD
+	OQME14kkWHB2B8RYMmNHky4cBem9L6OTvNnMhuj9vo2uOe+2kgx8jDb1IdJ72+WUZeX
+	PDPWtEhQfGppCQpOs0vSjA+q9ZwaGKk+1pwGS4SM=
+Content-Type: multipart/mixed; boundary="===============6057389124153376311=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ifupdown: upgrading to 0.8.43 FAILED
-Message-ID: <0101018e9ad47c34-bad5bc82-81b8-408e-a2f0-749ea0202d74-000000@us-west-2.amazonses.com>
+Subject: [AUH] coreutils: upgrading to 9.5 SUCCEEDED
+Message-ID: <0101018e9ad47b64-958778a3-f9ff-49d8-b1e0-bdaf55d4f631-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Apr 2024 18:03:20 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.31
+X-SES-Outgoing: 2024.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197694
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197700
 
---===============8226033578304689149==
+--===============6057389124153376311==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+ICpjb3JldXRpbHMqIHRvICo5LjUqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
+cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWNvcmV1dGlscy11cGdyYWRlLTkuNC05LjUucGF0
+Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQgc3VtbWFy
+aXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGltYWdlIHRo
+YXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNhbml0eSB0
+ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29tbWl0IC1z
+IC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9wcmlhdGUg
+bWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVjaXBlIHNo
+b3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVDSVBFX05P
+X1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1dG9tYXRp
+YyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJldmlldyB0
+aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxkL3VwZGF0
+ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6Ly9idWd6
+aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0ZWQlMjBV
+cGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44IC0tCkZy
+b20gNjI5MDFjM2UxYThmNThiNmI5YTg0NjI0OGVjZDc2OTFkMTE0Yjk3YyBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qub3JnPgpE
+YXRlOiBNb24sIDEgQXByIDIwMjQgMDY6MTE6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBjb3Jl
+dXRpbHM6IHVwZ3JhZGUgOS40IC0+IDkuNQoKLS0tCiAuLi5sb2NhbC5tay1maXgtY3Jvc3MtY29t
+cGlsaW5nLXByb2JsZW0ucGF0Y2ggfCAxMiArKystLS0KIC4uLi8wMDAxLXBvc2l4dG0tcGFjaWZ5
+LWNsYW5nLTE4LnBhdGNoICAgICAgICB8IDM4IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL2NvcmV1
+dGlscy9jb3JldXRpbHMvQ1ZFLTIwMjQtMDY4NC5wYXRjaCAgIHwgMzkgLS0tLS0tLS0tLS0tLS0t
+LS0tLQogLi4uL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQucGF0Y2ggICAgICAgIHwgIDcg
+KystLQogLi4uL3tjb3JldXRpbHNfOS40LmJiID0+IGNvcmV1dGlsc185LjUuYmJ9ICAgIHwgMjYg
+KysrKysrKysrKystLQogNSBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCA5MSBkZWxl
+dGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMv
+Y29yZXV0aWxzLzAwMDEtcG9zaXh0bS1wYWNpZnktY2xhbmctMTgucGF0Y2gKIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzL0NWRS0yMDI0LTA2
+ODQucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMve2NvcmV1dGlsc185
+LjQuYmIgPT4gY29yZXV0aWxzXzkuNS5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzLzAwMDEtbG9jYWwubWstZml4LWNyb3NzLWNvbXBp
+bGluZy1wcm9ibGVtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGls
+cy8wMDAxLWxvY2FsLm1rLWZpeC1jcm9zcy1jb21waWxpbmctcHJvYmxlbS5wYXRjaAppbmRleCA2
+NmY5YTcxNmM5Li5lMjhjYmEwMzM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9jb3Jl
+dXRpbHMvY29yZXV0aWxzLzAwMDEtbG9jYWwubWstZml4LWNyb3NzLWNvbXBpbGluZy1wcm9ibGVt
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvMDAwMS1s
+b2NhbC5tay1maXgtY3Jvc3MtY29tcGlsaW5nLXByb2JsZW0ucGF0Y2gKQEAgLTEsNCArMSw3IEBA
+Ci1TdWJqZWN0OiBsb2NhbC5tazogZml4IGNyb3NzIGNvbXBpbGluZyBwcm9ibGVtCitGcm9tIGVk
+N2RlMDcyOGY5OTZlMGFkOTM2NjI4YTYwMDFmNDA0NWFmNTVjMmIgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tOiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CitEYXRlOiBNb24s
+IDI2IERlYyAyMDE2IDE2OjEwOjM1ICswODAwCitTdWJqZWN0OiBbUEFUQ0hdIGxvY2FsLm1rOiBm
+aXggY3Jvc3MgY29tcGlsaW5nIHByb2JsZW0KIAogV2UgbWVldCB0aGUgZm9sbG93aW5nIGVycm9y
+IHdoZW4gY3Jvc3MgY29tcGlsaW5nLgogfCBNYWtlZmlsZTozNDE4OiAqKiogUmVjdXJzaXZlIHZh
+cmlhYmxlICdJTlNUQUxMJyByZWZlcmVuY2VzIGl0c2VsZiAoZXZlbnR1YWxseSkuICBTdG9wLgpA
+QCAtMTIsMTUgKzE1LDEyIEBAIFNpZ25lZC1vZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IAogZGlmZiAtLWdpdCBhL3NyYy9sb2NhbC5tayBiL3NyYy9sb2NhbC5tawotaW5kZXggMzZkZmE0
+ZS4uYzU4OThjYyAxMDA2NDQKK2luZGV4IDk2ZWU5NDEuLmNkZDQ3ZDYgMTAwNjQ0CiAtLS0gYS9z
+cmMvbG9jYWwubWsKICsrKyBiL3NyYy9sb2NhbC5tawotQEAgLTY0OSw0ICs2NDksNCBAQCBjdV9p
+bnN0YWxsX3Byb2dyYW0gPSBASU5TVEFMTF9QUk9HUkFNQAorQEAgLTcwNCw0ICs3MDQsNCBAQCBj
+dV9pbnN0YWxsX3Byb2dyYW0gPSBASU5TVEFMTEAKICBlbHNlCiAgY3VfaW5zdGFsbF9wcm9ncmFt
+ID0gc3JjL2dpbnN0YWxsCiAgZW5kaWYKIC1JTlNUQUxMID0gJChjdV9pbnN0YWxsX3Byb2dyYW0p
+IC1jCiArSU5TVEFMTF9QUk9HUkFNID0gJChjdV9pbnN0YWxsX3Byb2dyYW0pCi0tLSAKLTIuMS4w
+Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvMDAw
+MS1wb3NpeHRtLXBhY2lmeS1jbGFuZy0xOC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1
+dGlscy9jb3JldXRpbHMvMDAwMS1wb3NpeHRtLXBhY2lmeS1jbGFuZy0xOC5wYXRjaApkZWxldGVk
+IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZTZjODRiZTNjNC4uMDAwMDAwMDAwMAotLS0gYS9tZXRh
+L3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzLzAwMDEtcG9zaXh0bS1wYWNpZnktY2xh
+bmctMTgucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzOCArMCwwIEBACi1Gcm9tIDY3YzI5OGMz
+NmY2OWI2OTA2ODQwYjc1ODRiZTA2YjdiNWYzM2Y4MjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+Ci1Gcm9tOiBQYXVsIEVnZ2VydCA8ZWdnZXJ0QGNzLnVjbGEuZWR1PgotRGF0ZTogVHVlLCAxNiBK
+YW4gMjAyNCAxNzoyMTowOCAtMDgwMAotU3ViamVjdDogW1BBVENIXSBwb3NpeHRtOiBwYWNpZnkg
+Y2xhbmcgMTgKLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNo
+YXJzZXQ9VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKLQotUHJvYmxlbSBy
+ZXBvcnRlZCBieSBLaGVtIFJhaiBpbjoKLWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1nbnVs
+aWIvMjAyNC0wMS9tc2cwMDA0NS5odG1sCi0qIGxpYi9wb3NpeHRtLmMgKHBvc2l4dGltZSk6IFBh
+Y2lmeSBjbGFuZyAxOCBieSBjb252ZXJ0aW5nIGJvb2wgdG8gaW50LgotQXJndWFibHkgdGhpcyBp
+cyBhIGJ1ZyBpbiBkcmFmdCBDMngsIHNpbmNlIHRoZSBub24tcG9pbnRlciBhcmdzIHRvCi1ja2Rf
+YWRkIHNob3VsZCBwcm9tb3RlIGp1c3QgbGlrZSBhbnkgb3RoZXIgZXhwcmVzc2lvbnMgZG87Ci1i
+dXQgdGhhdOKAmXMgbm90IGNsYW5n4oCZcyBmYXVsdC4KLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJt
+aXR0ZWQgW2h0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvYnVnLWdudWxpYi8yMDI0
+LTAxL21zZzAwMDQ2Lmh0bWxdCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgotLS0tCi0gQ2hhbmdlTG9nICAgICB8IDEwICsrKysrKysrKysKLSBsaWIvcG9zaXh0
+bS5jIHwgIDIgKy0KLSAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkKLQotZGlmZiAtLWdpdCBhL2xpYi9wb3NpeHRtLmMgYi9saWIvcG9zaXh0bS5jCi1pbmRl
+eCBlZjlmNTVmODczLi5hMDcyYzdjYWQwIDEwMDY0NAotLS0tIGEvbGliL3Bvc2l4dG0uYwotKysr
+IGIvbGliL3Bvc2l4dG0uYwotQEAgLTE5MSw3ICsxOTEsNyBAQCBwb3NpeHRpbWUgKHRpbWVfdCAq
+cCwgY29uc3QgY2hhciAqcywgdW5zaWduZWQgaW50IHN5bnRheF9iaXRzKQotICAgICAgICAgICAg
+ICB8ICh0bTAudG1fbWluIF4gdG0xLnRtX21pbikKLSAgICAgICAgICAgICAgfCAodG0wLnRtX3Nl
+YyBeIHRtMS50bV9zZWMpKSkKLSAgICAgICAgIHsKLS0gICAgICAgICAgaWYgKGNrZF9hZGQgKCZ0
+LCB0LCBsZWFwc2VjKSkKLSsgICAgICAgICAgaWYgKGNrZF9hZGQgKCZ0LCB0LCArbGVhcHNlYykp
+Ci0gICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwotICAgICAgICAgICAqcCA9IHQ7Ci0gICAgICAg
+ICAgIHJldHVybiB0cnVlOwotLS0gCi0yLjQzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9DVkUtMjAyNC0wNjg0LnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9DVkUtMjAyNC0wNjg0LnBhdGNoCmRlbGV0ZWQg
+ZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwYzY4ZTJkY2UwLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEv
+cmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvQ1ZFLTIwMjQtMDY4NC5wYXRjaAorKysg
+L2Rldi9udWxsCkBAIC0xLDM5ICswLDAgQEAKLUZyb20gYzRjNWVkOGY0ZTljZDU1YTEyOTY2ZDRm
+NTIwZTNhMTMxMDE2MzdkOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IFBhdWwgRWdn
+ZXJ0IDxlZ2dlcnRAY3MudWNsYS5lZHU+Ci1EYXRlOiBUdWUsIDE2IEphbiAyMDI0IDEzOjQ4OjMy
+IC0wODAwCi1TdWJqZWN0OiBbUEFUQ0ggMS8xXSBzcGxpdDogZG8gbm90IHNocmluayBob2xkIGJ1
+ZmZlcgotTUlNRS1WZXJzaW9uOiAxLjAKLUNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNl
+dD11dGY4Ci1Db250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0Ci0KLSogc3JjL3NwbGl0LmMg
+KGxpbmVfYnl0ZXNfc3BsaXQpOiBEbyBub3Qgc2hyaW5rIGhvbGQgYnVmZmVyLgotSWYgaXTigJlz
+IGxhcmdlIGZvciB0aGlzIGJhdGNoIGl04oCZcyBsaWtlbHkgdG8gYmUgbGFyZ2UgZm9yIHRoZSBu
+ZXh0Ci1iYXRjaCwgYW5kIGZvciDigJhzcGxpdOKAmSBpdOKAmXMgbm90IHdvcnRoIHRoZSBjb21w
+bGV4aXR5L0NQVSBoYXNzbGUgdG8KLXNocmluayBpdC4gIERvIG5vdCBhc3N1bWUgaG9sZF9zaXpl
+IGNhbiBiZSBidWZzaXplLgotCi1DVkU6IENWRS0yMDI0LTA2ODQKLVVwc3RyZWFtLVN0YXR1czog
+QmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9jb3JldXRpbHMvY29yZXV0aWxzL2NvbW1pdC9j
+NGM1ZWQ4ZjRlOWNkNTVhMTI5NjZkNGY1MjBlM2ExMzEwMTYzN2Q5XQotU2lnbmVkLW9mZi1ieTog
+U2ltb25lIFdlacOfIDxzaW1vbmUucC53ZWlzc0Bwb3N0ZW8uY29tPgotLS0tCi0gc3JjL3NwbGl0
+LmMgfCAzIC0tLQotIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0
+IGEvc3JjL3NwbGl0LmMgYi9zcmMvc3BsaXQuYwotaW5kZXggNjQwMjBjODU5Li4wMzc5NjBhNTkg
+MTAwNjQ0Ci0tLS0gYS9zcmMvc3BsaXQuYwotKysrIGIvc3JjL3NwbGl0LmMKLUBAIC04MDksMTAg
+KzgwOSw3IEBAIGxpbmVfYnl0ZXNfc3BsaXQgKGludG1heF90IG5fYnl0ZXMsIGNoYXIgKmJ1Ziwg
+aWR4X3QgYnVmc2l6ZSkKLSAgICAgICAgICAgICB7Ci0gICAgICAgICAgICAgICBjd3JpdGUgKG5f
+b3V0ID09IDAsIGhvbGQsIG5faG9sZCk7Ci0gICAgICAgICAgICAgICBuX291dCArPSBuX2hvbGQ7
+Ci0tICAgICAgICAgICAgICBpZiAobl9ob2xkID4gYnVmc2l6ZSkKLS0gICAgICAgICAgICAgICAg
+aG9sZCA9IHhpcmVhbGxvYyAoaG9sZCwgYnVmc2l6ZSk7Ci0gICAgICAgICAgICAgICBuX2hvbGQg
+PSAwOwotLSAgICAgICAgICAgICAgaG9sZF9zaXplID0gYnVmc2l6ZTsKLSAgICAgICAgICAgICB9
+Ci0gCi0gICAgICAgICAgIC8qIE91dHB1dCB0byBlb2wgaWYgcHJlc2VudC4gICovCi0tLSAKLTIu
+MTEuNC5HSVQKLQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29y
+ZXV0aWxzL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Y29yZS9jb3JldXRpbHMvY29yZXV0aWxzL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQucGF0
+Y2gKaW5kZXggMWE4YTliOTk4My4uMGVhODllYWFhOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9yZW1vdmUtdXNyLWxvY2FsLWxpYi1mcm9tLW00LnBh
+dGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvcmVtb3ZlLXVz
+ci1sb2NhbC1saWItZnJvbS1tNC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTI2NTMwMDgz
+YTI5ZWVlZTkxMGJmZDYwNmVjYzYyMWFjZWNkNTQ3YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gOWMwOGI3ZDMxODhhYzY3NGVhZjBmNmQzMGQ5Yjg0YjJkZjlhMjFiMCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRl
+OiBXZWQsIDMgQXVnIDIwMTEgMTQ6MTI6MzAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gY29yZXV0
+aWxzOiBGaXggYnVpbGQgb24gdWNsaWJjCkBAIC0xMiwxNiArMTIsMTUgQEAgYW5kIG1ha2UgbGlm
+ZSBlYXNpZXIgZm9yIGNyb3NzIGNvbXBpbGF0aW9uIHByb2Nlc3MuCiBTaWduZWQtb2ZmLWJ5OiBL
+aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9w
+cmlhdGUgW1Vwc3RyZWFtIGRvZXMgY2FyZSBmb3IgQUlYIHdoaWxlIHdlIG1heSBub3RdCi0KIC0t
+LQogIG00L2dldGxvYWRhdmcubTQgfCAxMiAtLS0tLS0tLS0tLS0KICAxIGZpbGUgY2hhbmdlZCwg
+MTIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tNC9nZXRsb2FkYXZnLm00IGIvbTQvZ2V0
+bG9hZGF2Zy5tNAotaW5kZXggOGU5Njk2NS4uNjM3ODJhMiAxMDA2NDQKK2luZGV4IDlkMDIzNmYu
+LjY4ZjdjNTIgMTAwNjQ0CiAtLS0gYS9tNC9nZXRsb2FkYXZnLm00CiArKysgYi9tNC9nZXRsb2Fk
+YXZnLm00Ci1AQCAtNDEsMTggKzQxLDYgQEAgQUNfQ0hFQ0tfRlVOQyhbZ2V0bG9hZGF2Z10sIFtd
+LAorQEAgLTQ2LDE4ICs0Niw2IEBAIGlmIHRlc3QgJGFjX2N2X2Z1bmNfZ2V0bG9hZGF2ZyAhPSB5
+ZXM7IHRoZW4KICAgICAgICAgW0xJQlM9Ii1sdXRpbCAkTElCUyIgZ2xfZnVuY19nZXRsb2FkYXZn
+X2RvbmU9eWVzXSkKICAgICBmaQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvY29y
+ZXV0aWxzL2NvcmV1dGlsc185LjQuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29y
+ZXV0aWxzXzkuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWNvcmUvY29yZXV0aWxzL2NvcmV1dGlsc185LjUuYmIKaW5kZXggNjJlY2RlYTZlYy4uMzg2ZjE3
+YjExZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlsc185
+LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlsc185LjUuYmIK
+QEAgLTEsMyArMSwyMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhh
+dmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlz
+IHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQu
+CisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFy
+aXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBk
+YXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMg
+dXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIHNyYy9scy5jCisjICsrKyBz
+cmMvbHMuYworIyBAQCAtMSw1ICsxLDUgQEAKKyMgIC8qICdkaXInLCAndmRpcicgYW5kICdscycg
+ZGlyZWN0b3J5IGxpc3RpbmcgcHJvZ3JhbXMgZm9yIEdOVS4KKyMgLSAgIENvcHlyaWdodCAoQykg
+MTk4NS0yMDIzIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwgSW5jLgorIyArICAgQ29weXJpZ2h0
+IChDKSAxOTg1LTIwMjQgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuCisjICAKKyMgICAg
+IFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOiB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBh
+bmQvb3IgbW9kaWZ5CisjICAgICBpdCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBHZW5lcmFs
+IFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieQorIyAKKyMKKwogU1VNTUFSWSA9ICJUaGUg
+YmFzaWMgZmlsZSwgc2hlbGwgYW5kIHRleHQgbWFuaXB1bGF0aW9uIHV0aWxpdGllcyIKIERFU0NS
+SVBUSU9OID0gIlRoZSBHTlUgQ29yZSBVdGlsaXRpZXMgcHJvdmlkZSB0aGUgYmFzaWMgZmlsZSwg
+c2hlbGwgYW5kIHRleHQgXAogbWFuaXB1bGF0aW9uIHV0aWxpdGllcy4gVGhlc2UgYXJlIHRoZSBj
+b3JlIHV0aWxpdGllcyB3aGljaCBhcmUgZXhwZWN0ZWQgdG8gZXhpc3Qgb24gXApAQCAtNiw3ICsy
+Niw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9jb3JldXRpbHMv
+IgogQlVHVFJBQ0tFUiA9ICJodHRwOi8vZGViYnVncy5nbnUub3JnL2NvcmV1dGlscyIKIExJQ0VO
+U0UgPSAiR1BMLTMuMC1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
+Tkc7bWQ1PTFlYmJkM2UzNDIzN2FmMjZkYTVkYzA4YTRlNDQwNDY0IFwKLSAgICAgICAgICAgICAg
+ICAgICAgZmlsZTovL3NyYy9scy5jO2JlZ2lubGluZT0xO2VuZGxpbmU9MTU7bWQ1PWI3MjBhOGIz
+MTcwMzVkNjZjNTU1ZmM2ZDg5ZTM2NzRjIFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL3Ny
+Yy9scy5jO2JlZ2lubGluZT0xO2VuZGxpbmU9MTU7bWQ1PTlhYzk0YWFlZDdmZDQ2ZmQ4ZGY3MTQ3
+YTllMzQxMGNiIFwKICAgICAgICAgICAgICAgICAgICAgIgogREVQRU5EUyA9ICJnbXAgbGliY2Fw
+IgogREVQRU5EUzpjbGFzcy1uYXRpdmUgPSAiIgpAQCAtMTYsMTEgKzM2LDkgQEAgaW5oZXJpdCBh
+dXRvdG9vbHMgZ2V0dGV4dCB0ZXhpbmZvCiBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vY29yZXV0
+aWxzLyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly9yZW1vdmUtdXNyLWxvY2FsLWxp
+Yi1mcm9tLW00LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtbG9jYWwubWstZml4LWNy
+b3NzLWNvbXBpbGluZy1wcm9ibGVtLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtcG9z
+aXh0bS1wYWNpZnktY2xhbmctMTgucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjQt
+MDY4NC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICAi
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWE2MTNhNGNmNDQ2MTIzMjZlOTE3MjAxYmJiY2RmYmQz
+MDFkZTIxZmZjM2I1OWI2ZTVjMDdlMDQwYjI3NWU1MiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJj
+ZDMyOGVkZWFjOTJmNmE2NjVkZTlmMzIzYzkzYjcxMmFmMTg1OGJjMmUwZDg4ZjNmNzEwMDQ2OTQ3
+MGExYjhhIgogCiAjIGh0dHA6Ly9naXQuc2F2YW5uYWguZ251Lm9yZy9jZ2l0L2NvcmV1dGlscy5n
+aXQvY29tbWl0Lz9pZD12OC4yNy0xMDEtZ2Y1ZDdjMDg0MgogIwotLSAKMi40Mi4wCgo=
+
+--===============6057389124153376311==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Hello,
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ka: PKGSIZE changed from 106774 to 122188 (+14%)
+packages/core2-64-poky-linux/coreutils/coreutils-ptest: FILELIST: removed "/usr/lib/coreutils/ptest/src/chgrp.o /usr/lib/coreutils/ptest/tests/misc/basenc.pl /usr/lib/coreutils/ptest/src/chgrp.c /usr/lib/coreutils/ptest/tests/misc/base64.pl /usr/lib/coreutils/ptest/tests/misc/join.pl", added "/usr/lib/coreutils/ptest/tests/join/join-utf8.sh /usr/lib/coreutils/ptest/src/chown-chgrp.c /usr/lib/coreutils/ptest/src/chown-chown.c /usr/lib/coreutils/ptest/tests/tail/tail-sysfs.sh /usr/lib/coreutils/ptest/tests/basenc/base64.pl /usr/lib/coreutils/ptest/tests/cp/keep-directory-symlink.sh /usr/lib/coreutils/ptest/src/chown-chgrp.o /usr/lib/coreutils/ptest/src/chown-chown.o /usr/lib/coreutils/ptest/tests/join/join.pl /usr/lib/coreutils/ptest/tests/mv/mv-exchange.sh /usr/lib/coreutils/ptest/tests/chmod/symlinks.sh /usr/lib/coreutils/ptest/tests/basenc/basenc.pl /usr/lib/coreutils/ptest/tests/ls/size-align.sh /usr/lib/coreutils/ptest/tests/ls/acl.sh /usr/lib/coreutils/ptest/src/coreutils-chgrp.c
+  /usr/lib/coreutils/ptest/tests/chgrp/from.sh"
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ifupdown* to *0.8.43* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-ifupdown-upgrade-0.8.41-0.8.43.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 6bafd0fd4ba924bae1b73147d11fa78010853e5b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 06:23:28 +0000
-Subject: [PATCH] ifupdown: upgrade 0.8.41 -> 0.8.43
-
----
- .../ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch | 3 +--
- ...-Makefile-do-not-use-dpkg-for-determining-OS-type.patch | 7 +++----
- .../files/0001-ifupdown-skip-wrong-test-case.patch         | 3 +--
- ...n2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch | 3 +--
- meta/recipes-core/ifupdown/files/tweak-ptest-script.patch  | 3 +--
- .../ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb}    | 2 +-
- 6 files changed, 8 insertions(+), 13 deletions(-)
- rename meta/recipes-core/ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb} (97%)
-
-diff --git a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-index 6c4ed526bf..3093bd1642 100644
---- a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-@@ -1,4 +1,4 @@
--From 8dfbcf02e424ba1fdef587d81c9e08a37ab8c1b6 Mon Sep 17 00:00:00 2001
-+From e869fb15f639262cf09de6441f63f778ade17989 Mon Sep 17 00:00:00 2001
- From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
- Date: Tue, 2 Jul 2019 20:10:42 +0200
- Subject: [PATCH] Define FNM_EXTMATCH for musl
-@@ -24,7 +24,6 @@ function); did you mean 'FNM_NOMATCH'?
- Upstream-Status: Submitted [https://salsa.debian.org/debian/ifupdown/merge_requests/5]
- 
- Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
--
- ---
-  archcommon.h | 4 ++++
-  1 file changed, 4 insertions(+)
-diff --git a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-index 6e15a25224..30d2495b0e 100644
---- a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-@@ -1,17 +1,16 @@
--From 7fe516cbaf9fda09d99dcb54d4645367cffc8a4d Mon Sep 17 00:00:00 2001
-+From 86d0d745ea28d9f512480750e871f3f9118666e0 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 9 Jan 2020 15:38:06 +0100
- Subject: [PATCH] Makefile: do not use dpkg for determining OS type
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Makefile b/Makefile
--index 0ce2fa3..739aef2 100644
-+index 9cd758b..58b4173 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -1,6 +1,6 @@
-@@ -21,4 +20,4 @@ index 0ce2fa3..739aef2 100644
- +ARCH := linux
-  
-  BASEDIR ?= $(DESTDIR)
-- 
-+ PKGLIBDIR ?= /lib/ifupdown
-diff --git a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-index 9ae24da51e..eb9f35c2cc 100644
---- a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-@@ -1,4 +1,4 @@
--From 782d8a869c266820d0f34974436f244f67afaea7 Mon Sep 17 00:00:00 2001
-+From 34092f9940685a4ab90e50e90b558a7a1f1d3c44 Mon Sep 17 00:00:00 2001
- From: Zqiang <qiang.zhang@windriver.com>
- Date: Mon, 19 Apr 2021 14:15:45 +0800
- Subject: [PATCH] ifupdown: skip wrong test case
-@@ -10,7 +10,6 @@ and are skipped directly.
- Upstream-Status: Inappropriate [oe-core specific]
- 
- Signed-off-by: Zqiang <qiang.zhang@windriver.com>
--
- ---
-  tests/testbuild-linux | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-index 7b4b761e6a..d30dbb241c 100644
---- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-+++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-@@ -1,4 +1,4 @@
--From fc8e8d4cb19ff30e69aa1855332544f1017f974c Mon Sep 17 00:00:00 2001
-+From 30625fa156883c867d89331ffea15f3fad566200 Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Wed, 6 Aug 2014 14:54:12 -0400
- Subject: [PATCH] defn2[c|man]: don't rely on dpkg-architecture to set arch
-@@ -13,7 +13,6 @@ like the loopback device not being configured/enabled.
- 
- Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
- Upstream-Status: Pending
--
- ---
-  defn2c.pl   | 6 +++---
-  defn2man.pl | 6 +++---
-diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-index fa6bb84df3..153fc12073 100644
---- a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-+++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-@@ -1,4 +1,4 @@
--From a6bb2ac5f521c678abbbdb1960d28f750f4357a6 Mon Sep 17 00:00:00 2001
-+From 60f56db8be9a79c76adb1c3eadc6bd5497fd31fa Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Mon, 3 Feb 2020 17:33:11 +0800
- Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
-@@ -7,7 +7,6 @@ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
- Upstream-Status: Inappropriate [oe-core specific]
- 
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
- ---
-  tests/testbuild-linux | 11 ++++++-----
-  1 file changed, 6 insertions(+), 5 deletions(-)
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-similarity index 97%
-rename from meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
-rename to meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-index 16425ea9e4..3e95a09d16 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
-            file://defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch \
-            file://tweak-ptest-script.patch \
-            "
--SRCREV = "369d9d3c13a0c56ad09fd4f13b4a80eb9a94e270"
-+SRCREV = "cf86ad5819aba8f9b020a95257c9a8c4911b1c85"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.42.0
-
-
---===============8226033578304689149==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1874 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (920 cached, 1 parsed). 1874 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-501e5a316a05eb8a2b9084b91de0dbd8a714f2f0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:501e5a316a05eb8a2b9084b91de0dbd8a714f2f0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 206 Local 192 Mirrors 0 Missed 14 Current 201 (93% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 903 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_recipe_qa)
-NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1154 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_fetch)
-NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Succeeded
-NOTE: Running task 1155 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_unpack)
-NOTE: Running task 1156 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Succeeded
-NOTE: Running task 1157 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_patch)
-NOTE: Running task 1158 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_collect_spdx_deps)
-NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Succeeded
-NOTE: Running task 1159 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1160 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_populate_lic)
-NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_populate_lic unihash changed to be758e253c45ba18df12aa2d6bb7ef6627afac8b4b73975ad0223f9ce252b632
-NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_deploy_source_date_epoch unihash changed to 2bf31499823a5520bffbf5766aae1326b6576e1d879044491b895dfb8600377e
-NOTE: Setscene tasks completed
-NOTE: Running task 1161 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure)
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Succeeded
-NOTE: Running task 1162 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure_ptest_base)
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1163 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile)
-NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75 CC=x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot CFLAGS= -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pok
- ybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o main.o main.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o addrfam.o addrfam.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o execute.o execute.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o config.o config.c
-| ./defn2c.pl inet.defn > inet.c
-| ./defn2c.pl ipx.defn > ipx.c
-| ./defn2c.pl inet6.defn > inet6.c
-| ./defn2c.pl can.defn > can.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archcommon.o archcommon.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archlinux.o archlinux.c
-| ./defn2c.pl meta.defn > meta.c
-| ./defn2c.pl link.defn > link.c
-| ln -sf ifup.8 ifdown.8
-| ln -sf ifup.8 ifquery.8
-| ./defn2man.pl inet.defn > inet.man
-| ./defn2man.pl ipx.defn > ipx.man
-| ./defn2man.pl inet6.defn > inet6.man
-| ./defn2man.pl can.defn > can.man
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o ipx.o ipx.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o can.o can.c
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 7.
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o meta.o meta.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet.o inet.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o link.o link.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet6.o inet6.c
-| sed -e '/^##ADDRESSFAM##$/r inet.man' -e '/^##ADDRESSFAM##$/r ipx.man' -e '/^##ADDRESSFAM##$/r inet6.man' -e '/^##ADDRESSFAM##$/r can.man' \
-|      -e '/^##ADDRESSFAM##$/d' < interfaces.5.pre > interfaces.5
-| ipx.c: In function '_static_rename':
-| ipx.c:27:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| ipx.c:27:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| ipx.c: In function '_dynamic_rename':
-| ipx.c:46:44: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                            ~~~~~~~~~~~~~~~~^~~
-| ipx.c:46:57: warning: unused parameter 'exec' [-Wunused-parameter]
-|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                 ~~~~~~~~^~~~
-| can.c: In function '_static_rename':
-| can.c:48:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| can.c:48:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| meta.c: In function '_none_up':
-| meta.c:15:37: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
-|       |                     ~~~~~~~~~~~~~~~~^~~
-| meta.c:15:50: warning: unused parameter 'exec' [-Wunused-parameter]
-|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
-|       |                                          ~~~~~~~~^~~~
-| meta.c: In function '_none_down':
-| meta.c:18:39: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
-|       |                       ~~~~~~~~~~~~~~~~^~~
-| meta.c:18:52: warning: unused parameter 'exec' [-Wunused-parameter]
-|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
-|       |                                            ~~~~~~~~^~~~
-| meta.c: In function '_none_rename':
-| meta.c:21:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| meta.c:21:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c: In function '_loopback_rename':
-| inet.c:27:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet.c:27:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet.c: In function '_static_rename':
-| inet.c:68:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:68:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c: In function '_manual_rename':
-| inet.c:97:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:97:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_auto_rename':
-| inet6.c:67:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet6.c:67:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c: In function '_dhcp_rename':
-| inet.c:143:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet.c:143:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet6.c: In function '_loopback_rename':
-| inet6.c:92:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet6.c:92:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet.c: In function '_bootp_rename':
-| inet.c:163:42: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                          ~~~~~~~~~~~~~~~~^~~
-| inet.c:163:55: warning: unused parameter 'exec' [-Wunused-parameter]
-|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                               ~~~~~~~~^~~~
-| inet.c: In function '_tunnel_rename':
-| inet.c:192:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:192:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c: In function '_ppp_rename':
-| inet6.c: In function '_static_rename':
-| inet.c:211:40: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                        ~~~~~~~~~~~~~~~~^~~
-| inet6.c:159:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:211:53: warning: unused parameter 'exec' [-Wunused-parameter]
-|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                             ~~~~~~~~^~~~
-| inet6.c:159:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c: In function '_wvdial_rename':
-| inet.c:232:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c: In function '_manual_rename':
-| inet.c:232:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c:188:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c:188:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c: In function '_ipv4ll_rename':
-| inet.c:251:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:251:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_dhcp_rename':
-| inet6.c:242:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet6.c:242:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet6.c: In function '_tunnel_rename':
-| inet6.c:277:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c:277:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_v4tunnel_rename':
-| inet6.c:314:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet6.c:314:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet6.c: In function '_6to4_rename':
-| inet6.c:355:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet6.c:355:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| archcommon.c: In function 'cleanup_hwaddress':
-| archcommon.c:82:40: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                        ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:82:64: warning: unused parameter 'argc' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                            ~~~~^~~~
-| archcommon.c:82:77: warning: unused parameter 'argv' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                      ~~~~~~~^~~~
-| archcommon.c: In function 'make_hex_address':
-| archcommon.c:120:39: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                       ~~~~~~~~~~~~~~~~^~~
-| config.c: In function 'add_allow_up':
-| archcommon.c:120:63: warning: unused parameter 'argc' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                           ~~~~^~~~
-| config.c:182:47: warning: unused parameter 'filename' [-Wunused-parameter]
-|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
-|       |                                   ~~~~~~~~~~~~^~~~~~~~
-| archcommon.c:120:76: warning: unused parameter 'argv' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                     ~~~~~~~^~~~
-| config.c:182:61: warning: unused parameter 'line' [-Wunused-parameter]
-|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
-|       |                                                         ~~~~^~~~
-| archcommon.c: In function 'compute_v4_addr':
-| archcommon.c:134:38: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                      ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:134:62: warning: unused parameter 'argc' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                          ~~~~^~~~
-| archcommon.c:134:75: warning: unused parameter 'argv' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                    ~~~~~~~^~~~
-| archcommon.c: In function 'compute_v4_mask':
-| archcommon.c:150:38: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                      ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:150:62: warning: unused parameter 'argc' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                          ~~~~^~~~
-| archcommon.c:150:75: warning: unused parameter 'argv' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                    ~~~~~~~^~~~
-| archcommon.c: In function 'compute_v4_broadcast':
-| archcommon.c:201:67: warning: unused parameter 'argc' [-Wunused-parameter]
-|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                               ~~~~^~~~
-| archcommon.c:201:80: warning: unused parameter 'argv' [-Wunused-parameter]
-|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                         ~~~~~~~^~~~
-| archcommon.c: In function 'set_preferred_lft':
-| archcommon.c:252:64: warning: unused parameter 'argc' [-Wunused-parameter]
-|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                            ~~~~^~~~
-| archcommon.c:252:77: warning: unused parameter 'argv' [-Wunused-parameter]
-|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                      ~~~~~~~^~~~
-| archcommon.c: In function 'get_token':
-| archcommon.c:266:32: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   266 | void get_token(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'to_decimal':
-| archcommon.c:297:33: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   297 | void to_decimal(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                 ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'map_value':
-| archcommon.c:312:32: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   312 | void map_value(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'if_set':
-| archcommon.c:331:29: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   331 | void if_set(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |             ~~~~~~~~~~~~~~~~^~~
-| execute.c: In function 'set_environ':
-| execute.c:107:48: error: 'PKGLIBDIR' undeclared (first use in this function)
-|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-|       |                                                ^~~~~~~~~
-| execute.c:107:48: note: each undeclared identifier is reported only once for each function it appears in
-| execute.c:107:57: error: expected ')' before string constant
-|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-|       |                              ~                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                         )
-| make: *** [<builtin>: execute.o] Error 1
-| make: *** Waiting for unfinished jobs....
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680:167 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680, line 167
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680, line 151
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680, line 146
-| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680, line 141
-| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680, line 180
-NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1163 tasks of which 1152 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401062306.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401062306.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ifupdown-0.8.43-r0 do_compile: oe_runmake failed
-ERROR: ifupdown-0.8.43-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.2415680', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/log.do_compile.2415680
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile) failed with exit code '1'
-
---===============8226033578304689149==
+--===============6057389124153376311==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ifupdown-upgrade-0.8.41-0.8.43.patch"
+ filename="0001-coreutils-upgrade-9.4-9.5.patch"
 
-RnJvbSA2YmFmZDBmZDRiYTkyNGJhZTFiNzMxNDdkMTFmYTc4MDEwODUzZTViIE1vbiBTZXAgMTcg
+RnJvbSA2MjkwMWMzZTFhOGY1OGI2YjlhODQ2MjQ4ZWNkNzY5MWQxMTRiOTdjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwNjoyMzoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlm
-dXBkb3duOiB1cGdyYWRlIDAuOC40MSAtPiAwLjguNDMKCi0tLQogLi4uL2lmdXBkb3duL2ZpbGVz
-LzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5wYXRjaCB8IDMgKy0tCiAuLi4tTWFr
-ZWZpbGUtZG8tbm90LXVzZS1kcGtnLWZvci1kZXRlcm1pbmluZy1PUy10eXBlLnBhdGNoIHwgNyAr
-KystLS0tCiAuLi4vZmlsZXMvMDAwMS1pZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRj
-aCAgICAgICAgIHwgMyArLS0KIC4uLm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNoaXRl
-Y3R1cmUtdG8tc2V0LWEucGF0Y2ggfCAzICstLQogbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24v
-ZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNoICB8IDMgKy0tCiAuLi4vaWZ1cGRvd24ve2lm
-dXBkb3duXzAuOC40MS5iYiA9PiBpZnVwZG93bl8wLjguNDMuYmJ9ICAgIHwgMiArLQogNiBmaWxl
-cyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1jb3JlL2lmdXBkb3duL3tpZnVwZG93bl8wLjguNDEuYmIgPT4gaWZ1cGRvd25fMC44
-LjQzLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2Zp
-bGVzLzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5w
-YXRjaAppbmRleCA2YzRlZDUyNmJmLi4zMDkzYmQxNjQyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLURlZmluZS1GTk1fRVhUTUFUQ0gtZm9yLW11c2wu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1EZWZpbmUt
-Rk5NX0VYVE1BVENILWZvci1tdXNsLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4ZGZiY2Yw
-MmU0MjRiYTFmZGVmNTg3ZDgxYzllMDhhMzdhYjhjMWI2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBlODY5ZmIxNWY2MzkyNjJjZjA5ZGU2NDQxZjYzZjc3OGFkZTE3OTg5IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBv
-bGVrc2FuZHIta3JhdmNodWsuY29tPgogRGF0ZTogVHVlLCAyIEp1bCAyMDE5IDIwOjEwOjQyICsw
-MjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERlZmluZSBGTk1fRVhUTUFUQ0ggZm9yIG11c2wKQEAgLTI0
-LDcgKzI0LDYgQEAgZnVuY3Rpb24pOyBkaWQgeW91IG1lYW4gJ0ZOTV9OT01BVENIJz8KIFVwc3Ry
-ZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL3NhbHNhLmRlYmlhbi5vcmcvZGViaWFuL2lm
-dXBkb3duL21lcmdlX3JlcXVlc3RzLzVdCiAKIFNpZ25lZC1vZmYtYnk6IE9sZWtzYW5kciBLcmF2
-Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KLQogLS0tCiAgYXJjaGNv
-bW1vbi5oIHwgNCArKysrCiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1NYWtlZmlsZS1kby1u
-b3QtdXNlLWRwa2ctZm9yLWRldGVybWluaW5nLU9TLXR5cGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-Y29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRvLW5vdC11c2UtZHBrZy1mb3ItZGV0
-ZXJtaW5pbmctT1MtdHlwZS5wYXRjaAppbmRleCA2ZTE1YTI1MjI0Li4zMGQyNDk1YjBlIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRv
-LW5vdC11c2UtZHBrZy1mb3ItZGV0ZXJtaW5pbmctT1MtdHlwZS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRvLW5vdC11c2UtZHBrZy1m
-b3ItZGV0ZXJtaW5pbmctT1MtdHlwZS5wYXRjaApAQCAtMSwxNyArMSwxNiBAQAotRnJvbSA3ZmU1
-MTZjYmFmOWZkYTA5ZDk5ZGNiNTRkNDY0NTM2N2NmZmM4YTRkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA4NmQwZDc0NWVhMjhkOWY1MTI0ODA3NTBlODcxZjNmOTExODY2NmUwIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDkgSmFuIDIwMjAgMTU6Mzg6MDYgKzAxMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gTWFrZWZpbGU6IGRvIG5vdCB1c2UgZHBrZyBmb3IgZGV0ZXJtaW5pbmcgT1Mg
-dHlwZQogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNd
-CiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KLQogLS0tCiAgTWFrZWZpbGUgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCi1p
-bmRleCAwY2UyZmEzLi43MzlhZWYyIDEwMDY0NAoraW5kZXggOWNkNzU4Yi4uNThiNDE3MyAxMDA2
-NDQKIC0tLSBhL01ha2VmaWxlCiArKysgYi9NYWtlZmlsZQogQEAgLTEsNiArMSw2IEBACkBAIC0y
-MSw0ICsyMCw0IEBAIGluZGV4IDBjZTJmYTMuLjczOWFlZjIgMTAwNjQ0CiArQVJDSCA6PSBsaW51
-eAogIAogIEJBU0VESVIgPz0gJChERVNURElSKQotIAorIFBLR0xJQkRJUiA/PSAvbGliL2lmdXBk
-b3duCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLWlm
-dXBkb3duLXNraXAtd3JvbmctdGVzdC1jYXNlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1
-cGRvd24vZmlsZXMvMDAwMS1pZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRjaAppbmRl
-eCA5YWUyNGRhNTFlLi5lYjlmMzVjMmNjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9p
-ZnVwZG93bi9maWxlcy8wMDAxLWlmdXBkb3duLXNraXAtd3JvbmctdGVzdC1jYXNlLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtaWZ1cGRvd24tc2tpcC13
-cm9uZy10ZXN0LWNhc2UucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc4MmQ4YTg2OWMyNjY4
-MjBkMGYzNDk3NDQzNmYyNDRmNjdhZmFlYTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDM0MDkyZjk5NDA2ODVhNGFiOTBlNTBlOTBiNTU4YTdhMWYxZDNjNDQgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBacWlhbmcgPHFpYW5nLnpoYW5nQHdpbmRyaXZlci5jb20+CiBEYXRl
-OiBNb24sIDE5IEFwciAyMDIxIDE0OjE1OjQ1ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGlmdXBk
-b3duOiBza2lwIHdyb25nIHRlc3QgY2FzZQpAQCAtMTAsNyArMTAsNiBAQCBhbmQgYXJlIHNraXBw
-ZWQgZGlyZWN0bHkuCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3Bl
-Y2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IFpxaWFuZyA8cWlhbmcuemhhbmdAd2luZHJpdmVyLmNv
-bT4KLQogLS0tCiAgdGVzdHMvdGVzdGJ1aWxkLWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvcmUvaWZ1cGRvd24vZmlsZXMvZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hp
-dGVjdHVyZS10by1zZXQtYS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVz
-L2RlZm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNoaXRlY3R1cmUtdG8tc2V0LWEucGF0
-Y2gKaW5kZXggN2I0Yjc2MWU2YS4uZDMwZGJiMjQxYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvcmUvaWZ1cGRvd24vZmlsZXMvZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hp
-dGVjdHVyZS10by1zZXQtYS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9m
-aWxlcy9kZWZuMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0ZWN0dXJlLXRvLXNldC1h
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmYzhlOGQ0Y2IxOWZmMzBlNjlhYTE4NTUzMzI1
-NDRmMTAxN2Y5NzRjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzMDYyNWZhMTU2ODgz
-Yzg2N2Q4OTMzMWZmZWExNWYzZmFkNTY2MjAwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiBEYXRlOiBX
-ZWQsIDYgQXVnIDIwMTQgMTQ6NTQ6MTIgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gZGVmbjJbY3xt
-YW5dOiBkb24ndCByZWx5IG9uIGRwa2ctYXJjaGl0ZWN0dXJlIHRvIHNldCBhcmNoCkBAIC0xMyw3
-ICsxMyw2IEBAIGxpa2UgdGhlIGxvb3BiYWNrIGRldmljZSBub3QgYmVpbmcgY29uZmlndXJlZC9l
-bmFibGVkLgogCiBTaWduZWQtb2ZmLWJ5OiBQYXVsIEdvcnRtYWtlciA8cGF1bC5nb3J0bWFrZXJA
-d2luZHJpdmVyLmNvbT4KIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwotCiAtLS0KICBkZWZuMmMu
-cGwgICB8IDYgKysrLS0tCiAgZGVmbjJtYW4ucGwgfCA2ICsrKy0tLQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNo
-CmluZGV4IGZhNmJiODRkZjMuLjE1M2ZjMTIwNzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1j
-b3JlL2lmdXBkb3duL2ZpbGVzL3R3ZWFrLXB0ZXN0LXNjcmlwdC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy90d2Vhay1wdGVzdC1zY3JpcHQucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIGE2YmIyYWM1ZjUyMWM2NzhhYmJiZGIxOTYwZDI4Zjc1MGY0MzU3YTYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDYwZjU2ZGI4YmU5YTc5Yzc2YWRiMWMzZWFk
-YzZiZDU0OTdmZDMxZmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLYWkgS2FuZyA8
-a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgMyBGZWIgMjAyMCAxNzozMzoxMSAr
-MDgwMAogU3ViamVjdDogW1BBVENIXSBUd2VhayB0ZXN0cyBvZiBpZnVwZG93biB0byBtYWtlIGl0
-IHdvcmsgd2l0aCBvZS1jb3JlIHB0ZXN0CkBAIC03LDcgKzcsNiBAQCBTdWJqZWN0OiBbUEFUQ0hd
-IFR3ZWFrIHRlc3RzIG9mIGlmdXBkb3duIHRvIG1ha2UgaXQgd29yayB3aXRoIG9lLWNvcmUgcHRl
-c3QKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIAog
-U2lnbmVkLW9mZi1ieTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+Ci0KIC0tLQog
-IHRlc3RzL3Rlc3RidWlsZC1saW51eCB8IDExICsrKysrKy0tLS0tCiAgMSBmaWxlIGNoYW5nZWQs
-IDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1jb3JlL2lmdXBkb3duL2lmdXBkb3duXzAuOC40MS5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2lm
-dXBkb3duL2lmdXBkb3duXzAuOC40My5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9pZnVwZG93bl8wLjguNDEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2lmdXBkb3duXzAuOC40My5iYgppbmRleCAxNjQy
-NWVhOWU0Li4zZTk1YTA5ZDE2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93
-bi9pZnVwZG93bl8wLjguNDEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vaWZ1
-cGRvd25fMC44LjQzLmJiCkBAIC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vc2Fsc2Eu
-ZGViaWFuLm9yZy9kZWJpYW4vaWZ1cGRvd24uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0
-CiAgICAgICAgICAgIGZpbGU6Ly9kZWZuMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0
-ZWN0dXJlLXRvLXNldC1hLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3R3ZWFrLXB0ZXN0LXNj
-cmlwdC5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICIzNjlkOWQzYzEzYTBjNTZhZDA5
-ZmQ0ZjEzYjRhODBlYjlhOTRlMjcwIgorU1JDUkVWID0gImNmODZhZDU4MTlhYmE4ZjliMDIwYTk1
-MjU3YzlhOGM0OTExYjFjODUiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDIuMAoK
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwNjoxMTo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNv
+cmV1dGlsczogdXBncmFkZSA5LjQgLT4gOS41CgotLS0KIC4uLmxvY2FsLm1rLWZpeC1jcm9zcy1j
+b21waWxpbmctcHJvYmxlbS5wYXRjaCB8IDEyICsrKy0tLQogLi4uLzAwMDEtcG9zaXh0bS1wYWNp
+ZnktY2xhbmctMTgucGF0Y2ggICAgICAgIHwgMzggLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vY29y
+ZXV0aWxzL2NvcmV1dGlscy9DVkUtMjAyNC0wNjg0LnBhdGNoICAgfCAzOSAtLS0tLS0tLS0tLS0t
+LS0tLS0tCiAuLi4vcmVtb3ZlLXVzci1sb2NhbC1saWItZnJvbS1tNC5wYXRjaCAgICAgICAgfCAg
+NyArKy0tCiAuLi4ve2NvcmV1dGlsc185LjQuYmIgPT4gY29yZXV0aWxzXzkuNS5iYn0gICAgfCAy
+NiArKysrKysrKysrKy0tCiA1IGZpbGVzIGNoYW5nZWQsIDMxIGluc2VydGlvbnMoKyksIDkxIGRl
+bGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGls
+cy9jb3JldXRpbHMvMDAwMS1wb3NpeHRtLXBhY2lmeS1jbGFuZy0xOC5wYXRjaAogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvQ1ZFLTIwMjQt
+MDY4NC5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy97Y29yZXV0aWxz
+XzkuNC5iYiA9PiBjb3JldXRpbHNfOS41LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvMDAwMS1sb2NhbC5tay1maXgtY3Jvc3MtY29t
+cGlsaW5nLXByb2JsZW0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0
+aWxzLzAwMDEtbG9jYWwubWstZml4LWNyb3NzLWNvbXBpbGluZy1wcm9ibGVtLnBhdGNoCmluZGV4
+IDY2ZjlhNzE2YzkuLmUyOGNiYTAzMzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Nv
+cmV1dGlscy9jb3JldXRpbHMvMDAwMS1sb2NhbC5tay1maXgtY3Jvc3MtY29tcGlsaW5nLXByb2Js
+ZW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy8wMDAx
+LWxvY2FsLm1rLWZpeC1jcm9zcy1jb21waWxpbmctcHJvYmxlbS5wYXRjaApAQCAtMSw0ICsxLDcg
+QEAKLVN1YmplY3Q6IGxvY2FsLm1rOiBmaXggY3Jvc3MgY29tcGlsaW5nIHByb2JsZW0KK0Zyb20g
+ZWQ3ZGUwNzI4Zjk5NmUwYWQ5MzY2MjhhNjAwMWY0MDQ1YWY1NWMyYiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb206IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KK0RhdGU6IE1v
+biwgMjYgRGVjIDIwMTYgMTY6MTA6MzUgKzA4MDAKK1N1YmplY3Q6IFtQQVRDSF0gbG9jYWwubWs6
+IGZpeCBjcm9zcyBjb21waWxpbmcgcHJvYmxlbQogCiBXZSBtZWV0IHRoZSBmb2xsb3dpbmcgZXJy
+b3Igd2hlbiBjcm9zcyBjb21waWxpbmcuCiB8IE1ha2VmaWxlOjM0MTg6ICoqKiBSZWN1cnNpdmUg
+dmFyaWFibGUgJ0lOU1RBTEwnIHJlZmVyZW5jZXMgaXRzZWxmIChldmVudHVhbGx5KS4gIFN0b3Au
+CkBAIC0xMiwxNSArMTUsMTIgQEAgU2lnbmVkLW9mZi1ieTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5k
+cml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogCiBkaWZmIC0tZ2l0IGEvc3JjL2xvY2FsLm1rIGIvc3JjL2xvY2FsLm1rCi1pbmRleCAzNmRm
+YTRlLi5jNTg5OGNjIDEwMDY0NAoraW5kZXggOTZlZTk0MS4uY2RkNDdkNiAxMDA2NDQKIC0tLSBh
+L3NyYy9sb2NhbC5tawogKysrIGIvc3JjL2xvY2FsLm1rCi1AQCAtNjQ5LDQgKzY0OSw0IEBAIGN1
+X2luc3RhbGxfcHJvZ3JhbSA9IEBJTlNUQUxMX1BST0dSQU1ACitAQCAtNzA0LDQgKzcwNCw0IEBA
+IGN1X2luc3RhbGxfcHJvZ3JhbSA9IEBJTlNUQUxMQAogIGVsc2UKICBjdV9pbnN0YWxsX3Byb2dy
+YW0gPSBzcmMvZ2luc3RhbGwKICBlbmRpZgogLUlOU1RBTEwgPSAkKGN1X2luc3RhbGxfcHJvZ3Jh
+bSkgLWMKICtJTlNUQUxMX1BST0dSQU0gPSAkKGN1X2luc3RhbGxfcHJvZ3JhbSkKLS0tIAotMi4x
+LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy8w
+MDAxLXBvc2l4dG0tcGFjaWZ5LWNsYW5nLTE4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvY29y
+ZXV0aWxzL2NvcmV1dGlscy8wMDAxLXBvc2l4dG0tcGFjaWZ5LWNsYW5nLTE4LnBhdGNoCmRlbGV0
+ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBlNmM4NGJlM2M0Li4wMDAwMDAwMDAwCi0tLSBhL21l
+dGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvMDAwMS1wb3NpeHRtLXBhY2lmeS1j
+bGFuZy0xOC5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM4ICswLDAgQEAKLUZyb20gNjdjMjk4
+YzM2ZjY5YjY5MDY4NDBiNzU4NGJlMDZiN2I1ZjMzZjgyOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKLUZyb206IFBhdWwgRWdnZXJ0IDxlZ2dlcnRAY3MudWNsYS5lZHU+Ci1EYXRlOiBUdWUsIDE2
+IEphbiAyMDI0IDE3OjIxOjA4IC0wODAwCi1TdWJqZWN0OiBbUEFUQ0hdIHBvc2l4dG06IHBhY2lm
+eSBjbGFuZyAxOAotTUlNRS1WZXJzaW9uOiAxLjAKLUNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsg
+Y2hhcnNldD1VVEYtOAotQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAotCi1Qcm9ibGVt
+IHJlcG9ydGVkIGJ5IEtoZW0gUmFqIGluOgotaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWdu
+dWxpYi8yMDI0LTAxL21zZzAwMDQ1Lmh0bWwKLSogbGliL3Bvc2l4dG0uYyAocG9zaXh0aW1lKTog
+UGFjaWZ5IGNsYW5nIDE4IGJ5IGNvbnZlcnRpbmcgYm9vbCB0byBpbnQuCi1Bcmd1YWJseSB0aGlz
+IGlzIGEgYnVnIGluIGRyYWZ0IEMyeCwgc2luY2UgdGhlIG5vbi1wb2ludGVyIGFyZ3MgdG8KLWNr
+ZF9hZGQgc2hvdWxkIHByb21vdGUganVzdCBsaWtlIGFueSBvdGhlciBleHByZXNzaW9ucyBkbzsK
+LWJ1dCB0aGF04oCZcyBub3QgY2xhbmfigJlzIGZhdWx0LgotCi1VcHN0cmVhbS1TdGF0dXM6IFN1
+Ym1pdHRlZCBbaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9idWctZ251bGliLzIw
+MjQtMDEvbXNnMDAwNDYuaHRtbF0KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
+bWFpbC5jb20+Ci0tLS0KLSBDaGFuZ2VMb2cgICAgIHwgMTAgKysrKysrKysrKwotIGxpYi9wb3Np
+eHRtLmMgfCAgMiArLQotIDIgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvbGliL3Bvc2l4dG0uYyBiL2xpYi9wb3NpeHRtLmMKLWlu
+ZGV4IGVmOWY1NWY4NzMuLmEwNzJjN2NhZDAgMTAwNjQ0Ci0tLS0gYS9saWIvcG9zaXh0bS5jCi0r
+KysgYi9saWIvcG9zaXh0bS5jCi1AQCAtMTkxLDcgKzE5MSw3IEBAIHBvc2l4dGltZSAodGltZV90
+ICpwLCBjb25zdCBjaGFyICpzLCB1bnNpZ25lZCBpbnQgc3ludGF4X2JpdHMpCi0gICAgICAgICAg
+ICAgIHwgKHRtMC50bV9taW4gXiB0bTEudG1fbWluKQotICAgICAgICAgICAgICB8ICh0bTAudG1f
+c2VjIF4gdG0xLnRtX3NlYykpKQotICAgICAgICAgewotLSAgICAgICAgICBpZiAoY2tkX2FkZCAo
+JnQsIHQsIGxlYXBzZWMpKQotKyAgICAgICAgICBpZiAoY2tkX2FkZCAoJnQsIHQsICtsZWFwc2Vj
+KSkKLSAgICAgICAgICAgICByZXR1cm4gZmFsc2U7Ci0gICAgICAgICAgICpwID0gdDsKLSAgICAg
+ICAgICAgcmV0dXJuIHRydWU7Ci0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzL0NWRS0yMDI0LTA2ODQucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzL0NWRS0yMDI0LTA2ODQucGF0Y2gKZGVsZXRl
+ZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDBjNjhlMmRjZTAuLjAwMDAwMDAwMDAKLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9DVkUtMjAyNC0wNjg0LnBhdGNoCisr
+KyAvZGV2L251bGwKQEAgLTEsMzkgKzAsMCBAQAotRnJvbSBjNGM1ZWQ4ZjRlOWNkNTVhMTI5NjZk
+NGY1MjBlM2ExMzEwMTYzN2Q5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogUGF1bCBF
+Z2dlcnQgPGVnZ2VydEBjcy51Y2xhLmVkdT4KLURhdGU6IFR1ZSwgMTYgSmFuIDIwMjQgMTM6NDg6
+MzIgLTA4MDAKLVN1YmplY3Q6IFtQQVRDSCAxLzFdIHNwbGl0OiBkbyBub3Qgc2hyaW5rIGhvbGQg
+YnVmZmVyCi1NSU1FLVZlcnNpb246IDEuMAotQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFy
+c2V0PXV0ZjgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKLQotKiBzcmMvc3BsaXQu
+YyAobGluZV9ieXRlc19zcGxpdCk6IERvIG5vdCBzaHJpbmsgaG9sZCBidWZmZXIuCi1JZiBpdOKA
+mXMgbGFyZ2UgZm9yIHRoaXMgYmF0Y2ggaXTigJlzIGxpa2VseSB0byBiZSBsYXJnZSBmb3IgdGhl
+IG5leHQKLWJhdGNoLCBhbmQgZm9yIOKAmHNwbGl04oCZIGl04oCZcyBub3Qgd29ydGggdGhlIGNv
+bXBsZXhpdHkvQ1BVIGhhc3NsZSB0bwotc2hyaW5rIGl0LiAgRG8gbm90IGFzc3VtZSBob2xkX3Np
+emUgY2FuIGJlIGJ1ZnNpemUuCi0KLUNWRTogQ1ZFLTIwMjQtMDY4NAotVXBzdHJlYW0tU3RhdHVz
+OiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2NvcmV1dGlscy9jb3JldXRpbHMvY29tbWl0
+L2M0YzVlZDhmNGU5Y2Q1NWExMjk2NmQ0ZjUyMGUzYTEzMTAxNjM3ZDldCi1TaWduZWQtb2ZmLWJ5
+OiBTaW1vbmUgV2Vpw58gPHNpbW9uZS5wLndlaXNzQHBvc3Rlby5jb20+Ci0tLS0KLSBzcmMvc3Bs
+aXQuYyB8IDMgLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDMgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1n
+aXQgYS9zcmMvc3BsaXQuYyBiL3NyYy9zcGxpdC5jCi1pbmRleCA2NDAyMGM4NTkuLjAzNzk2MGE1
+OSAxMDA2NDQKLS0tLSBhL3NyYy9zcGxpdC5jCi0rKysgYi9zcmMvc3BsaXQuYwotQEAgLTgwOSwx
+MCArODA5LDcgQEAgbGluZV9ieXRlc19zcGxpdCAoaW50bWF4X3Qgbl9ieXRlcywgY2hhciAqYnVm
+LCBpZHhfdCBidWZzaXplKQotICAgICAgICAgICAgIHsKLSAgICAgICAgICAgICAgIGN3cml0ZSAo
+bl9vdXQgPT0gMCwgaG9sZCwgbl9ob2xkKTsKLSAgICAgICAgICAgICAgIG5fb3V0ICs9IG5faG9s
+ZDsKLS0gICAgICAgICAgICAgIGlmIChuX2hvbGQgPiBidWZzaXplKQotLSAgICAgICAgICAgICAg
+ICBob2xkID0geGlyZWFsbG9jIChob2xkLCBidWZzaXplKTsKLSAgICAgICAgICAgICAgIG5faG9s
+ZCA9IDA7Ci0tICAgICAgICAgICAgICBob2xkX3NpemUgPSBidWZzaXplOwotICAgICAgICAgICAg
+IH0KLSAKLSAgICAgICAgICAgLyogT3V0cHV0IHRvIGVvbCBpZiBwcmVzZW50LiAgKi8KLS0tIAot
+Mi4xMS40LkdJVAotCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9j
+b3JldXRpbHMvcmVtb3ZlLXVzci1sb2NhbC1saWItZnJvbS1tNC5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHMvcmVtb3ZlLXVzci1sb2NhbC1saWItZnJvbS1tNC5w
+YXRjaAppbmRleCAxYThhOWI5OTgzLi4wZWE4OWVhYWE4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzL3JlbW92ZS11c3ItbG9jYWwtbGliLWZyb20tbTQu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvY29yZXV0aWxzL2NvcmV1dGlscy9yZW1vdmUt
+dXNyLWxvY2FsLWxpYi1mcm9tLW00LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhMjY1MzAw
+ODNhMjllZWVlOTEwYmZkNjA2ZWNjNjIxYWNlY2Q1NDdhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSA5YzA4YjdkMzE4OGFjNjc0ZWFmMGY2ZDMwZDliODRiMmRmOWEyMWIwIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERh
+dGU6IFdlZCwgMyBBdWcgMjAxMSAxNDoxMjozMCAtMDcwMAogU3ViamVjdDogW1BBVENIXSBjb3Jl
+dXRpbHM6IEZpeCBidWlsZCBvbiB1Y2xpYmMKQEAgLTEyLDE2ICsxMiwxNSBAQCBhbmQgbWFrZSBs
+aWZlIGVhc2llciBmb3IgY3Jvc3MgY29tcGlsYXRpb24gcHJvY2Vzcy4KIFNpZ25lZC1vZmYtYnk6
+IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHBy
+b3ByaWF0ZSBbVXBzdHJlYW0gZG9lcyBjYXJlIGZvciBBSVggd2hpbGUgd2UgbWF5IG5vdF0KLQog
+LS0tCiAgbTQvZ2V0bG9hZGF2Zy5tNCB8IDEyIC0tLS0tLS0tLS0tLQogIDEgZmlsZSBjaGFuZ2Vk
+LCAxMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL200L2dldGxvYWRhdmcubTQgYi9tNC9n
+ZXRsb2FkYXZnLm00Ci1pbmRleCA4ZTk2OTY1Li42Mzc4MmEyIDEwMDY0NAoraW5kZXggOWQwMjM2
+Zi4uNjhmN2M1MiAxMDA2NDQKIC0tLSBhL200L2dldGxvYWRhdmcubTQKICsrKyBiL200L2dldGxv
+YWRhdmcubTQKLUBAIC00MSwxOCArNDEsNiBAQCBBQ19DSEVDS19GVU5DKFtnZXRsb2FkYXZnXSwg
+W10sCitAQCAtNDYsMTggKzQ2LDYgQEAgaWYgdGVzdCAkYWNfY3ZfZnVuY19nZXRsb2FkYXZnICE9
+IHllczsgdGhlbgogICAgICAgICBbTElCUz0iLWx1dGlsICRMSUJTIiBnbF9mdW5jX2dldGxvYWRh
+dmdfZG9uZT15ZXNdKQogICAgIGZpCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9j
+b3JldXRpbHMvY29yZXV0aWxzXzkuNC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2NvcmV1dGlscy9j
+b3JldXRpbHNfOS41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1jb3JlL2NvcmV1dGlscy9jb3JldXRpbHNfOS40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuNS5iYgppbmRleCA2MmVjZGVhNmVjLi4zODZm
+MTdiMTFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxz
+XzkuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9jb3JldXRpbHMvY29yZXV0aWxzXzkuNS5i
+YgpAQCAtMSwzICsxLDIzIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMg
+aGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcg
+aXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4
+dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1t
+YXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1V
+cGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFy
+cyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gc3JjL2xzLmMKKyMgKysr
+IHNyYy9scy5jCisjIEBAIC0xLDUgKzEsNSBAQAorIyAgLyogJ2RpcicsICd2ZGlyJyBhbmQgJ2xz
+JyBkaXJlY3RvcnkgbGlzdGluZyBwcm9ncmFtcyBmb3IgR05VLgorIyAtICAgQ29weXJpZ2h0IChD
+KSAxOTg1LTIwMjMgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuCisjICsgICBDb3B5cmln
+aHQgKEMpIDE5ODUtMjAyNCBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4KKyMgIAorIyAg
+ICAgVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU6IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0
+IGFuZC9vciBtb2RpZnkKKyMgICAgIGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVy
+YWwgUHVibGljIExpY2Vuc2UgYXMgcHVibGlzaGVkIGJ5CisjIAorIworCiBTVU1NQVJZID0gIlRo
+ZSBiYXNpYyBmaWxlLCBzaGVsbCBhbmQgdGV4dCBtYW5pcHVsYXRpb24gdXRpbGl0aWVzIgogREVT
+Q1JJUFRJT04gPSAiVGhlIEdOVSBDb3JlIFV0aWxpdGllcyBwcm92aWRlIHRoZSBiYXNpYyBmaWxl
+LCBzaGVsbCBhbmQgdGV4dCBcCiBtYW5pcHVsYXRpb24gdXRpbGl0aWVzLiBUaGVzZSBhcmUgdGhl
+IGNvcmUgdXRpbGl0aWVzIHdoaWNoIGFyZSBleHBlY3RlZCB0byBleGlzdCBvbiBcCkBAIC02LDcg
+KzI2LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2NvcmV1dGls
+cy8iCiBCVUdUUkFDS0VSID0gImh0dHA6Ly9kZWJidWdzLmdudS5vcmcvY29yZXV0aWxzIgogTElD
+RU5TRSA9ICJHUEwtMy4wLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9MWViYmQzZTM0MjM3YWYyNmRhNWRjMDhhNGU0NDA0NjQgXAotICAgICAgICAgICAg
+ICAgICAgICBmaWxlOi8vc3JjL2xzLmM7YmVnaW5saW5lPTE7ZW5kbGluZT0xNTttZDU9YjcyMGE4
+YjMxNzAzNWQ2NmM1NTVmYzZkODllMzY3NGMgXAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+c3JjL2xzLmM7YmVnaW5saW5lPTE7ZW5kbGluZT0xNTttZDU9OWFjOTRhYWVkN2ZkNDZmZDhkZjcx
+NDdhOWUzNDEwY2IgXAogICAgICAgICAgICAgICAgICAgICAiCiBERVBFTkRTID0gImdtcCBsaWJj
+YXAiCiBERVBFTkRTOmNsYXNzLW5hdGl2ZSA9ICIiCkBAIC0xNiwxMSArMzYsOSBAQCBpbmhlcml0
+IGF1dG90b29scyBnZXR0ZXh0IHRleGluZm8KIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9jb3Jl
+dXRpbHMvJHtCUH0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovL3JlbW92ZS11c3ItbG9jYWwt
+bGliLWZyb20tbTQucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1sb2NhbC5tay1maXgt
+Y3Jvc3MtY29tcGlsaW5nLXByb2JsZW0ucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1w
+b3NpeHRtLXBhY2lmeS1jbGFuZy0xOC5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9DVkUtMjAy
+NC0wNjg0LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAg
+ICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlYTYxM2E0Y2Y0NDYxMjMyNmU5MTcyMDFiYmJjZGZi
+ZDMwMWRlMjFmZmMzYjU5YjZlNWMwN2UwNDBiMjc1ZTUyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
+ImNkMzI4ZWRlYWM5MmY2YTY2NWRlOWYzMjNjOTNiNzEyYWYxODU4YmMyZTBkODhmM2Y3MTAwNDY5
+NDcwYTFiOGEiCiAKICMgaHR0cDovL2dpdC5zYXZhbm5haC5nbnUub3JnL2NnaXQvY29yZXV0aWxz
+LmdpdC9jb21taXQvP2lkPXY4LjI3LTEwMS1nZjVkN2MwODQyCiAjCi0tIAoyLjQyLjAKCg==
 
---===============8226033578304689149==--
+--===============6057389124153376311==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/coreutils/coreutils-dbg: FILELIST: removed "/usr/lib/coreutils/ptest/src/.debug/chgrp.o", added "/usr/lib/coreutils/ptest/src/.debug/chown-chown.o /usr/lib/coreutils/ptest/src/.debug/chown-chgrp.o"
+packages/core2-64-poky-linux/coreutils/coreutils-dbg: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-dbg: PKGSIZE changed from 59609016 to 59782448 (+0%)
+packages/core2-64-poky-linux/coreutils/coreutils-dbg: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-dev: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-dev: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-doc: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-doc: PKGSIZE changed from 1273811 to 1284783 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-doc: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-af: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-af: PKGSIZE changed from 26799 to 26225 (-2%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-af: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-be: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-be: PKGSIZE changed from 55684 to 53809 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-be: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-bg: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-bg: PKGSIZE changed from 503125 to 476830 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-bg: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ca: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ca: PKGSIZE changed from 402120 to 381093 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ca: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-cs: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-cs: PKGSIZE changed from 388492 to 367226 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-cs: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-da: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-da: PKGSIZE changed from 358849 to 343601 (-4%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-da: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-de: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-de: PKGSIZE changed from 391105 to 369525 (-6%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-de: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-el: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-el: PKGSIZE changed from 23203 to 22995 (-1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-el: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eo: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eo: PKGSIZE changed from 149554 to 143258 (-4%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eo: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-es: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-es: PKGSIZE changed from 223196 to 212581 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-es: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-et: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-et: PKGSIZE changed from 358835 to 339114 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-et: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eu: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eu: PKGSIZE changed from 26629 to 26099 (-2%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-eu: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fi: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fi: PKGSIZE changed from 111777 to 108182 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fi: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fr: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fr: PKGSIZE changed from 399752 to 402148 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-fr: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ga: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ga: PKGSIZE changed from 103870 to 100569 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ga: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-gl: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-gl: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hr: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hr: PKGSIZE changed from 375873 to 354959 (-6%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hr: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hu: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hu: PKGSIZE changed from 300362 to 286802 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-hu: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ia: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ia: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-id: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-id: PKGSIZE changed from 127020 to 123590 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-id: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-it: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-it: PKGSIZE changed from 145727 to 140653 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-it: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ja: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ja: PKGSIZE changed from 361130 to 395754 (+10%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ja: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ka: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ka: PKGSIZE changed from 106774 to 122188 (+14%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ka: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-kk: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-kk: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ko: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ko: PKGSIZE changed from 395239 to 396783 (+0%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ko: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lg: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lg: PKGSIZE changed from 184572 to 178795 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lg: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lt: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lt: PKGSIZE changed from 29221 to 28442 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-lt: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ms: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ms: PKGSIZE changed from 21374 to 20790 (-3%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ms: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nb: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nb: PKGSIZE changed from 342191 to 325175 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nb: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nl: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nl: PKGSIZE changed from 323335 to 319482 (-1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-nl: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pl: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pl: PKGSIZE changed from 387885 to 366738 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pl: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt-br: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt-br: PKGSIZE changed from 306558 to 291682 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt-br: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt: PKGSIZE changed from 318749 to 303367 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-pt: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ro: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ro: PKGSIZE changed from 402501 to 404968 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ro: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ru: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ru: PKGSIZE changed from 461705 to 439026 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ru: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sk: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sk: PKGSIZE changed from 65831 to 64872 (-1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sk: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sl: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sl: PKGSIZE changed from 260870 to 278910 (+7%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sl: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sr: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sr: PKGSIZE changed from 467581 to 447961 (-4%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sr: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sv: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sv: PKGSIZE changed from 367280 to 347314 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-sv: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ta: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ta: PKGSIZE changed from 56216 to 52443 (-7%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-ta: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-tr: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-tr: PKGSIZE changed from 347682 to 330196 (-5%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-tr: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-uk: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-uk: PKGSIZE changed from 489840 to 492976 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-uk: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-vi: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-vi: PKGSIZE changed from 313068 to 299170 (-4%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-vi: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-cn: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-cn: PKGSIZE changed from 364453 to 366642 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-cn: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-tw: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-tw: PKGSIZE changed from 267890 to 265025 (-1%)
+packages/core2-64-poky-linux/coreutils/coreutils-locale-zh-tw: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-ptest: FILELIST: removed "/usr/lib/coreutils/ptest/src/chgrp.c /usr/lib/coreutils/ptest/tests/misc/basenc.pl /usr/lib/coreutils/ptest/src/chgrp.o /usr/lib/coreutils/ptest/tests/misc/join.pl /usr/lib/coreutils/ptest/tests/misc/base64.pl", added "/usr/lib/coreutils/ptest/tests/tail/tail-sysfs.sh /usr/lib/coreutils/ptest/tests/cp/keep-directory-symlink.sh /usr/lib/coreutils/ptest/tests/join/join.pl /usr/lib/coreutils/ptest/src/coreutils-chgrp.c /usr/lib/coreutils/ptest/src/chown-chgrp.c /usr/lib/coreutils/ptest/src/chown-chown.c /usr/lib/coreutils/ptest/tests/chmod/symlinks.sh /usr/lib/coreutils/ptest/tests/join/join-utf8.sh /usr/lib/coreutils/ptest/src/chown-chown.o /usr/lib/coreutils/ptest/tests/mv/mv-exchange.sh /usr/lib/coreutils/ptest/tests/basenc/base64.pl /usr/lib/coreutils/ptest/tests/ls/acl.sh /usr/lib/coreutils/ptest/tests/ls/size-align.sh /usr/lib/coreutils/ptest/src/chown-chgrp.o /usr/lib/coreutils/ptest/tests/chgrp/from.sh /u
+ sr/lib/coreutils/ptest/tests/basenc/basenc.pl"
+packages/core2-64-poky-linux/coreutils/coreutils-ptest: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-ptest: PKGSIZE changed from 16066263 to 16101939 (+0%)
+packages/core2-64-poky-linux/coreutils/coreutils-ptest: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-src: FILELIST: directory renamed /usr/src/debug/coreutils/9.4/lib/unistr -> /usr/src/debug/coreutils/9.5/lib/unistr, directory renamed /usr/src/debug/coreutils/9.4/lib/sys -> /usr/src/debug/coreutils/9.5/lib/sys, directory renamed /usr/src/debug/coreutils/9.4/src/blake2 -> /usr/src/debug/coreutils/9.5/src/blake2, directory renamed /usr/src/debug/coreutils/9.4/lib/malloc -> /usr/src/debug/coreutils/9.5/lib/malloc, directory renamed /usr/src/debug/coreutils/9.4/lib/selinux -> /usr/src/debug/coreutils/9.5/lib/selinux, removed "/usr/src/debug/coreutils/9.4/lib/fts_.h /usr/src/debug/coreutils/9.4/lib/xalloc.h /usr/src/debug/coreutils/9.4/lib/smack.h /usr/src/debug/coreutils/9.4/src/printf.c /usr/src/debug/coreutils/9.4/src/hostid.c /usr/src/debug/coreutils/9.4/lib/hash-pjw.h /usr/src/debug/coreutils/9.4/src/ln.c /usr/src/debug/coreutils/9.4/lib/sha256-stream.c /usr/src/debug/coreutils/9.4/lib/sha512-stream.c /usr/src/debug/coreutils/9.4/lib
+ /hash-pjw.c /usr/src/debug/coreutils/9.4/lib/rand-isaac.h /usr/src/debug/coreutils/9.4/lib/stdio-safer.h /usr/src/debug/coreutils/9.4/lib/rand-isaac.c /usr/src/debug/coreutils/9.4/lib/acl-internal.c /usr/src/debug/coreutils/9.4/src/stty.c /usr/src/debug/coreutils/9.4/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.4/lib/acl-internal.h /usr/src/debug/coreutils/9.4/lib/closeout.h /usr/src/debug/coreutils/9.4/src/date.c /usr/src/debug/coreutils/9.4/lib/closeout.c /usr/src/debug/coreutils/9.4/lib/sha1-stream.c /usr/src/debug/coreutils/9.4/lib/vfprintf.c /usr/src/debug/coreutils/9.4/lib/nanosleep.c /usr/src/debug/coreutils/9.4/lib/version-etc.h /usr/src/debug/coreutils/9.4/lib/version-etc.c /usr/src/debug/coreutils/9.4/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.4/lib/targetdir.c /usr/src/debug/coreutils/9.4/lib/mbrtoc32.c /usr/src/debug/coreutils/9.4/lib/targetdir.h /usr/src/debug/coreutils/9.4/lib/backupfile.h /usr/src/debug/coreutils/9.4/lib/wchar.h /usr/src/debug/coreutils/9.4/lib
+ /backupfile.c /usr/src/debug/coreutils/9.4/lib/readtokens.h /usr/src/debug/coreutils/9.4/lib/xbinary-io.h /usr/src/debug/coreutils/9.4/lib/readtokens.c /usr/src/debug/coreutils/9.4/lib/filevercmp.h /usr/src/debug/coreutils/9.4/lib/freopen-safer.c /usr/src/debug/coreutils/9.4/lib/filevercmp.c /usr/src/debug/coreutils/9.4/src/pwd.c /usr/src/debug/coreutils/9.4/src/nl.c /usr/src/debug/coreutils/9.4/lib/xvasprintf.c /usr/src/debug/coreutils/9.4/lib/full-read.h /usr/src/debug/coreutils/9.4/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.4/lib/xvasprintf.h /usr/src/debug/coreutils/9.4/src/statx.h /usr/src/debug/coreutils/9.4/src/copy.h /usr/src/debug/coreutils/9.4/src/copy.c /usr/src/debug/coreutils/9.4/src/ioblksize.h /usr/src/debug/coreutils/9.4/lib/idx.h /usr/src/debug/coreutils/9.4/lib/mbsrtowcs.c /usr/src/debug/coreutils/9.4/lib/fpucw.h /usr/src/debug/coreutils/9.4/lib/selinux-at.h /usr/src/debug/coreutils/9.4/lib/physmem.h /usr/src/debug/coreutils/9.4/lib/posixtm.h /usr/src/debug/cor
+ eutils/9.4/lib/xgetcwd.h /usr/src/debug/coreutils/9.4/lib/xprintf.h /usr/src/debug/coreutils/9.4/lib/copy-acl.c /usr/src/debug/coreutils/9.4/lib/xstrtod.h /usr/src/debug/coreutils/9.4/lib/xstrtol.h /usr/src/debug/coreutils/9.4/lib/mountlist.h /usr/src/debug/coreutils/9.4/src/sleep.c /usr/src/debug/coreutils/9.4/src/pathchk.c /usr/src/debug/coreutils/9.4/lib/posixtm.c /usr/src/debug/coreutils/9.4/lib/mountlist.c /usr/src/debug/coreutils/9.4/lib/physmem.c /usr/src/debug/coreutils/9.4/lib/xgetcwd.c /usr/src/debug/coreutils/9.4/lib/xmalloc.c /usr/src/debug/coreutils/9.4/lib/xprintf.c /usr/src/debug/coreutils/9.4/lib/xstrtod.c /usr/src/debug/coreutils/9.4/lib/xstrtol.c /usr/src/debug/coreutils/9.4/lib/save-cwd.h /usr/src/debug/coreutils/9.4/lib/c-strtod.h /usr/src/debug/coreutils/9.4/lib/save-cwd.c /usr/src/debug/coreutils/9.4/lib/c-strtod.c /usr/src/debug/coreutils/9.4/src/touch.c /usr/src/debug/coreutils/9.4/src/tsort.c /usr/src/debug/coreutils/9.4/lib/openat.h /usr/src/debug/coreutils
+ /9.4/lib/getcwd.c /usr/src/debug/coreutils/9.4/lib/getopt.c /usr/src/debug/coreutils/9.4/src/groups.c /usr/src/debug/coreutils/9.4/src/whoami.c /usr/src/debug/coreutils/9.4/src/cksum_pclmul.c /usr/src/debug/coreutils/9.4/src/mkdir.c /usr/src/debug/coreutils/9.4/src/users.c /usr/src/debug/coreutils/9.4/src/cksum.h /usr/src/debug/coreutils/9.4/src/make-prime-list.c /usr/src/debug/coreutils/9.4/lib/mbuiterf.h /usr/src/debug/coreutils/9.4/lib/file-set.h /usr/src/debug/coreutils/9.4/src/cksum.c /usr/src/debug/coreutils/9.4/src/yes.c /usr/src/debug/coreutils/9.4/lib/fchmodat.c /usr/src/debug/coreutils/9.4/lib/file-set.c /usr/src/debug/coreutils/9.4/src/readlink.c /usr/src/debug/coreutils/9.4/src/sync.c /usr/src/debug/coreutils/9.4/lib/sm3-stream.c /usr/src/debug/coreutils/9.4/src/paste.c /usr/src/debug/coreutils/9.4/lib/randperm.c /usr/src/debug/coreutils/9.4/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.4/lib/careadlinkat.h /usr/src/debug/coreutils/9.4/lib/gethrxtime.c /usr/src/
+ debug/coreutils/9.4/lib/randperm.h /usr/src/debug/coreutils/9.4/lib/gethrxtime.h /usr/src/debug/coreutils/9.4/lib/careadlinkat.c /usr/src/debug/coreutils/9.4/src/expr.c /usr/src/debug/coreutils/9.4/lib/basename.c /usr/src/debug/coreutils/9.4/src/basename.c /usr/src/debug/coreutils/9.4/lib/fd-reopen.c /usr/src/debug/coreutils/9.4/lib/fd-reopen.h /usr/src/debug/coreutils/9.4/lib/getopt-ext.h /usr/src/debug/coreutils/9.4/src/test.c /usr/src/debug/coreutils/9.4/lib/memcasecmp.h /usr/src/debug/coreutils/9.4/lib/xdectoint.h /usr/src/debug/coreutils/9.4/lib/opendir-safer.c /usr/src/debug/coreutils/9.4/lib/openat-safer.c /usr/src/debug/coreutils/9.4/lib/mbscasecmp.c /usr/src/debug/coreutils/9.4/lib/memcasecmp.c /usr/src/debug/coreutils/9.4/lib/xdectoint.c /usr/src/debug/coreutils/9.4/lib/write-any-file.c /usr/src/debug/coreutils/9.4/lib/write-any-file.h /usr/src/debug/coreutils/9.4/lib/acl.h /usr/src/debug/coreutils/9.4/lib/nstrftime.c /usr/src/debug/coreutils/9.4/lib/xgethostname.h /usr/sr
+ c/debug/coreutils/9.4/lib/idcache.h /usr/src/debug/coreutils/9.4/lib/ino-map.h /usr/src/debug/coreutils/9.4/lib/isapipe.h /usr/src/debug/coreutils/9.4/lib/isapipe.c /usr/src/debug/coreutils/9.4/lib/at-func.c /usr/src/debug/coreutils/9.4/lib/idcache.c /usr/src/debug/coreutils/9.4/lib/ino-map.c /usr/src/debug/coreutils/9.4/src/install.c /usr/src/debug/coreutils/9.4/src/find-mount-point.c /usr/src/debug/coreutils/9.4/lib/fnmatch_loop.c /usr/src/debug/coreutils/9.4/lib/open-safer.c /usr/src/debug/coreutils/9.4/src/kill.c /usr/src/debug/coreutils/9.4/src/chcon.c /usr/src/debug/coreutils/9.4/src/find-mount-point.h /usr/src/debug/coreutils/9.4/src/chown.c /usr/src/debug/coreutils/9.4/lib/mgetgroups.h /usr/src/debug/coreutils/9.4/lib/base32.h /usr/src/debug/coreutils/9.4/lib/base64.h /usr/src/debug/coreutils/9.4/lib/mgetgroups.c /usr/src/debug/coreutils/9.4/src/remove.h /usr/src/debug/coreutils/9.4/lib/base32.c /usr/src/debug/coreutils/9.4/lib/base64.c /usr/src/debug/coreutils/9.4/src/basen
+ c.c /usr/src/debug/coreutils/9.4/src/remove.c /usr/src/debug/coreutils/9.4/src/runcon.c /usr/src/debug/coreutils/9.4/src/tty.c /usr/src/debug/coreutils/9.4/src/rm.c /usr/src/debug/coreutils/9.4/src/df.c /usr/src/debug/coreutils/9.4/lib/dup-safer.c /usr/src/debug/coreutils/9.4/lib/getopt_int.h /usr/src/debug/coreutils/9.4/src/fmt.c /usr/src/debug/coreutils/9.4/lib/regex.h /usr/src/debug/coreutils/9.4/src/fs-is-local.h /usr/src/debug/coreutils/9.4/lib/close-stream.c /usr/src/debug/coreutils/9.4/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.4/src/uniq.c /usr/src/debug/coreutils/9.4/lib/close-stream.h /usr/src/debug/coreutils/9.4/lib/localcharset.c /usr/src/debug/coreutils/9.4/lib/localcharset.h /usr/src/debug/coreutils/9.4/lib/gettime-res.c /usr/src/debug/coreutils/9.4/lib/mbswidth.c /usr/src/debug/coreutils/9.4/src/group-list.h /usr/src/debug/coreutils/9.4/src/tac.c /usr/src/debug/coreutils/9.4/lib/mbswidth.h /usr/src/debug/coreutils/9.4/src/fold.c /usr/src/debug/coreutils/9.4/src/g
+ roup-list.c /usr/src/debug/coreutils/9.4/src/sum.h /usr/src/debug/coreutils/9.4/lib/mbsalign.c /usr/src/debug/coreutils/9.4/src/sum.c /usr/src/debug/coreutils/9.4/lib/mbsalign.h /usr/src/debug/coreutils/9.4/lib/hard-locale.h /usr/src/debug/coreutils/9.4/lib/sm3.c /usr/src/debug/coreutils/9.4/lib/hard-locale.c /usr/src/debug/coreutils/9.4/lib/sm3.h /usr/src/debug/coreutils/9.4/lib/freadptr.h /usr/src/debug/coreutils/9.4/lib/fd-safer.c /usr/src/debug/coreutils/9.4/lib/freadptr.c /usr/src/debug/coreutils/9.4/lib/quotearg.h /usr/src/debug/coreutils/9.4/lib/opendirat.c /usr/src/debug/coreutils/9.4/lib/opendirat.h /usr/src/debug/coreutils/9.4/lib/quotearg.c /usr/src/debug/coreutils/9.4/lib/canonicalize.h /usr/src/debug/coreutils/9.4/src/dd.c /usr/src/debug/coreutils/9.4/lib/c-strcaseeq.h /usr/src/debug/coreutils/9.4/lib/canonicalize.c /usr/src/debug/coreutils/9.4/lib/mbsrtowcs-impl.h /usr/src/debug/coreutils/9.4/src/version.h /usr/src/debug/coreutils/9.4/lib/fadvise.h /usr/src/debug/coreu
+ tils/9.4/lib/fnmatch.h /usr/src/debug/coreutils/9.4/lib/read-file.h /usr/src/debug/coreutils/9.4/lib/exitfail.c /usr/src/debug/coreutils/9.4/lib/fseterr.h /usr/src/debug/coreutils/9.4/lib/fsusage.h /usr/src/debug/coreutils/9.4/lib/ftoastr.h /usr/src/debug/coreutils/9.4/lib/read-file.c /usr/src/debug/coreutils/9.4/lib/stripslash.c /usr/src/debug/coreutils/9.4/lib/vprintf.c /usr/src/debug/coreutils/9.4/src/version.c /usr/src/debug/coreutils/9.4/lib/fadvise.c /usr/src/debug/coreutils/9.4/lib/fnmatch.c /usr/src/debug/coreutils/9.4/lib/exitfail.h /usr/src/debug/coreutils/9.4/lib/freopen.c /usr/src/debug/coreutils/9.4/lib/fseterr.c /usr/src/debug/coreutils/9.4/lib/fsusage.c /usr/src/debug/coreutils/9.4/lib/ftoastr.c /usr/src/debug/coreutils/9.4/lib/cycle-check.h /usr/src/debug/coreutils/9.4/lib/cycle-check.c /usr/src/debug/coreutils/9.4/src/echo.c /usr/src/debug/coreutils/9.4/src/unexpand.c /usr/src/debug/coreutils/9.4/src/mknod.c /usr/src/debug/coreutils/9.4/lib/strnumcmp.h /usr/src/debu
+ g/coreutils/9.4/lib/backup-rename.c /usr/src/debug/coreutils/9.4/lib/af_alg.h /usr/src/debug/coreutils/9.4/lib/xgetgroups.c /usr/src/debug/coreutils/9.4/lib/i-ring.h /usr/src/debug/coreutils/9.4/lib/ialloc.h /usr/src/debug/coreutils/9.4/lib/strintcmp.c /usr/src/debug/coreutils/9.4/lib/strnumcmp.c /usr/src/debug/coreutils/9.4/lib/i-ring.c /usr/src/debug/coreutils/9.4/src/iopoll.c /usr/src/debug/coreutils/9.4/src/iopoll.h /usr/src/debug/coreutils/9.4/lib/u64.h /usr/src/debug/coreutils/9.4/lib/time.h /usr/src/debug/coreutils/9.4/src/env.c /usr/src/debug/coreutils/9.4/lib/time.c /usr/src/debug/coreutils/9.4/lib/fopen-safer.c /usr/src/debug/coreutils/9.4/lib/fcntl-safer.h /usr/src/debug/coreutils/9.4/src/getlimits.c /usr/src/debug/coreutils/9.4/lib/getopt-core.h /usr/src/debug/coreutils/9.4/src/chmod.c /usr/src/debug/coreutils/9.4/src/comm.c /usr/src/debug/coreutils/9.4/lib/priv-set.h /usr/src/debug/coreutils/9.4/lib/backup-internal.h /usr/src/debug/coreutils/9.4/lib/backup-find.c /usr/s
+ rc/debug/coreutils/9.4/lib/md5-stream.c /usr/src/debug/coreutils/9.4/lib/buffer-lcm.h /usr/src/debug/coreutils/9.4/lib/tempname.h /usr/src/debug/coreutils/9.4/lib/fts.c /usr/src/debug/coreutils/9.4/lib/set-permissions.c /usr/src/debug/coreutils/9.4/lib/buffer-lcm.c /usr/src/debug/coreutils/9.4/lib/tempname.c /usr/src/debug/coreutils/9.4/src/truncate.c /usr/src/debug/coreutils/9.4/lib/utimecmp.h /usr/src/debug/coreutils/9.4/lib/utimecmp.c /usr/src/debug/coreutils/9.4/src/tail.c /usr/src/debug/coreutils/9.4/lib/xalloc-die.c /usr/src/debug/coreutils/9.4/lib/xfts.h /usr/src/debug/coreutils/9.4/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.4/lib/xfts.c /usr/src/debug/coreutils/9.4/lib/regex_internal.c /usr/src/debug/coreutils/9.4/lib/regex_internal.h /usr/src/debug/coreutils/9.4/src/rmdir.c /usr/src/debug/coreutils/9.4/lib/strnlen1.c /usr/src/debug/coreutils/9.4/lib/strnlen1.h /usr/src/debug/coreutils/9.4/src/force-link.c /usr/src/debug/coreutils/9.4/src/nohup.c /usr/src/debug/coreutils
+ /9.4/src/uname-uname.c /usr/src/debug/coreutils/9.4/lib/boot-time-aux.h /usr/src/debug/coreutils/9.4/src/force-link.h /usr/src/debug/coreutils/9.4/lib/obstack.h /usr/src/debug/coreutils/9.4/lib/hash-triple.h /usr/src/debug/coreutils/9.4/lib/xmemcoll.c /usr/src/debug/coreutils/9.4/lib/hash-triple.c /usr/src/debug/coreutils/9.4/src/wc_avx2.c /usr/src/debug/coreutils/9.4/lib/obstack.c /usr/src/debug/coreutils/9.4/lib/getopt1.c /usr/src/debug/coreutils/9.4/lib/gettime.c /usr/src/debug/coreutils/9.4/lib/xmemcoll.h /usr/src/debug/coreutils/9.4/lib/timespec.h /usr/src/debug/coreutils/9.4/lib/hash-triple-simple.c /usr/src/debug/coreutils/9.4/lib/c-strcasecmp.c /usr/src/debug/coreutils/9.4/src/shuf.c /usr/src/debug/coreutils/9.4/lib/copy-file-range.c /usr/src/debug/coreutils/9.4/lib/mbsrtowcs-state.c /usr/src/debug/coreutils/9.4/lib/count-leading-zeros.h /usr/src/debug/coreutils/9.4/src/cat.c /usr/src/debug/coreutils/9.4/src/prog-fprintf.h /usr/src/debug/coreutils/9.4/lib/getugroups.h /usr/s
+ rc/debug/coreutils/9.4/lib/tmpdir.h /usr/src/debug/coreutils/9.4/lib/di-set.h /usr/src/debug/coreutils/9.4/src/prog-fprintf.c /usr/src/debug/coreutils/9.4/lib/dirent.h /usr/src/debug/coreutils/9.4/lib/tmpdir.c /usr/src/debug/coreutils/9.4/src/ls-dir.c /usr/src/debug/coreutils/9.4/lib/di-set.c /usr/src/debug/coreutils/9.4/src/digest.c /usr/src/debug/coreutils/9.4/lib/human.h /usr/src/debug/coreutils/9.4/lib/human.c /usr/src/debug/coreutils/9.4/lib/str-two-way.h /usr/src/debug/coreutils/9.4/lib/dirchownmod.h /usr/src/debug/coreutils/9.4/src/operand2sig.c /usr/src/debug/coreutils/9.4/lib/dirchownmod.c /usr/src/debug/coreutils/9.4/src/operand2sig.h /usr/src/debug/coreutils/9.4/lib/setlocale_null.h /usr/src/debug/coreutils/9.4/lib/xreadlink.c /usr/src/debug/coreutils/9.4/lib/setlocale_null.c /usr/src/debug/coreutils/9.4/lib/xreadlink.h /usr/src/debug/coreutils/9.4/src/shred.c /usr/src/debug/coreutils/9.4/lib/openat-priv.h /usr/src/debug/coreutils/9.4/lib/chdir-long.c /usr/src/debug/coreu
+ tils/9.4/src/seq.c /usr/src/debug/coreutils/9.4/lib/chdir-long.h /usr/src/debug/coreutils/9.4/lib/strftime.h /usr/src/debug/coreutils/9.4/lib/same.h /usr/src/debug/coreutils/9.4/lib/same.c /usr/src/debug/coreutils/9.4/src/set-fields.h /usr/src/debug/coreutils/9.4/lib/file-type.c /usr/src/debug/coreutils/9.4/lib/freadseek.c /usr/src/debug/coreutils/9.4/src/set-fields.c /usr/src/debug/coreutils/9.4/lib/freadseek.h /usr/src/debug/coreutils/9.4/lib/file-type.h /usr/src/debug/coreutils/9.4/lib/openat-die.c /usr/src/debug/coreutils/9.4/src/printenv.c /usr/src/debug/coreutils/9.4/src/tr.c /usr/src/debug/coreutils/9.4/lib/mkancesdirs.h /usr/src/debug/coreutils/9.4/lib/dirent-safer.h /usr/src/debug/coreutils/9.4/lib/mkancesdirs.c /usr/src/debug/coreutils/9.4/lib/posixver.h /usr/src/debug/coreutils/9.4/src/ptx.c /usr/src/debug/coreutils/9.4/lib/posixver.c /usr/src/debug/coreutils/9.4/lib/cl-strtod.c /usr/src/debug/coreutils/9.4/lib/cl-strtod.h /usr/src/debug/coreutils/9.4/lib/stdio.h /usr/src
+ /debug/coreutils/9.4/lib/printf-args.c /usr/src/debug/coreutils/9.4/lib/printf-args.h /usr/src/debug/coreutils/9.4/lib/xasprintf.c /usr/src/debug/coreutils/9.4/lib/dev-ino.h /usr/src/debug/coreutils/9.4/lib/dirname.h /usr/src/debug/coreutils/9.4/src/tee.c /usr/src/debug/coreutils/9.4/lib/dirname.c /usr/src/debug/coreutils/9.4/lib/propername-lite.c /usr/src/debug/coreutils/9.4/lib/time_rz.c /usr/src/debug/coreutils/9.4/src/dirname.c /usr/src/debug/coreutils/9.4/src/logname.c /usr/src/debug/coreutils/9.4/src/ls-vdir.c /usr/src/debug/coreutils/9.4/src/pr.c /usr/src/debug/coreutils/9.4/src/timeout.c /usr/src/debug/coreutils/9.4/lib/linebuffer.c /usr/src/debug/coreutils/9.4/lib/linebuffer.h /usr/src/debug/coreutils/9.4/src/id.c /usr/src/debug/coreutils/9.4/src/system.h /usr/src/debug/coreutils/9.4/lib/savewd.h /usr/src/debug/coreutils/9.4/lib/sha256.h /usr/src/debug/coreutils/9.4/lib/sha512.h /usr/src/debug/coreutils/9.4/lib/stdlib.h /usr/src/debug/coreutils/9.4/lib/string.h /usr/src/deb
+ ug/coreutils/9.4/lib/savewd.c /usr/src/debug/coreutils/9.4/lib/sha256.c /usr/src/debug/coreutils/9.4/lib/sha512.c /usr/src/debug/coreutils/9.4/lib/strstr.c /usr/src/debug/coreutils/9.4/src/chroot.c /usr/src/debug/coreutils/9.4/src/crctab.c /usr/src/debug/coreutils/9.4/src/csplit.c /usr/src/debug/coreutils/9.4/src/stdbuf.c /usr/src/debug/coreutils/9.4/lib/fprintftime.h /usr/src/debug/coreutils/9.4/src/uname.h /usr/src/debug/coreutils/9.4/lib/c-strcase.h /usr/src/debug/coreutils/9.4/lib/areadlink.c /usr/src/debug/coreutils/9.4/src/uname.c /usr/src/debug/coreutils/9.4/lib/fdutimensat.c /usr/src/debug/coreutils/9.4/lib/areadlink.h /usr/src/debug/coreutils/9.4/src/temp-stream.h /usr/src/debug/coreutils/9.4/src/who.c /usr/src/debug/coreutils/9.4/lib/asprintf.c /usr/src/debug/coreutils/9.4/src/temp-stream.c /usr/src/debug/coreutils/9.4/lib/parse-datetime.h /usr/src/debug/coreutils/9.4/src/wc.c /usr/src/debug/coreutils/9.4/lib/time-internal.h /usr/src/debug/coreutils/9.4/src/chgrp.c /usr/sr
+ c/debug/coreutils/9.4/src/libstdbuf.c /usr/src/debug/coreutils/9.4/lib/filemode.h /usr/src/debug/coreutils/9.4/src/true.c /usr/src/debug/coreutils/9.4/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.4/lib/filemode.c /usr/src/debug/coreutils/9.4/src/realpath.c /usr/src/debug/coreutils/9.4/src/stat.c /usr/src/debug/coreutils/9.4/src/mv.c /usr/src/debug/coreutils/9.4/lib/safe-write.h /usr/src/debug/coreutils/9.4/lib/printf-parse.c /usr/src/debug/coreutils/9.4/lib/modechange.h /usr/src/debug/coreutils/9.4/lib/fcntl.c /usr/src/debug/coreutils/9.4/lib/modechange.c /usr/src/debug/coreutils/9.4/lib/printf-parse.h /usr/src/debug/coreutils/9.4/lib/stdlib-safer.h /usr/src/debug/coreutils/9.4/lib/fcntl.h /usr/src/debug/coreutils/9.4/lib/safe-read.c /usr/src/debug/coreutils/9.4/lib/safe-read.h /usr/src/debug/coreutils/9.4/src/od.c /usr/src/debug/coreutils/9.4/lib/basename-lgpl.c /usr/src/debug/coreutils/9.4/src/ls.h /usr/src/debug/coreutils/9.4/lib/parse-datetime-gen.h /usr/src/debug/coreutils/9
+ .4/lib/sys-limits.h /usr/src/debug/coreutils/9.4/src/ls.c /usr/src/debug/coreutils/9.4/lib/basename-lgpl.h /usr/src/debug/coreutils/9.4/lib/memchr2.h /usr/src/debug/coreutils/9.4/lib/memcmp2.h /usr/src/debug/coreutils/9.4/lib/memcoll.h /usr/src/debug/coreutils/9.4/lib/mkdir-p.h /usr/src/debug/coreutils/9.4/lib/exclude.h /usr/src/debug/coreutils/9.4/lib/freadahead.c /usr/src/debug/coreutils/9.4/lib/mbuiter.h /usr/src/debug/coreutils/9.4/lib/nproc.c /usr/src/debug/coreutils/9.4/lib/utimens.h /usr/src/debug/coreutils/9.4/src/nproc.c /usr/src/debug/coreutils/9.4/lib/mbrtowc.c /usr/src/debug/coreutils/9.4/lib/memchr2.c /usr/src/debug/coreutils/9.4/lib/memcmp2.c /usr/src/debug/coreutils/9.4/lib/memcoll.c /usr/src/debug/coreutils/9.4/lib/mkdir-p.c /usr/src/debug/coreutils/9.4/lib/exclude.c /usr/src/debug/coreutils/9.4/lib/freadahead.h /usr/src/debug/coreutils/9.4/lib/nproc.h /usr/src/debug/coreutils/9.4/lib/utimens.c /usr/src/debug/coreutils/9.4/src/sort.c /usr/src/debug/coreutils/9.4/src/
+ unlink.c /usr/src/debug/coreutils/9.4/lib/randread.h /usr/src/debug/coreutils/9.4/lib/randread.c /usr/src/debug/coreutils/9.4/lib/verror.h /usr/src/debug/coreutils/9.4/lib/fclose.c /usr/src/debug/coreutils/9.4/lib/fflush.c /usr/src/debug/coreutils/9.4/lib/fpurge.c /usr/src/debug/coreutils/9.4/lib/fseeko.c /usr/src/debug/coreutils/9.4/lib/renameatu.c /usr/src/debug/coreutils/9.4/lib/verror.c /usr/src/debug/coreutils/9.4/src/factor.c /usr/src/debug/coreutils/9.4/src/numfmt.c /usr/src/debug/coreutils/9.4/lib/renameatu.h /usr/src/debug/coreutils/9.4/lib/md5.h /usr/src/debug/coreutils/9.4/lib/futimens.c /usr/src/debug/coreutils/9.4/lib/md5.c /usr/src/debug/coreutils/9.4/lib/bitrotate.h /usr/src/debug/coreutils/9.4/src/join.c /usr/src/debug/coreutils/9.4/src/nice.c /usr/src/debug/coreutils/9.4/lib/file-has-acl.c /usr/src/debug/coreutils/9.4/lib/memset_explicit.c /usr/src/debug/coreutils/9.4/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.4/lib/sha1.c /usr/src/debug/coreutils/9.4/src/head.c 
+ /usr/src/debug/coreutils/9.4/lib/sha1.h /usr/src/debug/coreutils/9.4/lib/argmatch.c /usr/src/debug/coreutils/9.4/lib/readutmp.h /usr/src/debug/coreutils/9.4/lib/readutmp.c /usr/src/debug/coreutils/9.4/lib/filenamecat-lgpl.c /usr/src/debug/coreutils/9.4/lib/argmatch.h /usr/src/debug/coreutils/9.4/lib/uchar.h /usr/src/debug/coreutils/9.4/lib/full-write.c /usr/src/debug/coreutils/9.4/lib/unicodeio.h /usr/src/debug/coreutils/9.4/lib/full-write.h /usr/src/debug/coreutils/9.4/lib/unicodeio.c /usr/src/debug/coreutils/9.4/lib/allocator.h /usr/src/debug/coreutils/9.4/lib/propername.h /usr/src/debug/coreutils/9.4/src/cut.c /usr/src/debug/coreutils/9.4/lib/allocator.c /usr/src/debug/coreutils/9.4/lib/vasnprintf.c /usr/src/debug/coreutils/9.4/lib/vasnprintf.h /usr/src/debug/coreutils/9.4/lib/readtokens0.h /usr/src/debug/coreutils/9.4/src/dircolors.c /usr/src/debug/coreutils/9.4/lib/stat-time.h /usr/src/debug/coreutils/9.4/lib/readtokens0.c /usr/src/debug/coreutils/9.4/src/dircolors.h /usr/src/d
+ ebug/coreutils/9.4/lib/filenamecat.c /usr/src/debug/coreutils/9.4/lib/filenamecat.h /usr/src/debug/coreutils/9.4/lib/vasprintf.c /usr/src/debug/coreutils/9.4/lib/randint.h /usr/src/debug/coreutils/9.4/src/relpath.h /usr/src/debug/coreutils/9.4/lib/qset-acl.c /usr/src/debug/coreutils/9.4/lib/userspec.c /usr/src/debug/coreutils/9.4/lib/fts-cycle.c /usr/src/debug/coreutils/9.4/lib/randint.c /usr/src/debug/coreutils/9.4/lib/regcomp.c /usr/src/debug/coreutils/9.4/lib/regexec.c /usr/src/debug/coreutils/9.4/lib/userspec.h /usr/src/debug/coreutils/9.4/src/relpath.c /usr/src/debug/coreutils/9.4/src/expand-common.c /usr/src/debug/coreutils/9.4/lib/xalignalloc.c /usr/src/debug/coreutils/9.4/src/expand-common.h /usr/src/debug/coreutils/9.4/lib/getndelim2.c /usr/src/debug/coreutils/9.4/lib/mbchar.h /usr/src/debug/coreutils/9.4/lib/mpsort.h /usr/src/debug/coreutils/9.4/lib/unistd.h /usr/src/debug/coreutils/9.4/lib/unistr.h /usr/src/debug/coreutils/9.4/src/uptime.c /usr/src/debug/coreutils/9.4/lib
+ /mbrlen.c /usr/src/debug/coreutils/9.4/lib/getndelim2.h /usr/src/debug/coreutils/9.4/lib/mbschr.c /usr/src/debug/coreutils/9.4/lib/mbslen.c /usr/src/debug/coreutils/9.4/lib/memchr.c /usr/src/debug/coreutils/9.4/lib/mpsort.c /usr/src/debug/coreutils/9.4/src/expand.c /usr/src/debug/coreutils/9.4/src/mkfifo.c /usr/src/debug/coreutils/9.4/src/mktemp.c /usr/src/debug/coreutils/9.4/lib/xstrtol-error.c /usr/src/debug/coreutils/9.4/lib/quote.h /usr/src/debug/coreutils/9.4/lib/pipe2.c /usr/src/debug/coreutils/9.4/lib/xstrtol-error.h /usr/src/debug/coreutils/9.4/lib/xsize.h /usr/src/debug/coreutils/9.4/lib/xtime.h /usr/src/debug/coreutils/9.4/src/link.c /usr/src/debug/coreutils/9.4/lib/unitypes.h /usr/src/debug/coreutils/9.4/lib/argv-iter.c /usr/src/debug/coreutils/9.4/lib/heap.c /usr/src/debug/coreutils/9.4/lib/argv-iter.h /usr/src/debug/coreutils/9.4/lib/heap.h /usr/src/debug/coreutils/9.4/lib/qcopy-acl.c /usr/src/debug/coreutils/9.4/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.4/sr
+ c/split.c /usr/src/debug/coreutils/9.4/src/ls-ls.c /usr/src/debug/coreutils/9.4/src/chown-core.h /usr/src/debug/coreutils/9.4/lib/progname.h /usr/src/debug/coreutils/9.4/lib/yesno.h /usr/src/debug/coreutils/9.4/lib/dtotimespec.c /usr/src/debug/coreutils/9.4/lib/canon-host.h /usr/src/debug/coreutils/9.4/lib/fopen.c /usr/src/debug/coreutils/9.4/lib/progname.c /usr/src/debug/coreutils/9.4/src/chown-core.c /usr/src/debug/coreutils/9.4/lib/canon-host.c /usr/src/debug/coreutils/9.4/src/cp.c /usr/src/debug/coreutils/9.4/src/hostname.c /usr/src/debug/coreutils/9.4/lib/yesno.c /usr/src/debug/coreutils/9.4/src/pinky.c /usr/src/debug/coreutils/9.4/src/du.c /usr/src/debug/coreutils/9.4/lib/acl-errno-valid.c /usr/src/debug/coreutils/9.4/lib/binary-io.h /usr/src/debug/coreutils/9.4/lib/fd-safer-flag.c /usr/src/debug/coreutils/9.4/lib/alignalloc.h /usr/src/debug/coreutils/9.4/lib/unistd-safer.h /usr/src/debug/coreutils/9.4/lib/inttostr.h /usr/src/debug/coreutils/9.4/lib/long-options.c /usr/src/deb
+ ug/coreutils/9.4/lib/c-file-type.c /usr/src/debug/coreutils/9.4/lib/openat-proc.c /usr/src/debug/coreutils/9.4/lib/anytostr.c /usr/src/debug/coreutils/9.4/lib/btowc.c /usr/src/debug/coreutils/9.4/lib/long-options.h /usr/src/debug/coreutils/9.4/lib/xnanosleep.h /usr/src/debug/coreutils/9.4/lib/xnanosleep.c /usr/src/debug/coreutils/9.4/src/uname-arch.c /usr/src/debug/coreutils/9.4/lib/savedir.h /usr/src/debug/coreutils/9.4/lib/c-ctype.h /usr/src/debug/coreutils/9.4/lib/closein.h /usr/src/debug/coreutils/9.4/lib/sig2str.h /usr/src/debug/coreutils/9.4/src/cp-hash.h /usr/src/debug/coreutils/9.4/src/selinux.h /usr/src/debug/coreutils/9.4/lib/root-dev-ino.h /usr/src/debug/coreutils/9.4/lib/savedir.c /usr/src/debug/coreutils/9.4/lib/set-acl.c /usr/src/debug/coreutils/9.4/lib/settime.c /usr/src/debug/coreutils/9.4/lib/root-dev-ino.c /usr/src/debug/coreutils/9.4/lib/closein.c /usr/src/debug/coreutils/9.4/lib/sig2str.c /usr/src/debug/coreutils/9.4/src/cp-hash.c /usr/src/debug/coreutils/9.4/lib
+ /hash.c /usr/src/debug/coreutils/9.4/lib/hash.h", added "/usr/src/debug/coreutils/9.5/lib/fts_.h /usr/src/debug/coreutils/9.5/lib/xalloc.h /usr/src/debug/coreutils/9.5/lib/smack.h /usr/src/debug/coreutils/9.5/src/printf.c /usr/src/debug/coreutils/9.5/src/hostid.c /usr/src/debug/coreutils/9.5/lib/hash-pjw.h /usr/src/debug/coreutils/9.5/src/ln.c /usr/src/debug/coreutils/9.5/lib/sha256-stream.c /usr/src/debug/coreutils/9.5/lib/sha512-stream.c /usr/src/debug/coreutils/9.5/lib/hash-pjw.c /usr/src/debug/coreutils/9.5/lib/rand-isaac.h /usr/src/debug/coreutils/9.5/lib/stdio-safer.h /usr/src/debug/coreutils/9.5/lib/rand-isaac.c /usr/src/debug/coreutils/9.5/lib/acl-internal.c /usr/src/debug/coreutils/9.5/src/stty.c /usr/src/debug/coreutils/9.5/lib/version-etc-fsf.c /usr/src/debug/coreutils/9.5/lib/acl-internal.h /usr/src/debug/coreutils/9.5/lib/closeout.h /usr/src/debug/coreutils/9.5/src/date.c /usr/src/debug/coreutils/9.5/lib/closeout.c /usr/src/debug/coreutils/9.5/lib/sha1-stream.c /usr/src
+ /debug/coreutils/9.5/lib/vfprintf.c /usr/src/debug/coreutils/9.5/lib/nanosleep.c /usr/src/debug/coreutils/9.5/lib/version-etc.h /usr/src/debug/coreutils/9.5/lib/version-etc.c /usr/src/debug/coreutils/9.5/lib/strnumcmp-in.h /usr/src/debug/coreutils/9.5/lib/targetdir.c /usr/src/debug/coreutils/9.5/lib/mbrtoc32.c /usr/src/debug/coreutils/9.5/lib/targetdir.h /usr/src/debug/coreutils/9.5/lib/backupfile.h /usr/src/debug/coreutils/9.5/lib/wchar.h /usr/src/debug/coreutils/9.5/lib/backupfile.c /usr/src/debug/coreutils/9.5/lib/readtokens.h /usr/src/debug/coreutils/9.5/lib/xbinary-io.h /usr/src/debug/coreutils/9.5/lib/readtokens.c /usr/src/debug/coreutils/9.5/lib/filevercmp.h /usr/src/debug/coreutils/9.5/lib/freopen-safer.c /usr/src/debug/coreutils/9.5/src/chown-chown.c /usr/src/debug/coreutils/9.5/lib/filevercmp.c /usr/src/debug/coreutils/9.5/src/pwd.c /usr/src/debug/coreutils/9.5/src/nl.c /usr/src/debug/coreutils/9.5/lib/xvasprintf.c /usr/src/debug/coreutils/9.5/lib/full-read.h /usr/src/debu
+ g/coreutils/9.5/lib/c-strncasecmp.c /usr/src/debug/coreutils/9.5/lib/xvasprintf.h /usr/src/debug/coreutils/9.5/src/statx.h /usr/src/debug/coreutils/9.5/src/copy.h /usr/src/debug/coreutils/9.5/src/copy.c /usr/src/debug/coreutils/9.5/src/ioblksize.h /usr/src/debug/coreutils/9.5/lib/idx.h /usr/src/debug/coreutils/9.5/lib/mbsrtowcs.c /usr/src/debug/coreutils/9.5/lib/fpucw.h /usr/src/debug/coreutils/9.5/lib/selinux-at.h /usr/src/debug/coreutils/9.5/lib/physmem.h /usr/src/debug/coreutils/9.5/lib/posixtm.h /usr/src/debug/coreutils/9.5/lib/xgetcwd.h /usr/src/debug/coreutils/9.5/lib/xprintf.h /usr/src/debug/coreutils/9.5/lib/copy-acl.c /usr/src/debug/coreutils/9.5/lib/xstrtod.h /usr/src/debug/coreutils/9.5/lib/xstrtol.h /usr/src/debug/coreutils/9.5/lib/mountlist.h /usr/src/debug/coreutils/9.5/src/sleep.c /usr/src/debug/coreutils/9.5/src/pathchk.c /usr/src/debug/coreutils/9.5/lib/posixtm.c /usr/src/debug/coreutils/9.5/lib/mountlist.c /usr/src/debug/coreutils/9.5/lib/physmem.c /usr/src/debug/c
+ oreutils/9.5/lib/xgetcwd.c /usr/src/debug/coreutils/9.5/lib/xmalloc.c /usr/src/debug/coreutils/9.5/lib/xprintf.c /usr/src/debug/coreutils/9.5/lib/xstrtod.c /usr/src/debug/coreutils/9.5/lib/xstrtol.c /usr/src/debug/coreutils/9.5/lib/save-cwd.h /usr/src/debug/coreutils/9.5/lib/c-strtod.h /usr/src/debug/coreutils/9.5/lib/save-cwd.c /usr/src/debug/coreutils/9.5/lib/c-strtod.c /usr/src/debug/coreutils/9.5/src/touch.c /usr/src/debug/coreutils/9.5/src/tsort.c /usr/src/debug/coreutils/9.5/lib/openat.h /usr/src/debug/coreutils/9.5/lib/getcwd.c /usr/src/debug/coreutils/9.5/lib/getopt.c /usr/src/debug/coreutils/9.5/src/groups.c /usr/src/debug/coreutils/9.5/src/whoami.c /usr/src/debug/coreutils/9.5/src/cksum_pclmul.c /usr/src/debug/coreutils/9.5/src/mkdir.c /usr/src/debug/coreutils/9.5/src/users.c /usr/src/debug/coreutils/9.5/src/cksum.h /usr/src/debug/coreutils/9.5/src/make-prime-list.c /usr/src/debug/coreutils/9.5/lib/file-set.h /usr/src/debug/coreutils/9.5/src/cksum.c /usr/src/debug/coreutil
+ s/9.5/src/yes.c /usr/src/debug/coreutils/9.5/lib/fchmodat.c /usr/src/debug/coreutils/9.5/lib/file-set.c /usr/src/debug/coreutils/9.5/src/readlink.c /usr/src/debug/coreutils/9.5/src/sync.c /usr/src/debug/coreutils/9.5/lib/sm3-stream.c /usr/src/debug/coreutils/9.5/src/paste.c /usr/src/debug/coreutils/9.5/lib/randperm.c /usr/src/debug/coreutils/9.5/lib/areadlinkat-with-size.c /usr/src/debug/coreutils/9.5/lib/careadlinkat.h /usr/src/debug/coreutils/9.5/lib/gethrxtime.c /usr/src/debug/coreutils/9.5/lib/randperm.h /usr/src/debug/coreutils/9.5/lib/gethrxtime.h /usr/src/debug/coreutils/9.5/lib/careadlinkat.c /usr/src/debug/coreutils/9.5/src/expr.c /usr/src/debug/coreutils/9.5/lib/basename.c /usr/src/debug/coreutils/9.5/src/basename.c /usr/src/debug/coreutils/9.5/lib/fd-reopen.c /usr/src/debug/coreutils/9.5/lib/mcel.h /usr/src/debug/coreutils/9.5/lib/fd-reopen.h /usr/src/debug/coreutils/9.5/lib/getopt-ext.h /usr/src/debug/coreutils/9.5/src/test.c /usr/src/debug/coreutils/9.5/lib/memcasecmp.h
+  /usr/src/debug/coreutils/9.5/lib/xdectoint.h /usr/src/debug/coreutils/9.5/lib/opendir-safer.c /usr/src/debug/coreutils/9.5/lib/openat-safer.c /usr/src/debug/coreutils/9.5/lib/mbscasecmp.c /usr/src/debug/coreutils/9.5/lib/memcasecmp.c /usr/src/debug/coreutils/9.5/lib/xdectoint.c /usr/src/debug/coreutils/9.5/lib/write-any-file.c /usr/src/debug/coreutils/9.5/lib/write-any-file.h /usr/src/debug/coreutils/9.5/lib/acl.h /usr/src/debug/coreutils/9.5/lib/skipchars.h /usr/src/debug/coreutils/9.5/lib/xgethostname.h /usr/src/debug/coreutils/9.5/lib/idcache.h /usr/src/debug/coreutils/9.5/lib/ino-map.h /usr/src/debug/coreutils/9.5/lib/isapipe.h /usr/src/debug/coreutils/9.5/lib/isapipe.c /usr/src/debug/coreutils/9.5/lib/at-func.c /usr/src/debug/coreutils/9.5/lib/idcache.c /usr/src/debug/coreutils/9.5/lib/ino-map.c /usr/src/debug/coreutils/9.5/src/install.c /usr/src/debug/coreutils/9.5/src/find-mount-point.c /usr/src/debug/coreutils/9.5/src/chown-chgrp.c /usr/src/debug/coreutils/9.5/lib/fnmatch_l
+ oop.c /usr/src/debug/coreutils/9.5/lib/open-safer.c /usr/src/debug/coreutils/9.5/src/chown.h /usr/src/debug/coreutils/9.5/src/chcon.c /usr/src/debug/coreutils/9.5/src/kill.c /usr/src/debug/coreutils/9.5/src/find-mount-point.h /usr/src/debug/coreutils/9.5/src/chown.c /usr/src/debug/coreutils/9.5/lib/mgetgroups.h /usr/src/debug/coreutils/9.5/lib/base32.h /usr/src/debug/coreutils/9.5/lib/base64.h /usr/src/debug/coreutils/9.5/lib/mgetgroups.c /usr/src/debug/coreutils/9.5/src/remove.h /usr/src/debug/coreutils/9.5/lib/base32.c /usr/src/debug/coreutils/9.5/lib/base64.c /usr/src/debug/coreutils/9.5/src/basenc.c /usr/src/debug/coreutils/9.5/src/remove.c /usr/src/debug/coreutils/9.5/src/runcon.c /usr/src/debug/coreutils/9.5/src/tty.c /usr/src/debug/coreutils/9.5/src/rm.c /usr/src/debug/coreutils/9.5/src/df.c /usr/src/debug/coreutils/9.5/lib/dup-safer.c /usr/src/debug/coreutils/9.5/lib/getopt_int.h /usr/src/debug/coreutils/9.5/src/fmt.c /usr/src/debug/coreutils/9.5/lib/regex.h /usr/src/debug/c
+ oreutils/9.5/src/fs-is-local.h /usr/src/debug/coreutils/9.5/lib/close-stream.c /usr/src/debug/coreutils/9.5/lib/dup-safer-flag.c /usr/src/debug/coreutils/9.5/src/uniq.c /usr/src/debug/coreutils/9.5/lib/close-stream.h /usr/src/debug/coreutils/9.5/lib/setlocale_null-unlocked.c /usr/src/debug/coreutils/9.5/lib/localcharset.c /usr/src/debug/coreutils/9.5/lib/localcharset.h /usr/src/debug/coreutils/9.5/lib/gettime-res.c /usr/src/debug/coreutils/9.5/lib/mbswidth.c /usr/src/debug/coreutils/9.5/src/group-list.h /usr/src/debug/coreutils/9.5/src/tac.c /usr/src/debug/coreutils/9.5/lib/mbswidth.h /usr/src/debug/coreutils/9.5/src/fold.c /usr/src/debug/coreutils/9.5/src/group-list.c /usr/src/debug/coreutils/9.5/src/sum.h /usr/src/debug/coreutils/9.5/src/sum.c /usr/src/debug/coreutils/9.5/lib/hard-locale.h /usr/src/debug/coreutils/9.5/lib/sm3.c /usr/src/debug/coreutils/9.5/lib/hard-locale.c /usr/src/debug/coreutils/9.5/lib/sm3.h /usr/src/debug/coreutils/9.5/lib/freadptr.h /usr/src/debug/coreutils/
+ 9.5/lib/fd-safer.c /usr/src/debug/coreutils/9.5/lib/freadptr.c /usr/src/debug/coreutils/9.5/lib/quotearg.h /usr/src/debug/coreutils/9.5/lib/opendirat.c /usr/src/debug/coreutils/9.5/lib/opendirat.h /usr/src/debug/coreutils/9.5/lib/quotearg.c /usr/src/debug/coreutils/9.5/lib/canonicalize.h /usr/src/debug/coreutils/9.5/src/dd.c /usr/src/debug/coreutils/9.5/lib/c-strcaseeq.h /usr/src/debug/coreutils/9.5/lib/canonicalize.c /usr/src/debug/coreutils/9.5/lib/mbsrtowcs-impl.h /usr/src/debug/coreutils/9.5/src/version.h /usr/src/debug/coreutils/9.5/lib/fadvise.h /usr/src/debug/coreutils/9.5/lib/fnmatch.h /usr/src/debug/coreutils/9.5/lib/read-file.h /usr/src/debug/coreutils/9.5/lib/exitfail.c /usr/src/debug/coreutils/9.5/lib/fseterr.h /usr/src/debug/coreutils/9.5/lib/fsusage.h /usr/src/debug/coreutils/9.5/lib/ftoastr.h /usr/src/debug/coreutils/9.5/lib/read-file.c /usr/src/debug/coreutils/9.5/lib/stripslash.c /usr/src/debug/coreutils/9.5/lib/vprintf.c /usr/src/debug/coreutils/9.5/src/version.c /
+ usr/src/debug/coreutils/9.5/lib/fadvise.c /usr/src/debug/coreutils/9.5/lib/fnmatch.c /usr/src/debug/coreutils/9.5/lib/exitfail.h /usr/src/debug/coreutils/9.5/lib/freopen.c /usr/src/debug/coreutils/9.5/lib/fseterr.c /usr/src/debug/coreutils/9.5/lib/fsusage.c /usr/src/debug/coreutils/9.5/lib/ftoastr.c /usr/src/debug/coreutils/9.5/lib/cycle-check.h /usr/src/debug/coreutils/9.5/lib/cycle-check.c /usr/src/debug/coreutils/9.5/src/echo.c /usr/src/debug/coreutils/9.5/src/unexpand.c /usr/src/debug/coreutils/9.5/src/mknod.c /usr/src/debug/coreutils/9.5/lib/strnumcmp.h /usr/src/debug/coreutils/9.5/lib/backup-rename.c /usr/src/debug/coreutils/9.5/lib/af_alg.h /usr/src/debug/coreutils/9.5/lib/xgetgroups.c /usr/src/debug/coreutils/9.5/lib/i-ring.h /usr/src/debug/coreutils/9.5/lib/ialloc.h /usr/src/debug/coreutils/9.5/lib/strintcmp.c /usr/src/debug/coreutils/9.5/lib/strnumcmp.c /usr/src/debug/coreutils/9.5/lib/i-ring.c /usr/src/debug/coreutils/9.5/src/iopoll.c /usr/src/debug/coreutils/9.5/src/iopo
+ ll.h /usr/src/debug/coreutils/9.5/lib/u64.h /usr/src/debug/coreutils/9.5/lib/time.h /usr/src/debug/coreutils/9.5/src/env.c /usr/src/debug/coreutils/9.5/lib/time.c /usr/src/debug/coreutils/9.5/lib/fopen-safer.c /usr/src/debug/coreutils/9.5/lib/fcntl-safer.h /usr/src/debug/coreutils/9.5/src/getlimits.c /usr/src/debug/coreutils/9.5/lib/getopt-core.h /usr/src/debug/coreutils/9.5/src/chmod.c /usr/src/debug/coreutils/9.5/src/comm.c /usr/src/debug/coreutils/9.5/lib/priv-set.h /usr/src/debug/coreutils/9.5/lib/backup-internal.h /usr/src/debug/coreutils/9.5/lib/backup-find.c /usr/src/debug/coreutils/9.5/lib/md5-stream.c /usr/src/debug/coreutils/9.5/lib/buffer-lcm.h /usr/src/debug/coreutils/9.5/lib/tempname.h /usr/src/debug/coreutils/9.5/lib/fts.c /usr/src/debug/coreutils/9.5/lib/set-permissions.c /usr/src/debug/coreutils/9.5/lib/buffer-lcm.c /usr/src/debug/coreutils/9.5/lib/tempname.c /usr/src/debug/coreutils/9.5/src/truncate.c /usr/src/debug/coreutils/9.5/lib/utimecmp.h /usr/src/debug/coreut
+ ils/9.5/lib/utimecmp.c /usr/src/debug/coreutils/9.5/src/tail.c /usr/src/debug/coreutils/9.5/lib/xalloc-die.c /usr/src/debug/coreutils/9.5/lib/xfts.h /usr/src/debug/coreutils/9.5/lib/mkstemp-safer.c /usr/src/debug/coreutils/9.5/lib/xfts.c /usr/src/debug/coreutils/9.5/lib/regex_internal.c /usr/src/debug/coreutils/9.5/lib/regex_internal.h /usr/src/debug/coreutils/9.5/src/rmdir.c /usr/src/debug/coreutils/9.5/lib/strnlen1.c /usr/src/debug/coreutils/9.5/lib/strnlen1.h /usr/src/debug/coreutils/9.5/src/force-link.c /usr/src/debug/coreutils/9.5/src/nohup.c /usr/src/debug/coreutils/9.5/src/uname-uname.c /usr/src/debug/coreutils/9.5/lib/boot-time-aux.h /usr/src/debug/coreutils/9.5/src/force-link.h /usr/src/debug/coreutils/9.5/lib/obstack.h /usr/src/debug/coreutils/9.5/lib/hash-triple.h /usr/src/debug/coreutils/9.5/lib/xmemcoll.c /usr/src/debug/coreutils/9.5/lib/hash-triple.c /usr/src/debug/coreutils/9.5/src/wc_avx2.c /usr/src/debug/coreutils/9.5/lib/timespec.h /usr/src/debug/coreutils/9.5/lib/
+ obstack.c /usr/src/debug/coreutils/9.5/lib/getopt1.c /usr/src/debug/coreutils/9.5/lib/xmemcoll.h /usr/src/debug/coreutils/9.5/lib/gettime.c /usr/src/debug/coreutils/9.5/lib/hash-triple-simple.c /usr/src/debug/coreutils/9.5/lib/c-strcasecmp.c /usr/src/debug/coreutils/9.5/src/shuf.c /usr/src/debug/coreutils/9.5/lib/copy-file-range.c /usr/src/debug/coreutils/9.5/lib/mbsrtowcs-state.c /usr/src/debug/coreutils/9.5/lib/count-leading-zeros.h /usr/src/debug/coreutils/9.5/src/cat.c /usr/src/debug/coreutils/9.5/src/prog-fprintf.h /usr/src/debug/coreutils/9.5/lib/getugroups.h /usr/src/debug/coreutils/9.5/lib/tmpdir.h /usr/src/debug/coreutils/9.5/lib/di-set.h /usr/src/debug/coreutils/9.5/src/prog-fprintf.c /usr/src/debug/coreutils/9.5/lib/dirent.h /usr/src/debug/coreutils/9.5/lib/tmpdir.c /usr/src/debug/coreutils/9.5/src/ls-dir.c /usr/src/debug/coreutils/9.5/lib/di-set.c /usr/src/debug/coreutils/9.5/src/digest.c /usr/src/debug/coreutils/9.5/lib/human.h /usr/src/debug/coreutils/9.5/lib/human.c /
+ usr/src/debug/coreutils/9.5/lib/str-two-way.h /usr/src/debug/coreutils/9.5/lib/dirchownmod.h /usr/src/debug/coreutils/9.5/src/operand2sig.c /usr/src/debug/coreutils/9.5/lib/dirchownmod.c /usr/src/debug/coreutils/9.5/src/operand2sig.h /usr/src/debug/coreutils/9.5/lib/setlocale_null.h /usr/src/debug/coreutils/9.5/lib/xreadlink.c /usr/src/debug/coreutils/9.5/lib/setlocale_null.c /usr/src/debug/coreutils/9.5/lib/xreadlink.h /usr/src/debug/coreutils/9.5/src/shred.c /usr/src/debug/coreutils/9.5/lib/openat-priv.h /usr/src/debug/coreutils/9.5/lib/chdir-long.c /usr/src/debug/coreutils/9.5/src/seq.c /usr/src/debug/coreutils/9.5/lib/chdir-long.h /usr/src/debug/coreutils/9.5/lib/strftime.h /usr/src/debug/coreutils/9.5/lib/same.h /usr/src/debug/coreutils/9.5/lib/same.c /usr/src/debug/coreutils/9.5/lib/strftime.c /usr/src/debug/coreutils/9.5/src/set-fields.h /usr/src/debug/coreutils/9.5/lib/file-type.c /usr/src/debug/coreutils/9.5/lib/freadseek.c /usr/src/debug/coreutils/9.5/src/set-fields.c /usr
+ /src/debug/coreutils/9.5/lib/freadseek.h /usr/src/debug/coreutils/9.5/lib/file-type.h /usr/src/debug/coreutils/9.5/lib/openat-die.c /usr/src/debug/coreutils/9.5/src/printenv.c /usr/src/debug/coreutils/9.5/src/tr.c /usr/src/debug/coreutils/9.5/lib/mkancesdirs.h /usr/src/debug/coreutils/9.5/lib/dirent-safer.h /usr/src/debug/coreutils/9.5/lib/mkancesdirs.c /usr/src/debug/coreutils/9.5/lib/posixver.h /usr/src/debug/coreutils/9.5/src/ptx.c /usr/src/debug/coreutils/9.5/lib/posixver.c /usr/src/debug/coreutils/9.5/lib/cl-strtod.c /usr/src/debug/coreutils/9.5/lib/cl-strtod.h /usr/src/debug/coreutils/9.5/lib/stdio.h /usr/src/debug/coreutils/9.5/lib/printf-args.c /usr/src/debug/coreutils/9.5/lib/printf-args.h /usr/src/debug/coreutils/9.5/lib/xasprintf.c /usr/src/debug/coreutils/9.5/lib/dev-ino.h /usr/src/debug/coreutils/9.5/lib/dirname.h /usr/src/debug/coreutils/9.5/src/tee.c /usr/src/debug/coreutils/9.5/lib/dirname.c /usr/src/debug/coreutils/9.5/lib/propername-lite.c /usr/src/debug/coreutils/
+ 9.5/lib/time_rz.c /usr/src/debug/coreutils/9.5/src/dirname.c /usr/src/debug/coreutils/9.5/src/logname.c /usr/src/debug/coreutils/9.5/src/ls-vdir.c /usr/src/debug/coreutils/9.5/src/pr.c /usr/src/debug/coreutils/9.5/src/timeout.c /usr/src/debug/coreutils/9.5/lib/linebuffer.c /usr/src/debug/coreutils/9.5/lib/linebuffer.h /usr/src/debug/coreutils/9.5/src/id.c /usr/src/debug/coreutils/9.5/src/system.h /usr/src/debug/coreutils/9.5/lib/savewd.h /usr/src/debug/coreutils/9.5/lib/sha256.h /usr/src/debug/coreutils/9.5/lib/sha512.h /usr/src/debug/coreutils/9.5/lib/stdlib.h /usr/src/debug/coreutils/9.5/lib/string.h /usr/src/debug/coreutils/9.5/lib/sha256.c /usr/src/debug/coreutils/9.5/lib/sha512.c /usr/src/debug/coreutils/9.5/lib/savewd.c /usr/src/debug/coreutils/9.5/lib/strstr.c /usr/src/debug/coreutils/9.5/src/chroot.c /usr/src/debug/coreutils/9.5/src/crctab.c /usr/src/debug/coreutils/9.5/src/csplit.c /usr/src/debug/coreutils/9.5/src/stdbuf.c /usr/src/debug/coreutils/9.5/lib/fprintftime.h /usr
+ /src/debug/coreutils/9.5/src/uname.h /usr/src/debug/coreutils/9.5/lib/c-strcase.h /usr/src/debug/coreutils/9.5/lib/areadlink.c /usr/src/debug/coreutils/9.5/src/uname.c /usr/src/debug/coreutils/9.5/lib/fdutimensat.c /usr/src/debug/coreutils/9.5/lib/areadlink.h /usr/src/debug/coreutils/9.5/src/temp-stream.h /usr/src/debug/coreutils/9.5/src/who.c /usr/src/debug/coreutils/9.5/lib/asprintf.c /usr/src/debug/coreutils/9.5/src/temp-stream.c /usr/src/debug/coreutils/9.5/src/wc.h /usr/src/debug/coreutils/9.5/lib/parse-datetime.h /usr/src/debug/coreutils/9.5/src/wc.c /usr/src/debug/coreutils/9.5/lib/time-internal.h /usr/src/debug/coreutils/9.5/src/libstdbuf.c /usr/src/debug/coreutils/9.5/lib/filemode.h /usr/src/debug/coreutils/9.5/src/true.c /usr/src/debug/coreutils/9.5/lib/xgetaname-impl.h /usr/src/debug/coreutils/9.5/lib/filemode.c /usr/src/debug/coreutils/9.5/src/realpath.c /usr/src/debug/coreutils/9.5/src/stat.c /usr/src/debug/coreutils/9.5/src/mv.c /usr/src/debug/coreutils/9.5/lib/safe-wr
+ ite.h /usr/src/debug/coreutils/9.5/lib/printf-parse.c /usr/src/debug/coreutils/9.5/lib/modechange.h /usr/src/debug/coreutils/9.5/lib/fcntl.c /usr/src/debug/coreutils/9.5/lib/modechange.c /usr/src/debug/coreutils/9.5/lib/printf-parse.h /usr/src/debug/coreutils/9.5/lib/stdlib-safer.h /usr/src/debug/coreutils/9.5/lib/fcntl.h /usr/src/debug/coreutils/9.5/lib/safe-read.c /usr/src/debug/coreutils/9.5/lib/safe-read.h /usr/src/debug/coreutils/9.5/src/od.c /usr/src/debug/coreutils/9.5/lib/basename-lgpl.c /usr/src/debug/coreutils/9.5/src/ls.h /usr/src/debug/coreutils/9.5/lib/sys-limits.h /usr/src/debug/coreutils/9.5/lib/basename-lgpl.h /usr/src/debug/coreutils/9.5/lib/memcmp2.h /usr/src/debug/coreutils/9.5/lib/memcoll.h /usr/src/debug/coreutils/9.5/lib/mkdir-p.h /usr/src/debug/coreutils/9.5/lib/exclude.h /usr/src/debug/coreutils/9.5/lib/freadahead.c /usr/src/debug/coreutils/9.5/lib/memchr2.h /usr/src/debug/coreutils/9.5/lib/nproc.c /usr/src/debug/coreutils/9.5/lib/utimens.h /usr/src/debug/cor
+ eutils/9.5/src/ls.c /usr/src/debug/coreutils/9.5/src/nproc.c /usr/src/debug/coreutils/9.5/lib/mbrtowc.c /usr/src/debug/coreutils/9.5/lib/memchr2.c /usr/src/debug/coreutils/9.5/lib/memcmp2.c /usr/src/debug/coreutils/9.5/lib/memcoll.c /usr/src/debug/coreutils/9.5/lib/mkdir-p.c /usr/src/debug/coreutils/9.5/lib/exclude.c /usr/src/debug/coreutils/9.5/lib/freadahead.h /usr/src/debug/coreutils/9.5/lib/nproc.h /usr/src/debug/coreutils/9.5/lib/utimens.c /usr/src/debug/coreutils/9.5/src/sort.c /usr/src/debug/coreutils/9.5/src/unlink.c /usr/src/debug/coreutils/9.5/lib/randread.h /usr/src/debug/coreutils/9.5/lib/randread.c /usr/src/debug/coreutils/9.5/lib/verror.h /usr/src/debug/coreutils/9.5/lib/fclose.c /usr/src/debug/coreutils/9.5/lib/fflush.c /usr/src/debug/coreutils/9.5/lib/fpurge.c /usr/src/debug/coreutils/9.5/lib/fseeko.c /usr/src/debug/coreutils/9.5/lib/renameatu.c /usr/src/debug/coreutils/9.5/lib/verror.c /usr/src/debug/coreutils/9.5/src/factor.c /usr/src/debug/coreutils/9.5/src/numfmt
+ .c /usr/src/debug/coreutils/9.5/lib/renameatu.h /usr/src/debug/coreutils/9.5/lib/md5.h /usr/src/debug/coreutils/9.5/lib/futimens.c /usr/src/debug/coreutils/9.5/lib/md5.c /usr/src/debug/coreutils/9.5/lib/bitrotate.h /usr/src/debug/coreutils/9.5/src/join.c /usr/src/debug/coreutils/9.5/src/nice.c /usr/src/debug/coreutils/9.5/lib/file-has-acl.c /usr/src/debug/coreutils/9.5/lib/memset_explicit.c /usr/src/debug/coreutils/9.5/lib/same-inode.h /usr/src/debug/coreutils/9.5/lib/dirname-lgpl.c /usr/src/debug/coreutils/9.5/lib/sha1.c /usr/src/debug/coreutils/9.5/src/head.c /usr/src/debug/coreutils/9.5/lib/sha1.h /usr/src/debug/coreutils/9.5/lib/argmatch.c /usr/src/debug/coreutils/9.5/lib/readutmp.h /usr/src/debug/coreutils/9.5/lib/readutmp.c /usr/src/debug/coreutils/9.5/lib/filenamecat-lgpl.c /usr/src/debug/coreutils/9.5/lib/argmatch.h /usr/src/debug/coreutils/9.5/lib/uchar.h /usr/src/debug/coreutils/9.5/lib/full-write.c /usr/src/debug/coreutils/9.5/lib/unicodeio.h /usr/src/debug/coreutils/9.5/
+ lib/full-write.h /usr/src/debug/coreutils/9.5/lib/unicodeio.c /usr/src/debug/coreutils/9.5/lib/allocator.h /usr/src/debug/coreutils/9.5/lib/propername.h /usr/src/debug/coreutils/9.5/src/cut.c /usr/src/debug/coreutils/9.5/lib/allocator.c /usr/src/debug/coreutils/9.5/lib/vasnprintf.c /usr/src/debug/coreutils/9.5/lib/vasnprintf.h /usr/src/debug/coreutils/9.5/lib/readtokens0.h /usr/src/debug/coreutils/9.5/src/dircolors.c /usr/src/debug/coreutils/9.5/lib/stat-time.h /usr/src/debug/coreutils/9.5/lib/readtokens0.c /usr/src/debug/coreutils/9.5/src/dircolors.h /usr/src/debug/coreutils/9.5/lib/filenamecat.c /usr/src/debug/coreutils/9.5/lib/filenamecat.h /usr/src/debug/coreutils/9.5/lib/vasprintf.c /usr/src/debug/coreutils/9.5/lib/randint.h /usr/src/debug/coreutils/9.5/src/relpath.h /usr/src/debug/coreutils/9.5/lib/qset-acl.c /usr/src/debug/coreutils/9.5/lib/userspec.c /usr/src/debug/coreutils/9.5/lib/fts-cycle.c /usr/src/debug/coreutils/9.5/lib/randint.c /usr/src/debug/coreutils/9.5/lib/regco
+ mp.c /usr/src/debug/coreutils/9.5/lib/regexec.c /usr/src/debug/coreutils/9.5/lib/userspec.h /usr/src/debug/coreutils/9.5/src/relpath.c /usr/src/debug/coreutils/9.5/src/expand-common.c /usr/src/debug/coreutils/9.5/lib/xalignalloc.c /usr/src/debug/coreutils/9.5/src/expand-common.h /usr/src/debug/coreutils/9.5/lib/getndelim2.c /usr/src/debug/coreutils/9.5/lib/mpsort.h /usr/src/debug/coreutils/9.5/lib/unistd.h /usr/src/debug/coreutils/9.5/lib/unistr.h /usr/src/debug/coreutils/9.5/src/uptime.c /usr/src/debug/coreutils/9.5/lib/mbrlen.c /usr/src/debug/coreutils/9.5/lib/getndelim2.h /usr/src/debug/coreutils/9.5/lib/mbschr.c /usr/src/debug/coreutils/9.5/lib/mbslen.c /usr/src/debug/coreutils/9.5/lib/memchr.c /usr/src/debug/coreutils/9.5/lib/mpsort.c /usr/src/debug/coreutils/9.5/src/expand.c /usr/src/debug/coreutils/9.5/src/mkfifo.c /usr/src/debug/coreutils/9.5/src/mktemp.c /usr/src/debug/coreutils/9.5/lib/xstrtol-error.c /usr/src/debug/coreutils/9.5/lib/quote.h /usr/src/debug/coreutils/9.5/li
+ b/pipe2.c /usr/src/debug/coreutils/9.5/lib/xstrtol-error.h /usr/src/debug/coreutils/9.5/lib/xsize.h /usr/src/debug/coreutils/9.5/lib/xtime.h /usr/src/debug/coreutils/9.5/src/link.c /usr/src/debug/coreutils/9.5/lib/unitypes.h /usr/src/debug/coreutils/9.5/lib/argv-iter.c /usr/src/debug/coreutils/9.5/lib/heap.c /usr/src/debug/coreutils/9.5/lib/argv-iter.h /usr/src/debug/coreutils/9.5/lib/heap.h /usr/src/debug/coreutils/9.5/lib/qcopy-acl.c /usr/src/debug/coreutils/9.5/lib/areadlink-with-size.c /usr/src/debug/coreutils/9.5/src/split.c /usr/src/debug/coreutils/9.5/src/ls-ls.c /usr/src/debug/coreutils/9.5/src/chown-core.h /usr/src/debug/coreutils/9.5/lib/progname.h /usr/src/debug/coreutils/9.5/lib/yesno.h /usr/src/debug/coreutils/9.5/lib/dtotimespec.c /usr/src/debug/coreutils/9.5/lib/canon-host.h /usr/src/debug/coreutils/9.5/lib/fopen.c /usr/src/debug/coreutils/9.5/lib/progname.c /usr/src/debug/coreutils/9.5/src/chown-core.c /usr/src/debug/coreutils/9.5/lib/canon-host.c /usr/src/debug/core
+ utils/9.5/src/cp.c /usr/src/debug/coreutils/9.5/src/hostname.c /usr/src/debug/coreutils/9.5/lib/yesno.c /usr/src/debug/coreutils/9.5/src/pinky.c /usr/src/debug/coreutils/9.5/src/du.c /usr/src/debug/coreutils/9.5/lib/acl-errno-valid.c /usr/src/debug/coreutils/9.5/lib/binary-io.h /usr/src/debug/coreutils/9.5/lib/fd-safer-flag.c /usr/src/debug/coreutils/9.5/lib/alignalloc.h /usr/src/debug/coreutils/9.5/lib/unistd-safer.h /usr/src/debug/coreutils/9.5/lib/inttostr.h /usr/src/debug/coreutils/9.5/lib/long-options.c /usr/src/debug/coreutils/9.5/lib/c-file-type.c /usr/src/debug/coreutils/9.5/lib/openat-proc.c /usr/src/debug/coreutils/9.5/lib/anytostr.c /usr/src/debug/coreutils/9.5/lib/btowc.c /usr/src/debug/coreutils/9.5/lib/long-options.h /usr/src/debug/coreutils/9.5/lib/xnanosleep.h /usr/src/debug/coreutils/9.5/lib/xnanosleep.c /usr/src/debug/coreutils/9.5/src/uname-arch.c /usr/src/debug/coreutils/9.5/lib/savedir.h /usr/src/debug/coreutils/9.5/lib/c-ctype.h /usr/src/debug/coreutils/9.5/lib
+ /closein.h /usr/src/debug/coreutils/9.5/lib/sig2str.h /usr/src/debug/coreutils/9.5/src/cp-hash.h /usr/src/debug/coreutils/9.5/src/selinux.h /usr/src/debug/coreutils/9.5/lib/root-dev-ino.h /usr/src/debug/coreutils/9.5/lib/savedir.c /usr/src/debug/coreutils/9.5/lib/set-acl.c /usr/src/debug/coreutils/9.5/lib/settime.c /usr/src/debug/coreutils/9.5/lib/root-dev-ino.c /usr/src/debug/coreutils/9.5/lib/closein.c /usr/src/debug/coreutils/9.5/lib/sig2str.c /usr/src/debug/coreutils/9.5/src/cp-hash.c /usr/src/debug/coreutils/9.5/lib/hash.c /usr/src/debug/coreutils/9.5/lib/hash.h"
+packages/core2-64-poky-linux/coreutils/coreutils-src: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-src: PKGSIZE changed from 5905684 to 5937151 (+1%)
+packages/core2-64-poky-linux/coreutils/coreutils-src: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-staticdev: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-staticdev: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils-stdbuf: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils-stdbuf: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils/coreutils: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils/coreutils: PKGSIZE changed from 7669688 to 7669592 (-0%)
+packages/core2-64-poky-linux/coreutils/coreutils: PKGV changed from 9.4 [default] to 9.5 [default]
+packages/core2-64-poky-linux/coreutils: SRC_URI changed from "https://ftp.gnu.org/gnu/coreutils/coreutils-9.4.tar.xz file://remove-usr-local-lib-from-m4.patch file://0001-local.mk-fix-cross-compiling-problem.patch file://0001-posixtm-pacify-clang-18.patch file://CVE-2024-0684.patch file://run-ptest" to "https://ftp.gnu.org/gnu/coreutils/coreutils-9.5.tar.xz file://remove-usr-local-lib-from-m4.patch file://0001-local.mk-fix-cross-compiling-problem.patch file://run-ptest"
+packages/core2-64-poky-linux/coreutils: PV changed from "9.4" to "9.5"
+packages/core2-64-poky-linux/coreutils: PKGV changed from 9.4 [default] to 9.5 [default]
+
+--===============6057389124153376311==--
 
