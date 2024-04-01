@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 707E0CD12B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75191CD12B7
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:28 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.2018.1711994602980176954
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.44635.1711994601049017979
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 11:03:23 -0700
+ Mon, 01 Apr 2024 11:03:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WWWDsLcu;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=M/Z72V2z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e9ad4837c-6af763bd-e7e4-4a3a-83eb-163e74b9d1b8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bmYHQ2zk;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Ow0njk4f;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e9ad47b4d-87be1c68-e94f-41b0-a102-f76c67bfa2c0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711994602;
+	t=1711994600;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GUOJEaMFA6hH0p0NkYmpyMfPLquvxyzPCClN61+mijk=;
-	b=WWWDsLcuvabRYwdUrY1/9BSv4OQO0YYYGAQtMv/Ptyh8t+a7XVZXWYqtp6FcpCQ+
-	oZk3NtQ/L/i4XIbmrTIKJGR6z+N4FjkQzc7Zk3EZwEm1kbR8ZBxqf61/fxaTXV+6+6s
-	ZH47JBakR5EpIHje7afg9chjVg73XgHXByP35pO8=
+	bh=xUroY8jbQgZOrNpAkMX0flgdEuKqJrJBQVG3s9+2A7c=;
+	b=bmYHQ2zkSPsX0K/gusG6BZ/epq3cmi60wXRCLmH+F+lyHL4yDYQsJC3aJc8cvWYZ
+	T5Yz2lceIgaoSm7z6CiUe98p5+bw66f3PTclTKIV5FV3i0szgvFBUz+GQ0Xyxgi+dKt
+	ZUHOJUd/77jcNx6LxbXtZ45khtWejNH/jPQ5DCZE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994602;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994600;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GUOJEaMFA6hH0p0NkYmpyMfPLquvxyzPCClN61+mijk=;
-	b=M/Z72V2zVyJQWOj92+RWWzJ0wmy76gcH9D7nG/QwdEA3lbHUxe3nJ8s7XZovm08x
-	8T1j50oTV3QeZzOJ0G1gNlUCBonXOzLWK05KC5y71rZ3p0MLhk6PkySTnzOTd5qCdqQ
-	G9B09+Dmk7YfkN6c36tsWbtTB+HqB49EGBBnSXpk=
-Content-Type: multipart/mixed; boundary="===============0584036978680576745=="
+	bh=xUroY8jbQgZOrNpAkMX0flgdEuKqJrJBQVG3s9+2A7c=;
+	b=Ow0njk4faW3kRD6+3sKmDb756uQVsH9matn9WPEeBe9svrraYy32/gzRhFIglKif
+	3/F/xRUgcjXoOPD+DduoHHw2Y3izDzgI17/8EoAeGvFlI+r00M5i4tnnHU8N6dRjpj/
+	P/1arV0fPN2Dh/CDoMKngCHvW+iU2qgHGaORrwjc=
+Content-Type: multipart/mixed; boundary="===============6722969172300781774=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gtk-doc: upgrading to 1.34.0 SUCCEEDED
-Message-ID: <0101018e9ad4837c-6af763bd-e7e4-4a3a-83eb-163e74b9d1b8-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:03:22 +0000
+Subject: [AUH] ofono: upgrading to 2.5 SUCCEEDED
+Message-ID: <0101018e9ad47b4d-87be1c68-e94f-41b0-a102-f76c67bfa2c0-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:03:20 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.33
+X-SES-Outgoing: 2024.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197785
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197696
 
---===============0584036978680576745==
+--===============6722969172300781774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gtk-doc* to *1.34.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *ofono* to *2.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gtk-doc-upgrade-1.33.2-1.34.0.patch
+    - apply the patch: git am 0001-ofono-upgrade-2.4-2.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,557 +72,182 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a99a2d27d9e57d644b34577b78e6b81bea64829a Mon Sep 17 00:00:00 2001
+From a8b99d83196cf39c914598e2510f87e01bf8aa3f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 12:40:29 +0000
-Subject: [PATCH] gtk-doc: upgrade 1.33.2 -> 1.34.0
+Date: Mon, 1 Apr 2024 05:56:30 +0000
+Subject: [PATCH] ofono: upgrade 2.4 -> 2.5
 
 ---
- ...t-error-out-if-xsltproc-is-not-found.patch |  9 +++----
- ...code-paths-to-perl-python-in-scripts.patch | 23 +++++++++---------
- ...01-Don-t-use-docdir-from-environment.patch | 24 -------------------
- .../gtk-doc/files/conditionaltests.patch      | 14 ++++-------
- .../gtk-doc/files/no-clobber.patch            |  7 +++---
- .../gtk-doc/files/pkg-config-native.patch     |  3 +--
- .../{gtk-doc_1.33.2.bb => gtk-doc_1.34.0.bb}  |  3 +--
- 7 files changed, 24 insertions(+), 59 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-environment.patch
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.33.2.bb => gtk-doc_1.34.0.bb} (94%)
+ ...-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch | 5 +----
+ ...bim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch | 4 ++--
+ .../ofono/{ofono_2.4.bb => ofono_2.5.bb}                     | 2 +-
+ 3 files changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_2.4.bb => ofono_2.5.bb} (95%)
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
-index 99ae4d4417..fe3311c845 100644
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
+diff --git a/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch b/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch
+index 8a5a300adc..bb3ac6d8ea 100644
+--- a/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch
++++ b/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch
 @@ -1,4 +1,4 @@
--From 8b7fbbb405959f2868ad6eadd7dd00018758a8a5 Mon Sep 17 00:00:00 2001
-+From f8cb120d5fbfb449dd9ee6c6266b0c19cbcfaab7 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 7 Sep 2016 14:52:04 +0300
- Subject: [PATCH] Do not error out if xsltproc is not found.
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index b0c88d7..2a61d6e 100644
-+index 8725074..0491090 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -58,7 +58,7 @@ dnl Check for xsltproc
-+@@ -37,7 +37,7 @@ dnl Check for xsltproc
-  dnl
-  AC_PATH_PROG([XSLTPROC], [xsltproc])
-  if test -z "$XSLTPROC"; then
-@@ -26,6 +26,3 @@ index b0c88d7..2a61d6e 100644
-  fi
-  
-  dnl
+-From 22b52db4842611ac31a356f023fc09595384e2ad Mon Sep 17 00:00:00 2001
++From 2904457cb6cb91fe14a138f7e97e7437568e3133 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 23 May 2019 18:11:22 -0700
+ Subject: [PATCH] mbim: add an optional TEMP_FAILURE_RETRY macro copy
+@@ -31,6 +31,3 @@ index e159235..51693ea 100644
+  enum mbim_control_message {
+  	MBIM_OPEN_MSG = 0x1,
+  	MBIM_CLOSE_MSG = 0x2,
 --- 
--2.9.3
+-2.21.0
 -
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-index 19e05f1b99..8380fd88df 100644
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
+diff --git a/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch b/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch
+index 3655b3fd66..9a7710b39b 100644
+--- a/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch
++++ b/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch
 @@ -1,4 +1,4 @@
--From 80e6aff72affa6d92f5abd7ff6353dfc4a7bff38 Mon Sep 17 00:00:00 2001
-+From 084a1d8320938bbcd05cff67722376fe1feef5e5 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Aug 2016 16:44:46 +0300
- Subject: [PATCH] Do not hardocode paths to perl/python in scripts.
-@@ -9,7 +9,6 @@ on targets either.
+-From 76e4054801350ebd4a44057379431a33d460ad0f Mon Sep 17 00:00:00 2001
++From 090c45320a8eacf24e3b4d7cb2af513fbcf23f82 Mon Sep 17 00:00:00 2001
+ From: Martin Jansa <Martin.Jansa@gmail.com>
+ Date: Wed, 21 Apr 2021 11:01:34 +0000
+ Subject: [PATCH] mbim: Fix build with ell-0.39 by restoring unlikely macro
+@@ -12,7 +12,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  1 file changed, 4 insertions(+)
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  gtkdoc-check.in    | 2 +-
-  gtkdoc-depscan.in  | 2 +-
-@@ -25,7 +24,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  11 files changed, 11 insertions(+), 11 deletions(-)
+ diff --git a/drivers/mbimmodem/mbim-private.h b/drivers/mbimmodem/mbim-private.h
+-index 51693eae..d917312c 100644
++index 51693ea..d917312 100644
+ --- a/drivers/mbimmodem/mbim-private.h
+ +++ b/drivers/mbimmodem/mbim-private.h
+ @@ -30,6 +30,10 @@
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.4.bb b/meta/recipes-connectivity/ofono/ofono_2.5.bb
+similarity index 95%
+rename from meta/recipes-connectivity/ofono/ofono_2.4.bb
+rename to meta/recipes-connectivity/ofono/ofono_2.5.bb
+index dae5cc3c25..b68eb99fa5 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.4.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.5.bb
+@@ -13,7 +13,7 @@ SRC_URI = "\
+     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+     file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch \
+ "
+-SRC_URI[sha256sum] = "93580adc1afd1890dc516efb069de0c5cdfef014415256ddfb28ab172df2d11d"
++SRC_URI[sha256sum] = "0f4e0386318adba6a6a6135143fb5821ad3dfda4ffb7fa3786c7433f005b273f"
  
- diff --git a/gtkdoc-check.in b/gtkdoc-check.in
--index 8c8e917..f6a25f6 100755
-+index d9e2ad5..9ec526d 100755
- --- a/gtkdoc-check.in
- +++ b/gtkdoc-check.in
- @@ -1,4 +1,4 @@
-@@ -35,7 +34,7 @@ index 8c8e917..f6a25f6 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-depscan.in b/gtkdoc-depscan.in
--index 9bfaf30..aadc952 100755
-+index c43317c..200837c 100755
- --- a/gtkdoc-depscan.in
- +++ b/gtkdoc-depscan.in
- @@ -1,4 +1,4 @@
-@@ -45,7 +44,7 @@ index 9bfaf30..aadc952 100755
-  from __future__ import print_function
-  
- diff --git a/gtkdoc-fixxref.in b/gtkdoc-fixxref.in
--index 44f6bd1..26fbd93 100755
-+index f9c4905..ed2ead1 100755
- --- a/gtkdoc-fixxref.in
- +++ b/gtkdoc-fixxref.in
- @@ -1,4 +1,4 @@
-@@ -55,7 +54,7 @@ index 44f6bd1..26fbd93 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-mkdb.in b/gtkdoc-mkdb.in
--index 42d5731..3a56d56 100755
-+index 641f3c4..35e95fb 100755
- --- a/gtkdoc-mkdb.in
- +++ b/gtkdoc-mkdb.in
- @@ -1,4 +1,4 @@
-@@ -65,7 +64,7 @@ index 42d5731..3a56d56 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-mkhtml.in b/gtkdoc-mkhtml.in
--index 0d0a15d..914ff55 100755
-+index b09f7a9..8d45966 100755
- --- a/gtkdoc-mkhtml.in
- +++ b/gtkdoc-mkhtml.in
- @@ -1,4 +1,4 @@
-@@ -75,7 +74,7 @@ index 0d0a15d..914ff55 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-mkman.in b/gtkdoc-mkman.in
--index c5445cd..65db71a 100755
-+index 8f7b018..9bac0b6 100755
- --- a/gtkdoc-mkman.in
- +++ b/gtkdoc-mkman.in
- @@ -1,4 +1,4 @@
-@@ -85,7 +84,7 @@ index c5445cd..65db71a 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-mkpdf.in b/gtkdoc-mkpdf.in
--index e8c0c03..f807236 100755
-+index 7dca4b0..808f92d 100755
- --- a/gtkdoc-mkpdf.in
- +++ b/gtkdoc-mkpdf.in
- @@ -1,4 +1,4 @@
-@@ -95,7 +94,7 @@ index e8c0c03..f807236 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-rebase.in b/gtkdoc-rebase.in
--index 17a71c2..ec3fd28 100755
-+index e8b0bf5..a960d8f 100755
- --- a/gtkdoc-rebase.in
- +++ b/gtkdoc-rebase.in
- @@ -1,4 +1,4 @@
-@@ -105,7 +104,7 @@ index 17a71c2..ec3fd28 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-scan.in b/gtkdoc-scan.in
--index 954c811..f461504 100755
-+index 7893ebc..b7eb83d 100755
- --- a/gtkdoc-scan.in
- +++ b/gtkdoc-scan.in
- @@ -1,4 +1,4 @@
-@@ -115,7 +114,7 @@ index 954c811..f461504 100755
-  #
-  # gtk-doc - GTK DocBook documentation generator.
- diff --git a/gtkdoc-scangobj.in b/gtkdoc-scangobj.in
--index 4cbe130..52c2c24 100755
-+index 7660c70..c6ff072 100755
- --- a/gtkdoc-scangobj.in
- +++ b/gtkdoc-scangobj.in
- @@ -1,4 +1,4 @@
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-environment.patch b/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-environment.patch
-deleted file mode 100644
-index f40124877c..0000000000
---- a/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-environment.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From 72dfeec0e49478b0bfb471c4155044391bad8e6c Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Fri, 8 Dec 2023 10:35:25 +0000
--Subject: [PATCH] Don't use docdir from environment
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gtk-doc/-/merge_requests/73]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- buildsystems/autotools/gtkdocize.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/buildsystems/autotools/gtkdocize.in b/buildsystems/autotools/gtkdocize.in
--index 83127bf..76dcbfd 100755
----- a/buildsystems/autotools/gtkdocize.in
--+++ b/buildsystems/autotools/gtkdocize.in
--@@ -39,7 +39,7 @@ set - $args
-- 
-- # assume working directory if srcdir is not set
-- test "$srcdir" || srcdir=.
---test "$docdir" || docdir="$srcdir"
--+docdir="$srcdir"
-- 
-- # detect configure script
-- no_configure_found=0
-diff --git a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-index 21c2db7826..b0a38fedd9 100644
---- a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-@@ -1,23 +1,22 @@
--From 78bbf185934147a69ceb4b617d424e12e70997bf Mon Sep 17 00:00:00 2001
-+From 02f1355d9d2b1fadae7a5a378fd33bd8aa1bbdf8 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 27 Jun 2017 21:00:58 +0100
--Subject: [PATCH 3/3] gtk-doc: Handle floating gtk-doc dependency
-+Subject: [PATCH] gtk-doc: Handle floating gtk-doc dependency
- 
- Allow the tests to be explicitly disabled to avoid floating dependnecy
- issues. This is not really an issue with RSS but is on previous releases.
- 
- RP 2017/6/27
- Upstream-Status: Pending
--
- ---
-  configure.ac | 10 ++++++++++
-  1 file changed, 10 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 684e2d1..e5e3aab 100644
-+index 0491090..4270c88 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -146,6 +146,11 @@ if test "x$GCC" = "xyes"; then
-+@@ -82,6 +82,11 @@ if test "x$GCC" = "xyes"; then
-  	fi
-  fi
-  
-@@ -29,7 +28,7 @@ index 684e2d1..e5e3aab 100644
-  dnl if glib is available we can enable the tests
-  PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
-  	[	glib_prefix="`$PKG_CONFIG --variable=prefix glib-2.0`"
--@@ -156,6 +161,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
-+@@ -92,6 +97,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
-  		build_tests="no"
-  	]
-  )
-@@ -41,6 +40,3 @@ index 684e2d1..e5e3aab 100644
-  AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, test -n "$LIBTOOL" -a x$gtk_doc_use_libtool = xyes )
-  dnl this enables the rule in test/Makefile.am
-  AM_CONDITIONAL(BUILD_TESTS, test x$build_tests = xyes)
---- 
--2.14.1
--
-diff --git a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-index d1695479dc..4732b8a565 100644
---- a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-@@ -1,4 +1,4 @@
--From 8bc4c1f169f89bc5531da5b7e892b8f20e0f9a18 Mon Sep 17 00:00:00 2001
-+From 53b77d2e19f6762a21a27451276bb634e4bf7104 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 21 Mar 2018 14:47:29 +0000
- Subject: [PATCH] gtk-doc: don't regenerate gtk-doc in do_install
-@@ -20,16 +20,15 @@ files which don't already exist.
- 
- Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=794571]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
--
- ---
-  buildsystems/autotools/gtk-doc.make | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/buildsystems/autotools/gtk-doc.make b/buildsystems/autotools/gtk-doc.make
--index 7d9a27f..8cb336d 100644
-+index fb2e7e2..4f6fe2b 100644
- --- a/buildsystems/autotools/gtk-doc.make
- +++ b/buildsystems/autotools/gtk-doc.make
--@@ -111,7 +111,7 @@ setup-build.stamp:
-+@@ -112,7 +112,7 @@ setup-build.stamp:
-  	      destdir=`dirname $(abs_builddir)/$$file`; \
-  	      test -d "$$destdir" || mkdir -p "$$destdir"; \
-  	      test -f $(abs_srcdir)/$$file && \
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 1d260aa72b..bd14d765e5 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,11 +1,10 @@
--From ebb0f7313a0931f646e86badce2627eff2fa37a8 Mon Sep 17 00:00:00 2001
-+From f5dc3e7ab3d7490396a18655c115c15e201b3811 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
--
- ---
-  buildsystems/autotools/gtk-doc.m4 | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb
-similarity index 94%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb
-index 4fd5a6e925..693ae427e0 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb
-@@ -21,12 +21,11 @@ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_XSLTPROC=xsltproc"
- 
--SRC_URI[archive.sha256sum] = "cc1b709a20eb030a278a1f9842a362e00402b7f834ae1df4c1998a723152bf43"
-+SRC_URI[archive.sha256sum] = "b20b72b32a80bc18c7f975c9d4c16460c2276566a0b50f87d6852dff3aa7861c"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
-            file://no-clobber.patch \
--           file://0001-Don-t-use-docdir-from-environment.patch \
-            "
- SRC_URI:append:class-native = " file://pkg-config-native.patch"
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
  
 -- 
 2.42.0
 
 
---===============0584036978680576745==
+--===============6722969172300781774==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gtk-doc-upgrade-1.33.2-1.34.0.patch"
+Content-Disposition: attachment; filename="0001-ofono-upgrade-2.4-2.5.patch"
 
-RnJvbSBhOTlhMmQyN2Q5ZTU3ZDY0NGIzNDU3N2I3OGU2YjgxYmVhNjQ4MjlhIE1vbiBTZXAgMTcg
+RnJvbSBhOGI5OWQ4MzE5NmNmMzljOTE0NTk4ZTI1MTBmODdlMDFiZjhhYTNmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxMjo0MDoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGd0
-ay1kb2M6IHVwZ3JhZGUgMS4zMy4yIC0+IDEuMzQuMAoKLS0tCiAuLi50LWVycm9yLW91dC1pZi14
-c2x0cHJvYy1pcy1ub3QtZm91bmQucGF0Y2ggfCAgOSArKystLS0tCiAuLi5jb2RlLXBhdGhzLXRv
-LXBlcmwtcHl0aG9uLWluLXNjcmlwdHMucGF0Y2ggfCAyMyArKysrKysrKystLS0tLS0tLS0KIC4u
-LjAxLURvbi10LXVzZS1kb2NkaXItZnJvbS1lbnZpcm9ubWVudC5wYXRjaCB8IDI0IC0tLS0tLS0t
-LS0tLS0tLS0tLS0KIC4uLi9ndGstZG9jL2ZpbGVzL2NvbmRpdGlvbmFsdGVzdHMucGF0Y2ggICAg
-ICB8IDE0ICsrKystLS0tLS0tCiAuLi4vZ3RrLWRvYy9maWxlcy9uby1jbG9iYmVyLnBhdGNoICAg
-ICAgICAgICAgfCAgNyArKystLS0KIC4uLi9ndGstZG9jL2ZpbGVzL3BrZy1jb25maWctbmF0aXZl
-LnBhdGNoICAgICB8ICAzICstLQogLi4uL3tndGstZG9jXzEuMzMuMi5iYiA9PiBndGstZG9jXzEu
-MzQuMC5iYn0gIHwgIDMgKy0tCiA3IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDU5
-IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1nbm9tZS9ndGst
-ZG9jL2ZpbGVzLzAwMDEtRG9uLXQtdXNlLWRvY2Rpci1mcm9tLWVudmlyb25tZW50LnBhdGNoCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2Mve2d0ay1kb2NfMS4zMy4yLmJiID0+IGd0
-ay1kb2NfMS4zNC4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9n
-dGstZG9jL2ZpbGVzLzAwMDEtRG8tbm90LWVycm9yLW91dC1pZi14c2x0cHJvYy1pcy1ub3QtZm91
-bmQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrLWRvYy9maWxlcy8wMDAxLURvLW5vdC1l
-cnJvci1vdXQtaWYteHNsdHByb2MtaXMtbm90LWZvdW5kLnBhdGNoCmluZGV4IDk5YWU0ZDQ0MTcu
-LmZlMzMxMWM4NDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2ZpbGVz
-LzAwMDEtRG8tbm90LWVycm9yLW91dC1pZi14c2x0cHJvYy1pcy1ub3QtZm91bmQucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvMDAwMS1Eby1ub3QtZXJyb3Itb3V0
-LWlmLXhzbHRwcm9jLWlzLW5vdC1mb3VuZC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOGI3
-ZmJiYjQwNTk1OWYyODY4YWQ2ZWFkZDdkZDAwMDE4NzU4YThhNSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gZjhjYjEyMGQ1ZmJmYjQ0OWRkOWVlNmM2MjY2YjBjMTljYmNmYWFiNyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
-aW5AZ21haWwuY29tPgogRGF0ZTogV2VkLCA3IFNlcCAyMDE2IDE0OjUyOjA0ICswMzAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIERvIG5vdCBlcnJvciBvdXQgaWYgeHNsdHByb2MgaXMgbm90IGZvdW5kLgpA
-QCAtMTQsMTAgKzE0LDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1p
-bmRleCBiMGM4OGQ3Li4yYTYxZDZlIDEwMDY0NAoraW5kZXggODcyNTA3NC4uMDQ5MTA5MCAxMDA2
-NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCi1AQCAtNTgsNyArNTgs
-NyBAQCBkbmwgQ2hlY2sgZm9yIHhzbHRwcm9jCitAQCAtMzcsNyArMzcsNyBAQCBkbmwgQ2hlY2sg
-Zm9yIHhzbHRwcm9jCiAgZG5sCiAgQUNfUEFUSF9QUk9HKFtYU0xUUFJPQ10sIFt4c2x0cHJvY10p
-CiAgaWYgdGVzdCAteiAiJFhTTFRQUk9DIjsgdGhlbgpAQCAtMjYsNiArMjYsMyBAQCBpbmRleCBi
-MGM4OGQ3Li4yYTYxZDZlIDEwMDY0NAogIGZpCiAgCiAgZG5sCi0tLSAKLTIuOS4zCi0KZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2ZpbGVzLzAwMDEtRG8tbm90LWhhcmRv
-Y29kZS1wYXRocy10by1wZXJsLXB5dGhvbi1pbi1zY3JpcHRzLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWdub21lL2d0ay1kb2MvZmlsZXMvMDAwMS1Eby1ub3QtaGFyZG9jb2RlLXBhdGhzLXRvLXBlcmwt
-cHl0aG9uLWluLXNjcmlwdHMucGF0Y2gKaW5kZXggMTllMDVmMWI5OS4uODM4MGZkODhkZiAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvMDAwMS1Eby1ub3QtaGFy
-ZG9jb2RlLXBhdGhzLXRvLXBlcmwtcHl0aG9uLWluLXNjcmlwdHMucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvMDAwMS1Eby1ub3QtaGFyZG9jb2RlLXBhdGhzLXRv
-LXBlcmwtcHl0aG9uLWluLXNjcmlwdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDgwZTZh
-ZmY3MmFmZmE2ZDkyZjVhYmQ3ZmY2MzUzZGZjNGE3YmZmMzggTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDA4NGExZDgzMjA5MzhiYmNkMDVjZmY2NzcyMjM3NmZlMWZlZWY1ZTUgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMzEgQXVnIDIwMTYgMTY6NDQ6NDYgKzAzMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gRG8gbm90IGhhcmRvY29kZSBwYXRocyB0byBwZXJsL3B5dGhvbiBpbiBzY3Jp
-cHRzLgpAQCAtOSw3ICs5LDYgQEAgb24gdGFyZ2V0cyBlaXRoZXIuCiAKIFVwc3RyZWFtLVN0YXR1
-czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IEFsZXhh
-bmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgotCiAtLS0KICBndGtkb2MtY2hl
-Y2suaW4gICAgfCAyICstCiAgZ3RrZG9jLWRlcHNjYW4uaW4gIHwgMiArLQpAQCAtMjUsNyArMjQs
-NyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
-LmNvbT4KICAxMSBmaWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMo
-LSkKIAogZGlmZiAtLWdpdCBhL2d0a2RvYy1jaGVjay5pbiBiL2d0a2RvYy1jaGVjay5pbgotaW5k
-ZXggOGM4ZTkxNy4uZjZhMjVmNiAxMDA3NTUKK2luZGV4IGQ5ZTJhZDUuLjllYzUyNmQgMTAwNzU1
-CiAtLS0gYS9ndGtkb2MtY2hlY2suaW4KICsrKyBiL2d0a2RvYy1jaGVjay5pbgogQEAgLTEsNCAr
-MSw0IEBACkBAIC0zNSw3ICszNCw3IEBAIGluZGV4IDhjOGU5MTcuLmY2YTI1ZjYgMTAwNzU1CiAg
-IwogICMgZ3RrLWRvYyAtIEdUSyBEb2NCb29rIGRvY3VtZW50YXRpb24gZ2VuZXJhdG9yLgogZGlm
-ZiAtLWdpdCBhL2d0a2RvYy1kZXBzY2FuLmluIGIvZ3RrZG9jLWRlcHNjYW4uaW4KLWluZGV4IDli
-ZmFmMzAuLmFhZGM5NTIgMTAwNzU1CitpbmRleCBjNDMzMTdjLi4yMDA4MzdjIDEwMDc1NQogLS0t
-IGEvZ3RrZG9jLWRlcHNjYW4uaW4KICsrKyBiL2d0a2RvYy1kZXBzY2FuLmluCiBAQCAtMSw0ICsx
-LDQgQEAKQEAgLTQ1LDcgKzQ0LDcgQEAgaW5kZXggOWJmYWYzMC4uYWFkYzk1MiAxMDA3NTUKICBm
-cm9tIF9fZnV0dXJlX18gaW1wb3J0IHByaW50X2Z1bmN0aW9uCiAgCiBkaWZmIC0tZ2l0IGEvZ3Rr
-ZG9jLWZpeHhyZWYuaW4gYi9ndGtkb2MtZml4eHJlZi5pbgotaW5kZXggNDRmNmJkMS4uMjZmYmQ5
-MyAxMDA3NTUKK2luZGV4IGY5YzQ5MDUuLmVkMmVhZDEgMTAwNzU1CiAtLS0gYS9ndGtkb2MtZml4
-eHJlZi5pbgogKysrIGIvZ3RrZG9jLWZpeHhyZWYuaW4KIEBAIC0xLDQgKzEsNCBAQApAQCAtNTUs
-NyArNTQsNyBAQCBpbmRleCA0NGY2YmQxLi4yNmZiZDkzIDEwMDc1NQogICMKICAjIGd0ay1kb2Mg
-LSBHVEsgRG9jQm9vayBkb2N1bWVudGF0aW9uIGdlbmVyYXRvci4KIGRpZmYgLS1naXQgYS9ndGtk
-b2MtbWtkYi5pbiBiL2d0a2RvYy1ta2RiLmluCi1pbmRleCA0MmQ1NzMxLi4zYTU2ZDU2IDEwMDc1
-NQoraW5kZXggNjQxZjNjNC4uMzVlOTVmYiAxMDA3NTUKIC0tLSBhL2d0a2RvYy1ta2RiLmluCiAr
-KysgYi9ndGtkb2MtbWtkYi5pbgogQEAgLTEsNCArMSw0IEBACkBAIC02NSw3ICs2NCw3IEBAIGlu
-ZGV4IDQyZDU3MzEuLjNhNTZkNTYgMTAwNzU1CiAgIwogICMgZ3RrLWRvYyAtIEdUSyBEb2NCb29r
-IGRvY3VtZW50YXRpb24gZ2VuZXJhdG9yLgogZGlmZiAtLWdpdCBhL2d0a2RvYy1ta2h0bWwuaW4g
-Yi9ndGtkb2MtbWtodG1sLmluCi1pbmRleCAwZDBhMTVkLi45MTRmZjU1IDEwMDc1NQoraW5kZXgg
-YjA5ZjdhOS4uOGQ0NTk2NiAxMDA3NTUKIC0tLSBhL2d0a2RvYy1ta2h0bWwuaW4KICsrKyBiL2d0
-a2RvYy1ta2h0bWwuaW4KIEBAIC0xLDQgKzEsNCBAQApAQCAtNzUsNyArNzQsNyBAQCBpbmRleCAw
-ZDBhMTVkLi45MTRmZjU1IDEwMDc1NQogICMKICAjIGd0ay1kb2MgLSBHVEsgRG9jQm9vayBkb2N1
-bWVudGF0aW9uIGdlbmVyYXRvci4KIGRpZmYgLS1naXQgYS9ndGtkb2MtbWttYW4uaW4gYi9ndGtk
-b2MtbWttYW4uaW4KLWluZGV4IGM1NDQ1Y2QuLjY1ZGI3MWEgMTAwNzU1CitpbmRleCA4ZjdiMDE4
-Li45YmFjMGI2IDEwMDc1NQogLS0tIGEvZ3RrZG9jLW1rbWFuLmluCiArKysgYi9ndGtkb2MtbWtt
-YW4uaW4KIEBAIC0xLDQgKzEsNCBAQApAQCAtODUsNyArODQsNyBAQCBpbmRleCBjNTQ0NWNkLi42
-NWRiNzFhIDEwMDc1NQogICMKICAjIGd0ay1kb2MgLSBHVEsgRG9jQm9vayBkb2N1bWVudGF0aW9u
-IGdlbmVyYXRvci4KIGRpZmYgLS1naXQgYS9ndGtkb2MtbWtwZGYuaW4gYi9ndGtkb2MtbWtwZGYu
-aW4KLWluZGV4IGU4YzBjMDMuLmY4MDcyMzYgMTAwNzU1CitpbmRleCA3ZGNhNGIwLi44MDhmOTJk
-IDEwMDc1NQogLS0tIGEvZ3RrZG9jLW1rcGRmLmluCiArKysgYi9ndGtkb2MtbWtwZGYuaW4KIEBA
-IC0xLDQgKzEsNCBAQApAQCAtOTUsNyArOTQsNyBAQCBpbmRleCBlOGMwYzAzLi5mODA3MjM2IDEw
-MDc1NQogICMKICAjIGd0ay1kb2MgLSBHVEsgRG9jQm9vayBkb2N1bWVudGF0aW9uIGdlbmVyYXRv
-ci4KIGRpZmYgLS1naXQgYS9ndGtkb2MtcmViYXNlLmluIGIvZ3RrZG9jLXJlYmFzZS5pbgotaW5k
-ZXggMTdhNzFjMi4uZWMzZmQyOCAxMDA3NTUKK2luZGV4IGU4YjBiZjUuLmE5NjBkOGYgMTAwNzU1
-CiAtLS0gYS9ndGtkb2MtcmViYXNlLmluCiArKysgYi9ndGtkb2MtcmViYXNlLmluCiBAQCAtMSw0
-ICsxLDQgQEAKQEAgLTEwNSw3ICsxMDQsNyBAQCBpbmRleCAxN2E3MWMyLi5lYzNmZDI4IDEwMDc1
-NQogICMKICAjIGd0ay1kb2MgLSBHVEsgRG9jQm9vayBkb2N1bWVudGF0aW9uIGdlbmVyYXRvci4K
-IGRpZmYgLS1naXQgYS9ndGtkb2Mtc2Nhbi5pbiBiL2d0a2RvYy1zY2FuLmluCi1pbmRleCA5NTRj
-ODExLi5mNDYxNTA0IDEwMDc1NQoraW5kZXggNzg5M2ViYy4uYjdlYjgzZCAxMDA3NTUKIC0tLSBh
-L2d0a2RvYy1zY2FuLmluCiArKysgYi9ndGtkb2Mtc2Nhbi5pbgogQEAgLTEsNCArMSw0IEBACkBA
-IC0xMTUsNyArMTE0LDcgQEAgaW5kZXggOTU0YzgxMS4uZjQ2MTUwNCAxMDA3NTUKICAjCiAgIyBn
-dGstZG9jIC0gR1RLIERvY0Jvb2sgZG9jdW1lbnRhdGlvbiBnZW5lcmF0b3IuCiBkaWZmIC0tZ2l0
-IGEvZ3RrZG9jLXNjYW5nb2JqLmluIGIvZ3RrZG9jLXNjYW5nb2JqLmluCi1pbmRleCA0Y2JlMTMw
-Li41MmMyYzI0IDEwMDc1NQoraW5kZXggNzY2MGM3MC4uYzZmZjA3MiAxMDA3NTUKIC0tLSBhL2d0
-a2RvYy1zY2FuZ29iai5pbgogKysrIGIvZ3RrZG9jLXNjYW5nb2JqLmluCiBAQCAtMSw0ICsxLDQg
-QEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2ZpbGVzLzAwMDEtRG9u
-LXQtdXNlLWRvY2Rpci1mcm9tLWVudmlyb25tZW50LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21l
-L2d0ay1kb2MvZmlsZXMvMDAwMS1Eb24tdC11c2UtZG9jZGlyLWZyb20tZW52aXJvbm1lbnQucGF0
-Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGY0MDEyNDg3N2MuLjAwMDAwMDAwMDAK
-LS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvMDAwMS1Eb24tdC11c2UtZG9j
-ZGlyLWZyb20tZW52aXJvbm1lbnQucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwyNCArMCwwIEBA
-Ci1Gcm9tIDcyZGZlZWMwZTQ5NDc4YjBiZmI0NzFjNDE1NTA0NDM5MWJhZDhlNmMgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCi1Gcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4K
-LURhdGU6IEZyaSwgOCBEZWMgMjAyMyAxMDozNToyNSArMDAwMAotU3ViamVjdDogW1BBVENIXSBE
-b24ndCB1c2UgZG9jZGlyIGZyb20gZW52aXJvbm1lbnQKLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJt
-aXR0ZWQgW2h0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9ndGstZG9jLy0vbWVyZ2VfcmVx
-dWVzdHMvNzNdCi1TaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNv
-bT4KLS0tLQotIGJ1aWxkc3lzdGVtcy9hdXRvdG9vbHMvZ3RrZG9jaXplLmluIHwgMiArLQotIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0
-IGEvYnVpbGRzeXN0ZW1zL2F1dG90b29scy9ndGtkb2NpemUuaW4gYi9idWlsZHN5c3RlbXMvYXV0
-b3Rvb2xzL2d0a2RvY2l6ZS5pbgotaW5kZXggODMxMjdiZi4uNzZkY2JmZCAxMDA3NTUKLS0tLSBh
-L2J1aWxkc3lzdGVtcy9hdXRvdG9vbHMvZ3RrZG9jaXplLmluCi0rKysgYi9idWlsZHN5c3RlbXMv
-YXV0b3Rvb2xzL2d0a2RvY2l6ZS5pbgotQEAgLTM5LDcgKzM5LDcgQEAgc2V0IC0gJGFyZ3MKLSAK
-LSAjIGFzc3VtZSB3b3JraW5nIGRpcmVjdG9yeSBpZiBzcmNkaXIgaXMgbm90IHNldAotIHRlc3Qg
-IiRzcmNkaXIiIHx8IHNyY2Rpcj0uCi0tdGVzdCAiJGRvY2RpciIgfHwgZG9jZGlyPSIkc3JjZGly
-IgotK2RvY2Rpcj0iJHNyY2RpciIKLSAKLSAjIGRldGVjdCBjb25maWd1cmUgc2NyaXB0Ci0gbm9f
-Y29uZmlndXJlX2ZvdW5kPTAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9j
-L2ZpbGVzL2NvbmRpdGlvbmFsdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrLWRv
-Yy9maWxlcy9jb25kaXRpb25hbHRlc3RzLnBhdGNoCmluZGV4IDIxYzJkYjc4MjYuLmIwYTM4ZmVk
-ZDkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2ZpbGVzL2NvbmRpdGlv
-bmFsdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvY29u
-ZGl0aW9uYWx0ZXN0cy5wYXRjaApAQCAtMSwyMyArMSwyMiBAQAotRnJvbSA3OGJiZjE4NTkzNDE0
-N2E2OWNlYjRiNjE3ZDQyNGUxMmU3MDk5N2JmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSAwMmYxMzU1ZDlkMmIxZmFkYWU3YTVhMzc4ZmQzM2JkOGFhMWJiZGY4IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
-bmRhdGlvbi5vcmc+CiBEYXRlOiBUdWUsIDI3IEp1biAyMDE3IDIxOjAwOjU4ICswMTAwCi1TdWJq
-ZWN0OiBbUEFUQ0ggMy8zXSBndGstZG9jOiBIYW5kbGUgZmxvYXRpbmcgZ3RrLWRvYyBkZXBlbmRl
-bmN5CitTdWJqZWN0OiBbUEFUQ0hdIGd0ay1kb2M6IEhhbmRsZSBmbG9hdGluZyBndGstZG9jIGRl
-cGVuZGVuY3kKIAogQWxsb3cgdGhlIHRlc3RzIHRvIGJlIGV4cGxpY2l0bHkgZGlzYWJsZWQgdG8g
-YXZvaWQgZmxvYXRpbmcgZGVwZW5kbmVjeQogaXNzdWVzLiBUaGlzIGlzIG5vdCByZWFsbHkgYW4g
-aXNzdWUgd2l0aCBSU1MgYnV0IGlzIG9uIHByZXZpb3VzIHJlbGVhc2VzLgogCiBSUCAyMDE3LzYv
-MjcKIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwotCiAtLS0KICBjb25maWd1cmUuYWMgfCAxMCAr
-KysrKysrKysrCiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKykKIAogZGlmZiAtLWdp
-dCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXggNjg0ZTJkMS4uZTVlM2FhYiAx
-MDA2NDQKK2luZGV4IDA0OTEwOTAuLjQyNzBjODggMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMK
-ICsrKyBiL2NvbmZpZ3VyZS5hYwotQEAgLTE0Niw2ICsxNDYsMTEgQEAgaWYgdGVzdCAieCRHQ0Mi
-ID0gInh5ZXMiOyB0aGVuCitAQCAtODIsNiArODIsMTEgQEAgaWYgdGVzdCAieCRHQ0MiID0gInh5
-ZXMiOyB0aGVuCiAgCWZpCiAgZmkKICAKQEAgLTI5LDcgKzI4LDcgQEAgaW5kZXggNjg0ZTJkMS4u
-ZTVlM2FhYiAxMDA2NDQKICBkbmwgaWYgZ2xpYiBpcyBhdmFpbGFibGUgd2UgY2FuIGVuYWJsZSB0
-aGUgdGVzdHMKICBQS0dfQ0hFQ0tfTU9EVUxFUyhURVNUX0RFUFMsIFtnbGliLTIuMCA+PSAyLjYu
-MCBnb2JqZWN0LTIuMCA+PSAyLjYuMF0sCiAgCVsJZ2xpYl9wcmVmaXg9ImAkUEtHX0NPTkZJRyAt
-LXZhcmlhYmxlPXByZWZpeCBnbGliLTIuMGAiCi1AQCAtMTU2LDYgKzE2MSwxMSBAQCBQS0dfQ0hF
-Q0tfTU9EVUxFUyhURVNUX0RFUFMsIFtnbGliLTIuMCA+PSAyLjYuMCBnb2JqZWN0LTIuMCA+PSAy
-LjYuMF0sCitAQCAtOTIsNiArOTcsMTEgQEAgUEtHX0NIRUNLX01PRFVMRVMoVEVTVF9ERVBTLCBb
-Z2xpYi0yLjAgPj0gMi42LjAgZ29iamVjdC0yLjAgPj0gMi42LjBdLAogIAkJYnVpbGRfdGVzdHM9
-Im5vIgogIAldCiAgKQpAQCAtNDEsNiArNDAsMyBAQCBpbmRleCA2ODRlMmQxLi5lNWUzYWFiIDEw
-MDY0NAogIEFNX0NPTkRJVElPTkFMKEdUS19ET0NfVVNFX0xJQlRPT0wsIHRlc3QgLW4gIiRMSUJU
-T09MIiAtYSB4JGd0a19kb2NfdXNlX2xpYnRvb2wgPSB4eWVzICkKICBkbmwgdGhpcyBlbmFibGVz
-IHRoZSBydWxlIGluIHRlc3QvTWFrZWZpbGUuYW0KICBBTV9DT05ESVRJT05BTChCVUlMRF9URVNU
-UywgdGVzdCB4JGJ1aWxkX3Rlc3RzID0geHllcykKLS0tIAotMi4xNC4xCi0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2ZpbGVzL25vLWNsb2JiZXIucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvZ3RrLWRvYy9maWxlcy9uby1jbG9iYmVyLnBhdGNoCmluZGV4IGQxNjk1
-NDc5ZGMuLjQ3MzJiOGE1NjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9j
-L2ZpbGVzL25vLWNsb2JiZXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2Mv
-ZmlsZXMvbm8tY2xvYmJlci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOGJjNGMxZjE2OWY4
-OWJjNTUzMWRhNWI3ZTg5MmI4ZjIwZTBmOWExOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gNTNiNzdkMmUxOWY2NzYyYTIxYTI3NDUxMjc2YmI2MzRlNGJmNzEwNCBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBE
-YXRlOiBXZWQsIDIxIE1hciAyMDE4IDE0OjQ3OjI5ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGd0
-ay1kb2M6IGRvbid0IHJlZ2VuZXJhdGUgZ3RrLWRvYyBpbiBkb19pbnN0YWxsCkBAIC0yMCwxNiAr
-MjAsMTUgQEAgZmlsZXMgd2hpY2ggZG9uJ3QgYWxyZWFkeSBleGlzdC4KIAogVXBzdHJlYW0tU3Rh
-dHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vYnVnemlsbGEuZ25vbWUub3JnL3Nob3dfYnVnLmNnaT9p
-ZD03OTQ1NzFdCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwu
-Y29tPgotCiAtLS0KICBidWlsZHN5c3RlbXMvYXV0b3Rvb2xzL2d0ay1kb2MubWFrZSB8IDIgKy0K
-ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAt
-LWdpdCBhL2J1aWxkc3lzdGVtcy9hdXRvdG9vbHMvZ3RrLWRvYy5tYWtlIGIvYnVpbGRzeXN0ZW1z
-L2F1dG90b29scy9ndGstZG9jLm1ha2UKLWluZGV4IDdkOWEyN2YuLjhjYjMzNmQgMTAwNjQ0Citp
-bmRleCBmYjJlN2UyLi40ZjZmZTJiIDEwMDY0NAogLS0tIGEvYnVpbGRzeXN0ZW1zL2F1dG90b29s
-cy9ndGstZG9jLm1ha2UKICsrKyBiL2J1aWxkc3lzdGVtcy9hdXRvdG9vbHMvZ3RrLWRvYy5tYWtl
-Ci1AQCAtMTExLDcgKzExMSw3IEBAIHNldHVwLWJ1aWxkLnN0YW1wOgorQEAgLTExMiw3ICsxMTIs
-NyBAQCBzZXR1cC1idWlsZC5zdGFtcDoKICAJICAgICAgZGVzdGRpcj1gZGlybmFtZSAkKGFic19i
-dWlsZGRpcikvJCRmaWxlYDsgXAogIAkgICAgICB0ZXN0IC1kICIkJGRlc3RkaXIiIHx8IG1rZGly
-IC1wICIkJGRlc3RkaXIiOyBcCiAgCSAgICAgIHRlc3QgLWYgJChhYnNfc3JjZGlyKS8kJGZpbGUg
-JiYgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZmlsZXMvcGtnLWNv
-bmZpZy1uYXRpdmUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrLWRvYy9maWxlcy9wa2ct
-Y29uZmlnLW5hdGl2ZS5wYXRjaAppbmRleCAxZDI2MGFhNzJiLi5iZDE0ZDc2NWU1IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrLWRvYy9maWxlcy9wa2ctY29uZmlnLW5hdGl2ZS5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrLWRvYy9maWxlcy9wa2ctY29uZmlnLW5h
-dGl2ZS5wYXRjaApAQCAtMSwxMSArMSwxMCBAQAotRnJvbSBlYmIwZjczMTNhMDkzMWY2NDZlODZi
-YWRjZTI2MjdlZmYyZmEzN2E4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmNWRjM2U3
-YWIzZDc0OTAzOTZhMTg2NTVjMTE1YzE1ZTIwMWIzODExIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IE1vbiwg
-NSBTZXAgMjAxNiAyMjoyNTo0NCArMDEwMAogU3ViamVjdDogW1BBVENIXSBVc2UgbmF0aXZlIHBr
-Zy1jb25maWcgd2hlbiBsb29raW5nIGZvciBndGstZG9jLgogCiBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUKIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRl
-bC5jb20+Ci0KIC0tLQogIGJ1aWxkc3lzdGVtcy9hdXRvdG9vbHMvZ3RrLWRvYy5tNCB8IDcgKysr
-KysrLQogIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2d0ay1kb2NfMS4zMy4yLmJiIGIv
-bWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZ3RrLWRvY18xLjM0LjAuYmIKc2ltaWxhcml0eSBp
-bmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2d0ay1kb2MvZ3RrLWRvY18x
-LjMzLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9ndGstZG9jL2d0ay1kb2NfMS4z
-NC4wLmJiCmluZGV4IDRmZDVhNmU5MjUuLjY5M2FlNDI3ZTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1nbm9tZS9ndGstZG9jL2d0ay1kb2NfMS4zMy4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
-bm9tZS9ndGstZG9jL2d0ay1kb2NfMS4zNC4wLmJiCkBAIC0yMSwxMiArMjEsMTEgQEAgUEFDS0FH
-RUNPTkZJR1t0ZXN0c10gPSAiLS1lbmFibGUtdGVzdHMsLS1kaXNhYmxlLXRlc3RzLGdsaWItMi4w
-IgogCiBDQUNIRURfQ09ORklHVVJFVkFSUyArPSAiYWNfY3ZfcGF0aF9YU0xUUFJPQz14c2x0cHJv
-YyIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiY2MxYjcwOWEyMGViMDMwYTI3OGEx
-Zjk4NDJhMzYyZTAwNDAyYjdmODM0YWUxZGY0YzE5OThhNzIzMTUyYmY0MyIKK1NSQ19VUklbYXJj
-aGl2ZS5zaGEyNTZzdW1dID0gImIyMGI3MmIzMmE4MGJjMThjN2Y5NzVjOWQ0YzE2NDYwYzIyNzY1
-NjZhMGI1MGY4N2Q2ODUyZGZmM2FhNzg2MWMiCiBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS1Eby1u
-b3QtaGFyZG9jb2RlLXBhdGhzLXRvLXBlcmwtcHl0aG9uLWluLXNjcmlwdHMucGF0Y2ggXAogICAg
-ICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3QtZXJyb3Itb3V0LWlmLXhzbHRwcm9jLWlzLW5vdC1m
-b3VuZC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9jb25kaXRpb25hbHRlc3RzLnBhdGNoIFwK
-ICAgICAgICAgICAgZmlsZTovL25vLWNsb2JiZXIucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8v
-MDAwMS1Eb24tdC11c2UtZG9jZGlyLWZyb20tZW52aXJvbm1lbnQucGF0Y2ggXAogICAgICAgICAg
-ICAiCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly9wa2ctY29uZmlnLW5h
-dGl2ZS5wYXRjaCIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwNTo1NjozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9m
+b25vOiB1cGdyYWRlIDIuNCAtPiAyLjUKCi0tLQogLi4uLW1iaW0tYWRkLWFuLW9wdGlvbmFsLVRF
+TVBfRkFJTFVSRV9SRVRSWS1tYWNyby1jb3B5LnBhdGNoIHwgNSArLS0tLQogLi4uYmltLUZpeC1i
+dWlsZC13aXRoLWVsbC0wLjM5LWJ5LXJlc3RvcmluZy11bmxpa2VseS1tLnBhdGNoIHwgNCArKy0t
+CiAuLi4vb2Zvbm8ve29mb25vXzIuNC5iYiA9PiBvZm9ub18yLjUuYmJ9ICAgICAgICAgICAgICAg
+ICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL3tvZm9ub18yLjQu
+YmIgPT4gb2Zvbm9fMi41LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvb2Zvbm8vb2Zvbm8vMDAwMS1tYmltLWFkZC1hbi1vcHRpb25hbC1URU1QX0ZBSUxV
+UkVfUkVUUlktbWFjcm8tY29weS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zv
+bm8vb2Zvbm8vMDAwMS1tYmltLWFkZC1hbi1vcHRpb25hbC1URU1QX0ZBSUxVUkVfUkVUUlktbWFj
+cm8tY29weS5wYXRjaAppbmRleCA4YTVhMzAwYWRjLi5iYjNhYzZkOGVhIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vLzAwMDEtbWJpbS1hZGQtYW4tb3B0
+aW9uYWwtVEVNUF9GQUlMVVJFX1JFVFJZLW1hY3JvLWNvcHkucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9uby8wMDAxLW1iaW0tYWRkLWFuLW9wdGlvbmFsLVRF
+TVBfRkFJTFVSRV9SRVRSWS1tYWNyby1jb3B5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAy
+MmI1MmRiNDg0MjYxMWFjMzFhMzU2ZjAyM2ZjMDk1OTUzODRlMmFkIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSAyOTA0NDU3Y2I2Y2I5MWZlMTRhMTM4ZjdlOTdlNzQzNzU2OGUzMTMzIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
+bT4KIERhdGU6IFRodSwgMjMgTWF5IDIwMTkgMTg6MTE6MjIgLTA3MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gbWJpbTogYWRkIGFuIG9wdGlvbmFsIFRFTVBfRkFJTFVSRV9SRVRSWSBtYWNybyBjb3B5CkBA
+IC0zMSw2ICszMSwzIEBAIGluZGV4IGUxNTkyMzUuLjUxNjkzZWEgMTAwNjQ0CiAgZW51bSBtYmlt
+X2NvbnRyb2xfbWVzc2FnZSB7CiAgCU1CSU1fT1BFTl9NU0cgPSAweDEsCiAgCU1CSU1fQ0xPU0Vf
+TVNHID0gMHgyLAotLS0gCi0yLjIxLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vZm9uby9vZm9uby8wMDAyLW1iaW0tRml4LWJ1aWxkLXdpdGgtZWxsLTAuMzktYnkt
+cmVzdG9yaW5nLXVubGlrZWx5LW0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29m
+b25vL29mb25vLzAwMDItbWJpbS1GaXgtYnVpbGQtd2l0aC1lbGwtMC4zOS1ieS1yZXN0b3Jpbmct
+dW5saWtlbHktbS5wYXRjaAppbmRleCAzNjU1YjNmZDY2Li45YTc3MTBiMzliIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vLzAwMDItbWJpbS1GaXgtYnVp
+bGQtd2l0aC1lbGwtMC4zOS1ieS1yZXN0b3JpbmctdW5saWtlbHktbS5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vLzAwMDItbWJpbS1GaXgtYnVpbGQtd2l0
+aC1lbGwtMC4zOS1ieS1yZXN0b3JpbmctdW5saWtlbHktbS5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
+LUZyb20gNzZlNDA1NDgwMTM1MGViZDRhNDQwNTczNzk0MzFhMzNkNDYwYWQwZiBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKK0Zyb20gMDkwYzQ1MzIwYThlYWNmMjRlM2I0ZDdjYjJhZjUxM2ZiY2Yy
+M2Y4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1hcnRpbiBKYW5zYSA8TWFydGlu
+LkphbnNhQGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMjEgQXByIDIwMjEgMTE6MDE6MzQgKzAwMDAK
+IFN1YmplY3Q6IFtQQVRDSF0gbWJpbTogRml4IGJ1aWxkIHdpdGggZWxsLTAuMzkgYnkgcmVzdG9y
+aW5nIHVubGlrZWx5IG1hY3JvCkBAIC0xMiw3ICsxMiw3IEBAIFNpZ25lZC1vZmYtYnk6IE1hcnRp
+biBKYW5zYSA8TWFydGluLkphbnNhQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
+cnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9kcml2ZXJzL21iaW1tb2RlbS9tYmltLXByaXZhdGUu
+aCBiL2RyaXZlcnMvbWJpbW1vZGVtL21iaW0tcHJpdmF0ZS5oCi1pbmRleCA1MTY5M2VhZS4uZDkx
+NzMxMmMgMTAwNjQ0CitpbmRleCA1MTY5M2VhLi5kOTE3MzEyIDEwMDY0NAogLS0tIGEvZHJpdmVy
+cy9tYmltbW9kZW0vbWJpbS1wcml2YXRlLmgKICsrKyBiL2RyaXZlcnMvbWJpbW1vZGVtL21iaW0t
+cHJpdmF0ZS5oCiBAQCAtMzAsNiArMzAsMTAgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi40LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9vZm9uby9vZm9ub18yLjUuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjQuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi41LmJiCmluZGV4IGRhZTVjYzNjMjUu
+LmI2OGViOTlmYTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8v
+b2Zvbm9fMi40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9f
+Mi41LmJiCkBAIC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiXAogICAgIGZpbGU6Ly8wMDAxLW1i
+aW0tYWRkLWFuLW9wdGlvbmFsLVRFTVBfRkFJTFVSRV9SRVRSWS1tYWNyby1jb3B5LnBhdGNoIFwK
+ICAgICBmaWxlOi8vMDAwMi1tYmltLUZpeC1idWlsZC13aXRoLWVsbC0wLjM5LWJ5LXJlc3Rvcmlu
+Zy11bmxpa2VseS1tLnBhdGNoIFwKICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5MzU4MGFkYzFh
+ZmQxODkwZGM1MTZlZmIwNjlkZTBjNWNkZmVmMDE0NDE1MjU2ZGRmYjI4YWIxNzJkZjJkMTFkIgor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjBmNGUwMzg2MzE4YWRiYTZhNmE2MTM1MTQzZmI1ODIxYWQz
+ZGZkYTRmZmI3ZmEzNzg2Yzc0MzNmMDA1YjI3M2YiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2Nv
+bmZpZyB1cGRhdGUtcmMuZCBzeXN0ZW1kIGdvYmplY3QtaW50cm9zcGVjdGlvbi1kYXRhCiAKLS0g
+CjIuNDIuMAoK
 
---===============0584036978680576745==
+--===============6722969172300781774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-dbg: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-dbg: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-dev: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-dev: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-doc: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-doc: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-locale: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-locale: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-src: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-src: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-staticdev: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc-staticdev: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc/gtk-doc: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
-packages/core2-64-poky-linux/gtk-doc/gtk-doc: PKGSIZE changed from 566403 to 566546 (+0%)
-packages/core2-64-poky-linux/gtk-doc: PV changed from "1.33.2" to "1.34.0"
-packages/core2-64-poky-linux/gtk-doc: SRC_URI changed from "https://download.gnome.org/sources//gtk-doc/1.33/gtk-doc-1.33.2.tar.xz;name=archive file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch file://conditionaltests.patch file://no-clobber.patch file://0001-Don-t-use-docdir-from-environment.patch" to "https://download.gnome.org/sources//gtk-doc/1.34/gtk-doc-1.34.0.tar.xz;name=archive file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch file://conditionaltests.patch file://no-clobber.patch"
-packages/core2-64-poky-linux/gtk-doc: PKGV changed from 1.33.2 [default] to 1.34.0 [default]
+packages/core2-64-poky-linux/ofono: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono: SRC_URI changed from "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.4.tar.xz file://ofono file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch" to "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.5.tar.xz file://ofono file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch"
+packages/core2-64-poky-linux/ofono: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-dbg: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-dbg: PKGSIZE changed from 6531120 to 6578840 (+1%)
+packages/core2-64-poky-linux/ofono/ofono-dev: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-dev: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-dev: PKGSIZE changed from 115920 to 116127 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-doc: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-doc: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-locale: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-locale: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-src: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-src: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-src: FILELIST: directory renamed /usr/src/debug/ofono/2.4/drivers/iceramodem -> /usr/src/debug/ofono/2.5/drivers/iceramodem, directory renamed /usr/src/debug/ofono/2.4/drivers/telitmodem -> /usr/src/debug/ofono/2.5/drivers/telitmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/ubloxmodem -> /usr/src/debug/ofono/2.5/drivers/ubloxmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/atmodem -> /usr/src/debug/ofono/2.5/drivers/atmodem, directory renamed /usr/src/debug/ofono/2.4/gril -> /usr/src/debug/ofono/2.5/gril, directory renamed /usr/src/debug/ofono/2.4/drivers/dunmodem -> /usr/src/debug/ofono/2.5/drivers/dunmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/huaweimodem -> /usr/src/debug/ofono/2.5/drivers/huaweimodem, directory renamed /usr/src/debug/ofono/2.4/drivers/hfpmodem -> /usr/src/debug/ofono/2.5/drivers/hfpmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/hsomodem -> /usr/src/debug/ofono/2.5/drivers/hsomod
+ em, directory renamed /usr/src/debug/ofono/2.4/drivers/ifxmodem -> /usr/src/debug/ofono/2.5/drivers/ifxmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/nwmodem -> /usr/src/debug/ofono/2.5/drivers/nwmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/isimodem -> /usr/src/debug/ofono/2.5/drivers/isimodem, directory renamed /usr/src/debug/ofono/2.4/drivers/mbmmodem -> /usr/src/debug/ofono/2.5/drivers/mbmmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/rilmodem -> /usr/src/debug/ofono/2.5/drivers/rilmodem, directory renamed /usr/src/debug/ofono/2.4/linux -> /usr/src/debug/ofono/2.5/linux, directory renamed /usr/src/debug/ofono/2.4/drivers/swmodem -> /usr/src/debug/ofono/2.5/drivers/swmodem, directory renamed /usr/src/debug/ofono/2.4/gisi -> /usr/src/debug/ofono/2.5/gisi, directory renamed /usr/src/debug/ofono/2.4/gdbus -> /usr/src/debug/ofono/2.5/gdbus, directory renamed /usr/src/debug/ofono/2.4/drivers/gemaltomodem -> /usr/src/debug/ofono/2.5/drivers/gemaltomode
+ m, directory renamed /usr/src/debug/ofono/2.4/drivers/calypsomodem -> /usr/src/debug/ofono/2.5/drivers/calypsomodem, directory renamed /usr/src/debug/ofono/2.4/drivers/quectelmodem -> /usr/src/debug/ofono/2.5/drivers/quectelmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/speedupmodem -> /usr/src/debug/ofono/2.5/drivers/speedupmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/stemodem -> /usr/src/debug/ofono/2.5/drivers/stemodem, directory renamed /usr/src/debug/ofono/2.4/src -> /usr/src/debug/ofono/2.5/src, directory renamed /usr/src/debug/ofono/2.4/gatchat -> /usr/src/debug/ofono/2.5/gatchat, directory renamed /usr/src/debug/ofono/2.4/drivers/ztemodem -> /usr/src/debug/ofono/2.5/drivers/ztemodem, directory renamed /usr/src/debug/ofono/2.4/drivers/mbimmodem -> /usr/src/debug/ofono/2.5/drivers/mbimmodem, directory renamed /usr/src/debug/ofono/2.4/drivers/xmm7modem -> /usr/src/debug/ofono/2.5/drivers/xmm7modem, directory renamed /usr/src/debug/ofono/2.4/include -> /u
+ sr/src/debug/ofono/2.5/include, removed "/usr/src/debug/ofono/2.4/plugins/nokia-gpio.c /usr/src/debug/ofono/2.4/plugins/nokia-gpio.h /usr/src/debug/ofono/2.4/plugins/bluez5.h /usr/src/debug/ofono/2.4/plugins/telit.c /usr/src/debug/ofono/2.4/plugins/huawei.c /usr/src/debug/ofono/2.4/plugins/bluez5.c /usr/src/debug/ofono/2.4/plugins/rildev.c /usr/src/debug/ofono/2.4/drivers/qmimodem/location-reporting.c /usr/src/debug/ofono/2.4/drivers/qmimodem/wms.h /usr/src/debug/ofono/2.4/drivers/qmimodem/netmon.c /usr/src/debug/ofono/2.4/plugins/g1.c /usr/src/debug/ofono/2.4/plugins/phonesim.c /usr/src/debug/ofono/2.4/plugins/smart-messaging.c /usr/src/debug/ofono/2.4/drivers/qmimodem/voice.h /usr/src/debug/ofono/2.4/drivers/qmimodem/nas.h /usr/src/debug/ofono/2.4/drivers/qmimodem/nas.c /usr/src/debug/ofono/2.4/drivers/qmimodem/voicecall.c /usr/src/debug/ofono/2.4/plugins/allowed-apns.c /usr/src/debug/ofono/2.4/drivers/qmimodem/dms.h /usr/src/debug/ofono/2.4/plugins/n900.c /usr/src/debug/ofono/2.4
+ /plugins/ublox.c /usr/src/debug/ofono/2.4/drivers/qmimodem/sms.c /usr/src/debug/ofono/2.4/plugins/dun_gw_bluez5.c /usr/src/debug/ofono/2.4/plugins/hfp_ag_bluez5.c /usr/src/debug/ofono/2.4/plugins/hfp_hf_bluez5.c /usr/src/debug/ofono/2.4/plugins/quectel.c /usr/src/debug/ofono/2.4/plugins/samsung.c /usr/src/debug/ofono/2.4/plugins/sim7100.c /usr/src/debug/ofono/2.4/plugins/speedup.c /usr/src/debug/ofono/2.4/plugins/alcatel.c /usr/src/debug/ofono/2.4/plugins/calypso.c /usr/src/debug/ofono/2.4/plugins/connman.c /usr/src/debug/ofono/2.4/plugins/gemalto.c /usr/src/debug/ofono/2.4/drivers/qmimodem/uim.h /usr/src/debug/ofono/2.4/plugins/wavecom.c /usr/src/debug/ofono/2.4/plugins/gobi.c /usr/src/debug/ofono/2.4/plugins/ril.c /usr/src/debug/ofono/2.4/plugins/hso.c /usr/src/debug/ofono/2.4/plugins/ril.h /usr/src/debug/ofono/2.4/plugins/cinterion.c /usr/src/debug/ofono/2.4/plugins/ste.c /usr/src/debug/ofono/2.4/plugins/udevng.c /usr/src/debug/ofono/2.4/plugins/upower.c /usr/src/debug/ofono/2.4/
+ plugins/isiusb.c /usr/src/debug/ofono/2.4/plugins/sierra.c /usr/src/debug/ofono/2.4/plugins/sim900.c /usr/src/debug/ofono/2.4/plugins/stemgr.c /usr/src/debug/ofono/2.4/drivers/qmimodem/radio-settings.c /usr/src/debug/ofono/2.4/drivers/qmimodem/gprs-context.c /usr/src/debug/ofono/2.4/drivers/qmimodem/sim-legacy.c /usr/src/debug/ofono/2.4/plugins/ifx.c /usr/src/debug/ofono/2.4/plugins/infineon.c /usr/src/debug/ofono/2.4/plugins/droid.c /usr/src/debug/ofono/2.4/plugins/push-notification.c /usr/src/debug/ofono/2.4/plugins/mbim.c /usr/src/debug/ofono/2.4/plugins/nokia.c /usr/src/debug/ofono/2.4/drivers/qmimodem/ctl.h /usr/src/debug/ofono/2.4/drivers/qmimodem/ussd.c /usr/src/debug/ofono/2.4/drivers/qmimodem/sim.c /usr/src/debug/ofono/2.4/drivers/qmimodem/devinfo.c /usr/src/debug/ofono/2.4/plugins/mbm.c /usr/src/debug/ofono/2.4/drivers/qmimodem/network-registration.c /usr/src/debug/ofono/2.4/drivers/qmimodem/qmi.h /usr/src/debug/ofono/2.4/drivers/qmimodem/wds.h /usr/src/debug/ofono/2.4/dri
+ vers/qmimodem/qmi.c /usr/src/debug/ofono/2.4/plugins/zte.c /usr/src/debug/ofono/2.4/plugins/ril_intel.c /usr/src/debug/ofono/2.4/plugins/icera.c /usr/src/debug/ofono/2.4/plugins/u8500.c /usr/src/debug/ofono/2.4/drivers/qmimodem/gprs.c /usr/src/debug/ofono/2.4/plugins/caif.c /usr/src/debug/ofono/2.4/drivers/qmimodem/util.h /usr/src/debug/ofono/2.4/plugins/xmm7xxx.c /usr/src/debug/ofono/2.4/plugins/linktop.c /usr/src/debug/ofono/2.4/plugins/novatel.c /usr/src/debug/ofono/2.4/plugins/palmpre.c /usr/src/debug/ofono/2.4/drivers/qmimodem/lte.c", added "/usr/src/debug/ofono/2.5/plugins/nokia-gpio.c /usr/src/debug/ofono/2.5/plugins/nokia-gpio.h /usr/src/debug/ofono/2.5/plugins/bluez5.h /usr/src/debug/ofono/2.5/plugins/telit.c /usr/src/debug/ofono/2.5/plugins/huawei.c /usr/src/debug/ofono/2.5/plugins/bluez5.c /usr/src/debug/ofono/2.5/plugins/rildev.c /usr/src/debug/ofono/2.5/drivers/qmimodem/location-reporting.c /usr/src/debug/ofono/2.5/drivers/qmimodem/wms.h /usr/src/debug/ofono/2.5/drivers
+ /qmimodem/netmon.c /usr/src/debug/ofono/2.5/plugins/g1.c /usr/src/debug/ofono/2.5/plugins/phonesim.c /usr/src/debug/ofono/2.5/plugins/smart-messaging.c /usr/src/debug/ofono/2.5/drivers/qmimodem/voice.h /usr/src/debug/ofono/2.5/drivers/qmimodem/nas.h /usr/src/debug/ofono/2.5/drivers/qmimodem/nas.c /usr/src/debug/ofono/2.5/drivers/qmimodem/voicecall.c /usr/src/debug/ofono/2.5/plugins/allowed-apns.c /usr/src/debug/ofono/2.5/drivers/qmimodem/dms.h /usr/src/debug/ofono/2.5/plugins/n900.c /usr/src/debug/ofono/2.5/plugins/ublox.c /usr/src/debug/ofono/2.5/drivers/qmimodem/sms.c /usr/src/debug/ofono/2.5/plugins/dun_gw_bluez5.c /usr/src/debug/ofono/2.5/plugins/hfp_ag_bluez5.c /usr/src/debug/ofono/2.5/plugins/hfp_hf_bluez5.c /usr/src/debug/ofono/2.5/drivers/qmimodem/call-settings.c /usr/src/debug/ofono/2.5/plugins/quectel.c /usr/src/debug/ofono/2.5/plugins/samsung.c /usr/src/debug/ofono/2.5/plugins/sim7100.c /usr/src/debug/ofono/2.5/plugins/speedup.c /usr/src/debug/ofono/2.5/plugins/alcatel.c 
+ /usr/src/debug/ofono/2.5/plugins/calypso.c /usr/src/debug/ofono/2.5/plugins/connman.c /usr/src/debug/ofono/2.5/plugins/gemalto.c /usr/src/debug/ofono/2.5/drivers/qmimodem/uim.h /usr/src/debug/ofono/2.5/plugins/wavecom.c /usr/src/debug/ofono/2.5/plugins/gobi.c /usr/src/debug/ofono/2.5/plugins/ril.c /usr/src/debug/ofono/2.5/plugins/hso.c /usr/src/debug/ofono/2.5/plugins/ril.h /usr/src/debug/ofono/2.5/plugins/cinterion.c /usr/src/debug/ofono/2.5/plugins/ste.c /usr/src/debug/ofono/2.5/plugins/udevng.c /usr/src/debug/ofono/2.5/plugins/upower.c /usr/src/debug/ofono/2.5/plugins/isiusb.c /usr/src/debug/ofono/2.5/plugins/sierra.c /usr/src/debug/ofono/2.5/plugins/sim900.c /usr/src/debug/ofono/2.5/plugins/stemgr.c /usr/src/debug/ofono/2.5/drivers/qmimodem/radio-settings.c /usr/src/debug/ofono/2.5/drivers/qmimodem/gprs-context.c /usr/src/debug/ofono/2.5/drivers/qmimodem/sim-legacy.c /usr/src/debug/ofono/2.5/plugins/ifx.c /usr/src/debug/ofono/2.5/plugins/infineon.c /usr/src/debug/ofono/2.5/drive
+ rs/qmimodem/call-forwarding.c /usr/src/debug/ofono/2.5/plugins/droid.c /usr/src/debug/ofono/2.5/plugins/push-notification.c /usr/src/debug/ofono/2.5/plugins/mbim.c /usr/src/debug/ofono/2.5/plugins/nokia.c /usr/src/debug/ofono/2.5/drivers/qmimodem/ctl.h /usr/src/debug/ofono/2.5/drivers/qmimodem/ussd.c /usr/src/debug/ofono/2.5/drivers/qmimodem/call-barring.c /usr/src/debug/ofono/2.5/drivers/qmimodem/sim.c /usr/src/debug/ofono/2.5/drivers/qmimodem/devinfo.c /usr/src/debug/ofono/2.5/plugins/mbm.c /usr/src/debug/ofono/2.5/drivers/qmimodem/network-registration.c /usr/src/debug/ofono/2.5/drivers/qmimodem/qmi.h /usr/src/debug/ofono/2.5/drivers/qmimodem/wds.h /usr/src/debug/ofono/2.5/drivers/qmimodem/qmi.c /usr/src/debug/ofono/2.5/plugins/zte.c /usr/src/debug/ofono/2.5/plugins/ril_intel.c /usr/src/debug/ofono/2.5/plugins/icera.c /usr/src/debug/ofono/2.5/plugins/u8500.c /usr/src/debug/ofono/2.5/drivers/qmimodem/gprs.c /usr/src/debug/ofono/2.5/drivers/qmimodem/util.h /usr/src/debug/ofono/2.5/p
+ lugins/linktop.c /usr/src/debug/ofono/2.5/plugins/novatel.c /usr/src/debug/ofono/2.5/plugins/palmpre.c /usr/src/debug/ofono/2.5/plugins/xmm7xxx.c /usr/src/debug/ofono/2.5/drivers/qmimodem/lte.c"
+packages/core2-64-poky-linux/ofono/ofono-src: PKGSIZE changed from 4737332 to 4759394 (+0%)
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-staticdev: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono-tests: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono-tests: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono: PV changed from "2.4" to "2.5"
+packages/core2-64-poky-linux/ofono/ofono: PKGV changed from 2.4 [default] to 2.5 [default]
+packages/core2-64-poky-linux/ofono/ofono: PKGSIZE changed from 2195132 to 2206756 (+1%)
 
---===============0584036978680576745==--
+--===============6722969172300781774==--
 
