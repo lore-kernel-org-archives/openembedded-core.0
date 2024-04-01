@@ -1,213 +1,352 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <rwmacleod@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66ACACD128A
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 08:10:50 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.32783.1711959045615585433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1E8CD1283
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 09:06:30 +0000 (UTC)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+ by mx.groups.io with SMTP id smtpd.web11.33319.1711962388866536395
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 01:10:45 -0700
+ Mon, 01 Apr 2024 02:06:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FdHm+N84;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=48215f78b9=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43172kMA004961
-	for <openembedded-core@lists.openembedded.org>; Mon, 1 Apr 2024 08:10:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=9H9bfobrB0QolSpP5e
-	kUkBW1lOh9jPTIpUBXmQgAHRs=; b=FdHm+N84aJ8IoVRm3+V2e8GQBJfd/ye8WL
-	t5anOcnO0ZkWxjGeASwKBpICebvVHzPXgfP9KuEukPt3y5Ysonbe3Pvwj55ZEuA0
-	lYnR/fk49hZvzsqFDS18ecyiD98W0iEyNJXZ8vj67hd3OUa/9UBfRrjAJq+By43/
-	VzvPrCAPV7UmlkMMUBccJh/hAK3VX4RZxFi8Elz4NTwhmtzeF3U8VMqIwNnmtXPJ
-	wkjgbas4hAhwZLD1Yen84M07UqxhtGavBGbChf/J1NztqKw1oLvKCtRP6mNINDCO
-	KqcNPH1RvthDL/QXURjT8e0aCtrCufd3Fhlaxt0dV/1AKif03kZA==
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x67xy1qrd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 08:10:44 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gyXmmH+kh/CuLbESqJHxxNjC4zS9zEGPuiwy6QlEblM37iwhbgE8iF+S50JpeDQHxn2GGElsd9B1K1tqPHgUyzK4AxxRX0c/5vHD4Mr8DF+PqLU9ap447vaCM9cDeKKa94iTKF4mVUb8xBtFgDYqxIbrfmWL9j8iH00Y9ffARAWaEcg/ZCEeNKIxgBdvT0lVUQr0/FyutgAe0nVuK7cECV3XwR5cKiV/go3D9nH3rrpM5dE4201GBSeLJc5x9u/qwZ2a+mMejiKXL6mgSICVsKQ52mJIizevURRC2ixvUC/XAMUuEyFX5/kIxOECljZ7AylrrJD9HDc0olhVmvOI4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9H9bfobrB0QolSpP5ekUkBW1lOh9jPTIpUBXmQgAHRs=;
- b=EeKxALV5pwQBV1iu333nIOSYiJf8iR8oeY9Qqj5M0q+f6FPoHyktDPSnU5FPxSd3g0KF8GkUo0Pj9QY41b/tgP3Z8kl54ImDz5suoyuSXwYOZxZ0bON5YHTHMQ6HqG6OvAj9Rxs8GE0giKR7Ra4xLKZ3zi7KwWt3hzQ2ptGIox+CYsx32EW37/fLB+ahbqcUoy1EQpJ1VrG6HBp99vTGExx2bd5XB7ade/eWH5Fh0leqYVmBDWmdggvkO8TyRdVhAli4LFlzNt1LlWhFkJM3jhZeOlu1jelHJJ0M2BGWP5H+DY9QumIIp1H5yxlxFSyZShibuRhzJ10csivfMp+9Ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
- by PH0PR11MB7659.namprd11.prod.outlook.com (2603:10b6:510:28e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.23; Mon, 1 Apr
- 2024 08:10:39 +0000
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::86fd:8a6:5f86:104e]) by SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::86fd:8a6:5f86:104e%6]) with mapi id 15.20.7452.019; Mon, 1 Apr 2024
- 08:10:37 +0000
-From: Yash.Shinde@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Umesh.Kallapa@windriver.com,
-        Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com,
-        Shivaprasad.Moodalappa@windriver.com, Yash.Shinde@windriver.com
-Subject: [PATCH] glibc: Fix stale qemu processes left after glibc oe-selftest
-Date: Mon,  1 Apr 2024 01:10:11 -0700
-Message-ID: <20240401081011.479084-1-Yash.Shinde@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0032.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::7) To SJ1PR11MB6129.namprd11.prod.outlook.com
- (2603:10b6:a03:488::12)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ht1QLhdx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.180, mailfrom: rwmacleod@gmail.com)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4d8a7ca969bso838754e0c.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 02:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711962388; x=1712567188; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cwPfNEAcKDqo6j7uGCim6rmcfLYC5a2F3XU79LawgWc=;
+        b=ht1QLhdxYopxCQCvMnTjDS/5GrAWYpcj/fRXAWO0Zs3Qi/YrR0gsOhZSo9ofmM89d7
+         u91QFmyY/2dGz+gogT3lH9wLhAOuATUtzt+BWih6Eoz929rqE6BNBL23JTkIj48xaimH
+         zpoCbD2O7wmUC/wLIwW7E5K5y96+3Bft3gwU+weZQQjFyuJbQlSKFAhjWrYBnyBm40wT
+         +x5eEN5xvUCOZj0p+2jAGlMnSesshdMUqvHNXmHT/ZH56vA449wQx9VxzCleAOXCJccZ
+         Iop/x0dQ9v5ZT1i52eYZjfGWC18etDB+vWNWH1jwsj5CmR8LeuZpa9eMM10BGCBeSVeK
+         /jOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711962388; x=1712567188;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cwPfNEAcKDqo6j7uGCim6rmcfLYC5a2F3XU79LawgWc=;
+        b=jmj1Z3u+xQDOJjCvKZRjr1IoKiVUHHxKxFr0kOh52Kipqz1M3hJsOeBYSZf947QKWh
+         goRM+XCJlFGhILIw5RV/UZ1fHaDe0p0Dklf99BDh4x97KN/4zYnqoeG6ueJuE3c7R1af
+         VV/f2y8W/OoF4OkvsJjVL1HFhw8LvGLT1NdXhRGOL3j4GNJyWma1gIKp38PVB6Sz3pnm
+         gjvgTc9/BoR7hGqNSgZFEhVzmJDnHU5Y1Io18yajFY8mXRFsEYGaXsqgOZHEWsggu/xJ
+         7yHBLjNP7JQ0ovMc8sfOaevpbKq4FEW9IiYDLTsN8x4U/HQY5XGYR2iHSI36gcRM1BfH
+         egjQ==
+X-Gm-Message-State: AOJu0YzAkXN8dnGyfkuPqzAWqOWCTAiDOCXqSCwYHfVHi+2hpwUn91TU
+	iECHML/TPtDs3/PfbWYlLlqRDJ86KpDEziwS/hg7hLw2rJVmzEvFQV5P/kGymeLIMXwbly2kXzj
+	8V64OIteAN4CJclaa6tNQwQ/cIY09bf9A
+X-Google-Smtp-Source: AGHT+IH6Fl3tmDHJFZ5E/HwK9wiYYes5lN0H6TklHz0cHKlIjwldOAIJ/18sG/5RdFMv4TSYRJ3TOnmsTvJeqfKWJJk=
+X-Received: by 2002:a05:6122:448c:b0:4c9:f704:38c with SMTP id
+ cz12-20020a056122448c00b004c9f704038cmr5820923vkb.11.1711962387619; Mon, 01
+ Apr 2024 02:06:27 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6129:EE_|PH0PR11MB7659:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DocDA/H/DmcH01eCOHiCHBdYkBqCoiSBkN29Rp4NGdobVhieXljm1iFEwC2iT+tpZsotkz18xU1rad3+Bk7wDtGkbQhYKrjuTUXmFTR/PzJLijxw6XnKju34iyi65Ex2xaInuOvQkf9kSABw2A0/5nYtNxx4Zx00KqH4Dnnx+ge+qxjzmPF56jEEsCe2hXT9M2iE8ERKwgDZBi17hXEGtngGWtxaii6qUkwKNM27MddIXtkU8qaP8hjDpQnOwxKQqwrwEN/o4gaXRNxOnkfZW7Ak2D6H4respnzrLy+NBRjd4Lc5J2MXQy78ptqt8o79S23QcIhcRQljFRNDVW05fRw5oHXzU4+ns9CweakWXQBbhgedC9D+aSDYCflV4B4UeHtXwIvLoadtkuBwbVb7PMkO55m4+hZ0CzbZ9HzmrHhcnGABaqpSp6Iwej5CDRm2YMYCK4hTz66GGKUThqOPQOZaxvPw28myYV/cwCRhk6nPrnkNaMRMkOXsQOCXdD5DN0FEI9kNB062VoJ1IWoMlzfxXbX75ZHfOv4SNW2ypTVXWDmmq87v4xA4tBTvcBYzryDfbC11EWIbazyzhEjHgdMhT2EQYhCCB7KHSWy+wwETmxfM/uCqK0xpSGDetamL4AJhxTtqW6qTMF+7fgrZ0SXqvJCJ9iIvHz2NUNZPu8M=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(52116005)(1800799015)(366007)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?D4yKi3a04ESJWDVj9mrv4dJqYcPe5oksFCtnbGJKbay+atfscAKKnOZr47ZM?=
- =?us-ascii?Q?EAdhq+TJ2VSbE4VXTdT4BGSmqj9/j/A3QVnoeIfIzMGNydmpEtWdt9MIlaoK?=
- =?us-ascii?Q?03opqXKOVnpbLjz+2qmtXgf8Hhocfh0tG7WNBfuF8PiGV/OLmvcYexXO74AV?=
- =?us-ascii?Q?HOOVS/7QjgSk9vP2/XId8ZFGiNVTt6rM0Ul11qE/97M/pKYBHqpgwBIt13B6?=
- =?us-ascii?Q?bjtT3zgu1Mr8IjiVMJAN1k1xoHiEjmkti0cF7ixJrH+KH4U3sUWavDlhCkiI?=
- =?us-ascii?Q?XfLlb5ZDMfrHoDoKG7vIC8RSXzANNEmpWGKAEpjvvjXz0RSKvNLPnwEL19Yf?=
- =?us-ascii?Q?iVqd07WxOpqKoIGpxK7vuWQYuA5vCjWHIGpK6j8ElCzhpScu3g3ocpuPpvPK?=
- =?us-ascii?Q?H3t5gei4lzuJ2T0M9VRka0P2YZeB/VGYzthen0FPW3ge4ZUOHaH7CKZQtccj?=
- =?us-ascii?Q?yYIzb7DsRXAR1IAEMRdZzQ7t5BbFxjP5h0anCHi51efTusJtyEAWRxOV5Lso?=
- =?us-ascii?Q?75B1kPa7jh6Q/JMEzu979vkRASy/vnS0Dxe7YW4GDwyCzbksr0dc1YV99q7n?=
- =?us-ascii?Q?knGimFO2/2cq1NkjZJG9EVI2+weQSxipXXVD7bekMWcxMAFRTYwlDIUePKPh?=
- =?us-ascii?Q?vCr45zaomQ7xHMSkFBL+f8kj6AycdQ21hdDJN6ZO/ucIkR1q0YyKbL4uO35z?=
- =?us-ascii?Q?gQXXLpj/RexulLttoYgLyJXG+Ai2FwfSvkcLbgaRDCd598W556uPn/YgC5ZJ?=
- =?us-ascii?Q?dg4lgYJ2KK+zFm7dBP4dvPP/Yyzok6JeEt5+AuAjiB9KfihN+haJCjFU3O0g?=
- =?us-ascii?Q?GfBY7YryK3GfU91Dt/XteLMy4KDoc32K/VojWjmadJbUV7cNT6pI7AEuA6GM?=
- =?us-ascii?Q?dMrx/YLLEZpqo1ojK/H4t16Vv9f5KQWr5ecmnDT+88R60VyVx8vSKbEpIylj?=
- =?us-ascii?Q?V2Nm9ozYyR2Gl4Sako6Eb8qcqY6O6yxYTK2cD+4YkGznKBnYvbpXCtkWGcfa?=
- =?us-ascii?Q?4s5BYdDbJ4AJzWeh+1iNE8VQt0Z+6nEoTJCsaTHBlK1iLr17T8fqWQ+uSB6x?=
- =?us-ascii?Q?G+d+yx3SGBNBgfbGdbPfUuMvCxd/mYHgggTQnAOBK83mxl2wF+e0K1ftVp1E?=
- =?us-ascii?Q?BiOihqX5VFWEe9s9BfCCOhqKqYFOBc9sSOdztYyMawFu7Dm9FHSjPIXg/n7X?=
- =?us-ascii?Q?f0Lzi7uWsYRBRTZAclqJFi45LFNQKUBeTXHXyx7Q+x9I31G+OFj2YeibPVaQ?=
- =?us-ascii?Q?8axP+AijrEW1e6fHbL0Z7FWHd+lGxleStFq/xZEGPH8W5PZhtkHDgrcwiIh8?=
- =?us-ascii?Q?/qAZ9RgqmuLuBszauUW/LLMH41MDU7kScO4smmlbDRarNm2xw/+G53b5HgW8?=
- =?us-ascii?Q?2hegxAm0lFdq+kmZQuosjEWe5/sxPsby2W6Id27pA4cX/Cf8qXIIXJ9f/Via?=
- =?us-ascii?Q?S8BG/4tRa/7XtcYWjg+PI62oQK+scw/fTVdRE+bAxI6e4USLuzsSNK2muiOF?=
- =?us-ascii?Q?t/Oaz9jT75+1Y7oGoK654rSYDJP5vLwOshFM69cV7TnOyPJD0VOl/pkpfNAh?=
- =?us-ascii?Q?rY2wlfGrvVsvkgU3SSe3VZ+gE5Xmm1NygfGZG0mhCkiJa7fVTaxwfd+rWuIk?=
- =?us-ascii?Q?7g=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa302edb-a16f-47e1-fa33-08dc522336b0
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 08:10:37.6698
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7eVGY/VZeG8RDLq4Xp+4jF9ZsDlOYWgQQFKNTr4vqn95kZHQWdBi7tEtylzjDp+tH07FwJAcfsAcmWYlhVIa3NShE39BmKfYkV0JgSgsK28=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7659
-X-Proofpoint-GUID: ya7lGF5LDDDXHKRhOVvpf8o-UF6LxbU8
-X-Proofpoint-ORIG-GUID: ya7lGF5LDDDXHKRhOVvpf8o-UF6LxbU8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-01_04,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=519 clxscore=1011
- suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2404010056
+References: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+In-Reply-To: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+From: Randy MacLeod <rwmacleod@gmail.com>
+Date: Mon, 1 Apr 2024 05:06:17 -0400
+Message-ID: <CAK6=ix4Z4cC7h3xzHpURNC8ZOWrBqMUYV1+xkGFWzFcSFH2_Rg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix stale qemu processes left after
+ glibc oe-selftest
+To: "Shinde, Yash" <Yash.Shinde@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>, Umesh.Kallapa@windriver.com, 
+	Naveen Gowda <Naveen.Gowda@windriver.com>, 
+	Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>, Shivaprasad.Moodalappa@windriver.com
+Content-Type: multipart/alternative; boundary="000000000000fba8090615054d54"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 08:10:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197678
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 09:06:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197679
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+--000000000000fba8090615054d54
+Content-Type: text/plain; charset="UTF-8"
 
-qemumips and qemuppc were leaving stale processes behind after
-running glibc oe-selftest. During analysis, it was found that
-it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
-Disable them so that there are no stale processes left behind.
+The short log is misleading since this isn't really a fix.
 
-[YOCTO #15423]
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15423
+You have:
 
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
----
- .../glibc/glibc/0024-qemu-stale-process.patch | 45 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+glibc: Fix stale qemu processes left after glibc oe-selftest
 
-diff --git a/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
-new file mode 100644
-index 0000000000..c28fa31b89
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
-@@ -0,0 +1,45 @@
-+glibc: Fix stale qemu processes left after glibc oe-selftest
-+
-+qemumips and qemuppc were leaving stale processes behind after
-+running glibc oe-selftest. During analysis, it was found that
-+it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
-+Disable them so that there are no stale processes left behind.
-+
-+[YOCTO #15423]
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15423
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+---
-+diff --git a/sysdeps/unix/sysv/linux/Makefile  b/sysdeps/unix/sysv/linux/Makefile
-+--- a/sysdeps/unix/sysv/linux/Makefile    2024-03-18 01:15:49.019202881 -0700
-++++ b/sysdeps/unix/sysv/linux/Makefile  2024-03-14 06:26:18.581404107 -0700
-+@@ -222,7 +222,6 @@
-+   tst-process_mrelease \
-+   tst-quota \
-+   tst-rlimit-infinity \
-+-  tst-scm_rights \
-+   tst-sigtimedwait \
-+   tst-sync_file_range \
-+   tst-sysconf-iov_max \
-+@@ -233,6 +232,8 @@
-+   tst-timerfd \
-+   tst-ttyname-direct \
-+   tst-ttyname-namespace \
-++  # Skip this test to avoid stale qemu process
-++  # tst-scm_rights \
-+   # tests
-+
-+ # process_madvise requires CAP_SYS_ADMIN.
-+@@ -270,9 +271,10 @@
-+   tst-ntp_gettimex-time64 \
-+   tst-ppoll-time64 \
-+   tst-prctl-time64 \
-+-  tst-scm_rights-time64 \
-+   tst-sigtimedwait-time64 \
-+   tst-timerfd-time64 \
-++  # Skip this test to avoid stale qemu process
-++  # tst-scm_rights-time64 \
-+   # tests-time64
-+
-+ tests-clone-internal = \
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index b203060064..9122472689 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -49,6 +49,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0023-aarch64-configure-Pass-mcpu-along-with-march-to-dete.patch \
-+           file://0024-qemu-stale-process.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.43.0
 
+Maybe:
+
+glibc: Skip 2 qemu tests that can hang in oe-selftest
+
+
+Skipping is what we want for now but
+have you tried  wrapping the hanging test in a script that runs:
+strace -f -ttt -o foo <test>
+?
+
+Randy
+
+
+On Mon, Apr 1, 2024, 04:10 Shinde, Yash via lists.openembedded.org
+<Yash.Shinde=windriver.com@lists.openembedded.org> wrote:
+
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+>
+> qemumips and qemuppc were leaving stale processes behind after
+> running glibc oe-selftest. During analysis, it was found that
+> it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
+> Disable them so that there are no stale processes left behind.
+>
+> [YOCTO #15423]
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=15423
+>
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> ---
+>  .../glibc/glibc/0024-qemu-stale-process.patch | 45 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
+>  2 files changed, 46 insertions(+)
+>  create mode 100644
+> meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+> b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+> new file mode 100644
+> index 0000000000..c28fa31b89
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch
+> @@ -0,0 +1,45 @@
+> +glibc: Fix stale qemu processes left after glibc oe-selftest
+> +
+> +qemumips and qemuppc were leaving stale processes behind after
+> +running glibc oe-selftest. During analysis, it was found that
+> +it was due to "tst-scm_rights" and "tst-scm_rights-time64" tests.
+> +Disable them so that there are no stale processes left behind.
+> +
+> +[YOCTO #15423]
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=15423
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> +---
+> +diff --git a/sysdeps/unix/sysv/linux/Makefile
+> b/sysdeps/unix/sysv/linux/Makefile
+> +--- a/sysdeps/unix/sysv/linux/Makefile    2024-03-18 01:15:49.019202881
+> -0700
+> ++++ b/sysdeps/unix/sysv/linux/Makefile  2024-03-14 06:26:18.581404107
+> -0700
+> +@@ -222,7 +222,6 @@
+> +   tst-process_mrelease \
+> +   tst-quota \
+> +   tst-rlimit-infinity \
+> +-  tst-scm_rights \
+> +   tst-sigtimedwait \
+> +   tst-sync_file_range \
+> +   tst-sysconf-iov_max \
+> +@@ -233,6 +232,8 @@
+> +   tst-timerfd \
+> +   tst-ttyname-direct \
+> +   tst-ttyname-namespace \
+> ++  # Skip this test to avoid stale qemu process
+> ++  # tst-scm_rights \
+> +   # tests
+> +
+> + # process_madvise requires CAP_SYS_ADMIN.
+> +@@ -270,9 +271,10 @@
+> +   tst-ntp_gettimex-time64 \
+> +   tst-ppoll-time64 \
+> +   tst-prctl-time64 \
+> +-  tst-scm_rights-time64 \
+> +   tst-sigtimedwait-time64 \
+> +   tst-timerfd-time64 \
+> ++  # Skip this test to avoid stale qemu process
+> ++  # tst-scm_rights-time64 \
+> +   # tests-time64
+> +
+> + tests-clone-internal = \
+> diff --git a/meta/recipes-core/glibc/glibc_2.39.bb
+> b/meta/recipes-core/glibc/glibc_2.39.bb
+> index b203060064..9122472689 100644
+> --- a/meta/recipes-core/glibc/glibc_2.39.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.39.bb
+> @@ -49,6 +49,7 @@ SRC_URI =
+> "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>
+> file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+>
+> file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
+>
+> file://0023-aarch64-configure-Pass-mcpu-along-with-march-to-dete.patch \
+> +           file://0024-qemu-stale-process.patch \
+>  "
+>  S = "${WORKDIR}/git"
+>  B = "${WORKDIR}/build-${TARGET_SYS}"
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197678):
+> https://lists.openembedded.org/g/openembedded-core/message/197678
+> Mute This Topic: https://lists.openembedded.org/mt/105259855/953399
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rwmacleod@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000fba8090615054d54
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">The short log is misleading since this isn&#39;t really a=
+ fix.<div dir=3D"auto"><br></div><div dir=3D"auto">You have:</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">glibc: Fix stale qemu processes left =
+after glibc oe-selftest<br></div><div dir=3D"auto"><br></div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Maybe:</div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">glibc: Skip 2 qemu tests that can hang in oe-selftest<br></d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto=
+">Skipping is what we want for now but</div><div dir=3D"auto">have you trie=
+d=C2=A0 wrapping the hanging test in a script that runs:</div><div dir=3D"a=
+uto">strace -f -ttt -o foo &lt;test&gt;</div><div dir=3D"auto">?</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">Randy</div><br><br><div class=3D"g=
+mail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr =
+1, 2024, 04:10 Shinde, Yash via <a href=3D"http://lists.openembedded.org">l=
+ists.openembedded.org</a> &lt;Yash.Shinde=3D<a href=3D"mailto:windriver.com=
+@lists.openembedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">From: Yash Shinde &lt;<a href=3D"=
+mailto:Yash.Shinde@windriver.com" target=3D"_blank" rel=3D"noreferrer">Yash=
+.Shinde@windriver.com</a>&gt;<br>
+<br>
+qemumips and qemuppc were leaving stale processes behind after<br>
+running glibc oe-selftest. During analysis, it was found that<br>
+it was due to &quot;tst-scm_rights&quot; and &quot;tst-scm_rights-time64&qu=
+ot; tests.<br>
+Disable them so that there are no stale processes left behind.<br>
+<br>
+[YOCTO #15423]<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15423" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.=
+org/show_bug.cgi?id=3D15423</a><br>
+<br>
+Signed-off-by: Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com"=
+ target=3D"_blank" rel=3D"noreferrer">Yash.Shinde@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../glibc/glibc/0024-qemu-stale-process.patch | 45 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.39.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.39.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 46 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-core/glibc/glibc/0024-qemu-stale-proc=
+ess.patch<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch b/=
+meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch<br>
+new file mode 100644<br>
+index 0000000000..c28fa31b89<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/glibc/glibc/0024-qemu-stale-process.patch<br>
+@@ -0,0 +1,45 @@<br>
++glibc: Fix stale qemu processes left after glibc oe-selftest<br>
++<br>
++qemumips and qemuppc were leaving stale processes behind after<br>
++running glibc oe-selftest. During analysis, it was found that<br>
++it was due to &quot;tst-scm_rights&quot; and &quot;tst-scm_rights-time64&q=
+uot; tests.<br>
++Disable them so that there are no stale processes left behind.<br>
++<br>
++[YOCTO #15423]<br>
++<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15423" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.=
+org/show_bug.cgi?id=3D15423</a><br>
++<br>
++Upstream-Status: Inappropriate [oe-core specific]<br>
++Signed-off-by: Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com=
+" target=3D"_blank" rel=3D"noreferrer">Yash.Shinde@windriver.com</a>&gt;<br=
+>
++---<br>
++diff --git a/sysdeps/unix/sysv/linux/Makefile=C2=A0 b/sysdeps/unix/sysv/li=
+nux/Makefile<br>
++--- a/sysdeps/unix/sysv/linux/Makefile=C2=A0 =C2=A0 2024-03-18 01:15:49.01=
+9202881 -0700<br>
+++++ b/sysdeps/unix/sysv/linux/Makefile=C2=A0 2024-03-14 06:26:18.581404107=
+ -0700<br>
++@@ -222,7 +222,6 @@<br>
++=C2=A0 =C2=A0tst-process_mrelease \<br>
++=C2=A0 =C2=A0tst-quota \<br>
++=C2=A0 =C2=A0tst-rlimit-infinity \<br>
++-=C2=A0 tst-scm_rights \<br>
++=C2=A0 =C2=A0tst-sigtimedwait \<br>
++=C2=A0 =C2=A0tst-sync_file_range \<br>
++=C2=A0 =C2=A0tst-sysconf-iov_max \<br>
++@@ -233,6 +232,8 @@<br>
++=C2=A0 =C2=A0tst-timerfd \<br>
++=C2=A0 =C2=A0tst-ttyname-direct \<br>
++=C2=A0 =C2=A0tst-ttyname-namespace \<br>
+++=C2=A0 # Skip this test to avoid stale qemu process<br>
+++=C2=A0 # tst-scm_rights \<br>
++=C2=A0 =C2=A0# tests<br>
++<br>
++ # process_madvise requires CAP_SYS_ADMIN.<br>
++@@ -270,9 +271,10 @@<br>
++=C2=A0 =C2=A0tst-ntp_gettimex-time64 \<br>
++=C2=A0 =C2=A0tst-ppoll-time64 \<br>
++=C2=A0 =C2=A0tst-prctl-time64 \<br>
++-=C2=A0 tst-scm_rights-time64 \<br>
++=C2=A0 =C2=A0tst-sigtimedwait-time64 \<br>
++=C2=A0 =C2=A0tst-timerfd-time64 \<br>
+++=C2=A0 # Skip this test to avoid stale qemu process<br>
+++=C2=A0 # tst-scm_rights-time64 \<br>
++=C2=A0 =C2=A0# tests-time64<br>
++<br>
++ tests-clone-internal =3D \<br>
+diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.39.bb" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">glibc_2.39.bb</a> b/meta/recip=
+es-core/glibc/<a href=3D"http://glibc_2.39.bb" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">glibc_2.39.bb</a><br>
+index b203060064..9122472689 100644<br>
+--- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.39.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.39.bb</a><br>
++++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.39.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.39.bb</a><br>
+@@ -49,6 +49,7 @@ SRC_URI =3D=C2=A0 &quot;${GLIBC_GIT_URI};branch=3D${SRCBR=
+ANCH};name=3Dglibc \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0021-fix-create-thread-fai=
+led-in-unprivileged-process-BZ-.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0022-Avoid-hardcoded-build=
+-time-paths-in-the-output-binar.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0023-aarch64-configure-Pas=
+s-mcpu-along-with-march-to-dete.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0024-qemu-stale-process.pa=
+tch \<br>
+=C2=A0&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+=C2=A0B =3D &quot;${WORKDIR}/build-${TARGET_SYS}&quot;<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#197678): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/197678" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/197678</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105259855/953=
+399" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/105259855/953399</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rwmacleod@gmail=
+.com" target=3D"_blank" rel=3D"noreferrer">rwmacleod@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fba8090615054d54--
 
