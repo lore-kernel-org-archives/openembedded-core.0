@@ -1,106 +1,189 @@
-Return-Path: <fathi.boudra@linaro.org>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B18ADCD1288
-	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 09:43:10 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.33710.1711964584251106056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF88ACD1283
+	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 09:45:30 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.33852.1711964729607724624
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 02:43:04 -0700
+ Mon, 01 Apr 2024 02:45:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=HTvEV2d8;
- spf=pass (domain: linaro.org, ip: 209.85.208.52, mailfrom: fathi.boudra@linaro.org)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-56c197d042fso4591868a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 02:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711964583; x=1712569383; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOu4T3VnSW/eF/L32c1G+tZbPSKqexQnP0YcNHjKQqQ=;
-        b=HTvEV2d8/KD0+EA+bbco6rt/4/jwX0KBZM+E2fQO/wsc4oMcd/Dry61sokBxUvGSYm
-         1puuOP4LjaMa4f8UfnNIBCbLbaNWCAqL2UfpqVTHU+WgLWJ1CHWTVHpZpo6U9omUNZoQ
-         zcqRdZ8bKHjARs7r/p2QoBiNvuondYkj9t6J2BteakucVRAMElSk1AzvmqhTTQAPWrSL
-         YywsyHArPQgc4GdztGAV/kpQ3mmXsALDSgyh2Av9tpilp3IeQEg/hCWIxnJRYqKinWM3
-         ODYG6slKAY6GMurjmRXUvdoArbc9A1bZdeYDKNcy2TxZ9NVlgZe5ydeIX59WYu055zpw
-         fQkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711964583; x=1712569383;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lOu4T3VnSW/eF/L32c1G+tZbPSKqexQnP0YcNHjKQqQ=;
-        b=vHuYDCaV9ZogivKySuJgnKnUZrouH1BJqDNDUBAfazfV1WeNexad/8x82aeIWxcXV2
-         s869NDLKEt50Ofw96QN/Zz6YvYqPbFY9U+lGLdjMoEIap2oEN7sNhCmRUkiCeRmfxaZT
-         6FDbEP0ELiV2nm1zxQr/jHBJ8RJPAhnFT2xozzlnck2w2dCfw/CQTw0kyJPjt4EIFNOJ
-         LMtSkq3yFPE3QD/IBikg/t0qfPv5x0Ms42udzrgMQ2zg2we/WWhrux70b0els2DpfI6W
-         X3ZnpjFnATNR7VXSzypfFt+uInx1TKXOkpT0ecGESybMNUviOcuT8Fdwv9Hfp0NtYy+5
-         +Heg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5aW7ozByzZ7u1cxUyclZex3YRGb2R6NwCKzogXkN5K+kQ95Mrb7VTatqFk5Dzqm6k6kq05zDE+8pIEuGJ0g6nZSjxA+xk9orCGA/7vdQo0xZAecHaodJ2
-X-Gm-Message-State: AOJu0YwLEAnXlnRzz7JDoXMqtDOsiN6y9OJLAZk2amJsdH1p0OQfufK/
-	xnmjOzW3TWyt6VHJ1IgICuyaBud0qAESBH34qz3IkY3c+6cJa8gkY8vO8+1W6BKamHaPgrqCMQc
-	TCjUl58/DSIz/EjEfEdV54hHLZrYXpsEQvkJMbg==
-X-Google-Smtp-Source: AGHT+IGVu7WbVlZPaBeJM28WPQ8DtAjJf/VRkDkg4ckOwbOvbb7Fu/Op+Eus3Ur0hTYnEArfxSq7LDmcYGkIMMnpmHc=
-X-Received: by 2002:a05:6402:4315:b0:567:29d9:99ae with SMTP id
- m21-20020a056402431500b0056729d999aemr6623827edc.28.1711964582579; Mon, 01
- Apr 2024 02:43:02 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=hozOL8kt;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=48215f78b9=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4319bmlx016904
+	for <openembedded-core@lists.openembedded.org>; Mon, 1 Apr 2024 09:45:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=CySVcrGE3Pqd/LCS9FQJKDxecaxBFw8y/0arF5HsDrs=; b=
+	hozOL8ktTyAg5Wal4KtTTzpU6WmQW+Ldgl2A9sbmcG9dDt+Cl1/ZOQJQRySB8MXl
+	6m474N9LNPKTR8AIjFokgo9dRT7gDIS83jxIvIjssJ9XlK2shHCdiY6aZkLpGXeZ
+	Z615UMgYxJSctIqRK+k8QUPpB3PP4iSGdY4OmnT1orkwiKAKBMZwlHJKYJXDYvmZ
+	NZlRd0OxUQjRUpU8FeNeBvTvjXQL0GY2KlZFEYr697b0YxeisnVG5NrDyDKMCEqc
+	xkpEJpGorzXdAOSe8VBz4aHoHigvOk02+bwrVAY1YiQJg/Du/QfVCfXXUAX/Lq4t
+	seohnUzcQDdZoQVdAIq/hw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x69q6sqmn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 09:45:28 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4319jSkD027621;
+	Mon, 1 Apr 2024 09:45:28 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2041.outbound.protection.outlook.com [104.47.51.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x69q6sqmm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 01 Apr 2024 09:45:28 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NET2uamdkNgtRNxiB1DLhinDLrOwLHejJXKhEln0oDBb1g7n9uw1QFOS+rC16W6bYEf7VBJ//WsSMbt+MkGevPKHLa5/okDrTdMsOsLmxn42J+xOcYcIv9cn0qU2CnvAg2xYE3XTzDwABUSFf8PRkf08ezspMvH3fLhR3FP+uyz0eq8vu7F6yxiW3bWlBcNplPMJSPhFWeRpmRp+V+7kzfgHPy8fhseU5CBYInFWp0so280tB637kzJ4eo2bPF/79fo1TvHax7Zmd7l+eiuFnnSd4FKthtzsjeUjr9eOO7bwFTeH+v58atm1w9vczViups01K2pM3DKDgKt300d/sQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CySVcrGE3Pqd/LCS9FQJKDxecaxBFw8y/0arF5HsDrs=;
+ b=WDOT3L5uU3Lncz0HK1gIEcD2fm4k21fmWghDTu5cUYG971R8GYZfFy5dSMt0ylV2HetMyMW9yWOsqFnDSLinfNPcy/QzsEkUtvHQHtk8JcnZCr7UJIlwB6Gu249eGIA+JIYHsj1LWIMKX6Nk9fyjZHezqAXBbOM8mo+17Dfch/KRSEy6JpYjQqff4INhScwLmmleGwXITV3A3VY3jXj/OiAjEu5UZBn0xnz2BlwG5mOCb3Am9pZzjujaPhJ4Ovv96KgQ/CCshnqJ+rgVAycKXOrtY9uHFDoDfumW/031zLCcT3sPw8CztgwTdBzIN+BOfkySEDiLr3MY/C4LA2FO1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
+ by IA0PR11MB8354.namprd11.prod.outlook.com (2603:10b6:208:48c::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.22; Mon, 1 Apr
+ 2024 09:45:26 +0000
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::86fd:8a6:5f86:104e]) by SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::86fd:8a6:5f86:104e%6]) with mapi id 15.20.7452.019; Mon, 1 Apr 2024
+ 09:45:26 +0000
+Message-ID: <3da103db-11b7-46d1-9a84-d69485c40194@windriver.com>
+Date: Mon, 1 Apr 2024 15:15:17 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] glibc: Fix stale qemu processes left after
+ glibc oe-selftest
+To: Randy MacLeod <rwmacleod@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        Randy MacLeod <Randy.MacLeod@windriver.com>,
+        Umesh.Kallapa@windriver.com, Naveen Gowda <Naveen.Gowda@windriver.com>,
+        Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>,
+        Shivaprasad.Moodalappa@windriver.com
+References: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+ <CAK6=ix4Z4cC7h3xzHpURNC8ZOWrBqMUYV1+xkGFWzFcSFH2_Rg@mail.gmail.com>
+Content-Language: en-US
+From: Yash Shinde <Yash.Shinde@windriver.com>
+In-Reply-To: <CAK6=ix4Z4cC7h3xzHpURNC8ZOWrBqMUYV1+xkGFWzFcSFH2_Rg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: VI1PR02CA0059.eurprd02.prod.outlook.com
+ (2603:10a6:802:14::30) To SJ1PR11MB6129.namprd11.prod.outlook.com
+ (2603:10b6:a03:488::12)
 MIME-Version: 1.0
-References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
- <1710313714-12541-36-git-send-email-wangmy@fujitsu.com> <2d88c7fc227e44acf14470103dadd92e026b62f9.camel@linuxfoundation.org>
- <36b1d7d1-c1ea-4d1a-b7a7-27ff550cdcc7@kernel.crashing.org>
- <CAApg2=Tq7i4u3+U9iNXQufH8kKwnfty2OG=OUeL23j9PT9gFJA@mail.gmail.com>
- <d21d06c112a43b8d29ab98a05a3088a16c5d4dac.camel@linuxfoundation.org>
- <CANNYZj8DCqKE9_ftZTKfj8UY5tnDUnPhETN++3SjeNDT_S4_iA@mail.gmail.com>
- <CA+chaQd5mQv5ciJWbXHG1OdsQ7AW_H8dfVJrNaTV-p7qiqHusw@mail.gmail.com> <13c0dc257dd36f6048561a1ce6b2f76e9a04700f.camel@linuxfoundation.org>
-In-Reply-To: <13c0dc257dd36f6048561a1ce6b2f76e9a04700f.camel@linuxfoundation.org>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Mon, 1 Apr 2024 11:42:51 +0200
-Message-ID: <CAGNsrLBM7DptiF-7t_B5aK=v_uBcYD52Ksp2ebgS44Ny0NvxaA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 36/36] xz: upgrade 5.4.6 -> 5.6.1 _WARNING_
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Martin Jansa <martin.jansa@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Mark Hatle <mark.hatle@kernel.crashing.org>, Marta Rybczynska <rybczynska@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, wangmy@fujitsu.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6129:EE_|IA0PR11MB8354:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	7yqEBg66TAkAbOZuBYMZQwPQ5S64x6zxGP3hWg/lsoG8FO7J9CBt3+Vq7qlo1JUX3b3lV7O6YczLI1lGucTY+oet5TBoQdg9Q6C7q2j2zW5uvhjsKFvmNPhd8ITxcIb5aot6FFp5LUHrh8q8ankMw7Q/Pg2knI7PPT0ZaaeuxOtzT2pOT8POLCNOeMYQw4ocTccMvCCeDXNtzDPCvHahF8DqYrMvEY8wqdLzM8wDYFQvuOGmqf+lgLbrqO7QQKJPCW7WVY+lolIyCpO9VUI2xmNVrLGnNg4IPgxwb/oBPGHpjo0Ep/MTGybkcU9YUpbOrMehpV5viPHE9zm4ij+esGHSOt25o4Aup0U/K/amMP2BDZJhZm8sQ2TQzAa871So7CilpRvCi9B77MaZj8sHBPwSX2rpLptYvjrLwWYsctZtkLiBPIGWy8WNDmMaFfH+WACVV5wtTikxU1H2Xh514WWlw0bORvlh2guYkPha6PQo/iRHZHHTQ3RveKvG30h93Ucar4ufplsVmk9eSoDOtjxFQKEpvZtyg4yoTWQiJ2N0fsgYu231kAeNV9dv0oc7CfR7wOJi7SP8JOg+rkavrGeZd1diWCWb5MsYqUnjIknwziAiJQaOABMfaKuiusO/je4pLY+yzTdtjoig1+SxvVKSO5gpJcr9BfEY8K1RA/Q=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VlBoeENHN0hFTC8rVmZIMW1vaDFNa2hoT3hhbEN2dC82cW9UYTh1dzE2MVBl?=
+ =?utf-8?B?Si9mNEFsaUptYzNaUUVYcDhLVnhvZEwvK2dYbkg5eXhGczF0K1hEalZBckNO?=
+ =?utf-8?B?YU05UFZhRHB5bFJBQWJpS3BYSitwbk9uUVhFVkQ0bkVyTmZBdTFBT05WREh5?=
+ =?utf-8?B?ZWhiVk9PMm5KN3BsZm5JeTZTTE9LMjBybzNrQzRtS3hIU2k3L2Q2OUdtSHp3?=
+ =?utf-8?B?RTlDQTVSSGdYTklpZjBDWnhWQ3NleVVQTXNyMTdiVFNCTmNEOWpaYU4rbnNm?=
+ =?utf-8?B?SlUvQm84M3BsR1ZqZjRENUR0aXJEYmxiTW9jTUczcGcwaDhMam9yYzFtSyt5?=
+ =?utf-8?B?cE9TOUgwTjVJR1NTYmV6MEFzcU1LajNtcS9ud3ozL3llVUc3YnRrZ0w5V1JR?=
+ =?utf-8?B?Z0YwSEFkNGdhenNKc0t2WkRHRWE4YXpTQkJZRm9BdnBOT0x1cGFNYVd6dTlD?=
+ =?utf-8?B?S05LbTFIQklrYitrc2xxOXNyMFJNWUdmcXltNXhXektPMTloS3ZtZUd2Q0JW?=
+ =?utf-8?B?WHM2QXVnRXNLWHFzcFFieFVWSTdwVnpIcTJIWXN5WHhaMGtPUDUzTytjT0hN?=
+ =?utf-8?B?a1Yxa0RwL3IrZG9TK2R5dTV6TUpybnVSUjBOVmFJK1hvVnR5YzVpMDJPUXlD?=
+ =?utf-8?B?TXVjNnZYbEZNQjU4dDdycHgxY1huelZKWmxsYjdyMDlDenRZbU1PdCt3ek5V?=
+ =?utf-8?B?cXhWQVgyMnBTbzB1cmVlUXN2K0VubzZCWmhoVThHYWRIR1ZoL2k3K2Q5WlFY?=
+ =?utf-8?B?UzBYK3JrQVRDQlREdWg5eTd5QWgzSS9LODlPdHBpci9lclJ0cnZyNUp6cFh6?=
+ =?utf-8?B?am05U2FnL3Q3OWRNVHhnNzR2ajYvSi93R3QrN2ZacG5OSmQ1TFBsYVpFQlI0?=
+ =?utf-8?B?NHBQRElVK1VEV1NVdXNNenE3RU9UVEh3bGsxcks2eXc1b0ptQS9RVGJGT2dl?=
+ =?utf-8?B?NE54UkRnZmk1NXVCNGJySU4rQmp6V2RGRjZ5YWNxL0lJSXVZWmVOUnNiOUcz?=
+ =?utf-8?B?RndqMDF0YzRPYUxWR1FneFdqeFNhMnBVTmJGY0dHVE5lUVF1UCtOVk9XUmtM?=
+ =?utf-8?B?dS9PNU9YQThCNzJtV3dCWWgrbUhaYnJyQUp3T0FTMFBwekpXRWphaklnREs5?=
+ =?utf-8?B?c0hVa28zRjhXcUhwY3NKQzltcjgxZ3M5N2wzYzBRYlNtT1ZiVGNPcGkrcHBo?=
+ =?utf-8?B?bjdvdWlKcGlyMEdIYy9uSGQyanZ6cWQzYkxKYzl0ZFJmQ2pCRVlGZ1VzeEZH?=
+ =?utf-8?B?OWNDakJyclk1REVwTXJweUdnbFA4Q29kVW9QQk5qWXh3SHN4Q2xRMVdjaFhX?=
+ =?utf-8?B?bUlhYTkvQlZtVmVPM0hqUEZ3VnZkZCtyMzZaNis4cWE1WEZaTVZVcFNCQjJI?=
+ =?utf-8?B?L1hpWnpINjl5UGovZ1VaT0E2ME4ybU9LdjRpY1c1am01bmwvVmxDUU1uMS95?=
+ =?utf-8?B?UHpUbzBJYzZuZ0pYYlRCOGNmSTBaNnNXTkEvWURsUjF0ZGxvWThBREFsVHdH?=
+ =?utf-8?B?VlpMTHl0UENRL0Zud3o4Z2dZNEp1VHBTaTBsVG1nM0Y2WnlFcWdRZ2F5NHFH?=
+ =?utf-8?B?UnpVVlk0RGVlOVBSdkZKdDdtdDNaajRqbkd3OWhNZ1hxSnRvQWlHbnpDVm5w?=
+ =?utf-8?B?SU16MjRtT1NVZDVrSHNyRHpXa3hXVkRLNDBzWDFsL1l4VWhBMCt0MERBQ2hI?=
+ =?utf-8?B?aGFFNE5iRlpZWUxJWVF3alhCaTFNVGdwRWlWYzRjc0tSckx4VXFJeFJFVkVI?=
+ =?utf-8?B?bSt5aHczNkVvSVgrbU81V2JIODhLMU1wUmg4Q0dQV0Z3U2htL2NxR3Rac0NO?=
+ =?utf-8?B?U2p6bnpjK0dlSkp5MGFhWk81eUJWYmd6OFVXV25QOXZaV1NaV3ZRcmxlNC9h?=
+ =?utf-8?B?aHJpR2xCVFF0MkxEOEt1VXFLaFBuYzZpL3Y5TVdKZ2ZiZWpRb05yM0ErdC9Z?=
+ =?utf-8?B?RXhYcDZEUmFxZng1UWRXRmNJWWtTdnJMUUwvTjVNMU5NMEJNS1RMTWt2QjV3?=
+ =?utf-8?B?bkx0U05jRVNwUkMxSEV2QTRNOXN1MTNGZE81UjBjZUZ5ZTRLcVROTkRSZ0xV?=
+ =?utf-8?B?cDRsRmtWcWtKaXRDSHVhTWRNeFZpaWFVSFVzNytZbHArSkZKSXVkV29QcHdN?=
+ =?utf-8?B?QlNMcEwzQS9lOFN4TWpPeERBYk16aXFSZnVUSHRIV1M3WEpVNkNKeU0weHdN?=
+ =?utf-8?B?QXc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61e45eba-e7c5-487c-8712-08dc52307565
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 09:45:26.3988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B3qhg9fxcATgtlTsH7Hd6mYexggr71HvgQpCMAPAoqBvrhHQwrPup22DJ4wUcpeg3q74BomlTpi8THhIn4ofhyaEjSm5e8ODa49AjfeXAeA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8354
+X-Proofpoint-ORIG-GUID: 4LWlXvlsAjpOtVj1UMIi4inXvVXjwtTi
+X-Proofpoint-GUID: wJA9Nt70v3nvOKq-bGnPEdrlO3nwlm40
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-01_06,2024-03-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxlogscore=925
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2404010068
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4319bmlx016904
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 09:43:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197681
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 09:45:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197682
 
-On Sat, 30 Mar 2024 at 17:18, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2024-03-30 at 14:06 +0100, Martin Jansa wrote:
-> > From what is publicly known it injected malicious code (through m4
-> > macro using payload hidden in obfuscated compressed test file) into
-> > built liblzma.so.5 which then hijacks RSA_public_decrypt call e.g. in
-> > sshd (when sshd is built with patch adding systemd notifications
-> > which brings liblzma dependency to sshd e.g. on debian and ubuntu
-> > based systems).
-> >
-> > The build systems which just built this xz version shouldn't be
-> > affected (as it won't be using the liblzma.so from the OE build on
-> > the host).
-> >
-> > This publicly known part should be OK for OE, but it's right to be
-> > worried about the other things which aren't known (not only from
-> > these guys or from xz project).
->
-> I concur.
->
-> It is worrying but I've kind of been expecting something like this for
-> a while unfortunately.
->
-> We need to watch what is going on and act accordingly if/as anything
-> else becomes known.
 
-https://nvd.nist.gov/vuln/detail/CVE-2024-3094
-
-Distros have downgraded to older releases, still trying to figure out
-which version to use.
-
-> Cheers,
+On 01-04-2024 14:36, Randy MacLeod wrote:
 >
-> Richard
+> The short log is misleading since this isn't really a fix.
+>
+> You have:
+>
+> glibc: Fix stale qemu processes left after glibc oe-selftest
+Will send a V2 with updated short log.
+>
+>
+> Maybe:
+>
+> glibc: Skip 2 qemu tests that can hang in oe-selftest
+>
+>
+> Skipping is what we want for now but
+> have you tried=C2=A0 wrapping the hanging test in a script that runs:
+> strace -f -ttt -o foo <test>
+> ?
+I tried to reproduce and strace this issue outside yocto environment for=20
+ppc/mips target but make errors were observed when cross-compiling and=20
+building.
+Thus, unable to capture strace logs.
+
+With the latest poky sources, the issue is not reproducible locally and=20
+unable to check there also.
+
+
+Regards,
+Yash
+>
+> Randy
 
