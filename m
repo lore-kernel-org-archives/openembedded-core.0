@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC00ACD12A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DA3CD12A1
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:11:14 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.44907.1711995071706097291
+ by mx.groups.io with SMTP id smtpd.web11.44904.1711995071160590406
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DTzJhcj9;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZzN3C6vf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018e9adbaa85-bfad5efc-d479-43c3-b9e7-f1db2f87536a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XDZ4L0kz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Z/3yq0d4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018e9adba846-14ea14e8-6154-4072-82d9-e7b8bea273b9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711995071;
+	t=1711995070;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DvpngqkjHk/9rl4agCr4CIN2zlvL4FIzIHLQ9lkR7UA=;
-	b=DTzJhcj9VpX4u4c/gA1+mymcZnPACatxZ8IsCsngFkBnDdetxQVqndBPkjMmhAVT
-	nXlB6J1Tfb0T7Zj1Z18g1WydxkP24BH0VdX0Hyey8HXJ2TCue2Lnj1eTbTEuflIFy1j
-	Xb2kkSQSWqpVtXlVT9z9kTohisozuHmhQGi2xhH4=
+	bh=WVbLmuEU1vEQBeYd0mjkuQozzDeTb6YdKy1ymZxLZZ4=;
+	b=XDZ4L0kz5gcrxwNFqaxDFm57KepQzAzK9KhHvcOPKAuroIxPFrJQ5NgWNo0OdZ7m
+	9eBX+vtTIrhnvxvY+gxlA6LEdw4BJpFL54qkwj0Q24X1aJyd2dxAaAdgE21G01lF1I2
+	EnTXa6TJFqipWyIRn4ky98bM3EmQA76/pPEnMu+Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995071;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995070;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DvpngqkjHk/9rl4agCr4CIN2zlvL4FIzIHLQ9lkR7UA=;
-	b=ZzN3C6vfwup5EAPKFOHQk3JCWG5vCaVx08BcaCLiYNEYa2E78QvuVsWEmUHTeQHH
-	QeBZESFIFnpgHTUnWkEe55HYHmVrCWwcw2T7lKyhxkQBV1Uv8QwFB6G5MoR32Y3g7yA
-	9VAhe4TxoaOPZzQzyDSSDM75NgHy0n2euXBVP/Lk=
-Content-Type: multipart/mixed; boundary="===============5150092728511648242=="
+	bh=WVbLmuEU1vEQBeYd0mjkuQozzDeTb6YdKy1ymZxLZZ4=;
+	b=Z/3yq0d4m6oW7Nh2N382h+wxCe8NCqOJ/YPX4Bzab1JHcrwn5mGz1D71jPj4+hWM
+	mWye7abg9KOQKW7o9OJ5CQDhppjwhXrR08KYpLowo8SYNUWUctsL1RXlYzLvtq1HJIn
+	d2VBa2Im3KsLkRFiaVPfMfSY1WcgYylMursfG800=
+Content-Type: multipart/mixed; boundary="===============6217475305115550718=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.24.1 FAILED
-Message-ID: <0101018e9adbaa85-bfad5efc-d479-43c3-b9e7-f1db2f87536a-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:11:11 +0000
+Subject: [AUH] icu: upgrading to 74-2 FAILED
+Message-ID: <0101018e9adba846-14ea14e8-6154-4072-82d9-e7b8bea273b9-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:11:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:11:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197835
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197825
 
---===============5150092728511648242==
+--===============6217475305115550718==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.24.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *icu* to *74-2* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-upgrade-1.22.11-1.24.1.patch
+    - apply the patch: git am 0001-icu-upgrade-74-1-74-2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,37 +78,140 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9eea829013dde2d7ce481016cf5ba7672d400c7a Mon Sep 17 00:00:00 2001
+From 4f21edc140666eaf71d7a3f375a9768e211b8caa Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 16:00:54 +0000
-Subject: [PATCH] gstreamer1.0-rtsp-server: upgrade 1.22.11 -> 1.24.1
+Date: Mon, 1 Apr 2024 17:27:01 +0000
+Subject: [PATCH] icu: upgrade 74-1 -> 74-2
 
 ---
- ...tsp-server_1.22.11.bb => gstreamer1.0-rtsp-server_1.24.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.11.bb => gstreamer1.0-rtsp-server_1.24.1.bb} (90%)
+ .../0001-Disable-LDFLAGSICUDT-for-Linux.patch   | 17 +++++++----------
+ .../icu/icu/0001-icu-Added-armeb-support.patch  | 13 ++++++-------
+ .../icu/icu/fix-install-manx.patch              | 11 +++++------
+ .../icu/{icu_74-1.bb => icu_74-2.bb}            |  2 +-
+ 4 files changed, 19 insertions(+), 24 deletions(-)
+ rename meta/recipes-support/icu/{icu_74-1.bb => icu_74-2.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb
-index 554ed9ec8f..cf1ff70bbd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+diff --git a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+index 2968d571bb..25e99c8f42 100644
+--- a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
++++ b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+@@ -1,4 +1,4 @@
+-From 0c82d6aa02c08e41b13c83b14782bd7024e25d59 Mon Sep 17 00:00:00 2001
++From 1deddeffe1df01adf2c2235c755c9401d49f24dc Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 15 Feb 2014 21:06:42 +0000
+ Subject: [PATCH] Disable LDFLAGSICUDT for Linux
+@@ -7,14 +7,14 @@ Upstream-Status: Inappropriate [ OE Configuration ]
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- source/config/mh-linux |    2 +-
++ source/config/mh-linux | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "ec49d474750a6ff6729c85b448abc607fb6840b21717ad7abc967e2adbf07a24"
-+SRC_URI[sha256sum] = "ab436a2ec9c3c58fbfd3c5b1736419891bb5315d136d7c72c58479f2807008e6"
+-diff --git a/config/mh-linux b/config/mh-linux
+-index 366f0cc..2689aab 100644
+---- a/config/mh-linux
+-+++ b/config/mh-linux
+-@@ -21,7 +21,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
++diff --git a/source/config/mh-linux b/source/config/mh-linux
++index 53d6780..b622513 100644
++--- a/source/config/mh-linux
+++++ b/source/config/mh-linux
++@@ -23,7 +23,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
+  LD_RPATH_PRE = -Wl,-rpath,
+  
+  ## These are the library specific LDFLAGS
+@@ -23,6 +23,3 @@ index 366f0cc..2689aab 100644
+  
+  ## Compiler switch to embed a library name
+  # The initial tab in the next line is to prevent icu-config from reading it.
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+index 578517b57f..408f34cafa 100644
+--- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
++++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+@@ -1,4 +1,4 @@
+-From e3c25af4b40d64f098e7b8ae5a91fdc3c90163c4 Mon Sep 17 00:00:00 2001
++From 61468006e773d6b1dcbe6d324b687b86220ef4c4 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@cn.fujitsu.com>
+ Date: Wed, 8 May 2019 14:42:30 +0900
+ Subject: [PATCH] icu: Added armeb support.
+@@ -8,16 +8,15 @@ Make icu support arm32 BE.
+ Upstream-Status: Pending
  
- S = "${WORKDIR}/${PNREAL}-${PV}"
+ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+-
+ ---
+- i18n/double-conversion-utils.h | 2 +-
++ source/i18n/double-conversion-utils.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
+ diff --git a/source/i18n/double-conversion-utils.h b/source/i18n/double-conversion-utils.h
+-index 7f23e0a..7f89094 100644
+---- a/i18n/double-conversion-utils.h
+-+++ b/i18n/double-conversion-utils.h
+-@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
++index 303668f..7d859dc 100644
++--- a/source/i18n/double-conversion-utils.h
+++++ b/source/i18n/double-conversion-utils.h
++@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
+  //
+  // If it prints "correct" then the architecture should be here, in the "correct" section.
+  #if defined(_M_X64) || defined(__x86_64__) || \
+diff --git a/meta/recipes-support/icu/icu/fix-install-manx.patch b/meta/recipes-support/icu/icu/fix-install-manx.patch
+index 925b064ebd..dac23165cd 100644
+--- a/meta/recipes-support/icu/icu/fix-install-manx.patch
++++ b/meta/recipes-support/icu/icu/fix-install-manx.patch
+@@ -1,4 +1,4 @@
+-From a6ddabc8cadb76bfe2d2e374a6702442cfe51cce Mon Sep 17 00:00:00 2001
++From c1ffe881edb65e17d56ba3755a4c32c723fc5c86 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 9 Oct 2015 17:50:41 +0100
+ Subject: [PATCH] icu: fix install race
+@@ -13,15 +13,14 @@ in the install command.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+ ---
+  source/Makefile.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/Makefile.in b/Makefile.in
+-index be9435b..ada20d7 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
++diff --git a/source/Makefile.in b/source/Makefile.in
++index 8366f01..79b91c9 100644
++--- a/source/Makefile.in
+++++ b/source/Makefile.in
+ @@ -77,7 +77,7 @@ EXTRA_DATA =
+  
+  ## List of phony targets
+diff --git a/meta/recipes-support/icu/icu_74-1.bb b/meta/recipes-support/icu/icu_74-2.bb
+similarity index 98%
+rename from meta/recipes-support/icu/icu_74-1.bb
+rename to meta/recipes-support/icu/icu_74-2.bb
+index 88ded166b5..ef9b36f79b 100644
+--- a/meta/recipes-support/icu/icu_74-1.bb
++++ b/meta/recipes-support/icu/icu_74-2.bb
+@@ -111,7 +111,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+ SRC_URI:append:class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[code.sha256sum] = "86ce8e60681972e60e4dcb2490c697463fcec60dd400a5f9bffba26d0b52b8d0"
++SRC_URI[code.sha256sum] = "68db082212a96d6f53e35d60f47d38b962e9f9d207a74cfac78029ae8ff5e08c"
+ SRC_URI[data.sha256sum] = "67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f"
+ 
+ UPSTREAM_CHECK_REGEX = "releases/tag/release-(?P<pver>(?!.+rc).+)"
 -- 
 2.42.0
 
 
---===============5150092728511648242==
+--===============6217475305115550718==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -116,7 +219,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1875 entries from dependency cache.
+Loaded 1877 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 921 .bb files complete (920 cached, 1 parsed). 1874 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -130,161 +233,201 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-b97be9268425a415c640fcc9aa3cbbb1ff393909"
+DISTRO_VERSION       = "4.3+snapshot-5f96fa0524978a52db937478a9ba341f2ff28a79"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b97be9268425a415c640fcc9aa3cbbb1ff393909"
+workspace            = "tmp-auh-upgrades:5f96fa0524978a52db937478a9ba341f2ff28a79"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 333 Local 321 Mirrors 0 Missed 12 Current 582 (96% match, 98% complete)
+Sstate summary: Wanted 111 Local 96 Mirrors 0 Missed 15 Current 191 (86% match, 95% complete)
 done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 200 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 209 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 256 of 302 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_recipe_qa_setscene)
+NOTE: Running task 645 of 921 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_recipe_qa)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-74-2-r0: task do_recipe_qa: Started
+NOTE: recipe icu-native-74-2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 272 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe icu-74-2-r0: task do_recipe_qa: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_recipe_qa unihash changed to 6d06fdc099477050ade6be636e8e41ce19523e308422552e865b4712b36d39b0
+NOTE: recipe icu-native-74-2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 269 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 271 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
+NOTE: Running task 702 of 921 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch)
+NOTE: Running task 704 of 921 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-74-2-r0: task do_fetch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
+WARNING: icu-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+NOTE: recipe icu-native-74-2-r0: task do_fetch: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 285 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 287 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 294 of 302 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot_setscene)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 297 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 299 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 302 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+WARNING: icu-74-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data - will attempt other sources if available
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2294 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_recipe_qa)
-NOTE: Running task 2397 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_write_config)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_recipe_qa: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2520 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_fetch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2521 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_unpack)
-NOTE: Running task 2522 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2523 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_patch)
-NOTE: Running task 2524 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_patch: Succeeded
-NOTE: Running task 2525 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2526 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2527 of 2539 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-work
- er/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'gstreamer1.0-plugin
- s-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-n
- ative']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dintrospection=enabled -Ddoc=disabled -Dexamples=disabled -Dtests=disabled ...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/gst-rtsp-server-1.24.1
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/build
-| Build type: cross build
-| Project name: gst-rtsp-server
-| Project version: 1.24.1
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/recipe-sysroot ld.bfd 2.42.0.20240216
-| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the build machine: gcc ld.bfd 2.41.0.20230926
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C supports link arguments -Wl,-z,nodelete: YES
-| Compiler for C supports arguments -fvisibility=hidden: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Message: Disabling GLib cast checks
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wredundant-decls: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -Wformat: YES
-| Compiler for C supports arguments -Wformat-nonliteral: YES
-| Compiler for C supports arguments -Wformat-security: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Waggregate-return: YES
-| Compiler for C supports arguments -Winit-self: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Waddress: YES
-| Compiler for C supports arguments -Wno-multichar: YES
-| Compiler for C supports arguments -Wvla: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| 
-| ../gst-rtsp-server-1.24.1/meson.build:139:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301:175 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301, line 175
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301, line 164
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301, line 153
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301, line 188
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2527 tasks of which 2517 didn't need to be rerun and 1 failed.
+WARNING: icu-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+WARNING: icu-native-74-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data - will attempt other sources if available
+WARNING: icu-native-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-native-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+NOTE: recipe icu-74-2-r0: task do_fetch: Failed
+NOTE: recipe icu-native-74-2-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 890 tasks of which 887 didn't need to be rerun and 2 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401160032.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401172641.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401160032.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240401172641.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-rtsp-server-1.24.1-r0 do_configure: meson failed
-ERROR: gstreamer1.0-rtsp-server-1.24.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/run.do_configure.2677301', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-rtsp-server/1.24.1/temp/log.do_configure.2677301
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.1.bb:do_configure) failed with exit code '1'
+Summary: 2 tasks failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch
+Summary: There were 8 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: icu-74-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data
+ERROR: icu-74-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip\' has sha256 checksum \'c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6\' when \'67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data')
+ERROR: icu-native-74-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data
+ERROR: icu-native-74-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip\' has sha256 checksum \'c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6\' when \'67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/74-2/temp/log.do_fetch.1649994
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/74-2/temp/log.do_fetch.1649993
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch) failed with exit code '1'
 
---===============5150092728511648242==
+--===============6217475305115550718==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-rtsp-server-upgrade-1.22.11-1.24.1.patch"
+Content-Disposition: attachment; filename="0001-icu-upgrade-74-1-74-2.patch"
 
-RnJvbSA5ZWVhODI5MDEzZGRlMmQ3Y2U0ODEwMTZjZjViYTc2NzJkNDAwYzdhIE1vbiBTZXAgMTcg
+RnJvbSA0ZjIxZWRjMTQwNjY2ZWFmNzFkN2EzZjM3NWE5NzY4ZTIxMWI4Y2FhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNjowMDo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1ydHNwLXNlcnZlcjogdXBncmFkZSAxLjIyLjExIC0+IDEuMjQuMQoKLS0tCiAu
-Li50c3Atc2VydmVyXzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
-MS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
-MC1ydHNwLXNlcnZlcl8xLjIyLjExLmJiID0+IGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0
-LjEuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjIyLjExLmJiIGIvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0LjEuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
-cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjIyLjExLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEu
-MjQuMS5iYgppbmRleCA1NTRlZDllYzhmLi5jZjFmZjcwYmJkIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIu
-MTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1ydHNwLXNlcnZlcl8xLjI0LjEuYmIKQEAgLTEwLDcgKzEwLDcgQEAgUE5SRUFMID0gImdzdC1y
-dHNwLXNlcnZlciIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
-cmcvc3JjLyR7UE5SRUFMfS8ke1BOUkVBTH0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiZWM0OWQ0NzQ3NTBhNmZmNjcyOWM4NWI0NDhhYmM2MDdmYjY4NDBiMjE3MTdhZDdh
-YmM5NjdlMmFkYmYwN2EyNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhYjQzNmEyZWM5YzNjNThm
-YmZkM2M1YjE3MzY0MTk4OTFiYjUzMTVkMTM2ZDdjNzJjNTg0NzlmMjgwNzAwOGU2IgogCiBTID0g
-IiR7V09SS0RJUn0vJHtQTlJFQUx9LSR7UFZ9IgogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNzoyNzowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlj
+dTogdXBncmFkZSA3NC0xIC0+IDc0LTIKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
+RFQtZm9yLUxpbnV4LnBhdGNoICAgfCAxNyArKysrKysrLS0tLS0tLS0tLQogLi4uL2ljdS9pY3Uv
+MDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaCAgfCAxMyArKysrKystLS0tLS0tCiAu
+Li4vaWN1L2ljdS9maXgtaW5zdGFsbC1tYW54LnBhdGNoICAgICAgICAgICAgICB8IDExICsrKysr
+LS0tLS0tCiAuLi4vaWN1L3tpY3VfNzQtMS5iYiA9PiBpY3VfNzQtMi5iYn0gICAgICAgICAgICB8
+ICAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDI0IGRlbGV0aW9ucygt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS97aWN1Xzc0LTEuYmIgPT4gaWN1Xzc0
+LTIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8w
+MDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gK
+aW5kZXggMjk2OGQ1NzFiYi4uMjVlOTljOGY0MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaAor
+KysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
+RFQtZm9yLUxpbnV4LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwYzgyZDZhYTAyYzA4ZTQx
+YjEzYzgzYjE0NzgyYmQ3MDI0ZTI1ZDU5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAx
+ZGVkZGVmZmUxZGYwMWFkZjJjMjIzNWM3NTVjOTQwMWQ0OWYyNGRjIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwg
+MTUgRmViIDIwMTQgMjE6MDY6NDIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gRGlzYWJsZSBMREZM
+QUdTSUNVRFQgZm9yIExpbnV4CkBAIC03LDE0ICs3LDE0IEBAIFVwc3RyZWFtLVN0YXR1czogSW5h
+cHByb3ByaWF0ZSBbIE9FIENvbmZpZ3VyYXRpb24gXQogCiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJh
+aiA8cmFqLmtoZW1AZ21haWwuY29tPgogLS0tCi0gc291cmNlL2NvbmZpZy9taC1saW51eCB8ICAg
+IDIgKy0KKyBzb3VyY2UvY29uZmlnL21oLWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCi1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxp
+bnV4IGIvY29uZmlnL21oLWxpbnV4Ci1pbmRleCAzNjZmMGNjLi4yNjg5YWFiIDEwMDY0NAotLS0t
+IGEvY29uZmlnL21oLWxpbnV4Ci0rKysgYi9jb25maWcvbWgtbGludXgKLUBAIC0yMSw3ICsyMSw3
+IEBAIExEX1JQQVRIPSAtV2wsLXpvcmlnaW4sLXJwYXRoLCckJCdPUklHSU4KK2RpZmYgLS1naXQg
+YS9zb3VyY2UvY29uZmlnL21oLWxpbnV4IGIvc291cmNlL2NvbmZpZy9taC1saW51eAoraW5kZXgg
+NTNkNjc4MC4uYjYyMjUxMyAxMDA2NDQKKy0tLSBhL3NvdXJjZS9jb25maWcvbWgtbGludXgKKysr
+KyBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKK0BAIC0yMyw3ICsyMyw3IEBAIExEX1JQQVRIPSAt
+V2wsLXpvcmlnaW4sLXJwYXRoLCckJCdPUklHSU4KICBMRF9SUEFUSF9QUkUgPSAtV2wsLXJwYXRo
+LAogIAogICMjIFRoZXNlIGFyZSB0aGUgbGlicmFyeSBzcGVjaWZpYyBMREZMQUdTCkBAIC0yMyw2
+ICsyMywzIEBAIGluZGV4IDM2NmYwY2MuLjI2ODlhYWIgMTAwNjQ0CiAgCiAgIyMgQ29tcGlsZXIg
+c3dpdGNoIHRvIGVtYmVkIGEgbGlicmFyeSBuYW1lCiAgIyBUaGUgaW5pdGlhbCB0YWIgaW4gdGhl
+IG5leHQgbGluZSBpcyB0byBwcmV2ZW50IGljdS1jb25maWcgZnJvbSByZWFkaW5nIGl0LgotLS0g
+Ci0xLjcuMTAuNAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAw
+MDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9p
+Y3UvaWN1LzAwMDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggNTc4NTE3YjU3
+Zi4uNDA4ZjM0Y2FmYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8w
+MDAxLWljdS1BZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2ljdS9pY3UvMDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsx
+LDQgQEAKLUZyb20gZTNjMjVhZjRiNDBkNjRmMDk4ZTdiOGFlNWE5MWZkYzNjOTAxNjNjNCBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNjE0NjgwMDZlNzczZDZiMWRjYmU2ZDMyNGI2ODdi
+ODYyMjBlZjRjNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxl
+aW1hb2h1aUBjbi5mdWppdHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCAr
+MDkwMAogU3ViamVjdDogW1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC04LDE2
+ICs4LDE1IEBAIE1ha2UgaWN1IHN1cHBvcnQgYXJtMzIgQkUuCiBVcHN0cmVhbS1TdGF0dXM6IFBl
+bmRpbmcKIAogU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1aml0c3Uu
+Y29tPgotCiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggfCAyICstCisgc291
+cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIgKy0KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NvdXJjZS9p
+MThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVy
+c2lvbi11dGlscy5oCi1pbmRleCA3ZjIzZTBhLi43Zjg5MDk0IDEwMDY0NAotLS0tIGEvaTE4bi9k
+b3VibGUtY29udmVyc2lvbi11dGlscy5oCi0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
+aWxzLmgKLUBAIC0xMTUsNyArMTE1LDcgQEAgaW50IG1haW4oaW50IGFyZ2MsIGNoYXIqKiBhcmd2
+KSB7CitpbmRleCAzMDM2NjhmLi43ZDg1OWRjIDEwMDY0NAorLS0tIGEvc291cmNlL2kxOG4vZG91
+YmxlLWNvbnZlcnNpb24tdXRpbHMuaAorKysrIGIvc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNp
+b24tdXRpbHMuaAorQEAgLTE0Niw3ICsxNDYsNyBAQCBpbnQgbWFpbihpbnQgYXJnYywgY2hhcioq
+IGFyZ3YpIHsKICAvLwogIC8vIElmIGl0IHByaW50cyAiY29ycmVjdCIgdGhlbiB0aGUgYXJjaGl0
+ZWN0dXJlIHNob3VsZCBiZSBoZXJlLCBpbiB0aGUgImNvcnJlY3QiIHNlY3Rpb24uCiAgI2lmIGRl
+ZmluZWQoX01fWDY0KSB8fCBkZWZpbmVkKF9feDg2XzY0X18pIHx8IFwKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvZml4LWluc3RhbGwtbWFueC5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvZml4LWluc3RhbGwtbWFueC5wYXRjaAppbmRleCA5MjVi
+MDY0ZWJkLi5kYWMyMzE2NWNkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3Uv
+aWN1L2ZpeC1pbnN0YWxsLW1hbngucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1
+L2ljdS9maXgtaW5zdGFsbC1tYW54LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhNmRkYWJj
+OGNhZGI3NmJmZTJkMmUzNzRhNjcwMjQ0MmNmZTUxY2NlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBjMWZmZTg4MWVkYjY1ZTE3ZDU2YmEzNzU1YTRjMzJjNzIzZmM1Yzg2IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
+bT4KIERhdGU6IEZyaSwgOSBPY3QgMjAxNSAxNzo1MDo0MSArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBpY3U6IGZpeCBpbnN0YWxsIHJhY2UKQEAgLTEzLDE1ICsxMywxNCBAQCBpbiB0aGUgaW5zdGFs
+bCBjb21tYW5kLgogCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIFNpZ25lZC1vZmYtYnk6IFJv
+c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+Ci0KIC0tLQogIHNvdXJjZS9NYWtlZmls
+ZS5pbiB8IDggKysrKy0tLS0KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQogCi1kaWZmIC0tZ2l0IGEvTWFrZWZpbGUuaW4gYi9NYWtlZmlsZS5pbgotaW5k
+ZXggYmU5NDM1Yi4uYWRhMjBkNyAxMDA2NDQKLS0tLSBhL01ha2VmaWxlLmluCi0rKysgYi9NYWtl
+ZmlsZS5pbgorZGlmZiAtLWdpdCBhL3NvdXJjZS9NYWtlZmlsZS5pbiBiL3NvdXJjZS9NYWtlZmls
+ZS5pbgoraW5kZXggODM2NmYwMS4uNzliOTFjOSAxMDA2NDQKKy0tLSBhL3NvdXJjZS9NYWtlZmls
+ZS5pbgorKysrIGIvc291cmNlL01ha2VmaWxlLmluCiBAQCAtNzcsNyArNzcsNyBAQCBFWFRSQV9E
+QVRBID0KICAKICAjIyBMaXN0IG9mIHBob255IHRhcmdldHMKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2ljdS9pY3VfNzQtMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9p
+Y3VfNzQtMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9pY3UvaWN1Xzc0LTEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2lj
+dS9pY3VfNzQtMi5iYgppbmRleCA4OGRlZDE2NmI1Li5lZjliMzZmNzliIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc0LTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvaWN1L2ljdV83NC0yLmJiCkBAIC0xMTEsNyArMTExLDcgQEAgU1JDX1VSSSA9ICIke0JB
+U0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJc
+CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5w
+YXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2RlLnNoYTI1NnN1bV0gPSAiODZjZThlNjA2
+ODE5NzJlNjBlNGRjYjI0OTBjNjk3NDYzZmNlYzYwZGQ0MDBhNWY5YmZmYmEyNmQwYjUyYjhkMCIK
+K1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjY4ZGIwODIyMTJhOTZkNmY1M2UzNWQ2MGY0N2Qz
+OGI5NjJlOWY5ZDIwN2E3NGNmYWM3ODAyOWFlOGZmNWUwOGMiCiBTUkNfVVJJW2RhdGEuc2hhMjU2
+c3VtXSA9ICI2N2Q1YWIzOWM1MTg3ZTFkZDBmZWQ2MGEzZmU1Mjc5NGRjZTk3ODRiNGMwNDVjYjg1
+ZTE5ZjVkMzE3ZmQ3ODNmIgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcv
+cmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0gCjIuNDIuMAoK
 
---===============5150092728511648242==--
+--===============6217475305115550718==--
 
