@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AADCD13A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1A4CD13A1
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:30 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.2011.1711994602689052832
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.2001.1711994602333162986
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 11:03:23 -0700
+ Mon, 01 Apr 2024 11:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=U2e2ZLOU;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Iwk92Hno;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e9ad485da-9c3b10e8-320c-4a10-b1ac-07c0e803dfb2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ODb0Qcs2;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=m3oFh+a6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018e9ad48120-5819f829-f7b9-4e55-8992-eb03f3f90b1c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711994603;
+	t=1711994601;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=RNeM6EODAgXkKQU+Ta+DKBw9vQs6GXr9vuKc94kMY54=;
-	b=U2e2ZLOUZUaASqsSXsyl3JFeeeIQpOhFjK7hhUofkbastPzN4dMGaz4REWtv/qvK
-	vDA1GMQnxjClzhBir/QaGqtkHR92Nr89ENwPMexag+CMl6gun7kBK2BroGbMFK0mJ9j
-	W6sVerJ9xOvAwPxKZf1CTUzFZd/DNXWfuS0d6xWo=
+	bh=BSswkLyIobYEmT9T1TsH/Cp/Y8SImCiJDKHahegi8to=;
+	b=ODb0Qcs2M22/vqiiTzfA+68phQkGqJRlb8uu6Qew6rmfj9uJkc7tJt5vqJu5Y+eB
+	SJmTTUnZsap5aXsK2+0o2DxmJfCKNObbo5m8DBE4CjJMFKticKIi67tv5Y7XnKU4mWl
+	F0LTSoc/H31QLC8ALNnqVX+qZ9OQrDdcxhafvfv4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994603;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994601;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=RNeM6EODAgXkKQU+Ta+DKBw9vQs6GXr9vuKc94kMY54=;
-	b=Iwk92HnoQEVMkK0V6s4oCR9UsAJgFZR+A90LEsMt64UabHPayrtEZwzEuzyzMN2Q
-	aOnQc+vhZOfddXu04NKS6f9CUbHWCpdFfolf6zYyexZo10PoivVPrxsdc/C5ukdFH+I
-	l8oTAGwol5lkGwb0nLa3u3xxKQ9h/DWedlaaiQmU=
-Content-Type: multipart/mixed; boundary="===============6575963273948438301=="
+	bh=BSswkLyIobYEmT9T1TsH/Cp/Y8SImCiJDKHahegi8to=;
+	b=m3oFh+a6KEpUzbBeWG2yKmoX5lPVecP7/lXEiweaPtV2uU64C1GZ2KmL54299Kwq
+	doBFU3t+pO7qSBMKp61aC8x66wQkX0G1JpCrljiExTW5P8DRlsZUr78TFBW0kCytD/F
+	e50xxfGsP59B67qTiSA9Rk4q4nb5WnfTYLYSAmUQ=
+Content-Type: multipart/mixed; boundary="===============7845473477176390276=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xauth: upgrading to 1.1.3 SUCCEEDED
-Message-ID: <0101018e9ad485da-9c3b10e8-320c-4a10-b1ac-07c0e803dfb2-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:03:22 +0000
+Subject: [AUH] repo: upgrading to 2.45 SUCCEEDED
+Message-ID: <0101018e9ad48120-5819f829-f7b9-4e55-8992-eb03f3f90b1c-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:03:21 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.192
+X-SES-Outgoing: 2024.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197800
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197746
 
---===============6575963273948438301==
+--===============7845473477176390276==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xauth* to *1.1.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *repo* to *2.45* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xauth-upgrade-1.1.2-1.1.3.patch
+    - apply the patch: git am 0001-repo-upgrade-2.42-2.45.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,91 +71,87 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From facb8a14f3ff35d49881b708a54e8a203f2ac7d6 Mon Sep 17 00:00:00 2001
+From e924cb14ede74a558d8cf4435f5e62a10702a2eb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 14:35:52 +0000
-Subject: [PATCH] xauth: upgrade 1.1.2 -> 1.1.3
+Date: Mon, 1 Apr 2024 09:55:44 +0000
+Subject: [PATCH] repo: upgrade 2.42 -> 2.45
 
 ---
- .../xorg-app/{xauth_1.1.2.bb => xauth_1.1.3.bb}                 | 2 +-
+ meta/recipes-devtools/repo/{repo_2.42.bb => repo_2.45.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-app/{xauth_1.1.2.bb => xauth_1.1.3.bb} (83%)
+ rename meta/recipes-devtools/repo/{repo_2.42.bb => repo_2.45.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xauth_1.1.2.bb b/meta/recipes-graphics/xorg-app/xauth_1.1.3.bb
-similarity index 83%
-rename from meta/recipes-graphics/xorg-app/xauth_1.1.2.bb
-rename to meta/recipes-graphics/xorg-app/xauth_1.1.3.bb
-index 1ad18ef63b..b0ca33bf4b 100644
---- a/meta/recipes-graphics/xorg-app/xauth_1.1.2.bb
-+++ b/meta/recipes-graphics/xorg-app/xauth_1.1.3.bb
-@@ -9,7 +9,7 @@ DEPENDS += "libxau libxext libxmu"
- PE = "1"
+diff --git a/meta/recipes-devtools/repo/repo_2.42.bb b/meta/recipes-devtools/repo/repo_2.45.bb
+similarity index 94%
+rename from meta/recipes-devtools/repo/repo_2.42.bb
+rename to meta/recipes-devtools/repo/repo_2.45.bb
+index 9bb5000fab..81bf31754b 100644
+--- a/meta/recipes-devtools/repo/repo_2.42.bb
++++ b/meta/recipes-devtools/repo/repo_2.45.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- SRC_URI_EXT = "xz"
--SRC_URI[sha256sum] = "78ba6afd19536ced1dddb3276cba6e9555a211b468a06f95f6a97c62ff8ee200"
-+SRC_URI[sha256sum] = "e7075498bae332f917f01d660f9b940c0752b2556a8da61ccb62a44d0ffe9d33"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            "
+-SRCREV = "5554572f02537b8646139d59ab520e59e1d5f7b3"
++SRCREV = "73356f1d5ccbebf5a33e5e9aa1ba06c5f5437fed"
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ 
 -- 
 2.42.0
 
 
---===============6575963273948438301==
+--===============7845473477176390276==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xauth-upgrade-1.1.2-1.1.3.patch"
+Content-Disposition: attachment; filename="0001-repo-upgrade-2.42-2.45.patch"
 
-RnJvbSBmYWNiOGExNGYzZmYzNWQ0OTg4MWI3MDhhNTRlOGEyMDNmMmFjN2Q2IE1vbiBTZXAgMTcg
+RnJvbSBlOTI0Y2IxNGVkZTc0YTU1OGQ4Y2Y0NDM1ZjVlNjJhMTA3MDJhMmViIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNDozNTo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhh
-dXRoOiB1cGdyYWRlIDEuMS4yIC0+IDEuMS4zCgotLS0KIC4uLi94b3JnLWFwcC97eGF1dGhfMS4x
-LjIuYmIgPT4geGF1dGhfMS4xLjMuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy94b3JnLWFwcC97eGF1dGhfMS4xLjIuYmIgPT4geGF1dGhfMS4xLjMuYmJ9ICg4
-MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hhdXRoXzEu
-MS4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hhdXRoXzEuMS4zLmJiCnNp
-bWlsYXJpdHkgaW5kZXggODMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWFwcC94YXV0aF8xLjEuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-YXBwL3hhdXRoXzEuMS4zLmJiCmluZGV4IDFhZDE4ZWY2M2IuLmIwY2EzM2JmNGIgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94YXV0aF8xLjEuMi5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGF1dGhfMS4xLjMuYmIKQEAgLTksNyArOSw3
-IEBAIERFUEVORFMgKz0gImxpYnhhdSBsaWJ4ZXh0IGxpYnhtdSIKIFBFID0gIjEiCiAKIFNSQ19V
-UklfRVhUID0gInh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc4YmE2YWZkMTk1MzZjZWQxZGRk
-YjMyNzZjYmE2ZTk1NTVhMjExYjQ2OGEwNmY5NWY2YTk3YzYyZmY4ZWUyMDAiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiZTcwNzU0OThiYWUzMzJmOTE3ZjAxZDY2MGY5Yjk0MGMwNzUyYjI1NTZhOGRh
-NjFjY2I2MmE0NGQwZmZlOWQzMyIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmZp
-bHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCiBQQUNLQUdFQ09ORklHW2lwdjZd
-ID0gIi0tZW5hYmxlLWlwdjYsLS1kaXNhYmxlLWlwdjYsIgotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwOTo1NTo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
+cG86IHVwZ3JhZGUgMi40MiAtPiAyLjQ1CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
+L3tyZXBvXzIuNDIuYmIgPT4gcmVwb18yLjQ1LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9yZXBvL3tyZXBvXzIuNDIuYmIgPT4gcmVwb18yLjQ1LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi40Mi5iYiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9yZXBvL3JlcG9fMi40NS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNDIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi40NS5iYgppbmRleCA5YmI1MDAwZmFiLi44MWJm
+MzE3NTRiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNDIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjQ1LmJiCkBAIC0xMSw3
+ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2
+Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJID0gImdpdDovL2dlcnJpdC5nb29n
+bGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAg
+ICAgICAgICAgICIKLVNSQ1JFViA9ICI1NTU0NTcyZjAyNTM3Yjg2NDYxMzlkNTlhYjUyMGU1OWUx
+ZDVmN2IzIgorU1JDUkVWID0gIjczMzU2ZjFkNWNjYmViZjVhMzNlNWU5YWExYmEwNmM1ZjU0Mzdm
+ZWQiCiAKIE1JUlJPUlMgKz0gImdpdDovL2dlcnJpdC5nb29nbGVzb3VyY2UuY29tL2dpdC1yZXBv
+LmdpdCBnaXQ6Ly9naXRodWIuY29tL0dlcnJpdENvZGVSZXZpZXcvZ2l0LXJlcG8uZ2l0IgogCi0t
+IAoyLjQyLjAKCg==
 
---===============6575963273948438301==
+--===============7845473477176390276==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xauth: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth: SRC_URI changed from "https://www.x.org/releases//individual/app/xauth-1.1.2.tar.xz" to "https://www.x.org/releases//individual/app/xauth-1.1.3.tar.xz"
-packages/core2-64-poky-linux/xauth: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-dbg: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-dbg: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-dbg: PKGSIZE changed from 107856 to 109528 (+2%)
-packages/core2-64-poky-linux/xauth/xauth-dev: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-dev: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-doc: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-doc: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-doc: PKGSIZE changed from 11391 to 11403 (+0%)
-packages/core2-64-poky-linux/xauth/xauth-locale: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-locale: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-src: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-src: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth-src: PKGSIZE changed from 75989 to 75716 (-0%)
-packages/core2-64-poky-linux/xauth/xauth-staticdev: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth-staticdev: PV changed from "1.1.2" to "1.1.3"
-packages/core2-64-poky-linux/xauth/xauth: PKGV changed from 1.1.2 [default] to 1.1.3 [default]
-packages/core2-64-poky-linux/xauth/xauth: PV changed from "1.1.2" to "1.1.3"
+packages/core2-64-poky-linux/repo: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-dbg: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-dbg: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-dev: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-dev: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-doc: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-doc: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-locale: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-locale: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-src: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-src: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo-staticdev: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo-staticdev: PV changed from "2.42" to "2.45"
+packages/core2-64-poky-linux/repo/repo: PKGV changed from 2.42 [default] to 2.45 [default]
+packages/core2-64-poky-linux/repo/repo: PKGSIZE changed from 46973 to 46971 (-0%)
+packages/core2-64-poky-linux/repo/repo: PV changed from "2.42" to "2.45"
 
---===============6575963273948438301==--
+--===============7845473477176390276==--
 
