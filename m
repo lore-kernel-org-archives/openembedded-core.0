@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E73FCD12C5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B90CD12C8
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:29 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1996.1711994601949391663
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.44647.1711994601800607642
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 11:03:23 -0700
+ Mon, 01 Apr 2024 11:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eMMF06Dg;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=haW/btV4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e9ad484da-5af34a08-78fb-49b9-97c4-68b852740064-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XeeXhCmt;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SnTMNGZ9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018e9ad48139-b2b39aad-e4ae-4df8-b900-9e62050eb665-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711994602;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WrFIyrdsD4AUDnkbVI70OoK1opA8InRvRgnyQHN8Ch4=;
-	b=eMMF06Dg8ZfMGaHXsUrVxQOFKxk8u6imEDl2bbsfVHhidWXjL/PzmiIv04c2YOcI
-	FQbzlrkWNDHhilfEhm9XnF7jTKxQlahym8uCx/ItjskWxY9jwgcxZp+cVNIjT2tlDiE
-	N4hpzFXxZadNYrKo6qEcnJlfbcbuJER/pf8X7Gu8=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=SUCdxb9QthQ5GasWl7LUMtblSGLpBrFuIIomfYwf+fQ=;
+	b=XeeXhCmtbWffBUU7g6jNHB8x6Rbdt/V3p5lyiFPdOnhbNt3C7sUF6I4RMR250kVb
+	FUoY2/uKso5ksYB6aXLPlGyyMPQon4eXDs0hk2LYCaA2rC9nnsBx1s0TfLdTU+B95nj
+	PUTzpM6mUXtJFnTsbV22CMbLKmkGusjS4SPgNKGc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994602;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WrFIyrdsD4AUDnkbVI70OoK1opA8InRvRgnyQHN8Ch4=;
-	b=haW/btV4AOnGz3JNhgX2rxYlA3qhuAxr9YFsBvATdHgxTpQH4a3rXvvcuzoaHTW8
-	+gTYPjtPrHe0uKHZv/aoC+9onPY4s2XLwIUgCmvfrTPsxTOqP12P9LHN9Bpt3U00pvT
-	ghsG75j3P6C8Uu+sdlXLNiINRk+VxkpkAOPnVTrc=
-Content-Type: multipart/mixed; boundary="===============5839551870467535973=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=SUCdxb9QthQ5GasWl7LUMtblSGLpBrFuIIomfYwf+fQ=;
+	b=SnTMNGZ92JkYmJNVDcdJz9ToNclI/Nbb2M5SuJxOZLAZC0VcckbaFdJcz17PxDpF
+	RX0TtI32Jg/3IJJR7AQbwBRH48tnItJ6oWycxZyNjuROxLuiWwT4FfxcDK5mxS0Qn43
+	9X9ZKlWQwORhA4ZYFNPkVhInle3e0PCYeqPkjkDw=
+Content-Type: multipart/mixed; boundary="===============1054490645698770737=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-headers: upgrading to 1.3.280.0 SUCCEEDED
-Message-ID: <0101018e9ad484da-5af34a08-78fb-49b9-97c4-68b852740064-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:03:22 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] rpm: upgrading to 4.19.1.1 FAILED
+Message-ID: <0101018e9ad48139-b2b39aad-e4ae-4df8-b900-9e62050eb665-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:03:21 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.192
+X-SES-Outgoing: 2024.04.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197769
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197766
 
---===============5839551870467535973==
+--===============1054490645698770737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,134 +50,56 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-headers* to *1.3.280.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *rpm* to *4.19.1.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.275.0-1.3.280.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe rpm failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1874 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-dc795b047d85f97dc20b096b8091940b00083fa3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:dc795b047d85f97dc20b096b8091940b00083fa3"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 13b4521341781293c41ac898aa9c2d2f6bc1f21d
+WARNING: Command 'git rebase 13b4521341781293c41ac898aa9c2d2f6bc1f21d' failed:
+Auto-merging docs/CMakeLists.txt
+CONFLICT (content): Merge conflict in docs/CMakeLists.txt
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/rpm
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/rpm/rpm_4.19.1.1.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From b9c14e062d91eae96aaccc7044d6e8b9bd07c6d4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 13:56:18 +0000
-Subject: [PATCH] vulkan-headers: upgrade 1.3.275.0 -> 1.3.280.0
-
----
- ...{vulkan-headers_1.3.275.0.bb => vulkan-headers_1.3.280.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.275.0.bb => vulkan-headers_1.3.280.0.bb} (95%)
-
-diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-index aacec8cab1..371cc7304d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
- 
--SRCREV = "217e93c664ec6704ec2d8c36fa116c1a4a1e2d40"
-+SRCREV = "577baa05033cf1d9236b3d078ca4b3269ed87a2b"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.42.0
-
-
---===============5839551870467535973==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_av1std.h was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json was removed
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_av1std_decode.h /usr/include/vk_video/vulkan_video_codec_av1std.h"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json", added "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json"
-
---===============5839551870467535973==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-vulkan-headers-upgrade-1.3.275.0-1.3.280.0.patch"
-
-RnJvbSBiOWMxNGUwNjJkOTFlYWU5NmFhY2NjNzA0NGQ2ZThiOWJkMDdjNmQ0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxMzo1NjoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
-bGthbi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yNzUuMCAtPiAxLjMuMjgwLjAKCi0tLQogLi4ue3Z1
-bGthbi1oZWFkZXJzXzEuMy4yNzUuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLWhlYWRlcnNfMS4zLjI3
-NS4wLmJiID0+IHZ1bGthbi1oZWFkZXJzXzEuMy4yODAuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yNzUuMC5i
-YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjI4MC4w
-LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
-cy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjI3NS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yODAuMC5iYgppbmRleCBhYWNl
-YzhjYWIxLi4zNzFjYzczMDRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
-a2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yNzUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yODAuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBM
-SUNFTlNFID0gIkFwYWNoZS0yLjAgJiBNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFLm1kO21kNT0xYmMzNTVkOGM0MTk2Zjc3NGM4Yjg3ZWQxYThkZDYyNSIKIFNSQ19VUkkg
-PSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLUhlYWRlcnMuZ2l0O2JyYW5j
-aD1tYWluO3Byb3RvY29sPWh0dHBzIgogCi1TUkNSRVYgPSAiMjE3ZTkzYzY2NGVjNjcwNGVjMmQ4
-YzM2ZmExMTZjMWE0YTFlMmQ0MCIKK1NSQ1JFViA9ICI1NzdiYWEwNTAzM2NmMWQ5MjM2YjNkMDc4
-Y2E0YjMyNjllZDg3YTJiIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQyLjAKCg==
-
---===============5839551870467535973==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.3.275.0" to "1.3.280.0"
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_av1std.h was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json was removed
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 14407772 to 14852697 (+3%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_av1std.h /usr/include/vk_video/vulkan_video_codec_av1std_decode.h"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 12065509 to 12344715 (+2%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json", added "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.275.0" to "1.3.280.0"
-
---===============5839551870467535973==--
+--===============1054490645698770737==--
 
