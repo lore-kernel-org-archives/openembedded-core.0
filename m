@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04C1CD13B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C498ACD13B7
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:31 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1996.1711994601949391663
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.44646.1711994601707058040
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Apr 2024 11:03:22 -0700
+ Mon, 01 Apr 2024 11:03:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UXRmBMLJ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DBwKKTgp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e9ad47f49-259ede36-db01-4c30-a85a-981d268058c3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=B1zxOZ+5;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XDJUg2+/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e9ad4859c-b9184b7f-5e7d-41bb-9614-e4cf76a91feb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711994601;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dEmCOhYPwKVkxrhHQFahtQE7Xplffjo36ol94FEwNfo=;
-	b=UXRmBMLJqCHd/Eli+CWqnqTjnBLLJx0BorNBRrljX5QOVji1JSw+6QTUYL6fFUJr
-	Fa56ncvHfM8v8K4p9e7WD5m84w8m5aMiZhfXXcfYxKI0Yq7tmaRMEd6vKB8Py3oydL5
-	Pju73Fjple2mkKgh7JItW40DMUV+pTIegnb15SLI=
+	t=1711994603;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=7TeIHhHH18/hRuZfL+h5p0KoQr3soCIa4xVFaRd9GJM=;
+	b=B1zxOZ+5FzbQPgR/pa5o2gnaECD2dmCGNbKj60ZNNuFNJdU05KqNC292nHhiQ4B5
+	Z4ShMaaNtjM7KMQSfQG5U3jDS1sMWFfVQTTVGpHQg8IjtY1r/9SWdkPBQ+0rC8BPfM8
+	EO/FRFjfmf0FGi81qmgukSkIIglWqLCrFt90f8/A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994601;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dEmCOhYPwKVkxrhHQFahtQE7Xplffjo36ol94FEwNfo=;
-	b=DBwKKTgpltlhWLtcwLFjVQHOo0cIZOI2xELvP1NY+FhOHL/AMphVgw8t5c2T8lrG
-	QR643DivOpZPpUMrtSMdTSxhs9tQl0fx08J6YNWaE4PtJmLS3N09oHOjVCMFmDJG9JY
-	UGr0ZNFS2CHar5kgTl9TPtqrju8EXv8vpseGCHyg=
-Content-Type: multipart/mixed; boundary="===============0194049284266072392=="
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994603;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=7TeIHhHH18/hRuZfL+h5p0KoQr3soCIa4xVFaRd9GJM=;
+	b=XDJUg2+/Yn53gxJp+hhGoIDBqod5u5Kn0Mo1otIk/ZjpI760Gt16SmrlB0LhsMEl
+	n6BYm+ll+JmvgJFutZAqo+80CqKR9RGpE72dgG3bsPozJLP50JJJtn0zVu+zOy6/EKp
+	nyh9sKWVv198BC7YqeMHd7HAuvHWdhVnal6z8ofo=
+Content-Type: multipart/mixed; boundary="===============5250605655920528826=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-packaging: upgrading to 24.0 SUCCEEDED
-Message-ID: <0101018e9ad47f49-259ede36-db01-4c30-a85a-981d268058c3-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Apr 2024 18:03:21 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] mkfontscale: upgrading to 1.2.3 SUCCEEDED
+Message-ID: <0101018e9ad4859c-b9184b7f-5e7d-41bb-9614-e4cf76a91feb-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Apr 2024 18:03:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.192
+X-SES-Outgoing: 2024.04.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197727
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197760
 
---===============0194049284266072392==
+--===============5250605655920528826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-packaging* to *24.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *mkfontscale* to *1.2.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-packaging-upgrade-23.2-24.0.patch
+    - apply the patch: git am 0001-mkfontscale-upgrade-1.2.2-1.2.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,106 +71,135 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1af394bf61b3d9e9a5e4ed15b048f158b875b7a8 Mon Sep 17 00:00:00 2001
+From a19573b97e355ef14f6406941f3554df4998fd78 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 08:50:28 +0000
-Subject: [PATCH] python3-packaging: upgrade 23.2 -> 24.0
+Date: Mon, 1 Apr 2024 14:31:59 +0000
+Subject: [PATCH] mkfontscale: upgrade 1.2.2 -> 1.2.3
 
 ---
- .../{python3-packaging_23.2.bb => python3-packaging_24.0.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-packaging_23.2.bb => python3-packaging_24.0.bb} (83%)
+ ...ontscale_1.2.2.bb => mkfontscale_1.2.3.bb} | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{mkfontscale_1.2.2.bb => mkfontscale_1.2.3.bb} (38%)
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_23.2.bb b/meta/recipes-devtools/python/python3-packaging_24.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-packaging_23.2.bb
-rename to meta/recipes-devtools/python/python3-packaging_24.0.bb
-index 2d35936615..0942eeb15e 100644
---- a/meta/recipes-devtools/python/python3-packaging_23.2.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_24.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
- LICENSE = "Apache-2.0 | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.3.bb
+similarity index 38%
+rename from meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
+rename to meta/recipes-graphics/xorg-app/mkfontscale_1.2.3.bb
+index cd658ab219..4addbd2f46 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.3.bb
+@@ -1,3 +1,25 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -18,7 +18,7 @@
++#  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++#  THE SOFTWARE.
++#  
++# -Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
++# +Copyright (c) 2008, Oracle and/or its affiliates.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a
++#  copy of this software and associated documentation files (the "Software"),
++# 
++#
++
+ require xorg-app-common.inc
  
--SRC_URI[sha256sum] = "048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"
-+SRC_URI[sha256sum] = "eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"
+ SUMMARY = "A program to create an index of scalable font files for X"
+@@ -15,7 +37,7 @@ RPROVIDES:${PN} += "mkfontdir"
  
- inherit pypi python_flit_core
+ BBCLASSEXTEND = "native"
  
+-LIC_FILES_CHKSUM = "file://COPYING;md5=99b1e1269aba5179139b9e4380fc0934"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5a60c596d1b5f3dee9f005b703b3180d"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "8ae3fb5b1fe7436e1f565060acaa3e2918fe745b0e4979b5593968914fe2d5c4"
++SRC_URI[sha256sum] = "2921cdc344f1acee04bcd6ea1e29565c1308263006e134a9ee38cf9c9d6fe75e"
 -- 
 2.42.0
 
 
---===============0194049284266072392==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.12/site-packages/packaging-23.2.dist-info moved to /usr/lib/python3.12/site-packages/packaging-24.0.dist-info
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.12/site-packages/packaging-23.2.dist-info moved to /usr/lib/python3.12/site-packages/packaging-24.0.dist-info
-
---===============0194049284266072392==
+--===============5250605655920528826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-packaging: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/packaging/packaging-23.2.tar.gz;downloadfilename=packaging-23.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/packaging/packaging-24.0.tar.gz;downloadfilename=packaging-24.0.tar.gz"
-packages/core2-64-poky-linux/python3-packaging: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-dbg: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-dbg: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-dev: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-dev: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-doc: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-doc: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-locale: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-locale: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-src: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-src: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-staticdev: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging-staticdev: PV changed from "23.2" to "24.0"
-packages/core2-64-poky-linux/python3-packaging/python3-packaging: PKGV changed from 23.2 [default] to 24.0 [default]
-packages/core2-64-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 346287 to 349385 (+1%)
-packages/core2-64-poky-linux/python3-packaging/python3-packaging: PV changed from "23.2" to "24.0"
-Changes to packages/core2-64-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.12/site-packages/packaging-23.2.dist-info moved to /usr/lib/python3.12/site-packages/packaging-24.0.dist-info
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.12/site-packages/packaging-23.2.dist-info moved to /usr/lib/python3.12/site-packages/packaging-24.0.dist-info
+packages/core2-64-poky-linux/mkfontscale: SRC_URI changed from "https://www.x.org/releases//individual/app/mkfontscale-1.2.2.tar.xz" to "https://www.x.org/releases//individual/app/mkfontscale-1.2.3.tar.xz"
+packages/core2-64-poky-linux/mkfontscale: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-dbg: PKGSIZE changed from 92896 to 95528 (+3%)
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-dbg: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-dbg: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-dev: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-dev: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-doc: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-doc: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-locale: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-locale: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-src: PKGSIZE changed from 72554 to 74994 (+3%)
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-src: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-src: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-staticdev: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale-staticdev: PV changed from "1.2.2" to "1.2.3"
+packages/core2-64-poky-linux/mkfontscale/mkfontscale: PKGV changed from 1.2.2 [default] to 1.2.3 [default]
+packages/core2-64-poky-linux/mkfontscale/mkfontscale: PV changed from "1.2.2" to "1.2.3"
 
---===============0194049284266072392==
+--===============5250605655920528826==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-packaging-upgrade-23.2-24.0.patch"
+ filename="0001-mkfontscale-upgrade-1.2.2-1.2.3.patch"
 
-RnJvbSAxYWYzOTRiZjYxYjNkOWU5YTVlNGVkMTViMDQ4ZjE1OGI4NzViN2E4IE1vbiBTZXAgMTcg
+RnJvbSBhMTk1NzNiOTdlMzU1ZWYxNGY2NDA2OTQxZjM1NTRkZjQ5OThmZDc4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwODo1MDoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGFja2FnaW5nOiB1cGdyYWRlIDIzLjIgLT4gMjQuMAoKLS0tCiAuLi4ve3B5dGhvbjMt
-cGFja2FnaW5nXzIzLjIuYmIgPT4gcHl0aG9uMy1wYWNrYWdpbmdfMjQuMC5iYn0gICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBhY2thZ2luZ18yMy4yLmJiID0+
-IHB5dGhvbjMtcGFja2FnaW5nXzI0LjAuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBhY2thZ2luZ18yMy4yLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBhY2thZ2luZ18yNC4wLmJiCnNpbWlsYXJpdHkg
-aW5kZXggODMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1wYWNrYWdpbmdfMjMuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXBhY2thZ2luZ18yNC4wLmJiCmluZGV4IDJkMzU5MzY2MTUuLjA5NDJlZWIxNWUg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdp
-bmdfMjMuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGFj
-a2FnaW5nXzI0LjAuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHVi
-LmNvbS9weXBhL3BhY2thZ2luZyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCB8IEJTRC0yLUNsYXVz
-ZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWZhYWRhZWRjYTkyNTFh
-OTBiMjA1YzkxNjc1NzhjZTkxIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDQ4ZmIwZTk0MDUw
-MzY1MThlYWFmNDhhNTU5NTNjNzUwYzExZTFhMWI2OGUwZGQxYTlkNjJlZDBjMDkyY2ZjNSIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICJlYjgyYzVlM2U1NjIwOTA3NDc2NmU2ODg1YmIwNGI4YzM4YTBj
-MDE1ZDBhMzAwMzZlYmU3ZWNlMzRjOTk4OWU5IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRf
-Y29yZQogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNDozMTo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1r
+Zm9udHNjYWxlOiB1cGdyYWRlIDEuMi4yIC0+IDEuMi4zCgotLS0KIC4uLm9udHNjYWxlXzEuMi4y
+LmJiID0+IG1rZm9udHNjYWxlXzEuMi4zLmJifSB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC97bWtmb250c2NhbGVfMS4yLjIuYmIgPT4gbWtm
+b250c2NhbGVfMS4yLjMuYmJ9ICgzOCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3hvcmctYXBwL21rZm9udHNjYWxlXzEuMi4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3hvcmctYXBwL21rZm9udHNjYWxlXzEuMi4zLmJiCnNpbWlsYXJpdHkgaW5kZXggMzglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC9ta2ZvbnRzY2FsZV8xLjIuMi5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL21rZm9udHNjYWxlXzEu
+Mi4zLmJiCmluZGV4IGNkNjU4YWIyMTkuLjRhZGRiZDJmNDYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy94b3JnLWFwcC9ta2ZvbnRzY2FsZV8xLjIuMi5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAvbWtmb250c2NhbGVfMS4yLjMuYmIKQEAgLTEsMyArMSwy
+NSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
+dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
+bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
+cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
+Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
+IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
+IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMgQEAg
+LTE4LDcgKzE4LDcgQEAKKyMgIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRX
+QVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4KKyMgIFRIRSBTT0ZUV0FSRS4KKyMg
+IAorIyAtQ29weXJpZ2h0IChjKSAyMDA4LCBPcmFjbGUgYW5kL29yIGl0cyBhZmZpbGlhdGVzLiBB
+bGwgcmlnaHRzIHJlc2VydmVkLgorIyArQ29weXJpZ2h0IChjKSAyMDA4LCBPcmFjbGUgYW5kL29y
+IGl0cyBhZmZpbGlhdGVzLgorIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBm
+cmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQorIyAgY29weSBvZiB0aGlz
+IHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdh
+cmUiKSwKKyMgCisjCisKIHJlcXVpcmUgeG9yZy1hcHAtY29tbW9uLmluYwogCiBTVU1NQVJZID0g
+IkEgcHJvZ3JhbSB0byBjcmVhdGUgYW4gaW5kZXggb2Ygc2NhbGFibGUgZm9udCBmaWxlcyBmb3Ig
+WCIKQEAgLTE1LDcgKzM3LDcgQEAgUlBST1ZJREVTOiR7UE59ICs9ICJta2ZvbnRkaXIiCiAKIEJC
+Q0xBU1NFWFRFTkQgPSAibmF0aXZlIgogCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
+SU5HO21kNT05OWIxZTEyNjlhYmE1MTc5MTM5YjllNDM4MGZjMDkzNCIKK0xJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTVhNjBjNTk2ZDFiNWYzZGVlOWYwMDViNzAzYjMxODBk
+IgogCiBTUkNfVVJJX0VYVCA9ICJ4eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4YWUzZmI1YjFm
+ZTc0MzZlMWY1NjUwNjBhY2FhM2UyOTE4ZmU3NDViMGU0OTc5YjU1OTM5Njg5MTRmZTJkNWM0Igor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5MjFjZGMzNDRmMWFjZWUwNGJjZDZlYTFlMjk1NjVjMTMw
+ODI2MzAwNmUxMzRhOWVlMzhjZjljOWQ2ZmU3NWUiCi0tIAoyLjQyLjAKCg==
 
---===============0194049284266072392==--
+--===============5250605655920528826==--
 
