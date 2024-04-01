@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14899CD12A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40534CD12A8
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:11:15 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.44905.1711995071500535568
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.2298.1711995071359096321
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ahjvz3nM;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Eug91I0q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e9adba97b-a65e2844-11dd-4ce2-8320-b0111367164e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GyxV5aD7;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wDCGTxB6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018e9adba8e7-49c3d783-37c4-4de8-921e-11cac5b4fc92-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711995071;
+	t=1711995070;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QrSsmaF17yB8OvUY1uiHB6dvWLrjG17a4Lfguhh9aZk=;
-	b=ahjvz3nMZP/IlMvrHgLfnwI7TvZnBFh6bfiU1afrpKkUP6EpOP1pz/DY4tiIS02n
-	XRN/16gmjtrKdxwfYjDnoViUGbhAGGPINuUp3HnCCzmOEQrVfOVyuZ8vAbLy1tSBo27
-	fTu8u0FtgIB76u45/d1mXp5EdVjV1uA2QOiQaUkU=
+	bh=QQgPbyWziTIL4gI7d9Cta/5d9wYB9jqTekk52o4ip5w=;
+	b=GyxV5aD7l+o3RXsP/du5P0XKkhwYCAfaedHsQ3AMTXIEM4hpiEqkmhtjkEGifC4X
+	GNW2pm7vznHTeQXcmWHlAjYheeWHPcEkjGiOW3RB39ZT5IMw9lz/0dPv4+TgmhG2dSO
+	8an8RRA0T/Ia83JIapcSYNnYCWoRHTIOX0fqy8Pg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995071;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995070;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QrSsmaF17yB8OvUY1uiHB6dvWLrjG17a4Lfguhh9aZk=;
-	b=Eug91I0qSuzmT3kJinl35hBBCkLnw1kQa9d1qyj/6+t5LKZ6PsKd+YGcQIoRyMie
-	TlG/hGKNAL/XaBqaMbIWsXV/76XgGU7JWwTwKzsha3Ws4DAbghBWTHwb10vWF+Uty2I
-	mVIkCpXGbKyhrEWtj84wInpwh/Y8o+fya//z7ltU=
-Content-Type: multipart/mixed; boundary="===============0725922518950578427=="
+	bh=QQgPbyWziTIL4gI7d9Cta/5d9wYB9jqTekk52o4ip5w=;
+	b=wDCGTxB6T/gIqZ7226sVF2k3WKF//CRSyH19TBXtZKsm0luWg9Z6HDNJcfcXQ0Cw
+	9nQbRfMt/6+APtx0AyKiG/Jdqn8TOmOZr+cG/0rAJRnLQUsIa9DppNET2F5dBbVprSS
+	wMQKEpkQeK82m+F0Z0TXXHSDaMkdiYCn0Lkxi9ug=
+Content-Type: multipart/mixed; boundary="===============4423421070065302184=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.45.2 SUCCEEDED
-Message-ID: <0101018e9adba97b-a65e2844-11dd-4ce2-8320-b0111367164e-000000@us-west-2.amazonses.com>
+Subject: [AUH] libbsd: upgrading to 0.12.2 SUCCEEDED
+Message-ID: <0101018e9adba8e7-49c3d783-37c4-4de8-921e-11cac5b4fc92-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Apr 2024 18:11:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.23
+X-SES-Outgoing: 2024.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:11:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197832
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197829
 
---===============0725922518950578427==
+--===============4423421070065302184==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.45.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libbsd* to *0.12.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.45.1-3.45.2.patch
+    - apply the patch: git am 0001-libbsd-upgrade-0.12.1-0.12.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,69 +72,75 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d45fc2ae0f41500cbb0299b914d47af2b1245949 Mon Sep 17 00:00:00 2001
+From e93b40960e7f86ee99726f4e5ec2768554da28d1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 17:53:40 +0000
-Subject: [PATCH] sqlite3: upgrade 3.45.1 -> 3.45.2
+Date: Mon, 1 Apr 2024 17:33:01 +0000
+Subject: [PATCH] libbsd: upgrade 0.12.1 -> 0.12.2
 
 ---
- .../sqlite/{sqlite3_3.45.1.bb => sqlite3_3.45.2.bb}             | 2 +-
+ .../libbsd/{libbsd_0.12.1.bb => libbsd_0.12.2.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.45.1.bb => sqlite3_3.45.2.bb} (69%)
+ rename meta/recipes-support/libbsd/{libbsd_0.12.1.bb => libbsd_0.12.2.bb} (95%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb b/meta/recipes-support/sqlite/sqlite3_3.45.2.bb
-similarity index 69%
-rename from meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.45.2.bb
-index 50612feb25..83a7bde784 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.2.bb
-@@ -4,5 +4,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-support/libbsd/libbsd_0.12.1.bb b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+similarity index 95%
+rename from meta/recipes-support/libbsd/libbsd_0.12.1.bb
+rename to meta/recipes-support/libbsd/libbsd_0.12.2.bb
+index 161dc6df43..7d5e88f293 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.12.1.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+@@ -38,7 +38,7 @@ SECTION = "libs"
  
- SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "cd9c27841b7a5932c9897651e20b86c701dd740556989b01ca596fcfa3d49a0a"
-+SRC_URI[sha256sum] = "bc9067442eedf3dd39989b5c5cfbfff37ae66cc9c99274e0c3052dc4d4a8f6ae"
+ SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "d7747f8ec1baa6ff5c096a9dd587c061233dec90da0f1aedd66d830f6db6996a"
++SRC_URI[sha256sum] = "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+ 
+ inherit autotools pkgconfig
  
 -- 
 2.42.0
 
 
---===============0725922518950578427==
+--===============4423421070065302184==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.45.1-3.45.2.patch"
+ filename="0001-libbsd-upgrade-0.12.1-0.12.2.patch"
 
-RnJvbSBkNDVmYzJhZTBmNDE1MDBjYmIwMjk5YjkxNGQ0N2FmMmIxMjQ1OTQ5IE1vbiBTZXAgMTcg
+RnJvbSBlOTNiNDA5NjBlN2Y4NmVlOTk3MjZmNGU1ZWMyNzY4NTU0ZGEyOGQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNzo1Mzo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-bGl0ZTM6IHVwZ3JhZGUgMy40NS4xIC0+IDMuNDUuMgoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
-XzMuNDUuMS5iYiA9PiBzcWxpdGUzXzMuNDUuMi5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40NS4xLmJiID0+IHNxbGl0ZTNfMy40NS4y
-LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
-dGUzXzMuNDUuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDUu
-Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQ1LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L3NxbGl0ZS9zcWxpdGUzXzMuNDUuMi5iYgppbmRleCA1MDYxMmZlYjI1Li44M2E3YmRlNzg0IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ1LjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40NS4yLmJiCkBAIC00
-LDUgKzQsNSBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
-aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
-CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDI0L3NxbGl0ZS1hdXRvY29uZi0k
-e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImNkOWMyNzg0MWI3YTU5
-MzJjOTg5NzY1MWUyMGI4NmM3MDFkZDc0MDU1Njk4OWIwMWNhNTk2ZmNmYTNkNDlhMGEiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiYmM5MDY3NDQyZWVkZjNkZDM5OTg5YjVjNWNmYmZmZjM3YWU2NmNj
-OWM5OTI3NGUwYzMwNTJkYzRkNGE4ZjZhZSIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNzozMzowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmJzZDogdXBncmFkZSAwLjEyLjEgLT4gMC4xMi4yCgotLS0KIC4uLi9saWJic2Qve2xpYmJzZF8w
+LjEyLjEuYmIgPT4gbGliYnNkXzAuMTIuMi5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYmJzZC97bGliYnNkXzAuMTIuMS5iYiA9PiBsaWJic2RfMC4xMi4yLmJi
+fSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2Rf
+MC4xMi4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliYnNkL2xpYmJzZF8wLjEyLjIuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+YnNkL2xpYmJzZF8wLjEyLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJz
+ZC9saWJic2RfMC4xMi4yLmJiCmluZGV4IDE2MWRjNmRmNDMuLjdkNWU4OGYyOTMgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMi4xLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMi4yLmJiCkBAIC0zOCw3ICszOCw3
+IEBAIFNFQ1RJT04gPSAibGlicyIKIAogU1JDX1VSSSA9ICJodHRwczovL2xpYmJzZC5mcmVlZGVz
+a3RvcC5vcmcvcmVsZWFzZXMvJHtCUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImQ3NzQ3ZjhlYzFiYWE2ZmY1YzA5NmE5ZGQ1ODdjMDYxMjMzZGVjOTBkYTBmMWFlZGQ2
+NmQ4MzBmNmRiNjk5NmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjg4Y2M5MTYzZDBjNjUyYWFm
+MzlhOTk5OTFkOTc0ZGRiYTFjM2E5NzExZGI4ZjFiNTgzOGFmMmExNDczMTAxNCIKIAogaW5oZXJp
+dCBhdXRvdG9vbHMgcGtnY29uZmlnCiAKLS0gCjIuNDIuMAoK
 
---===============0725922518950578427==
+--===============4423421070065302184==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/libbsd/libbsd-doc: FILELIST: removed "/usr/share/man/man3/timespec.3bsd /usr/share/man/man3/timeval.3bsd /usr/share/man/man3/TIMEVAL_TO_TIMESPEC.3bsd /usr/share/man/man3/TIMESPEC_TO_TIMEVAL.3bsd", added "/usr/share/man/man3/vwarnc.3bsd /usr/share/man/man3/warnc.3bsd /usr/share/man/man3/verrc.3bsd"
+packages/core2-64-poky-linux/libbsd/libbsd: FILELIST: removed "/usr/lib/libbsd.so.0.12.1", added "/usr/lib/libbsd.so.0.12.2"
+Changes to packages/core2-64-poky-linux/libbsd (sysroot):
+  /usr/lib/libbsd.so.0 changed symlink target from libbsd.so.0.12.1 to libbsd.so.0.12.2
+  /usr/lib/libbsd.so.0.12.1 moved to /usr/lib/libbsd.so.0.12.2
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1774,32 +1780,37 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0725922518950578427==
+--===============4423421070065302184==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/sqlite3: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3450200.tar.gz"
-packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 679067 to 679215 (+0%)
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5993848 to 5996688 (+0%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10569618 to 10574703 (+0%)
-packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.45.1" to "3.45.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/libbsd: SRC_URI changed from "https://libbsd.freedesktop.org/releases/libbsd-0.12.1.tar.xz" to "https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz"
+packages/core2-64-poky-linux/libbsd: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-dbg: FILELIST: removed "/usr/lib/.debug/libbsd.so.0.12.1", added "/usr/lib/.debug/libbsd.so.0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-dbg: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-dbg: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-dev: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-dev: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-doc: PKGSIZE changed from 251437 to 247623 (-2%)
+packages/core2-64-poky-linux/libbsd/libbsd-doc: FILELIST: removed "/usr/share/man/man3/TIMESPEC_TO_TIMEVAL.3bsd /usr/share/man/man3/timespec.3bsd /usr/share/man/man3/TIMEVAL_TO_TIMESPEC.3bsd /usr/share/man/man3/timeval.3bsd", added "/usr/share/man/man3/vwarnc.3bsd /usr/share/man/man3/verrc.3bsd /usr/share/man/man3/warnc.3bsd"
+packages/core2-64-poky-linux/libbsd/libbsd-doc: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-doc: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-locale: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-locale: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-src: PKGSIZE changed from 272139 to 272197 (+0%)
+packages/core2-64-poky-linux/libbsd/libbsd-src: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-src: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd-staticdev: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd-staticdev: PV changed from "0.12.1" to "0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd: FILELIST: removed "/usr/lib/libbsd.so.0.12.1", added "/usr/lib/libbsd.so.0.12.2"
+packages/core2-64-poky-linux/libbsd/libbsd: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
+packages/core2-64-poky-linux/libbsd/libbsd: PV changed from "0.12.1" to "0.12.2"
+Changes to packages/core2-64-poky-linux/libbsd (sysroot):
+  /usr/lib/libbsd.so.0 changed symlink target from libbsd.so.0.12.1 to libbsd.so.0.12.2
+  /usr/lib/libbsd.so.0.12.1 moved to /usr/lib/libbsd.so.0.12.2
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3439,5 +3450,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0725922518950578427==--
+--===============4423421070065302184==--
 
