@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1DECCD129F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2C5CD128D
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:11:14 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.44905.1711995071500535568
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.2309.1711995072515987300
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:11:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NfUhZW62;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=o7GuDitO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e9adbabee-6b18e0c3-424e-45a3-9450-43dea8a79716-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Yg/tVf2N;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rMIG594K;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018e9adbac54-6676ba56-e2a7-4e74-902c-f14114b5fb77-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711995071;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ranSs5zfLOiI4oKTSif/rlfelIRPqe2DRZk+NVbkaKw=;
-	b=NfUhZW62+hknQlOuld9QWeiHVyPz5h2kYRzQ9G7DioVFnHp95TQRfpextAFGbdZC
-	hVhJaJQIQJfDQ98P2ELsonH988H+y21ND9yCOIdvN7VKOK7/T3NCwa/3gIOTfgf07KO
-	bcdUnE/eWoXEhVAo02un5K3EWYpaKfk/6YHDSecE=
+	bh=2ouXo7vqT0kdPUR1zgIGuHRa48V7+sDTSfJJWfEAR+0=;
+	b=Yg/tVf2NbuaJ4D/3rkIJfSZ2gXuX1yejpmBCx4w3iyiGpAEBOHKU83yb/ofc5r1n
+	LhVwzLuk1P3iAed2PQAMB3srjcO9QZbbvd1WoFXaP29ZaDDGy+meGzVMiQc2j/1pIa2
+	bK9gO4jRQ3Xy7lrlXCMrh6nkiap8hFgcXiqh4lk8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711995071;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ranSs5zfLOiI4oKTSif/rlfelIRPqe2DRZk+NVbkaKw=;
-	b=o7GuDitOQVxHjagCE6HAHtSBPNkUF8Bx7jYg0pU4Kcbcw2IX2LE+hcooaH3oYUIR
-	Tjeu4LIytpiF0KEEAk3khYunNdYXM0hobEB3aDiereXGzIHdHF/p98oFz42aDuHiulm
-	pzbFYOE3h9C4T1t7lOKjEVbJIF1xxonE8Pc7MNss=
-Content-Type: multipart/mixed; boundary="===============3081599767270351637=="
+	bh=2ouXo7vqT0kdPUR1zgIGuHRa48V7+sDTSfJJWfEAR+0=;
+	b=rMIG594K2ZMl5+06B+19J3Sv5dn/ZQQUL1+2sR2857g1AiqqlXTR3PA+99evQ6r1
+	o/QFF7wfcHIRfrPkvzuW+HeLNs5jXz4O/BU6FGC0tRB73NysI1yl75htt6iJPdzVnEH
+	B1xw4MYnjz7l+39+Ac2tM+3pJaDtBFKDdlFA1mF8=
+Content-Type: multipart/mixed; boundary="===============8768203323993649001=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.52.0 SUCCEEDED
-Message-ID: <0101018e9adbabee-6b18e0c3-424e-45a3-9450-43dea8a79716-000000@us-west-2.amazonses.com>
+Subject: [AUH] curl: upgrading to 8.7.1 SUCCEEDED
+Message-ID: <0101018e9adbac54-6676ba56-e2a7-4e74-902c-f14114b5fb77-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Apr 2024 18:11:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.23
+X-SES-Outgoing: 2024.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:11:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197840
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197847
 
---===============3081599767270351637==
+--===============8768203323993649001==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.52.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *curl* to *8.7.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.50.1-2.52.0.patch
+    - apply the patch: git am 0001-curl-upgrade-8.6.0-8.7.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,48 +72,375 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2d3ce73ab9be166f3ffd8cdc1b634014d9a95a65 Mon Sep 17 00:00:00 2001
+From 45393c2cc17c0388cf9fbd90a873d9b9dfbdc87e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 16:21:35 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.50.1 -> 2.52.0
+Date: Mon, 1 Apr 2024 16:44:23 +0000
+Subject: [PATCH] curl: upgrade 8.6.0 -> 8.7.1
 
 ---
- .../atk/{at-spi2-core_2.50.1.bb => at-spi2-core_2.52.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.50.1.bb => at-spi2-core_2.52.0.bb} (95%)
+ meta/recipes-support/curl/curl/no-test-timeout.patch  | 11 +++++++++--
+ .../curl/{curl_8.6.0.bb => curl_8.7.1.bb}             |  2 +-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.6.0.bb => curl_8.7.1.bb} (98%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.50.1.bb b/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
-similarity index 95%
-rename from meta/recipes-support/atk/at-spi2-core_2.50.1.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.52.0.bb
-index 6996ebebcd..cf221e0389 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
-@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
+index b4cfe716db..886a774704 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+@@ -1,10 +1,17 @@
+-Set the max-time timeout to 600 so the timeout is 10 minutes instead of 13 seconds.
++From 2fcb8cbab06192b55e7bbc8f3e4fd753ad242b46 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Fri, 15 Mar 2024 14:37:37 +0000
++Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
++ instead of 13 seconds.
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ tests/servers.pm | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "5727b5c0687ac57ba8040e79bd6731b714a36b8fcf32190f236b8fb3698789e7"
-+SRC_URI[sha256sum] = "0ac3fc8320c8d01fa147c272ba7fa03806389c6b03d3c406d0823e30e35ff5ab"
+ diff --git a/tests/servers.pm b/tests/servers.pm
+-index d4472d509..aeab62c47 100644
++index d4472d5..9999938 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+ @@ -120,7 +120,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
+diff --git a/meta/recipes-support/curl/curl_8.6.0.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_8.6.0.bb
+rename to meta/recipes-support/curl/curl_8.7.1.bb
+index ea69164d76..872bd84a71 100644
+--- a/meta/recipes-support/curl/curl_8.6.0.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+ "
+-SRC_URI[sha256sum] = "3ccd55d91af9516539df80625f818c734dc6f2ecf9bada33c76765e99121db15"
++SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
  
- DEPENDS = " \
- 	dbus \
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.42.0
 
 
---===============3081599767270351637==
+--===============8768203323993649001==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-curl-upgrade-8.6.0-8.7.1.patch"
+
+RnJvbSA0NTM5M2MyY2MxN2MwMzg4Y2Y5ZmJkOTBhODczZDliOWRmYmRjODdlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNjo0NDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
+cmw6IHVwZ3JhZGUgOC42LjAgLT4gOC43LjEKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3Vy
+bC9jdXJsL25vLXRlc3QtdGltZW91dC5wYXRjaCAgfCAxMSArKysrKysrKystLQogLi4uL2N1cmwv
+e2N1cmxfOC42LjAuYmIgPT4gY3VybF84LjcuMS5iYn0gICAgICAgICAgICAgfCAgMiArLQogMiBm
+aWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC42LjAuYmIgPT4gY3VybF84LjcuMS5iYn0g
+KDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwvbm8tdGVz
+dC10aW1lb3V0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsL25vLXRlc3Qt
+dGltZW91dC5wYXRjaAppbmRleCBiNGNmZTcxNmRiLi44ODZhNzc0NzA0IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQucGF0Y2gKQEAg
+LTEsMTAgKzEsMTcgQEAKLVNldCB0aGUgbWF4LXRpbWUgdGltZW91dCB0byA2MDAgc28gdGhlIHRp
+bWVvdXQgaXMgMTAgbWludXRlcyBpbnN0ZWFkIG9mIDEzIHNlY29uZHMuCitGcm9tIDJmY2I4Y2Jh
+YjA2MTkyYjU1ZTdiYmM4ZjNlNGZkNzUzYWQyNDJiNDYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KK0RhdGU6IEZyaSwgMTUg
+TWFyIDIwMjQgMTQ6Mzc6MzcgKzAwMDAKK1N1YmplY3Q6IFtQQVRDSF0gU2V0IHRoZSBtYXgtdGlt
+ZSB0aW1lb3V0IHRvIDYwMCBzbyB0aGUgdGltZW91dCBpcyAxMCBtaW51dGVzCisgaW5zdGVhZCBv
+ZiAxMyBzZWNvbmRzLgogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUKIFNpZ25lZC1v
+ZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgorLS0tCisgdGVzdHMvc2Vy
+dmVycy5wbSB8IDIgKy0KKyAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKIAogZGlmZiAtLWdpdCBhL3Rlc3RzL3NlcnZlcnMucG0gYi90ZXN0cy9zZXJ2ZXJzLnBt
+Ci1pbmRleCBkNDQ3MmQ1MDkuLmFlYWI2MmM0NyAxMDA2NDQKK2luZGV4IGQ0NDcyZDUuLjk5OTk5
+MzggMTAwNjQ0CiAtLS0gYS90ZXN0cy9zZXJ2ZXJzLnBtCiArKysgYi90ZXN0cy9zZXJ2ZXJzLnBt
+CiBAQCAtMTIwLDcgKzEyMCw3IEBAIG15ICRzc2hkdmVyc3RyOyAgIyBmb3Igc29ja3Mgc2VydmVy
+LCBzc2ggZGFlbW9uIHZlcnNpb24gc3RyaW5nCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9jdXJsL2N1cmxfOC42LjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxf
+OC43LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvY3VybC9jdXJsXzguNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9j
+dXJsL2N1cmxfOC43LjEuYmIKaW5kZXggZWE2OTE2NGQ3Ni4uODcyYmQ4NGE3MSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzguNi4wLmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2N1cmwvY3VybF84LjcuMS5iYgpAQCAtMTUsNyArMTUsNyBAQCBTUkNfVVJJ
+ID0gIiBcCiAgICAgZmlsZTovL2Rpc2FibGUtdGVzdHMgXAogICAgIGZpbGU6Ly9uby10ZXN0LXRp
+bWVvdXQucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNjY2Q1NWQ5MWFmOTUxNjUz
+OWRmODA2MjVmODE4YzczNGRjNmYyZWNmOWJhZGEzM2M3Njc2NWU5OTEyMWRiMTUiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNmZlYTJhYWM2YTQ2MTBmYmQwNDAwYWZiMGJjZGRiZTcyNThhNjRjNjNm
+MWY2OGU1ODU1ZWJjMGM2NTk3MTBjZCIKIAogIyBDdXJsIGhhcyB1c2VkIG1hbnkgbmFtZXMgb3Zl
+ciB0aGUgeWVhcnMuLi4KIENWRV9QUk9EVUNUID0gImhheHg6Y3VybCBoYXh4OmxpYmN1cmwgY3Vy
+bDpjdXJsIGN1cmw6bGliY3VybCBsaWJjdXJsOmxpYmN1cmwgZGFuaWVsX3N0ZW5iZXJnOmN1cmwi
+Ci0tIAoyLjQyLjAKCg==
+
+--===============8768203323993649001==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGSIZE changed from 3733 to 4154 (+11%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25010.1", added "/usr/lib/libatk-1.0.so.0.25209.1"
-packages/core2-64-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-kab"
-Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25010.1 to libatk-1.0.so.0.25209.1
-  /usr/lib/libatk-1.0.so.0.25010.1 moved to /usr/lib/libatk-1.0.so.0.25209.1
+packages/core2-64-poky-linux/curl/curl-doc: FILELIST: removed "/usr/share/man/man1/mk-ca-bundle.1", added "/usr/share/man/man3/CURLINFO_USED_PROXY.3"
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: added "/usr/lib/curl/ptest/tests/http/test_01_basic.py /usr/lib/curl/ptest/tests/data/test1480 /usr/lib/curl/ptest/tests/data/test1481 /usr/lib/curl/ptest/tests/data/test1541 /usr/lib/curl/ptest/tests/data/test1615 /usr/lib/curl/ptest/tests/data/test536 /usr/lib/curl/ptest/tests/http/testenv/__init__.py /usr/lib/curl/ptest/tests/http/test_13_proxy_auth.py /usr/lib/curl/ptest/tests/http/test_05_errors.py /usr/lib/curl/ptest/tests/http/test_12_reuse.py /usr/lib/curl/ptest/tests/http/testenv/nghttpx.py /usr/lib/curl/ptest/tests/data/test499 /usr/lib/curl/ptest/tests/http/test_15_tracing.py /usr/lib/curl/ptest/tests/libtest/lib536 /usr/lib/curl/ptest/tests/libtest/lib1598.c /usr/lib/curl/ptest/tests/http/scorecard.py /usr/lib/curl/ptest/tests/libtest/lib1598.o /usr/lib/curl/ptest/tests/http/test_08_caddy.py /usr/lib/curl/ptest/tests/http/testenv/caddy.py /usr/lib/curl/ptest/tests/http/testenv/httpd.py /usr/lib/curl/ptest/tests/unit/
+ unit1615.c /usr/lib/curl/ptest/tests/libtest/lib1541 /usr/lib/curl/ptest/tests/http/testenv/env.py /usr/lib/curl/ptest/tests/http/test_14_auth.py /usr/lib/curl/ptest/tests/libtest/lib1598 /usr/lib/curl/ptest/tests/data/test1479 /usr/lib/curl/ptest/tests/http/testenv/certs.py /usr/lib/curl/ptest/tests/data/test467 /usr/lib/curl/ptest/tests/data/test462 /usr/lib/curl/ptest/tests/http/testenv/mod_curltest/mod_curltest.c /usr/lib/curl/ptest/tests/data/test463 /usr/lib/curl/ptest/tests/http/requirements.txt /usr/lib/curl/ptest/tests/http/test_20_websockets.py /usr/lib/curl/ptest/tests/data/test468 /usr/lib/curl/ptest/tests/data/test1474 /usr/lib/curl/ptest/tests/http/conftest.py /usr/lib/curl/ptest/tests/http/test_06_eyeballs.py /usr/lib/curl/ptest/tests/http/test_02_download.py /usr/lib/curl/ptest/tests/http/test_10_proxy.py /usr/lib/curl/ptest/tests/http/test_04_stuttered.py /usr/lib/curl/ptest/tests/libtest/lib536.c /usr/lib/curl/ptest/tests/http/testenv/ws_echo_server.py /usr/lib/cur
+ l/ptest/tests/http/test_11_unix.py /usr/lib/curl/ptest/tests/libtest/lib536.o /usr/lib/curl/ptest/tests/http/testenv/client.py /usr/lib/curl/ptest/tests/libtest/lib1541.c /usr/lib/curl/ptest/tests/http/test_03_goaway.py /usr/lib/curl/ptest/tests/data/test1598 /usr/lib/curl/ptest/tests/http/testenv/ports.py /usr/lib/curl/ptest/tests/http/test_07_upload.py /usr/lib/curl/ptest/tests/http/testenv/curl.py /usr/lib/curl/ptest/tests/http/test_09_push.py /usr/lib/curl/ptest/tests/libtest/lib1541.o"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1498,296 +1825,337 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3081599767270351637==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.50.1-2.52.0.patch"
-
-RnJvbSAyZDNjZTczYWI5YmUxNjZmM2ZmZDhjZGMxYjYzNDAxNGQ5YTk1YTY1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAxNjoyMTozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGF0
-LXNwaTItY29yZTogdXBncmFkZSAyLjUwLjEgLT4gMi41Mi4wCgotLS0KIC4uLi9hdGsve2F0LXNw
-aTItY29yZV8yLjUwLjEuYmIgPT4gYXQtc3BpMi1jb3JlXzIuNTIuMC5iYn0gICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay97YXQtc3BpMi1jb3JlXzIuNTAuMS5iYiA9PiBhdC1zcGky
-LWNvcmVfMi41Mi4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2F0ay9hdC1zcGkyLWNvcmVfMi41MC4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0
-LXNwaTItY29yZV8yLjUyLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8yLjUwLjEuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi41Mi4wLmJiCmluZGV4IDY5OTZl
-YmViY2QuLmNmMjIxZTAzODkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
-dC1zcGkyLWNvcmVfMi41MC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1z
-cGkyLWNvcmVfMi41Mi4wLmJiCkBAIC0xMSw3ICsxMSw3IEBAIE1BSl9WRVIgPSAiJHtAb2UudXRp
-bHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfSIKIAogU1JDX1VSSSA9ICIke0dOT01FX01JUlJP
-Un0vJHtCUE59LyR7TUFKX1ZFUn0vJHtCUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjU3MjdiNWMwNjg3YWM1N2JhODA0MGU3OWJkNjczMWI3MTRhMzZiOGZjZjMyMTkw
-ZjIzNmI4ZmIzNjk4Nzg5ZTciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGFjM2ZjODMyMGM4ZDAx
-ZmExNDdjMjcyYmE3ZmEwMzgwNjM4OWM2YjAzZDNjNDA2ZDA4MjNlMzBlMzVmZjVhYiIKIAogREVQ
-RU5EUyA9ICIgXAogCWRidXMgXAotLSAKMi40Mi4wCgo=
-
---===============3081599767270351637==
+--===============8768203323993649001==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 1993384 to 2025424 (+2%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.25010.1", added "/usr/lib/.debug/libatk-1.0.so.0.25209.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 2088752 to 2122916 (+2%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGSIZE changed from 10825 to 11128 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGSIZE changed from 10679 to 11048 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGSIZE changed from 10308 to 10676 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGSIZE changed from 10644 to 10360 (-3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGSIZE changed from 11120 to 11448 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGSIZE changed from 10552 to 10823 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGSIZE changed from 11796 to 12231 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGSIZE changed from 10929 to 11395 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGSIZE changed from 10903 to 11169 (+2%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGSIZE changed from 10287 to 10625 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGSIZE changed from 10620 to 11001 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGSIZE changed from 10119 to 10456 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGSIZE changed from 15748 to 16321 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGSIZE changed from 3733 to 4154 (+11%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGSIZE changed from 10331 to 10689 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGSIZE changed from 11023 to 11285 (+2%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGSIZE changed from 10711 to 11171 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGSIZE changed from 10238 to 10596 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGSIZE changed from 10637 to 11040 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGSIZE changed from 13700 to 14200 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGSIZE changed from 10419 to 10797 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGSIZE changed from 10158 to 10526 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGSIZE changed from 10604 to 10901 (+3%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGSIZE changed from 14270 to 13034 (-9%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGSIZE changed from 13620 to 14169 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGSIZE changed from 9732 to 10077 (+4%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2020764 to 2046591 (+1%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 935683 to 946595 (+1%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25010.1", added "/usr/lib/libatk-1.0.so.0.25209.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-packages/core2-64-poky-linux/at-spi2-core: PV changed from "2.50.1" to "2.52.0"
-packages/core2-64-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.50/at-spi2-core-2.50.1.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.52/at-spi2-core-2.52.0.tar.xz"
-packages/core2-64-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-kab"
-packages/core2-64-poky-linux/at-spi2-core: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
-Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25010.1 to libatk-1.0.so.0.25209.1
-  /usr/lib/libatk-1.0.so.0.25010.1 moved to /usr/lib/libatk-1.0.so.0.25209.1
+packages/core2-64-poky-linux/curl/curl-dbg: FILELIST: added "/usr/lib/curl/ptest/tests/libtest/.debug/lib1541 /usr/lib/curl/ptest/tests/libtest/.debug/lib1598 /usr/lib/curl/ptest/tests/libtest/.debug/lib536"
+packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 13729640 to 13978600 (+2%)
+packages/core2-64-poky-linux/curl/curl-dbg: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-dbg: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-dev: PKGSIZE changed from 254268 to 254317 (+0%)
+packages/core2-64-poky-linux/curl/curl-dev: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-dev: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-doc: FILELIST: removed "/usr/share/man/man1/mk-ca-bundle.1", added "/usr/share/man/man3/CURLINFO_USED_PROXY.3"
+packages/core2-64-poky-linux/curl/curl-doc: PKGSIZE changed from 1479314 to 1482188 (+0%)
+packages/core2-64-poky-linux/curl/curl-doc: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-doc: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-locale: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-locale: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: added "/usr/lib/curl/ptest/tests/http/requirements.txt /usr/lib/curl/ptest/tests/http/testenv/nghttpx.py /usr/lib/curl/ptest/tests/http/test_03_goaway.py /usr/lib/curl/ptest/tests/data/test499 /usr/lib/curl/ptest/tests/data/test536 /usr/lib/curl/ptest/tests/http/test_04_stuttered.py /usr/lib/curl/ptest/tests/http/test_07_upload.py /usr/lib/curl/ptest/tests/http/test_10_proxy.py /usr/lib/curl/ptest/tests/libtest/lib1598.c /usr/lib/curl/ptest/tests/http/testenv/certs.py /usr/lib/curl/ptest/tests/http/testenv/curl.py /usr/lib/curl/ptest/tests/http/testenv/client.py /usr/lib/curl/ptest/tests/http/test_11_unix.py /usr/lib/curl/ptest/tests/http/testenv/httpd.py /usr/lib/curl/ptest/tests/libtest/lib1598.o /usr/lib/curl/ptest/tests/http/test_13_proxy_auth.py /usr/lib/curl/ptest/tests/data/test1598 /usr/lib/curl/ptest/tests/unit/unit1615.c /usr/lib/curl/ptest/tests/http/test_08_caddy.py /usr/lib/curl/ptest/tests/http/test_05_errors.py /u
+ sr/lib/curl/ptest/tests/http/testenv/caddy.py /usr/lib/curl/ptest/tests/http/testenv/mod_curltest/mod_curltest.c /usr/lib/curl/ptest/tests/data/test1541 /usr/lib/curl/ptest/tests/http/testenv/ports.py /usr/lib/curl/ptest/tests/http/testenv/__init__.py /usr/lib/curl/ptest/tests/data/test1615 /usr/lib/curl/ptest/tests/libtest/lib1541.c /usr/lib/curl/ptest/tests/http/test_09_push.py /usr/lib/curl/ptest/tests/http/test_02_download.py /usr/lib/curl/ptest/tests/libtest/lib1541.o /usr/lib/curl/ptest/tests/http/test_12_reuse.py /usr/lib/curl/ptest/tests/data/test1480 /usr/lib/curl/ptest/tests/data/test1481 /usr/lib/curl/ptest/tests/http/test_14_auth.py /usr/lib/curl/ptest/tests/libtest/lib1598 /usr/lib/curl/ptest/tests/http/testenv/ws_echo_server.py /usr/lib/curl/ptest/tests/http/testenv/env.py /usr/lib/curl/ptest/tests/libtest/lib1541 /usr/lib/curl/ptest/tests/http/test_20_websockets.py /usr/lib/curl/ptest/tests/data/test468 /usr/lib/curl/ptest/tests/libtest/lib536.o /usr/lib/curl/ptest/te
+ sts/data/test467 /usr/lib/curl/ptest/tests/http/test_15_tracing.py /usr/lib/curl/ptest/tests/http/conftest.py /usr/lib/curl/ptest/tests/http/scorecard.py /usr/lib/curl/ptest/tests/data/test462 /usr/lib/curl/ptest/tests/http/test_06_eyeballs.py /usr/lib/curl/ptest/tests/data/test463 /usr/lib/curl/ptest/tests/libtest/lib536.c /usr/lib/curl/ptest/tests/data/test1479 /usr/lib/curl/ptest/tests/http/test_01_basic.py /usr/lib/curl/ptest/tests/libtest/lib536 /usr/lib/curl/ptest/tests/data/test1474"
+packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 18556692 to 19019502 (+2%)
+packages/core2-64-poky-linux/curl/curl-ptest: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-ptest: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-src: FILELIST: directory renamed /usr/src/debug/curl/8.6.0/include/curl -> /usr/src/debug/curl/8.7.1/include/curl, directory renamed /usr/src/debug/curl/8.6.0/lib/vssh -> /usr/src/debug/curl/8.7.1/lib/vssh, directory renamed /usr/src/debug/curl/8.6.0/lib/vauth -> /usr/src/debug/curl/8.7.1/lib/vauth, directory renamed /usr/src/debug/curl/8.6.0/lib/vtls -> /usr/src/debug/curl/8.7.1/lib/vtls, directory renamed /usr/src/debug/curl/8.6.0/tests/server -> /usr/src/debug/curl/8.7.1/tests/server, directory renamed /usr/src/debug/curl/8.6.0/tests/http/clients -> /usr/src/debug/curl/8.7.1/tests/http/clients, directory renamed /usr/src/debug/curl/8.6.0/lib/vquic -> /usr/src/debug/curl/8.7.1/lib/vquic, directory renamed /usr/src/debug/curl/8.6.0/src -> /usr/src/debug/curl/8.7.1/src, removed "/usr/src/debug/curl/8.6.0/tests/libtest/testtrace.h /usr/src/debug/curl/8.6.0/lib/strcase.h /usr/src/debug/curl/8.6.0/lib/speedcheck.c /usr/src/debug/curl/8.6.0/lib/spee
+ dcheck.h /usr/src/debug/curl/8.6.0/lib/strcase.c /usr/src/debug/curl/8.6.0/tests/libtest/testtrace.c /usr/src/debug/curl/8.6.0/lib/curl_get_line.c /usr/src/debug/curl/8.6.0/lib/easy.c /usr/src/debug/curl/8.6.0/lib/curl_get_line.h /usr/src/debug/curl/8.6.0/tests/libtest/lib568.c /usr/src/debug/curl/8.6.0/lib/splay.c /usr/src/debug/curl/8.6.0/tests/libtest/lib590.c /usr/src/debug/curl/8.6.0/lib/splay.h /usr/src/debug/curl/8.6.0/lib/curl_ntlm_core.c /usr/src/debug/curl/8.6.0/lib/curl_ntlm_core.h /usr/src/debug/curl/8.6.0/lib/idn.h /usr/src/debug/curl/8.6.0/tests/libtest/libntlmconnect.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3010.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3025.c /usr/src/debug/curl/8.6.0/lib/idn.c /usr/src/debug/curl/8.6.0/tests/libtest/libauthretry.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3026.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3027.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3100.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3101.c /usr/src/debug/
+ curl/8.6.0/lib/doh.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3102.c /usr/src/debug/curl/8.6.0/lib/doh.h /usr/src/debug/curl/8.6.0/lib/base64.c /usr/src/debug/curl/8.6.0/lib/multi.c /usr/src/debug/curl/8.6.0/lib/url.h /usr/src/debug/curl/8.6.0/lib/url.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1510.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1511.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1512.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1513.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1514.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1515.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1533.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1534.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1520.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1521.c /usr/src/debug/curl/8.6.0/tests/libtest/lib643.c /usr/src/debug/curl/8.6.0/tests/libtest/lib667.c /usr/src/debug/curl/8.6.0/lib/ws.c /usr/src/debug/curl/8.6.0/tests/libtest/lib562.c /usr/src/debug/curl/8.6.0/tests/libtest/lib661.c /usr/src/d
+ ebug/curl/8.6.0/tests/libtest/lib677.c /usr/src/debug/curl/8.6.0/tests/libtest/lib560.c /usr/src/debug/curl/8.6.0/lib/sigpipe.h /usr/src/debug/curl/8.6.0/tests/libtest/lib578.c /usr/src/debug/curl/8.6.0/lib/headers.c /usr/src/debug/curl/8.6.0/lib/headers.h /usr/src/debug/curl/8.6.0/lib/cf-haproxy.h /usr/src/debug/curl/8.6.0/lib/cf-haproxy.c /usr/src/debug/curl/8.6.0/lib/hostip.c /usr/src/debug/curl/8.6.0/lib/hostip.h /usr/src/debug/curl/8.6.0/tests/libtest/lib586.c /usr/src/debug/curl/8.6.0/tests/libtest/lib582.c /usr/src/debug/curl/8.6.0/lib/urlapi-int.h /usr/src/debug/curl/8.6.0/lib/curl_memory.h /usr/src/debug/curl/8.6.0/lib/netrc.h /usr/src/debug/curl/8.6.0/lib/netrc.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1559.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1550.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1551.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1552.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1553.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1554.c /usr/src/debug/
+ curl/8.6.0/tests/libtest/lib1555.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1556.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1557.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1558.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1522.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1523.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1970.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1974.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1156.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1301.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1526.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1528.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1913.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1911.c /usr/src/debug/curl/8.6.0/lib/curl_fnmatch.h /usr/src/debug/curl/8.6.0/lib/curl_fnmatch.c /usr/src/debug/curl/8.6.0/lib/md5.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1934.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1935.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1936.c /usr/src/debug/curl/8.6.0/tests/libt
+ est/lib1937.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1940.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1945.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1947.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1948.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1545.c /usr/src/debug/curl/8.6.0/lib/cfilters.c /usr/src/debug/curl/8.6.0/tests/libtest/lib549.c /usr/src/debug/curl/8.6.0/lib/cfilters.h /usr/src/debug/curl/8.6.0/lib/conncache.h /usr/src/debug/curl/8.6.0/lib/version.c /usr/src/debug/curl/8.6.0/tests/libtest/lib517.c /usr/src/debug/curl/8.6.0/lib/conncache.c /usr/src/debug/curl/8.6.0/tests/libtest/lib541.c /usr/src/debug/curl/8.6.0/tests/libtest/lib515.c /usr/src/debug/curl/8.6.0/tests/libtest/lib543.c /usr/src/debug/curl/8.6.0/lib/easyoptions.c /usr/src/debug/curl/8.6.0/tests/libtest/lib509.c /usr/src/debug/curl/8.6.0/lib/http1.h /usr/src/debug/curl/8.6.0/lib/easyoptions.h /usr/src/debug/curl/8.6.0/lib/http1.c /usr/src/debug/curl/8.6.0/lib/parsedate.c /usr/src/debug/curl/8.6.0/l
+ ib/parsedate.h /usr/src/debug/curl/8.6.0/tests/libtest/lib503.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2502.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2402.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2404.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2304.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2305.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2306.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2301.c /usr/src/debug/curl/8.6.0/tests/libtest/lib2302.c /usr/src/debug/curl/8.6.0/lib/warnless.h /usr/src/debug/curl/8.6.0/lib/warnless.c /usr/src/debug/curl/8.6.0/lib/http.c /usr/src/debug/curl/8.6.0/lib/easy_lock.h /usr/src/debug/curl/8.6.0/lib/http.h /usr/src/debug/curl/8.6.0/lib/smtp.h /usr/src/debug/curl/8.6.0/lib/file.c /usr/src/debug/curl/8.6.0/lib/file.h /usr/src/debug/curl/8.6.0/lib/curl_sha256.h /usr/src/debug/curl/8.6.0/lib/curl_base64.h /usr/src/debug/curl/8.6.0/lib/http_digest.c /usr/src/debug/curl/8.6.0/lib/mqtt.h /usr/src/debug/curl/8.6.0/lib/http_digest.h /usr/src/de
+ bug/curl/8.6.0/lib/content_encoding.c /usr/src/debug/curl/8.6.0/lib/ftplistparser.c /usr/src/debug/curl/8.6.0/lib/ftplistparser.h /usr/src/debug/curl/8.6.0/lib/urldata.h /usr/src/debug/curl/8.6.0/lib/content_encoding.h /usr/src/debug/curl/8.6.0/lib/curl_setup_once.h /usr/src/debug/curl/8.6.0/tests/libtest/lib1938.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1939.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1971.c /usr/src/debug/curl/8.6.0/tests/libtest/lib539.c /usr/src/debug/curl/8.6.0/lib/timediff.h /usr/src/debug/curl/8.6.0/tests/libtest/lib650.c /usr/src/debug/curl/8.6.0/lib/timediff.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1912.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1915.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1916.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1918.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1919.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1518.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1535.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1536.c 
+ /usr/src/debug/curl/8.6.0/tests/libtest/lib1593.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1594.c /usr/src/debug/curl/8.6.0/tests/libtest/lib559.c /usr/src/debug/curl/8.6.0/tests/libtest/lib571.c /usr/src/debug/curl/8.6.0/tests/libtest/lib652.c /usr/src/debug/curl/8.6.0/tests/libtest/lib557.c /usr/src/debug/curl/8.6.0/lib/altsvc.c /usr/src/debug/curl/8.6.0/tests/libtest/lib573.c /usr/src/debug/curl/8.6.0/lib/hostasyn.c /usr/src/debug/curl/8.6.0/tests/libtest/lib589.c /usr/src/debug/curl/8.6.0/lib/multiif.h /usr/src/debug/curl/8.6.0/lib/altsvc.h /usr/src/debug/curl/8.6.0/lib/curl_range.c /usr/src/debug/curl/8.6.0/tests/libtest/lib666.c /usr/src/debug/curl/8.6.0/lib/curl_range.h /usr/src/debug/curl/8.6.0/lib/dynhds.h /usr/src/debug/curl/8.6.0/tests/libtest/first.c /usr/src/debug/curl/8.6.0/tests/libtest/lib575.c /usr/src/debug/curl/8.6.0/lib/dynhds.c /usr/src/debug/curl/8.6.0/tests/libtest/lib533.c /usr/src/debug/curl/8.6.0/lib/setopt.h /usr/src/debug/curl/8.6.0/tests/libtest/lib513
+ .c /usr/src/debug/curl/8.6.0/tests/libtest/lib537.c /usr/src/debug/curl/8.6.0/lib/setopt.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1973.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1975.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1960.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1964.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1955.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1956.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1958.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1972.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1957.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1959.c /usr/src/debug/curl/8.6.0/lib/cf-socket.h /usr/src/debug/curl/8.6.0/lib/cf-socket.c /usr/src/debug/curl/8.6.0/lib/rtsp.h /usr/src/debug/curl/8.6.0/tests/libtest/lib567.c /usr/src/debug/curl/8.6.0/lib/getinfo.h /usr/src/debug/curl/8.6.0/tests/libtest/lib521.c /usr/src/debug/curl/8.6.0/lib/getinfo.c /usr/src/debug/curl/8.6.0/lib/socks.c /usr/src/debug/curl/8.6.0/lib/curl_md5.h /usr/src/debug/curl/8.6.0/li
+ b/socks.h /usr/src/debug/curl/8.6.0/lib/hash.c /usr/src/debug/curl/8.6.0/tests/libtest/lib525.c /usr/src/debug/curl/8.6.0/lib/pop3.h /usr/src/debug/curl/8.6.0/lib/hash.h /usr/src/debug/curl/8.6.0/tests/libtest/lib505.c /usr/src/debug/curl/8.6.0/lib/cf-h1-proxy.h /usr/src/debug/curl/8.6.0/lib/cf-h1-proxy.c /usr/src/debug/curl/8.6.0/tests/libtest/lib507.c /usr/src/debug/curl/8.6.0/tests/libtest/lib519.c /usr/src/debug/curl/8.6.0/tests/libtest/lib547.c /usr/src/debug/curl/8.6.0/tests/libtest/lib501.c /usr/src/debug/curl/8.6.0/tests/libtest/lib523.c /usr/src/debug/curl/8.6.0/tests/libtest/lib583.c /usr/src/debug/curl/8.6.0/tests/libtest/lib678.c /usr/src/debug/curl/8.6.0/lib/mprintf.c /usr/src/debug/curl/8.6.0/tests/libtest/lib579.c /usr/src/debug/curl/8.6.0/tests/libtest/lib670.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1597.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1537.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1538.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1530.c /usr/src/
+ debug/curl/8.6.0/tests/libtest/lib1906.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1907.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1908.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1910.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1933.c /usr/src/debug/curl/8.6.0/lib/hmac.c /usr/src/debug/curl/8.6.0/tests/libtest/lib676.c /usr/src/debug/curl/8.6.0/lib/curl_endian.h /usr/src/debug/curl/8.6.0/lib/select.h /usr/src/debug/curl/8.6.0/lib/select.c /usr/src/debug/curl/8.6.0/lib/curl_endian.c /usr/src/debug/curl/8.6.0/tests/libtest/lib654.c /usr/src/debug/curl/8.6.0/tests/libtest/lib674.c /usr/src/debug/curl/8.6.0/tests/libtest/lib569.c /usr/src/debug/curl/8.6.0/lib/escape.h /usr/src/debug/curl/8.6.0/lib/escape.c /usr/src/debug/curl/8.6.0/tests/libtest/chkhostname.c /usr/src/debug/curl/8.6.0/lib/easygetopt.c /usr/src/debug/curl/8.6.0/lib/getenv.c /usr/src/debug/curl/8.6.0/tests/libtest/lib668.c /usr/src/debug/curl/8.6.0/lib/dynbuf.h /usr/src/debug/curl/8.6.0/tests/libtest/lib555.c /usr/s
+ rc/debug/curl/8.6.0/tests/libtest/lib599.c /usr/src/debug/curl/8.6.0/lib/dynbuf.c /usr/src/debug/curl/8.6.0/lib/fileinfo.c /usr/src/debug/curl/8.6.0/tests/libtest/sethostname.c /usr/src/debug/curl/8.6.0/lib/fileinfo.h /usr/src/debug/curl/8.6.0/tests/libtest/lib553.c /usr/src/debug/curl/8.6.0/tests/libtest/lib658.c /usr/src/debug/curl/8.6.0/lib/transfer.c /usr/src/debug/curl/8.6.0/lib/transfer.h /usr/src/debug/curl/8.6.0/lib/bufref.c /usr/src/debug/curl/8.6.0/lib/share.c /usr/src/debug/curl/8.6.0/lib/bufref.h /usr/src/debug/curl/8.6.0/lib/share.h /usr/src/debug/curl/8.6.0/lib/http_chunks.c /usr/src/debug/curl/8.6.0/lib/hsts.h /usr/src/debug/curl/8.6.0/lib/strtoofft.c /usr/src/debug/curl/8.6.0/lib/http_chunks.h /usr/src/debug/curl/8.6.0/lib/curl_hmac.h /usr/src/debug/curl/8.6.0/lib/hsts.c /usr/src/debug/curl/8.6.0/lib/strtoofft.h /usr/src/debug/curl/8.6.0/lib/llist.h /usr/src/debug/curl/8.6.0/lib/connect.c /usr/src/debug/curl/8.6.0/lib/slist.h /usr/src/debug/curl/8.6.0/tests/libtest/t
+ estutil.c /usr/src/debug/curl/8.6.0/lib/progress.c /usr/src/debug/curl/8.6.0/lib/connect.h /usr/src/debug/curl/8.6.0/lib/llist.c /usr/src/debug/curl/8.6.0/lib/slist.c /usr/src/debug/curl/8.6.0/tests/libtest/testutil.h /usr/src/debug/curl/8.6.0/lib/progress.h /usr/src/debug/curl/8.6.0/lib/md4.c /usr/src/debug/curl/8.6.0/lib/sha256.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1568.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1517.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1531.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1532.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1591.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1592.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1567.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1569.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1560.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1564.c /usr/src/debug/curl/8.6.0/lib/curl_addrinfo.h /usr/src/debug/curl/8.6.0/lib/curl_addrinfo.c /usr/src/debug/curl/8.6.0/tests/libtest/lib3103.c /usr/src/debug/curl/8
+ .6.0/lib/cf-https-connect.h /usr/src/debug/curl/8.6.0/lib/cf-https-connect.c /usr/src/debug/curl/8.6.0/tests/libtest/lib591.c /usr/src/debug/curl/8.6.0/lib/nonblock.h /usr/src/debug/curl/8.6.0/lib/nonblock.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1565.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1500.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1501.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1502.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1508.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1509.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1507.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1506.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1527.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1529.c /usr/src/debug/curl/8.6.0/tests/libtest/lib597.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1540.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1542.c /usr/src/debug/curl/8.6.0/lib/mime.c /usr/src/debug/curl/8.6.0/lib/mime.h /usr/src/debug/curl/8.6.0/tests/libtest/lib512.c /usr/src/debug/cu
+ rl/8.6.0/lib/curl_trc.c /usr/src/debug/curl/8.6.0/lib/curl_trc.h /usr/src/debug/curl/8.6.0/tests/libtest/lib510.c /usr/src/debug/curl/8.6.0/tests/libtest/lib516.c /usr/src/debug/curl/8.6.0/lib/bufq.h /usr/src/debug/curl/8.6.0/tests/libtest/lib530.c /usr/src/debug/curl/8.6.0/lib/bufq.c /usr/src/debug/curl/8.6.0/lib/noproxy.c /usr/src/debug/curl/8.6.0/lib/noproxy.h /usr/src/debug/curl/8.6.0/lib/strerror.h /usr/src/debug/curl/8.6.0/lib/strerror.c /usr/src/debug/curl/8.6.0/tests/libtest/test.h /usr/src/debug/curl/8.6.0/tests/libtest/lib518.c /usr/src/debug/curl/8.6.0/lib/curl_gethostname.c /usr/src/debug/curl/8.6.0/lib/curl_gethostname.h /usr/src/debug/curl/8.6.0/lib/pingpong.h /usr/src/debug/curl/8.6.0/lib/rand.h /usr/src/debug/curl/8.6.0/lib/rand.c /usr/src/debug/curl/8.6.0/lib/pingpong.c /usr/src/debug/curl/8.6.0/lib/hostip6.c /usr/src/debug/curl/8.6.0/lib/formdata.h /usr/src/debug/curl/8.6.0/lib/multihandle.h /usr/src/debug/curl/8.6.0/tests/libtest/libprereq.c /usr/src/debug/curl/8.
+ 6.0/lib/curl_memrchr.h /usr/src/debug/curl/8.6.0/tests/libtest/lib514.c /usr/src/debug/curl/8.6.0/lib/curl_memrchr.c /usr/src/debug/curl/8.6.0/lib/formdata.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1525.c /usr/src/debug/curl/8.6.0/lib/urlapi.c /usr/src/debug/curl/8.6.0/lib/asyn.h /usr/src/debug/curl/8.6.0/lib/sockaddr.h /usr/src/debug/curl/8.6.0/tests/libtest/lib1900.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1903.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1905.c /usr/src/debug/curl/8.6.0/tests/libtest/lib655.c /usr/src/debug/curl/8.6.0/tests/libtest/lib1662.c /usr/src/debug/curl/8.6.0/tests/libtest/lib566.c /usr/src/debug/curl/8.6.0/tests/libtest/lib520.c /usr/src/debug/curl/8.6.0/lib/http_proxy.h /usr/src/debug/curl/8.6.0/lib/if2ip.h /usr/src/debug/curl/8.6.0/tests/libtest/lib564.c /usr/src/debug/curl/8.6.0/tests/libtest/lib651.c /usr/src/debug/curl/8.6.0/lib/if2ip.c /usr/src/debug/curl/8.6.0/lib/http_proxy.c /usr/src/debug/curl/8.6.0/lib/strdup.h /usr/src/debug/curl/8.6.0/
+ lib/cookie.c /usr/src/debug/curl/8.6.0/lib/http_aws_sigv4.h /usr/src/debug/curl/8.6.0/lib/http_aws_sigv4.c /usr/src/debug/curl/8.6.0/lib/cookie.h /usr/src/debug/curl/8.6.0/lib/strdup.c /usr/src/debug/curl/8.6.0/tests/libtest/lib526.c /usr/src/debug/curl/8.6.0/tests/libtest/lib504.c /usr/src/debug/curl/8.6.0/tests/libtest/lib524.c /usr/src/debug/curl/8.6.0/tests/libtest/lib511.c /usr/src/debug/curl/8.6.0/tests/libtest/lib506.c /usr/src/debug/curl/8.6.0/lib/rename.h /usr/src/debug/curl/8.6.0/tests/libtest/lib554.c /usr/src/debug/curl/8.6.0/tests/libtest/lib544.c /usr/src/debug/curl/8.6.0/lib/rename.c /usr/src/debug/curl/8.6.0/tests/libtest/lib598.c /usr/src/debug/curl/8.6.0/lib/ftp.h /usr/src/debug/curl/8.6.0/tests/libtest/lib552.c /usr/src/debug/curl/8.6.0/tests/libtest/lib659.c /usr/src/debug/curl/8.6.0/lib/ftp.c /usr/src/debug/curl/8.6.0/lib/curl_md4.h /usr/src/debug/curl/8.6.0/tests/libtest/lib558.c /usr/src/debug/curl/8.6.0/tests/libtest/lib540.c /usr/src/debug/curl/8.6.0/tests/l
+ ibtest/lib653.c /usr/src/debug/curl/8.6.0/tests/libtest/lib542.c /usr/src/debug/curl/8.6.0/tests/libtest/lib572.c /usr/src/debug/curl/8.6.0/lib/http2.c /usr/src/debug/curl/8.6.0/tests/libtest/lib556.c /usr/src/debug/curl/8.6.0/tests/libtest/lib508.c /usr/src/debug/curl/8.6.0/lib/curl_threads.c /usr/src/debug/curl/8.6.0/lib/curl_threads.h /usr/src/debug/curl/8.6.0/lib/sendf.h /usr/src/debug/curl/8.6.0/lib/fopen.h /usr/src/debug/curl/8.6.0/tests/libtest/lib500.c /usr/src/debug/curl/8.6.0/lib/http_ntlm.c /usr/src/debug/curl/8.6.0/lib/fopen.c /usr/src/debug/curl/8.6.0/lib/imap.h /usr/src/debug/curl/8.6.0/lib/sendf.c /usr/src/debug/curl/8.6.0/lib/timeval.h /usr/src/debug/curl/8.6.0/lib/http_ntlm.h /usr/src/debug/curl/8.6.0/lib/timeval.c /usr/src/debug/curl/8.6.0/tests/libtest/lib574.c /usr/src/debug/curl/8.6.0/lib/asyn-thread.c /usr/src/debug/curl/8.6.0/tests/libtest/lib502.c /usr/src/debug/curl/8.6.0/tests/libtest/lib576.c /usr/src/debug/curl/8.6.0/tests/libtest/lib570.c", added "/usr/s
+ rc/debug/curl/8.7.1/lib/if2ip.c /usr/src/debug/curl/8.7.1/lib/curl_base64.h /usr/src/debug/curl/8.7.1/tests/libtest/lib572.c /usr/src/debug/curl/8.7.1/lib/if2ip.h /usr/src/debug/curl/8.7.1/tests/libtest/lib570.c /usr/src/debug/curl/8.7.1/lib/strerror.c /usr/src/debug/curl/8.7.1/lib/timediff.c /usr/src/debug/curl/8.7.1/lib/urlapi.c /usr/src/debug/curl/8.7.1/lib/timediff.h /usr/src/debug/curl/8.7.1/lib/strerror.h /usr/src/debug/curl/8.7.1/tests/libtest/lib590.c /usr/src/debug/curl/8.7.1/lib/curl_sha256.h /usr/src/debug/curl/8.7.1/tests/libtest/lib576.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1940.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1972.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1974.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1973.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1975.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1971.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1960.c /usr/src/debug/curl/8.7.1/tests/libtest/lib530.c /usr/src/debug/curl/8.7.1/tests/libtest/l
+ ib574.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1916.c /usr/src/debug/curl/8.7.1/tests/libtest/lib536.c /usr/src/debug/curl/8.7.1/lib/ftplistparser.c /usr/src/debug/curl/8.7.1/lib/strcase.h /usr/src/debug/curl/8.7.1/tests/libtest/lib582.c /usr/src/debug/curl/8.7.1/lib/ftplistparser.h /usr/src/debug/curl/8.7.1/lib/strcase.c /usr/src/debug/curl/8.7.1/tests/libtest/sethostname.c /usr/src/debug/curl/8.7.1/tests/libtest/lib544.c /usr/src/debug/curl/8.7.1/tests/libtest/lib554.c /usr/src/debug/curl/8.7.1/tests/libtest/lib542.c /usr/src/debug/curl/8.7.1/tests/libtest/lib556.c /usr/src/debug/curl/8.7.1/tests/libtest/lib540.c /usr/src/debug/curl/8.7.1/tests/libtest/lib558.c /usr/src/debug/curl/8.7.1/tests/libtest/lib578.c /usr/src/debug/curl/8.7.1/lib/http_ntlm.h /usr/src/debug/curl/8.7.1/tests/libtest/lib552.c /usr/src/debug/curl/8.7.1/tests/libtest/lib562.c /usr/src/debug/curl/8.7.1/lib/http_ntlm.c /usr/src/debug/curl/8.7.1/lib/sendf.c /usr/src/debug/curl/8.7.1/lib/sendf.h /usr/src/debug
+ /curl/8.7.1/tests/libtest/lib518.c /usr/src/debug/curl/8.7.1/tests/libtest/lib586.c /usr/src/debug/curl/8.7.1/lib/dynhds.h /usr/src/debug/curl/8.7.1/lib/progress.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1918.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1955.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1956.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1957.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1958.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1959.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1911.c /usr/src/debug/curl/8.7.1/lib/progress.c /usr/src/debug/curl/8.7.1/lib/dynhds.c /usr/src/debug/curl/8.7.1/tests/libtest/lib564.c /usr/src/debug/curl/8.7.1/lib/cf-https-connect.c /usr/src/debug/curl/8.7.1/lib/connect.h /usr/src/debug/curl/8.7.1/lib/cf-https-connect.h /usr/src/debug/curl/8.7.1/lib/connect.c /usr/src/debug/curl/8.7.1/tests/libtest/first.c /usr/src/debug/curl/8.7.1/lib/llist.c /usr/src/debug/curl/8.7.1/lib/slist.c /usr/src/debug/curl/8.7.1/lib/curl_ntlm_core.h /usr/
+ src/debug/curl/8.7.1/lib/llist.h /usr/src/debug/curl/8.7.1/lib/slist.h /usr/src/debug/curl/8.7.1/lib/curl_ntlm_core.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3026.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3027.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3010.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3025.c /usr/src/debug/curl/8.7.1/lib/cfilters.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3100.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3101.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3102.c /usr/src/debug/curl/8.7.1/tests/libtest/lib3103.c /usr/src/debug/curl/8.7.1/lib/cfilters.h /usr/src/debug/curl/8.7.1/tests/libtest/lib658.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1301.c /usr/src/debug/curl/8.7.1/lib/curl_trc.c /usr/src/debug/curl/8.7.1/tests/libtest/lib598.c /usr/src/debug/curl/8.7.1/lib/curl_trc.h /usr/src/debug/curl/8.7.1/lib/hmac.c /usr/src/debug/curl/8.7.1/lib/md5.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1551.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1
+ 552.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1553.c /usr/src/debug/curl/8.7.1/lib/urldata.h /usr/src/debug/curl/8.7.1/lib/bufref.h /usr/src/debug/curl/8.7.1/lib/bufref.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1948.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1933.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1934.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1935.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1936.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1937.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1938.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1945.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1947.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1910.c /usr/src/debug/curl/8.7.1/lib/easy_lock.h /usr/src/debug/curl/8.7.1/tests/libtest/lib650.c /usr/src/debug/curl/8.7.1/tests/libtest/lib668.c /usr/src/debug/curl/8.7.1/tests/libtest/lib654.c /usr/src/debug/curl/8.7.1/lib/escape.c /usr/src/debug/curl/8.7.1/lib/multihandle.h /usr/src/debug/curl/8.7.1/lib/escape.h /usr/src/deb
+ ug/curl/8.7.1/tests/libtest/lib503.c /usr/src/debug/curl/8.7.1/tests/libtest/lib501.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1556.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1558.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1525.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1526.c /usr/src/debug/curl/8.7.1/lib/http2.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1527.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1528.c /usr/src/debug/curl/8.7.1/lib/curl_fnmatch.h /usr/src/debug/curl/8.7.1/lib/curl_setup_once.h /usr/src/debug/curl/8.7.1/lib/speedcheck.h /usr/src/debug/curl/8.7.1/tests/libtest/lib676.c /usr/src/debug/curl/8.7.1/lib/curl_fnmatch.c /usr/src/debug/curl/8.7.1/lib/speedcheck.c /usr/src/debug/curl/8.7.1/tests/libtest/chkhostname.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1554.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1555.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1903.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1905.c /usr/src/debug/curl/8.7.1/tests/libtest/lib190
+ 6.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1907.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1908.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1970.c /usr/src/debug/curl/8.7.1/tests/libtest/lib652.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1540.c /usr/src/debug/curl/8.7.1/lib/curl_md4.h /usr/src/debug/curl/8.7.1/lib/sigpipe.h /usr/src/debug/curl/8.7.1/tests/libtest/lib678.c /usr/src/debug/curl/8.7.1/tests/libtest/lib515.c /usr/src/debug/curl/8.7.1/tests/libtest/lib517.c /usr/src/debug/curl/8.7.1/tests/libtest/lib670.c /usr/src/debug/curl/8.7.1/tests/libtest/testutil.h /usr/src/debug/curl/8.7.1/lib/ftp.h /usr/src/debug/curl/8.7.1/tests/libtest/lib511.c /usr/src/debug/curl/8.7.1/lib/ftp.c /usr/src/debug/curl/8.7.1/tests/libtest/testutil.c /usr/src/debug/curl/8.7.1/lib/curl_sha512_256.c /usr/src/debug/curl/8.7.1/lib/curl_endian.c /usr/src/debug/curl/8.7.1/lib/hash.h /usr/src/debug/curl/8.7.1/lib/curl_endian.h /usr/src/debug/curl/8.7.1/lib/curl_sha512_256.h /usr/src/debug/curl/8.7
+ .1/lib/hash.c /usr/src/debug/curl/8.7.1/lib/version.c /usr/src/debug/curl/8.7.1/tests/libtest/lib674.c /usr/src/debug/curl/8.7.1/tests/libtest/libntlmconnect.c /usr/src/debug/curl/8.7.1/lib/http_proxy.c /usr/src/debug/curl/8.7.1/lib/urlapi-int.h /usr/src/debug/curl/8.7.1/lib/http_proxy.h /usr/src/debug/curl/8.7.1/lib/hostip6.c /usr/src/debug/curl/8.7.1/lib/transfer.c /usr/src/debug/curl/8.7.1/lib/transfer.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1529.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1541.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1545.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1542.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1560.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1564.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1565.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1567.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1507.c /usr/src/debug/curl/8.7.1/lib/cf-haproxy.c /usr/src/debug/curl/8.7.1/lib/hostasyn.c /usr/src/debug/curl/8.7.1/lib/cf-haproxy.h /usr/src/
+ debug/curl/8.7.1/tests/libtest/lib509.c /usr/src/debug/curl/8.7.1/lib/cw-out.h /usr/src/debug/curl/8.7.1/tests/libtest/lib557.c /usr/src/debug/curl/8.7.1/lib/cw-out.c /usr/src/debug/curl/8.7.1/tests/libtest/lib533.c /usr/src/debug/curl/8.7.1/lib/asyn.h /usr/src/debug/curl/8.7.1/tests/libtest/lib559.c /usr/src/debug/curl/8.7.1/tests/libtest/lib579.c /usr/src/debug/curl/8.7.1/tests/libtest/lib507.c /usr/src/debug/curl/8.7.1/lib/rand.c /usr/src/debug/curl/8.7.1/tests/libtest/lib505.c /usr/src/debug/curl/8.7.1/lib/easyoptions.h /usr/src/debug/curl/8.7.1/lib/rand.h /usr/src/debug/curl/8.7.1/lib/easyoptions.c /usr/src/debug/curl/8.7.1/tests/libtest/lib553.c /usr/src/debug/curl/8.7.1/tests/libtest/lib519.c /usr/src/debug/curl/8.7.1/lib/select.c /usr/src/debug/curl/8.7.1/lib/ws.c /usr/src/debug/curl/8.7.1/tests/libtest/lib555.c /usr/src/debug/curl/8.7.1/lib/select.h /usr/src/debug/curl/8.7.1/lib/multiif.h /usr/src/debug/curl/8.7.1/tests/libtest/lib513.c /usr/src/debug/curl/8.7.1/tests/libte
+ st/lib666.c /usr/src/debug/curl/8.7.1/lib/rtsp.h /usr/src/debug/curl/8.7.1/lib/url.c /usr/src/debug/curl/8.7.1/lib/url.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1662.c /usr/src/debug/curl/8.7.1/lib/idn.c /usr/src/debug/curl/8.7.1/lib/idn.h /usr/src/debug/curl/8.7.1/lib/doh.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1520.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1521.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1522.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1523.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1513.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1514.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1515.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1517.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1518.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1510.c /usr/src/debug/curl/8.7.1/lib/cookie.h /usr/src/debug/curl/8.7.1/lib/nonblock.h /usr/src/debug/curl/8.7.1/lib/doh.h /usr/src/debug/curl/8.7.1/lib/headers.h /usr/src/debug/curl/8.7.1/lib/nonblock.c /usr/src/debug/curl/8
+ .7.1/lib/cookie.c /usr/src/debug/curl/8.7.1/tests/libtest/lib539.c /usr/src/debug/curl/8.7.1/lib/headers.c /usr/src/debug/curl/8.7.1/tests/libtest/lib589.c /usr/src/debug/curl/8.7.1/lib/formdata.h /usr/src/debug/curl/8.7.1/lib/conncache.h /usr/src/debug/curl/8.7.1/lib/conncache.c /usr/src/debug/curl/8.7.1/lib/formdata.c /usr/src/debug/curl/8.7.1/tests/libtest/lib543.c /usr/src/debug/curl/8.7.1/tests/libtest/lib541.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1156.c /usr/src/debug/curl/8.7.1/tests/libtest/lib549.c /usr/src/debug/curl/8.7.1/tests/libtest/lib547.c /usr/src/debug/curl/8.7.1/lib/sha256.c /usr/src/debug/curl/8.7.1/tests/libtest/lib599.c /usr/src/debug/curl/8.7.1/lib/curl_threads.h /usr/src/debug/curl/8.7.1/lib/request.c /usr/src/debug/curl/8.7.1/lib/md4.c /usr/src/debug/curl/8.7.1/lib/request.h /usr/src/debug/curl/8.7.1/lib/curl_threads.c /usr/src/debug/curl/8.7.1/tests/libtest/libauthretry.c /usr/src/debug/curl/8.7.1/tests/libtest/lib523.c /usr/src/debug/curl/8.7.1/lib/f
+ ileinfo.h /usr/src/debug/curl/8.7.1/tests/libtest/lib567.c /usr/src/debug/curl/8.7.1/tests/libtest/lib571.c /usr/src/debug/curl/8.7.1/lib/fileinfo.c /usr/src/debug/curl/8.7.1/lib/cf-socket.h /usr/src/debug/curl/8.7.1/lib/altsvc.c /usr/src/debug/curl/8.7.1/tests/libtest/lib597.c /usr/src/debug/curl/8.7.1/lib/cf-socket.c /usr/src/debug/curl/8.7.1/lib/altsvc.h /usr/src/debug/curl/8.7.1/tests/libtest/lib525.c /usr/src/debug/curl/8.7.1/tests/libtest/lib591.c /usr/src/debug/curl/8.7.1/lib/hsts.h /usr/src/debug/curl/8.7.1/lib/netrc.c /usr/src/debug/curl/8.7.1/lib/http_chunks.c /usr/src/debug/curl/8.7.1/lib/mime.c /usr/src/debug/curl/8.7.1/lib/netrc.h /usr/src/debug/curl/8.7.1/lib/hsts.c /usr/src/debug/curl/8.7.1/lib/mime.h /usr/src/debug/curl/8.7.1/tests/libtest/lib575.c /usr/src/debug/curl/8.7.1/lib/http_chunks.h /usr/src/debug/curl/8.7.1/tests/libtest/test.h /usr/src/debug/curl/8.7.1/tests/libtest/lib521.c /usr/src/debug/curl/8.7.1/tests/libtest/lib537.c /usr/src/debug/curl/8.7.1/lib/dyn
+ buf.c /usr/src/debug/curl/8.7.1/tests/libtest/lib573.c /usr/src/debug/curl/8.7.1/lib/dynbuf.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1511.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1512.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1568.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1569.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1500.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2402.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2404.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2502.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1939.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1912.c /usr/src/debug/curl/8.7.1/tests/libtest/lib569.c /usr/src/debug/curl/8.7.1/lib/multi.c /usr/src/debug/curl/8.7.1/lib/curl_memrchr.c /usr/src/debug/curl/8.7.1/lib/curl_memrchr.h /usr/src/debug/curl/8.7.1/lib/easy.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1900.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1509.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1501.c /usr/src/debug/curl/8.7.1/tests/libtest
+ /lib1502.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1506.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1532.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1533.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1534.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1508.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1964.c /usr/src/debug/curl/8.7.1/lib/easygetopt.c /usr/src/debug/curl/8.7.1/lib/splay.c /usr/src/debug/curl/8.7.1/lib/hostip.h /usr/src/debug/curl/8.7.1/lib/hostip.c /usr/src/debug/curl/8.7.1/lib/splay.h /usr/src/debug/curl/8.7.1/lib/cf-h1-proxy.c /usr/src/debug/curl/8.7.1/lib/fopen.c /usr/src/debug/curl/8.7.1/lib/fopen.h /usr/src/debug/curl/8.7.1/lib/cf-h1-proxy.h /usr/src/debug/curl/8.7.1/lib/curl_addrinfo.h /usr/src/debug/curl/8.7.1/lib/curl_get_line.c /usr/src/debug/curl/8.7.1/lib/warnless.h /usr/src/debug/curl/8.7.1/lib/curl_addrinfo.c /usr/src/debug/curl/8.7.1/lib/imap.h /usr/src/debug/curl/8.7.1/lib/warnless.c /usr/src/debug/curl/8.7.1/lib/curl_get_line.h /usr/src/debug/curl/8.
+ 7.1/lib/socks.h /usr/src/debug/curl/8.7.1/lib/socks.c /usr/src/debug/curl/8.7.1/lib/setopt.c /usr/src/debug/curl/8.7.1/tests/libtest/lib583.c /usr/src/debug/curl/8.7.1/lib/setopt.h /usr/src/debug/curl/8.7.1/tests/libtest/testtrace.h /usr/src/debug/curl/8.7.1/tests/libtest/testtrace.c /usr/src/debug/curl/8.7.1/lib/http_aws_sigv4.h /usr/src/debug/curl/8.7.1/lib/http_aws_sigv4.c /usr/src/debug/curl/8.7.1/lib/file.h /usr/src/debug/curl/8.7.1/lib/file.c /usr/src/debug/curl/8.7.1/lib/rename.c /usr/src/debug/curl/8.7.1/lib/rename.h /usr/src/debug/curl/8.7.1/lib/parsedate.h /usr/src/debug/curl/8.7.1/lib/noproxy.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1913.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1915.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1919.c /usr/src/debug/curl/8.7.1/lib/parsedate.c /usr/src/debug/curl/8.7.1/lib/asyn-thread.c /usr/src/debug/curl/8.7.1/tests/libtest/lib661.c /usr/src/debug/curl/8.7.1/lib/noproxy.h /usr/src/debug/curl/8.7.1/tests/libtest/libprereq.c /usr/sr
+ c/debug/curl/8.7.1/tests/libtest/lib667.c /usr/src/debug/curl/8.7.1/lib/base64.c /usr/src/debug/curl/8.7.1/lib/curl_memory.h /usr/src/debug/curl/8.7.1/lib/bufq.c /usr/src/debug/curl/8.7.1/lib/bufq.h /usr/src/debug/curl/8.7.1/tests/libtest/lib502.c /usr/src/debug/curl/8.7.1/lib/curl_range.c /usr/src/debug/curl/8.7.1/tests/libtest/lib659.c /usr/src/debug/curl/8.7.1/lib/curl_range.h /usr/src/debug/curl/8.7.1/tests/libtest/lib500.c /usr/src/debug/curl/8.7.1/lib/content_encoding.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1535.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1536.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1537.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1538.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1557.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1559.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1550.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1530.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1531.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1591.c /usr/src/debug/c
+ url/8.7.1/lib/content_encoding.c /usr/src/debug/curl/8.7.1/tests/libtest/lib506.c /usr/src/debug/curl/8.7.1/tests/libtest/lib510.c /usr/src/debug/curl/8.7.1/lib/share.h /usr/src/debug/curl/8.7.1/lib/timeval.c /usr/src/debug/curl/8.7.1/lib/share.c /usr/src/debug/curl/8.7.1/lib/timeval.h /usr/src/debug/curl/8.7.1/lib/mprintf.c /usr/src/debug/curl/8.7.1/lib/getenv.c /usr/src/debug/curl/8.7.1/tests/libtest/lib512.c /usr/src/debug/curl/8.7.1/tests/libtest/lib566.c /usr/src/debug/curl/8.7.1/tests/libtest/lib524.c /usr/src/debug/curl/8.7.1/tests/libtest/lib560.c /usr/src/debug/curl/8.7.1/tests/libtest/lib526.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2306.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2301.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2302.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2304.c /usr/src/debug/curl/8.7.1/tests/libtest/lib2305.c /usr/src/debug/curl/8.7.1/lib/pop3.h /usr/src/debug/curl/8.7.1/tests/libtest/lib1592.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1593.c
+  /usr/src/debug/curl/8.7.1/tests/libtest/lib1594.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1597.c /usr/src/debug/curl/8.7.1/tests/libtest/lib1598.c /usr/src/debug/curl/8.7.1/lib/curl_hmac.h /usr/src/debug/curl/8.7.1/lib/strtoofft.h /usr/src/debug/curl/8.7.1/lib/strdup.c /usr/src/debug/curl/8.7.1/lib/strtoofft.c /usr/src/debug/curl/8.7.1/lib/sockaddr.h /usr/src/debug/curl/8.7.1/lib/strdup.h /usr/src/debug/curl/8.7.1/lib/http_digest.h /usr/src/debug/curl/8.7.1/tests/libtest/lib520.c /usr/src/debug/curl/8.7.1/lib/mqtt.h /usr/src/debug/curl/8.7.1/lib/http_digest.c /usr/src/debug/curl/8.7.1/lib/curl_gethostname.h /usr/src/debug/curl/8.7.1/tests/libtest/lib568.c /usr/src/debug/curl/8.7.1/lib/curl_gethostname.c /usr/src/debug/curl/8.7.1/lib/http.c /usr/src/debug/curl/8.7.1/lib/http.h /usr/src/debug/curl/8.7.1/lib/smtp.h /usr/src/debug/curl/8.7.1/tests/libtest/lib651.c /usr/src/debug/curl/8.7.1/tests/libtest/lib508.c /usr/src/debug/curl/8.7.1/lib/pingpong.h /usr/src/debug/curl/8.7.1/lib/
+ pingpong.c /usr/src/debug/curl/8.7.1/tests/libtest/lib655.c /usr/src/debug/curl/8.7.1/tests/libtest/lib504.c /usr/src/debug/curl/8.7.1/lib/http1.h /usr/src/debug/curl/8.7.1/tests/libtest/lib653.c /usr/src/debug/curl/8.7.1/tests/libtest/lib677.c /usr/src/debug/curl/8.7.1/lib/http1.c /usr/src/debug/curl/8.7.1/lib/curl_md5.h /usr/src/debug/curl/8.7.1/tests/libtest/lib643.c /usr/src/debug/curl/8.7.1/tests/libtest/lib514.c /usr/src/debug/curl/8.7.1/lib/getinfo.c /usr/src/debug/curl/8.7.1/tests/libtest/lib516.c /usr/src/debug/curl/8.7.1/lib/getinfo.h"
+packages/core2-64-poky-linux/curl/curl-src: PKGSIZE changed from 4932922 to 5016634 (+2%)
+packages/core2-64-poky-linux/curl/curl-src: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-src: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl-staticdev: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl-staticdev: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl/curl: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/curl: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+packages/core2-64-poky-linux/curl: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.6.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.7.1.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
+packages/core2-64-poky-linux/curl/libcurl: PKGSIZE changed from 556432 to 581104 (+4%)
+packages/core2-64-poky-linux/curl/libcurl: PV changed from "8.6.0" to "8.7.1"
+packages/core2-64-poky-linux/curl/libcurl: PKGV changed from 8.6.0 [default] to 8.7.1 [default]
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3172,5 +3540,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3081599767270351637==--
+--===============8768203323993649001==--
 
