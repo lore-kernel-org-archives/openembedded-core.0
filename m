@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571D9CD13AE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A10DCD13B2
 	for <webhook@archiver.kernel.org>; Mon,  1 Apr 2024 18:03:31 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1989.1711994601287783114
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.44648.1711994602003862130
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Apr 2024 11:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eTtIItx1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YlHCAwqB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018e9ad48069-f4f1df70-5d3e-467e-affe-15996eb173db-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WmDyD6RI;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zeCBVMg9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e9ad47f9a-b4096aaf-e1d2-40a2-a1ba-ed15953a2808-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1711994601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wG8HAd4GIjpS34RgKYqUCC/fPxh6Cvssg6pFQcH51/g=;
-	b=eTtIItx1RRBmaz+WCCCVkTBKFlrgxNoHEQxnGofGzv6gEOPSVUp4XKxcpZW/hhbK
-	nLmPks78DgWlYbDcUA97TtlxEgVE5q/r02ZYNSvuvBP29LJQjjWXIH1lDidlgH8wFZm
-	Y10jrT1qSGsOt7kCQwBVyr9iSAJeVRozlJ5Yk5hA=
+	bh=DJGzQIvNf8ThKjU3/mdsl3Hf2hYXo5IEmXKmxJdiJsY=;
+	b=WmDyD6RIdzU3784eFsw8Fa9xAgK/htu9WU4zOQi642RGaHhMzDd+FWxoSLCTjQYB
+	G5X0wh/hpqwIkBoIXDSrCYlnCOlLWbmJ0KDa3N3dpyECPPDmKEGjmtvBz1L9h9wJAHx
+	z3iyzxgkUgqV0XofG09JsuP4Z4m0DTLgQZEYKseY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711994601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wG8HAd4GIjpS34RgKYqUCC/fPxh6Cvssg6pFQcH51/g=;
-	b=YlHCAwqBpugU8DsLqvANby3Flyed3keoBBVXFbJ68kDXH3StzlhU7Dg4ebvuy95F
-	aD5tLzNcWiMgelnQM+skMLstkIDFw+yonJrtNE/1w68nb667T+jnH4H52sVnW3I/TbI
-	qXHw0gMVgtITXVRZtR4fFo5B/G1y/TAxqqWtgPGc=
-Content-Type: multipart/mixed; boundary="===============3531681660309726097=="
+	bh=DJGzQIvNf8ThKjU3/mdsl3Hf2hYXo5IEmXKmxJdiJsY=;
+	b=zeCBVMg9DuWRLLa9hcOSGKZYl6CYymYgNkWtW1CHx/qhfattFyXo5tDv1hmGS1zH
+	gz3gCnKEPSOsDpMbLb+DPCQDkDBtiEZGurd3ZuEmPwBwKu/+sbrnBvsiFDnSKcgAzgB
+	G9DAnOGtRBPBz533gPe5aAZGjC/t59V6B/29qM2g=
+Content-Type: multipart/mixed; boundary="===============8289448306700471712=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pycparser: upgrading to 2.22 SUCCEEDED
-Message-ID: <0101018e9ad48069-f4f1df70-5d3e-467e-affe-15996eb173db-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pyelftools: upgrading to 0.31 SUCCEEDED
+Message-ID: <0101018e9ad47f9a-b4096aaf-e1d2-40a2-a1ba-ed15953a2808-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Apr 2024 18:03:21 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.01-54.240.27.193
+X-SES-Outgoing: 2024.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Apr 2024 18:03:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197733
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197729
 
---===============3531681660309726097==
+--===============8289448306700471712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pycparser* to *2.22* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pyelftools* to *0.31* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pycparser-upgrade-2.21-2.22.patch
+    - apply the patch: git am 0001-python3-pyelftools-upgrade-0.30-0.31.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,158 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6684138e7580d6a6b632d918ba7f13dc318ebc04 Mon Sep 17 00:00:00 2001
+From 398246832a7b9702fa7ade9c8ecda4c4804677f5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Apr 2024 08:56:59 +0000
-Subject: [PATCH] python3-pycparser: upgrade 2.21 -> 2.22
+Date: Mon, 1 Apr 2024 09:00:16 +0000
+Subject: [PATCH] python3-pyelftools: upgrade 0.30 -> 0.31
 
 ---
- ...rser_2.21.bb => python3-pycparser_2.22.bb} | 34 +++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycparser_2.21.bb => python3-pycparser_2.22.bb} (21%)
+ .../{python3-pyelftools_0.30.bb => python3-pyelftools_0.31.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyelftools_0.30.bb => python3-pyelftools_0.31.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycparser_2.21.bb b/meta/recipes-devtools/python/python3-pycparser_2.22.bb
-similarity index 21%
-rename from meta/recipes-devtools/python/python3-pycparser_2.21.bb
-rename to meta/recipes-devtools/python/python3-pycparser_2.22.bb
-index 00deceebf9..64abe47152 100644
---- a/meta/recipes-devtools/python/python3-pycparser_2.21.bb
-+++ b/meta/recipes-devtools/python/python3-pycparser_2.22.bb
-@@ -1,9 +1,39 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#  pycparser -- A C parser in Python
-+#  
-+# -Copyright (c) 2008-2020, Eli Bendersky
-+# +Copyright (c) 2008-2022, Eli Bendersky
-+#  All rights reserved.
-+#  
-+#  Redistribution and use in source and binary forms, with or without modification,
-+# @@ -11,7 +11,7 @@
-+#  * Redistributions in binary form must reproduce the above copyright notice, 
-+#    this list of conditions and the following disclaimer in the documentation 
-+#    and/or other materials provided with the distribution.
-+# -* Neither the name of Eli Bendersky nor the names of its contributors may 
-+# +* Neither the name of the copyright holder nor the names of its contributors may 
-+#    be used to endorse or promote products derived from this software without 
-+#    specific prior written permission.
-+#  
-+# 
-+#
-+
- SUMMARY = "Parser of the C language, written in pure Python"
- HOMEPAGE = "https://github.com/eliben/pycparser"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=2c28cdeabcb88f5843d934381b4b4fea"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.30.bb b/meta/recipes-devtools/python/python3-pyelftools_0.31.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pyelftools_0.30.bb
+rename to meta/recipes-devtools/python/python3-pyelftools_0.31.bb
+index 837edb7165..551fed6876 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.30.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.31.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5ce2a2b07fca326bc7c146d10105ccfc"
  
--SRC_URI[sha256sum] = "e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"
-+SRC_URI[sha256sum] = "491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"
+-SRC_URI[sha256sum] = "2fc92b0d534f8b081f58c7c370967379123d8e00984deb53c209364efd575b40"
++SRC_URI[sha256sum] = "c774416b10310156879443b81187d182d8d9ee499660380e645918b50bc88f99"
  
- inherit pypi setuptools3
+ PYPI_PACKAGE = "pyelftools"
  
 -- 
 2.42.0
 
 
---===============3531681660309726097==
+--===============8289448306700471712==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pycparser-upgrade-2.21-2.22.patch"
+ filename="0001-python3-pyelftools-upgrade-0.30-0.31.patch"
 
-RnJvbSA2Njg0MTM4ZTc1ODBkNmE2YjYzMmQ5MThiYTdmMTNkYzMxOGViYzA0IE1vbiBTZXAgMTcg
+RnJvbSAzOTgyNDY4MzJhN2I5NzAyZmE3YWRlOWM4ZWNkYTRjNDgwNDY3N2Y1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwODo1Njo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHljcGFyc2VyOiB1cGdyYWRlIDIuMjEgLT4gMi4yMgoKLS0tCiAuLi5yc2VyXzIuMjEu
-YmIgPT4gcHl0aG9uMy1weWNwYXJzZXJfMi4yMi5iYn0gfCAzNCArKysrKysrKysrKysrKysrKy0t
-CiAxIGZpbGUgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5Y3BhcnNlcl8yLjIxLmJi
-ID0+IHB5dGhvbjMtcHljcGFyc2VyXzIuMjIuYmJ9ICgyMSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y3BhcnNlcl8yLjIxLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y3BhcnNlcl8yLjIyLmJiCnNpbWlsYXJp
-dHkgaW5kZXggMjElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1weWNwYXJzZXJfMi4yMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXB5Y3BhcnNlcl8yLjIyLmJiCmluZGV4IDAwZGVjZWViZjkuLjY0YWJlNDcx
-NTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNw
-YXJzZXJfMi4yMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-cHljcGFyc2VyXzIuMjIuYmIKQEAgLTEsOSArMSwzOSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxF
-U19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgor
-IyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhl
-IG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYg
-bmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2Fn
-ZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRl
-OiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0t
-IExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTEsNiArMSw2IEBACisjICBweWNwYXJzZXIg
-LS0gQSBDIHBhcnNlciBpbiBQeXRob24KKyMgIAorIyAtQ29weXJpZ2h0IChjKSAyMDA4LTIwMjAs
-IEVsaSBCZW5kZXJza3kKKyMgK0NvcHlyaWdodCAoYykgMjAwOC0yMDIyLCBFbGkgQmVuZGVyc2t5
-CisjICBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyAgCisjICBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNl
-IGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQgbW9kaWZpY2F0aW9u
-LAorIyBAQCAtMTEsNyArMTEsNyBAQAorIyAgKiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZv
-cm0gbXVzdCByZXByb2R1Y2UgdGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UsIAorIyAgICB0aGlz
-IGxpc3Qgb2YgY29uZGl0aW9ucyBhbmQgdGhlIGZvbGxvd2luZyBkaXNjbGFpbWVyIGluIHRoZSBk
-b2N1bWVudGF0aW9uIAorIyAgICBhbmQvb3Igb3RoZXIgbWF0ZXJpYWxzIHByb3ZpZGVkIHdpdGgg
-dGhlIGRpc3RyaWJ1dGlvbi4KKyMgLSogTmVpdGhlciB0aGUgbmFtZSBvZiBFbGkgQmVuZGVyc2t5
-IG5vciB0aGUgbmFtZXMgb2YgaXRzIGNvbnRyaWJ1dG9ycyBtYXkgCisjICsqIE5laXRoZXIgdGhl
-IG5hbWUgb2YgdGhlIGNvcHlyaWdodCBob2xkZXIgbm9yIHRoZSBuYW1lcyBvZiBpdHMgY29udHJp
-YnV0b3JzIG1heSAKKyMgICAgYmUgdXNlZCB0byBlbmRvcnNlIG9yIHByb21vdGUgcHJvZHVjdHMg
-ZGVyaXZlZCBmcm9tIHRoaXMgc29mdHdhcmUgd2l0aG91dCAKKyMgICAgc3BlY2lmaWMgcHJpb3Ig
-d3JpdHRlbiBwZXJtaXNzaW9uLgorIyAgCisjIAorIworCiBTVU1NQVJZID0gIlBhcnNlciBvZiB0
-aGUgQyBsYW5ndWFnZSwgd3JpdHRlbiBpbiBwdXJlIFB5dGhvbiIKIEhPTUVQQUdFID0gImh0dHBz
-Oi8vZ2l0aHViLmNvbS9lbGliZW4vcHljcGFyc2VyIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2Ui
-Ci1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0yYzI4Y2RlYWJjYjg4ZjU4
-NDNkOTM0MzgxYjRiNGZlYSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1
-PTk3NjFjM2ZmZWU3YmE5OWM2MGRjYTA0MDhmZDMyNjJiIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiZTY0NGZkZWMxMmY3ODcyZjg2YzU4ZmY3OTBkYTQ1NjIxOGIxMGY4NjM5NzAyNDk1MTZkNjBh
-NWVhY2E3NzIwNiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0OTFjOGJlOWMwNDBmNTM5MGY1YmY0
-NGE1YjA3NzUyYmQwN2Y1NmVkZjk5MjM4MWIwNWM3MDE0MzllZWMxMGY2IgogCiBpbmhlcml0IHB5
-cGkgc2V0dXB0b29sczMKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMSBBcHIgMjAyNCAwOTowMDoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHllbGZ0b29sczogdXBncmFkZSAwLjMwIC0+IDAuMzEKCi0tLQogLi4uL3tweXRob24z
+LXB5ZWxmdG9vbHNfMC4zMC5iYiA9PiBweXRob24zLXB5ZWxmdG9vbHNfMC4zMS5iYn0gIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weWVsZnRvb2xzXzAuMzAuYmIg
+PT4gcHl0aG9uMy1weWVsZnRvb2xzXzAuMzEuYmJ9ICg4MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5ZWxmdG9vbHNfMC4zMC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWVsZnRvb2xzXzAuMzEuYmIKc2ltaWxh
+cml0eSBpbmRleCA4MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXB5ZWxmdG9vbHNfMC4zMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXB5ZWxmdG9vbHNfMC4zMS5iYgppbmRleCA4MzdlZGI3MTY1Li41NTFm
+ZWQ2ODc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+cHllbGZ0b29sc18wLjMwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1weWVsZnRvb2xzXzAuMzEuYmIKQEAgLTQsNyArNCw3IEBAIFNFQ1RJT04gPSAiZGV2ZWwv
+cHl0aG9uIgogTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
+U0U7bWQ1PTVjZTJhMmIwN2ZjYTMyNmJjN2MxNDZkMTAxMDVjY2ZjIgogCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiMmZjOTJiMGQ1MzRmOGIwODFmNThjN2MzNzA5NjczNzkxMjNkOGUwMDk4NGRlYjUz
+YzIwOTM2NGVmZDU3NWI0MCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJjNzc0NDE2YjEwMzEwMTU2
+ODc5NDQzYjgxMTg3ZDE4MmQ4ZDllZTQ5OTY2MDM4MGU2NDU5MThiNTBiYzg4Zjk5IgogCiBQWVBJ
+X1BBQ0tBR0UgPSAicHllbGZ0b29scyIKIAotLSAKMi40Mi4wCgo=
 
---===============3531681660309726097==
+--===============8289448306700471712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pycparser (sysroot):
-  /usr/lib/python3.12/site-packages/pycparser-2.21.dist-info moved to /usr/lib/python3.12/site-packages/pycparser-2.22.dist-info
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pyelftools-0.30.dist-info -> /usr/lib/python3.12/site-packages/pyelftools-0.31.dist-info, added "/usr/lib/python3.12/site-packages/elftools/py.typed"
+Changes to packages/core2-64-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.12/site-packages/pyelftools-0.30.dist-info moved to /usr/lib/python3.12/site-packages/pyelftools-0.31.dist-info
+  /usr/lib/python3.12/site-packages/elftools/py.typed was added
 
---===============3531681660309726097==
+--===============8289448306700471712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pycparser: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.21.tar.gz;downloadfilename=pycparser-2.21.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.22.tar.gz;downloadfilename=pycparser-2.22.tar.gz"
-packages/core2-64-poky-linux/python3-pycparser: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-dbg: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-dbg: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-dev: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-dev: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-doc: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-doc: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-locale: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-locale: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-src: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-src: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-staticdev: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser-staticdev: PKGV changed from 2.21 [default] to 2.22 [default]
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser: PV changed from "2.21" to "2.22"
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser: PKGSIZE changed from 1192208 to 1200477 (+1%)
-packages/core2-64-poky-linux/python3-pycparser/python3-pycparser: PKGV changed from 2.21 [default] to 2.22 [default]
-Changes to packages/core2-64-poky-linux/python3-pycparser (sysroot):
-  /usr/lib/python3.12/site-packages/pycparser-2.21.dist-info moved to /usr/lib/python3.12/site-packages/pycparser-2.22.dist-info
+packages/core2-64-poky-linux/python3-pyelftools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.30.tar.gz;downloadfilename=pyelftools-0.30.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-0.31.tar.gz;downloadfilename=pyelftools-0.31.tar.gz"
+packages/core2-64-poky-linux/python3-pyelftools: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dbg: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dev: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-dev: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-doc: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-doc: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-locale: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-locale: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-src: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-src: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools-staticdev: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pyelftools-0.30.dist-info -> /usr/lib/python3.12/site-packages/pyelftools-0.31.dist-info, added "/usr/lib/python3.12/site-packages/elftools/py.typed"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PV changed from "0.30" to "0.31"
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PKGV changed from 0.30 [default] to 0.31 [default]
+packages/core2-64-poky-linux/python3-pyelftools/python3-pyelftools: PKGSIZE changed from 1366400 to 1388559 (+2%)
+Changes to packages/core2-64-poky-linux/python3-pyelftools (sysroot):
+  /usr/lib/python3.12/site-packages/pyelftools-0.30.dist-info moved to /usr/lib/python3.12/site-packages/pyelftools-0.31.dist-info
+  /usr/lib/python3.12/site-packages/elftools/py.typed was added
 
---===============3531681660309726097==--
+--===============8289448306700471712==--
 
