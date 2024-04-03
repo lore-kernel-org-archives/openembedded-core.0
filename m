@@ -1,174 +1,88 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEACC6FD1F
-	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 05:13:54 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.4140.1712121228031315599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB3DCD1288
+	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 06:51:55 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.5307.1712127103020114922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Apr 2024 22:13:48 -0700
+ Tue, 02 Apr 2024 23:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ORVOYCfT;
- spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e27c303573so10764945ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Apr 2024 22:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1712121226; x=1712726026; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WdJfJaJk5utwxHmFtjuTR+Xxc9rdN49lm2V9KhI+C9g=;
-        b=ORVOYCfT34iai4BmLVWgbVqxzS2LqCaY/vjTls/tyo0bK1L71QPTsWUVMfoetKufa9
-         CPLeU4FRNXiLfmcLYbzfbXaNtHgGVLFb0JeJI7yvdi+A4oKIe97QdfaeyjE4+2heItAr
-         PvtHtbHTVWJY7HHeGWEJGjuCilGUFqKCrEY4c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712121226; x=1712726026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WdJfJaJk5utwxHmFtjuTR+Xxc9rdN49lm2V9KhI+C9g=;
-        b=rppu30/YY6jVGUsn+EATnd7LGljPXZl5hPk35Hs7LvzftohJ/F1MBd9ALKZHY1Eqc9
-         xY8Y37cIW57wkyMU6emAMWQ5FomqLxPk/hbXatf3Ci+AX3zvyuMWBNMOAQ8ezmK94poV
-         IxXizhloFNarj9ty1iH80jSypSzwptgo5w+QhCXZc1GIRMRFRAzsSXXCKqlB2dZqa3To
-         5D1ieIKeXW+eauzJQDt6thT1vi6weV8ohZhWxAhccIqUBEdzpZAtVtMt/FJBxH5Qc55M
-         9K6ageSa7+Bf5DpLR8/v41sA45cSKr75d+HBL+bgo/cSB7CQGx+5wQ22LcdItDgzuZBQ
-         1CGg==
-X-Gm-Message-State: AOJu0Yz4m3j/EzAjgDej9+BbRlC3i+86tZLTm/lXc2+40Hr3qqqzhoWo
-	xRvRsaFLCY+AQlj3EYKYUVrVucAVA0ab/mGvwH8Ps/MHSdV7ajbs9GmpSPb+BiAot357tezPCXs
-	3
-X-Google-Smtp-Source: AGHT+IFn3xv0tTakbF7hYaPx3VOf913Qm6yYzJSDBkzwClVIxnWoKx1biypYwK28o/Fei0q3Mi6C0Q==
-X-Received: by 2002:a17:902:6806:b0:1e2:87ef:8263 with SMTP id h6-20020a170902680600b001e287ef8263mr2194240plk.29.1712121226242;
-        Tue, 02 Apr 2024 22:13:46 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([2401:4900:1cb1:b5b7:aec2:114e:7ead:13e6])
-        by smtp.gmail.com with ESMTPSA id p16-20020a1709027ed000b001dd88a5dc47sm12373264plb.290.2024.04.02.22.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 22:13:45 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] ncurses: Backport fix for CVE-2023-50495
-Date: Wed,  3 Apr 2024 10:43:27 +0530
-Message-Id: <20240403051327.504390-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QEL1THdo;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=48239ad55b=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4336SU3P022584
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Apr 2024 23:51:42 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=oFPew
+	J3DnBTWyx4XZ2MROLmpAM+8xeNpn7aXOtSKIrg=; b=QEL1THdo3wVc3Rf03nvrQ
+	rXp3MacDRD0tggbZZiA1QK34LCqNnpqbwWeVJ1gLMAfBN3LoXFRnjI94emoLb5Aj
+	smZAL+wTPYZp2Ted4u/KGG/5AnZABeLhXCfeVGQEhItEcHDfl+5llPiZFDiylS+J
+	JETUjjtr/wncST+PoppAk8PfE06VQqwO8oncbPSq/F+pczGi7Xascse9ayvfTDpj
+	ucOi/a2WJK7OJjRT/sovJnKMzgFW4ZRZBUmjwC6reAqL0nvJlVCttRHA/zGGmR4j
+	2tEvU8vm96vRD0D9fgptOf2MuTBWJqif0qmxxA14/n+VHOKnacUHwms0tpM7HfbM
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x6j8fuqjq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Apr 2024 23:51:42 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Tue, 2 Apr 2024 23:51:40 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] ovmf: update edk2-stable202308 -> edk2-stable202402
+Date: Wed, 3 Apr 2024 06:51:24 +0000
+Message-ID: <20240403065124.612832-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: aVvbPtsCf23Xi-m_fx8ZSv8lNkp-Mtc1
+X-Proofpoint-GUID: aVvbPtsCf23Xi-m_fx8ZSv8lNkp-Mtc1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_06,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=673
+ spamscore=0 suspectscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403210001
+ definitions=main-2404030045
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 05:13:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197903
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 06:51:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197904
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Upstream-Status: Backport from https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc
-
-Reference: https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230424.patch.gz
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ncurses/files/CVE-2023-50495.patch        | 79 +++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.2.bb      |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-50495.patch
+ meta/recipes-core/ovmf/ovmf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2023-50495.patch b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
-new file mode 100644
-index 0000000000..58c23866d1
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
-@@ -0,0 +1,79 @@
-+Fix for CVE-2023-50495 from upstream:
-+https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc
-+
-+Reference:
-+https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230424.patch.gz
-+
-+Upstream-Status: Backport [import from suse ftp.pbone.net/mirror/ftp.opensuse.org/update/leap-micro/5.3/sle/src/ncurses-6.1-150000.5.20.1.src.rpm
-+Upstream commit https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc]
-+CVE: CVE-2023-50495
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ ncurses/tinfo/parse_entry.c | 23 ++++++++++++++++-------
-+ 1 file changed, 16 insertions(+), 7 deletions(-)
-+
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index 23574b66..56ba9ae6 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -110,7 +110,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	/* Well, we are given a cancel for a name that we don't recognize */
-+ 	return _nc_extend_names(entryp, name, STRING);
-+     default:
-+-	return 0;
-++	return NULL;
-+     }
-+ 
-+     /* Adjust the 'offset' (insertion-point) to keep the lists of extended
-+@@ -142,6 +142,11 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	for (last = (unsigned) (max - 1); last > tindex; last--)
-+ 
-+     if (!found) {
-++	char *saved;
-++
-++	if ((saved = _nc_save_str(name)) == NULL)
-++	    return NULL;
-++
-+ 	switch (token_type) {
-+ 	case BOOLEAN:
-+ 	    tp->ext_Booleans++;
-+@@ -169,7 +174,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	TYPE_REALLOC(char *, actual, tp->ext_Names);
-+ 	while (--actual > offset)
-+ 	    tp->ext_Names[actual] = tp->ext_Names[actual - 1];
-+-	tp->ext_Names[offset] = _nc_save_str(name);
-++	tp->ext_Names[offset] = saved;
-+     }
-+ 
-+     temp.nte_name = tp->ext_Names[offset];
-+@@ -337,6 +342,8 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-+ 	bool is_use = (strcmp(_nc_curr_token.tk_name, "use") == 0);
-+ 	bool is_tc = !is_use && (strcmp(_nc_curr_token.tk_name, "tc") == 0);
-+ 	if (is_use || is_tc) {
-++	    char *saved;
-++
-+ 	    if (!VALID_STRING(_nc_curr_token.tk_valstring)
-+ 		|| _nc_curr_token.tk_valstring[0] == '\0') {
-+ 		_nc_warning("missing name for use-clause");
-+@@ -350,11 +357,13 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-+ 			    _nc_curr_token.tk_valstring);
-+ 		continue;
-+ 	    }
-+-	    entryp->uses[entryp->nuses].name = _nc_save_str(_nc_curr_token.tk_valstring);
-+-	    entryp->uses[entryp->nuses].line = _nc_curr_line;
-+-	    entryp->nuses++;
-+-	    if (entryp->nuses > 1 && is_tc) {
-+-		BAD_TC_USAGE
-++	    if ((saved = _nc_save_str(_nc_curr_token.tk_valstring)) != NULL) {
-++		entryp->uses[entryp->nuses].name = saved;
-++		entryp->uses[entryp->nuses].line = _nc_curr_line;
-++		entryp->nuses++;
-++		if (entryp->nuses > 1 && is_tc) {
-++		    BAD_TC_USAGE
-++		}
-+ 	    }
-+ 	} else {
-+ 	    /* normal token lookup */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
-index 33285bcb5b..dbff149f55 100644
---- a/meta/recipes-core/ncurses/ncurses_6.2.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://CVE-2021-39537.patch \
-            file://CVE-2022-29458.patch \
-            file://CVE-2023-29491.patch \
-+           file://CVE-2023-50495.patch \
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 3dc031d3b6..9463ec148b 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -26,8 +26,8 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://0004-reproducible.patch \
             "
- # commit id corresponds to the revision in package version
- SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
+ 
+-PV = "edk2-stable202308"
+-SRCREV = "819cfc6b42a68790a23509e4fcc58ceb70e1965e"
++PV = "edk2-stable202402"
++SRCREV = "edc6681206c1a8791981a2f911d2fb8b3d2f5768"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
+ 
+ inherit deploy
 -- 
-2.25.1
+2.40.0
 
 
