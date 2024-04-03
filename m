@@ -2,46 +2,46 @@ Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87BA4CD129A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8782CCD1297
 	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 07:02:55 +0000 (UTC)
 Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.5340.1712127766027128390
+ by mx.groups.io with SMTP id smtpd.web11.5341.1712127766482399044
  for <openembedded-core@lists.openembedded.org>;
  Wed, 03 Apr 2024 00:02:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=QqpoY/tS;
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=VQAyYjIw;
  spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
 	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=QDsYtsKrRnLLJNZwGZUv4czlgZYHgZsXDP0svEolK0I=; b=QqpoY/tS2qnZI9pposwsItdaP1
-	+ukJ0xoGDFyXIaZN8ZZvhMGuyj3RVKQmAq3AitNo9s7DA34dzZWj/SPfAuxpygPnjQAwEsvuaEbb0
-	cJ4OL4ks8YP/eRVRdizUr0v5wHARepJ3ovyh7MY1Gi4p3rDNDynEAWr6CSYj83nFNeXIO86dkTo2q
-	H1bkKuI4hUtA6YBu2rhyIqoAj++9yvrb6KwixKkN/Q2APuuJMFJ+U4436h4SPNXMALrQonLG9Wy5h
-	+NdVsM6DWf/fCOSJvmYw9o7uouTC8qE0kybFPwbvAS4GJj5gHAwJsOb3c1CcCvMVxMDQEKQpHbMQH
-	4a9W95fw==;
+	bh=JvMrjlV9Ah21o7AiUa6uxcXHqchsP3ZDVLdC5AHvSg0=; b=VQAyYjIwoyCE5Jzt1fF6rKYQ6S
+	g+6qcfJZ/duCbDfjft7M03LUNv9h1SxKwIxxhDXRS+6kAk63FWio4Diejry7x8nJqBEpauzCTHVKd
+	d4upnEyfo+Pn5s3K/4RripJF44Ezn3p0Y0+4L8cVdpB3PK6sUWBC467XIXywsgqW55xv5ZoQU7TH3
+	q0AEUex0mCS/uoCCBUdvJkcnzalYvh+XFTuZXSPsSoGV0sHj+mr4oSlzdJIsQJ6lxJ14kz1+KoA7h
+	Xtu3dVFqV6XUcypY8zn/09d2ZJw/OfPN5o7boH0HWLjFe14XB7/OKlWPl01cIAaYcEC/g4yz+5E5Y
+	1/J+KCZA==;
 Received: from sslproxy01.your-server.de ([78.46.139.224])
 	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <martin@geanix.com>)
-	id 1rrudv-0007UY-19; Wed, 03 Apr 2024 09:02:43 +0200
+	id 1rrudu-0007UQ-E6; Wed, 03 Apr 2024 09:02:42 +0200
 Received: from [185.17.218.86] (helo=rap..)
 	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <martin@geanix.com>)
-	id 1rrudv-000NUU-1N;
-	Wed, 03 Apr 2024 09:02:42 +0200
+	id 1rrudu-000NUU-2E;
+	Wed, 03 Apr 2024 09:02:41 +0200
 From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
 	Khem Raj <raj.khem@gmail.com>,
 	Randy MacLeod <randy.macleod@windriver.com>,
 	=?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-Subject: [PATCH 5/5] contrib: add python service and systemd unit to run shared jobserver
-Date: Wed,  3 Apr 2024 09:02:04 +0200
-Message-ID: <20240403070204.367470-6-martin@geanix.com>
+Subject: [PATCH 1/5] classes: jobserver: support gnu make fifo jobserver
+Date: Wed,  3 Apr 2024 09:02:00 +0200
+Message-ID: <20240403070204.367470-2-martin@geanix.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240403070204.367470-1-martin@geanix.com>
 References: <20240403070204.367470-1-martin@geanix.com>
@@ -54,131 +54,128 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 07:02:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197909
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197910
 
-For CI setups that might end up building multiple yocto builds in
-parallel, a shared jobserver can reduce the total load of the system.
-Setting up such a jobserver is simple, but it does require a process
-hanging around to keep the jobserver fifo open (to avoid blocking token
-requests).
+Add a class to implement the gnu make fifo style jobserver. The class
+can be activated by symply adding an `INHERIT += "jobserver"` to the
+local configuration.
 
-Add a simple python script that creates such a jobserver fifo and waits
-forever. Also add a systemd unit file to start the python service at
-boot.
+Furthermore, one can configure an external jobserver (i.e. a server
+shared between multiple builds), by configured the `JOBSERVER_FIFO`
+variable to point at an existing jobserver fifo.
 
-The systemd unit can be installed in $HOME/.config/systemd/user/, but
-one might need to add a droplet config (i.e. `systemctl --user edit
-jobserver.service`) to setup the PYTHONPATH variable to make the python
-script loadable.
+The jobserver class uses the fifo style jobserver, which doesn't require
+passing open file descriptors around. It does, however, require
+make-4.4, which isn't available in common distro yet. To work around
+this, the class make all recipes (except make and its dependencies
+itself) depend on `virtual/make-native`.
 
 Signed-off-by: Martin Hundebøll <martin@geanix.com>
 ---
- contrib/jobserver/jobserver.py      | 78 +++++++++++++++++++++++++++++
- contrib/jobserver/jobserver.service | 10 ++++
- 2 files changed, 88 insertions(+)
- create mode 100644 contrib/jobserver/jobserver.py
- create mode 100644 contrib/jobserver/jobserver.service
+ meta/classes-global/jobserver.bbclass | 80 +++++++++++++++++++++++++++
+ meta/conf/bitbake.conf                |  2 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes-global/jobserver.bbclass
 
-diff --git a/contrib/jobserver/jobserver.py b/contrib/jobserver/jobserver.py
+diff --git a/meta/classes-global/jobserver.bbclass b/meta/classes-global/jobserver.bbclass
 new file mode 100644
-index 0000000000..41b085f47f
+index 0000000000..c76909fe50
 --- /dev/null
-+++ b/contrib/jobserver/jobserver.py
-@@ -0,0 +1,78 @@
-+#!/usr/bin/env python3
++++ b/meta/classes-global/jobserver.bbclass
+@@ -0,0 +1,80 @@
++JOBSERVER_FIFO ?= ""
++JOBSERVER_FIFO[doc] = "Path to external jobserver fifo to use instead of creating a per-build server."
 +
-+from pathlib import Path
-+from threading import Event
-+import argparse
-+import os
-+import shutil
-+import signal
++addhandler jobserver_setup_fifo
++jobserver_setup_fifo[eventmask] = "bb.event.ConfigParsed"
 +
-+resumed = Event()
-+runtime_dir = os.environ.get("XDG_RUNTIME_DIR", "/run")
++python jobserver_setup_fifo() {
++    # don't setup a per-build fifo, if an external one is configured
++    if d.getVar("JOBSERVER_FIFO"):
++        return
 +
-+def signal_handler(signum, _frame):
-+    """Wait for an external signal exit the process gracefully."""
-+    resumed.set()
++    # don't use a job-server if no parallelism is configured
++    jobs = oe.utils.parallel_make(d)
++    if jobs in (None, 1):
++        return
 +
++    # reduce jobs by one as a token has implicitly been handed to the
++    # process requesting tokens
++    jobs -= 1
 +
-+def main(path, user, group, mode, jobs):
-+    """Setup a fifo to used as jobserver shared between builds."""
-+    try:
-+        path.unlink(missing_ok=True)
-+        os.mkfifo(path)
-+        shutil.chown(path, user, group)
-+        os.chmod(path, mode)
-+    except (FileNotFoundError, PermissionError) as exc:
-+        raise SystemExit(f"failed to create fifo: {path}: {exc.strerror}")
++    fifo = d.getVar("TMPDIR") + "/jobserver_fifo"
 +
-+    print(f"jobserver: {path}: {jobs} jobs")
-+    fifo = os.open(path, os.O_RDWR)
-+    os.write(fifo, b"+" * jobs)
++    # and old fifo might be lingering; remove it
++    if os.path.exists(fifo):
++        os.remove(fifo)
 +
-+    print("jobserver: ready; waiting indefinitely")
-+    signal.signal(signal.SIGTERM, signal_handler)
-+    signal.signal(signal.SIGINT, signal_handler)
-+    resumed.wait()
++    # create a new fifo to use for communicating tokens
++    os.mkfifo(fifo)
 +
-+    print("jobserver: exiting")
-+    path.unlink()
-+    os.close(fifo)
++    # fill the fifo with the number of tokens to hand out
++    wfd = os.open(fifo, os.O_RDWR)
++    written = os.write(wfd, b"+" * jobs)
++    if written != (jobs):
++        bb.error("Failed to fil make fifo: {} != {}".format(written, jobs))
 +
++    # configure the per-build fifo path to use
++    d.setVar("JOBSERVER_FIFO", fifo)
++}
 +
-+if __name__ == "__main__":
-+    parser = argparse.ArgumentParser(
-+        prog='Make jobserver',
-+        description='Simple application to instantiate a jobserver fifo and hang around',
-+    )
-+    parser.add_argument(
-+        "--mode",
-+        help="Permission to apply to jobserver fifo",
-+        type=lambda v: int(v, 8),
-+        default=0o0666,
-+    )
-+    parser.add_argument(
-+        "--user",
-+        help="Username or id to assign ownership of fifo to",
-+        default=os.getuid(),
-+    )
-+    parser.add_argument(
-+        "--group",
-+        help="Groupname of id to assign ownership of fifo to",
-+        default=os.getgid(),
-+    )
-+    parser.add_argument(
-+        "path",
-+        help="Path to jobserver fifo path",
-+        type=Path,
-+        nargs='?',
-+        default=f"{runtime_dir}/jobserver",
-+    )
-+    parser.add_argument(
-+        "jobs",
-+        help="Number of tokens to load jobserver with",
-+        type=int,
-+        nargs='?',
-+        default=os.cpu_count(),
-+    )
-+    args = parser.parse_args()
-+    main(args.path, args.user, args.group, args.mode, args.jobs)
-diff --git a/contrib/jobserver/jobserver.service b/contrib/jobserver/jobserver.service
-new file mode 100644
-index 0000000000..bbc7167ac0
---- /dev/null
-+++ b/contrib/jobserver/jobserver.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=Shared jobserver fifo
++python () {
++    # don't configure the fifo if none is defined
++    fifo = d.getVar("JOBSERVER_FIFO")
++    if not fifo:
++        return
 +
-+[Service]
-+Type=simple
-+Environment=PYTHONUNBUFFERED=1
-+ExecStart=python jobserver.py
++    # avoid making make-native or its dependencies depend on make-native itself
++    if d.getVar("PN") in (
++                "make-native",
++                "libtool-native",
++                "pkgconfig-native",
++                "automake-native",
++                "autoconf-native",
++                "m4-native",
++                "texinfo-dummy-native",
++                "gettext-minimal-native",
++                "quilt-native",
++                "gnu-config-native",
++            ):
++        return
 +
-+[Install]
-+WantedBy=multi-user.target
++    # don't make unwilling recipes depend on make-native
++    if d.getVar('INHIBIT_DEFAULT_DEPS', False):
++        return
++
++    # make other recipes depend on make-native to make sure it is new enough to
++    # support the --jobserver-auth=fifo:<path> syntax (from make-4.4 and onwards)
++    d.appendVar("DEPENDS", " virtual/make-native")
++
++    # disable the "-j <jobs>" flag, as that overrides the jobserver fifo tokens
++    d.setVar("PARALLEL_MAKE", "")
++    d.setVar("PARALLEL_MAKEINST", "")
++
++    # set and export the jobserver in the environment
++    d.appendVar("MAKEFLAGS", " --jobserver-auth=fifo:" + fifo)
++    d.setVarFlag("MAKEFLAGS", "export", "1")
++
++    # ignore the joberserver argument part of MAKEFLAGS in the hash, as that
++    # shouldn't change the build output
++    d.appendVarFlag("MAKEFLAGS", "vardepvalueexclude", "| --jobserver-auth=fifo:" + fifo)
++}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6f180d18b0..23a016b31e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -960,7 +960,7 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES \
+-    OMP_NUM_THREADS BB_CURRENTTASK"
++    OMP_NUM_THREADS BB_CURRENTTASK JOBSERVER_FIFO"
+ BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR \
+     SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST_SYS RUST_TARGET_SYS"
+ BB_HASHCONFIG_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
 -- 
 2.44.0
 
