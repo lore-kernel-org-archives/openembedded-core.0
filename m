@@ -2,191 +2,193 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC55C6FD1F
-	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 03:47:23 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.3080.1712116035923211560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C04CD1288
+	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 03:47:24 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.3147.1712116037565834819
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Apr 2024 20:47:15 -0700
+ Tue, 02 Apr 2024 20:47:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wC6l6bLe;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e28be94d32so4782685ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Apr 2024 20:47:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=O6EGda6I;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ea8ee55812so5901752b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Apr 2024 20:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1712116035; x=1712720835; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1712116037; x=1712720837; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gu+lrcjhJOsV7w38XKhqvtdUtzYjui1rQ3W75hcG/rs=;
-        b=wC6l6bLe0aVMOQfc/SeZyGF+LUPmpfv2Nhe6pWYtRetKtsCPwbi0AMcG68nOQqLlrw
-         iBWmpWHpEhIsdCdGXvzyyE1EBMY6Rd0o+Zi3s8+I+ckZpnmxNoWFZyv64H5jFNzmx2/m
-         nHMaCcouC9A/CiCX6cynzLSq9y72PgFYTvQYRrnZd42Z93kWUNSSKFm7zTeMFY1wTRvK
-         UMzQb4V9Zi7aRPGnoNzwWccXqH380/sR/cjUvKj025q5nJy2yW77Y6GliWf6aBzjnFln
-         Gn5o7sN942eLMDET0962fRNM42vffZgch/QigypFnZAGF/8hw1yhL7bfcmfqYkSGRirD
-         F1LA==
+        bh=1ZNgdTk8Zu6i94fZnTMsuYYRjim1b9EkpC0WJmIz7QU=;
+        b=O6EGda6Ihfguiq7f8dn+2EkD2ymsw23r/+c7wMvqkYvw7xeVfQWwbOus/7nLS0dw+3
+         T8ILHTx9AN+M1XGpU4cCje1zidvuRvjEJLdbNNRS9IjRrA+kvpxN64d/XKhxVnx/bOm/
+         jQxZaSw49acq5eTAJc1BJURAhaf19sPmHZuaqANmU/aWmsImVYmkw3bQ1JrxxD+gDJPX
+         5bFJ3qETHy6YaMyvNtlvEYDG5/Utul02eWJhl6HTPzfX2zpLV3m5g8YEisgDE7H3SWj3
+         Dutog1FKiDrj0tsA7RHruayrz/VKzWoUcBI36BB/xH4K/GtEgSlX0lJXHS+WNIsjtGSK
+         VEYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712116035; x=1712720835;
+        d=1e100.net; s=20230601; t=1712116037; x=1712720837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gu+lrcjhJOsV7w38XKhqvtdUtzYjui1rQ3W75hcG/rs=;
-        b=hLvnxsKrrXngpoy1AJbjHM2/rviGwyFiZPCCYgHR3Lk+cmg/HndWmJqmvtsw/gqm1Q
-         PS4ejRBoby9dfM+GKecmapnAr1QefWw1DosyNuKdruOkC/ebdDGNn+wsYSNY/wUjAXHt
-         rZHYJY6OyK+EXbKFL98L0duh0SOSUD/VLuOdK6ZWOgc/RK6z9f/B6PkEcbGWUEy6yA5U
-         A7O6XdSBRNWfz/rHPieTvIXwj91L14TigPkJJF+4/a74Gp9GtYK5HoWO5c1GEkpQl2Yk
-         QdI8Fx2ZFFwNpAvvEg8wzEV/2bczHYXp7affhHLsa5vV8h2kRpa9kXMV1JQAynwpxis+
-         mGIg==
-X-Gm-Message-State: AOJu0YxPbNBS5kE8fwGM0ZYSJdc5RfjLoIgyzVh+EKlqP76hHGgnyCQ5
-	U8ZVudLPqm1WSzHkPOKGCFwnGUzV7goKML5UOYD+R65evZTTMtFpRpstxSLDI+mqQ/7eTBQeuaL
-	tD2E=
-X-Google-Smtp-Source: AGHT+IENpwg3X49bmzxL/aamm/w13zUAwC1F50gsByXaa0obkCQsIf1rIZJERFI943m8/88Twljstw==
-X-Received: by 2002:a17:902:e74e:b0:1e2:86f5:9d00 with SMTP id p14-20020a170902e74e00b001e286f59d00mr2889250plf.25.1712116035266;
-        Tue, 02 Apr 2024 20:47:15 -0700 (PDT)
+        bh=1ZNgdTk8Zu6i94fZnTMsuYYRjim1b9EkpC0WJmIz7QU=;
+        b=A5LVA2VZvy6Zkt+l7/pSfGsV3KeX5pbo9EPBv19LGR2G+dSL+jenLXk1ifFO8m9XgW
+         4xuln2Eqd+zBjWK5bCu+rIoNDvjZiBmaI8ZiGudvTmrwsl9qLIxpDRVEHiVM/LjK4KB/
+         DdrY68o/RrrHC4VjhGWgkEYPCc3uY3ecliyPlEq0/EKvzCX757e1BubA10ycOlwjaXX5
+         Ajaq8VV10Fe3CHE/uieiqaHZ5P0Noai3yv/BNm9oKe1HctUEDKRoGl5BeOX8IizXrOud
+         rUd4hU4Xe3eM1QrVtbqoClqHjUvjW4tyyv1IdmA0PlVYKfApEUltx2t5aJnGdkDkDV1J
+         ldTw==
+X-Gm-Message-State: AOJu0Yx1pHX+tbNljWprmEAQP/wor5lArF2W4S8NLC6bbOudO5adkp70
+	QPfRSBQMPxCgcifl8OuyDwZIZzvDzvpHpgTsgo8PJG8qULTHmQz4EN94l6AwIuE7G3qaLTEfvSV
+	mNcc=
+X-Google-Smtp-Source: AGHT+IEeeFrlsoWiC1Qk9zeOqRBl9doxqWMxENWTMbvwXgv8I04bvQCgT0qs6BEAGkaZUOdx/jzV+g==
+X-Received: by 2002:a05:6a20:3948:b0:1a3:aecb:db60 with SMTP id r8-20020a056a20394800b001a3aecbdb60mr18641281pzg.9.1712116036761;
+        Tue, 02 Apr 2024 20:47:16 -0700 (PDT)
 Received: from xps13.. (067-053-223-136.biz.spectrum.com. [67.53.223.136])
-        by smtp.gmail.com with ESMTPSA id m11-20020a170902c44b00b001e278fb17c5sm2326128plm.150.2024.04.02.20.47.14
+        by smtp.gmail.com with ESMTPSA id m11-20020a170902c44b00b001e278fb17c5sm2326128plm.150.2024.04.02.20.47.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 20:47:15 -0700 (PDT)
+        Tue, 02 Apr 2024 20:47:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/9] curl: backport Debian patch for CVE-2024-2398
-Date: Tue,  2 Apr 2024 17:46:57 -1000
-Message-Id: <67026cbb62e166b6a9f5509708531ebe0f36c36d.1712115855.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/9] qemu: Fix for CVE-2023-6683
+Date: Tue,  2 Apr 2024 17:46:58 -1000
+Message-Id: <f099f9ff95c42444cbfa63630a6f160fd98997ed.1712115855.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1712115855.git.steve@sakoman.com>
 References: <cover.1712115855.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 03:47:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197897
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 03:47:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197898
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-import patch from ubuntu to fix
- CVE-2024-2398
+Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/405484b29f6548c7b86549b0f961b906337aa68a
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/?h=ubuntu%2Fjammy-security
-Upstream commit https://github.com/curl/curl/commit/deca8039991886a559b67bcd6701db800a5cf764]
+Reference: https://security-tracker.debian.org/tracker/CVE-2023-6683
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/CVE-2024-2398.patch             | 89 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-2398.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-6683.patch             | 92 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-2398.patch b/meta/recipes-support/curl/curl/CVE-2024-2398.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ad6b310137..4747310ae4 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -108,6 +108,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch \
+            file://scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch \
+            file://CVE-2023-42467.patch \
++           file://CVE-2023-6683.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch
 new file mode 100644
-index 0000000000..ea55117f4d
+index 0000000000..e528574076
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-2398.patch
-@@ -0,0 +1,89 @@
-+Backport of:
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch
+@@ -0,0 +1,92 @@
++From 405484b29f6548c7b86549b0f961b906337aa68a Mon Sep 17 00:00:00 2001
++From: Fiona Ebner <f.ebner@proxmox.com>
++Date: Wed, 24 Jan 2024 11:57:48 +0100
++Subject: [PATCH] ui/clipboard: mark type as not available when there is no
++ data
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+From deca8039991886a559b67bcd6701db800a5cf764 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Wed, 6 Mar 2024 09:36:08 +0100
-+Subject: [PATCH] http2: push headers better cleanup
++With VNC, a client can send a non-extended VNC_MSG_CLIENT_CUT_TEXT
++message with len=0. In qemu_clipboard_set_data(), the clipboard info
++will be updated setting data to NULL (because g_memdup(data, size)
++returns NULL when size is 0). If the client does not set the
++VNC_ENCODING_CLIPBOARD_EXT feature when setting up the encodings, then
++the 'request' callback for the clipboard peer is not initialized.
++Later, because data is NULL, qemu_clipboard_request() can be reached
++via vdagent_chr_write() and vdagent_clipboard_recv_request() and
++there, the clipboard owner's 'request' callback will be attempted to
++be called, but that is a NULL pointer.
 +
-+- provide common cleanup method for push headers
++In particular, this can happen when using the KRDC (22.12.3) VNC
++client.
 +
-+Closes #13054
++Another scenario leading to the same issue is with two clients (say
++noVNC and KRDC):
 +
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/CVE-2024-2398.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/curl/curl/commit/deca8039991886a559b67bcd6701db800a5cf764]
-+CVE: CVE-2024-2398
++The noVNC client sets the extension VNC_FEATURE_CLIPBOARD_EXT and
++initializes its cbpeer.
++
++The KRDC client does not, but triggers a vnc_client_cut_text() (note
++it's not the _ext variant)). There, a new clipboard info with it as
++the 'owner' is created and via qemu_clipboard_set_data() is called,
++which in turn calls qemu_clipboard_update() with that info.
++
++In qemu_clipboard_update(), the notifier for the noVNC client will be
++called, i.e. vnc_clipboard_notify() and also set vs->cbinfo for the
++noVNC client. The 'owner' in that clipboard info is the clipboard peer
++for the KRDC client, which did not initialize the 'request' function.
++That sounds correct to me, it is the owner of that clipboard info.
++
++Then when noVNC sends a VNC_MSG_CLIENT_CUT_TEXT message (it did set
++the VNC_FEATURE_CLIPBOARD_EXT feature correctly, so a check for it
++passes), that clipboard info is passed to qemu_clipboard_request() and
++the original segfault still happens.
++
++Fix the issue by handling updates with size 0 differently. In
++particular, mark in the clipboard info that the type is not available.
++
++While at it, switch to g_memdup2(), because g_memdup() is deprecated.
++
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2023-6683
++Reported-by: Markus Frank <m.frank@proxmox.com>
++Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Tested-by: Markus Frank <m.frank@proxmox.com>
++Message-ID: <20240124105749.204610-1-f.ebner@proxmox.com>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/405484b29f6548c7b86549b0f961b906337aa68a]
++CVE: CVE-2023-6683
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ lib/http2.c | 34 +++++++++++++++-------------------
-+ 1 file changed, 15 insertions(+), 19 deletions(-)
++ ui/clipboard.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
 +
-+--- a/lib/http2.c
-++++ b/lib/http2.c
-+@@ -555,6 +555,15 @@ static int set_transfer_url(struct Curl_
-+   return 0;
-+ }
++diff --git a/ui/clipboard.c b/ui/clipboard.c
++index 3d14bffaf80..b3f6fa3c9e1 100644
++--- a/ui/clipboard.c
+++++ b/ui/clipboard.c
++@@ -163,9 +163,15 @@ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
++     }
 + 
-++static void free_push_headers(struct HTTP *stream)
-++{
-++  size_t i;
-++  for(i = 0; i<stream->push_headers_used; i++)
-++    free(stream->push_headers[i]);
-++  Curl_safefree(stream->push_headers);
-++  stream->push_headers_used = 0;
-++}
-++
-+ static int push_promise(struct Curl_easy *data,
-+                         struct connectdata *conn,
-+                         const nghttp2_push_promise *frame)
-+@@ -568,7 +577,6 @@ static int push_promise(struct Curl_easy
-+     struct curl_pushheaders heads;
-+     CURLMcode rc;
-+     struct http_conn *httpc;
-+-    size_t i;
-+     /* clone the parent */
-+     struct Curl_easy *newhandle = duphandle(data);
-+     if(!newhandle) {
-+@@ -604,11 +612,7 @@ static int push_promise(struct Curl_easy
-+     Curl_set_in_callback(data, false);
++     g_free(info->types[type].data);
++-    info->types[type].data = g_memdup(data, size);
++-    info->types[type].size = size;
++-    info->types[type].available = true;
+++    if (size) {
+++        info->types[type].data = g_memdup2(data, size);
+++        info->types[type].size = size;
+++        info->types[type].available = true;
+++    } else {
+++        info->types[type].data = NULL;
+++        info->types[type].size = 0;
+++        info->types[type].available = false;
+++    }
 + 
-+     /* free the headers again */
-+-    for(i = 0; i<stream->push_headers_used; i++)
-+-      free(stream->push_headers[i]);
-+-    free(stream->push_headers);
-+-    stream->push_headers = NULL;
-+-    stream->push_headers_used = 0;
-++    free_push_headers(stream);
-+ 
-+     if(rv) {
-+       DEBUGASSERT((rv > CURL_PUSH_OK) && (rv <= CURL_PUSH_ERROROUT));
-+@@ -1045,10 +1049,10 @@ static int on_header(nghttp2_session *se
-+             stream->push_headers_alloc) {
-+       char **headp;
-+       stream->push_headers_alloc *= 2;
-+-      headp = Curl_saferealloc(stream->push_headers,
-+-                               stream->push_headers_alloc * sizeof(char *));
-++      headp = realloc(stream->push_headers,
-++                      stream->push_headers_alloc * sizeof(char *));
-+       if(!headp) {
-+-        stream->push_headers = NULL;
-++        free_push_headers(stream);
-+         return NGHTTP2_ERR_TEMPORAL_CALLBACK_FAILURE;
-+       }
-+       stream->push_headers = headp;
-+@@ -1214,15 +1218,7 @@ void Curl_http2_done(struct Curl_easy *d
-+      setup */
-+   Curl_dyn_free(&http->header_recvbuf);
-+   Curl_dyn_free(&http->trailer_recvbuf);
-+-  if(http->push_headers) {
-+-    /* if they weren't used and then freed before */
-+-    for(; http->push_headers_used > 0; --http->push_headers_used) {
-+-      free(http->push_headers[http->push_headers_used - 1]);
-+-    }
-+-    free(http->push_headers);
-+-    http->push_headers = NULL;
-+-  }
-+-
-++  free_push_headers(http);
-+   if(!(data->conn->handler->protocol&PROTO_FAMILY_HTTP) ||
-+      !httpc->h2) /* not HTTP/2 ? */
-+     return;
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 383cf415d9..72d8544e08 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -57,6 +57,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-46219-0001.patch \
-            file://CVE-2023-46219-0002.patch \
-            file://CVE-2023-46219-0003.patch \
-+           file://CVE-2024-2398.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
++     if (update) {
++         qemu_clipboard_update(info);
++-- 
++GitLab
++
 -- 
 2.34.1
 
