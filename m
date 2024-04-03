@@ -2,116 +2,83 @@ Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E0BCD128A
-	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 13:57:27 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.11674.1712152645113041810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C48CD1288
+	for <webhook@archiver.kernel.org>; Wed,  3 Apr 2024 14:59:48 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.13563.1712156379945460687
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Apr 2024 06:57:25 -0700
+ Wed, 03 Apr 2024 07:59:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=HGBRssKL;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4A10A1C0004;
-	Wed,  3 Apr 2024 13:57:23 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=R3ogFWmM;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5FB0C240003;
+	Wed,  3 Apr 2024 14:59:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712152643;
+	t=1712156378;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LpBCGw2wZbvtdeTCxC4NURxkRO4pXUyK7WuSfQv8IJw=;
-	b=HGBRssKL0hIOM3rKVEkOGKzNBGopG8s5KyvP+0XuhZNOBncnz7836PgQxPkvfFMAIswF7t
-	akNcjMid9PjLmqsIflXeiHSskePWOwWoDhEqpkr1IrpOmXWBSKHX4ljaYcNECD0uKwkeRU
-	EicdPMSgVKd39a/F5C8zivBjGXX15aL03kfgm9XBh8O4rcb/48ExWeRJFu36Iq0vW9YuT+
-	vKthNjJlflRV1fdvamML45ax5ACkNyXUZ996xmmXxuQQqKnsse57W/1tYI3aji94iilDmF
-	h+lopKcqgrka+ti+bd6wQIwH7ak+G7gxH5bx2y+CLP5vTYOcaQG7+ZFLG4Ktwg==
-From: michael.opdenacker@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>,
-	thomas.petazzoni@bootlin.com
-Subject: [PATCH] package: fix issue converting PR to string
-Date: Wed,  3 Apr 2024 15:57:06 +0200
-Message-Id: <20240403135706.535976-1-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IrtwQ0WOmM4kDriA875+DT74RuhDaIv62pLPUy6uIdQ=;
+	b=R3ogFWmM5TZGdlFw0hgt5U9JDoT6GmGiyjapfafnK8UJTjgOiAzdRF7/sBQmp8N3C1zfRz
+	NxZQ+ySkaXxFSuqrTWmpIR50KfNwCE2eCqjPkbP/QM4HFNHxjA6QjEGB8XpJTTQIU2926a
+	lG0p6UA4/nuPphXCOJxSyJvfgP+NK9lWxp8VgOBgtLHOEkweCPoPqVAT/dQC7+Ibqm+j7X
+	8JIK5WGa4CEyq+BgNPbmIXt6AhFDCl7v0mg1pmrLTr7ARhtP3IxM9sIgIQ7ef8+uhUqg9F
+	+f30ftMK+FU0oqG86Cg8BPLHFMZ4D9IIFkH97NeJuhPyaAWqIg7HoTOVX3rwJQ==
+Message-ID: <997ee82c-be16-4562-b196-1aae40bb9284@bootlin.com>
+Date: Wed, 3 Apr 2024 16:59:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ yocto@lists.yoctoproject.org, Ross Burton <ross.burton@arm.com>
+Subject: Re: [yocto] [Openembedded-architecture] New mailing list for layer
+ patches
+To: pbarker.renesas@gmail.com
+References: <8363E7C5-B3C0-4B3E-941E-762A400DF87B@arm.com>
+ <1f92e19a-6e2e-43ed-b300-2d4f5cd4815b@bp.renesas.com>
+Content-Language: en-US
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <1f92e19a-6e2e-43ed-b300-2d4f5cd4815b@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 13:57:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197920
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Apr 2024 14:59:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197921
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Hi Paul,
 
-The upcoming introduction of "passthrough" PR servers
-will add non integer PR values, such as '0.3'.
+On 4/2/24 at 10:38, Paul Barker wrote:
+> On 28/03/2024 14:36, Ross Burton wrote:
+>> Hi,
+>>
+>> At the moment if a layer doesn’t have enough volume to justify a dedicated mailing list for patches (see, for example, meta-arm@lists.yoctoproject.org <mailto:meta-arm@lists.yoctoproject.org>) then the convention is that the patches can be sent to yocto@lists.yoctoproject.org <mailto:yocto@lists.yoctoproject.org>.
+>>
+>> However, that’s also the list that we encourage users of Yocto to use for help, so the list has a mix of patches for various layers and people asking for help, which isn’t ideal: users who want help don’t want to be flooded with patches for layers they’re not using, layer maintainers may not want to see the requests for help, and people who want the status reports have to receive patches and support.
+>>
+>> The Yocto TSC has been discussing this, and as a solution to this we’ve just created a new mailing list: yocto-patches@lists.yoctoproject.org <mailto:yocto-patches@lists.yoctoproject.org>.  This list is specifically for Yocto-related projects which don’t have their own mailing list or other patch submission process.   We ask that all layers currently using yocto@ for patches move to yocto-patches@, so that yocto@ can be used purely for discussion and other non-patch related subjects.
+> I think this is a great change, along with the new yocto-status@ list it will make things easier to follow :)
+>
+> Do you know if yocto-patches@ will be available via lore.kernel.org?
 
-With such a value, the current conversion of this
-value to a string, to define the package file name,
-can result in incorrect strings such as "0.30000000000000004"!
+I've just asked them to index the new lists as well as these important 
+ones which are missing too:
+https://lists.yoctoproject.org/g/yocto-announce
+http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+https://lists.yoctoproject.org/g/automated-testing
+https://lists.yoctoproject.org/g/yocto-security
 
-Introduce a safe_str() function which, when given a float
-value, rounds it up to the 6th decimal first, before the
-conversion to string.
+Cheers
+Michael.
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-CC: thomas.petazzoni@bootlin.com
-
----
-
-Notes: this has been tested successfully on the "master" branch.
-No obvious regression was found and the package file names
-look normal.
----
- meta/classes-global/package.bbclass | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
-index aa1eb5e901..82747d5467 100644
---- a/meta/classes-global/package.bbclass
-+++ b/meta/classes-global/package.bbclass
-@@ -250,6 +250,13 @@ package_get_auto_pr[vardeps] += "PRSERV_ACTIVE"
- python package_get_auto_pr() {
-     import oe.prservice
- 
-+    def safe_str(pr):
-+        # Avoids turning 0.3 to 0.30000000000000004 (for example)
-+        # during the conversion of a float to a string
-+        if type(pr) == float:
-+            pr = round(pr, 6)
-+        return str(pr)
-+
-     def get_do_package_hash(pn):
-         if d.getVar("BB_RUNTASK") != "do_package":
-             taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-@@ -289,7 +296,7 @@ python package_get_auto_pr() {
-         auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
-         if auto_pr is None:
-             bb.fatal("Can NOT get PRAUTO from lockdown exported file")
--        d.setVar('PRAUTO',str(auto_pr))
-+        d.setVar('PRAUTO', safe_str(auto_pr))
-         return
- 
-     try:
-@@ -299,7 +306,7 @@ python package_get_auto_pr() {
-                 srcpv = bb.fetch2.get_srcrev(d)
-                 base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
-                 value = conn.getPR(base_ver, pkgarch, srcpv)
--                d.setVar("PRSERV_PV_AUTOINC", str(value))
-+                d.setVar("PRSERV_PV_AUTOINC", safe_str(value))
- 
-             auto_pr = conn.getPR(version, pkgarch, checksum)
-             conn.close()
-@@ -307,7 +314,7 @@ python package_get_auto_pr() {
-         bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
-     if auto_pr is None:
-         bb.fatal("Can NOT get PRAUTO from remote PR service")
--    d.setVar('PRAUTO',str(auto_pr))
-+    d.setVar('PRAUTO', safe_str(auto_pr))
- }
- 
- #
 -- 
-2.34.1
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
