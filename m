@@ -1,168 +1,143 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46743CD1292
-	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 10:17:23 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.34687.1712225834214955436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4867CD1292
+	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 11:38:03 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web11.35648.1712230681767332035
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 03:17:14 -0700
+ Thu, 04 Apr 2024 04:38:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jeY8XUey;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4162bac959cso1556965e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 03:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712225832; x=1712830632; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ljoseFL4bhRMtU3Tqh5jLVew3MAJZz1/eO4+SVwYT3w=;
-        b=jeY8XUeyk/oI4E2Ssue/p3Go9uRVouFui4ubCSIkB5F/H+9QKbLFIJJQE+GrP0Bdv1
-         /p0rbz9GQI2x86uTmSro4Ps3AY/aTnz+wo+h8tIG0ZsEspQritZ+JkwI2GqwFkCl3slv
-         knDGOkfrO9oV1X9KkNQmtrSDHOIUVbIBRevCNu5cJAll79F5/U8XCrj8PHlK6/Ivp0vG
-         5wYraAbPMZPE43IwpcjM5KHus1MU4lsIbBNv7Ksy9k/7pyHEV83M60WWCDOJxIHF5pPH
-         ttYrZpgbwxRPYTtD2mTFmOXJ4jH76ZVetA6h0pOySJpm8Rg8wTdx85neaXUNSzUPFQN4
-         XBrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712225832; x=1712830632;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ljoseFL4bhRMtU3Tqh5jLVew3MAJZz1/eO4+SVwYT3w=;
-        b=imZqC2nMOWGnHazZqGpsuOJWZ2ottz47xSqqMbOobEW3RVvfQAftc3HAgu7/Pwyosh
-         +AvcxFPMuCQzu5+bJTA+Vl4VEWa56bbrXJzzO1H63D6Nlau9Y2ZM6wl3fr630sbwpXVC
-         wWX9f+4+HsOJYUOuaFbXOzLvXesUq4tcpreX5uEMfXUVOB8q8PJ99iUT95BGUZLahV3Q
-         /9hSWsakQx9zVqp0PXMHFS73a1OUp/C8KHVK/lEdt5qM6VUVgt4isnSwhZ386OBqW21z
-         ZsdgNfiJKg95Wk1q9lD64pF7ql6QMoGzwTkO0HmWBHLVKfYC4YBjuBKFr2B5tooFUjMh
-         xRRw==
-X-Gm-Message-State: AOJu0YyWjHj46hxvwOTQrt3C/KrumnS39tq3kiKvonCFuWSMQL/k5Iv3
-	vF6fudBtc2w3vzrbMbrm3WimfC8FUHZUx2DU1GrNRARpIdwLQUcXWITu7YpD
-X-Google-Smtp-Source: AGHT+IHLT7gk45RlyDG2coUzIoKCyRWLFcqRWGEo5QlBPMSFGaVWkJVe7fWDtYCOzLdvEvyBL8fpSw==
-X-Received: by 2002:a5d:42c4:0:b0:343:81ea:c534 with SMTP id t4-20020a5d42c4000000b0034381eac534mr1649839wrr.64.1712225832043;
-        Thu, 04 Apr 2024 03:17:12 -0700 (PDT)
-Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id v13-20020a5d4b0d000000b0034356c434d0sm4685463wrq.117.2024.04.04.03.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 03:17:11 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=YKmEoPcT;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=WFyloxHVuoFRIX+jHTohDkFNYXGn7AVDs+Gg7KqRgcw=; b=YKmEoPcT58b5pGZgMXpf/cEcd/
+	hJDQzMYqzJoXzttetAHzxqEkIG50dFQcwPI2q7bm6OPY8V0Oo/T1+akjSKwxODj7QfyqRQbclKi+m
+	exY6j1b3h3qd3GI5fcT9HlNPURi/PkJnX7ouHfBU9KdNoDhHKBo3B6h0tC1sisAUqObmMKdPN2G9p
+	8ypqCcojDk7X2xrIMNwMyQMtRvr1onCQgGlQazkwsioQbGW4xwuiRlELKisuMBqJ1cYuDqNM79DYs
+	EY4OcmGbFURdPo1+1Jo9PMXuhX+ulLW3Ub6uRDqmJJ1JAu3BvMpEMAMnhdrs9cDyqrW1JhOO8HX5y
+	ObcZj4sQ==;
+Received: from sslproxy05.your-server.de ([78.46.172.2])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <martin@geanix.com>)
+	id 1rsL52-000FYy-8A; Thu, 04 Apr 2024 13:16:28 +0200
+Received: from [185.17.218.86] (helo=rap..)
+	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <martin@geanix.com>)
+	id 1rsL51-000Wu6-2J;
+	Thu, 04 Apr 2024 13:16:27 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH 2/2] go: upgrade 1.22.1 -> 1.22.2
-Date: Thu,  4 Apr 2024 11:16:58 +0100
-Message-ID: <20240404101658.2444210-2-jose.quaresma@foundries.io>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Andreas Helbech Kleist <andreaskleist@gmail.com>,
+	=?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+Subject: [PATCH v2 0/5] Jobserver support
+Date: Thu,  4 Apr 2024 13:16:08 +0200
+Message-ID: <20240404111613.2574424-1-martin@geanix.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240404101658.2444210-1-jose.quaresma@foundries.io>
-References: <20240404101658.2444210-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: martin@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27235/Thu Apr  4 10:24:59 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 10:17:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197954
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 11:38:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197955
 
-Include fixes for CVE-2023-45288
+The parallelism of bitbake easily uses every available core on the build
+host. But since every task is run with the same number of parallel
+threads/processes, multiple tasks might load the CPU excessively, which
+in turn slows down the build due to scheduling overhead.
 
-Upgrade to latest 1.22.x release [1]:
+This patch series adds a class that creates a fifo filled with
+PARALLEL_MAKE tokens. The path to the created fifo is then configured in
+the MAKEFLAGS environment variable, which is read by make and a patched
+ninja (and gcc if doing lto).
 
-$ git --no-pager log --oneline go1.22.1..go1.22.2
-dddf0ae40f (tag: go1.22.2) [release-branch.go1.22] go1.22.2
-e55d7cf843 [release-branch.go1.22] net/http: update bundled golang.org/x/net/http2
-4edf4bb2c6 [release-branch.go1.22] all: update golang.org/x/net
-2c6d106541 [release-branch.go1.22] cmd/compile: don't assume args are always zero-extended
-46587483e3 [release-branch.go1.22] cmd/compile: fix sign/zero-extension removal
-0a5b33a883 [release-branch.go1.22] encoding/gob: make x509.Certificate marshalable again
-0c53f93faa [release-branch.go1.22] cmd/go/internal/modfetch: pass "-c" arguments to git before subcommands
-abfd578156 [release-branch.go1.22] runtime: fix EvFrequency event value on Windows in the new tracer
-7fb7acb82d [release-branch.go1.22] cmd/link/internal/riscv64: generate local text symbols for R_RISCV_CALL
-e23707b59c [release-branch.go1.22] go/types, types2: handle Alias types in substitution
-3826650c99 [release-branch.go1.22] cmd/compile: fix early deadcode with label statement
-e71b0b1fee [release-branch.go1.22] cmd/compile: fix copying SSA-able variables optimization
-9508eae5d1 [release-branch.go1.22] cmd/internal/obj/ppc64: don't modify runtime.elf_* symbols
-35b1a146d9 [release-branch.go1.22] cmd/go: respect -coverpkg for unselected no-test packages
+The benefits from using the jobserver depends on the set of executed
+tasks: running multiple large do_compile tasks simultaneously benefits
+more than multiple do_fetch tasks. A simple test building the following
+tasks (and all their dependencies) yields a ~5% improvement in build
+time (20:20 -> 19:20):
 
-[1] https://github.com/golang/go/compare/go1.22.1...go1.22.2
+  nodejs-native
+  rust-llvm-native
+  rust-native
+  linux-yocto
+  qemu-native
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-devtools/go/{go-1.22.1.inc => go-1.22.2.inc}   | 2 +-
- ...o-binary-native_1.22.1.bb => go-binary-native_1.22.2.bb} | 6 +++---
- ...cross-canadian_1.22.1.bb => go-cross-canadian_1.22.2.bb} | 0
- .../go/{go-cross_1.22.1.bb => go-cross_1.22.2.bb}           | 0
- .../go/{go-crosssdk_1.22.1.bb => go-crosssdk_1.22.2.bb}     | 0
- .../go/{go-native_1.22.1.bb => go-native_1.22.2.bb}         | 0
- .../go/{go-runtime_1.22.1.bb => go-runtime_1.22.2.bb}       | 0
- meta/recipes-devtools/go/{go_1.22.1.bb => go_1.22.2.bb}     | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.1.inc => go-1.22.2.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.1.bb => go-binary-native_1.22.2.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.1.bb => go-cross-canadian_1.22.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.1.bb => go-cross_1.22.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.1.bb => go-crosssdk_1.22.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.22.1.bb => go-native_1.22.2.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.1.bb => go-runtime_1.22.2.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.1.bb => go_1.22.2.bb} (100%)
+On build machines shared by multiple users, a single jobserver can be
+shared between multiple builds (using the JOBSERVER_FIFO variable).
+Running the above build in two different build directories at the same
+time gives a ~12% improvement (43:17 -> 37:55).
 
-diff --git a/meta/recipes-devtools/go/go-1.22.1.inc b/meta/recipes-devtools/go/go-1.22.2.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.22.1.inc
-rename to meta/recipes-devtools/go/go-1.22.2.inc
-index f1cf4beebb..b399207311 100644
---- a/meta/recipes-devtools/go/go-1.22.1.inc
-+++ b/meta/recipes-devtools/go/go-1.22.2.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "79c9b91d7f109515a25fc3ecdaad125d67e6bdb54f6d4d98580f46799caea321"
-+SRC_URI[main.sha256sum] = "374ea82b289ec738e968267cac59c7d5ff180f9492250254784b2044e90df5a9"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.1.bb b/meta/recipes-devtools/go/go-binary-native_1.22.2.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.1.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.22.2.bb
-index 8d8248df8a..0f00509f03 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.1.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.22.2.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "aab8e15785c997ae20f9c88422ee35d962c4562212bb0f879d052a35c8307c7f"
--SRC_URI[go_linux_arm64.sha256sum] = "e56685a245b6a0c592fc4a55f0b7803af5b3f827aaa29feab1f40e491acf35b8"
--SRC_URI[go_linux_ppc64le.sha256sum] = "ac775e19d93cc1668999b77cfe8c8964abfbc658718feccfe6e0eb87663cd668"
-+SRC_URI[go_linux_amd64.sha256sum] = "5901c52b7a78002aeff14a21f93e0f064f74ce1360fce51c6ee68cd471216a17"
-+SRC_URI[go_linux_arm64.sha256sum] = "36e720b2d564980c162a48c7e97da2e407dfcc4239e1e58d98082dfa2486a0c1"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "251a8886c5113be6490bdbb955ddee98763b49c9b1bf4c8364c02d3b482dab00"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.22.1.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.22.2.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.22.1.bb b/meta/recipes-devtools/go/go-cross_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.22.1.bb
-rename to meta/recipes-devtools/go/go-cross_1.22.2.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.22.1.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.22.2.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.22.1.bb b/meta/recipes-devtools/go/go-native_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.22.1.bb
-rename to meta/recipes-devtools/go/go-native_1.22.2.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.22.1.bb b/meta/recipes-devtools/go/go-runtime_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.22.1.bb
-rename to meta/recipes-devtools/go/go-runtime_1.22.2.bb
-diff --git a/meta/recipes-devtools/go/go_1.22.1.bb b/meta/recipes-devtools/go/go_1.22.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.22.1.bb
-rename to meta/recipes-devtools/go/go_1.22.2.bb
+Finally, the memory pressure from e.g. compiling multiple c++ based
+projects is also reduced. In our case, a cloud based build machine (with
+32 cores and 32GB RAM) fails to compile llvm-rust-native (in parallel to
+nodejs) without the jobserver due to a lack of memory.
+
+This patch set is roughly based on previous work by Richard[1]. That
+patch lists three TODO items, which are all addressed by these patches:
+ * The fifo path defaults to TMPDIR/jobserver_fifo, but can be
+   configured using JOBSERVER_FIFO.
+ * The number of make threads defaults to the value from PARALLEL_MAKE
+   (which is then redundant).
+ * If PARALLEL_MAKE is unset, the jobserver functionality is skipped.
+
+Further work in addition to this patch set could be to make bitbake
+tasks jobserver aware.
+
+Changes since v1[2]:
+ * Fixed typos in various places
+ * Added JOBSERVER_IGNORE variable to jobserver.bbclass in patch 1
+ * Changed ninja to use kitware fork with only two patches added in
+   patch 3
+ * Updated upstream patch submission link in qemu in patch 4
+
+Changes since the RFC[3]:
+ * The ninja src uri change in patch 3 is converted to a set of patches
+ * The qemu fix in patch 4 is converted to a submitted patch
+
+[1] https://lore.kernel.org/openembedded-core/1423223184.20217.15.camel@linuxfoundation.org/
+[2] https://lore.kernel.org/openembedded-core/20240403070204.367470-1-martin@geanix.com/
+[3] https://lore.kernel.org/openembedded-core/20230828124834.376779-1-martin@geanix.com/
+
+Martin Hundebøll (5):
+  classes: jobserver: support gnu make fifo jobserver
+  scripts: build-env: allow passing JOBSERVER_FIFO from environment
+  ninja: build modified version with GNU Make jobserver support
+  qemu: enable parallel builds when using the jobserver class
+  contrib: add python service and systemd unit to run shared jobserver
+
+ contrib/jobserver/jobserver.py                |  78 +++++
+ contrib/jobserver/jobserver.service           |  10 +
+ meta/classes-global/jobserver.bbclass         |  87 ++++++
+ meta/conf/bitbake.conf                        |   2 +-
+ ...ename-TokenPool-Setup-to-SetupClient.patch | 113 ++++++++
+ ...-jobserver-fifo-style-client-support.patch | 271 ++++++++++++++++++
+ meta/recipes-devtools/ninja/ninja_1.11.1.bb   |   8 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...e-jobserver-auth-argument-when-calli.patch |  37 +++
+ scripts/oe-buildenv-internal                  |   2 +-
+ 10 files changed, 605 insertions(+), 4 deletions(-)
+ create mode 100644 contrib/jobserver/jobserver.py
+ create mode 100644 contrib/jobserver/jobserver.service
+ create mode 100644 meta/classes-global/jobserver.bbclass
+ create mode 100644 meta/recipes-devtools/ninja/files/0001-Rename-TokenPool-Setup-to-SetupClient.patch
+ create mode 100644 meta/recipes-devtools/ninja/files/0002-Add-GNU-make-jobserver-fifo-style-client-support.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0013-Makefile-preserve-jobserver-auth-argument-when-calli.patch
+
 -- 
 2.44.0
 
