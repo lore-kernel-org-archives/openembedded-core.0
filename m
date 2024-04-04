@@ -1,80 +1,177 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB308CD1292
-	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 07:58:42 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web10.33145.1712217516279502680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E14CD1284
+	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 08:26:42 +0000 (UTC)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web11.33255.1712219194985037257
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 00:58:37 -0700
+ Thu, 04 Apr 2024 01:26:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=nA31m8ZG;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=Inmp4hf6cxe44akE2sEECZRcQDCJ3O6iDzH5/tw2Pwk=; b=nA31m8ZGSoiTj7tTwUc0fkUL1D
-	Qge/vhoaW4gc1jS4AZgUbnkjRBzUb4KBYV0JLtFZ4FZQiMJiuqXp2qPPUNPhalW7WYpcFCq4WyxIu
-	yf1ytHXoRPJs6kkjGNigaXzFUTaEOD2AJnD1mEan6dhunrKTZP0okBrgOzU2LZiJlz068X2DF//Dy
-	pY/kasylnqE0HP7hDI4I5h5CLbRg+dSJ+1Hi5PNrWLHJPtFmx49wXFgdSx52E/zatd5b0WxPnPMFu
-	xO8efbBCq3x/qJ6sXcqxPLUoo1w0wvuOjryedrm07KEanYiYzn15AIMGLeKxB3jBENhSbpjRJi5xk
-	ncGKJyng==;
-Received: from sslproxy04.your-server.de ([78.46.152.42])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <martin@geanix.com>)
-	id 1rsHzV-0009GC-5G; Thu, 04 Apr 2024 09:58:33 +0200
-Received: from [185.17.218.86] (helo=[192.168.64.76])
-	by sslproxy04.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <martin@geanix.com>)
-	id 1rsHzU-0000tp-2h;
-	Thu, 04 Apr 2024 09:58:32 +0200
-Message-ID: <0fb30b6a38e91309aae320190c8f11b2a811ae4e.camel@geanix.com>
-Subject: Re: [OE-core] [PATCH 1/5] classes: jobserver: support gnu make fifo
- jobserver
-From: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj
- <raj.khem@gmail.com>,  Randy MacLeod <randy.macleod@windriver.com>
-Date: Thu, 04 Apr 2024 09:58:32 +0200
-In-Reply-To: <3fd7861181945979c16d57176b45aa2e78a1f700.camel@gmail.com>
-References: <20240403070204.367470-1-martin@geanix.com>
-	 <20240403070204.367470-2-martin@geanix.com>
-	 <3fd7861181945979c16d57176b45aa2e78a1f700.camel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.52.0 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GcCu4HH3;
+ spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-479cd22b586so86599137.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 01:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712219194; x=1712823994; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9rBpB9wRtTjRGKAOJ9OmhnkZWerxrjFEUdHKymhsiD4=;
+        b=GcCu4HH3Jwp0N9Yuex+yFQKbNW8H/OoqhH7NuXqNU0WYMRq+c+jjXC+yC2uhnqggCX
+         LLKRdfxTJCoAuvkc7cnKl1Kf6oRYkBE/PtvJJ9LBeNg+3YwmDkuONVbRiq4r6lrPLHvx
+         /x6q/Mif/V8eMc4E12gDUwWMGH7BBjUUSuskypbdnxD14VybN8kBcegh7BOWnnoBQgn+
+         vxQlO7BCNOwVzCsQc7gl8oPVTrjMn/aHjXy0bQNIciAm3jNS8FPnq3K84Pd9biYxZoPL
+         oY4wSYpN7mHN9dq//5lyuE2b5OcAI0vpE3hirFGBFAeFhncpEkvkRC1/YrHX2TGS+HnB
+         updQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712219194; x=1712823994;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9rBpB9wRtTjRGKAOJ9OmhnkZWerxrjFEUdHKymhsiD4=;
+        b=nPRjRlI+rXsoUnUSvs2WqdnhpWBfh+7+bmxa5ctGQKca6nvAt/iexb2z2wowpYOSkt
+         Nj8Dr9KLl/HgPqBtMogMRTa+ATxkilQxc2JA7zauJZhXbnbv8MwLNyRINFuMDR2ZknFB
+         s3DPT3aa9HBM8ikBPnM79j6947u+jmoZcfsxSQQjMEC9JB50aJik8kexCHn7sFQ7ZTY3
+         EAOD6YkzUwQmOLjJ0Kpz4BR2i8xJ6G3e+HTIBft8tm+xLlnWFfmiiDaMA/f/WfqW2NCp
+         klaYaGdiTMhYE6hHLCSQfekdvfgt2MUeLAwbrT3jblY9tPs3xW63uUY3uvJt5QLOnzfI
+         1REg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+zd2KGhaM0UY9+LT2CUH7ax1X9f755abhWFoCNTBW1a4zjqxdlMbox8XIElQW7IusDVyR8A02k7XqufZsheHEv5wIDLI2ARFTYWBjIfXfO6s8EU8pDB4r
+X-Gm-Message-State: AOJu0Yw53Qjka+5bfDP+567PVf+vepZsLRyCPYx6GMCe6wHqOKVHAPLZ
+	41suFMdC7jDMsnALO8y83cP1I+xuKEAv9Sy/CC6bLeC1YGY/TLEeMujA8xrwiP+NfUIu1BcO6VI
+	pUxKsHF4Gymv/6Hv/fA4uCD6BrBs=
+X-Google-Smtp-Source: AGHT+IHn6+kyntLnbjjkU4PSFb/3hUxHqGUxrqE6V5UxvLpzOU9si1VtX4Vf7Wtm7W1mAWTqsPj3F8CYD/6G4FMsA6I=
+X-Received: by 2002:a67:eb8d:0:b0:478:9112:60a with SMTP id
+ e13-20020a67eb8d000000b004789112060amr1568278vso.16.1712219193561; Thu, 04
+ Apr 2024 01:26:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Authenticated-Sender: martin@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27234/Wed Apr  3 10:25:27 2024)
+References: <CAApg2=TS-3GUT5AEgf17rJjk-xP7YxBC+efqgEZhwHWaQR17_g@mail.gmail.com>
+In-Reply-To: <CAApg2=TS-3GUT5AEgf17rJjk-xP7YxBC+efqgEZhwHWaQR17_g@mail.gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 4 Apr 2024 09:26:22 +0100
+Message-ID: <CANPvuRmKPVZBed4Qn4nrbQyXJKMjLR==afvr5TOh5fFPhNhE3w@mail.gmail.com>
+Subject: Re: [OE-core] OE-core and meta-openembedded: a vulnerability in HTTP servers
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: yocto-security@lists.yoctoproject.org, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Steve Sakoman <steve@sakoman.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000cf5e0f0615411885"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 07:58:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197948
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 08:26:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197949
 
-SGkgQW5kcmVhcywKCk9uIFRodSwgMjAyNC0wNC0wNCBhdCAwOTo1NiArMDIwMCwgQW5kcmVhcyBI
-ZWxiZWNoIEtsZWlzdCB3cm90ZToKPiA+ICvCoMKgwqAgIyBhdm9pZCBtYWtpbmcgbWFrZS1uYXRp
-dmUgb3IgaXRzIGRlcGVuZGVuY2llcyBkZXBlbmQgb24gbWFrZS0KPiA+IG5hdGl2ZSBpdHNlbGYK
-PiA+ICvCoMKgwqAgaWYgZC5nZXRWYXIoIlBOIikgaW4gKAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAibWFrZS1uYXRpdmUiLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAibGlidG9vbC1uYXRpdmUiLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAicGtnY29uZmlnLW5hdGl2ZSIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgICJhdXRvbWFrZS1uYXRpdmUiLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAiYXV0b2NvbmYtbmF0aXZlIiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Im00LW5hdGl2ZSIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ0ZXhpbmZv
-LWR1bW15LW5hdGl2ZSIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJnZXR0
-ZXh0LW1pbmltYWwtbmF0aXZlIiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-InF1aWx0LW5hdGl2ZSIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJnbnUt
-Y29uZmlnLW5hdGl2ZSIsCj4gCj4gVGhpcyBzZWVtcyBhIGJpdCBicml0dGxlLCBidXQgSSBndWVz
-cyBtYWtlJ3MgZGVwZW5kZW5jaWVzIGRvZXNuJ3QKPiBjaGFuZ2Ugb2Z0ZW4uIFNvIGl0IGlzIHBy
-b2JhYmx5IG5vdCBhIGJpZyBpc3N1ZS4KPiAKPiBIb3cgZG9lcyBpdCBicmVhayBpZiBhIGRlcGVu
-ZGVuY3kgaXMgbWlzc2luZz8KCkJpdGJha2UgZXJyb3JzIG91dCB3aXRoIGEgZGVwZW5kZW5jeSBs
-b29wLgoKLy8gTWFydGluCg==
+--000000000000cf5e0f0615411885
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Marta,
+
+I will take care of updating the golang to 1.22.2 witch include a fix for
+the CVE-2023-45288
+https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b391821d4ee9=
+b
+
+Jose
+
+Marta Rybczynska <rybczynska@gmail.com> escreveu (quarta, 3/04/2024 =C3=A0(=
+s)
+21:46):
+
+> Details: https://kb.cert.org/vuls/id/421644
+>
+> Affected (amongst others): nodejs, oghttp, nghttp2, Apache httpd, go
+>
+> Multiple CVEs have been issued.
+>
+> Quoting from the description:
+>
+> HTTP allows messages to include named fields in both header and
+> trailer sections. These header and trailer fields are serialised as
+> field blocks in HTTP/2, so that they can be transmitted in multiple
+> fragments to the target implementation. Many HTTP/2 implementations do
+> not properly limit or sanitize the amount of CONTINUATION frames sent
+> within a single stream. An attacker that can send packets to a target
+> server can send a stream of CONTINUATION frames that will not be
+> appended to the header list in memory but will still be processed and
+> decoded by the server or will be appended to the header list, causing
+> an out of memory (OOM) crash.
+>
+> Marta
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197943):
+> https://lists.openembedded.org/g/openembedded-core/message/197943
+> Mute This Topic: https://lists.openembedded.org/mt/105317551/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000cf5e0f0615411885
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Marta,<br><br>I will take care of updating the golang t=
+o 1.22.2 witch=C2=A0include=C2=A0a fix for the=C2=A0CVE-2023-45288<br><a hr=
+ef=3D"https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b39182=
+1d4ee9b">https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b39=
+1821d4ee9b</a><br><br>Jose</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">Marta Rybczynska &lt;<a href=3D"mailto:rybczynska=
+@gmail.com">rybczynska@gmail.com</a>&gt; escreveu (quarta, 3/04/2024 =C3=A0=
+(s) 21:46):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Deta=
+ils: <a href=3D"https://kb.cert.org/vuls/id/421644" rel=3D"noreferrer" targ=
+et=3D"_blank">https://kb.cert.org/vuls/id/421644</a><br>
+<br>
+Affected (amongst others): nodejs, oghttp, nghttp2, Apache httpd, go<br>
+<br>
+Multiple CVEs have been issued.<br>
+<br>
+Quoting from the description:<br>
+<br>
+HTTP allows messages to include named fields in both header and<br>
+trailer sections. These header and trailer fields are serialised as<br>
+field blocks in HTTP/2, so that they can be transmitted in multiple<br>
+fragments to the target implementation. Many HTTP/2 implementations do<br>
+not properly limit or sanitize the amount of CONTINUATION frames sent<br>
+within a single stream. An attacker that can send packets to a target<br>
+server can send a stream of CONTINUATION frames that will not be<br>
+appended to the header list in memory but will still be processed and<br>
+decoded by the server or will be appended to the header list, causing<br>
+an out of memory (OOM) crash.<br>
+<br>
+Marta<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#197943): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/197943" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/197943</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105317551/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/105317551/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div>
+
+--000000000000cf5e0f0615411885--
 
