@@ -1,164 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 781BFCD1292
-	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 14:13:14 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.39078.1712239991784594892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C296CD1284
+	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 14:14:24 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.39118.1712240056668791543
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 07:13:12 -0700
+ Thu, 04 Apr 2024 07:14:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T24Y0w0N;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33ff53528ceso728357f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 07:13:11 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=b6EuFGhP;
+ spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-516bf5a145aso1299677e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 07:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1712239990; x=1712844790; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=onNL8jRgTA9YZ5dANXEJ545164aSUlUgnRbjONl0NNI=;
-        b=T24Y0w0NMoQwxxlC97O+vcSB98o1wDhqlOkr07fuy3YsoBsnc34nUQ0P3ClWp0K5jO
-         +0F439CYQWr5/8RKheKhCey/GONg0kgCx+zVULpQGo26feTWWZwsJTZqNeH3/0Ov5rSx
-         aEQ+i4dp9w/kM0GXKI+cU9byUkMxN88tewOyg=
+        d=linaro.org; s=google; t=1712240055; x=1712844855; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aCXJAj01tGKHEINGVYa6cOZ+mBOn8DihKOpJcC826oQ=;
+        b=b6EuFGhP0n9ikB25VzWQZgteonLFT7ePR+HKzXGztDzyxnXwRWeGIiNIH1dEqxAQ30
+         gEkHXMAVxICDxq7UKFwRF4B49FrrBFDtDR5axo9olmDmeG9K65xdYDmoBFJLxu07YAeD
+         Eh/znS+XN8N8ng+VH9rTMBfDVwMEPKnA+gqbB6FbJd+vuaEJrrqmjCZvA40Y2A9Dfvb0
+         veuCOYB8KMEnaDTKZzRHiaAtlvMLXy4wk5GgkPmbxVwpQ0G33Ks74HMuSSD8hbZUE2UC
+         oWoWWXDgxkoZR452hVeZKISrF+9U78KacpYZYIIoUFi5XeST55MLexhBb0NgUn6r3lnd
+         OuZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712239990; x=1712844790;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=onNL8jRgTA9YZ5dANXEJ545164aSUlUgnRbjONl0NNI=;
-        b=uhvj/s+XauIsMuq2NqOdkkAgkcBe+M60hHTbthlWWsMPC5Qx0+9ec2JQSZAwCY0rXG
-         SaHJj/nKC/AKoGkCipddF9XDmDlMmQ4inYz/1xoz2OrTRztGEPv4RWRUUrfI9ekPyfh6
-         FuIN7tDlvP0clYSrgEg2R5SBwYQor+jgIjUfLeDLrtUVCiMyYZ3L9Mvns8AIN7ya4ljK
-         JKcpyMjM+QerZsIgusohg5kEnlSyWVxwSfXlvrpr3ZFsU35on8hUZzHti3ZS93vpFh4E
-         w3j9OS2VFD7BKuaREem7Wja7QjqHuNUn03gFbKUDByWjfUWOg5qQnFy/ziBiJfBiu1cy
-         07XA==
-X-Forwarded-Encrypted: i=1; AJvYcCVrgn0jIV977smaFkJIkeb2AmUvBe2tLLJjtHvlr/Hkm2UdWDNLHEjsZPikUmbie7PljLPWVmkuPvhRj74U0f57CaOEs6cEI5IPjFLsfLh+1rkBEfy6GW+q
-X-Gm-Message-State: AOJu0YwU4sLQsM9BeCDkW/aqzj+dUhRpWitgmQ+fztWMP+vM9QQbWp9i
-	JYGdHZdJDzn+k2/cgSADGqUP0/Mzpth66vffQ2A+2tZmklu/Q/CH8wM9h2ZswMQ=
-X-Google-Smtp-Source: AGHT+IGnQUajAjJzWG9IesS4jCh8Qpdh26XWekeFIxKz0fLYHdPMAE+mha+WYV5hdGEutQQYgR1ITQ==
-X-Received: by 2002:a05:6000:a83:b0:33e:2a76:bb90 with SMTP id dh3-20020a0560000a8300b0033e2a76bb90mr1745691wrb.65.1712239989997;
-        Thu, 04 Apr 2024 07:13:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e10f:a04b:cc3b:1ccc? ([2001:8b0:aba:5f3c:e10f:a04b:cc3b:1ccc])
-        by smtp.gmail.com with ESMTPSA id h4-20020a056000000400b00343668bc492sm7622157wrx.71.2024.04.04.07.13.09
+        d=1e100.net; s=20230601; t=1712240055; x=1712844855;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aCXJAj01tGKHEINGVYa6cOZ+mBOn8DihKOpJcC826oQ=;
+        b=Ced2N9fKrtuEztgdeZWuHP8HBYFX7HJpsuvhoC6aqfg/eQnPg97E5BjhcQritPhX6l
+         VyZv4WciGLtoXUq2dlSjizbwYRJuu5bYconVTglj8PPbAAQwUo5WoYHcpGSp96RWM3gj
+         2jh1Ghr8MlAqeL64RIAPI3RmxHcfAmkOF9htaRBqPK4pV95rJdiaZAZ8ogRdM0e3ZsGb
+         7TqSZ5aovz7Mbuzit7yVJLfVjR5F8RczmjAf5K/3qNiYVAi6I/kY50yETGrseAkhZ3MN
+         rAqR8c0+epVTbm9tt8NB7VbOvGwW9EcfGn6UVeh57s3yMo9Ha2cm/+sTRvAm72GkhOGU
+         iVKg==
+X-Gm-Message-State: AOJu0Yx0Oi2vu9Nd3Mv3UfLJsxyZdPO0YRcZsnmnyvc6hvEAlX7uHUKi
+	PULNooHR8VYE3CDm90wyFi9cl7OFN2CGaqkbJQ7aOzXvkHPpt2S1Phurzvmz+tU=
+X-Google-Smtp-Source: AGHT+IEtqashx7+PXtHuzj1gVfeASFBBmyGmNrJN6eox8nvEYgG2Tei7VXpNPeAYTMGdEEzznQy3fQ==
+X-Received: by 2002:ac2:5290:0:b0:513:a977:933b with SMTP id q16-20020ac25290000000b00513a977933bmr1833000lfm.42.1712240054444;
+        Thu, 04 Apr 2024 07:14:14 -0700 (PDT)
+Received: from nuoska (drt4d6yywjht56pm8q3st-3.rev.dnainternet.fi. [2001:14ba:7430:3d00:1239:a19d:315c:6ddf])
+        by smtp.gmail.com with ESMTPSA id 13-20020ac2484d000000b005130ece9099sm2304094lfy.277.2024.04.04.07.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 07:13:09 -0700 (PDT)
-Message-ID: <e9e514b8e6efd729c33c7dd99706397c745c8ad2.camel@linuxfoundation.org>
+        Thu, 04 Apr 2024 07:14:14 -0700 (PDT)
+Date: Thu, 4 Apr 2024 17:14:10 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
 Subject: Re: [OE-core] [PATCH 2/2] curl: disable ca-certificates.crt path
  setting for native build
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Thu, 04 Apr 2024 15:13:08 +0100
-In-Reply-To: <20240404132902.68631-2-mikko.rapeli@linaro.org>
+Message-ID: <Zg61so8SJcuRXg31@nuoska>
 References: <20240404132902.68631-1-mikko.rapeli@linaro.org>
-	 <20240404132902.68631-2-mikko.rapeli@linaro.org>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ <20240404132902.68631-2-mikko.rapeli@linaro.org>
+ <CANPvuRnAhHTg8rftCLuHzcWh5Cdy9P0gdZByD1+s6MV8r7kzmw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANPvuRnAhHTg8rftCLuHzcWh5Cdy9P0gdZByD1+s6MV8r7kzmw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 14:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197966
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 14:14:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197967
 
-On Thu, 2024-04-04 at 16:29 +0300, Mikko Rapeli wrote:
-> If linux-yocto-dev is compiled without specific SRCREV, it uses
-> AUTOREV which tries to update to latest available commit. This is
-> currently failing with these steps:
->=20
-> $ rm -rf tmp*/work/*/linux-yocto-dev && \
-> bitbake -c do_configure mc:machine:linux-yocto-dev ; \
-> bitbake -c do_clean mc:machine:linux-yocto-dev
-> [...]
+Hi,
 
-> The variable dependency chain for the failure is: fetcher_hashes_dummyfun=
-c[vardepvalue]
->=20
-> ERROR: Parsing halted due to errors, see error messages above
->=20
-> Summary: There were 6 WARNING messages.
-> Summary: There were 2 ERROR messages, returning a non-zero exit code.
->=20
-> This state is not recoverable with bitbake calls. All of them fail from n=
-ow on.
-> "rm -rf tmp/work/*/linux-yocto-dev" recovers the situation
-> and bitbake commands work again.
->=20
-> Root cause is curl-native, dependency of git-native, which
-> has --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certificates.crt
-> which for native build target is wrong and points to curl-native build
-> directory path
-> /home/builder/src/base/build/tmp_poky/work/x86_64-linux/curl-native/8.6.0=
-/recipe-sysroot-native/etc/ssl/certs/ca-certificates.crt
->=20
-> Since git is a build time host package dependency listed in
-> https://docs.yoctoproject.org/dev/singleindex.html#build-host-packages
-> then its dependencies like curl and ca-certificates are too, it should
-> be safe for curl-native to use the default host ca-certificates path
-> instead of the one in recipe specific sysroots which would need to be set=
- with complicated
-> environment variables. Set non-default ca-certificates path only for
-> target and nativesdk builds.
->=20
-> Reported-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
-> =C2=A0meta/recipes-support/curl/curl_8.6.0.bb | 7 ++++++-
-> =C2=A01 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-support/curl/curl_8.6.0.bb b/meta/recipes-suppo=
-rt/curl/curl_8.6.0.bb
-> index 49ba0cb4a7..da5571ca14 100644
-> --- a/meta/recipes-support/curl/curl_8.6.0.bb
-> +++ b/meta/recipes-support/curl/curl_8.6.0.bb
-> @@ -73,11 +73,16 @@ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,z=
-std"
-> =C2=A0EXTRA_OECONF =3D " \
-> =C2=A0=C2=A0=C2=A0=C2=A0 --disable-libcurl-option \
-> =C2=A0=C2=A0=C2=A0=C2=A0 --disable-ntlm-wb \
-> -=C2=A0=C2=A0=C2=A0 --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certifi=
-cates.crt \
-> =C2=A0=C2=A0=C2=A0=C2=A0 --without-libpsl \
-> =C2=A0=C2=A0=C2=A0=C2=A0 --enable-optimize \
-> =C2=A0=C2=A0=C2=A0=C2=A0 ${@'--without-ssl' if (bb.utils.filter('PACKAGEC=
-ONFIG', 'gnutls mbedtls openssl', d) =3D=3D '') else ''} \
-> =C2=A0"
-> +EXTRA_OECONF:class-target =3D " \
-> +=C2=A0=C2=A0=C2=A0 --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certifi=
-cates.crt \
-> +"
-> +EXTRA_OECONF:class-nativesdk =3D " \
-> +=C2=A0=C2=A0=C2=A0 --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certifi=
-cates.crt \
-> +"
-> =C2=A0
-> =C2=A0fix_absolute_paths () {
-> =C2=A0	# cleanup buildpaths from curl-config
+On Thu, Apr 04, 2024 at 02:57:20PM +0100, Jose Quaresma wrote:
+> Hi Mikko,
+> 
+> Did you test with the below change already merged on master?
+> Looks like it was to fix the same issue.
+> 
+> git: git-replacement-native: depend on ca-certificate
+> https://git.yoctoproject.org/poky/commit/meta/recipes-devtools/git?id=421083c46c97bf758496b8c58402aea5d74aa097
 
-This change is fraught with danger :(.
+No, I was on slighlty older commit 47c201da56155f80e18ee1269096ffec1864bce0.
 
-I have a feeling we've gone around in circles as in some cases you
-don't have the ca-certs on the host, or they're in unusual paths so the
-previous conclusion was we should always have them present in the
-sysroot if curl-native is being used. Yes, that does mean we have to
-set the environment correctly to relocate curl's paths appropriately.
+421083c46c97bf758496b8c58402aea5d74aa097 fixes the issue too, thanks for the hint!
 
-Certainly at this point in the release cycle I'm very nervous about
-changing this around.
+This patch can be ignored.
 
 Cheers,
 
-Richard
+-Mikko
 
