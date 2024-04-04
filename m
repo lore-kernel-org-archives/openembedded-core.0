@@ -1,112 +1,90 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3914FCD1284
-	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 13:16:24 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.37837.1712236578396498536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46794CD1284
+	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 13:29:34 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.37955.1712237364305193855
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 06:16:18 -0700
+ Thu, 04 Apr 2024 06:29:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A/2jaTBE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d52e65d4a8so14303861fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 06:16:18 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=GlJLEw2G;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d4979cd8c8so8999321fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 06:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1712236576; x=1712841376; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xVWptSbr9FAwHZ7tGgRmHAlXjHi+DLuflJyu9WpBiBM=;
-        b=A/2jaTBEZXqkLJPZeGinOpmrLjf5UISR4RRgzt3II22HUWVuGm5T9i4X4+rWbQMDMU
-         MJlE1bbQXfxkhs5c1tOe2PHCI4FfQxIPLNjXk+VXaqS4atlzICmp4wBuzpD7yGvHBIzb
-         AmVKEevLqrP8cG3KmehmgKOwO0o9IWdgo93r4=
+        d=linaro.org; s=google; t=1712237362; x=1712842162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eGgyne5KBNpKzxQOYOGWEZLOP3JnLLGyeaC9hdS9+A8=;
+        b=GlJLEw2GIfp0jHFSqnmskWZkJ2jOMBizVq291iZ6Z3y/pAUEpDjKvYaNOqu7ppUzYu
+         58PCm6YOcsSQy+FmDYQ6bpbKRsANsxOLFuQHp6e415LIegsg2JsFzBuXe84iUsUAfI3j
+         Dw9j8qa9lj0gyS1NdPtuKzAaFfFxZE2m+8KJ1BJbEvZLmGsTz/BRWOoC4sPjfBKSjxI5
+         ZnnR34q2qCl/qA3C2RKOUTF4a1cBTDpjZPAXi0Xv83yPsGT3npuFlxDUSBus66cMekFw
+         hjPxI8lbrcM3FKRI5T7MoGdQtM8eBAoRRwBc2UB9EiYef5/gVwuNZPBJh3sWsyb5M4Ky
+         FNag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712236576; x=1712841376;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xVWptSbr9FAwHZ7tGgRmHAlXjHi+DLuflJyu9WpBiBM=;
-        b=e51Fn2h7I62LyIshI/VoAFNHMSc2ngdTiIUFRBINBqhax7avjGto+d3hF3/rl2Wvpy
-         PwsNcYr2xKEb6pffNCFkiJfet/wPD2Duy5f8nZGOTnoLVWMUXOic07n3+QfKCXW+XVqp
-         7Ec3BKDJju/wxsGePTuNraI/DKylogOxpUdG8FiL9gnUxXY4+2HTwMS57Z8m6zadr+/b
-         3hwKAEobEVLVpAX+/O7TaR31eo0hYa5Edc7hdHzTGVaMQdwlgPBx/RarKuc1O4Veg/bR
-         mjXU8k8/it+q6yXlgDCny/7XGskxe7bPkA1hSm1mnNYsx4NuXgIxIOI1HiE9G2GANhmN
-         RkrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVT81fPFC97va9bsJG7qI1kvI6owsZtMupTOSjxScrb207wMgt8EbV8Crc3XXnlILH4tvriHCX9/Qj8RPa9lnkcgShmTtU/d8Sej7qGLKvjdHi2o8V+Y5aF
-X-Gm-Message-State: AOJu0YxvJ3/1etIWCEiv3b+bv8mO0r93ln/i3EjT1mmlgdbnC4WSSWH0
-	hCJWnzXDm/QQOkdtaxLJG78BMvc4+hVH30PidUENyiCFzu5c7S4PsVjoOHrKeio=
-X-Google-Smtp-Source: AGHT+IHc0OTeotNLl/iG3BjWoaDk+3mFc4jmipMVhFd8q7SHJMbZd94AlaZMGfpe3M4FhAYlyBRS1A==
-X-Received: by 2002:a2e:8190:0:b0:2d8:43c8:ea30 with SMTP id e16-20020a2e8190000000b002d843c8ea30mr1708419ljg.6.1712236575740;
-        Thu, 04 Apr 2024 06:16:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e10f:a04b:cc3b:1ccc? ([2001:8b0:aba:5f3c:e10f:a04b:cc3b:1ccc])
-        by smtp.gmail.com with ESMTPSA id fc7-20020a05600c524700b004156b689edfsm2687510wmb.33.2024.04.04.06.16.15
+        d=1e100.net; s=20230601; t=1712237362; x=1712842162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eGgyne5KBNpKzxQOYOGWEZLOP3JnLLGyeaC9hdS9+A8=;
+        b=unAC+7Q5DRdZC/U4q9eMU04vJNcN1yfx+w1cFt2T7oDXl4FJlkUUYpEWj4qDQtFLJ0
+         uVCxFpYNYgYLyngu4VuU2v39Hw1+1r0br7+rGhTCmyTEk4fWDkTfx3HxRbp7FiqvEr81
+         adCxNCOlJ7bc2fdkFvxPlMQiELQJ03+FbWhZdzH29WQAvbR+t/fyeeOpWM2SCAFpAjAy
+         DpeC6wj9F09AukZHDF/TY6dlqNLI6mb9o+hcgjDHyeSJseDCiYjAOw728i5atQSG3ez7
+         Wse/6kNI4p4E4GJLVqiEGF8jBtgRyJVfJH7vaLAx1TYqndkpHRpVlCFlSab5WkJXsnTx
+         DtwQ==
+X-Gm-Message-State: AOJu0YxUFkI0gG2OZxo51yNZOCI+BPwBOfn4StKC8evyjSw5NnfM0Rsv
+	ADkjNKQO8FwJhCWEBJsbHs7Ed4yV6ozBtzU8yuwb8KD7tEqiYaxZogMeF9yVnfrxeiTUhwPanw+
+	kIRs=
+X-Google-Smtp-Source: AGHT+IFXvT/ebSnopb8FuMjKAOaSjSTxrF6InUuOVconSJadGRCJw4TUe8wb0PsXNxl1FrDBaCq6SQ==
+X-Received: by 2002:a2e:9b48:0:b0:2d8:60ae:f37d with SMTP id o8-20020a2e9b48000000b002d860aef37dmr177942ljj.12.1712237362428;
+        Thu, 04 Apr 2024 06:29:22 -0700 (PDT)
+Received: from localhost.localdomain (drt4d6yywjht56pm8q3st-3.rev.dnainternet.fi. [2001:14ba:7430:3d00:1239:a19d:315c:6ddf])
+        by smtp.gmail.com with ESMTPSA id c2-20020a2ea1c2000000b002d70a5defa5sm2095299ljm.7.2024.04.04.06.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 06:16:15 -0700 (PDT)
-Message-ID: <151a73b1c12b5c3ee94db09f955997196e59dd53.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/devtool: fix
- test_devtool_add_git_style2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexandre Truong <alexandre.truong@smile.fr>, 
-	openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 04 Apr 2024 14:16:14 +0100
-In-Reply-To: <20240404122555.34934-1-alexandre.truong@smile.fr>
-References: <20240404122555.34934-1-alexandre.truong@smile.fr>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Thu, 04 Apr 2024 06:29:22 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 1/2] linux-yocto-dev: remove duplicate DEPENDS
+Date: Thu,  4 Apr 2024 16:29:01 +0300
+Message-Id: <20240404132902.68631-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 13:16:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197962
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 13:29:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197963
 
-On Thu, 2024-04-04 at 14:25 +0200, Alexandre Truong wrote:
-> The problem is the following:
-> AssertionError: 'gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=3Dht=
-tps;branch=3Dmaster' !=3D 'git://git@github.com/ARMmbed/mbedtls.git;protoco=
-l=3Dhttps;branch=3Dmaster'
->=20
-> Mbedlts made changes to their repository, adding a sub-module, thus the
-> assert triggers an error with the url:
-> git://git@github.com/ARMmbed/mbedtls.git;protocol=3Dhttps;branch=3Dmaster
->=20
-> To fix the issue, the url has been changed to:
-> gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=3Dhttps;branch=3Dmast=
-er
->=20
-> Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
-> Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
-> =C2=A0meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+They are already set in linux-yocto.inc
 
-Thanks! I think this is fine to merge and avoid the current test
-failures but it is a workaround since there is a version being passed
-in this test and that version doesn't include the submodules commit. It
-seems as if devtool/recipetool's submodule detection is checking HEAD
-for submodules and not the specific revision/version we're passing.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Could you file a bug please in our bugzilla so we don't forget this
-issue and can come back to fixing it properly?
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 9bd219825e..d5cba42a5c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -34,11 +34,6 @@ PV = "${LINUX_VERSION}+git"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+-DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "${@bb.utils.contains('ARCH', 'powerpc', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
+-DEPENDS += "gmp-native libmpc-native"
+-
+ # yaml and dtschema are required for 5.16+ device tree validation, libyaml is checked
+ # via pkgconfig, so must always be present, but we can wrap the others to make them
+ # conditional
+-- 
+2.34.1
 
-FWIW, this is the problematic change upstream:
-https://github.com/Mbed-TLS/mbedtls/commit/456a54da8ef44c8b725b524567c08cff=
-ec6a7214
-which we should mention in the commit message too.
-
-Cheers,
-
-Richard
 
