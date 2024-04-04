@@ -1,186 +1,97 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <alexandre.truong@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCE4CD1296
-	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 11:38:23 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.35655.1712230696742011377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D70CD1284
+	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 12:26:14 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.36542.1712233568201359178
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 04:38:17 -0700
+ Thu, 04 Apr 2024 05:26:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=mGOQhDiE;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=zelxad/ucy+07afxWlB3y25K6G97uyPQoJ7kkN4R8Nc=; b=mGOQhDiEi2vyfCafesoVYb6yho
-	nAHUu5SynjrQ79nzvztbPyxsOGS4eM3hLdGTYQEt8tpvDZ17VcBBFRvWNM3PFpRzxQ2xgxNvP7WYA
-	tP5pigpAob8pMKgiEKahmQdkHNRAOxAykD37oJOzOUT4HAgXqQNt2h0AR9fcHYDPe3vyD78FaCthg
-	HmXNHyQQoUjRnvjSGqzH95hZyJVgW2juZX0vkgW/6eZYWOMJsMFGAME8geLeQeAhUQZ0hb3Chkt60
-	7xeEoE2CLutKIQmSAeV5tWyNwcfnBBZBhgXJiIj+ecSJlRvZZEizJx4U4nm1pql8MtmpEqjkVJ7RK
-	zViXWAPQ==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <martin@geanix.com>)
-	id 1rsL53-000FZK-7V; Thu, 04 Apr 2024 13:16:29 +0200
-Received: from [185.17.218.86] (helo=rap..)
-	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <martin@geanix.com>)
-	id 1rsL52-000Wu6-29;
-	Thu, 04 Apr 2024 13:16:28 +0200
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=iXiq/vRc;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: alexandre.truong@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-415523d9824so8652165e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 05:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1712233566; x=1712838366; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EogffJ/kC3uUhJcsgVF7A7oR16D4bfPdCDBuAGwhLY4=;
+        b=iXiq/vRcyVcGc9as7RNm52dtcP4vXCiOZxPd7sKxytsqHASM5n+xh78do8Bjlo9ldt
+         BL4KqmUOlbIDuu02Y7VBrxhhFXZEojrc8zK98MOwlyMdreH2T+N+HFRxsQUmA0YSlps9
+         +Wz0C2Sn1LKDsINGO+tJiC0amIRxmPpcZ1AnAXU8GZwptn3W7OAvOThDj53tDkZP9spp
+         LTO3wia63cFJZXq0LlKj7GDbfPA/t2pop4uNwRDEI00FgikXRuuFg/Vn3x7fK5YezvRN
+         BHTyaCFJuzqSk8j44IDssaf6WN5ihdyCaV8NT7hNsO5IZJkgXB4rUWq46CRxnyrMFuWv
+         qgMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712233566; x=1712838366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EogffJ/kC3uUhJcsgVF7A7oR16D4bfPdCDBuAGwhLY4=;
+        b=UsiGCYoEXb11+aUKFcdi2sHhkuP7HyR+NnK7tnKB7+lPsMMo68rUE+/RLJRB43hS+e
+         2IStBZM+T49dNlIWmh6GIalLIjUMiqetKsj7C3sbtm5D2zTy9v7uoRtMhuN8GI0H9v5i
+         aMM5tNSyy6pwuE2NqaFAp2MNu+j2whWfN+xvRFALtCfWAS0Opzj8Hkx58WooIlJ87Ina
+         tExt5TUwTwQ6ZAi+VDW5cAMOWTgDzm0m8DU13pUXebXvmuqPfi3lQYMlKmclNXjyLhZQ
+         RPjjFmHqFsxLaaG6zHJNRExVoBVSrGeEVqX3kslV1i/iAufp8el+fkw3D8acl1tgodpK
+         FUUA==
+X-Gm-Message-State: AOJu0YzJX4r/njczi171Crd/DhKiySXQ8q0oigA6GHte6igcsFtuE+L/
+	h8gIXFI0Tx/hQXhxfdSjdZhhOkyDX25pjES29KAm7n5/t2gnM+Oo7+Njq2dgS4CbvwYM3m4hEPd
+	G
+X-Google-Smtp-Source: AGHT+IEAuhT6lCeNXuaRv0DFtfz2H28QbWIfIA9uZx5KRIyr02V/sGPkK7NHKuOPewlmNW7ZhpcNrA==
+X-Received: by 2002:a05:600c:54ef:b0:415:533b:1071 with SMTP id jb15-20020a05600c54ef00b00415533b1071mr2316068wmb.19.1712233566435;
+        Thu, 04 Apr 2024 05:26:06 -0700 (PDT)
+Received: from P-ASN-MOON.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ck17-20020a5d5e91000000b003438e98e727sm4971073wrb.84.2024.04.04.05.26.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 05:26:05 -0700 (PDT)
+From: Alexandre Truong <alexandre.truong@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	Andreas Helbech Kleist <andreaskleist@gmail.com>,
-	=?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-Subject: [PATCH v2 5/5] contrib: add python service and systemd unit to run shared jobserver
-Date: Thu,  4 Apr 2024 13:16:13 +0200
-Message-ID: <20240404111613.2574424-6-martin@geanix.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240404111613.2574424-1-martin@geanix.com>
-References: <20240404111613.2574424-1-martin@geanix.com>
+Cc: Alexandre Truong <alexandre.truong@smile.fr>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] oeqa/selftest/devtool: fix test_devtool_add_git_style2
+Date: Thu,  4 Apr 2024 14:25:55 +0200
+Message-Id: <20240404122555.34934-1-alexandre.truong@smile.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: martin@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27235/Thu Apr  4 10:24:59 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 11:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197959
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 12:26:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197961
 
-For CI setups that might end up building multiple yocto builds in
-parallel, a shared jobserver can reduce the total load of the system.
-Setting up such a jobserver is simple, but it does require a process
-hanging around to keep the jobserver fifo open (to avoid blocking token
-requests).
+The problem is the following:
+AssertionError: 'gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master' != 'git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master'
 
-Add a simple python script that creates such a jobserver fifo and waits
-forever. Also add a systemd unit file to start the python service at
-boot.
+Mbedlts made changes to their repository, adding a sub-module, thus the
+assert triggers an error with the url:
+git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master
 
-The systemd unit can be installed in $HOME/.config/systemd/user/, but
-one might need to add a droplet config (i.e. `systemctl --user edit
-jobserver.service`) to setup the PYTHONPATH variable to make the python
-script loadable.
+To fix the issue, the url has been changed to:
+gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master
 
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
+Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
+Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- contrib/jobserver/jobserver.py      | 78 +++++++++++++++++++++++++++++
- contrib/jobserver/jobserver.service | 10 ++++
- 2 files changed, 88 insertions(+)
- create mode 100644 contrib/jobserver/jobserver.py
- create mode 100644 contrib/jobserver/jobserver.service
+ meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/jobserver/jobserver.py b/contrib/jobserver/jobserver.py
-new file mode 100644
-index 0000000000..52f9711277
---- /dev/null
-+++ b/contrib/jobserver/jobserver.py
-@@ -0,0 +1,78 @@
-+#!/usr/bin/env python3
-+
-+from pathlib import Path
-+from threading import Event
-+import argparse
-+import os
-+import shutil
-+import signal
-+
-+resumed = Event()
-+runtime_dir = os.environ.get("XDG_RUNTIME_DIR", "/run")
-+
-+def signal_handler(signum, _frame):
-+    """Wait for an external signal to exit the process gracefully."""
-+    resumed.set()
-+
-+
-+def main(path, user, group, mode, jobs):
-+    """Setup a fifo to use as jobserver shared between builds."""
-+    try:
-+        path.unlink(missing_ok=True)
-+        os.mkfifo(path)
-+        shutil.chown(path, user, group)
-+        os.chmod(path, mode)
-+    except (FileNotFoundError, PermissionError) as exc:
-+        raise SystemExit(f"failed to create fifo: {path}: {exc.strerror}")
-+
-+    print(f"jobserver: {path}: {jobs} jobs")
-+    fifo = os.open(path, os.O_RDWR)
-+    os.write(fifo, b"+" * jobs)
-+
-+    print("jobserver: ready; waiting indefinitely")
-+    signal.signal(signal.SIGTERM, signal_handler)
-+    signal.signal(signal.SIGINT, signal_handler)
-+    resumed.wait()
-+
-+    print("jobserver: exiting")
-+    path.unlink()
-+    os.close(fifo)
-+
-+
-+if __name__ == "__main__":
-+    parser = argparse.ArgumentParser(
-+        prog='Make jobserver',
-+        description='Simple application to instantiate a jobserver fifo and hang around',
-+    )
-+    parser.add_argument(
-+        "--mode",
-+        help="Permission to apply to jobserver fifo",
-+        type=lambda v: int(v, 8),
-+        default=0o0666,
-+    )
-+    parser.add_argument(
-+        "--user",
-+        help="Username or id to assign ownership of fifo to",
-+        default=os.getuid(),
-+    )
-+    parser.add_argument(
-+        "--group",
-+        help="Groupname or id to assign ownership of fifo to",
-+        default=os.getgid(),
-+    )
-+    parser.add_argument(
-+        "path",
-+        help="Path to jobserver fifo",
-+        type=Path,
-+        nargs='?',
-+        default=f"{runtime_dir}/jobserver",
-+    )
-+    parser.add_argument(
-+        "jobs",
-+        help="Number of tokens to load jobserver with",
-+        type=int,
-+        nargs='?',
-+        default=os.cpu_count(),
-+    )
-+    args = parser.parse_args()
-+    main(args.path, args.user, args.group, args.mode, args.jobs)
-diff --git a/contrib/jobserver/jobserver.service b/contrib/jobserver/jobserver.service
-new file mode 100644
-index 0000000000..bbc7167ac0
---- /dev/null
-+++ b/contrib/jobserver/jobserver.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=Shared jobserver fifo
-+
-+[Service]
-+Type=simple
-+Environment=PYTHONUNBUFFERED=1
-+ExecStart=python jobserver.py
-+
-+[Install]
-+WantedBy=multi-user.target
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index a1cccc39eb..bc1e40ef83 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -482,7 +482,7 @@ class DevtoolAddTests(DevtoolBase):
+         pn = 'mbedtls'
+         # this will trigger reformat_git_uri with branch parameter in url
+         git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
+-        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
++        resulting_src_uri = "gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
+         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri)
+ 
+     def test_devtool_add_library(self):
 -- 
-2.44.0
+2.34.1
 
 
