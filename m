@@ -2,114 +2,117 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F702CD1292
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109F9CD1296
 	for <webhook@archiver.kernel.org>; Thu,  4 Apr 2024 20:47:14 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.3586.1712263627210626884
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web10.3589.1712263628766628374
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Apr 2024 13:47:07 -0700
+ Thu, 04 Apr 2024 13:47:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k+ro2QZ/;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-78a5580333bso82880485a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 13:47:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EO0YvX0w;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78d423ab87dso60160885a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 13:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712263626; x=1712868426; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DL+MeZGRBiU6A2gb25Vk70F/fOYVqkmhBT9rQ/2D8kQ=;
-        b=k+ro2QZ/ks5PA+uytgWZr11RB11YLWj15HxK1J6vZ1M1Mls5wqJGmuz8afWPWcAhYJ
-         AOnt8uJqcH+vARNknOcPqkNW6dsUBn+RcR1d7X/GwwkP+8i7NAPGyu0+E2llYWGCPqNU
-         ClXekoK+hbM6P3+n2QbYaLu1DxtTTYD9J8apfgCLCWmY01JQPyT3LoGyGdECTS1zej6T
-         sU36yabsXY7831tViqWp2kkNMNoHCDXgKJFUQV8JNi2tFa8JnLx5d1jIGhRWWnZvuMJo
-         VWlGBe0spQ+y84V97C9Eyb+X/Pqk2oOgJoafE6f22R3YSxnj5/qr1OXp8Wl0q8RKS6OX
-         C1Xw==
+        d=gmail.com; s=20230601; t=1712263628; x=1712868428; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nwNkPuX1wVCsUBt3ZV/vt/aRFtMVdbPoFMzgKhq2OjU=;
+        b=EO0YvX0wBFgmJ+rTSVsNiJ004lUUsND79D62UHqL65xLGmqefDDt75Uc0UTk5LGYgy
+         R+10oH/8bwz9F90imkKcFC84WIYTowX+TWlg+Wh1HmrGday8WzsPM5WqOC3OPbrhbZwP
+         QjQCuREHUTiiu7GPUT4ouhoptJDKHVZj0LT+Amg5i3WnXw2YcOfcc3+/NRjNMcO167Mk
+         l+LquqkhLhb3dQBjl/YFg1xE+lGU2WouJb9Jor2gRwekDMurFaUQnFC0dJMTVq1KR17Y
+         2R0C9bf8UKx+Jp+YfJ4NwOCbRTsJj/+OIR0DnkAl4oF5gR8dibCNRN7+JPa2QIw/MloD
+         kB9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712263626; x=1712868426;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DL+MeZGRBiU6A2gb25Vk70F/fOYVqkmhBT9rQ/2D8kQ=;
-        b=Bgqdhg2mn31t102Fq5+TBU76Lot66sFPjpS2GCTwdh6vD4Bljaaqr4LD6ts+oC+7OT
-         LwYhTWey+wxbkaky3Z77X+t22G/s3r9lXrtw+vHv8uJUcSJa0785LrKDJNqG86l4/2n0
-         cAGJZbZIDsV6o35zNaXMOOek01gaIYYv4ShQhV1br8PG6R9f0hKlo0/p/KDszp7vG/hz
-         uxhgycGmtkNuObyIKQVbEoqZsgMXrrykzZKTHfBx456iDsV6rh2mFHuNJoTtRFfI//qf
-         aGljDYlmgAh85apv7Uj8P1DFnSNywFMxw+qCGKLYO4uC7KItbtMiNRNFaPpSYM1TsBok
-         y01A==
-X-Gm-Message-State: AOJu0YyTdpmvm+Um4eg1sEctiJYnBhepbRAT+RWOSlRa6z1qCSQgGcdT
-	ncdzBvtZLDgv6VZIqgqN+ZXvFLRzkdde+JNPuvVTdcmXxiQMzxoy
-X-Google-Smtp-Source: AGHT+IE5n+Mqo+1i+zRUzyAmSx8Jvf0BHpU/5BKWYRe8qNZGmEArxGAqmkjfpaa0KupYaU8+jOwdeA==
-X-Received: by 2002:a05:620a:2401:b0:78d:4450:304d with SMTP id d1-20020a05620a240100b0078d4450304dmr2986948qkn.59.1712263626213;
-        Thu, 04 Apr 2024 13:47:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712263628; x=1712868428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nwNkPuX1wVCsUBt3ZV/vt/aRFtMVdbPoFMzgKhq2OjU=;
+        b=Te20HVUh7v/oKOkqYTp9qoady7pFXeoRCzOU0WVrE1ycOEmVrc43BZngiHYFfJGgBP
+         jqaSLoKg8vIlOIglAewFezNxOZfYKv4Cb1OnvJBtLSbeDRLm/Fmcgc5ZV5Hf6KyWvXFb
+         y7oYjhNfm5JRX2qEw6QAjUooEbZZUrXfUkm1YiPXxSPn3ePTboAWYCo+ibsjleIcoQrU
+         EWNdbs3SOryb29XTQh6DTyrUIVJ5Z4cyJfDjkMivIcdu7lPtpUz5vtoREoGpSIaLzBgZ
+         YrooXWxx7ZkDniI5gtky6nWjZWRFVTcMyJubxD2EuxLrSFLVFCWBurANSGPmbfVOu4lf
+         3i/Q==
+X-Gm-Message-State: AOJu0Yy5t2cEdaKXSCt5C+5UCG1LWp1YmJfvYmL1XzqkW9OBqt2hhtcU
+	70X+AlchS2OJjBdNwIWDmu0WYkHM9arhVt1b2Sjhz3kZSg9fsNTJ
+X-Google-Smtp-Source: AGHT+IG9NfCQCTomrbYu/800W3ABs2hJfdM7pVd9FZzqYLqkYh4gpGNms4fvQYIMOO+RqNp6GBfAvQ==
+X-Received: by 2002:a05:620a:1245:b0:78b:de23:f2c9 with SMTP id a5-20020a05620a124500b0078bde23f2c9mr696200qkl.73.1712263627728;
+        Thu, 04 Apr 2024 13:47:07 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id u14-20020a05620a022e00b0078d3ad47448sm69359qkm.104.2024.04.04.13.47.04
+        by smtp.gmail.com with ESMTPSA id u14-20020a05620a022e00b0078d3ad47448sm69359qkm.104.2024.04.04.13.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 13:47:05 -0700 (PDT)
+        Thu, 04 Apr 2024 13:47:06 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] perf: add asm include required for v6.9+
-Date: Thu,  4 Apr 2024 16:47:01 -0400
-Message-Id: <20240404204702.3380236-1-bruce.ashfield@gmail.com>
+Subject: [PATCH 2/2][RFC] perf: make bpf asm include arch conditional
+Date: Thu,  4 Apr 2024 16:47:02 -0400
+Message-Id: <20240404204702.3380236-2-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240404204702.3380236-1-bruce.ashfield@gmail.com>
+References: <20240404204702.3380236-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Apr 2024 20:47:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197973
 
-From: Max Krummenacher <max.krummenacher@toradex.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Kernel commit 9eea8fafe33e ("libbpf: fix __arg_ctx type enforcement for
-perf_event programs") added with 6.9-rc1 tools/include/uapi/asm/bpf_perf_event.h
-which for arc, arm64, loongarch, riscv and s390 includes headers from
-the arch/${ARCH}/... directories.
+To keep the perf source copying as small as possible, we can
+further refine the arch/uapi copy to the single file that we
+currently need.
 
-Which results in:
+To avoid a warning from the general perf source copy routine,
+we make the .h conditional based on the architecture.
 
-  ERROR: perf-1.0-r0 do_compile: oe_runmake failed
-  | In file included from 1.0/perf-1.0/tools/include/uapi/linux/bpf_perf_event.h:11,
-  |                  from libbpf.c:36:
-  | perf/1.0/perf-1.0/tools/include/uapi/asm/bpf_perf_event.h:2:10: fatal error: ../../arch/arm64/include/uapi/asm/bpf_perf_event.h: No such file or directory
-  |     2 | #include "../../arch/arm64/include/uapi/asm/bpf_perf_event.h"
-  |       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The supported architectures will not change often, so updating
+this arch list is very minimal effort. Alternatively, we could
+add a PERF_OPTIONAL_SRC variable and not warn if a file isn't
+available for a given architecture.
 
-We copy the uapi/asm directory to make sure the header file is
-present.
-
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
 
-This is a tweak of the commit from max to only include the uapi/asm
-directory.
+This is a further refinement of the perf header that
+is required outside of tools.
 
-A second patch will further refine it.
+I'm trying it this way first, versus making the perf
+source copy not warn on missing files, since we risk
+skipping warnings we want to see!
 
 Bruce
 
- meta/recipes-kernel/perf/perf.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 2c6ab060e3..2f540cd54b 100644
+index 2f540cd54b..3cc7f63610 100644
 --- a/meta/recipes-kernel/perf/perf.bb
 +++ b/meta/recipes-kernel/perf/perf.bb
-@@ -129,6 +129,7 @@ EXTRA_OEMAKE += "\
+@@ -129,7 +129,9 @@ EXTRA_OEMAKE += "\
  # honour a JOBS variable.
  EXTRA_OEMAKE:append:task-configure = " JOBS=1"
  
-+# include/uapi/asm is for: include/uapi/asm/bpf_perf_event.h
+-# include/uapi/asm is for: include/uapi/asm/bpf_perf_event.h
++# the architectures that need this file can be found in
++# ./tools/include/uapi/asm/bpf_perf_event.h
++PERF_BPF_EVENT_SRC ?= '${@bb.utils.contains_any("ARCH", [ "riscv", "arm64", "powerpc" ], "arch/${ARCH}/include/uapi/asm/bpf_perf_event.h", "", d)}'
  PERF_SRC ?= "Makefile \
               tools/arch \
               tools/build \
-@@ -139,6 +140,7 @@ PERF_SRC ?= "Makefile \
+@@ -140,7 +142,7 @@ PERF_SRC ?= "Makefile \
               tools/scripts \
               scripts/ \
               arch/arm64/tools \
-+             arch/${ARCH}/include/uapi/asm/ \
+-             arch/${ARCH}/include/uapi/asm/ \
++             ${PERF_BPF_EVENT_SRC} \
               arch/${ARCH}/Makefile \
  "
  
