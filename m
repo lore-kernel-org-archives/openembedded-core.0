@@ -1,211 +1,133 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACDA7C67861
-	for <webhook@archiver.kernel.org>; Fri,  5 Apr 2024 10:30:46 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web10.7873.1712313043617123278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C8CCD11C2
+	for <webhook@archiver.kernel.org>; Fri,  5 Apr 2024 11:28:36 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.8615.1712316513454539296
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Apr 2024 03:30:43 -0700
+ Fri, 05 Apr 2024 04:28:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dk+jdQjN;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7e3b3e33ae2so608156241.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 03:30:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cePE0TMa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d6eedf3e99so30662441fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 04:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712313042; x=1712917842; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sSHAbdguKCNnYUn3qQjoWGAZjiPWNw8ceBycnR+dD+s=;
-        b=dk+jdQjNithaT3rhsGWk7X+1aBIfESD0h+g2/95J+EI/Qbfs0JIj+bfEdINUcwAURN
-         x6iDkj99U4gWgjbo3BDYBtAFa+cb4n5grCMxisdqaIaI2EDDv2oMAwrb19+UHR/sMyQd
-         mTR/144g+HUv/q0cTocL8GtAmewofoR1PIAzHYmJlAdV+bkemqD2bL/utdg+AvmoRXxM
-         uWnXEGmhjqRo5o/OW/PaxrNnl5MTvhdlOfWC9mIp8oZNNaq2Y7NLRUgGLZ3yLO5Hi+2Q
-         vVO5pwn3bcUqCb+Go00NkdILYGa4hFmaHMK30CtY/R5kVObCmbPw77SsCqbELE/0UQMQ
-         Wnfg==
+        d=gmail.com; s=20230601; t=1712316512; x=1712921312; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zbzQIruk2pJ8jgVwq1D5vzNblrJThrM+2exgxk6IWKg=;
+        b=cePE0TMalpygo+vP2tFVlxxaJdEeTE8EJILMZ3YubR8OMObo4qaN5gp6qQXDNyT61j
+         HrYqEnJ7VNaNYGIQdWkaPd9ShhYLrsXXLZOklK/91wcrFwU5mcaoBIqZFOOQXqw6Pih5
+         rW6VRicsVMCeJrngYXf0U2U31LX3i2+wYpJWIEybPXaVN7FCqhaFFoXRioFit41EFLVg
+         VwFKxuaWWI+6UjL1/sVEgWm2p67whxDuHMNxTV3JHPD3+IFpmwQOHUpL+/Q7skV+xXaq
+         YLkqGOlhjbUkNTgi9tlgllv19G7PNzBpi8+VICo8RATmZy82R4OM54Kf3popi0SPl/TC
+         LgTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712313042; x=1712917842;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sSHAbdguKCNnYUn3qQjoWGAZjiPWNw8ceBycnR+dD+s=;
-        b=oaI4JhaYLfGuJtUj+xwfNy2l+E4K1HeD9DavwfVs2oeb0QuMEUWVikukORkbcCYbaz
-         lQCtsZI18is8Ff/sXo4SBW3coSThrMKYEYIX3JwtMertN03ajo42oKl1Vay5aB5dneXW
-         eTpATmez9Wt25BCKDtL6N8ksE291thTwTfasU150ZF7k7GGa4FT34FZ2waBXhg0Pzhv2
-         xIjg2mjgGfZqwAsP+kaJVPgS5ZwRepbz2R5W/AzjdXNtEvPeczZYBzr9/2eVY5AYvcgU
-         c+uvIgVzPLAnRwq9La0mIuSiVptJplDoAaPSoOcZy/AL3dy3aSdYL2m+NwCL7wmiRRSn
-         Tmew==
-X-Gm-Message-State: AOJu0YxJ3JQKEN634Tzxc7eJqiL8pGEDWLA0L+N++DrZ3GWI9UvMtPwx
-	AOoX6zdMloblK+ybeCuIwxEOYCHFLUBgYnyHJoBwmK7e9J777RKh8HIEDqUzsilmtAnmnNcad74
-	nkU4D8QDnkvvHvqTLugk32dAqxdCji8ssixI=
-X-Google-Smtp-Source: AGHT+IF0VbAdX6ON6nYOIj7nqpCXp7Ek9ozfKpcw9m+BvWLEnTGNm0vFBDo6sLFWjRyO7aSf/V8GjD20LfGJ8cRsu18=
-X-Received: by 2002:a05:6102:162a:b0:475:fe59:f33 with SMTP id
- cu42-20020a056102162a00b00475fe590f33mr962693vsb.29.1712313040759; Fri, 05
- Apr 2024 03:30:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712316512; x=1712921312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zbzQIruk2pJ8jgVwq1D5vzNblrJThrM+2exgxk6IWKg=;
+        b=FCDDzHr+l16eeJPKLWLjHK+74NjLGP72baImcUmb6uLFXuEjWPBLnwk+w11EG/Hiu4
+         exk3wfCLfyfu2nZqchFn/wv7caxs3zWbtWlMePb8+hf/YdbprFqeVQOPiOFheLfeYBw1
+         lEocj4k1IhL1wx3N+zQurrMfwdoxrg4qcW2YroIe7cSNpQiBSy8PNcIWb8MGz7A1Nmp8
+         FxWDJn2Psi1Jg/j0g5CEzclcS3jnJuwduLj6HHxaSfnmCshLOWN3nzyGjWv6Z3hsglR3
+         4LmhgypKUEsdQ8LPzu1o2XPae5GsqXY8QRwEjnbjxuBggfazLSfTBs1sG8uPV/L3ehHQ
+         l+bA==
+X-Gm-Message-State: AOJu0Yxf11zY/stMFsoQ/Mi38y0z6Rw8Ww3sTzrX9HOYiue/RTj/w5HF
+	ud8YW+iAAhBelrtNkSz1dKkR6fU68g1gwdAoh77QG5Vs3cuzInfKb14ZKhi3p+ZeCwJVrg9O72i
+	9n6oMq90nWl6P3IT2opRY4O6pOlA=
+X-Google-Smtp-Source: AGHT+IH2JqB+fDIYB1M0oKbEN3s1XzoAcIIwYdmo1Npyj8/nq5e6cyCx8kSGbIBGRmDcBCzHERWbeUus9TuKxrA7jAI=
+X-Received: by 2002:a2e:be06:0:b0:2d8:6672:ff01 with SMTP id
+ z6-20020a2ebe06000000b002d86672ff01mr649920ljq.24.1712316511226; Fri, 05 Apr
+ 2024 04:28:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240405101030.3291928-1-omatiush@cisco.com>
-In-Reply-To: <20240405101030.3291928-1-omatiush@cisco.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 5 Apr 2024 11:30:29 +0100
-Message-ID: <CANPvuRmaccR5N7ousv2j5R_x-4zhKCD2o=peUYj_G7z4j8WKeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] curl: improve reproducibility
-To: omatiush@cisco.com
+References: <CAO5Uq5Q4f4Q+3yR6JZcxhXOP_mpmyzJ0yYtO5SO1_6ZOwdHEzw@mail.gmail.com>
+ <6447.1712221622103634934@lists.openembedded.org>
+In-Reply-To: <6447.1712221622103634934@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 5 Apr 2024 12:28:20 +0100
+Message-ID: <CAO5Uq5Qd63-mJWhQpdP28kXVtHWjk-607c_RK8xm2dshyfHWJw@mail.gmail.com>
+Subject: Re: [OE-core] Debugging rust oe-selftest failures
+To: Yash.Shinde@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000089f46c061556f229"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 10:30:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197982
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 11:28:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197983
 
---00000000000089f46c061556f229
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Oleh,
-
-I think your v2 was already merged on the master branch as well as the
-others patches on the patchset.
-https://git.yoctoproject.org/poky/commit/?id=3Dcabeed4e6d31fd798ab9dac0313b=
-88a35d1d904d
-
-Jose
-
-Oleh Matiusha via lists.openembedded.org <omatiush=3D
-cisco.com@lists.openembedded.org> escreveu (sexta, 5/04/2024 =C3=A0(s) 11:1=
-0):
-
-> nativesdk-curl package contains host references in output files.
-> remove them.
+On Thu, Apr 4, 2024 at 10:07=E2=80=AFAM Yash Shinde via lists.openembedded.=
+org
+<Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
-> ---
-> v2
->  - moved common code to separate function
-> v3
->  - absolute path cleanup for all classes
-> ---
-> ---
->  meta/recipes-support/curl/curl_8.6.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, Apr 3, 2024 at 05:51 PM, Alex Kiernan wrote:
 >
-> diff --git a/meta/recipes-support/curl/curl_8.6.0.bb
-> b/meta/recipes-support/curl/curl_8.6.0.bb
-> index ea69164d76..003f3edf3f 100644
-> --- a/meta/recipes-support/curl/curl_8.6.0.bb
-> +++ b/meta/recipes-support/curl/curl_8.6.0.bb
-> @@ -79,7 +79,7 @@ EXTRA_OECONF =3D " \
->      ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls
-> mbedtls openssl', d) =3D=3D '') else ''} \
->  "
+> Hi Sundeep (or anyone else with insight on this!)
 >
-> -do_install:append:class-target() {
-> +do_install:append() {
->         # cleanup buildpaths from curl-config
->         sed -i \
->             -e 's,--sysroot=3D${STAGING_DIR_TARGET},,g' \
+> How do you go about debugging rust oe-selftest failures? I've bumped
+> everything up to 1.77 (https://github.com/akiernan/poky) but
+> oe-selftest fails for reasons that aren't immediately obvious to me...
+>
+> https://gist.github.com/akiernan/6cc6131c1ec3af866098a9318679cf1b
+>
+> Any clues?
+>
 > --
-> 2.33.0
+> Alex Kiernan
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197979):
-> https://lists.openembedded.org/g/openembedded-core/message/197979
-> Mute This Topic: https://lists.openembedded.org/mt/105345472/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
+> Hi Alex,
+>
+> I faced the same errors when I was working on to upgrade rust from 1.75 t=
+o 1.76. I discussed it with rust upstream here, https://github.com/rust-lan=
+g/rust/issues/122075 and the following change solves those failures,
+>
+> https://github.com/rust-lang/rust/issues/122075#issuecomment-1985153524
+>
+> PR- https://github.com/rust-lang/rust/pull/122205/commits/5aece7fad06baaa=
+745784d118db862b3e3ccf7f8
+>
+>
+>
+>
+>
+> After this change was backported to poky, the rust build was successful b=
+ut it was seen that not all the tests are executed.
+>
+> While discussing upstream, it was known that removing the --doc option fr=
+om python3 src/bootstrap/bootstrap.py test --exclude<some excluded test cas=
+es list> --doc --no-fail-fast --bless --target x86_64-poky-linux-gnu  cmd i=
+n oeqa/selftest/cases/rust.py file execute the other tests also.
+>
+>
+>
+>
+>
+> But, while doing so another set of failures are observed as mentioned in =
+https://github.com/rust-lang/rust/issues/122285
+>
+> Complete log using --doc option-  https://gist.github.com/Yashinde145/7db=
+6bd4a064021bf756b0c0dd6c8777c
+>
+> Complete log without using --doc option-  https://gist.github.com/Yashind=
+e145/036a934f0523307859f7c855b83ecfd6 (this file is truncated in gist due t=
+o large size, please see Complete raw file)
+>
+> I am not very familiar to these failures but  trying to understand them.
+>
+
+Feels like you're way ahead of me. I'll have a bit more of a poke at
+it when I've some time, but it feels like we may be mostly waiting on
+upstream (and a big +1 for getting them engaged!)
 
 --=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000089f46c061556f229
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi=C2=A0<span style=3D"color:rgb(0,0,0)">Oleh,</span>=
-</div><div><span style=3D"color:rgb(0,0,0)"><br></span></div><div><span sty=
-le=3D"color:rgb(0,0,0)">I think your v2 was already merged on the master br=
-anch as well as the others patches on the patchset.</span></div><div><div><=
-a href=3D"https://git.yoctoproject.org/poky/commit/?id=3Dcabeed4e6d31fd798a=
-b9dac0313b88a35d1d904d">https://git.yoctoproject.org/poky/commit/?id=3Dcabe=
-ed4e6d31fd798ab9dac0313b88a35d1d904d</a><span style=3D"color:rgb(0,0,0)"><b=
-r></span></div><br class=3D"gmail-Apple-interchange-newline"></div>Jose<div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Oleh =
-Matiusha via <a href=3D"http://lists.openembedded.org">lists.openembedded.o=
-rg</a> &lt;omatiush=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">c=
-isco.com@lists.openembedded.org</a>&gt; escreveu (sexta, 5/04/2024 =C3=A0(s=
-) 11:10):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">native=
-sdk-curl package contains host references in output files.<br>
-remove them.<br>
-<br>
-Signed-off-by: Oleh Matiusha &lt;<a href=3D"mailto:omatiush@cisco.com" targ=
-et=3D"_blank">omatiush@cisco.com</a>&gt;<br>
----<br>
-v2<br>
-=C2=A0- moved common code to separate function <br>
-v3<br>
-=C2=A0- absolute path cleanup for all classes<br>
----<br>
----<br>
-=C2=A0meta/recipes-support/curl/<a href=3D"http://curl_8.6.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">curl_8.6.0.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_8.6.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_8.6.0.bb</a> b/meta/recipes-support/=
-curl/<a href=3D"http://curl_8.6.0.bb" rel=3D"noreferrer" target=3D"_blank">=
-curl_8.6.0.bb</a><br>
-index ea69164d76..003f3edf3f 100644<br>
---- a/meta/recipes-support/curl/<a href=3D"http://curl_8.6.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">curl_8.6.0.bb</a><br>
-+++ b/meta/recipes-support/curl/<a href=3D"http://curl_8.6.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">curl_8.6.0.bb</a><br>
-@@ -79,7 +79,7 @@ EXTRA_OECONF =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${@&#39;--without-ssl&#39; if (bb.utils.filter(&#39;PAC=
-KAGECONFIG&#39;, &#39;gnutls mbedtls openssl&#39;, d) =3D=3D &#39;&#39;) el=
-se &#39;&#39;} \<br>
-=C2=A0&quot;<br>
-<br>
--do_install:append:class-target() {<br>
-+do_install:append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # cleanup buildpaths from curl-config<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s,--sysroot=3D${STAGING_D=
-IR_TARGET},,g&#39; \<br>
--- <br>
-2.33.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#197979): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/197979" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/197979</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105345472/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/105345472/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div></div>
-
---00000000000089f46c061556f229--
+Alex Kiernan
 
