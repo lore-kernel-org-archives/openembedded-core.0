@@ -2,57 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A435CD11C2
-	for <webhook@archiver.kernel.org>; Fri,  5 Apr 2024 08:19:06 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.6190.1712305140855337902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F699CD11C2
+	for <webhook@archiver.kernel.org>; Fri,  5 Apr 2024 08:32:46 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.6337.1712305964626151503
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Apr 2024 01:19:01 -0700
+ Fri, 05 Apr 2024 01:32:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YDxabFpx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4162b8cb3e9so13945965e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 01:19:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fg5kE4Re;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4156a29ff70so14390635e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 01:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1712305139; x=1712909939; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1712305963; x=1712910763; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZEbG4EdRJOPoaN3G9WFNz8sujbdNMNNDXZ7idH+bPko=;
-        b=YDxabFpxjW5/smmnCAiWYZvrFuuZlzGuyKjuK8Ilrb4ZBUi47+CtZlPO0ZKRiP/Fd4
-         Ot5bNbRvmq/gShwWpM8jdEusIAWwlycoBUGvQ6BysNLfqXkvLl+B6cQfsFaCysM0pvOg
-         CT+NJ0gylky5xSizMHhCxu9B4NC10ZyzhcbpI=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XfQ7dZFUUUs/ZtRI7i3mUAeHUxSlSsC3MntxsiVzgew=;
+        b=fg5kE4Reg1aVqmlfsCs3sJW+g4WsBHWiVKXtydb8zSB5xW4D+Yo8Z7Zr1xQj9s2wf9
+         wZIZGhwGmBylg7hryye5fZj3zepIYHZ+iXO/MJOoMCBmXThW/paTZlwjhaugiKMRB8yY
+         Ch7nj0E1YUQe2Gk3tTIYbCwbRRxVizs8xujVo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712305139; x=1712909939;
+        d=1e100.net; s=20230601; t=1712305963; x=1712910763;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZEbG4EdRJOPoaN3G9WFNz8sujbdNMNNDXZ7idH+bPko=;
-        b=JaGLiI5Q+ZzGR2zraMoR9g5du2EjpgBDTlRdm6kruNKWEEWWMX4qYQXL600I1Ss0Ty
-         lw6LDUEirEzFHqFHIoSPqH38fvoGryIIeo+PzRasbLBGzcTZwOQhCFlcCmgYxhAEtJQf
-         H68xDoIA7i0Af6+nyzDJ9ibnefqS9arv4dhNKuxXcQUiZ+T5M8jXAUCUeg/kJQQtsCVY
-         FumdlVs/VoeS5LnY37mbX5NuqoQlFmQ8KcjDkCKcHNpDHvvFE/Xo8xZTTNq1WutFXFsF
-         ahmWZuSXmTElcEBwSgo0XX6qnzYzlKDy+vdxvWkkKPvfbhpYaaBE4xSNNqIUXvJEUjKn
-         5T+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVMn93lL+jq1RUfzv/QxnzsS9DrEZUFUNL1w4dxwE4q4fkQHIZvR4+gqvK1G2+eKCPd30GmuZAxs/oPp6HkCvujJ8Qn47PHRpf+b2+ek1XDIO74FImF5z77
-X-Gm-Message-State: AOJu0YxH54g0U6mHIsElNub/H+M/FLSBb+QBKYuy/i5N9aUmzsJWxk3H
-	ctCryX/JOmGY6TzpF1yT7BFvRWddm0p0RwOA2LQfTuIj8RvPucjoqf8HwtVczghtVxE94Gia6p1
-	c
-X-Google-Smtp-Source: AGHT+IEmzrZC4gEEUN56bV2T84GdRgPHHUBg4J/0jQe1Fsrs+PVTGGx69njTvKZ+0A7C4N8MCeBnRA==
-X-Received: by 2002:a05:600c:4e90:b0:413:feed:b309 with SMTP id f16-20020a05600c4e9000b00413feedb309mr850917wmq.6.1712305139034;
-        Fri, 05 Apr 2024 01:18:59 -0700 (PDT)
+        bh=XfQ7dZFUUUs/ZtRI7i3mUAeHUxSlSsC3MntxsiVzgew=;
+        b=GRwk/Ans2ZBPiw8EXtiC4umITApZX1F9kdBq/oJlq4cZdUsrL9xNooGOIdIXwefADZ
+         GiMyR3x6Pzqo+sws10uRNc8yx1o3R1IlpOTcFimKr1A2STv86DuZcPa+nE4wyi0OMYBI
+         ZKDFh7A/2xQhVGyX1USmI8mMPGg89UgR/kyOncA7zpf3MGVFxCY302Vqc0G7uIXM7hqQ
+         2HS7sU1mOsHDq7EOkFMnPJWOtjeTVEyatUFZtlPokb+CZ5gNzyjkNm07dRY+bXFoAbYV
+         ByxyMtG5DcnidAUvF+Ny0k4kUXzIhR2zkAonziXz5DdiKNNw+B3N8ltYFhKdvcuKvi38
+         AzWQ==
+X-Gm-Message-State: AOJu0YzgwzPBjuhdBP35vlgTeq2PbpA+O4CmUIXA+Dm3ZvIQMBVh7p6H
+	hjkRZ8ExHLM0gQ7CFP+jctmZVhuFOZXm7Niv5BriaafmIv4wQltXZVORGcHr1YQ=
+X-Google-Smtp-Source: AGHT+IG77HSGwioCCHMBlB1lB8C127JOoV0dNGVPO2aoSrX28EnQofTG3m+jkDj8x8cpyNVA9xzMUw==
+X-Received: by 2002:adf:a196:0:b0:343:e815:5ad with SMTP id u22-20020adfa196000000b00343e81505admr441597wru.64.1712305962777;
+        Fri, 05 Apr 2024 01:32:42 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:7c22:d866:adf1:7d20? ([2001:8b0:aba:5f3c:7c22:d866:adf1:7d20])
-        by smtp.gmail.com with ESMTPSA id t12-20020a05600c450c00b004161bffa48csm2028926wmo.40.2024.04.05.01.18.58
+        by smtp.gmail.com with ESMTPSA id r12-20020a5d498c000000b00343e8968917sm922622wrq.1.2024.04.05.01.32.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 01:18:58 -0700 (PDT)
-Message-ID: <eab730a7f2d3b06da4620665be804afbac391797.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH V2] ovmf: set CVE_PRODUCT and CVE_VERSION
+        Fri, 05 Apr 2024 01:32:42 -0700 (PDT)
+Message-ID: <50b243afa1860e5d68b02e0002efc1ec5c5d7436.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] glibc: Fix stale qemu processes left after
+ glibc oe-selftest
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Date: Fri, 05 Apr 2024 09:18:57 +0100
-In-Reply-To: <e5738101-43ba-1a6b-b064-f87c1a5320d4@windriver.com>
-References: <17BA1A717836D800.29618@lists.openembedded.org>
-	 <e5738101-43ba-1a6b-b064-f87c1a5320d4@windriver.com>
+To: Yash Shinde <Yash.Shinde@windriver.com>, Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com, 
+	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+Date: Fri, 05 Apr 2024 09:32:41 +0100
+In-Reply-To: <c4eb0234-1887-4638-ad72-1752174fb52e@windriver.com>
+References: <20240401081011.479084-1-Yash.Shinde@windriver.com>
+	 <CAMKF1spGJ_JjvgHezfhaEwuZHAmnyzK2vmWvqGps0AwOfbz2pg@mail.gmail.com>
+	 <74eb50cf-730d-4627-bfb0-4e45877e6ee7@windriver.com>
+	 <4d5d50b9c079b6998f773a651c8c06e764c3e362.camel@linuxfoundation.org>
+	 <CAMKF1sqEcreVccQcwxWikHDrr_EX4vcHVYJ0AUr5z22necOLiQ@mail.gmail.com>
+	 <c4eb0234-1887-4638-ad72-1752174fb52e@windriver.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -68,48 +74,45 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 08:19:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197977
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Apr 2024 08:32:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197978
 
-On Wed, 2024-03-27 at 11:47 +0800, Chen Qi via lists.openembedded.org
-wrote:
-> ping
+On Fri, 2024-04-05 at 11:50 +0530, Yash Shinde wrote:
+> On 02-04-2024 22:20, Khem Raj wrote:
+> > > You could make the application of the patch conditional upon being th=
+e
+> > > mips or powerpc architectures.
+> >=20
+> > I think that will be more hassle than disabling it for all architecture=
+s.
+> > =C2=A0
+> >=20
+> >=20
+> >=20
+> =C2=A0I see that V2 of this patch is already merged with master branch. (=
+https://git.yoctoproject.org/poky/commit/?id=3D8d27d8ff7cc65d2059ca29352b57=
+301ffc35a163)
+> =C2=A0But, I have made the changes to apply the patch only for mips or pp=
+c architectures.
+> =C2=A0
 >=20
-> On 3/6/24 14:54, Chen Qi via lists.openembedded.org wrote:
-> > From: Chen Qi <Qi.Chen@windriver.com>
-> >=20
-> > Set CVE_PRODUCT and CVE_VERSION for ovmf. NVD uses 'edk2' and the
-> > version should be the date only. Here's an example:
-> > https://nvd.nist.gov/vuln/detail/CVE-2023-45232
-> >=20
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> > =C2=A0 meta/recipes-core/ovmf/ovmf_git.bb | 3 +++
-> > =C2=A0 1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-
-> > core/ovmf/ovmf_git.bb
-> > index 3dc031d3b6..5b1353b8e8 100644
-> > --- a/meta/recipes-core/ovmf/ovmf_git.bb
-> > +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-> > @@ -30,6 +30,9 @@ PV =3D "edk2-stable202308"
-> > =C2=A0 SRCREV =3D "819cfc6b42a68790a23509e4fcc58ceb70e1965e"
-> > =C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
-> > =C2=A0=20
-> > +CVE_PRODUCT =3D "edk2"
-> > +CVE_VERSION =3D "${@d.getVar('PV').split('stable')[1]}"
-> > +
-> > =C2=A0 inherit deploy
+>=20
+>=20
+> =C2=A0Please let me know if you want me to send the patch.
 
-I did merge this but it breaks the cve checks:
+Your patch was disabling per machine, not per architecture which is differe=
+nt.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/138/builds/1443/ste=
-ps/15/logs/warnings
+As Khem said, we're worried that disabling just for specific machines
+or architectures will make the recipe maintenance hard in the stable
+branch.=C2=A0
 
-This needs to be fixed ASAP.
+We're therefore happier with the original version which disables those
+two tests unconditionally which is why I merged that instead.
 
 Cheers,
 
 Richard
 
+=20
 
