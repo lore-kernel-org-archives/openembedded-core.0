@@ -1,101 +1,91 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D1BBC67861
-	for <webhook@archiver.kernel.org>; Mon,  8 Apr 2024 12:51:32 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web10.105375.1712580681497269837
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36773C67861
+	for <webhook@archiver.kernel.org>; Mon,  8 Apr 2024 13:20:22 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.106153.1712582413735488132
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Apr 2024 05:51:25 -0700
+ Mon, 08 Apr 2024 06:20:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=NJNKKwyE;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-2.intern.sigma-chemnitz.de (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
-	by mail-out-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 438CpHBk438043
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Apr 2024 14:51:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1712580678;
-	bh=fZYHMPyt2ncyQEp7WSt7E5xRm4382fKjQV9PnCEnesU=; l=1276;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=NJNKKwyEkArRln2hvG/zgCTBQX+VwJhyzT/PmW3uWfjlyCrqPyhi4dghtcRTSG4FA
-	 y5PRzdNV8WDiLr8MsQYDm0eiEGEZPKwJsFhCy00SBwlMWZiGHGNCraHHfHP6I5Nhkh
-	 xgxVOiW+uieErpoeObGnlykSuX2mhVpUD2xaoAboOzxG+oYYhw58J0E1r73FtNsyxG
-	 EsfvnTqe50v3oxk1Fv2J446aXBkCmG64MhZoqbuLGVuAZ94Rkg/ZmzqFv8QA5GT8ku
-	 hXASY/hMAplKNMCPNiq19448LnD+uDhGgsNVK4PUmnhYcEs0YyMZ4WM+np79U3ons0
-	 G9ecSRIV1+3Zw==
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 438CpFhN545804
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Mon, 8 Apr 2024 14:51:16 +0200
-Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
-	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id X8GFFG44H0; Mon, 08 Apr 2024 14:51:13 +0200
-Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 438CpCEG427258
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 8 Apr 2024 14:51:12 +0200
-Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.97.1)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1rtoSu-0000000FxfZ-32kz;
-	Mon, 08 Apr 2024 14:51:12 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: "Dan McGregor" <danismostlikely@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Daniel McGregor
- <daniel.mcgregor@vecima.com>
-Subject: Re: [OE-core] [PATCH v7 3/3] nfs-utils: Configure nfsv4 ID mapping
- & Kerberos
-In-Reply-To: <20240402002058.3910908-3-danismostlikely@gmail.com> (Dan
-	McGregor's message of "Mon, 1 Apr 2024 18:20:56 -0600")
-References: <20240402002058.3910908-1-danismostlikely@gmail.com>
-	<20240402002058.3910908-3-danismostlikely@gmail.com>
-Date: Mon, 08 Apr 2024 14:51:12 +0200
-Message-ID: <lybk6krpa7.fsf@ensc-pc.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=auBB7ku9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4168a5d75c4so3729025e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 06:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1712582412; x=1713187212; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XPFqEiBUGZXYeqh1wSwnErJijnMHlYjJb0KWRIqSR1w=;
+        b=auBB7ku9Cj6iSQhCWaSqQo35V2R53dU41UfK5ci3e9MErh4sTCH6AkQSm9pBy3ottb
+         dt/NtJvU5I3PQXqeLjwzPBYHI24geT9FCnFF9CvFRiu6O3btHMZ5vt5Ool4W7vWlAsQd
+         ROVG0xUdacPwGfKTrh5zRi9x2HtkX+T9vRpDY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712582412; x=1713187212;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XPFqEiBUGZXYeqh1wSwnErJijnMHlYjJb0KWRIqSR1w=;
+        b=Eeo1N3KpGqT0XYFDn5hG/h1Po63zLMPeLqLI7dGjDt/chqQ7dwgt4+tEP9VBr8KWTq
+         RZH28KYyUix1HXfblPxhCRIMK7YRiEMrGwgLEJJp9QxhFyqXjbsXMX7skRhl46qMX09f
+         Tb2w1Er59TFfF1LLI5t8HsmSDho258IJTiwPgiOakj1NmRA2cYYE54PepvmCxbIZfgJE
+         ZZAkMYjJVpmp+V3JT1nV6vyNfmBAuZSbdLRC4N+2ixuB7w6i6SQ7s82vBtjElnHCU+7o
+         g749j9N+bsFY3pAwX6Jjm/VAi44iQCsNmzsAQGPgzSY9g+XVHLwff6vKJ4uTfhTPerci
+         8Lsg==
+X-Gm-Message-State: AOJu0Yz/BWHq4GRI8pCqUkw99meADIczJtDNyai0oOsB4AiPxZvCux+Z
+	h88whNSpNS/xhTygGLHq+Zwn2vbCv8p6WCK5IMmeOvTrnycFLJptqPz0zvjMTs1Uh6jS1OwH1PL
+	b
+X-Google-Smtp-Source: AGHT+IF0t92aurPr/BP5YGaA40agDzjAcwhO91B/RRMmf0vhLTI+Zf+wzr9aciZAZj9urzDJnlSlYQ==
+X-Received: by 2002:a05:600c:4451:b0:416:2441:eac6 with SMTP id v17-20020a05600c445100b004162441eac6mr8187354wmn.0.1712582412017;
+        Mon, 08 Apr 2024 06:20:12 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c0d5:82ce:9fe1:f44f])
+        by smtp.gmail.com with ESMTPSA id hn3-20020a05600ca38300b004162b578d8bsm13139748wmb.1.2024.04.08.06.20.11
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 06:20:11 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/3] nghttp2: Upgrade 1.60.1 -> 1.61.0
+Date: Mon,  8 Apr 2024 14:20:09 +0100
+Message-Id: <20240408132009.1763710-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240408132009.1763710-1-richard.purdie@linuxfoundation.org>
+References: <20240408132009.1763710-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 6613e841b121c496daa95d8b
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 12:51:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198010
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 13:20:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198013
 
-"Dan McGregor" <danismostlikely@gmail.com> writes:
+Includes a fix for CVE-2024-28182.
 
-> Add support for the nfsv4 user ID mapping daemon, configured with
-> a sensible default, and add a packageconfig for Kerberos support.
->
-> This is reasonably tested in production in our environment, but only
-> systemd support. There'll be some more work to do to get GSSAPI and
-> NFS idmapd support integreated into that.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../nghttp2/{nghttp2_1.60.0.bb => nghttp2_1.61.0.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.60.0.bb => nghttp2_1.61.0.bb} (91%)
 
-Just for interest: how do you solve GSSAPI?  I made it work for me, put
-it requires ugly changes (e.g. see [1])
-
-There is an early dependency loop in libtirpc -> python -> kerberos ->
-openssl -> python.  I solved it by
-
-- creating a throw-away krb5-initial package [2]; installs libraries in
-  /opt/krb5 and is used only at a few places.
-
-- splitting libtirpc; this required to touch only a few other packages
-  some weeks/months ago.  But now, [file-rdeps] error is triggered and
-  every
-
-Both is ugly....
-
-
-
-Enrico
-
-Footnotes:
-[1]  https://gitlab.com/ensc-groups/bpi-router/de.ensc.bpi-router/-/tree/nanbield-next/meta-core/recipes-extended/libtirpc?ref_type=heads
-
-     (there exists a newer version but I do have not pushed it yet...)
-
-[2]  https://gitlab.com/ensc-groups/bpi-router/de.ensc.bpi-router/-/tree/nanbield-next/meta-core/recipes-connectivity/krb5?ref_type=heads
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.60.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
+similarity index 91%
+rename from meta/recipes-support/nghttp2/nghttp2_1.60.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
+index cf62c32d8b8..ad85576dcbc 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.60.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "625d6c3da1d9ca4fd643a638256431ae68fd1901653b2a61a245eea7b261bf4e"
++SRC_URI[sha256sum] = "c0e660175b9dc429f11d25b9507a834fb752eea9135ab420bb7cb7e9dbcc9654"
+ 
+ inherit cmake manpages python3native github-releases
+ PACKAGECONFIG[manpages] = ""
+-- 
+2.40.1
 
 
