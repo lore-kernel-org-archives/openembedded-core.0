@@ -1,274 +1,108 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7448ACD1292
-	for <webhook@archiver.kernel.org>; Mon,  8 Apr 2024 21:39:14 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.120820.1712612347975957290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1B5C67861
+	for <webhook@archiver.kernel.org>; Mon,  8 Apr 2024 22:05:44 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.121952.1712613939924185276
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Apr 2024 14:39:08 -0700
+ Mon, 08 Apr 2024 15:05:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=iuGDHXq9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4828e94937=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 438JWXS3022903
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Apr 2024 14:39:07 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=ec612W8mbcSVnFaJ+/K
-	M4uwIxWPpvGFnfl+YtC65Pn8=; b=iuGDHXq9LkYy9U1v/IXDHwrHGSnnKFLGHLA
-	+mpQ5EHfBFNR17cHvsHGD/O8hxiBSn5seh15y/bcdLnPnfZAFCXZgojg9JGA/Wq+
-	jzk8xo0ntZJbfJDInPVb2bUOc21c6eoWEDNpHG6gHAVWsQpxzdx+kxd2yH2UMfQm
-	DWy7IkjCUqbOGh1396tJ2g3Hg4i8+h8J5q2wK/mBQPQ5CK6YIaxlDZfTUeVQgsVC
-	o9SPZ/aTDv5c8WyePq3R4vUkxvHhqsnXUqATcOl+kaZKqNrnjdSIyJIq9Vl5CnJt
-	fyWaBU+P6O4IEF5lzSDwat/OWFaEQbvGwGmeRYJuN31WJPe2+qw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xb5wghtsn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 14:39:07 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 438Ld6IF027423;
-	Mon, 8 Apr 2024 14:39:06 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xb5wghtsm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 14:39:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a9myJjv1yALKQYndrNApeDcO/4lQx7JdfV+z5uVmtglZLXSwUJkycwKGOHOEWYFk5hpKhceKL6C31PRwlLK+fXDexoxwSS0Uqkh+QCNqqmqNEL6pD3Ks6GLiVDHYf9FxhUpLpFLIEfQkQF3JTZ54nkR0eHtfc0PtCuW9o4ogVu1Gk+8Dm2G78NHSZslL4nE81UeKirWB4DGHSCOkP/ZzTXZnK2tBskJZ8+WP1uDwYFq1PDz5gwcXmr/6J550zFKDTONgaK/8u9EN7hc0OTmqf/VYCg0Ynd/zbVGjxkW1L6S91QK8ZioG3LwmCVAlO+RsqlHgYU0o6Y9QQWJBU3RZxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ec612W8mbcSVnFaJ+/KM4uwIxWPpvGFnfl+YtC65Pn8=;
- b=fp59dMLgWAGen+7LjZ12GDWqcSFpAXsok2XXwD5WWv6aDdTaHCOQE0M/0gwcstbu3fdgd41Csk8k+msoaNNPq1cLdpMoEt1jS0I7LE79NLuaXHghXU6CXxFEMiEwH6EkvvtEn2XFUjYdOO7dQUR28PxVqJvcHX7RlNAP9VWwz5i1Wu+ONqOzb6aUxFptep5kTWBrPVrlaweQBQTQt2AzhOTvbYGdBs7iSR1EfwNGKjQM0P7axgLnxxR3SN95KFxlPCs9toHRzYP4MFuBhcTbkGQwWGwro36srExy7fyut219W41mBZjzeoDQNlxEn+XgkQ3+Hgvhz8dvBkPSDA4EKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5920.namprd11.prod.outlook.com (2603:10b6:a03:42e::9)
- by SN7PR11MB7567.namprd11.prod.outlook.com (2603:10b6:806:328::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.10; Mon, 8 Apr
- 2024 21:39:04 +0000
-Received: from SJ0PR11MB5920.namprd11.prod.outlook.com
- ([fe80::c613:f5c5:2c48:3f9d]) by SJ0PR11MB5920.namprd11.prod.outlook.com
- ([fe80::c613:f5c5:2c48:3f9d%4]) with mapi id 15.20.7452.019; Mon, 8 Apr 2024
- 21:39:04 +0000
-Content-Type: multipart/alternative;
- boundary="------------K3Q0IKwh0qQBRe0b0pTsQuh8"
-Message-ID: <b4aacad7-313d-4fdc-84c1-e1717f32ccc0@windriver.com>
-Date: Mon, 8 Apr 2024 17:39:01 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] ninja: build modified version with GNU Make jobserver
- support
-To: =?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>,
-        Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-References: <20240403070204.367470-1-martin@geanix.com>
- <20240403070204.367470-4-martin@geanix.com>
- <CANNYZj8x4kEP4GAuaei6Ct3bqcZoBnLk21xArzSgTGRmO71sXQ@mail.gmail.com>
- <af5f84b11560409a0cb7e1657341d91d50beb84d.camel@geanix.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <af5f84b11560409a0cb7e1657341d91d50beb84d.camel@geanix.com>
-X-ClientProxiedBy: BYAPR05CA0021.namprd05.prod.outlook.com
- (2603:10b6:a03:c0::34) To SJ0PR11MB5920.namprd11.prod.outlook.com
- (2603:10b6:a03:42e::9)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M4Pkj9o7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34339f01cd2so3708410f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 15:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1712613938; x=1713218738; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=r39cKEn9VXmCUxZRLMRD3/kPGdkTxqGDfYCFovifKnI=;
+        b=M4Pkj9o7M8cPQ9DpFKk4VYUxbmVvBjQ5SiCT457kKCNXMLGjquaBpoa+CUxiYYESWG
+         Bnm6dloZ+G/pGECtJ/ON+jv23DA1Yh8TX9MHEElcCb9faH/BRNSas9UqN4bwCm2+kewg
+         3or2ojboJYnjEIhbPj7NyVRntHubdao7zh2fE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712613938; x=1713218738;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r39cKEn9VXmCUxZRLMRD3/kPGdkTxqGDfYCFovifKnI=;
+        b=UogXWb5w48yhwRxW4n3hmxTIBUZvpbtY9pwHf0JY3zk9gLuF2IhFjI5kY5VI66iEMu
+         WvNB4xBEjmTwn0mM2zYYac4qLAC8WK0S8rMsnUIkJpgobWk1BfTuNUzHu6Wyo4AiybEN
+         8zhsz5o3eSVGiJqAW3WW/C6ZqQkO5dMMmm+kFhUGGXc3rD/EOsSEMrQ8P3I4XmQp2Ss+
+         u5JDLV0G2JmwH3BHlX1H9vdsIloHOxbWojAErO59z9panucguuPhMWMJu7JzaemILqwt
+         szXr628prRjiWvm4IaOzHAv28M+PC6FXEr/Vaw6KxXhjAvAhyqBFok2IUEoiQPdBaDBA
+         zazQ==
+X-Gm-Message-State: AOJu0Yy96uYajSkM3fMWDDqi4toZ5iB1DSlwvRcg1aNhIhaZNETtYc2D
+	xcsZrxZM16gSYMzyNvPdEccKvYQ0j29E8Iw1lfJ2YMYFbF/Meb96ToZU0rWHPRs=
+X-Google-Smtp-Source: AGHT+IHldasYD16QXWRXMjimtF35C84Grf6PfB3gXUdxiFRcGj2T1ex1gnZdv0sOmw7IZRMXSdetdg==
+X-Received: by 2002:adf:e510:0:b0:341:751e:49b2 with SMTP id j16-20020adfe510000000b00341751e49b2mr6798464wrm.32.1712613938253;
+        Mon, 08 Apr 2024 15:05:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6a66:e833:48b0:4752? ([2001:8b0:aba:5f3c:6a66:e833:48b0:4752])
+        by smtp.gmail.com with ESMTPSA id bg35-20020a05600c3ca300b004162020cee2sm18726099wmb.4.2024.04.08.15.05.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 15:05:37 -0700 (PDT)
+Message-ID: <6a96fb66b0b08ec4b20dbe5d9e5c161028aee4a3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] openssh: add fido2 support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 08 Apr 2024 23:05:35 +0100
+In-Reply-To: <CACS+7ZRhjZu_+_BVvnS_udKiWc0N79VqErpHGAdvMt8KCERvUA@mail.gmail.com>
+References: <20240405171056.3300551-1-danismostlikely@gmail.com>
+	 <701a5f11dfc6b236a8765716b2eec5b236b726e8.camel@linuxfoundation.org>
+	 <CACS+7ZRhjZu_+_BVvnS_udKiWc0N79VqErpHGAdvMt8KCERvUA@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5920:EE_|SN7PR11MB7567:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	CwAtehVHN+ZK9czD611tAydwaH86/uVBuR+reWDDVn/GfJHfWwyGxVAvIyRX+5HP9wiwIjWO0BjN2t4RaKeDFd/2yoPyi1yTpx2Nj2irpvGeWHCbDsbMmoM/B4vDi8ZTp61FM0lOYs4An35nhv/nCbLp7R7AP3QONZZDLN4iNFDhVWSLl8QHSAcE62gD4IJ2njl93Pug5a4N1z7HSJfpGWGMggpC93QSxRB/G0mKZJUucEWAcWzLSKE1Ql3RANbJFbgZ+GKuZ0xLZokd+yLz8ixHEcDicHZi495dxpCN6fNA9Z1RxdAvlAzGYjG10XtW7KU+0cmE9IqEBbjmHSEOtcj6MP0Ry3hs4MDyq6qfVRROIberyUDP+EQFU77Ia8fYu5pj8L8JjnnqF8+xEnxybaGeTw9DdkmoXA68m2Xkf4HqgNWTHRWfFLU5KiC4qw3SrSbjzQcaOSFtIQvxunkq1xLCV6UHZyBTCKY+NewWV+nLPy0ITclojXm/TYkyYJAzmf4hbAW/4XHz05R3QJcUEQ9RyIz8OM1flr5t7IkxQZcty6u6gn2XwoupOzPJE+JkhIKmg0Teo1Ya7as/sZj1Nj5ob4TrsJAcfbflcHHKDt4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5920.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WlNUd1oyaDduVWx5aWdaTnJvZ1YxRzNFV3gxajJUaEtOMVYvaWV4amt2NXpO?=
- =?utf-8?B?RkNnT1FIYnhJZkZ5VndyMVQ3SXdxUURzclhRRURROEZQc2lXd0gzYm10Z09w?=
- =?utf-8?B?SVhheVE5V2pNSk9tK21IY1MxUEZTSEZxRndDQS9wWDNMN05xeXV6b1JsSnp5?=
- =?utf-8?B?QTFHeUxnc1Y5Nml6aGVXMCszeDRxaTI5cVJreGQ0ck9DelJ0dXJRUlRJTmhD?=
- =?utf-8?B?Z21YVGdrRVZuQ0xpU3pBWGZWZkpjSDFqd1Zlc0pwYTlqZ1l2T3JQZ0hkMXFj?=
- =?utf-8?B?c2RkZ25xR2hNRENVdi94cHAxYmZmYThnWDNscFkyM05jUGpZb2M5TXpIZ3Zv?=
- =?utf-8?B?ZkIvVmtvMEJJUTRGdTJubjNWallYVDlpa0tFeFVTQnNJV0o0Y1RPMmNNRitY?=
- =?utf-8?B?MFJTRnlUWWxseElleUt6S0ttS3BoeTRWL1F6R0pvZ2ljL3F4RVl4UHRGU0s5?=
- =?utf-8?B?aXFob1ZXU0FQbm5pZnFFeUJkV093d2pEZmNPK2xHTkhVaWtNVXVESzkySnVz?=
- =?utf-8?B?Yk9QTWovRW5PdW5sTWlnSE10ZGs1SUNKVG92aEhxNGJmV1I1czh6eTVkMVZm?=
- =?utf-8?B?UFdEb3FPQ1N3TlUwR0NWc0NYVFJqNUZ2b2ZVbi9sSFVkNzlaY2VyT2VuejBp?=
- =?utf-8?B?cjB1ZWY3Tjc1MlMvekdiYzJadk1JNHNXbDRmMmhoSDJsQ2JjcE83eWEyR1Nt?=
- =?utf-8?B?M015V3NVUDBCWVB6NTk4S3VrNEw3UTdNUkFicnQ2YlhqOUZzeEhHcVZVVlYw?=
- =?utf-8?B?U2IxM1plNCtmNFhNa3NpY3hJWjJVbXJXeGJyN3VmUjluVTVvb1J0cVd2R0VR?=
- =?utf-8?B?OGlBeG5wOHcrN25WMjNOdFNJRmxTT2RNYUcvYndrbnEwTjVnSnVHRW11a3VY?=
- =?utf-8?B?b2tpTVNaVG9xSjlKZXM0TkVzRmozb2lHb3gxRU9CZGoyWWgySEZsV2tnWlFK?=
- =?utf-8?B?Qy91VHR1SjJkV3hkeFJWMEVtTWtkN1BpRVhjRUdPYkxFQVE2ZHM4SUJPclhZ?=
- =?utf-8?B?dFhobk1PVmo5NGhySE1RV1htQS92SCtTeE16YWFld0I1a1psUUIrZjlOWS9v?=
- =?utf-8?B?RW50czRJT1QveXlweHlxdzJ3cTZnc0tHbkh5Y0U2d3dYaE1yL21sR1F4cXFL?=
- =?utf-8?B?THJ1Nm1ka2J2RE5JcmlYYjRTdDE5ejczVUZiMU9uWmloK2p5ZThrK1UyQ3lk?=
- =?utf-8?B?TWlFdVFmVGpqUlV6dmUxdTlrTW9SK3FvMVh0RVRzL3dRVEFiNkRvVElLUitQ?=
- =?utf-8?B?SlpLRGsvdkVwU3ArSEFKSWYwUVRuZThLMm9mSnNvYnp2cUJHVzc2WWl3T1VO?=
- =?utf-8?B?MTNidy9NRWhiSlhaYm1IeXgxdm5vdG1uUkxZZkxSeEc2VlVyN2R6bEdVWGNW?=
- =?utf-8?B?dEtueHhuNGFFTmZ2cGRZaENWbkt1dTd4NW9xcFdsNTBPRXVWckJBYk1naXFQ?=
- =?utf-8?B?V3hMREtqT2RSYXdFZXlGU2ZYbS9RQmhjei9qcDJYWHd0d25kQTJnZUVXL25a?=
- =?utf-8?B?ei9BUytDYUk0Wm9hd1R5OThQUTgvNVRFbFEya0puVHpWSDBqa05DQ2kwdWVH?=
- =?utf-8?B?Q2tyTjhPeVFWWEhYWERQd2JpSVZiNnpONVkxVFBMYmw1TGtOQnk0NTMrMWFI?=
- =?utf-8?B?Zm9VTHZXcG50czJKWEI1eVN3dHE0eE9EZzJqYWRaWGpUcTlRNEJIeGpxY3ht?=
- =?utf-8?B?dVhaNER5bkRxSUpUSUFMM0VGeXRhNVVaTzMwK1l5djU5b0pSNVNheHdYY3lM?=
- =?utf-8?B?NmY3VDYwaUdQMFZvZnNaOTZvSEpSK0JGaGRKeERTWWJoUGpLVEJrZUhxSmJx?=
- =?utf-8?B?R2ZSOXNpQTNBNVpkRlNWa1BGYlhNQWNFTFRtOFRxUEVreU9aTzN6QUxZeVRO?=
- =?utf-8?B?aGgvL09HMlh0dlRXR0lKdTZNYWh6dDNxQ1pOU1FqeFRSQWpRMEk1SmNjdmph?=
- =?utf-8?B?cjBnYjg0UU9sNVlJM2RxMW5ydUlMV2VDc1BSdGVubDRaRjAyVXpSbTFQZUlw?=
- =?utf-8?B?NVFyQllMK0ZkcTdINkRNcWJsSmFYSnBpN2o3bC9KeVZqQytFaGo4T1MrbTBX?=
- =?utf-8?B?WnBBL2RJWEZQbW04YmI4VmZhOGVoaGFkbjZhS0Q1akZqb0FEamN0cUJtaFJO?=
- =?utf-8?B?dVJDajdGbHN0M0x1bXlwWDFaMkFYakxVQWMrbGwyNkh1QVZGWWJZRkE2T1dr?=
- =?utf-8?B?a1E9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1121ecf-50ee-498c-3189-08dc58144fb0
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5920.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 21:39:04.0638
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cmcaMLgqzDuSk3mo0r4UpGmdaz0erce2hxz2twnr6IzWMv1AhGzXOU4Epq75/53RvFBZys+qV19zmIUMTrx6qugZKTBiEpTvD70MDyeDZVY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7567
-X-Proofpoint-GUID: -I24I_5k6jw6PFRnyANZ3KB_Xmfw37W6
-X-Proofpoint-ORIG-GUID: WUKFoycTC09CLPhS5TWTDCtqQ2UHmi_r
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_17,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=946
- clxscore=1015 mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404080165
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 21:39:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198018
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Apr 2024 22:05:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198019
 
---------------K3Q0IKwh0qQBRe0b0pTsQuh8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 438JWXS3022903
+On Mon, 2024-04-08 at 11:55 -0600, Dan McGregor wrote:
+> On Sat, 6 Apr 2024 at 01:28, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > On Fri, 2024-04-05 at 11:10 -0600, Dan McGregor wrote:
+> > > From: Dan McGregor <dan.mcgregor@usask.ca>
+> > >=20
+> > > OpenSSH supports FIDO security keys in both the client
+> > > and server.=C2=A0 Add an option to support them in oe.
+> > > This change requires a new recipe that I've submitted to
+> > > meta-openembedded that has not merged yet.
+> > >=20
+> > > Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> > > ---
+> > > =C2=A0meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 1 +
+> > > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > Which branch is this against?
+>=20
+> The intent is master/scarthgap. The change mentioned is now in
+> meta-openembedded master.
 
-On 2024-04-03 3:08 p.m., Martin Hundeb=C3=B8ll wrote:
-> On Wed, 2024-04-03 at 17:58 +0200, Alexander Kanavin wrote:
->> We can't carry this mass of patches. It has to land upstream first.
-> Understandable.
->
->> Are you able/willing to drive the upstream pull request to
->> completion?
-> No, I don't think so. I'm not familiar with the ninja codebase, and the
-> pull requests has been lingering for too long.
->
-> Another option might be to propose adding the fifo feature to the
-> kitware fork of ninja:
-> https://github.com/Kitware/ninja
->
-> They have forked ninja to get the jobserver feature in, but haven't
-> taken the fifo part so far.
->
-> The kitware fork is also used by buildroot:
-> https://gitlab.com/buildroot.org/buildroot/-/blob/master/package/ninja/=
-ninja.mk
->
-> // Martin
+Right, but scarthgap/master have:
 
-I see that v2 has switched to kitware, which is fine in the short run.
+meta/recipes-connectivity/openssh/openssh_9.7p1.bb
 
-I'm just back from vacation. I plan to test this patchset out.
+so this doesn't apply.=C2=A0
 
-I can spend some time convincing upstream ninja that a solution is=20
-needed for our use-case and
-that perhaps the jobsever approach and the kitware fork is a good=20
-starting point.
+I then have to wonder what it was tested against. At this point in the
+release cycle that is a significant worry.
 
-Of course, I can't promise to "drive it to completion" but I'll hound=20
-the upstream devs for months or even years!
+Cheers,
 
-Thanks for re-submitting the patchset Martin!
-
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------K3Q0IKwh0qQBRe0b0pTsQuh8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 438JWXS3022903
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">On 2024-04-03 3:08 p.m., Martin
-      Hundeb=C3=B8ll wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:af5f84b11560409a0cb7e1657341d91=
-d50beb84d.camel@geanix.com">
-      <pre class=3D"moz-quote-pre" wrap=3D"">On Wed, 2024-04-03 at 17:58 =
-+0200, Alexander Kanavin wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre" wrap=3D"">We can't carry this mass o=
-f patches. It has to land upstream first.
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">Understandable.
-
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre" wrap=3D"">Are you able/willing to dr=
-ive the upstream pull request to
-completion?
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">No, I don't think so. I'm no=
-t familiar with the ninja codebase, and the
-pull requests has been lingering for too long.
-
-Another option might be to propose adding the fifo feature to the
-kitware fork of ninja:
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/Kitware/nin=
-ja">https://github.com/Kitware/ninja</a>
-
-They have forked ninja to get the jobserver feature in, but haven't
-taken the fifo part so far.
-
-The kitware fork is also used by buildroot:
-<a class=3D"moz-txt-link-freetext" href=3D"https://gitlab.com/buildroot.o=
-rg/buildroot/-/blob/master/package/ninja/ninja.mk">https://gitlab.com/bui=
-ldroot.org/buildroot/-/blob/master/package/ninja/ninja.mk</a>
-
-// Martin
-</pre>
-    </blockquote>
-    <p>I see that v2 has switched to kitware, which is fine in the short
-      run.<br>
-      <br>
-      I'm just back from vacation. I plan to test this patchset out.<br>
-      <br>
-      I can spend some time convincing upstream ninja that a solution is
-      needed for our use-case and <br>
-      that perhaps the jobsever approach and the kitware fork is a good
-      starting point. <br>
-      <br>
-      Of course, I can't promise to &quot;drive it to completion&quot; bu=
-t I'll
-      hound the upstream devs for months or even years!</p>
-    <p>Thanks for re-submitting the patchset Martin!<br>
-    </p>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------K3Q0IKwh0qQBRe0b0pTsQuh8--
+Richard
 
