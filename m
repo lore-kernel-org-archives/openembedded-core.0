@@ -1,90 +1,151 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACC5CD1284
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 12:05:40 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web10.134413.1712664336168422612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52AFC67861
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 13:25:21 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.136201.1712669117576440780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 05:05:36 -0700
+ Tue, 09 Apr 2024 06:25:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=xq4yPzS6;
- spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-78d496add91so227308185a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 05:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712664335; x=1713269135; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hj652LgWrjdJzo73ysmj/X/DJydv58wWizohEy33RWM=;
-        b=xq4yPzS6iyJBVUZ1jCbKCfojwCF4YLQ4L40tvvQS5WKV+lX++bub1lOZ5esZJqN7St
-         yAGnC4jsCbeaN5mExpp7uzg2TBLAP06VKW/6Ad2vXw0H0+eDgbIrh5hPmKi+tL3G+W40
-         8tJggV2v+U9UXjqZAB2z60DFEU58UK0+ZbEbT4Ty+k02gIJoa+3kcWxwwCP2qA7jeg2d
-         bIqHOuwrzdV2TorodZ9fzXBdI4Rb0Dmmw1UjZy3HYUFOUeJiVplcWMUwsFuHetSlLUXl
-         /RyFNdiQUtvoGGzFKD0VpOtkl4Wbis1cnDTQq7euyd2Pa8oXb2OuaKGsUJgvSw5OBjkr
-         sFrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712664335; x=1713269135;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hj652LgWrjdJzo73ysmj/X/DJydv58wWizohEy33RWM=;
-        b=TIrfCjnZUgqj62zUi0mNlLR6lIUxZBU0D1jt1TflJR5ohcicYMdnIsTEooDCJviexU
-         u0j03PuOmAlCJ9gKskg0d7zYwT8AJQh4qSvs8CsNyBLVPGzmIpOMFUphB4mvb8k04WGi
-         OtbRUN/kq/xrKLLhr4Oq7Y/YAjkES9R0CpJ+2Kg6210ZhWqVoG1oa7+Tn7aJSWCOOHvV
-         DA0tu+8MNe4IKju4y7IXsFFoY8EmNeE/mXqfbsmylarjHag67g8sWJvIOmsXdC8H7try
-         xmjho839T/OvlHQkvIQzk/EdW1skwUL/fQNqbJ9Y5JLmqB0FhfXc8sENuTuLnkld04nC
-         QRKw==
-X-Gm-Message-State: AOJu0YwYFR3Mq173lFGN/vMGsR42nFALG2gorDZn7jrxrJoWKRxpygKe
-	XjTtQgaqUka7fNfNuKLG3ZLPENvPk9RN4ukxp6KGU5qn2SzwfC2eZ0B9ueNMBT4=
-X-Google-Smtp-Source: AGHT+IERel4ZO+98NJDm3rxpkc5pIc4rkkijxjcpe8yOh2lUtd8yYdZ9hlOXJnEvFOMEmJd2qQgSCw==
-X-Received: by 2002:a05:620a:1123:b0:78d:6546:f6e9 with SMTP id p3-20020a05620a112300b0078d6546f6e9mr5415770qkk.70.1712664335289;
-        Tue, 09 Apr 2024 05:05:35 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id w2-20020ae9e502000000b00789f3c50914sm4055493qkf.33.2024.04.09.05.05.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 05:05:35 -0700 (PDT)
-Message-ID: <10450bd5-fd42-460d-9f24-ec89a52a08b1@baylibre.com>
-Date: Tue, 9 Apr 2024 08:05:34 -0400
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=gc2GkqSr;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BBFDDE0007;
+	Tue,  9 Apr 2024 13:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712669115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bj3HBREoc0EmkCyLlzDkdag/yrR8GkCk4suOysqVjfY=;
+	b=gc2GkqSr4i5mY1lmPhwul0b61fNEeQH4u3tUENqCx/1nCIv0lTZahHrVObCKi4wOLgiF19
+	55XDGoxtneQ7ECZVh4UlbhxcX3hPocaClnyJlOcZ99hoxxH4RcHj/EfPDP3lUOsZpWefeY
+	gJmKF23CYSw1MXO8qf6v2o/UwSAZqH/QtqtH4TwiFj1119xkD2T/gkZc9+rckRBlTPvVf1
+	q7dn1tOIQckYJgR5M+gfjLqFuyHgbbM4BqzBSXmqIeN7NHd4Q06Xa4r+DZsmrh3DVWB5zg
+	xCEwPyTbJr1fM2j61Mw7GwjtAR+2bpcHSPfjovDY8apUFCFgPCRYwn/WYWjrmw==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH] oeqa/selftest/prservice: support non integer PR values
+Date: Tue,  9 Apr 2024 15:25:09 +0200
+Message-Id: <20240409132509.2854242-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 28/33] python3-pycparser: upgrade 2.21 -> 2.22
-To: Alexander Kanavin <alex.kanavin@gmail.com>, wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
- <1712646620-16608-28-git-send-email-wangmy@fujitsu.com>
- <CANNYZj-FKvirKBxqGRX3j0OmDG5=uhbEtn1j1uKAXjWzJuqPog@mail.gmail.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <CANNYZj-FKvirKBxqGRX3j0OmDG5=uhbEtn1j1uKAXjWzJuqPog@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-Spam-Score: 300
+X-GND-Status: SPAM
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 12:05:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198064
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 13:25:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198065
 
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-On 2024-04-09 11:29, Alexander Kanavin wrote:
-> On Tue, 9 Apr 2024 at 09:11, wangmy via lists.openembedded.org
-> <wangmy=fujitsu.com@lists.openembedded.org> wrote:
->>   LICENSE = "BSD-3-Clause"
->> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2c28cdeabcb88f5843d934381b4b4fea"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
-> License checksum change should be explained.
-Thanks for pointing that out. Odd that patchtest didn't get it this time.
->
-> Alex
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198059): https://lists.openembedded.org/g/openembedded-core/message/198059
-> Mute This Topic: https://lists.openembedded.org/mt/105417654/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Support non integer x.y.z PR values, for when the PR server
+supports upstream PR servers.
+
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+
+---
+
+Note that regular integer PR values are still supported.
+This code has also been tested on master, without the proposed
+PR server changes.
+---
+ meta/classes/primport.bbclass             |  2 +-
+ meta/lib/oe/prservice.py                  | 17 ++++++++++++-----
+ meta/lib/oeqa/selftest/cases/prservice.py |  9 +++++++--
+ 3 files changed, 20 insertions(+), 8 deletions(-)
+
+diff --git a/meta/classes/primport.bbclass b/meta/classes/primport.bbclass
+index 00924174c1..1ff09c8785 100644
+--- a/meta/classes/primport.bbclass
++++ b/meta/classes/primport.bbclass
+@@ -17,7 +17,7 @@ python primport_handler () {
+             bb.fatal("import failed!")
+ 
+         for (version, pkgarch, checksum, value) in imported:
+-            bb.note("imported (%s,%s,%s,%d)" % (version, pkgarch, checksum, value))
++            bb.note("imported (%s,%s,%s,%s)" % (version, pkgarch, checksum, value))
+     elif isinstance(e, bb.event.ParseStarted):
+         import oe.prservice
+         oe.prservice.prserv_check_avail(e.data)
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index c41242c878..d7920fc511 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -4,6 +4,12 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++import re
++
++def is_legal_prvalue(str):
++    pattern = r'^[0-9]+([.][0-9]+)*$'
++    return bool(re.match(pattern, str))
++
+ def prserv_make_conn(d, check = False):
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+@@ -59,14 +65,15 @@ def prserv_import_db(d, filter_version=None, filter_pkgarch=None, filter_checksu
+                (filter_pkgarch and filter_pkgarch != pkgarch) or \
+                (filter_checksum and filter_checksum != checksum):
+                continue
+-            try:
+-                value = int(d.getVar(remain + '$' + version + '$' + pkgarch + '$' + checksum))
+-            except BaseException as exc:
++
++            value = d.getVar(remain + '$' + version + '$' + pkgarch + '$' + checksum)
++            if not is_legal_prvalue(value):
+                 bb.debug("Not valid value of %s:%s" % (v,str(exc)))
+                 continue
+-            ret = conn.importone(version,pkgarch,checksum,value)
++
++            ret = str(conn.importone(version, pkgarch, checksum, value))
+             if ret != value:
+-                bb.error("importing(%s,%s,%s,%d) failed. DB may have larger value %d" % (version,pkgarch,checksum,value,ret))
++                bb.error("importing(%s,%s,%s,%s) failed. DB may have larger value %s" % (version,pkgarch,checksum,value,ret))
+             else:
+                imported.append((version,pkgarch,checksum,value))
+     conn.close()
+diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
+index 8da3739c57..0e2ca0c5ab 100644
+--- a/meta/lib/oeqa/selftest/cases/prservice.py
++++ b/meta/lib/oeqa/selftest/cases/prservice.py
+@@ -16,6 +16,11 @@ from oeqa.utils.network import get_free_port
+ 
+ import bb.utils
+ 
++def rev_minor(rev):
++    """Returns the last number of an x.y.z revision number"""
++    fields=str(rev).split('.')
++    return int(fields[-1])
++
+ class BitbakePrTests(OESelftestTestCase):
+ 
+     @classmethod
+@@ -78,7 +83,7 @@ class BitbakePrTests(OESelftestTestCase):
+         pr_2 = self.get_pr_version(package_name)
+         stamp_2 = self.get_task_stamp(package_name, track_task)
+ 
+-        self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
++        self.assertTrue(rev_minor(pr_2) - rev_minor(pr_1) == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
+         self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
+ 
+         self.cleanup()
+@@ -104,7 +109,7 @@ class BitbakePrTests(OESelftestTestCase):
+         self.increment_package_pr(package_name)
+         pr_2 = self.get_pr_version(package_name)
+ 
+-        self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
++        self.assertTrue(rev_minor(pr_2) - rev_minor(pr_1) == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
+ 
+         self.cleanup()
+ 
+-- 
+2.34.1
+
 
