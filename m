@@ -1,148 +1,71 @@
-Return-Path: <nayakksanjay@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B9FDC67861
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 08:39:59 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.131892.1712651997251475459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EAECD1284
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 09:16:39 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.132317.1712654195954091914
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 01:39:57 -0700
+ Tue, 09 Apr 2024 02:16:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CZ+KOpO5;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: nayakksanjay@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e3cf5b171eso26510325ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 01:39:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nq8SGp7u;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d6ff0422a2so66512331fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 02:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712651996; x=1713256796; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2XksLX9KFHZJqK2SMbJ6sfWg5Qlv/yEhz8uJdMJpotU=;
-        b=CZ+KOpO5qLE0067xQ0/pMcCEdF/r74aSlGJpL3ozEhnNNdWla+4sGMA43GyIpO6Tgd
-         PMMjlUl9ge0rWBArIBFlM899k12TS2nsghdOreCfOPypqGoMzO6sqHH53V3WwyzfGkZr
-         sITf5Lmo2AKX5YR9bgTWAC2mPRciAynFNOsgDveWaaEMjWfqOufc9zjNiMFF67KWeEPD
-         HKRsxOz/ZPBWFjf3WmTF9vE7Yrf3CazBNJwenhRmSGhpdKQyCVxoHjFuqxIMq3IAfEit
-         FbpnmIZtORd6G+8eCj9tAlBWAuh47UQ43hSOchrAvo4kWOgRm+r0y0EwV5WibzvTpEiw
-         t4Iw==
+        d=gmail.com; s=20230601; t=1712654194; x=1713258994; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GwjrOnlMVHP3tk7xPPDLbNT/5xD73WVQ9vAyVCA4we0=;
+        b=Nq8SGp7ut3bGm0rhUKDRwFrFVlwD+aN74SUJV52wSSVRQGW0DN5ybt9npnJyZBEN5h
+         FE4V9/D7CtKs2HQ0KCzo5ba6BN88GC8vkGK1RLuvsQFWi13eAaor08TuW9pHp/8XQhYu
+         x8eAyjZtUDLxenHc3NrrVv8I+ruAEJ+7jlaNLMolAQhV88ofKdCSbmEcZjFhlhYf0XdW
+         3OApkm4zElZc/hEGgXXG1H0wqmTbiMIWaLPjT17x7WFa3AMdBp2k/XMIRZGer2/q5pit
+         9IGHHthpi8I7ceHUqeCCMRQW6dCvMA200yru6lnprIcC49SkqOa0mysr+TjbLG/G55KS
+         QSew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712651996; x=1713256796;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1712654194; x=1713258994;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2XksLX9KFHZJqK2SMbJ6sfWg5Qlv/yEhz8uJdMJpotU=;
-        b=F1t+02ZAPxiJSkBXB9Sc6Mc6XaclCf+Kzt1cJ2aBAaSTsDKYZgOzSSy5HSl7DYdF7x
-         WWwBkbrtHN7kxKAjAH0nXGXChtCLfkrJttBB44oKcfEcaIPpJBfElohTvECoDP35+Jgb
-         z6l4DLb+obCvxngqMQqIvVw0UT0oCtJHRCtg0oWngKrgu1+IjHd9mG8n3oWFKbzt/aks
-         o0iq1jhsSINLsgocpwoSgVtKE3cFfaQmAh/InCqxjGLs6D6klSzhPK8FKPfx/FhgLVXk
-         IfwoKnLvpIVuHExulLqbtLOc7TCbXAxKXr9FEaENpxFApKx2RKehqMzeg38TkquWPbrM
-         I+qg==
-X-Gm-Message-State: AOJu0YxHMNhX9FaWtG0NdIlwEo61LHKXofzZl249tIRlXLcr6kAPvkYu
-	oKuf2SQ6JeuMvsVGF1uKhWVrpn5L3VR+lv4GDDSBjHQSFQtQzUxJaNpvk1on/PI=
-X-Google-Smtp-Source: AGHT+IEMydiOJMz+Y/1vPeKEcbMS3bhCFMFH31jBoXSYlUWgU5Uvpn7E1UsKUj1yMH5UKqeAPdzwjQ==
-X-Received: by 2002:a17:903:1d2:b0:1e3:cf18:7335 with SMTP id e18-20020a17090301d200b001e3cf187335mr11238509plh.6.1712651996298;
-        Tue, 09 Apr 2024 01:39:56 -0700 (PDT)
-Received: from ubuntu.. ([122.186.157.254])
-        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001e0fcf995easm8267037plx.202.2024.04.09.01.39.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 01:39:56 -0700 (PDT)
-From: K Sanjay Nayak <nayakksanjay@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: K Sanjay Nayak <nayakksanjay@gmail.com>
-Subject: [PATCH] xorg-xserver : Disabled BlankTime, StandbyTime, SuspendTime and OffTime in X default for QEMU images
-Date: Tue,  9 Apr 2024 14:09:49 +0530
-Message-Id: <20240409083949.3891-1-nayakksanjay@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=GwjrOnlMVHP3tk7xPPDLbNT/5xD73WVQ9vAyVCA4we0=;
+        b=pKjCbSswyPYXJcq4tR7bld53/pSemP5G50u04N8ptxtnyq9NtzJXp8fFQ1+4G4Ayrf
+         RdehsJwADDcKAVu1Jlu+5/8uwc9xq5EXRDBRNeKJ3h/mRM4wH0QKfu60czeFT1VnfPj5
+         1sc8UxeWXF7vdeq2W6148D+DjBwe4MzH/SXXuoy3izpqyuTJ0a0ZHjH8MXw8NFCB3MUe
+         yGTu0iVaGFkFiW8uHkdHpoFZJA5i/dpOpbCgN/mbRl55TEq8gyutwoScN1Al1OCRUR8o
+         jpFs0U28/2G6X9uzYWCIWB01etM99JgGC8F6Sn1POATO315LdQCuEoe8y2NQU7cB0bfc
+         WLnw==
+X-Gm-Message-State: AOJu0YycpYBs5x8IFRQzFzeyV3uOvd6K8RgowJxmEYkKGsIp/EswTC3I
+	Ey7kKH9ZieADspIbYncTAnr216FOKBthYhr+h6WolKPiSz/BpcJp5Ff97JzqnvvhrwavWakdxlv
+	41H9orePBCJWBJ6ukBFgqAqkjjFs=
+X-Google-Smtp-Source: AGHT+IENcXCen5VQoqSSxQxzhVZ+JZEWNWpPpdU4VSzXEr53DASKlTuAwlceD8P25r77yv0bv14dsrpwZsuxvW0xWOA=
+X-Received: by 2002:a2e:b994:0:b0:2d8:4a22:7536 with SMTP id
+ p20-20020a2eb994000000b002d84a227536mr7362908ljp.48.1712654193639; Tue, 09
+ Apr 2024 02:16:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240408070450.27686-1-peter.marko@siemens.com>
+In-Reply-To: <20240408070450.27686-1-peter.marko@siemens.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 9 Apr 2024 11:16:22 +0200
+Message-ID: <CANNYZj-HosUT6unGOohfRA22x9MWbUgYDn5N=mWjELVkTjBQsg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] systemd: make predictable name mac policy opt-out
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 08:39:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198056
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 09:16:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198057
 
-Fixes [YOCTO #15436]
+On Mon, 8 Apr 2024 at 09:06, Peter Marko via lists.openembedded.org
+<peter.marko=siemens.com@lists.openembedded.org> wrote:
+> -           file://0001-NamePolicy.patch \
+> +           ${@bb.utils.contains('PACKAGECONFIG', 'predictable-if-mac', 'file://0001-NamePolicy.patch', '', d)} \
 
-This fix addresses the issue of Xserver screensaver blanking being enabled on QEMU images by
-disabling BlankTime, StandbyTime, SuspendTime, and OffTime in the Xorg default settings for QEMU images.
+Conditional patches are terrible for maintainability. Please make it a
+proper meson option, and submit upstream.
 
-Reference : https://www.x.org/archive/X11R6.8.0/doc/xorg.conf.5.html
-
-Reported-by   : Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: K Sanjay Nayak <nayakksanjay@gmail.com>
----
- .../xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf        | 4 ++++
- .../xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf        | 4 ++++
- .../xorg-xserver/xserver-xf86-config/qemush4/xorg.conf        | 4 ++++
- .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf     | 4 ++++
- .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf        | 4 ++++
- 5 files changed, 20 insertions(+)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-index f4cd139e8d..3eb380a0a4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-@@ -35,4 +35,8 @@ Section "ServerLayout"
-     Identifier    "Default Layout"
-     Screen        "Default Screen"
-     Option         "AllowEmptyInput" "no"
-+    Option        "BlankTime" "0"
-+    Option        "StandbyTime" "0"
-+    Option        "SuspendTime" "0"
-+    Option        "OffTime" "0"
- EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-index f4cd139e8d..3eb380a0a4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-@@ -35,4 +35,8 @@ Section "ServerLayout"
-     Identifier    "Default Layout"
-     Screen        "Default Screen"
-     Option         "AllowEmptyInput" "no"
-+    Option        "BlankTime" "0"
-+    Option        "StandbyTime" "0"
-+    Option        "SuspendTime" "0"
-+    Option        "OffTime" "0"
- EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-index f4cd139e8d..3eb380a0a4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-@@ -35,4 +35,8 @@ Section "ServerLayout"
-     Identifier    "Default Layout"
-     Screen        "Default Screen"
-     Option         "AllowEmptyInput" "no"
-+    Option        "BlankTime" "0"
-+    Option        "StandbyTime" "0"
-+    Option        "SuspendTime" "0"
-+    Option        "OffTime" "0"
- EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-index c12d92c201..c01c3331c5 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-@@ -30,4 +30,8 @@ Section "ServerLayout"
-     Identifier    "Default Layout"
-     Screen        "Default Screen"
-     Option         "AllowEmptyInput" "no"
-+    Option        "BlankTime" "0"
-+    Option        "StandbyTime" "0"
-+    Option        "SuspendTime" "0"
-+    Option        "OffTime" "0"
- EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-index c12d92c201..c01c3331c5 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-@@ -30,4 +30,8 @@ Section "ServerLayout"
-     Identifier    "Default Layout"
-     Screen        "Default Screen"
-     Option         "AllowEmptyInput" "no"
-+    Option        "BlankTime" "0"
-+    Option        "StandbyTime" "0"
-+    Option        "SuspendTime" "0"
-+    Option        "OffTime" "0"
- EndSection
--- 
-2.34.1
-
+Alex
 
