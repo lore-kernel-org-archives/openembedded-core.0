@@ -1,92 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F14FC67861
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 10:02:39 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.132361.1712656958085109677
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9139CD1284
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 12:03:09 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.134360.1712664186907181022
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 03:02:38 -0700
+ Tue, 09 Apr 2024 05:03:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CTAuEPsz;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso68316041fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 03:02:37 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ntt5O/4k;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.46, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-696609f5cf2so32878656d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 05:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712656956; x=1713261756; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3uYSWRB9zwUHb8go2TUssn4fk+x+35fJPyx61IKJDQ=;
-        b=CTAuEPsznU9sinwln4cLVV6xShPHjZQQ4obK9IalQwPfTg4R5oTyTkqGmh371l5MPh
-         Sc9YDMon720kIyy9Y2MLvfC68zI4o1SOKCGfEoh1e/uGj4x85F1hFhV6NFBdFU5Y+nyR
-         GO4cUcE+6yZwTk/f/FVAw5iGa18hAqJh4ECI1dM01QQSoEeJyBnNMg9GFd8OA9g3Rb4x
-         j27FoR8RWJeGMpn2GD+J9rYR/pE883qOheSRL5oRz1NKdjJiA/mGbDuy9EwWFAQW49Es
-         hCuakCZXChbK5MtevU0zTuaoSBkSgFn9uTRrlDP1rfYLcQ8A9UbNTICSVhd8ixjW9tn+
-         laAQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712664186; x=1713268986; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQeLYxpM0zV3Qdcxyxce8GmjvEsP1kIUxoVIqAeQNIU=;
+        b=ntt5O/4kcRD5dpZmggbJDJayTUUvfWdvs4EWH9vT+kii+UGcxMOrZDkT/iSryCmF1Q
+         P8JytJB2UWLZ11/eybHdxU+xvw6vf0UT39dDXrnuGE8eSqw5npIg2G1pXmcnT9cfXTz9
+         NS3W/XN2IywwYRRhxAPC5Ax3N8ux0RDFxe+z1qbPElDqUCQHbmu7wf4hpWBuufO1SCRT
+         zTLK98s96PNYhdXwlTPuFdENfwRWX9MaRBGVciUr+M90j4Vz4bRlChdkzY92VOhVKFpy
+         JqCv4ATUaTx6cJGNZ8lvR5zc+r+JNfdmox65fFeBLtclDW49Cs2/aXwHr2fe8y++y2Oq
+         JfOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712656956; x=1713261756;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c3uYSWRB9zwUHb8go2TUssn4fk+x+35fJPyx61IKJDQ=;
-        b=ScB4FtSSnCOYw8BZOQVhlF/BrhWcCCRPg4JWXawjNX0eplyiIbSO7q+rko27FQAg2U
-         bRUQkFDJqQAxqQKDDP/RzwVId5QT0BjU9TozhErqhdqRMI4BAVDfmcQGtJJu3AnfiW+b
-         zg+nKRnoGndyHJk9X1z3j2DdAZSFY/Ee0JHiAj6Zfba+MW2SzUiUNAnLu/9l1+c7pE/a
-         PhoogvP7xzbMxVI3KNi+YmzBBNL8ZMqzTSULODr2Ck3oToR6XBelb0a0iwn277mTmCeR
-         lqvMwWLRaxi0e7ZB5Vp1iOaZccebIDtKhdGDRZX087mr+KYogyghbP+tyP4wiGv+Fmhx
-         +89g==
-X-Gm-Message-State: AOJu0YyZsZzZXuMy0X7i7XLWqt7pGgIotFunDM5Gf9Voq0UaIOfUqmSo
-	NGLbTt1zSeZg2LP6eAIJ755JAwLs6yxSxROM0sXYG7ou4bB6Zu8aIiN/0YGSaa3gXnfvNC380kP
-	6iy71IkLdSaew69rikuBKPmRBKSM=
-X-Google-Smtp-Source: AGHT+IHHXDzLay7SACyxUFlW0wUTOsucQcsfEUBqU3pMqt2eoet71nFKFc5wnue2FXhb8j3Tx6NengC+UvSp7VFFyWg=
-X-Received: by 2002:a2e:9b0b:0:b0:2d7:1830:d5f9 with SMTP id
- u11-20020a2e9b0b000000b002d71830d5f9mr7113777lji.31.1712656955473; Tue, 09
- Apr 2024 03:02:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712664186; x=1713268986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQeLYxpM0zV3Qdcxyxce8GmjvEsP1kIUxoVIqAeQNIU=;
+        b=ndKDEkrpLayF66ELdqk+uoZ0r7PT6w9Gn0+mxEsOEKNJEQk4Bf8Pmu4PGyOMIKpvjS
+         hbKmr1+lOUJzuZ5+kg25gRT8YzD3gdgCRGA3B+pOZDWMq3BZ0QfYFkUYuU2qC6cIGfuE
+         5JD3tmPv9MBzioSlzKj0T6TJVYhlxkMw6mAMBXufDiV53PoArdGHtnvA/r5YqCn46fbW
+         3RhiT370ESu+mumGsK+ov43TMDCuQpt431Xqi1UZdP3WS6R0iqfvBrfuHTw4RiG77Lqn
+         nyJX3laz901Riaj8oBrsMTEqpxOqt8YAZckKJWaqlGeyeriYQYAyxi/gW3MlCKJ15XHB
+         wGHw==
+X-Gm-Message-State: AOJu0YzEP5J2D4oIwusYA33XwldWH1JjxDZ1VQ9nvA2aABUEHvbHYy/P
+	PrMssLWsio8AW9HD1oSsTq2RJA/2i8v0blZBh6sdKREycpDb8zo7HgnQlLZkqMqrOvm5Ua5DtgK
+	Ez0E=
+X-Google-Smtp-Source: AGHT+IHUjnRSXbZu5u2uhwBnCCWxACDFFefn0RpyuUk6wH1OtwEuS1+vj6jUMOtqJLPYfOaxFkwnYA==
+X-Received: by 2002:a05:6214:415:b0:69b:143d:7702 with SMTP id z21-20020a056214041500b0069b143d7702mr7212040qvx.63.1712664185773;
+        Tue, 09 Apr 2024 05:03:05 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id d6-20020a0ce446000000b0069945e9d305sm3455287qvm.42.2024.04.09.05.03.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 05:03:05 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] patchtest: test_metadata: fix invalid escape sequences
+Date: Tue,  9 Apr 2024 08:03:03 -0400
+Message-ID: <20240409120304.1256734-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240408070450.27686-1-peter.marko@siemens.com>
- <CANNYZj-HosUT6unGOohfRA22x9MWbUgYDn5N=mWjELVkTjBQsg@mail.gmail.com> <AS1PR10MB569732EB0A58FF2C515A9B25FD072@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB569732EB0A58FF2C515A9B25FD072@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 9 Apr 2024 12:02:23 +0200
-Message-ID: <CANNYZj_T8-xbkc39KkXn_6pum=G2sC2ApLb9Txd_h-t3W6WwRA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] systemd: make predictable name mac policy opt-out
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 10:02:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198062
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 12:03:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198063
 
-On Tue, 9 Apr 2024 at 11:57, Marko, Peter <Peter.Marko@siemens.com> wrote:
->
-> -----Original Message-----
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> Sent: Tuesday, April 9, 2024 11:16
-> To: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH] systemd: make predictable name mac policy opt-out
->
-> > On Mon, 8 Apr 2024 at 09:06, Peter Marko via lists.openembedded.org <peter.marko=siemens.com@lists.openembedded.org> wrote:
-> > > -           file://0001-NamePolicy.patch \
-> > > +           ${@bb.utils.contains('PACKAGECONFIG',
-> > > + 'predictable-if-mac', 'file://0001-NamePolicy.patch', '', d)} \
-> >
-> > Conditional patches are terrible for maintainability. Please make it a proper meson option, and submit upstream.
-> >
-> > Alex
->
-> This patch has status upstream inappropriate.
-> Pushing something like that to upstream doesn't sound like a good plan.
+Clear up the following warnings seen during patchtest runs:
 
-It's inappropriate as it is now, but with a meson option it would be
-very appropriate.
+|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:21: SyntaxWarning: invalid escape sequence '\+'
+|  add_mark = pyparsing.Regex('\+ ')
+|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:26: SyntaxWarning: invalid escape sequence '\:'
+|  git_regex = pyparsing.Regex('^git\:\/\/.*')
 
-> What about reverting the inappropriate patch completely instead?
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ meta/lib/patchtest/tests/test_metadata.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I'm okay with that too. Please work this out with the patch author.
+diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
+index be609dbd048..f5dbcf01ed6 100644
+--- a/meta/lib/patchtest/tests/test_metadata.py
++++ b/meta/lib/patchtest/tests/test_metadata.py
+@@ -18,12 +18,12 @@ class TestMetadata(base.Metadata):
+     lictag_re  = pyparsing.AtLineStart("License-Update:")
+     lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
+     lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
+-    add_mark = pyparsing.Regex('\+ ')
++    add_mark = pyparsing.Regex('\\+ ')
+     max_length = 200
+     metadata_src_uri  = 'SRC_URI'
+     md5sum    = 'md5sum'
+     sha256sum = 'sha256sum'
+-    git_regex = pyparsing.Regex('^git\:\/\/.*')
++    git_regex = pyparsing.Regex('^git\\:\\/\\/.*')
+     metadata_summary = 'SUMMARY'
+     cve_check_ignore_var = 'CVE_CHECK_IGNORE'
+     cve_status_var = 'CVE_STATUS'
+-- 
+2.44.0
 
-Alex
 
