@@ -1,94 +1,148 @@
-Return-Path: <peter.hoyes@arm.com>
+Return-Path: <nayakksanjay@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B827AC67861
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:27:48 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.130443.1712647665993480461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B9FDC67861
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 08:39:59 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.131892.1712651997251475459
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 00:27:46 -0700
+ Tue, 09 Apr 2024 01:39:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 883EADA7
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 00:28:15 -0700 (PDT)
-Received: from e133390.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A50E53F766
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 00:27:44 -0700 (PDT)
-From: Peter Hoyes <peter.hoyes@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CZ+KOpO5;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: nayakksanjay@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e3cf5b171eso26510325ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 01:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712651996; x=1713256796; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2XksLX9KFHZJqK2SMbJ6sfWg5Qlv/yEhz8uJdMJpotU=;
+        b=CZ+KOpO5qLE0067xQ0/pMcCEdF/r74aSlGJpL3ozEhnNNdWla+4sGMA43GyIpO6Tgd
+         PMMjlUl9ge0rWBArIBFlM899k12TS2nsghdOreCfOPypqGoMzO6sqHH53V3WwyzfGkZr
+         sITf5Lmo2AKX5YR9bgTWAC2mPRciAynFNOsgDveWaaEMjWfqOufc9zjNiMFF67KWeEPD
+         HKRsxOz/ZPBWFjf3WmTF9vE7Yrf3CazBNJwenhRmSGhpdKQyCVxoHjFuqxIMq3IAfEit
+         FbpnmIZtORd6G+8eCj9tAlBWAuh47UQ43hSOchrAvo4kWOgRm+r0y0EwV5WibzvTpEiw
+         t4Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712651996; x=1713256796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2XksLX9KFHZJqK2SMbJ6sfWg5Qlv/yEhz8uJdMJpotU=;
+        b=F1t+02ZAPxiJSkBXB9Sc6Mc6XaclCf+Kzt1cJ2aBAaSTsDKYZgOzSSy5HSl7DYdF7x
+         WWwBkbrtHN7kxKAjAH0nXGXChtCLfkrJttBB44oKcfEcaIPpJBfElohTvECoDP35+Jgb
+         z6l4DLb+obCvxngqMQqIvVw0UT0oCtJHRCtg0oWngKrgu1+IjHd9mG8n3oWFKbzt/aks
+         o0iq1jhsSINLsgocpwoSgVtKE3cFfaQmAh/InCqxjGLs6D6klSzhPK8FKPfx/FhgLVXk
+         IfwoKnLvpIVuHExulLqbtLOc7TCbXAxKXr9FEaENpxFApKx2RKehqMzeg38TkquWPbrM
+         I+qg==
+X-Gm-Message-State: AOJu0YxHMNhX9FaWtG0NdIlwEo61LHKXofzZl249tIRlXLcr6kAPvkYu
+	oKuf2SQ6JeuMvsVGF1uKhWVrpn5L3VR+lv4GDDSBjHQSFQtQzUxJaNpvk1on/PI=
+X-Google-Smtp-Source: AGHT+IEMydiOJMz+Y/1vPeKEcbMS3bhCFMFH31jBoXSYlUWgU5Uvpn7E1UsKUj1yMH5UKqeAPdzwjQ==
+X-Received: by 2002:a17:903:1d2:b0:1e3:cf18:7335 with SMTP id e18-20020a17090301d200b001e3cf187335mr11238509plh.6.1712651996298;
+        Tue, 09 Apr 2024 01:39:56 -0700 (PDT)
+Received: from ubuntu.. ([122.186.157.254])
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001e0fcf995easm8267037plx.202.2024.04.09.01.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 01:39:56 -0700 (PDT)
+From: K Sanjay Nayak <nayakksanjay@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] u-boot-tools: Package mkeficapsule
-Date: Tue,  9 Apr 2024 08:27:25 +0100
-Message-Id: <20240409072725.3365204-1-peter.hoyes@arm.com>
+Cc: K Sanjay Nayak <nayakksanjay@gmail.com>
+Subject: [PATCH] xorg-xserver : Disabled BlankTime, StandbyTime, SuspendTime and OffTime in X default for QEMU images
+Date: Tue,  9 Apr 2024 14:09:49 +0530
+Message-Id: <20240409083949.3891-1-nayakksanjay@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:27:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198055
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 08:39:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198056
 
-mkeficapsule is a tool provided by U-Boot (as part of the tools-only
-targets) for generating UEFI capsule update archives.
+Fixes [YOCTO #15436]
 
-Install mkeficapsule into a u-boot-tools-mkeficapsule package.
+This fix addresses the issue of Xserver screensaver blanking being enabled on QEMU images by
+disabling BlankTime, StandbyTime, SuspendTime, and OffTime in the Xorg default settings for QEMU images.
 
-Signed-off-by: Peter Hoyes <peter.hoyes@arm.com>
+Reference : https://www.x.org/archive/X11R6.8.0/doc/xorg.conf.5.html
+
+Reported-by   : Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: K Sanjay Nayak <nayakksanjay@gmail.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-tools.inc | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf        | 4 ++++
+ .../xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf        | 4 ++++
+ .../xorg-xserver/xserver-xf86-config/qemush4/xorg.conf        | 4 ++++
+ .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf     | 4 ++++
+ .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf        | 4 ++++
+ 5 files changed, 20 insertions(+)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/=
-u-boot/u-boot-tools.inc
-index 09b3c3f68c..f3010763c0 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -4,10 +4,10 @@ DEPENDS +=3D "gnutls openssl util-linux swig-native"
- inherit python3native
- export STAGING_INCDIR=3D"${STAGING_INCDIR_NATIVE}"
-=20
--PROVIDES =3D "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
--PROVIDES:class-native =3D "u-boot-mkimage-native u-boot-mkenvimage-nativ=
-e"
-+PROVIDES =3D "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage ${M=
-LPREFIX}u-boot-mkeficapsule"
-+PROVIDES:class-native =3D "u-boot-mkimage-native u-boot-mkenvimage-nativ=
-e u-boot-mkeficapsule-native"
-=20
--PACKAGES +=3D "${PN}-mkimage ${PN}-mkenvimage"
-+PACKAGES +=3D "${PN}-mkimage ${PN}-mkenvimage ${PN}-mkeficapsule"
-=20
- # Required for backward compatibility with "u-boot-mkimage-xxx.bb"
- RPROVIDES:${PN}-mkimage =3D "u-boot-mkimage"
-@@ -70,15 +70,20 @@ do_install () {
- 	# fit_check_sign
- 	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
- 	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
-+
-+	# mkeficapsule
-+	install -m 0755 tools/mkeficapsule ${D}${bindir}/uboot-mkeficapsule
-+	ln -sf uboot-mkeficapsule ${D}${bindir}/mkeficapsule
- }
-=20
- ALLOW_EMPTY:${PN} =3D "1"
- FILES:${PN} =3D ""
- FILES:${PN}-mkimage =3D "${bindir}/uboot-mkimage ${bindir}/mkimage ${bin=
-dir}/uboot-dumpimage ${bindir}/dumpimage ${bindir}/uboot-fit_check_sign $=
-{bindir}/fit_check_sign"
- FILES:${PN}-mkenvimage =3D "${bindir}/uboot-mkenvimage ${bindir}/mkenvim=
-age"
-+FILES:${PN}-mkeficapsule =3D "${bindir}/uboot-mkeficapsule ${bindir}/mke=
-ficapsule"
-=20
- RDEPENDS:${PN}-mkimage +=3D "dtc"
--RDEPENDS:${PN} +=3D "${PN}-mkimage ${PN}-mkenvimage"
-+RDEPENDS:${PN} +=3D "${PN}-mkimage ${PN}-mkenvimage ${PN}-mkeficapsule"
- RDEPENDS:${PN}:class-native =3D ""
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---=20
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+index f4cd139e8d..3eb380a0a4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+@@ -35,4 +35,8 @@ Section "ServerLayout"
+     Identifier    "Default Layout"
+     Screen        "Default Screen"
+     Option         "AllowEmptyInput" "no"
++    Option        "BlankTime" "0"
++    Option        "StandbyTime" "0"
++    Option        "SuspendTime" "0"
++    Option        "OffTime" "0"
+ EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+index f4cd139e8d..3eb380a0a4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+@@ -35,4 +35,8 @@ Section "ServerLayout"
+     Identifier    "Default Layout"
+     Screen        "Default Screen"
+     Option         "AllowEmptyInput" "no"
++    Option        "BlankTime" "0"
++    Option        "StandbyTime" "0"
++    Option        "SuspendTime" "0"
++    Option        "OffTime" "0"
+ EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+index f4cd139e8d..3eb380a0a4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+@@ -35,4 +35,8 @@ Section "ServerLayout"
+     Identifier    "Default Layout"
+     Screen        "Default Screen"
+     Option         "AllowEmptyInput" "no"
++    Option        "BlankTime" "0"
++    Option        "StandbyTime" "0"
++    Option        "SuspendTime" "0"
++    Option        "OffTime" "0"
+ EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+index c12d92c201..c01c3331c5 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+@@ -30,4 +30,8 @@ Section "ServerLayout"
+     Identifier    "Default Layout"
+     Screen        "Default Screen"
+     Option         "AllowEmptyInput" "no"
++    Option        "BlankTime" "0"
++    Option        "StandbyTime" "0"
++    Option        "SuspendTime" "0"
++    Option        "OffTime" "0"
+ EndSection
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+index c12d92c201..c01c3331c5 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+@@ -30,4 +30,8 @@ Section "ServerLayout"
+     Identifier    "Default Layout"
+     Screen        "Default Screen"
+     Option         "AllowEmptyInput" "no"
++    Option        "BlankTime" "0"
++    Option        "StandbyTime" "0"
++    Option        "SuspendTime" "0"
++    Option        "OffTime" "0"
+ EndSection
+-- 
 2.34.1
 
 
