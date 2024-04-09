@@ -1,99 +1,94 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <peter.hoyes@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A80C67861
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:19:18 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.130954.1712647151173382142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B827AC67861
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:27:48 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.130443.1712647665993480461
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 00:19:11 -0700
+ Tue, 09 Apr 2024 00:27:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=JTaUYiW5;
- spf=pass (domain: baylibre.com, ip: 209.85.208.171, mailfrom: jstephan@baylibre.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d87660d5c9so29315911fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 00:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712647148; x=1713251948; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lP5Vh7hCjBxJtN45T3/6oRi7Todtqo4oHx06AyLiRB8=;
-        b=JTaUYiW5KL8gO/WoGqhvqd8++WcQ9Fu8tLgq+8e1VnNH/S7fp7JEAtbvBpEC1EGKT8
-         ha/5VzvMqtIFX3BBO4m6ah2GUbwnI5e7jaJo7tOOvuvg8LPnLT08lfP1EOo+2z3Txjuw
-         NfpAFnjQfbTi52vOjCmqqERnfPIMNaa90uNhbOIBjAqTYJZWhMn68TbeExNF/a2CF4xS
-         YFUKVVK3rNlI32HsER8gsWrEfIr9U0Or85gOiP8rq3TS4rPpaI+Okzz36HT6PkrnEW0+
-         dzronIxHhWar1jIUOQbmXnx/i9Y5dW/P2TMFxaN8B7467VesZ09AM9ruZPTCdfgBA2Pq
-         8dbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712647148; x=1713251948;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lP5Vh7hCjBxJtN45T3/6oRi7Todtqo4oHx06AyLiRB8=;
-        b=YKNi5wHIW+dtgmwTtFn+IyeOqKNo67rqUA6ua8Sowh5Z8UTkfyiJt8jDc8ZUZ8viWH
-         aCF2yEmclyDM2fjiKGQmsK3sN4MJmlJXTsMa8txAFFkVbftAJHbYZD2lfxClRltqKfuw
-         aM752yg8RGqS8VxkcPdE0wU77a9kGlvosdIRmrnWoxGsCJFxNeAHdj+0UZK5yGYkaixV
-         ZeMkb1FqIYmPYHPBZj6bFXWKRH2oZ7WriaZywxL8TIC5Gvk6sDaSLx2+6Wkj3YcC2obM
-         5Sf2oscIgDcI+sytr0HJRfW7Klcq4zXrtyWTjZK+rNWs4toe44Na9/4WFTfF1ZwobwQj
-         2y/Q==
-X-Gm-Message-State: AOJu0YyGC1JlwaR2fyKv9i9795InmjxTyqqhHO+1scXXK4cdqpYL3bw6
-	1FLk+nZe5hUf8jZ36xnAKXeYXw2n0GnVVUYUdCfdWUiEcinpA6LyNwc3Wh5bRPoPyyb79vjLVRH
-	J7uQ=
-X-Google-Smtp-Source: AGHT+IFG1E8KwPFh/xGAduCXUes5zShd5S5QgSMzRihxlwn29d0/nL0citOu3TXc1Mi9IE22KvAysA==
-X-Received: by 2002:ac2:52a2:0:b0:516:26cd:da71 with SMTP id r2-20020ac252a2000000b0051626cdda71mr8121902lfm.3.1712647147921;
-        Tue, 09 Apr 2024 00:19:07 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id u12-20020a05600c19cc00b0041469869d11sm19607775wmq.47.2024.04.09.00.19.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 00:19:07 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 883EADA7
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 00:28:15 -0700 (PDT)
+Received: from e133390.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A50E53F766
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 00:27:44 -0700 (PDT)
+From: Peter Hoyes <peter.hoyes@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH] devtool: standard: throws appropriate error if source is in detached HEAD
-Date: Tue,  9 Apr 2024 09:19:05 +0200
-Message-ID: <20240409071905.3625142-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.44.0
+Subject: [PATCH] u-boot-tools: Package mkeficapsule
+Date: Tue,  9 Apr 2024 08:27:25 +0100
+Message-Id: <20240409072725.3365204-1-peter.hoyes@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:19:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198054
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:27:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198055
 
-If source is in detached HEAD, we get the following error when using
-detvool finish command:
+mkeficapsule is a tool provided by U-Boot (as part of the tools-only
+targets) for generating UEFI capsule update archives.
 
-    [...]
-    File "<...>/poky/scripts/lib/devtool/standard.py", line 1938, in _update_recipe
-      bb.process.run('git checkout %s' % startbranch, cwd=srctree)
-    File "<...>/poky/bitbake/lib/bb/process.py", line 189, in run
-      raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
-  bb.process.ExecutionError: Execution of 'git checkout (HEAD detached at 9bbf87e)' failed with exit code 2:
-  /bin/sh: -c: line 1: syntax error near unexpected token `('
-  /bin/sh: -c: line 1: `git checkout (HEAD detached at 9bbf87e)'
+Install mkeficapsule into a u-boot-tools-mkeficapsule package.
 
-Check this and throws an appropriate error in this case
-
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Peter Hoyes <peter.hoyes@arm.com>
 ---
- scripts/lib/devtool/standard.py | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-bsp/u-boot/u-boot-tools.inc | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 7972b4f8223..7f32b0999a4 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1885,6 +1885,8 @@ def _update_recipe(recipename, workspace, rd, mode, appendlayerdir, wildcard_ver
-         for line in stdout.splitlines():
-             branchname = line[2:]
-             if line.startswith('* '):
-+                if 'HEAD' in line:
-+                    raise DevtoolError('Detached HEAD - please check out the main branch in source tree first')
-                 startbranch = branchname
-             if branchname.startswith(override_branch_prefix):
-                 override_branches.append(branchname)
--- 
-2.44.0
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/=
+u-boot/u-boot-tools.inc
+index 09b3c3f68c..f3010763c0 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
+@@ -4,10 +4,10 @@ DEPENDS +=3D "gnutls openssl util-linux swig-native"
+ inherit python3native
+ export STAGING_INCDIR=3D"${STAGING_INCDIR_NATIVE}"
+=20
+-PROVIDES =3D "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
+-PROVIDES:class-native =3D "u-boot-mkimage-native u-boot-mkenvimage-nativ=
+e"
++PROVIDES =3D "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage ${M=
+LPREFIX}u-boot-mkeficapsule"
++PROVIDES:class-native =3D "u-boot-mkimage-native u-boot-mkenvimage-nativ=
+e u-boot-mkeficapsule-native"
+=20
+-PACKAGES +=3D "${PN}-mkimage ${PN}-mkenvimage"
++PACKAGES +=3D "${PN}-mkimage ${PN}-mkenvimage ${PN}-mkeficapsule"
+=20
+ # Required for backward compatibility with "u-boot-mkimage-xxx.bb"
+ RPROVIDES:${PN}-mkimage =3D "u-boot-mkimage"
+@@ -70,15 +70,20 @@ do_install () {
+ 	# fit_check_sign
+ 	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
+ 	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
++
++	# mkeficapsule
++	install -m 0755 tools/mkeficapsule ${D}${bindir}/uboot-mkeficapsule
++	ln -sf uboot-mkeficapsule ${D}${bindir}/mkeficapsule
+ }
+=20
+ ALLOW_EMPTY:${PN} =3D "1"
+ FILES:${PN} =3D ""
+ FILES:${PN}-mkimage =3D "${bindir}/uboot-mkimage ${bindir}/mkimage ${bin=
+dir}/uboot-dumpimage ${bindir}/dumpimage ${bindir}/uboot-fit_check_sign $=
+{bindir}/fit_check_sign"
+ FILES:${PN}-mkenvimage =3D "${bindir}/uboot-mkenvimage ${bindir}/mkenvim=
+age"
++FILES:${PN}-mkeficapsule =3D "${bindir}/uboot-mkeficapsule ${bindir}/mke=
+ficapsule"
+=20
+ RDEPENDS:${PN}-mkimage +=3D "dtc"
+-RDEPENDS:${PN} +=3D "${PN}-mkimage ${PN}-mkenvimage"
++RDEPENDS:${PN} +=3D "${PN}-mkimage ${PN}-mkenvimage ${PN}-mkeficapsule"
+ RDEPENDS:${PN}:class-native =3D ""
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
 
