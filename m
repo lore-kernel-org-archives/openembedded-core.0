@@ -1,154 +1,99 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9002BCD12AC
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:10:58 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web11.130856.1712646648325041376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A80C67861
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:19:18 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.130954.1712647151173382142
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 00:10:49 -0700
+ Tue, 09 Apr 2024 00:19:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=LMLA6Um3;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1712646649; x=1744182649;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=pClv16BxLHgqITezmYx6CbbrFiLnw2tAlA3bJbF5C+M=;
-  b=LMLA6Um3DLyjmfdWIIVVW72VDdopUaq7XK8CP41XI6HXA4TyvoRjzsKf
-   AO9S8MoXLuzyjkgyjFoG9aNcuoQ8XHN9Y4cSqsgws6He/+Urc/SZgXF4W
-   km27iYZcJoJnx7eN7ZZ7pPjmYtcMeqMyGeTC+KmSqqqaDPkK2zI6TKBmL
-   1AxxrKLrnOqMD8Maq+E+8e5JkzNjF1dGqXb2aNNzbgBoORNiYltpfGgTc
-   GlF9mMCzyufOz4fVe6g9ZOTFuTqs5nnP7xXCzGWxiM2y+XllGG2+7wRX2
-   GweECCEYWPSLiEzjNYqw7RArfE0JkUCw90of5FSQQ1F9oSxF7czyt5FQp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="143488796"
-X-IronPort-AV: E=Sophos;i="6.07,188,1708354800"; 
-   d="scan'208";a="143488796"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 16:10:47 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id D8192E9A34
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:45 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 1D152D4189
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:45 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9393220093260
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:44 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 41F741A0002;
-	Tue,  9 Apr 2024 15:10:44 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=JTaUYiW5;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.171, mailfrom: jstephan@baylibre.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d87660d5c9so29315911fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 00:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712647148; x=1713251948; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lP5Vh7hCjBxJtN45T3/6oRi7Todtqo4oHx06AyLiRB8=;
+        b=JTaUYiW5KL8gO/WoGqhvqd8++WcQ9Fu8tLgq+8e1VnNH/S7fp7JEAtbvBpEC1EGKT8
+         ha/5VzvMqtIFX3BBO4m6ah2GUbwnI5e7jaJo7tOOvuvg8LPnLT08lfP1EOo+2z3Txjuw
+         NfpAFnjQfbTi52vOjCmqqERnfPIMNaa90uNhbOIBjAqTYJZWhMn68TbeExNF/a2CF4xS
+         YFUKVVK3rNlI32HsER8gsWrEfIr9U0Or85gOiP8rq3TS4rPpaI+Okzz36HT6PkrnEW0+
+         dzronIxHhWar1jIUOQbmXnx/i9Y5dW/P2TMFxaN8B7467VesZ09AM9ruZPTCdfgBA2Pq
+         8dbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712647148; x=1713251948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lP5Vh7hCjBxJtN45T3/6oRi7Todtqo4oHx06AyLiRB8=;
+        b=YKNi5wHIW+dtgmwTtFn+IyeOqKNo67rqUA6ua8Sowh5Z8UTkfyiJt8jDc8ZUZ8viWH
+         aCF2yEmclyDM2fjiKGQmsK3sN4MJmlJXTsMa8txAFFkVbftAJHbYZD2lfxClRltqKfuw
+         aM752yg8RGqS8VxkcPdE0wU77a9kGlvosdIRmrnWoxGsCJFxNeAHdj+0UZK5yGYkaixV
+         ZeMkb1FqIYmPYHPBZj6bFXWKRH2oZ7WriaZywxL8TIC5Gvk6sDaSLx2+6Wkj3YcC2obM
+         5Sf2oscIgDcI+sytr0HJRfW7Klcq4zXrtyWTjZK+rNWs4toe44Na9/4WFTfF1ZwobwQj
+         2y/Q==
+X-Gm-Message-State: AOJu0YyGC1JlwaR2fyKv9i9795InmjxTyqqhHO+1scXXK4cdqpYL3bw6
+	1FLk+nZe5hUf8jZ36xnAKXeYXw2n0GnVVUYUdCfdWUiEcinpA6LyNwc3Wh5bRPoPyyb79vjLVRH
+	J7uQ=
+X-Google-Smtp-Source: AGHT+IFG1E8KwPFh/xGAduCXUes5zShd5S5QgSMzRihxlwn29d0/nL0citOu3TXc1Mi9IE22KvAysA==
+X-Received: by 2002:ac2:52a2:0:b0:516:26cd:da71 with SMTP id r2-20020ac252a2000000b0051626cdda71mr8121902lfm.3.1712647147921;
+        Tue, 09 Apr 2024 00:19:07 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
+        by smtp.gmail.com with ESMTPSA id u12-20020a05600c19cc00b0041469869d11sm19607775wmq.47.2024.04.09.00.19.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 00:19:07 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 20/33] man-db: upgrade 2.12.0 -> 2.12.1
-Date: Tue,  9 Apr 2024 15:10:07 +0800
-Message-Id: <1712646620-16608-20-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
-References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28306.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28306.006
-X-TMASE-Result: 10-0.860300-10.000000
-X-TMASE-MatchedRID: 19A9OAtP7iyjz0nOeth/yW03YawHJvPCnJdsOLB4zv79wRnyxuPjhOaG
-	g/Bit59tO3wTUW8jWH6D2Pqt0Y7e50D5iYRASGy6xvp0tuDMx3kxXH/dlhvLv1FexdJHJX6CZ/S
-	mwZqazWxOSSO5+gh9/hJwcdfSstcEcQWiiOTPqOk/QdUh6LEl0DeXamXCCu1YIPUd1fKoOcS/BR
-	68O365busIM/D0ygBYG2ANca2kG5QgfYkXDL/VwgXGi/7cli9jrOCEGIPhtwiZshW6yUCW6WtCB
-	JGDrKJFm+k0frxBuek9l1mFkoi18j5F1MjWWCn6OyPKih4Rysgmx9ECx5U2BYFum2PEjqt1o8WM
-	kQWv6iUoTQl7wNH8PgP5zT0d393c4kYXbobxJbJtwx+p5fx65+dXa8o9+LmDqQg4iW+jBZ2k4X1
-	/RDll5wcXYH5K9BSAShJNNGFcN4pI/7XOb5JlmFYrbHWvctNZIc1oxFyluk6tm4h4r4um2+x9n1
-	XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH] devtool: standard: throws appropriate error if source is in detached HEAD
+Date: Tue,  9 Apr 2024 09:19:05 +0200
+Message-ID: <20240409071905.3625142-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:10:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198037
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:19:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198054
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+If source is in detached HEAD, we get the following error when using
+detvool finish command:
 
-0001-man-Move-local-variable-declaration-to-function-scop.patch
-refreshed for 2.23.1
+    [...]
+    File "<...>/poky/scripts/lib/devtool/standard.py", line 1938, in _update_recipe
+      bb.process.run('git checkout %s' % startbranch, cwd=srctree)
+    File "<...>/poky/bitbake/lib/bb/process.py", line 189, in run
+      raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+  bb.process.ExecutionError: Execution of 'git checkout (HEAD detached at 9bbf87e)' failed with exit code 2:
+  /bin/sh: -c: line 1: syntax error near unexpected token `('
+  /bin/sh: -c: line 1: `git checkout (HEAD detached at 9bbf87e)'
 
-Changelog:
-=============
-* Fix excessive cleanup of '/var/cache/man' by 'systemd-tmpfiles'.
-* 'man' matches the display width more accurately to the configured width.
-* Upgrade to Gnulib 'stable-202401'.
-* Mention 'groff''s 'pdf' device in 'man(1)'.
-* Speed up 'seccomp' filter slightly.
-* Document how to format pages using italic rather than underlined text.
-* Remove the obsolete 'chconfig' tool for converting man-db configuration
-  files to the FHS.  This transition took place almost 25 years ago (at
-  least in Debian), so it's not worth keeping it around now.
+Check this and throws an appropriate error in this case
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- ...ove-local-variable-declaration-to-function-scop.patch | 9 ++++-----
- .../man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb}        | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-extended/man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb} (96%)
+ scripts/lib/devtool/standard.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
-index dc6966629c..57ecd48b1f 100644
---- a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
-+++ b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
-@@ -1,4 +1,4 @@
--From 126dfefb5fddf411ad0a1316209e9c1b47abfcd2 Mon Sep 17 00:00:00 2001
-+From e4125223631f0d555fc327da6d8705bcc8ee5ba5 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 9 Feb 2022 17:30:16 -0800
- Subject: [PATCH] man: Move local variable declaration to function scope
-@@ -10,16 +10,15 @@ code without changing the logic, until its fixed in clang
- 
- Upstream-Status: Inappropriate [Inappropriate: Clang bug]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
- ---
-  src/man.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/man.c b/src/man.c
--index f16fae8..333df03 100644
-+index 195d35d..6870989 100644
- --- a/src/man.c
- +++ b/src/man.c
--@@ -352,7 +352,7 @@ static void init_html_pager (void)
-+@@ -379,7 +379,7 @@ static void init_html_pager (void)
-  static error_t parse_opt (int key, char *arg, struct argp_state *state)
-  {
-  	static bool apropos, whatis; /* retain values between calls */
-@@ -28,7 +27,7 @@ index f16fae8..333df03 100644
-  	/* Please keep these keys in the same order as in options above. */
-  	switch (key) {
-  		case 'C':
--@@ -384,7 +384,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
-+@@ -411,7 +411,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
-  		case OPT_WARNINGS:
-  #ifdef NROFF_WARNINGS
-  			{
-diff --git a/meta/recipes-extended/man-db/man-db_2.12.0.bb b/meta/recipes-extended/man-db/man-db_2.12.1.bb
-similarity index 96%
-rename from meta/recipes-extended/man-db/man-db_2.12.0.bb
-rename to meta/recipes-extended/man-db/man-db_2.12.1.bb
-index 19dbb41d16..27b47a7f47 100644
---- a/meta/recipes-extended/man-db/man-db_2.12.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.12.1.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://99_mandb \
-            file://0001-man-Move-local-variable-declaration-to-function-scop.patch \
-           "
--SRC_URI[sha256sum] = "415a6284a22764ad22ff0f66710d853be7790dd451cd71436e3d25c74d996a95"
-+SRC_URI[sha256sum] = "ddee249daeb78cf92bab794ccd069cc8b575992265ea20e239e887156e880265"
- 
- DEPENDS = "libpipeline gdbm groff-native base-passwd"
- RDEPENDS:${PN} += "base-passwd"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 7972b4f8223..7f32b0999a4 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1885,6 +1885,8 @@ def _update_recipe(recipename, workspace, rd, mode, appendlayerdir, wildcard_ver
+         for line in stdout.splitlines():
+             branchname = line[2:]
+             if line.startswith('* '):
++                if 'HEAD' in line:
++                    raise DevtoolError('Detached HEAD - please check out the main branch in source tree first')
+                 startbranch = branchname
+             if branchname.startswith(override_branch_prefix):
+                 override_branches.append(branchname)
 -- 
-2.34.1
+2.44.0
 
 
