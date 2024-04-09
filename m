@@ -2,96 +2,89 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9139CD1284
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 12:03:09 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.134360.1712664186907181022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACC5CD1284
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 12:05:40 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web10.134413.1712664336168422612
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 05:03:07 -0700
+ Tue, 09 Apr 2024 05:05:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ntt5O/4k;
- spf=pass (domain: baylibre.com, ip: 209.85.219.46, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-696609f5cf2so32878656d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 05:03:06 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=xq4yPzS6;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-78d496add91so227308185a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 05:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712664186; x=1713268986; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQeLYxpM0zV3Qdcxyxce8GmjvEsP1kIUxoVIqAeQNIU=;
-        b=ntt5O/4kcRD5dpZmggbJDJayTUUvfWdvs4EWH9vT+kii+UGcxMOrZDkT/iSryCmF1Q
-         P8JytJB2UWLZ11/eybHdxU+xvw6vf0UT39dDXrnuGE8eSqw5npIg2G1pXmcnT9cfXTz9
-         NS3W/XN2IywwYRRhxAPC5Ax3N8ux0RDFxe+z1qbPElDqUCQHbmu7wf4hpWBuufO1SCRT
-         zTLK98s96PNYhdXwlTPuFdENfwRWX9MaRBGVciUr+M90j4Vz4bRlChdkzY92VOhVKFpy
-         JqCv4ATUaTx6cJGNZ8lvR5zc+r+JNfdmox65fFeBLtclDW49Cs2/aXwHr2fe8y++y2Oq
-         JfOg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712664335; x=1713269135; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hj652LgWrjdJzo73ysmj/X/DJydv58wWizohEy33RWM=;
+        b=xq4yPzS6iyJBVUZ1jCbKCfojwCF4YLQ4L40tvvQS5WKV+lX++bub1lOZ5esZJqN7St
+         yAGnC4jsCbeaN5mExpp7uzg2TBLAP06VKW/6Ad2vXw0H0+eDgbIrh5hPmKi+tL3G+W40
+         8tJggV2v+U9UXjqZAB2z60DFEU58UK0+ZbEbT4Ty+k02gIJoa+3kcWxwwCP2qA7jeg2d
+         bIqHOuwrzdV2TorodZ9fzXBdI4Rb0Dmmw1UjZy3HYUFOUeJiVplcWMUwsFuHetSlLUXl
+         /RyFNdiQUtvoGGzFKD0VpOtkl4Wbis1cnDTQq7euyd2Pa8oXb2OuaKGsUJgvSw5OBjkr
+         sFrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712664186; x=1713268986;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQeLYxpM0zV3Qdcxyxce8GmjvEsP1kIUxoVIqAeQNIU=;
-        b=ndKDEkrpLayF66ELdqk+uoZ0r7PT6w9Gn0+mxEsOEKNJEQk4Bf8Pmu4PGyOMIKpvjS
-         hbKmr1+lOUJzuZ5+kg25gRT8YzD3gdgCRGA3B+pOZDWMq3BZ0QfYFkUYuU2qC6cIGfuE
-         5JD3tmPv9MBzioSlzKj0T6TJVYhlxkMw6mAMBXufDiV53PoArdGHtnvA/r5YqCn46fbW
-         3RhiT370ESu+mumGsK+ov43TMDCuQpt431Xqi1UZdP3WS6R0iqfvBrfuHTw4RiG77Lqn
-         nyJX3laz901Riaj8oBrsMTEqpxOqt8YAZckKJWaqlGeyeriYQYAyxi/gW3MlCKJ15XHB
-         wGHw==
-X-Gm-Message-State: AOJu0YzEP5J2D4oIwusYA33XwldWH1JjxDZ1VQ9nvA2aABUEHvbHYy/P
-	PrMssLWsio8AW9HD1oSsTq2RJA/2i8v0blZBh6sdKREycpDb8zo7HgnQlLZkqMqrOvm5Ua5DtgK
-	Ez0E=
-X-Google-Smtp-Source: AGHT+IHUjnRSXbZu5u2uhwBnCCWxACDFFefn0RpyuUk6wH1OtwEuS1+vj6jUMOtqJLPYfOaxFkwnYA==
-X-Received: by 2002:a05:6214:415:b0:69b:143d:7702 with SMTP id z21-20020a056214041500b0069b143d7702mr7212040qvx.63.1712664185773;
-        Tue, 09 Apr 2024 05:03:05 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d6-20020a0ce446000000b0069945e9d305sm3455287qvm.42.2024.04.09.05.03.05
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 05:03:05 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest: test_metadata: fix invalid escape sequences
-Date: Tue,  9 Apr 2024 08:03:03 -0400
-Message-ID: <20240409120304.1256734-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.44.0
+        d=1e100.net; s=20230601; t=1712664335; x=1713269135;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hj652LgWrjdJzo73ysmj/X/DJydv58wWizohEy33RWM=;
+        b=TIrfCjnZUgqj62zUi0mNlLR6lIUxZBU0D1jt1TflJR5ohcicYMdnIsTEooDCJviexU
+         u0j03PuOmAlCJ9gKskg0d7zYwT8AJQh4qSvs8CsNyBLVPGzmIpOMFUphB4mvb8k04WGi
+         OtbRUN/kq/xrKLLhr4Oq7Y/YAjkES9R0CpJ+2Kg6210ZhWqVoG1oa7+Tn7aJSWCOOHvV
+         DA0tu+8MNe4IKju4y7IXsFFoY8EmNeE/mXqfbsmylarjHag67g8sWJvIOmsXdC8H7try
+         xmjho839T/OvlHQkvIQzk/EdW1skwUL/fQNqbJ9Y5JLmqB0FhfXc8sENuTuLnkld04nC
+         QRKw==
+X-Gm-Message-State: AOJu0YwYFR3Mq173lFGN/vMGsR42nFALG2gorDZn7jrxrJoWKRxpygKe
+	XjTtQgaqUka7fNfNuKLG3ZLPENvPk9RN4ukxp6KGU5qn2SzwfC2eZ0B9ueNMBT4=
+X-Google-Smtp-Source: AGHT+IERel4ZO+98NJDm3rxpkc5pIc4rkkijxjcpe8yOh2lUtd8yYdZ9hlOXJnEvFOMEmJd2qQgSCw==
+X-Received: by 2002:a05:620a:1123:b0:78d:6546:f6e9 with SMTP id p3-20020a05620a112300b0078d6546f6e9mr5415770qkk.70.1712664335289;
+        Tue, 09 Apr 2024 05:05:35 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id w2-20020ae9e502000000b00789f3c50914sm4055493qkf.33.2024.04.09.05.05.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 05:05:35 -0700 (PDT)
+Message-ID: <10450bd5-fd42-460d-9f24-ec89a52a08b1@baylibre.com>
+Date: Tue, 9 Apr 2024 08:05:34 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 28/33] python3-pycparser: upgrade 2.21 -> 2.22
+To: Alexander Kanavin <alex.kanavin@gmail.com>, wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
+ <1712646620-16608-28-git-send-email-wangmy@fujitsu.com>
+ <CANNYZj-FKvirKBxqGRX3j0OmDG5=uhbEtn1j1uKAXjWzJuqPog@mail.gmail.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CANNYZj-FKvirKBxqGRX3j0OmDG5=uhbEtn1j1uKAXjWzJuqPog@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 12:03:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198063
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 12:05:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198064
 
-Clear up the following warnings seen during patchtest runs:
 
-|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:21: SyntaxWarning: invalid escape sequence '\+'
-|  add_mark = pyparsing.Regex('\+ ')
-|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:26: SyntaxWarning: invalid escape sequence '\:'
-|  git_regex = pyparsing.Regex('^git\:\/\/.*')
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/lib/patchtest/tests/test_metadata.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
-index be609dbd048..f5dbcf01ed6 100644
---- a/meta/lib/patchtest/tests/test_metadata.py
-+++ b/meta/lib/patchtest/tests/test_metadata.py
-@@ -18,12 +18,12 @@ class TestMetadata(base.Metadata):
-     lictag_re  = pyparsing.AtLineStart("License-Update:")
-     lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
-     lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
--    add_mark = pyparsing.Regex('\+ ')
-+    add_mark = pyparsing.Regex('\\+ ')
-     max_length = 200
-     metadata_src_uri  = 'SRC_URI'
-     md5sum    = 'md5sum'
-     sha256sum = 'sha256sum'
--    git_regex = pyparsing.Regex('^git\:\/\/.*')
-+    git_regex = pyparsing.Regex('^git\\:\\/\\/.*')
-     metadata_summary = 'SUMMARY'
-     cve_check_ignore_var = 'CVE_CHECK_IGNORE'
-     cve_status_var = 'CVE_STATUS'
--- 
-2.44.0
-
+On 2024-04-09 11:29, Alexander Kanavin wrote:
+> On Tue, 9 Apr 2024 at 09:11, wangmy via lists.openembedded.org
+> <wangmy=fujitsu.com@lists.openembedded.org> wrote:
+>>   LICENSE = "BSD-3-Clause"
+>> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2c28cdeabcb88f5843d934381b4b4fea"
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
+> License checksum change should be explained.
+Thanks for pointing that out. Odd that patchtest didn't get it this time.
+>
+> Alex
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198059): https://lists.openembedded.org/g/openembedded-core/message/198059
+> Mute This Topic: https://lists.openembedded.org/mt/105417654/7611679
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
