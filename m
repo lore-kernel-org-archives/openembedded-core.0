@@ -2,146 +2,152 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF9ECD12AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9002BCD12AC
 	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 07:10:58 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web10.130215.1712646645644326436
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web11.130856.1712646648325041376
  for <openembedded-core@lists.openembedded.org>;
  Tue, 09 Apr 2024 00:10:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=P2vCdkZf;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=LMLA6Um3;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1712646649; x=1744182649;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=fy6poAIHKMoxoG/C8+Loz3OgtJ2ZTJ9ddKzJKDGos7M=;
-  b=P2vCdkZfX0hUICYuN87nBEgcgqgUhlXv8F+Hn4BKVg6lNzc+3tNtSGzS
-   4oQ4+rI25H3wDe6+ddF9PgqNtH//OBkzveTAJiphJUz91IZ1jIO1xWQr8
-   k/rm3NtrfYf6emhOltokIN4Lg38aTE6g06fKeJtADsFx6Z5w7zgG0egUQ
-   +Em+ySUcDu18pVnY41UH6T6tThV/JkX8C/SlGYB0rFYRj9iLCwrO4vPOL
-   gqnRAjyUMQRy+KJJKZOzugm9nJXYsIjQG4WR5IgKKWRGDedNyAviC+Dg5
-   jrEqXlyzyKjtRwUfwIafmALJ4IPEx946HwYE8v+iKgrH8gO3vEKYctptA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="155056937"
+  bh=pClv16BxLHgqITezmYx6CbbrFiLnw2tAlA3bJbF5C+M=;
+  b=LMLA6Um3DLyjmfdWIIVVW72VDdopUaq7XK8CP41XI6HXA4TyvoRjzsKf
+   AO9S8MoXLuzyjkgyjFoG9aNcuoQ8XHN9Y4cSqsgws6He/+Urc/SZgXF4W
+   km27iYZcJoJnx7eN7ZZ7pPjmYtcMeqMyGeTC+KmSqqqaDPkK2zI6TKBmL
+   1AxxrKLrnOqMD8Maq+E+8e5JkzNjF1dGqXb2aNNzbgBoORNiYltpfGgTc
+   GlF9mMCzyufOz4fVe6g9ZOTFuTqs5nnP7xXCzGWxiM2y+XllGG2+7wRX2
+   GweECCEYWPSLiEzjNYqw7RArfE0JkUCw90of5FSQQ1F9oSxF7czyt5FQp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="143488796"
 X-IronPort-AV: E=Sophos;i="6.07,188,1708354800"; 
-   d="scan'208";a="155056937"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 16:10:47 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 3EBABDCC06
+   d="scan'208";a="143488796"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 16:10:47 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id D8192E9A34
 	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:45 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 76C11BF4A6
-	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:44 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 1D152D4189
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:45 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 05BF34018B
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9393220093260
 	for <openembedded-core@lists.openembedded.org>; Tue,  9 Apr 2024 16:10:44 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id A7E7D1A0002;
-	Tue,  9 Apr 2024 15:10:43 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 41F741A0002;
+	Tue,  9 Apr 2024 15:10:44 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 19/33] lttng-tools: upgrade 2.13.11 -> 2.13.13
-Date: Tue,  9 Apr 2024 15:10:06 +0800
-Message-Id: <1712646620-16608-19-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 20/33] man-db: upgrade 2.12.0 -> 2.12.1
+Date: Tue,  9 Apr 2024 15:10:07 +0800
+Message-Id: <1712646620-16608-20-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
 References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
 X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28306.005
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28306.006
 X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28306.005
-X-TMASE-Result: 10--9.030400-10.000000
-X-TMASE-MatchedRID: Sudfee3ORQqjz0nOeth/yTyjd/AizytBnJdsOLB4zv79wRnyxuPjhCia
-	SqRpkfBtPPdH6svZbb5QGOBjvytWYXhh1unvIp4BzYK5U+QI3O5jSvU3z22dDm8ksUxxlDnvhQ6
-	YZNvnIb/Yd95zD4odNQhxcXHUujyc7+LTSdR9zjAOeRRGICV9PcacjO2mQqFCTnndBHst2DksV8
-	HfUtlxoSqq0O5S3DJ8ivFp0d/OglZtF6/n498MP/LeH1FBnhK0wTlc9CcHMZe+kux37vSFMdlMA
-	SzPGs9UGKzdPfxyPd80Lv+3/90GPxq8pfC4+dHe3QqJN4m15UF9LQinZ4QefCP/VFuTOXUTdwN+
-	iYWeLTWOhzOa6g8KrWprDldSEf4GFmsdvOla8L+1uldLB0TcyDd9IaT5Jkxq5zAy/ZEzOX0=
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28306.006
+X-TMASE-Result: 10-0.860300-10.000000
+X-TMASE-MatchedRID: 19A9OAtP7iyjz0nOeth/yW03YawHJvPCnJdsOLB4zv79wRnyxuPjhOaG
+	g/Bit59tO3wTUW8jWH6D2Pqt0Y7e50D5iYRASGy6xvp0tuDMx3kxXH/dlhvLv1FexdJHJX6CZ/S
+	mwZqazWxOSSO5+gh9/hJwcdfSstcEcQWiiOTPqOk/QdUh6LEl0DeXamXCCu1YIPUd1fKoOcS/BR
+	68O365busIM/D0ygBYG2ANca2kG5QgfYkXDL/VwgXGi/7cli9jrOCEGIPhtwiZshW6yUCW6WtCB
+	JGDrKJFm+k0frxBuek9l1mFkoi18j5F1MjWWCn6OyPKih4Rysgmx9ECx5U2BYFum2PEjqt1o8WM
+	kQWv6iUoTQl7wNH8PgP5zT0d393c4kYXbobxJbJtwx+p5fx65+dXa8o9+LmDqQg4iW+jBZ2k4X1
+	/RDll5wcXYH5K9BSAShJNNGFcN4pI/7XOb5JlmFYrbHWvctNZIc1oxFyluk6tm4h4r4um2+x9n1
+	XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 07:10:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198036
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198037
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0001-tests-do-not-strip-a-helper-library.patch
-refreshed for 2.13.13
+0001-man-Move-local-variable-declaration-to-function-scop.patch
+refreshed for 2.23.1
 
 Changelog:
-===========
-* Fix: consumerd: leak of tracing buffers on relayd connectivity issue
-* Fix: consumerd: wrong timer mentioned in error logging
-* Fix: consumerd: type confusion in lttng_consumer_send_error
-* Fix: baddr-statedump: use $(LIBTOOL) --mode=execute
-* Fix: relayd: live client not notified of inactive streams
-* Fix: relayd: live: dispose of zombie viewer metadata stream
-* tests: Fix typo in tests/regression/kernel/test_ns_contexts
-* Fix: sessiond: freeze on channel creation on restart
-* common: move utils_create_lock_file to its own file
-* tests: tools/clear/test_ust wait for specific test app pid
-* Fix: sessiond: crash when sending data_pending to an active session
-* Tests: fix: list_triggers_cli: kallsyms contains prefixed symbols
-* License: common: error_query: fix typo in SPDX specifier
+=============
+* Fix excessive cleanup of '/var/cache/man' by 'systemd-tmpfiles'.
+* 'man' matches the display width more accurately to the configured width.
+* Upgrade to Gnulib 'stable-202401'.
+* Mention 'groff''s 'pdf' device in 'man(1)'.
+* Speed up 'seccomp' filter slightly.
+* Document how to format pages using italic rather than underlined text.
+* Remove the obsolete 'chconfig' tool for converting man-db configuration
+  files to the FHS.  This transition took place almost 25 years ago (at
+  least in Debian), so it's not worth keeping it around now.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-tests-do-not-strip-a-helper-library.patch       | 9 +++------
- .../{lttng-tools_2.13.11.bb => lttng-tools_2.13.13.bb}   | 2 +-
- 2 files changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.11.bb => lttng-tools_2.13.13.bb} (99%)
+ ...ove-local-variable-declaration-to-function-scop.patch | 9 ++++-----
+ .../man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb}        | 2 +-
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-extended/man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb} (96%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-index 2d08b08879..2f95889c4b 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+diff --git a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
+index dc6966629c..57ecd48b1f 100644
+--- a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
++++ b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
 @@ -1,4 +1,4 @@
--From ab238c213fac190972f55e73cf3e0bb1c7846eb8 Mon Sep 17 00:00:00 2001
-+From 2237748af00467ad8250a7ccd944200f811db69a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 12 Dec 2019 16:52:07 +0100
- Subject: [PATCH] tests: do not strip a helper library
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 126dfefb5fddf411ad0a1316209e9c1b47abfcd2 Mon Sep 17 00:00:00 2001
++From e4125223631f0d555fc327da6d8705bcc8ee5ba5 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 9 Feb 2022 17:30:16 -0800
+ Subject: [PATCH] man: Move local variable declaration to function scope
+@@ -10,16 +10,15 @@ code without changing the logic, until its fixed in clang
  
- diff --git a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--index 03f5d5a..d12c343 100644
-+index 836f13e..e19a554 100644
- --- a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
- +++ b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--@@ -12,7 +12,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
-+@@ -14,7 +14,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
-  libfoo.strip: libfoo.la
-  	$(OBJCOPY) --strip-all .libs/libfoo.so
-  
-@@ -22,6 +22,3 @@ index 03f5d5a..d12c343 100644
-  	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
-  		for script in $(EXTRA_DIST); do \
-  			cp -f $(srcdir)/$$script $(builddir); \
---- 
--2.17.1
+ Upstream-Status: Inappropriate [Inappropriate: Clang bug]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.11.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.13.bb
-similarity index 99%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.11.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.13.bb
-index f6abd9e11a..174dec036e 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.11.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.13.bb
-@@ -41,7 +41,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch \
-            "
+ ---
+  src/man.c | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
--SRC_URI[sha256sum] = "ac5baeef9fa690936b1ca01ecd1742da762c2c08511ff1b4e923938d94d0f979"
-+SRC_URI[sha256sum] = "ff5f4f00b081dac66092afe8e72b7c790670931cf1c1ee0deaa7f80fbc53883e"
+ diff --git a/src/man.c b/src/man.c
+-index f16fae8..333df03 100644
++index 195d35d..6870989 100644
+ --- a/src/man.c
+ +++ b/src/man.c
+-@@ -352,7 +352,7 @@ static void init_html_pager (void)
++@@ -379,7 +379,7 @@ static void init_html_pager (void)
+  static error_t parse_opt (int key, char *arg, struct argp_state *state)
+  {
+  	static bool apropos, whatis; /* retain values between calls */
+@@ -28,7 +27,7 @@ index f16fae8..333df03 100644
+  	/* Please keep these keys in the same order as in options above. */
+  	switch (key) {
+  		case 'C':
+-@@ -384,7 +384,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
++@@ -411,7 +411,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
+  		case OPT_WARNINGS:
+  #ifdef NROFF_WARNINGS
+  			{
+diff --git a/meta/recipes-extended/man-db/man-db_2.12.0.bb b/meta/recipes-extended/man-db/man-db_2.12.1.bb
+similarity index 96%
+rename from meta/recipes-extended/man-db/man-db_2.12.0.bb
+rename to meta/recipes-extended/man-db/man-db_2.12.1.bb
+index 19dbb41d16..27b47a7f47 100644
+--- a/meta/recipes-extended/man-db/man-db_2.12.0.bb
++++ b/meta/recipes-extended/man-db/man-db_2.12.1.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+            file://99_mandb \
+            file://0001-man-Move-local-variable-declaration-to-function-scop.patch \
+           "
+-SRC_URI[sha256sum] = "415a6284a22764ad22ff0f66710d853be7790dd451cd71436e3d25c74d996a95"
++SRC_URI[sha256sum] = "ddee249daeb78cf92bab794ccd069cc8b575992265ea20e239e887156e880265"
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS:${PN} += "base-passwd"
 -- 
 2.34.1
 
