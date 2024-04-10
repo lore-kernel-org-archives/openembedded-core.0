@@ -2,176 +2,223 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3203CD128A
-	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 00:45:14 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.155050.1712709912545875762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 037CCC67861
+	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 00:46:45 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.154235.1712710000657305653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 17:45:13 -0700
+ Tue, 09 Apr 2024 17:46:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=X8K4iLRO;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5491720003;
-	Wed, 10 Apr 2024 00:45:09 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=iabijTFN;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DD41EC0002;
+	Wed, 10 Apr 2024 00:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712709910;
+	t=1712709998;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YBCLtUxmA6n0R6cncRXCMyeQZdfqYK5FV7lizpJNvS0=;
-	b=X8K4iLROgAbG4bKdKfISoRGnKqWyae6NgICXSwbxld4xba9pV1ZirV4eJPYi/0zQF55DgL
-	es2Pg5A6M1p0PVsBkjiqkOD7/FzWT6u1Eje8oTZsTbIzXYDGFSe1EomqzsOafiYSpL7jYc
-	IbWTLOSWGFpV8k3B1Xv4V5HZAGxaUjDLFPreJ2fepEMmbtS3eEWuTW1JuIKWLboRmPH0hy
-	ScBaHyN/686a0mXwH1FhNVAwqd/8G3Ihfg5HWTPZOISTB5pfjlPM+l9vFbC2TsPu3O+xPb
-	cajTSKUCS8vh2bRvLL9R7DFmkaAnScbEW9Tpn2MLNyQEiiFGow7DSoo9hE8vyQ==
-Date: Wed, 10 Apr 2024 02:45:09 +0200
+	bh=p5oq1Q+N6fpcs6IBW4h2j1w7vNLDXrFEpBaTZ8VkG4s=;
+	b=iabijTFN+9yUajSJdmE/a3Xm9SCNy1DjZLIPd2yvIC5qeUkeo0XWTTI49BannLUthsoNSK
+	2driHbuk3kfGCyXssZKCNxJCIPUFA+BwWvGwNIQwZhlfBOhQ7AvWd9IhFs/lKelaI+jFJL
+	8svR1cHczWKRiCZAvt7KTqRjAYtA01cogJLXRIRAUbK2/Q4+J83kYIJy5Rol4DFhkE4pAE
+	ggLHep1ptkQv2vFQydB1rmmLAmdrZAUzDEuWlc6cfjM8qqnzYHn0pD8kuW50m9dtQQZDcG
+	XOnmccvz6DRUqWz5zYRLCyhb4o6VrDEWVnZ3B9T6+uhJhZY3WurtQRcS69v7aQ==
+Date: Wed, 10 Apr 2024 02:46:37 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: wangmy@fujitsu.com
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 10/33] gnutls: upgrade 3.8.4 -> 3.8.5
-Message-ID: <202404100045092623c1a2@mail.local>
+Subject: Re: [OE-core] [PATCH 09/33] ffmpeg: upgrade 6.1.1 -> 7.0
+Message-ID: <202404100046376e4211fc@mail.local>
 References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
- <1712646620-16608-10-git-send-email-wangmy@fujitsu.com>
+ <1712646620-16608-9-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1712646620-16608-10-git-send-email-wangmy@fujitsu.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1712646620-16608-9-git-send-email-wangmy@fujitsu.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 00:45:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198072
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 00:46:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198073
 
-Failed ptests:
-{'gnutls': ['alerts',
-            'cert-status',
-            'ciphersuite-name',
-            'dtls-etm',
-            'dtls10-cert-key-exchange',
-            'dtls12-cert-key-exchange',
-            'keylog-env',
-            'mini-chain-unsorted',
-            'mini-record-failure',
-            'mini-overhead',
-            'mini-record',
-            'mini-record-2',
-            'record-retvals',
-            'rehandshake-switch-cert',
-            'rehandshake-switch-cert-allow',
-            'rehandshake-switch-cert-client',
-            'rehandshake-switch-cert-client-allow',
-            'rsa-encrypt-decrypt',
-            'rsa-psk',
-            'rsa-psk-cb',
-            'rsaes-pkcs1-v1_5',
-            'tls-etm',
-            'tls-force-etm',
-            'tls-neg-ext4-key',
-            'tls10-cert-key-exchange',
-            'tls11-cert-key-exchange',
-            'tls10-server-kx-neg',
-            'tls12-anon-upgrade',
-            'tls12-cert-key-exchange',
-            'tls11-server-kx-neg',
-            'tls12-server-kx-neg',
-            'tls13-cert-key-exchange',
-            'tls13-server-kx-neg',
-            'version-checks']}
+| ../gst-libav-1.22.11/ext/libav/gstavviddec.c: In function 'gst_ffmpegvidd=
+ec_register':
+| ../gst-libav-1.22.11/ext/libav/gstavviddec.c:2573:29: error: 'AV_CODEC_ID=
+_AYUV' undeclared (first use in this function); did you mean 'AV_CODEC_ID_C=
+YUV'?
+|  2573 |         || in_plugin->id =3D=3D AV_CODEC_ID_AYUV
+|       |                             ^~~~~~~~~~~~~~~~
+|       |                             AV_CODEC_ID_CYUV
+| ../gst-libav-1.22.11/ext/libav/gstavviddec.c:2573:29: note: each undeclar=
+ed identifier is reported only once for each function it appears in
+| [11/13] x86_64-poky-linux-gcc -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 -=
+mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -=
+Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokybuild/yoct=
+o-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-poky-l=
+inux/gstreamer1.0-libav/1.22.11/recipe-sysroot -Iext/libav/libgstlibav.so.p=
+ -Iext/libav -I../gst-libav-1.22.11/ext/libav -I. -I../gst-libav-1.22.11 -I=
+/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/=
+work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot/usr/incl=
+ude/gstreamer-1.0 -I/home/pokybuild/yocto-worker/reproducible/build/build-s=
+t/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/rec=
+ipe-sysroot/usr/include/glib-2.0 -I/home/pokybuild/yocto-worker/reproducibl=
+e/build/build-st/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-li=
+bav/1.22.11/recipe-sysroot/usr/lib/glib-2.0/include -I/home/pokybuild/yocto=
+-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-poky-li=
+nux/gstreamer1.0-libav/1.22.11/recipe-sysroot/usr/include/orc-0.4 -fdiagnos=
+tics-color=3Dalways -D_FILE_OFFSET_BITS=3D64 -Wall -Winvalid-pch -fvisibili=
+ty=3Dhidden -fno-strict-aliasing -Wmissing-declarations -Wmissing-prototype=
+s -Wold-style-definition -Wredundant-decls -Wundef -Wwrite-strings -Wformat=
+ -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing-include-dirs -=
+Waddress -Wno-multichar -Waggregate-return -Wvla -Wpointer-arith -O2 -pipe =
+-g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=3D/=
+home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/w=
+ork/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/gst-libav-1.22.11=3D/usr=
+/src/debug/gstreamer1.0-libav/1.22.11 -fdebug-prefix-map=3D/home/pokybuild/=
+yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-po=
+ky-linux/gstreamer1.0-libav/1.22.11/gst-libav-1.22.11=3D/usr/src/debug/gstr=
+eamer1.0-libav/1.22.11 -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/re=
+producible/build/build-st/reproducibleA/tmp/work/core2-64-poky-linux/gstrea=
+mer1.0-libav/1.22.11/build=3D/usr/src/debug/gstreamer1.0-libav/1.22.11 -fde=
+bug-prefix-map=3D/home/pokybuild/yocto-worker/reproducible/build/build-st/r=
+eproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/build=
+=3D/usr/src/debug/gstreamer1.0-libav/1.22.11 -fdebug-prefix-map=3D/home/pok=
+ybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/core=
+2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot=3D -fmacro-prefix=
+-map=3D/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibl=
+eA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot=
+=3D -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/reproducible/build/bu=
+ild-st/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.1=
+1/recipe-sysroot-native=3D -fPIC -pthread -DHAVE_CONFIG_H -MD -MQ ext/libav=
+/libgstlibav.so.p/gstavdeinterlace.c.o -MF ext/libav/libgstlibav.so.p/gstav=
+deinterlace.c.o.d -o ext/libav/libgstlibav.so.p/gstavdeinterlace.c.o -c ../=
+gst-libav-1.22.11/ext/libav/gstavdeinterlace.c
+| [12/13] x86_64-poky-linux-gcc -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 -=
+mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -=
+Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokybuild/yoct=
+o-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-poky-l=
+inux/gstreamer1.0-libav/1.22.11/recipe-sysroot -Iext/libav/libgstlibav.so.p=
+ -Iext/libav -I../gst-libav-1.22.11/ext/libav -I. -I../gst-libav-1.22.11 -I=
+/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/=
+work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot/usr/incl=
+ude/gstreamer-1.0 -I/home/pokybuild/yocto-worker/reproducible/build/build-s=
+t/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/rec=
+ipe-sysroot/usr/include/glib-2.0 -I/home/pokybuild/yocto-worker/reproducibl=
+e/build/build-st/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-li=
+bav/1.22.11/recipe-sysroot/usr/lib/glib-2.0/include -I/home/pokybuild/yocto=
+-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-poky-li=
+nux/gstreamer1.0-libav/1.22.11/recipe-sysroot/usr/include/orc-0.4 -fdiagnos=
+tics-color=3Dalways -D_FILE_OFFSET_BITS=3D64 -Wall -Winvalid-pch -fvisibili=
+ty=3Dhidden -fno-strict-aliasing -Wmissing-declarations -Wmissing-prototype=
+s -Wold-style-definition -Wredundant-decls -Wundef -Wwrite-strings -Wformat=
+ -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing-include-dirs -=
+Waddress -Wno-multichar -Waggregate-return -Wvla -Wpointer-arith -O2 -pipe =
+-g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=3D/=
+home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/w=
+ork/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/gst-libav-1.22.11=3D/usr=
+/src/debug/gstreamer1.0-libav/1.22.11 -fdebug-prefix-map=3D/home/pokybuild/=
+yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/core2-64-po=
+ky-linux/gstreamer1.0-libav/1.22.11/gst-libav-1.22.11=3D/usr/src/debug/gstr=
+eamer1.0-libav/1.22.11 -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/re=
+producible/build/build-st/reproducibleA/tmp/work/core2-64-poky-linux/gstrea=
+mer1.0-libav/1.22.11/build=3D/usr/src/debug/gstreamer1.0-libav/1.22.11 -fde=
+bug-prefix-map=3D/home/pokybuild/yocto-worker/reproducible/build/build-st/r=
+eproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/build=
+=3D/usr/src/debug/gstreamer1.0-libav/1.22.11 -fdebug-prefix-map=3D/home/pok=
+ybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/core=
+2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot=3D -fmacro-prefix=
+-map=3D/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibl=
+eA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/recipe-sysroot=
+=3D -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/reproducible/build/bu=
+ild-st/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.1=
+1/recipe-sysroot-native=3D -fPIC -pthread -DHAVE_CONFIG_H -MD -MQ ext/libav=
+/libgstlibav.so.p/gstavmux.c.o -MF ext/libav/libgstlibav.so.p/gstavmux.c.o.=
+d -o ext/libav/libgstlibav.so.p/gstavmux.c.o -c ../gst-libav-1.22.11/ext/li=
+bav/gstavmux.c
+| ninja: build stopped: subcommand failed.
+| INFO: autodetecting backend as ninja
+| INFO: calculating backend command to run: /home/pokybuild/yocto-worker/re=
+producible/build/build-st/reproducibleA/tmp/work/core2-64-poky-linux/gstrea=
+mer1.0-libav/1.22.11/recipe-sysroot-native/usr/bin/ninja -j 16 -l 75.0 -v
+| WARNING: /home/pokybuild/yocto-worker/reproducible/build/build-st/reprodu=
+cibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/temp/run.do_=
+compile.1619925:153 exit 1 from 'meson compile -v -j 16 -l 75'
+| WARNING: Backtrace (BB generated script):
+| 	#1: meson_do_compile, /home/pokybuild/yocto-worker/reproducible/build/bu=
+ild-st/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.1=
+1/temp/run.do_compile.1619925, line 153
+| 	#2: do_compile, /home/pokybuild/yocto-worker/reproducible/build/build-st=
+/reproducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/temp=
+/run.do_compile.1619925, line 148
+| 	#3: main, /home/pokybuild/yocto-worker/reproducible/build/build-st/repro=
+ducibleA/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.22.11/temp/run.d=
+o_compile.1619925, line 157
+NOTE: recipe gstreamer1.0-libav-1.22.11-r0: task do_compile: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/reproducible/build/meta/recipes-m=
+ultimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb:do_compile) failed with e=
+xit code '1'
 
-
-On 09/04/2024 15:09:57+0800, wangmy via lists.openembedded.org wrote:
+On 09/04/2024 15:09:56+0800, wangmy via lists.openembedded.org wrote:
 > From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Add-ptest-support.patch
-> refreshed for 3.8.5
-> 
+>=20
 > Changelog:
-> ==========
-> * libgnutls: Due to majority of usages and implementations of
->   RSA decryption with PKCS#1 v1.5 padding being incorrect,
->   leaving them vulnerable to Marvin attack, the RSAES-PKCS1-v1_5
->   is being deprecated (encryption and decryption) and will be
->   disabled in the future.
-> * libgnutls: Added support for RIPEMD160 and PBES1-DES-SHA1 for
->   backward compatibility with GCR.
-> * libgnutls: A couple of memory related issues have been fixed in RSA PKCS#1
->   v1.5 decryption error handling and deterministic ECDSA with earlier
->   versions of GMP.
-> * build: Fixed a bug where building gnutls statically failed due
->   to a duplicate definition of nettle_rsa_compute_root_tr().
-> 
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - enable gdigrab device to grab a window using the hwnd=3DHANDLER syntax
+> - qrencode filter and qrencodesrc source
+> - lavu/eval: introduce randomi() function in expressions
+> - Change the default bitrate control method from VBR to CQP for QSV encod=
+ers.
+> - removed deprecated ffmpeg CLI options -psnr and -map_channel
+>=20
 > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  .../recipes-support/gnutls/gnutls/Add-ptest-support.patch | 8 ++++----
->  .../gnutls/{gnutls_3.8.4.bb => gnutls_3.8.5.bb}           | 2 +-
->  2 files changed, 5 insertions(+), 5 deletions(-)
->  rename meta/recipes-support/gnutls/{gnutls_3.8.4.bb => gnutls_3.8.5.bb} (97%)
-> 
-> diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> index 1152d3797f..8edd31d6b9 100644
-> --- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> +++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> @@ -1,4 +1,4 @@
-> -From ff6a345235b2585c261752e47a749228672b07dc Mon Sep 17 00:00:00 2001
-> +From bfa70adcbda4e505cf2e597907852e78e0439ee2 Mon Sep 17 00:00:00 2001
->  From: Ravineet Singh <ravineet.a.singh@est.tech>
->  Date: Tue, 10 Jan 2023 16:11:10 +0100
->  Subject: [PATCH] gnutls: add ptest support
-> @@ -26,7 +26,7 @@ index 843193f..816b09f 100644
->   
->   include $(top_srcdir)/cligen/cligen.mk
->  diff --git a/configure.ac b/configure.ac
-> -index d6e03cf..e3f15fb 100644
-> +index 934377e..4406eae 100644
->  --- a/configure.ac
->  +++ b/configure.ac
->  @@ -1213,6 +1213,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-> @@ -39,10 +39,10 @@ index d6e03cf..e3f15fb 100644
->   
->   hw_features=
->  diff --git a/tests/Makefile.am b/tests/Makefile.am
-> -index fb9e55a..c2d226a 100644
-> +index e39a3b3..861dd63 100644
->  --- a/tests/Makefile.am
->  +++ b/tests/Makefile.am
-> -@@ -658,6 +658,12 @@ SH_LOG_COMPILER = $(SHELL)
-> +@@ -663,6 +663,12 @@ SH_LOG_COMPILER = $(SHELL)
->   AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
->   LOG_COMPILER = $(LOG_VALGRIND)
->   
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.5.bb
-> similarity index 97%
-> rename from meta/recipes-support/gnutls/gnutls_3.8.4.bb
-> rename to meta/recipes-support/gnutls/gnutls_3.8.5.bb
-> index 20139b4dd4..21506a04dc 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.8.5.bb
-> @@ -25,7 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
->             file://Add-ptest-support.patch \
->             "
->  
-> -SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
-> +SRC_URI[sha256sum] = "66269a2cfe0e1c2dabec87bdbbd8ab656f396edd9a40dd006978e003cfa52bfc"
->  
->  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
->  
-> -- 
+>  .../ffmpeg/{ffmpeg_6.1.1.bb =3D> ffmpeg_7.0.bb}                   | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.1.bb =3D> ffmpeg_7.0.b=
+b} (99%)
+>=20
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg_7.0.bb
+> similarity index 99%
+> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.bb
+> index aa59755034..633f32bff0 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.bb
+> @@ -24,7 +24,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee=
+4d69f5fce4486a80fdaf4a4263 \
+> =20
+>  SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz"
+> =20
+> -SRC_URI[sha256sum] =3D "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a=
+1f4ac0873616f968"
+> +SRC_URI[sha256sum] =3D "4426a94dd2c814945456600c8adfc402bee65ec14a70e8c5=
+31ec9a2cd651da7b"
+> =20
+>  # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
+>  # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
+> --=20
 > 2.34.1
-> 
+>=20
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#198029): https://lists.openembedded.org/g/openembedded-core/message/198029
-> Mute This Topic: https://lists.openembedded.org/mt/105417636/3617179
+> View/Reply Online (#198024): https://lists.openembedded.org/g/openembedde=
+d-core/message/198024
+> Mute This Topic: https://lists.openembedded.org/mt/105417630/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
--- 
+--=20
 Alexandre Belloni, co-owner and COO, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
