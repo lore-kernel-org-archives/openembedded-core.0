@@ -1,118 +1,71 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D23CD1296
-	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 08:23:07 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web10.160752.1712737384442337916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73540CD1297
+	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 09:06:37 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.162346.1712739995528457049
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Apr 2024 01:23:04 -0700
+ Wed, 10 Apr 2024 02:06:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout01.t-online.de (Postfix) with SMTP id 5205D1A47F
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 10:23:02 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.33.141]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1ruTER-3sbWAz0; Wed, 10 Apr 2024 10:22:59 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] gtk4: update 4.14.1 -> 4.14.2
-Date: Wed, 10 Apr 2024 10:23:15 +0200
-Message-ID: <20240410082315.1561159-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.44.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mzMxJ/tD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d8743ecebdso46031261fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 02:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712739994; x=1713344794; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EFs/Z+5of9uYv4GCE+TMmAO9AnfMiY4Em/9/IsVslQk=;
+        b=mzMxJ/tD29N0DRXLc9sjTsKnRE77K15QT86w4GquWY/R84kGMDraLfv9hIuJtmLKJw
+         hdxPzeg1dVTe2uLxbIyaBJY0muiCq8ZJdOqLnkAR561xzY0I1nZ2excA7nUasmv3RkrX
+         qyi2VpTUpKM9EVP5svAox3dT/D2B2XNhrW64T2s0U4rgLnFBkzuj9AX6PmfPlMyltXBt
+         8v2zNuX2tEj1Ak0mKWQxQ0CBqFyPJYx3b/IZ0XculT/MglGy2Edel64lL36go2Zl4jCW
+         cA9L2ObgPxLZkZGp7bltsdJ+bJCi6eL1jmuOTIGcTKg0Ch7kdI6cZkm8G0bJJacIeeHw
+         LTYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712739994; x=1713344794;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EFs/Z+5of9uYv4GCE+TMmAO9AnfMiY4Em/9/IsVslQk=;
+        b=c/oRdPH1Z5QzM7iX5huVFLBLnqojL/mv1furTH+0dkw6pau4Uwuhtt6BnHMFFimT67
+         hAWXM5I9c0ts0XaJNf0hycHuiNUAjzguYQodMAS53YE1DDS7LW4y0wDXZRdRhF0ZasXN
+         2glj88K9rrcHqNp1JmH6Wj8tZgQTiKBdn1gOx019fM84Gc0nS3hKX9bCfJ0PZn/9TAJM
+         9K1exdWSVj5LbG7l2RPxzMJCWvnNDJ7Rpt0XLEIjKyi83QY52KRdVeDp14ZnmwbY7Bc4
+         N18O17Jp8SGPrIJmrWJVFycRN4l5lXefBL9R4oUNvE2ewihTF+YmfmyhSseYMmVy8Nnw
+         fA3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX4VK1q/uxPUp41qIhFMGsC3xq4Qxj3jj+VJm8M7MRNyDrl4on4nen2x3Uxbe7h8zbjbnT1DroQ1yX0YYmuv/ndQts3YUJ0ETN0ge8u7GkMzf6QIxlkCSl3
+X-Gm-Message-State: AOJu0YxjwyreydvFbjr+Zvz26O2r8z+v4vnuFVLRha34Q43NFFzwJsmg
+	1eFDDBpC8dkklmBJgaMxP3uOzA+tvIY0ZZ/TUTw+/+JN52RVnT8nwKWvF569DThC7XZLuVUSzbM
+	1qAzhMKVtRaAeg6a3EvC2h1sxkTw=
+X-Google-Smtp-Source: AGHT+IHfKDmoXnvXzwrwod7rFl7K2WWsxgXWKZzo+y+jCKaV3pQdJ+XccFvXEmF9lOjdg4AbJqEZUTzTersll6Ycyfs=
+X-Received: by 2002:a05:651c:21c:b0:2d8:9baa:50ae with SMTP id
+ y28-20020a05651c021c00b002d89baa50aemr1645710ljn.31.1712739993454; Wed, 10
+ Apr 2024 02:06:33 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1712737380-167FB909-A1DE535E/0/0 CLEAN NORMAL
-X-TOI-MSGID: b0fe842a-202f-4a7a-ae5b-77fc72d2dce0
-Content-Transfer-Encoding: quoted-printable
+References: <CAK5yBb8v4nejwGYPj3YYRQnz7xDeL_3v=dk3_RkrvJCaysPdqA@mail.gmail.com>
+In-Reply-To: <CAK5yBb8v4nejwGYPj3YYRQnz7xDeL_3v=dk3_RkrvJCaysPdqA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 10 Apr 2024 11:06:22 +0200
+Message-ID: <CANNYZj90YBS2YviX2CUwaJoEN_dwRK3MyGZ7LGmKmuTLuMf7Zg@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 9 April 2024 (WW15)
+To: Stephen Jolley <sjolley.yp.pm@gmail.com>
+Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	yocto-status@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 08:23:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198085
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 09:06:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198086
 
-Overview of Changes in 4.14.2, 03-04-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+On Tue, 9 Apr 2024 at 16:55, Stephen Jolley <sjolley.yp.pm@gmail.com> wrote:
+> We received some disappointing feedback from a key organization in the RISC-V ecosystem that the Yocto Project was not important and not worth funding. We will take this feedback into account.
 
-* GtkScale:
- - Improve positioning of values in some cases
+Can anything else be disclosed about this?
 
-* Theme:
- - Make progress in entries visible
-
-* Accessibility:
- - Fix text insertion handling
-
-* GDK:
- - dnd: Use the default cursor durion motion
- - dnd: Use a better cursor for indicating the move action
-
-* GSK:
- - gl: Handle offloads in offscreen context better
- - Fix text rendering problems with some fonts
-
-* Wayland:
- - Tighten up some protocol version checks
- - Use the presentation time protocol
- - Fix a crash with subsurfaces
- - Improve settings portal handling
-
-* macOS:
- - Fix up the app menu support
-
-* Windows:
- - Fix problems with minimization
- - Fix build without fontconfig
-
-* Debugging:
- - Add font settings in the inspector
-
-* Demos:
- - Clean up the application demo
- - Update cursor images for the cursor demo
-
-* Translation updates:
- Catalan
- Czech
- French
- Georgian
- Hebrew
- Persian
- Slovenian
- Turkish
- Ukrainian
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-gnome/gtk+/{gtk4_4.14.1.bb =3D> gtk4_4.14.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.14.1.bb =3D> gtk4_4.14.2.bb} (98%=
-)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.1.bb b/meta/recipes-gnome/=
-gtk+/gtk4_4.14.2.bb
-similarity index 98%
-rename from meta/recipes-gnome/gtk+/gtk4_4.14.1.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.14.2.bb
-index ce733769a5..282e81f048 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.14.1.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.14.2.bb
-@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
-=20
- SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
--SRC_URI[sha256sum] =3D "fcefb3f132f8cc4711a9efa5b353c9ae9bb5eeff0246fa74=
-dbc2f2f839b9e308"
-+SRC_URI[sha256sum] =3D "22604cef2898a79e5f2143bb7aee2b7d1fa2eb946989a9d1=
-338ecf9c8ae0e072"
-=20
- S =3D "${WORKDIR}/gtk-${PV}"
-=20
---=20
-2.44.0
-
+Alex
 
