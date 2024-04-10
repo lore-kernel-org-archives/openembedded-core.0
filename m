@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F86CD128A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64E6CD1299
 	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 13:11:18 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.165497.1712754668941563471
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.166618.1712754669818273202
  for <openembedded-core@lists.openembedded.org>;
  Wed, 10 Apr 2024 06:11:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VpmEewNz;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ed04c91c46so4747947b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 06:11:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JYT5mSlE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6ed11782727so3382961b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 06:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1712754668; x=1713359468; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1712754669; x=1713359469; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YHEN3oP+JVIo//JYJZmATjArSNvN458jU5XoSoA2WfQ=;
-        b=VpmEewNz5Ln8hxRVR0dz2O4mRnGrNaiOq4P3pEXwDMSgKoFQqMzJ3VqstBjgDaKF0v
-         LqUYGPQLjC1nGWQ5m+4HA1k0EBchP+Q+gEZEOvqETvpN2XOv7F04SxJONVdxDv5KdYNY
-         ULrY7+ldqXOttPwONSnHEnB+34O2e6jVif/pvkolHi0lZ8jV6x/EadyI24GvE5DVOtl2
-         RI3jOoCmZOYcm3DPPQCUR0cG54jZAK5Uv0+ZeFthUnQcmKY1sHF/kk8IQGMF25B5D9WS
-         R8HG2l5QT7xZ9tlec4+aAM8ph5xEprB7WVhv/kETVXhyKSHhgoXANZct6eI+frCIXNGQ
-         MgQg==
+        bh=AjvKPorppMI48KmCvz7YfwotXn+RLcJyM7FuVVzVcPg=;
+        b=JYT5mSlEVDUM95I84RrOBSjkBdG1Sj9BeJbiNIConPtsnFnvFX+/ShnNCP/vzZn+9D
+         4hzneiEc6Te6HISgy59sjSpbFgPO9rtOF2KznrHbQVAAGvMV0CkP2M554nv/9nShuysP
+         0anF7OiYSg2WraxuQlL7Q/MFiZjsKlb1iZRDf/YvqOAfaxFOHuxk6PmPahFsQj6LxZfp
+         mH/OvUbPOpVqYQw4Uw/jPU2hCmN0sZzsjUAUrqrJdbSWUq80hrakZyWwoQMgmYgMvwXC
+         kA/dd8U75fao3nJW12h+UNg8K99P/Tg8tsgGxynG9cPnDbr7OSnf5L1yKkGRfLkRekqU
+         djgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712754668; x=1713359468;
+        d=1e100.net; s=20230601; t=1712754669; x=1713359469;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YHEN3oP+JVIo//JYJZmATjArSNvN458jU5XoSoA2WfQ=;
-        b=Dcjk1GQX1oZIn7JvbXXifAafI/bl6xSI2qLXkk3jUC6fCUwxTFmB2K/7XVPMx2LV4N
-         HQaAUY6eNfN2DmfpsU12XenFH8owgdxjJQQ/mN5Cdd5UUTdSPVt/gFr8OI8gB3Weefm2
-         krmw4dlh2ELK+bthkMZ31GtsDZff7tziqVfT6LsoEEVcskPp9qNfa5He6mu83ulwNMbM
-         qxKao1L0PkHL0QEK6X0p9eTsN+otZyag39PS/nZRMvzg6Yivj5rlL4UBULtzErW3iZZf
-         U6btU9yq3t7iZgVW00xN33oGyf6WqC82H1Tc44NJt8Fd6HmDKtfQ2FgU54gBam5NKlrv
-         B8nQ==
-X-Gm-Message-State: AOJu0YxXgIZhjSjGD3YM6V5vZ2oMeZDFO7sosY3Db3dY9kibc313DgXO
-	hGNjjPJrSugm2y3zLBPxoTvbwAPdKS7Z/j92nNu8yorCHQ0YZk2N+gwX4pQv51I3lTeAf9qyKrL
-	zplc=
-X-Google-Smtp-Source: AGHT+IHQEe+qF+pkBCgaQmTtuh+gf1ZY3Vwyn8yWImOPUW+Qce0DpqNE1Jc90UFZgzxBvLtrvwEZgA==
-X-Received: by 2002:a05:6a00:9a3:b0:6ed:435f:ec9b with SMTP id u35-20020a056a0009a300b006ed435fec9bmr2943555pfg.20.1712754666697;
-        Wed, 10 Apr 2024 06:11:06 -0700 (PDT)
+        bh=AjvKPorppMI48KmCvz7YfwotXn+RLcJyM7FuVVzVcPg=;
+        b=dxcmu+K5iIlCITH5XBQyQyPg83XLJH3qFEKvwfKzFk/GqmEKN8COoV+D9Ae1mgE2uc
+         8LaVE9EJKp/s7C9zK5GKUcIcsqdEcqKr4vzLpisLe2iBaZntt6nsJjEsGS/5AHlkTKH+
+         d2Wr5StUVxCef1xZF5h99odY7Vfc/3lE1nEJDU2bPJCUZ872LzQRWWTgOXElDM57P4XS
+         c9noYmhq9w/z84Y3c36l7TB9+zYzCbRIplvUFMu5ROArOvRyhmO8fuTI9n15M4bj6T1M
+         OUqahLwBQ37kqzdfdAtEhbm2uWyAnBw2WouQKlfjnzHtfdBHYLYNrpgHRArUjkBecQu2
+         pzYA==
+X-Gm-Message-State: AOJu0YycpN9DvI4BJA3Xet1dhRXrk5uCUW222PUHyAmFuHFXPgbnLgf9
+	DN74otJsPNF8ZmOHMF3fu1Lav+EnDSaZbD8u85roxsrRRaPI95XqEqd0nE9+FtgWJMfUHSsPGG7
+	/02Y=
+X-Google-Smtp-Source: AGHT+IHWLhPF7cPXt3E7Y4qxIwv8CD/J8KB0juESu9YruJDBzw6k9a2ng0CFpQZbNsAC9sLjYypzOw==
+X-Received: by 2002:a05:6a00:1989:b0:6eb:2b:43b4 with SMTP id d9-20020a056a00198900b006eb002b43b4mr2611108pfl.27.1712754668399;
+        Wed, 10 Apr 2024 06:11:08 -0700 (PDT)
 Received: from xps13.. ([199.58.97.236])
-        by smtp.gmail.com with ESMTPSA id c17-20020aa78c11000000b006ed0199bd57sm10054887pfd.177.2024.04.10.06.11.06
+        by smtp.gmail.com with ESMTPSA id c17-20020aa78c11000000b006ed0199bd57sm10054887pfd.177.2024.04.10.06.11.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 06:11:06 -0700 (PDT)
+        Wed, 10 Apr 2024 06:11:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/5] ncurses: Backport fix for CVE-2023-50495
-Date: Wed, 10 Apr 2024 06:10:54 -0700
-Message-Id: <530314b699a7ad53e6dcd96658873cef7014e483.1712754495.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/5] go: Backport fix for CVE-2024-24784
+Date: Wed, 10 Apr 2024 06:10:55 -0700
+Message-Id: <b58dae3401bcf6747a36e87106285d4bc944d25d.1712754495.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1712754495.git.steve@sakoman.com>
 References: <cover.1712754495.git.steve@sakoman.com>
@@ -62,119 +62,242 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 13:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198094
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198095
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Ashish Sharma <asharma@mvista.com>
 
-Upstream-Status: Backport from https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc
-
-Reference: https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230424.patch.gz
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Upstream-Status: Backport [https://github.com/golang/go/commit/5330cd225ba54c7dc78c1b46dcdf61a4671a632c]
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ncurses/files/CVE-2023-50495.patch        | 79 +++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.2.bb      |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-50495.patch
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2024-24784.patch           | 205 ++++++++++++++++++
+ 2 files changed, 206 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2024-24784.patch
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2023-50495.patch b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 69b65f3eb2..9c7ceda891 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -91,6 +91,7 @@ SRC_URI += "\
+     file://CVE-2023-45289.patch \
+     file://CVE-2023-45290.patch \
+     file://CVE-2024-24785.patch \
++    file://CVE-2024-24784.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2024-24784.patch b/meta/recipes-devtools/go/go-1.14/CVE-2024-24784.patch
 new file mode 100644
-index 0000000000..58c23866d1
+index 0000000000..e9d9d972b9
 --- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
-@@ -0,0 +1,79 @@
-+Fix for CVE-2023-50495 from upstream:
-+https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2024-24784.patch
+@@ -0,0 +1,205 @@
++From 5330cd225ba54c7dc78c1b46dcdf61a4671a632c Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Wed, 10 Jan 2024 11:02:14 -0800
++Subject: [PATCH] [release-branch.go1.22] net/mail: properly handle special
++ characters in phrase and obs-phrase
 +
-+Reference:
-+https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230424.patch.gz
++Fixes a couple of misalignments with RFC 5322 which introduce
++significant diffs between (mostly) conformant parsers.
 +
-+Upstream-Status: Backport [import from suse ftp.pbone.net/mirror/ftp.opensuse.org/update/leap-micro/5.3/sle/src/ncurses-6.1-150000.5.20.1.src.rpm
-+Upstream commit https://github.com/ThomasDickey/ncurses-snapshots/commit/efe9674ee14b14b788f9618941f97d31742f0adc]
-+CVE: CVE-2023-50495
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ ncurses/tinfo/parse_entry.c | 23 ++++++++++++++++-------
-+ 1 file changed, 16 insertions(+), 7 deletions(-)
++This change reverts the changes made in CL50911, which allowed certain
++special RFC 5322 characters to appear unquoted in the "phrase" syntax.
++It is unclear why this change was made in the first place, and created
++a divergence from comformant parsers. In particular this resulted in
++treating comments in display names incorrectly.
 +
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index 23574b66..56ba9ae6 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -110,7 +110,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	/* Well, we are given a cancel for a name that we don't recognize */
-+ 	return _nc_extend_names(entryp, name, STRING);
-+     default:
-+-	return 0;
-++	return NULL;
-+     }
-+ 
-+     /* Adjust the 'offset' (insertion-point) to keep the lists of extended
-+@@ -142,6 +142,11 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	for (last = (unsigned) (max - 1); last > tindex; last--)
-+ 
-+     if (!found) {
-++	char *saved;
-++
-++	if ((saved = _nc_save_str(name)) == NULL)
-++	    return NULL;
-++
-+ 	switch (token_type) {
-+ 	case BOOLEAN:
-+ 	    tp->ext_Booleans++;
-+@@ -169,7 +174,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
-+ 	TYPE_REALLOC(char *, actual, tp->ext_Names);
-+ 	while (--actual > offset)
-+ 	    tp->ext_Names[actual] = tp->ext_Names[actual - 1];
-+-	tp->ext_Names[offset] = _nc_save_str(name);
-++	tp->ext_Names[offset] = saved;
-+     }
-+ 
-+     temp.nte_name = tp->ext_Names[offset];
-+@@ -337,6 +342,8 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-+ 	bool is_use = (strcmp(_nc_curr_token.tk_name, "use") == 0);
-+ 	bool is_tc = !is_use && (strcmp(_nc_curr_token.tk_name, "tc") == 0);
-+ 	if (is_use || is_tc) {
-++	    char *saved;
-++
-+ 	    if (!VALID_STRING(_nc_curr_token.tk_valstring)
-+ 		|| _nc_curr_token.tk_valstring[0] == '\0') {
-+ 		_nc_warning("missing name for use-clause");
-+@@ -350,11 +357,13 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-+ 			    _nc_curr_token.tk_valstring);
-+ 		continue;
-+ 	    }
-+-	    entryp->uses[entryp->nuses].name = _nc_save_str(_nc_curr_token.tk_valstring);
-+-	    entryp->uses[entryp->nuses].line = _nc_curr_line;
-+-	    entryp->nuses++;
-+-	    if (entryp->nuses > 1 && is_tc) {
-+-		BAD_TC_USAGE
-++	    if ((saved = _nc_save_str(_nc_curr_token.tk_valstring)) != NULL) {
-++		entryp->uses[entryp->nuses].name = saved;
-++		entryp->uses[entryp->nuses].line = _nc_curr_line;
-++		entryp->nuses++;
-++		if (entryp->nuses > 1 && is_tc) {
-++		    BAD_TC_USAGE
++Additionally properly handle trailing malformed comments in the group
++syntax.
++
++For #65083
++Fixed #65849
++
++Change-Id: I00dddc044c6ae3381154e43236632604c390f672
++Reviewed-on: https://go-review.googlesource.com/c/go/+/555596
++Reviewed-by: Damien Neil <dneil@google.com>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/566215
++Reviewed-by: Carlos Amedee <carlos@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/5330cd225ba54c7dc78c1b46dcdf61a4671a632c]
++CVE: CVE-2024-24784
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ src/net/mail/message.go      | 30 +++++++++++++++------------
++ src/net/mail/message_test.go | 40 ++++++++++++++++++++++++++----------
++ 2 files changed, 46 insertions(+), 24 deletions(-)
++
++diff --git a/src/net/mail/message.go b/src/net/mail/message.go
++index af516fc30f470..fc2a9e46f811b 100644
++--- a/src/net/mail/message.go
+++++ b/src/net/mail/message.go
++@@ -280,7 +280,7 @@ func (a *Address) String() string {
++ 	// Add quotes if needed
++ 	quoteLocal := false
++ 	for i, r := range local {
++-		if isAtext(r, false, false) {
+++		if isAtext(r, false) {
++ 			continue
++ 		}
++ 		if r == '.' {
++@@ -444,7 +444,7 @@ func (p *addrParser) parseAddress(handleGroup bool) ([]*Address, error) {
++ 	if !p.consume('<') {
++ 		atext := true
++ 		for _, r := range displayName {
++-			if !isAtext(r, true, false) {
+++			if !isAtext(r, true) {
++ 				atext = false
++ 				break
++ 			}
++@@ -479,7 +479,9 @@ func (p *addrParser) consumeGroupList() ([]*Address, error) {
++ 	// handle empty group.
++ 	p.skipSpace()
++ 	if p.consume(';') {
++-		p.skipCFWS()
+++		if !p.skipCFWS() {
+++			return nil, errors.New("mail: misformatted parenthetical comment")
 ++		}
-+ 	    }
-+ 	} else {
-+ 	    /* normal token lookup */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
-index 33285bcb5b..dbff149f55 100644
---- a/meta/recipes-core/ncurses/ncurses_6.2.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://CVE-2021-39537.patch \
-            file://CVE-2022-29458.patch \
-            file://CVE-2023-29491.patch \
-+           file://CVE-2023-50495.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
++ 		return group, nil
++ 	}
++ 
++@@ -496,7 +498,9 @@ func (p *addrParser) consumeGroupList() ([]*Address, error) {
++ 			return nil, errors.New("mail: misformatted parenthetical comment")
++ 		}
++ 		if p.consume(';') {
++-			p.skipCFWS()
+++			if !p.skipCFWS() {
+++				return nil, errors.New("mail: misformatted parenthetical comment")
+++			}
++ 			break
++ 		}
++ 		if !p.consume(',') {
++@@ -566,6 +570,12 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
++ 	var words []string
++ 	var isPrevEncoded bool
++ 	for {
+++		// obs-phrase allows CFWS after one word
+++		if len(words) > 0 {
+++			if !p.skipCFWS() {
+++				return "", errors.New("mail: misformatted parenthetical comment")
+++			}
+++		}
++ 		// word = atom / quoted-string
++ 		var word string
++ 		p.skipSpace()
++@@ -661,7 +671,6 @@ Loop:
++ // If dot is true, consumeAtom parses an RFC 5322 dot-atom instead.
++ // If permissive is true, consumeAtom will not fail on:
++ // - leading/trailing/double dots in the atom (see golang.org/issue/4938)
++-// - special characters (RFC 5322 3.2.3) except '<', '>', ':' and '"' (see golang.org/issue/21018)
++ func (p *addrParser) consumeAtom(dot bool, permissive bool) (atom string, err error) {
++ 	i := 0
++ 
++@@ -672,7 +681,7 @@ Loop:
++ 		case size == 1 && r == utf8.RuneError:
++ 			return "", fmt.Errorf("mail: invalid utf-8 in address: %q", p.s)
++ 
++-		case size == 0 || !isAtext(r, dot, permissive):
+++		case size == 0 || !isAtext(r, dot):
++ 			break Loop
++ 
++ 		default:
++@@ -850,18 +859,13 @@ func (e charsetError) Error() string {
++ 
++ // isAtext reports whether r is an RFC 5322 atext character.
++ // If dot is true, period is included.
++-// If permissive is true, RFC 5322 3.2.3 specials is included,
++-// except '<', '>', ':' and '"'.
++-func isAtext(r rune, dot, permissive bool) bool {
+++func isAtext(r rune, dot bool) bool {
++ 	switch r {
++ 	case '.':
++ 		return dot
++ 
++ 	// RFC 5322 3.2.3. specials
++-	case '(', ')', '[', ']', ';', '@', '\\', ',':
++-		return permissive
++-
++-	case '<', '>', '"', ':':
+++	case '(', ')', '<', '>', '[', ']', ':', ';', '@', '\\', ',', '"': // RFC 5322 3.2.3. specials
++ 		return false
++ 	}
++ 	return isVchar(r)
++diff --git a/src/net/mail/message_test.go b/src/net/mail/message_test.go
++index 1e1bb4092f659..1f2f62afbf406 100644
++--- a/src/net/mail/message_test.go
+++++ b/src/net/mail/message_test.go
++@@ -385,8 +385,11 @@ func TestAddressParsingError(t *testing.T) {
++ 		13: {"group not closed: null@example.com", "expected comma"},
++ 		14: {"group: first@example.com, second@example.com;", "group with multiple addresses"},
++ 		15: {"john.doe", "missing '@' or angle-addr"},
++-		16: {"john.doe@", "no angle-addr"},
+++		16: {"john.doe@", "missing '@' or angle-addr"},
++ 		17: {"John Doe@foo.bar", "no angle-addr"},
+++		18: {" group: null@example.com; (asd", "misformatted parenthetical comment"},
+++		19: {" group: ; (asd", "misformatted parenthetical comment"},
+++		20: {`(John) Doe <jdoe@machine.example>`, "missing word in phrase:"},
++ 	}
++ 
++ 	for i, tc := range mustErrTestCases {
++@@ -436,24 +439,19 @@ func TestAddressParsing(t *testing.T) {
++ 				Address: "john.q.public@example.com",
++ 			}},
++ 		},
++-		{
++-			`"John (middle) Doe" <jdoe@machine.example>`,
++-			[]*Address{{
++-				Name:    "John (middle) Doe",
++-				Address: "jdoe@machine.example",
++-			}},
++-		},
+++		// Comment in display name
++ 		{
++ 			`John (middle) Doe <jdoe@machine.example>`,
++ 			[]*Address{{
++-				Name:    "John (middle) Doe",
+++				Name:    "John Doe",
++ 				Address: "jdoe@machine.example",
++ 			}},
++ 		},
+++		// Display name is quoted string, so comment is not a comment
++ 		{
++-			`John !@M@! Doe <jdoe@machine.example>`,
+++			`"John (middle) Doe" <jdoe@machine.example>`,
++ 			[]*Address{{
++-				Name:    "John !@M@! Doe",
+++				Name:    "John (middle) Doe",
++ 				Address: "jdoe@machine.example",
++ 			}},
++ 		},
++@@ -788,6 +786,26 @@ func TestAddressParsing(t *testing.T) {
++ 				},
++ 			},
++ 		},
+++		// Comment in group display name
+++		{
+++			`group (comment:): a@example.com, b@example.com;`,
+++			[]*Address{
+++				{
+++					Address: "a@example.com",
+++				},
+++				{
+++					Address: "b@example.com",
+++				},
+++			},
+++		},
+++		{
+++			`x(:"):"@a.example;("@b.example;`,
+++			[]*Address{
+++				{
+++					Address: `@a.example;(@b.example`,
+++				},
+++			},
+++		},
++ 	}
++ 	for _, test := range tests {
++ 		if len(test.exp) == 1 {
 -- 
 2.34.1
 
