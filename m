@@ -1,363 +1,398 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E55ACD1297
-	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 02:02:05 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web10.155554.1712714518679422414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D77CD11C2
+	for <webhook@archiver.kernel.org>; Wed, 10 Apr 2024 05:29:46 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.159812.1712726981110682683
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Apr 2024 19:01:59 -0700
+ Tue, 09 Apr 2024 22:29:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=fZ2TQv0m;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1712714518; x=1744250518;
-  h=from:to:cc:subject:date:message-id;
-  bh=AAfuCbgLglMiv+BH3nT9OOA8KL+4WrQuRK/EK+87FSg=;
-  b=fZ2TQv0mM86OUiAGkukyGo605W8fF39ugoQaldQK2P2b0GbLka1laxW1
-   aW/lVhd9TT3O8SXmBjefsMyX/Mqw0jr5DAFhdgWtj4l+nk0aX4VPSBe41
-   s/auyJRrw7vovq+hpCYlyH5rFKb2v4N+srQb6lx+zOe7TP8kM5eKzlQ1g
-   bAYAqyLQh2r4vJu9fqXDvrCl9p7xFXGHJRQseLsZx2lX+U8n1V3Emyfyl
-   iFEqumZ4t1fnNvLIFdy3YPlLMVWxQqPvQYgIOaoSh+LMLTy77eCZDt6qy
-   +HqjJGJI1jKRwZJA88OqaGE/Sjkanj6foqOLGjvHbxMZ8T9fxLjy/Y9Yj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="134474386"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708354800"; 
-   d="scan'208";a="134474386"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 11:01:55 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 675AFDD93F
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 11:01:53 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4BBC7D52FF
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 11:01:52 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id B456E200932D1
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 11:01:49 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 600251A000D;
-	Wed, 10 Apr 2024 10:01:49 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] dropbear: upgrade 2022.83 -> 2024.84
-Date: Wed, 10 Apr 2024 10:01:39 +0800
-Message-Id: <1712714500-23312-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28308.004
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28308.004
-X-TMASE-Result: 10--10.132000-10.000000
-X-TMASE-MatchedRID: FBE0XpCroJijz0nOeth/yTo39wOA02LhSV3lGyX22ZdkDFfw8NSG/Nnf
-	JrUSEbFD/9FzCWH6Yv2mKaU7uZLa5se3wV6A2hch8t4fUUGeErTVy4hHC3/gyMC5DTEMxpeQFH0
-	IKehhaoYgRR2pqoQBmXCydXjZHFqSO4kcA8kjsz8dZEkR8Y/meYQNFYyKS8+vDOItw0nH9LE6tN
-	XWm3vJYospy5fJnP2kL/8yUNGojyaGnc61hHySTFRF81tbZq+QGfcmnqTCNVYR34ro7k23naYnm
-	MLJRh+J/I+yd0mcY0X5RO5JptTFogkClU3H8XT/dqNHliz4AWcWUg/hm489yDclhAqYjfRnT5Hb
-	kNX9+joQ9y3d/U5o2MV7aFLwD4J7Afq3I7FZWGPvVbHa5Rs8tyBr3Ab7SNDagW6bY8SOq3WjxYy
-	RBa/qJV/Hpl/zcOjl5MIx11wv+CM7AFczfjr/7IfWdJhpsYl9FXGMUkOsLQWLr4/ftCn2OWldkK
-	xCycDOrxCfPXwkF30=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AA3hFovA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4830dd134d=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43A5FXw8008446
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Apr 2024 22:29:40 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=EZIqr
+	ovFFJAHkV0mdtTX6ScGQgY2jyGyYLRz6i6Brac=; b=AA3hFovAFUexuDb56rodp
+	DEa6Tv85Yj4SQCP645nCnt2+qkX7P/VIjp4Kk7i1NBYd5RmomroH5eEkubsv+x2L
+	dpOc7ETU4CWLtDIn5BitFcH8QKKzTJlPTuC1nfpapgp5e9oyOO1y28m8CyQrTanW
+	UOfCkDHoqSjbk+LPCpiZA3m4POJCZgnehoMcgHy3GXVhIVdUqxxSUMYZmx9esqGt
+	Y0dOATK/dAn5+T5DAG9u72iwN+WbOORnBcRYmvGEHupOmvjQCZfT3hlSeb+bBUaz
+	/dXwSJ1Zcu3elPOABmWxsJKyC+cNrTuxfkQaQbxyC/gEwC2YqTu8UxRudydHlhEs
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xb5wgkjm3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 Apr 2024 22:29:40 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Tue, 9 Apr 2024 22:29:39 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Tue, 9 Apr 2024 22:29:39 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ncurses: Fix CVE-2023-50495
+Date: Wed, 10 Apr 2024 13:29:38 +0800
+Message-ID: <20240410052938.2802706-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: t4G15g4a8237x6Km9j6Py5KKqb2PfUNb
+X-Proofpoint-ORIG-GUID: t4G15g4a8237x6Km9j6Py5KKqb2PfUNb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-09_12,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404100038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 02:02:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198076
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Apr 2024 05:29:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198077
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-0001-urandom-xauth-changes-to-options.h.patch
-dropbear-disable-weak-ciphers.patch
-0005-dropbear-enable-pam.patch
-0006-dropbear-configuration-file.patch
-refreshed for 2024.84
+Backport a patch [1] to fix CVE-2023-50495.
 
-CVE-2023-36328.patch
-removed since it's included in 2024.84
+[1] http://ncurses.scripts.mit.edu/?p=ncurses.git;a=commitdiff;h=7723dd6799ab10b32047ec73b14df9f107bafe99
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- ...1-urandom-xauth-changes-to-options.h.patch |  14 +-
- .../dropbear/0005-dropbear-enable-pam.patch   |   8 +-
- .../0006-dropbear-configuration-file.patch    |   8 +-
- .../dropbear/dropbear/CVE-2023-36328.patch    | 144 ------------------
- .../dropbear-disable-weak-ciphers.patch       |   8 +-
- ...ropbear_2022.83.bb => dropbear_2024.84.bb} |   3 +-
- 6 files changed, 20 insertions(+), 165 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
- rename meta/recipes-core/dropbear/{dropbear_2022.83.bb => dropbear_2024.84.bb} (97%)
+ .../ncurses/files/CVE-2023-50495.patch        | 301 ++++++++++++++++++
+ meta/recipes-core/ncurses/ncurses_6.4.bb      |   1 +
+ 2 files changed, 302 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-50495.patch
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-index 99adcfd770..c74f09e484 100644
---- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-@@ -2,14 +2,14 @@ Subject: [PATCH 1/6] urandom-xauth-changes-to-options.h
- 
- Upstream-Status: Inappropriate [configuration]
- ---
-- default_options.h | 2 +-
-+ src/default_options.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/default_options.h b/default_options.h
--index 349338c..5ffac25 100644
----- a/default_options.h
--+++ b/default_options.h
--@@ -289,7 +289,7 @@ group1 in Dropbear server too */
-+diff --git a/src/default_options.h b/src/default_options.h
-+index 6e970bb..ccc8b47 100644
-+--- a/src/default_options.h
-++++ b/src/default_options.h
-+@@ -311,7 +311,7 @@ group1 in Dropbear server too */
-  
-  /* The command to invoke for xauth when using X11 forwarding.
-   * "-q" for quiet */
-@@ -19,5 +19,5 @@ index 349338c..5ffac25 100644
-  
-  /* If you want to enable running an sftp server (such as the one included with
- -- 
--2.25.1
-+2.34.1
- 
-diff --git a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-index 32c3ea5f08..fe667ddc25 100644
---- a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-@@ -11,13 +11,13 @@ Upstream-Status: Pending
- Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- ---
-- default_options.h | 4 ++--
-+ src/default_options.h | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
--diff --git a/default_options.h b/default_options.h
-+diff --git a/src/default_options.h b/src/default_options.h
- index 0e3d027..349338c 100644
----- a/default_options.h
--+++ b/default_options.h
-+--- a/src/default_options.h
-++++ b/src/default_options.h
- @@ -210,7 +210,7 @@ group1 in Dropbear server too */
-  
-  /* Authentication Types - at least one required.
-diff --git a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-index deed78ffb9..f54f634a4e 100644
---- a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-@@ -12,13 +12,13 @@ Signed-off-by: Maxin B. John <maxin.john@enea.com>
- Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
- ---
-- svr-authpam.c | 2 +-
-+ src/svr-authpam.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/svr-authpam.c b/svr-authpam.c
-+diff --git a/srec/svr-authpam.c b/src/svr-authpam.c
- index d201bc9..165ec5c 100644
----- a/svr-authpam.c
--+++ b/svr-authpam.c
-+--- a/src/svr-authpam.c
-++++ b/src/svr-authpam.c
- @@ -223,7 +223,7 @@ void svr_auth_pam(int valid_user) {
-  	}
-  
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
-deleted file mode 100644
-index ec50d69816..0000000000
---- a/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
-+++ /dev/null
-@@ -1,144 +0,0 @@
--From beba892bc0d4e4ded4d667ab1d2a94f4d75109a9 Mon Sep 17 00:00:00 2001
--From: czurnieden <czurnieden@gmx.de>
--Date: Fri, 8 Sep 2023 10:07:32 +0000
--Subject: [PATCH] Fix possible integer overflow
--
--CVE: CVE-2023-36328
--
--Upstream-Status: Backport [https://github.com/libtom/libtommath/commit/beba892bc0d4e4ded4d667ab1d2a94f4d75109a9]
--
--Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-----
-- libtommath/bn_mp_2expt.c                | 4 ++++
-- libtommath/bn_mp_grow.c                 | 4 ++++
-- libtommath/bn_mp_init_size.c            | 5 +++++
-- libtommath/bn_mp_mul_2d.c               | 4 ++++
-- libtommath/bn_s_mp_mul_digs.c           | 4 ++++
-- libtommath/bn_s_mp_mul_digs_fast.c      | 4 ++++
-- libtommath/bn_s_mp_mul_high_digs.c      | 4 ++++
-- libtommath/bn_s_mp_mul_high_digs_fast.c | 4 ++++
-- 8 files changed, 33 insertions(+)
--
--diff --git a/libtommath/bn_mp_2expt.c b/libtommath/bn_mp_2expt.c
--index 0ae3df1..ca6fbc3 100644
----- a/libtommath/bn_mp_2expt.c
--+++ b/libtommath/bn_mp_2expt.c
--@@ -12,6 +12,10 @@ mp_err mp_2expt(mp_int *a, int b)
-- {
--    mp_err    err;
--
--+   if (b < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* zero a as per default */
--    mp_zero(a);
--
--diff --git a/libtommath/bn_mp_grow.c b/libtommath/bn_mp_grow.c
--index 9e904c5..2b16826 100644
----- a/libtommath/bn_mp_grow.c
--+++ b/libtommath/bn_mp_grow.c
--@@ -9,6 +9,10 @@ mp_err mp_grow(mp_int *a, int size)
--    int     i;
--    mp_digit *tmp;
--
--+   if (size < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* if the alloc size is smaller alloc more ram */
--    if (a->alloc < size) {
--       /* reallocate the array a->dp
--diff --git a/libtommath/bn_mp_init_size.c b/libtommath/bn_mp_init_size.c
--index d622687..5fefa96 100644
----- a/libtommath/bn_mp_init_size.c
--+++ b/libtommath/bn_mp_init_size.c
--@@ -6,6 +6,11 @@
-- /* init an mp_init for a given size */
-- mp_err mp_init_size(mp_int *a, int size)
-- {
--+
--+   if (size < 0) {
--+      return MP_VAL;
--+   }
--+
--    size = MP_MAX(MP_MIN_PREC, size);
--
--    /* alloc mem */
--diff --git a/libtommath/bn_mp_mul_2d.c b/libtommath/bn_mp_mul_2d.c
--index 87354de..2744163 100644
----- a/libtommath/bn_mp_mul_2d.c
--+++ b/libtommath/bn_mp_mul_2d.c
--@@ -9,6 +9,10 @@ mp_err mp_mul_2d(const mp_int *a, int b, mp_int *c)
--    mp_digit d;
--    mp_err   err;
--
--+   if (b < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* copy */
--    if (a != c) {
--       if ((err = mp_copy(a, c)) != MP_OKAY) {
--diff --git a/libtommath/bn_s_mp_mul_digs.c b/libtommath/bn_s_mp_mul_digs.c
--index 64509d4..2d2f5b0 100644
----- a/libtommath/bn_s_mp_mul_digs.c
--+++ b/libtommath/bn_s_mp_mul_digs.c
--@@ -16,6 +16,10 @@ mp_err s_mp_mul_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
--    mp_word r;
--    mp_digit tmpx, *tmpt, *tmpy;
--
--+   if (digs < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* can we use the fast multiplier? */
--    if ((digs < MP_WARRAY) &&
--        (MP_MIN(a->used, b->used) < MP_MAXFAST)) {
--diff --git a/libtommath/bn_s_mp_mul_digs_fast.c b/libtommath/bn_s_mp_mul_digs_fast.c
--index b2a287b..d6dd3cc 100644
----- a/libtommath/bn_s_mp_mul_digs_fast.c
--+++ b/libtommath/bn_s_mp_mul_digs_fast.c
--@@ -26,6 +26,10 @@ mp_err s_mp_mul_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int digs)
--    mp_digit W[MP_WARRAY];
--    mp_word  _W;
--
--+   if (digs < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* grow the destination as required */
--    if (c->alloc < digs) {
--       if ((err = mp_grow(c, digs)) != MP_OKAY) {
--diff --git a/libtommath/bn_s_mp_mul_high_digs.c b/libtommath/bn_s_mp_mul_high_digs.c
--index 2bb2a50..c9dd355 100644
----- a/libtommath/bn_s_mp_mul_high_digs.c
--+++ b/libtommath/bn_s_mp_mul_high_digs.c
--@@ -15,6 +15,10 @@ mp_err s_mp_mul_high_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
--    mp_word  r;
--    mp_digit tmpx, *tmpt, *tmpy;
--
--+   if (digs < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* can we use the fast multiplier? */
--    if (MP_HAS(S_MP_MUL_HIGH_DIGS_FAST)
--        && ((a->used + b->used + 1) < MP_WARRAY)
--diff --git a/libtommath/bn_s_mp_mul_high_digs_fast.c b/libtommath/bn_s_mp_mul_high_digs_fast.c
--index a2c4fb6..afe3e4b 100644
----- a/libtommath/bn_s_mp_mul_high_digs_fast.c
--+++ b/libtommath/bn_s_mp_mul_high_digs_fast.c
--@@ -19,6 +19,10 @@ mp_err s_mp_mul_high_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int
--    mp_digit W[MP_WARRAY];
--    mp_word  _W;
--
--+   if (digs < 0) {
--+      return MP_VAL;
--+   }
--+
--    /* grow the destination as required */
--    pa = a->used + b->used;
--    if (c->alloc < pa) {
----
--2.35.5
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch b/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
-index 5c60868ed8..f998caa255 100644
---- a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
-@@ -10,13 +10,13 @@ and we want to support the stong algorithms.
- Upstream-Status: Inappropriate [configuration]
- Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
- ---
-- default_options.h | 2 +-
-+ src/default_options.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/default_options.h b/default_options.h
-+diff --git a/src/default_options.h b/src/default_options.h
- index d417588..bc5200f 100644
----- a/default_options.h
--+++ b/default_options.h
-+--- a/src/default_options.h
-++++ b/src/default_options.h
- @@ -180,7 +180,7 @@ IMPORTANT: Some options will require "make clean" after changes */
-   * Small systems should generally include either curve25519 or ecdh for performance.
-   * curve25519 is less widely supported but is faster
-diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2024.84.bb
-similarity index 97%
-rename from meta/recipes-core/dropbear/dropbear_2022.83.bb
-rename to meta/recipes-core/dropbear/dropbear_2024.84.bb
-index 528eff1a10..69c7b04c55 100644
---- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2024.84.bb
-@@ -21,10 +21,9 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbear.default \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
--           file://CVE-2023-36328.patch \
+diff --git a/meta/recipes-core/ncurses/files/CVE-2023-50495.patch b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
+new file mode 100644
+index 0000000000..7d90ddd30f
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/CVE-2023-50495.patch
+@@ -0,0 +1,301 @@
++From 7daae3f2139a678fe0ae0b42fcf8d807cbff485c Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Sun, 4 Feb 2024 13:42:38 +0800
++Subject: [PATCH] parse_entry.c: check return value of _nc_save_str
++
++* check return value of _nc_save_str(), in special case for tic where
++extended capabilities are processed but the terminal description was
++not initialized (report by Ziqiao Kong).
++
++* regenerate llib-* files.
++
++CVE: CVE-2023-50495
++
++Upstream-Status: Backport [http://ncurses.scripts.mit.edu/?p=ncurses.git;a=commitdiff;h=7723dd6799ab10b32047ec73b14df9f107bafe99]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ ncurses/llib-lncurses       | 15 +++++++++++++++
++ ncurses/llib-lncursest      | 15 +++++++++++++++
++ ncurses/llib-lncursestw     | 15 +++++++++++++++
++ ncurses/llib-lncursesw      | 15 +++++++++++++++
++ ncurses/llib-ltinfo         | 15 +++++++++++++++
++ ncurses/llib-ltinfot        | 15 +++++++++++++++
++ ncurses/llib-ltinfotw       | 15 +++++++++++++++
++ ncurses/llib-ltinfow        | 15 +++++++++++++++
++ ncurses/tinfo/parse_entry.c | 23 ++++++++++++++++-------
++ 9 files changed, 136 insertions(+), 7 deletions(-)
++
++diff --git a/ncurses/llib-lncurses b/ncurses/llib-lncurses
++index 211cf3b7..e4190aa2 100644
++--- a/ncurses/llib-lncurses
+++++ b/ncurses/llib-lncurses
++@@ -3656,6 +3656,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-lncursest b/ncurses/llib-lncursest
++index 1b09d676..e07abba6 100644
++--- a/ncurses/llib-lncursest
+++++ b/ncurses/llib-lncursest
++@@ -3741,6 +3741,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-lncursestw b/ncurses/llib-lncursestw
++index 4576e0fc..747c6be8 100644
++--- a/ncurses/llib-lncursestw
+++++ b/ncurses/llib-lncursestw
++@@ -4702,6 +4702,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-lncursesw b/ncurses/llib-lncursesw
++index 127350d2..862305d9 100644
++--- a/ncurses/llib-lncursesw
+++++ b/ncurses/llib-lncursesw
++@@ -4617,6 +4617,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-ltinfo b/ncurses/llib-ltinfo
++index a5cd7cd3..31e5e9a6 100644
++--- a/ncurses/llib-ltinfo
+++++ b/ncurses/llib-ltinfo
++@@ -927,6 +927,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-ltinfot b/ncurses/llib-ltinfot
++index bd3de812..48e5c25a 100644
++--- a/ncurses/llib-ltinfot
+++++ b/ncurses/llib-ltinfot
++@@ -1003,6 +1003,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-ltinfotw b/ncurses/llib-ltinfotw
++index 4d35a1e1..64dfdfa5 100644
++--- a/ncurses/llib-ltinfotw
+++++ b/ncurses/llib-ltinfotw
++@@ -1025,6 +1025,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/llib-ltinfow b/ncurses/llib-ltinfow
++index db846764..7e17a35f 100644
++--- a/ncurses/llib-ltinfow
+++++ b/ncurses/llib-ltinfow
++@@ -949,6 +949,21 @@ char	*tiparm(
++ 		...)
++ 		{ return(*(char **)0); }
++ 
+++#undef tiparm_s
+++char	*tiparm_s(
+++		int	num_expected,
+++		int	tparm_type,
+++		const char *string,
+++		...)
+++		{ return(*(char **)0); }
+++
+++#undef tiscan_s
+++int	tiscan_s(
+++		int	*num_expected,
+++		int	*tparm_type,
+++		const char *string)
+++		{ return(*(int *)0); }
+++
++ #undef _nc_tiparm
++ char	*_nc_tiparm(
++ 		int	expected,
++diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
++index 14bcb67e..0a0b5637 100644
++--- a/ncurses/tinfo/parse_entry.c
+++++ b/ncurses/tinfo/parse_entry.c
++@@ -110,7 +110,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
++ 	/* Well, we are given a cancel for a name that we don't recognize */
++ 	return _nc_extend_names(entryp, name, STRING);
++     default:
++-	return 0;
+++	return NULL;
++     }
++ 
++     /* Adjust the 'offset' (insertion-point) to keep the lists of extended
++@@ -142,6 +142,11 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
++ 	for (last = (unsigned) (max - 1); last > tindex; last--)
++ 
++     if (!found) {
+++	char *saved;
+++
+++	if ((saved = _nc_save_str(name)) == NULL)
+++	    return NULL;
+++
++ 	switch (token_type) {
++ 	case BOOLEAN:
++ 	    tp->ext_Booleans++;
++@@ -169,7 +174,7 @@ _nc_extend_names(ENTRY * entryp, const char *name, int token_type)
++ 	TYPE_REALLOC(char *, actual, tp->ext_Names);
++ 	while (--actual > offset)
++ 	    tp->ext_Names[actual] = tp->ext_Names[actual - 1];
++-	tp->ext_Names[offset] = _nc_save_str(name);
+++	tp->ext_Names[offset] = saved;
++     }
++ 
++     temp.nte_name = tp->ext_Names[offset];
++@@ -364,6 +369,8 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
++ 	bool is_use = (strcmp(_nc_curr_token.tk_name, "use") == 0);
++ 	bool is_tc = !is_use && (strcmp(_nc_curr_token.tk_name, "tc") == 0);
++ 	if (is_use || is_tc) {
+++	    char *saved;
+++
++ 	    if (!VALID_STRING(_nc_curr_token.tk_valstring)
++ 		|| _nc_curr_token.tk_valstring[0] == '\0') {
++ 		_nc_warning("missing name for use-clause");
++@@ -377,11 +384,13 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
++ 			    _nc_curr_token.tk_valstring);
++ 		continue;
++ 	    }
++-	    entryp->uses[entryp->nuses].name = _nc_save_str(_nc_curr_token.tk_valstring);
++-	    entryp->uses[entryp->nuses].line = _nc_curr_line;
++-	    entryp->nuses++;
++-	    if (entryp->nuses > 1 && is_tc) {
++-		BAD_TC_USAGE
+++	    if ((saved = _nc_save_str(_nc_curr_token.tk_valstring)) != NULL) {
+++			entryp->uses[entryp->nuses].name = saved;
+++			entryp->uses[entryp->nuses].line = _nc_curr_line;
+++			entryp->nuses++;
+++			if (entryp->nuses > 1 && is_tc) {
+++			    BAD_TC_USAGE
+++		    }
++ 	    }
++ 	} else {
++ 	    /* normal token lookup */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/ncurses/ncurses_6.4.bb b/meta/recipes-core/ncurses/ncurses_6.4.bb
+index 2c621525f9..31f18bbadc 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.4.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.4.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://0001-tic-hang.patch \
+            file://exit_prototype.patch \
+            file://0001-Fix-CVE-2023-29491.patch \
+            file://0001-Updating-reset-code-ncurses-6.4-patch-20231104.patch \
++           file://CVE-2023-50495.patch \
             "
- 
--SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
-+SRC_URI[sha256sum] = "16e22b66b333d6b7e504c43679d04ed6ca30f2838db40a21f935c850dfc01009"
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-                file://0006-dropbear-configuration-file.patch \
+ # commit id corresponds to the revision in package version
+ SRCREV = "79b9071f2be20a24c7be031655a5638f6032f29f"
 -- 
-2.34.1
+2.25.1
 
 
