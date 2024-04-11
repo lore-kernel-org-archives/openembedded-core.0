@@ -1,132 +1,111 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <omatiush@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3503C4345F
-	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 13:26:26 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web11.17742.1712841986320190555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A1A6C001CC
+	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 13:33:07 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web11.17933.1712842376555417505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Apr 2024 06:26:26 -0700
+ Thu, 11 Apr 2024 06:32:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=B6R7TeVF;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.182, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-61587aa9f4cso80232927b3.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 06:26:26 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=FYXaAHUV;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: omatiush@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1712841985; x=1713446785; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ctbSC/ciTKPHOQhPF8375E2Vo+mwFmNS9HSUlV5BDQA=;
-        b=B6R7TeVFJtsI5IxqPXwnonndO7tqAyirghfobJC+0bYDiUr8b4x77BuRVpBw8BMBcR
-         ENsbvEmer37jd2c1vE4lYolYfcYbQW62CUzfZpmTymafverxGUMHqgCyvdO4JVajVN6E
-         DTtvcreoFFgXXPjIGhLfApjUXjDYPVDOTcjIBGStWxKedDeed1db9dYNMZhUktvjORRs
-         qtCZ6FK8ywtrjNOyRWFsSAI9QsGvYDtn3aRHTJ11ckypEXk6I0RP7Nus1tO2PbtYpM45
-         nHjC4JMWX/EhsrhxIeB5ODEZLHet86w2b5udQT3NMmATHG6MzD5owcZ2Zt6Urrspr9CR
-         F1tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712841985; x=1713446785;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ctbSC/ciTKPHOQhPF8375E2Vo+mwFmNS9HSUlV5BDQA=;
-        b=HglWVWpduogauvDzYyqXFcVveRU28vxecXaGa90CtJFOxzaWemowlPwgYiD4lDvtS4
-         PbEkmT/wwLuVI257nO9xpVC076ddUZJZJkslLhCopGeR9kiGbgpIYGhPPZS2xvUaFo3B
-         6oWaJvOMrPyY2tdoTPmhvZNfSolI9yATqk5dm78uxqwRUy+Y1ylKaDCO/cqkFFz+A94m
-         pgJgT8FqjARqCGwWZpUmp0GqNAyrJrQs05KMRgvOMvqddt+D3JFnnY99TpxLmfvOBbhr
-         kyHxyBxEvbiXPS5tOpgVeuH25mxy8k+EZpFT1n0Vuakj4dOwtwaAYP+2+YS5Zi+KeiOc
-         zCQw==
-X-Gm-Message-State: AOJu0YxOplfRZWhgSJS7O6/5vRq0psBgWW+ZZLVoS3IIeNALOZ4G/yu4
-	vrU7E8zulO5qf7n7zTV5k/n/3F03fzG0cflwMUOnBo+bGZwsXZ8oQywbW5XvPGxbR08UmC4eYuS
-	ZpUqgV/d71KeHlDTgPDWwDYSg2Dz/M8oUdiibVA==
-X-Google-Smtp-Source: AGHT+IEoGQiu8ApFQpv1UBLaKeHuktpsvl36tqjy8qscuD8VAjRt+f6DuAGT9y07FT3EsJZj+gzLNqfcL+Lb+I1olmU=
-X-Received: by 2002:a81:9441:0:b0:614:3178:44ef with SMTP id
- l62-20020a819441000000b00614317844efmr5313516ywg.34.1712841985429; Thu, 11
- Apr 2024 06:26:25 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=1081; q=dns/txt; s=iport;
+  t=1712842376; x=1714051976;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WocgyxaxSyha78JDWSc2fo6A4AetcRqOB1wAIq4aWyM=;
+  b=FYXaAHUVZC9pZT8KusZSPpI720kLuVVOvxXdiG1mohqfL2U3ckkg+IDf
+   AYHMNX0H/JxfJXw3IsrrLdTGj3mlho/ugXOiSxUNUXtgaSv1LcjTq58HS
+   fhSPKkEOEgcVKKVs70vtCJShVuESWApGQQvyT+UoFGoz2b9ZZ7cmZzEWw
+   U=;
+X-CSE-ConnectionGUID: hPD6fc6aQ96PQysBjAPfzw==
+X-CSE-MsgGUID: Kx7tEmFKSZOWzp2p6pZZFA==
+X-IPAS-Result: =?us-ascii?q?A0DzAQCG5RdmmIQNJK1ahhhWQUiUG4IigRaKXZM9A1YPA?=
+ =?us-ascii?q?QEBDzUPBAEBjR4CJjgTAQIEAQEBAQMCAwEBAQEBAQEBBgEBBQEBAQIBBwUUA?=
+ =?us-ascii?q?QEBAQEBAQEeGQUOECeFbQ2HEgFzfCeDAAGCXwIBsEKCLIEBhHjZN4FqgUiNA?=
+ =?us-ascii?q?4VhJxuBSUSBFYJydoUQhXYEjDOUXkqBIwNZIQIRAVUTDhMJOg8MGgIbFA0kI?=
+ =?us-ascii?q?wIsPgMJChACFgMdFAQyEQkLJgMqBjYCEgwGBgZbIBYJBCMDCAQDUAMgcBEDB?=
+ =?us-ascii?q?BoECwd1gz0EE0QDEIEyihmDP4IggRGDIk2FEkQDCQMHBUlAAwsYDUgRLDUUG?=
+ =?us-ascii?q?wYiH24HnGMBgglyAQGBDUwCdscZhB2MDpUfGjOqMwGYYqQihGOBeyOBW00jF?=
+ =?us-ascii?q?YMiCUkZD445iHWYZkM1AjkCBwsBAQMJimgBAQ?=
+IronPort-Data: A9a23:4PrkOa3xZnLcM+FM2/bD5cBxkn2cJEfYwER7XKvMYLTBsI5bpzAGz
+ WAcWGuFbKrZYDTwfd9yPYni/E8OsZCDz9ZlHABv3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ1yFjmE4E71btANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXV5
+ rsen+WFYAX5g2ItazpOg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauG4ycbjG
+ o4vZJnglo/o109F5uGNy94XQWVWKlLmBjViv1INM0SUbreukQRpukozHKJ0hU66EFxllfgpo
+ DlGncTYpQvEosQglcxFOyS0HR2SMoVGwJOZL3PhuPXCkXX/YmDGwdxWAlMpaNhwFuZfWQmi9
+ NQRLDQLKxuEne/zmer9Qeh3jcNlJ87uVG8dkig/lneCU7B/GtaaGP+iCdxwhF/cguhJGP/CZ
+ tcCaRJkbQ/LZFtEPVJ/5JcWxrrw2imjImYDwL6TjYknvHT+ySJS64rKD8jNIMTUXfdnsG/N8
+ woq+EyiX0lFb4bAodafyVqrnuLJkCbxVY4eGbH9/flwjXWXx3cPE1sRTVa9rPyzh0KyVt4ZL
+ FYbkhfCtoA78EitC9L6RRD9+SbCtR8HUN0WGOo/gO2Q9kbKywahKjYKRWBIUY14jPYnXhYo/
+ 2eHjcy8UFSDr4apYX6a876Vqxa7Ni4UMXIOaEc4oe0tvYKLTGYb0EunczpzLJNZmOEZDt0Z/
+ txnhCE6g7NWhskR2uDipRbMgimnod7CSQtdCuTrsoCNsF4RiG2NPtDABb3nARBocN/xor6p5
+ ydspiRmxLpSZaxhbhClTuQXB62O7P2YKjDailMHN8B+rm7ypCXzItsNu24WyKJV3iAsJ2eBj
+ Kj75FI52XOvFCrCgVJfOtvuW5pwkcAM6/y8B6qPBjaxXnSBXFTapH41PxH4M5HFm0k3mqZ3I
+ oaAbcupFj4bD68hpAdatM9DuYLHMhsWnDuJLbiilkzP+ePHOBa9F+xfWHPQNb9R0U9xiFiPm
+ /5FKdCwwglSOMWnJHG/HXg7dw5adBDWxPne9qRqSwJ0ClE4RTt4UK6MmutJlk4Mt/09q9okN
+ 0qVAidwoGcTT1WdQelWQhiPsI/SYKs=
+IronPort-HdrOrdr: A9a23:nZLZy6x7n7ksJ3myFyTTKrPwP71zdoMgy1knxilNoHtuA6+lfq
+ +V88jzuSWftN9zYhEdcK67VpVoKEm0nfVICOIqUYtKMjOKhILRFuBfBU+I+UyEJ8U4ndQtt5
+ tdTw==
+X-Talos-CUID: 9a23:fecwBmxkmR4YpO8QwQIQBgUUIux7fHaDxU6BfXeBGH1DSpStR02PrfY=
+X-Talos-MUID: 9a23:ORk/dAgjO+mO2ac+vVSVssMpF9c3/4mrJmM2o7I5qdHeLXJoCQWzpWHi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.07,193,1708387200"; 
+   d="scan'208";a="250484933"
+Received: from alln-core-10.cisco.com ([173.36.13.132])
+  by alln-iport-5.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 13:32:55 +0000
+Received: from sjc-ads-4348.cisco.com (sjc-ads-4348.cisco.com [171.70.55.119])
+	by alln-core-10.cisco.com (8.15.2/8.15.2) with ESMTP id 43BDWtHE027186
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 13:32:55 GMT
+From: Oleh Matiusha <omatiush@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] nativesdk-gzip: fix reproducibility issues
+Date: Thu, 11 Apr 2024 13:32:55 +0000
+Message-Id: <20240411133255.3217812-1-omatiush@cisco.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20240411080548.264541-1-heiko.thole@entwicklung.eq-3.de>
-In-Reply-To: <20240411080548.264541-1-heiko.thole@entwicklung.eq-3.de>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 11 Apr 2024 06:26:14 -0700
-Message-ID: <CAOSpxdZzM3yBsH9wKp9s8bskxSrpzSsb5AJJ8-t=W1-7mtuH8w@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] kernel.bbclass: check, if directory
- exists before removing empty module directory
-To: Heiko <heiko.thole@entwicklung.eq-3.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.55.119, sjc-ads-4348.cisco.com
+X-Outbound-Node: alln-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 13:26:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198129
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 13:33:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198130
 
-This patch doesn't apply for me:
+There is absolute path in zgrep binary. It is related
+to the changes that fix an issue with zgrep on Solaris
+and other platforms with 'grep -e'. I'd like to ask here
+if Yocto supports Solaris as host architecture, and
+if there's a reliable way to detect the host arch.
+If there is, I'll place additional check to be
+compatible with it.
 
-Applying: kernel.bbclass: check, if directory exists before removing
-empty module directory
-Using index info to reconstruct a base tree...
-error: patch failed: meta/classes/kernel.bbclass:452
-error: meta/classes/kernel.bbclass: patch does not apply
-error: Did you hand edit your patch?
-It does not apply to blobs recorded in its index.
-Patch failed at 0001 kernel.bbclass: check, if directory exists before
-removing empty module directory
+Original change:
+git.savannah.gnu.org/cgit/gzip.git/commit?id=60b3f4eb672a85de28ecaad47ed426f8c8fe6c32
 
-Steve
+Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
+---
+ meta/recipes-extended/gzip/gzip.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Thu, Apr 11, 2024 at 1:06=E2=80=AFAM Heiko <heiko.thole@entwicklung.eq-3=
-.de> wrote:
->
-> If the kernel folder does not exist, find will result in an error.
-> This can occur if the kernel has no modules but, for example, custom modu=
-les are created.
->
-> Add check before deleting.
->
-> Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index dbd89057f3..988a489396 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -452,7 +452,7 @@ kernel_do_install() {
->                 rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSIO=
-N}/build"
->                 rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSIO=
-N}/source"
->                 # Remove empty module directories to prevent QA issues
-> -               find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION=
-}/kernel" -type d -empty -delete
-> +               [ -d "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION=
-}/kernel" ] && find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/k=
-ernel" -type d -empty -delete
->         else
->                 bbnote "no modules to install"
->         fi
-> --
-> 2.41.0
->
-> eQ-3 Entwicklung GmbH, Maiburger Str. 36, 26789 Leer
-> Gesch=C3=A4ftsf=C3=BChrer: Prof. Heinz-G. Redeker
-> Registergericht: Amtsgericht Aurich, HRB 110388
-> eQ-3 AG, Maiburger Str. 29, 26789 Leer
-> Vorstand: Prof. Heinz-G. Redeker (Vorsitzender), Helga Redeker
-> Vorsitzende des Aufsichtsrats: Irmgard Keplin
-> Registergericht: Amtsgericht Aurich, HRB 200335
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198117): https://lists.openembedded.org/g/openembedde=
-d-core/message/198117
-> Mute This Topic: https://lists.openembedded.org/mt/105458549/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
+index b32584033b..62b3e2f4f9 100644
+--- a/meta/recipes-extended/gzip/gzip.inc
++++ b/meta/recipes-extended/gzip/gzip.inc
+@@ -8,6 +8,7 @@ inherit autotools texinfo
+ export DEFS="NO_ASM"
+ 
+ EXTRA_OEMAKE:class-target = "GREP=${base_bindir}/grep"
++EXTRA_OEMAKE:append:class-nativesdk = " GREP=grep"
+ EXTRA_OECONF:append:libc-musl = " gl_cv_func_fflush_stdin=yes "
+ 
+ do_install:append () {
+-- 
+2.33.0
+
 
