@@ -1,117 +1,99 @@
-Return-Path: <zev@bewilderbeest.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8F3CD1297
-	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 00:28:03 +0000 (UTC)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
- by mx.groups.io with SMTP id smtpd.web10.6102.1712795274079256603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6085ECD11C2
+	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 00:34:03 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.6309.1712795635463354683
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Apr 2024 17:27:54 -0700
+ Wed, 10 Apr 2024 17:33:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bewilderbeest.net header.s=thorn header.b=fC8QKHBE;
- spf=pass (domain: bewilderbeest.net, ip: 71.19.156.171, mailfrom: zev@bewilderbeest.net)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 9BCE777D;
-	Wed, 10 Apr 2024 17:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1712795273;
-	bh=65GGx1QpnvI3lHrxY4FZBOPcE11YXigukyX++z/Fa0k=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fC8QKHBEA1yIJIIKZ57SjN3vZQTAbzpCVLaUwwdxai72yDtoEOxKjwScndQlPwz0k
-	 mBs80a+GBThjDe33Gh8bhP/pmaRd8Fq4kxDnFMWdC5DJzllKVbQkRX+nD12rzMGKTQ
-	 VSgbI2ZRUvf6YY5ThOnPfRZH+bCj6XC2KmhtTxbU=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Zev Weiss <zev@bewilderbeest.net>,
-	openbmc@lists.ozlabs.org
-Subject: [OE-core][PATCH] bash: Fix file-substitution error-handling bug
-Date: Wed, 10 Apr 2024 17:27:26 -0700
-Message-ID: <20240411002728.15983-1-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.44.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QDohSV+G;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=avP5R2B/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018eca934af8-2848ad15-b7c6-4d4e-9774-6f950a8abdd2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1712795634; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Vcy0I8J7IcHC3jYyZg+LqG/0H8OguCfkBNAuDt7XQD0=;
+	b=QDohSV+Gl465OFoakleHe1yyYTZeIQZx/ctYfFwR4kOqx/jQ1sxjPojsncQHhzNL
+	fc6gXTMTHxREGKXbRYF0kR2e8ocMhG/9wI0aY9+xBT+9hNrOg3G+4mJF+uFtH30NOrw
+	e/TYR4HmFZjXYrQq8bNX0Ne6qyLnqalfBpW0sT1I=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1712795634;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Vcy0I8J7IcHC3jYyZg+LqG/0H8OguCfkBNAuDt7XQD0=;
+	b=avP5R2B/wLpFD0a3hWyTk/dNLPfxmuIxZ9MflasMJo2Qik8KnNAq9uKIZ5KGCZ1Y
+	jjxIx6KI2j8jqZl99yIHdG9OFfdN+k8jnRpS5kelnc9WEleYdM+CAVbJyhuVB2HVgKK
+	akwjXE+eyvPEK9JYx6fDG0s/6+i9GD+OfDMOg2v4=
+From: patchtest@automation.yoctoproject.org
+To: Zev Weiss <zev@bewilderbeest.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] bash: Fix file-substitution error-handling bug
+In-Reply-To: <20240411002728.15983-1-zev@bewilderbeest.net>
+References: <20240411002728.15983-1-zev@bewilderbeest.net>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018eca934af8-2848ad15-b7c6-4d4e-9774-6f950a8abdd2-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Apr 2024 00:33:54 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.04.11-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 00:28:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198110
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 00:34:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198111
 
-This is part of a patch that's been upstream for a while but hasn't yet
-been released.  The bug is causing some downstream difficulties, so a
-local patch to tide us over until the next release makes things a bit
-easier.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../bash/bash/fix-filesubst-errexit.patch     | 33 +++++++++++++++++++
- meta/recipes-extended/bash/bash_5.2.21.bb     |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/fix-filesubst-errexit=
-.patch
+Testing patch /home/patchtest/share/mboxes/bash-Fix-file-substitution-error-handling-bug.patch
 
-diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch =
-b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-new file mode 100644
-index 000000000000..9ef1394e74c4
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-@@ -0,0 +1,33 @@
-+From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
-+From: Chet Ramey <chet.ramey@case.edu>
-+Date: Fri, 7 Apr 2023 00:28:46 -0700
-+Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
-+ enabled
-+
-+This is a trimmed-down version of a commit in the bash 'devel' branch
-+[1] that contains this fix as well as other unrelated ones.
-+
-+[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=3Ddevel&id=3Dec=
-9447ce9392a0f93d96789c3741285fede8a150
-+
-+Upstream-Status: Backport
-+
-+---
-+ builtins/evalstring.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/builtins/evalstring.c b/builtins/evalstring.c
-+index df3dd68e2a7e..6612081cd646 100644
-+--- a/builtins/evalstring.c
-++++ b/builtins/evalstring.c
-+@@ -753,7 +753,7 @@ open_redir_file (r, fnp)
-+   fd =3D open(fn, O_RDONLY);
-+   if (fd < 0)
-+     {
-+-      file_error (fn);
-++      internal_error ("%s: %s", fn, strerror (errno));
-+       free (fn);
-+       if (fnp)
-+ 	*fnp =3D 0;
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-ext=
-ended/bash/bash_5.2.21.bb
-index 46d921bbe6c6..532adf4c1a0d 100644
---- a/meta/recipes-extended/bash/bash_5.2.21.bb
-+++ b/meta/recipes-extended/bash/bash_5.2.21.bb
-@@ -13,6 +13,7 @@ SRC_URI =3D "${GNU_MIRROR}/bash/${BP}.tar.gz;name=3Dtar=
-ball \
-            file://fix-run-builtins.patch \
-            file://use_aclocal.patch \
-            file://0001-changes-to-SIGINT-handler-while-waiting-for-a-chi=
-ld-.patch \
-+           file://fix-filesubst-errexit.patch \
-            "
-=20
- SRC_URI[tarball.sha256sum] =3D "c8e31bdc59b69aaffc5b36509905ba3e5cbb1274=
-7091d27b4b977f078560d5b8"
---=20
-2.34.1
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'fix-filesubst-errexit.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
