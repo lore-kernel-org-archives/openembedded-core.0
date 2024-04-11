@@ -1,142 +1,215 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 745AFCD1284
-	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 12:17:56 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.16350.1712837867743802708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E1EC10F10
+	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 13:20:56 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.17833.1712841656473653916
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Apr 2024 05:17:48 -0700
+ Thu, 11 Apr 2024 06:20:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FQy1dtpw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d6c9678cbdso100315131fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 05:17:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TD4NK2yw;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e3ca546d40so47780915ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 06:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1712837866; x=1713442666; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qOhdDf2q3vb1vzki7Nj6h/Spl+LXUyzeR3zkK0zjuc0=;
-        b=FQy1dtpwCF224o9v8xlijS1XTK1vv75BMMHmpYHvlOqZsyZ4BKrYuGmsbntwKBgpKm
-         s/Zk1t1dQdRYcu4axOtavJ6amjp+A8HdUIjLaX8dGXHBH0e9LDJsfJnuZek6vNS8xqyf
-         V6i+LUMt/GQ9XfcNG5H7TJnupPDOlvd1qbLgw=
+        d=gmail.com; s=20230601; t=1712841656; x=1713446456; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lWbdkLhQekLepc2SZM3iOsl5x7bslNo9fxIrTKWbByI=;
+        b=TD4NK2ywgQzY8iT7ugaaurn8E9BOUa2lr2lLxIXcp1HXUut0VrpKKkti0kddQsHj4Y
+         kOiLzlN6mJ+B7IkgRcg4gOwyQiMEorcvzshiodpKcCTGaj2sVL+kU+Wt+l/X+s/5977B
+         gU9+mDUtH6xRvtDOMZMuxVZs798D6up9++Kat8xvzSeLDIMqaZNu7gsldru5PmP3Niut
+         glORgFNWUpcdAc0w/rE5Au712fabunpBSazm+s6tTQuyUao/6yHmjoRIK3Rmjqs9k/gV
+         QNenMK2VMzljI+jNVFlSX+flWsy9dygXseJhroXE14S93ntwe6oelNVSBbkPTid+xL06
+         HmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712837866; x=1713442666;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qOhdDf2q3vb1vzki7Nj6h/Spl+LXUyzeR3zkK0zjuc0=;
-        b=T3MhXJiljGKAJw0sGqKPqArsBRhB8ccHNoq1IsYLvFBpLRoEERCkiezaQyR83wAe2B
-         k4zdeTrroo/ez1CaVM1uuGOkK1uBuKCBVw9K09h4T+88Vle4FksK/1BHO9kn8pFWU7lH
-         DMGymD9xGLnBts+jK8/bGK7+v1YzS8Y0JsvWiFXAsR+qj8ruvGvj3+os2LYCiBxqtzyP
-         0dMamtyz298Qx/7BiUFZvfidm1Mo6KiholG07XOhtFWdXA80s+FKAGoLyGvU8rQfGeBS
-         g2U/13B7xwPxbTrKe3M9McukOQfTroK7GC0CI0G7zJfLitJtTUKP8fvMJPPMQEWG4cJd
-         ckZw==
-X-Forwarded-Encrypted: i=1; AJvYcCV88BULqnicENBQ4+8WivIqYm6TWIUua1UVwkzbyKOguc4a2riJdYeJZEKSQRYhsHrORT6IsuM6/WVUYFBqUsdzRSQg3toE/NAB4EoJRgmuMT90S3DA6hQq
-X-Gm-Message-State: AOJu0YwqpH1NHdATkeTjrAKyK0ZiMW1zAlCdB3L/uJIC9moPWBEDgSYV
-	EB8y/nnXi3WiwYu45y+gCtbB/RCJ8H3VBRPqKhV2hoL4i3+ayx9X/Estg13ffVw=
-X-Google-Smtp-Source: AGHT+IG6D7mAmZxzZddTcGdMZfSSke//8aoGCAw6Ae5rJjEBTCuX+NXaydEgCbr4zt2AWftownfg7w==
-X-Received: by 2002:a2e:8799:0:b0:2d6:ff58:179c with SMTP id n25-20020a2e8799000000b002d6ff58179cmr3244439lji.27.1712837865744;
-        Thu, 11 Apr 2024 05:17:45 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1824:5b7d:2973:625e? ([2001:8b0:aba:5f3c:1824:5b7d:2973:625e])
-        by smtp.gmail.com with ESMTPSA id fl21-20020a05600c0b9500b00417e124f4dcsm1109754wmb.6.2024.04.11.05.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 05:17:45 -0700 (PDT)
-Message-ID: <34edec135ca064ae92c5a7fd2c04cc2c82aec26e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] recipetool: Handle several go-import tags
- in go resolver
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: sven@svenschwermer.de, openembedded-core@lists.openembedded.org
-Cc: lukas.funke@weidmueller.com, uvv.mail@gmail.com, Sven Schwermer
-	 <sven.schwermer@disruptive-technologies.com>
-Date: Thu, 11 Apr 2024 13:17:44 +0100
-In-Reply-To: <20240411101030.2846823-2-sven@svenschwermer.de>
-References: <20240411101030.2846823-1-sven@svenschwermer.de>
-	 <20240411101030.2846823-2-sven@svenschwermer.de>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1712841656; x=1713446456;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lWbdkLhQekLepc2SZM3iOsl5x7bslNo9fxIrTKWbByI=;
+        b=fwVWKJBeI52rdADpeB1ALUx3UEvVWnZULNTP8vELtq4DybNs+/Nm43/gEk6l9ACKlH
+         c2clpPfDVW0NkjTioHKGBYUDGCVCTPdjJc6mpedydV0ciUnMyTaIAPYtGa1uqq8GowyJ
+         c0Zv+J2qQVStsuktYxP+l/o74iF/65DlBm6GVH7FxgsMSAFXXXfVe8AbcN5S84BBM/UR
+         Qk91CTTnf+1dwDWvcGAtIuOEDPmnOWIJO9NrWl9Wt6magg7Ie4CderMMq7Q5V4ghijVd
+         zk0RJ8lhW+kGEdKkN6SS5zGzuR5A4xHCrUVXkd4MGJ3IxMAZ2/+jBxfTc0ZTOKwHnPgE
+         k63Q==
+X-Gm-Message-State: AOJu0Yw4b4dfTKbIGLee4yaxQNDXyjs+JFev1wasTA2HnNGd28WbShYJ
+	cyFHzecf9aoFYJ3Lw5rUQ5a5pZfKr9HxzGV9+Fn7UT8He5JR/iQIAAKXuHHQ9gWUG7/NXPuOvN4
+	6OgmkIkFEebFtGb9sEYfTGrhrwVk=
+X-Google-Smtp-Source: AGHT+IGpl2y1etgBE4PXjH3ma1AV2LdxHhlQRiqtOOSl68y/8J4B0y6+DS7dXaG9WOHu4QLOFHUVC2GLCorM708N2qk=
+X-Received: by 2002:a17:902:f64b:b0:1e2:7916:6b7a with SMTP id
+ m11-20020a170902f64b00b001e279166b7amr5533659plg.6.1712841655751; Thu, 11 Apr
+ 2024 06:20:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240410231243.2363935-1-raj.khem@gmail.com>
+In-Reply-To: <20240410231243.2363935-1-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 11 Apr 2024 09:20:44 -0400
+Message-ID: <CADkTA4NFrUYM3brHAG_kpGaUY9h5rRw+cA=3o5Lz1Z-rg68gLA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto: Enable nft modules for ptest images
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000729f370615d20614"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 12:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198127
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 13:20:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198128
 
-T24gVGh1LCAyMDI0LTA0LTExIGF0IDEyOjEwICswMjAwLCBTdmVuIHZpYSBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnIHdyb3RlOgo+IEZyb206IFN2ZW4gU2Nod2VybWVyIDxzdmVuLnNjaHdlcm1lckBk
-aXNydXB0aXZlLXRlY2hub2xvZ2llcy5jb20+Cj4gCj4gV2hlbiBkeW5hbWljYWxseSByZXNvbHZp
-bmcgZ28gbW9kdWxlcywgdGhlIEhUTUwgcGFnZSBtYXkgY29udGFpbiBzZXZlcmFsCj4gZ28taW1w
-b3J0IG1ldGEgdGFncy4gV2UgbXVzdCBoYW5kbGUgYWxsIGFuZCBwaWNrIHRoZSBjb3JyZWN0IG9u
-ZSBiYXNlZAo+IG9uIHRoZSBtb2R1bGUgbmFtZS4gQW4gZXhhbXBsZSBmb3Igc3VjaCBhIGJlaGF2
-aW91ciBpcwo+IGdvbnVtLm9yZy92MS9nb251bToKPiAKPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQi
-IGNvbnRlbnQ9ImdvbnVtLm9yZy92MS9leHAgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9nb251bS9l
-eHAiPgo+IDxtZXRhIG5hbWU9ImdvLWltcG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL2dvbnVt
-IGdpdCBodHRwczovL2dpdGh1Yi5jb20vZ29udW0vZ29udW0iPgo+IDxtZXRhIG5hbWU9ImdvLWlt
-cG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL2hkZjUgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9n
-b251bS9oZGY1Ij4KPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQiIGNvbnRlbnQ9ImdvbnVtLm9yZy92
-MS9uZXRsaWIgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9nb251bS9uZXRsaWIiPgo+IDxtZXRhIG5h
-bWU9ImdvLWltcG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL3Bsb3QgZ2l0IGh0dHBzOi8vZ2l0
-aHViLmNvbS9nb251bS9wbG90Ij4KPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQiIGNvbnRlbnQ9Imdv
-bnVtLm9yZy92MS90b29scyBnaXQgaHR0cHM6Ly9naXRodWIuY29tL2dvbnVtL3Rvb2xzIj4KPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBTdmVuIFNjaHdlcm1lciA8c3Zlbi5zY2h3ZXJtZXJAZGlzcnVwdGl2
-ZS10ZWNobm9sb2dpZXMuY29tPgo+IC0tLQo+IMKgc2NyaXB0cy9saWIvcmVjaXBldG9vbC9jcmVh
-dGVfZ28ucHkgfCAyMyArKysrKysrKystLS0tLS0tLS0tLS0tLQo+IMKgMSBmaWxlIGNoYW5nZWQs
-IDkgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL3Njcmlw
-dHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlX2dvLnB5IGIvc2NyaXB0cy9saWIvcmVjaXBldG9vbC9j
-cmVhdGVfZ28ucHkKPiBpbmRleCAwZmI3MTE1ZTI2Li5hODVhMmYyNzg2IDEwMDY0NAo+IC0tLSBh
-L3NjcmlwdHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlX2dvLnB5Cj4gKysrIGIvc2NyaXB0cy9saWIv
-cmVjaXBldG9vbC9jcmVhdGVfZ28ucHkKPiBAQCAtMjI1LDcgKzIyNSw3IEBAIGNsYXNzIEdvUmVj
-aXBlSGFuZGxlcihSZWNpcGVIYW5kbGVyKToKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBkZWYgX19pbml0X18oc2VsZik6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-c3VwZXIoKS5fX2luaXRfXygpCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzZWxm
-Ll9fc3J2ID0gW10KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuX19zcnYg
-PSB7fQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRlZiBoYW5kbGVfc3RhcnR0YWco
-c2VsZiwgdGFnLCBhdHRycyk6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYg
-dGFnID09ICdtZXRhJyBhbmQgbGlzdCgKPiBAQCAtMjMzLDE5ICsyMzMsMTQgQEAgY2xhc3MgR29S
-ZWNpcGVIYW5kbGVyKFJlY2lwZUhhbmRsZXIpOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgY29udGVudCA9IGxpc3QoCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbHRlcihsYW1iZGEgYTogKGFbMF0gPT0gJ2NvbnRl
-bnQnKSwgYXR0cnMpKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aWYgY29udGVudDoKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzZWxmLl9fc3J2ID0gY29udGVudFswXVsxXS5zcGxpdCgpCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3J2ID0gY29udGVudFswXVsxXS5zcGxp
-dCgpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2Vs
-Zi5fX3NydltzcnZbMF1dID0gc3J2Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBAcHJv
-cGVydHkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZWYgaW1wb3J0X3ByZWZpeChzZWxmKToK
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBzZWxmLl9fc3J2WzBdIGlm
-IGxlbihzZWxmLl9fc3J2KSBlbHNlIE5vbmUKPiAtCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-QHByb3BlcnR5Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIHZjcyhzZWxmKToKPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBzZWxmLl9fc3J2WzFdIGlmIGxlbihz
-ZWxmLl9fc3J2KSBlbHNlIE5vbmUKPiAtCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQHByb3Bl
-cnR5Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIHJlcG91cmwoc2VsZik6Cj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gc2VsZi5fX3NydlsyXSBpZiBsZW4oc2Vs
-Zi5fX3NydikgZWxzZSBOb25lCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIGdvX2ltcG9y
-dChzZWxmLCBtb2R1bGVwYXRoKToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
-IG1vZHVsZXBhdGggaW4gc2VsZi5fX3NydjoKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgc3J2ID0gc2VsZi5fX3Nydlttb2R1bGVwYXRoXQo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gR29JbXBvcnQoc3J2WzBdLCBzcnZbMV0s
-IHNydlsyXSwgTm9uZSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBO
-b25lCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgIHVybCA9IHVybC5nZXR1cmwoKSArICI/Z28tZ2V0
-PTEiCj4gwqDCoMKgwqDCoMKgwqDCoCByZXEgPSB1cmxsaWIucmVxdWVzdC5SZXF1ZXN0KHVybCkK
-PiBAQCAtMjY1LDcgKzI2MCw3IEBAIGNsYXNzIEdvUmVjaXBlSGFuZGxlcihSZWNpcGVIYW5kbGVy
-KToKPiDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlci5mZWVkKGJvZHkuZGVjb2RlKCd1dGYtOCcpKQo+
-IMKgwqDCoMKgwqDCoMKgwqAgcGFyc2VyLmNsb3NlKCkKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoCBy
-ZXR1cm4gR29JbXBvcnQocGFyc2VyLmltcG9ydF9wcmVmaXgsIHBhcnNlci52Y3MsIHBhcnNlci5y
-ZXBvdXJsLCBOb25lKQo+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gcGFyc2VyLmdvX2ltcG9ydCht
-b2R1bGVwYXRoKQo+IMKgCj4gwqDCoMKgwqAgZGVmIF9fcmVzb2x2ZV9mcm9tX2dvbGFuZ19wcm94
-eShzZWxmLCBtb2R1bGVwYXRoLCB2ZXJzaW9uKToKPiDCoMKgwqDCoMKgwqDCoMKgICIiIgoKU2hv
-dWxkIHdlIGJlIGV4dGVuZGluZyAib2Utc2VsZnRlc3QgLXIgcmVjaXBldG9vbCIgd2l0aCB0ZXN0
-cyBmb3Igc29tZXRoaW5nPwoKQ2hlZXJzLAoKUmljaGFyZAo=
+--000000000000729f370615d20614
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+No concerns here. The Wind River team has been sending updates to
+that fragment for some time to get better ptest results.
+
+So enabling it this way is fine with me.
+
+Cheers,
+
+Bruce
+
+On Wed, Apr 10, 2024 at 7:12=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+
+> nftables ptests need it
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto_6.6.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> index 1c03e22c3cb..e8e84f8f788 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> @@ -64,7 +64,7 @@ KERNEL_FEATURES:append:qemuall=3D" cfg/virtio.scc
+> features/drm-bochs/drm-bochs.scc
+>  KERNEL_FEATURES:append:qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
+"
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
+",
+> " cfg/x32.scc", "", d)}"
+> -KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "", d)}"
+> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc",
+> "", d)}"
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
+>  KERNEL_FEATURES:append:powerpc =3D" arch/powerpc/powerpc-debug.scc"
+>  KERNEL_FEATURES:append:powerpc64 =3D" arch/powerpc/powerpc-debug.scc"
+> --
+> 2.44.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198109):
+> https://lists.openembedded.org/g/openembedded-core/message/198109
+> Mute This Topic: https://lists.openembedded.org/mt/105453044/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000729f370615d20614
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">No concerns here. The Wind River team has been sending update=
+s to</div><div class=3D"gmail_default" style=3D"font-size:small">that fragm=
+ent for some time to get better ptest results.=C2=A0</div><div class=3D"gma=
+il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
+" style=3D"font-size:small">So enabling it this way is fine with me.</div><=
+div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">Cheers,</div><div class=3D"gma=
+il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
+" style=3D"font-size:small">Bruce</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div></div><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Wed, Apr 10, 2024 at 7:12=E2=80=AFPM Khem Raj=
+ &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">nftables ptest=
+s need it<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_6.6.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.6.bb=
+" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.6.bb</a> b/meta/recipe=
+s-kernel/linux/<a href=3D"http://linux-yocto_6.6.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">linux-yocto_6.6.bb</a><br>
+index 1c03e22c3cb..e8e84f8f788 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_6.6.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_6.6.bb</a><br>
+@@ -64,7 +64,7 @@ KERNEL_FEATURES:append:qemuall=3D&quot; cfg/virtio.scc fe=
+atures/drm-bochs/drm-bochs.scc<br>
+=C2=A0KERNEL_FEATURES:append:qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
+m.scc&quot;<br>
+=C2=A0KERNEL_FEATURES:append:qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
+_kvm.scc&quot;<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEA=
+TURES&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot;, d)}&=
+quot;<br>
+-KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
+ES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;, &qu=
+ot;&quot;, d)}&quot;<br>
++KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
+ES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc features/n=
+f_tables/nft_test.scc&quot;, &quot;&quot;, d)}&quot;<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_F=
+EATURES&quot;, &quot;ptest&quot;, &quot; features/gpio/mockup.scc features/=
+gpio/sim.scc&quot;, &quot;&quot;, d)}&quot;<br>
+=C2=A0KERNEL_FEATURES:append:powerpc =3D&quot; arch/powerpc/powerpc-debug.s=
+cc&quot;<br>
+=C2=A0KERNEL_FEATURES:append:powerpc64 =3D&quot; arch/powerpc/powerpc-debug=
+.scc&quot;<br>
+-- <br>
+2.44.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#198109): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/198109" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/198109</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105453044/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/105453044/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--000000000000729f370615d20614--
 
