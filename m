@@ -1,171 +1,178 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 063D5C4345F
-	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 14:19:57 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.19363.1712845188314784196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1064BC4345F
+	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 14:20:57 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.56])
+ by mx.groups.io with SMTP id smtpd.web11.19178.1712845256327065317
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Apr 2024 07:19:48 -0700
+ Thu, 11 Apr 2024 07:20:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=HfAIPU8u;
- spf=pass (domain: baylibre.com, ip: 209.85.218.51, mailfrom: jstephan@baylibre.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a520410b7c0so280518466b.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 07:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712845186; x=1713449986; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PD59l7QomHqe5VyFXl7z+NMhAEJclCxCdA5cmUlAbwY=;
-        b=HfAIPU8uUK515pPxMfPki8G8jS/Xqw7Np0Y/9Egtyc/1wBF0+67d1/pt8l39cKWzh9
-         R0KIlsuJkLVJ1JlSkLfKXST5kpPfNstveG5OCm6qpmEkf3zQmzb7dyeo8tgv1E+nqLH8
-         4it6kiyBBZJpawWNessMnycxLj/iWL/g/sBOhD8k8PAwGg+9YU8u1tSbHwzxhyQLuvM4
-         s0i4AvuyWK+CkxpLgKXiiVrez57GBPXHPWc21f65ajixcV+6uEXR3xbhxaRUD3+0zUVp
-         6S8hdeg+Bcz0yyoyU3Coa2wfLwpJXaz8zGHAu+xOb+5H6FW0UGRG/geEZcZZsbkw5Czh
-         oVYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712845186; x=1713449986;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PD59l7QomHqe5VyFXl7z+NMhAEJclCxCdA5cmUlAbwY=;
-        b=kZ0fv9cUJgIr86kUzTh0gA44pqLKRF0846SeoustLz93aiA/M44Wlmk9oB1BXlKP8D
-         bjWHbt+Ep3hn7inG5v97XLKGERgYZkNOyuiLKWeZJ3sbgRAS4VA/iKSEKErk66se634H
-         wK5jBzr0hIfJeub4Lu70oNMOxWm0Doj0Na79Ub79EUOUdewIKchBfbttIprMW9E7dvnk
-         N0kt64kS7+sb82G9MAf97hMBN5Qdmy68uB0aJ6Rz5BN2mEPhkKZRJL+HQp+8RwPQRGDp
-         7odoX75KyaQ2OT+3OYeYFMSONJJpQzjWk8k7/h7/ztRTAXhVNNMGZryj/L7yIYXco8q1
-         unDA==
-X-Gm-Message-State: AOJu0YyF2JszqwFE2NmOoD+gVjCWgmLn6ajbeOFay4RBztrT80eiAfSt
-	WU9GQiBeGCJL3o451G8FgOXPTd7uPJPNqBF0bD1cn7/QnjQrZLRz3AHa0yNWTkPDqWfWcdFQ9Wj
-	Jd77ZSQ1uUbcGDmElVR7GxLBXiBO3q7jVoZXtlLrx5YBYOdvhLAJwQQ==
-X-Google-Smtp-Source: AGHT+IF0ZMeVAz28jxVWZhvL3NAoCsdHBAstBohxIKzMljuoYZhQ9GlNOxMDL1LGolLy2Ifd7ho6WW+NupdpupQr5Wk=
-X-Received: by 2002:a17:907:9411:b0:a51:bed9:2cc8 with SMTP id
- dk17-20020a170907941100b00a51bed92cc8mr5167680ejc.51.1712845186419; Thu, 11
- Apr 2024 07:19:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240410070647.3783683-1-jstephan@baylibre.com> <DB5PR02MB10213986BBAF0B3810EB72AB2EF062@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213986BBAF0B3810EB72AB2EF062@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 11 Apr 2024 16:19:38 +0200
-Message-ID: <CAEHHSvZedL+GnaaXaU3mUrxSE3Tih0KsMkUPxVcmjcvMit_=VA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] devtool: standard: throws appropriate error
- if source is in detached HEAD
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Ez0tJn3F;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Ez0tJn3F;
+ spf=pass (domain: arm.com, ip: 40.107.20.56, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=d2GL2nxnRZGgIzXeEFeN15Cvqog1vXWcnKWNuIvkJgst7m1/E6Dyza5JhM2JDJa4KMl2WZ3alGL5cXbwNHABiDmhT4mQO7pzD56+NbqjdDNyILVQ2SOv/MzMd2Gdo2/+rZzbCzZGMT9niTIbuTL9Q9qrHOnqZNXihcz7g2gHKYGWijdNbUi4skQraMO3coYJafla01VKbP/H5a3M/XLCIWWZVUtL+cCu1HUPEiGBvfsmXsfjBiT55ELTJSdzLLTlVXuC7GoAYK1qnWVeT6OTa+6iRlY8oQ2IQN8GuR9sYhmqeHz1da92l7zPyFxQWNUvO8OqmfiVrjc4r1HE6TUGMg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3v1yQWF/ZlkNDe0WxHZ8asiPJ2POMqKhxuZwRBdroSY=;
+ b=dFBwkI9vZAD1UHxBbiUvEaJLKyxeDpj3SYDBUizPwRc/NcOquc/WGaRfVhMVmw/5/JUWFw/+yPMGn5wgj0fgzK1OzMatP4un72Q23lHg0S6vpuT2eOY8qQCu8+QUb2trpEVcGHFHyKej2agCmbIDChLmD7QbVR7gmtZqPSyR0MhTDFWTF4j+zCDs8TvpxdwObVV+rCh3uAIDZvnyquJle4+p9aeYotMUFAjZIDDP6hmYTp0oG4tcOQ7CvLfH1lmeFSchGf090Os8ByfP0WzJjVzrW2W3mY+9n9cxCpR2hr7YxpUee4D5b/SpJHeNgePffN6O9zGh2bvdRL1+vXncsQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3v1yQWF/ZlkNDe0WxHZ8asiPJ2POMqKhxuZwRBdroSY=;
+ b=Ez0tJn3FhnpRuhmOWU1N1AES8JpOqZY0xmNtWn4O3JoHa3m75xseH9y/Uh9zf209LlEKqbiZcC5R+R/cQhsH2kgajABPp9BQ0DXiiHHJS9yDKPktzHs/AMrkfBoBhJQBZi9oX73Y2NpTNWWzPLS3YNbZUsa+EOQ0WKmZJUKmQvI=
+Received: from DUZPR01CA0135.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::6) by VI1PR08MB10103.eurprd08.prod.outlook.com
+ (2603:10a6:800:1ce::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
+ 2024 14:20:46 +0000
+Received: from DB1PEPF000509F1.eurprd03.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::39) by DUZPR01CA0135.outlook.office365.com
+ (2603:10a6:10:4bc::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Thu, 11 Apr 2024 14:20:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB1PEPF000509F1.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7452.22
+ via Frontend Transport; Thu, 11 Apr 2024 14:20:46 +0000
+Received: ("Tessian outbound dad50f1992f6:v300"); Thu, 11 Apr 2024 14:20:46 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: e730e32b9b1cf0ec
+X-CR-MTA-TID: 64aa7808
+Received: from d1e18375ac73.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 1FE8470D-390E-43E3-BD32-B712E69E21DA.1;
+	Thu, 11 Apr 2024 14:20:39 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d1e18375ac73.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 11 Apr 2024 14:20:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rtx517G6MJIlVZ4Yp+/TXrYoBBQSQcrErOf1tM2IfSJNqgrf1JVmKTii6O+4KtBWVNULwj9tNETyt6V9UPFJxTu7lF4dsXLNKGLxzfDtebmwe6lBnct/RhYUy4yhv5zJfoVyqLkPqaWXvHDuSWyEqRncebo8DxfdfSWS7tPmEujIl4BbTo1k0a7KH+kyEhNCxSgpWCFphkfXgX7CdSoB4RmW7ytVlLILlE0cbvXydxyUqUTCQ0ks7lVJsiXnjYKK7demfgCeU4xnnAQMeQKBV3TxjZb2ZxltEWGmyNvfCb2xmf5x9Oq6AlVkgySWgPVerp4sOCtRpnvrXWTSqxBLkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3v1yQWF/ZlkNDe0WxHZ8asiPJ2POMqKhxuZwRBdroSY=;
+ b=aaYTZxYN4z0DvhY1skInhebi0Eh7pEtBgOPb5yIE0bzTtSxZDcvsIZC53t1CGSIfmpACcJVvnLygbM2vhj+ZcRhh71pYlWHodG+cwCbcDZ/NhItwP7l9oZZIAv6nK8/1g8J3zowmOJZepGKRyhEsZ547lGnWhUEOuR1sYNg3O45e6o32p3IuPa3zj6SdWsQVUT1LmzFBuHf7xppxTIwqxYDPOsfvggSGs47gs5JRW5ks5kuSqXRYdvKCI1QCi1Ut17pPrUe1k39v9Rc/AXJo1HuBCaVyXJn3VkybCBe/WqkvQZ7yIckzqgGqYshgqMrevVQgZmv5oduRwKjL+nweTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3v1yQWF/ZlkNDe0WxHZ8asiPJ2POMqKhxuZwRBdroSY=;
+ b=Ez0tJn3FhnpRuhmOWU1N1AES8JpOqZY0xmNtWn4O3JoHa3m75xseH9y/Uh9zf209LlEKqbiZcC5R+R/cQhsH2kgajABPp9BQ0DXiiHHJS9yDKPktzHs/AMrkfBoBhJQBZi9oX73Y2NpTNWWzPLS3YNbZUsa+EOQ0WKmZJUKmQvI=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by GV2PR08MB8076.eurprd08.prod.outlook.com (2603:10a6:150:7a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
+ 2024 14:20:35 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7409.053; Thu, 11 Apr 2024
+ 14:20:35 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"joe.slater@windriver.com" <joe.slater@windriver.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>, "MacLeod, Randy"
+	<randy.macleod@windriver.com>
+Subject: Re: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend ifupdown
+Thread-Topic: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend ifupdown
+Thread-Index: AQHai64q4IT8QmBHuEeHbW+iamxbnLFizyuAgABQQoA=
+Date: Thu, 11 Apr 2024 14:20:35 +0000
+Message-ID: <767076DA-A341-4508-950D-981ADBF412D3@arm.com>
+References: <20240411011745.574202-1-joe.slater@windriver.com>
+ <20240411011745.574202-2-joe.slater@windriver.com>
+ <6216932520b3db7a6613f284e1c1a77b547c0d66.camel@linuxfoundation.org>
+In-Reply-To: 
+ <6216932520b3db7a6613f284e1c1a77b547c0d66.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.500.171.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|GV2PR08MB8076:EE_|DB1PEPF000509F1:EE_|VI1PR08MB10103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84065acd-b3db-4a97-fca6-08dc5a32946b
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ uKDZWDl/RxEBjcgwvBVCLwPLixjHZtp4xYL26PiHYlldljCkywSrW1tz1R5FfqHQKLioocUBC22shuQbKvgTwnTzxnGQWNbLI57BC1fIbcNj0DVLcasnAh2fnZpCXTkfME81mNEAN2nEbu4y0KkAXUkFtNfPB3IEMGrfGJc9y/9qUTLm7iWLM7/+C1sN6H144yNcjPJamUffwS6S8T3IB5Kxrr5vn/zi1zN+BvHdbSUbDAJ+U0T2cMANIprMZsMycx/tsmoWr/3bgRdsxux5XA4XGIIGUcd6fEJEqGZVDaA7HrWPOfos8i3V7Zk7gwXbWdhTFgWyijngM0CC6eFZho4Nr07H9wSisxjxTZRgmB54GKIK6HHyaePmuLC4RqRFD7WDRobcknxiwXluv3qp+mAGGYvL9QqvQ8paecpiebI+hY45UKNJ2/5zXLyENTIOe/28uA+kYVKp7VE55I8SNS13eV7EzHcrRQnAF7CKCzqdIYl47kfkfL+dg/1CJNH1lTi91bvWNInyYY5XOGX9XMibitLqiNrYZKRquAOsTZDzIBDeQ9ACvvLNUOP9UJuofIM+e0zfdX4TB6LYCYC6qMjrqm2TnW5gIgxF58A+Hb19VBfFZgOQIivLw3vgz5rK1xHbC6F22SN3hr4bk/6C5Ht0c/AqenICAeyc7yapT+o1C3eV9WIABL8woddLeOflX0wudUwhHigypzhbNS39ig==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <6914270A5DE9EA45B31D90B52C0950F7@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8076
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509F1.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	93b4ada7-8007-4d60-f43f-08dc5a328dfa
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lRnoHCbPGF1VhecZYVja9CSOhQfYImRzgEPFokrYqCo0RPHoUaXe4Tu3cYL4EK1nMJEkD4na9bMMMSbhkkb4XhPF8hL6XYKG3Sbe0m9PBbybIq4OIwyLS9gc02FvMVA95pJlX3itx/CZ+tMtKmoQIrv/LzBmm5OBqvJqy7M2QMiSZLMpycFHIktvsxlr2wTYWtdyruNZfr0zuKXhSO50akMTC0UbcuqaJgzPs72BuFi4cCQ90fDenX/waXiVRQUCed563IfeOEMqHi2pfU9C2uxn3PeZQBE7+ZzJcNHWFg+D5M4uI2Vkd+plqW5ml1NAjsrCR1nh0keSiolc39fSvaDrHtZbKeT+CIyITvq5habSPaLtoMQnstpzyS0n7fS1PGMosk+KxfwjY3UgIrLPYZ6M4CmzzN3LZh0T0Y4Mah9oSjB5ybK+eAVvq2Dy0AbgaCn7yaOI5qGr3KiojPFQTkTSuS0uKPeEVy6igkmHVnpaSfHM7FJxfSyOoyAifIi2J2VVBhRluRpXLn7RWCgpPwELw12dd9XhIP+6yMJEG5223biGqEQnJSuSPhiAOMLgD7DEu7OOx2v/hBtlGqgkadnKXFMV3M3oLU6AYrCCOMUdjaNuzuLfzuF1qC0cO7qekKGayExvdaEUO+Nipxi6wVapy58nB+NV5obBoY0lCaX+FMxzmYb9UKbfiU8ppltj/FBHjy7WHaB5HpdTuOkbtMCnKf01uoXy1dzgk6pSlcw4c5DoNLNzWft7xc8Fh1dZ
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(376005)(82310400014)(36860700004)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 14:20:46.4737
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84065acd-b3db-4a97-fca6-08dc5a32946b
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509F1.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10103
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 14:19:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198134
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 14:20:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198135
 
-Le mer. 10 avr. 2024 =C3=A0 13:23, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> a =C3=A9crit :
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of Julien Stephan
-> > Sent: den 10 april 2024 09:07
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Julien Stephan <jstephan@baylibre.com>
-> > Subject: [OE-core] [PATCH v2] devtool: standard: throws appropriate err=
-or if source is in detached HEAD
-> >
-> > If source is in detached HEAD, we get the following error when using
-> > detvool finish command:
-> >
-> >     [...]
-> >     File "<...>/poky/scripts/lib/devtool/standard.py", line 1938, in _u=
-pdate_recipe
-> >       bb.process.run('git checkout %s' % startbranch, cwd=3Dsrctree)
-> >     File "<...>/poky/bitbake/lib/bb/process.py", line 189, in run
-> >       raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
-> >   bb.process.ExecutionError: Execution of 'git checkout (HEAD detached =
-at 9bbf87e)' failed with exit code 2:
-> >   /bin/sh: -c: line 1: syntax error near unexpected token `('
-> >   /bin/sh: -c: line 1: `git checkout (HEAD detached at 9bbf87e)'
-> >
-> > Check this and throws an appropriate error in this case
-> >
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> >
-> > ---
-> >
-> > Changes in v2:
-> >
-> > - update error message to avoid confusion with a potentially non
-> >   existing "main" branch
->
-> As you noted in an earlier mail, the same error message is used some
-> lines later. Please change that one too.
->
+On 11 Apr 2024, at 10:33, Richard Purdie via lists.openembedded.org <richar=
+d.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>> --- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuall/interfac=
+es
+>> +++ /dev/null
+>> @@ -1,5 +0,0 @@
+>> -# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+>> -=20
+>> -# The loopback interface
+>> -auto lo
+>> -iface lo inet loopback
+>=20
+> Is this patch meant to touch ifupdown as well as the packagegroup?
 
-Hi Peter,
-Not sure we need to change the other error message, because in that
-case it really means the *main* branch.
+I suspect not, given that runqemu manually brings up network devices and th=
+e last thing we want is DHCP running again.
 
-This error message happens if we have overrides branches and if the
-currently checked out branch starts with "devtool-override" (and we
-have several other branches).
-In that case, devtool cannot determine the main branch (read it as the
-"base" branch on which the devtool-overrides-* branches are rebased).
-Most of the time it will be the "devtool" branch, but there is no
-guarantee, the user can checkout a working branch for example.
+Joe, please remove this chunk.
 
-Furthermore, there is also another log message few lines after :
-    logger.info('Handling main branch (%s)...' % mainbranch)
-
-So IMHO the log messages look fine here. Maybe we can rewrite them
-using "base" branch such as (but not sure it will be more clear) :
-
-   raise DevtoolError('Unable to determine base branch - please check
-out the base branch in source tree first')
-
-and
-   logger.info('Handling base branch (%s)...' % mainbranch)
-
-
-(do you also want to rename the mainbranch variable?)
-
-Anyway, such changes have nothing to do with the Detached HEAD check,
-so I will not add this within the same commit.
-
-I can do another patch to respell main to base (or something else more
-meaningful?) if you think it would be beneficial for clarity
-(or you can do it if you prefer).
-
-Let me know
-Cheers
-Julien
-
-
-> > ---
-> >  scripts/lib/devtool/standard.py | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/scripts/lib/devtool/standard.py
-> > b/scripts/lib/devtool/standard.py
-> > index 2c174927ddb..51e5794a0a7 100644
-> > --- a/scripts/lib/devtool/standard.py
-> > +++ b/scripts/lib/devtool/standard.py
-> > @@ -1888,6 +1888,8 @@ def _update_recipe(recipename, workspace, rd, mod=
-e,
-> > appendlayerdir, wildcard_ver
-> >          for line in stdout.splitlines():
-> >              branchname =3D line[2:]
-> >              if line.startswith('* '):
-> > +                if 'HEAD' in line:
-> > +                    raise DevtoolError('Detached HEAD - please check o=
-ut a branch, e.g., "devtool"')
-> >                  startbranch =3D branchname
-> >              if branchname.startswith(override_branch_prefix):
-> >                  override_branches.append(branchname)
-> > --
-> > 2.44.0
->
-> //Peter
->
+Ross=
 
