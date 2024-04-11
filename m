@@ -1,296 +1,142 @@
-Return-Path: <hsimeliere.opensource@witekio.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49242CD128A
-	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 11:36:26 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.94])
- by mx.groups.io with SMTP id smtpd.web10.15594.1712835384671216043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 745AFCD1284
+	for <webhook@archiver.kernel.org>; Thu, 11 Apr 2024 12:17:56 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.16350.1712837867743802708
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Apr 2024 04:36:25 -0700
+ Thu, 11 Apr 2024 05:17:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector2 header.b=PIqqACWX;
- spf=pass (domain: witekio.com, ip: 40.107.6.94, mailfrom: hsimeliere@witekio.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P8stqbl3q5rmS+Cx87kKk6Tgc4As9fZhI80CY73OMFdIHKuJlkvcBzzAKuep5wjjTGlwnrubandtB4e4BO4wHftTztoAoqWUtUGr9J3PMN0q15xdJaUjTIAQGLbj8hEmf/oqsWHSTHm3dDr4C1jiGY4VcVhtb2Kxd4dyKdtql/B72AaX/XwnYaqUkHCxokpXfh73d+KVHq0ks6URvegY0JJuKzBxOeY/8/LIy8L+0b8qHpK4Yqlz+wqgDu3tb5ooUbZ7w/Eeol67S+aj19Rqpk15q5bOEh533bIZMqP4IKg+4U6d37XjODYX+NtNclWO9LssHHOMBEy4pU/HnUwDjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vxNlAg/+YQ3W2qnN0/C5wBI/gau2oWZ6j3IND+S+xLI=;
- b=hfx8+uBGfknEza29vFS/R18Tc/eewvgRvagslIqtSjHRVM0klTdvkNNvuunl9cqQOv6zKoiozjVOHUuXID/obm2f6zd6ApCw3p2rhLZjKd9K0vJOza9ErhWBj0uJYjaaKsB9rNBxFvFC4l37ffIQ4P9qe+00DtIkU/eAI8xK9/1DUCebexe91KZNyYVZvIA6TGjy1j5hwQwIRtjF5jN6TzMCTHhUiiaTZCDkqV6eqaaKW0n385UgPMt0Vc1nJOWtMJ0JrL3j2s8W9C/QGhoo8C6pDU80MUGaVjCo1hACfgReklel9Z1+89NxwewWrDuF6U6Lq2Bi7kcgBeyJeZmE+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vxNlAg/+YQ3W2qnN0/C5wBI/gau2oWZ6j3IND+S+xLI=;
- b=PIqqACWXf2SLLjWWsCMqtGPiYTrNzTRTPRlwFxo6rRPEEUktiXQDXDb9QcoXpRB44ucWF+OfyqIFJtxE8TXHetMKIJXzadz2XwrLdq2//rpa0eHP9C60wYEw4hYyn4Ze/HZamFa3lTz3K8lhaBe7strHl5uX/7skcTS1sxdQOsFAkNyXNLYgXTlx59ZiGgJGG88hmACweSjXJ72iKqQNeHRDuQNL/zX+WCYRt5rQG8cCr53g2ahL4uEKBOOQG9GJlox+bTc1EqYY9VC5amyZw5UdRSX28qa+Ki9mUpVf3tTwlA2epI4gyh6DRh5kt8PE7h53MTjaoGnc4qTUo8bf1Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from PR3P192MB0714.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:48::10)
- by DBAP192MB0892.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:1c3::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Thu, 11 Apr
- 2024 11:36:20 +0000
-Received: from PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
- ([fe80::d409:73bc:9e1c:a761]) by PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
- ([fe80::d409:73bc:9e1c:a761%4]) with mapi id 15.20.7409.053; Thu, 11 Apr 2024
- 11:36:20 +0000
-From: hsimeliere.opensource@witekio.com
-To: openembedded-core@lists.openembedded.org
-CC: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-Subject: [dunfell][PATCH v2] shadow: fix CVE-2023-4641
-Date: Thu, 11 Apr 2024 13:36:08 +0200
-Message-ID: <20240411113608.32418-1-hsimeliere.opensource@witekio.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PR1P264CA0125.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:2cd::12) To PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:102:48::10)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FQy1dtpw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d6c9678cbdso100315131fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 05:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1712837866; x=1713442666; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qOhdDf2q3vb1vzki7Nj6h/Spl+LXUyzeR3zkK0zjuc0=;
+        b=FQy1dtpwCF224o9v8xlijS1XTK1vv75BMMHmpYHvlOqZsyZ4BKrYuGmsbntwKBgpKm
+         s/Zk1t1dQdRYcu4axOtavJ6amjp+A8HdUIjLaX8dGXHBH0e9LDJsfJnuZek6vNS8xqyf
+         V6i+LUMt/GQ9XfcNG5H7TJnupPDOlvd1qbLgw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712837866; x=1713442666;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qOhdDf2q3vb1vzki7Nj6h/Spl+LXUyzeR3zkK0zjuc0=;
+        b=T3MhXJiljGKAJw0sGqKPqArsBRhB8ccHNoq1IsYLvFBpLRoEERCkiezaQyR83wAe2B
+         k4zdeTrroo/ez1CaVM1uuGOkK1uBuKCBVw9K09h4T+88Vle4FksK/1BHO9kn8pFWU7lH
+         DMGymD9xGLnBts+jK8/bGK7+v1YzS8Y0JsvWiFXAsR+qj8ruvGvj3+os2LYCiBxqtzyP
+         0dMamtyz298Qx/7BiUFZvfidm1Mo6KiholG07XOhtFWdXA80s+FKAGoLyGvU8rQfGeBS
+         g2U/13B7xwPxbTrKe3M9McukOQfTroK7GC0CI0G7zJfLitJtTUKP8fvMJPPMQEWG4cJd
+         ckZw==
+X-Forwarded-Encrypted: i=1; AJvYcCV88BULqnicENBQ4+8WivIqYm6TWIUua1UVwkzbyKOguc4a2riJdYeJZEKSQRYhsHrORT6IsuM6/WVUYFBqUsdzRSQg3toE/NAB4EoJRgmuMT90S3DA6hQq
+X-Gm-Message-State: AOJu0YwqpH1NHdATkeTjrAKyK0ZiMW1zAlCdB3L/uJIC9moPWBEDgSYV
+	EB8y/nnXi3WiwYu45y+gCtbB/RCJ8H3VBRPqKhV2hoL4i3+ayx9X/Estg13ffVw=
+X-Google-Smtp-Source: AGHT+IG6D7mAmZxzZddTcGdMZfSSke//8aoGCAw6Ae5rJjEBTCuX+NXaydEgCbr4zt2AWftownfg7w==
+X-Received: by 2002:a2e:8799:0:b0:2d6:ff58:179c with SMTP id n25-20020a2e8799000000b002d6ff58179cmr3244439lji.27.1712837865744;
+        Thu, 11 Apr 2024 05:17:45 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1824:5b7d:2973:625e? ([2001:8b0:aba:5f3c:1824:5b7d:2973:625e])
+        by smtp.gmail.com with ESMTPSA id fl21-20020a05600c0b9500b00417e124f4dcsm1109754wmb.6.2024.04.11.05.17.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 05:17:45 -0700 (PDT)
+Message-ID: <34edec135ca064ae92c5a7fd2c04cc2c82aec26e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] recipetool: Handle several go-import tags
+ in go resolver
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: sven@svenschwermer.de, openembedded-core@lists.openembedded.org
+Cc: lukas.funke@weidmueller.com, uvv.mail@gmail.com, Sven Schwermer
+	 <sven.schwermer@disruptive-technologies.com>
+Date: Thu, 11 Apr 2024 13:17:44 +0100
+In-Reply-To: <20240411101030.2846823-2-sven@svenschwermer.de>
+References: <20240411101030.2846823-1-sven@svenschwermer.de>
+	 <20240411101030.2846823-2-sven@svenschwermer.de>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PR3P192MB0714:EE_|DBAP192MB0892:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b9d7206-6b25-459f-a33f-08dc5a1b9bb8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	FEm54Dpj80eGJYs/zP4viU0ySxqHtlP8ND86TGVGoIoS4Pl1lofs5jhmn+vXwEkec/yEGt0eNMQ+UCpN1S+x4jkl4b55b46gF59ClATGb4XcljebjcOO3BxAT+BMyNUsAlEPNNxCWLvH4HVjtBpSPmOSUXagQ+QtqY+cn+gRvby99WRIOutt+wQD3/xmvXb4Y0uUgV2kSTeXgaJ50k5mngebJdQTI2hFOKLFqltWGqbH3tEq9padti7YCguFDlJO77M9h65B488TuwmgDK9oQ7Y+L80Dgmsj6kCpBBEgMgVtGVkrl6jYvTmq0M3E7/HPhGcyNBiqozYCykObq7Cu1IT/vtzFOR4gps3bsx3QfcZsrrCOpvPdF0Ea8GNXWchpK5BTyP9XqfJmFwMquygtq/uoifDL7g6G2e91n106lVTMZfKPJ9wfneyvIfxjHvNASBmtdMK2tqXI0lkGbjHvsap8zWwR8UxnMBjEdvjzxdYthe/Kzg4CKUZ4mlxwiyuOjkiDRmH8Fg6UXsNKmJBop9VpCE2GNjG7FJn2YqE8Z3RZNvirJuqki8d5flrICktQI0/N7ROTlaEV8kEr17ZVdaJFSH/PuXxeeU2jIN9En2UgsD9/sw4qdhNQA3xf0LhXoNSdz7FuDYXWRNMGRvHvQ4IlVadsSfuumVQ9PwGDdDbPfIWYQMX4emLJAiBSpT8Uw9PTPMXW1ePznxdIa9Fe/XNeR096vjh458/Ks2WpXNw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3P192MB0714.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(52116005)(376005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?JCIP3bQmwz/u+sTYjY2Z2ZZJaKKdQKX0rX4tMBHRWk9go2FVPQwp19TjGL2f?=
- =?us-ascii?Q?ZPo7bEdBM/ubfUB8DQxJLSzY4zStbi50ReC8VgpLphGu2TbB9onFY/dFJr8b?=
- =?us-ascii?Q?H9q6WBUIwtcbAr4NzQrnvFd4FoJf6zMCMzqL4R2GDZXs6NzcVB6A0X5aJYXz?=
- =?us-ascii?Q?ctDLQ4eFpPTQy97jsYQqxaYCZqnrxf8MgQCT22Kd+fqdKwAZkSpnwNOgzTNq?=
- =?us-ascii?Q?1qTtLSktvirNrQaJ0TxYOUY3i5qu0+lGAEQnYwRKbQ/OBtiDFUZzdJReWvG2?=
- =?us-ascii?Q?IXWO7iIRbdFilnwMlaqRGy8MKWMjvPCoAv5s3fW2jLYFBo6LxPuafpM5lQqL?=
- =?us-ascii?Q?s7H5Wq8plUXqNFtBcZAhkclxV2ynaNp4AoTHAjoNuzqfJkmEnXdiUZfw3lVx?=
- =?us-ascii?Q?oQzc0Lebsct5dX9E0U4+Cel8OktBs9AVCWR3I4Doaflfh4cp3T40BbLo7leH?=
- =?us-ascii?Q?exiUd9kXCEhewCMr+zIk8I6jS0mQ75HOF4GZ9rrqDqK/rD9B1zOBeJ1mSf3h?=
- =?us-ascii?Q?lvKRkzD4+YWOKqaXcgJcs6Ox0lrjJTVXa+cyFLtXKdfJ8FlomvhbvVFGTB6U?=
- =?us-ascii?Q?sklni5H9iYvHoAaToWTNCc91OtK0Bqb6IfTR5U3+rQnDsI/bnt3B+IEDl/x1?=
- =?us-ascii?Q?pI9KyLvJTWT/N5YUa4oCWw550HUYCSKflLMX8OIpOa1NhJXcA53m/vYo/ftv?=
- =?us-ascii?Q?muvjTmb1ZUWh+JLhEgC236N5RQQYNYsW5bd15pepj7on2WQbKEm/XLachqoi?=
- =?us-ascii?Q?APSq61jNRWoECUviyyOnhjjE08j236d8bjTHB0gIKOA1MRieCvr/R91u+pYU?=
- =?us-ascii?Q?GS1X+MyWa4rvu/XSsNZqr2Ssdjq+3x8ElebzOH2gftUUBvvKQbN9icAQdsMe?=
- =?us-ascii?Q?SDtaUHD9oywKsXgbUBDwIQItI4hrV4qtAT9TEZfr8IP7jQlUGUlOIjR5TJ9+?=
- =?us-ascii?Q?6drrknC+xsKBFOAqTawn4UvfoBPcONz8YgrNaRam42BIl9zmZyDeDhFNsgw8?=
- =?us-ascii?Q?CfZeEtMNTBGoebyuEFZJCtVJHm0bsUHp0JI+iiQO+VYsTrjDx6Wec3oUJK94?=
- =?us-ascii?Q?Fs4T2g/T+lfLRlVr2xHOFFfTUZGqB0YO5VUWFEerm9F/VkQqPoXbc1QOfaCV?=
- =?us-ascii?Q?esAOGaAXL6XK7sLQ2NgS1gW3brG7v89Uz+QtZQ9hodl8M2nSo+4e+FOjcA7Z?=
- =?us-ascii?Q?h3PJPO//jbSRhKoCc+Blk0ZG3luXxCgW0YuSD7HmPqY5OPq0Lf/H/taurjV6?=
- =?us-ascii?Q?gxzUwOeCoV83ikZaB+9ECZ812t9FMe0BczmM52EWxwCk7gQye7l4YcxUmNfH?=
- =?us-ascii?Q?9iasPdX+89scgvEflffxDShXnS9BOwvNe5TARqMfat9ZpASC34fWD5adj0fH?=
- =?us-ascii?Q?pb9rn6nwgJzQuYNKeesaiftlfrh9s0xaAZJ3f/cc7WBFmkKxJgJl4bfjp8FN?=
- =?us-ascii?Q?Yn0py6cG1wWl6b0VLUN9vnOwkM0KyeJmjUjPtbmEnBIBbOeIeJwPCw9n6+Ud?=
- =?us-ascii?Q?Z7UlrXhA/7dsYq4O8zTpktJa0ujXWni6MFHNvC2tk5KdiKp6Pdo0UuFwtRa1?=
- =?us-ascii?Q?MzKTNoGmcba/JCrdGG41cp3oopsZ5q/4CzY9sAzJ?=
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b9d7206-6b25-459f-a33f-08dc5a1b9bb8
-X-MS-Exchange-CrossTenant-AuthSource: PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 11:36:20.4531
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7s7Qcf0L9hYB/NXELxWOyTfwQTxaFD/qwradRQAXr3idzIxNC2w2szPp5ynULePSf7WLIMP+OFGW4h7NkcKm+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAP192MB0892
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 11:36:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198126
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 12:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198127
 
-From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-
-Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65=
-c88a43a23c2391dcc90c0abda3e839e9c57904]
-
-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
----
- .../shadow/files/CVE-2023-4641.patch          | 146 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   1 +
- 2 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch b/meta/=
-recipes-extended/shadow/files/CVE-2023-4641.patch
-new file mode 100644
-index 0000000000..75dbbad299
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-@@ -0,0 +1,146 @@
-+From 51731b01fd9a608397da22b7b9164e4996f3d4c6 Mon Sep 17 00:00:00 2001
-+From: Alejandro Colomar <alx@kernel.org>
-+Date: Sat, 10 Jun 2023 16:20:05 +0200
-+Subject: [PATCH] gpasswd(1): Fix password leak
-+
-+CVE: CVE-2023-4641
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/6=
-5c88a43a23c2391dcc90c0abda3e839e9c57904]
-+
-+How to trigger this password leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+When gpasswd(1) asks for the new password, it asks twice (as is usual
-+for confirming the new password).  Each of those 2 password prompts
-+uses agetpass() to get the password.  If the second agetpass() fails,
-+the first password, which has been copied into the 'static' buffer
-+'pass' via STRFCPY(), wasn't being zeroed.
-+
-+agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-+can fail for any of the following reasons:
-+
-+-  malloc(3) or readpassphrase(3) failure.
-+
-+   These are going to be difficult to trigger.  Maybe getting the system
-+   to the limits of memory utilization at that exact point, so that the
-+   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-+   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-+   ones, and EINTR probably requires privilege or being the same user;
-+   but I wouldn't discard ENFILE so easily, if a process starts opening
-+   files.
-+
-+-  The password is longer than PASS_MAX.
-+
-+   The is plausible with physical access.  However, at that point, a
-+   keylogger will be a much simpler attack.
-+
-+And, the attacker must be able to know when the second password is being
-+introduced, which is not going to be easy.
-+
-+How to read the password after the leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Provoking the leak yourself at the right point by entering a very long
-+password is easy, and inspecting the process stack at that point should
-+be doable.  Try to find some consistent patterns.
-+
-+Then, search for those patterns in free memory, right after the victim
-+leaks their password.
-+
-+Once you get the leak, a program should read all the free memory
-+searching for patterns that gpasswd(1) leaves nearby the leaked
-+password.
-+
-+On 6/10/23 03:14, Seth Arnold wrote:
-+> An attacker process wouldn't be able to use malloc(3) for this task.
-+> There's a handful of tools available for userspace to allocate memory:
-+>
-+> -  brk / sbrk
-+> -  mmap MAP_ANONYMOUS
-+> -  mmap /dev/zero
-+> -  mmap some other file
-+> -  shm_open
-+> -  shmget
-+>
-+> Most of these return only pages of zeros to a process.  Using mmap of an
-+> existing file, you can get some of the contents of the file demand-loade=
-d
-+> into the memory space on the first use.
-+>
-+> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-+> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-+>
-+> malloc(3) doesn't zero memory, to our collective frustration, but all th=
-e
-+> garbage in the allocations is from previous allocations in the current
-+> process.  It isn't leftover from other processes.
-+>
-+> The avenues available for reading the memory:
-+> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot=
-)
-+> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-+> -  ptrace (requires ptrace privileges, mediated by YAMA)
-+> -  causing memory to be swapped to disk, and then inspecting the swap
-+>
-+> These all require a certain amount of privileges.
-+
-+How to fix it?
-+~~~~~~~~~~~~~~
-+
-+memzero(), which internally calls explicit_bzero(3), or whatever
-+alternative the system provides with a slightly different name, will
-+make sure that the buffer is zeroed in memory, and optimizations are not
-+allowed to impede this zeroing.
-+
-+This is not really 100% effective, since compilers may place copies of
-+the string somewhere hidden in the stack.  Those copies won't get zeroed
-+by explicit_bzero(3).  However, that's arguably a compiler bug, since
-+compilers should make everything possible to avoid optimizing strings
-+that are later passed to explicit_bzero(3).  But we all know that
-+sometimes it's impossible to have perfect knowledge in the compiler, so
-+this is plausible.  Nevertheless, there's nothing we can do against such
-+issues, except minimizing the time such passwords are stored in plain
-+text.
-+
-+Security concerns
-+~~~~~~~~~~~~~~~~~
-+
-+We believe this isn't easy to exploit.  Nevertheless, and since the fix
-+is trivial, this fix should probably be applied soon, and backported to
-+all supported distributions, to prevent someone else having more
-+imagination than us to find a way.
-+
-+Affected versions
-+~~~~~~~~~~~~~~~~~
-+
-+All.  Bug introduced in shadow 19990709.  That's the second commit in
-+the git history.
-+
-+Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shad=
-ow (19990709)")
-+Reported-by: Alejandro Colomar <alx@kernel.org>
-+Cc: Serge Hallyn <serge@hallyn.com>
-+Cc: Iker Pedrosa <ipedrosa@redhat.com>
-+Cc: Seth Arnold <seth.arnold@canonical.com>
-+Cc: Christian Brauner <christian@brauner.io>
-+Cc: Balint Reczey <rbalint@debian.org>
-+Cc: Sam James <sam@gentoo.org>
-+Cc: David Runge <dvzrv@archlinux.org>
-+Cc: Andreas Jaeger <aj@suse.de>
-+Cc: <~hallyn/shadow@lists.sr.ht>
-+Signed-off-by: Alejandro Colomar <alx@kernel.org>
-+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-+---
-+ src/gpasswd.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gpasswd.c b/src/gpasswd.c
-+index 4d75af96..a698b32a 100644
-+--- a/src/gpasswd.c
-++++ b/src/gpasswd.c
-+@@ -918,6 +918,7 @@ static void change_passwd (struct group *gr)
-+ 		strzero (cp);
-+ 		cp =3D getpass (_("Re-enter new password: "));
-+ 		if (NULL =3D=3D cp) {
-++			memzero (pass, sizeof pass);
-+ 			exit (1);
-+ 		}
-+=20
-+--=20
-+2.42.0
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extende=
-d/shadow/shadow.inc
-index 2ecab5073d..c16292c38a 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -16,6 +16,7 @@ SRC_URI =3D "https://github.com/shadow-maint/shadow/relea=
-ses/download/${PV}/${BP}.
-            file://shadow-relaxed-usernames.patch \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+           file://CVE-2023-4641.patch \
-            "
-=20
- SRC_URI_append_class-target =3D " \
---=20
-2.25.1
+T24gVGh1LCAyMDI0LTA0LTExIGF0IDEyOjEwICswMjAwLCBTdmVuIHZpYSBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnIHdyb3RlOgo+IEZyb206IFN2ZW4gU2Nod2VybWVyIDxzdmVuLnNjaHdlcm1lckBk
+aXNydXB0aXZlLXRlY2hub2xvZ2llcy5jb20+Cj4gCj4gV2hlbiBkeW5hbWljYWxseSByZXNvbHZp
+bmcgZ28gbW9kdWxlcywgdGhlIEhUTUwgcGFnZSBtYXkgY29udGFpbiBzZXZlcmFsCj4gZ28taW1w
+b3J0IG1ldGEgdGFncy4gV2UgbXVzdCBoYW5kbGUgYWxsIGFuZCBwaWNrIHRoZSBjb3JyZWN0IG9u
+ZSBiYXNlZAo+IG9uIHRoZSBtb2R1bGUgbmFtZS4gQW4gZXhhbXBsZSBmb3Igc3VjaCBhIGJlaGF2
+aW91ciBpcwo+IGdvbnVtLm9yZy92MS9nb251bToKPiAKPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQi
+IGNvbnRlbnQ9ImdvbnVtLm9yZy92MS9leHAgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9nb251bS9l
+eHAiPgo+IDxtZXRhIG5hbWU9ImdvLWltcG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL2dvbnVt
+IGdpdCBodHRwczovL2dpdGh1Yi5jb20vZ29udW0vZ29udW0iPgo+IDxtZXRhIG5hbWU9ImdvLWlt
+cG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL2hkZjUgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9n
+b251bS9oZGY1Ij4KPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQiIGNvbnRlbnQ9ImdvbnVtLm9yZy92
+MS9uZXRsaWIgZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9nb251bS9uZXRsaWIiPgo+IDxtZXRhIG5h
+bWU9ImdvLWltcG9ydCIgY29udGVudD0iZ29udW0ub3JnL3YxL3Bsb3QgZ2l0IGh0dHBzOi8vZ2l0
+aHViLmNvbS9nb251bS9wbG90Ij4KPiA8bWV0YSBuYW1lPSJnby1pbXBvcnQiIGNvbnRlbnQ9Imdv
+bnVtLm9yZy92MS90b29scyBnaXQgaHR0cHM6Ly9naXRodWIuY29tL2dvbnVtL3Rvb2xzIj4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBTdmVuIFNjaHdlcm1lciA8c3Zlbi5zY2h3ZXJtZXJAZGlzcnVwdGl2
+ZS10ZWNobm9sb2dpZXMuY29tPgo+IC0tLQo+IMKgc2NyaXB0cy9saWIvcmVjaXBldG9vbC9jcmVh
+dGVfZ28ucHkgfCAyMyArKysrKysrKystLS0tLS0tLS0tLS0tLQo+IMKgMSBmaWxlIGNoYW5nZWQs
+IDkgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL3Njcmlw
+dHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlX2dvLnB5IGIvc2NyaXB0cy9saWIvcmVjaXBldG9vbC9j
+cmVhdGVfZ28ucHkKPiBpbmRleCAwZmI3MTE1ZTI2Li5hODVhMmYyNzg2IDEwMDY0NAo+IC0tLSBh
+L3NjcmlwdHMvbGliL3JlY2lwZXRvb2wvY3JlYXRlX2dvLnB5Cj4gKysrIGIvc2NyaXB0cy9saWIv
+cmVjaXBldG9vbC9jcmVhdGVfZ28ucHkKPiBAQCAtMjI1LDcgKzIyNSw3IEBAIGNsYXNzIEdvUmVj
+aXBlSGFuZGxlcihSZWNpcGVIYW5kbGVyKToKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBkZWYgX19pbml0X18oc2VsZik6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+c3VwZXIoKS5fX2luaXRfXygpCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzZWxm
+Ll9fc3J2ID0gW10KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuX19zcnYg
+PSB7fQo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRlZiBoYW5kbGVfc3RhcnR0YWco
+c2VsZiwgdGFnLCBhdHRycyk6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYg
+dGFnID09ICdtZXRhJyBhbmQgbGlzdCgKPiBAQCAtMjMzLDE5ICsyMzMsMTQgQEAgY2xhc3MgR29S
+ZWNpcGVIYW5kbGVyKFJlY2lwZUhhbmRsZXIpOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgY29udGVudCA9IGxpc3QoCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbHRlcihsYW1iZGEgYTogKGFbMF0gPT0gJ2NvbnRl
+bnQnKSwgYXR0cnMpKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aWYgY29udGVudDoKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBzZWxmLl9fc3J2ID0gY29udGVudFswXVsxXS5zcGxpdCgpCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3J2ID0gY29udGVudFswXVsxXS5zcGxp
+dCgpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2Vs
+Zi5fX3NydltzcnZbMF1dID0gc3J2Cj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBAcHJv
+cGVydHkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZWYgaW1wb3J0X3ByZWZpeChzZWxmKToK
+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBzZWxmLl9fc3J2WzBdIGlm
+IGxlbihzZWxmLl9fc3J2KSBlbHNlIE5vbmUKPiAtCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+QHByb3BlcnR5Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIHZjcyhzZWxmKToKPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBzZWxmLl9fc3J2WzFdIGlmIGxlbihz
+ZWxmLl9fc3J2KSBlbHNlIE5vbmUKPiAtCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQHByb3Bl
+cnR5Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIHJlcG91cmwoc2VsZik6Cj4gLcKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gc2VsZi5fX3NydlsyXSBpZiBsZW4oc2Vs
+Zi5fX3NydikgZWxzZSBOb25lCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmIGdvX2ltcG9y
+dChzZWxmLCBtb2R1bGVwYXRoKToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
+IG1vZHVsZXBhdGggaW4gc2VsZi5fX3NydjoKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgc3J2ID0gc2VsZi5fX3Nydlttb2R1bGVwYXRoXQo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gR29JbXBvcnQoc3J2WzBdLCBzcnZbMV0s
+IHNydlsyXSwgTm9uZSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBO
+b25lCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgIHVybCA9IHVybC5nZXR1cmwoKSArICI/Z28tZ2V0
+PTEiCj4gwqDCoMKgwqDCoMKgwqDCoCByZXEgPSB1cmxsaWIucmVxdWVzdC5SZXF1ZXN0KHVybCkK
+PiBAQCAtMjY1LDcgKzI2MCw3IEBAIGNsYXNzIEdvUmVjaXBlSGFuZGxlcihSZWNpcGVIYW5kbGVy
+KToKPiDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlci5mZWVkKGJvZHkuZGVjb2RlKCd1dGYtOCcpKQo+
+IMKgwqDCoMKgwqDCoMKgwqAgcGFyc2VyLmNsb3NlKCkKPiDCoAo+IC3CoMKgwqDCoMKgwqDCoCBy
+ZXR1cm4gR29JbXBvcnQocGFyc2VyLmltcG9ydF9wcmVmaXgsIHBhcnNlci52Y3MsIHBhcnNlci5y
+ZXBvdXJsLCBOb25lKQo+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gcGFyc2VyLmdvX2ltcG9ydCht
+b2R1bGVwYXRoKQo+IMKgCj4gwqDCoMKgwqAgZGVmIF9fcmVzb2x2ZV9mcm9tX2dvbGFuZ19wcm94
+eShzZWxmLCBtb2R1bGVwYXRoLCB2ZXJzaW9uKToKPiDCoMKgwqDCoMKgwqDCoMKgICIiIgoKU2hv
+dWxkIHdlIGJlIGV4dGVuZGluZyAib2Utc2VsZnRlc3QgLXIgcmVjaXBldG9vbCIgd2l0aCB0ZXN0
+cyBmb3Igc29tZXRoaW5nPwoKQ2hlZXJzLAoKUmljaGFyZAo=
 
 
