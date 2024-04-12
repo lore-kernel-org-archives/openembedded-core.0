@@ -1,70 +1,109 @@
-Return-Path: <heiko.thole@entwicklung.eq-3.de>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1890C4345F
-	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 09:52:52 +0000 (UTC)
-Subject: Re: [kirkstone][PATCH] kernel.bbclass: check, if directory exists before removing empty module directory
-To: openembedded-core@lists.openembedded.org
-From: "Heiko" <heiko.thole@entwicklung.eq-3.de>
-X-Originating-Location: Aurich, Lower Saxony, DE (217.7.137.154)
-X-Originating-Platform: Windows Chrome 123
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 560DDC4345F
+	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 10:21:53 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.43682.1712917308992005966
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Apr 2024 03:21:49 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WjqAixt1;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 85568240009;
+	Fri, 12 Apr 2024 10:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712917307;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u8Tv2CAAPDb7Ibs2m+F9vOKp2fpaC6NznHLF4ubXu+c=;
+	b=WjqAixt1cvLFvUCDFYELyc6XTDejzNf3/tH1c/lcU1oyN85wCHCWcMjiHw/T5w/apj9e2s
+	THplFhiX+kjQxzJdOSLjxoGTEMCrJrm33dqC5AcFv2wfm+WhffFUVWIuIftlYqbPRLa6zr
+	bGm3S8vZ2HgbUg7eXavOfW0i73iXqFGF4LvVRk3YzWdkH53jCSBr6y7LQaRcubpnkBxGbx
+	YJxto8U9e3poeEEA/rHHEkqU33aHERjkLwCZA1sEb0K3GbvpIczQ5qPVTps4fDTUrfGNSA
+	grvTaaeqHHffjrsIU51MKuEXDwt7rMx7WSV8JgJoVvZK6Cm+cJ/9mSDlRSxJyA==
+Date: Fri, 12 Apr 2024 12:21:45 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: joe.slater@windriver.com
+Cc: Ross Burton <Ross.Burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	"MacLeod, Randy" <Randy.MacLeod@windriver.com>
+Subject: Re: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend ifupdown
+Message-ID: <20240412102145f2fb8036@mail.local>
+References: <20240411011745.574202-1-joe.slater@windriver.com>
+ <20240411011745.574202-2-joe.slater@windriver.com>
+ <6216932520b3db7a6613f284e1c1a77b547c0d66.camel@linuxfoundation.org>
+ <767076DA-A341-4508-950D-981ADBF412D3@arm.com>
+ <DS0PR11MB728713383FA86BC36CD515EE88052@DS0PR11MB7287.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Date: Fri, 12 Apr 2024 02:52:51 -0700
-References: <a357002eff78472d58c5864cd6f258eb67450fea.camel@ew.tq-group.com>
-In-Reply-To: <a357002eff78472d58c5864cd6f258eb67450fea.camel@ew.tq-group.com>
-Message-ID: <28425.1712915571508713687@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="qhDQYyjkdcm1P5t5Um3c"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DS0PR11MB728713383FA86BC36CD515EE88052@DS0PR11MB7287.namprd11.prod.outlook.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 09:52:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198160
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 10:21:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198161
 
---qhDQYyjkdcm1P5t5Um3c
-Content-Type: multipart/alternative; boundary="i9cq3onhYjap0f6ZgmTY"
+On 11/04/2024 14:58:40+0000, Joe Slater via lists.openembedded.org wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Ross Burton <Ross.Burton@arm.com>
+> > Sent: Thursday, April 11, 2024 7:21 AM
+> > To: Richard Purdie <richard.purdie@linuxfoundation.org>; Slater, Joseph
+> > <joe.slater@windriver.com>
+> > Cc: OE-core <openembedded-core@lists.openembedded.org>; MacLeod, Randy
+> > <Randy.MacLeod@windriver.com>
+> > Subject: Re: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend
+> > ifupdown
+> > 
+> > On 11 Apr 2024, at 10:33, Richard Purdie via lists.openembedded.org
+> > <richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
+> > >> --- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuall/interfaces
+> > >> +++ /dev/null
+> > >> @@ -1,5 +0,0 @@
+> > >> -# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+> > >> -
+> > >> -# The loopback interface
+> > >> -auto lo
+> > >> -iface lo inet loopback
+> > >
+> > > Is this patch meant to touch ifupdown as well as the packagegroup?
+> > 
+> > I suspect not, given that runqemu manually brings up network devices and the
+> > last thing we want is DHCP running again.
+> > 
+> > Joe, please remove this chunk.
+> 
+> This was accidental since I removed the qemuall/interfaces in order to use the main one with qemu.  I'm sending new patches.  Maybe, though, we don't really need the qemuall stuff.
 
---i9cq3onhYjap0f6ZgmTY
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+This broke all the tests of this build:
 
-I used " git send- email". I don`t know, why the tabs were replaced.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6786
 
-I have attached the patch with tabs. (Or do I have to create a new post?)
+> 
+> Joe
+> > 
+> > Ross
 
-Best regards,
-Heiko
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198136): https://lists.openembedded.org/g/openembedded-core/message/198136
+> Mute This Topic: https://lists.openembedded.org/mt/105454861/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---i9cq3onhYjap0f6ZgmTY
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-I used "<span style=3D"white-space-collapse: preserve;">git send-</span><sp=
-an style=3D"white-space-collapse: preserve;">email". I don`t know, why the =
-tabs were replaced.<br /><br />I have attached the patch with tabs. (Or do =
-I have to create a new post?)<br /><br />Best regards,<br />Heiko</span>
-
---i9cq3onhYjap0f6ZgmTY--
-
---qhDQYyjkdcm1P5t5Um3c
-Content-Type: application/octet-stream; name="kirkstone-kernel.bbclass-check-if-directory-exists-before-removing-empty-module-directory.diff"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="kirkstone-kernel.bbclass-check-if-directory-exists-before-removing-empty-module-directory.diff"
-
-ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9r
-ZXJuZWwuYmJjbGFzcwppbmRleCBkYmQ4OTA1N2YzLi45ODhhNDg5Mzk2IDEwMDY0NAotLS0gYS9t
-ZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MKKysrIGIvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNs
-YXNzCkBAIC00NTIsNyArNDUyLDcgQEAga2VybmVsX2RvX2luc3RhbGwoKSB7CnJtIC1mICIke0R9
-JHtub25hcmNoX2Jhc2VfbGliZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L2J1aWxkIgoJ
-CXJtIC1mICIke0R9JHtub25hcmNoX2Jhc2VfbGliZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJ
-T059L3NvdXJjZSIKCQkjIFJlbW92ZSBlbXB0eSBtb2R1bGUgZGlyZWN0b3JpZXMgdG8gcHJldmVu
-dCBRQSBpc3N1ZXMKLQkJZmluZCAiJHtEfSR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbW9kdWxlcy8k
-e0tFUk5FTF9WRVJTSU9OfS9rZXJuZWwiIC10eXBlIGQgLWVtcHR5IC1kZWxldGUKKwkJWyAtZCAi
-JHtEfSR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbW9kdWxlcy8ke0tFUk5FTF9WRVJTSU9OfS9rZXJu
-ZWwiIF0gJiYgZmluZCAiJHtEfSR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbW9kdWxlcy8ke0tFUk5F
-TF9WRVJTSU9OfS9rZXJuZWwiIC10eXBlIGQgLWVtcHR5IC1kZWxldGUKCWVsc2UKCQliYm5vdGUg
-Im5vIG1vZHVsZXMgdG8gaW5zdGFsbCIKCWZpCg==
-
---qhDQYyjkdcm1P5t5Um3c--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
