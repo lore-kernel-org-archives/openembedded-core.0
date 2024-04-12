@@ -1,202 +1,236 @@
-Return-Path: <nayakksanjay@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F334C4345F
-	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 06:05:51 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.40458.1712901945449182546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4ACC4345F
+	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 06:46:31 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.40542.1712904385018786201
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Apr 2024 23:05:45 -0700
+ Thu, 11 Apr 2024 23:46:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=muQlmVWC;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: nayakksanjay@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ecec796323so616418b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Apr 2024 23:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712901945; x=1713506745; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mvjSQmmX/vYim8R3sGLTaRxL23act0JnnZCD5BnnYq0=;
-        b=muQlmVWCKGkJRG2qddqDw/7aERGrVzcWztwZUqkXUV67zDEE+dAmNHE6thebaQsqTs
-         cub2fnrYqvdVTcdMC+KPAvDTtRHIPvsK5r+B4/N+yybYqbkctG7vT0JViqqE9iTCN8QW
-         l87YYXpDTJ4c9kiIi000XNNGVSQDj7Zbanq2KWBlqbTOumVO09locfeS8jy9EedxHWE3
-         bfQlxbTOTS8Zm/G0GhDcpO0o++/jtkgWkCDd5kZbn3eZHUtNY2Iji6ldxhrIu3HjO2oj
-         Y17QHXnCNDJd4Q2X+GOUNBqQR3Dv+kF/+eTP45yvAFclXjKe3hZUJh+5Jlpcpq9rcb9v
-         HHgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712901945; x=1713506745;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mvjSQmmX/vYim8R3sGLTaRxL23act0JnnZCD5BnnYq0=;
-        b=fyb3tErw08Be7OlkSRzAzbEJlranQXGkX3DU6GGDfM8rKcr5DyLNctPEM46W5GBC4Q
-         erNtfcb1nRAFVN91v3NmJLKEMtTHKLrYxu9LewYls8BZa/6z2uiZDFMlmqagRhG0H9kb
-         4EujFmuueEhZ816auSCNjznr5+vGt0MG6tIGBoK5yQa/yjCyQiSiSlAFKtO3ppwB7K9B
-         mu0hQYWKzQkjcNRBOa03LQXzTPHsWPNVzmkVfFQilJD3mVAX7HJArQWNFdr9Md/HgbA5
-         3YORWHyB9VsqEMu8rJW+Gs+lY49N2Gp2OhUZh+gYCpmRExCDGs9BfLejGf0BIlHAgW8X
-         zAGg==
-X-Gm-Message-State: AOJu0YxuUMNHXvpec9IVb7R/uRsaENQYCacQgtvWyHckLsUduWOXtmEX
-	VAT6b/6Si5Cfd+t3Cj8wSFt8wnpFr1OYf/FYpT6LqXWSy4ZmKn5dTe2QSA==
-X-Google-Smtp-Source: AGHT+IELKodyisg/pc9BKIktaygH6w86puSSi232+Lj8TCO0H9nvfHMMkmJOuBNnTU+oCSp65EUWbg==
-X-Received: by 2002:a05:6a00:a8c:b0:6ec:f28b:659f with SMTP id b12-20020a056a000a8c00b006ecf28b659fmr1881494pfl.3.1712901944476;
-        Thu, 11 Apr 2024 23:05:44 -0700 (PDT)
-Received: from ubuntu.lan ([2409:40f2:2093:e4df:e6fc:aa01:76ba:88cc])
-        by smtp.gmail.com with ESMTPSA id g5-20020a056a0023c500b006e6be006637sm2133066pfc.135.2024.04.11.23.05.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 23:05:44 -0700 (PDT)
-From: K Sanjay Nayak <nayakksanjay@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: K Sanjay Nayak <nayakksanjay@gmail.com>
-Subject: [PATCH] Replaced :append with += in multiple recipe files under meta layer.
-Date: Fri, 12 Apr 2024 11:35:36 +0530
-Message-Id: <20240412060536.34983-1-nayakksanjay@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QQxdJYHy;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CFAA7FF807;
+	Fri, 12 Apr 2024 06:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712904383;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BD7ryVxZPens/d+L9avlcBCzOC8o6fCxoe5wwsBZkN0=;
+	b=QQxdJYHye3rT7XChNp8uIEJ/ZCG4mK0gVCgp6iKcbRTfHHNYKaQ96Bu1emXUfmbAPUpMfy
+	unJxBdVsPl6eN03ycOrfyPgi2efld+XEaB8aADqhoeqBPkH92nG/xnpzU7d0LYlk/cFecM
+	1unDJg1HeWa1EcjbJrpjw0Oe1uWniSsPmSuto2qsqexiukCfhKgNdIb7SglTarJHucuB53
+	9OI+cbTXPLZNETqNFoAti9Vaesqcl4pBnfKV91vJisMBLfBK90SD9/6fER04R8oBuHCiLA
+	0bYbfkgiuwQCdsunbnyw4xZH+G5VOLS7TC+/ykl5KQmQQsov0ib1B42gYQbxzg==
+Date: Fri, 12 Apr 2024 08:46:22 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 13/33] librepo: upgrade 1.17.0 -> 1.17.1
+Message-ID: <202404120646223f5bd60c@mail.local>
+References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
+ <1712646620-16608-13-git-send-email-wangmy@fujitsu.com>
+ <202404110910405650fc2b@mail.local>
+ <TYWPR01MB11861F688203CF49B1C63E3E9DC042@TYWPR01MB11861.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYWPR01MB11861F688203CF49B1C63E3E9DC042@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 06:05:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198154
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 06:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198155
 
-Fixes [YOCTO #2951]
+On 12/04/2024 00:52:52+0000, Mingyu Wang (Fujitsu) wrote:
+> I use the command git am and patch on master-text to apply this patch, they are all succeeded.
+> May I ask what command you used to apply this patch, that would be helpful. Thank you.
 
-Conditional operator is preferred over the append operation,
-hence modified multiple recipes under the meta-layer.
+I use git am, the patch is definitively mangled as you can see on the
+list archive:
+https://lore.kernel.org/all/1712646620-16608-13-git-send-email-wangmy@fujitsu.com/
 
-Reported-by : Christopher Larson <kergoth@gmail.com>
-Signed-off-by: K Sanjay Nayak <nayakksanjay@gmail.com>
----
- meta/recipes-bsp/grub/grub-efi_2.12.bb                          | 2 +-
- meta/recipes-core/initscripts/initscripts_1.0.bb                | 2 +-
- meta/recipes-core/sysvinit/sysvinit_3.04.bb                     | 2 +-
- .../baremetal-example/baremetal-helloworld_git.bb               | 2 +-
- meta/recipes-extended/less/less_643.bb                          | 2 +-
- meta/recipes-gnome/librsvg/librsvg_2.57.1.bb                    | 2 +-
- meta/recipes-graphics/waffle/waffle_1.7.2.bb                    | 2 +-
- meta/recipes-support/libgpg-error/libgpg-error_1.48.bb          | 2 +-
- meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb         | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+> 
+>   --
+> Best Regards
+> ---------------------------------------------------
+> Wang Mingyu
+> FUJITSU NANJING SOFTWARE TECHNOLOGY CO., LTD. (FNST)
+> No.6 Wenzhu Road, Nanjing, 210012, China
+> TEL：+86+25-86630566--8568
+> COINS: 79988548
+> FAX: +86+25-83317685
+> MAIL: wangmy@fujitsu.com
+> 
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Alexandre
+> > Belloni via lists.openembedded.org
+> > Sent: Thursday, April 11, 2024 5:11 PM
+> > To: Wang, Mingyu/王 鸣瑜 <wangmy@fujitsu.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 13/33] librepo: upgrade 1.17.0 -> 1.17.1
+> > 
+> > On 09/04/2024 15:10:00+0800, wangmy via lists.openembedded.org wrote:
+> > > From: Wang Mingyu <wangmy@fujitsu.com>
+> > >
+> > > 0001-gpg_gpgme.c-fix-build-errors-with-older-gcc.patch
+> > > removed since it's included in 1.17.1
+> > >
+> > > Changelog:
+> > > =============
+> > > -gpg_gpgme.c: fix build errors with older gcc -Fix some compiler
+> > > warnings -Change header files to match a configured ABI regarding a
+> > > zchunk support -Fix building zchunk code if zchunk is enabled
+> > >
+> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > > ---
+> > >  ...me.c-fix-build-errors-with-older-gcc.patch | 36
+> > > -------------------  .../{librepo_1.17.0.bb => librepo_1.17.1.bb}  |
+> > > 3 +-
+> > >  2 files changed, 1 insertion(+), 38 deletions(-)  delete mode 100644
+> > > meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-build-error
+> > > s-with-older-gcc.patch  rename
+> > > meta/recipes-devtools/librepo/{librepo_1.17.0.bb => librepo_1.17.1.bb}
+> > > (88%)
+> > >
+> > > diff --git
+> > > a/meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-build-err
+> > > ors-with-older-gcc.patch
+> > > b/meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-build-err
+> > > ors-with-older-gcc.patch
+> > > deleted file mode 100644
+> > > index 8727b181b3..0000000000
+> > > ---
+> > > a/meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-build-err
+> > > ors-with-older-gcc.patch
+> > > +++ /dev/null
+> > > @@ -1,36 +0,0 @@
+> > > -From b525cdec3051d1c6ff0c3cd38bf3070b18d6fb50 Mon Sep 17 00:00:00
+> > > 2001
+> > > -From: Alexander Kanavin <alex@linutronix.de>
+> > > -Date: Wed, 6 Mar 2024 10:13:38 +0100
+> > > -Subject: [PATCH] gpg_gpgme.c: fix build errors with older gcc
+> > > -MIME-Version: 1.0
+> > > -Content-Type: text/plain; charset=UTF-8
+> > > -Content-Transfer-Encoding: 8bit
+> > > -
+> > > -When selinux is not enabled, older gcc versions error out this way:
+> > > -
+> > > -| /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-193
+> > > -| 8845/tmp-mc-tiny/hosttools/gcc -DG_LOG_DOMAIN=\"librepo\"
+> > > -| -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+> > -D_LARGEFILE_SOURCE
+> > > -| -Dlibrepo_EXPORTS
+> > > -| -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1
+> > > -| 938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git
+> > > -| -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1
+> > > -| 938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-
+> > > -| sysroot-native/usr/lib/pkgconfig/../../../usr/include/libmount
+> > > -| -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1
+> > > -| 938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-
+> > > -| sysroot-native/usr/lib/pkgconfig/../../../usr/include/blkid
+> > > -| -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1
+> > > -| 938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-
+> > > -| sysroot-native/usr/lib/pkgconfig/../../../usr/include/glib-2.0
+> > > -| -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1
+> > > -| 9
+> > >
+> > > 38845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-sysr
+> > > oot-native/usr/lib/pkgconfig/../../../usr/lib/glib-2.0/include
+> > > -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938
+> > > 845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-sysroo
+> > > t-native/usr/lib/pkgconfig/../../../usr/include/libxml2
+> > > -isystem/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-s
+> > > t-1938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-
+> > > sysroot-native/usr/include -O2 -pipe -std=c99 -Wall -fPIC -MD -MT
+> > > librepo/CMakeFiles/librepo.dir/gpg_gpgme.c.o -MF
+> > > librepo/CMakeFiles/librepo.dir/gpg_gpgme.c.o.d -o
+> > > librepo/CMakeFiles/librepo.dir/gpg_gpgme.c.o -c
+> > > /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-193884
+> > > 5/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git/librepo/gpg
+> > > _gpgme.c
+> > 
+> > This line has been mangled so the patch doesn't apply
+> > 
+> > > -|
+> > /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/tmp
+> > -mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git/librepo/gpg_gpgme.c: In
+> > function ‘lr_gpg_ensure_socket_dir_exists’:
+> > > -|
+> > /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/tmp
+> > -mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git/librepo/gpg_gpgme.c:13
+> > 5:1: error: label at end of compound statement
+> > > -|   135 | exit:
+> > > -|       | ^~~~
+> > > -
+> > > -Ensuring the exit: block is not empty fixes the issue.
+> > > -
+> > > -Upstream-Status: Submitted
+> > > [https://github.com/rpm-software-management/librepo/pull/300]
+> > > -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > > ----
+> > > - librepo/gpg_gpgme.c | 1 +
+> > > - 1 file changed, 1 insertion(+)
+> > > -
+> > > -diff --git a/librepo/gpg_gpgme.c b/librepo/gpg_gpgme.c -index
+> > > c4addb2..47c3153 100644
+> > > ---- a/librepo/gpg_gpgme.c
+> > > -+++ b/librepo/gpg_gpgme.c
+> > > -@@ -144,6 +144,7 @@ exit:
+> > > -     }
+> > > -     freecon(old_default_context);
+> > > - #endif
+> > > -+    return;
+> > > - }
+> > > -
+> > > - static gpgme_ctx_t
+> > > diff --git a/meta/recipes-devtools/librepo/librepo_1.17.0.bb
+> > > b/meta/recipes-devtools/librepo/librepo_1.17.1.bb
+> > > similarity index 88%
+> > > rename from meta/recipes-devtools/librepo/librepo_1.17.0.bb
+> > > rename to meta/recipes-devtools/librepo/librepo_1.17.1.bb
+> > > index 810191459d..beb8baf8d6 100644
+> > > --- a/meta/recipes-devtools/librepo/librepo_1.17.0.bb
+> > > +++ b/meta/recipes-devtools/librepo/librepo_1.17.1.bb
+> > > @@ -8,10 +8,9 @@ LIC_FILES_CHKSUM =
+> > "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> > >  SRC_URI =
+> > "git://github.com/rpm-software-management/librepo.git;branch=master;proto
+> > col=https \
+> > >
+> > file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
+> > >
+> > file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+> > > -           file://0001-gpg_gpgme.c-fix-build-errors-with-older-gcc.patch \
+> > >             "
+> > >
+> > > -SRCREV = "ae727d99086f70f39fba5695af5460e1da908c1b"
+> > > +SRCREV = "4ff11d85cb06026943f297bc3e06f047dd73bf0b"
+> > >
+> > >  S = "${WORKDIR}/git"
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> > 
+> > >
+> > >
+> > >
+> > 
+> > 
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.12.bb b/meta/recipes-bsp/grub/grub-efi_2.12.bb
-index 9857e8e036..4cd1c696f4 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.12.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.12.bb
-@@ -4,7 +4,7 @@ require conf/image-uefi.conf
- 
- GRUBPLATFORM = "efi"
- 
--DEPENDS:append = " grub-native"
-+DEPENDS += " grub-native"
- RDEPENDS:${PN} = "grub-common virtual-grub-bootconf"
- 
- SRC_URI += " \
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index e61ac554f3..2ad4d0b0b0 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -42,7 +42,7 @@ SRC_URI:append:armeb = " file://alignment.sh"
- 
- KERNEL_VERSION = ""
- 
--DEPENDS:append = " update-rc.d-native"
-+DEPENDS += " update-rc.d-native"
- PACKAGE_WRITE_DEPS:append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
- 
- PACKAGES =+ "${PN}-functions ${PN}-sushell"
-diff --git a/meta/recipes-core/sysvinit/sysvinit_3.04.bb b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
-index 6a612468f3..2dee7bc3ce 100644
---- a/meta/recipes-core/sysvinit/sysvinit_3.04.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
-@@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "2a621fe6e4528bc91308b74867ddaaebbdf7753f02395c0c5bae817bd2
- S = "${WORKDIR}/sysvinit-${PV}"
- 
- inherit update-alternatives features_check
--DEPENDS:append = " update-rc.d-native base-passwd virtual/crypt"
-+DEPENDS += " update-rc.d-native base-passwd virtual/crypt"
- do_package_setscene[depends] = "${MLPREFIX}base-passwd:do_populate_sysroot"
- 
- PACKAGECONFIG[psplash-text-updates] = ",,"
-diff --git a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-index 6832ccc541..f66581cca3 100644
---- a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-+++ b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-@@ -25,7 +25,7 @@ inherit baremetal-image
- 
- 
- # startup code for x86 uses NASM syntax
--DEPENDS:qemux86:append = " nasm-native"
-+DEPENDS:qemux86 += " nasm-native"
- 
- # These parameters are app specific for this example
- # This will be translated automatically to the architecture and
-diff --git a/meta/recipes-extended/less/less_643.bb b/meta/recipes-extended/less/less_643.bb
-index 67834bdd58..5c17571768 100644
---- a/meta/recipes-extended/less/less_643.bb
-+++ b/meta/recipes-extended/less/less_643.bb
-@@ -55,7 +55,7 @@ do_install_ptest () {
-         cp -r ${S}/lesstest/lt ${D}${PTEST_PATH}
- }
- 
--RDEPENDS:${PN}-ptest:append = " perl-module-getopt-std perl-module-cwd locale-base-en-us"
-+RDEPENDS:${PN}-ptest += " perl-module-getopt-std perl-module-cwd locale-base-en-us"
- 
- ALTERNATIVE:${PN} = "less"
- ALTERNATIVE_PRIORITY = "100"
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.57.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.57.1.bb
-index 4b52d4062b..b774fe8c47 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.57.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.57.1.bb
-@@ -30,7 +30,7 @@ UPSTREAM_CHECK_REGEX = "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
- # so we cannot use cargo class directly, but still need bits and pieces from it 
- # for cargo to be happy
--BASEDEPENDS:append = " cargo-native"
-+BASEDEPENDS += " cargo-native"
- 
- export RUST_BACKTRACE = "full"
- export RUSTFLAGS
-diff --git a/meta/recipes-graphics/waffle/waffle_1.7.2.bb b/meta/recipes-graphics/waffle/waffle_1.7.2.bb
-index cb917d8894..84f2f70ab2 100644
---- a/meta/recipes-graphics/waffle/waffle_1.7.2.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.7.2.bb
-@@ -18,7 +18,7 @@ S = "${WORKDIR}/git"
- 
- inherit meson features_check lib_package bash-completion pkgconfig
- 
--DEPENDS:append = " python3"
-+DEPENDS += " python3"
- 
- # This should be overridden per-machine to reflect the capabilities of the GL
- # stack.
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
-index 9f2b49209d..b268d5b9c1 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
-@@ -26,7 +26,7 @@ BINCONFIG = "${bindir}/gpg-error-config"
- 
- inherit autotools binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
- 
--RDEPENDS:${PN}-ptest:append = " make bash"
-+RDEPENDS:${PN}-ptest += " make bash"
- 
- MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/gpgrt-config"
- 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-index e6668da01f..30838cb3a6 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-@@ -31,7 +31,7 @@ do_install () {
- RDEPENDS:${PN}:append:libc-glibc = " libgcc"
- 
- # pstree is called by ptest-runner-collect-system-data
--RDEPENDS:${PN}:append = " pstree"
-+RDEPENDS:${PN} += " pstree"
- 
- # Create a non-root user that test suites can use easily
- inherit useradd
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
