@@ -1,236 +1,114 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFD5C4345F
-	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 16:15:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.51343.1712938548519111815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3600BC4345F
+	for <webhook@archiver.kernel.org>; Fri, 12 Apr 2024 16:41:35 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.51427.1712940087224951874
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Apr 2024 09:15:48 -0700
+ Fri, 12 Apr 2024 09:41:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HX6SPS1W;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4832677a0f=joe.slater@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43C5C6sg012476
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 09:15:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=s/849M/JGgWw3dpgh7Iak7C9vbOqc/RgBOWjEGAT8IQ=; b=
-	HX6SPS1WQdxrhoTvwfgiZ42f69cuGE2xVxQONV5uP65Tdl8kTxA6mpGf0Lt4RfHA
-	tfTPuPLyjCSEzw+vvaEIe28A26HcmI7fm3on5MNF0WOozDu/j2OYqy8VGP0MhtvT
-	WRr82kL/XapToZUCfamG58rdMxhhOi0A349Us+9qNJ+OAutdC3F4T1zTkp0TfFkB
-	bmOLUfKMBHpe2Ks6HS3dMivF/wS+iFLWvSr26ynlOjo6IupChs/fXLMIYP8fYrlN
-	Q5wY20JcTUzrhYHqgcQ6ddMG1dxcGs8t3gmb890i0jKjQVv2ulll/scRaFazZsfg
-	oBEzc6R8kd09f+FuEJR1Lw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xb5wgqk4b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 09:15:47 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 43CGCmhw032755
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 09:15:47 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xb5wgqk4a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Apr 2024 09:15:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EaQziTD4eajS7d+G+gtL+nsPyvVCKaCeKKKOz2OtpBvqk3QcjommyTYDdMhJOT+KTXnDY3tUzwibK2qxU793OXRbVTijPYfZcM2wqhgoqnmDQJwUlw4kXKKdcFibokdn8kxj+3ZV7oFJF4RPgstsM8xe61oEYbwZoCIkTRz5HETNu0H4wRaXTkPMczoIj19fc4izwNeV9gZlKwWMQaHddx0UAQJHBq6wuvxHmdaUqcfvGAJMRNmVVkCnOif8XKuNR1JJWjlF8DevABBLKmoVh2r4qCWygepRvnyiHiRRMvMuhWwmFoDBJyZjvwc9ZBr1YcWToUZ3WFu2RMz59l8kPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s/849M/JGgWw3dpgh7Iak7C9vbOqc/RgBOWjEGAT8IQ=;
- b=PF8nUSsFqkSvIyjn5aQvS62oB/rkBAN76WiNPb3r5msuwPJAR9E5qkbHMff52IW1ozMTwjiq9nlQMJ234VLwZH/5zWaS+2evJr5ZWnUBl9iH1CSZgX3X4i2AUqT6k4m9SBPxI/pFnOyk8VXeRpB3H8hbyGtk5PTODIPIUhJoyrhxfqAtqc9LS9uxmKAGGNoJKy9hpb+SYCmMAzMxX4w+tg+TmeDFmhY071+RSJAq7+ZTXCQ2NHyggCvi3xkjDEHapkofTo9AXPRwGXyTswZfRdYrUlEq2cJv5oZKGmlz8Qz/xHyfjLd55MAtihWpWP/6YZRvpichw9VtNcJTjd+tJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7287.namprd11.prod.outlook.com (2603:10b6:8:13f::19)
- by SJ2PR11MB7646.namprd11.prod.outlook.com (2603:10b6:a03:4c3::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.26; Fri, 12 Apr
- 2024 16:15:44 +0000
-Received: from DS0PR11MB7287.namprd11.prod.outlook.com
- ([fe80::6444:a7f8:1876:84c4]) by DS0PR11MB7287.namprd11.prod.outlook.com
- ([fe80::6444:a7f8:1876:84c4%4]) with mapi id 15.20.7452.019; Fri, 12 Apr 2024
- 16:15:44 +0000
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: Ross Burton <Ross.Burton@arm.com>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-        OE-core
-	<openembedded-core@lists.openembedded.org>,
-        "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>
-Subject: RE: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend ifupdown
-Thread-Topic: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend ifupdown
-Thread-Index: AQHai64R2830e6F6tEehZUoBI5is2bFizyuAgABQT4CAAAl84IABRh6AgABiHKA=
-Date: Fri, 12 Apr 2024 16:15:44 +0000
-Message-ID: 
- <DS0PR11MB728705D0B2BCE2D91852AF8788042@DS0PR11MB7287.namprd11.prod.outlook.com>
-References: <20240411011745.574202-1-joe.slater@windriver.com>
- <20240411011745.574202-2-joe.slater@windriver.com>
- <6216932520b3db7a6613f284e1c1a77b547c0d66.camel@linuxfoundation.org>
- <767076DA-A341-4508-950D-981ADBF412D3@arm.com>
- <DS0PR11MB728713383FA86BC36CD515EE88052@DS0PR11MB7287.namprd11.prod.outlook.com>
- <20240412102145f2fb8036@mail.local>
-In-Reply-To: <20240412102145f2fb8036@mail.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB7287:EE_|SJ2PR11MB7646:EE_
-x-ms-office365-filtering-correlation-id: 01a77d6e-5864-4287-9f6b-08dc5b0bce55
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- kSaIlV2dtlb1U5CT6CVdSxdn3UafaEco4phGHbfjBhxAdWg3+a8ChsYGhfE++xZkE8lwk/Q3nthe+ohjXwvIVg1c2CWta9qjjCEQ0Tp/nVdA9u6P5D1CHNojojTZShyiia+RNMsX+zqMwAl3iCQTjqqy+cXmT7RK6g7Qi6NvdCWRf0YysNJaCRx90Amd41IPnDzvQichAE2asGGcpDAercpTeZXMTuq2OyPNP8q6k7upxLYIjxsQGR6tJLt7LX+EJ/5OTUL255zkR6u3euFkFmdq34bYkZhivzT+QhU4E4I4yfV8XG7A86N8F1zRDyaOJGZ/5iP+Bi0N4LIG/MKcGEt3L1xrEAQnJc1HWH86LrrCn6pICWkHyEfecaBh6sYlu+0VUsJBZMf9PdI6hiwFCYsh7O0Wy1haCVY9xNApid09EHe2ek8jGvfLapyARCyXpbYbodqqfiU4sOojaB0BM4v//7RRA248l5KUwts+PyWnt2TthnrFNGQVeg0BhnDltfxyud5uiecpm8Yqi/46ywGpEc3hTuREMKhJ1VAQq3QYmLRcgfJfMtCvs+oUVjwzF64QR4yqG91IO7aWRCbtEuoPR3iNj+r2HkJ+4s0IByzl564Pb9AZZE6VwN9h5KsVo/u/EeZajGnN3r0+L5PPCCWRdrt3Pb18mKgHrp2EoRQ=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7287.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?ANi3GvX8BjiLGixxzkAhu40aYnI24XV2EJ3qdOt8+af5qOkT3qYhjgVvfk0J?=
- =?us-ascii?Q?k4dAZNpBr7cqCc5aC8Dv7Mxpe0jQ5NQQVnf09yOtEl46wH5/6/Qvl68GECqO?=
- =?us-ascii?Q?FrbmmmxiRHsiFiSDrFXxdFJc90sObKKkjHGsAHosPp5v0yfUpH3oaLsS8j2R?=
- =?us-ascii?Q?Gy3CPDD1WXoZbrvI5Z+N5LfuNqgQx3Z9f2PisiinKN0wduERLnLIWGDZrmrS?=
- =?us-ascii?Q?mo8mGSTabqU0whB/aDaEBSlt/Zjklgr6jMLMdapBNZIxJm75dYBYuz05i1sK?=
- =?us-ascii?Q?9iYxUFn4b5nTBeRVMmKI+Hd1H1yJYzutglTfQhdOm5KaXYxc1ff1hQIcGl8g?=
- =?us-ascii?Q?xHIt82RW0pxvSBTrQOhDVGmQOFeosNNQlvWZjFnECh/wuPt46OOgdRndhJVE?=
- =?us-ascii?Q?ycEox+glWcQ1ZLRjGi2NGJP3+TDSGHNp7BOF6vlVJyYS+52elorXDaVH7vdk?=
- =?us-ascii?Q?JiS84ME7Mm0rNhWT55IXLFUWKmWllgPsNTIJQspX5dvYWhtHM600E47zrEU6?=
- =?us-ascii?Q?lJvEeIuz+BZlUU+LsOXN8FyL7T0iXe3JA13vjN8qNZe6XMeNmS7UTntfdubi?=
- =?us-ascii?Q?WcwU1o/LE390n9vR6vWK+vJfQslsR7/ZQDUb2QNv+1ZoCRRBsvShJo1iE3dp?=
- =?us-ascii?Q?SZjYXeNUFQTnrAS6FAtSTemecYqueX50RTNaE0xqspVAwmpciNxjrRRvu1mS?=
- =?us-ascii?Q?ViKNDLUvUrsdbWql2AM82YML3NRAttja1ndBQJ7b2mSx6C8qPWwMCvAZEwIw?=
- =?us-ascii?Q?rbhLjrztp2o8e2bm5gMAIgzZYe6CDt5ne6QqFLP0z6maqkW3xzjbZZkvpVHm?=
- =?us-ascii?Q?sGUC/SlfmGJZcN2T4xWE+DXCZelfFTsOhpxJ676kMgKqQT6IxPTN1w/PZXQx?=
- =?us-ascii?Q?WWiDcx1ftQHcLMhhYtIaixqm8s7WGoBjItYczmnadxBWRbG2w99z3Pgc0hrI?=
- =?us-ascii?Q?DVwEMlL7jNZf7QY4abPbKgX3vBHQ5B7/Zw0JCgP9uoxnLEv/T4wQvsH749k5?=
- =?us-ascii?Q?ehZSxAy7VBzzR+Exgk4R9Fi7HfVG5xNrZS0yHrX9pww507ikEnySCyiFS1sW?=
- =?us-ascii?Q?6o1rNkklSQYzTrpvX5nlcYknATI26tn3+3Wa1VpvrcNJE+aMbFRHqhZvQThR?=
- =?us-ascii?Q?IA/4155UyYr7dPElyCXnH92WtgoxnGiiCJ+bp6vZ3u1pyc0EK/VR4qJcpH87?=
- =?us-ascii?Q?IvjuI5bobo14oCt91BS+ueToNXULgGH+D8Nm2HUhAt3C7urFKZ1y2lt42OWQ?=
- =?us-ascii?Q?8SbH5fof2ben+BQq3J+dYprqOiueQv8bSnb5fsFVojDsmDMffYGf2i1RBUsl?=
- =?us-ascii?Q?Gnn16FroL6QeXN//drGaWqgILQgRNaomSKn7GwpMwbQ6X1FGWUj3UxZ4AIfr?=
- =?us-ascii?Q?+AktTuf3yTKpabYiZTszl3LGmNicveA+5r76zAmkxg85wh7HVxZd/qLJafcV?=
- =?us-ascii?Q?ZMHyektpY3X3CMJH9kuqQUrfBK7bBsBuLvY5toF4D9hxZo20EXJiGSH0remE?=
- =?us-ascii?Q?EifVk5u18ZGJOYPH8qE62n26LkFK4ZUe1bJDu4a8i/nmdbXqdUxJA/MNfLqJ?=
- =?us-ascii?Q?jOOtg5zeUZkPXFTCbsXhrpjJOARVizWPQB/SrEbB?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hpIJvRxS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-417d029bf15so7426915e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 09:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1712940085; x=1713544885; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ob/3pIhqt59HewFo/BAVYIFpw/gxQpsuqCLnP50cTt0=;
+        b=hpIJvRxS+xVKT3CkEpWJkSaWHqsWUkxYccomWC1JyMSOAT+4PbQbDDKKB3lkMyUtCe
+         fyzZByjOFpDpRevmKuf3IqgXEurxX6uktiIKbr/76+nB5Oq8MD2vE43afyBYOiTLYTMO
+         SKxjdOEbrJ2II+iNKj/90Og/GGo8o5POhzeLQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712940085; x=1713544885;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ob/3pIhqt59HewFo/BAVYIFpw/gxQpsuqCLnP50cTt0=;
+        b=DM1qJGHnlzn7MQZjoofXElJZtdUd0LxNU4spK5bNkgoexsEgzdSLJ7Bk/vpvavm2Is
+         GcMHwUzWI02roIGTuAMnNeEVa0Th8FZHng5zIGR39UES2lmFoQx2EM3+i6P+NSiZdI8V
+         j0LtvSx+q9gk9n6w1mnC/x7Qy+39oBj9YdUQpx45U5eSFy7x2zXQl6rRRITuo/gT7jL8
+         uCPp4uU83eVTGQsZmVHkUwCkuiuwhxEKwpZH+O4fjsEvFVJDN7bM4jlHDWz37a9BWOaf
+         AtKDLxW9YJt6k13tbS8Xe31YwyPJQO6OO2ukoKSw7qziOoCdCwALhJYqTsdiqyWJye9U
+         GOHQ==
+X-Gm-Message-State: AOJu0YxuSznBndjAF3VhqmyZIqAZF2Zz++weGcTODtK8Hrk7hgVJkscf
+	cvWJhPEorA3ubbdIlqw0yDdCkd+ds9tQC4zdW61NyiFcO+Xs412d3TL1gJarRZ4=
+X-Google-Smtp-Source: AGHT+IEc//ykVucgahuzUHHE8tyLP2bfHNqlitDU2k4zt3DVzyj85B7t3BRg6bjepSwWvR5jWvLtHw==
+X-Received: by 2002:a05:600c:4f0d:b0:416:6dff:9850 with SMTP id l13-20020a05600c4f0d00b004166dff9850mr2675969wmq.0.1712940085592;
+        Fri, 12 Apr 2024 09:41:25 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:555f:bec2:a7d5:9e31? ([2001:8b0:aba:5f3c:555f:bec2:a7d5:9e31])
+        by smtp.gmail.com with ESMTPSA id r19-20020a05600c321300b004167b0819aasm9639831wmp.0.2024.04.12.09.41.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 09:41:25 -0700 (PDT)
+Message-ID: <1561eb66e99857d084e6717172ee9e716cf14d74.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] systemd: make predictable name mac policy
+ opt-out
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Marko, Peter" <Peter.Marko@siemens.com>, Ross Burton
+ <Ross.Burton@arm.com>,  "alex@linutronix.de" <alex@linutronix.de>,
+ "joe.slater@windriver.com" <joe.slater@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Apr 2024 17:41:24 +0100
+In-Reply-To: <AS1PR10MB5697DE4D22B801842C85891FFD042@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240408070450.27686-1-peter.marko@siemens.com>
+	 <DD50CE1C-F584-49BA-845D-ACA0F3B91450@arm.com>
+	 <AS1PR10MB5697DE4D22B801842C85891FFD042@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7287.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01a77d6e-5864-4287-9f6b-08dc5b0bce55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2024 16:15:44.3882
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1kdgIcQn2NbySDlp8DI2T3CMFiybMLHPuoDwjiXBo/MegIeD/a/RFRNPJ4pKG0n4zxuCfPVfd+97srjlTVkW8Z6Q2m75iX+RA/1trNGRwkc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7646
-X-Proofpoint-GUID: 5oYDFTsie7qi6NIKlR8fTnfe4ASp0yyA
-X-Proofpoint-ORIG-GUID: EdlA0nbn9b7LdsZHYVFw6234ATB6Ug3T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-12_12,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- clxscore=1015 mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404120118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 16:15:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198176
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 16:41:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198177
 
-
-
+On Fri, 2024-04-12 at 13:47 +0000, Marko, Peter wrote:
 > -----Original Message-----
-> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Sent: Friday, April 12, 2024 3:22 AM
-> To: Slater, Joseph <joe.slater@windriver.com>
-> Cc: Ross Burton <Ross.Burton@arm.com>; Richard Purdie
-> <richard.purdie@linuxfoundation.org>; OE-core <openembedded-
-> core@lists.openembedded.org>; MacLeod, Randy
-> <Randy.MacLeod@windriver.com>
-> Subject: Re: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend
-> ifupdown
+> From: Ross Burton <Ross.Burton@arm.com>=20
+> Sent: Wednesday, April 10, 2024 18:00
+> To: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] systemd: make predictable name mac
+> policy opt-out
 >=20
-> On 11/04/2024 14:58:40+0000, Joe Slater via lists.openembedded.org wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Ross Burton <Ross.Burton@arm.com>
-> > > Sent: Thursday, April 11, 2024 7:21 AM
-> > > To: Richard Purdie <richard.purdie@linuxfoundation.org>; Slater,
-> > > Joseph <joe.slater@windriver.com>
-> > > Cc: OE-core <openembedded-core@lists.openembedded.org>; MacLeod,
-> > > Randy <Randy.MacLeod@windriver.com>
-> > > Subject: Re: [oe-core][PATCH 2/2] packagegroup-core-boot: recommend
-> > > ifupdown
-> > >
-> > > On 11 Apr 2024, at 10:33, Richard Purdie via lists.openembedded.org
-> > > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > >> ---
-> > > >> a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuall/inter
-> > > >> faces
-> > > >> +++ /dev/null
-> > > >> @@ -1,5 +0,0 @@
-> > > >> -# /etc/network/interfaces -- configuration file for ifup(8),
-> > > >> ifdown(8)
-> > > >> -
-> > > >> -# The loopback interface
-> > > >> -auto lo
-> > > >> -iface lo inet loopback
-> > > >
-> > > > Is this patch meant to touch ifupdown as well as the packagegroup?
-> > >
-> > > I suspect not, given that runqemu manually brings up network devices
-> > > and the last thing we want is DHCP running again.
-> > >
-> > > Joe, please remove this chunk.
-> >
-> > This was accidental since I removed the qemuall/interfaces in order to =
-use the
-> main one with qemu.  I'm sending new patches.  Maybe, though, we don't re=
-ally
-> need the qemuall stuff.
+> > On 8 Apr 2024, at 08:04, Peter Marko via lists.openembedded.org
+> > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.u=
+tils.contains('PACKAGECONFIG', 'predictable-
+> > > if-mac', 'file://0001-NamePolicy.patch',=C2=A0'', d)} \
+> >=20
+> > There=E2=80=99s a few other places which use the pni-names DISTRO_FEATU=
+RE
+> > (which probably needs to be documented), this should respect that I
+> > guess.
 >=20
-> This broke all the tests of this build:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6786
+> Sent a v2, maybe it's more acceptable as it uses distro feature and
+> does not conditionally patch the sources.
 
-The V2 patch doesn't change the interfaces file and should not cause any is=
-sues.
+FWIW I much prefer it thanks.
 
-Joe
+> Note that I have added the pni-names condition only to the systemd
+> part.
+> If this is accepted, the components from the other 4 patches should
+> follow this.
 
->=20
-> >
-> > Joe
-> > >
-> > > Ross
->=20
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#198136):
-> > https://lists.openembedded.org/g/openembedded-core/message/198136
-> > Mute This Topic: https://lists.openembedded.org/mt/105454861/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> > [alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->=20
->=20
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin Embedded Linux and Kernel
-> engineering https://bootlin.com
+I'm struggling to keep track of all the details but I think this is an
+improvement so I've queued it.
+
+Cheers,
+
+Richard
 
