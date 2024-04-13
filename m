@@ -1,113 +1,97 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <simone.weiss@posteo.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 873F9C4345F
-	for <webhook@archiver.kernel.org>; Sat, 13 Apr 2024 16:43:29 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.15456.1713026608220114917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C3CC4345F
+	for <webhook@archiver.kernel.org>; Sat, 13 Apr 2024 20:56:00 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web10.20528.1713041754052458686
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Apr 2024 09:43:28 -0700
+ Sat, 13 Apr 2024 13:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PQmnpreb;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2228c4c5ac3so1128352fac.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 09:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713026607; x=1713631407; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AvLpQGvu3ivts/fi4BufapTo2ogVlm1+uyWKgoxDu1E=;
-        b=PQmnprebyTWLdMZDljfnq88xi14BqDvnAR9XMwvG9+xK4qeDRAge6XDAKCkvGyhZcN
-         eQw6kPq8RIRevylkfdZ7DIOX60bOPLEF9ugc7GzMlWU+MuFtoW4Mmkt2bAmYHijTYIrj
-         AoxODymJHa18En2hbubGprJ2i5OhOksuXN+1SnFLIqOMCGfEhh+tC2GoSOf0lqUhf1Jw
-         WZWOcxDPE8qTZKthYucBvMxYOTc+MKLZGIr6exxtbaiBCpqzO6JQXuM3oPm02GB5DROl
-         NS8+CCSF7zRrrUFwYH2FriXHxlFq5Hfb0WKNRoKmqdsk6HfSuxPHD51X3bsO1QMKJr9g
-         M1XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713026607; x=1713631407;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AvLpQGvu3ivts/fi4BufapTo2ogVlm1+uyWKgoxDu1E=;
-        b=rnfKUD+IQpXWyfhDI8MCJchcWbHZxvn/LGMdaEC9OJ0/pvuGhoN5J8mvWjiXTe8+fF
-         2uld/TdAfojxsDkgWDP1nUfw3Q+hhwtUUtTt4zVRX3SrkTK1d2PLj6BMl2P+kxQ8SC87
-         pGLSJV2L8b09o+rmZ8w+TCLwwtSF2d/7ScDJirSvQ0JlNr1hv/RNlOooQe4WrlE3pV4X
-         KYzNQR3diRVUKA3OnoVNrQHSBsbi/iDC1pD+2K44V32ZVW2haZzrJamsZy/VSTxGStcI
-         RtQOZuQ93cdvb6ko0wMYUR3dLKz7WT8un5M5z8NacR9RzgX3N7LXriFQlmQUSDIbOcPy
-         VyVA==
-X-Gm-Message-State: AOJu0YykOfNZuo8thvkxSzXShWFVyvcesOLy31TZi+KaBoIqwvfaHQUG
-	M49L6bJHv+QHs8+4ruLUVdgKSpvGaRrpBJu3s9NwPuU8xVMQcq6Y1UZUfdmIPyeLqNSL2ZMnsX4
-	re734Db5qYG4vQykXrQ77J1fW9EqopuVW
-X-Google-Smtp-Source: AGHT+IHImOlWwWOcH8WTtYEQH3h6hAdn1BYewbyWPP2SRyBIwKsVAXFsgt2m5iAsi42rNRCrcQnLrFEf0EpkmJFuegU=
-X-Received: by 2002:a05:6870:c086:b0:21f:aba0:772d with SMTP id
- c6-20020a056870c08600b0021faba0772dmr6861325oad.39.1713026607403; Sat, 13 Apr
- 2024 09:43:27 -0700 (PDT)
+ dkim=pass header.i=@posteo.net header.s=2017 header.b=VSqy8M/Y;
+ spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id D77DE240101
+	for <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 22:55:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1713041751; bh=5cXjOi0S59YhPs5F6RHKJ1wqyAEnWSjU872YUVdqjCw=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=VSqy8M/YBy/ycEiZQ85dMgT0cvjMCIO57VW1uXo1MeJk5ZoLQO9m6qvhYAT6CUQus
+	 aotfgbTlxa3zRNHELLPcGcciPZ8EYZ/ZoKZHI4wmeYEb3d8IE1sjSR0aZwRgNYsecC
+	 kLS5NOlC+m57XNNpAa0QqL8pKUAZCtOOzim5pJ8MN2LjKqZE71b3hvXgTKGYjyalY6
+	 wmzwOl6jcc3Jr/s7m9/Wr1w/l6/xhAEcBMPBSyfsUI1AwPYz8dKbjKJ8bvjk72nZM1
+	 tx+ZhoAtwQDhNZcEIU0Ydh1hDNMRzoIrZJ45ttqzRsHjX8t9N0LJmmbkUHOT4TMVst
+	 dDlrgTcfSu6Fw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4VH5LZ1MMkz9rxG;
+	Sat, 13 Apr 2024 22:55:50 +0200 (CEST)
+Message-ID: <fac2b3548c6247d503a147c11ca0ab4bc96ae7a1.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH 10/33] gnutls: upgrade 3.8.4 -> 3.8.5
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Simone
+	=?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Date: Sat, 13 Apr 2024 20:55:49 +0000
+In-Reply-To: <2024041214390494ce0c8b@mail.local>
+References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
+	 <1712646620-16608-10-git-send-email-wangmy@fujitsu.com>
+	 <202404100045092623c1a2@mail.local>
+	 <0175215d2582da11040d25cd9981531fbbddf237.camel@posteo.net>
+	 <2024041214390494ce0c8b@mail.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20240412110837.2253822-1-richard.purdie@linuxfoundation.org>
- <CAMKF1srhQY+C+=i872hXb=9w_LHnpX_w+Ot5NNULhkkB4VZDRw@mail.gmail.com> <f9ef1eb0e45455f069fcb8c054da0b95c7be29fa.camel@linuxfoundation.org>
-In-Reply-To: <f9ef1eb0e45455f069fcb8c054da0b95c7be29fa.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 13 Apr 2024 09:43:16 -0700
-Message-ID: <CAMKF1srOX18Ugtc13MJSAg9tOT7MFyNC=g5OtaxrV44p5w4Mjw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-websockets: Import from meta-python
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006cd9900615fd1625"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 16:43:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198200
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 20:56:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198201
 
---0000000000006cd9900615fd1625
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+T24gRnJpLCAyMDI0LTA0LTEyIGF0IDE2OjM5ICswMjAwLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90
+ZToKPiBPbiAxMS8wNC8yMDI0IDE5OjQxOjA5KzAwMDAsIFNpbW9uZSBXZWnDnyB3cm90ZToKPiA+
+IE9uIFdlZCwgMjAyNC0wNC0xMCBhdCAwMjo0NSArMDIwMCwgQWxleGFuZHJlIEJlbGxvbmkgdmlh
+Cj4gPiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOgo+ID4gPiBGYWlsZWQgcHRlc3RzOgo+
+ID4gPiB7J2dudXRscyc6IFsnYWxlcnRzJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAn
+Y2VydC1zdGF0dXMnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdjaXBoZXJzdWl0ZS1u
+YW1lJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnZHRscy1ldG0nLAo+ID4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICdkdGxzMTAtY2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICdkdGxzMTItY2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICdrZXlsb2ctZW52JywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAnbWluaS1jaGFpbi11bnNvcnRlZCcsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+J21pbmktcmVjb3JkLWZhaWx1cmUnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdtaW5p
+LW92ZXJoZWFkJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbWluaS1yZWNvcmQnLAo+
+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdtaW5pLXJlY29yZC0yJywKPiA+ID4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAncmVjb3JkLXJldHZhbHMnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICdyZWhhbmRzaGFrZS1zd2l0Y2gtY2VydCcsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgJ3JlaGFuZHNoYWtlLXN3aXRjaC1jZXJ0LWFsbG93JywKPiA+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAncmVoYW5kc2hha2Utc3dpdGNoLWNlcnQtY2xpZW50JywKPiA+ID4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAncmVoYW5kc2hha2Utc3dpdGNoLWNlcnQtY2xpZW50LWFsbG93JywK
+PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAncnNhLWVuY3J5cHQtZGVjcnlwdCcsCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3JzYS1wc2snLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICdyc2EtcHNrLWNiJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAncnNhZXMt
+cGtjczEtdjFfNScsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3Rscy1ldG0nLAo+ID4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICd0bHMtZm9yY2UtZXRtJywKPiA+ID4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAndGxzLW5lZy1leHQ0LWtleScsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgJ3RsczEwLWNlcnQta2V5LWV4Y2hhbmdlJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAndGxzMTEtY2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgICd0bHMxMC1zZXJ2ZXIta3gtbmVnJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAn
+dGxzMTItYW5vbi11cGdyYWRlJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAndGxzMTIt
+Y2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICd0bHMxMS1z
+ZXJ2ZXIta3gtbmVnJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAndGxzMTItc2VydmVy
+LWt4LW5lZycsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3RsczEzLWNlcnQta2V5LWV4
+Y2hhbmdlJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAndGxzMTMtc2VydmVyLWt4LW5l
+ZycsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3ZlcnNpb24tY2hlY2tzJ119Cj4gPiA+
+IAo+ID4gPiAKPiA+IEhpLAo+ID4gCj4gPiBpcyB0aGVyZSBhIGF1dG9idWlsZGVyIGxpbmsgdG8g
+dGhpcz8gSSB0cmllZCBpdCBsb2NhbGx5IGFuZCBhbGwgd2FzCj4gPiBmaW5lLgo+ID4gV291bGQg
+bGlrZSB0byBjaGVjayBpdCBqdXN0IHRvIHNlZSBpZiBJIGNhbiBzcG90IGEgZGlmZmVyZW5jZS4g
+T3IgZG8KPiA+IHlvdQo+ID4gKFdhbmcgTWluZ3l1KSBhbHJlYWR5IGNoZWNrIGF0IHRoZSBtb21l
+bnQ/Cj4gCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9i
+dWlsZGVycy84MS9idWlsZHMvNjQ4OS9zdGVwcy8xMi9sb2dzL3N0ZGlvCj4gCj4gaHR0cHM6Ly9h
+dXRvYnVpbGRlci55b2N0by5pby9wdWIvbm9uLXJlbGVhc2UvMjAyNDA0MDktMjUvdGVzdHJlc3Vs
+dHMvcWVtdXg4Ni02NC1wdGVzdC9nbnV0bHMubG9nCgpMb29rcyBsaWtlIGF0IGxlYXN0IHNvbWUg
+bWlnaHQgYmUgZml4YWJsZSB3aXRoCmh0dHBzOi8vZ2l0bGFiLmNvbS9nbnV0bHMvZ251dGxzLy0v
+bWVyZ2VfcmVxdWVzdHMvMTgzMAoKSSB3aWxsIHRha2UgYSBmdXJ0aGVyIGxvb2sKCj4gCg==
 
-On Sat, Apr 13, 2024 at 4:38=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2024-04-12 at 07:05 -0700, Khem Raj wrote:
-> > we need a patch to remove it from meta-python at same time
->
-> I was testing this was all we needed and went to create one now I've
-> confirmed that but I see you have one in master-next. Let me know if
-> you need anything.
-
-
-I think we are fine for now with that
-
-
->
-> Cheers,
->
-> Richard
->
-
---0000000000006cd9900615fd1625
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Apr 13, 2024 at 4:38=E2=80=AFAM Richard Purdie &lt;=
-<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxf=
-oundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri=
-, 2024-04-12 at 07:05 -0700, Khem Raj wrote:<br>
-&gt; we need a patch to remove it from meta-python at same time<br>
-<br>
-I was testing this was all we needed and went to create one now I&#39;ve<br=
->
-confirmed that but I see you have one in master-next. Let me know if<br>
-you need anything.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto=
-">I think we are fine for now with that</div><div dir=3D"auto"><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---0000000000006cd9900615fd1625--
 
