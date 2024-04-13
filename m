@@ -1,92 +1,198 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED91C4345F
-	for <webhook@archiver.kernel.org>; Sat, 13 Apr 2024 00:26:55 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.1750.1712968011439603442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 802F3C4345F
+	for <webhook@archiver.kernel.org>; Sat, 13 Apr 2024 05:54:56 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.5513.1712987690626766976
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Apr 2024 17:26:51 -0700
+ Fri, 12 Apr 2024 22:54:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bgklvwQQ;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2220a389390so637356fac.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Apr 2024 17:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712968011; x=1713572811; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QhoNk4SunUc8jqwTA+FqYNDXGkKnmw1N88UlmHFQ2VY=;
-        b=bgklvwQQiB0GnbfO8Sy/XUAl1K1nLQ+V0MJ7x6tPon6lG8Xgo72pMO2OL4X73yOXqU
-         i81qA7+GnD8qUDQ2mRbdHhbvTGHumK/NgeAwhaCFHl+YkLQ5bQae0OBMNARHmVuPdZFa
-         JSY9XcpPlaNmzgOcdWCkaOviRSNk/pZQ9mbaPTfghWDD4goaaODnKdj9IUUntimZIofs
-         KRCV9EliZiUYp4lL8cc1+f+eH2F+NzjtJHwQHw2py8xxoem1X+XUfAa68BMWB7rkBTZC
-         6QpVECbYI1I2N85csUEcW8Np7xKvsvqr/+KG9MItDGxt49kph8EDYV63GDouSWKPSrrt
-         WRnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712968011; x=1713572811;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QhoNk4SunUc8jqwTA+FqYNDXGkKnmw1N88UlmHFQ2VY=;
-        b=HXJ48mJ0eYxsctVr8uo0O4Q/IyY8WAr+nSMWI3LxHBo8f/jG2udvmIoTjMBxEy8n5J
-         Psl/AYbriP44tmv4bNbHWfNIRbvwZNEg6LK/FVOYBj9joOY3tJe8Hg0dBuXAjB4Kbnp6
-         HMcpxYXU43XFNPe1LnAu+IIZ0g0NbbvjR+PMaXrCiVD0i3jwC9UyUw81HpbvK7EElPeR
-         cz1ges9rw/O8LgeQZVfK0PLANw5U7FWyWaB3kmaiUEhAtJ9XNjm4T7De/W1n+sx+OxYj
-         9m+I1hcAN2UhfbGzeeP0sPVIDW/sAtT0l8EkQx01pQ9FNIEp2FKNwYch/uUBsSvJ0Wg4
-         0sqA==
-X-Gm-Message-State: AOJu0YyGeBd9u+N3SEobfWhCL0nHVoPyu0CnT58Dr8xIqcXfstzaIZmi
-	PQBmaNSs8h0EVuSvH7CxFlHMUpdXqQghT0kaKZ9ivAsa6DeZ7c8La6xn61CNqqVZEQZCj1Bz8l8
-	cws/5s+K+NXL3CookwRZOP9Ag1lk=
-X-Google-Smtp-Source: AGHT+IGKdPyvfpdQOB1Gx0lGXKADKWa7HnvlzhLdQF+v6bFnT6F+9kNrU1UInu4ij6HHSNiYJbDk6OG3NYK2lu68iqw=
-X-Received: by 2002:a05:6871:3a0e:b0:233:37f9:f320 with SMTP id
- pu14-20020a0568713a0e00b0023337f9f320mr2773556oac.18.1712968010729; Fri, 12
- Apr 2024 17:26:50 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dO4A8CLb;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 72F781C0003;
+	Sat, 13 Apr 2024 05:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712987688;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HgJpLPdgXZtfCGZLNv+OjmBI820ND9clT8IB0zC42SU=;
+	b=dO4A8CLbCmHUwZ9tDlc7FOdHCrUw4JxIKowrtmcDRUBFwH9O1EN8Hpk+7d7z3HICQc+8ds
+	zoLWFUfNBA2J2ddrxNp6Emidj25+mXpljSUV5UzvfN9l9h4eKJODED1wwvu9iBP5Bji9le
+	gA4iIydRW6gvpRg6kMx68HVVH3T5gMzR5d4YWQfOJmmEf9Zk5ENUV0+dREe1RUtck5GcCC
+	avOiPO/AHvaJg1ImF9e9kCMxrkWGya8ma/eZEBLE8jEi5TeluSP6txiGGXIacVZKXIdZ5C
+	vu2KSdEQy41wZlYmN+O7zExuQBl0cfy+vRg6agfIswX8bMJ24ZdU2zrwZXb/GQ==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [RFC PATCH] scripts: new oe-test-system-upgrade test
+Date: Sat, 13 Apr 2024 07:54:21 +0200
+Message-Id: <20240413055421.210001-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240412165714.8951-1-peter.marko@siemens.com>
- <20240412165714.8951-3-peter.marko@siemens.com> <AS1PR10MB5697E46CE94DF5D1CBC5F901FD042@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697E46CE94DF5D1CBC5F901FD042@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Apr 2024 17:26:24 -0700
-Message-ID: <CAMKF1sqLRn60xsM3QB7dUAgKFPKdawyyVEnjBo5vHmU_Udgmog@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/3] kbd: remove non-free Agafari fonts
-To: peter.marko@siemens.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Spam-Score: 300
+X-GND-Status: SPAM
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 00:26:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198190
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 05:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198191
 
-On Fri, Apr 12, 2024 at 10:02=E2=80=AFAM Peter Marko via
-lists.openembedded.org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> I know that binary patches are problematic over mailing list.
-> Here the patch as zipped attachment just in case.
->
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-This does not help either, This patch is deleting files so why not
-just do the delete operation in do_compile:prepend
+Proof of concept "testimage" test to check whether the generated
+package feeds can be used to update an older image provided
+by the Yocto Project autobuilder.
 
-rm -rf ${S}/data/consolefonts/Agafari-1*
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-until the mentioned patch is part of a future kbd release.
+---
 
-> Peter
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198182): https://lists.openembedded.org/g/openembedde=
-d-core/message/198182
-> Mute This Topic: https://lists.openembedded.org/mt/105486424/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Tested on the latest master against yocto-5.0_M3
+A bit surprised that only one package got upgraded:
+
+DEBUG: Command: opkg upgrade
+Status: 0 Output:  Upgrading libexpat1 (2.6.1-r0) to libexpat1 (2.6.2) on root
+Downloading http://192.168.7.1:44893/core2-64/libexpat1_2.6.2-r0_core2-64.ipk.
+Removing obsolete file /usr/lib/libexpat.so.1.9.1.
+Configuring libexpat1.
+
+Test with a more complete image than core-image-full-cmdline?
+---
+ .../lib/oeqa/runtime/cases/opkg_sysupgrade.py | 71 +++++++++++++++++++
+ scripts/oe-test-system-upgrade                | 34 +++++++++
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+ create mode 100755 scripts/oe-test-system-upgrade
+
+diff --git a/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py b/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+new file mode 100644
+index 0000000000..7431db9198
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+@@ -0,0 +1,71 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# Test that generated ipk packages can be used to upgrade
++# an older image version.
++#
++# This is done by the scripts/oe-test-system-upgrade script
++# replacing the fresh generated image by the older image
++# generated by the Yocto Project autobuilder.
++#
++# Here, we then replace the original package feeds by our own.
++# This test is not meant to be used as a regular "testimage" test
++# run on the fresh image.
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++from oeqa.utils.httpserver import HTTPService
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class OpkgSysUpgradeTest(OERuntimeTestCase):
++
++    def pkg(self, command, expected = 0):
++        command = 'opkg %s' % command
++        status, output = self.target.run(command, 1500)
++        message = os.linesep.join([command, output])
++        self.assertEqual(status, expected, message)
++        return output
++
++class OpkgRepoTest(OpkgSysUpgradeTest):
++
++    @classmethod
++    def setUp(cls):
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'])
++        cls.repo_server = HTTPService(service_repo,
++                                      '0.0.0.0', port=cls.tc.target.server_port,
++                                      logger=cls.tc.logger)
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDown(cls):
++        cls.repo_server.stop()
++
++    def setup_source_config_for_package_install(self):
++        source_server = 'http://%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
++        sourceslist_dir = '/etc/opkg'
++        pkgarch = self.tc.td["TUNE_PKGARCH"]
++        machinedir = self.tc.td["MACHINE"].replace("-", "_")
++        self.target.run('cd %s; echo src/gz all %s/all > base-feeds.conf' % (sourceslist_dir, source_server))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, pkgarch, source_server, pkgarch))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, machinedir, source_server, machinedir))
++
++    def cleanup_source_config_for_package_install(self):
++        sourceslist_dir = '/etc/opkg'
++        self.target.run('rm -rf %s; mv %s.orig %s' % (sourceslist_dir, sourceslist_dir, sourceslist_dir))
++
++    @skipIfNotFeature('package-management',
++                      'Test requires package-management to be in IMAGE_FEATURES')
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'ipk',
++                      'IPK is not the primary package manager')
++    @skipIfFeature('read-only-rootfs',
++                   'Test does not work with read-only-rootfs in IMAGE_FEATURES')
++    @OEHasPackage(['opkg'])
++    def test_opkg_system_upgrade_from_repo(self):
++        self.setup_source_config_for_package_install()
++        self.pkg('update')
++        self.pkg('upgrade')
++
+diff --git a/scripts/oe-test-system-upgrade b/scripts/oe-test-system-upgrade
+new file mode 100755
+index 0000000000..0d36a70a8a
+--- /dev/null
++++ b/scripts/oe-test-system-upgrade
+@@ -0,0 +1,34 @@
++#!/bin/sh
++# Proof of concept script to test that generated ipk packages can
++# be used to upgrade an older image version.
++#
++# This is done by generating an image but then replacing it
++# by an older image shared by the Yocto Project autobuilder.
++# We then run QEMU on the old image and replace the original
++# original package feeds by our own.
++
++IMAGE=core-image-full-cmdline
++MILESTONE=yocto-5.0_M3
++MACHINE=qemux86-64
++MACHINE_VARIANT=-alt
++IMAGE_FILE=$IMAGE-$MACHINE.rootfs.ext4
++IMAGE_PATH=tmp/deploy/images/$MACHINE/$IMAGE_FILE
++PACKAGE_TYPE=ipk
++
++# Need a configuration with poky-alt, package_management, ipk package
++# Need to build a full image to build the .json file needed by QEMU.
++# Therefore, it is not sufficient to run only "package_write_ipk" for the image.
++
++bitbake $IMAGE
++bitbake package-index
++
++# Download image to test
++# Remove the link to the generated image if any
++
++rm -f $IMAGE_PATH
++wget -O $IMAGE_PATH https://downloads.yoctoproject.org/releases/yocto/milestones/$MILESTONE/machines/qemu/$MACHINE$MACHINE_VARIANT/$IMAGE_FILE
++
++# Run test
++
++echo "TEST_SUITES=\"opkg_sysupgrade\"" > conf/auto.conf
++bitbake $IMAGE -c testimage
+-- 
+2.34.1
+
 
