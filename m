@@ -1,531 +1,209 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7421C4345F
-	for <webhook@archiver.kernel.org>; Sun, 14 Apr 2024 04:44:52 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web11.26637.1713069887483582560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EA3C001CC
+	for <webhook@archiver.kernel.org>; Sun, 14 Apr 2024 07:29:23 +0000 (UTC)
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.75])
+ by mx.groups.io with SMTP id smtpd.web11.28222.1713079758549722120
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Apr 2024 21:44:47 -0700
+ Sun, 14 Apr 2024 00:29:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Muk384wG;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-61587aa956eso20602157b3.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Apr 2024 21:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713069886; x=1713674686; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XyqMGJyQFjV/Hya7nMyKqSDlGC++Fh0HZeo78PUjQrY=;
-        b=Muk384wGodyxSra1rJxoad4fwhS74/LV7zuhR0r2BuugX/tEG+GexeDHgAjr7AAbV3
-         Q3bD39EPv3DmBdbbxI1SY9tqoWdIGEAVYxIac1yS+XE9wzQA3CJbqjf2tfDnDdn9cYMT
-         jzSldI+F+wpxuiQCN1oBK0bB+jE8EGc8+XYo50nqGBchcQpweK2z1FvOK/aIN1pBtRvy
-         1c4BHAkj/3ddA93MAl+Dqw7xveuQvYO+DoQiF/n+ePhZswPY8n9ALK34DjzKK9vPYHLm
-         Lehk5S7phYYyOuZ30HyJYUBGmtRP8IDmZmUvfNrzulJ5pz78VVbH2vh4cNBho+FzujdL
-         CJPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713069886; x=1713674686;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XyqMGJyQFjV/Hya7nMyKqSDlGC++Fh0HZeo78PUjQrY=;
-        b=dwHRSEn7YnbIPHmE5AMGX+JgB9UvHZpka+nz1PLWUWyI1BmmQCNKA47zLxwTAEifg5
-         o03eRj3ROA1cBHdnoI+vcWHFQUQWvWsHY6YZsOjTtIrku7Ewugr8jUBYDNeI+YCDg6Qz
-         SeAt3fNu2yg8Lu/ZRmMUJ3bUB+thBBEBbmqNxOFgPVGUG5CcK6wT9AGTUpuAX2Px1IQw
-         tefV8blQ3fyEgPb0AuTIWiYQ6vG8izA+HTclcQze9qrsviQGaZ7SwZaq51intGxFIq0q
-         JFxAMG9PMs5XR0lDpZ2hZzXNcR5MN7On9D0Rhpm0qbeTmmDiyfK3QbkLNfBp8KvklrHX
-         weTQ==
-X-Gm-Message-State: AOJu0YywWzzLpF9O7s0VjSeDt2qGqj4gx7FLMK0hMBAKBPRntpeKYTJA
-	cfpD/fOucr43Z9dD8qu/KFDhUL0BVTUoyOQJX4TDb70JkDKKSWdl7KvQJqtMYqTYv1y9jb5Y37i
-	o6ySkr2AfuqoXNnS7epqBPra3p3E=
-X-Google-Smtp-Source: AGHT+IF+PwOIo1lOKuBCTeY66HUsJNnjoQCQNtp7x2mQyU+NAm5/LNIJAsy+N3PKv5b9Ar8xvLmrDrkEcu2Jmx4NlOI=
-X-Received: by 2002:a81:f00b:0:b0:618:1202:3222 with SMTP id
- p11-20020a81f00b000000b0061812023222mr6110827ywm.38.1713069886408; Sat, 13
- Apr 2024 21:44:46 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=dXFyxVHs;
+ spf=pass (domain: siemens.com, ip: 40.107.14.75, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q9wSt+orIjD34JCfeqFVSFQSj/a+sQGNz0gfNLQJlQzTYvSptJEsI+lwaQCt+RV0f5O/0GpD2OgF2eorVBPLFDCbwE+FuwkZPUv1IeXSr1KN6Hb9YGR/vsVSCdCWUW0G1UOkLqzo5gw+wvduYmQAzJkGS66g3c/sbd3LFSxDsQO0uOyFOSV/tuLiagKCQB4XkvwQVfCczbf7JLmAS+1gaCFTyjJB30g6PHmw3SVhlgptHfkA1X4JcM8TaSI2M46nRJolza+wu9CiyuKeOWypcSuYzpv0o34u4muEnSbKW4N0MlqvyUx8Wuo4Ajq8gz+3sPKzH/OEmpsiDcFFT9bTaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Se5f51zPFcPT4H3ZxktVfy/wAlNLLpw2iVoTZlB088=;
+ b=dPp+ZPIc+kuOPRc7Qble1tZnmP62mPhjvOLh0B94/Y+1TNprqFLmz1OOJ4/WIQmExwyWMSHQzFvHZCelX6LMlokpxJrZ+AgimK+6tDZurWlM141v0ynxmZp7J8AoYIqflsLB93pyVf18hNCox/XGSJvukYRNEnkoRJP8bNUyboyL81uxy1YW6jKYNyJtmEmdR+fjgEXyut96/0KW9zFVJDCjoPkSJ0PxRBXj3cDY+vScsdzLdLkgcMkN9zopa8PtHk1Dn9sQ1AnOLhQsNhsBNvcqKue3cOCrVDYuL2BfIJkct2U4YfxnqbmMLB70QqExin2dx65iE1kNvjUECAB17w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Se5f51zPFcPT4H3ZxktVfy/wAlNLLpw2iVoTZlB088=;
+ b=dXFyxVHsv62KiqXia11HWTeb2mj/LDH3Hu8jKnWmP2aG712h8ko7FWMRiNW7MKuQJV5jD/hXi7VdL9z/bLyGGSALI+uugSRYnXY188EGJukEG2W+lH8baW2QM5g10lBqnMGPDAm2bP0DonX7HQz93Lt9LnjFKgoZGn/BnXQEfD8fTiGX1/c9KuXkJbQbvN7o4cr5bMr1393TsTSiNwwxQfmuBGmOjxA8bOmbq+lH2m5flSlQrB6/+cW8aEaxNaEwL16wzFM+QogIQNTTtszTSk884wc6ryP4OA35wr/KNvDiieVPRtz3xDRqHZIdd5OxCQHkMlGAs7x1gnspgLeing==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PRAPR10MB5322.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:297::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Sun, 14 Apr
+ 2024 07:29:15 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7452.046; Sun, 14 Apr 2024
+ 07:29:13 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "ticotimo@gmail.com" <ticotimo@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] openssl: openssl: patch CVE-2024-2511
+Thread-Topic: [OE-core][PATCH] openssl: openssl: patch CVE-2024-2511
+Thread-Index: AQHajfTtGAobj7v60UKkVXwId/nmdrFnMPyAgAAs1ZA=
+Date: Sun, 14 Apr 2024 07:29:13 +0000
+Message-ID: 
+ <AS1PR10MB56978F4AED9B46D356A2187AFD0A2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20240413224917.1772877-1-peter.marko@siemens.com>
-In-Reply-To: <20240413224917.1772877-1-peter.marko@siemens.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sat, 13 Apr 2024 21:44:35 -0700
-Message-ID: <CANx9H-C_-5WjpQnsJ3mye2UxNf_p+1Qa+nd+4aOAKqsxfg_Q4Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] openssl: openssl: patch CVE-2024-2511
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000000e11510616072a57"
+ <CANx9H-C_-5WjpQnsJ3mye2UxNf_p+1Qa+nd+4aOAKqsxfg_Q4Q@mail.gmail.com>
+In-Reply-To: 
+ <CANx9H-C_-5WjpQnsJ3mye2UxNf_p+1Qa+nd+4aOAKqsxfg_Q4Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=67fd52fc-e0f7-4fd6-8214-4b7db248fad8;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-04-14T07:25:02Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PRAPR10MB5322:EE_
+x-ms-office365-filtering-correlation-id: 449e5664-b7dd-4d51-1912-08dc5c549584
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ OihCgYFn4YGWH3jPe+LesC9mjv1H00OuzBM2ckP2M1tQnwJG0KLxSMGASvLHuxYxl0m5wY8NwcHQYjM6NWuMQE08c98i1TugpmtRRrCbKKHdkIFgrbQGs/7vg4rAA4G1vAi3DkWpQzTrcXZegnL7oO5SZm2AZYuYZelrdAeoNfVGoPKrMTrtPoR3mO9uEMQ26F+0sctKqOfAZOJo55cmUGPyllWD5ZrC2g0jjNeCPGpp9mhHFRYrHfsU2Pumf/X3mm00E2eISy+w6kQChAfAtMoAMyIBA39UgjLexXHz9O8ouTwDxtqcaphMSuTgixbOGZWYpD7ESwS1Q9cIX/ErzrtnIUh9e/GTM8COKPeLARA+rZLiE3OabHKltTcEAwGVnBgNA0hdO7Q75V51uAcj9SkQ3s2OEFT1WT3isFcz0m2/K+Sf45Pk6j2+pJTy20KrDWqiKnq73pGqzGNaEW2pBKD0sLW9DGGqDdD7saDCtxQqt1OYsIjrw4EKmihmuol6doePrIUSYkkBnBhWNxn1RwGr0BsQc6KRkRcNTovGfEMxLJb2E+SobLpKk8vUjq7c3nPAfXiaQovvMtDBo6eq/VX/lLxWXKiHXoxAKwwFgPcrPIcVesU+Stp43EPyD1HKg8WGZI8ptq+YId/l5vM+W+lPJR8S2wDWfmtVlSXv/pKy+SyiPiO0mmFRX0JxiauG8KimYn1mvg5QbL8MEf01a1zAwm3Z9+uIg+aImncoqbo=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?VVBoS2RCdGZpaHNwWURIVWt1UWJwbzlKVXAydFNIc3pNVGJiTm01R09FSnNK?=
+ =?utf-8?B?N2JIM0xNQ0NudnZFaytYdTJ4eTJTMDE4Q0RJeGhINWE4THZPd0dSazRUekZG?=
+ =?utf-8?B?MWY1SUZpaDlVeThKMERrQURzSmhFUTFuK2s5N0huZW05Sm1FZk1abTNGOWFH?=
+ =?utf-8?B?ckVSWUJsK0hlVWZLaUdGNDhKdG0zR2ZqYW1iazJFMnNYVWltRHpTYUp3SHRk?=
+ =?utf-8?B?ZEhmV0tjSmROL0x6V1ZNd0ZHOTdmWmswd2duYTkzUE9wUTR2cFBZRE1JRUtG?=
+ =?utf-8?B?RVNQWUZZZkhQNkRqTlRpTlNLNXRYeDB6cGZwVS9XWEZtN3ArWGN5MFNRTzh3?=
+ =?utf-8?B?OHNsanR0cS92WUtpUHI2ZGo1Zk1aQVJtWGtOYk1JU1gyNyt1L3NHS2lvSG55?=
+ =?utf-8?B?d3daRWxySlZlVmZoT2pSZ3k5ZjdOY0Z5aDhnN0Y3Y1gvYi9xSEpEa3JEVnZX?=
+ =?utf-8?B?TmZESFhZVkpRZEhubEI1RTE1bTF0ZzNhSyt2TUJIRFZMaU1NV2RDRzJXS1VU?=
+ =?utf-8?B?WmNPS2F0UmZkOFpBOUVxMnA2YldCaDRDUlF1Vjd6M0lUU21EdlhVa3pvdm5k?=
+ =?utf-8?B?QWFNeHZ0aG1XbmlkdDdXYzk0ZFA2V3d0ekE3MFpLbEY5Kzdlc0FrRGc5UDg4?=
+ =?utf-8?B?bEJWQk5DQjF1Y29TbEJhNGVnVWhxY1pzNm1SbVBDaXRiRjlBcGVQZklNemhG?=
+ =?utf-8?B?TmFpakRXcnVGbzdiZkNFWjdHUmgxKzZCd1BnNVhnVUVaNGJXYUpaRFBBRHFG?=
+ =?utf-8?B?M1p2T3p3aTBnTWxhakQwYXlaSU9oMHY2K3U3VW5oSUJWQ2xNR0ZhaXowalRN?=
+ =?utf-8?B?MHljS0ViZkV4VEIrY3BYMWJmT2dWdlJBNGtpbjY1dmdMWjVaazhtQ1c4YkpJ?=
+ =?utf-8?B?cXdFSkY3UmpWT1piWmNlU29RbHF1Y0lVT1gzWmU3ZzdYY1BuS2VYTEF1aXdp?=
+ =?utf-8?B?QWtMRTZ5OE05RUpOaldUb1FLL2laWTl6bUJsdC9SeHJjNkhUMUlDaHgzTHox?=
+ =?utf-8?B?emRxc1N1b0toei90UUJUdFhjYkY2blYyQm83aktvMW52TFJ5ZkVBT0M5NmlS?=
+ =?utf-8?B?SUlHUi81OFpLVFh4NmozMk9kR1V5YnYzTGV0ZGl6Tk5kem1GM05oendSTlZr?=
+ =?utf-8?B?bTBMV1hjRG1hQStJL3NRY21BNWIzTjNtZGhFblJCaEpYM2pDenRBWE9SMG9t?=
+ =?utf-8?B?ZlkwUG94bldETnk5ZVhoWFRjd1JHTEFCcFFMaXc3MThxR1d2aDE2VXlzZjZu?=
+ =?utf-8?B?dkdPbnBRWGg2NjFpck8xOUx5Q0xjT0Z4N0pocVBBZkJLZEE0THVqUVdldVB5?=
+ =?utf-8?B?OWF0b2xTcnVIN0NWWHFqQ004TnZuKzRJbi9qeHZYMW1oZjRaVjEzVmZ0dmZS?=
+ =?utf-8?B?Tmc0alQ4UnZxam9LTVhUOGRESCtpcjhRT1BQTE82eHkvVGNBZit0aGJROCta?=
+ =?utf-8?B?UitpMjB3SFhQalQ4dTBwdGlmbkFCaDJHZUV5VUlodEE1M3NRcFl6ZjRnRHNa?=
+ =?utf-8?B?Q09keEtObFI2S2x1S3RVc0NoTTU4OHJjL3dMZnN6ZmhmRlg3VEd1MTZjb3BR?=
+ =?utf-8?B?QXJUM3Q1MWhrNFZaNTZhdGhoQWM4bmg0UU5tbHFSZE1QQnd6RmNyVG9ncUhD?=
+ =?utf-8?B?dXpJR1A5OVFDbXBKV0VpamRydG5NSXM3SDR6YXk1TFdnRXNQS1BrdjNDSjNN?=
+ =?utf-8?B?dUt3K1JUWmJuUEl2U2loY2hEdWtkYUtmSmhua2Q1dmMydFd2V1c5U3h0TEZh?=
+ =?utf-8?B?cFNKTmhGRHk3VmpmamduN2pjYjFWYmFjSXZ5T0pLM1hvVjhxeEQyYlpPMnA3?=
+ =?utf-8?B?R2RjaDRaT1dkUGNJaEIvNndnZHhrMXdsMG1hM0lTUHV6bW9yMlNBOVVpZmo4?=
+ =?utf-8?B?YzVHV3owa3JiVWt5SlRDQTdqeTZleWRtcFFhalpIYXd1MkMvODBEUU05Y2hy?=
+ =?utf-8?B?WTBNWXhxeTRHYXBpNGM5elhobjJzclZjc1BYRUF5b0ZIN24zSjhiUEM0VXJH?=
+ =?utf-8?B?b3NlV0Q2d1Byc05ra2lTUkJLRUI4emhiUVY4MkhXOGFOd3Y1MTl2Yi9TbWNo?=
+ =?utf-8?B?a05hSThnMk91T0RFenY4OEtPeHRwQnlXeFNxTFE2MktyNUFaazZBYzVlVmR5?=
+ =?utf-8?Q?1NpYyvORVcmuOK9ouGQCsCdPq?=
+Content-Type: multipart/alternative;
+	boundary="_000_AS1PR10MB56978F4AED9B46D356A2187AFD0A2AS1PR10MB5697EURP_"
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 449e5664-b7dd-4d51-1912-08dc5c549584
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2024 07:29:13.4744
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZYmmySYTewpQgwYqE6X6jqw0N6H7spSvWVy6gTw1jkW6CfeSfKm+GicVN7w1KZ8eXMReQ0YWfx10Ys7P44XVug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5322
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 04:44:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198204
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 07:29:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198205
 
---0000000000000e11510616072a57
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_AS1PR10MB56978F4AED9B46D356A2187AFD0A2AS1PR10MB5697EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Looks like when 3.2.2 is released it will include this. So 3.2.2 should be
-applied to scarthgap.
+SSB0aGluayB0aGF0IHNlbmRpbmcgdGhpcyBwYXRjaCB3YXMgY29ycmVjdCwgc2VlIGNvbW1lbnRz
+IGJlbG93Lg0KUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVo
+YWxmIE9mIFRpbSBPcmxpbmcgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClNlbnQ6IFN1bmRh
+eSwgQXByaWwgMTQsIDIwMjQgNjo0NQ0KVG86IE1hcmtvLCBQZXRlciAoQURWIEQgRVUgU0sgQkZT
+MSkgPFBldGVyLk1hcmtvQHNpZW1lbnMuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0hdIG9wZW5zc2w6
+IG9wZW5zc2w6IHBhdGNoIENWRS0yMDI0LTI1MTENCg0KPiBMb29rcyBsaWtlIHdoZW4gMy4yLjIg
+aXMgcmVsZWFzZWQgaXQgd2lsbCBpbmNsdWRlIHRoaXMuIFNvIDMuMi4yIHNob3VsZCBiZSBhcHBs
+aWVkIHRvIHNjYXJ0aGdhcC4NCg0KU3VyZSwgb25jZSBpdCBpcyBhdmFpbGFibGUsIGl0IHdpbGwg
+YmUgdXNlZC4NCkJ1dCB3YWl0aW5nIGZvciBpdCBjb3VsZCB0YWtlIG1vbnRocy4NCg0KPiDigJxt
+YXN0ZXLigJ0gd2lsbCBiZSBtb3ZpbmcgdG8gMy4zLjAgc29vbiBmb3Igc3R5aGVhZA0KDQpDdXJy
+ZW50bHkgYm90aCBzY2FydGhnYXAgYW5kIHN0eWhlYWQgdXNlIHRoZSBzYW1lIG1hc3Rlci1uZXh0
+IGJyYW5jaCBmb3Igc3RhZ2luZy90ZXN0aW5nIHBhdGNoZXMuDQpTbyBzZW5kaW5nIHVwZGF0ZSB0
+byAzLjMuMCB3b3VsZCBwcmV2ZW50IHBhdGNoaW5nIHN0eWhlYWQgdW50aWwgdGhlIGJyYW5jaGVz
+IGFyZSBzZXBhcmF0ZWQuDQoNCg==
 
-=E2=80=9Cmaster=E2=80=9D will be moving to 3.3.0 soon for styhead
+--_000_AS1PR10MB56978F4AED9B46D356A2187AFD0A2AS1PR10MB5697EURP_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Sat, Apr 13, 2024 at 3:50=E2=80=AFPM Peter Marko via lists.openembedded.=
-org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1z
+dHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNl
+cmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5
+cGU6ZXhwb3J0LW9ubHk7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGlu
+Ow0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJ
+e3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+
+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4
+dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxh
+eW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5r
+PSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFrLXdvcmQiPg0KPGRp
+diBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkkgdGhpbmsgdGhh
+dCBzZW5kaW5nIHRoaXMgcGF0Y2ggd2FzIGNvcnJlY3QsIHNlZSBjb21tZW50cyBiZWxvdy48bzpw
+PjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlBldGVyPG86cD48L286cD48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJv
+cmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBp
+biAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5UaW0gT3JsaW5nIHZp
+YSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U2VudDo8L2I+IFN1bmRheSwgQXByaWwg
+MTQsIDIwMjQgNjo0NTxicj4NCjxiPlRvOjwvYj4gTWFya28sIFBldGVyIChBRFYgRCBFVSBTSyBC
+RlMxKSAmbHQ7UGV0ZXIuTWFya29Ac2llbWVucy5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVjdDo8L2I+
+IFJlOiBbT0UtY29yZV1bUEFUQ0hdIG9wZW5zc2w6IG9wZW5zc2w6IHBhdGNoIENWRS0yMDI0LTI1
+MTE8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
+cDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0OyBMb29rcyBsaWtl
+IHdoZW4gMy4yLjIgaXMgcmVsZWFzZWQgaXQgd2lsbCBpbmNsdWRlIHRoaXMuIFNvIDMuMi4yIHNo
+b3VsZCBiZSBhcHBsaWVkIHRvIHNjYXJ0aGdhcC48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+U3Vy
+ZSwgb25jZSBpdCBpcyBhdmFpbGFibGUsIGl0IHdpbGwgYmUgdXNlZC48bzpwPjwvbzpwPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPkJ1dCB3YWl0aW5nIGZvciBpdCBjb3VsZCB0YWtlIG1vbnRo
+cy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+Jmd0OyDigJxtYXN0ZXLigJ0gd2lsbCBiZSBtb3ZpbmcgdG8gMy4zLjAgc29vbiBmb3Igc3R5aGVh
+ZCZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5DdXJyZW50bHkg
+Ym90aCBzY2FydGhnYXAgYW5kIHN0eWhlYWQgdXNlIHRoZSBzYW1lIG1hc3Rlci1uZXh0IGJyYW5j
+aCBmb3Igc3RhZ2luZy90ZXN0aW5nIHBhdGNoZXMuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj5TbyBzZW5kaW5nIHVwZGF0ZSB0byAzLjMuMCB3b3VsZCBwcmV2ZW50IHBhdGNo
+aW5nIHN0eWhlYWQgdW50aWwgdGhlIGJyYW5jaGVzIGFyZSBzZXBhcmF0ZWQuPG86cD48L286cD48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Patch:
-> https://github.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ff=
-b52829f08
-> News:
-> https://github.com/openssl/openssl/commit/b7acb6731a96b073d6150465bd090e2=
-052a595c2
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  .../openssl/openssl/CVE-2024-2511.patch       | 120 ++++++++++++++++++
->  .../openssl/openssl_3.2.1.bb                  |   1 +
->  2 files changed, 121 insertions(+)
->  create mode 100644
-> meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patc=
-h
-> b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
-> new file mode 100644
-> index 0000000000..8772f716d5
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
-> @@ -0,0 +1,120 @@
-> +From e9d7083e241670332e0443da0f0d4ffb52829f08 Mon Sep 17 00:00:00 2001
-> +From: Matt Caswell <matt@openssl.org>
-> +Date: Tue, 5 Mar 2024 15:43:53 +0000
-> +Subject: [PATCH] Fix unconstrained session cache growth in TLSv1.3
-> +
-> +In TLSv1.3 we create a new session object for each ticket that we send.
-> +We do this by duplicating the original session. If SSL_OP_NO_TICKET is i=
-n
-> +use then the new session will be added to the session cache. However, if
-> +early data is not in use (and therefore anti-replay protection is being
-> +used), then multiple threads could be resuming from the same session
-> +simultaneously. If this happens and a problem occurs on one of the
-> threads,
-> +then the original session object could be marked as not_resumable. When =
-we
-> +duplicate the session object this not_resumable status gets copied into
-> the
-> +new session object. The new session object is then added to the session
-> +cache even though it is not_resumable.
-> +
-> +Subsequently, another bug means that the session_id_length is set to 0 f=
-or
-> +sessions that are marked as not_resumable - even though that session is
-> +still in the cache. Once this happens the session can never be removed
-> from
-> +the cache. When that object gets to be the session cache tail object the
-> +cache never shrinks again and grows indefinitely.
-> +
-> +CVE-2024-2511
-> +
-> +Reviewed-by: Neil Horman <nhorman@openssl.org>
-> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-> +(Merged from https://github.com/openssl/openssl/pull/24043)
-> +
-> +CVE: CVE-2024-2511
-> +Upstream-Status: Backport [
-> https://github.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ff=
-b52829f08
-> ]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + ssl/ssl_lib.c            |  5 +++--
-> + ssl/ssl_sess.c           | 28 ++++++++++++++++++++++------
-> + ssl/statem/statem_srvr.c |  5 ++---
-> + 3 files changed, 27 insertions(+), 11 deletions(-)
-> +
-> +diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
-> +index 4afb43bc86e54..c51529ddab5bb 100644
-> +--- a/ssl/ssl_lib.c
-> ++++ b/ssl/ssl_lib.c
-> +@@ -4457,9 +4457,10 @@ void ssl_update_cache(SSL_CONNECTION *s, int mode=
-)
-> +
-> +     /*
-> +      * If the session_id_length is 0, we are not supposed to cache it,
-> and it
-> +-     * would be rather hard to do anyway :-)
-> ++     * would be rather hard to do anyway :-). Also if the session has
-> already
-> ++     * been marked as not_resumable we should not cache it for later
-> reuse.
-> +      */
-> +-    if (s->session->session_id_length =3D=3D 0)
-> ++    if (s->session->session_id_length =3D=3D 0 || s->session->not_resum=
-able)
-> +         return;
-> +
-> +     /*
-> +diff --git a/ssl/ssl_sess.c b/ssl/ssl_sess.c
-> +index 3dcc4d81e5bc6..1fa6d17c46863 100644
-> +--- a/ssl/ssl_sess.c
-> ++++ b/ssl/ssl_sess.c
-> +@@ -127,16 +127,11 @@ SSL_SESSION *SSL_SESSION_new(void)
-> +     return ss;
-> + }
-> +
-> +-SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
-> +-{
-> +-    return ssl_session_dup(src, 1);
-> +-}
-> +-
-> + /*
-> +  * Create a new SSL_SESSION and duplicate the contents of |src| into it=
-.
-> If
-> +  * ticket =3D=3D 0 then no ticket information is duplicated, otherwise =
-it is.
-> +  */
-> +-SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
-> ++static SSL_SESSION *ssl_session_dup_intern(const SSL_SESSION *src, int
-> ticket)
-> + {
-> +     SSL_SESSION *dest;
-> +
-> +@@ -265,6 +260,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src=
-,
-> int ticket)
-> +     return NULL;
-> + }
-> +
-> ++SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
-> ++{
-> ++    return ssl_session_dup_intern(src, 1);
-> ++}
-> ++
-> ++/*
-> ++ * Used internally when duplicating a session which might be already
-> shared.
-> ++ * We will have resumed the original session. Subsequently we might hav=
-e
-> marked
-> ++ * it as non-resumable (e.g. in another thread) - but this copy should
-> be ok to
-> ++ * resume from.
-> ++ */
-> ++SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
-> ++{
-> ++    SSL_SESSION *sess =3D ssl_session_dup_intern(src, ticket);
-> ++
-> ++    if (sess !=3D NULL)
-> ++        sess->not_resumable =3D 0;
-> ++
-> ++    return sess;
-> ++}
-> ++
-> + const unsigned char *SSL_SESSION_get_id(const SSL_SESSION *s, unsigned
-> int *len)
-> + {
-> +     if (len)
-> +diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c
-> +index 853af8c0aa9f9..d5f0ab091dacc 100644
-> +--- a/ssl/statem/statem_srvr.c
-> ++++ b/ssl/statem/statem_srvr.c
-> +@@ -2445,9 +2445,8 @@ CON_FUNC_RETURN
-> tls_construct_server_hello(SSL_CONNECTION *s, WPACKET *pkt)
-> +      * so the following won't overwrite an ID that we're supposed
-> +      * to send back.
-> +      */
-> +-    if (s->session->not_resumable ||
-> +-        (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode &
-> SSL_SESS_CACHE_SERVER)
-> +-         && !s->hit))
-> ++    if (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode &
-> SSL_SESS_CACHE_SERVER)
-> ++            && !s->hit)
-> +         s->session->session_id_length =3D 0;
-> +
-> +     if (usetls13) {
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-> b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-> index c7134c54db..d37b68abbb 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-> @@ -13,6 +13,7 @@ SRC_URI =3D "
-> http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
->
-> file://0001-Added-handshake-history-reporting-when-test-fails.patch \
->             file://bti.patch \
-> +           file://CVE-2024-2511.patch \
->             "
->
->  SRC_URI:append:class-nativesdk =3D " \
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198203):
-> https://lists.openembedded.org/g/openembedded-core/message/198203
-> Mute This Topic: https://lists.openembedded.org/mt/105508900/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---0000000000000e11510616072a57
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Looks like when 3.2.2 is released it will include this. S=
-o 3.2.2 should be applied to scarthgap.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">=E2=80=9Cmaster=E2=80=9D will be moving to 3.3.0 soon for s=
-tyhead=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Sat, Apr 13, 2024 at 3:50=E2=80=AFPM Peter Marko via <a=
- href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;pete=
-r.marko=3D<a href=3D"mailto:siemens.com@lists.openembedded.org">siemens.com=
-@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-=
-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Pete=
-r Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=3D"_blank">pe=
-ter.marko@siemens.com</a>&gt;<br>
-<br>
-Patch: <a href=3D"https://github.com/openssl/openssl/commit/e9d7083e2416703=
-32e0443da0f0d4ffb52829f08" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ffb52829f08</a>=
-<br>
-News: <a href=3D"https://github.com/openssl/openssl/commit/b7acb6731a96b073=
-d6150465bd090e2052a595c2" rel=3D"noreferrer" target=3D"_blank">https://gith=
-ub.com/openssl/openssl/commit/b7acb6731a96b073d6150465bd090e2052a595c2</a><=
-br>
-<br>
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
----<br>
-=C2=A0.../openssl/openssl/CVE-2024-2511.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
-20 ++++++++++++++++++<br>
-=C2=A0.../openssl/<a href=3D"http://openssl_3.2.1.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">openssl_3.2.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A02 files changed, 121 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024=
--2511.patch<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch =
-b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch<br>
-new file mode 100644<br>
-index 0000000000..8772f716d5<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch<br>
-@@ -0,0 +1,120 @@<br>
-+From e9d7083e241670332e0443da0f0d4ffb52829f08 Mon Sep 17 00:00:00 2001<br>
-+From: Matt Caswell &lt;<a href=3D"mailto:matt@openssl.org" target=3D"_blan=
-k">matt@openssl.org</a>&gt;<br>
-+Date: Tue, 5 Mar 2024 15:43:53 +0000<br>
-+Subject: [PATCH] Fix unconstrained session cache growth in TLSv1.3<br>
-+<br>
-+In TLSv1.3 we create a new session object for each ticket that we send.<br=
->
-+We do this by duplicating the original session. If SSL_OP_NO_TICKET is in<=
-br>
-+use then the new session will be added to the session cache. However, if<b=
-r>
-+early data is not in use (and therefore anti-replay protection is being<br=
->
-+used), then multiple threads could be resuming from the same session<br>
-+simultaneously. If this happens and a problem occurs on one of the threads=
-,<br>
-+then the original session object could be marked as not_resumable. When we=
-<br>
-+duplicate the session object this not_resumable status gets copied into th=
-e<br>
-+new session object. The new session object is then added to the session<br=
->
-+cache even though it is not_resumable.<br>
-+<br>
-+Subsequently, another bug means that the session_id_length is set to 0 for=
-<br>
-+sessions that are marked as not_resumable - even though that session is<br=
->
-+still in the cache. Once this happens the session can never be removed fro=
-m<br>
-+the cache. When that object gets to be the session cache tail object the<b=
-r>
-+cache never shrinks again and grows indefinitely.<br>
-+<br>
-+CVE-2024-2511<br>
-+<br>
-+Reviewed-by: Neil Horman &lt;<a href=3D"mailto:nhorman@openssl.org" target=
-=3D"_blank">nhorman@openssl.org</a>&gt;<br>
-+Reviewed-by: Tomas Mraz &lt;<a href=3D"mailto:tomas@openssl.org" target=3D=
-"_blank">tomas@openssl.org</a>&gt;<br>
-+(Merged from <a href=3D"https://github.com/openssl/openssl/pull/24043" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/openssl/openssl/pull/2=
-4043</a>)<br>
-+<br>
-+CVE: CVE-2024-2511<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/openssl/openssl/c=
-ommit/e9d7083e241670332e0443da0f0d4ffb52829f08" rel=3D"noreferrer" target=
-=3D"_blank">https://github.com/openssl/openssl/commit/e9d7083e241670332e044=
-3da0f0d4ffb52829f08</a>]<br>
-+Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" =
-target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-+---<br>
-+ ssl/ssl_lib.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 +++--<br=
->
-+ ssl/ssl_sess.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 28 +++++++++++++=
-+++++++++------<br>
-+ ssl/statem/statem_srvr.c |=C2=A0 5 ++---<br>
-+ 3 files changed, 27 insertions(+), 11 deletions(-)<br>
-+<br>
-+diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c<br>
-+index 4afb43bc86e54..c51529ddab5bb 100644<br>
-+--- a/ssl/ssl_lib.c<br>
-++++ b/ssl/ssl_lib.c<br>
-+@@ -4457,9 +4457,10 @@ void ssl_update_cache(SSL_CONNECTION *s, int mode)<=
-br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0/*<br>
-+=C2=A0 =C2=A0 =C2=A0 * If the session_id_length is 0, we are not supposed =
-to cache it, and it<br>
-+-=C2=A0 =C2=A0 =C2=A0* would be rather hard to do anyway :-)<br>
-++=C2=A0 =C2=A0 =C2=A0* would be rather hard to do anyway :-). Also if the =
-session has already<br>
-++=C2=A0 =C2=A0 =C2=A0* been marked as not_resumable we should not cache it=
- for later reuse.<br>
-+=C2=A0 =C2=A0 =C2=A0 */<br>
-+-=C2=A0 =C2=A0 if (s-&gt;session-&gt;session_id_length =3D=3D 0)<br>
-++=C2=A0 =C2=A0 if (s-&gt;session-&gt;session_id_length =3D=3D 0 || s-&gt;s=
-ession-&gt;not_resumable)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0/*<br>
-+diff --git a/ssl/ssl_sess.c b/ssl/ssl_sess.c<br>
-+index 3dcc4d81e5bc6..1fa6d17c46863 100644<br>
-+--- a/ssl/ssl_sess.c<br>
-++++ b/ssl/ssl_sess.c<br>
-+@@ -127,16 +127,11 @@ SSL_SESSION *SSL_SESSION_new(void)<br>
-+=C2=A0 =C2=A0 =C2=A0return ss;<br>
-+ }<br>
-+ <br>
-+-SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)<br>
-+-{<br>
-+-=C2=A0 =C2=A0 return ssl_session_dup(src, 1);<br>
-+-}<br>
-+-<br>
-+ /*<br>
-+=C2=A0 * Create a new SSL_SESSION and duplicate the contents of |src| into=
- it. If<br>
-+=C2=A0 * ticket =3D=3D 0 then no ticket information is duplicated, otherwi=
-se it is.<br>
-+=C2=A0 */<br>
-+-SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)<br>
-++static SSL_SESSION *ssl_session_dup_intern(const SSL_SESSION *src, int ti=
-cket)<br>
-+ {<br>
-+=C2=A0 =C2=A0 =C2=A0SSL_SESSION *dest;<br>
-+ <br>
-+@@ -265,6 +260,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, =
-int ticket)<br>
-+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-+ }<br>
-+ <br>
-++SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)<br>
-++{<br>
-++=C2=A0 =C2=A0 return ssl_session_dup_intern(src, 1);<br>
-++}<br>
-++<br>
-++/*<br>
-++ * Used internally when duplicating a session which might be already shar=
-ed.<br>
-++ * We will have resumed the original session. Subsequently we might have =
-marked<br>
-++ * it as non-resumable (e.g. in another thread) - but this copy should be=
- ok to<br>
-++ * resume from.<br>
-++ */<br>
-++SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)<br>
-++{<br>
-++=C2=A0 =C2=A0 SSL_SESSION *sess =3D ssl_session_dup_intern(src, ticket);<=
-br>
-++<br>
-++=C2=A0 =C2=A0 if (sess !=3D NULL)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sess-&gt;not_resumable =3D 0;<br>
-++<br>
-++=C2=A0 =C2=A0 return sess;<br>
-++}<br>
-++<br>
-+ const unsigned char *SSL_SESSION_get_id(const SSL_SESSION *s, unsigned in=
-t *len)<br>
-+ {<br>
-+=C2=A0 =C2=A0 =C2=A0if (len)<br>
-+diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c<br>
-+index 853af8c0aa9f9..d5f0ab091dacc 100644<br>
-+--- a/ssl/statem/statem_srvr.c<br>
-++++ b/ssl/statem/statem_srvr.c<br>
-+@@ -2445,9 +2445,8 @@ CON_FUNC_RETURN tls_construct_server_hello(SSL_CONNE=
-CTION *s, WPACKET *pkt)<br>
-+=C2=A0 =C2=A0 =C2=A0 * so the following won&#39;t overwrite an ID that we&=
-#39;re supposed<br>
-+=C2=A0 =C2=A0 =C2=A0 * to send back.<br>
-+=C2=A0 =C2=A0 =C2=A0 */<br>
-+-=C2=A0 =C2=A0 if (s-&gt;session-&gt;not_resumable ||<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (!(SSL_CONNECTION_GET_CTX(s)-&gt;session_cach=
-e_mode &amp; SSL_SESS_CACHE_SERVER)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;&amp; !s-&gt;hit))<br>
-++=C2=A0 =C2=A0 if (!(SSL_CONNECTION_GET_CTX(s)-&gt;session_cache_mode &amp=
-; SSL_SESS_CACHE_SERVER)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; !s-&gt;hit)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;session-&gt;session_id_length =3D =
-0;<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0if (usetls13) {<br>
-diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.=
-2.1.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.2.1.bb</a> b/meta/re=
-cipes-connectivity/openssl/<a href=3D"http://openssl_3.2.1.bb" rel=3D"noref=
-errer" target=3D"_blank">openssl_3.2.1.bb</a><br>
-index c7134c54db..d37b68abbb 100644<br>
---- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.1.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssl_3.2.1.bb</a><br>
-+++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.1.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssl_3.2.1.bb</a><br>
-@@ -13,6 +13,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.openssl.org/sourc=
-e/openssl-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://www=
-.openssl.org/source/openssl-${PV}.tar.gz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Configure-do-not-twea=
-k-mips-cflags.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Added-handshake-histo=
-ry-reporting-when-test-fails.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://bti.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-2511.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI:append:class-nativesdk =3D &quot; \<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#198203): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/198203" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/198203</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105508900/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/105508900/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000000e11510616072a57--
+--_000_AS1PR10MB56978F4AED9B46D356A2187AFD0A2AS1PR10MB5697EURP_--
 
