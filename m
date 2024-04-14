@@ -1,129 +1,103 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <simone.weiss@posteo.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97604C001CC
-	for <webhook@archiver.kernel.org>; Sun, 14 Apr 2024 18:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F8AC4345F
+	for <webhook@archiver.kernel.org>; Sun, 14 Apr 2024 18:07:41 +0000 (UTC)
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.3256.1713117986231480557
+ by mx.groups.io with SMTP id smtpd.web11.3270.1713118057593665330
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Apr 2024 11:06:26 -0700
+ Sun, 14 Apr 2024 11:07:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=qnzy6ex3;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+ dkim=pass header.i=@posteo.net header.s=2017 header.b=Hp/plsgR;
+ spf=pass (domain: posteo.net, ip: 185.67.36.65, mailfrom: simone.weiss@posteo.net)
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id D65E4240028
-	for <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 20:06:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1713117983; bh=q7i1Z7OJwDgrIlxeWvlL6t4FbvHulv+RQAUXt6TuE5w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=qnzy6ex33c9jaysHTNzfAQgU0NJg9BcS+syT716X7LUucugsTxB7/Cq4tyYyun6FO
-	 TCAsKGp8PHlfqq2k7xUIKc91o/ekwLq03V6xxeG6jl3FDJ3nFeBqWvhcv50E6J41rK
-	 WCiS2ebuekDNNMmV6h7ReUtzXmVNB6xOM1y9kARRaoWFE5FTVWltfjETRoscApjaIF
-	 n2MJEw4oS0kDdRYAEyG5dmyvFlZNHNJJ4eHH/A3rkqzfzwsM9cCba3BGXqi3egCX1o
-	 blJgMPsteo9II91JQrBFr8dV0vhiGcfv8znhGCuekdTSjKmDTSDyeenkrXMDEJaug3
-	 GLxPTQSKyka7Q==
+	by mout01.posteo.de (Postfix) with ESMTPS id 57F4D240027
+	for <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 20:07:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1713118055; bh=1sQzD/ZY7rkF/C0UUYZJI5TEVLd4LQludTgNOzH/s6U=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=Hp/plsgRHBiCmQTcML3zclhxcvxpe3e/0yucWVhK4auoMtWA1BVPv2SAPONdduWCw
+	 SDYyulqMy5m+yCIhw/04Xk8+khny5V5/fRjCM7HS9D2cqSTiig/iHVXo+Uell4YswS
+	 3D2W9HmjoiExqLkxwRpNnFuzjZ87CmSMmFopGBXm3malgWNPOVLhQApFhn8TVDm2D4
+	 rq+CjL6WsnkqPHonQB39zHZj9AKFWkSPLFuchtaZbD5ofVRcYUpAjuF/3/oRoJ+efj
+	 Gp2sAojxHodGeO29OsExdf88VuK1gEE73RPMuDmX1N/ALZFcvHUyzzQ4BxOh7v5E2O
+	 BlaxNxj3ZgO1Q==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4VHdXZ6fWbz9rxG;
-	Sun, 14 Apr 2024 20:06:21 +0200 (CEST)
-From: simone.p.weiss@posteo.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [PATCH 1/2] gnutls: upgrade 3.8.4 -> 3.8.5
-Date: Sun, 14 Apr 2024 18:06:10 +0000
-Message-Id: <20240414180611.794096-1-simone.p.weiss@posteo.com>
+	by submission (posteo.de) with ESMTPSA id 4VHdYy4S8Kz6twn;
+	Sun, 14 Apr 2024 20:07:34 +0200 (CEST)
+Message-ID: <848c22ce192bf9198dcd73b5815fda9dbe3db2b8.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH 10/33] gnutls: upgrade 3.8.4 -> 3.8.5
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Simone
+	=?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Date: Sun, 14 Apr 2024 18:07:33 +0000
+In-Reply-To: <fac2b3548c6247d503a147c11ca0ab4bc96ae7a1.camel@posteo.net>
+References: <1712646620-16608-1-git-send-email-wangmy@fujitsu.com>
+	 <1712646620-16608-10-git-send-email-wangmy@fujitsu.com>
+	 <202404100045092623c1a2@mail.local>
+	 <0175215d2582da11040d25cd9981531fbbddf237.camel@posteo.net>
+	 <2024041214390494ce0c8b@mail.local>
+	 <fac2b3548c6247d503a147c11ca0ab4bc96ae7a1.camel@posteo.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 18:06:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198212
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Apr 2024 18:07:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198214
 
-From: Wang Mingyu <wangmy@fujitsu.com>
-
-Add-ptest-support.patch
-refreshed for 3.8.5
-
-Changelog:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-* libgnutls: Due to majority of usages and implementations of
-  RSA decryption with PKCS#1 v1.5 padding being incorrect,
-  leaving them vulnerable to Marvin attack, the RSAES-PKCS1-v1_5
-  is being deprecated (encryption and decryption) and will be
-  disabled in the future.
-* libgnutls: Added support for RIPEMD160 and PBES1-DES-SHA1 for
-  backward compatibility with GCR.
-* libgnutls: A couple of memory related issues have been fixed in RSA PKC=
-S#1
-  v1.5 decryption error handling and deterministic ECDSA with earlier
-  versions of GMP.
-* build: Fixed a bug where building gnutls statically failed due
-  to a duplicate definition of nettle_rsa_compute_root_tr().
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../recipes-support/gnutls/gnutls/Add-ptest-support.patch | 8 ++++----
- .../gnutls/{gnutls_3.8.4.bb =3D> gnutls_3.8.5.bb}           | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.8.4.bb =3D> gnutls_3.8.5.bb=
-} (97%)
-
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b=
-/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index 1152d3797f..8edd31d6b9 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -1,4 +1,4 @@
--From ff6a345235b2585c261752e47a749228672b07dc Mon Sep 17 00:00:00 2001
-+From bfa70adcbda4e505cf2e597907852e78e0439ee2 Mon Sep 17 00:00:00 2001
- From: Ravineet Singh <ravineet.a.singh@est.tech>
- Date: Tue, 10 Jan 2023 16:11:10 +0100
- Subject: [PATCH] gnutls: add ptest support
-@@ -26,7 +26,7 @@ index 843193f..816b09f 100644
- =20
-  include $(top_srcdir)/cligen/cligen.mk
- diff --git a/configure.ac b/configure.ac
--index d6e03cf..e3f15fb 100644
-+index 934377e..4406eae 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1213,6 +1213,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-@@ -39,10 +39,10 @@ index d6e03cf..e3f15fb 100644
- =20
-  hw_features=3D
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index fb9e55a..c2d226a 100644
-+index e39a3b3..861dd63 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -658,6 +658,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-+@@ -663,6 +663,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-  AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
-  LOG_COMPILER =3D $(LOG_VALGRIND)
- =20
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-s=
-upport/gnutls/gnutls_3.8.5.bb
-similarity index 97%
-rename from meta/recipes-support/gnutls/gnutls_3.8.4.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.5.bb
-index 20139b4dd4..21506a04dc 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.5.bb
-@@ -25,7 +25,7 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v$=
-{SHRT_VER}/gnutls-${PV}.tar
-            file://Add-ptest-support.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd4=
-4cdfa7f36ebc3a9b"
-+SRC_URI[sha256sum] =3D "66269a2cfe0e1c2dabec87bdbbd8ab656f396edd9a40dd00=
-6978e003cfa52bfc"
-=20
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-=20
---=20
-2.39.2
+T24gU2F0LCAyMDI0LTA0LTEzIGF0IDIwOjU1ICswMDAwLCBTaW1vbmUgV2Vpw58gd3JvdGU6Cj4g
+T24gRnJpLCAyMDI0LTA0LTEyIGF0IDE2OjM5ICswMjAwLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90
+ZToKPiA+IE9uIDExLzA0LzIwMjQgMTk6NDE6MDkrMDAwMCwgU2ltb25lIFdlacOfIHdyb3RlOgo+
+ID4gPiBPbiBXZWQsIDIwMjQtMDQtMTAgYXQgMDI6NDUgKzAyMDAsIEFsZXhhbmRyZSBCZWxsb25p
+IHZpYQo+ID4gPiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOgo+ID4gPiA+IEZhaWxlZCBw
+dGVzdHM6Cj4gPiA+ID4geydnbnV0bHMnOiBbJ2FsZXJ0cycsCj4gPiA+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAnY2VydC1zdGF0dXMnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+J2NpcGhlcnN1aXRlLW5hbWUnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ2R0bHMt
+ZXRtJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdkdGxzMTAtY2VydC1rZXktZXhj
+aGFuZ2UnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ2R0bHMxMi1jZXJ0LWtleS1l
+eGNoYW5nZScsCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAna2V5bG9nLWVudicsCj4g
+PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbWluaS1jaGFpbi11bnNvcnRlZCcsCj4gPiA+
+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbWluaS1yZWNvcmQtZmFpbHVyZScsCj4gPiA+ID4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbWluaS1vdmVyaGVhZCcsCj4gPiA+ID4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAnbWluaS1yZWNvcmQnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgJ21pbmktcmVjb3JkLTInLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3JlY29y
+ZC1yZXR2YWxzJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdyZWhhbmRzaGFrZS1z
+d2l0Y2gtY2VydCcsCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAncmVoYW5kc2hha2Ut
+c3dpdGNoLWNlcnQtYWxsb3cnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3JlaGFu
+ZHNoYWtlLXN3aXRjaC1jZXJ0LWNsaWVudCcsCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAncmVoYW5kc2hha2Utc3dpdGNoLWNlcnQtY2xpZW50LWFsbG93JywKPiA+ID4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICdyc2EtZW5jcnlwdC1kZWNyeXB0JywKPiA+ID4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgICdyc2EtcHNrJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdy
+c2EtcHNrLWNiJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdyc2Flcy1wa2NzMS12
+MV81JywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICd0bHMtZXRtJywKPiA+ID4gPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgICd0bHMtZm9yY2UtZXRtJywKPiA+ID4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgICd0bHMtbmVnLWV4dDQta2V5JywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICd0bHMxMC1jZXJ0LWtleS1leGNoYW5nZScsCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAndGxzMTEtY2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgJ3RsczEwLXNlcnZlci1reC1uZWcnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgJ3RsczEyLWFub24tdXBncmFkZScsCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAndGxzMTItY2VydC1rZXktZXhjaGFuZ2UnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgJ3RsczExLXNlcnZlci1reC1uZWcnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+J3RsczEyLXNlcnZlci1reC1uZWcnLAo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ3Rs
+czEzLWNlcnQta2V5LWV4Y2hhbmdlJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICd0
+bHMxMy1zZXJ2ZXIta3gtbmVnJywKPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICd2ZXJz
+aW9uLWNoZWNrcyddfQo+ID4gPiA+IAo+ID4gPiA+IAo+ID4gPiBIaSwKPiA+ID4gCj4gPiA+IGlz
+IHRoZXJlIGEgYXV0b2J1aWxkZXIgbGluayB0byB0aGlzPyBJIHRyaWVkIGl0IGxvY2FsbHkgYW5k
+IGFsbCB3YXMKPiA+ID4gZmluZS4KPiA+ID4gV291bGQgbGlrZSB0byBjaGVjayBpdCBqdXN0IHRv
+IHNlZSBpZiBJIGNhbiBzcG90IGEgZGlmZmVyZW5jZS4gT3IgZG8KPiA+ID4geW91Cj4gPiA+IChX
+YW5nIE1pbmd5dSkgYWxyZWFkeSBjaGVjayBhdCB0aGUgbW9tZW50Pwo+ID4gCj4gPiBodHRwczov
+L2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgxL2J1aWxk
+cy82NDg5L3N0ZXBzLzEyL2xvZ3Mvc3RkaW8KPiA+IAo+ID4gaHR0cHM6Ly9hdXRvYnVpbGRlci55
+b2N0by5pby9wdWIvbm9uLXJlbGVhc2UvMjAyNDA0MDktMjUvdGVzdHJlc3VsdHMvcWVtdXg4Ni02
+NC1wdGVzdC9nbnV0bHMubG9nCj4gCj4gTG9va3MgbGlrZSBhdCBsZWFzdCBzb21lIG1pZ2h0IGJl
+IGZpeGFibGUgd2l0aAo+IGh0dHBzOi8vZ2l0bGFiLmNvbS9nbnV0bHMvZ251dGxzLy0vbWVyZ2Vf
+cmVxdWVzdHMvMTgzMAo+IAo+IEkgd2lsbCB0YWtlIGEgZnVydGhlciBsb29rCk5ldyBwYXRjaGVz
+IGFyZSBvbiB0aGUgbGlzdC4gKFdhbmcgTWluZ3l1OiBJIGluY2x1ZGVkIHlvdXIgY29tbWl0LCBo
+b3BlCnRoYXQgaXMgb2spCgpTaW1vbmUK
 
 
