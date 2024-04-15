@@ -1,150 +1,187 @@
-Return-Path: <heiko.thole@entwicklung.eq-3.de>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79AD0C4345F
-	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 05:34:35 +0000 (UTC)
-Received: from DEU01-FR2-obe.outbound.protection.outlook.com (DEU01-FR2-obe.outbound.protection.outlook.com [40.107.135.96])
- by mx.groups.io with SMTP id smtpd.web10.14235.1713159271760150567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F49C00A94
+	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 06:02:15 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.85])
+ by mx.groups.io with SMTP id smtpd.web11.14607.1713160930691139183
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Apr 2024 22:34:32 -0700
+ Sun, 14 Apr 2024 23:02:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: entwicklung.eq-3.de, ip: 40.107.135.96, mailfrom: heiko.thole@entwicklung.eq-3.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=nzswLFwl;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.15.85, mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=csZjNV+jh63Kxq7ywMj6a6TEZpHdRIGU6qr2M6YzojfIKBQzRohLA8HJ9h0N/D4VCdPb7MbjHZS7azfCaezyxqGbghK4IFVF2cAmIqEMXD0VFKrXnpPVzTnn4AllCiWGva5m6FbAUKwIGyffLv82f3WfB3gr3cqYXDdhRf/EMP/0Skgxj/1EPxxD7OMbyh4ANkii7oocGGwDo1rUhT1HrqrIF1UfycJ5/85Q4bx2vK1QiJwOX3rgsiiENMHzpqeJi3GeqCqG7HAVN4eeDh9k0d9h4Ss6mu6S3qikEElPVQdYFB/520upuUSDuBYWh2qaGQgyAS/6N3F1eRHLaLRMkA==
+ b=kjnpvYpzJsH4+8wtzmeoM9LldZs8N7/8SEuflVxlhFPYgyHPDOAOtemxkdDwBsV4fBwYCWbjSyCnKmQ1eD8IdcG8uS9pjd7HpLBZbIawXt4VVXhE5QpJ4pTV+F77ZFsyeJOdaYpzM9Ay9WhPS/YQZA12RS2uVvjfHKA5hwWpDyo3JHkmRSCdWrRHUNr1Zt6tLcWKGHSRuQ5lJMb8N+de262++H+XgQOTasII82Oe1rdHXVJiBdp3WUNOURnG2FNekbHNXJZ3EsF3kZMJbJcTeqwiNjQmNPQ+kbb2AJbNhb3qIIgrcXZnUA0+geHFafsAeYrDV3LGB6/8yTaiBLIWBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N5g7g9yMs8jNVWhJ7n0CIBalLql21BttUxgLWO+W3P0=;
- b=VuF7i696S0LTfiHZt8oXMuRBkERO3MoKVHMd5F/TY0t9fJFNuI3g4DeRcv1UHOswV2fn8WBcc9EuxYO9seeoxomt5PIj1yOSZRqutscGowFnloZ4jX589PA3jFg6x6RvMeKkNQvUHuhlJFD990lChfKaK0W5EBIWCj2Q6N26fvHQw/rf5/1celsE3fSefW/a5k+NyaociILuvBIJ0VisWgFcQTPuL6TAuhVTaqbGlhD5tipTqvqijANy9gpt8h0AUqvtJQjzMuom1+Z2Dj/M81A/AYK8Ji8Di0exMg217AlAS3RiG+Q2Y/iXq7D2bQZHWPosY5qm0Z3hRWVhRcKPEQ==
+ bh=ZKtblxxRrANVU8PaI2XIgyTLDwMaOc+7yM+MzGuoNPg=;
+ b=Pxgxyrl6S+iEKIV/F1nj7Y9dvadrWhlK75KjhHcgpdOgmlUr0YBdI9I/9clkTu+Ciwy1QGSYxK7ocX7V4SKXIY8VA4+T77UsTRC/hrtvm2HXLwboScwG5QnrsSSF3yBBv0jGgQ1YrG9U571KRW/tQb4rSQLnzehv0G9dTJBgD5jj3/k4sPhBJrhnTWlt+tzqZ1PVkT1BVHWZtpUzX3YTYUzcm1IY7tgmlxlPTHe33HGEBXEdWiy0h468bhPKV7d6h5gz/O69+DS79gloW8wfcvTIurcASDMx5jONETvDgLv39ZAa+bEsC8/nCpNFDGhifSCu9EVXJln8NtWbOnmS1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 217.7.137.154) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=entwicklung.eq-3.de; dmarc=bestguesspass action=none
- header.from=entwicklung.eq-3.de; dkim=none (message not signed); arc=none (0)
-Received: from FR0P281CA0226.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:b2::19)
- by FR5P281MB3796.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:10a::5) with
+ 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZKtblxxRrANVU8PaI2XIgyTLDwMaOc+7yM+MzGuoNPg=;
+ b=nzswLFwlv61IKNq2o7I5BzcWqpS42x3Eb/QbDz6ViEJOtEbaW7EMtD56spIlKvlpw+s96aOJ2g0L1uhhNyQODRt+BM35U16z+RTbm/UowR1uzBVkmJQMAlW2ODBM9sIvG/LyoOta7ulJflr4v5kJSxn0qgxFz3Qf5/Lr1gCkHUU=
+Received: from AM0PR10CA0029.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::39)
+ by AM8PR06MB7025.eurprd06.prod.outlook.com (2603:10a6:20b:1dc::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.43; Mon, 15 Apr
- 2024 05:34:28 +0000
-Received: from FR3PEPF00000485.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b2:cafe::25) by FR0P281CA0226.outlook.office365.com
- (2603:10a6:d10:b2::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.17 via Frontend
- Transport; Mon, 15 Apr 2024 05:34:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 217.7.137.154)
- smtp.mailfrom=entwicklung.eq-3.de; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none
- header.from=entwicklung.eq-3.de;
-Received-SPF: Pass (protection.outlook.com: domain of entwicklung.eq-3.de
- designates 217.7.137.154 as permitted sender)
- receiver=protection.outlook.com; client-ip=217.7.137.154;
- helo=smtp03.elv.lan; pr=C
-Received: from smtp03.elv.lan (217.7.137.154) by
- FR3PEPF00000485.mail.protection.outlook.com (10.167.240.5) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7452.22
- via Frontend Transport; Mon, 15 Apr 2024 05:34:28 +0000
-Received: from terminals.elv.lan ([172.25.239.241] helo=EQ3-52304.elv.lan)
-	by smtp03.elv.lan with esmtp (Exim 4.94.2)
-	(envelope-from <heiko.thole@entwicklung.eq-3.de>)
-	id 1rwEz5-009C10-OC; Mon, 15 Apr 2024 07:34:27 +0200
-From: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-Subject: [PATCH] kernel.bbclass: check, if directory exists before removing empty module directory
-Date: Mon, 15 Apr 2024 07:34:22 +0200
-Message-ID: <20240415053422.22652-1-heiko.thole@entwicklung.eq-3.de>
-X-Mailer: git-send-email 2.41.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.26; Mon, 15 Apr
+ 2024 06:02:07 +0000
+Received: from AM4PEPF00025F99.EURPRD83.prod.outlook.com
+ (2603:10a6:208:17c:cafe::9b) by AM0PR10CA0029.outlook.office365.com
+ (2603:10a6:208:17c::39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.30 via Frontend
+ Transport; Mon, 15 Apr 2024 06:02:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.94; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.94) by
+ AM4PEPF00025F99.mail.protection.outlook.com (10.167.16.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7519.0 via Frontend Transport; Mon, 15 Apr 2024 06:02:07 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Mon, 15 Apr 2024 08:02:06 +0200
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org,
+	alex.kanavin@gmail.com,
+	alexandre.belloni@bootlin.com
+CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v6 3/3] classes: add a systemd-sysext image class
+Date: Mon, 15 Apr 2024 08:02:03 +0200
+Message-ID: <20240415060203.2961-4-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240415060203.2961-1-johannes.schneider@leica-geosystems.com>
+References: <20240415060203.2961-1-johannes.schneider@leica-geosystems.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+X-OriginalArrivalTime: 15 Apr 2024 06:02:06.0011 (UTC) FILETIME=[719FB0B0:01DA8EFA]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: FR3PEPF00000485:EE_|FR5P281MB3796:EE_
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F99:EE_|AM8PR06MB7025:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a2809aad-e0b1-4364-42e3-08dc5d0db81b
+X-MS-Office365-Filtering-Correlation-Id: 0479f1ba-70e7-443a-a5d9-08dc5d119536
+X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ZWJGYOTmkJm1KnZlLxXNJZT8cnOQmHGZI3R8M64WnhsODJ4bpcdXpNbUmZ/r?=
- =?us-ascii?Q?/lKvCTC22lZfUrHM2H8Wft48CpGpl6KLKZwviqdIA+1HljRfYFHWBnIukW7Z?=
- =?us-ascii?Q?HemqHmZGXIay8gY4lI/IEx1ru0xT42XvoWwU8fR4OnnpL1DZuPOboJNEfbm0?=
- =?us-ascii?Q?9Ru9fBF90vy6ikTIZl2xgynfWv7JV/Ho2M8Dju8S7E7n0JmdOxowMwd7bG1W?=
- =?us-ascii?Q?FNp7eVFK6zLytnW4ThUHt0OQtD4ii8ISAr32q6hqq864V6akirLjuL6SMgWp?=
- =?us-ascii?Q?eXVOTgmXcGmM9e6A5aOPFPFxMX9ewizNBW+ZGxmNfNVsk20jWYxba8WbeWA/?=
- =?us-ascii?Q?6rjGSjzaGnLKY1zgGdq/E+qBTUc8WxWOEqcsQG9HtbqBOIA2l7NPsWUpQqDh?=
- =?us-ascii?Q?kXzZtNcGMKx1y9SKRTsmNboVNCMBm3Bm2soOaALV9gmD2JrwhNNoMh2+aKtQ?=
- =?us-ascii?Q?6oQ4lTIE3HZgJVzW3DLDhoGiyF3sCDWn8B0b95RUnHAPKT2imoUJNDJcuI4o?=
- =?us-ascii?Q?cz82XI83jz7ti/d4u/VBtmePzKxXg9Psdh7rrFR0gb/hXJiW8RoKWOg713FI?=
- =?us-ascii?Q?NdV0urL4pG1oj/CkAr+f56RdsuD+Vu6bmTIs3CnXJiwtLwbzbSra0mgALmgx?=
- =?us-ascii?Q?DENZFrpNmvqjl45UCIWpHZR7Ud9GvQg/K+mNIsa4WBxfopA5CIu1TIUzbY8q?=
- =?us-ascii?Q?J2b2XirFBX0W8uCm3iVOnEfrUHyUAlmQygst+stm1T/3u9wHMIBNuc6fZOIe?=
- =?us-ascii?Q?ZLcAZizoUZZhC0NiY0jGKeNr23hgAzMiETvQHcKAcmMmgIpkinj/XGK3Zp+c?=
- =?us-ascii?Q?ClkbhAwt5C9sizC43k3nUGkBibivIofgVRoUHD60JhamxYEK4aH1q65QSq7s?=
- =?us-ascii?Q?LNeOv48l+TwYohyRbTNQp8cWLDWrF2jc6goEvtvDrVlHXrNv6XNAZwAJwBZK?=
- =?us-ascii?Q?IqlqSXPMa8iUjHtXGDv40ZDK6yXa+comFDIQ41So2X3pVUIXfy65yYt0X8Sx?=
- =?us-ascii?Q?exJrk1t9fhGq2Q6kBKXNWG/mo13/Oj24+JbbpmS+vPm/pFf3aZa8QHIm1E2J?=
- =?us-ascii?Q?K5wkKwgrstyvUS+Wh2IctTGFa8zRQX1EwH2BgyeZrckrhe0U/52Zp/Bpzk/Q?=
- =?us-ascii?Q?1eIZRV/NEGa/Cu6Q0tizmEUc/h0N4VoqWH2cVnjEoTs0oRhazjbZnw91UxCX?=
- =?us-ascii?Q?BewylmeP8iUPXDLWjRaVvStSYybaXX64uZ4PB0cDTi/uqkdf+a2C0r2Vtmmh?=
- =?us-ascii?Q?uPqTUFLOBR+RAtqC8G846l78njH8mQoRX7/fFkENV/AIRPP9gsMyYycCGy+U?=
- =?us-ascii?Q?egb2zlXEsPFDhw+Nf8Gxf+cQCnkkfoHAHr5gHR192xEKi55h5rYxXN0Pcue6?=
- =?us-ascii?Q?Lmgia8hN8ZzgCepPhsmn879kqqpx?=
+	T48EbrsT4UnSfi1/ostpz60wbWKXsQ29LHKipQURmD5Fx1MoAj4oCiQxIYFcpvs2A5goZM/p0yNyC7AG8cMAeqIh4sYmjlYHX+mz2lNPdn2nmwevPqaaLvfSD1tWK4i/EZh2FSrMzaF2xT3kyKqfGtdo9UKCa3zXo6ziYNk0R+t9+S5/f6E0hUW85NZ+w0RnRWVLQzVdvr6BV6pmlDhgO5zCzKJ7S+d42QNrz3ilZdNzHwPRkCd+uJIvLgrrebD+Y95GBMLALBe2f5SRrbwFwIjpLtyUA7AuySW714FvskgwtP6/29WOc1gJOi7nHEq8niw2t5ca8i9wi0ZtYcl53J3EnzSUia4/pLOpOTRNLYUgfBFDSoibQcFpfJP4U56vgaJbuDiaTkRDaMY0/oDC0BrGQoPW0gDqkSOToZi6O0+JCcpIEeu5UT43ZZKQs3t0NsiUPZHd/HtqCl8o3UbyCrVVDDG8O/dlqkKzNE/AYeRH3thB+8IzBeCRCSNwk4TDG7OERmJW+nmosSGzYf1Qi7ZthHHoOZ8r3WVxYCYUXp2M4JiaLi6hWkNBBi7KRbqpNiN6uAmWqhAUe4lV4pKnd0z9ApFXEdgYFffUarGeQ46VdsN8cp91bdpRmWnhyXFSZ7iLJGwxSV75oC5ii2SgdN5OaRjbsuWLz4iWhNAUoYVrjm3JUmV2xnCw55cJ9Po9fg7xnyTab344RW+LObEhGw==
 X-Forefront-Antispam-Report: 
-	CIP:217.7.137.154;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp03.elv.lan;PTR:thor.elv.de;CAT:NONE;SFS:(13230031)(36860700004)(82310400014)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-OriginatorOrg: entwicklung.eq-3.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 05:34:28.4520
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(36860700004)(376005)(1800799015)(82310400014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 06:02:07.8669
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2809aad-e0b1-4364-42e3-08dc5d0db81b
-X-MS-Exchange-CrossTenant-Id: 6bb70bfd-56fb-4f95-99c8-16d0dd9d5592
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=6bb70bfd-56fb-4f95-99c8-16d0dd9d5592;Ip=[217.7.137.154];Helo=[smtp03.elv.lan]
-X-MS-Exchange-CrossTenant-AuthSource: FR3PEPF00000485.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0479f1ba-70e7-443a-a5d9-08dc5d119536
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM4PEPF00025F99.EURPRD83.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR5P281MB3796
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR06MB7025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 05:34:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198216
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 06:02:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198217
 
-If the kernel folder does not exist, find will result in an error.
-This can occur if the kernel has no modules but, for example, custom module=
-s are created.
+systemd-sysext can load a raw-image containing usr/ and opt/ folders
+to mount them as RO overlay over the rootfs, to "extend" the systems.
 
-Add check before deleting.
+This class provides the necessary changes/additions to the enclosed
+file-system so that systemd-sysext accepts the extension for "merge"
+into the rootfs.
 
-Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
+With such an created image, placed into the correct folder (see [1]),
+`systemd-sysext list` should be able to list the "extension" and
+`systemd-sysext merge` should enable the overlay. On both commands a
+preceding "SYSTEMD_LOG_LEVEL=3Ddebug" can aide in figuring out what is
+amiss.
+
+The strict name checking systemd-sysext does against the name of
+extension-release.NAME file, is disabled, as there is only one such in
+the resulting image. This is done to allow a user to freely rename the
+resulting image file.
+Note that for e.g. squashfs, the kernel needs CONFIG_SQUASHFS_XATTR=3Dy
+
+Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysex=
+t.html
+Link: https://0pointer.net/blog/testing-my-system-code-in-usr-without-modif=
+ying-usr.html
+Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
 ---
- meta/classes-recipe/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/image-sysext.bbclass | 43 ++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/classes-recipe/image-sysext.bbclass
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
-l.bbclass
-index b084d6d..c0a2056 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -463,7 +463,7 @@ kernel_do_install() {
-                rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}=
-/build"
-                rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}=
-/source"
-                # Remove empty module directories to prevent QA issues
--               find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/=
-kernel" -type d -empty -delete
-+               [ -d "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/=
-kernel" ] && find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/ker=
-nel" -type d -empty -delete
-        else
-                bbnote "no modules to install"
-        fi
---
-2.41.0
+diff --git a/meta/classes-recipe/image-sysext.bbclass b/meta/classes-recipe=
+/image-sysext.bbclass
+new file mode 100644
+index 0000000000..bc3e4d52b5
+--- /dev/null
++++ b/meta/classes-recipe/image-sysext.bbclass
+@@ -0,0 +1,43 @@
++# SPDX-License-Identifier: MIT
++#
++# Copyright Leica Geosystems AG
++#
++
++# systemd-sysext [1] has a simple mechanism for version compatibility:
++# the extension to be loaded has to contain a
++# /usr/lib/extension-release.d/extension-release.NAME
++# with "NAME" *exactly* matching the filename of the extensions
++# raw-device filename/
++#
++# from the extension-release file the "ID" and "VERSION_ID" fields are
++# matched against the etc/os-release and the extension is only "merged"
++# if no mismatches between NAME, ID, and VERSION_ID.
++#
++# Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sy=
+sext.html
++
++inherit image
++
++IMAGE_NAME_SUFFIX =3D ".sysext"
++EXTENSION_NAME =3D "${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${IMAGE_FSTYPES}"
++IMAGE_LINK_NAME:append =3D ".sysext"
++
++DEPENDS +=3D " os-release"
++
++sysext_image_mangle_rootfs() {
++    R=3D${IMAGE_ROOTFS}
++
++    # pull a copy of the rootfs version information, which systemd-sysext =
+matches against
++    cp -av ${RECIPE_SYSROOT}/${nonarch_libdir}/os-release ${WORKDIR}/exten=
+sion-release.base
++
++    echo 'EXTENSION_RELOAD_MANAGER=3D1' >> ${WORKDIR}/extension-release.ba=
+se
++
++    install -d $R${nonarch_libdir}/extension-release.d
++    install -m 0644 ${WORKDIR}/extension-release.base \
++        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
+ION_NAME}
++
++    # disable systemd-sysext's strict name checking, so that the image fil=
+e can be renamed, while still being 'merge'-able
++    setfattr -n user.extension-release.strict -v false \
++        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
+ION_NAME}
++}
++
++ROOTFS_POSTPROCESS_COMMAND +=3D " sysext_image_mangle_rootfs; "
+--=20
+2.34.1
 
-eQ-3 Entwicklung GmbH, Maiburger Str. 36, 26789 Leer
-Gesch=E4ftsf=FChrer: Prof. Heinz-G. Redeker
-Registergericht: Amtsgericht Aurich, HRB 110388
-eQ-3 AG, Maiburger Str. 29, 26789 Leer
-Vorstand: Prof. Heinz-G. Redeker (Vorsitzender), Helga Redeker
-Vorsitzende des Aufsichtsrats: Irmgard Keplin
-Registergericht: Amtsgericht Aurich, HRB 200335
 
