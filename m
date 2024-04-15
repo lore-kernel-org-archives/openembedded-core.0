@@ -2,64 +2,98 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED68C4345F
-	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 12:22:47 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web11.19711.1713183758298421393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FDBC4345F
+	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 12:26:07 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.19610.1713183964998922571
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 05:22:38 -0700
+ Mon, 15 Apr 2024 05:26:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout01.t-online.de (Postfix) with SMTP id 79A532D500;
-	Mon, 15 Apr 2024 14:22:11 +0200 (CEST)
-Received: from [192.168.178.67] ([84.163.43.130]) by fwd79.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
+	by mailout11.t-online.de (Postfix) with SMTP id AC985149DD
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 14:26:02 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.43.130]) by fwd78.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rwLLc-1KqOXY0; Mon, 15 Apr 2024 14:22:08 +0200
-Date: Mon, 15 Apr 2024 14:22:26 +0200
+	esmtp id 1rwLPO-1tM25Z0; Mon, 15 Apr 2024 14:26:02 +0200
 From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [RFC][oe-core][PATCHv2 1/2] libei: import recipe from meta-oe
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Message-Id: <E1HZBS.QW2ZU0PPKK2O2@t-online.de>
-In-Reply-To: <CANNYZj9dv1AEOiQdg7xOB9uUwCoW_C_sS5RLmDNX0-WVZ0z=iA@mail.gmail.com>
-References: <17C66EFC7A908A1D.10598@lists.openembedded.org>
-	<YKDZBS.QFD0S4Q09SWT@t-online.de>
-	<CANNYZj_8mwSFRf42_BkUv_=b_49vm6P0kKnELw+1fY48Mb=2aA@mail.gmail.com>
-	<S9FZBS.32DDJ2ORYUB6@t-online.de>
-	<CANNYZj9dv1AEOiQdg7xOB9uUwCoW_C_sS5RLmDNX0-WVZ0z=iA@mail.gmail.com>
-X-Mailer: geary/44.1
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv3] xwayland: update 23.2.5 -> 23.2.6
+Date: Mon, 15 Apr 2024 14:26:10 +0200
+Message-ID: <20240415122610.18887-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-/duTcJ5McwL9X11azcTJ"
-X-TOI-EXPURGATEID: 150726::1713183728-62FFB3C7-CA011E43/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9486602a-bc6e-4251-af76-a17b5b292c63
+X-TOI-EXPURGATEID: 150726::1713183962-3DAE2D4A-C28FC24E/0/0 CLEAN NORMAL
+X-TOI-MSGID: ed0d1acb-848c-4093-bec7-868441362f20
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 12:22:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198236
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 12:26:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198237
 
---=-/duTcJ5McwL9X11azcTJ
-Content-Type: text/plain; charset=us-ascii; format=flowed
+- add a PACKAGECONFIG for libdecor
+- add PACKAGECONFIGS for xwayland_ei to avoid auto select
 
-On Mon, Apr 15 2024 at 01:54:48 PM +02:00:00, Alexander Kanavin 
-<alex.kanavin@gmail.com> wrote:
-> This means we need a new set of PACKAGECONFIG options for xwayland_ei,
-> and pick the one that sets it to to false by default. Similar to
-> XORG_CRYPTO in that recipe.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../xwayland/{xwayland_23.2.5.bb =3D> xwayland_23.2.6.bb}  | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xwayland/{xwayland_23.2.5.bb =3D> xwayland_=
+23.2.6.bb} (80%)
 
-Thank you for the review. I have made these changes and verified that 
-all three options work.
-Great :)
-
-
---=-/duTcJ5McwL9X11azcTJ
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Mon, Apr 15 2024 at 01:54:48 PM +02:00:00, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">This means we need a new set of PACKAGECONFIG options for xwayland_ei,
-and pick the one that sets it to to false by default. Similar to
-XORG_CRYPTO in that recipe.</div></blockquote><div><br></div><div><div>Thank you for the review. I have made these changes and verified that all three options work.</div><div>Great :)</div></div></div>
---=-/duTcJ5McwL9X11azcTJ--
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/rec=
+ipes-graphics/xwayland/xwayland_23.2.6.bb
+similarity index 80%
+rename from meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+rename to meta/recipes-graphics/xwayland/xwayland_23.2.6.bb
+index b934a873d1..f51429bc8c 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.6.bb
+@@ -10,7 +10,7 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5df87950af51ac2c5822094553ea1=
+880"
+=20
+ SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
+.tar.xz"
+-SRC_URI[sha256sum] =3D "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f=
+526a625ff9f4bd90"
++SRC_URI[sha256sum] =3D "1c9a366b4e7ccadba0f9bd313c59eae12d23bd72543b22a2=
+6eaf8b20835cfc6d"
+=20
+ UPSTREAM_CHECK_REGEX =3D "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+=20
+@@ -20,10 +20,11 @@ REQUIRED_DISTRO_FEATURES =3D "x11 opengl"
+ DEPENDS +=3D "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayla=
+nd-native wayland-protocols libdrm libepoxy libxcvt"
+=20
+ OPENGL_PKGCONFIGS =3D "glx glamor dri3"
+-PACKAGECONFIG ??=3D "${XORG_CRYPTO} \
++PACKAGECONFIG ??=3D "${XORG_CRYPTO} ${XWAYLAND_EI} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${=
+OPENGL_PKGCONFIGS}', '', d)} \
+ "
+ PACKAGECONFIG[dri3] =3D "-Ddri3=3Dtrue,-Ddri3=3Dfalse,libxshmfence"
++PACKAGECONFIG[libdecor] =3D "-Dlibdecor=3Dtrue,-Dlibdecor=3Dfalse,libdec=
+or"
+ PACKAGECONFIG[glx] =3D "-Dglx=3Dtrue,-Dglx=3Dfalse,virtual/libgl virtual=
+/libx11"
+ PACKAGECONFIG[glamor] =3D "-Dglamor=3Dtrue,-Dglamor=3Dfalse,libepoxy vir=
+tual/libgbm,libegl"
+ PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Dtrue,-Dlibunwind=3Dfalse,libunw=
+ind"
+@@ -34,6 +35,10 @@ XORG_CRYPTO ??=3D "openssl"
+ PACKAGECONFIG[openssl] =3D "-Dsha1=3Dlibcrypto,,openssl"
+ PACKAGECONFIG[nettle] =3D "-Dsha1=3Dlibnettle,,nettle"
+ PACKAGECONFIG[gcrypt] =3D "-Dsha1=3Dlibgcrypt,,libgcrypt"
++XWAYLAND_EI ??=3D "xwayland_ei_false"
++PACKAGECONFIG[xwayland_ei_false] =3D "-Dxwayland_ei=3Dfalse"
++PACKAGECONFIG[xwayland_ei_portal] =3D "-Dxwayland_ei=3Dportal,,libei"
++PACKAGECONFIG[xwayland_ei_socket] =3D "-Dxwayland_ei=3Dsocket,,libei"
+=20
+ do_install:append() {
+     # remove files not needed and clashing with xserver-xorg
+--=20
+2.44.0
 
 
