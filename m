@@ -1,99 +1,112 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FDBC4345F
-	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 12:26:07 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.19610.1713183964998922571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A44C4345F
+	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 12:52:17 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.20118.1713185530535130429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 05:26:05 -0700
+ Mon, 15 Apr 2024 05:52:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout11.t-online.de (Postfix) with SMTP id AC985149DD
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 14:26:02 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.43.130]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rwLPO-1tM25Z0; Mon, 15 Apr 2024 14:26:02 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3] xwayland: update 23.2.5 -> 23.2.6
-Date: Mon, 15 Apr 2024 14:26:10 +0200
-Message-ID: <20240415122610.18887-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.44.0
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Rkawd24F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6181237230dso36146727b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 05:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1713185529; x=1713790329; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vGCjova0+41gW3HhtXdcsE8jaVHGPTWeXemaepzOE4U=;
+        b=Rkawd24FISQJeRJ7/TL3Ia5CeLBBtsb0JowSOYEd2LGWRZS1qb6Cmcum9uo/DqQbvY
+         FKoeziYYZH0HhH0BDwGETYJ6CwYLzRzfb8JcSbl257HoofgVh59GAvTatGlL1PGi2XSe
+         ZiMg51Yveq62E0VrSLAxT6lsAOGkLTIRksvBRjmLu53xCp4iyklKgtxzhPnW1RYbr/Zu
+         mYq2xtf8Ql810KhjIlWXNKHormyKk9MFikBN/4YeKUQlsnHhJJ3jFFBeAT4pbZLE5Qio
+         Kvgn+gXlXv0ozR2lpnEXrLv85w69MpUfRJB+g9YCk8q28Mh3gsvFiT04YvgFrzSqzX6L
+         UTig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713185529; x=1713790329;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vGCjova0+41gW3HhtXdcsE8jaVHGPTWeXemaepzOE4U=;
+        b=b6tMyTFX1QOWAgzq+oVsy8hyUU76bdPl0uHIAuz+XU1oo+3ncLya39tWtFQ23NQft4
+         BjOZ4PUnCExGtuLxEd8Ntzok0kjePjKw4yOVR99TC55M7xLRo/048AWCBXbsCP3OOHNc
+         ciXKA+zekclB2LUf3aDqCnCbR2UK5oapo9OQ6UjPgaxxpnRpCjJNrsxN7SYb6J2lE9bl
+         numcdynf4Ziq7i9n8m+QfNTxWJkIjEE+U1PGqvTA0k+oAxVuz1TeCW8ew8A6XouSrh1W
+         dHKdwfWqKqVPVEtMRyZ8M70hpzrEsO2me28qBliHgLaVmNUgU+iW+iYbgg53QZZf8Ylw
+         6zYQ==
+X-Gm-Message-State: AOJu0YwW0aRA0z0jUN/wyK0j5YvKL9D2ZyGSMcQS+fIb12gwUbIi4Jwh
+	SiqcrvkGhB4+Nfr8Xu8jA2CBVnJcd5Ga/LHokQGq3GQ4yEq1Vqsp4+rIXUaRsWyQnBzm48cZBL0
+	tnpsxcrj7/4UGUJinQwSgEoW4wUGdLkcUYlusZw==
+X-Google-Smtp-Source: AGHT+IFxzxmuPpGGtgaK/ADz5h7BzoKH2jlCxP24sLeUDiIStc55/RY07/OvRvUQNnlEGSZTe2LrtsqRIiecAwxru2Y=
+X-Received: by 2002:a81:ac4c:0:b0:61a:e2dd:42ad with SMTP id
+ z12-20020a81ac4c000000b0061ae2dd42admr762794ywj.16.1713185529613; Mon, 15 Apr
+ 2024 05:52:09 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1713183962-3DAE2D4A-C28FC24E/0/0 CLEAN NORMAL
-X-TOI-MSGID: ed0d1acb-848c-4093-bec7-868441362f20
+References: <20240415120101.663323-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20240415120101.663323-1-Harish.Sadineni@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 15 Apr 2024 05:51:58 -0700
+Message-ID: <CAOSpxdbhRLmP8FQLWKG3jB-a_XeBetH3OuO5uMb1o2XUSadkXg@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] rust: set CVE_STATUS for CVE-2024-24576
+To: Harish.Sadineni@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 12:26:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198237
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Apr 2024 12:52:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198238
 
-- add a PACKAGECONFIG for libdecor
-- add PACKAGECONFIGS for xwayland_ei to avoid auto select
+CVE_STATUS is not supported in kirkstone, you should use CVE_CHECK_IGNORE
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../xwayland/{xwayland_23.2.5.bb =3D> xwayland_23.2.6.bb}  | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xwayland/{xwayland_23.2.5.bb =3D> xwayland_=
-23.2.6.bb} (80%)
+Steve
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/rec=
-ipes-graphics/xwayland/xwayland_23.2.6.bb
-similarity index 80%
-rename from meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-rename to meta/recipes-graphics/xwayland/xwayland_23.2.6.bb
-index b934a873d1..f51429bc8c 100644
---- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.2.6.bb
-@@ -10,7 +10,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5df87950af51ac2c5822094553ea1=
-880"
-=20
- SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
-.tar.xz"
--SRC_URI[sha256sum] =3D "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f=
-526a625ff9f4bd90"
-+SRC_URI[sha256sum] =3D "1c9a366b4e7ccadba0f9bd313c59eae12d23bd72543b22a2=
-6eaf8b20835cfc6d"
-=20
- UPSTREAM_CHECK_REGEX =3D "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
-=20
-@@ -20,10 +20,11 @@ REQUIRED_DISTRO_FEATURES =3D "x11 opengl"
- DEPENDS +=3D "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayla=
-nd-native wayland-protocols libdrm libepoxy libxcvt"
-=20
- OPENGL_PKGCONFIGS =3D "glx glamor dri3"
--PACKAGECONFIG ??=3D "${XORG_CRYPTO} \
-+PACKAGECONFIG ??=3D "${XORG_CRYPTO} ${XWAYLAND_EI} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${=
-OPENGL_PKGCONFIGS}', '', d)} \
- "
- PACKAGECONFIG[dri3] =3D "-Ddri3=3Dtrue,-Ddri3=3Dfalse,libxshmfence"
-+PACKAGECONFIG[libdecor] =3D "-Dlibdecor=3Dtrue,-Dlibdecor=3Dfalse,libdec=
-or"
- PACKAGECONFIG[glx] =3D "-Dglx=3Dtrue,-Dglx=3Dfalse,virtual/libgl virtual=
-/libx11"
- PACKAGECONFIG[glamor] =3D "-Dglamor=3Dtrue,-Dglamor=3Dfalse,libepoxy vir=
-tual/libgbm,libegl"
- PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Dtrue,-Dlibunwind=3Dfalse,libunw=
-ind"
-@@ -34,6 +35,10 @@ XORG_CRYPTO ??=3D "openssl"
- PACKAGECONFIG[openssl] =3D "-Dsha1=3Dlibcrypto,,openssl"
- PACKAGECONFIG[nettle] =3D "-Dsha1=3Dlibnettle,,nettle"
- PACKAGECONFIG[gcrypt] =3D "-Dsha1=3Dlibgcrypt,,libgcrypt"
-+XWAYLAND_EI ??=3D "xwayland_ei_false"
-+PACKAGECONFIG[xwayland_ei_false] =3D "-Dxwayland_ei=3Dfalse"
-+PACKAGECONFIG[xwayland_ei_portal] =3D "-Dxwayland_ei=3Dportal,,libei"
-+PACKAGECONFIG[xwayland_ei_socket] =3D "-Dxwayland_ei=3Dsocket,,libei"
-=20
- do_install:append() {
-     # remove files not needed and clashing with xserver-xorg
---=20
-2.44.0
-
+On Mon, Apr 15, 2024 at 5:01=E2=80=AFAM Sadineni, Harish via
+lists.openembedded.org
+<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> CVE-2024-24576 only applies when invoking batch files (with the `bat` and=
+ `cmd` extensions) on Windows & No other platform or use is affected.
+> More details about CVE is here: https://nvd.nist.gov/vuln/detail/CVE-2024=
+-24576
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/recipes-devtools/rust/rust-source.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-de=
+vtools/rust/rust-source.inc
+> index ea70ad786f..b8dcc56482 100644
+> --- a/meta/recipes-devtools/rust/rust-source.inc
+> +++ b/meta/recipes-devtools/rust/rust-source.inc
+> @@ -5,3 +5,5 @@ RUSTSRC =3D "${WORKDIR}/rustc-${PV}-src"
+>
+>  UPSTREAM_CHECK_URI =3D "https://forge.rust-lang.org/infra/other-installa=
+tion-methods.html"
+>  UPSTREAM_CHECK_REGEX =3D "rustc-(?P<pver>\d+(\.\d+)+)-src"
+> +
+> +CVE_STATUS[CVE-2024-24576] =3D "not-applicable-platform: Issue only appl=
+ies on Windows"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198234): https://lists.openembedded.org/g/openembedde=
+d-core/message/198234
+> Mute This Topic: https://lists.openembedded.org/mt/105534166/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
