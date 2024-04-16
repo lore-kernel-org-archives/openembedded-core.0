@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16C2C30658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C5FC3065A
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:12 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.13588.1713248038694395223
+ by mx.groups.io with SMTP id smtpd.web10.13582.1713248037649172335
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:13:58 -0700
+ Mon, 15 Apr 2024 23:13:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dA0M16tu;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GZmKzIIZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ee58a6cdf-1eae235c-d1cb-49e7-a3e0-b123ed1039f5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KYw4zBP0;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ahbzYYWB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ee58a6790-26d1b73f-c342-4588-88c5-c50544de7e43-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248038;
+	t=1713248036;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gHlcbMcT+TPn0DSgwWY8dCXCoDILGsKGjgE2/PC5ykI=;
-	b=dA0M16tusp2izTNM0otrVMfVPzNP0duj4mg/Mgn5WfwprFRuc+1QYwZb3uggKHup
-	9S84zA9iOawlU3gBtwXUvqLwa5StFasjGFCLpYQkQYIFEdzuyAG7/f93xHYDyX2zXK0
-	idiEoUIKzAziGPmCaZ//u640wfPI4XWsnTGGQ4jI=
+	bh=V2r9pF7x24GaichUlfIgsaHU7sqPYG1paih43BBFvKI=;
+	b=KYw4zBP0ljwVMdRCuMfZQO1UOb3TlSDRhqvGFpAxQldlLEJCktzVXLtHHTFG838G
+	uym51JVf6k8erpyGDR9MKRbkc7j7g6+ZWmkmAHxcUg5dBEKslGmY5rehQ4z9uQQmshV
+	BAZIc1kJqCinj0Zrd090xYpgZQoSYpeE8h3zg/BQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248038;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248036;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gHlcbMcT+TPn0DSgwWY8dCXCoDILGsKGjgE2/PC5ykI=;
-	b=GZmKzIIZ+3zDEkSNEW7uxtgBy1xi9SlUrJJv1Bpq0+7bgH43ZvgzXx+bFeRvrpov
-	mmFmt9fDQisVnNQC2pnLAVBLaDUrNx47QS+Q0+43GUzpfmwpRW/vpG0Rn5TkTzKbO7L
-	5u8zFVAfTgNF0Lrrd9QVdhr383GIRmRK0JQHiQkY=
-Content-Type: multipart/mixed; boundary="===============5074632901663065552=="
+	bh=V2r9pF7x24GaichUlfIgsaHU7sqPYG1paih43BBFvKI=;
+	b=ahbzYYWBmrq8Sk3vGrM3wxb7RzJMRs1xLEL1Dzik5wQ8XqnQSNS3wdu15hXSQtKx
+	Sk7May3J1yCcONLRK7DptswaVm5FQGS7ZF6rZkJRCGXOVjoDTZVfRA6l9nThgC7tuo+
+	vZ6gg6dX/vcy2LfbyF/9gf1SvAAu+lYbt2R9oxCY=
+Content-Type: multipart/mixed; boundary="===============1017225659415114518=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Zang Ruochen <zangruochen@loongson.cn>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] liburi-perl: upgrading to 5.28 SUCCEEDED
-Message-ID: <0101018ee58a6cdf-1eae235c-d1cb-49e7-a3e0-b123ed1039f5-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Apr 2024 06:13:58 +0000
+Subject: [AUH] ell: upgrading to 0.64 SUCCEEDED
+Message-ID: <0101018ee58a6790-26d1b73f-c342-4588-88c5-c50544de7e43-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Apr 2024 06:13:56 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.04.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198272
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198257
 
---===============5074632901663065552==
+--===============1017225659415114518==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *liburi-perl* to *5.28* has Succeeded.
+that the automatic attempt to upgrade the recipe *ell* to *0.64* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-liburi-perl-upgrade-5.27-5.28.patch
+    - apply the patch: git am 0001-ell-upgrade-0.63-0.64.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,129 +72,89 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 439fec02bf9856845838ee4713f617187387f275 Mon Sep 17 00:00:00 2001
+From 0d80b7545e37585eca26b08faeaf718819a825db Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 18:49:26 +0000
-Subject: [PATCH] liburi-perl: upgrade 5.27 -> 5.28
+Date: Mon, 15 Apr 2024 17:55:47 +0000
+Subject: [PATCH] ell: upgrade 0.63 -> 0.64
 
 ---
- .../perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch | 3 +--
- .../perl/{liburi-perl_5.27.bb => liburi-perl_5.28.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/perl/{liburi-perl_5.27.bb => liburi-perl_5.28.bb} (94%)
+ meta/recipes-core/ell/{ell_0.63.bb => ell_0.64.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.63.bb => ell_0.64.bb} (89%)
 
-diff --git a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-index ed1f25125f..374bf5b732 100644
---- a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-+++ b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-@@ -1,4 +1,4 @@
--From 5a4271456104bdf027644c81c3a208cde5cf522e Mon Sep 17 00:00:00 2001
-+From 002332303e24619e421f8680a9f7ad92a90ac0ff Mon Sep 17 00:00:00 2001
- From: Tim Orling <tim.orling@konsulko.com>
- Date: Thu, 17 Nov 2022 16:33:20 -0800
- Subject: [PATCH] Skip TODO test cases that fail
-@@ -8,7 +8,6 @@ TODO cases report as "not ok" with ptest-runner
- Upstream-Status: Inappropriate [ptest-runner specific]
+diff --git a/meta/recipes-core/ell/ell_0.63.bb b/meta/recipes-core/ell/ell_0.64.bb
+similarity index 89%
+rename from meta/recipes-core/ell/ell_0.63.bb
+rename to meta/recipes-core/ell/ell_0.64.bb
+index 7ecb63a478..c4f16905fd 100644
+--- a/meta/recipes-core/ell/ell_0.63.bb
++++ b/meta/recipes-core/ell/ell_0.64.bb
+@@ -15,7 +15,7 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
- Signed-off-by: Tim Orling <tim.orling@konsulko.com>
--
- ---
-  t/escape-char.t | 20 ++++++++++----------
-  t/iri.t         | 18 +++++++++---------
-diff --git a/meta/recipes-devtools/perl/liburi-perl_5.27.bb b/meta/recipes-devtools/perl/liburi-perl_5.28.bb
-similarity index 94%
-rename from meta/recipes-devtools/perl/liburi-perl_5.27.bb
-rename to meta/recipes-devtools/perl/liburi-perl_5.28.bb
-index e5db7b3cfe..1fc0efd3e5 100644
---- a/meta/recipes-devtools/perl/liburi-perl_5.27.bb
-+++ b/meta/recipes-devtools/perl/liburi-perl_5.28.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/O/OA/OALDERS/URI-${PV}.tar.gz \
-            file://0001-Skip-TODO-test-cases-that-fail.patch \
-            "
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7397c76996d7646b9917ebf016cd67586b10166295af2e0e18cdb5b8f6659965"
++SRC_URI[sha256sum] = "760f3901078409f66cadf1bb24c8bdc60f13d53f6dd66b88631221d2494f8405"
  
--SRC_URI[sha256sum] = "11962d8a8a8496906e5d34774affc235a1c95c112d390c0b4171f3e91e9e2a97"
-+SRC_URI[sha256sum] = "e7985da359b15efd00917fa720292b711c396f2f9f9a7349e4e7dec74aa79765"
- 
- S = "${WORKDIR}/URI-${PV}"
- 
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.42.0
 
 
---===============5074632901663065552==
+--===============1017225659415114518==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/liburi-perl: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl: SRC_URI changed from "https://search.cpan.org/CPAN/authors/id/O/OA/OALDERS/URI-5.27.tar.gz file://0001-Skip-TODO-test-cases-that-fail.patch file://ptest-perl/run-ptest" to "https://search.cpan.org/CPAN/authors/id/O/OA/OALDERS/URI-5.28.tar.gz file://0001-Skip-TODO-test-cases-that-fail.patch file://ptest-perl/run-ptest"
-packages/core2-64-poky-linux/liburi-perl: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dbg: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dbg: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dev: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dev: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-locale: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-locale: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PKGSIZE changed from 137377 to 140064 (+2%)
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-src: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-src: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-staticdev: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-staticdev: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PKGV changed from 5.27 [default] to 5.28 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PV changed from "5.27" to "5.28"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PKGSIZE changed from 152492 to 152722 (+0%)
+packages/core2-64-poky-linux/ell/ell-dbg: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-dbg: PKGSIZE changed from 1718680 to 1718864 (+0%)
+packages/core2-64-poky-linux/ell/ell-dbg: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell-dev: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-dev: PKGSIZE changed from 120820 to 121969 (+1%)
+packages/core2-64-poky-linux/ell/ell-dev: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell-doc: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-doc: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell-locale: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-locale: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell-src: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-src: PKGSIZE changed from 1398069 to 1399366 (+0%)
+packages/core2-64-poky-linux/ell/ell-src: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell-staticdev: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell-staticdev: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell/ell: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell/ell: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell: PV changed from "0.63" to "0.64"
+packages/core2-64-poky-linux/ell: PKGV changed from 0.63 [default] to 0.64 [default]
+packages/core2-64-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.63.tar.xz" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.64.tar.xz"
 
---===============5074632901663065552==
+--===============1017225659415114518==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-liburi-perl-upgrade-5.27-5.28.patch"
+Content-Disposition: attachment; filename="0001-ell-upgrade-0.63-0.64.patch"
 
-RnJvbSA0MzlmZWMwMmJmOTg1Njg0NTgzOGVlNDcxM2Y2MTcxODczODdmMjc1IE1vbiBTZXAgMTcg
+RnJvbSAwZDgwYjc1NDVlMzc1ODVlY2EyNmIwOGZhZWFmNzE4ODE5YTgyNWRiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMTg6NDk6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ1cmktcGVybDogdXBncmFkZSA1LjI3IC0+IDUuMjgKCi0tLQogLi4uL3BlcmwvbGlidXJpLXBl
-cmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2ggfCAzICstLQogLi4u
-L3Blcmwve2xpYnVyaS1wZXJsXzUuMjcuYmIgPT4gbGlidXJpLXBlcmxfNS4yOC5iYn0gICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC97bGlidXJpLXBlcmxfNS4yNy5i
-YiA9PiBsaWJ1cmktcGVybF81LjI4LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsLzAwMDEtU2tpcC1UT0RPLXRlc3QtY2FzZXMtdGhh
-dC1mYWlsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJpLXBlcmwvMDAw
-MS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2gKaW5kZXggZWQxZjI1MTI1Zi4u
-Mzc0YmY1YjczMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJp
-LXBlcmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJpLXBlcmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1j
-YXNlcy10aGF0LWZhaWwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDVhNDI3MTQ1NjEwNGJk
-ZjAyNzY0NGM4MWMzYTIwOGNkZTVjZjUyMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDAwMjMzMjMwM2UyNDYxOWU0MjFmODY4MGE5ZjdhZDkyYTkwYWMwZmYgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KIERh
-dGU6IFRodSwgMTcgTm92IDIwMjIgMTY6MzM6MjAgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gU2tp
-cCBUT0RPIHRlc3QgY2FzZXMgdGhhdCBmYWlsCkBAIC04LDcgKzgsNiBAQCBUT0RPIGNhc2VzIHJl
-cG9ydCBhcyAibm90IG9rIiB3aXRoIHB0ZXN0LXJ1bm5lcgogVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtwdGVzdC1ydW5uZXIgc3BlY2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IFRpbSBP
-cmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgotCiAtLS0KICB0L2VzY2FwZS1jaGFyLnQg
-fCAyMCArKysrKysrKysrLS0tLS0tLS0tLQogIHQvaXJpLnQgICAgICAgICB8IDE4ICsrKysrKysr
-Ky0tLS0tLS0tLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJp
-LXBlcmxfNS4yNy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsXzUu
-MjguYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BlcmwvbGlidXJpLXBlcmxfNS4yNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BlcmwvbGlidXJpLXBlcmxfNS4yOC5iYgppbmRleCBlNWRiN2IzY2ZlLi4xZmMwZWZkM2U1
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC9saWJ1cmktcGVybF81LjI3
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsXzUuMjguYmIK
-QEAgLTEyLDcgKzEyLDcgQEAgU1JDX1VSSSA9ICIke0NQQU5fTUlSUk9SfS9hdXRob3JzL2lkL08v
-T0EvT0FMREVSUy9VUkktJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtU2tp
-cC1UT0RPLXRlc3QtY2FzZXMtdGhhdC1mYWlsLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiMTE5NjJkOGE4YTg0OTY5MDZlNWQzNDc3NGFmZmMyMzVhMWM5NWMx
-MTJkMzkwYzBiNDE3MWYzZTkxZTllMmE5NyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlNzk4NWRh
-MzU5YjE1ZWZkMDA5MTdmYTcyMDI5MmI3MTFjMzk2ZjJmOWY5YTczNDllNGU3ZGVjNzRhYTc5NzY1
-IgogCiBTID0gIiR7V09SS0RJUn0vVVJJLSR7UFZ9IgogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMTc6NTU6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+bGw6IHVwZ3JhZGUgMC42MyAtPiAwLjY0CgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2VsbC97ZWxs
+XzAuNjMuYmIgPT4gZWxsXzAuNjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZWxsL3tlbGxf
+MC42My5iYiA9PiBlbGxfMC42NC5iYn0gKDg5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Y29yZS9lbGwvZWxsXzAuNjMuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuNjQuYmIK
+c2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZWxsL2Vs
+bF8wLjYzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuNjQuYmIKaW5k
+ZXggN2VjYjYzYTQ3OC4uYzRmMTY5MDVmZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+ZWxsL2VsbF8wLjYzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC42NC5iYgpA
+QCAtMTUsNyArMTUsNyBAQCBERVBFTkRTID0gImRidXMiCiBpbmhlcml0IGF1dG90b29scyBwa2dj
+b25maWcKIAogU1JDX1VSSSA9ICJodHRwczovL21pcnJvcnMuZWRnZS5rZXJuZWwub3JnL3B1Yi9s
+aW51eC9saWJzLyR7QlBOfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjczOTdjNzY5OTZkNzY0NmI5OTE3ZWJmMDE2Y2Q2NzU4NmIxMDE2NjI5NWFmMmUwZTE4Y2Ri
+NWI4ZjY2NTk5NjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzYwZjM5MDEwNzg0MDlmNjZjYWRm
+MWJiMjRjOGJkYzYwZjEzZDUzZjZkZDY2Yjg4NjMxMjIxZDI0OTRmODQwNSIKIAogZG9fY29uZmln
+dXJlOnByZXBlbmQgKCkgewogICAgIG1rZGlyIC1wICR7U30vYnVpbGQtYXV4Ci0tIAoyLjQyLjAK
+Cg==
 
---===============5074632901663065552==--
+--===============1017225659415114518==--
 
