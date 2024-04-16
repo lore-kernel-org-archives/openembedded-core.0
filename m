@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DC6C3DA5F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6413FC3DA62
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:16 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.13424.1713248037244273313
+ by mx.groups.io with SMTP id smtpd.web11.13422.1713248037130602273
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:14:11 -0700
+ Mon, 15 Apr 2024 23:14:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KWFTWzkC;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MOt8yEjn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018ee58a9d26-d31c235e-08db-4e18-897e-c918f0ce16b1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WLYQmX/g;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NPdC1prk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018ee58a9c92-02999a27-c302-4311-ad91-8e226f19f502-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1713248050;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=w5ibYT9cxDR5o3Vmlc2MKc/1l6vZb6RN23P2vbrxCf0=;
-	b=KWFTWzkChdmAuVALspf+FBavJP5envDJfcfQ64xGETQTYS+r7Jf7idQboXObKTxo
-	wLIHSCAf3NzjCaIe6BJ4KbySXr3MNg0EjvjMYHCch5iqkLZHYS2qwcZGGCmhWsf7F9l
-	bcojBJDU+Dwg3E8MlHBW/8LA8Qa9D/RoEXw9kieI=
+	bh=QIbqv7PsmNFUhXWvnZieWJxlyZuI9/Ei+29CEzytDoU=;
+	b=WLYQmX/gYrMNqt1Wu0lSS1wiSMoVV8FZnuU70FkrkHKCEkSIdTJSWI4/tnP+G2/8
+	QXvI+VZaou2IBSI6J+3lUesuO4p5WvqwJeXnG5F24guyCerfmkhcP0Yw0uMwroWEbRx
+	WbBtF/k6neFCeVceyMeTZKbPgRLu79Fj2e8hoaKU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248050;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=w5ibYT9cxDR5o3Vmlc2MKc/1l6vZb6RN23P2vbrxCf0=;
-	b=MOt8yEjnLsV2s75r3xT9DPYI12+MMfOJyl1yVuRXpOV5VK27s2uc0gR4CyUeg09R
-	IKIuIxNPZhLtOFmjNZ4uEZBwX6ilgm4uY2zhw0d6EhxCnNOnZjhjBsZpTatoezGtUft
-	gkN/Yae/Arvnqg9ecwPTPgrEn7qV2wmxpG4vRQP0=
-Content-Type: multipart/mixed; boundary="===============9018787802136573993=="
+	bh=QIbqv7PsmNFUhXWvnZieWJxlyZuI9/Ei+29CEzytDoU=;
+	b=NPdC1prkugJqdCQhZI+hn9a2cGW2vRVgHmYEjpZq84EquQgs5croTHLKCMxUIDKr
+	yJgrzDoRUBepg5FNBDzPnBE1j4ZfQUQvGlX5Tr5YMISZhbky3nkMZ4Xx20H7IpJj3hp
+	gTk4em08yUYvPoy83aM4BUEl0R430I96a1k/QlHU=
+Content-Type: multipart/mixed; boundary="===============2319775942349408246=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxdmcp: upgrading to 1.1.5 SUCCEEDED
-Message-ID: <0101018ee58a9d26-d31c235e-08db-4e18-897e-c918f0ce16b1-000000@us-west-2.amazonses.com>
+Subject: [AUH] xcb-proto: upgrading to 1.17.0 SUCCEEDED
+Message-ID: <0101018ee58a9c92-02999a27-c302-4311-ad91-8e226f19f502-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.04.16-54.240.27.30
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198385
 
---===============9018787802136573993==
+--===============2319775942349408246==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxdmcp* to *1.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *xcb-proto* to *1.17.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxdmcp-upgrade-1.1.4-1.1.5.patch
+    - apply the patch: git am 0001-xcb-proto-upgrade-1.16.0-1.17.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,43 +71,80 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0590b0a345030c87536f6662ebad35d475a82ba3 Mon Sep 17 00:00:00 2001
+From 4e67eb8eaab81af2410faa7da0b6cc934f849316 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Apr 2024 00:37:54 +0000
-Subject: [PATCH] libxdmcp: upgrade 1.1.4 -> 1.1.5
+Date: Tue, 16 Apr 2024 00:46:05 +0000
+Subject: [PATCH] xcb-proto: upgrade 1.16.0 -> 1.17.0
 
 ---
- .../xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb} (89%)
+ .../0001-Fix-install-conflict-when-enable-multilib.patch   | 7 ++-----
+ .../xcb-proto/0001-xcb-proto.pc.in-reinstate-libdir.patch  | 2 +-
+ .../{xcb-proto_1.16.0.bb => xcb-proto_1.17.0.bb}           | 2 +-
+ 3 files changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.16.0.bb => xcb-proto_1.17.0.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-similarity index 89%
-rename from meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
-rename to meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-index bf5d2d6721..d1a1a2e7f9 100644
---- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-@@ -22,7 +22,7 @@ XORG_PN = "libXdmcp"
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
+index 4209139da8..acb6c8b140 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Fix-install-conflict-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From fc28149b6b198042c8d29e0931415adad7ed3231 Mon Sep 17 00:00:00 2001
++From 46687bacbcbb42815fe189c2ff28ba07aae4ee8e Mon Sep 17 00:00:00 2001
+ From: Wang Mingyu <wangmy@fujitsu.com>
+ Date: Thu, 16 Mar 2023 08:03:47 +0000
+ Subject: [PATCH] Fix install conflict when enable multilib.
+@@ -16,7 +16,7 @@ Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- BBCLASSEXTEND = "native nativesdk"
+ diff --git a/Makefile.am b/Makefile.am
+-index 8b57a83..580f5bc 100644
++index 8b57a83..0312e7a 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -1,6 +1,6 @@
+@@ -27,6 +27,3 @@ index 8b57a83..580f5bc 100644
+  pkgconfig_DATA = xcb-proto.pc
+  
+  EXTRA_DIST=doc xcb-proto.pc.in autogen.sh README.md
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcb-proto.pc.in-reinstate-libdir.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcb-proto.pc.in-reinstate-libdir.patch
+index fe0a96c207..ec0a5c5be6 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcb-proto.pc.in-reinstate-libdir.patch
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcb-proto.pc.in-reinstate-libdir.patch
+@@ -1,4 +1,4 @@
+-From ed499cffabe64fc1dc5898cb69ffa7e62c19e9d8 Mon Sep 17 00:00:00 2001
++From a4cfada0e7cec8627da7d1aba9f786f92c5ac380 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 5 Jul 2022 21:19:20 +0200
+ Subject: [PATCH] xcb-proto.pc.in: reinstate libdir
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
+index 67c1e8d97d..2a78a87e77 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz \
+            file://0001-xcb-proto.pc.in-reinstate-libdir.patch \
+            file://0001-Fix-install-conflict-when-enable-multilib.patch \
+            "
+-SRC_URI[sha256sum] = "a75a1848ad2a89a82d841a51be56ce988ff3c63a8d6bf4383ae3219d8d915119"
++SRC_URI[sha256sum] = "2c1bacd2110f4799f74de6ebb714b94cf6f80fb112316b1219480fd22562148c"
  
--SRC_URI[sha256sum] = "2dce5cc317f8f0b484ec347d87d81d552cdbebb178bd13c5d8193b6b7cd6ad00"
-+SRC_URI[sha256sum] = "d8a5222828c3adab70adf69a5583f1d32eb5ece04304f7f8392b6a353aa2228c"
+ inherit autotools pkgconfig python3native
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
 -- 
 2.42.0
 
 
---===============9018787802136573993==
+--===============2319775942349408246==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1747,32 +1784,99 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9018787802136573993==
+--===============2319775942349408246==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xcb-proto-upgrade-1.16.0-1.17.0.patch"
+
+RnJvbSA0ZTY3ZWI4ZWFhYjgxYWYyNDEwZmFhN2RhMGI2Y2M5MzRmODQ5MzE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDA6NDY6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+Y2ItcHJvdG86IHVwZ3JhZGUgMS4xNi4wIC0+IDEuMTcuMAoKLS0tCiAuLi4vMDAwMS1GaXgtaW5z
+dGFsbC1jb25mbGljdC13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaCAgIHwgNyArKy0tLS0tCiAu
+Li4veGNiLXByb3RvLzAwMDEteGNiLXByb3RvLnBjLmluLXJlaW5zdGF0ZS1saWJkaXIucGF0Y2gg
+IHwgMiArLQogLi4uL3t4Y2ItcHJvdG9fMS4xNi4wLmJiID0+IHhjYi1wcm90b18xLjE3LjAuYmJ9
+ICAgICAgICAgICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA3IGRl
+bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3t4Y2It
+cHJvdG9fMS4xNi4wLmJiID0+IHhjYi1wcm90b18xLjE3LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctcHJvdG8veGNiLXByb3RvLzAwMDEtRml4LWlu
+c3RhbGwtY29uZmxpY3Qtd2hlbi1lbmFibGUtbXVsdGlsaWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MveG9yZy1wcm90by94Y2ItcHJvdG8vMDAwMS1GaXgtaW5zdGFsbC1jb25mbGljdC13
+aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaAppbmRleCA0MjA5MTM5ZGE4Li5hY2I2YzhiMTQwIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94Y2ItcHJvdG8vMDAw
+MS1GaXgtaW5zdGFsbC1jb25mbGljdC13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaAorKysgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94Y2ItcHJvdG8vMDAwMS1GaXgtaW5zdGFs
+bC1jb25mbGljdC13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gZmMyODE0OWI2YjE5ODA0MmM4ZDI5ZTA5MzE0MTVhZGFkN2VkMzIzMSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNDY2ODdiYWNiY2JiNDI4MTVmZTE4OWMyZmYyOGJhMDdhYWU0ZWU4
+ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFdhbmcgTWluZ3l1IDx3YW5nbXlAZnVq
+aXRzdS5jb20+CiBEYXRlOiBUaHUsIDE2IE1hciAyMDIzIDA4OjAzOjQ3ICswMDAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIEZpeCBpbnN0YWxsIGNvbmZsaWN0IHdoZW4gZW5hYmxlIG11bHRpbGliLgpAQCAt
+MTYsNyArMTYsNyBAQCBTaWduZWQtb2ZmLWJ5OiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3Uu
+Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBk
+aWZmIC0tZ2l0IGEvTWFrZWZpbGUuYW0gYi9NYWtlZmlsZS5hbQotaW5kZXggOGI1N2E4My4uNTgw
+ZjViYyAxMDA2NDQKK2luZGV4IDhiNTdhODMuLjAzMTJlN2EgMTAwNjQ0CiAtLS0gYS9NYWtlZmls
+ZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KIEBAIC0xLDYgKzEsNiBAQApAQCAtMjcsNiArMjcsMyBA
+QCBpbmRleCA4YjU3YTgzLi41ODBmNWJjIDEwMDY0NAogIHBrZ2NvbmZpZ19EQVRBID0geGNiLXBy
+b3RvLnBjCiAgCiAgRVhUUkFfRElTVD1kb2MgeGNiLXByb3RvLnBjLmluIGF1dG9nZW4uc2ggUkVB
+RE1FLm1kCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eG9yZy1wcm90by94Y2ItcHJvdG8vMDAwMS14Y2ItcHJvdG8ucGMuaW4tcmVpbnN0YXRlLWxpYmRp
+ci5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hjYi1wcm90by8wMDAx
+LXhjYi1wcm90by5wYy5pbi1yZWluc3RhdGUtbGliZGlyLnBhdGNoCmluZGV4IGZlMGE5NmMyMDcu
+LmVjMGE1YzViZTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3Rv
+L3hjYi1wcm90by8wMDAxLXhjYi1wcm90by5wYy5pbi1yZWluc3RhdGUtbGliZGlyLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hjYi1wcm90by8wMDAxLXhjYi1w
+cm90by5wYy5pbi1yZWluc3RhdGUtbGliZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBl
+ZDQ5OWNmZmFiZTY0ZmMxZGM1ODk4Y2I2OWZmYTdlNjJjMTllOWQ4IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBhNGNmYWRhMGU3Y2VjODYyN2RhN2QxYWJhOWY3ODZmOTJjNWFjMzgwIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGlu
+dXRyb25peC5kZT4KIERhdGU6IFR1ZSwgNSBKdWwgMjAyMiAyMToxOToyMCArMDIwMAogU3ViamVj
+dDogW1BBVENIXSB4Y2ItcHJvdG8ucGMuaW46IHJlaW5zdGF0ZSBsaWJkaXIKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hjYi1wcm90b18xLjE2LjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94Y2ItcHJvdG9fMS4xNy4wLmJiCnNpbWls
+YXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXBy
+b3RvL3hjYi1wcm90b18xLjE2LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94
+b3JnLXByb3RvL3hjYi1wcm90b18xLjE3LjAuYmIKaW5kZXggNjdjMWU4ZDk3ZC4uMmE3OGE4N2U3
+NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctcHJvdG8veGNiLXByb3Rv
+XzEuMTYuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94Y2ItcHJv
+dG9fMS4xNy4wLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly94b3JnLmZy
+ZWVkZXNrdG9wLm9yZy9hcmNoaXZlL2luZGl2aWR1YWwvcHJvdG8vJHtCUH0udGFyLnh6IFwKICAg
+ICAgICAgICAgZmlsZTovLzAwMDEteGNiLXByb3RvLnBjLmluLXJlaW5zdGF0ZS1saWJkaXIucGF0
+Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1GaXgtaW5zdGFsbC1jb25mbGljdC13aGVuLWVu
+YWJsZS1tdWx0aWxpYi5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICJhNzVhMTg0OGFkMmE4OWE4MmQ4NDFhNTFiZTU2Y2U5ODhmZjNjNjNhOGQ2YmY0MzgzYWUzMjE5
+ZDhkOTE1MTE5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjJjMWJhY2QyMTEwZjQ3OTlmNzRkZTZl
+YmI3MTRiOTRjZjZmODBmYjExMjMxNmIxMjE5NDgwZmQyMjU2MjE0OGMiCiAKIGluaGVyaXQgYXV0
+b3Rvb2xzIHBrZ2NvbmZpZyBweXRob24zbmF0aXZlCiAKLS0gCjIuNDIuMAoK
+
+--===============2319775942349408246==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXdmcp-1.1.4.tar.xz" to "https://www.x.org/releases//individual/lib/libXdmcp-1.1.5.tar.xz"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGSIZE changed from 55328 to 55344 (+0%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGSIZE changed from 56150 to 58248 (+4%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/xcb-proto: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto: SRC_URI changed from "https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-1.16.0.tar.xz file://0001-xcb-proto.pc.in-reinstate-libdir.patch file://0001-Fix-install-conflict-when-enable-multilib.patch" to "https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-1.17.0.tar.xz file://0001-xcb-proto.pc.in-reinstate-libdir.patch file://0001-Fix-install-conflict-when-enable-multilib.patch"
+packages/core2-64-poky-linux/xcb-proto: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/python-xcbgen: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/python-xcbgen: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-dbg: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-dbg: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-dev: PKGSIZE changed from 710294 to 711660 (+0%)
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-dev: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-dev: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-doc: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-doc: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-locale: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-locale: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-src: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-src: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-staticdev: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto-staticdev: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
+packages/core2-64-poky-linux/xcb-proto/xcb-proto: PV changed from "1.16.0" to "1.17.0"
+packages/core2-64-poky-linux/xcb-proto/xcb-proto: PKGV changed from 1.16.0 [default] to 1.17.0 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3412,35 +3516,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9018787802136573993==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxdmcp-upgrade-1.1.4-1.1.5.patch"
-
-RnJvbSAwNTkwYjBhMzQ1MDMwYzg3NTM2ZjY2NjJlYmFkMzVkNDc1YTgyYmEzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDA6Mzc6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4ZG1jcDogdXBncmFkZSAxLjEuNCAtPiAxLjEuNQoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhk
-bWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEuMS41LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhkbWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEu
-MS41LmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4ZG1jcF8xLjEuNC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
-ZG1jcF8xLjEuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGRtY3BfMS4xLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4ZG1jcF8xLjEuNS5iYgppbmRleCBiZjVkMmQ2NzIx
-Li5kMWExYTJlN2Y5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
-bGlieGRtY3BfMS4xLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
-YnhkbWNwXzEuMS41LmJiCkBAIC0yMiw3ICsyMiw3IEBAIFhPUkdfUE4gPSAibGliWGRtY3AiCiAK
-IEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjJkY2U1Y2MzMTdmOGYwYjQ4NGVjMzQ3ZDg3ZDgxZDU1MmNkYmViYjE3OGJkMTNjNWQ4MTkz
-YjZiN2NkNmFkMDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDhhNTIyMjgyOGMzYWRhYjcwYWRm
-NjlhNTU4M2YxZDMyZWI1ZWNlMDQzMDRmN2Y4MzkyYjZhMzUzYWEyMjI4YyIKIAogUEFDS0FHRUNP
-TkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUdbYXJjNF0gPSAiYWNfY3ZfbGliX2JzZF9hcmM0cmFu
-ZG9tX2J1Zj15ZXMsYWNfY3ZfbGliX2JzZF9hcmM0cmFuZG9tX2J1Zj1ubyxsaWJic2QiCi0tIAoy
-LjQyLjAKCg==
-
---===============9018787802136573993==--
+--===============2319775942349408246==--
 
