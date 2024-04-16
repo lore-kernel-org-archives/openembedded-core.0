@@ -1,167 +1,329 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0100C4345F
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 12:42:51 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.57])
- by mx.groups.io with SMTP id smtpd.web11.19458.1713271366934624704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD62AC4345F
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 12:49:01 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.19790.1713271740794995894
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Apr 2024 05:42:47 -0700
+ Tue, 16 Apr 2024 05:49:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=UMWTl0+0;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=UMWTl0+0;
- spf=pass (domain: arm.com, ip: 40.107.8.57, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=jiM/8w6T1+mvm7QmFwnCPElxC7tCfzW1ZdpS80ce+aq5vaPcZBSZ6nmHZJCb9HfXRqWfnjeDB2TW9OzMjrzNSbmvDR5llpsI8VhDT1dNmdEuhqo76ioU8+U79GUjSUsHf/TsH0lPvwCQnUt1eFMX5GlxcFyoy4l9RxlQM4AwcTrzxnryfrf8r9XIsA0YL2etMREK/k21ZIfR+RWBnEBIfnmeD/HCQBbnFEgP6cnuvoZdtE0B0iamrfnr1ypREKr06FnG7R15fwGRfzks1Zukvg52o+F5QNRqoLWdCsqtV7vptLZA9JJweZ5lYvaHU0lQyr2CjwY7+h/sCRqxpLpQMQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aZLt7W9EF2vEarxC3cNHu2m/xum3QtKSZiVXwpoJtJ0=;
- b=Qkqwdv0TW59ujlgLIt0mgH4zmLvBWjkZg/4wsWFcKULX83aMuLFQizFp5OyD50VVcLD+g0HD8hWoSDH5kw/wOjE40a3ytDY+cH0R8Dv4Z6nkiZVxvXyRrGzvPksH0oHWocgcZlYYdtTDL9unExEr1uVGJhkFldDDuxdLVtnrK+Sd4NFxp1KN5boS9m8vI8EKh7T3bkHXc5Kkzi9Dm3qm/uNccXT+WhtKSdBjkbb94RFxRzmvyYu+GjgfNEKh2D6Zg4CWzS0EXJ63BuDrydK2lmmXeaCStJiP7QjUoz7HKA/iL0EZkBZx8Sn7AL36IJRLnpOWMM+6gVs4gT1gXia82g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aZLt7W9EF2vEarxC3cNHu2m/xum3QtKSZiVXwpoJtJ0=;
- b=UMWTl0+0/PpqhZ+obnUGGGQ0Cy0ueE72gH/evfjeuHTn+5hT1wjqwGIznoq8bDSxJLt0ysPJ2CiKEn+BgBbi2MNQk3BoXWBvjHA5YFFckzFMj3Ttx45GJAJxUSPuurh/QO1fHPUM0GRmAG/kkFeqOrxPhXuwUGyJ5xHDdBmoqtc=
-Received: from AS9PR06CA0297.eurprd06.prod.outlook.com (2603:10a6:20b:45a::35)
- by DB9PR08MB8508.eurprd08.prod.outlook.com (2603:10a6:10:3d3::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 16 Apr
- 2024 12:42:41 +0000
-Received: from AMS0EPF00000191.eurprd05.prod.outlook.com
- (2603:10a6:20b:45a:cafe::ac) by AS9PR06CA0297.outlook.office365.com
- (2603:10a6:20b:45a::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.34 via Frontend
- Transport; Tue, 16 Apr 2024 12:42:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF00000191.mail.protection.outlook.com (10.167.16.216) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7452.22
- via Frontend Transport; Tue, 16 Apr 2024 12:42:40 +0000
-Received: ("Tessian outbound e14047529286:v313"); Tue, 16 Apr 2024 12:42:40 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 51545757a961633b
-X-CR-MTA-TID: 64aa7808
-Received: from 5a8bb610216f.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id E6465DBD-EA8C-4274-8369-AD526C1C827C.1;
-	Tue, 16 Apr 2024 12:42:34 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5a8bb610216f.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 16 Apr 2024 12:42:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lkR4XPsBvygpad64bOOpmo5CRZKxmRzlgOC2jr/LG6QrIBBMZkoMItUEM+sHgxGdnFxsf/q09iGHCLG5FRiWGUYKnBAVgOi8/MxF2FZLD8wfQ0jxFIiXsoveHr7jbX+dY1rNjGLp5RHg0doFF1jPAkcQ0YYjpVUPECOq1UGL6qI5RvVkiz91T/Z2gcUlkdZ6npujPYTVRAzBxJRTIsC+EuXZIyMFUWsS152EXMBvwh4dNYymigNi6LfFxGxCM0+2JxVEzmq5HQ+qFTYio7Eu2SYwRgthkdcYdekDDkaBTHtckUxs+uofMb5cYOIIzwqzAE1fLs5LqVnsoHvXEuc50A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aZLt7W9EF2vEarxC3cNHu2m/xum3QtKSZiVXwpoJtJ0=;
- b=aM9Komp9SZkNSyDEMEh133+sH6G1CoNC/fSzngYtSNt8hKi7MlL6+glm6LrY9qYHt6DUYy4amI+KiBZa8gCeB83svYY+NByvv88d1xWXKJWxqhxvGi1QfAVvV8g4QL3OmHL+faRvpaF0W1rzfJqdoxkJi87QxuUVJ2/a+gylxayiLqJ3VmFJc/uveBq4M04r2BRgDhvL0QwiU8FmP7mM0yPjRbSaN6bTvbUCodPJnu2GsN6lTw/q4xVXMoV1GhZVcXhzbz3InHBypgg1bg2j0LWeguPDoIcbsmxyLkSjvCoS/E7iPfO01rWUY8edSV6st/40fiyLUx2/TV+nrchXlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aZLt7W9EF2vEarxC3cNHu2m/xum3QtKSZiVXwpoJtJ0=;
- b=UMWTl0+0/PpqhZ+obnUGGGQ0Cy0ueE72gH/evfjeuHTn+5hT1wjqwGIznoq8bDSxJLt0ysPJ2CiKEn+BgBbi2MNQk3BoXWBvjHA5YFFckzFMj3Ttx45GJAJxUSPuurh/QO1fHPUM0GRmAG/kkFeqOrxPhXuwUGyJ5xHDdBmoqtc=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB9365.eurprd08.prod.outlook.com (2603:10a6:20b:597::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Tue, 16 Apr
- 2024 12:42:32 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
- 12:42:32 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>, "vkumbhar@mvista.com"
-	<vkumbhar@mvista.com>
-Subject: Re: [OE-core] [PATCH][kirkstone] openssl: fix crash on aarch64 if BTI
- is enabled but no Crypto instructions
-Thread-Topic: [OE-core] [PATCH][kirkstone] openssl: fix crash on aarch64 if
- BTI is enabled but no Crypto instructions
-Thread-Index: AQHagDgungkj2FMrh0CVRpFt9QjiO7FOGDWAgACiTYCAHDwZgA==
-Date: Tue, 16 Apr 2024 12:42:32 +0000
-Message-ID: <A328C99D-E275-45C4-A911-D86FC48AE45A@arm.com>
-References: <20240327111523.855715-1-ross.burton@arm.com>
- <29693.1711684265473117694@lists.openembedded.org>
- <CAOSpxdbCRMVfXhf7jOVYA5rgu1nayGW03NiDk5yWj_kJBU24jA@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbCRMVfXhf7jOVYA5rgu1nayGW03NiDk5yWj_kJBU24jA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.500.171.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB9365:EE_|AMS0EPF00000191:EE_|DB9PR08MB8508:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1cb50da-2175-4117-ba0a-08dc5e12b477
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 6iD0Z3r9cVk8y0R74qV/ZVFLNZ22aFjiGV2fXUlaA6+mhSbUpgVMYdYcHldDF7C1eguDgRhW+R7EdYMzExw2ek9uYI74z9t02Lm4uOoHvGF5DXJ09cnK0JbSrRnh739X6/FWdeJQNxteZmzJ7q+DQayqfWm/ctR2DHz0/B9T1jSPKwdyGpdvFT1KuQZIZRqD4YHrp3GvnwFjLKAI3TLPnY5XsMcscTaIkbgcP/y/ossqmgK4Glb2sNuHjo07GY7SFjuVyip9k9Z6+LRx/d6SaEwtJXfKJTCMMlJYo0r+szMbwHXWFS0UE/FfetdYztgpiSSUoGvSMITF5PACoJ7dhNr+JjazsaCN26ANlOFLsYP378XJmTzjY70i00nqRp1BUwxFURdB/2VvKo19lKcKWSeT9Gb37omWuI1shcyRhCgjGzxRGoaJU+ffwmiK5cBFSVl/wJd3+Vk49kP/MinTV+wHgBaXWhnQIhmsRbLxFrNky3eMmwZsjem2Z19mwUjNS5RTrStIjK+BUq6qMFreiGjtJ9u23xaR8Z4MS0rUiwkEb2eJRiBg+fhjohO82gHRGhCZvsKRPQHB/jSvP65G+TZXk7seDIdCk3R1lZfqiRSedzEDpsEaBwXQ2Gjt9qNxmLzhCEHquAQSX4d2nK2JupdvGQAjKjBIQwNjT0eeJ1FnPIp2s4Qw5btXWGhvQgjJP9dte//N5po3brSaTobxgA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B88F66D3F1BACC49B7979BE9D83AF463@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Pp7HDdyL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=48365af789=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43GAPTRP023835
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 12:49:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=5bPN0
+	/ObOnpdtAO7YDAaBk1d2FKFWU8kCZNCEa0ws3w=; b=Pp7HDdyLnxx8RW8fhqoGP
+	2hDNWuvRle6+jKDQz/+NM3Cc/JuOy5T2RO3eU2CRWm2bJgPWFhFhwiDq9XqDYj0X
+	NOTkMtDmicvRiak5K+Rskvk4Qgrhun8/8REuvAmsop01qX8A+ufGJz2zQMVBykPS
+	LYqDBR7N0rT9MRJivb/Ae5b5/O3ekyNriLH7H6aOKz0gemJA/HSc34lWUOvG9YTM
+	4MILgPAMvMRw0Bjgbyj78yBdMn2OpOZ3fYpKQps4/uXbHN+LnWMMQ3vPA5uZBhWs
+	xnkYMl5wBjXASGE0iYuEMc1a9WK2F685aN69gRyM4EUW5u/4a8Gxe2004vyJQsrq
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xfh16jrmf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 12:48:59 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Tue, 16 Apr 2024 05:48:57 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] nghttp2: Fix CVE-2024-28182
+Date: Tue, 16 Apr 2024 12:48:35 +0000
+Message-ID: <20240416124835.3564415-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9365
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF00000191.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	eaab21d4-fdd0-40cc-80cc-08dc5e12af48
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	3sfijZ12sZ0PGkc4iHWYDIlt4vgVb+uL4epJ1t+oK4m19J4XC9tcCkCepLEIfI4O7dBuUGnn1g4Z8gjaqydXlOfA27gHVEPhiOIuPahhfzybaBEuoUmvjd30AMRZBpjcp1L56BqI6clMiU9S/SXEJ1tTG+Jfkld7q9QOenTVixqNtWmT4DnQaDJbOR8PC+y8ZdEDYA+G8BuwYm1TP6vi8eRjUbtWUVMxGqyLPgjezOHGJHN5t7rr9yJIB2mkntYWKretWupNwijndF4tuvEofn7lEGyNJzDCxIScIa5LMo5v1JabG9/3lMmgyVFmmYhckzS4aUrKytCYp3spudfaIptGqF/CP6/pG+4wyY4IYXcGdmWsnS0NUYTvcnVxg6iWxnCrJMgKa9/uw5THZwhaJI7nZ5DSsytC8jaF7qfHC61CZNMadxLzWgOwknx4X8qxFJcKeUaKWY5ouURfO0crflWrkbC1tSiR5dhb4iP5/W0nyTnCNErcNZiL9URHhqdG6bbmoKHQdTs3HpwB1KYo/zkLVCko9l1uyHD0r86tTIsDNnf8YFTW0REkCaNF/PJjFnhlFisGRjj8pln8e5wo3Yy0jJAgSyB1Ta2ceahSgzyAa91IP6Sbufuj/LIkaEK8QmSw/qZuT3v7CVF1XAMCNt+D3F22UGWoToQiUV6jVDEc0c2AWT6YXerRxhfIeIYAm7GfDtwd/oZ+Voxb20R5jakUkLbPyzC66jy3/j8tCWJhqbbLj5HGfNQ3wjd3/uAD
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(82310400014)(36860700004)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 12:42:40.9310
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1cb50da-2175-4117-ba0a-08dc5e12b477
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF00000191.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8508
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: S3QkaaRXOFW_r5ATWfVRUtnOnjazP1HF
+X-Proofpoint-GUID: S3QkaaRXOFW_r5ATWfVRUtnOnjazP1HF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_09,2024-04-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 phishscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404160077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 12:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198449
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 12:49:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198450
 
-T24gMjkgTWFyIDIwMjQsIGF0IDEzOjMxLCBTdGV2ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFuLmNv
-bT4gd3JvdGU6DQo+IA0KPiBTb3JyeSBmb3IgdGhlIGRlbGF5ZWQgcmVzcG9uc2UsIGJ1dCBJIGZv
-dW5kIHRoZSBzYW1lIGlzc3VlIHdpdGggdGhlDQo+IGtpcmtzdG9uZSB2ZXJzaW9uIHRoYXQgVml2
-ZWsgZGlkLg0KDQpTb3JyeSBmb3IgdGhlIHZlcnkgZGVsYXllZCByZXNwb25zZSwgSSBzb21laG93
-IG1pc3NlZCB0aGlzIHJlcGx5IGluIG15IGluYm94Lg0KDQpUaGUgcGF0Y2hlZCBjb2RlIGRvZXNu
-4oCZdCBleGlzdCBpbiBraXJrc3RvbmUgc28gdGhpcyBpc27igJl0IG5lZWRlZCwgSSB0aG91Z2h0
-IEkgdGVzdGVkIHRoaXMgcGF0Y2ggYmVmb3JlIHBvc3RpbmcgYnV0IG1heWJlIEkgZGlkIHNvbWV0
-aGluZyBzdHVwaWQuDQoNClNvcnJ5IGZvciB0aGUgaW5jb252ZW5pZW5jZSwNClJvc3M=
+From: Soumya Sambu <soumya.sambu@windriver.com>
+
+nghttp2 is an implementation of the Hypertext Transfer Protocol
+version 2 in C. The nghttp2 library prior to version 1.61.0 keeps
+reading the unbounded number of HTTP/2 CONTINUATION frames even
+after a stream is reset to keep HPACK context in sync. This
+causes excessive CPU usage to decode HPACK stream. nghttp2 v1.61.0
+mitigates this vulnerability by limiting the number of CONTINUATION
+frames it accepts per stream. There is no workaround for this
+vulnerability.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-28182
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ .../nghttp2/nghttp2/CVE-2024-28182-0001.patch | 110 ++++++++++++++++++
+ .../nghttp2/nghttp2/CVE-2024-28182-0002.patch | 105 +++++++++++++++++
+ .../recipes-support/nghttp2/nghttp2_1.47.0.bb |   2 +
+ 3 files changed, 217 insertions(+)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0001.patch
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0002.patch
+
+diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0001.patch b/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0001.patch
+new file mode 100644
+index 0000000000..e1d909b0d1
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0001.patch
+@@ -0,0 +1,110 @@
++From 00201ecd8f982da3b67d4f6868af72a1b03b14e0 Mon Sep 17 00:00:00 2001
++From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
++Date: Sat, 9 Mar 2024 16:26:42 +0900
++Subject: [PATCH] Limit CONTINUATION frames following an incoming HEADER frame
++
++CVE: CVE-2024-28182
++
++Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/00201ecd8f982da3b67d4f6868af72a1b03b14e0]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ lib/includes/nghttp2/nghttp2.h |  7 ++++++-
++ lib/nghttp2_helper.c           |  2 ++
++ lib/nghttp2_session.c          |  7 +++++++
++ lib/nghttp2_session.h          | 10 ++++++++++
++ 4 files changed, 25 insertions(+), 1 deletion(-)
++
++diff --git a/lib/includes/nghttp2/nghttp2.h b/lib/includes/nghttp2/nghttp2.h
++index 2bd35f4..6cc8c0c 100644
++--- a/lib/includes/nghttp2/nghttp2.h
+++++ b/lib/includes/nghttp2/nghttp2.h
++@@ -440,7 +440,12 @@ typedef enum {
++    * exhaustion on server side to send these frames forever and does
++    * not read network.
++    */
++-  NGHTTP2_ERR_FLOODED = -904
+++  NGHTTP2_ERR_FLOODED = -904,
+++  /**
+++   * When a local endpoint receives too many CONTINUATION frames
+++   * following a HEADER frame.
+++   */
+++  NGHTTP2_ERR_TOO_MANY_CONTINUATIONS = -905,
++ } nghttp2_error;
++
++ /**
++diff --git a/lib/nghttp2_helper.c b/lib/nghttp2_helper.c
++index 588e269..98989f6 100644
++--- a/lib/nghttp2_helper.c
+++++ b/lib/nghttp2_helper.c
++@@ -336,6 +336,8 @@ const char *nghttp2_strerror(int error_code) {
++            "closed";
++   case NGHTTP2_ERR_TOO_MANY_SETTINGS:
++     return "SETTINGS frame contained more than the maximum allowed entries";
+++  case NGHTTP2_ERR_TOO_MANY_CONTINUATIONS:
+++    return "Too many CONTINUATION frames following a HEADER frame";
++   default:
++     return "Unknown error code";
++   }
++diff --git a/lib/nghttp2_session.c b/lib/nghttp2_session.c
++index 5c834fa..537127c 100644
++--- a/lib/nghttp2_session.c
+++++ b/lib/nghttp2_session.c
++@@ -464,6 +464,7 @@ static int session_new(nghttp2_session **session_ptr,
++   (*session_ptr)->max_send_header_block_length = NGHTTP2_MAX_HEADERSLEN;
++   (*session_ptr)->max_outbound_ack = NGHTTP2_DEFAULT_MAX_OBQ_FLOOD_ITEM;
++   (*session_ptr)->max_settings = NGHTTP2_DEFAULT_MAX_SETTINGS;
+++  (*session_ptr)->max_continuations = NGHTTP2_DEFAULT_MAX_CONTINUATIONS;
++
++   if (option) {
++     if ((option->opt_set_mask & NGHTTP2_OPT_NO_AUTO_WINDOW_UPDATE) &&
++@@ -6307,6 +6308,8 @@ ssize_t nghttp2_session_mem_recv(nghttp2_session *session, const uint8_t *in,
++           }
++         }
++         session_inbound_frame_reset(session);
+++
+++        session->num_continuations = 0;
++       }
++       break;
++     }
++@@ -6428,6 +6431,10 @@ ssize_t nghttp2_session_mem_recv(nghttp2_session *session, const uint8_t *in,
++       }
++ #endif /* DEBUGBUILD */
++
+++      if (++session->num_continuations > session->max_continuations) {
+++        return NGHTTP2_ERR_TOO_MANY_CONTINUATIONS;
+++      }
+++
++       readlen = inbound_frame_buf_read(iframe, in, last);
++       in += readlen;
++
++diff --git a/lib/nghttp2_session.h b/lib/nghttp2_session.h
++index 5f71a16..9a00b0e 100644
++--- a/lib/nghttp2_session.h
+++++ b/lib/nghttp2_session.h
++@@ -107,6 +107,10 @@ typedef struct {
++ #define NGHTTP2_DEFAULT_STREAM_RESET_BURST 1000
++ #define NGHTTP2_DEFAULT_STREAM_RESET_RATE 33
++
+++/* The default max number of CONTINUATION frames following an incoming
+++   HEADER frame. */
+++#define NGHTTP2_DEFAULT_MAX_CONTINUATIONS 8
+++
++ /* Internal state when receiving incoming frame */
++ typedef enum {
++   /* Receiving frame header */
++@@ -279,6 +283,12 @@ struct nghttp2_session {
++   size_t max_send_header_block_length;
++   /* The maximum number of settings accepted per SETTINGS frame. */
++   size_t max_settings;
+++  /* The maximum number of CONTINUATION frames following an incoming
+++     HEADER frame. */
+++  size_t max_continuations;
+++  /* The number of CONTINUATION frames following an incoming HEADER
+++     frame.  This variable is reset when END_HEADERS flag is seen. */
+++  size_t num_continuations;
++   /* Next Stream ID. Made unsigned int to detect >= (1 << 31). */
++   uint32_t next_stream_id;
++   /* The last stream ID this session initiated.  For client session,
++--
++2.40.0
+diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0002.patch b/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0002.patch
+new file mode 100644
+index 0000000000..fee19465d5
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2024-28182-0002.patch
+@@ -0,0 +1,105 @@
++From d71a4668c6bead55805d18810d633fbb98315af9 Mon Sep 17 00:00:00 2001
++From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
++Date: Sat, 9 Mar 2024 16:48:10 +0900
++Subject: [PATCH] Add nghttp2_option_set_max_continuations
++
++CVE: CVE-2024-28182
++
++Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/d71a4668c6bead55805d18810d633fbb98315af9]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ doc/Makefile.am                |  1 +
++ lib/includes/nghttp2/nghttp2.h | 11 +++++++++++
++ lib/nghttp2_option.c           |  5 +++++
++ lib/nghttp2_option.h           |  5 +++++
++ lib/nghttp2_session.c          |  4 ++++
++ 5 files changed, 26 insertions(+)
++
++diff --git a/doc/Makefile.am b/doc/Makefile.am
++index b9d5a2d..83cfdfd 100644
++--- a/doc/Makefile.am
+++++ b/doc/Makefile.am
++@@ -70,6 +70,7 @@ APIDOCS= \
++	nghttp2_option_set_no_recv_client_magic.rst \
++	nghttp2_option_set_peer_max_concurrent_streams.rst \
++	nghttp2_option_set_user_recv_extension_type.rst \
+++	nghttp2_option_set_max_continuations.rst \
++	nghttp2_option_set_max_outbound_ack.rst \
++	nghttp2_option_set_max_settings.rst \
++	nghttp2_option_set_stream_reset_rate_limit.rst \
++diff --git a/lib/includes/nghttp2/nghttp2.h b/lib/includes/nghttp2/nghttp2.h
++index 6cc8c0c..c77cca9 100644
++--- a/lib/includes/nghttp2/nghttp2.h
+++++ b/lib/includes/nghttp2/nghttp2.h
++@@ -2724,6 +2724,17 @@ NGHTTP2_EXTERN void nghttp2_option_set_max_outbound_ack(nghttp2_option *option,
++ NGHTTP2_EXTERN void nghttp2_option_set_max_settings(nghttp2_option *option,
++                                                     size_t val);
++
+++/**
+++ * @function
+++ *
+++ * This function sets the maximum number of CONTINUATION frames
+++ * following an incoming HEADER frame.  If more than those frames are
+++ * received, the remote endpoint is considered to be misbehaving and
+++ * session will be closed.  The default value is 8.
+++ */
+++NGHTTP2_EXTERN void nghttp2_option_set_max_continuations(nghttp2_option *option,
+++                                                         size_t val);
+++
++ /**
++  * @function
++  *
++diff --git a/lib/nghttp2_option.c b/lib/nghttp2_option.c
++index 0d9a404..f3659c1 100644
++--- a/lib/nghttp2_option.c
+++++ b/lib/nghttp2_option.c
++@@ -133,3 +133,8 @@ void nghttp2_option_set_stream_reset_rate_limit(nghttp2_option *option,
++   option->stream_reset_burst = burst;
++   option->stream_reset_rate = rate;
++ }
+++
+++void nghttp2_option_set_max_continuations(nghttp2_option *option, size_t val) {
+++  option->opt_set_mask |= NGHTTP2_OPT_MAX_CONTINUATIONS;
+++  option->max_continuations = val;
+++}
++diff --git a/lib/nghttp2_option.h b/lib/nghttp2_option.h
++index e6ba910..c1b48c7 100644
++--- a/lib/nghttp2_option.h
+++++ b/lib/nghttp2_option.h
++@@ -69,6 +69,7 @@ typedef enum {
++   NGHTTP2_OPT_MAX_OUTBOUND_ACK = 1 << 11,
++   NGHTTP2_OPT_MAX_SETTINGS = 1 << 12,
++   NGHTTP2_OPT_STREAM_RESET_RATE_LIMIT = 1 << 15,
+++  NGHTTP2_OPT_MAX_CONTINUATIONS = 1 << 16,
++ } nghttp2_option_flag;
++
++ /**
++@@ -96,6 +97,10 @@ struct nghttp2_option {
++    * NGHTTP2_OPT_MAX_SETTINGS
++    */
++   size_t max_settings;
+++  /**
+++   * NGHTTP2_OPT_MAX_CONTINUATIONS
+++   */
+++  size_t max_continuations;
++   /**
++    * Bitwise OR of nghttp2_option_flag to determine that which fields
++    * are specified.
++diff --git a/lib/nghttp2_session.c b/lib/nghttp2_session.c
++index 537127c..b390cd5 100644
++--- a/lib/nghttp2_session.c
+++++ b/lib/nghttp2_session.c
++@@ -539,6 +539,10 @@ static int session_new(nghttp2_session **session_ptr,
++                            option->stream_reset_burst,
++                            option->stream_reset_rate);
++     }
+++
+++    if (option->opt_set_mask & NGHTTP2_OPT_MAX_CONTINUATIONS) {
+++      (*session_ptr)->max_continuations = option->max_continuations;
+++    }
++   }
++
++   rv = nghttp2_hd_deflate_init2(&(*session_ptr)->hd_deflater,
++--
++2.40.0
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+index b67313b5c2..79b1cf95c5 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+@@ -11,6 +11,8 @@ SRC_URI = "\
+     file://0001-fetch-ocsp-response-use-python3.patch \
+     file://CVE-2023-35945.patch \
+     file://CVE-2023-44487.patch \
++    file://CVE-2024-28182-0001.patch \
++    file://CVE-2024-28182-0002.patch \
+ "
+ SRC_URI[sha256sum] = "68271951324554c34501b85190f22f2221056db69f493afc3bbac8e7be21e7cc"
+ 
+-- 
+2.40.0
+
 
