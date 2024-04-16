@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A1EEC3064D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62734C2D0D0
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:12 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.13589.1713248038769373324
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.13427.1713248038174058471
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eq1MFKbv;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=F8XRElll;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58a6d15-9be9d319-8a48-4366-b0d8-2a4d27ef7f8e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JicCVZO8;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Sz5jeS8S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018ee58a6a3f-085e6e12-df15-4a62-87b1-c4af8dce91fe-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248038;
+	t=1713248037;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=z4B3R+HgSyICQcMHIsJLamik0KipHRyKUzEA38EV7OQ=;
-	b=eq1MFKbvHaCtK49K34UPGom/VZ34rmn3KePVy5Umuu+RJSmulR7dShc3SFOyAez8
-	EqStu/QzYazDFulxe/dYPEi+AjnAmZd+36xyL+1tgnpMAqau6H0HTxc/0kk2RJNvxyR
-	2Mw6+PPGlSD5OWigke5AfjMcbn8oRrplV3rFaa6c=
+	bh=AgBePGvZ4XJmPYoRQpF0qSmf+a4N5m2/8Lm4fBQOBLQ=;
+	b=JicCVZO8dM+DoS+OvzEgzSdZJC89UYMsgc/rtdVL9vjvoC5acso7KIyb1R4bKAEe
+	8Md4HAeYAz1ri7qsB+pZ8jaatLYtAtb/b09czQkk/tLBUWzRaY/cWj9yvGDw/pM09lM
+	4Q5SgShVSRo1+o6TfpOPwvavo43XKA2CKWYgRk5Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248038;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248037;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=z4B3R+HgSyICQcMHIsJLamik0KipHRyKUzEA38EV7OQ=;
-	b=F8XRElllGXResVOTJPByCQVSmZ2ZnRZX6wTiX1fMiV60aruGWruuKEM1Buwvr8Ha
-	aFuUlf3Fyjwq9ykf3WiC7HFrpVzyN2UgMh2N9pkQ+9W7k+g3QUYDgDMsas5ETXmJA7h
-	6LdfjGqa4Qv0baH+nf40o0CvWkI90zs+6D1Hvk3w=
-Content-Type: multipart/mixed; boundary="===============3168935244116955563=="
+	bh=AgBePGvZ4XJmPYoRQpF0qSmf+a4N5m2/8Lm4fBQOBLQ=;
+	b=Sz5jeS8S64SUG/fUDpQCaLC1XgRci2U2smxQruz9h39CmCuBn3OCLQRfcZWMbPPd
+	JgOdvLVwMHGbxHLy3cSeZDIg0/Jc4x/4Z8mzNHeL1bvdz0EgOQf/ajSdtegOo/dVLcS
+	X2O5y8N2So4RuDOofKyZVmdV6E+eEwv+sPBX09Oo=
+Content-Type: multipart/mixed; boundary="===============7142600498657663056=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] meson: upgrading to 1.4.0 SUCCEEDED
-Message-ID: <0101018ee58a6d15-9be9d319-8a48-4366-b0d8-2a4d27ef7f8e-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Apr 2024 06:13:58 +0000
+Subject: [AUH] glib-networking: upgrading to 2.80.0 SUCCEEDED
+Message-ID: <0101018ee58a6a3f-085e6e12-df15-4a62-87b1-c4af8dce91fe-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Apr 2024 06:13:57 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.31
+X-SES-Outgoing: 2024.04.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198280
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198263
 
---===============3168935244116955563==
+--===============7142600498657663056==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *meson* to *1.4.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.80.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-meson-upgrade-1.3.1-1.4.0.patch
+    - apply the patch: git am 0001-glib-networking-upgrade-2.78.1-2.80.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,284 +72,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5a8946813b0b089b2d18128b853ebb4b816463fc Mon Sep 17 00:00:00 2001
+From a1f0346e55853288ad7e98dadb11a54c18f9e609 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 18:37:53 +0000
-Subject: [PATCH] meson: upgrade 1.3.1 -> 1.4.0
+Date: Mon, 15 Apr 2024 17:59:49 +0000
+Subject: [PATCH] glib-networking: upgrade 2.78.1 -> 2.80.0
 
 ---
- .../meson/0001-Make-CPU-family-warnings-fatal.patch   | 11 +++++------
- ...odule-do-not-manipulate-the-environment-when.patch |  9 ++++-----
- .../0002-Support-building-allarch-recipes-again.patch |  7 +++----
- .../meson/{meson_1.3.1.bb => meson_1.4.0.bb}          |  2 +-
- 4 files changed, 13 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/meson/{meson_1.3.1.bb => meson_1.4.0.bb} (98%)
+ meta/recipes-core/glib-networking/glib-networking/eagain.patch  | 2 +-
+ .../{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb}    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb} (95%)
 
-diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-index 8ea7c35950..8c165c8172 100644
---- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-@@ -1,21 +1,20 @@
--From b77cbe67df5fa0998946503f207c256ee740bb5f Mon Sep 17 00:00:00 2001
-+From 20be7fea4e25e20e0900ca2cae0b7f73a164b736 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 3 Jul 2018 13:59:09 +0100
- Subject: [PATCH] Make CPU family warnings fatal
- 
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
--
- ---
-  mesonbuild/envconfig.py   | 4 ++--
-  mesonbuild/environment.py | 6 ++----
-  2 files changed, 4 insertions(+), 6 deletions(-)
- 
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 07f1229..a35c356 100644
-+index 0e9cd23..b44e60c 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -285,8 +285,8 @@ class MachineInfo(HoldableObject):
-+@@ -276,8 +276,8 @@ class MachineInfo(HoldableObject):
-                  'but is missing {}.'.format(minimum_literal - set(literal)))
-  
-          cpu_family = literal['cpu_family']
-@@ -27,10 +26,10 @@ index 07f1229..a35c356 100644
-          endian = literal['endian']
-          if endian not in ('little', 'big'):
- diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
--index 2ba2054..d798e3b 100644
-+index af69f64..248d6dd 100644
- --- a/mesonbuild/environment.py
- +++ b/mesonbuild/environment.py
--@@ -359,10 +359,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
-+@@ -379,10 +379,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
-          if compilers and not any_compiler_has_define(compilers, '__mips64'):
-              trial = 'mips'
-  
-diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
-index 2e0a4b1bbe..2a7b50b35d 100644
---- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+diff --git a/meta/recipes-core/glib-networking/glib-networking/eagain.patch b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
+index 6c2e3c634b..bff7ccd5da 100644
+--- a/meta/recipes-core/glib-networking/glib-networking/eagain.patch
++++ b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
 @@ -1,4 +1,4 @@
--From e85683698aa3556bf14fc6d35f2c067f16af520b Mon Sep 17 00:00:00 2001
-+From c8ab29fa596be03f63faaf97e623056b6f6817e9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 19 Nov 2018 14:24:26 +0100
- Subject: [PATCH] python module: do not manipulate the environment when calling
-@@ -6,16 +6,15 @@ Subject: [PATCH] python module: do not manipulate the environment when calling
+-From 5604707bed4b4a4bc4658c7158a18c1774775775 Mon Sep 17 00:00:00 2001
++From efd141b5d83c52ec000ddb61b4406dac9d8e0aee Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Sat, 6 May 2023 12:18:50 +0100
+ Subject: [PATCH] In autobuilder testing we regularly see glib-networking ptest
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+similarity index 95%
+rename from meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+index 5060d9fd7a..c8a1355548 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ SECTION = "libs"
+ DEPENDS = "glib-2.0-native glib-2.0"
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  mesonbuild/dependencies/python.py | 6 +-----
-  1 file changed, 1 insertion(+), 5 deletions(-)
+-SRC_URI[archive.sha256sum] = "e48f2ddbb049832cbb09230529c5e45daca9f0df0eda325f832f7379859bf09f"
++SRC_URI[archive.sha256sum] = "d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf"
  
- diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
--index 9aea6bd..8c13ede 100644
-+index b9b17f8..a305afb 100644
- --- a/mesonbuild/dependencies/python.py
- +++ b/mesonbuild/dependencies/python.py
--@@ -380,9 +380,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-+@@ -381,9 +381,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-                      empty.name = 'python'
-                      return empty
-  
-@@ -25,7 +24,7 @@ index 9aea6bd..8c13ede 100644
-                  try:
-                      return PythonPkgConfigDependency(name, env, kwargs, installation, True)
-                  finally:
--@@ -391,8 +388,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-+@@ -392,8 +389,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-                              os.environ[name] = value
-                          elif name in os.environ:
-                              del os.environ[name]
-diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-index a8396f30bb..6cfdb17cd3 100644
---- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-+++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-@@ -1,4 +1,4 @@
--From 6fb8db54929b40e1fd7ac949ef44f0d37df0bae9 Mon Sep 17 00:00:00 2001
-+From 61ac423c30b5db6918893854155c2e12628b543d Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Thu, 26 Jul 2018 16:32:49 +0200
- Subject: [PATCH] Support building allarch recipes again
-@@ -7,16 +7,15 @@ This registers "allarch" as a known CPU family.
- 
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
--
- ---
-  mesonbuild/envconfig.py | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index a35c356..436355f 100644
-+index b44e60c..c70e8cb 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -38,6 +38,7 @@ from pathlib import Path
-+@@ -28,6 +28,7 @@ from pathlib import Path
-  
-  
-  known_cpu_families = (
-diff --git a/meta/recipes-devtools/meson/meson_1.3.1.bb b/meta/recipes-devtools/meson/meson_1.4.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_1.3.1.bb
-rename to meta/recipes-devtools/meson/meson_1.4.0.bb
-index 9cc0cc31ab..d95014db54 100644
---- a/meta/recipes-devtools/meson/meson_1.3.1.bb
-+++ b/meta/recipes-devtools/meson/meson_1.4.0.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
-            "
--SRC_URI[sha256sum] = "6020568bdede1643d4fb41e28215be38eff5d52da28ac7d125457c59e0032ad7"
-+SRC_URI[sha256sum] = "8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)$"
- 
- inherit python_setuptools_build_meta github-releases
+ # Upstream note that for the openssl backend, half the tests where this backend don't return
+ # the expected error code or don't work as expected so default to gnutls
 -- 
 2.42.0
 
 
---===============3168935244116955563==
+--===============7142600498657663056==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-meson-upgrade-1.3.1-1.4.0.patch"
+ filename="0001-glib-networking-upgrade-2.78.1-2.80.0.patch"
 
-RnJvbSA1YTg5NDY4MTNiMGIwODliMmQxODEyOGI4NTNlYmI0YjgxNjQ2M2ZjIE1vbiBTZXAgMTcg
+RnJvbSBhMWYwMzQ2ZTU1ODUzMjg4YWQ3ZTk4ZGFkYjExYTU0YzE4ZjllNjA5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMTg6Mzc6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNvbjogdXBncmFkZSAxLjMuMSAtPiAxLjQuMAoKLS0tCiAuLi4vbWVzb24vMDAwMS1NYWtlLUNQ
-VS1mYW1pbHktd2FybmluZ3MtZmF0YWwucGF0Y2ggICB8IDExICsrKysrLS0tLS0tCiAuLi5vZHVs
-ZS1kby1ub3QtbWFuaXB1bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaCB8ICA5ICsrKyst
-LS0tLQogLi4uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0
-Y2ggfCAgNyArKystLS0tCiAuLi4vbWVzb24ve21lc29uXzEuMy4xLmJiID0+IG1lc29uXzEuNC4w
-LmJifSAgICAgICAgICB8ICAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyks
-IDE2IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi97bWVz
-b25fMS4zLjEuYmIgPT4gbWVzb25fMS40LjAuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdz
-LWZhdGFsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFr
-ZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoCmluZGV4IDhlYTdjMzU5NTAuLjhjMTY1
-YzgxNzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAx
-LU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1NYWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwu
-cGF0Y2gKQEAgLTEsMjEgKzEsMjAgQEAKLUZyb20gYjc3Y2JlNjdkZjVmYTA5OTg5NDY1MDNmMjA3
-YzI1NmVlNzQwYmI1ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjBiZTdmZWE0ZTI1
-ZTIwZTA5MDBjYTJjYWUwYjdmNzNhMTY0YjczNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBUdWUsIDMgSnVs
-IDIwMTggMTM6NTk6MDkgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBDUFUgZmFtaWx5IHdh
-cm5pbmdzIGZhdGFsCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbT0Ugc3BlY2lm
-aWNdCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgot
-CiAtLS0KICBtZXNvbmJ1aWxkL2VudmNvbmZpZy5weSAgIHwgNCArKy0tCiAgbWVzb25idWlsZC9l
-bnZpcm9ubWVudC5weSB8IDYgKystLS0tCiAgMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
-KyksIDYgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbmJ1aWxkL2VudmNvbmZpZy5w
-eSBiL21lc29uYnVpbGQvZW52Y29uZmlnLnB5Ci1pbmRleCAwN2YxMjI5Li5hMzVjMzU2IDEwMDY0
-NAoraW5kZXggMGU5Y2QyMy4uYjQ0ZTYwYyAxMDA2NDQKIC0tLSBhL21lc29uYnVpbGQvZW52Y29u
-ZmlnLnB5CiArKysgYi9tZXNvbmJ1aWxkL2VudmNvbmZpZy5weQotQEAgLTI4NSw4ICsyODUsOCBA
-QCBjbGFzcyBNYWNoaW5lSW5mbyhIb2xkYWJsZU9iamVjdCk6CitAQCAtMjc2LDggKzI3Niw4IEBA
-IGNsYXNzIE1hY2hpbmVJbmZvKEhvbGRhYmxlT2JqZWN0KToKICAgICAgICAgICAgICAgICAgJ2J1
-dCBpcyBtaXNzaW5nIHt9LicuZm9ybWF0KG1pbmltdW1fbGl0ZXJhbCAtIHNldChsaXRlcmFsKSkp
-CiAgCiAgICAgICAgICBjcHVfZmFtaWx5ID0gbGl0ZXJhbFsnY3B1X2ZhbWlseSddCkBAIC0yNywx
-MCArMjYsMTAgQEAgaW5kZXggMDdmMTIyOS4uYTM1YzM1NiAxMDA2NDQKICAgICAgICAgIGVuZGlh
-biA9IGxpdGVyYWxbJ2VuZGlhbiddCiAgICAgICAgICBpZiBlbmRpYW4gbm90IGluICgnbGl0dGxl
-JywgJ2JpZycpOgogZGlmZiAtLWdpdCBhL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkgYi9tZXNv
-bmJ1aWxkL2Vudmlyb25tZW50LnB5Ci1pbmRleCAyYmEyMDU0Li5kNzk4ZTNiIDEwMDY0NAoraW5k
-ZXggYWY2OWY2NC4uMjQ4ZDZkZCAxMDA2NDQKIC0tLSBhL21lc29uYnVpbGQvZW52aXJvbm1lbnQu
-cHkKICsrKyBiL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkKLUBAIC0zNTksMTAgKzM1OSw4IEBA
-IGRlZiBkZXRlY3RfY3B1X2ZhbWlseShjb21waWxlcnM6IENvbXBpbGVyc0RpY3QpIC0+IHN0cjoK
-K0BAIC0zNzksMTAgKzM3OSw4IEBAIGRlZiBkZXRlY3RfY3B1X2ZhbWlseShjb21waWxlcnM6IENv
-bXBpbGVyc0RpY3QpIC0+IHN0cjoKICAgICAgICAgIGlmIGNvbXBpbGVycyBhbmQgbm90IGFueV9j
-b21waWxlcl9oYXNfZGVmaW5lKGNvbXBpbGVycywgJ19fbWlwczY0Jyk6CiAgICAgICAgICAgICAg
-dHJpYWwgPSAnbWlwcycKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNv
-bi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25t
-ZW50LXdoZW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1w
-eXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1lbnZpcm9ubWVudC13aGVuLnBhdGNo
-CmluZGV4IDJlMGE0YjFiYmUuLjJhN2I1MGIzNWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUt
-dGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21l
-c29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3QtbWFuaXB1bGF0ZS10aGUtZW52aXJv
-bm1lbnQtd2hlbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZTg1NjgzNjk4YWEzNTU2YmYx
-NGZjNmQzNWYyYzA2N2YxNmFmNTIwYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzhh
-YjI5ZmE1OTZiZTAzZjYzZmFhZjk3ZTYyMzA1NmI2ZjY4MTdlOSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-RGF0ZTogTW9uLCAxOSBOb3YgMjAxOCAxNDoyNDoyNiArMDEwMAogU3ViamVjdDogW1BBVENIXSBw
-eXRob24gbW9kdWxlOiBkbyBub3QgbWFuaXB1bGF0ZSB0aGUgZW52aXJvbm1lbnQgd2hlbiBjYWxs
-aW5nCkBAIC02LDE2ICs2LDE1IEBAIFN1YmplY3Q6IFtQQVRDSF0gcHl0aG9uIG1vZHVsZTogZG8g
-bm90IG1hbmlwdWxhdGUgdGhlIGVudmlyb25tZW50IHdoZW4gY2FsbGluZwogCiBVcHN0cmVhbS1T
-dGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNdCiBTaWduZWQtb2ZmLWJ5OiBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KLQogLS0tCiAgbWVzb25i
-dWlsZC9kZXBlbmRlbmNpZXMvcHl0aG9uLnB5IHwgNiArLS0tLS0KICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbmJ1aWxk
-L2RlcGVuZGVuY2llcy9weXRob24ucHkgYi9tZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24u
-cHkKLWluZGV4IDlhZWE2YmQuLjhjMTNlZGUgMTAwNjQ0CitpbmRleCBiOWIxN2Y4Li5hMzA1YWZi
-IDEwMDY0NAogLS0tIGEvbWVzb25idWlsZC9kZXBlbmRlbmNpZXMvcHl0aG9uLnB5CiArKysgYi9t
-ZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkKLUBAIC0zODAsOSArMzgwLDYgQEAgZGVm
-IHB5dGhvbl9mYWN0b3J5KGVudjogJ0Vudmlyb25tZW50JywgZm9yX21hY2hpbmU6ICdNYWNoaW5l
-Q2hvaWNlJywKK0BAIC0zODEsOSArMzgxLDYgQEAgZGVmIHB5dGhvbl9mYWN0b3J5KGVudjogJ0Vu
-dmlyb25tZW50JywgZm9yX21hY2hpbmU6ICdNYWNoaW5lQ2hvaWNlJywKICAgICAgICAgICAgICAg
-ICAgICAgIGVtcHR5Lm5hbWUgPSAncHl0aG9uJwogICAgICAgICAgICAgICAgICAgICAgcmV0dXJu
-IGVtcHR5CiAgCkBAIC0yNSw3ICsyNCw3IEBAIGluZGV4IDlhZWE2YmQuLjhjMTNlZGUgMTAwNjQ0
-CiAgICAgICAgICAgICAgICAgIHRyeToKICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBQeXRo
-b25Qa2dDb25maWdEZXBlbmRlbmN5KG5hbWUsIGVudiwga3dhcmdzLCBpbnN0YWxsYXRpb24sIFRy
-dWUpCiAgICAgICAgICAgICAgICAgIGZpbmFsbHk6Ci1AQCAtMzkxLDggKzM4OCw3IEBAIGRlZiBw
-eXRob25fZmFjdG9yeShlbnY6ICdFbnZpcm9ubWVudCcsIGZvcl9tYWNoaW5lOiAnTWFjaGluZUNo
-b2ljZScsCitAQCAtMzkyLDggKzM4OSw3IEBAIGRlZiBweXRob25fZmFjdG9yeShlbnY6ICdFbnZp
-cm9ubWVudCcsIGZvcl9tYWNoaW5lOiAnTWFjaGluZUNob2ljZScsCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIG9zLmVudmlyb25bbmFtZV0gPSB2YWx1ZQogICAgICAgICAgICAgICAgICAg
-ICAgICAgIGVsaWYgbmFtZSBpbiBvcy5lbnZpcm9uOgogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBkZWwgb3MuZW52aXJvbltuYW1lXQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL21lc29uL21lc29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdh
-aW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0
-LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAppbmRleCBhODM5NmYzMGJiLi42
-Y2ZkYjE3Y2QzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24v
-MDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFs
-bGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmZiOGRiNTQ5
-MjliNDBlMWZkN2FjOTQ5ZWY0NGYwZDM3ZGYwYmFlOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gNjFhYzQyM2MzMGI1ZGI2OTE4ODkzODU0MTU1YzJlMTI2MjhiNTQzZCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29tPgog
-RGF0ZTogVGh1LCAyNiBKdWwgMjAxOCAxNjozMjo0OSArMDIwMAogU3ViamVjdDogW1BBVENIXSBT
-dXBwb3J0IGJ1aWxkaW5nIGFsbGFyY2ggcmVjaXBlcyBhZ2FpbgpAQCAtNywxNiArNywxNSBAQCBU
-aGlzIHJlZ2lzdGVycyAiYWxsYXJjaCIgYXMgYSBrbm93biBDUFUgZmFtaWx5LgogCiBVcHN0cmVh
-bS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW09FIHNwZWNpZmljXQogU2lnbmVkLW9mZi1ieTogUGV0
-ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+Ci0KIC0tLQogIG1l
-c29uYnVpbGQvZW52Y29uZmlnLnB5IHwgMSArCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspCiAKIGRpZmYgLS1naXQgYS9tZXNvbmJ1aWxkL2VudmNvbmZpZy5weSBiL21lc29uYnVpbGQv
-ZW52Y29uZmlnLnB5Ci1pbmRleCBhMzVjMzU2Li40MzYzNTVmIDEwMDY0NAoraW5kZXggYjQ0ZTYw
-Yy4uYzcwZThjYiAxMDA2NDQKIC0tLSBhL21lc29uYnVpbGQvZW52Y29uZmlnLnB5CiArKysgYi9t
-ZXNvbmJ1aWxkL2VudmNvbmZpZy5weQotQEAgLTM4LDYgKzM4LDcgQEAgZnJvbSBwYXRobGliIGlt
-cG9ydCBQYXRoCitAQCAtMjgsNiArMjgsNyBAQCBmcm9tIHBhdGhsaWIgaW1wb3J0IFBhdGgKICAK
-ICAKICBrbm93bl9jcHVfZmFtaWxpZXMgPSAoCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvbWVzb24vbWVzb25fMS4zLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24v
-bWVzb25fMS40LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL21lc29uL21lc29uXzEuMy4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvbWVzb24vbWVzb25fMS40LjAuYmIKaW5kZXggOWNjMGNjMzFhYi4uZDk1MDE0ZGI1
-NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uXzEuMy4xLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjQuMC5iYgpAQCAtMTUs
-NyArMTUsNyBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS9t
-ZXNvbi0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1NYWtlLUNQVS1mYW1p
-bHktd2FybmluZ3MtZmF0YWwucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMi1TdXBwb3J0
-LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaCBcCiAgICAgICAgICAgICIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI2MDIwNTY4YmRlZGUxNjQzZDRmYjQxZTI4MjE1YmUzOGVmZjVk
-NTJkYTI4YWM3ZDEyNTQ1N2M1OWUwMDMyYWQ3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhmZDY2
-MzBjMjVjMjdmMTQ4OWE4YTAzOTJiMzExYTYwNDgxYTNjMTYxYWE2OTliMzMwZTI1OTM1Yjc1MDEz
-OGQiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIoP1A8cHZlcj5cZCsoXC5cZCspKykkIgogCiBp
-bmhlcml0IHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgZ2l0aHViLXJlbGVhc2VzCi0tIAoy
-LjQyLjAKCg==
+CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMTc6NTk6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bGliLW5ldHdvcmtpbmc6IHVwZ3JhZGUgMi43OC4xIC0+IDIuODAuMAoKLS0tCiBtZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaCAgfCAy
+ICstCiAuLi4ve2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIgPT4gZ2xpYi1uZXR3b3JraW5nXzIu
+ODAuMC5iYn0gICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcve2ds
+aWItbmV0d29ya2luZ18yLjc4LjEuYmIgPT4gZ2xpYi1uZXR3b3JraW5nXzIuODAuMC5iYn0gKDk1
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1u
+ZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2lu
+Zy9nbGliLW5ldHdvcmtpbmcvZWFnYWluLnBhdGNoCmluZGV4IDZjMmUzYzYzNGIuLmJmZjdjY2Q1
+ZGEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5l
+dHdvcmtpbmcvZWFnYWluLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29y
+a2luZy9nbGliLW5ldHdvcmtpbmcvZWFnYWluLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1
+NjA0NzA3YmVkNGI0YTRiYzQ2NThjNzE1OGExOGMxNzc0Nzc1Nzc1IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBlZmQxNDFiNWQ4M2M1MmVjMDAwZGRiNjFiNDQwNmRhYzlkOGUwYWVlIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRlOiBTYXQsIDYgTWF5IDIwMjMgMTI6MTg6NTAg
+KzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gSW4gYXV0b2J1aWxkZXIgdGVzdGluZyB3ZSByZWd1bGFy
+bHkgc2VlIGdsaWItbmV0d29ya2luZyBwdGVzdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
+cmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuODAuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtp
+bmcvZ2xpYi1uZXR3b3JraW5nXzIuNzguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUv
+Z2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjgwLjAuYmIKaW5kZXggNTA2MGQ5ZmQ3
+YS4uYzhhMTM1NTU0OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3Jr
+aW5nL2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
+Yi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjgwLjAuYmIKQEAgLTE0LDcgKzE0LDcgQEAg
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUx
+MDc5MDA4YjM2NDUxNmMgXAogU0VDVElPTiA9ICJsaWJzIgogREVQRU5EUyA9ICJnbGliLTIuMC1u
+YXRpdmUgZ2xpYi0yLjAiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImU0OGYyZGRi
+YjA0OTgzMmNiYjA5MjMwNTI5YzVlNDVkYWNhOWYwZGYwZWRhMzI1ZjgzMmY3Mzc5ODU5YmYwOWYi
+CitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJkOGY0ZjFhYWIyMTMxNzlhZTMzNTE2MTdi
+NTlkYWI1ZGU2YmNjOWU3ODUwMjFlZWUxNzg5OThlYmQ0YmIzYWNmIgogCiAjIFVwc3RyZWFtIG5v
+dGUgdGhhdCBmb3IgdGhlIG9wZW5zc2wgYmFja2VuZCwgaGFsZiB0aGUgdGVzdHMgd2hlcmUgdGhp
+cyBiYWNrZW5kIGRvbid0IHJldHVybgogIyB0aGUgZXhwZWN0ZWQgZXJyb3IgY29kZSBvciBkb24n
+dCB3b3JrIGFzIGV4cGVjdGVkIHNvIGRlZmF1bHQgdG8gZ251dGxzCi0tIAoyLjQyLjAKCg==
 
---===============3168935244116955563==
+--===============7142600498657663056==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/meson (sysroot):
-  /usr/lib/python3.12/site-packages/meson-1.3.1.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGSIZE changed from 4443 to 7344 (+65%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGSIZE changed from 5360 to 6010 (+12%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1989,33 +1806,202 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3168935244116955563==
+--===============7142600498657663056==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/meson: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.3.1/meson-1.3.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.4.0/meson-1.4.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
-packages/core2-64-poky-linux/meson: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-dbg: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-dbg: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-dev: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-dev: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-doc: PKGSIZE changed from 5359 to 5356 (-0%)
-packages/core2-64-poky-linux/meson/meson-doc: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-doc: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-locale: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-locale: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-src: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-src: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson-staticdev: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson-staticdev: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/meson/meson: PKGSIZE changed from 7994812 to 7974910 (-0%)
-packages/core2-64-poky-linux/meson/meson: PV changed from "1.3.1" to "1.4.0"
-packages/core2-64-poky-linux/meson/meson: PKGV changed from 1.3.1 [default] to 1.4.0 [default]
-Changes to packages/core2-64-poky-linux/meson (sysroot):
-  /usr/lib/python3.12/site-packages/meson-1.3.1.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 840304 to 840480 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGSIZE changed from 8462 to 8914 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGSIZE changed from 7631 to 8085 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8338 to 8452 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGSIZE changed from 4443 to 7344 (+65%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGSIZE changed from 7261 to 7753 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGSIZE changed from 7951 to 8379 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGSIZE changed from 7652 to 8106 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGSIZE changed from 9523 to 10017 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGSIZE changed from 5360 to 6010 (+12%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGSIZE changed from 8335 to 8877 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGSIZE changed from 8313 to 8780 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGSIZE changed from 9064 to 9530 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGSIZE changed from 8124 to 8600 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGSIZE changed from 7414 to 7832 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGSIZE changed from 8047 to 8523 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGSIZE changed from 11868 to 12595 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGSIZE changed from 9719 to 10296 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGSIZE changed from 8342 to 8805 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGSIZE changed from 7830 to 8264 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGSIZE changed from 7953 to 8489 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGSIZE changed from 8173 to 8616 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGSIZE changed from 8219 to 8699 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGSIZE changed from 8060 to 8248 (+2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGSIZE changed from 10411 to 10968 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGSIZE changed from 8193 to 8607 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGSIZE changed from 7752 to 8181 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGSIZE changed from 7403 to 7805 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGSIZE changed from 11136 to 11741 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGSIZE changed from 6775 to 7146 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 744568 to 744834 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.78/glib-networking-2.78.1.tar.xz;name=archive file://run-ptest file://eagain.patch" to "https://download.gnome.org/sources//glib-networking/2.80/glib-networking-2.80.0.tar.xz;name=archive file://run-ptest file://eagain.patch"
+packages/core2-64-poky-linux/glib-networking: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3655,5 +3641,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3168935244116955563==--
+--===============7142600498657663056==--
 
