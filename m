@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33ED8C52D7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B79C52D7E
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:19 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.13579.1713248036884918981
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.13443.1713248039939065833
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:14:09 -0700
+ Mon, 15 Apr 2024 23:14:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EJgYVhHV;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ETSho1iR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018ee58a969d-eb4e88f9-ca47-4ef4-9a8a-249568cec78b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=G0YTwMpA;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aWoPKh/c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ee58aa370-31db4568-847e-4705-9eeb-2756f1f94e73-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248049;
+	t=1713248052;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AErRA79qAMPSijieFCTuDGBgzzznZKDQwSrB8IGigqc=;
-	b=EJgYVhHV62/9wC0tUU7tcs7a+mUm1M2V0IRYmk2NIYZayXULH9kzjdrwvtniNW97
-	dDzSVI+XEFQ08Ki3liNCBkYPjm6sJhjPvmiOSuOGfISbDBZLD2W6/MNSocnyj0DJkb3
-	cwAUqidVfJpsA9JIxktVFou5KiN0M0LOSirErIG4=
+	bh=4gmngh+yngrTJhEXirw5F9b+IWYKdKyb2FrRSupbMH8=;
+	b=G0YTwMpAYjDgw5Ebt9WVZUTdWBmqdLDJkdo9pLJIDQfAVVMgKj389FUjBKJcHZ+3
+	CcDrXjUid5j5Bpu2D+/1XNRiG/o8kdvlWRwq8dJJhCKxBMOJrSv5SeRFptj7jGh6R0W
+	hpHSeZMCsOvJP8I+BQxpixSne85Ti/CFJQs+9OrI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248049;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248052;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AErRA79qAMPSijieFCTuDGBgzzznZKDQwSrB8IGigqc=;
-	b=ETSho1iRKwPYlfwemANgovnrOyec96SIFtqheqC3xYx9zDB8UholzKeuHnNoOr7G
-	HxRQbe15hWwzoUQJBuOBPqUfLebOk/uL3ftj/bdIgL5GwQNt758U19pj1owbCuvlvjL
-	XuAYcWwHyUEv6SDd2J2cxWXuGhAD+GqaTLIDIW7g=
-Content-Type: multipart/mixed; boundary="===============7550626995080682236=="
+	bh=4gmngh+yngrTJhEXirw5F9b+IWYKdKyb2FrRSupbMH8=;
+	b=aWoPKh/cpaTo8+a4iyJVjOZjhoBoxEfLFLEkAyWxAbwj9U//ZqfSKPZQFPoTdpe2
+	dp2jlMZNUXw+TvqiU469lyY0Fvlo8qe7MrNsPSiZ8uNsahIEn1bSTv3E2iV39H6QB9a
+	TxAKlQs4l15fl8f5quBJO4/KofQ3ndzlCvh+WP9Y=
+Content-Type: multipart/mixed; boundary="===============2860266854296173175=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.3.280.0 SUCCEEDED
-Message-ID: <0101018ee58a969d-eb4e88f9-ca47-4ef4-9a8a-249568cec78b-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Apr 2024 06:14:08 +0000
+Subject: [AUH] at-spi2-core: upgrading to 2.52.0 SUCCEEDED
+Message-ID: <0101018ee58aa370-31db4568-847e-4705-9eeb-2756f1f94e73-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Apr 2024 06:14:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.193
+X-SES-Outgoing: 2024.04.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198354
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198427
 
---===============7550626995080682236==
+--===============2860266854296173175==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glslang* to *1.3.280.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.52.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.3.275.0-1.3.280.0.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.50.1-2.52.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,403 +72,48 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b590644afba2a12a8e0b72111ce4e85ca48aba50 Mon Sep 17 00:00:00 2001
+From d09111863556a9526bffcbbf3f26bbd3d390ef6e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 22:37:12 +0000
-Subject: [PATCH] glslang: upgrade 1.3.275.0 -> 1.3.280.0
+Date: Tue, 16 Apr 2024 03:57:38 +0000
+Subject: [PATCH] at-spi2-core: upgrade 2.50.1 -> 2.52.0
 
 ---
- .../glslang/0001-generate-glslang-pkg-config.patch     | 10 +++++-----
- .../{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb}     |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb} (96%)
+ .../atk/{at-spi2-core_2.50.1.bb => at-spi2-core_2.52.0.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.50.1.bb => at-spi2-core_2.52.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index 316a57fa4a..c2379b815f 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From 4cede5edcff96134baf35953d58595c4aa5f1fc5 Mon Sep 17 00:00:00 2001
-+From 9bce109e8668ce2e98c2cceff276a5e35421fad5 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-@@ -15,12 +15,12 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslang/glslang.pc.cmake.in
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.50.1.bb b/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
+similarity index 95%
+rename from meta/recipes-support/atk/at-spi2-core_2.50.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.52.0.bb
+index 6996ebebcd..cf221e0389 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
+@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
--index 37eecaad..6974935c 100644
-+index e4690f09..8e660bc5 100644
- --- a/glslang/CMakeLists.txt
- +++ b/glslang/CMakeLists.txt
--@@ -251,6 +251,8 @@ if(PROJECT_IS_TOP_LEVEL)
--         ")
--         install(FILES "${CMAKE_CURRENT_BINARY_DIR}/glslangTargets.cmake" DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
-+@@ -233,6 +233,8 @@ if(GLSLANG_ENABLE_INSTALL)
-+         install(TARGETS MachineIndependent EXPORT glslang-targets)
-+         install(TARGETS GenericCodeGen EXPORT glslang-targets)
-      endif()
- +    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/glslang.pc.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc @ONLY)
- +    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-diff --git a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-index 2fd1e72a26..637082c719 100644
---- a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
  
--SRCREV = "a91631b260cba3f22858d6c6827511e636c2458a"
-+SRCREV = "ee2f5d09eaf8f4e8d0d598bd2172fce290d4ca60"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
+-SRC_URI[sha256sum] = "5727b5c0687ac57ba8040e79bd6731b714a36b8fcf32190f236b8fb3698789e7"
++SRC_URI[sha256sum] = "0ac3fc8320c8d01fa147c272ba7fa03806389c6b03d3c406d0823e30e35ff5ab"
+ 
+ DEPENDS = " \
+ 	dbus \
 -- 
 2.42.0
 
 
---===============7550626995080682236==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.3.275.0-1.3.280.0.patch"
-
-RnJvbSBiNTkwNjQ0YWZiYTJhMTJhOGUwYjcyMTExY2U0ZTg1Y2E0OGFiYTUwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjI6Mzc6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuMy4yNzUuMCAtPiAxLjMuMjgwLjAKCi0tLQogLi4uL2dsc2xhbmcv
-MDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2ggICAgIHwgMTAgKysrKystLS0t
-LQogLi4uL3tnbHNsYW5nXzEuMy4yNzUuMC5iYiA9PiBnbHNsYW5nXzEuMy4yODAuMC5iYn0gICAg
-IHwgIDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL3tnbHNsYW5nXzEuMy4yNzUu
-MC5iYiA9PiBnbHNsYW5nXzEuMy4yODAuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ct
-Y29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAx
-LWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaAppbmRleCAzMTZhNTdmYTRhLi5jMjM3
-OWI4MTVmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5n
-LzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25m
-aWcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDRjZWRlNWVkY2ZmOTYxMzRiYWYzNTk1M2Q1
-ODU5NWM0YWE1ZjFmYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDliY2UxMDllODY2
-OGNlMmU5OGMyY2NlZmYyNzZhNWUzNTQyMWZhZDUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFN1biwg
-NyBGZWIgMjAyMSAwMTozMDozOSArMDAwMAogU3ViamVjdDogW1BBVENIXSBnZW5lcmF0ZSBnbHNs
-YW5nIHBrZy1jb25maWcKQEAgLTE1LDEyICsxNSwxMiBAQCBTaWduZWQtb2ZmLWJ5OiBKb3NlIFF1
-YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICBjcmVhdGUgbW9kZSAxMDA2NDQgZ2xz
-bGFuZy9nbHNsYW5nLnBjLmNtYWtlLmluCiAKIGRpZmYgLS1naXQgYS9nbHNsYW5nL0NNYWtlTGlz
-dHMudHh0IGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAotaW5kZXggMzdlZWNhYWQuLjY5NzQ5MzVj
-IDEwMDY0NAoraW5kZXggZTQ2OTBmMDkuLjhlNjYwYmM1IDEwMDY0NAogLS0tIGEvZ2xzbGFuZy9D
-TWFrZUxpc3RzLnR4dAogKysrIGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAotQEAgLTI1MSw2ICsy
-NTEsOCBAQCBpZihQUk9KRUNUX0lTX1RPUF9MRVZFTCkKLSAgICAgICAgICIpCi0gICAgICAgICBp
-bnN0YWxsKEZJTEVTICIke0NNQUtFX0NVUlJFTlRfQklOQVJZX0RJUn0vZ2xzbGFuZ1RhcmdldHMu
-Y21ha2UiIERFU1RJTkFUSU9OICR7Q01BS0VfSU5TVEFMTF9MSUJESVJ9L2NtYWtlKQorQEAgLTIz
-Myw2ICsyMzMsOCBAQCBpZihHTFNMQU5HX0VOQUJMRV9JTlNUQUxMKQorICAgICAgICAgaW5zdGFs
-bChUQVJHRVRTIE1hY2hpbmVJbmRlcGVuZGVudCBFWFBPUlQgZ2xzbGFuZy10YXJnZXRzKQorICAg
-ICAgICAgaW5zdGFsbChUQVJHRVRTIEdlbmVyaWNDb2RlR2VuIEVYUE9SVCBnbHNsYW5nLXRhcmdl
-dHMpCiAgICAgIGVuZGlmKCkKICsgICAgY29uZmlndXJlX2ZpbGUoJHtDTUFLRV9DVVJSRU5UX1NP
-VVJDRV9ESVJ9L2dsc2xhbmcucGMuY21ha2UuaW4gJHtDTUFLRV9DVVJSRU5UX0JJTkFSWV9ESVJ9
-L3BrZ2NvbmZpZy9nbHNsYW5nLnBjIEBPTkxZKQogKyAgICBpbnN0YWxsKEZJTEVTICR7Q01BS0Vf
-Q1VSUkVOVF9CSU5BUllfRElSfS9wa2djb25maWcvZ2xzbGFuZy5wYyBERVNUSU5BVElPTiAke0NN
-QUtFX0lOU1RBTExfTElCRElSfS9wa2djb25maWcpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yNzUuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjI4MC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjI3NS4w
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4y
-ODAuMC5iYgppbmRleCAyZmQxZTcyYTI2Li42MzcwODJjNzE5IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yNzUuMC5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yODAuMC5iYgpAQCAtOCw3ICs4LDcg
-QEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly93d3cua2hyb25vcy5vcmcvb3BlbmdsZXMvc2RrL3Rvb2xz
-L1JlZmVyZW5jZS1Db21waWxlciIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlICYgQlNELTItQ2xh
-dXNlICYgTUlUICYgQXBhY2hlLTIuMCAmIEdQTC0zLXdpdGgtYmlzb24tZXhjZXB0aW9uIgogTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PTJhMmI1YWNkN2JjNDg0NDk2
-NGNmZGE0NWZlODA3ZGMzIgogCi1TUkNSRVYgPSAiYTkxNjMxYjI2MGNiYTNmMjI4NThkNmM2ODI3
-NTExZTYzNmMyNDU4YSIKK1NSQ1JFViA9ICJlZTJmNWQwOWVhZjhmNGU4ZDBkNTk4YmQyMTcyZmNl
-MjkwZDRjYTYwIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9nbHNs
-YW5nLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAgIGZpbGU6Ly8w
-MDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCBcCiAgICAgICAgICAgICIKLS0g
-CjIuNDIuMAoK
-
---===============7550626995080682236==
+--===============2860266854296173175==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: removed "/usr/lib/cmake/SPIRVTargets.cmake /usr/lib/cmake/glslang-default-resource-limitsTargets.cmake /usr/lib/cmake/spirv-remapTargets.cmake /usr/lib/cmake/SPVRemapperTargets.cmake /usr/lib/cmake/glslang-standaloneTargets.cmake"
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPVRemapper.so.14.0.0 /usr/lib/libglslang.so.14.0.0 /usr/lib/libglslang-default-resource-limits.so.14.0.0 /usr/lib/libSPIRV.so.14.0.0", added "/usr/lib/libSPIRV.so.14.1.0 /usr/lib/libSPVRemapper.so.14.1.0 /usr/lib/libglslang-default-resource-limits.so.14.1.0 /usr/lib/libglslang.so.14.1.0"
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.14 changed symlink target from libglslang-default-resource-limits.so.14.0.0 to libglslang-default-resource-limits.so.14.1.0
-  /usr/lib/libglslang.so.14 changed symlink target from libglslang.so.14.0.0 to libglslang.so.14.1.0
-  /usr/lib/libSPIRV.so.14 changed symlink target from libSPIRV.so.14.0.0 to libSPIRV.so.14.1.0
-  /usr/lib/libSPVRemapper.so.14 changed symlink target from libSPVRemapper.so.14.0.0 to libSPVRemapper.so.14.1.0
-  /usr/lib/libglslang-default-resource-limits.so.14.0.0 moved to /usr/lib/libglslang-default-resource-limits.so.14.1.0
-  /usr/lib/libglslang.so.14.0.0 moved to /usr/lib/libglslang.so.14.1.0
-  /usr/lib/libSPIRV.so.14.0.0 moved to /usr/lib/libSPIRV.so.14.1.0
-  /usr/lib/libSPVRemapper.so.14.0.0 moved to /usr/lib/libSPVRemapper.so.14.1.0
-  /usr/lib/cmake/glslang-default-resource-limitsTargets.cmake was removed
-  /usr/lib/cmake/glslang-standaloneTargets.cmake was removed
-  /usr/lib/cmake/spirv-remapTargets.cmake was removed
-  /usr/lib/cmake/SPIRVTargets.cmake was removed
-  /usr/lib/cmake/SPVRemapperTargets.cmake was removed
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGSIZE changed from 3733 to 4154 (+11%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25010.1", added "/usr/lib/libatk-1.0.so.0.25209.1"
+packages/core2-64-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-kab"
+Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25010.1 to libatk-1.0.so.0.25209.1
+  /usr/lib/libatk-1.0.so.0.25010.1 moved to /usr/lib/libatk-1.0.so.0.25209.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1853,312 +1498,267 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7550626995080682236==
+--===============2860266854296173175==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang-default-resource-limits.so.14.0.0 /usr/lib/.debug/libglslang.so.14.0.0 /usr/lib/.debug/libSPVRemapper.so.14.0.0 /usr/lib/.debug/libSPIRV.so.14.0.0", added "/usr/lib/.debug/libSPVRemapper.so.14.1.0 /usr/lib/.debug/libglslang-default-resource-limits.so.14.1.0 /usr/lib/.debug/libglslang.so.14.1.0 /usr/lib/.debug/libSPIRV.so.14.1.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 82472200 to 83650464 (+1%)
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: removed "/usr/lib/cmake/glslang-standaloneTargets.cmake /usr/lib/cmake/SPVRemapperTargets.cmake /usr/lib/cmake/SPIRVTargets.cmake /usr/lib/cmake/glslang-default-resource-limitsTargets.cmake /usr/lib/cmake/spirv-remapTargets.cmake"
-packages/core2-64-poky-linux/glslang/glslang-dev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGSIZE changed from 276224 to 276064 (-0%)
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-doc: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-locale: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-src: FILELIST: directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/Public -> /usr/src/debug/glslang/1.3.280.0/glslang/Public, directory renamed /usr/src/debug/glslang/1.3.275.0/StandAlone -> /usr/src/debug/glslang/1.3.280.0/StandAlone, directory renamed /usr/src/debug/glslang/1.3.275.0/SPIRV -> /usr/src/debug/glslang/1.3.280.0/SPIRV, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/CInterface -> /usr/src/debug/glslang/1.3.280.0/glslang/CInterface, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/GenericCodeGen -> /usr/src/debug/glslang/1.3.280.0/glslang/GenericCodeGen, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/preprocessor -> /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/preprocessor, directory renamed /usr/src/debug/glslang/1.3.275.0/SPIRV/CInterface -> /usr/src/debug/glslang/1.3.280.0/SPIRV/CInterface, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/H
- LSL -> /usr/src/debug/glslang/1.3.280.0/glslang/HLSL, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/Include -> /usr/src/debug/glslang/1.3.280.0/glslang/Include, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/OSDependent/Unix -> /usr/src/debug/glslang/1.3.280.0/glslang/OSDependent/Unix, directory renamed /usr/src/debug/glslang/1.3.275.0/include/glslang -> /usr/src/debug/glslang/1.3.280.0/include/glslang, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/OSDependent -> /usr/src/debug/glslang/1.3.280.0/glslang/OSDependent, directory renamed /usr/src/debug/glslang/1.3.275.0/glslang/ResourceLimits -> /usr/src/debug/glslang/1.3.280.0/glslang/ResourceLimits, removed "/usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Initialize.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/ParseContextBase.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/ParseHelper.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Sy
- mbolTable.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Scan.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Versions.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/glslang_tab.cpp.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/SymbolTable.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/attribute.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/RemoveTree.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Initialize.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/attribute.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/iomapper.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/localintermediate.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/reflection.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/iomapper.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/propagateNoContraction.cpp /usr/src/debu
- g/glslang/1.3.275.0/glslang/MachineIndependent/propagateNoContraction.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/ParseHelper.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/intermOut.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/IntermTraverse.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/RemoveTree.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/SpirvIntrinsics.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Constant.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/ScanContext.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Scan.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/PoolAlloc.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/limits.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/ShaderLang.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/parseConst.cpp /usr/src/debug/glslang/1.3.275.0/g
- lslang/MachineIndependent/Versions.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/InfoSink.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/reflection.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/Intermediate.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/LiveTraverser.h /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/linkValidate.cpp /usr/src/debug/glslang/1.3.275.0/glslang/MachineIndependent/parseVersions.h", added "/usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Initialize.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/ParseContextBase.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/ParseHelper.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/SymbolTable.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Scan.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/span.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndepen
- dent/Versions.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/glslang_tab.cpp.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/SymbolTable.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/attribute.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/RemoveTree.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Initialize.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/attribute.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/iomapper.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/localintermediate.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/reflection.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/iomapper.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/propagateNoContraction.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/propagateNoContraction.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Pars
- eHelper.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/intermOut.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/IntermTraverse.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/RemoveTree.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/SpirvIntrinsics.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Constant.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/ScanContext.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Scan.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/PoolAlloc.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/limits.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/ShaderLang.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/parseConst.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Versions.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/InfoSink.cpp /usr/src/debug/glslang/1.3
- .280.0/glslang/MachineIndependent/reflection.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/Intermediate.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/LiveTraverser.h /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/linkValidate.cpp /usr/src/debug/glslang/1.3.280.0/glslang/MachineIndependent/parseVersions.h"
-packages/core2-64-poky-linux/glslang/glslang-src: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-src: PKGSIZE changed from 4900643 to 4931318 (+1%)
-packages/core2-64-poky-linux/glslang/glslang-src: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPVRemapper.so.14.0.0 /usr/lib/libSPIRV.so.14.0.0 /usr/lib/libglslang-default-resource-limits.so.14.0.0 /usr/lib/libglslang.so.14.0.0", added "/usr/lib/libSPVRemapper.so.14.1.0 /usr/lib/libglslang.so.14.1.0 /usr/lib/libSPIRV.so.14.1.0 /usr/lib/libglslang-default-resource-limits.so.14.1.0"
-packages/core2-64-poky-linux/glslang/glslang: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang/glslang: PKGSIZE changed from 5958841 to 5984409 (+0%)
-packages/core2-64-poky-linux/glslang/glslang: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/glslang: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/glslang: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.14 changed symlink target from libglslang-default-resource-limits.so.14.0.0 to libglslang-default-resource-limits.so.14.1.0
-  /usr/lib/libglslang.so.14 changed symlink target from libglslang.so.14.0.0 to libglslang.so.14.1.0
-  /usr/lib/libSPIRV.so.14 changed symlink target from libSPIRV.so.14.0.0 to libSPIRV.so.14.1.0
-  /usr/lib/libSPVRemapper.so.14 changed symlink target from libSPVRemapper.so.14.0.0 to libSPVRemapper.so.14.1.0
-  /usr/lib/libglslang-default-resource-limits.so.14.0.0 moved to /usr/lib/libglslang-default-resource-limits.so.14.1.0
-  /usr/lib/libglslang.so.14.0.0 moved to /usr/lib/libglslang.so.14.1.0
-  /usr/lib/libSPIRV.so.14.0.0 moved to /usr/lib/libSPIRV.so.14.1.0
-  /usr/lib/libSPVRemapper.so.14.0.0 moved to /usr/lib/libSPVRemapper.so.14.1.0
-  /usr/lib/cmake/glslang-default-resource-limitsTargets.cmake was removed
-  /usr/lib/cmake/glslang-standaloneTargets.cmake was removed
-  /usr/lib/cmake/spirv-remapTargets.cmake was removed
-  /usr/lib/cmake/SPIRVTargets.cmake was removed
-  /usr/lib/cmake/SPVRemapperTargets.cmake was removed
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.25010.1", added "/usr/lib/.debug/libatk-1.0.so.0.25209.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 1993384 to 2025424 (+2%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 2088752 to 2122916 (+2%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGSIZE changed from 10825 to 11128 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGSIZE changed from 10679 to 11048 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGSIZE changed from 10308 to 10676 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGSIZE changed from 10644 to 10360 (-3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGSIZE changed from 11120 to 11448 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGSIZE changed from 10552 to 10823 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGSIZE changed from 11796 to 12231 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGSIZE changed from 10929 to 11395 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGSIZE changed from 10903 to 11169 (+2%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGSIZE changed from 10287 to 10625 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGSIZE changed from 10620 to 11001 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGSIZE changed from 10119 to 10456 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGSIZE changed from 15748 to 16321 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGSIZE changed from 3733 to 4154 (+11%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGSIZE changed from 10331 to 10689 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGSIZE changed from 11023 to 11285 (+2%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGSIZE changed from 10711 to 11171 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGSIZE changed from 10238 to 10596 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGSIZE changed from 10637 to 11040 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGSIZE changed from 13700 to 14200 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGSIZE changed from 10419 to 10797 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGSIZE changed from 10158 to 10526 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGSIZE changed from 10604 to 10901 (+3%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGSIZE changed from 14270 to 13034 (-9%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGSIZE changed from 13620 to 14169 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGSIZE changed from 9732 to 10077 (+4%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2020764 to 2046591 (+1%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25010.1", added "/usr/lib/libatk-1.0.so.0.25209.1"
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 935683 to 946595 (+1%)
+packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.50.1" to "2.52.0"
+packages/core2-64-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.50/at-spi2-core-2.50.1.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.52/at-spi2-core-2.52.0.tar.xz"
+packages/core2-64-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-kab"
+packages/core2-64-poky-linux/at-spi2-core: PKGV changed from 2.50.1 [default] to 2.52.0 [default]
+packages/core2-64-poky-linux/at-spi2-core: PV changed from "2.50.1" to "2.52.0"
+Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25010.1 to libatk-1.0.so.0.25209.1
+  /usr/lib/libatk-1.0.so.0.25010.1 moved to /usr/lib/libatk-1.0.so.0.25209.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3543,5 +3143,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7550626995080682236==--
+--===============2860266854296173175==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-at-spi2-core-upgrade-2.50.1-2.52.0.patch"
+
+RnJvbSBkMDkxMTE4NjM1NTZhOTUyNmJmZmNiYmYzZjI2YmJkM2QzOTBlZjZlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDM6NTc6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi41MC4xIC0+IDIuNTIuMAoKLS0tCiAuLi4vYXRrL3thdC1z
+cGkyLWNvcmVfMi41MC4xLmJiID0+IGF0LXNwaTItY29yZV8yLjUyLjAuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsve2F0LXNwaTItY29yZV8yLjUwLjEuYmIgPT4gYXQtc3Bp
+Mi1jb3JlXzIuNTIuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9hdGsvYXQtc3BpMi1jb3JlXzIuNTAuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
+dC1zcGkyLWNvcmVfMi41Mi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi41MC4xLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNTIuMC5iYgppbmRleCA2OTk2
+ZWJlYmNkLi5jZjIyMWUwMzg5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsv
+YXQtc3BpMi1jb3JlXzIuNTAuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQt
+c3BpMi1jb3JlXzIuNTIuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBNQUpfVkVSID0gIiR7QG9lLnV0
+aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0iCiAKIFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJS
+T1J9LyR7QlBOfS8ke01BSl9WRVJ9LyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICI1NzI3YjVjMDY4N2FjNTdiYTgwNDBlNzliZDY3MzFiNzE0YTM2YjhmY2YzMjE5
+MGYyMzZiOGZiMzY5ODc4OWU3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBhYzNmYzgzMjBjOGQw
+MWZhMTQ3YzI3MmJhN2ZhMDM4MDYzODljNmIwM2QzYzQwNmQwODIzZTMwZTM1ZmY1YWIiCiAKIERF
+UEVORFMgPSAiIFwKIAlkYnVzIFwKLS0gCjIuNDIuMAoK
+
+--===============2860266854296173175==--
 
