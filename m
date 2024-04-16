@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EC3C3271F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57CBC32795
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:13 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.13589.1713248038769373324
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.13470.1713248052687708924
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:14:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OH63Gzf7;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nDuDwa2D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58aa53a-2ce2a019-4ad8-4895-bb79-023c0d4f4329-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=H/G66659;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zHCgmZsc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018ee58aa3af-1c3fb701-42e2-44a4-847d-375c64a67f47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1713248052;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZsbsDoxX1jxIQJ8GHbqrozuW7CLKDspFvitPuLJVhvc=;
-	b=OH63Gzf7L/o436whnbe8kITVPKLXt1RCG0a75PM/LLbhcJ4/FVBvT+eZuVO82iON
-	dip2+UuziGt5I5+CmExB9czYKOIc9HiEPUGEVE13YvCJ+hDGyyi5IAExg68Fpg4W4EM
-	8wAc+VWbe8vcytuulV+L7i1SjthpgULdkWlnxjMs=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=i6buFZjCXPmxIrHv7rewZU/9oy/O9hyFBar3RcH+uzk=;
+	b=H/G66659Q8tMphB399p40dB/EsfdNhzuzGIQPvGD8i1sEkXF73IcLrbcL7gQUmZ0
+	KcWMV0MGPAv7cnrNYeEm+XMPV0G6XhbNm9GPCFd9T1d4fEaYvPX95wuDE08Xq858/Rh
+	IZ/z8h0fsU1vYsnKN7KYlPZ/fOYL/7tSpmQA6lJI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248052;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZsbsDoxX1jxIQJ8GHbqrozuW7CLKDspFvitPuLJVhvc=;
-	b=nDuDwa2D/EkyY6RX1AAMTmiiyzCdPolK5vv/o31jI4mj+RjzbvbWwFtT7YfqOPn9
-	xlaiGYNGwWVgULQrljxgXl+1XbTCZC2xK1/ine2pc5g7L7uNf15F8+xLynxqOFE7oBV
-	gDJ1NGAjfyjEVxr1BKa8TNaJeKkj1f1j+cOFOqOU=
-Content-Type: multipart/mixed; boundary="===============3251517368493055217=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=i6buFZjCXPmxIrHv7rewZU/9oy/O9hyFBar3RcH+uzk=;
+	b=zHCgmZscUcMk1k8i4Rnx9NFw8NjlxIk5kSV9sTvng/Q1OdZigLsdxyZPq4EgazFk
+	+3nEfMdW1dY8fZyTbzbYHE0sQ5tThaEEHaAhXgg5vNWcorvUjEVVJrhnWGztTDjPR0G
+	vYzhicpJOB8j1hDXpctYAdCElDoHiHgzf+GVxdAw=
+Content-Type: multipart/mixed; boundary="===============8464200137850366231=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap-ng: upgrading to 0.8.5 SUCCEEDED
-Message-ID: <0101018ee58aa53a-2ce2a019-4ad8-4895-bb79-023c0d4f4329-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libassuan: upgrading to 2.5.7 SUCCEEDED
+Message-ID: <0101018ee58aa3af-1c3fb701-42e2-44a4-847d-375c64a67f47-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.31
+X-SES-Outgoing: 2024.04.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198422
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198420
 
---===============3251517368493055217==
+--===============8464200137850366231==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcap-ng* to *0.8.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *libassuan* to *2.5.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libcap-ng-upgrade-0.8.4-0.8.5.patch
+    - apply the patch: git am 0001-libassuan-upgrade-2.5.6-2.5.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,175 +71,146 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 83c0abf57abd477983914d92777c4d6865ee2ac3 Mon Sep 17 00:00:00 2001
+From 8b7e19ccd4ed6327f6b0880097f154a1af14479f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Apr 2024 05:38:34 +0000
-Subject: [PATCH] libcap-ng: upgrade 0.8.4 -> 0.8.5
+Date: Tue, 16 Apr 2024 05:24:22 +0000
+Subject: [PATCH] libassuan: upgrade 2.5.6 -> 2.5.7
 
 ---
- .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
- meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
- ...{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} |  0
- 3 files changed, 2 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} (100%)
+ .../libassuan/libassuan-add-pkgconfig-support.patch       | 8 +++++---
+ .../libassuan/{libassuan_2.5.6.bb => libassuan_2.5.7.bb}  | 2 +-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/libassuan/{libassuan_2.5.6.bb => libassuan_2.5.7.bb} (93%)
 
-diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-deleted file mode 100644
-index fb424fe725..0000000000
---- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
--From: Steve Grubb <ausearch.1@gmail.com>
--Date: Thu, 4 Jan 2024 15:06:29 -0500
--Subject: [PATCH] Remove python global exception handler since its deprecated
--
--Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- bindings/src/capng_swig.i | 7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
--index fcdaf18..fa85e13 100644
----- a/bindings/src/capng_swig.i
--+++ b/bindings/src/capng_swig.i
--@@ -30,13 +30,6 @@
-- 
-- %varargs(16, signed capability = 0) capng_updatev;
-- 
---%except(python) {
---  $action
---  if (result < 0) {
---    PyErr_SetFromErrno(PyExc_OSError);
---    return NULL;
---  }
---}
-- #endif
-- 
-- %define __signed__
+diff --git a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
+index fe811254d3..287a415cd6 100644
+--- a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
++++ b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
+@@ -1,3 +1,8 @@
++From 27b8cc86b5f06fd0ff568d68733a984c6c52bcee Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Thu, 22 May 2014 10:50:00 +0100
++Subject: [PATCH] libassuan: Improve pkgconfig support
++
+ Add pkgconfig support to libassuan.
+ This patch is rejected by upstream for the reason below:
+ They think pkgconfig adds no portability and maintaining them is not worthwhile.
+@@ -130,6 +135,3 @@ index df50484..380a48a 100644
+      ifelse([$3], , :, [$3])
+    fi
+    AC_SUBST(LIBASSUAN_CFLAGS)
 --- 
--2.43.2
+-2.25.1
 -
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 845b7c2f0a..875337b954 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+diff --git a/meta/recipes-support/libassuan/libassuan_2.5.6.bb b/meta/recipes-support/libassuan/libassuan_2.5.7.bb
+similarity index 93%
+rename from meta/recipes-support/libassuan/libassuan_2.5.6.bb
+rename to meta/recipes-support/libassuan/libassuan_2.5.7.bb
+index 7e899e7399..d1e622635f 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.5.6.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.5.7.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
+            file://libassuan-add-pkgconfig-support.patch \
+           "
  
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
--           file://fix-issues-with-swig-4-2.patch \
--           "
-+SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "e9fd27218d5394904e4e39788f9b1742711c3e6b41689a31aa3380bd5aa4f426"
++SRC_URI[sha256sum] = "0103081ffc27838a2e50479153ca105e873d3d65d8a9593282e9c94c7e6afb76"
  
--SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
-+SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
+ BINCONFIG = "${bindir}/libassuan-config"
  
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-similarity index 100%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
 -- 
 2.42.0
 
 
---===============3251517368493055217==
+--===============8464200137850366231==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libassuan/libassuan: FILELIST: removed "/usr/lib/libassuan.so.0.8.6", added "/usr/lib/libassuan.so.0.8.7"
+Changes to packages/core2-64-poky-linux/libassuan (sysroot):
+  /usr/lib/libassuan.so.0 changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
+  /usr/lib/libassuan.so changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
+  /usr/lib/libassuan.so.0.8.6 moved to /usr/lib/libassuan.so.0.8.7
+
+--===============8464200137850366231==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libcap-ng-upgrade-0.8.4-0.8.5.patch"
+ filename="0001-libassuan-upgrade-2.5.6-2.5.7.patch"
 
-RnJvbSA4M2MwYWJmNTdhYmQ0Nzc5ODM5MTRkOTI3NzdjNGQ2ODY1ZWUyYWMzIE1vbiBTZXAgMTcg
+RnJvbSA4YjdlMTljY2Q0ZWQ2MzI3ZjZiMDg4MDA5N2YxNTRhMWFmMTQ0NzlmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDU6Mzg6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjYXAtbmc6IHVwZ3JhZGUgMC44LjQgLT4gMC44LjUKCi0tLQogLi4uL2ZpbGVzL2ZpeC1pc3N1
-ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaCAgICAgIHwgMzIgLS0tLS0tLS0tLS0tLS0tLS0tLQogbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5pbmMgIHwgIDYgKystLQogLi4u
-e2xpYmNhcC1uZ18wLjguNC5iYiA9PiBsaWJjYXAtbmdfMC44LjUuYmJ9IHwgIDAKIDMgZmlsZXMg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRo
-LXN3aWctNC0yLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL3ts
-aWJjYXAtbmdfMC44LjQuYmIgPT4gbGliY2FwLW5nXzAuOC41LmJifSAoMTAwJSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRo
-LXN3aWctNC0yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2ZpbGVzL2Zp
-eC1pc3N1ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggZmI0MjRmZTcyNS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJj
-YXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoCisrKyAvZGV2L251bGwK
-QEAgLTEsMzIgKzAsMCBAQAotRnJvbSAzNTVlYWRhMmQyMDg4NjI4N2NmZmMxNmUzMDQwODdkZDZm
-NjZhZTM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogU3RldmUgR3J1YmIgPGF1c2Vh
-cmNoLjFAZ21haWwuY29tPgotRGF0ZTogVGh1LCA0IEphbiAyMDI0IDE1OjA2OjI5IC0wNTAwCi1T
-dWJqZWN0OiBbUEFUQ0hdIFJlbW92ZSBweXRob24gZ2xvYmFsIGV4Y2VwdGlvbiBoYW5kbGVyIHNp
-bmNlIGl0cyBkZXByZWNhdGVkCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8v
-Z2l0aHViLmNvbS9zdGV2ZWdydWJiL2xpYmNhcC1uZy9jb21taXQvMzA0NTNiNjU1Mzk0OGNkMDVj
-NDM4ZjlmNTA5MDEzZTNiYjg0ZjI1Yl0KLVNpZ25lZC1vZmYtYnk6IEFudWogTWl0dGFsIDxhbnVq
-Lm1pdHRhbEBpbnRlbC5jb20+Ci0tLS0KLSBiaW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pIHwgNyAt
-LS0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDcgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9i
-aW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pIGIvYmluZGluZ3Mvc3JjL2NhcG5nX3N3aWcuaQotaW5k
-ZXggZmNkYWYxOC4uZmE4NWUxMyAxMDA2NDQKLS0tLSBhL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2ln
-LmkKLSsrKyBiL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkKLUBAIC0zMCwxMyArMzAsNiBAQAot
-IAotICV2YXJhcmdzKDE2LCBzaWduZWQgY2FwYWJpbGl0eSA9IDApIGNhcG5nX3VwZGF0ZXY7Ci0g
-Ci0tJWV4Y2VwdChweXRob24pIHsKLS0gICRhY3Rpb24KLS0gIGlmIChyZXN1bHQgPCAwKSB7Ci0t
-ICAgIFB5RXJyX1NldEZyb21FcnJubyhQeUV4Y19PU0Vycm9yKTsKLS0gICAgcmV0dXJuIE5VTEw7
-Ci0tICB9Ci0tfQotICNlbmRpZgotIAotICVkZWZpbmUgX19zaWduZWRfXwotLS0gCi0yLjQzLjIK
-LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5p
-bmMgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmluYwppbmRleCA4
-NDViN2MyZjBhLi44NzUzMzdiOTU0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJjYXAtbmcvbGliY2FwLW5nLmluYworKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAt
-bmcvbGliY2FwLW5nLmluYwpAQCAtNywxMSArNyw5IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vci1s
-YXRlciAmIExHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
-WUlORzttZDU9OTRkNTVkNTEyYTliYTM2Y2FhOWI3ZGYwNzliYWUxOWYgXAogCQkgICAgZmlsZTov
-L0NPUFlJTkcuTElCO21kNT1lM2VkYTAxZDk4MTVmOGQyNGFhZTJkYmQ4OWI2OGIwNiIKIAotU1JD
-X1VSSSA9ICJodHRwczovL3Blb3BsZS5yZWRoYXQuY29tL3NncnViYi9saWJjYXAtbmcvbGliY2Fw
-LW5nLSR7UFZ9LnRhci5neiBcCi0gICAgICAgICAgIGZpbGU6Ly9maXgtaXNzdWVzLXdpdGgtc3dp
-Zy00LTIucGF0Y2ggXAotICAgICAgICAgICAiCitTUkNfVVJJID0gImh0dHBzOi8vcGVvcGxlLnJl
-ZGhhdC5jb20vc2dydWJiL2xpYmNhcC1uZy9saWJjYXAtbmctJHtQVn0udGFyLmd6IgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNjg1ODFkM2IzOGU3NTUzY2I2ZjZkZGY3ODEzYjFmYzk5ZTUyODU2
-ZjIxNDIxZjdiNDc3Y2U1YWJkMjYwNWE4YSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzYmE1Mjk0
-ZDFjYmRmYTk4YWZhYWNmYmMwMGI2YWY5ZWQyYjgzZThhMjE4MTcxODVkZmQ4NDRjYzhjN2FjNmZm
-IgogCiBFWFRSQV9PRUNPTkY6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICIgLS13aXRoLWNhcGFiaWxp
-dHlfaGVhZGVyPSR7U1RBR0lOR19JTkNESVJ9L2xpbnV4L2NhcGFiaWxpdHkuaCIKIEVYVFJBX09F
-Q09ORjphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiAtLXdpdGgtY2FwYWJpbGl0eV9oZWFkZXI9
-JHtTVEFHSU5HX0lOQ0RJUn0vbGludXgvY2FwYWJpbGl0eS5oIgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZ18wLjguNC5iYiBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdfMC44LjUuYmIKc2ltaWxhcml0eSBpbmRleCAx
-MDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdf
-MC44LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAt
-bmdfMC44LjUuYmIKLS0gCjIuNDIuMAoK
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDU6MjQ6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhc3N1YW46IHVwZ3JhZGUgMi41LjYgLT4gMi41LjcKCi0tLQogLi4uL2xpYmFzc3Vhbi9saWJh
+c3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBwb3J0LnBhdGNoICAgICAgIHwgOCArKysrKy0tLQogLi4u
+L2xpYmFzc3Vhbi97bGliYXNzdWFuXzIuNS42LmJiID0+IGxpYmFzc3Vhbl8yLjUuNy5iYn0gIHwg
+MiArLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliYXNzdWFuL3tsaWJhc3N1YW5fMi41LjYuYmIg
+PT4gbGliYXNzdWFuXzIuNS43LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW4vbGliYXNzdWFuLWFkZC1wa2djb25maWctc3VwcG9y
+dC5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW4vbGliYXNz
+dWFuLWFkZC1wa2djb25maWctc3VwcG9ydC5wYXRjaAppbmRleCBmZTgxMTI1NGQzLi4yODdhNDE1
+Y2Q2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJhc3N1YW4vbGliYXNzdWFu
+L2xpYmFzc3Vhbi1hZGQtcGtnY29uZmlnLXN1cHBvcnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliYXNzdWFuL2xpYmFzc3Vhbi9saWJhc3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBw
+b3J0LnBhdGNoCkBAIC0xLDMgKzEsOCBAQAorRnJvbSAyN2I4Y2M4NmI1ZjA2ZmQwZmY1NjhkNjg3
+MzNhOTg0YzZjNTJiY2VlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogQ2hlbiBRaSA8
+UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgorRGF0ZTogVGh1LCAyMiBNYXkgMjAxNCAxMDo1MDowMCAr
+MDEwMAorU3ViamVjdDogW1BBVENIXSBsaWJhc3N1YW46IEltcHJvdmUgcGtnY29uZmlnIHN1cHBv
+cnQKKwogQWRkIHBrZ2NvbmZpZyBzdXBwb3J0IHRvIGxpYmFzc3Vhbi4KIFRoaXMgcGF0Y2ggaXMg
+cmVqZWN0ZWQgYnkgdXBzdHJlYW0gZm9yIHRoZSByZWFzb24gYmVsb3c6CiBUaGV5IHRoaW5rIHBr
+Z2NvbmZpZyBhZGRzIG5vIHBvcnRhYmlsaXR5IGFuZCBtYWludGFpbmluZyB0aGVtIGlzIG5vdCB3
+b3J0aHdoaWxlLgpAQCAtMTMwLDYgKzEzNSwzIEBAIGluZGV4IGRmNTA0ODQuLjM4MGE0OGEgMTAw
+NjQ0CiAgICAgIGlmZWxzZShbJDNdLCAsIDosIFskM10pCiAgICBmaQogICAgQUNfU1VCU1QoTElC
+QVNTVUFOX0NGTEFHUykKLS0tIAotMi4yNS4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41LjYuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJhc3N1YW4vbGliYXNzdWFuXzIuNS43LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41LjYuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41Ljcu
+YmIKaW5kZXggN2U4OTllNzM5OS4uZDFlNjIyNjM1ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliYXNzdWFuL2xpYmFzc3Vhbl8yLjUuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJhc3N1YW4vbGliYXNzdWFuXzIuNS43LmJiCkBAIC0yMCw3ICsyMCw3IEBAIFNS
+Q19VUkkgPSAiJHtHTlVQR19NSVJST1J9L2xpYmFzc3Vhbi9saWJhc3N1YW4tJHtQVn0udGFyLmJ6
+MiBcCiAgICAgICAgICAgIGZpbGU6Ly9saWJhc3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBwb3J0LnBh
+dGNoIFwKICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlOWZkMjcyMThkNTM5
+NDkwNGU0ZTM5Nzg4ZjliMTc0MjcxMWMzZTZiNDE2ODlhMzFhYTMzODBiZDVhYTRmNDI2IgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjAxMDMwODFmZmMyNzgzOGEyZTUwNDc5MTUzY2ExMDVlODczZDNk
+NjVkOGE5NTkzMjgyZTljOTRjN2U2YWZiNzYiCiAKIEJJTkNPTkZJRyA9ICIke2JpbmRpcn0vbGli
+YXNzdWFuLWNvbmZpZyIKIAotLSAKMi40Mi4wCgo=
 
---===============3251517368493055217==
+--===============8464200137850366231==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libcap-ng: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng: SRC_URI changed from "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz file://fix-issues-with-swig-4-2.patch" to "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.5.tar.gz"
-packages/core2-64-poky-linux/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGSIZE changed from 166944 to 167440 (+0%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGSIZE changed from 5249 to 5214 (-1%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGSIZE changed from 80819 to 81067 (+0%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libassuan: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.6.tar.bz2 file://libassuan-add-pkgconfig-support.patch" to "https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.7.tar.bz2 file://libassuan-add-pkgconfig-support.patch"
+packages/core2-64-poky-linux/libassuan: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-dbg: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-dbg: FILELIST: removed "/usr/lib/.debug/libassuan.so.0.8.6", added "/usr/lib/.debug/libassuan.so.0.8.7"
+packages/core2-64-poky-linux/libassuan/libassuan-dbg: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-dev: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-dev: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-doc: PKGSIZE changed from 157500 to 157539 (+0%)
+packages/core2-64-poky-linux/libassuan/libassuan-doc: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-doc: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-locale: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-locale: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-src: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-src: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan-staticdev: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan-staticdev: PV changed from "2.5.6" to "2.5.7"
+packages/core2-64-poky-linux/libassuan/libassuan: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
+packages/core2-64-poky-linux/libassuan/libassuan: FILELIST: removed "/usr/lib/libassuan.so.0.8.6", added "/usr/lib/libassuan.so.0.8.7"
+packages/core2-64-poky-linux/libassuan/libassuan: PV changed from "2.5.6" to "2.5.7"
+Changes to packages/core2-64-poky-linux/libassuan (sysroot):
+  /usr/lib/libassuan.so.0 changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
+  /usr/lib/libassuan.so changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
+  /usr/lib/libassuan.so.0.8.6 moved to /usr/lib/libassuan.so.0.8.7
 
---===============3251517368493055217==--
+--===============8464200137850366231==--
 
