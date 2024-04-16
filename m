@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6283C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:14 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.13450.1713248041096109880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2580C3DA5C
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:15 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.13427.1713248038174058471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:14:12 -0700
+ Mon, 15 Apr 2024 23:14:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K0tvYlGs;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AGJXrIv/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018ee58aa18f-33ca7345-f267-4373-9e04-e7f311d1c8c5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hf7ATXu3;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=t6Fx+/uy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018ee58a9e44-b99b96ed-30a7-44a2-8e05-2137d372e0d4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248051;
+	t=1713248050;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4cRO0oyHlPJmj3Hj2X+IoM4sKwZ7sbD6v1r/RNA4xbk=;
-	b=K0tvYlGsQwQPVQU0zGEYffHqdx3oby89cDtDfxwTWek9aQ8mh3/899jegL9JgCXj
-	8NTinhHpdgyEajh9+QdoQTo69q0ffCqILPG3PoeY+9L5xIzQxBxEftdMxKlT9Hbv5r6
-	UDaP9MNewIIneY2NSqqEg+JCIyERPyFAgJ/Sanu4=
+	bh=klQrXSy8UmheHJVdChzLz2UcFvD4lim9tU4VEwgJ82M=;
+	b=hf7ATXu3Q0/cqLA6Zq8Jk+nox7HRfrYrqzOns7bH8HTl3dFbOcWJ9XQur0suS/gO
+	DaTf/FFlRCHsxhVvJBM1jcEPRRWbWt/WxPQt5kPEhQOInn47IVVNXAJuthmhIRG5h+S
+	hlpTVYfgwBZwD7DEMNivrooS+16cTy06/SJxN7Us=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248051;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248050;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4cRO0oyHlPJmj3Hj2X+IoM4sKwZ7sbD6v1r/RNA4xbk=;
-	b=AGJXrIv/8dQxPO/9AFh5257WCLah0OlEO5E13hHtQ9ho1tdxCsm7/qH4zxde9u82
-	GelOxy18X3SS9X1a8qWQ236tjMZOqAkPocvljXfH4Yuus5BMnyysNMVyidxieZjwISy
-	KbyvCrs2bfjlrzGsQPA/t20SJqJqFUPQKIo6aNXI=
-Content-Type: multipart/mixed; boundary="===============2063211171682898221=="
+	bh=klQrXSy8UmheHJVdChzLz2UcFvD4lim9tU4VEwgJ82M=;
+	b=t6Fx+/uyCZfrkTc0U8sM6yq3Tc7xTY1oriB5Yx5nO/zAMwRyhIGqoClgnP4V78vh
+	klJLuHAo5Fg4WKcE38jPn+fnBnbUn8eCwmbYZz/8zB0shOHmV2TZ/KE9wv+qEXBDm3y
+	ib0fDpSuUWlbw+td+2lwPn6a4neFlLkmVV7ICgyM=
+Content-Type: multipart/mixed; boundary="===============5610118797374160548=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] puzzles: upgrading to fd304c53cc45dc05b3f95c20a466e20a7e1c9194
- SUCCEEDED
-Message-ID: <0101018ee58aa18f-33ca7345-f267-4373-9e04-e7f311d1c8c5-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Apr 2024 06:14:11 +0000
+Subject: [AUH] gst-devtools: upgrading to 1.24.2 FAILED
+Message-ID: <0101018ee58a9e44-b99b96ed-30a7-44a2-8e05-2137d372e0d4-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Apr 2024 06:14:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.191
+X-SES-Outgoing: 2024.04.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198406
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198392
 
---===============2063211171682898221==
+--===============5610118797374160548==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *puzzles* to *fd304c53cc45dc05b3f95c20a466e20a7e1c9194* has Succeeded.
+that the automatic attempt to upgrade the recipe *gst-devtools* to *1.24.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-gst-devtools-upgrade-1.22.11-1.24.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,1078 +78,235 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7b88f370d04954ebb56f6b7c7a2f13f19c544e20 Mon Sep 17 00:00:00 2001
+From 3c521d1970769ef7f0b28a57c5afffde470203f9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Apr 2024 02:17:14 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
+Date: Tue, 16 Apr 2024 01:40:27 +0000
+Subject: [PATCH] gst-devtools: upgrade 1.22.11 -> 1.24.2
 
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../0001-connect-has-a-different-signature-on-musl.patch       | 3 +--
+ .../{gst-devtools_1.22.11.bb => gst-devtools_1.24.2.bb}        | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.11.bb => gst-devtools_1.24.2.bb} (95%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index e9403ee130..0ed066a5b5 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+index 21e30d6d46..e1199f4e93 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+@@ -1,4 +1,4 @@
+-From 0c73b8131efba63c5cd37ea8c7551434c3b57304 Mon Sep 17 00:00:00 2001
++From b5cffe336863ae442f5b278dd0cad216c406ab51 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 9 Sep 2018 17:38:10 -0700
+ Subject: [PATCH] connect has a different signature on musl
+@@ -11,7 +11,6 @@ typcasted to struct sockaddr_in* type inside the function before use
+ Upstream-Status: Pending
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "80aac3104096aee4057b675c53ece8e60793aa90"
-+SRCREV = "fd304c53cc45dc05b3f95c20a466e20a7e1c9194"
- PE = "2"
- PV = "0.0+git"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  validate/plugins/fault_injection/socket_interposer.c | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb
+index 2be406192f..4922949bf1 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
  
+-SRC_URI[sha256sum] = "07766425ecb5bf857ab5ad3962321c55cd89f9386b720843f9df71c0a455eb9b"
++SRC_URI[sha256sum] = "fdd7c30c1aa1bb07800dd98a51e55211065619835e4889f5c92fe823b86cd8f4"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
 -- 
 2.42.0
 
 
---===============2063211171682898221==
+--===============5610118797374160548==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-
---===============2063211171682898221==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
-
-RnJvbSA3Yjg4ZjM3MGQwNDk1NGViYjU2ZjZiN2M3YTJmMTNmMTljNTQ0ZTIwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDI6MTc6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtc2F0
-by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6
-emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19n
-aXQuYmIKaW5kZXggZTk0MDNlZTEzMC4uMGVkMDY2YTViNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9w
-dXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFJFUVVJUkVEX0RJU1RST19G
-RUFUVVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24v
-cHV6emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNL
-X0NPTU1JVFMgPSAiMSIKLVNSQ1JFViA9ICI4MGFhYzMxMDQwOTZhZWU0MDU3YjY3NWM1M2VjZThl
-NjA3OTNhYTkwIgorU1JDUkVWID0gImZkMzA0YzUzY2M0NWRjMDViM2Y5NWMyMGE0NjZlMjBhN2Ux
-YzkxOTQiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40Mi4wCgo=
-
---===============2063211171682898221==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19535232 to 19535272 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3838603 to 3839116 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-
---===============2063211171682898221==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1879 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1879 targets, 46 skipped, 0 masked, 0 errors.
-Removing 89 recipes from the core2-64 sysroot...done.
-Removing 89 recipes from the qemux86_64 sysroot...done.
+Parsing of 922 .bb files complete (921 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.7.3"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
+TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-7170031b052d709d17d6e8d986b40443b6d4c321"
+DISTRO_VERSION       = "4.3+snapshot-8d1a65e52e5962d560d2320ca367a0e906bce230"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7170031b052d709d17d6e8d986b40443b6d4c321"
+workspace            = "tmp-auh-upgrades:8d1a65e52e5962d560d2320ca367a0e906bce230"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 667 Local 654 Mirrors 0 Missed 13 Current 346 (98% match, 98% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch qemux86_64...done.
-Removing 1 stale sstate objects for arch allarch...done.
+Sstate summary: Wanted 386 Local 374 Mirrors 0 Missed 12 Current 569 (96% match, 98% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 355 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 362 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 364 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 365 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gtk+3-3.24.41-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gtk+3-3.24.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 482 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_recipe_qa_setscene)
-NOTE: recipe gtk+3-3.24.41-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 484 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb:do_packagedata_setscene)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 564 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1095 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
-NOTE: recipe gtk+3-3.24.41-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gtk+3-3.24.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 571 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 1096 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 575 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gtk+3-3.24.41-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 580 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 583 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 584 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 585 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 586 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 587 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 588 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 589 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 590 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 591 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 592 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 593 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 594 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.50.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 595 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.50.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.52.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.52.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gtk+3-3.24.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
-NOTE: Running task 1468 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
-NOTE: recipe gtk+3-3.24.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 597 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.2.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libxcursor/1.2.1/temp/log.do_packagedata_setscene.2495969
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/pango/1.52.0/temp/log.do_packagedata_setscene.2495965
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 599 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_package_setscene)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libxkbcommon/1.6.0/temp/log.do_packagedata_setscene.2495971
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
-NOTE: recipe mesa-2_24.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pango-1.52.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 601 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 602 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 603 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_package_setscene)
-NOTE: Running setscene task 605 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 606 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_package_setscene)
-NOTE: Running task 1477 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
-NOTE: recipe mesa-2_24.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.275.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 610 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 611 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 612 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 613 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
-NOTE: recipe mesa-2_24.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 615 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 616 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 617 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 618 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 619 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdrm-2.4.120-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 622 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_recipe_qa_setscene)
-NOTE: recipe base-passwd-3.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 623 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_packagedata_setscene)
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 624 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 627 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 629 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 633 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/atk/at-spi2-core_2.50.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.120-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 635 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_packagedata_setscene)
-NOTE: recipe mesa-2_24.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 636 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 638 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.2.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 640 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.14.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 644 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 645 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 646 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe at-spi2-core-2.50.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_package_setscene: Started
-NOTE: Running setscene task 647 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.120-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 648 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.14.2.bb:do_packagedata_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 649 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.275.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 651 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_package_setscene: Started
-NOTE: recipe pango-1.52.0-r0: task do_package_setscene: Started
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 653 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: recipe libpciaccess-0.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 655 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 657 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe update-rc.d-0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 659 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe mesa-2_24.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 661 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 664 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.120-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 666 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 668 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_recipe_qa_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe update-rc.d-0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 670 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_package_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 672 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 674 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 676 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 678 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 680 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.120-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 681 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 682 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-passwd-3.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 683 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 685 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 687 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 688 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.33.bb:do_packagedata_setscene)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libdrm-2.4.120-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 689 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 691 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 692 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shadow-4.14.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 694 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 696 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe wayland-protocols-1.33-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 698 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 699 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 702 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 703 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 705 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 706 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe pango-1.52.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 707 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_8.3.0.bb:do_packagedata_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 709 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-protocols-1.33-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 710 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_8.3.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpciaccess-0.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shadow-4.14.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 712 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 714 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 718 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 720 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: recipe harfbuzz-8.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 721 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 723 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe harfbuzz-8.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 725 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 726 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 728 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.41.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 729 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shadow-4.14.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 731 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 732 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.41.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.52.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 734 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-8.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.14.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_packagedata_setscene)
-NOTE: recipe xkeyboard-config-2.41-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 737 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 739 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe pango-1.52.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 740 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 741 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xkeyboard-config-2.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 742 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 743 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 745 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 746 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 747 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 749 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe harfbuzz-8.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 750 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-74-1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 751 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 753 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_8.3.0.bb:do_recipe_qa_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 755 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 760 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 761 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.41-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 762 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 763 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-8.3.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 766 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.41.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 769 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-74-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 772 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 774 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1509 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe harfbuzz-8.3.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 777 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_packagedata_setscene)
-NOTE: Running task 1625 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running setscene task 779 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_recipe_qa_setscene)
-NOTE: Running task 1627 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 781 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.18.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 784 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 785 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 786 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 787 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 788 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe freetype-2.13.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe icu-74-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 790 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 792 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 793 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 794 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 795 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 797 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1705 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe cairo-1.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.13.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 799 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 801 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 802 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe icu-74-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 1718 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe libxcb-1.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 804 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 806 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 807 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-74-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 809 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 812 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libpng/1.6.42/temp/log.do_packagedata_setscene.2498832
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 814 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 815 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_package_setscene)
-NOTE: recipe libx11-1_1.8.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxml2-2.12.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 818 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 819 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1730 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe freetype-2.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpng-1.6.42-r0: task do_package_setscene: Started
-NOTE: Running setscene task 821 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 822 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 823 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 824 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.12.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 826 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 827 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 828 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1751 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 830 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 831 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 836 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 837 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 840 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 841 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 842 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 843 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_packagedata_setscene)
-NOTE: Running setscene task 844 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.42-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 845 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 846 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 848 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 849 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 851 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.43-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 852 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 854 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.39.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 855 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 856 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 857 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 858 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 862 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 863 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 864 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 865 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 866 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 868 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 869 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: recipe libpng-1.6.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 870 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 872 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 875 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 877 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 879 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 881 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 883 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 885 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 886 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 888 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 890 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 892 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 893 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 895 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 896 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 898 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 899 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 902 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 904 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 906 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 908 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 910 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.43-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 912 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 913 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.43-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 916 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1845 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 919 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 921 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 923 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 926 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 927 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 928 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 929 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 931 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 932 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 933 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 934 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 935 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 936 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 937 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 939 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.39.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 944 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 947 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 948 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 949 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 951 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 953 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 956 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 958 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 959 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 961 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 963 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 964 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 969 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 971 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 973 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 974 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1931 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 976 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 978 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 979 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Running setscene task 981 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3827d1886d21fc285ddcf2fcb9cb1cc58679b8245b5b8a3c52f01f2714d587ae
-NOTE: Reported task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash b2cb1d7c3a428612d86b152196c9543e7d5bfa144d8becf5807038d7108cd7d1 to hashserv.yocto.io:8686 ({'taskhash': '021e5f9565539f3300555d5e830448fbf001b870c5fd126c3748d164cb60b447', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': 'b2cb1d7c3a428612d86b152196c9543e7d5bfa144d8becf5807038d7108cd7d1'})
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 021e5f9565539f3300555d5e830448fbf001b870c5fd126c3748d164cb60b447 -> b2cb1d7c3a428612d86b152196c9543e7d5bfa144d8becf5807038d7108cd7d1 as wanted
-NOTE: Already covered setscene for /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 983 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 984 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 985 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 986 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 988 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 992 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 993 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 995 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1000 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1002 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1003 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1006 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1008 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1009 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1011 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1013 of 1013 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2385 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2397 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.42.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libpng-1.6.42-r0: task do_packagedata: Started
-NOTE: Running task 2671 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_packagedata)
-NOTE: Running task 2672 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_packagedata: Started
-NOTE: recipe libpng-1.6.42-r0: task do_packagedata: Succeeded
-NOTE: Running task 2750 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.0.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 5009bfdce64be5968dd9927eeb08146bbc59582b45f2dbfd597d0d6515f565bd
-NOTE: Running task 2785 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_packagedata: Succeeded
-NOTE: recipe pango-1.52.0-r0: task do_packagedata: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.52.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2796 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2797 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Succeeded
-NOTE: Running task 2798 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Succeeded
-NOTE: Running task 2799 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Succeeded
-NOTE: Running task 2800 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
-NOTE: Running task 2801 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Succeeded
-NOTE: Running task 2802 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata unihash changed to b9b1ffc6890641712e7855213cac5829eededdac6265bb502bf213276adbdd31
-NOTE: Setscene tasks completed
-NOTE: Running task 2803 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
-NOTE: Running task 2804 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_ipk)
-NOTE: Running task 2805 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_deb)
-NOTE: Running task 2806 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
-NOTE: Running task 2807 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_ipk: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_create_spdx: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_deb: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_rpm: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_qa: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_ipk unihash changed to e4f4ce313ef062de4692a0d88718ec5dd6ce239a2aa895f21e3981461abd024e
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa unihash changed to 21428335f7443254df49f6512d606b089b4e063fd9ed9a93e7a7b67607d55378
-NOTE: recipe puzzles-2_0.0+git-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2808 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_create_runtime_spdx: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm unihash changed to 353169516a15ae78f4f5505b5d74d807461247b79be5cd138dea0150b2481ae9
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_deb unihash changed to 00ce4270c95f11b420b8f09a95d4db4726a6b1bb1d7f6fd056b47b8ebd6d1a2f
-NOTE: Running noexec task 2809 of 2809 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
-NOTE: Tasks Summary: Attempted 2809 tasks of which 2776 didn't need to be rerun and all succeeded.
+NOTE: Running task 2345 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_recipe_qa)
+NOTE: Running task 2474 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_write_config)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_recipe_qa: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_write_config: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_write_config: Succeeded
+NOTE: recipe gst-devtools-1.24.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2627 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_fetch)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_fetch: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2628 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_unpack)
+NOTE: Running task 2629 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_unpack: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2630 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_patch)
+NOTE: Running task 2631 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_collect_spdx_deps)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_patch: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gst-devtools-1.24.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gst-devtools-1.24.2-r0: task do_patch: Succeeded
+NOTE: Running task 2632 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2633 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_populate_lic)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_populate_lic: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gst-devtools-1.24.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe gst-devtools-1.24.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2634 of 2646 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_configure)
+NOTE: recipe gst-devtools-1.24.2-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst
+ reamer1.0-plugins-base_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/gettext/gettext_0.22.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo
+ _git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'json-glib', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'gstrea
+ mer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native
+ ', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dintrospection=enabled -Ddoc=disabled -Ddebug_viewer=disabled -Dtests=disabled -Dvalidate=enabled -Dnls=enabled -Dcairo=disabled...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/gst-devtools-1.24.2
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/build
+| Build type: cross build
+| Project name: gst-devtools
+| Project version: 1.24.2
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.41.0.20230926
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Compiler for C supports link arguments -Wl,-z,nodelete: YES
+| Compiler for C supports arguments -fvisibility=hidden: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
+| Found CMake: NO
+| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency gstreamer-1.0
+| 
+| ../gst-devtools-1.24.2/meson.build:82:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670:176 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670, line 176
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670, line 165
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670, line 154
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670, line 189
+NOTE: recipe gst-devtools-1.24.2-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2634 tasks of which 2624 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 5 seconds
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240416014007.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240416014007.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: There were 38 ERROR messages, returning a non-zero exit code.
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-src went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-dbg went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-staticdev went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-dev went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-doc went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor-locale went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: QA Issue: Package version for package libxcursor went backwards which would break package feeds (from 1:1.2.2-r0 to 1:1.2.1-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: libxcursor-1_1.2.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.52.2-r0 to 0:1.52.0-r0) [version-going-backwards]
-ERROR: pango-1.52.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package xkbcli went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-bash-completion went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbcommon-x11 went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxkbregistry went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.0-r0) [version-going-backwards]
-ERROR: libxkbcommon-1.6.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-src went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-dbg went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-tools went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-staticdev went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-dev went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-doc went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng-locale went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: QA Issue: Package version for package libpng went backwards which would break package feeds (from 0:1.6.43-r0 to 0:1.6.42-r0) [version-going-backwards]
-ERROR: libpng-1.6.42-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gst-devtools-1.24.2-r0 do_configure: meson failed
+ERROR: gst-devtools-1.24.2-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/run.do_configure.2101670', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gst-devtools/1.24.2/temp/log.do_configure.2101670
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.2.bb:do_configure) failed with exit code '1'
 
---===============2063211171682898221==--
+--===============5610118797374160548==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gst-devtools-upgrade-1.22.11-1.24.2.patch"
+
+RnJvbSAzYzUyMWQxOTcwNzY5ZWY3ZjBiMjhhNTdjNWFmZmZkZTQ3MDIwM2Y5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDE6NDA6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yMi4xMSAtPiAxLjI0LjIKCi0tLQogLi4uLzAwMDEtY29u
+bmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2ggICAgICAgfCAzICst
+LQogLi4uL3tnc3QtZGV2dG9vbHNfMS4yMi4xMS5iYiA9PiBnc3QtZGV2dG9vbHNfMS4yNC4yLmJi
+fSAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxl
+dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdC1k
+ZXZ0b29sc18xLjIyLjExLmJiID0+IGdzdC1kZXZ0b29sc18xLjI0LjIuYmJ9ICg5NSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29scy8w
+MDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29scy8wMDAxLWNvbm5lY3Qt
+aGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoCmluZGV4IDIxZTMwZDZkNDYu
+LmUxMTk5ZjRlOTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3QtZGV2dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24t
+bXVzbC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRl
+dnRvb2xzLzAwMDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBjNzNiODEzMWVmYmE2M2M1Y2QzN2VhOGM3NTUxNDM0
+YzNiNTczMDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGI1Y2ZmZTMzNjg2M2FlNDQy
+ZjViMjc4ZGQwY2FkMjE2YzQwNmFiNTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBL
+aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogU3VuLCA5IFNlcCAyMDE4IDE3OjM4
+OjEwIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNvbm5lY3QgaGFzIGEgZGlmZmVyZW50IHNpZ25h
+dHVyZSBvbiBtdXNsCkBAIC0xMSw3ICsxMSw2IEBAIHR5cGNhc3RlZCB0byBzdHJ1Y3Qgc29ja2Fk
+ZHJfaW4qIHR5cGUgaW5zaWRlIHRoZSBmdW5jdGlvbiBiZWZvcmUgdXNlCiBVcHN0cmVhbS1TdGF0
+dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
+bT4KLQogLS0tCiAgdmFsaWRhdGUvcGx1Z2lucy9mYXVsdF9pbmplY3Rpb24vc29ja2V0X2ludGVy
+cG9zZXIuYyB8IDcgKysrKysrLQogIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb24oLSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3QtZGV2dG9vbHNfMS4yMi4xMS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3QtZGV2dG9vbHNfMS4yNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yMi4x
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0
+b29sc18xLjI0LjIuYmIKaW5kZXggMmJlNDA2MTkyZi4uNDkyMjk0OWJmMSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjIyLjExLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4y
+NC4yLmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJl
+ZWRlc2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRvb2xzLSR7UFZ9CiAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNs
+LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDc3NjY0MjVl
+Y2I1YmY4NTdhYjVhZDM5NjIzMjFjNTVjZDg5ZjkzODZiNzIwODQzZjlkZjcxYzBhNDU1ZWI5YiIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmZGQ3YzMwYzFhYTFiYjA3ODAwZGQ5OGE1MWU1NTIxMTA2
+NTYxOTgzNWU0ODg5ZjVjOTJmZTgyM2I4NmNkOGY0IgogCiBERVBFTkRTID0gImpzb24tZ2xpYiBn
+bGliLTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5z
+LWJhc2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoyLjQyLjAKCg==
+
+--===============5610118797374160548==--
 
