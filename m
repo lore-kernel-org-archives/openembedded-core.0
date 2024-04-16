@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E73AC07E8E
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:07 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.13582.1713248037649172335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47744C19F4E
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:08 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.13432.1713248038747832638
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:14:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VLJmE8fT;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DkhgjWQt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ee58a778d-1bde3be1-3be8-43fb-9528-0ef055a43421-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=R7b0bmQV;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SyaDvgAo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018ee58a760d-3df80913-131b-4829-abe4-1ea520626f0f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248041;
+	t=1713248040;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vDuBAIPuFOqs7R6KUpMtVSZVCJRoSZbAS+DixvVfnss=;
-	b=VLJmE8fTyQBEKzdKgGAQjRgUjICpGWwqTrqxOTHA+x22uErkTkQXX5OE/iKzj7ig
-	vFo7S3n6kYtZOfgiXYH/+2ApeQo/lyObSX1L93SpI72NQXUgZ6MmC9LF6EfoRSKLIHQ
-	lis7m4hm1DbWgguxsIfN3MAbb4wjxkR3VAz4giHw=
+	bh=0uNZ4VOqGjN8haLDmb+D0Q5vlz/cybufJ3i4anbVYVA=;
+	b=R7b0bmQVPJDXOWFQq1UtMBfkt0Jm3v4ppu/c/r02v32kW5Gc+JVZAVdqcDaSlGIa
+	QrCoLCoKnh4l0h0+vrIV0Eotizvwk1T+EoWLauKrRRpIyNUcGtkYPFeqGG5N1EsKvTN
+	cQnHOjc4j6axSvTACILEfqYGeEyqbKBbRCWDDdJU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248041;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248040;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vDuBAIPuFOqs7R6KUpMtVSZVCJRoSZbAS+DixvVfnss=;
-	b=DkhgjWQt7vNnzNO4JArB1NF8lU+wI6/Vq/M/PoF9jODeXHXI0zAquj3LHxbNzbYq
-	0LGXal4pj8JNoh6q0860EWU/agO0JS8JnoMQxpjqrzko/PdEvOS2+MDXBzWi+MGUvgG
-	vR8vklXX7WknlRQOn83sXI9OmABa4IcPwTUMiNXE=
-Content-Type: multipart/mixed; boundary="===============5909314000444149715=="
+	bh=0uNZ4VOqGjN8haLDmb+D0Q5vlz/cybufJ3i4anbVYVA=;
+	b=SyaDvgAoTCEzEgnWsyL0WjTnNBnoeW/36kaltgWWQM0iR7HjqB2gmxw5P23zaxU9
+	oNECOGajief/PaxsJNojcP8d4zL78GAvUS3AAJWrPQT4HPD9bg11HMzxb8x8OXMTFfi
+	gWsDRoYXHmYQTMPelHM7oYFTIgGoC8thdhXb8VCg=
+Content-Type: multipart/mixed; boundary="===============2081382639496176662=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] man-db: upgrading to 2.12.1 SUCCEEDED
-Message-ID: <0101018ee58a778d-1bde3be1-3be8-43fb-9528-0ef055a43421-000000@us-west-2.amazonses.com>
+Subject: [AUH] cronie: upgrading to 1.7.2 SUCCEEDED
+Message-ID: <0101018ee58a760d-3df80913-131b-4829-abe4-1ea520626f0f-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:00 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.33
+X-SES-Outgoing: 2024.04.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198338
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198328
 
---===============5909314000444149715==
+--===============2081382639496176662==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *man-db* to *2.12.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *cronie* to *1.7.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-man-db-upgrade-2.12.0-2.12.1.patch
+    - apply the patch: git am 0001-cronie-upgrade-1.7.1-1.7.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,343 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 43a6444919fb93c6f62fb220631ff0ed96fd5f07 Mon Sep 17 00:00:00 2001
+From 75524936e66cdb3ba0134136462ff8b3b9ee0306 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 21:55:41 +0000
-Subject: [PATCH] man-db: upgrade 2.12.0 -> 2.12.1
+Date: Mon, 15 Apr 2024 21:32:48 +0000
+Subject: [PATCH] cronie: upgrade 1.7.1 -> 1.7.2
 
 ---
- ...ove-local-variable-declaration-to-function-scop.patch | 9 ++++-----
- .../man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb}        | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-extended/man-db/{man-db_2.12.0.bb => man-db_2.12.1.bb} (96%)
+ meta/recipes-extended/cronie/cronie/crond_pam_config.patch     | 3 +--
+ .../cronie/{cronie_1.7.1.bb => cronie_1.7.2.bb}                | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/cronie/{cronie_1.7.1.bb => cronie_1.7.2.bb} (97%)
 
-diff --git a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
-index dc6966629c..ad94f724c8 100644
---- a/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
-+++ b/meta/recipes-extended/man-db/files/0001-man-Move-local-variable-declaration-to-function-scop.patch
+diff --git a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+index 464d1470e3..c91149900d 100644
+--- a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
++++ b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
 @@ -1,4 +1,4 @@
--From 126dfefb5fddf411ad0a1316209e9c1b47abfcd2 Mon Sep 17 00:00:00 2001
-+From b038fc29549c8dc906461725e660be1a9eacb029 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 9 Feb 2022 17:30:16 -0800
- Subject: [PATCH] man: Move local variable declaration to function scope
-@@ -10,16 +10,15 @@ code without changing the logic, until its fixed in clang
+-From f5b325cba73018e5be984570fd4e680e59e7865d Mon Sep 17 00:00:00 2001
++From e7e9625a06da53e7fd4989138dcb0e1bdec64f2c Mon Sep 17 00:00:00 2001
+ From: Wenzong Fan <wenzong.fan@windriver.com>
+ Date: Wed, 20 Jul 2011 02:42:28 +0000
+ Subject: [PATCH] cronie: enable PAM support for cronie
+@@ -9,7 +9,6 @@ configure files instead.
+ Upstream-Status: Pending
  
- Upstream-Status: Inappropriate [Inappropriate: Clang bug]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 -
  ---
-  src/man.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+  pam/crond | 6 +++---
+  1 file changed, 3 insertions(+), 3 deletions(-)
+diff --git a/meta/recipes-extended/cronie/cronie_1.7.1.bb b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+similarity index 97%
+rename from meta/recipes-extended/cronie/cronie_1.7.1.bb
+rename to meta/recipes-extended/cronie/cronie_1.7.2.bb
+index 854b68163c..abdaff644d 100644
+--- a/meta/recipes-extended/cronie/cronie_1.7.1.bb
++++ b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+@@ -25,7 +25,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/cronie-${PV}/cronie-${PV}.tar.gz \
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
- diff --git a/src/man.c b/src/man.c
--index f16fae8..333df03 100644
-+index 195d35d..6870989 100644
- --- a/src/man.c
- +++ b/src/man.c
--@@ -352,7 +352,7 @@ static void init_html_pager (void)
-+@@ -379,7 +379,7 @@ static void init_html_pager (void)
-  static error_t parse_opt (int key, char *arg, struct argp_state *state)
-  {
-  	static bool apropos, whatis; /* retain values between calls */
-@@ -28,7 +27,7 @@ index f16fae8..333df03 100644
-  	/* Please keep these keys in the same order as in options above. */
-  	switch (key) {
-  		case 'C':
--@@ -384,7 +384,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
-+@@ -411,7 +411,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
-  		case OPT_WARNINGS:
-  #ifdef NROFF_WARNINGS
-  			{
-diff --git a/meta/recipes-extended/man-db/man-db_2.12.0.bb b/meta/recipes-extended/man-db/man-db_2.12.1.bb
-similarity index 96%
-rename from meta/recipes-extended/man-db/man-db_2.12.0.bb
-rename to meta/recipes-extended/man-db/man-db_2.12.1.bb
-index 19dbb41d16..27b47a7f47 100644
---- a/meta/recipes-extended/man-db/man-db_2.12.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.12.1.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://99_mandb \
-            file://0001-man-Move-local-variable-declaration-to-function-scop.patch \
-           "
--SRC_URI[sha256sum] = "415a6284a22764ad22ff0f66710d853be7790dd451cd71436e3d25c74d996a95"
-+SRC_URI[sha256sum] = "ddee249daeb78cf92bab794ccd069cc8b575992265ea20e239e887156e880265"
+-SRC_URI[sha256sum] = "78033100c24413f0c40f93e6138774d6a4f55bc31050567b90db45a2f9f1b954"
++SRC_URI[sha256sum] = "f1da374a15ba7605cf378347f96bc8b678d3d7c0765269c8242cfe5b0789c571"
  
- DEPENDS = "libpipeline gdbm groff-native base-passwd"
- RDEPENDS:${PN} += "base-passwd"
+ inherit autotools update-rc.d useradd systemd github-releases
+ UPSTREAM_CHECK_REGEX = "releases/tag/cronie-(?P<pver>\d+(\.\d+)+)"
 -- 
 2.42.0
 
 
---===============5909314000444149715==
+--===============2081382639496176662==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cronie-upgrade-1.7.1-1.7.2.patch"
+
+RnJvbSA3NTUyNDkzNmU2NmNkYjNiYTAxMzQxMzY0NjJmZjhiM2I5ZWUwMzA2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjE6MzI6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+cm9uaWU6IHVwZ3JhZGUgMS43LjEgLT4gMS43LjIKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2Nyb25pZS9jcm9uaWUvY3JvbmRfcGFtX2NvbmZpZy5wYXRjaCAgICAgfCAzICstLQogLi4uL2Ny
+b25pZS97Y3JvbmllXzEuNy4xLmJiID0+IGNyb25pZV8xLjcuMi5iYn0gICAgICAgICAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JvbmllL3tjcm9uaWVfMS43LjEuYmIgPT4g
+Y3JvbmllXzEuNy4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9jcm9uaWUvY3JvbmllL2Nyb25kX3BhbV9jb25maWcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvY3JvbmllL2Nyb25pZS9jcm9uZF9wYW1fY29uZmlnLnBhdGNoCmluZGV4IDQ2NGQxNDcw
+ZTMuLmM5MTE0OTkwMGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jcm9uaWUv
+Y3JvbmllL2Nyb25kX3BhbV9jb25maWcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2Nyb25pZS9jcm9uaWUvY3JvbmRfcGFtX2NvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gZjViMzI1Y2JhNzMwMThlNWJlOTg0NTcwZmQ0ZTY4MGU1OWU3ODY1ZCBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gZTdlOTYyNWEwNmRhNTNlN2ZkNDk4OTEzOGRjYjBlMWJkZWM2NGYy
+YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFdlbnpvbmcgRmFuIDx3ZW56b25nLmZh
+bkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyMCBKdWwgMjAxMSAwMjo0MjoyOCArMDAwMAog
+U3ViamVjdDogW1BBVENIXSBjcm9uaWU6IGVuYWJsZSBQQU0gc3VwcG9ydCBmb3IgY3JvbmllCkBA
+IC05LDcgKzksNiBAQCBjb25maWd1cmUgZmlsZXMgaW5zdGVhZC4KIFVwc3RyZWFtLVN0YXR1czog
+UGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBXZW56b25nIEZhbiA8d2Vuem9uZy5mYW5Ad2luZHJp
+dmVyLmNvbT4KLQogLS0tCiAgcGFtL2Nyb25kIHwgNiArKystLS0KICAxIGZpbGUgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2Nyb25pZS9jcm9uaWVfMS43LjEuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+Y3JvbmllL2Nyb25pZV8xLjcuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JvbmllL2Nyb25pZV8xLjcuMS5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL2Nyb25pZS9jcm9uaWVfMS43LjIuYmIKaW5kZXggODU0YjY4MTYz
+Yy4uYWJkYWZmNjQ0ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Nyb25pZS9j
+cm9uaWVfMS43LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Nyb25pZS9jcm9uaWVf
+MS43LjIuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0v
+ZG93bmxvYWQvY3JvbmllLSR7UFZ9L2Nyb25pZS0ke1BWfS50YXIuZ3ogXAogUEFNX1NSQ19VUkkg
+PSAiZmlsZTovL2Nyb25kX3BhbV9jb25maWcucGF0Y2giCiBQQU1fREVQUyA9ICJsaWJwYW0gbGli
+cGFtLXJ1bnRpbWUgcGFtLXBsdWdpbi1hY2Nlc3MgcGFtLXBsdWdpbi1sb2dpbnVpZCIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjc4MDMzMTAwYzI0NDEzZjBjNDBmOTNlNjEzODc3NGQ2YTRmNTVi
+YzMxMDUwNTY3YjkwZGI0NWEyZjlmMWI5NTQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjFkYTM3
+NGExNWJhNzYwNWNmMzc4MzQ3Zjk2YmM4YjY3OGQzZDdjMDc2NTI2OWM4MjQyY2ZlNWIwNzg5YzU3
+MSIKIAogaW5oZXJpdCBhdXRvdG9vbHMgdXBkYXRlLXJjLmQgdXNlcmFkZCBzeXN0ZW1kIGdpdGh1
+Yi1yZWxlYXNlcwogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFnL2Nyb25pZS0o
+P1A8cHZlcj5cZCsoXC5cZCspKykiCi0tIAoyLjQyLjAKCg==
+
+--===============2081382639496176662==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/man-db/man-db-src: PKGSIZE changed from 3072979 to 3510845 (+14%)
-packages/core2-64-poky-linux/man-db/man-db: FILELIST: removed "/usr/lib/man-db/libmandb-2.12.0.so /usr/lib/man-db/libman-2.12.0.so", added "/usr/lib/man-db/libmandb-2.12.1.so /usr/lib/man-db/libman-2.12.1.so"
-Changes to packages/core2-64-poky-linux/man-db (sysroot):
-  /usr/lib/man-db/libmandb.so changed symlink target from libmandb-2.12.0.so to libmandb-2.12.1.so
-  /usr/lib/man-db/libman.so changed symlink target from libman-2.12.0.so to libman-2.12.1.so
-  /usr/lib/man-db/libman-2.12.0.so moved to /usr/lib/man-db/libman-2.12.1.so
-  /usr/lib/man-db/libmandb-2.12.0.so moved to /usr/lib/man-db/libmandb-2.12.1.so
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1793,461 +1558,33 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5909314000444149715==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-man-db-upgrade-2.12.0-2.12.1.patch"
-
-RnJvbSA0M2E2NDQ0OTE5ZmI5M2M2ZjYyZmIyMjA2MzFmZjBlZDk2ZmQ1ZjA3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjE6NTU6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-YW4tZGI6IHVwZ3JhZGUgMi4xMi4wIC0+IDIuMTIuMQoKLS0tCiAuLi5vdmUtbG9jYWwtdmFyaWFi
-bGUtZGVjbGFyYXRpb24tdG8tZnVuY3Rpb24tc2NvcC5wYXRjaCB8IDkgKysrKy0tLS0tCiAuLi4v
-bWFuLWRiL3ttYW4tZGJfMi4xMi4wLmJiID0+IG1hbi1kYl8yLjEyLjEuYmJ9ICAgICAgICB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIve21hbi1kYl8yLjEyLjAuYmIgPT4gbWFu
-LWRiXzIuMTIuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-bWFuLWRiL2ZpbGVzLzAwMDEtbWFuLU1vdmUtbG9jYWwtdmFyaWFibGUtZGVjbGFyYXRpb24tdG8t
-ZnVuY3Rpb24tc2NvcC5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIvZmlsZXMv
-MDAwMS1tYW4tTW92ZS1sb2NhbC12YXJpYWJsZS1kZWNsYXJhdGlvbi10by1mdW5jdGlvbi1zY29w
-LnBhdGNoCmluZGV4IGRjNjk2NjYyOWMuLmFkOTRmNzI0YzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC9tYW4tZGIvZmlsZXMvMDAwMS1tYW4tTW92ZS1sb2NhbC12YXJpYWJsZS1k
-ZWNsYXJhdGlvbi10by1mdW5jdGlvbi1zY29wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9tYW4tZGIvZmlsZXMvMDAwMS1tYW4tTW92ZS1sb2NhbC12YXJpYWJsZS1kZWNsYXJhdGlv
-bi10by1mdW5jdGlvbi1zY29wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxMjZkZmVmYjVm
-ZGRmNDExYWQwYTEzMTYyMDllOWMxYjQ3YWJmY2QyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBiMDM4ZmMyOTU0OWM4ZGM5MDY0NjE3MjVlNjYwYmUxYTllYWNiMDI5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6
-IFdlZCwgOSBGZWIgMjAyMiAxNzozMDoxNiAtMDgwMAogU3ViamVjdDogW1BBVENIXSBtYW46IE1v
-dmUgbG9jYWwgdmFyaWFibGUgZGVjbGFyYXRpb24gdG8gZnVuY3Rpb24gc2NvcGUKQEAgLTEwLDE2
-ICsxMCwxNSBAQCBjb2RlIHdpdGhvdXQgY2hhbmdpbmcgdGhlIGxvZ2ljLCB1bnRpbCBpdHMgZml4
-ZWQgaW4gY2xhbmcKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtJbmFwcHJvcHJp
-YXRlOiBDbGFuZyBidWddCiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgotCiAtLS0KICBzcmMvbWFuLmMgfCA0ICsrLS0KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNl
-cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL21hbi5jIGIvc3Jj
-L21hbi5jCi1pbmRleCBmMTZmYWU4Li4zMzNkZjAzIDEwMDY0NAoraW5kZXggMTk1ZDM1ZC4uNjg3
-MDk4OSAxMDA2NDQKIC0tLSBhL3NyYy9tYW4uYwogKysrIGIvc3JjL21hbi5jCi1AQCAtMzUyLDcg
-KzM1Miw3IEBAIHN0YXRpYyB2b2lkIGluaXRfaHRtbF9wYWdlciAodm9pZCkKK0BAIC0zNzksNyAr
-Mzc5LDcgQEAgc3RhdGljIHZvaWQgaW5pdF9odG1sX3BhZ2VyICh2b2lkKQogIHN0YXRpYyBlcnJv
-cl90IHBhcnNlX29wdCAoaW50IGtleSwgY2hhciAqYXJnLCBzdHJ1Y3QgYXJncF9zdGF0ZSAqc3Rh
-dGUpCiAgewogIAlzdGF0aWMgYm9vbCBhcHJvcG9zLCB3aGF0aXM7IC8qIHJldGFpbiB2YWx1ZXMg
-YmV0d2VlbiBjYWxscyAqLwpAQCAtMjgsNyArMjcsNyBAQCBpbmRleCBmMTZmYWU4Li4zMzNkZjAz
-IDEwMDY0NAogIAkvKiBQbGVhc2Uga2VlcCB0aGVzZSBrZXlzIGluIHRoZSBzYW1lIG9yZGVyIGFz
-IGluIG9wdGlvbnMgYWJvdmUuICovCiAgCXN3aXRjaCAoa2V5KSB7CiAgCQljYXNlICdDJzoKLUBA
-IC0zODQsNyArMzg0LDcgQEAgc3RhdGljIGVycm9yX3QgcGFyc2Vfb3B0IChpbnQga2V5LCBjaGFy
-ICphcmcsIHN0cnVjdCBhcmdwX3N0YXRlICpzdGF0ZSkKK0BAIC00MTEsNyArNDExLDcgQEAgc3Rh
-dGljIGVycm9yX3QgcGFyc2Vfb3B0IChpbnQga2V5LCBjaGFyICphcmcsIHN0cnVjdCBhcmdwX3N0
-YXRlICpzdGF0ZSkKICAJCWNhc2UgT1BUX1dBUk5JTkdTOgogICNpZmRlZiBOUk9GRl9XQVJOSU5H
-UwogIAkJCXsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIvbWFuLWRi
-XzIuMTIuMC5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIvbWFuLWRiXzIuMTIuMS5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-bWFuLWRiL21hbi1kYl8yLjEyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9t
-YW4tZGIvbWFuLWRiXzIuMTIuMS5iYgppbmRleCAxOWRiYjQxZDE2Li4yN2I0N2E3ZjQ3IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWFuLWRiL21hbi1kYl8yLjEyLjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21hbi1kYi9tYW4tZGJfMi4xMi4xLmJiCkBAIC0xMSw3
-ICsxMSw3IEBAIFNSQ19VUkkgPSAiJHtTQVZBTk5BSF9OT05HTlVfTUlSUk9SfS9tYW4tZGIvbWFu
-LWRiLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly85OV9tYW5kYiBcCiAgICAgICAg
-ICAgIGZpbGU6Ly8wMDAxLW1hbi1Nb3ZlLWxvY2FsLXZhcmlhYmxlLWRlY2xhcmF0aW9uLXRvLWZ1
-bmN0aW9uLXNjb3AucGF0Y2ggXAogICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0
-MTVhNjI4NGEyMjc2NGFkMjJmZjBmNjY3MTBkODUzYmU3NzkwZGQ0NTFjZDcxNDM2ZTNkMjVjNzRk
-OTk2YTk1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImRkZWUyNDlkYWViNzhjZjkyYmFiNzk0Y2Nk
-MDY5Y2M4YjU3NTk5MjI2NWVhMjBlMjM5ZTg4NzE1NmU4ODAyNjUiCiAKIERFUEVORFMgPSAibGli
-cGlwZWxpbmUgZ2RibSBncm9mZi1uYXRpdmUgYmFzZS1wYXNzd2QiCiBSREVQRU5EUzoke1BOfSAr
-PSAiYmFzZS1wYXNzd2QiCi0tIAoyLjQyLjAKCg==
-
---===============5909314000444149715==
+--===============2081382639496176662==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/man-db: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db: SRC_URI changed from "https://download.savannah.nongnu.org/releases/man-db/man-db-2.12.0.tar.xz file://99_mandb file://0001-man-Move-local-variable-declaration-to-function-scop.patch" to "https://download.savannah.nongnu.org/releases/man-db/man-db-2.12.1.tar.xz file://99_mandb file://0001-man-Move-local-variable-declaration-to-function-scop.patch"
-packages/core2-64-poky-linux/man-db/man-db-dbg: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-dbg: PKGSIZE changed from 2592624 to 2639584 (+2%)
-packages/core2-64-poky-linux/man-db/man-db-dbg: FILELIST: removed "/usr/lib/man-db/.debug/libmandb-2.12.0.so /usr/lib/man-db/.debug/libman-2.12.0.so", added "/usr/lib/man-db/.debug/libman-2.12.1.so /usr/lib/man-db/.debug/libmandb-2.12.1.so"
-packages/core2-64-poky-linux/man-db/man-db-dbg: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-dev: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-dev: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-doc: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-doc: PKGSIZE changed from 343252 to 343404 (+0%)
-packages/core2-64-poky-linux/man-db/man-db-doc: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-af: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-af: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ast: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ast: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-be: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-be: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-bg: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-bg: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ca: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ca: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-cs: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-cs: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-da: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-da: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-de: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-de: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-el: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-el: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-eo: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-eo: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-es: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-es: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-et: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-et: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-eu: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-eu: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-fi: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-fi: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-fr: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-fr: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ga: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ga: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-gl: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-gl: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-hu: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-hu: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-id: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-id: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-it: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-it: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ja: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ja: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ka: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ka: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ko: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ko: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ms: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ms: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-nb: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-nb: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-nl: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-nl: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-pl: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-pl: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-pt-br: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-pt-br: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-pt: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-pt: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ro: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ro: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-ru: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-ru: PKGSIZE changed from 32751 to 33114 (+1%)
-packages/core2-64-poky-linux/man-db/man-db-locale-ru: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-rw: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-rw: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-sk: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-sk: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-sl: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-sl: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-sr: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-sr: PKGSIZE changed from 31843 to 32203 (+1%)
-packages/core2-64-poky-linux/man-db/man-db-locale-sr: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-sv: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-sv: PKGSIZE changed from 23844 to 24095 (+1%)
-packages/core2-64-poky-linux/man-db/man-db-locale-sv: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-tr: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-tr: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-uk: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-uk: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-vi: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-vi: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-zh-cn: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-zh-cn: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-locale-zh-tw: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-locale-zh-tw: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-src: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-src: PKGSIZE changed from 3072979 to 3510845 (+14%)
-packages/core2-64-poky-linux/man-db/man-db-src: FILELIST: directory renamed /usr/src/debug/man-db/2.12.0/gl/lib/malloc -> /usr/src/debug/man-db/2.12.1/gl/lib/malloc, directory renamed /usr/src/debug/man-db/2.12.0/gl/lib/sys -> /usr/src/debug/man-db/2.12.1/gl/lib/sys, directory renamed /usr/src/debug/man-db/2.12.0/gl/lib/glthread -> /usr/src/debug/man-db/2.12.1/gl/lib/glthread, directory renamed /usr/src/debug/man-db/2.12.0/libdb -> /usr/src/debug/man-db/2.12.1/libdb, directory renamed /usr/src/debug/man-db/2.12.0/src -> /usr/src/debug/man-db/2.12.1/src, directory renamed /usr/src/debug/man-db/2.12.0/lib -> /usr/src/debug/man-db/2.12.1/lib, directory renamed /usr/src/debug/man-db/2.12.0/include -> /usr/src/debug/man-db/2.12.1/include, removed "/usr/src/debug/man-db/2.12.0/gl/lib/nanosleep.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_map.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anyhash2.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anyhash1.h /usr/src/debug/man-db/2.12.0/gl/lib/stdlib.h /usr/sr
- c/debug/man-db/2.12.0/gl/lib/memchr.c /usr/src/debug/man-db/2.12.0/gl/lib/mbsrtowcs-state.c /usr/src/debug/man-db/2.12.0/gl/lib/basename.c /usr/src/debug/man-db/2.12.0/gl/lib/progname.c /usr/src/debug/man-db/2.12.0/gl/lib/tempname.c /usr/src/debug/man-db/2.12.0/gl/lib/progname.h /usr/src/debug/man-db/2.12.0/gl/lib/tempname.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_xmap.h /usr/src/debug/man-db/2.12.0/gl/lib/save-cwd.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anyhash_primes.h /usr/src/debug/man-db/2.12.0/gl/lib/save-cwd.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_anytree_list2.h /usr/src/debug/man-db/2.12.0/gl/lib/globfree.c /usr/src/debug/man-db/2.12.0/gl/lib/argp-eexst.c /usr/src/debug/man-db/2.12.0/gl/lib/glob.c /usr/src/debug/man-db/2.12.0/gl/lib/hash.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_anylinked_list2.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anyrbtree_list2.h /usr/src/debug/man-db/2.12.0/gl/lib/argp.h /usr/src/debug/man-db/2.12.0/gl/lib/glob.h /usr/src/debug/man-db/2.12.0/gl/lib/h
- ash.h /usr/src/debug/man-db/2.12.0/gl/lib/dirent.h /usr/src/debug/man-db/2.12.0/gl/lib/getopt-ext.h /usr/src/debug/man-db/2.12.0/gl/lib/getopt.c /usr/src/debug/man-db/2.12.0/gl/lib/argp-ba.c /usr/src/debug/man-db/2.12.0/gl/lib/sockets.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_array_list.h /usr/src/debug/man-db/2.12.0/gl/lib/idpriv-drop.c /usr/src/debug/man-db/2.12.0/gl/lib/dup-safer-flag.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_array_list.c /usr/src/debug/man-db/2.12.0/gl/lib/openat-proc.c /usr/src/debug/man-db/2.12.0/gl/lib/utimens.c /usr/src/debug/man-db/2.12.0/gl/lib/fd-safer.c /usr/src/debug/man-db/2.12.0/gl/lib/xstdopen.c /usr/src/debug/man-db/2.12.0/gl/lib/xstdopen.h /usr/src/debug/man-db/2.12.0/gl/lib/utimens.h /usr/src/debug/man-db/2.12.0/gl/lib/glob_internal.h /usr/src/debug/man-db/2.12.0/gl/lib/argp-help.c /usr/src/debug/man-db/2.12.0/gl/lib/printf-args.h /usr/src/debug/man-db/2.12.0/gl/lib/idx.h /usr/src/debug/man-db/2.12.0/gl/lib/printf-args.c /usr/src/debug/man-db/2.12.0
- /gl/lib/cloexec.c /usr/src/debug/man-db/2.12.0/gl/lib/mbrtowc.c /usr/src/debug/man-db/2.12.0/gl/lib/regexec.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_rbtree_list.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_rbtree_list.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_xset.h /usr/src/debug/man-db/2.12.0/gl/lib/wchar.h /usr/src/debug/man-db/2.12.0/gl/lib/file-set.c /usr/src/debug/man-db/2.12.0/gl/lib/hash-triple-simple.c /usr/src/debug/man-db/2.12.0/gl/lib/sig-handler.h /usr/src/debug/man-db/2.12.0/gl/lib/idpriv.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_list.h /usr/src/debug/man-db/2.12.0/gl/lib/file-set.h /usr/src/debug/man-db/2.12.0/gl/lib/renameatu.c /usr/src/debug/man-db/2.12.0/gl/lib/dirname.h /usr/src/debug/man-db/2.12.0/gl/lib/getcwd.c /usr/src/debug/man-db/2.12.0/gl/lib/dirname.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_set.h /usr/src/debug/man-db/2.12.0/gl/lib/printf-parse.c /usr/src/debug/man-db/2.12.0/gl/lib/filenamecat-lgpl.c /usr/src/debug/man-db/2.12.0/gl/lib/printf-parse.h /usr/src/deb
- ug/man-db/2.12.0/gl/lib/unistd-safer.h /usr/src/debug/man-db/2.12.0/gl/lib/argp-pvh.c /usr/src/debug/man-db/2.12.0/gl/lib/mbsrtowcs.c /usr/src/debug/man-db/2.12.0/gl/lib/vasnprintf.c /usr/src/debug/man-db/2.12.0/gl/lib/xvasprintf.c /usr/src/debug/man-db/2.12.0/gl/lib/strnlen1.h /usr/src/debug/man-db/2.12.0/gl/lib/argp-fmtstream.h /usr/src/debug/man-db/2.12.0/gl/lib/xgetcwd.h /usr/src/debug/man-db/2.12.0/gl/lib/vasnprintf.h /usr/src/debug/man-db/2.12.0/gl/lib/argp-fmtstream.c /usr/src/debug/man-db/2.12.0/gl/lib/strnlen1.c /usr/src/debug/man-db/2.12.0/gl/lib/xgetcwd.c /usr/src/debug/man-db/2.12.0/gl/lib/xvasprintf.h /usr/src/debug/man-db/2.12.0/gl/lib/basename-lgpl.c /usr/src/debug/man-db/2.12.0/gl/lib/bitrotate.h /usr/src/debug/man-db/2.12.0/gl/lib/strcasestr.c /usr/src/debug/man-db/2.12.0/gl/lib/dirname-lgpl.c /usr/src/debug/man-db/2.12.0/gl/lib/fcntl.c /usr/src/debug/man-db/2.12.0/gl/lib/ioctl.c /usr/src/debug/man-db/2.12.0/gl/lib/setlocale_null.h /usr/src/debug/man-db/2.12.0/gl/li
- b/asnprintf.c /usr/src/debug/man-db/2.12.0/gl/lib/xasprintf.c /usr/src/debug/man-db/2.12.0/gl/lib/basename-lgpl.h /usr/src/debug/man-db/2.12.0/gl/lib/mbsrtowcs-impl.h /usr/src/debug/man-db/2.12.0/gl/lib/idpriv-droptemp.c /usr/src/debug/man-db/2.12.0/gl/lib/setlocale_null.c /usr/src/debug/man-db/2.12.0/gl/lib/fcntl.h /usr/src/debug/man-db/2.12.0/gl/lib/timespec.h /usr/src/debug/man-db/2.12.0/gl/lib/getprogname.c /usr/src/debug/man-db/2.12.0/gl/lib/getopt_int.h /usr/src/debug/man-db/2.12.0/gl/lib/regex_internal.c /usr/src/debug/man-db/2.12.0/gl/lib/btowc.c /usr/src/debug/man-db/2.12.0/gl/lib/regex_internal.h /usr/src/debug/man-db/2.12.0/gl/lib/glob-libc.gl.h /usr/src/debug/man-db/2.12.0/gl/lib/argp-pv.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_xlist.h /usr/src/debug/man-db/2.12.0/gl/lib/glob_pattern_p.c /usr/src/debug/man-db/2.12.0/gl/lib/argp-parse.c /usr/src/debug/man-db/2.12.0/gl/lib/fd-safer-flag.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_hash_map.c /usr/src/debug/man-db/2.12.0/gl/lib
- /gl_hash_set.c /usr/src/debug/man-db/2.12.0/gl/lib/gl_anytree_list1.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_hash_set.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_hash_map.h /usr/src/debug/man-db/2.12.0/gl/lib/exitfail.h /usr/src/debug/man-db/2.12.0/gl/lib/str-two-way.h /usr/src/debug/man-db/2.12.0/gl/lib/malloca.c /usr/src/debug/man-db/2.12.0/gl/lib/exitfail.c /usr/src/debug/man-db/2.12.0/gl/lib/getopt-core.h /usr/src/debug/man-db/2.12.0/gl/lib/malloca.h /usr/src/debug/man-db/2.12.0/gl/lib/xmalloc.c /usr/src/debug/man-db/2.12.0/gl/lib/nonblocking.c /usr/src/debug/man-db/2.12.0/gl/lib/stdopen.c /usr/src/debug/man-db/2.12.0/gl/lib/xstrndup.h /usr/src/debug/man-db/2.12.0/gl/lib/hard-locale.h /usr/src/debug/man-db/2.12.0/gl/lib/hash-triple.h /usr/src/debug/man-db/2.12.0/gl/lib/stdopen.h /usr/src/debug/man-db/2.12.0/gl/lib/hard-locale.c /usr/src/debug/man-db/2.12.0/gl/lib/unistd.h /usr/src/debug/man-db/2.12.0/gl/lib/xstrndup.c /usr/src/debug/man-db/2.12.0/gl/lib/regcomp.c /usr/src/debug/man
- -db/2.12.0/gl/lib/gettime.c /usr/src/debug/man-db/2.12.0/gl/lib/dup-safer.c /usr/src/debug/man-db/2.12.0/gl/lib/getopt1.c /usr/src/debug/man-db/2.12.0/gl/lib/ialloc.h /usr/src/debug/man-db/2.12.0/gl/lib/xalloc.h /usr/src/debug/man-db/2.12.0/gl/lib/pipe-safer.c /usr/src/debug/man-db/2.12.0/gl/lib/fnmatch_loop.c /usr/src/debug/man-db/2.12.0/gl/lib/verror.h /usr/src/debug/man-db/2.12.0/gl/lib/regex.h /usr/src/debug/man-db/2.12.0/gl/lib/string.h /usr/src/debug/man-db/2.12.0/gl/lib/verror.c /usr/src/debug/man-db/2.12.0/gl/lib/fnmatch.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anylinked_list1.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_anyrbtree_list1.h /usr/src/debug/man-db/2.12.0/gl/lib/xsize.h /usr/src/debug/man-db/2.12.0/gl/lib/fnmatch.c /usr/src/debug/man-db/2.12.0/gl/lib/stat-time.h /usr/src/debug/man-db/2.12.0/gl/lib/stripslash.c /usr/src/debug/man-db/2.12.0/gl/lib/xalloc-die.c /usr/src/debug/man-db/2.12.0/gl/lib/chdir-long.h /usr/src/debug/man-db/2.12.0/gl/lib/hash-pjw.h /usr/src/debug
- /man-db/2.12.0/gl/lib/hash-pjw-bare.h /usr/src/debug/man-db/2.12.0/gl/lib/chdir-long.c /usr/src/debug/man-db/2.12.0/gl/lib/localcharset.h /usr/src/debug/man-db/2.12.0/gl/lib/openat-die.c /usr/src/debug/man-db/2.12.0/gl/lib/hash-pjw-bare.c /usr/src/debug/man-db/2.12.0/gl/lib/hash-pjw.c /usr/src/debug/man-db/2.12.0/gl/lib/localcharset.c /usr/src/debug/man-db/2.12.0/gl/lib/canonicalize.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_linkedhash_list.h /usr/src/debug/man-db/2.12.0/gl/lib/gl_linkedhash_list.c /usr/src/debug/man-db/2.12.0/gl/lib/canonicalize.c", added "/usr/src/debug/man-db/2.12.1/gl/lib/nanosleep.c /usr/src/debug/man-db/2.12.1/gl/lib/c32to-impl.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_map.h /usr/src/debug/man-db/2.12.1/gl/lib/mbsrtoc32s.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_anyhash1.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_anyhash2.h /usr/src/debug/man-db/2.12.1/gl/lib/asnprintf.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_print.c /usr/src/debug/man-db/2.12.1/gl/lib/s
- tdlib.h /usr/src/debug/man-db/2.12.1/gl/lib/memchr.c /usr/src/debug/man-db/2.12.1/gl/lib/mbsrtowcs-state.c /usr/src/debug/man-db/2.12.1/gl/lib/basename.c /usr/src/debug/man-db/2.12.1/gl/lib/progname.c /usr/src/debug/man-db/2.12.1/gl/lib/tempname.c /usr/src/debug/man-db/2.12.1/gl/lib/progname.h /usr/src/debug/man-db/2.12.1/gl/lib/tempname.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_xmap.h /usr/src/debug/man-db/2.12.1/gl/lib/save-cwd.h /usr/src/debug/man-db/2.12.1/gl/lib/btoc32.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_anyhash_primes.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_anytree_list2.h /usr/src/debug/man-db/2.12.1/gl/lib/save-cwd.c /usr/src/debug/man-db/2.12.1/gl/lib/argp-eexst.c /usr/src/debug/man-db/2.12.1/gl/lib/globfree.c /usr/src/debug/man-db/2.12.1/gl/lib/glob.c /usr/src/debug/man-db/2.12.1/gl/lib/hash.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_anylinked_list2.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_anyrbtree_list2.h /usr/src/debug/man-db/2.12.1/gl/lib/mbsrtoc32s-state.c /usr/src
- /debug/man-db/2.12.1/gl/lib/argp.h /usr/src/debug/man-db/2.12.1/gl/lib/c32is-impl.h /usr/src/debug/man-db/2.12.1/gl/lib/glob.h /usr/src/debug/man-db/2.12.1/gl/lib/hash.h /usr/src/debug/man-db/2.12.1/gl/lib/dirent.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_xdigit.c /usr/src/debug/man-db/2.12.1/gl/lib/unicase/tolower.h /usr/src/debug/man-db/2.12.1/gl/lib/getopt-ext.h /usr/src/debug/man-db/2.12.1/gl/lib/getopt.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_xdigit.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-ba.c /usr/src/debug/man-db/2.12.1/gl/lib/sockets.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_array_list.h /usr/src/debug/man-db/2.12.1/gl/lib/idpriv-drop.c /usr/src/debug/man-db/2.12.1/gl/lib/dup-safer-flag.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_array_list.c /usr/src/debug/man-db/2.12.1/gl/lib/openat-proc.c /usr/src/debug/man-db/2.12.1/gl/lib/utimens.c /usr/src/debug/man-db/2.12.1/gl/lib/fd-safer.c /usr/src/debug/man-db/2.12.1/gl/lib/xstdopen.c /usr/src/debug/man-db/2.1
- 2.1/gl/lib/xstdopen.h /usr/src/debug/man-db/2.12.1/gl/lib/utimens.h /usr/src/debug/man-db/2.12.1/gl/lib/glob_internal.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-help.c /usr/src/debug/man-db/2.12.1/gl/lib/printf-args.h /usr/src/debug/man-db/2.12.1/gl/lib/idx.h /usr/src/debug/man-db/2.12.1/gl/lib/printf-args.c /usr/src/debug/man-db/2.12.1/gl/lib/cloexec.c /usr/src/debug/man-db/2.12.1/gl/lib/mbrtowc.c /usr/src/debug/man-db/2.12.1/gl/lib/regexec.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_rbtree_list.h /usr/src/debug/man-db/2.12.1/gl/lib/setlocale_null.h /usr/src/debug/man-db/2.12.1/gl/lib/c32_get_type_test.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_rbtree_list.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_xset.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/bitmap.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_alnum.c /usr/src/debug/man-db/2.12.1/gl/lib/uchar.h /usr/src/debug/man-db/2.12.1/gl/lib/wchar.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr/u-strcat.h /usr/src/debug/man-db/2.12.1/gl/l
- ib/file-set.c /usr/src/debug/man-db/2.12.1/gl/lib/hash-triple-simple.c /usr/src/debug/man-db/2.12.1/gl/lib/sig-handler.h /usr/src/debug/man-db/2.12.1/gl/lib/idpriv.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_list.h /usr/src/debug/man-db/2.12.1/gl/lib/file-set.h /usr/src/debug/man-db/2.12.1/gl/lib/renameatu.c /usr/src/debug/man-db/2.12.1/gl/lib/setlocale_null.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_alnum.h /usr/src/debug/man-db/2.12.1/gl/lib/dirname.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_alpha.h /usr/src/debug/man-db/2.12.1/gl/lib/getcwd.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_blank.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_cntrl.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_digit.h /usr/src/debug/man-db/2.12.1/gl/lib/dirname.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_set.h /usr/src/debug/man-db/2.12.1/gl/lib/printf-parse.c /usr/src/debug/man-db/2.12.1/gl/lib/filenamecat-lgpl.c /usr/src/debug/man-db/2.12.1/gl/lib/printf-parse.h /us
- r/src/debug/man-db/2.12.1/gl/lib/unistd-safer.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr/u-cpy.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-pvh.c /usr/src/debug/man-db/2.12.1/gl/lib/mbsrtowcs.c /usr/src/debug/man-db/2.12.1/gl/lib/vasnprintf.c /usr/src/debug/man-db/2.12.1/gl/lib/xvasprintf.c /usr/src/debug/man-db/2.12.1/gl/lib/strnlen1.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-fmtstream.h /usr/src/debug/man-db/2.12.1/gl/lib/xgetcwd.h /usr/src/debug/man-db/2.12.1/gl/lib/vasnprintf.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-fmtstream.c /usr/src/debug/man-db/2.12.1/gl/lib/strnlen1.c /usr/src/debug/man-db/2.12.1/gl/lib/xgetcwd.c /usr/src/debug/man-db/2.12.1/gl/lib/xvasprintf.h /usr/src/debug/man-db/2.12.1/gl/lib/basename-lgpl.c /usr/src/debug/man-db/2.12.1/gl/lib/bitrotate.h /usr/src/debug/man-db/2.12.1/gl/lib/strcasestr.c /usr/src/debug/man-db/2.12.1/gl/lib/dirname-lgpl.c /usr/src/debug/man-db/2.12.1/gl/lib/fcntl.c /usr/src/debug/man-db/2.12.1/gl/lib/ioctl.c /usr/src/debug/man-db/2.12.
- 1/gl/lib/unictype/ctype_punct.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_space.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_blank.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_cntrl.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_digit.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_graph.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_upper.c /usr/src/debug/man-db/2.12.1/gl/lib/xasprintf.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_graph.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_lower.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_print.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_punct.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_space.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_upper.h /usr/src/debug/man-db/2.12.1/gl/lib/mbsrtowcs-impl.h /usr/src/debug/man-db/2.12.1/gl/lib/idpriv-droptemp.c /usr/src/debug/man-db/2.12.1/gl/lib/fcntl.h /usr/src/debug/man-db/2.12.1/gl/lib/getprogname.c /usr/src
- /debug/man-db/2.12.1/gl/lib/getopt_int.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr/u32-chr.c /usr/src/debug/man-db/2.12.1/gl/lib/regex_internal.c /usr/src/debug/man-db/2.12.1/gl/lib/unicase/simple-mapping.h /usr/src/debug/man-db/2.12.1/gl/lib/basename-lgpl.h /usr/src/debug/man-db/2.12.1/gl/lib/btowc.c /usr/src/debug/man-db/2.12.1/gl/lib/regex_internal.h /usr/src/debug/man-db/2.12.1/gl/lib/glob-libc.gl.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-pv.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_xlist.h /usr/src/debug/man-db/2.12.1/gl/lib/glob_pattern_p.c /usr/src/debug/man-db/2.12.1/gl/lib/timespec.h /usr/src/debug/man-db/2.12.1/gl/lib/argp-parse.c /usr/src/debug/man-db/2.12.1/gl/lib/fd-safer-flag.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_hash_map.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_hash_set.c /usr/src/debug/man-db/2.12.1/gl/lib/gl_anytree_list1.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_hash_set.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_hash_m
- ap.h /usr/src/debug/man-db/2.12.1/gl/lib/exitfail.h /usr/src/debug/man-db/2.12.1/gl/lib/same-inode.h /usr/src/debug/man-db/2.12.1/gl/lib/str-two-way.h /usr/src/debug/man-db/2.12.1/gl/lib/malloca.c /usr/src/debug/man-db/2.12.1/gl/lib/mbrtoc32.c /usr/src/debug/man-db/2.12.1/gl/lib/exitfail.c /usr/src/debug/man-db/2.12.1/gl/lib/canonicalize.c /usr/src/debug/man-db/2.12.1/gl/lib/getopt-core.h /usr/src/debug/man-db/2.12.1/gl/lib/malloca.h /usr/src/debug/man-db/2.12.1/gl/lib/xmalloc.c /usr/src/debug/man-db/2.12.1/gl/lib/nonblocking.c /usr/src/debug/man-db/2.12.1/gl/lib/stdopen.c /usr/src/debug/man-db/2.12.1/gl/lib/xstrndup.h /usr/src/debug/man-db/2.12.1/gl/lib/hard-locale.h /usr/src/debug/man-db/2.12.1/gl/lib/hash-triple.h /usr/src/debug/man-db/2.12.1/gl/lib/stdopen.h /usr/src/debug/man-db/2.12.1/gl/lib/c32_apply_type_test.c /usr/src/debug/man-db/2.12.1/gl/lib/hard-locale.c /usr/src/debug/man-db/2.12.1/gl/lib/unistd.h /usr/src/debug/man-db/2.12.1/gl/lib/xstrndup.c /usr/src/debug/man-db/2.
- 12.1/gl/lib/regcomp.c /usr/src/debug/man-db/2.12.1/gl/lib/gettime.c /usr/src/debug/man-db/2.12.1/gl/lib/dup-safer.c /usr/src/debug/man-db/2.12.1/gl/lib/getopt1.c /usr/src/debug/man-db/2.12.1/gl/lib/ialloc.h /usr/src/debug/man-db/2.12.1/gl/lib/xalloc.h /usr/src/debug/man-db/2.12.1/gl/lib/pipe-safer.c /usr/src/debug/man-db/2.12.1/gl/lib/fnmatch_loop.c /usr/src/debug/man-db/2.12.1/gl/lib/verror.h /usr/src/debug/man-db/2.12.1/gl/lib/regex.h /usr/src/debug/man-db/2.12.1/gl/lib/string.h /usr/src/debug/man-db/2.12.1/gl/lib/verror.c /usr/src/debug/man-db/2.12.1/gl/lib/fnmatch.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr/u-pcpy.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_anylinked_list1.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_anyrbtree_list1.h /usr/src/debug/man-db/2.12.1/gl/lib/xsize.h /usr/src/debug/man-db/2.12.1/gl/lib/fnmatch.c /usr/src/debug/man-db/2.12.1/gl/lib/stat-time.h /usr/src/debug/man-db/2.12.1/gl/lib/stripslash.c /usr/src/debug/man-db/2.12.1/gl/lib/xalloc-die.c /usr/src/debug/man
- -db/2.12.1/gl/lib/chdir-long.h /usr/src/debug/man-db/2.12.1/gl/lib/unistr/u-strlen.h /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_alpha.c /usr/src/debug/man-db/2.12.1/gl/lib/hash-pjw.h /usr/src/debug/man-db/2.12.1/gl/lib/hash-pjw-bare.h /usr/src/debug/man-db/2.12.1/gl/lib/chdir-long.c /usr/src/debug/man-db/2.12.1/gl/lib/localcharset.h /usr/src/debug/man-db/2.12.1/gl/lib/openat-die.c /usr/src/debug/man-db/2.12.1/gl/lib/unictype/ctype_lower.c /usr/src/debug/man-db/2.12.1/gl/lib/hash-pjw-bare.c /usr/src/debug/man-db/2.12.1/gl/lib/hash-pjw.c /usr/src/debug/man-db/2.12.1/gl/lib/localcharset.c /usr/src/debug/man-db/2.12.1/gl/lib/canonicalize.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_linkedhash_list.h /usr/src/debug/man-db/2.12.1/gl/lib/gl_linkedhash_list.c /usr/src/debug/man-db/2.12.1/gl/lib/unitypes.h"
-packages/core2-64-poky-linux/man-db/man-db-src: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db-staticdev: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db-staticdev: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-packages/core2-64-poky-linux/man-db/man-db: PV changed from "2.12.0" to "2.12.1"
-packages/core2-64-poky-linux/man-db/man-db: PKGSIZE changed from 1001537 to 1067125 (+7%)
-packages/core2-64-poky-linux/man-db/man-db: FILELIST: removed "/usr/lib/man-db/libmandb-2.12.0.so /usr/lib/man-db/libman-2.12.0.so", added "/usr/lib/man-db/libmandb-2.12.1.so /usr/lib/man-db/libman-2.12.1.so"
-packages/core2-64-poky-linux/man-db/man-db: PKGV changed from 2.12.0 [default] to 2.12.1 [default]
-Changes to packages/core2-64-poky-linux/man-db (sysroot):
-  /usr/lib/man-db/libmandb.so changed symlink target from libmandb-2.12.0.so to libmandb-2.12.1.so
-  /usr/lib/man-db/libman.so changed symlink target from libman-2.12.0.so to libman-2.12.1.so
-  /usr/lib/man-db/libman-2.12.0.so moved to /usr/lib/man-db/libman-2.12.1.so
-  /usr/lib/man-db/libmandb-2.12.0.so moved to /usr/lib/man-db/libmandb-2.12.1.so
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/cronie/cronie-dbg: PKGSIZE changed from 431064 to 431256 (+0%)
+packages/core2-64-poky-linux/cronie/cronie-dbg: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-dbg: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie-dev: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-dev: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie-doc: PKGSIZE changed from 31997 to 32091 (+0%)
+packages/core2-64-poky-linux/cronie/cronie-doc: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-doc: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie-locale: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-locale: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie-src: PKGSIZE changed from 188935 to 189048 (+0%)
+packages/core2-64-poky-linux/cronie/cronie-src: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-src: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie-staticdev: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie-staticdev: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie/cronie: PKGSIZE changed from 174609 to 174633 (+0%)
+packages/core2-64-poky-linux/cronie/cronie: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie/cronie: PV changed from "1.7.1" to "1.7.2"
+packages/core2-64-poky-linux/cronie: SRC_URI changed from "https://github.com/cronie-crond/cronie/releases//download/cronie-1.7.1/cronie-1.7.1.tar.gz file://crond.init file://crontab file://crond.service file://crond_pam_config.patch" to "https://github.com/cronie-crond/cronie/releases//download/cronie-1.7.2/cronie-1.7.2.tar.gz file://crond.init file://crontab file://crond.service file://crond_pam_config.patch"
+packages/core2-64-poky-linux/cronie: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-64-poky-linux/cronie: PV changed from "1.7.1" to "1.7.2"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3632,5 +2969,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5909314000444149715==--
+--===============2081382639496176662==--
 
