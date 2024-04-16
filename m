@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1125C52D74
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.13428.1713248038241196778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C42C52D7C
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:19 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.13423.1713248037148990084
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:14:10 -0700
+ Mon, 15 Apr 2024 23:14:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YVPDlk6H;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=eaB55VoK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58a98bb-8097d0f9-c633-4900-be86-f09f51d59ddf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OTO4m6ob;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cHcHuUZ0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018ee58a97e4-1316af74-060e-43aa-a537-323216542359-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1713248049;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3iKfnllorljJ3XDZsVccZE70SLGKP58GQFSE0d5AMxk=;
-	b=YVPDlk6HyCZY14kFxPqln80xpP0SxQkdb/VC4BMz3wqrgm0KEX1ZbhWHkyFJ+492
-	GkVT2Uj4zASFlPTt3xFJE2NYjzxveGfBBJMw/5PfOe4+F0o67CBzB2FJ+eG1gSu1Ca3
-	aFYrsGkQ2AAhDXHONiBqq40i7F86rfJMGQ5CIJQg=
+	bh=o5ek++h69iLyYFZkqHBJsAQ/KYa5ZyEGyIS53dHgiIg=;
+	b=OTO4m6obek3PX5Yr2q7wYOls0nG7P6BEBIzUuq2M+x+DhrIrQcTBDFRhlJTh3+Jj
+	N01W/RJOi7ws5FlUOf2ZHLl1tR5qN0hbQ96p9MsywHbdGHODwhvi7RRc0ykxx6NWjQn
+	8CZ7sHEmW7d1PahLmW+wnv6OhwVQayFLE65jVM88=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248049;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3iKfnllorljJ3XDZsVccZE70SLGKP58GQFSE0d5AMxk=;
-	b=eaB55VoK6gcZ5X6zrbnSRaWiZT21S3Ek3PN8GiKt68zu7fEWQ2jpBs9BFD/bcwAJ
-	hWROb/Ide08rWzQhVdR8Fqs014lcWekIf/gYxMoEdT+kzwRm9AFnMu2RdotYeKpsHmr
-	Thhk6xkq24jjnSoknVWUkrc2HNmC7qZZsq1RZqWE=
-Content-Type: multipart/mixed; boundary="===============4124263063523244512=="
+	bh=o5ek++h69iLyYFZkqHBJsAQ/KYa5ZyEGyIS53dHgiIg=;
+	b=cHcHuUZ0npUonypsSACeDK5OYEW4n/FC+TBQDF4FgHjgBgkvdtkvCAX1SWRxF/Pr
+	4wvkrTaE/nBqBieokJX0RrjcBJCr2+UxnV40py3lsXmh3VH7AcOGtz9lk5HxNfi59mR
+	U/Gq6gy8kOiD0NeItEOau0TGkV7j+eQrNWMDO2pg=
+Content-Type: multipart/mixed; boundary="===============5334164237434126549=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2024.0 SUCCEEDED
-Message-ID: <0101018ee58a98bb-8097d0f9-c633-4900-be86-f09f51d59ddf-000000@us-west-2.amazonses.com>
+Subject: [AUH] mesa: upgrading to 24.0.5 SUCCEEDED
+Message-ID: <0101018ee58a97e4-1316af74-060e-43aa-a537-323216542359-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.31
+X-SES-Outgoing: 2024.04.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198365
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198357
 
---===============4124263063523244512==
+--===============5334164237434126549==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shaderc* to *2024.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *mesa* to *24.0.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2023.8-2024.0.patch
+    - apply the patch: git am 0001-mesa-upgrade-24.0.2-24.0.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,446 +72,423 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f5960df28b7856ab9b84a5035cebc7dcbab41ece Mon Sep 17 00:00:00 2001
+From 94c88c130a348400d4dbb7f87418d4178c023fda Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 23:28:48 +0000
-Subject: [PATCH] shaderc: upgrade 2023.8 -> 2024.0
+Date: Mon, 15 Apr 2024 22:54:40 +0000
+Subject: [PATCH] mesa: upgrade 24.0.2 -> 24.0.5
 
 ---
- ...make-disable-building-external-dependencies.patch | 12 ++++++------
- ...aderc_util-fix-glslang-header-file-location.patch |  2 +-
- .../shaderc/{shaderc_2023.8.bb => shaderc_2024.0.bb} |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2023.8.bb => shaderc_2024.0.bb} (95%)
+ ...Revert-meson-do-not-pull-in-clc-for-clover.patch | 13 +++++--------
+ .../files/0001-drisw-fix-build-without-dri3.patch   | 11 ++++-------
+ ...son-misdetects-64bit-atomics-on-mips-clang.patch |  2 +-
+ ...d-check-for-all-linux-host_os-combinations.patch |  4 ++--
+ ...xext-don-t-try-zink-if-not-enabled-in-mesa.patch |  9 +++------
+ meta/recipes-graphics/mesa/mesa.inc                 |  2 +-
+ .../mesa/{mesa_24.0.2.bb => mesa_24.0.5.bb}         |  0
+ 7 files changed, 16 insertions(+), 25 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.2.bb => mesa_24.0.5.bb} (100%)
 
-diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-index 4212512034..c605f33590 100644
---- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-+++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+index f6d95c8982..533e2c74e9 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
 @@ -1,4 +1,4 @@
--From 792a46ef27ef879a21c9f01a198eae213ea535e6 Mon Sep 17 00:00:00 2001
-+From 458e1a00be096a16d23e1294477e7afd26b6d6f2 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] cmake: disable building external dependencies
-@@ -15,7 +15,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  2 files changed, 25 insertions(+), 10 deletions(-)
+-From fe4600de549549fbb3033fc1b37904ba6b3fe2af Mon Sep 17 00:00:00 2001
++From 7d847bd527dc625756ae0c2398e458f7b7a426bc Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Fri, 8 Mar 2024 15:53:11 +0100
+ Subject: [PATCH] Revert "meson: do not pull in clc for clover"
+@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
+  2 files changed, 3 insertions(+), 2 deletions(-)
  
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 7bc8f5d..13fc535 100644
-+index ffcb54b..cce715e 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
- @@ -62,6 +62,7 @@ else()
-@@ -26,7 +26,7 @@ index 7bc8f5d..13fc535 100644
+ diff --git a/meson.build b/meson.build
+-index 25e92ea5f95..3956e19c08f 100644
++index d0d9c5a..277093a 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -818,6 +818,7 @@ if _opencl != 'disabled'
++@@ -813,6 +813,7 @@ if _opencl != 'disabled'
+      error('The Clover OpenCL state tracker requires rtti')
+    endif
   
-  set (CMAKE_CXX_STANDARD 17)
+@@ -29,7 +29,7 @@ index 25e92ea5f95..3956e19c08f 100644
+    with_gallium_opencl = true
+    with_opencl_icd = _opencl == 'icd'
+  else
+-@@ -842,7 +843,7 @@ if with_gallium_rusticl
++@@ -837,7 +838,7 @@ if with_gallium_rusticl
+  endif
   
--@@ -123,8 +124,14 @@ endif(MSVC)
-+@@ -119,8 +120,14 @@ endif(MSVC)
+  dep_clc = null_dep
+@@ -39,7 +39,7 @@ index 25e92ea5f95..3956e19c08f 100644
+  endif
   
+ diff --git a/src/compiler/meson.build b/src/compiler/meson.build
+-index 8d73544c6d8..1dae56d1b2b 100644
++index 8d73544..1dae56d 100644
+ --- a/src/compiler/meson.build
+ +++ b/src/compiler/meson.build
+ @@ -79,7 +79,7 @@ subdir('nir')
+@@ -51,6 +51,3 @@ index 8d73544c6d8..1dae56d1b2b 100644
+    subdir('clc')
+  endif
+  if with_gallium
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+index ab16152090..b1b013c03f 100644
+--- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
++++ b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+@@ -1,7 +1,7 @@
+-From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
++From 4644f63f464f0848641beac0679dc819a24250b8 Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:09 +0100
+-Subject: [PATCH 1/2] drisw: fix build without dri3
++Subject: [PATCH] drisw: fix build without dri3
+ 
+ commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
+ added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
+@@ -24,7 +24,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 4 insertions(+)
+ 
+ diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
+-index 3d3f752..4b19e2d 100644
++index cbba547..6f07709 100644
+ --- a/src/glx/drisw_glx.c
+ +++ b/src/glx/drisw_glx.c
+ @@ -32,7 +32,9 @@
+@@ -45,7 +45,7 @@ index 3d3f752..4b19e2d 100644
+     if (pdpyp->zink) {
+        bool err;
+        psc->has_multibuffer = dri3_check_multibuffer(priv->dpy, &err);
+-@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
++@@ -1007,6 +1010,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
+           goto handle_error;
+        }
+     }
+@@ -53,6 +53,3 @@ index 3d3f752..4b19e2d 100644
   
-  # Configure subdirectories.
-@@ -43,9 +43,9 @@ index 7bc8f5d..13fc535 100644
-  
-  add_subdirectory(libshaderc_util)
-  add_subdirectory(libshaderc)
--@@ -136,7 +143,7 @@ endif()
-+@@ -132,7 +139,7 @@ endif()
-  add_custom_target(build-version
--   ${PYTHON_EXECUTABLE}
-+   ${Python_EXECUTABLE}
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
- -  ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/build-version.inc
- +  ${CMAKE_CURRENT_BINARY_DIR}/build-version.inc ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR}
-@@ -53,7 +53,7 @@ index 7bc8f5d..13fc535 100644
-  
-  function(define_pkg_config_file NAME LIBS)
- diff --git a/utils/update_build_version.py b/utils/update_build_version.py
--index 11ee53e..d39e59d 100755
-+index b7ce5b8..95b34c5 100755
- --- a/utils/update_build_version.py
- +++ b/utils/update_build_version.py
- @@ -30,6 +30,7 @@ import re
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index 39f982b7f3..9c285627cb 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+     glx_config_destroy_list(psc->base.configs);
+     psc->base.configs = configs;
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index baa98a0d46..b4bbacfad5 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
 @@ -1,4 +1,4 @@
--From ec2442940e1d5338971861bb81537bae3a6c19e2 Mon Sep 17 00:00:00 2001
-+From 7fb73cfe97b02bae2c4c8c186d94fd1971c899f5 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] libshaderc_util: fix glslang header file location
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2023.8.bb b/meta/recipes-graphics/shaderc/shaderc_2024.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2023.8.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2024.0.bb
-index bc7afbdf5e..9975c608ac 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2023.8.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2024.0.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+-From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
++From 223aa7492c2745d9076f18d4e0baa3c53682379d Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index 7be7d81eeb..919dfa0302 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
++From 2442db31d0f5b5d07f0cd9e97b593479cc45a136 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -19,7 +19,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
--SRCREV = "f8a25c591bf5edbb462ca4aea99dcc666f096d13"
-+SRCREV = "9f56ca620c07d6c4d119c65c1c1f3f1c584c9985"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+ diff --git a/meson.build b/meson.build
+-index 133fd9a..817861e 100644
++index 8963b31..d0d9c5a 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+index 036a0b4945..3596054794 100644
+--- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
++++ b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+@@ -1,7 +1,7 @@
+-From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
++From c707039f80bd9f4a4f42fd172c43aeecd0962246 Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:10 +0100
+-Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
++Subject: [PATCH] glxext: don't try zink if not enabled in mesa
+ 
+ Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
+ added an automatic zink fallback even when the zink gallium is not
+@@ -22,7 +22,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/src/glx/glxext.c b/src/glx/glxext.c
+-index 05c825a..7a06aa9 100644
++index fd53e00..31e8511 100644
+ --- a/src/glx/glxext.c
+ +++ b/src/glx/glxext.c
+ @@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
+@@ -37,6 +37,3 @@ index 05c825a..7a06aa9 100644
+     }
+  #endif /* GLX_USE_DRM */
+     if (glx_direct)
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 6e96190084..77e9c80fcb 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
++SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.2.bb b/meta/recipes-graphics/mesa/mesa_24.0.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.5.bb
 -- 
 2.42.0
 
 
---===============4124263063523244512==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2023.8-2024.0.patch"
-
-RnJvbSBmNTk2MGRmMjhiNzg1NmFiOWI4NGE1MDM1Y2ViYzdkY2JhYjQxZWNlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjM6Mjg6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-aGFkZXJjOiB1cGdyYWRlIDIwMjMuOCAtPiAyMDI0LjAKCi0tLQogLi4ubWFrZS1kaXNhYmxlLWJ1
-aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCB8IDEyICsrKysrKy0tLS0tLQogLi4u
-YWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaCB8ICAyICst
-CiAuLi4vc2hhZGVyYy97c2hhZGVyY18yMDIzLjguYmIgPT4gc2hhZGVyY18yMDI0LjAuYmJ9IHwg
-IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3tzaGFkZXJjXzIwMjMuOC5iYiA9
-PiBzaGFkZXJjXzIwMjQuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwt
-ZGVwZW5kZW5jaWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMv
-MDAwMS1jbWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaApp
-bmRleCA0MjEyNTEyMDM0Li5jNjA1ZjMzNTkwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwt
-ZGVwZW5kZW5jaWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2Zp
-bGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc5MmE0NmVmMjdlZjg3OWEyMWM5ZjAxYTE5OGVhZTIx
-M2VhNTM1ZTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ1OGUxYTAwYmUwOTZhMTZk
-MjNlMTI5NDQ3N2U3YWZkMjZiNmQ2ZjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBK
-b3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwgMTMgRmVi
-IDIwMjEgMDA6NDU6NTYgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21ha2U6IGRpc2FibGUgYnVp
-bGRpbmcgZXh0ZXJuYWwgZGVwZW5kZW5jaWVzCkBAIC0xNSw3ICsxNSw3IEBAIFNpZ25lZC1vZmYt
-Ynk6IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogIDIgZmlsZXMgY2hh
-bmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9D
-TWFrZUxpc3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1pbmRleCA3YmM4ZjVkLi4xM2ZjNTM1IDEw
-MDY0NAoraW5kZXggZmZjYjU0Yi4uY2NlNzE1ZSAxMDA2NDQKIC0tLSBhL0NNYWtlTGlzdHMudHh0
-CiArKysgYi9DTWFrZUxpc3RzLnR4dAogQEAgLTYyLDYgKzYyLDcgQEAgZWxzZSgpCkBAIC0yNiw3
-ICsyNiw3IEBAIGluZGV4IDdiYzhmNWQuLjEzZmM1MzUgMTAwNjQ0CiAgCiAgc2V0IChDTUFLRV9D
-WFhfU1RBTkRBUkQgMTcpCiAgCi1AQCAtMTIzLDggKzEyNCwxNCBAQCBlbmRpZihNU1ZDKQorQEAg
-LTExOSw4ICsxMjAsMTQgQEAgZW5kaWYoTVNWQykKICAKICAKICAjIENvbmZpZ3VyZSBzdWJkaXJl
-Y3Rvcmllcy4KQEAgLTQzLDkgKzQzLDkgQEAgaW5kZXggN2JjOGY1ZC4uMTNmYzUzNSAxMDA2NDQK
-ICAKICBhZGRfc3ViZGlyZWN0b3J5KGxpYnNoYWRlcmNfdXRpbCkKICBhZGRfc3ViZGlyZWN0b3J5
-KGxpYnNoYWRlcmMpCi1AQCAtMTM2LDcgKzE0Myw3IEBAIGVuZGlmKCkKK0BAIC0xMzIsNyArMTM5
-LDcgQEAgZW5kaWYoKQogIGFkZF9jdXN0b21fdGFyZ2V0KGJ1aWxkLXZlcnNpb24KLSAgICR7UFlU
-SE9OX0VYRUNVVEFCTEV9CisgICAke1B5dGhvbl9FWEVDVVRBQkxFfQogICAgJHtDTUFLRV9DVVJS
-RU5UX1NPVVJDRV9ESVJ9L3V0aWxzL3VwZGF0ZV9idWlsZF92ZXJzaW9uLnB5CiAtICAke3NoYWRl
-cmNfU09VUkNFX0RJUn0gJHtzcGlydi10b29sc19TT1VSQ0VfRElSfSAke2dsc2xhbmdfU09VUkNF
-X0RJUn0gJHtDTUFLRV9DVVJSRU5UX0JJTkFSWV9ESVJ9L2J1aWxkLXZlcnNpb24uaW5jCiArICAk
-e0NNQUtFX0NVUlJFTlRfQklOQVJZX0RJUn0vYnVpbGQtdmVyc2lvbi5pbmMgJHtzaGFkZXJjX1NP
-VVJDRV9ESVJ9ICR7c3BpcnYtdG9vbHNfU09VUkNFX0RJUn0gJHtnbHNsYW5nX1NPVVJDRV9ESVJ9
-CkBAIC01Myw3ICs1Myw3IEBAIGluZGV4IDdiYzhmNWQuLjEzZmM1MzUgMTAwNjQ0CiAgCiAgZnVu
-Y3Rpb24oZGVmaW5lX3BrZ19jb25maWdfZmlsZSBOQU1FIExJQlMpCiBkaWZmIC0tZ2l0IGEvdXRp
-bHMvdXBkYXRlX2J1aWxkX3ZlcnNpb24ucHkgYi91dGlscy91cGRhdGVfYnVpbGRfdmVyc2lvbi5w
-eQotaW5kZXggMTFlZTUzZS4uZDM5ZTU5ZCAxMDA3NTUKK2luZGV4IGI3Y2U1YjguLjk1YjM0YzUg
-MTAwNzU1CiAtLS0gYS91dGlscy91cGRhdGVfYnVpbGRfdmVyc2lvbi5weQogKysrIGIvdXRpbHMv
-dXBkYXRlX2J1aWxkX3ZlcnNpb24ucHkKIEBAIC0zMCw2ICszMCw3IEBAIGltcG9ydCByZQpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJzaGFk
-ZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xz
-bGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaAppbmRleCAzOWY5ODJiN2YzLi45YzI4NTYy
-N2NiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAy
-LWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNf
-dXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gZWMyNDQyOTQwZTFkNTMzODk3MTg2MWJiODE1MzdiYWUzYTZjMTllMiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gN2ZiNzNjZmU5N2IwMmJhZTJjNGM4YzE4NmQ5NGZkMTk3
-MWM4OTlmNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1
-YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTogU2F0LCAxMyBGZWIgMjAyMSAwMDo0NTo1NiAr
-MDAwMAogU3ViamVjdDogW1BBVENIXSBsaWJzaGFkZXJjX3V0aWw6IGZpeCBnbHNsYW5nIGhlYWRl
-ciBmaWxlIGxvY2F0aW9uCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVy
-Yy9zaGFkZXJjXzIwMjMuOC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3NoYWRl
-cmNfMjAyNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9zaGFkZXJjL3NoYWRlcmNfMjAyMy44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjQuMC5iYgppbmRleCBiYzdhZmJkZjVlLi45
-OTc1YzYwOGFjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFk
-ZXJjXzIwMjMuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJj
-XzIwMjQuMC5iYgpAQCAtNiw3ICs2LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29t
-L2dvb2dsZS9zaGFkZXJjIgogTElDRU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjci
-CiAKLVNSQ1JFViA9ICJmOGEyNWM1OTFiZjVlZGJiNDYyY2E0YWVhOTlkY2M2NjZmMDk2ZDEzIgor
-U1JDUkVWID0gIjlmNTZjYTYyMGMwN2Q2YzRkMTE5YzY1YzFjMWYzZjFjNTg0Yzk5ODUiCiBTUkNf
-VVJJID0gImdpdDovL2dpdGh1Yi5jb20vZ29vZ2xlL3NoYWRlcmMuZ2l0O3Byb3RvY29sPWh0dHBz
-O2JyYW5jaD1tYWluIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtY21ha2UtZGlzYWJsZS1idWls
-ZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAw
-Mi1saWJzaGFkZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2gg
-XAotLSAKMi40Mi4wCgo=
-
---===============4124263063523244512==
+--===============5334164237434126549==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/shaderc: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-src: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-src: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2023.8 [default] to 2024.0 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 3720936 to 3720928 (-0%)
-packages/core2-64-poky-linux/shaderc/shaderc: PV changed from "2023.8" to "2024.0"
-packages/core2-64-poky-linux/shaderc/shaderc: PKGV changed from 2023.8 [default] to 2024.0 [default]
+packages/core2-64-poky-linux/mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch"
+packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253976048 to 253480824 (-0%)
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 23002355 to 22995287 (-0%)
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153449535 to 153682856 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 26341253 to 26324869 (-0%)
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.2" to "24.0.5"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.2 [default] to 24.0.5 [default]
 
---===============4124263063523244512==
-Content-Type: text/plain; charset="us-ascii"
+--===============5334164237434126549==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-24.0.2-24.0.5.patch"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1879 targets, 46 skipped, 0 masked, 0 errors.
-Removing 8 recipes from the core2-64 sysroot...done.
-Removing 8 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA5NGM4OGMxMzBhMzQ4NDAwZDRkYmI3Zjg3NDE4ZDQxNzhjMDIzZmRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjI6NTQ6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNhOiB1cGdyYWRlIDI0LjAuMiAtPiAyNC4wLjUKCi0tLQogLi4uUmV2ZXJ0LW1lc29uLWRvLW5v
+dC1wdWxsLWluLWNsYy1mb3ItY2xvdmVyLnBhdGNoIHwgMTMgKysrKystLS0tLS0tLQogLi4uL2Zp
+bGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaCAgIHwgMTEgKysrKy0t
+LS0tLS0KIC4uLnNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRj
+aCB8ICAyICstCiAuLi5kLWNoZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMu
+cGF0Y2ggfCAgNCArKy0tCiAuLi54ZXh0LWRvbi10LXRyeS16aW5rLWlmLW5vdC1lbmFibGVkLWlu
+LW1lc2EucGF0Y2ggfCAgOSArKystLS0tLS0KIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jICAgICAgICAgICAgICAgICB8ICAyICstCiAuLi4vbWVzYS97bWVzYV8yNC4wLjIuYmIg
+PT4gbWVzYV8yNC4wLjUuYmJ9ICAgICAgICAgfCAgMAogNyBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNl
+cnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+bWVzYS97bWVzYV8yNC4wLjIuYmIgPT4gbWVzYV8yNC4wLjUuYmJ9ICgxMDAlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtUmV2ZXJ0LW1lc29uLWRv
+LW5vdC1wdWxsLWluLWNsYy1mb3ItY2xvdmVyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvZmlsZXMvMDAwMS1SZXZlcnQtbWVzb24tZG8tbm90LXB1bGwtaW4tY2xjLWZvci1jbG92
+ZXIucGF0Y2gKaW5kZXggZjZkOTVjODk4Mi4uNTMzZTJjNzRlOSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1SZXZlcnQtbWVzb24tZG8tbm90LXB1bGwt
+aW4tY2xjLWZvci1jbG92ZXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
+ZmlsZXMvMDAwMS1SZXZlcnQtbWVzb24tZG8tbm90LXB1bGwtaW4tY2xjLWZvci1jbG92ZXIucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGZlNDYwMGRlNTQ5NTQ5ZmJiMzAzM2ZjMWIzNzkwNGJh
+NmIzZmUyYWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDdkODQ3YmQ1MjdkYzYyNTc1
+NmFlMGMyMzk4ZTQ1OGY3YjdhNDI2YmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBN
+YXJrdXMgVm9sayA8Zl9sX2tAdC1vbmxpbmUuZGU+CiBEYXRlOiBGcmksIDggTWFyIDIwMjQgMTU6
+NTM6MTEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmV2ZXJ0ICJtZXNvbjogZG8gbm90IHB1bGwg
+aW4gY2xjIGZvciBjbG92ZXIiCkBAIC0xOCwxMCArMTgsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWFy
+a3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNv
+bi5idWlsZAotaW5kZXggMjVlOTJlYTVmOTUuLjM5NTZlMTljMDhmIDEwMDY0NAoraW5kZXggZDBk
+OWM1YS4uMjc3MDkzYSAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWls
+ZAotQEAgLTgxOCw2ICs4MTgsNyBAQCBpZiBfb3BlbmNsICE9ICdkaXNhYmxlZCcKK0BAIC04MTMs
+NiArODEzLDcgQEAgaWYgX29wZW5jbCAhPSAnZGlzYWJsZWQnCiAgICAgIGVycm9yKCdUaGUgQ2xv
+dmVyIE9wZW5DTCBzdGF0ZSB0cmFja2VyIHJlcXVpcmVzIHJ0dGknKQogICAgZW5kaWYKICAKQEAg
+LTI5LDcgKzI5LDcgQEAgaW5kZXggMjVlOTJlYTVmOTUuLjM5NTZlMTljMDhmIDEwMDY0NAogICAg
+d2l0aF9nYWxsaXVtX29wZW5jbCA9IHRydWUKICAgIHdpdGhfb3BlbmNsX2ljZCA9IF9vcGVuY2wg
+PT0gJ2ljZCcKICBlbHNlCi1AQCAtODQyLDcgKzg0Myw3IEBAIGlmIHdpdGhfZ2FsbGl1bV9ydXN0
+aWNsCitAQCAtODM3LDcgKzgzOCw3IEBAIGlmIHdpdGhfZ2FsbGl1bV9ydXN0aWNsCiAgZW5kaWYK
+ICAKICBkZXBfY2xjID0gbnVsbF9kZXAKQEAgLTM5LDcgKzM5LDcgQEAgaW5kZXggMjVlOTJlYTVm
+OTUuLjM5NTZlMTljMDhmIDEwMDY0NAogIGVuZGlmCiAgCiBkaWZmIC0tZ2l0IGEvc3JjL2NvbXBp
+bGVyL21lc29uLmJ1aWxkIGIvc3JjL2NvbXBpbGVyL21lc29uLmJ1aWxkCi1pbmRleCA4ZDczNTQ0
+YzZkOC4uMWRhZTU2ZDFiMmIgMTAwNjQ0CitpbmRleCA4ZDczNTQ0Li4xZGFlNTZkIDEwMDY0NAog
+LS0tIGEvc3JjL2NvbXBpbGVyL21lc29uLmJ1aWxkCiArKysgYi9zcmMvY29tcGlsZXIvbWVzb24u
+YnVpbGQKIEBAIC03OSw3ICs3OSw3IEBAIHN1YmRpcignbmlyJykKQEAgLTUxLDYgKzUxLDMgQEAg
+aW5kZXggOGQ3MzU0NGM2ZDguLjFkYWU1NmQxYjJiIDEwMDY0NAogICAgc3ViZGlyKCdjbGMnKQog
+IGVuZGlmCiAgaWYgd2l0aF9nYWxsaXVtCi0tLSAKLTIuNDQuMAotCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRyaXN3LWZpeC1idWlsZC13aXRob3V0
+LWRyaTMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRyaXN3
+LWZpeC1idWlsZC13aXRob3V0LWRyaTMucGF0Y2gKaW5kZXggYWIxNjE1MjA5MC4uYjFiMDEzYzAz
+ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1kcmlz
+dy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9tZXNhL2ZpbGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaApAQCAt
+MSw3ICsxLDcgQEAKLUZyb20gNGJkMTVhNDE5ZTg5MmRhODQzNDg5YzM3NGM1OGM1YjI5YzQwYjVk
+NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDY0NGY2M2Y0NjRmMDg0ODY0MWJlYWMw
+Njc5ZGM4MTlhMjQyNTBiOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvbWFpbiBO
+YW91ciA8cm9tYWluLm5hb3VyQHNtaWxlLmZyPgogRGF0ZTogVHVlLCA2IEZlYiAyMDI0IDA5OjQ3
+OjA5ICswMTAwCi1TdWJqZWN0OiBbUEFUQ0ggMS8yXSBkcmlzdzogZml4IGJ1aWxkIHdpdGhvdXQg
+ZHJpMworU3ViamVjdDogW1BBVENIXSBkcmlzdzogZml4IGJ1aWxkIHdpdGhvdXQgZHJpMwogCiBj
+b21taXQgMTg4NzM2OGRmNDEgKCJnbHgvc3c6IGNoZWNrIGZvciBtb2RpZmllciBzdXBwb3J0IGlu
+IHRoZSBrb3BwZXIgcGF0aCIpCiBhZGRlZCBkcmkzX3ByaXYuaCBoZWFkZXIgYW5kIGRyaTNfY2hl
+Y2tfbXVsdGlidWZmZXIoKSBmdW5jdGlvbiBpbiBkcmlzdyB0aGF0CkBAIC0yNCw3ICsyNCw3IEBA
+IFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNo
+YW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2dseC9kcmlzd19nbHgu
+YyBiL3NyYy9nbHgvZHJpc3dfZ2x4LmMKLWluZGV4IDNkM2Y3NTIuLjRiMTllMmQgMTAwNjQ0Citp
+bmRleCBjYmJhNTQ3Li42ZjA3NzA5IDEwMDY0NAogLS0tIGEvc3JjL2dseC9kcmlzd19nbHguYwog
+KysrIGIvc3JjL2dseC9kcmlzd19nbHguYwogQEAgLTMyLDcgKzMyLDkgQEAKQEAgLTQ1LDcgKzQ1
+LDcgQEAgaW5kZXggM2QzZjc1Mi4uNGIxOWUyZCAxMDA2NDQKICAgICBpZiAocGRweXAtPnppbmsp
+IHsKICAgICAgICBib29sIGVycjsKICAgICAgICBwc2MtPmhhc19tdWx0aWJ1ZmZlciA9IGRyaTNf
+Y2hlY2tfbXVsdGlidWZmZXIocHJpdi0+ZHB5LCAmZXJyKTsKLUBAIC0xMDA1LDYgKzEwMDgsNyBA
+QCBkcmlzd0NyZWF0ZVNjcmVlbkRyaXZlcihpbnQgc2NyZWVuLCBzdHJ1Y3QgZ2x4X2Rpc3BsYXkg
+KnByaXYsCitAQCAtMTAwNyw2ICsxMDEwLDcgQEAgZHJpc3dDcmVhdGVTY3JlZW5Ecml2ZXIoaW50
+IHNjcmVlbiwgc3RydWN0IGdseF9kaXNwbGF5ICpwcml2LAogICAgICAgICAgIGdvdG8gaGFuZGxl
+X2Vycm9yOwogICAgICAgIH0KICAgICB9CkBAIC01Myw2ICs1MywzIEBAIGluZGV4IDNkM2Y3NTIu
+LjRiMTllMmQgMTAwNjQ0CiAgCiAgICAgZ2x4X2NvbmZpZ19kZXN0cm95X2xpc3QocHNjLT5iYXNl
+LmNvbmZpZ3MpOwogICAgIHBzYy0+YmFzZS5jb25maWdzID0gY29uZmlnczsKLS0tIAotMi40NC4w
+Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVz
+b24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRv
+bWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IGJhYTk4YTBkNDYuLmI0YmJhY2ZhZDUgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlz
+ZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21p
+Y3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDJjYzIxODAwZmUy
+OWY1NjZhZGQ1MjVlNjNmNjE5YzA1MzZkNmU3YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b20gMjIzYWE3NDkyYzI3NDVkOTA3NmYxOGQ0ZTBiYWEzYzUzNjgyMzc5ZCBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBN
+b24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uIG1p
+c2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwt
+bGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+bWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1j
+b21iaW5hdGlvbnMucGF0Y2gKaW5kZXggN2JlN2Q4MWVlYi4uOTE5ZGZhMDMwMiAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi5idWlsZC1jaGVj
+ay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hlY2stZm9yLWFsbC1s
+aW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZThl
+YzZiMWNjNWU0MDFiYTcxOTA5NTcyMmQ4YjMxN2Q3NTVhZTYxMyBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gMjQ0MmRiMzFkMGY1YjVkMDdmMGNkOWU5N2I1OTM0NzljYzQ1YTEzNiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyQGFs
+aXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAyMDE5IDEzOjA0OjQ5IC0wODAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBmb3IgYWxsIGxpbnV4IGhvc3Rfb3MgY29t
+YmluYXRpb25zCkBAIC0xOSw3ICsxOSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsaXN0YWlyIEZyYW5j
+aXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
+cygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1aWxkIGIvbWVzb24u
+YnVpbGQKLWluZGV4IDEzM2ZkOWEuLjgxNzg2MWUgMTAwNjQ0CitpbmRleCA4OTYzYjMxLi5kMGQ5
+YzVhIDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAtMTI4
+LDcgKzEyOCw3IEBAIHdpdGhfYW55X29wZW5nbCA9IHdpdGhfb3BlbmdsIG9yIHdpdGhfZ2xlczEg
+b3Igd2l0aF9nbGVzMgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmls
+ZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDItZ2x4ZXh0LWRvbi10LXRy
+eS16aW5rLWlmLW5vdC1lbmFibGVkLWluLW1lc2EucGF0Y2gKaW5kZXggMDM2YTBiNDk0NS4uMzU5
+NjA1NDc5NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAw
+Mi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAyLWdseGV4dC1kb24tdC10cnkt
+emluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoCkBAIC0xLDcgKzEsNyBAQAotRnJvbSA2
+MjQ5NWViYjk3Nzg2NmM1MmQ1YmVkODQ5OWE1NDdjNDlmMGQ5YmMxIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBjNzA3MDM5ZjgwYmQ5ZjRhNGY0MmZkMTcyYzQzYWVlY2QwOTYyMjQ2IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxyb21haW4ubmFvdXJA
+c21pbGUuZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MTAgKzAxMDAKLVN1YmplY3Q6
+IFtQQVRDSCAyLzJdIGdseGV4dDogZG9uJ3QgdHJ5IHppbmsgaWYgbm90IGVuYWJsZWQgaW4gbWVz
+YQorU3ViamVjdDogW1BBVENIXSBnbHhleHQ6IGRvbid0IHRyeSB6aW5rIGlmIG5vdCBlbmFibGVk
+IGluIG1lc2EKIAogQ29tbWl0IDdkOWVhNzdiNDU5ICgiZ2x4OiBhZGQgYXV0b21hdGljIHppbmsg
+ZmFsbGJhY2sgbG9hZGluZyBiZXR3ZWVuIGh3IGFuZCBzdyBkcml2ZXJzIikKIGFkZGVkIGFuIGF1
+dG9tYXRpYyB6aW5rIGZhbGxiYWNrIGV2ZW4gd2hlbiB0aGUgemluayBnYWxsaXVtIGlzIG5vdApA
+QCAtMjIsNyArMjIsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
+Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKIAogZGlmZiAtLWdpdCBhL3Ny
+Yy9nbHgvZ2x4ZXh0LmMgYi9zcmMvZ2x4L2dseGV4dC5jCi1pbmRleCAwNWM4MjVhLi43YTA2YWE5
+IDEwMDY0NAoraW5kZXggZmQ1M2UwMC4uMzFlODUxMSAxMDA2NDQKIC0tLSBhL3NyYy9nbHgvZ2x4
+ZXh0LmMKICsrKyBiL3NyYy9nbHgvZ2x4ZXh0LmMKIEBAIC05MDgsOSArOTA4LDExIEBAIF9fZ2xY
+SW5pdGlhbGl6ZShEaXNwbGF5ICogZHB5KQpAQCAtMzcsNiArMzcsMyBAQCBpbmRleCAwNWM4MjVh
+Li43YTA2YWE5IDEwMDY0NAogICAgIH0KICAjZW5kaWYgLyogR0xYX1VTRV9EUk0gKi8KICAgICBp
+ZiAoZ2x4X2RpcmVjdCkKLS0tIAotMi40NC4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9tZXNhL21lc2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5p
+bmMKaW5kZXggNmU5NjE5MDA4NC4uNzdlOWM4MGZjYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
+bWVzYS5pbmMKQEAgLTIyLDcgKzIyLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRl
+c2t0b3Aub3JnL2FyY2hpdmUvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
+MDAwMS1SZXZlcnQtbWVzb24tZG8tbm90LXB1bGwtaW4tY2xjLWZvci1jbG92ZXIucGF0Y2ggXAog
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTRlMjhhOGVkYWQwNmQ4ZWQyYjgzZWI1M2YyNTNi
+OWViNWFhNjJjMzA4MGY5Mzk3MDJlMWIzMDM5YjU2YzllOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICIzOGNjMjQ1Y2E4ZmFhM2M2OWRhNmQyNjg3Zjg5MDYzNzcwMDFmNjMzNjUzNDhhNjJjYzZmN2Zh
+ZmIxZThjMDE4IgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJtZXNhLSg/UDxwdmVy
+PlxkKyhcLlxkKykrKSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
+bWVzYV8yNC4wLjIuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0LjAuNS5i
+YgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvbWVzYV8yNC4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNh
+L21lc2FfMjQuMC41LmJiCi0tIAoyLjQyLjAKCg==
 
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-f5337ef598f0a9ff0c1f014f9eda131b5a495c57"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f5337ef598f0a9ff0c1f014f9eda131b5a495c57"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 141 Local 130 Mirrors 0 Missed 11 Current 193 (92% match, 96% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 201 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 210 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 212 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_recipe_qa_setscene)
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shaderc-2024.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shaderc-2024.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 349 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_fetch)
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 267 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 268 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_create_spdx_setscene)
-NOTE: recipe shaderc-2024.0-r0: task do_fetch: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 269 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb:do_create_spdx_setscene)
-NOTE: recipe shaderc-2024.0-r0: task do_fetch: Succeeded
-NOTE: Running task 350 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/glslang/1.3.275.0/temp/log.do_packagedata_setscene.742135
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 270 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_package_setscene)
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shaderc-2024.0-r0: task do_unpack: Started
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 271 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 273 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe shaderc-2024.0-r0: task do_unpack: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 277 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_package_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 738 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_patch)
-NOTE: recipe shaderc-2024.0-r0: task do_patch: Started
-NOTE: recipe shaderc-2024.0-r0: task do_patch: Succeeded
-NOTE: Running task 798 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 799 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_generate_toolchain_file)
-NOTE: Running task 800 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_populate_lic)
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 283 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 284 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 285 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe shaderc-2024.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe shaderc-2024.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shaderc-2024.0-r0: task do_populate_lic: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shaderc-2024.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe shaderc-2024.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_populate_lic unihash changed to 361706f18a8b2a96732117ca21dd4d11494b6b7cdae7dc48f16a03a6f782f6b3
-NOTE: recipe shaderc-2024.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_deploy_source_date_epoch unihash changed to c7e6a708d02563237a626e259a1d4160e53df53a2851566ed34c90895a171f7a
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 287 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 288 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 290 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 292 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 293 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 295 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe spirv-headers-1_1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 297 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 299 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 300 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 302 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 304 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 305 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 306 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 307 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 309 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 313 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 314 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 316 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 321 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 323 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 324 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 327 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 329 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 330 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 332 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 334 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 956 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb:do_packagedata)
-NOTE: Running task 962 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_packagedata: Started
-NOTE: recipe shaderc-2024.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glslang-1_1.3.275.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 969 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_collect_spdx_deps)
-NOTE: recipe shaderc-2024.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 970 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_configure)
-NOTE: recipe shaderc-2024.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe shaderc-2024.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe shaderc-2024.0-r0: task do_configure: Started
-NOTE: recipe shaderc-2024.0-r0: task do_configure: Succeeded
-NOTE: Running task 971 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_compile)
-NOTE: recipe shaderc-2024.0-r0: task do_compile: Started
-NOTE: recipe shaderc-2024.0-r0: task do_compile: Succeeded
-NOTE: Running task 972 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_install)
-NOTE: recipe shaderc-2024.0-r0: task do_install: Started
-NOTE: recipe shaderc-2024.0-r0: task do_install: Succeeded
-NOTE: Running task 973 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package)
-NOTE: Running task 974 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_populate_sysroot)
-NOTE: recipe shaderc-2024.0-r0: task do_populate_sysroot: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package: Started
-NOTE: recipe shaderc-2024.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_populate_sysroot unihash changed to ec6963a3e82c301a35c55d96e5cc94dd0b7f9aae94f69c37940a69486b442ba7
-NOTE: recipe shaderc-2024.0-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package unihash changed to 774332a947a7c21d2af49d4348b25f57ed6f5f38de9b4106abf7d891a09ccc55
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_packagedata became valid
-NOTE: Running setscene task 334 of 334 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_packagedata_setscene)
-NOTE: recipe shaderc-2024.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shaderc-2024.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 976 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_create_spdx)
-NOTE: Running task 977 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_ipk)
-NOTE: Running task 978 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_deb)
-NOTE: Running task 979 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_rpm)
-NOTE: Running task 980 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_qa)
-NOTE: recipe shaderc-2024.0-r0: task do_create_spdx: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_ipk: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_deb: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_rpm: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package_qa: Started
-NOTE: recipe shaderc-2024.0-r0: task do_package_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_qa unihash changed to 392bb598b377de892b499f4c3c3236893086319ceebe39aefd429870a68e5f0b
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_ipk unihash changed to 8afb5250a5248b3ad530a9521fb0bce637c383226319e93f8355542c1b966fca
-NOTE: recipe shaderc-2024.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 981 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_create_runtime_spdx)
-NOTE: recipe shaderc-2024.0-r0: task do_create_runtime_spdx: Started
-NOTE: recipe shaderc-2024.0-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_deb unihash changed to cce85e5f653d645ae37687ba87ee700eeefb25ca4fe2ebfe98d313f8b0c45de9
-NOTE: recipe shaderc-2024.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_package_write_rpm unihash changed to ed7488ed6dd6606422d518bc968d02fde570e1f6c03a942fdc6c0500963c14cd
-NOTE: Running noexec task 982 of 982 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/shaderc/shaderc_2024.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 982 tasks of which 961 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.280.0-r0 to 1:1.3.275.0-r0) [version-going-backwards]
-ERROR: glslang-1_1.3.275.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4124263063523244512==--
+--===============5334164237434126549==--
 
