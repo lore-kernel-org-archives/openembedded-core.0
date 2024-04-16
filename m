@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D00EC531DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A914BC531DB
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:19 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.13628.1713248053256425954
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.13440.1713248039149335765
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:14:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Gzmh28xL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uZ+McV1c;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ee58aa4f6-cb918a95-ed4a-4228-a882-3d8ba46eb351-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CD+3cUR2;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jVpByoix;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58aa64c-a5fa650c-4da8-490a-a6ca-00e6f261a012-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248052;
+	t=1713248053;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nqhOHDb/5Nn6q3tzpbTwrT10FE2eyCjksgfBDVQ1z0g=;
-	b=Gzmh28xL3zWt/WVRJA2effwiN+cC8Fcni5Wzy0UUSf6J+48y6k0XzwDUItU3pJiH
-	+bl5Jz8uf4OawdiKzwLwSB1Sg5NqijBFKGBivEJ34djr/1EMI6wcablGaG2yUVHEgoc
-	nG/xLJbk21MTcACAVPDWuPyl5pl0Jp9JDOU1ZdpM=
+	bh=BourQA+ewoe6V43Fa8OlkkpmMxmmnQkjE5oDTEXhxM0=;
+	b=CD+3cUR2ma2p8Ip+GkAwgiD6SaZdwe8J9cw9cGQcZR5R6+1NTXn8STkUJBakSQUz
+	ric8UHFd+fp+jDPT8MSMw61K5gIe5N5jGyydRzcW0zCizVsga0ES32if1XApRkhYIyO
+	AVERvuLgMpky2yXpEchglak2VxNPpcWUFSF50Ne4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248052;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248053;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nqhOHDb/5Nn6q3tzpbTwrT10FE2eyCjksgfBDVQ1z0g=;
-	b=uZ+McV1cn0qTVwnTgQIHGdtkNocDAiAaKlVnpLtp+uARvaLoAjhvzt9iUmlT8qDe
-	7Imahv9HhUasYqiUVFIZ+eH3EDiOcF4utHzjwoAtjGHiEA7DY05Y/9AB4WgdYukDHXi
-	ljp4txiePBOpH7Vchr1OIQlPR+gr2xK3b9fzH/M8=
-Content-Type: multipart/mixed; boundary="===============3391211338805120978=="
+	bh=BourQA+ewoe6V43Fa8OlkkpmMxmmnQkjE5oDTEXhxM0=;
+	b=jVpByoixvypJ5rXyhM7+oHblwdwCXosa97VzPQSPQ4r/jvQSpHzNUFueYg/BeqH4
+	Z1pG6fMOSl2/CmNXnGa//NeE0eeQEwl2secEgKx8E9SCvTjTq3mY5e71uiULO/DQSIX
+	YD9G5oHDzwP+gd3e6Oc87FYxmhB2U8c0PcNv7DCw=
+Content-Type: multipart/mixed; boundary="===============0620689594084757912=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libbsd: upgrading to 0.12.2 SUCCEEDED
-Message-ID: <0101018ee58aa4f6-cb918a95-ed4a-4228-a882-3d8ba46eb351-000000@us-west-2.amazonses.com>
+Subject: [AUH] taglib: upgrading to 2.0.1 SUCCEEDED
+Message-ID: <0101018ee58aa64c-a5fa650c-4da8-490a-a6ca-00e6f261a012-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.33
+X-SES-Outgoing: 2024.04.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198430
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198431
 
---===============3391211338805120978==
+--===============0620689594084757912==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libbsd* to *0.12.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *taglib* to *2.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libbsd-upgrade-0.12.1-0.12.2.patch
+    - apply the patch: git am 0001-taglib-upgrade-2.0-2.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,47 +72,78 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 283ceb86a206d3a9ef40abb1c6b07318821f5ea2 Mon Sep 17 00:00:00 2001
+From a34ee6ba0ccd7a27ebc24a925d349f4781d6f89e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Apr 2024 05:27:23 +0000
-Subject: [PATCH] libbsd: upgrade 0.12.1 -> 0.12.2
+Date: Tue, 16 Apr 2024 06:03:50 +0000
+Subject: [PATCH] taglib: upgrade 2.0 -> 2.0.1
 
 ---
- .../libbsd/{libbsd_0.12.1.bb => libbsd_0.12.2.bb}               | 2 +-
+ meta/recipes-support/taglib/{taglib_2.0.bb => taglib_2.0.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libbsd/{libbsd_0.12.1.bb => libbsd_0.12.2.bb} (95%)
+ rename meta/recipes-support/taglib/{taglib_2.0.bb => taglib_2.0.1.bb} (95%)
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.12.1.bb b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+diff --git a/meta/recipes-support/taglib/taglib_2.0.bb b/meta/recipes-support/taglib/taglib_2.0.1.bb
 similarity index 95%
-rename from meta/recipes-support/libbsd/libbsd_0.12.1.bb
-rename to meta/recipes-support/libbsd/libbsd_0.12.2.bb
-index 161dc6df43..7d5e88f293 100644
---- a/meta/recipes-support/libbsd/libbsd_0.12.1.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
-@@ -38,7 +38,7 @@ SECTION = "libs"
+rename from meta/recipes-support/taglib/taglib_2.0.bb
+rename to meta/recipes-support/taglib/taglib_2.0.1.bb
+index 4bf9be15ae..14f99aabbc 100644
+--- a/meta/recipes-support/taglib/taglib_2.0.bb
++++ b/meta/recipes-support/taglib/taglib_2.0.1.bb
+@@ -11,7 +11,7 @@ DEPENDS = "zlib utfcpp"
  
- SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
  
--SRC_URI[sha256sum] = "d7747f8ec1baa6ff5c096a9dd587c061233dec90da0f1aedd66d830f6db6996a"
-+SRC_URI[sha256sum] = "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+-SRC_URI[sha256sum] = "e36ea877a6370810b97d84cf8f72b1e4ed205149ab3ac8232d44c850f38a2859"
++SRC_URI[sha256sum] = "08c0a27b96aa5c4e23060fe0b6f93102ee9091a9385257b9d0ddcf467de0d925"
  
- inherit autotools pkgconfig
- 
+ UPSTREAM_CHECK_URI = "https://taglib.org/"
+ UPSTREAM_CHECK_REGEX = "taglib-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.42.0
 
 
---===============3391211338805120978==
+--===============0620689594084757912==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-taglib-upgrade-2.0-2.0.1.patch"
+
+RnJvbSBhMzRlZTZiYTBjY2Q3YTI3ZWJjMjRhOTI1ZDM0OWY0NzgxZDZmODllIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDY6MDM6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
+YWdsaWI6IHVwZ3JhZGUgMi4wIC0+IDIuMC4xCgotLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3Rh
+Z2xpYi97dGFnbGliXzIuMC5iYiA9PiB0YWdsaWJfMi4wLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvdGFnbGliL3t0YWdsaWJfMi4wLmJiID0+IHRhZ2xpYl8yLjAuMS5iYn0gKDk1JSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC90YWdsaWIvdGFnbGliXzIuMC5iYiBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3RhZ2xpYi90YWdsaWJfMi4wLjEuYmIKc2ltaWxhcml0eSBp
+bmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvdGFnbGliL3RhZ2xpYl8y
+LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3RhZ2xpYi90YWdsaWJfMi4wLjEu
+YmIKaW5kZXggNGJmOWJlMTVhZS4uMTRmOTlhYWJiYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvdGFnbGliL3RhZ2xpYl8yLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+dGFnbGliL3RhZ2xpYl8yLjAuMS5iYgpAQCAtMTEsNyArMTEsNyBAQCBERVBFTkRTID0gInpsaWIg
+dXRmY3BwIgogCiBTUkNfVVJJID0gImh0dHA6Ly90YWdsaWIuZ2l0aHViLmlvL3JlbGVhc2VzLyR7
+QlB9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUzNmVhODc3YTYzNzA4MTBiOTdk
+ODRjZjhmNzJiMWU0ZWQyMDUxNDlhYjNhYzgyMzJkNDRjODUwZjM4YTI4NTkiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMDhjMGEyN2I5NmFhNWM0ZTIzMDYwZmUwYjZmOTMxMDJlZTkwOTFhOTM4NTI1
+N2I5ZDBkZGNmNDY3ZGUwZDkyNSIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vdGFn
+bGliLm9yZy8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJ0YWdsaWItKD9QPHB2ZXI+XGQrKFwu
+XGQrKSspXC50YXIiCi0tIAoyLjQyLjAKCg==
+
+--===============0620689594084757912==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libbsd/libbsd-doc: FILELIST: removed "/usr/share/man/man3/timeval.3bsd /usr/share/man/man3/timespec.3bsd /usr/share/man/man3/TIMESPEC_TO_TIMEVAL.3bsd /usr/share/man/man3/TIMEVAL_TO_TIMESPEC.3bsd", added "/usr/share/man/man3/vwarnc.3bsd /usr/share/man/man3/warnc.3bsd /usr/share/man/man3/verrc.3bsd"
-packages/core2-64-poky-linux/libbsd/libbsd: FILELIST: removed "/usr/lib/libbsd.so.0.12.1", added "/usr/lib/libbsd.so.0.12.2"
-Changes to packages/core2-64-poky-linux/libbsd (sysroot):
-  /usr/lib/libbsd.so.0 changed symlink target from libbsd.so.0.12.1 to libbsd.so.0.12.2
-  /usr/lib/libbsd.so.0.12.1 moved to /usr/lib/libbsd.so.0.12.2
+Changes to packages/core2-64-poky-linux/taglib (sysroot):
+  /usr/lib/libtag_c.so.2 changed symlink target from libtag_c.so.2.0.0 to libtag_c.so.2.0.1
+  /usr/lib/libtag.so.2 changed symlink target from libtag.so.2.0.0 to libtag.so.2.0.1
+  /usr/lib/libtag_c.so.2.0.0 moved to /usr/lib/libtag_c.so.2.0.1
+  /usr/lib/libtag.so.2.0.0 moved to /usr/lib/libtag.so.2.0.1
+packages/core2-64-poky-linux/taglib/taglib-c: FILELIST: removed "/usr/lib/libtag_c.so.2.0.0", added "/usr/lib/libtag_c.so.2.0.1"
+packages/core2-64-poky-linux/taglib/taglib: FILELIST: removed "/usr/lib/libtag.so.2.0.0", added "/usr/lib/libtag.so.2.0.1"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1752,65 +1783,42 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3391211338805120978==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libbsd-upgrade-0.12.1-0.12.2.patch"
-
-RnJvbSAyODNjZWI4NmEyMDZkM2E5ZWY0MGFiYjFjNmIwNzMxODgyMWY1ZWEyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDU6Mjc6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJic2Q6IHVwZ3JhZGUgMC4xMi4xIC0+IDAuMTIuMgoKLS0tCiAuLi4vbGliYnNkL3tsaWJic2Rf
-MC4xMi4xLmJiID0+IGxpYmJzZF8wLjEyLjIuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJic2Qve2xpYmJzZF8wLjEyLjEuYmIgPT4gbGliYnNkXzAuMTIuMi5i
-Yn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJic2QvbGliYnNk
-XzAuMTIuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMi4yLmJi
-CnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
-YmJzZC9saWJic2RfMC4xMi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJi
-c2QvbGliYnNkXzAuMTIuMi5iYgppbmRleCAxNjFkYzZkZjQzLi43ZDVlODhmMjkzIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJic2QvbGliYnNkXzAuMTIuMS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJic2QvbGliYnNkXzAuMTIuMi5iYgpAQCAtMzgsNyArMzgs
-NyBAQCBTRUNUSU9OID0gImxpYnMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9saWJic2QuZnJlZWRl
-c2t0b3Aub3JnL3JlbGVhc2VzLyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICJkNzc0N2Y4ZWMxYmFhNmZmNWMwOTZhOWRkNTg3YzA2MTIzM2RlYzkwZGEwZjFhZWRk
-NjZkODMwZjZkYjY5OTZhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImI4OGNjOTE2M2QwYzY1MmFh
-ZjM5YTk5OTkxZDk3NGRkYmExYzNhOTcxMWRiOGYxYjU4MzhhZjJhMTQ3MzEwMTQiCiAKIGluaGVy
-aXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZwogCi0tIAoyLjQyLjAKCg==
-
---===============3391211338805120978==
+--===============0620689594084757912==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libbsd: SRC_URI changed from "https://libbsd.freedesktop.org/releases/libbsd-0.12.1.tar.xz" to "https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz"
-packages/core2-64-poky-linux/libbsd: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-dbg: FILELIST: removed "/usr/lib/.debug/libbsd.so.0.12.1", added "/usr/lib/.debug/libbsd.so.0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-dbg: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-dbg: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-dev: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-dev: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-doc: FILELIST: removed "/usr/share/man/man3/TIMESPEC_TO_TIMEVAL.3bsd /usr/share/man/man3/TIMEVAL_TO_TIMESPEC.3bsd /usr/share/man/man3/timeval.3bsd /usr/share/man/man3/timespec.3bsd", added "/usr/share/man/man3/verrc.3bsd /usr/share/man/man3/warnc.3bsd /usr/share/man/man3/vwarnc.3bsd"
-packages/core2-64-poky-linux/libbsd/libbsd-doc: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-doc: PKGSIZE changed from 251437 to 247623 (-2%)
-packages/core2-64-poky-linux/libbsd/libbsd-doc: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-locale: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-locale: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-src: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-src: PKGSIZE changed from 272139 to 272197 (+0%)
-packages/core2-64-poky-linux/libbsd/libbsd-src: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd-staticdev: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd-staticdev: PV changed from "0.12.1" to "0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd: FILELIST: removed "/usr/lib/libbsd.so.0.12.1", added "/usr/lib/libbsd.so.0.12.2"
-packages/core2-64-poky-linux/libbsd/libbsd: PKGV changed from 0.12.1 [default] to 0.12.2 [default]
-packages/core2-64-poky-linux/libbsd/libbsd: PV changed from "0.12.1" to "0.12.2"
-Changes to packages/core2-64-poky-linux/libbsd (sysroot):
-  /usr/lib/libbsd.so.0 changed symlink target from libbsd.so.0.12.1 to libbsd.so.0.12.2
-  /usr/lib/libbsd.so.0.12.1 moved to /usr/lib/libbsd.so.0.12.2
+packages/core2-64-poky-linux/taglib: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib: SRC_URI changed from "http://taglib.github.io/releases/taglib-2.0.tar.gz" to "http://taglib.github.io/releases/taglib-2.0.1.tar.gz"
+packages/core2-64-poky-linux/taglib: PKGV changed from 2.0 [default] to 2.0.1 [default]
+Changes to packages/core2-64-poky-linux/taglib (sysroot):
+  /usr/lib/libtag_c.so.2 changed symlink target from libtag_c.so.2.0.0 to libtag_c.so.2.0.1
+  /usr/lib/libtag.so.2 changed symlink target from libtag.so.2.0.0 to libtag.so.2.0.1
+  /usr/lib/libtag_c.so.2.0.0 moved to /usr/lib/libtag_c.so.2.0.1
+  /usr/lib/libtag.so.2.0.0 moved to /usr/lib/libtag.so.2.0.1
+packages/core2-64-poky-linux/taglib/taglib-c: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-c: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-c: FILELIST: removed "/usr/lib/libtag_c.so.2.0.0", added "/usr/lib/libtag_c.so.2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-dbg: PKGSIZE changed from 22771160 to 22793440 (+0%)
+packages/core2-64-poky-linux/taglib/taglib-dbg: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-dbg: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-dbg: FILELIST: removed "/usr/lib/.debug/libtag.so.2.0.0 /usr/lib/.debug/libtag_c.so.2.0.0", added "/usr/lib/.debug/libtag.so.2.0.1 /usr/lib/.debug/libtag_c.so.2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-dev: PKGSIZE changed from 750528 to 751620 (+0%)
+packages/core2-64-poky-linux/taglib/taglib-dev: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-dev: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-doc: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-doc: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-locale: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-locale: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-src: PKGSIZE changed from 1644201 to 1648005 (+0%)
+packages/core2-64-poky-linux/taglib/taglib-src: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-src: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib-staticdev: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib-staticdev: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib: PV changed from "2.0" to "2.0.1"
+packages/core2-64-poky-linux/taglib/taglib: PKGV changed from 2.0 [default] to 2.0.1 [default]
+packages/core2-64-poky-linux/taglib/taglib: FILELIST: removed "/usr/lib/libtag.so.2.0.0", added "/usr/lib/libtag.so.2.0.1"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3450,5 +3458,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3391211338805120978==--
+--===============0620689594084757912==--
 
