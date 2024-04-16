@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C37C3271E
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:13 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.13442.1713248039915144425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2BEC3DA41
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:14 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.13435.1713248038923158842
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:14:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=A8fT6vfI;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0BplXzG/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018ee58aa4b8-ff815920-43fa-4980-b15f-4f6b83d42a93-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZN0sNR79;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bVtWCvZS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58aa389-54fafaa4-73fa-4862-8abd-b1bb318ae81d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1713248052;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zo1Fnm8yeKJCdV6SDvk+a/TE4nn3WZNfQMT/WfXfho4=;
-	b=A8fT6vfI1NpNPhk6prQMC0J+BDeYYVGNgE3pyNjtzb8HO+HuFfddk1HGQV9yeIiQ
-	3KsxPjhBEo2d+hDaSeL/fRczKvHCv+ZgBvKXUdOOW/x8hdWjzvSd4G4JWP4psR7GP0a
-	/YDaVUAQBLAPEitEe35uQRoImBGz/XIrc8nCtRvs=
+	bh=VCTlLeVpOdh1pB8lNtGhh45cTAIcOAFNwZtGtMqWuHA=;
+	b=ZN0sNR79imAGNzFBOnLM0I6LCe/z2G9eR1PTV7vLWPgjVV3RvGp5BKlVzkiWDfkd
+	hlU3YvHe2v/4MIMNP6oqNHoy5XH2GBAOtNv20NGnLGoE1pbyHmSVbxOZp67o1kip7+i
+	vngUQrrCsd0CofJ9gjuoLwf1B7qLjBybV1uBSF9k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248052;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zo1Fnm8yeKJCdV6SDvk+a/TE4nn3WZNfQMT/WfXfho4=;
-	b=0BplXzG/hBIJt+XVRMo7uhZboVcdwvhoPag9PBmv7LqXB+pXdviVl8uJ54wSt/9f
-	PuQ6tuvPVaSkpuQEGZCFV02J2X3suWl4MsEYMqYYGBJR9J2+2hOqQzMKk0F4YOd2D/4
-	RTBepV04PjEIxeCpH9DLaJ+sKOExqaaSdVVVyhBI=
-Content-Type: multipart/mixed; boundary="===============3433501615692431839=="
+	bh=VCTlLeVpOdh1pB8lNtGhh45cTAIcOAFNwZtGtMqWuHA=;
+	b=bVtWCvZSzYyX9CLc4VTYxh0Qtbr80Ff8WrNuvyoyg2kkcJT0kBj5z+kdSMsPSJzk
+	czK1YJLdaDhFtUNgtiFnZ/iJTsoXIC8ZGcc1rZc5RwCw8Utf9TTqFSYqFJzfkXw5FBc
+	aAJzSj0MI+kCAU+jZbjwZP+BjGk3hOxVYt7vzbBk=
+Content-Type: multipart/mixed; boundary="===============1647015578363690736=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libical: upgrading to 3.0.18 SUCCEEDED
-Message-ID: <0101018ee58aa4b8-ff815920-43fa-4980-b15f-4f6b83d42a93-000000@us-west-2.amazonses.com>
+Subject: [AUH] icu: upgrading to 74-2 FAILED
+Message-ID: <0101018ee58aa389-54fafaa4-73fa-4862-8abd-b1bb318ae81d-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.193
+X-SES-Outgoing: 2024.04.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198423
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198415
 
---===============3433501615692431839==
+--===============1647015578363690736==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libical* to *3.0.18* has Succeeded.
+that the automatic attempt to upgrade the recipe *icu* to *74-2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libical-upgrade-3.0.17-3.0.18.patch
+    - apply the patch: git am 0001-icu-upgrade-74-1-74-2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,725 +78,355 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 51d2ad34a739dc838a646e38ce534c37b639caff Mon Sep 17 00:00:00 2001
+From 2c228a8f143a4a73fbd4471204c382309ed1bc41 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Apr 2024 05:45:02 +0000
-Subject: [PATCH] libical: upgrade 3.0.17 -> 3.0.18
+Date: Tue, 16 Apr 2024 05:21:27 +0000
+Subject: [PATCH] icu: upgrade 74-1 -> 74-2
 
 ---
- ...e-Do-not-export-CC-into-gir-compiler.patch |  7 ++---
- .../{libical_3.0.17.bb => libical_3.0.18.bb}  | 29 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 7 deletions(-)
- rename meta/recipes-support/libical/{libical_3.0.17.bb => libical_3.0.18.bb} (71%)
+ .../0001-Disable-LDFLAGSICUDT-for-Linux.patch   | 17 +++++++----------
+ .../icu/icu/0001-icu-Added-armeb-support.patch  | 13 ++++++-------
+ .../icu/icu/fix-install-manx.patch              | 11 +++++------
+ .../icu/{icu_74-1.bb => icu_74-2.bb}            |  2 +-
+ 4 files changed, 19 insertions(+), 24 deletions(-)
+ rename meta/recipes-support/icu/{icu_74-1.bb => icu_74-2.bb} (98%)
 
-diff --git a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch b/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
-index 3841c060ee..34d9fb90f3 100644
---- a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
-+++ b/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
+diff --git a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+index 2968d571bb..2b1649e65c 100644
+--- a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
++++ b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
 @@ -1,4 +1,4 @@
--From c06d8a8990c996cbb854508a944202ba70ba7a7c Mon Sep 17 00:00:00 2001
-+From 4d6ae2f1214f94611164ab70dd45ba10edc8c080 Mon Sep 17 00:00:00 2001
+-From 0c82d6aa02c08e41b13c83b14782bd7024e25d59 Mon Sep 17 00:00:00 2001
++From ef8bb573745237677352560a5ae6305d7da0876a Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 3 Mar 2022 20:10:04 -0800
- Subject: [PATCH] cmake: Do not export CC into gir compiler
-@@ -15,7 +15,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
+ Date: Sat, 15 Feb 2014 21:06:42 +0000
+ Subject: [PATCH] Disable LDFLAGSICUDT for Linux
+@@ -7,14 +7,14 @@ Upstream-Status: Inappropriate [ OE Configuration ]
  
- diff --git a/cmake/modules/GObjectIntrospectionMacros.cmake b/cmake/modules/GObjectIntrospectionMacros.cmake
--index 83aff931..d7d3f898 100644
-+index 83aff93..d7d3f89 100644
- --- a/cmake/modules/GObjectIntrospectionMacros.cmake
- +++ b/cmake/modules/GObjectIntrospectionMacros.cmake
- @@ -50,8 +50,7 @@ macro(gir_add_introspections introspections_girs)
-@@ -28,6 +28,3 @@ index 83aff931..d7d3f898 100644
-                ${GObjectIntrospection_SCANNER_ARGS}
-                --namespace=${_gir_namespace}
-                --nsversion=${_gir_version}
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- source/config/mh-linux |    2 +-
++ source/config/mh-linux | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/config/mh-linux b/config/mh-linux
+-index 366f0cc..2689aab 100644
+---- a/config/mh-linux
+-+++ b/config/mh-linux
+-@@ -21,7 +21,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
++diff --git a/source/config/mh-linux b/source/config/mh-linux
++index 53d6780..b622513 100644
++--- a/source/config/mh-linux
+++++ b/source/config/mh-linux
++@@ -23,7 +23,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
+  LD_RPATH_PRE = -Wl,-rpath,
+  
+  ## These are the library specific LDFLAGS
+@@ -23,6 +23,3 @@ index 366f0cc..2689aab 100644
+  
+  ## Compiler switch to embed a library name
+  # The initial tab in the next line is to prevent icu-config from reading it.
 --- 
--2.35.1
+-1.7.10.4
 -
-diff --git a/meta/recipes-support/libical/libical_3.0.17.bb b/meta/recipes-support/libical/libical_3.0.18.bb
-similarity index 71%
-rename from meta/recipes-support/libical/libical_3.0.17.bb
-rename to meta/recipes-support/libical/libical_3.0.18.bb
-index b91912b048..14f2fa3570 100644
---- a/meta/recipes-support/libical/libical_3.0.17.bb
-+++ b/meta/recipes-support/libical/libical_3.0.18.bb
-@@ -1,3 +1,28 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.LGPL21.txt
-+# +++ LICENSE.LGPL21.txt
-+# @@ -1,11 +1,3 @@
-+# -
-+# - Libical is Copyright (C) 2010-2017 Klaralvdalens Datakonsult AB.
-+# -
-+# - You may use, distribute and copy Libical under the terms of the
-+# - GNU Lesser General Public License version 2.1, which is displayed below.
-+# -
-+# --------------------------------------------------------------------------
-+# -
-+#                    GNU LESSER GENERAL PUBLIC LICENSE
-+#                         Version 2.1, February 1999
-+#  
-+# 
-+#
-+
- SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
- DESCRIPTION = "An Open Source implementation of the iCalendar protocols \
- and protocol data units. The iCalendar specification describes how \
-@@ -7,7 +32,7 @@ HOMEPAGE = "https://github.com/libical/libical"
- BUGTRACKER = "https://github.com/libical/libical/issues"
- LICENSE = "LGPL-2.1-only | MPL-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
--                    file://LICENSE.LGPL21.txt;md5=933adb561f159e7c3da079536f0ed871 \
-+                    file://LICENSE.LGPL21.txt;md5=8f690bb538f4b301d931374a6eb864d0 \
-                     file://LICENSE.MPL2.txt;md5=f75d2927d3c1ed2414ef72048f5ad640 \
-                     "
- SECTION = "libs"
-@@ -15,7 +40,7 @@ SECTION = "libs"
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch \
+diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+index 578517b57f..119e93d0c9 100644
+--- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
++++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+@@ -1,4 +1,4 @@
+-From e3c25af4b40d64f098e7b8ae5a91fdc3c90163c4 Mon Sep 17 00:00:00 2001
++From f3ed494619265559a785d50f978ee4e0600882da Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@cn.fujitsu.com>
+ Date: Wed, 8 May 2019 14:42:30 +0900
+ Subject: [PATCH] icu: Added armeb support.
+@@ -8,16 +8,15 @@ Make icu support arm32 BE.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+-
+ ---
+- i18n/double-conversion-utils.h | 2 +-
++ source/i18n/double-conversion-utils.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/source/i18n/double-conversion-utils.h b/source/i18n/double-conversion-utils.h
+-index 7f23e0a..7f89094 100644
+---- a/i18n/double-conversion-utils.h
+-+++ b/i18n/double-conversion-utils.h
+-@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
++index 303668f..7d859dc 100644
++--- a/source/i18n/double-conversion-utils.h
+++++ b/source/i18n/double-conversion-utils.h
++@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
+  //
+  // If it prints "correct" then the architecture should be here, in the "correct" section.
+  #if defined(_M_X64) || defined(__x86_64__) || \
+diff --git a/meta/recipes-support/icu/icu/fix-install-manx.patch b/meta/recipes-support/icu/icu/fix-install-manx.patch
+index 925b064ebd..2b0f7cc2ee 100644
+--- a/meta/recipes-support/icu/icu/fix-install-manx.patch
++++ b/meta/recipes-support/icu/icu/fix-install-manx.patch
+@@ -1,4 +1,4 @@
+-From a6ddabc8cadb76bfe2d2e374a6702442cfe51cce Mon Sep 17 00:00:00 2001
++From 652528d2bebfa18d85f8ecba72634ae2cb87f44c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 9 Oct 2015 17:50:41 +0100
+ Subject: [PATCH] icu: fix install race
+@@ -13,15 +13,14 @@ in the install command.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+ ---
+  source/Makefile.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/Makefile.in b/Makefile.in
+-index be9435b..ada20d7 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
++diff --git a/source/Makefile.in b/source/Makefile.in
++index 8366f01..79b91c9 100644
++--- a/source/Makefile.in
+++++ b/source/Makefile.in
+ @@ -77,7 +77,7 @@ EXTRA_DATA =
+  
+  ## List of phony targets
+diff --git a/meta/recipes-support/icu/icu_74-1.bb b/meta/recipes-support/icu/icu_74-2.bb
+similarity index 98%
+rename from meta/recipes-support/icu/icu_74-1.bb
+rename to meta/recipes-support/icu/icu_74-2.bb
+index 88ded166b5..ef9b36f79b 100644
+--- a/meta/recipes-support/icu/icu_74-1.bb
++++ b/meta/recipes-support/icu/icu_74-2.bb
+@@ -111,7 +111,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+ SRC_URI:append:class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
            "
--SRC_URI[sha256sum] = "bcda9a6db6870240328752854d1ea475af9bbc6356e6771018200e475e5f781b"
-+SRC_URI[sha256sum] = "72b7dc1a5937533aee5a2baefc990983b66b141dd80d43b51f80aced4aae219c"
+-SRC_URI[code.sha256sum] = "86ce8e60681972e60e4dcb2490c697463fcec60dd400a5f9bffba26d0b52b8d0"
++SRC_URI[code.sha256sum] = "68db082212a96d6f53e35d60f47d38b962e9f9d207a74cfac78029ae8ff5e08c"
+ SRC_URI[data.sha256sum] = "67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f"
  
- inherit cmake pkgconfig gobject-introspection vala github-releases
- 
+ UPSTREAM_CHECK_REGEX = "releases/tag/release-(?P<pver>(?!.+rc).+)"
 -- 
 2.42.0
 
 
---===============3433501615692431839==
+--===============1647015578363690736==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libical_cxx.so.3.0.17 /usr/lib/libicalvcal.so.3.0.17 /usr/lib/libical.so.3.0.17 /usr/lib/libical-glib.so.3.0.17 /usr/lib/libicalss_cxx.so.3.0.17 /usr/lib/libicalss.so.3.0.17", added "/usr/lib/libical.so.3.0.18 /usr/lib/libicalvcal.so.3.0.18 /usr/lib/libical_cxx.so.3.0.18 /usr/lib/libicalss.so.3.0.18 /usr/lib/libicalss_cxx.so.3.0.18 /usr/lib/libical-glib.so.3.0.18"
-Changes to packages/core2-64-poky-linux/libical (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.17 to libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.17 to libical-glib.so.3.0.18
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.17 to libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.17 to libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.17 to libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.17 to libicalvcal.so.3.0.18
-  /usr/lib/libical_cxx.so.3.0.17 moved to /usr/lib/libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3.0.17 moved to /usr/lib/libical-glib.so.3.0.18
-  /usr/lib/libical.so.3.0.17 moved to /usr/lib/libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3.0.17 moved to /usr/lib/libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3.0.17 moved to /usr/lib/libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3.0.17 moved to /usr/lib/libicalvcal.so.3.0.18
-Changes to packages/x86_64-linux/libical-native (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.17 to libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.17 to libical-glib.so.3.0.18
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.17 to libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.17 to libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.17 to libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.17 to libicalvcal.so.3.0.18
-  /usr/lib/libical_cxx.so.3.0.17 moved to /usr/lib/libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3.0.17 moved to /usr/lib/libical-glib.so.3.0.18
-  /usr/lib/libical.so.3.0.17 moved to /usr/lib/libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3.0.17 moved to /usr/lib/libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3.0.17 moved to /usr/lib/libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3.0.17 moved to /usr/lib/libicalvcal.so.3.0.18
-
---===============3433501615692431839==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libical-upgrade-3.0.17-3.0.18.patch"
-
-RnJvbSA1MWQyYWQzNGE3MzlkYzgzOGE2NDZlMzhjZTUzNGMzN2I2MzljYWZmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDU6NDU6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJpY2FsOiB1cGdyYWRlIDMuMC4xNyAtPiAzLjAuMTgKCi0tLQogLi4uZS1Eby1ub3QtZXhwb3J0
-LUNDLWludG8tZ2lyLWNvbXBpbGVyLnBhdGNoIHwgIDcgKystLS0KIC4uLi97bGliaWNhbF8zLjAu
-MTcuYmIgPT4gbGliaWNhbF8zLjAuMTguYmJ9ICB8IDI5ICsrKysrKysrKysrKysrKysrLS0KIDIg
-ZmlsZXMgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL3tsaWJpY2FsXzMuMC4xNy5iYiA9PiBsaWJpY2Fs
-XzMuMC4xOC5iYn0gKDcxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJp
-Y2FsL2xpYmljYWwvMDAwMS1jbWFrZS1Eby1ub3QtZXhwb3J0LUNDLWludG8tZ2lyLWNvbXBpbGVy
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsLzAwMDEtY21ha2Ut
-RG8tbm90LWV4cG9ydC1DQy1pbnRvLWdpci1jb21waWxlci5wYXRjaAppbmRleCAzODQxYzA2MGVl
-Li4zNGQ5ZmI5MGYzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xp
-YmljYWwvMDAwMS1jbWFrZS1Eby1ub3QtZXhwb3J0LUNDLWludG8tZ2lyLWNvbXBpbGVyLnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbC8wMDAxLWNtYWtlLURv
-LW5vdC1leHBvcnQtQ0MtaW50by1naXItY29tcGlsZXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIGMwNmQ4YTg5OTBjOTk2Y2JiODU0NTA4YTk0NDIwMmJhNzBiYTdhN2MgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIDRkNmFlMmYxMjE0Zjk0NjExMTY0YWI3MGRkNDViYTEwZWRjOGMw
-ODAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogRGF0ZTogVGh1LCAzIE1hciAyMDIyIDIwOjEwOjA0IC0wODAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIGNtYWtlOiBEbyBub3QgZXhwb3J0IENDIGludG8gZ2lyIGNvbXBpbGVyCkBAIC0xNSw3
-ICsxNSw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
-Z2l0IGEvY21ha2UvbW9kdWxlcy9HT2JqZWN0SW50cm9zcGVjdGlvbk1hY3Jvcy5jbWFrZSBiL2Nt
-YWtlL21vZHVsZXMvR09iamVjdEludHJvc3BlY3Rpb25NYWNyb3MuY21ha2UKLWluZGV4IDgzYWZm
-OTMxLi5kN2QzZjg5OCAxMDA2NDQKK2luZGV4IDgzYWZmOTMuLmQ3ZDNmODkgMTAwNjQ0CiAtLS0g
-YS9jbWFrZS9tb2R1bGVzL0dPYmplY3RJbnRyb3NwZWN0aW9uTWFjcm9zLmNtYWtlCiArKysgYi9j
-bWFrZS9tb2R1bGVzL0dPYmplY3RJbnRyb3NwZWN0aW9uTWFjcm9zLmNtYWtlCiBAQCAtNTAsOCAr
-NTAsNyBAQCBtYWNybyhnaXJfYWRkX2ludHJvc3BlY3Rpb25zIGludHJvc3BlY3Rpb25zX2dpcnMp
-CkBAIC0yOCw2ICsyOCwzIEBAIGluZGV4IDgzYWZmOTMxLi5kN2QzZjg5OCAxMDA2NDQKICAgICAg
-ICAgICAgICAgICR7R09iamVjdEludHJvc3BlY3Rpb25fU0NBTk5FUl9BUkdTfQogICAgICAgICAg
-ICAgICAgLS1uYW1lc3BhY2U9JHtfZ2lyX25hbWVzcGFjZX0KICAgICAgICAgICAgICAgIC0tbnN2
-ZXJzaW9uPSR7X2dpcl92ZXJzaW9ufQotLS0gCi0yLjM1LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMuMC4xNy5iYiBiL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYmljYWwvbGliaWNhbF8zLjAuMTguYmIKc2ltaWxhcml0eSBpbmRleCA3MSUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMuMC4xNy5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzMuMC4xOC5iYgpp
-bmRleCBiOTE5MTJiMDQ4Li4xNGYyZmEzNTcwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJpY2FsL2xpYmljYWxfMy4wLjE3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2xpYmljYWwvbGliaWNhbF8zLjAuMTguYmIKQEAgLTEsMyArMSwyOCBAQAorIyBGSVhNRTogdGhl
-IExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVw
-Z3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9s
-ZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0Ug
-dmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21t
-aXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vu
-c2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoK
-KyMKKyMgLS0tIExJQ0VOU0UuTEdQTDIxLnR4dAorIyArKysgTElDRU5TRS5MR1BMMjEudHh0Cisj
-IEBAIC0xLDExICsxLDMgQEAKKyMgLQorIyAtIExpYmljYWwgaXMgQ29weXJpZ2h0IChDKSAyMDEw
-LTIwMTcgS2xhcmFsdmRhbGVucyBEYXRha29uc3VsdCBBQi4KKyMgLQorIyAtIFlvdSBtYXkgdXNl
-LCBkaXN0cmlidXRlIGFuZCBjb3B5IExpYmljYWwgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZQorIyAt
-IEdOVSBMZXNzZXIgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSB2ZXJzaW9uIDIuMSwgd2hpY2ggaXMg
-ZGlzcGxheWVkIGJlbG93LgorIyAtCisjIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjIC0KKyMgICAgICAg
-ICAgICAgICAgICAgIEdOVSBMRVNTRVIgR0VORVJBTCBQVUJMSUMgTElDRU5TRQorIyAgICAgICAg
-ICAgICAgICAgICAgICAgICBWZXJzaW9uIDIuMSwgRmVicnVhcnkgMTk5OQorIyAgCisjIAorIwor
-CiBTVU1NQVJZID0gImlDYWwgYW5kIHNjaGVkdWxpbmcgKFJGQyAyNDQ1LCAyNDQ2LCAyNDQ3KSBs
-aWJyYXJ5IgogREVTQ1JJUFRJT04gPSAiQW4gT3BlbiBTb3VyY2UgaW1wbGVtZW50YXRpb24gb2Yg
-dGhlIGlDYWxlbmRhciBwcm90b2NvbHMgXAogYW5kIHByb3RvY29sIGRhdGEgdW5pdHMuIFRoZSBp
-Q2FsZW5kYXIgc3BlY2lmaWNhdGlvbiBkZXNjcmliZXMgaG93IFwKQEAgLTcsNyArMzIsNyBAQCBI
-T01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vbGliaWNhbC9saWJpY2FsIgogQlVHVFJBQ0tF
-UiA9ICJodHRwczovL2dpdGh1Yi5jb20vbGliaWNhbC9saWJpY2FsL2lzc3VlcyIKIExJQ0VOU0Ug
-PSAiTEdQTC0yLjEtb25seSB8IE1QTC0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFO21kNT0xOTEwYTJhNzZkZGY2YTliYTM2OTE4MjQ5NDE3MGQ4NyBcCi0gICAgICAgICAg
-ICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFLkxHUEwyMS50eHQ7bWQ1PTkzM2FkYjU2MWYxNTllN2Mz
-ZGEwNzk1MzZmMGVkODcxIFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOU0UuTEdQ
-TDIxLnR4dDttZDU9OGY2OTBiYjUzOGY0YjMwMWQ5MzEzNzRhNmViODY0ZDAgXAogICAgICAgICAg
-ICAgICAgICAgICBmaWxlOi8vTElDRU5TRS5NUEwyLnR4dDttZDU9Zjc1ZDI5MjdkM2MxZWQyNDE0
-ZWY3MjA0OGY1YWQ2NDAgXAogICAgICAgICAgICAgICAgICAgICAiCiBTRUNUSU9OID0gImxpYnMi
-CkBAIC0xNSw3ICs0MCw3IEBAIFNFQ1RJT04gPSAibGlicyIKIFNSQ19VUkkgPSAiJHtHSVRIVUJf
-QkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1jbWFrZS1Eby1ub3QtZXhwb3J0LUNDLWludG8tZ2lyLWNvbXBpbGVyLnBhdGNoIFwK
-ICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmNkYTlhNmRiNjg3MDI0MDMyODc1
-Mjg1NGQxZWE0NzVhZjliYmM2MzU2ZTY3NzEwMTgyMDBlNDc1ZTVmNzgxYiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI3MmI3ZGMxYTU5Mzc1MzNhZWU1YTJiYWVmYzk5MDk4M2I2NmIxNDFkZDgwZDQz
-YjUxZjgwYWNlZDRhYWUyMTljIgogCiBpbmhlcml0IGNtYWtlIHBrZ2NvbmZpZyBnb2JqZWN0LWlu
-dHJvc3BlY3Rpb24gdmFsYSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40Mi4wCgo=
-
---===============3433501615692431839==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libical: SRC_URI changed from "https://github.com/libical/libical/releases//download/v3.0.17/libical-3.0.17.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch" to "https://github.com/libical/libical/releases//download/v3.0.18/libical-3.0.18.tar.gz file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch"
-packages/core2-64-poky-linux/libical: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-dbg: FILELIST: removed "/usr/lib/.debug/libical.so.3.0.17 /usr/lib/.debug/libical_cxx.so.3.0.17 /usr/lib/.debug/libicalvcal.so.3.0.17 /usr/lib/.debug/libicalss.so.3.0.17 /usr/lib/.debug/libicalss_cxx.so.3.0.17 /usr/lib/.debug/libical-glib.so.3.0.17", added "/usr/lib/.debug/libicalss_cxx.so.3.0.18 /usr/lib/.debug/libicalss.so.3.0.18 /usr/lib/.debug/libical_cxx.so.3.0.18 /usr/lib/.debug/libical.so.3.0.18 /usr/lib/.debug/libicalvcal.so.3.0.18 /usr/lib/.debug/libical-glib.so.3.0.18"
-packages/core2-64-poky-linux/libical/libical-dbg: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-dbg: PKGSIZE changed from 3151792 to 3152928 (+0%)
-packages/core2-64-poky-linux/libical/libical-dbg: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-dev: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-dev: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-doc: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-doc: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-locale: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-locale: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-src: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-src: PKGSIZE changed from 3062458 to 3064122 (+0%)
-packages/core2-64-poky-linux/libical/libical-src: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical-staticdev: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical-staticdev: PV changed from "3.0.17" to "3.0.18"
-packages/core2-64-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libical-glib.so.3.0.17 /usr/lib/libicalss.so.3.0.17 /usr/lib/libicalss_cxx.so.3.0.17 /usr/lib/libicalvcal.so.3.0.17 /usr/lib/libical.so.3.0.17 /usr/lib/libical_cxx.so.3.0.17", added "/usr/lib/libical.so.3.0.18 /usr/lib/libicalvcal.so.3.0.18 /usr/lib/libicalss_cxx.so.3.0.18 /usr/lib/libicalss.so.3.0.18 /usr/lib/libical-glib.so.3.0.18 /usr/lib/libical_cxx.so.3.0.18"
-packages/core2-64-poky-linux/libical/libical: PKGV changed from 3.0.17 [default] to 3.0.18 [default]
-packages/core2-64-poky-linux/libical/libical: PV changed from "3.0.17" to "3.0.18"
-Changes to packages/core2-64-poky-linux/libical (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.17 to libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.17 to libical-glib.so.3.0.18
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.17 to libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.17 to libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.17 to libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.17 to libicalvcal.so.3.0.18
-  /usr/lib/libical_cxx.so.3.0.17 moved to /usr/lib/libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3.0.17 moved to /usr/lib/libical-glib.so.3.0.18
-  /usr/lib/libical.so.3.0.17 moved to /usr/lib/libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3.0.17 moved to /usr/lib/libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3.0.17 moved to /usr/lib/libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3.0.17 moved to /usr/lib/libicalvcal.so.3.0.18
-Changes to packages/x86_64-linux/libical-native (sysroot):
-  /usr/lib/libical_cxx.so.3 changed symlink target from libical_cxx.so.3.0.17 to libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3 changed symlink target from libical-glib.so.3.0.17 to libical-glib.so.3.0.18
-  /usr/lib/libical.so.3 changed symlink target from libical.so.3.0.17 to libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3 changed symlink target from libicalss_cxx.so.3.0.17 to libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3 changed symlink target from libicalss.so.3.0.17 to libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3 changed symlink target from libicalvcal.so.3.0.17 to libicalvcal.so.3.0.18
-  /usr/lib/libical_cxx.so.3.0.17 moved to /usr/lib/libical_cxx.so.3.0.18
-  /usr/lib/libical-glib.so.3.0.17 moved to /usr/lib/libical-glib.so.3.0.18
-  /usr/lib/libical.so.3.0.17 moved to /usr/lib/libical.so.3.0.18
-  /usr/lib/libicalss_cxx.so.3.0.17 moved to /usr/lib/libicalss_cxx.so.3.0.18
-  /usr/lib/libicalss.so.3.0.17 moved to /usr/lib/libicalss.so.3.0.18
-  /usr/lib/libicalvcal.so.3.0.17 moved to /usr/lib/libicalvcal.so.3.0.18
-
---===============3433501615692431839==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1881 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1879 targets, 46 skipped, 0 masked, 0 errors.
-Removing 40 recipes from the core2-64 sysroot...done.
-Removing 40 recipes from the qemux86_64 sysroot...done.
+Parsing of 922 .bb files complete (921 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.7.3"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
+TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-9f3581833b42029ff130d19ca996d4bfa6261f50"
+DISTRO_VERSION       = "4.3+snapshot-77855414d184771488ec42e47da1ac3524717295"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:9f3581833b42029ff130d19ca996d4bfa6261f50"
+workspace            = "tmp-auh-upgrades:77855414d184771488ec42e47da1ac3524717295"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 301 Local 290 Mirrors 0 Missed 11 Current 247 (96% match, 97% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 108 Local 94 Mirrors 0 Missed 14 Current 194 (87% match, 95% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 256 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 257 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.15.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 258 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 267 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 268 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.15.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 269 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 271 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_recipe_qa_setscene)
-NOTE: recipe vala-0.56.15-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vala-0.56.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 826 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_fetch)
-NOTE: recipe libxml2-2.12.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 344 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_packagedata_setscene)
-NOTE: recipe vala-0.56.15-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 345 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 346 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_create_spdx_setscene)
-NOTE: recipe icu-74-1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 347 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.12.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vala-0.56.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_fetch: Started
-NOTE: recipe vala-0.56.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 827 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_unpack)
-NOTE: recipe icu-74-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 348 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_create_spdx_setscene)
-NOTE: recipe vala-0.56.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 360 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.15.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 361 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 362 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_unpack: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 365 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.5.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-74-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 368 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_recipe_qa_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_unpack: Succeeded
-NOTE: Running task 828 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_patch)
-NOTE: recipe vala-0.56.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.12.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxml2-2.12.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 382 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe icu-74-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 384 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 385 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 386 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 387 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 389 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 203 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 212 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 214 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 257 of 302 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-74-2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-native-74-2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 272 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe icu-74-2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 700 of 921 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch)
+NOTE: recipe icu-native-74-2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 702 of 921 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 274 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-74-2-r0: task do_fetch: Started
 NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_patch: Succeeded
-NOTE: Running task 845 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 846 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_generate_toolchain_file)
-NOTE: Running task 847 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_populate_lic)
-NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_populate_sysroot_setscene: Started
+WARNING: icu-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe icu-native-74-2-r0: task do_fetch: Started
 NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 391 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libical-3.0.18-r0: task do_populate_lic: Started
-NOTE: recipe libical-3.0.18-r0: task do_generate_toolchain_file: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_populate_lic unihash changed to 42ecc967368b9c08a044768ace00e86061e1c814386ed1d75793550355ddb9e1
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 395 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_deploy_source_date_epoch unihash changed to a121a1edf120e6ab240cead796f70945bd27927fc8eb247a67e4d1201babf66a
+NOTE: Running setscene task 278 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 285 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 287 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 391 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 392 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 393 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 394 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 395 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 396 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 398 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 399 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 400 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 401 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 402 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 404 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 405 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 413 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 414 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 417 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 418 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 419 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 422 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 423 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 425 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 426 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_packagedata_setscene)
-NOTE: Running setscene task 428 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 429 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 431 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 432 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 435 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_recipe_qa_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 439 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 442 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 445 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 447 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.45.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre2-10.43-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 451 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 453 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre2-10.43-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 454 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 456 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 458 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.43-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.43-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 461 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 463 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 465 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 468 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 469 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 471 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 472 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 473 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 474 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libcap-ng/0.8.4/temp/log.do_packagedata_setscene.890215
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 477 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_package_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 480 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 482 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 483 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 484 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 486 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 489 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 491 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 492 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 494 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_package_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 496 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 497 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 499 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.4-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 504 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 506 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 508 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 509 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 513 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 514 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 516 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 518 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 520 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 521 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 523 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 527 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 528 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 530 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 536 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 537 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 538 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
 NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 294 of 302 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot_setscene)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: icu-74-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data - will attempt other sources if available
 NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 541 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 543 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 544 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 546 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 297 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 299 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
 NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+WARNING: icu-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 548 of 548 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 302 of 302 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
 NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
 NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1448 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_packagedata)
-NOTE: Running task 1506 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 1553 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_collect_spdx_deps)
-NOTE: recipe libical-3.0.18-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libical-3.0.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1554 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_configure)
-NOTE: recipe libical-3.0.18-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_configure: Started
-NOTE: recipe libical-3.0.18-r0: task do_configure: Succeeded
-NOTE: Running task 1555 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_compile)
-NOTE: recipe libical-3.0.18-r0: task do_compile: Started
-NOTE: recipe libical-3.0.18-r0: task do_compile: Succeeded
-NOTE: Running task 1556 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_install)
-NOTE: recipe libical-3.0.18-r0: task do_install: Started
-NOTE: recipe libical-3.0.18-r0: task do_install: Succeeded
-NOTE: Running task 1557 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package)
-NOTE: Running task 1558 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_populate_sysroot)
-NOTE: recipe libical-3.0.18-r0: task do_package: Started
-NOTE: recipe libical-3.0.18-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.18-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_package: Succeeded
-NOTE: Running task 1559 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_packagedata)
-NOTE: recipe libical-3.0.18-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.18-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_packagedata unihash changed to 6a27f1c17f0c1a557ac06f28f3e03e0caeef4c64b31ddc2e5b27d6b69848d4a6
-NOTE: Setscene tasks completed
-NOTE: Running task 1560 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_create_spdx)
-NOTE: Running task 1561 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_ipk)
-NOTE: Running task 1562 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_deb)
-NOTE: Running task 1563 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_rpm)
-NOTE: Running task 1564 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_qa)
-NOTE: recipe libical-3.0.18-r0: task do_create_spdx: Started
-NOTE: recipe libical-3.0.18-r0: task do_package_write_ipk: Started
-NOTE: recipe libical-3.0.18-r0: task do_package_write_deb: Started
-NOTE: recipe libical-3.0.18-r0: task do_package_write_rpm: Started
-NOTE: recipe libical-3.0.18-r0: task do_package_qa: Started
-NOTE: recipe libical-3.0.18-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_ipk unihash changed to 9e0036c8908515544142c1478305be0ae56782fff8b6970f57522c9ef9055b5d
-NOTE: recipe libical-3.0.18-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1565 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_create_runtime_spdx)
-NOTE: recipe libical-3.0.18-r0: task do_package_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_qa unihash changed to cf0db67598f04851460345e65f739d7f1a6a5adeee663ac4e2ee7319e612f0b2
-NOTE: recipe libical-3.0.18-r0: task do_create_runtime_spdx: Started
-NOTE: recipe libical-3.0.18-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_deb unihash changed to f92d2f82c94e32c0039db3c65d93f2fbd3cc09802734fa0535736fa3368d3614
-NOTE: recipe libical-3.0.18-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package_write_rpm unihash changed to 5204011f67739f16280192e183ee42cd6ce121bf3fb2102d18722cf255dd3121
-NOTE: Running noexec task 1566 of 1566 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_build)
-NOTE: Tasks Summary: Attempted 1566 tasks of which 1544 didn't need to be rerun and all succeeded.
+WARNING: icu-native-74-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data - will attempt other sources if available
+WARNING: icu-native-74-2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip
+Cleaning and trying again.
+WARNING: icu-native-74-2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip to /srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip_bad-checksum_c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6
+NOTE: recipe icu-74-2-r0: task do_fetch: Failed
+NOTE: recipe icu-native-74-2-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 890 tasks of which 888 didn't need to be rerun and 2 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240416052109.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240416052109.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-src went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-dbg went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-staticdev went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-dev went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-doc went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-locale went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng-bin went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-ng went backwards which would break package feeds (from 0:0.8.5-r0 to 0:0.8.4-r0) [version-going-backwards]
-ERROR: libcap-ng-0.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+Summary: 2 tasks failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch
+Summary: There were 8 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: icu-74-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data
+ERROR: icu-74-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip\' has sha256 checksum \'c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6\' when \'67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data')
+ERROR: icu-native-74-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data
+ERROR: icu-native-74-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_2-data.zip\' has sha256 checksum \'c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6\' when \'67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-data.zip;name=data')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/74-2/temp/log.do_fetch.459089
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/74-2/temp/log.do_fetch.459105
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_fetch) failed with exit code '1'
 
---===============3433501615692431839==--
+--===============1647015578363690736==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-icu-upgrade-74-1-74-2.patch"
+
+RnJvbSAyYzIyOGE4ZjE0M2E0YTczZmJkNDQ3MTIwNGMzODIzMDllZDFiYzQxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDU6MjE6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+Y3U6IHVwZ3JhZGUgNzQtMSAtPiA3NC0yCgotLS0KIC4uLi8wMDAxLURpc2FibGUtTERGTEFHU0lD
+VURULWZvci1MaW51eC5wYXRjaCAgIHwgMTcgKysrKysrKy0tLS0tLS0tLS0KIC4uLi9pY3UvaWN1
+LzAwMDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2ggIHwgMTMgKysrKysrLS0tLS0tLQog
+Li4uL2ljdS9pY3UvZml4LWluc3RhbGwtbWFueC5wYXRjaCAgICAgICAgICAgICAgfCAxMSArKysr
+Ky0tLS0tLQogLi4uL2ljdS97aWN1Xzc0LTEuYmIgPT4gaWN1Xzc0LTIuYmJ9ICAgICAgICAgICAg
+fCAgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAyNCBkZWxldGlvbnMo
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3Uve2ljdV83NC0xLmJiID0+IGljdV83
+NC0yLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Uv
+MDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9pY3UvaWN1LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNo
+CmluZGV4IDI5NjhkNTcxYmIuLjJiMTY0OWU2NWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lD
+VURULWZvci1MaW51eC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGM4MmQ2YWEwMmMwOGU0
+MWIxM2M4M2IxNDc4MmJkNzAyNGUyNWQ1OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
+ZWY4YmI1NzM3NDUyMzc2NzczNTI1NjBhNWFlNjMwNWQ3ZGEwODc2YSBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQs
+IDE1IEZlYiAyMDE0IDIxOjA2OjQyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERG
+TEFHU0lDVURUIGZvciBMaW51eApAQCAtNywxNCArNywxNCBAQCBVcHN0cmVhbS1TdGF0dXM6IElu
+YXBwcm9wcmlhdGUgWyBPRSBDb25maWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBS
+YWogPHJhai5raGVtQGdtYWlsLmNvbT4KIC0tLQotIHNvdXJjZS9jb25maWcvbWgtbGludXggfCAg
+ICAyICstCisgc291cmNlL2NvbmZpZy9taC1saW51eCB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlmZiAtLWdpdCBhL2NvbmZpZy9taC1s
+aW51eCBiL2NvbmZpZy9taC1saW51eAotaW5kZXggMzY2ZjBjYy4uMjY4OWFhYiAxMDA2NDQKLS0t
+LSBhL2NvbmZpZy9taC1saW51eAotKysrIGIvY29uZmlnL21oLWxpbnV4Ci1AQCAtMjEsNyArMjEs
+NyBAQCBMRF9SUEFUSD0gLVdsLC16b3JpZ2luLC1ycGF0aCwnJCQnT1JJR0lOCitkaWZmIC0tZ2l0
+IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKK2luZGV4
+IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0CistLS0gYS9zb3VyY2UvY29uZmlnL21oLWxpbnV4Cisr
+KysgYi9zb3VyY2UvY29uZmlnL21oLWxpbnV4CitAQCAtMjMsNyArMjMsNyBAQCBMRF9SUEFUSD0g
+LVdsLC16b3JpZ2luLC1ycGF0aCwnJCQnT1JJR0lOCiAgTERfUlBBVEhfUFJFID0gLVdsLC1ycGF0
+aCwKICAKICAjIyBUaGVzZSBhcmUgdGhlIGxpYnJhcnkgc3BlY2lmaWMgTERGTEFHUwpAQCAtMjMs
+NiArMjMsMyBAQCBpbmRleCAzNjZmMGNjLi4yNjg5YWFiIDEwMDY0NAogIAogICMjIENvbXBpbGVy
+IHN3aXRjaCB0byBlbWJlZCBhIGxpYnJhcnkgbmFtZQogICMgVGhlIGluaXRpYWwgdGFiIGluIHRo
+ZSBuZXh0IGxpbmUgaXMgdG8gcHJldmVudCBpY3UtY29uZmlnIGZyb20gcmVhZGluZyBpdC4KLS0t
+IAotMS43LjEwLjQKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8w
+MDAxLWljdS1BZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+aWN1L2ljdS8wMDAxLWljdS1BZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCmluZGV4IDU3ODUxN2I1
+N2YuLjExOWU5M2QwYzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Uv
+MDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIGUzYzI1YWY0YjQwZDY0ZjA5OGU3YjhhZTVhOTFmZGMzYzkwMTYzYzQgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGYzZWQ0OTQ2MTkyNjU1NTlhNzg1ZDUwZjk3OGVl
+NGUwNjAwODgyZGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMZWkgTWFvaHVpIDxs
+ZWltYW9odWlAY24uZnVqaXRzdS5jb20+CiBEYXRlOiBXZWQsIDggTWF5IDIwMTkgMTQ6NDI6MzAg
+KzA5MDAKIFN1YmplY3Q6IFtQQVRDSF0gaWN1OiBBZGRlZCBhcm1lYiBzdXBwb3J0LgpAQCAtOCwx
+NiArOCwxNSBAQCBNYWtlIGljdSBzdXBwb3J0IGFybTMyIEJFLgogVXBzdHJlYW0tU3RhdHVzOiBQ
+ZW5kaW5nCiAKIFNpZ25lZC1vZmYtYnk6IExlaSBNYW9odWkgPGxlaW1hb2h1aUBjbi5mdWppdHN1
+LmNvbT4KLQogLS0tCi0gaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oIHwgMiArLQorIHNv
+dXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmggfCAyICstCiAgMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9zb3VyY2Uv
+aTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oIGIvc291cmNlL2kxOG4vZG91YmxlLWNvbnZl
+cnNpb24tdXRpbHMuaAotaW5kZXggN2YyM2UwYS4uN2Y4OTA5NCAxMDA2NDQKLS0tLSBhL2kxOG4v
+ZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaAotKysrIGIvaTE4bi9kb3VibGUtY29udmVyc2lvbi11
+dGlscy5oCi1AQCAtMTE1LDcgKzExNSw3IEBAIGludCBtYWluKGludCBhcmdjLCBjaGFyKiogYXJn
+dikgeworaW5kZXggMzAzNjY4Zi4uN2Q4NTlkYyAxMDA2NDQKKy0tLSBhL3NvdXJjZS9pMThuL2Rv
+dWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJz
+aW9uLXV0aWxzLmgKK0BAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFyZ2MsIGNoYXIq
+KiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4gdGhlIGFyY2hp
+dGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9uLgogICNpZiBk
+ZWZpbmVkKF9NX1g2NCkgfHwgZGVmaW5lZChfX3g4Nl82NF9fKSB8fCBcCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1L2ZpeC1pbnN0YWxsLW1hbngucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1L2ZpeC1pbnN0YWxsLW1hbngucGF0Y2gKaW5kZXggOTI1
+YjA2NGViZC4uMmIwZjdjYzJlZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1
+L2ljdS9maXgtaW5zdGFsbC1tYW54LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2lj
+dS9pY3UvZml4LWluc3RhbGwtbWFueC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTZkZGFi
+YzhjYWRiNzZiZmUyZDJlMzc0YTY3MDI0NDJjZmU1MWNjZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNjUyNTI4ZDJiZWJmYTE4ZDg1ZjhlY2JhNzI2MzRhZTJjYjg3ZjQ0YyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5j
+b20+CiBEYXRlOiBGcmksIDkgT2N0IDIwMTUgMTc6NTA6NDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRD
+SF0gaWN1OiBmaXggaW5zdGFsbCByYWNlCkBAIC0xMywxNSArMTMsMTQgQEAgaW4gdGhlIGluc3Rh
+bGwgY29tbWFuZC4KIAogVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiBTaWduZWQtb2ZmLWJ5OiBS
+b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgotCiAtLS0KICBzb3VyY2UvTWFrZWZp
+bGUuaW4gfCA4ICsrKystLS0tCiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBk
+ZWxldGlvbnMoLSkKIAotZGlmZiAtLWdpdCBhL01ha2VmaWxlLmluIGIvTWFrZWZpbGUuaW4KLWlu
+ZGV4IGJlOTQzNWIuLmFkYTIwZDcgMTAwNjQ0Ci0tLS0gYS9NYWtlZmlsZS5pbgotKysrIGIvTWFr
+ZWZpbGUuaW4KK2RpZmYgLS1naXQgYS9zb3VyY2UvTWFrZWZpbGUuaW4gYi9zb3VyY2UvTWFrZWZp
+bGUuaW4KK2luZGV4IDgzNjZmMDEuLjc5YjkxYzkgMTAwNjQ0CistLS0gYS9zb3VyY2UvTWFrZWZp
+bGUuaW4KKysrKyBiL3NvdXJjZS9NYWtlZmlsZS5pbgogQEAgLTc3LDcgKzc3LDcgQEAgRVhUUkFf
+REFUQSA9CiAgCiAgIyMgTGlzdCBvZiBwaG9ueSB0YXJnZXRzCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc0LTEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3Uv
+aWN1Xzc0LTIuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvaWN1L2ljdV83NC0xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9p
+Y3UvaWN1Xzc0LTIuYmIKaW5kZXggODhkZWQxNjZiNS4uZWY5YjM2Zjc5YiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83NC0xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2ljdS9pY3VfNzQtMi5iYgpAQCAtMTExLDcgKzExMSw3IEBAIFNSQ19VUkkgPSAiJHtC
+QVNFX1NSQ19VUkl9O25hbWU9Y29kZSBcCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy10YXJnZXQgPSAi
+XAogICAgICAgICAgICBmaWxlOi8vMDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgu
+cGF0Y2ggXAogICAgICAgICAgICIKLVNSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjg2Y2U4ZTYw
+NjgxOTcyZTYwZTRkY2IyNDkwYzY5NzQ2M2ZjZWM2MGRkNDAwYTVmOWJmZmJhMjZkMGI1MmI4ZDAi
+CitTUkNfVVJJW2NvZGUuc2hhMjU2c3VtXSA9ICI2OGRiMDgyMjEyYTk2ZDZmNTNlMzVkNjBmNDdk
+MzhiOTYyZTlmOWQyMDdhNzRjZmFjNzgwMjlhZThmZjVlMDhjIgogU1JDX1VSSVtkYXRhLnNoYTI1
+NnN1bV0gPSAiNjdkNWFiMzljNTE4N2UxZGQwZmVkNjBhM2ZlNTI3OTRkY2U5Nzg0YjRjMDQ1Y2I4
+NWUxOWY1ZDMxN2ZkNzgzZiIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFn
+L3JlbGVhc2UtKD9QPHB2ZXI+KD8hLityYykuKykiCi0tIAoyLjQyLjAKCg==
+
+--===============1647015578363690736==--
 
