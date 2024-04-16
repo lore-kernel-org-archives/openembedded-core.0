@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F14C52CDA
-	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:17 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.13429.1713248038370661688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A183C52D1F
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:18 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.13583.1713248037832778467
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Apr 2024 23:14:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T2H9ASkV;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MTThZhuF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58a990f-497bceb2-de9d-4268-832f-3c28c9e8f3cc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZCTgTxQB;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JnF1VTH2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018ee58a9a65-6c638025-83e1-4ee7-a48d-22c26b323689-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1713248049;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RWbTd7PG0tN2QyYneUEWkJgY8ARD5NbNjrhkUc1szw4=;
-	b=T2H9ASkVBB6jRSqWU8zGcXPYm/zkGuWyjDEg7ocLyddZlHVAh2EhuW6MJLJyo3M+
-	ST8rfJjDxACq8tt+/ByO7NHIYUjaNvvYJmUaaLiDx6BucYl4oyJxdRZObeFP1eAjIl2
-	Q+v3ZikC+1VDuTT3AvbNKqWhgJUKKsMWAS8uOxlk=
+	bh=Rg89UKEvHXOy/jFwCIAMiL5i8XKiqhbFl4itNQHIhJI=;
+	b=ZCTgTxQBPfGarlJPSjSKnth7Wql+CqdHAZUo3Vq3N/b3+Rz0vGjcyCf7b/oDAoIg
+	ZlKBUGFtEp1RqMm0+HQXEoUiQiduxY9dr/TO+2LeheTjPniTZnVCksDCIdGK/IHKDWJ
+	dBh1N/ilfiQMbqKqA1XVfxZ+L1v7N51RmUEqomwM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248049;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RWbTd7PG0tN2QyYneUEWkJgY8ARD5NbNjrhkUc1szw4=;
-	b=MTThZhuFqo1eI1JV8PwhkiXTyeZXoIlMRjKc2HnTUS/yYhjRtHGlgiBzmcFl7rcu
-	zpNXWmWGGdlF6o9dirHeE27FTqyexlw7EB6/hu5F4aC7eFXdOkG3kytvFzof1CA3vEV
-	E6oH3qEbwlE8OkPteNYbQf7p2Qc1TUclGkKMEWR0=
-Content-Type: multipart/mixed; boundary="===============6649614396686456262=="
+	bh=Rg89UKEvHXOy/jFwCIAMiL5i8XKiqhbFl4itNQHIhJI=;
+	b=JnF1VTH2wGTpDX143Vd4OH4aiyj7lQ/kkw4+yoiYyvHa9i3KWNOtKCSkH+Du8XH8
+	f8P01qWZkeyWH5dSbq1DTXEtSbQdTXsxY5XefMXd5hAJ8jAt5t7BHI6sYde3CTGeszM
+	fx8vrKM0Xs3DNY7MUPGC7XoHzgs6Qlp0wVe2Mg78=
+Content-Type: multipart/mixed; boundary="===============7708457100775145783=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-headers: upgrading to 1.3.280.0 SUCCEEDED
-Message-ID: <0101018ee58a990f-497bceb2-de9d-4268-832f-3c28c9e8f3cc-000000@us-west-2.amazonses.com>
+Subject: [AUH] vulkan-volk: upgrading to 1.3.280.0 SUCCEEDED
+Message-ID: <0101018ee58a9a65-6c638025-83e1-4ee7-a48d-22c26b323689-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Apr 2024 06:14:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.31
+X-SES-Outgoing: 2024.04.16-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198366
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198364
 
---===============6649614396686456262==
+--===============7708457100775145783==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-headers* to *1.3.280.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-volk* to *1.3.280.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.275.0-1.3.280.0.patch
+    - apply the patch: git am 0001-vulkan-volk-upgrade-1.3.275.0-1.3.280.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,29 +72,56 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3b0d8d0c3693f47001c988f0ce195717ef5f5489 Mon Sep 17 00:00:00 2001
+From 6e1d6bf9f2158e1e54f322d40c70fb6ff99d6810 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 23:36:30 +0000
-Subject: [PATCH] vulkan-headers: upgrade 1.3.275.0 -> 1.3.280.0
+Date: Tue, 16 Apr 2024 00:03:00 +0000
+Subject: [PATCH] vulkan-volk: upgrade 1.3.275.0 -> 1.3.280.0
 
 ---
- ...{vulkan-headers_1.3.275.0.bb => vulkan-headers_1.3.280.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.275.0.bb => vulkan-headers_1.3.280.0.bb} (95%)
+ ..._1.3.275.0.bb => vulkan-volk_1.3.280.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-volk_1.3.275.0.bb => vulkan-volk_1.3.280.0.bb} (56%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-index aacec8cab1..371cc7304d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.275.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
-@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-volk_1.3.275.0.bb b/meta/recipes-graphics/vulkan/vulkan-volk_1.3.280.0.bb
+similarity index 56%
+rename from meta/recipes-graphics/vulkan/vulkan-volk_1.3.275.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-volk_1.3.280.0.bb
+index f4e6e89aac..f109b010f0 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-volk_1.3.275.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-volk_1.3.280.0.bb
+@@ -1,3 +1,22 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.md
++# +++ LICENSE.md
++# @@ -1,4 +1,4 @@
++# -Copyright (c) 2018-2023 Arseny Kapoulkine
++# +Copyright (c) 2018-2024 Arseny Kapoulkine
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy
++#  of this software and associated documentation files (the "Software"), to deal
++# 
++#
++
+ SUMMARY = "A meta-loader for Vulkan"
+ DESCRIPTION = "Volk allows one to dynamically load entrypoints required \
+ to use Vulkan without linking to vulkan-1.dll or statically linking Vulkan loader. \
+@@ -7,10 +26,10 @@ BUGTRACKER = "https://github.com/zeux/volk"
+ SECTION = "libs"
  
--SRCREV = "217e93c664ec6704ec2d8c36fa116c1a4a1e2d40"
-+SRCREV = "577baa05033cf1d9236b3d078ca4b3269ed87a2b"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=b2dd098d35668a801190a9d9d47461b0"
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=12e6af3a0e2a5e5dbf7796aa82b64626"
+ 
+ SRC_URI = "git://github.com/zeux/volk.git;branch=master;protocol=https"
+-SRCREV = "f2a16e3e19c2349b873343b2dc38a1d4c25af23a"
++SRCREV = "01986ac85fa2e5c70df09aeae9c907e27c5d50b2"
  
  S = "${WORKDIR}/git"
  
@@ -102,83 +129,79 @@ index aacec8cab1..371cc7304d 100644
 2.42.0
 
 
---===============6649614396686456262==
+--===============7708457100775145783==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-headers-upgrade-1.3.275.0-1.3.280.0.patch"
+ filename="0001-vulkan-volk-upgrade-1.3.275.0-1.3.280.0.patch"
 
-RnJvbSAzYjBkOGQwYzM2OTNmNDcwMDFjOTg4ZjBjZTE5NTcxN2VmNWY1NDg5IE1vbiBTZXAgMTcg
+RnJvbSA2ZTFkNmJmOWYyMTU4ZTFlNTRmMzIyZDQwYzcwZmI2ZmY5OWQ2ODEwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjM6MzY6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4taGVhZGVyczogdXBncmFkZSAxLjMuMjc1LjAgLT4gMS4zLjI4MC4wCgotLS0KIC4uLnt2
-dWxrYW4taGVhZGVyc18xLjMuMjc1LjAuYmIgPT4gdnVsa2FuLWhlYWRlcnNfMS4zLjI4MC4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1oZWFkZXJzXzEuMy4y
-NzUuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjc1LjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yODAu
-MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yNzUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmIKaW5kZXggYWFj
-ZWM4Y2FiMS4uMzcxY2M3MzA0ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
-bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjc1LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmIKQEAgLTExLDcgKzExLDcgQEAg
-TElDRU5TRSA9ICJBcGFjaGUtMi4wICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-TElDRU5TRS5tZDttZDU9MWJjMzU1ZDhjNDE5NmY3NzRjOGI4N2VkMWE4ZGQ2MjUiCiBTUkNfVVJJ
-ID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1IZWFkZXJzLmdpdDticmFu
-Y2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAotU1JDUkVWID0gIjIxN2U5M2M2NjRlYzY3MDRlYzJk
-OGMzNmZhMTE2YzFhNGExZTJkNDAiCitTUkNSRVYgPSAiNTc3YmFhMDUwMzNjZjFkOTIzNmIzZDA3
-OGNhNGIzMjY5ZWQ4N2EyYiIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IFR1ZSwgMTYgQXByIDIwMjQgMDA6MDM6MDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdm9sazogdXBncmFkZSAxLjMuMjc1LjAgLT4gMS4zLjI4MC4wCgotLS0KIC4uLl8xLjMu
+Mjc1LjAuYmIgPT4gdnVsa2FuLXZvbGtfMS4zLjI4MC4wLmJifSB8IDIzICsrKysrKysrKysrKysr
+KysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi12b2xrXzEuMy4yNzUu
+MC5iYiA9PiB2dWxrYW4tdm9sa18xLjMuMjgwLjAuYmJ9ICg1NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9sa18xLjMuMjc1LjAuYmIgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi12b2xrXzEuMy4yODAuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDU2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1
+bGthbi12b2xrXzEuMy4yNzUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4tdm9sa18xLjMuMjgwLjAuYmIKaW5kZXggZjRlNmU4OWFhYy4uZjEwOWIwMTBm
+MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9sa18x
+LjMuMjc1LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9s
+a18xLjMuMjgwLjAuYmIKQEAgLTEsMyArMSwyMiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19D
+SEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBU
+aGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5l
+dyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVl
+ZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2
+aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBj
+b3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJ
+Q0VOU0UubWQKKyMgKysrIExJQ0VOU0UubWQKKyMgQEAgLTEsNCArMSw0IEBACisjIC1Db3B5cmln
+aHQgKGMpIDIwMTgtMjAyMyBBcnNlbnkgS2Fwb3Vsa2luZQorIyArQ29weXJpZ2h0IChjKSAyMDE4
+LTIwMjQgQXJzZW55IEthcG91bGtpbmUKKyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3Jh
+bnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQorIyAg
+b2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUg
+IlNvZnR3YXJlIiksIHRvIGRlYWwKKyMgCisjCisKIFNVTU1BUlkgPSAiQSBtZXRhLWxvYWRlciBm
+b3IgVnVsa2FuIgogREVTQ1JJUFRJT04gPSAiVm9sayBhbGxvd3Mgb25lIHRvIGR5bmFtaWNhbGx5
+IGxvYWQgZW50cnlwb2ludHMgcmVxdWlyZWQgXAogdG8gdXNlIFZ1bGthbiB3aXRob3V0IGxpbmtp
+bmcgdG8gdnVsa2FuLTEuZGxsIG9yIHN0YXRpY2FsbHkgbGlua2luZyBWdWxrYW4gbG9hZGVyLiBc
+CkBAIC03LDEwICsyNiwxMCBAQCBCVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0aHViLmNvbS96ZXV4
+L3ZvbGsiCiBTRUNUSU9OID0gImxpYnMiCiAKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vTElDRU5TRS5tZDttZDU9YjJkZDA5OGQzNTY2OGE4MDExOTBhOWQ5ZDQ3
+NDYxYjAiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT0xMmU2YWYz
+YTBlMmE1ZTVkYmY3Nzk2YWE4MmI2NDYyNiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L3pldXgvdm9say5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICJm
+MmExNmUzZTE5YzIzNDliODczMzQzYjJkYzM4YTFkNGMyNWFmMjNhIgorU1JDUkVWID0gIjAxOTg2
+YWM4NWZhMmU1YzcwZGYwOWFlYWU5YzkwN2UyN2M1ZDUwYjIiCiAKIFMgPSAiJHtXT1JLRElSfS9n
+aXQiCiAKLS0gCjIuNDIuMAoK
 
---===============6649614396686456262==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_av1std.h was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json was removed
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_av1std_decode.h /usr/include/vk_video/vulkan_video_codec_av1std.h"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json", added "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json"
-
---===============6649614396686456262==
+--===============7708457100775145783==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.3.275.0" to "1.3.280.0"
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_av1std.h was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json was added
-  /usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json was removed
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 14407772 to 14852697 (+3%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_av1std_decode.h /usr/include/vk_video/vulkan_video_codec_av1std.h"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.275.0" to "1.3.280.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 12065509 to 12344715 (+2%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: FILELIST: removed "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap_2022.json", added "/usr/share/vulkan/registry/profiles/VP_KHR_roadmap.json"
+packages/core2-64-poky-linux/vulkan-volk: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-dbg: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-dbg: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-dev: PKGSIZE changed from 369770 to 387180 (+5%)
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-dev: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-dev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-doc: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-doc: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-locale: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-locale: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-src: PKGSIZE changed from 361743 to 379153 (+5%)
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-src: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-src: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-staticdev: PKGSIZE changed from 646736 to 646776 (+0%)
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-staticdev: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk-staticdev: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk: PV changed from "1.3.275.0" to "1.3.280.0"
+packages/core2-64-poky-linux/vulkan-volk/vulkan-volk: PKGV changed from 1.3.275.0 [default] to 1.3.280.0 [default]
 
---===============6649614396686456262==--
+--===============7708457100775145783==--
 
