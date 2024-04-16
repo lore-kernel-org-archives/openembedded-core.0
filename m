@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E00EC27C7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 654F2C2BA15
 	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 06:14:11 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.13602.1713248040300477665
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.13435.1713248038923158842
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Apr 2024 23:14:00 -0700
+ Mon, 15 Apr 2024 23:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e/3TjAfn;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JsurJPRt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018ee58a7266-0753b44d-b267-4ed5-8aab-39e63d7a1da9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PabXJR8X;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=p1vBruzf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018ee58a6ca0-5eb937fa-b4cc-4c07-b536-9c0e829fcb28-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713248039;
+	t=1713248038;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2hhm8auwasiMDC2b4oE4VrFMsfAhoAIeJh6DFrrbAo0=;
-	b=e/3TjAfnCKkQq/LDNyMPpxQ+s2BcoAmrRf2vGnNQCQPLn8lelMLfWPRN+vBGowxI
-	92W2r7AjOIh3akyg2CkUTQDON834SY1TFDyLftQwFZNMx2plk43UlFcaVjYhJs/d6Wn
-	Jih6RX6vWVliw7F8XMTqrBA7n04k1pM7Er8rR+Z8=
+	bh=VPJa1FKGaHAr8lp6Rgf8HyJ3yVAkw9LaPLq05Zj11xw=;
+	b=PabXJR8XOdYTmCXBRqxEcSkuC8Y8JXag3GzM3wl69xVHvrfF9+yTT0gY4e+Al78j
+	WE6lwJwQ24X/nriLlgC19ETZoryiPdrjghGWwDyXquiYIglY5EL3hjp1+CvBHG5aX6O
+	Dv3Hfj7QfCt6k+WDCpMyM4YYo1gR3GVYHWXe5UCE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248039;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713248038;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2hhm8auwasiMDC2b4oE4VrFMsfAhoAIeJh6DFrrbAo0=;
-	b=JsurJPRtKF+qgHkrau2Lrnxs9iwDDCZ9NjhkRto7fBkA11qCcCZUYmzOJTwNUst5
-	qVKkYaPHYPcEJqBrdBSRSzsVRsRpBF8V1EGYaqIhdTqKyiwjhHVAXAL22/0++kuA9Z7
-	mJIT2GgpRu0zXoNpab4mJOlXqkm6181wSmiTau8U=
-Content-Type: multipart/mixed; boundary="===============7868153788083950888=="
+	bh=VPJa1FKGaHAr8lp6Rgf8HyJ3yVAkw9LaPLq05Zj11xw=;
+	b=p1vBruzfVDK9fQa4h9OPOxzo1stwDQGluujEMEfFAh79bg8P4MuDDM/xSV1+mB8c
+	tOgHhSwp4WmqjFxkgG2K3pJ0N5HgW8zf1DEOge7zRmzcYXS8KJSIPHharrLAohS+dVC
+	vKw0LR4w0aqQ3ILLSaZ6KgNtIi1khWgvJM81Sr+g=
+Content-Type: multipart/mixed; boundary="===============0560235409473795472=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-typing-extensions: upgrading to 4.11.0 SUCCEEDED
-Message-ID: <0101018ee58a7266-0753b44d-b267-4ed5-8aab-39e63d7a1da9-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Apr 2024 06:13:59 +0000
+Subject: [AUH] ninja: upgrading to 1.12.0 SUCCEEDED
+Message-ID: <0101018ee58a6ca0-5eb937fa-b4cc-4c07-b536-9c0e829fcb28-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Apr 2024 06:13:58 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.16-54.240.27.192
+X-SES-Outgoing: 2024.04.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Apr 2024 06:14:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198316
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198277
 
---===============7868153788083950888==
+--===============0560235409473795472==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-typing-extensions* to *4.11.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *ninja* to *1.12.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.10.0-4.11.0.patch
+    - apply the patch: git am 0001-ninja-upgrade-1.11.1-1.12.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,103 +72,89 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 03800b4e49d37eb2e6ff83ed9711af5540a4fa1d Mon Sep 17 00:00:00 2001
+From 58606c053c0b677c5c3da483cb70fb15b9e2098d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Apr 2024 20:12:54 +0000
-Subject: [PATCH] python3-typing-extensions: upgrade 4.10.0 -> 4.11.0
+Date: Mon, 15 Apr 2024 18:46:46 +0000
+Subject: [PATCH] ninja: upgrade 1.11.1 -> 1.12.0
 
 ---
- ...extensions_4.10.0.bb => python3-typing-extensions_4.11.0.bb} | 2 +-
+ .../recipes-devtools/ninja/{ninja_1.11.1.bb => ninja_1.12.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.10.0.bb => python3-typing-extensions_4.11.0.bb} (91%)
+ rename meta/recipes-devtools/ninja/{ninja_1.11.1.bb => ninja_1.12.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.10.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.10.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb
-index 8698a80cc5..ad45b669ec 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.10.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
+diff --git a/meta/recipes-devtools/ninja/ninja_1.11.1.bb b/meta/recipes-devtools/ninja/ninja_1.12.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/ninja/ninja_1.11.1.bb
+rename to meta/recipes-devtools/ninja/ninja_1.12.0.bb
+index 8e297ec4d4..ef7f80d0ae 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.11.1.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.12.0.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
  
--SRC_URI[sha256sum] = "b0abd7c89e8fb96f98db18d86106ff1d90ab692004eb746cf6eda2682f91b3cb"
-+SRC_URI[sha256sum] = "83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"
+ DEPENDS = "re2c-native ninja-native"
  
- inherit pypi python_flit_core
+-SRCREV = "a524bf3f6bacd1b4ad85d719eed2737d8562f27a"
++SRCREV = "65d0dfcbbea6b8ca7d8a3a0f673ecb522379e43c"
  
+ SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
 -- 
 2.42.0
 
 
---===============7868153788083950888==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.12/site-packages/typing_extensions-4.10.0.dist-info moved to /usr/lib/python3.12/site-packages/typing_extensions-4.11.0.dist-info
-
---===============7868153788083950888==
+--===============0560235409473795472==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-typing-extensions-upgrade-4.10.0-4.11.0.patch"
+ filename="0001-ninja-upgrade-1.11.1-1.12.0.patch"
 
-RnJvbSAwMzgwMGI0ZTQ5ZDM3ZWIyZTZmZjgzZWQ5NzExYWY1NTQwYTRmYTFkIE1vbiBTZXAgMTcg
+RnJvbSA1ODYwNmMwNTNjMGI2NzdjNWMzZGE0ODNjYjcwZmIxNWI5ZTIwOThkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMjA6MTI6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXR5cGluZy1leHRlbnNpb25zOiB1cGdyYWRlIDQuMTAuMCAtPiA0LjExLjAKCi0tLQog
-Li4uZXh0ZW5zaW9uc180LjEwLjAuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjEx
-LjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy10eXBpbmct
-ZXh0ZW5zaW9uc180LjEwLjAuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjExLjAu
-YmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXR5cGluZy1leHRlbnNpb25zXzQuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjExLjAuYmIKc2ltaWxhcml0eSBpbmRl
-eCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXR5
-cGluZy1leHRlbnNpb25zXzQuMTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTEuMC5iYgppbmRleCA4Njk4YTgw
-Y2M1Li5hZDQ1YjY2OWVjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xMC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjExLjAuYmIKQEAgLTE1
-LDcgKzE1LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZmNmNmIy
-NDljMjY0MTU0MDIxOWE3MjdmMzVkOGQyYzIiCiAjIFRoZSBuYW1lIG9uIFB5UGkgaXMgc2xpZ2h0
-bHkgZGlmZmVyZW50LgogUFlQSV9QQUNLQUdFID0gInR5cGluZ19leHRlbnNpb25zIgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiYjBhYmQ3Yzg5ZThmYjk2Zjk4ZGIxOGQ4NjEwNmZmMWQ5MGFiNjky
-MDA0ZWI3NDZjZjZlZGEyNjgyZjkxYjNjYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4M2YwODVi
-ZDVjYTU5YzgwMjk1ZmMyYTgyYWI1ZGFjNjc5Y2JlMDJiOWYzM2Y3ZDgzYWY2OGUyNDFiZWE1MWIw
-IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMTUgQXByIDIwMjQgMTg6NDY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+aW5qYTogdXBncmFkZSAxLjExLjEgLT4gMS4xMi4wCgotLS0KIC4uLi9yZWNpcGVzLWRldnRvb2xz
+L25pbmphL3tuaW5qYV8xLjExLjEuYmIgPT4gbmluamFfMS4xMi4wLmJifSB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9uaW5qYS97bmluamFfMS4xMS4xLmJiID0+IG5pbmphXzEuMTIuMC5iYn0g
+KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbmluamEvbmluamFfMS4x
+MS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL25pbmphL25pbmphXzEuMTIuMC5iYgpzaW1p
+bGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbmluamEv
+bmluamFfMS4xMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbmluamEvbmlu
+amFfMS4xMi4wLmJiCmluZGV4IDhlMjk3ZWM0ZDQuLmVmN2Y4MGQwYWUgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9uaW5qYS9uaW5qYV8xLjExLjEuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL25pbmphL25pbmphXzEuMTIuMC5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YTgxNTg2YTY0YWQ0ZTQ3NmM3OTFjZGE3
+ZTJmMmM1MmUiCiAKIERFUEVORFMgPSAicmUyYy1uYXRpdmUgbmluamEtbmF0aXZlIgogCi1TUkNS
+RVYgPSAiYTUyNGJmM2Y2YmFjZDFiNGFkODVkNzE5ZWVkMjczN2Q4NTYyZjI3YSIKK1NSQ1JFViA9
+ICI2NWQwZGZjYmJlYTZiOGNhN2Q4YTNhMGY2NzNlY2I1MjIzNzllNDNjIgogCiBTUkNfVVJJID0g
+ImdpdDovL2dpdGh1Yi5jb20vbmluamEtYnVpbGQvbmluamEuZ2l0O2JyYW5jaD1yZWxlYXNlO3By
+b3RvY29sPWh0dHBzIgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPi4q
+KSIKLS0gCjIuNDIuMAoK
 
---===============7868153788083950888==
+--===============0560235409473795472==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-typing-extensions: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.10.0.tar.gz;downloadfilename=typing_extensions-4.10.0.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.11.0.tar.gz;downloadfilename=typing_extensions-4.11.0.tar.gz"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.10.0" to "4.11.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 259972 to 267732 (+3%)
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.12/site-packages/typing_extensions-4.10.0.dist-info moved to /usr/lib/python3.12/site-packages/typing_extensions-4.11.0.dist-info
+packages/core2-64-poky-linux/ninja: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-dbg: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-dbg: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-dbg: PKGSIZE changed from 7433976 to 7398856 (-0%)
+packages/core2-64-poky-linux/ninja/ninja-dev: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-dev: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-doc: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-doc: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-locale: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-locale: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-src: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-src: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja-src: PKGSIZE changed from 407229 to 427068 (+5%)
+packages/core2-64-poky-linux/ninja/ninja-staticdev: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja-staticdev: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
+packages/core2-64-poky-linux/ninja/ninja: PV changed from "1.11.1" to "1.12.0"
+packages/core2-64-poky-linux/ninja/ninja: PKGV changed from 1.11.1 [default] to 1.12.0 [default]
 
---===============7868153788083950888==--
+--===============0560235409473795472==--
 
