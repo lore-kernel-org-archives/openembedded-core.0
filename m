@@ -1,451 +1,187 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F35F4C4345F
-	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 09:04:41 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.8322.1713344671709105954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06897C4345F
+	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 09:13:12 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.8331.1713345190361506746
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Apr 2024 02:04:31 -0700
+ Wed, 17 Apr 2024 02:13:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=GXuelN/+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4837b272f6=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43H6JRa9006741
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 02:04:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=VpkFVCTOCczGByANrVh
-	ebcr3XlOUr7FbGks6VS3BHQU=; b=GXuelN/+A3id7fe3qv/M4j41x55jmstEWGY
-	hFtmqYUQ3Pk0M3IWovqNKZ4gqLMroDmS/bbRaiXG6CPcvx3xcNjSIrbqvZeGLtaP
-	S9Ml88pyL3SwgrIo9oi1uD2Umt7+B+XSTlg+Tfi4iAUXIPCAxBMPubO9F0XlyRCh
-	kVg3m7JQ0izFzRKN4XhmqIcHXOSeHsvfIczkSWWhPKlxSnzE5h7s+/g2VXU4o9fK
-	uu/L97HIclu3eJv4/QM7JjId7FEdl34K6DBlOXKa5eSIUmEoOgawL01nuNjjEwvG
-	UDYizob/lrpVMiU9b3OwspdiDGqYeudDDk93VLuETuUcNoq3B/g==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xfsjgucm9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 02:04:31 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 43H94UsA002540;
-	Wed, 17 Apr 2024 02:04:30 -0700
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xfsjgucm8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Apr 2024 02:04:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VO/CkEa/Dpk0l9Sadiwroa/SnhArU5FZ1xErA5VjczINFAQF17rX4l2FZvw1wj9SG91dhQUnt7BrDp/JWHIKa/Th274c7Eit72qIdl781UqzQcDOjfbncuD5zp9pdnm5bs2CR8W2ySUcW+amsiFa7hKpD6PNfN/e7fakgCJ6AI7h+z7KoJE+SiGQs+AYKH0wU9K1a947VzF4wROwgFZIwwOKmrbecXpRYE84/EV7CSMIj5D7qW4Qgza36dODanzk+mAy/xN9mQPGO+gSxSc+ikuhLr2sssxhecFpJGeKSXmjLfKhK6c4Y4t3l1agbDYnxur7+kXOfRaiHtjiUOz+WQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VpkFVCTOCczGByANrVhebcr3XlOUr7FbGks6VS3BHQU=;
- b=gcG5JLlOPXr3IW6ds3N+9+4cKuwnYwDz1cOTf05zQc38035mWVNVTHggERCfb1StpDUXHIoR2SVKuwKtz0MUXm9vdbyXzg1a6zSRZ6b4x7w7se7kNQtndY2HdogI3ns7xgRENXWFMjGAXQ5soU380ZNZmi2iGyVX8SANQf4ulGyhpykFDArkQy3nw9naM49xcfgy92lcyG2zSIR8Knq+qn4Czf8E1Dm2VvztqMBNwtNQK38BeFqQqnc6POFjLN50whKBLw0kLF3CJZV/0fkAUYGD5fMLmY6nAsAQ8Pm34hQav/6ja4xBzHdd+efmrmAa0VYmZdMQtW+LaKv1ZTjtLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by CY8PR11MB7748.namprd11.prod.outlook.com (2603:10b6:930:87::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.31; Wed, 17 Apr
- 2024 09:04:27 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::d168:2e49:fb61:dc21]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::d168:2e49:fb61:dc21%7]) with mapi id 15.20.7472.027; Wed, 17 Apr 2024
- 09:04:27 +0000
-Content-Type: multipart/alternative;
- boundary="------------j9ZIk0rC2fmGeqjzpTqHp4ZM"
-Message-ID: <7c635ceb-c36e-41f4-9cf3-1b8ab676f86c@windriver.com>
-Date: Wed, 17 Apr 2024 17:04:18 +0800
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YTO1emJk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.182, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d8743ecebdso53576301fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 02:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1713345188; x=1713949988; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W8dT1XWl3B7RVBzgrfqSPb8nBShxwFxKC6UYjxiQWPc=;
+        b=YTO1emJkR0DlxDnMguZ4Qss+5S693HxLo9cbnDGJSxO6sG1zYg7AmhJHyS287mtp6a
+         r9WsDKBGwhfi7kyRzk5qM94P6E+O4AC6hCCO+oJ2Qii4UaTse1K9ITVSruTq6a6Yj8Zm
+         4s2QDh81gTiEJoU3ZJMmBnIzJCLoBLDsCW+0w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713345188; x=1713949988;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W8dT1XWl3B7RVBzgrfqSPb8nBShxwFxKC6UYjxiQWPc=;
+        b=GkCIWOrJ9F7+CEcmnq2wMNnvUaIyDSG9l/bSIPsyrQN+dQv97C8LLaDm5x9u8Y/fD9
+         IDtMWg15pyOEkI7bWMh7mJNN17BZoJqKd6cDHcWK1xMzPDrmlctKjMoDBXbO+xXTw6Zy
+         kb9Xqn3NY1LrhSiJqueDDdPHC6P7bvZZnx14pvGVWoc9kn0ZMXfj08SH+DBEGKGIX7f0
+         cpkghmdk+d8iDgi8mNULrBGmrPWjMEmEa9uIVKxOqnt+qwgOrJBqPFqtvsckBQHpgzob
+         k+gXJkVxtPBjZBKWdeeUGyz9tF3pVgsQF0dGmM+nUrTf2GwnQHEw1RcYAA2TNHYLtLSh
+         e6zg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRewVULBlTSI6IOdCEkrRhteJx+wacSLmVxE9I8Fl52CYSnwmuG2W6jyIsr5bRtNMzeblh69tomh7DGikSW3l+X4dm7RrqT14k69iKOy0kMNUTAv//AY6t
+X-Gm-Message-State: AOJu0YwQUJ1ftsZt69dAYgeqCmlJ9307RFcVemGId7BkEiwNqa+gaurS
+	p/AKG+lFPjuqTTHFAE/pNMnv7ExRfwSfLw0HjraNGCZWrF7fuLzYr0rF/eRyBhw=
+X-Google-Smtp-Source: AGHT+IEGgBJDOLbsp9aKsOWaFy4n0nmy7O2Pg66KKaN+6Vf9RoyaKRdMTge8VZK4lCG7ztb1YOZTBg==
+X-Received: by 2002:a2e:8554:0:b0:2d9:e54d:81eb with SMTP id u20-20020a2e8554000000b002d9e54d81ebmr10514792ljj.12.1713345188146;
+        Wed, 17 Apr 2024 02:13:08 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a0de:b0fb:f1c3:a752? ([2001:8b0:aba:5f3c:a0de:b0fb:f1c3:a752])
+        by smtp.gmail.com with ESMTPSA id p9-20020a05600c1d8900b00417e4add806sm1986398wms.7.2024.04.17.02.13.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 02:13:07 -0700 (PDT)
+Message-ID: <37a6ea276baa63db767a95cd4c3cc6cc091a0fac.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] base.bbclass: make do_fetch depends on
  PREMIRRORS MIRRORS
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>, changqing.li@eng.windriver.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>,
+ changqing.li@eng.windriver.com,  openembedded-core@lists.openembedded.org
+Date: Wed, 17 Apr 2024 10:13:07 +0100
+In-Reply-To: <eee97336-9137-446c-b37f-c4b5bc0f9604@windriver.com>
 References: <20240415083019.1867284-1-changqing.li@windriver.com>
- <7440987a5a3496bd4f88931728c7d7f686099c62.camel@linuxfoundation.org>
- <eee97336-9137-446c-b37f-c4b5bc0f9604@windriver.com>
- <CANNYZj_N0oJwp_vZvVdaDEFtHnTPi+RG8YFx1qu=B0QHkJZjSw@mail.gmail.com>
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <CANNYZj_N0oJwp_vZvVdaDEFtHnTPi+RG8YFx1qu=B0QHkJZjSw@mail.gmail.com>
-X-ClientProxiedBy: SG2PR01CA0122.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::26) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
+	 <7440987a5a3496bd4f88931728c7d7f686099c62.camel@linuxfoundation.org>
+	 <eee97336-9137-446c-b37f-c4b5bc0f9604@windriver.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|CY8PR11MB7748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14dbc9be-b138-4c64-a889-08dc5ebd61c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	MPm3mkuDfzRnkO2bh8FmS/vjwxFJtEG6D12+tEgqn0Gx0b3WPfZCRGqG47Ipm5IshGy4z1cKQo6O3Nnlsp+Cz+NCILbIAeCtDakT2E7c0RyjABbgJEJHWZEfXlN0BSNvGjUTrBl1LVDL6WCsG3jszPY2RLLsxXov+9OkS7kEaSt/UJBjKaAoXQ1enW6LZGfrfQUBLNWkQU5H6r/9S0Iwyyd5O/6gINrB3eElPJ35Eo0QjiAevZd67PTxbfl9N0Zi5buWku5MQlFKShtj1zMFwHNq64/io4o1B3dE2CPtnJMfhQ9q3YuSeSsxwoBhzDtu+tT2JVa7Htf+zMrx4zz53giz3UchS7V76ZfC89d9NjJwyPGGI4wJywkVaxQzIRIw6IZtYKHeGqdRzrEHGgoxeegn5XfdiNIyfANtnjX+0PLhpJGbXHk1xNNmv/p4DkrNkdL/nPeVQ6FboV+iYfSgwDNGZTL623sq3+dSGDmlphIbJ8rrE9S+/UKW93QmNBifVHFAZqd1030tbQJo80d+Wj6XEn+w1a0SC/aNbmCn9TKvv/0pHYyBQfdAq9y4P4KGBzmCxnXoA3M3yTf5c85T45sPRWFiebEylhu2h4EkLE/mbDp7jECTEe7PHl/cjd/s
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZFBnMzZWQkNzRjFOeTNWRTV6ejFuNnJiN1dwOFFQTTNadkpqMzgyQjRhaFJq?=
- =?utf-8?B?Y0tiL0Rydlo4RE5lMzZmd0cyV1pHNGhEajdFUURxODVRckRRN1FkQjUzVWpN?=
- =?utf-8?B?K2lmN1VjQWphNFJtUG9KdEcwY1BOWWVDUWxwZVE4TTBJaVZ1a09td3hZbXZL?=
- =?utf-8?B?M3ZybTdOZE1XVjdJTVpBd05zRkcxOVBybFdXQWlVb1RRSkxnbHBKWlV2cTVV?=
- =?utf-8?B?SkFaQ0dNeGxDWWlWN2hBcXNUUkllallENzV3TnJ1NklJOUNuMWhFUFZtWG9L?=
- =?utf-8?B?U1U1TnhwWVNKUXVQZ1dFUTRLRlRtQnhUZG4wemtPVGltTkNJVVpSTVYySzdP?=
- =?utf-8?B?R2JFN3I2dnRrazdNTERIMXh3cG1FaUZBVEpyZTIrNkxlUTFFekhJSndRZUhG?=
- =?utf-8?B?NDZLOXNzOXl6cE95bU1hcTBjdS9pemdnSXBCaG9QSmJWSWo4dU8xWVlBbkFJ?=
- =?utf-8?B?TnR4akwxYmlQUzhkM0pRRExVa3N5ejdpbGdQSmVoZGwvMXBybXBTSURNN20y?=
- =?utf-8?B?WGlaUWptSk5YYWJsa29ZandYcnA4WU9NUlp6MUFSc2IxbkNuQzFwcHhCSXRK?=
- =?utf-8?B?N3lmNk4zd3BtYVQyMUI2Mko5VEYzdjU4QUVxdWZNbkttbUt1K3d0UWJyV1A3?=
- =?utf-8?B?SE5zZXhia014dVMvWWNvWHVxeEN2MmJ4em5zeisxZFNGSEpTWHgwanlPdkRq?=
- =?utf-8?B?bEU5Qk9ScDQ1R0NoODlXUXhrUXRrRDhweXBSbVdjaVJWZGY1UGV4aUhDei82?=
- =?utf-8?B?WG04RElBWTJIeEtqM1pDTjE4MWxUU0RFL0o1QzlBMGtGa093YTNzZ2FJbUpU?=
- =?utf-8?B?cnJnV2EvQWhjOU9vS1FsY29zK0dHNlBiaGppczdISGRvSWZ5RHhmcm9WZDBZ?=
- =?utf-8?B?SG84Qk9vMEpNb1FLMS9XcngwcTdZWUZsR2JGbmpKMUxDOWs3dUZQM1dLeGVi?=
- =?utf-8?B?aW1EZm50elorK1I3ZlNmazM2bkpUWldDV0hKKzg0aTgvbzZseFJJVThyci9H?=
- =?utf-8?B?UCsxeVhOaDc2YlZmSlJGRlJFUzI1NTZkejhqUTdJU0xXTE00QVhJZnBna3lF?=
- =?utf-8?B?aWUxcERRTzNpUDFHbTJLYS9KeUdqdnllYjZzMEZnbzNWYzZWZHJLanVobGJ0?=
- =?utf-8?B?RG1kVThlNEZ6MFp6RGdkS0JXTGNnVkFlcFpFZ0x0YlcrM0MrZS9yUlgxVFEx?=
- =?utf-8?B?VUhFRTRYZ2ZwRUtVYUNseW4zOU5sSkk3UnQvQkxrKzJCQmVQbkpqQ2NqdlRV?=
- =?utf-8?B?V0ZWTzA1Q0hNWG9TWjgvSHJodGtoOUs4bGxRMUNwUHUvNUU3R3Z4VjZXWG1R?=
- =?utf-8?B?WGQ5bTdkYkY0QVpLRGNHWDQ0WFVHSFJrMXByQ0ZaK1lnUnlKOG1hZjBGdkpz?=
- =?utf-8?B?L2xHVnZEdUFqZmNnNksyaGxROVdxMmd2bDc3R2JBdFZGRXNlK1QraXdZeHJ0?=
- =?utf-8?B?dU9Md2xSb0UxSEJhdS9BaXhMajNvbzR0OE40VXA5UTNUd2psSVNoT1ZBQ3pv?=
- =?utf-8?B?S3Voa2FHVE5CeW1VRUFKM0c3eUozNUdpTndaVnorc0p2ZEZ5TzF3YXE2NHZo?=
- =?utf-8?B?QmcwMXBuZUh5ciszODdXcHVKRDBxUllTRXFFUzRHZ3FWemFSYzZTSVlaaEt4?=
- =?utf-8?B?aFV3ZkJWK0RpMkRGeW41bEF5VDdTVmNkVStWUDVGbjlDYUQwNWE5aldDV09C?=
- =?utf-8?B?aVc2aHowanorN3lCN0dpWXNJWkx6Q1VoTk1INjF2cTFRN0JnOFpuL3FoQnRE?=
- =?utf-8?B?MkttaklVNlFodTFUck1wWVZUUVRMTGhlM0FMZ0k1TTZZMWtzK0lwL2s2NFdP?=
- =?utf-8?B?SlVZay91amc3RVpNRUdadUZiNTlBL2VJS2U5aXhUVjZ2RFpXMVRORE5nNlhD?=
- =?utf-8?B?S2lERFJYdmgvN0U4OVVOQ0g4b3E4L0xiTDBYVmsyYUUwTEFxOFBpcmNxWk9R?=
- =?utf-8?B?b0NLNnlUZ1ltVzd5Uk9rbFF6a0l0MnM5VnptUzRmUllxRURhcEVrSXc0cys0?=
- =?utf-8?B?RVozMTlBcnNUdGFtRHFUNCtFMDZseHBwMEZMUFpRa3YwT1pMZ0hJcG1vZkJE?=
- =?utf-8?B?WVRKVElQZ05DbUdEVzhzaU1zTmdyRnoxdDE5dFdXZFdNWVFNd21Ham5NSlho?=
- =?utf-8?B?Nk5ZWUZkOEl0akN3NnNrdjUreXV0a2ppWG5yUGlpRExCSUgvR3FnWS8rMTRs?=
- =?utf-8?B?U2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14dbc9be-b138-4c64-a889-08dc5ebd61c3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2024 09:04:26.4902
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cxFs+cw9Uf0FrNqdn9wc7xyTFdBbQi/GxIDI4fmZk6Envw8hLc8tYl7JZT5P6RdaVrV+7gayHN4Giycpo6aU2Avbh6BOxTqj0WmcOg3yXxw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7748
-X-Proofpoint-ORIG-GUID: 9_J2o2XUcdjqAnp8J5dNw7adFqs55o64
-X-Proofpoint-GUID: pzRL8dp6mVNGhfxFz5NauutMnRgP2n45
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-17_08,2024-04-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404170062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 09:04:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198460
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 09:13:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198461
 
---------------j9ZIk0rC2fmGeqjzpTqHp4ZM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 43H6JRa9006741
+On Tue, 2024-04-16 at 09:48 +0800, Changqing Li wrote:
+> On 4/15/24 18:05, Richard Purdie wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the
+> > sender and know the content is safe.
+> >=20
+> > On Mon, 2024-04-15 at 16:30 +0800, Changqing Li via
+> > lists.openembedded.org wrote:
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > >=20
+> > > When there are tarballs in local mirror file://, do_fetch=C2=A0will
+> > > create symlink under DL_DIR, eg:
+> > > pseudo-prebuilt-2.33.tar.xz ->
+> > > /project/path/to/localmirrorA/pseudo-prebuilt-2.33.tar.xz
+> > > after user update path from localmirrorA to localmirrorB, because
+> > > do_fetch don't depends on PREMIRRORS/MIRRORS, do_fetch will not
+> > > be rerun, so the symlink will not update to:
+> > > pseudo-prebuilt-2.33.tar.xz ->
+> > > /project/path/to/localmirrorB/pseudo-prebuilt-2.33.tar.xz
+> > > then, do_upack will failed since the tarball cannot be found.
+> > >=20
+> > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > > ---
+> > > =C2=A0 meta/classes-global/base.bbclass | 1 +
+> > > =C2=A0 1 file changed, 1 insertion(+)
+> > >=20
+> > > diff --git a/meta/classes-global/base.bbclass b/meta/classes-
+> > > global/base.bbclass
+> > > index 0999b42daa..5094a1540e 100644
+> > > --- a/meta/classes-global/base.bbclass
+> > > +++ b/meta/classes-global/base.bbclass
+> > > @@ -139,6 +139,7 @@ do_fetch[file-checksums] =3D
+> > > "${@bb.fetch.get_checksum_file_list(d)}"
+> > > =C2=A0 do_fetch[file-checksums] +=3D "
+> > > ${@get_lic_checksum_file_list(d)}"
+> > > =C2=A0 do_fetch[prefuncs] +=3D "fetcher_hashes_dummyfunc"
+> > > =C2=A0 do_fetch[network] =3D "1"
+> > > +do_fetch[vardeps] +=3D "PREMIRRORS MIRRORS"
+> > > =C2=A0 python base_do_fetch() {
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_uri =3D (d.getVar('SRC_URI') or ""=
+).split()
+> > >=20
+> > Changing PREMIRRORS or MIRRORS should not change the output of the
+> > task, ever, so do_fetch shouldn't depend upon them.
+>=20
+> The failure case I met is like this:
+>=20
+> I have a project with PREMIRRORS setting, and the tarballs are under
+> it.
+>=20
+> PREMIRRORS:append =3D "file:///project/path/to/localmirrorA"
+>=20
+> after first bitbake pseudo-native, there will a symlink under DL_DIR:
+>=20
+> pseudo-prebuilt-2.33.tar.xz ->=20
+> /project/path/to/localmirrorA/pseudo-prebuilt-2.33.tar.xz
+>=20
+> Then, Since all the tarballs are moved to
+> /project/path/to/localmirrorB
+>=20
+> I changed PREMIRRORS:append =3D "file:///project/path/to/localmirrorB"
+>=20
+> Then bitbake pseudo-native again,=C2=A0=C2=A0 do_fetch=C2=A0 will not rer=
+un since no
+> signature change.
+>=20
+> do_unpack rerun since one dependency=C2=A0 change, it will try to unpack=
+=20
+> ${DL_DIR}/pseudo-prebuilt-2.33.tar.xz,
+>=20
+> but since do_fetch not rerun, ${DL_DIR}/pseudo-prebuilt-2.33.tar.xz=20
+> still point to localmirrorA, but localmirrorA not exist
+>=20
+> since localmirrorB replace it.=C2=A0 Then will cause do_unpck failure:
+>=20
+> NOTE: Unpacking /build/downloads/pseudo-prebuilt-2.33.tar.xz to=20
+> /build/tmp-glibc/work/x86_64-linux/pseudo-native/1.9.0+git xz:=20
+> /build/downloads/pseudo-prebuilt-2.33.tar.xz: No such file or
+> directory
+>=20
+> So this is why I want to add this depends,=C2=A0 and want to make do_fetc=
+h
+> rerun and resymlink to /project/path/to/localmirrorB
 
+The question is if the fetch reruns, does it correct the path?
 
-On 4/16/24 15:30, Alexander Kanavin wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->
-> I'm not sure why files in DL_DIR would symlink to the local
-> (pre)mirrors instead of making an independent copy? Mirrors can indeed
-> move or disappear altogether.
->
-> Can you look into where the symlinking happens, and whether that can
-> be modified or configured differently (maybe also the git history for
-> that code)?
+do_fetch should definitely not depend on PREMIRRORS or MIRRORS as those
+can be set by local users for local setups. The idea is that result
+would be the same regardless, else the fetch checksums (or git
+revision) would not match. I will therefore not take any patch changing
+that.
 
-Current code is here:=20
-https://git.openembedded.org/bitbake/tree/lib/bb/fetch2/__init__.py#n1096
+Also, despite what Alex said, the fetcher does only make symlinks for
+local files, it does not copy every file into DL_DIR.=C2=A0It does this for
+efficiency, both time and disk usage.
 
-It is created during handle the (pre)mirrors in do_fetch.=C2=A0 And the=20
-history long time ago:
+If you start moving files around locally, you're expected to fix up the
+links too. I believe that if you manually run the fetch task, it will
+update correctly so the only issue is it not automatically triggering
+but I don't believe it should trigger.
 
-https://git.openembedded.org/bitbake/commit/?id=3D83f9445081595630488a5d3=
-e170d282a13836c98
+So whilst I can see how you have an unfortunate build failure, it was
+of your own making by moving mirror directories around.
 
-About if we can change to independent copy, I need to do more research,=20
-welcome to provide me some
-
-background and notes.
-
-Regards
-
-Changqing
-
->
-> Alex
->
-> On Tue, 16 Apr 2024 at 03:48, Changqing Li via lists.openembedded.org
-> <changqing.li=3Deng.windriver.com@lists.openembedded.org>  wrote:
->>
->> On 4/15/24 18:05, Richard Purdie wrote:
->>> CAUTION: This email comes from a non Wind River email account!
->>> Do not click links or open attachments unless you recognize the sende=
-r and know the content is safe.
->>>
->>> On Mon, 2024-04-15 at 16:30 +0800, Changqing Li via lists.openembedde=
-d.org wrote:
->>>> From: Changqing Li<changqing.li@windriver.com>
->>>>
->>>> When there are tarballs in local mirrorfile://, do_fetch will
->>>> create symlink under DL_DIR, eg:
->>>> pseudo-prebuilt-2.33.tar.xz -> /project/path/to/localmirrorA/pseudo-=
-prebuilt-2.33.tar.xz
->>>> after user update path from localmirrorA to localmirrorB, because
->>>> do_fetch don't depends on PREMIRRORS/MIRRORS, do_fetch will not
->>>> be rerun, so the symlink will not update to:
->>>> pseudo-prebuilt-2.33.tar.xz -> /project/path/to/localmirrorB/pseudo-=
-prebuilt-2.33.tar.xz
->>>> then, do_upack will failed since the tarball cannot be found.
->>>>
->>>> Signed-off-by: Changqing Li<changqing.li@windriver.com>
->>>> ---
->>>>    meta/classes-global/base.bbclass | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/=
-base.bbclass
->>>> index 0999b42daa..5094a1540e 100644
->>>> --- a/meta/classes-global/base.bbclass
->>>> +++ b/meta/classes-global/base.bbclass
->>>> @@ -139,6 +139,7 @@ do_fetch[file-checksums] =3D"${@bb.fetch.get_che=
-cksum_file_list(d)}"
->>>>    do_fetch[file-checksums] +=3D " ${@get_lic_checksum_file_list(d)}=
-"
->>>>    do_fetch[prefuncs] +=3D "fetcher_hashes_dummyfunc"
->>>>    do_fetch[network] =3D "1"
->>>> +do_fetch[vardeps] +=3D "PREMIRRORS MIRRORS"
->>>>    python base_do_fetch() {
->>>>
->>>>        src_uri =3D (d.getVar('SRC_URI') or "").split()
->>>>
->>> Changing PREMIRRORS or MIRRORS should not change the output of the
->>> task, ever, so do_fetch shouldn't depend upon them.
->> The failure case I met is like this:
->>
->> I have a project with PREMIRRORS setting, and the tarballs are under i=
-t.
->>
->> PREMIRRORS:append =3D"file:///project/path/to/localmirrorA"
->>
->> after first bitbake pseudo-native, there will a symlink under DL_DIR:
->>
->> pseudo-prebuilt-2.33.tar.xz ->
->> /project/path/to/localmirrorA/pseudo-prebuilt-2.33.tar.xz
->>
->> Then, Since all the tarballs are moved to /project/path/to/localmirror=
-B
->>
->> I changed PREMIRRORS:append =3D"file:///project/path/to/localmirrorB"
->>
->> Then bitbake pseudo-native again,   do_fetch  will not rerun since no
->> signature change.
->>
->> do_unpack rerun since one dependency  change, it will try to unpack
->> ${DL_DIR}/pseudo-prebuilt-2.33.tar.xz,
->>
->> but since do_fetch not rerun, ${DL_DIR}/pseudo-prebuilt-2.33.tar.xz
->> still point to localmirrorA, but localmirrorA not exist
->>
->> since localmirrorB replace it.  Then will cause do_unpck failure:
->>
->> NOTE: Unpacking /build/downloads/pseudo-prebuilt-2.33.tar.xz to
->> /build/tmp-glibc/work/x86_64-linux/pseudo-native/1.9.0+git xz:
->> /build/downloads/pseudo-prebuilt-2.33.tar.xz: No such file or director=
-y
->>
->> So this is why I want to add this depends,  and want to make do_fetch
->> rerun and resymlink to /project/path/to/localmirrorB
->>
->> Regards
->>
->> Changqing
->>
->>> Cheers,
->>>
->>> Richard
->>>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#198246):https://lists.openembedded.org/g/openembed=
-ded-core/message/198246
->> Mute This Topic:https://lists.openembedded.org/mt/105532159/1686489
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
-[alex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
---------------j9ZIk0rC2fmGeqjzpTqHp4ZM
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 4/16/24 15:30, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CANNYZj_N0oJwp_vZvVdaDEFtHnTPi+RG8YFx1qu=B0QHkJZjSw@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-I'm not sure why files in DL_DIR would symlink to the local
-(pre)mirrors instead of making an independent copy? Mirrors can indeed
-move or disappear altogether.
-
-Can you look into where the symlinking happens, and whether that can
-be modified or configured differently (maybe also the git history for
-that code)?</pre>
-    </blockquote>
-    <p>Current code is here:&nbsp;
-<a class="moz-txt-link-freetext" href="https://git.openembedded.org/bitbake/tree/lib/bb/fetch2/__init__.py#n1096">https://git.openembedded.org/bitbake/tree/lib/bb/fetch2/__init__.py#n1096</a></p>
-    <p>It is created during handle the (pre)mirrors in do_fetch.&nbsp; And
-      the history long time ago:</p>
-    <p><a class="moz-txt-link-freetext" href="https://git.openembedded.org/bitbake/commit/?id=83f9445081595630488a5d3e170d282a13836c98">https://git.openembedded.org/bitbake/commit/?id=83f9445081595630488a5d3e170d282a13836c98</a><br>
-    </p>
-    <p>About if we can change to <span style="white-space: pre-wrap">independent copy,  I need to do more research, welcome to provide me some</span></p>
-    <p><span style="white-space: pre-wrap">background and notes.  </span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <p><span style="white-space: pre-wrap">Regards</span></p>
-    <p><span style="white-space: pre-wrap">Changqing
-</span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <blockquote type="cite" cite="mid:CANNYZj_N0oJwp_vZvVdaDEFtHnTPi+RG8YFx1qu=B0QHkJZjSw@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-Alex
-
-On Tue, 16 Apr 2024 at 03:48, Changqing Li via lists.openembedded.org
-<a class="moz-txt-link-rfc2396E" href="mailto:changqing.li=eng.windriver.com@lists.openembedded.org">&lt;changqing.li=eng.windriver.com@lists.openembedded.org&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-On 4/15/24 18:05, Richard Purdie wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-On Mon, 2024-04-15 at 16:30 +0800, Changqing Li via lists.openembedded.org wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-When there are tarballs in local mirror <a class="moz-txt-link-freetext" href="file://">file://</a>, do_fetch will
-create symlink under DL_DIR, eg:
-pseudo-prebuilt-2.33.tar.xz -&gt; /project/path/to/localmirrorA/pseudo-prebuilt-2.33.tar.xz
-after user update path from localmirrorA to localmirrorB, because
-do_fetch don't depends on PREMIRRORS/MIRRORS, do_fetch will not
-be rerun, so the symlink will not update to:
-pseudo-prebuilt-2.33.tar.xz -&gt; /project/path/to/localmirrorB/pseudo-prebuilt-2.33.tar.xz
-then, do_upack will failed since the tarball cannot be found.
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
----
-  meta/classes-global/base.bbclass | 1 +
-  1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index 0999b42daa..5094a1540e 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -139,6 +139,7 @@ do_fetch[file-checksums] = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.fetch.get_checksum_file_list(d)}">&quot;${@bb.fetch.get_checksum_file_list(d)}&quot;</a>
-  do_fetch[file-checksums] += &quot; ${@get_lic_checksum_file_list(d)}&quot;
-  do_fetch[prefuncs] += &quot;fetcher_hashes_dummyfunc&quot;
-  do_fetch[network] = &quot;1&quot;
-+do_fetch[vardeps] += &quot;PREMIRRORS MIRRORS&quot;
-  python base_do_fetch() {
-
-      src_uri = (d.getVar('SRC_URI') or &quot;&quot;).split()
-
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">Changing PREMIRRORS or MIRRORS should not change the output of the
-task, ever, so do_fetch shouldn't depend upon them.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-The failure case I met is like this:
-
-I have a project with PREMIRRORS setting, and the tarballs are under it.
-
-PREMIRRORS:append = <a class="moz-txt-link-rfc2396E" href="file:///project/path/to/localmirrorA">&quot;file:///project/path/to/localmirrorA&quot;</a>
-
-after first bitbake pseudo-native, there will a symlink under DL_DIR:
-
-pseudo-prebuilt-2.33.tar.xz -&gt;
-/project/path/to/localmirrorA/pseudo-prebuilt-2.33.tar.xz
-
-Then, Since all the tarballs are moved to /project/path/to/localmirrorB
-
-I changed PREMIRRORS:append = <a class="moz-txt-link-rfc2396E" href="file:///project/path/to/localmirrorB">&quot;file:///project/path/to/localmirrorB&quot;</a>
-
-Then bitbake pseudo-native again,   do_fetch  will not rerun since no
-signature change.
-
-do_unpack rerun since one dependency  change, it will try to unpack
-${DL_DIR}/pseudo-prebuilt-2.33.tar.xz,
-
-but since do_fetch not rerun, ${DL_DIR}/pseudo-prebuilt-2.33.tar.xz
-still point to localmirrorA, but localmirrorA not exist
-
-since localmirrorB replace it.  Then will cause do_unpck failure:
-
-NOTE: Unpacking /build/downloads/pseudo-prebuilt-2.33.tar.xz to
-/build/tmp-glibc/work/x86_64-linux/pseudo-native/1.9.0+git xz:
-/build/downloads/pseudo-prebuilt-2.33.tar.xz: No such file or directory
-
-So this is why I want to add this depends,  and want to make do_fetch
-rerun and resymlink to /project/path/to/localmirrorB
-
-Regards
-
-Changqing
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
 Cheers,
 
 Richard
 
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#198246): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/198246">https://lists.openembedded.org/g/openembedded-core/message/198246</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/105532159/1686489">https://lists.openembedded.org/mt/105532159/1686489</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
 
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
 
---------------j9ZIk0rC2fmGeqjzpTqHp4ZM--
 
