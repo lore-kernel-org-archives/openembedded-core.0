@@ -1,116 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC33C4345F
-	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 21:33:56 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.116.1713389627048332359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A004EC4345F
+	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 22:28:34 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.421.1713392914109369101
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Apr 2024 14:33:47 -0700
+ Wed, 17 Apr 2024 15:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D7N7J7g6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-418bbc690e1so1828185e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 14:33:46 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=mGvozVSU;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.177, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78f04924a96so15946185a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 15:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1713389625; x=1713994425; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BPUaIZP1io4j9RE5VTG4H9v2Wq4zjhHAIizNr+BFqMo=;
-        b=D7N7J7g6QcGWSDInvp4IWmFizqj5yfJuURyAC/xK48WURGj8a9XJzZYyI5bNVdRERO
-         MsFc6XZfEVDurvHDGK6RkgMdrX8DockM1MHZaZuz6UtkzgslZ45qm44zrtIEvQO1z0Ut
-         +AVSP2cjuJhJBu+9TVMpSAYZaskxhRXZsZG00=
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1713392913; x=1713997713; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cr6u2tWEQvYlUm1Ff/NhTNmx0ILeYoEBziqZJyDKWB4=;
+        b=mGvozVSUarBAnr9Sl3mr0NEA8vCTjk5d4aEkFF4k9TxNyvJVIf5dwFDW41V2EoYLZ2
+         ukM8vAVRjyC87nlNqTxDKeH9KIvS1XGerM0qhgQnzRg3xHvkBfKOjVXqiWwGpQjUaDm5
+         pKfzW6YJJdBb1BiY1mwcOldI7doI8+1yLU4U446IDG6UH1uTH7vfeYwMNPFiQtGdC8Fw
+         uQdVtyFNzgOyar22s5vlA49Fa2sHc8RtXreSPiGim7a5WQ5RQSVWWU+3LzEbIaJF5pIY
+         0B8yLfnxE6qbZ3/kLHHsQ7A4/hfYC3p+S28RTQqqc3z48s5uzzouoOGrjQ0gg7L/50jt
+         STMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713389625; x=1713994425;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPUaIZP1io4j9RE5VTG4H9v2Wq4zjhHAIizNr+BFqMo=;
-        b=EVAKSB1/FkEJT8FpGA4aybnm7A14NpKEoaxXfkEzfHCWVI5A4WMVOi8clGjhAxDrzv
-         cm6pmNPURSN25elMPPZNZ05wdZAxYndN+Miy0p3ZVUlJU/jiXLXhXiHVAXzE/d10NCeD
-         teETW7oBCtZCuxPXjfAk0gCet7NQHLt67cXCd2gsDudkAgqMlWqQAsEkVTzQbHS5n4VA
-         +KvTGNh0BnGfwPlcfKJ3vZ2vjD/YYPXhhrqE0F+ebC4LGZeGD5WdPldWunEUV8wV85Wg
-         hAFh92/FDkpR/ikEhc/DyuqzttQjUOWzNRYjwk7aQPjrpwGs/ViAGZemaBBMydSaKHhm
-         FGWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVoBhzr1134xj4ww4fPUZmJwiWByXZj1eiJujlPqekFUELKmzYwmi2C/m1yNSV86gbQ1/uGorVcfzfoYXtfi59/0pgvCLle6TZLEkt/alpJlFF3Jm9uRnVZ
-X-Gm-Message-State: AOJu0Yy1M30g50hhmXZ5LNDEt4tvepiE0IJaVJYy+Wrir6SawbNlZ+Uh
-	vnFRa5dxUPIRhhrRwP8mheP98KKKHm1li6VXQ92+RpzXtLJ3UQxz8XUxJE1gjho=
-X-Google-Smtp-Source: AGHT+IGvGwhyupm5ROx+6NOr3eFYa/9/KQMR7CTPQgL4b55q7fG8cXjerCe+MKwnIpsh5r1wfUtedQ==
-X-Received: by 2002:a05:600c:3548:b0:418:23d7:816f with SMTP id i8-20020a05600c354800b0041823d7816fmr557753wmq.17.1713389625306;
-        Wed, 17 Apr 2024 14:33:45 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3bc0:7b8b:7b80:40cd? ([2001:8b0:aba:5f3c:3bc0:7b8b:7b80:40cd])
-        by smtp.gmail.com with ESMTPSA id s9-20020a05600c45c900b004163703fd6asm5660318wmo.1.2024.04.17.14.33.44
+        d=1e100.net; s=20230601; t=1713392913; x=1713997713;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cr6u2tWEQvYlUm1Ff/NhTNmx0ILeYoEBziqZJyDKWB4=;
+        b=N7AaY7cuOSTP4VXrWuEx+WEw7wAcDxhGpM9RXuk13zA3wKxAau8ukJIRKf9Z8+QgpS
+         p9zy+eG8PxlsdlGczXMMA7PJJ6gjVKvYTxaAf9E67J473LDpfYqm2w5dtyuALWtnDDgV
+         WsH/ZQTevVAAQfL/lTsZma0Zaw/ntpbDEk15R+JwX8rYjyRQxqRFWriSSq15mOX4/HNB
+         QXD5k2A3BinMNaY1O0q2124Jja3AL/pGFTN2Lm2dOPRMUBxgGN+tB3F7tFs2Ld09j90y
+         RYeFBgMYLBHJIxJ+zMGd2huS6qdr/wj+RpeMmQSCo8oNYXZmQODde2f2DocxqAqSri0+
+         Jtqw==
+X-Gm-Message-State: AOJu0Yytyap9htsn29zOPL4+lEaaUyhQ1eUrgxeMy9qiuJTItMkF/05/
+	QeoNsCLEa8KY5Z7VZdhy2PJPPMqVlwDR+KWmJA93XWMy2MdYe+vtcBqJlONwSLCd8qo7we3hgNU
+	=
+X-Google-Smtp-Source: AGHT+IEI5udINt/StqAzWFwick5J7zrR8qWTT8k5nznI8eT7/tpDo+fUeaHblzlpz15fLQsY0UGT2w==
+X-Received: by 2002:a0c:e849:0:b0:6a0:52c9:5fa5 with SMTP id l9-20020a0ce849000000b006a052c95fa5mr660316qvo.7.1713392912899;
+        Wed, 17 Apr 2024 15:28:32 -0700 (PDT)
+Received: from localhost ([2605:a601:919e:c800:8ac9:b3ff:febf:a2f8])
+        by smtp.gmail.com with ESMTPSA id q16-20020a0cf5d0000000b0069f4808719csm70446qvm.76.2024.04.17.15.28.32
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 14:33:44 -0700 (PDT)
-Message-ID: <7b6c45a05dde783826b5a73b1bdb0a821efd0701.camel@linuxfoundation.org>
-Subject: Re: [OE-core][kirkstone 6/7] ppp: Add RSA-MD in LICENSE
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: steve@sakoman.com, openembedded-core@lists.openembedded.org
-Date: Wed, 17 Apr 2024 22:33:44 +0100
-In-Reply-To: <915df62abd2986b2f9d73718e702cc6ce088d52b.1713385733.git.steve@sakoman.com>
-References: <cover.1713385733.git.steve@sakoman.com>
-	 <915df62abd2986b2f9d73718e702cc6ce088d52b.1713385733.git.steve@sakoman.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Wed, 17 Apr 2024 15:28:32 -0700 (PDT)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] liba52: update SRC_URI
+Date: Wed, 17 Apr 2024 18:28:25 -0400
+Message-Id: <20240417222826.3549176-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 21:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198487
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 22:28:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198488
 
-On Wed, 2024-04-17 at 13:35 -0700, Steve Sakoman via lists.openembedded.org=
- wrote:
-> From: Poonam Jadhav <ppjadhav456@gmail.com>
->=20
-> ppp package has "RSA Data Security" license text
-> in Message-Digest Algorithm source file md5.c and md4.c
-> Add RSA-MD in LICENSE field for ppp package
->=20
-> Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
-> =C2=A0meta/recipes-connectivity/ppp/ppp_2.4.9.bb | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb b/meta/recipes-co=
-nnectivity/ppp/ppp_2.4.9.bb
-> index 7e3ae43b58..b7f71b673d 100644
-> --- a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-> @@ -5,7 +5,7 @@ SECTION =3D "console/network"
-> =C2=A0HOMEPAGE =3D "http://samba.org/ppp/"
-> =C2=A0BUGTRACKER =3D "http://ppp.samba.org/cgi-bin/ppp-bugs"
-> =C2=A0DEPENDS =3D "libpcap openssl virtual/crypt"
-> -LICENSE =3D "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later =
-& LGPL-2.0-or-later & PD"
-> +LICENSE =3D "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later =
-& LGPL-2.0-or-later & PD & RSA-MD"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://pppd/ccp.c;beginline=3D1;endline=3D29;=
-md5=3De2c43fe6e81ff77d87dc9c290a424dea=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://pppd/plugins/passpr=
-ompt.c;beginline=3D1;endline=3D10;md5=3D3bcbcdbf0e369c9a3e0b8c8275b065d8=C2=
-=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://pppd/tdb.c;beginlin=
-e=3D1;endline=3D27;md5=3D4ca3a9991b011038d085d6675ae7c4e6=C2=A0\
->=20
+The former SRC_URI was no longer working.  Update to one that is.  This
+required updating the md5sum and sha256sum.  NOTE: SOURCEFORGE_MIRROR
+(https://downloads.sourceforge.net) does not appear to be working for
+liba52.
 
-This isn't in master yet!
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/recipes-multimedia/liba52/liba52_0.7.4.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
+diff --git a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
+index 7a3b4a43c8d4..684dd590ca15 100644
+--- a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
++++ b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
+@@ -10,11 +10,11 @@ SECTION = "libs"
+ 
+ inherit autotools
+ 
+-SRC_URI = "http://liba52.sourceforge.net/files/a52dec-${PV}.tar.gz \
++SRC_URI = "https://sourceforge.net/projects/liba52/files/a52dec-${PV}.tar.gz \
+            file://buildcleanup.patch"
+ 
+-SRC_URI[md5sum] = "caa9f5bc44232dc8aeea773fea56be80"
+-SRC_URI[sha256sum] = "a21d724ab3b3933330194353687df82c475b5dfb997513eef4c25de6c865ec33"
++SRC_URI[md5sum] = "1a2e77b4f7aacd858961a6b727710551"
++SRC_URI[sha256sum] = "c1931bc511dc48987fdba6888be577f3035e3f0b6b81d3ea3e766fca8d18e128"
+ 
+ UPSTREAM_CHECK_URI = "http://liba52.sourceforge.net/downloads.html"
+ 
+-- 
+2.30.2
 
-Richard
 
