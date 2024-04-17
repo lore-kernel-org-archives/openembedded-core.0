@@ -1,92 +1,99 @@
-Return-Path: <wltu@google.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD29BC4345F
-	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 18:12:04 +0000 (UTC)
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
- by mx.groups.io with SMTP id smtpd.web10.21291.1713377522535603575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D21A4C4345F
+	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 18:19:04 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.21449.1713377938994963080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Apr 2024 11:12:02 -0700
+ Wed, 17 Apr 2024 11:18:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20230601 header.b=CFSGXXWR;
- spf=pass (domain: flex--wltu.bounces.google.com, ip: 209.85.216.73, mailfrom: 38ragzgqkamoc19aw44w1u.s42@flex--wltu.bounces.google.com)
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2a2e6197371so62624a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 11:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713377522; x=1713982322; darn=lists.openembedded.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wHQvyWM9E4XUPMqUp1bDzCt42ti4JsBMvAwYyXbo37Y=;
-        b=CFSGXXWRZggxQrhALsYek+vn+Pt0B04Hd3JOyJ+e/XoG8zpqyazYY5BZ9nmTjKzpaf
-         nJpfYMA1m8LfVGGWmMLEJkxBJi13lsh+BuXpPCE1uoo/smZS1TJMzR41pDk6SIs0dnVM
-         QsBOSIaNHlWdSMTWQxyuKSeke1tLSM72pdUiF/nHxFXM8eM6fk6MNzEh9f693rxeiKLm
-         1JDdDN5XJsZmTTZsKdGpgabSYMSdjwMFc+/A1yj5mTqTiYrkwNsWtkzx6QYoQPCIpl68
-         MslwBaxP+Fv1nqvGUwB8HHpjlUlhwQ7R6D05A1LDjziT6FDfZwVlpmB45AImqpUUAqpA
-         PMqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713377522; x=1713982322;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wHQvyWM9E4XUPMqUp1bDzCt42ti4JsBMvAwYyXbo37Y=;
-        b=nUktoHglje36pGOZ7T7i2Fy2zvXhuvuIZxnLUl7kctxXNGU/CK4QQK+sExum30CwuV
-         8ai3ocucrLJ3IyVS/i9jKaH361eSFGawZSPowo84sZncn64zWmu2acnapOD+1+a3aGp6
-         9dlKd4nI16QGDSofbx+Pqe1rzdKgjKyXjWylIhoWF86ZeLllKShxqdsi0xU90xcsR1ce
-         ITX7ykuTPHkiL40q3tfkLinD6MiJ7mzLYHppPYy9lkapdhj3sePeExc7+0Oe9exZyKn5
-         T26bWvMAnYjqzbvCyLHTgHuTySzzvj15912LAOquN8boxMFUOIcmto2vur5f7Eg6kmQP
-         XFbA==
-X-Gm-Message-State: AOJu0Yy/5RmFamNxMQbqgGmQZuqiHUQs63Nt2GlMKbvnvCyRUsp8VAd+
-	2iR1gz9TtjuBV8Qn4/DLmyIwe9+08gArqAP5oe++iK9p1G1bPsqCIZEZ1bkavkdpG3mb5SbhNAd
-	HWE+Dp1GWY+M1C0hVGVsEaCg9j5be2zjA8N6efZSqCznSbIO9T3H753wcnVJX9yRBx9H8Z0boBU
-	t6Dy17KJSgIvQNSJjR1FSHSTBj3RNIgGL9TadJRLy0H5Zvlw==
-X-Google-Smtp-Source: AGHT+IE+WPCM36mPy6xne4hLCxFh4ma674b/0qSPQGyH8tI74UC5i05MsVpf4e/loCqZiS9BdFKPYvPK
-X-Received: from wltu.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:d48])
- (user=wltu job=sendgmr) by 2002:a17:90b:1281:b0:2a0:b7c:265f with SMTP id
- fw1-20020a17090b128100b002a00b7c265fmr324pjb.7.1713377521599; Wed, 17 Apr
- 2024 11:12:01 -0700 (PDT)
-Date: Wed, 17 Apr 2024 18:11:59 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
-Message-ID: <20240417181159.100583-1-wltu@google.com>
-Subject: [PATCH] rust-target-config fix target_featrue for vfpv4f16
-From: Willy Tu <wltu@google.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Willy Tu <wltu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WSTytjmB;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uf3zeBp9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018eed488a37-11521601-fc07-46c3-af55-8dda10571533-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1713377938; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=7LTe5x0PfzO5E1NY034l2JNCVI3CAuoChlSND6Y3Liw=;
+	b=WSTytjmBWjgRILlHb8LiUXXzjI1T0Q8ySFD1LbFukPtaVCH3FANjojes4a86A0Bz
+	rYDrxNlIj9wKmzhErIKxNaMdq/wI5hJeaMU/BOAhfG+6vAx8GwABkMliu4LOPtxauPr
+	cwpLKW5qZp5aU2DX8K2wBcwzh/t2DoZ02gm0colw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713377938;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=7LTe5x0PfzO5E1NY034l2JNCVI3CAuoChlSND6Y3Liw=;
+	b=uf3zeBp99CZVTj6Utk3hOE5phInWUgH/219o9XzCLOAEt35aDXQonokY7AnxVn1B
+	A08BqobbviKXn4yNZVVQaJFWDV5VeJx1JL1aF/pY+vmAzifzdsfYtOLIHko2wkBEXr7
+	/RWiyB7iYjoWyDgUwLUd/jJGR1LJe1j4ldvDaOkM=
+From: patchtest@automation.yoctoproject.org
+To: Willy Tu <wltu@google.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] rust-target-config fix target_featrue for vfpv4f16
+In-Reply-To: <20240417181159.100583-1-wltu@google.com>
+References: <20240417181159.100583-1-wltu@google.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018eed488a37-11521601-fc07-46c3-af55-8dda10571533-000000@us-west-2.amazonses.com>
+Date: Wed, 17 Apr 2024 18:18:57 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.04.17-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 18:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198471
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 18:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198472
 
-Based on [1] which fixed the target for vfpv3d16. Adding the support for
-vfpv4d16 with the same set of changes.
+--NextPart
+Content-Type: text/plain
 
-Tested with running tokio which hit coredump before the change. It
-worked fine after this change.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/185702
-
-Signed-off-by: Willy Tu <wltu@google.com>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Testing patch /home/patchtest/share/mboxes/rust-target-config-fix-target_featrue-for-vfpv4f16.patch
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 926b0630b1..330ad8a3f5 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -21,6 +21,9 @@ def llvm_features_from_tune(d):
- 
-     if 'vfpv4' in feat:
-         f.append("+vfp4")
-+    elif 'vfpv4d16' in feat:
-+        f.append("+vfp4")
-+        f.append("-d32")
-     elif 'vfpv3' in feat:
-         f.append("+vfp3")
-     elif 'vfpv3d16' in feat:
--- 
-2.44.0.769.g3c40516874-goog
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
