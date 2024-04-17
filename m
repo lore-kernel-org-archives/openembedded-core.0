@@ -1,94 +1,96 @@
-Return-Path: <wltu@google.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF13C4345F
-	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 21:07:06 +0000 (UTC)
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
- by mx.groups.io with SMTP id smtpd.web10.25666.1713388023558150126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E962FC4345F
+	for <webhook@archiver.kernel.org>; Wed, 17 Apr 2024 21:10:15 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.25686.1713388205519944823
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Apr 2024 14:07:03 -0700
+ Wed, 17 Apr 2024 14:10:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20230601 header.b=0hnQ0B7K;
- spf=pass (domain: flex--wltu.bounces.google.com, ip: 209.85.219.201, mailfrom: 39jkgzgqkacmvkstfnnfkd.bnl@flex--wltu.bounces.google.com)
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-de45d0b7ffaso358977276.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 14:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713388022; x=1713992822; darn=lists.openembedded.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wHQvyWM9E4XUPMqUp1bDzCt42ti4JsBMvAwYyXbo37Y=;
-        b=0hnQ0B7KL9nb+oq13/BsWwIttxeuyVF3bcMz89992v79V2ZjnCgQJgsQdcwg/sIflh
-         QXly7BkfYeOXOuQtRbjMcdUcG0vNinoJyLbqFj7+pvR/ZAKWrvccgTvket1bXEMO4fm5
-         Aw+lvLmzvtccaKPt+7FTwaIDOfjfZBAfy7EGChbB6xBveizljfLtVA7upA2DzScDcJek
-         NJvBnFFNxHlafEiAECkwBdobwScYHD6eY9iehC7IRz2bH328htWu5Nx4VEQet60mt2VG
-         ldP5ae3yYaebfNBXOIJ5bhiYk07+fjsxUS9t3s7wcp6/tXqOZAqDqFHLbLi4SiGNgDYj
-         qbpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713388022; x=1713992822;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wHQvyWM9E4XUPMqUp1bDzCt42ti4JsBMvAwYyXbo37Y=;
-        b=pVJchk5Ycj0e4WTr59S+U9rquEvAxypXgf8eVEwgpqpyBonVKEqXY/5ixSFJVujRXZ
-         lkBJjLHutriZRFalSeEbVdx6ITMv3c98JMdlNbYMeea5yg0+IU8QOhqd9wEbrcn9h8Bj
-         FRSdR6NNAsOmVTtuO+mb9LuydOEatdtCXkGBjcyZ9Kf/365MYYZC1RZcFfdF5Xk5gVuk
-         pki22HqmcqGRCIDyTFM4Pja1BXhPmkKJ4I/0/Mn/OPIgcSSm3pnVN8O18hBehcpfFkOn
-         ml72Az7r/a5u+SwRpLln/hMGXcmzCk/l+CXsDVx1TrUWQlRdvytqeRbuSDQiou+Qjmbo
-         kM1A==
-X-Gm-Message-State: AOJu0Yx9WoyWD9wVpkTdnLyl2dM6UtVTrauP6s7fE2omCga4k7vxwv9O
-	wq/iFTV6nPW1sRf5KdcjRr/wtyK9yeTDr1A0vhNh6hSqDJrzQiD47h3Vf9SCHiKG5JHF0lnwuoS
-	ViO5NKo8HZkDpqNXyFMJsTevqzbrCA/JgDQ+DlX7D5cT9gIEuDIKlRwmcA6bvzrwcb9j/K39hB6
-	j7HSwS0TndTnaKSCjC0KBj4NrTRCyx+W3fEgX9+4ZUrQYFgQ==
-X-Google-Smtp-Source: AGHT+IHkag3J3EWZvg3ueI6Fx4K4EI2dFig8lx0i/H+SfUNG/nzJU5NxwCknLYySmqRhPRucFNOlvW2M
-X-Received: from wltu.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:d48])
- (user=wltu job=sendgmr) by 2002:a05:6902:1141:b0:dcc:8be2:7cb0 with SMTP id
- p1-20020a056902114100b00dcc8be27cb0mr64900ybu.0.1713388022566; Wed, 17 Apr
- 2024 14:07:02 -0700 (PDT)
-Date: Wed, 17 Apr 2024 21:06:58 +0000
-In-Reply-To: <CAMKF1soiKx-fr4r+eGWNFPk1AQ576MRsVehLh_v4fZtQA9e0zA@...>
-Mime-Version: 1.0
-References: <CAMKF1soiKx-fr4r+eGWNFPk1AQ576MRsVehLh_v4fZtQA9e0zA@...>
-X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
-Message-ID: <20240417210658.121294-1-wltu@google.com>
-Subject: [PATCH] rust-target-config: fix feature for vfpv4f16
-From: Willy Tu <wltu@google.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=rg1LMj22;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id C15288817A;
+	Wed, 17 Apr 2024 23:10:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1713388203;
+	bh=bwZK48oYfYGoLOLC5TKjKmOpB/k8uoW+cgeLiuNbSOQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rg1LMj22xgzXZVaYTUheQrjn7D45SSDmlFU4YFRekTifICkI8fM3zUP1tESYK5I4v
+	 I1ZOio40hKpeQ6Cl021rrsN3o7HUAOx1FXVF0traJ+Mn69EM6GmXS2ldIoCbkvxPBN
+	 8of1qZuxZrt2b4X1IGWcaleYNU7OxvZ/wkgM0C0mS4570LB/PFIc1Qu37ssPuAwImH
+	 pTEKPX5iqNdk1qi8fUYueb3Lk26kJc3tbsINMKcvOVHOdITlZkQMU8JJCId/Z4aAhK
+	 gg15nbDOxh58pmf/HII5tMwGffM55agLQH5QnvDmGecXRfUDLIsf8ZHFpfCCp26gxQ
+	 //M9ZquV71+fA==
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Willy Tu <wltu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Marek Vasut <marex@denx.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Randy MacLeod <Randy.MacLeod@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] gstreamer1.0-plugins-good: Include qttools-native during the build with qt5 PACKAGECONFIG
+Date: Wed, 17 Apr 2024 23:09:21 +0200
+Message-ID: <20240417210943.197380-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 21:07:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198485
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 21:10:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198486
 
-Based on [1] which fixed the target for vfpv3d16. Adding the support for
-vfpv4d16 with the same set of changes.
+The qttools provide 'lrelease' tool, which is checked by recent
+versions of meson build system. Unless the qttools are available
+in sysroot, meson will fail to detect qt5 installation at build
+time and the gstreamer build will fail. Fix this by including
+the qttools-native.
 
-Tested with running tokio which hit coredump before the change. It
-worked fine after this change.
-
-[1] https://lists.openembedded.org/g/openembedded-core/message/185702
-
-Signed-off-by: Willy Tu <wltu@google.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>
+Cc: Randy MacLeod <Randy.MacLeod@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../gstreamer/gstreamer1.0-plugins-good_1.22.11.bb              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 926b0630b1..330ad8a3f5 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -21,6 +21,9 @@ def llvm_features_from_tune(d):
- 
-     if 'vfpv4' in feat:
-         f.append("+vfp4")
-+    elif 'vfpv4d16' in feat:
-+        f.append("+vfp4")
-+        f.append("-d32")
-     elif 'vfpv3' in feat:
-         f.append("+vfp3")
-     elif 'vfpv3d16' in feat:
--- 
-2.44.0.769.g3c40516874-goog
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_=
+1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_=
+1.22.11.bb
+index edd8609b7c..85143aa1b9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11=
+.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11=
+.bb
+@@ -52,7 +52,7 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denabled,-Dpng=3D=
+disabled,libpng"
+ PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3D=
+disabled,v4l-utils"
+ PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=3Ddisabled,mp=
+g123"
+ PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddisabled,puls=
+eaudio"
+-PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase q=
+tdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
++PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase q=
+tdeclarative qtbase-native qttools-native ${QT5WAYLANDDEPENDS}"
+ PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4,,,soup3"
+ PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,soup2"
+ PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Ddisabled,spee=
+x"
+--=20
+2.43.0
 
 
