@@ -1,127 +1,103 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <ninette@thehoodiefirm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E919C4345F
-	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 13:36:23 +0000 (UTC)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.web10.13083.1713447382191526939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBDCEC4345F
+	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 14:24:03 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.14414.1713450239092277371
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Apr 2024 06:36:22 -0700
+ Thu, 18 Apr 2024 07:23:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=2PLcL7lT;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.169, mailfrom: jdmason@kudzu.us)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3c70a53419eso699538b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 06:36:22 -0700 (PDT)
+ dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=KBykkhLf;
+ spf=neutral (domain: thehoodiefirm.com, ip: 209.85.221.53, mailfrom: ninette@thehoodiefirm.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-343c2f5b50fso569497f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 07:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1713447381; x=1714052181; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/oDy6HTxsRQ4qXjc4GyaIQ0xPRWkJgY8EUs6yAAVZEY=;
-        b=2PLcL7lTTUGFn1Oyp7i8mXjIISzuOz0+piNT858bSN3B3CqtfE6ph5TLh9yEqxOfmq
-         9eplfOLoUCgPIReMdrePd3kigE3afpU+ApuBCIUZ9tVFJXYpsIzUetExOPNyzz5dKTbq
-         d8JOmYmuwjuY8ScpU41vYLtfMEvwae4DAElOOqWvlD3ePd3KLUTV4TLEVzG6BkGInQ2n
-         UXGOl1AxAxE2OgzQbhb4k0iPuaWKH2aEQ9g8IioNGpGNxidjfBq6sdkte6JSXKxc0F/3
-         +G3rwTGaho6Z0Yj1PVF50elrU/qKqGCeboEeAi2BNTbJXYLvf2/ZYyg3pxYQKxpmo02r
-         cu9w==
+        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1713450237; x=1714055037; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JnupohzTcZ6/J/ho90DNb8YI5b101a9neqavUYOGpvw=;
+        b=KBykkhLfYsOgwn3ppjerA4pFUKOm8YDLF1asNC775mWccaHcj3lfqpcKStZOq9khzX
+         PDEdyLqLBJR3hCOMDP1lW13mASF8UW/W6+n+vyUbY4PszyXzUQH6DJFVIjssmv+EnBxS
+         z9FGxujGRd8fU2EA9sex5wVMrR8sjWyvqJAPWlRSANLe9S15CJ2rG0X5Zy50H5iTfmoe
+         uC9Q9a9mLHBIyTKn+AjzlPd0mFV5yop+Zil4HHpDYSC6t+aZ04eW8+WKA8bvjg7nOrBm
+         z8EUMmpBKfdE1JoBMTVzt/0FWP2NNR3HjFHvWfH7RrV9FVU2XSQ2ORb9G9vm1SnbiLi4
+         Vokg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713447381; x=1714052181;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/oDy6HTxsRQ4qXjc4GyaIQ0xPRWkJgY8EUs6yAAVZEY=;
-        b=AHj/7yD68S41yW+8qY0eNCPM3IQwvyttu5WffhL0HYwOegsLUOhIMazmhBVjL3z82L
-         fAKSjOMphNnINlr53IyCXYiKwZtRY7uT8FbfZNrMOgch0vwjGctAddBjho/q5ihx4oyV
-         IaZBwhTiD2K2yiuO5eDzhL/3pL2lSdFq7kMvwAfSoHtF6NTicuCswM/+xSbV2XU5/dlT
-         CqXxT0oVJdcjWLR21Mwm4npCZg8NZ1WI5jbOE71WICd3aRj0wdw9vh6GmAcGfFPXI8a/
-         xmhGDa/V7S6x55ZEnbZsioor6qUwJd0kpX4GWLQ2tzjha3K4rGB6NWOE5gPokO9VQ4Vj
-         mkPg==
-X-Gm-Message-State: AOJu0YwM8+/V9nFbl+ReqhGf2GI7ebVKa0Go7NOEgDcZfGmT7AzSr0lO
-	2nApxScnDTmJyOtdiMtMZM15BW60oDia7fCgaofs+TkqVQa6eFug3spNt9lnbD2ohPbNL/YDltn
-	IW2pQWIfrAIDsC6jR2rji4/uxnP+eLBKMOEo2s7cvtjbcSCY=
-X-Google-Smtp-Source: AGHT+IGdCBzGMRevRxMUwZ3ZhMHLc+kYlGXEWbHBLMzXmppzW7XLODDJhy75hurBiAs/33TtrRaUIAqbUISDT12I1YM=
-X-Received: by 2002:a54:4482:0:b0:3c7:574:410f with SMTP id
- v2-20020a544482000000b003c70574410fmr998826oiv.16.1713447381443; Thu, 18 Apr
- 2024 06:36:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713450237; x=1714055037;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JnupohzTcZ6/J/ho90DNb8YI5b101a9neqavUYOGpvw=;
+        b=D7y5WTyFUx+LA3a5kAPdOLLwaPWAlPTVn6CRzQaUr8DqffaGNBXOJr2wxL+9+eVRCK
+         gk3pidMvemvrMq7P4g9wGYpr1tAmmWWybD25UqM5QFKENCC50el76Qk8VmuZcE2QCYCb
+         XXjlUBKBbkkdqYYlGhcWghVSKkudDHM16qhJwX/Su5S6FjipigdJ9M9VFpeu4DLKi6cC
+         Tkci/dCXOVaq2k238R7u3Ylphbp+CKek3cGZv58xhGp8jzO1WDYmqC+T1fw7wKq8bciS
+         J0Px2QxqF5vhsZiYGrcnlHNF5JUWdzEPipWiUcmbXQfRuLPNRb0NeUBA4PcvCX7HxLIm
+         NrTQ==
+X-Gm-Message-State: AOJu0YwB7HeQCJj2HqD3+H1LFKmhmDrmLuYoiPXtHP+KL1i95kZtUHnu
+	q4pxzGT3wWlvTTmo/DPjVrvWmP5p4JX8N49hbY7rEbbCiR2S61QyS5beywLqZkvJVBmb5KhL4Tr
+	EyBn3CQ==
+X-Google-Smtp-Source: AGHT+IFAQ10j79bf7wtaKxMYdzgxMzV3D66MJOkiRfZ0tvvGdJcxT+mL5NDoXECeJp2aupJksTjozQ==
+X-Received: by 2002:a05:6000:bc7:b0:343:d06e:51cc with SMTP id dm7-20020a0560000bc700b00343d06e51ccmr1686383wrb.66.1713450237140;
+        Thu, 18 Apr 2024 07:23:57 -0700 (PDT)
+Received: from localhost.localdomain (lfbn-bay-1-432-16.w90-30.abo.wanadoo.fr. [90.30.140.16])
+        by smtp.gmail.com with ESMTPSA id b16-20020a5d40d0000000b00346406a5c80sm1954250wrq.32.2024.04.18.07.23.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 07:23:56 -0700 (PDT)
+From: Ninette Adhikari <ninette@thehoodiefirm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: engineering@neighbourhood.ie,
+	Ross.Burton@arm.com,
+	Ninette Adhikari <ninette@thehoodiefirm.com>
+Subject: [PATCH v2] oe-build-perf-report: Update chart tooltip format
+Date: Thu, 18 Apr 2024 16:23:53 +0200
+Message-ID: <20240418142353.24353-1-ninette@thehoodiefirm.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <14BFCF16-AF38-43A8-95C2-EDDDFF5A98BA@arm.com>
+References: <14BFCF16-AF38-43A8-95C2-EDDDFF5A98BA@arm.com>
+Reply-To: engineering@neighbourhood.ie
 MIME-Version: 1.0
-References: <20240417222826.3549176-1-jdmason@kudzu.us> <20240417222826.3549176-2-jdmason@kudzu.us>
- <CANNYZj9FBaNo4bWB1=1FvQ6Gv9vKemDS4fJQrLm4sEiJJ=chag@mail.gmail.com>
-In-Reply-To: <CANNYZj9FBaNo4bWB1=1FvQ6Gv9vKemDS4fJQrLm4sEiJJ=chag@mail.gmail.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Thu, 18 Apr 2024 09:36:10 -0400
-Message-ID: <CAPoiz9yzQdWw0v5t8fEYxHTzf7cJzU1FG88eZ=LiNtVC7-6NVg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] liba52: remove UPSTREAM_CHECK_URI
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 13:36:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198518
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 14:24:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198519
 
-On Thu, Apr 18, 2024 at 1:37=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I have actually queued a patch to remove this recipe altogether. It's
-> a dead project, and superseded by ffmpeg long time ago.
->
-> Alex
+Update chart tooltip format to show value as size in MB for 'rootfs size'
+and timestamp for 'tmpdir size'
 
-No problem.  Feel free to drop this then in favor of dropping the
-recipe completely.
+Signed-off-by: Ninette Adhikari <ninette@thehoodiefirm.com>
+---
+ scripts/lib/build_perf/html/measurement_chart.html | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Thanks,
-Jon
+diff --git a/scripts/lib/build_perf/html/measurement_chart.html b/scripts/lib/build_perf/html/measurement_chart.html
+index 9acb3785e2..07e92dfe78 100644
+--- a/scripts/lib/build_perf/html/measurement_chart.html
++++ b/scripts/lib/build_perf/html/measurement_chart.html
+@@ -25,10 +25,13 @@
+     tooltip: {
+       trigger: 'axis',
+       valueFormatter: (value) => {
+-        const hours = Math.floor(value/60)
+-        const minutes = Math.floor(value % 60)
+-        const seconds = Math.floor((value * 60) % 60)
+-        return hours + ':' + minutes + ':' + seconds
++        if ('{{ measurement.value_type.quantity }}' == 'time') {
++          const hours = Math.floor(value/60)
++          const minutes = Math.floor(value % 60)
++          const seconds = Math.floor((value * 60) % 60)
++          return hours + ':' + minutes + ':' + seconds
++        }
++        return value.toFixed(2) + ' MB'
+       }
+     },
+     xAxis: {
+-- 
+2.44.0
 
-
->
-> On Thu, 18 Apr 2024 at 00:28, Jon Mason via lists.openembedded.org
-> <jdmason=3Dkudzu.us@lists.openembedded.org> wrote:
-> >
-> > UPSTREAM_CHECK_URI pointed to a URL that does not exist, causing
-> > UNKNOWN_BROKEN error when running `devtool check-upgrade-status`.
-> > There doesn't appear to be a way to check on sourceforge for new
-> > versions (and there hasn't been a new version in over a decade at this
-> > point).  There is a way to use CVS, but sourceforge is decommissioning
-> > CVS (and it doesn't make sense to switch to something that is being
-> > removed).  So, just doing UPSTREAM_VERSION_UNKNOWN.
-> >
-> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> > ---
-> >  meta/recipes-multimedia/liba52/liba52_0.7.4.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb b/meta/reci=
-pes-multimedia/liba52/liba52_0.7.4.bb
-> > index 684dd590ca15..d52310b8ca92 100644
-> > --- a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-> > +++ b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-> > @@ -16,7 +16,7 @@ SRC_URI =3D "https://sourceforge.net/projects/liba52/=
-files/a52dec-${PV}.tar.gz \
-> >  SRC_URI[md5sum] =3D "1a2e77b4f7aacd858961a6b727710551"
-> >  SRC_URI[sha256sum] =3D "c1931bc511dc48987fdba6888be577f3035e3f0b6b81d3=
-ea3e766fca8d18e128"
-> >
-> > -UPSTREAM_CHECK_URI =3D "http://liba52.sourceforge.net/downloads.html"
-> > +UPSTREAM_VERSION_UNKNOWN =3D "1"
-> >
-> >  S =3D "${WORKDIR}/a52dec-${PV}"
-> >
-> > --
-> > 2.30.2
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#198489): https://lists.openembedded.org/g/openembed=
-ded-core/message/198489
-> > Mute This Topic: https://lists.openembedded.org/mt/105587759/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
 
