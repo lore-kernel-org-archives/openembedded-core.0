@@ -1,108 +1,118 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27172C4345F
-	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 05:37:21 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.5986.1713418639348966548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 481C3C4345F
+	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 05:57:51 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.6176.1713419866048151686
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Apr 2024 22:37:19 -0700
+ Wed, 17 Apr 2024 22:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=he1h6Xwl;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2dac77cdf43so6147101fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 22:37:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Clg92WGi;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-349caee176bso277303f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Apr 2024 22:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713418637; x=1714023437; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z5cjMxYbSFa+8X12RmjVSc/5RKAp0HCydD/OcNoSPpo=;
-        b=he1h6Xwlgei467xrKnkOFgywoBCPnN7/4VWV+eJopJNl8RNXzuV7hCJz2tLjsgDska
-         DIBPjcv+ZSfoyqn3OCZkcxGQroKep5Ew/ejeg9IcZ7VcDSh5TeWKP+QIhlpWnxcHzpXo
-         u46R2iwBgvXS25nZCAOIfB9+FT1zIxslyI44TfB/CAs/wTo+emr1p6E1R+LcmZtCehkK
-         TA/Vp/HFHTCA1NyP5J0ASeDcxfDSqePye0yUhVqWE6dTA6lydEk1hfx9Tes1pN9vaTxL
-         y9g57NRm8BDhZ1xTgBD5DUAR09sIK+5LlM8F6hB2GZXh21X9dSap5rSFRypbObAdT2Ar
-         5I+A==
+        d=gmail.com; s=20230601; t=1713419864; x=1714024664; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XSt2oiZcgWW/ZCi6Fb0a+XBOB/nu7q7mU0LAkySKJMc=;
+        b=Clg92WGiYNGTaurxGylpqG56IQgwYi5xdZ9Ox448TUy+0OgQBiEaNnsLReWycTXu97
+         sAsMHpt0b6CerHXWASseqqmaAFxLroKRJu9TJdxLrzxdj+1ay03jtp7e36uv3clN0hpd
+         jKI0ZEQ5CBEi3EccevRfPj7VIyXZaoKAgEXKH0w9ZvE8FwJCKBsuxtKTLF4vqNxkh//s
+         fLVXUNiXcNF1vl2azSl2tCbtB20Jeq4gurfN3fAxbUebXRR4C287Y4ff/arNprrpwnRf
+         ZOc/bsYBHdhBYnXQnxS2Y7G+CJYWZwG2p86CFYBIz+NJtMVzBHvRJw7E9Cqy3lJx4IyI
+         vg9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713418637; x=1714023437;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z5cjMxYbSFa+8X12RmjVSc/5RKAp0HCydD/OcNoSPpo=;
-        b=NBr7pXt56h+YaT7DPjf5ciTwA3S9mAGS1EExVEYms49uY/Q+5fkc3jBzyvuKsIuXqR
-         8E4cWPzzGfGdRVyyP/EEL1FfexndA3nU07ntfA+lC/bOhz1CptarU+UHpRPUcqjPxffM
-         bATsHmb6zF7DTQp6kl28RI4EYftVjhZougZ3So9tcqvsFwefBYt/9Uc1OTzbuzyGMcR2
-         FBOtzOOeIIN4RQ6dAeMpvNheNKgQfr5XGNwQgiPYfZQF1kzyT8JLvIXtK9Rw1xhdy/Iq
-         D2tJWsIbd0qicdRukd+ZPPaLW6ZPrKpW5Fj8RfNebGH3nmctll9U1o0NFQZUYcuRKuHP
-         qC4g==
-X-Gm-Message-State: AOJu0Yxq+Phlv1zvIUSx4pet/TenjndZT/EwSMYwVou5UUColsccrSAR
-	Ijs4GqbM5YvdDB50zaNqib0HYkXnT5KZAZ2B+zFbDQWuwqhD7JtJOwMrpe51hyJek2aFFyzTLpo
-	UEh0vOfMgeH4SZLZ60qggDoRNrMY=
-X-Google-Smtp-Source: AGHT+IGVbNrVx/DFMLE5ErpMtwE1JWE97BMT3BqDVWAuXoSvYsaevTGsVkQlLZ2JFthxW2A6JmPUWfTO1BQAYSDy424=
-X-Received: by 2002:a2e:9d86:0:b0:2d8:841:f64b with SMTP id
- c6-20020a2e9d86000000b002d80841f64bmr854222ljj.39.1713418637044; Wed, 17 Apr
- 2024 22:37:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713419864; x=1714024664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XSt2oiZcgWW/ZCi6Fb0a+XBOB/nu7q7mU0LAkySKJMc=;
+        b=iE8G6n7N8AHtZj2jNmJBvy5HMkYfAYXsdNbl4b8BSbPjp1wlH6X5ZNzGQvr/ViO9du
+         xYGxZFw+OMiq398Epn/vNjGxUiZwNN3MHHtSSDI7jJsg6RuGeRdtKXVx819bRNfEyUKt
+         htlIY+V5pinBfpkPv+i/ZSoUOE82+CCDkVBzfLPYcX17Uxdr8YmK8t4i3Xm8GwC/KIU3
+         CsOWotYzfazt5fJ4JNITV8+Lo4TL7UbDUhEqZA1kT3M1TgunYhcg3B/mdcCJTCSZK2MU
+         7tlUg/bgjBF49TTlqoKiJTyJv+MaW8Z6yu/+8GtkcacZZ40F+lGfViVoMOVsK2y5Yvlh
+         7BCg==
+X-Gm-Message-State: AOJu0YzWbstcSgmqz0jAFLUKrDVQmuI/47m7VIn2CLZBM+bVVkP2xxln
+	kVLIbGCe/gIcyPdram5F1E5XJVUiknNWExVEYybVwlmYiwyJ3rPvb3+5qZrdkceT2VidS9AIvMC
+	amTo702FBMVYP5kwRWPdh8IVhkU8=
+X-Google-Smtp-Source: AGHT+IGqpc1A3dxve8/gJqxGXSVGMc7eItZJCgwnhNcU7gmm5rxkvCevnvKksTZeB1k0n6UCKAR1C2UswZNGxKtnD9o=
+X-Received: by 2002:adf:f68a:0:b0:343:e824:d7f7 with SMTP id
+ v10-20020adff68a000000b00343e824d7f7mr744191wrp.67.1713419864285; Wed, 17 Apr
+ 2024 22:57:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240417222826.3549176-1-jdmason@kudzu.us> <20240417222826.3549176-2-jdmason@kudzu.us>
-In-Reply-To: <20240417222826.3549176-2-jdmason@kudzu.us>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 18 Apr 2024 07:37:05 +0200
-Message-ID: <CANNYZj9FBaNo4bWB1=1FvQ6Gv9vKemDS4fJQrLm4sEiJJ=chag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] liba52: remove UPSTREAM_CHECK_URI
+References: <20240417222826.3549176-1-jdmason@kudzu.us>
+In-Reply-To: <20240417222826.3549176-1-jdmason@kudzu.us>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 18 Apr 2024 07:57:31 +0200
+Message-ID: <CA+chaQdwCJSSZ9vXw0VgbsWAMuRxt2F8St9Qz8d6GkNuKHy2+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] liba52: update SRC_URI
 To: jdmason@kudzu.us
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 05:37:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198498
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 05:57:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198499
 
-I have actually queued a patch to remove this recipe altogether. It's
-a dead project, and superseded by ffmpeg long time ago.
+What is the difference between the tarballs that it requires checksum updat=
+e?
 
-Alex
-
-On Thu, 18 Apr 2024 at 00:28, Jon Mason via lists.openembedded.org
-<jdmason=kudzu.us@lists.openembedded.org> wrote:
+On Thu, Apr 18, 2024 at 12:28=E2=80=AFAM Jon Mason via lists.openembedded.o=
+rg
+<jdmason=3Dkudzu.us@lists.openembedded.org> wrote:
 >
-> UPSTREAM_CHECK_URI pointed to a URL that does not exist, causing
-> UNKNOWN_BROKEN error when running `devtool check-upgrade-status`.
-> There doesn't appear to be a way to check on sourceforge for new
-> versions (and there hasn't been a new version in over a decade at this
-> point).  There is a way to use CVS, but sourceforge is decommissioning
-> CVS (and it doesn't make sense to switch to something that is being
-> removed).  So, just doing UPSTREAM_VERSION_UNKNOWN.
+> The former SRC_URI was no longer working.  Update to one that is.  This
+> required updating the md5sum and sha256sum.  NOTE: SOURCEFORGE_MIRROR
+> (https://downloads.sourceforge.net) does not appear to be working for
+> liba52.
 >
 > Signed-off-by: Jon Mason <jdmason@kudzu.us>
 > ---
->  meta/recipes-multimedia/liba52/liba52_0.7.4.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-multimedia/liba52/liba52_0.7.4.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-> index 684dd590ca15..d52310b8ca92 100644
+> diff --git a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb b/meta/recipe=
+s-multimedia/liba52/liba52_0.7.4.bb
+> index 7a3b4a43c8d4..684dd590ca15 100644
 > --- a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
 > +++ b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-> @@ -16,7 +16,7 @@ SRC_URI = "https://sourceforge.net/projects/liba52/files/a52dec-${PV}.tar.gz \
->  SRC_URI[md5sum] = "1a2e77b4f7aacd858961a6b727710551"
->  SRC_URI[sha256sum] = "c1931bc511dc48987fdba6888be577f3035e3f0b6b81d3ea3e766fca8d18e128"
+> @@ -10,11 +10,11 @@ SECTION =3D "libs"
 >
-> -UPSTREAM_CHECK_URI = "http://liba52.sourceforge.net/downloads.html"
-> +UPSTREAM_VERSION_UNKNOWN = "1"
+>  inherit autotools
 >
->  S = "${WORKDIR}/a52dec-${PV}"
+> -SRC_URI =3D "http://liba52.sourceforge.net/files/a52dec-${PV}.tar.gz \
+> +SRC_URI =3D "https://sourceforge.net/projects/liba52/files/a52dec-${PV}.=
+tar.gz \
+>             file://buildcleanup.patch"
+>
+> -SRC_URI[md5sum] =3D "caa9f5bc44232dc8aeea773fea56be80"
+> -SRC_URI[sha256sum] =3D "a21d724ab3b3933330194353687df82c475b5dfb997513ee=
+f4c25de6c865ec33"
+> +SRC_URI[md5sum] =3D "1a2e77b4f7aacd858961a6b727710551"
+> +SRC_URI[sha256sum] =3D "c1931bc511dc48987fdba6888be577f3035e3f0b6b81d3ea=
+3e766fca8d18e128"
+>
+>  UPSTREAM_CHECK_URI =3D "http://liba52.sourceforge.net/downloads.html"
 >
 > --
 > 2.30.2
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#198489): https://lists.openembedded.org/g/openembedded-core/message/198489
-> Mute This Topic: https://lists.openembedded.org/mt/105587759/1686489
+> View/Reply Online (#198488): https://lists.openembedded.org/g/openembedde=
+d-core/message/198488
+> Mute This Topic: https://lists.openembedded.org/mt/105587757/3617156
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
