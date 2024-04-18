@@ -2,35 +2,32 @@ Return-Path: <emil.kronborg@protonmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 874ABC4345F
-	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 07:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B413C04FF8
+	for <webhook@archiver.kernel.org>; Thu, 18 Apr 2024 07:29:31 +0000 (UTC)
 Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by mx.groups.io with SMTP id smtpd.web11.7182.1713424303443594295
+ by mx.groups.io with SMTP id smtpd.web11.7366.1713425366942751811
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Apr 2024 00:11:43 -0700
+ Thu, 18 Apr 2024 00:29:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@protonmail.com header.s=protonmail3 header.b=O8HEd0D2;
+ dkim=pass header.i=@protonmail.com header.s=protonmail3 header.b=LFfjiooV;
  spf=pass (domain: protonmail.com, ip: 185.70.43.22, mailfrom: emil.kronborg@protonmail.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1713424301; x=1713683501;
-	bh=LNiG3IgJPeIJK2OcPX+rJDUw4a8xAtbbNoScF8VNHS8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=O8HEd0D2FFUFBlpWMtHpV1Fhq/EjmXkVUd5zO+xgyTJrDuwc3DOA3WCnsnaaXTWeQ
-	 bAKc2zl7jmxYrYZLeEPRPDykqlXlw9QbxOeRp/qM3i2dIjF2ni4pf5kIF+ZjtLL1no
-	 B3rzC6wyImdQpgfMQ0M1xtFoUgvSlxxdp+kiKzzq2oGP/dZ9yYE4oHeYj+pxbWsPTP
-	 gXAkWqAuyAgJmtqXUFlrHg4n5TZyI+FqX0I3JSpIydhIGibWrB/StSSj3rTGdWOWms
-	 cnL8zj4YNKVZwHCrJgttahFoTNjRUuN8dk8dWbIlArLhVqvqMdWhD1+4OotRY7RfKv
-	 61WOM47Bvtfuw==
-Date: Thu, 18 Apr 2024 07:11:33 +0000
-To: Ross Burton <ross.burton@arm.com>
+	s=protonmail3; t=1713425364; x=1713684564;
+	bh=10aqRlS4bA4WOjR9fxTAX4O3N5Y7nZPkgFvu3olDh+0=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=LFfjiooVeYdJribvYVbPDKlxg2H9CQLRRgD4G2z+xMI/dZM7zgiPmTLNhJ8uaUiSR
+	 zU2BvxfBjUkC1smrIBZf3uKnuuzQ/nLYuTZPUKwK9ZE9RjvN+Oi6rU39Q64C3+BNsb
+	 wbZ81srN2lPW+9IQ4+Fb9Bbb4rhPrs7mmnERLzgKeklza3lp9SI2wKklazyZmHNEKG
+	 VpmNsevDsfKJGgVJ19R8PyCC++VdhSy5cuFTtL5DjdXb9m4S9w1/0QEGf2wb5S0ViP
+	 ZscEJpsv2WOEuXNK836JN5GDACJohrVbVKtOVtD1YfOundAAm4G5YA6N70/3xYvySC
+	 QYM1qAZmlur0w==
+Date: Thu, 18 Apr 2024 07:29:20 +0000
+To: openembedded-core@lists.openembedded.org
 From: Emil Kronborg <emil.kronborg@protonmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, "rasmus.villemoes@prevas.dk" <rasmus.villemoes@prevas.dk>
-Subject: Re: [OE-core] [PATCH] at-spi2-core: set CVE_PRODUCT
-Message-ID: <mkiv4gk252vepmo7tlj7nwfxhbykz7yi5hlmpmgwf2jcufwghk@rnm6hykmwmnm>
-In-Reply-To: <A027C9CE-BAAB-4B81-9A17-B8B95E1837CB@arm.com>
-References: <20240417142100.56518-1-emil.kronborg@protonmail.com> <A027C9CE-BAAB-4B81-9A17-B8B95E1837CB@arm.com>
+Cc: rasmus.villemoes@prevas.dk, Emil Kronborg <emil.kronborg@protonmail.com>
+Subject: [PATCH v2] at-spi2-core: add at-spi2-atk to CVE_PRODUCT
+Message-ID: <20240418072915.11246-1-emil.kronborg@protonmail.com>
 Feedback-ID: 20949900:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -38,23 +35,40 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 07:11:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198501
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Apr 2024 07:29:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198502
 
-On Wed, Apr 17, 2024 at 15:49 +0000, Ross Burton wrote:
-> Don=E2=80=99t you mean +=3D?  We care about issues against at-spi2-core t=
-oo, surely.
->=20
-> Ross
-
-I was unable to find any (previous) CVEs for at-spi2-core, but I think
-you are right. Also, at-spi2-atk was merged into at-spi2-core last year
-[1], so matching both should be correct. I will send a v2 with this fix
-and a commit message as well, so the patchtest bot becomes happy.
+Commit ad605662f1bc ("at-spi2-core: upgrade 2.44.1 -> 2.46.0") dropped
+the at-spi2-atk recipe, because it was merged into at-spi2-core upstream
+[1]. The PROVIDES variable was changed to also include at-spi2-atk, but
+not CVE_PRODUCT.
 
 [1]: https://gitlab.gnome.org/GNOME/at-spi2-core/-/merge_requests/78
 
+Signed-off-by: Emil Kronborg <emil.kronborg@protonmail.com>
+---
+ meta/recipes-support/atk/at-spi2-core_2.52.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.52.0.bb b/meta/recipes=
+-support/atk/at-spi2-core_2.52.0.bb
+index cf221e038927..2ab42ba13f50 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.52.0.bb
+@@ -7,6 +7,8 @@ BUGTRACKER =3D "http://bugzilla.gnome.org/"
+ LICENSE =3D "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b364516=
+c"
+=20
++CVE_PRODUCT =3D "at-spi2-atk"
++
+ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+=20
+ SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+
+base-commit: 946086abf5ac5172258ddb27af9c1c615258f62f
 --=20
-Emil Kronborg
+2.44.0
+
 
 
