@@ -1,88 +1,116 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <daniel.klauer@gin.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 447F3C071DB
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 12:20:12 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.19163.1713529203831584816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 836F6C4345F
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 12:40:42 +0000 (UTC)
+Received: from good-out-01.clustermail.de (good-out-01.clustermail.de [212.223.35.17])
+ by mx.groups.io with SMTP id smtpd.web10.19866.1713530435253214445
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 05:20:04 -0700
+ Fri, 19 Apr 2024 05:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jxKgKTJU;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-518931f8d23so2004572e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 05:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713529202; x=1714134002; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tf0ZWKlgOwdCJYNaTKVeT7MYvr614uKzAT/bIcOq3XA=;
-        b=jxKgKTJUrrpkM+v41Dbw0f3VaMa5AL8taVu6aBk9xU51rIj6nn+Xxa2RPDs6u64+hF
-         pYhGrLAY8rQEcTsIavvmgGZqNMGQdVT9Q1PrrzitmtRRBvm/MJnHtxYcSn12tRl+I6eO
-         mD6RXCr7S26ANLaltm8PGPnZ8C/dyi0hyassm+/mwZLUb62/vBF73jy7M+tyBFYvVDP7
-         IAoO5czEo0J6Fs0kRiXlYg5KJLIax1U0nSOqLn3qJ3I36wmiA8rX7bax+GuesydUg3A8
-         rvO8GwT1UaUMi63NaKI31zvYt+oE19voxkXSeBurhNkbZqwy5SSHrlmnWvgSROVTtCLA
-         u2og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713529202; x=1714134002;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tf0ZWKlgOwdCJYNaTKVeT7MYvr614uKzAT/bIcOq3XA=;
-        b=AdGVGZsM1RTFbNS1Nt27c45+A006FQidBxKqX8+JERRElQiNbRXw0UoB9Qys0Po+gO
-         cFJFZ3VbNJbAfYhRrxeRfHPj+/8btxzdV5mN1OoEaMYkOh3C7YKDZ4oT3JZspP38qUnH
-         94BOK4QFAZwEBzeptqbyMdcTGz3SoaCA5Vvq+yNIk7Um/2RyU/z4VWKSC1JtdnM949Eq
-         313XreHH78VJ6dcjGwUr09YkjzpvqYlg8rHlkkQLYWzwChdl3P8jbN6LvQXL3jJ+KfO1
-         v3niwYkp+mYPZ209VAC33oIehDCdhzNN1QGIF9hliIvk8IaqmjPtSHe/LieE7V7HrlW4
-         QWyw==
-X-Gm-Message-State: AOJu0YzLg+1vlK3isdsDvp0/9I1hSvpqQ+XozHfjwihsborzex8LecsD
-	hYy8IoaSu9JaN+qg4w5iZR6EjIUQYvoSp7B3/vFFgGaCHAsSwvhCfInsqw==
-X-Google-Smtp-Source: AGHT+IGRU0yha3xWAqz305aX/wafBrjvjPmUggXLgn0EjDgVsfD2Y1MWU/XgboLS57cC3LfmElz1vQ==
-X-Received: by 2002:ac2:5b89:0:b0:518:17ad:a6da with SMTP id o9-20020ac25b89000000b0051817ada6damr1252937lfn.44.1713529201892;
-        Fri, 19 Apr 2024 05:20:01 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id w22-20020aa7cb56000000b00571c1070edfsm1608415edt.17.2024.04.19.05.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 05:20:01 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/19] connman: submit 0002-resolve-musl-does-not-implement-res_ninit.patch upstream
-Date: Fri, 19 Apr 2024 14:19:45 +0200
-Message-Id: <20240419121945.1920944-19-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240419121945.1920944-1-alex@linutronix.de>
-References: <20240419121945.1920944-1-alex@linutronix.de>
+ dkim=none (message not signed); spf=pass (domain: gin.de, ip: 212.223.35.17, mailfrom: daniel.klauer@gin.de)
+Received: from [10.0.0.13] (helo=frontend.clustermail.de)
+	by smtpout-01.clustermail.de with esmtp (Exim 4.96.1)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1rxnXc-0001Oc-1o;
+	Fri, 19 Apr 2024 14:40:33 +0200
+Received: from [62.157.191.2] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	(Exim 4.97.1)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1rxnXc-000000002g8-3oU3;
+	Fri, 19 Apr 2024 14:40:32 +0200
+Received: from [10.176.8.60] (10.176.8.60) by Win2012-02.gin-domain.local
+ (10.160.128.12) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 19 Apr
+ 2024 14:40:32 +0200
+Message-ID: <b64c56a0-30ba-44a1-a169-56c5f7540806@gin.de>
+Date: Fri, 19 Apr 2024 14:40:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] cmake.bbclass: Add ${COREBASE}/scripts to
+ CMAKE_FIND_ROOT_PATH
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20240417112444.395440-1-daniel.klauer@gin.de>
+ <CAMKF1sq24dcWjAKkT5C4=bSER7wfvcrbaQb1YfFacVk=f2iv_Q@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Klauer <daniel.klauer@gin.de>
+In-Reply-To: <CAMKF1sq24dcWjAKkT5C4=bSER7wfvcrbaQb1YfFacVk=f2iv_Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.176.8.60]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (10.160.128.12) To
+ Win2012-02.gin-domain.local (10.160.128.12)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29342AA850677762
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 12:20:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198547
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 12:40:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198548
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../0002-resolve-musl-does-not-implement-res_ninit.patch        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
-index 71efd9035e9..9e2cc34995a 100644
---- a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
-+++ b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
-@@ -21,7 +21,7 @@ The portion of the patch that implements a fallback is ported from
- Alpine Linux:
- http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [to connman@lists.linux.dev,marcel@holtmann.org]
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
--- 
-2.39.2
+>> ${COREBASE}/scripts contains a "git" wrapper disabling fakeroot/pseudo.
+>> This patch allows CMake to find ${COREBASE}/scripts/git instead of
+>> ${HOSTTOOLS_DIR}/git. This is needed for git invocations during do_install,
+>> since do_install is a fakeroot task, and otherwise all git commands fail
+>> with "fatal: detected dubious ownership in repository ...".
+>>
+>> I don't know how common it is for CMake projects to invoke git during the
+>> install phase intentionally. It's probably more common to do this during
+>> the configure phase. However, the install step may re-run the configure
+>> step, if some dependencies changed.
+>
+>
+> If a package build system has such dependencies they should be better expressed in recipes and linked using bitbake task level dependency mechanism 
+> 
+> I wonder why git is needed during install phase
+> Can you explain a bit more on that 
+> 
+> And since change it in a class it means it has to be a pattern 
 
+It's just about running "git rev-parse HEAD" or similar, not acquiring external dependencies with "git clone", FetchContent download, etc., if that's what you meant. "dependencies" referred to timestamps of files checked by make/ninja.
+
+The affected CMake projects are using code like the following to query Git revision information (for storing into header files and binaries):
+
+	find_package(Git REQUIRED)
+	execute_process(COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD ...)
+	set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/.git/HEAD")
+
+${S} is owned by the user that runs bitbake, so cmake succeeds running such git commands during do_configure, but they fail during do_install because it's under fakeroot/pseudo.
+
+This can be fixed by allowing CMake to use the git wrapper script which temporarily disables fakeroot. It's already in PATH anyways (see PATH:prepend = "${COREBASE}/scripts..." in bitbake.conf), but CMake's find_package(Git) only respects CMAKE_FIND_ROOT_PATH. The description of commit af27c81e "scripts: Make git intercept global" hints at this type of situation.
+
+
+As for why cmake re-runs during do_install, I'm still trying to piece it together and reduce it to a minimal example. I can try to explain what I know so far:
+
+Basically, it's normal for a CMake project to be re-configured by "make" or "make install" (or ninja equivalents), if for example the CMakeLists.txt or files referenced by CMAKE_CONFIGURE_DEPENDS were modified, and an existing build directory was re-used. I'm not really surprised to see this case occurring in Yocto aswell. Presumably it can only happen in incremental Yocto builds if do_fetch/do_unpack/do_patch were already run previously and don't need to run again.
+
+What I did:
+
+1. have a recipe for a library
+2. have a recipe for a program which depends on that library (and of courses uses DEPENDS += "library")
+3. run bitbake to build the image
+4. modify library:do_install (to install a different configuration file into /etc)
+5. modify program:do_install (same)
+6. run bitbake to build the image
+
+My observations for the 2nd bitbake run (after I modified the two do_install functions):
+
+6.1. library:do_configure did not run again (makes sense, since I didn't change anything there)
+6.2. library:do_compile   did not run again (same)
+6.3. library:do_install was re-run (due to the changes for the new config file in /etc)
+6.4. library:do_package was re-run (but presumably only the main library package changed, not the library-dev or library-static packages)
+6.5. program:do_configure did not run again (not sure why not, since library recipe changed, but maybe bitbake noticed through the library packaging that only /etc changed and not the library or its header files)
+6.6. program:do_compile   did not run again (same)
+6.7. program:do_install was re-run
+6.7.1. The library was re-populated into the program's recipe-sysroot ("NOTE: <library> exists in sysroot, but is stale")
+6.7.2. "ninja install" re-ran CMake to re-configure the project (I'm guessing due to the re-population of the recipe-sysroot), this is where the git commands failed.
+
+
+Regards,
+Daniel
 
