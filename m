@@ -1,268 +1,169 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <rasmus.villemoes@prevas.dk>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBE0C4345F
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 18:28:52 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.web10.1325.1713551320621323156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99BC4C4345F
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 20:32:02 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.80])
+ by mx.groups.io with SMTP id smtpd.web10.3976.1713558714353480196
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 11:28:40 -0700
+ Fri, 19 Apr 2024 13:31:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YLkj5Yq4;
- spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-479e45cc9e7so637771137.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 11:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713551319; x=1714156119; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H6KKRKrG42m1+SjGrehWyieaa8PTg0Hku0vUccqKa3U=;
-        b=YLkj5Yq417JmCKo321+nY1je1n7hRuBQLq4pp5twiHbNn0HRCfj5poBsCamIjKo+gl
-         zGQu7bvy/7wIUc39vMp1L8CZ4Vwp7567mBkJMxpbswOx+BtZjld9mu2liw7Lj8AzQ5EZ
-         Jikwt62GzQZGqrdTaDYzNTalSVtYsyrq76C6NPwVaJS9tbV2ELDm7CKno2BwdyL9/D/D
-         SF+b/YYTxPgGYZvP68kXkFNTPq7ROrptn1dDKDpXjboQ305sBlRY0T0AafduC1dMA2m4
-         yhMXdq9REIr7m7H0lCWez6uI59Q9viiAnxjgxAKSy8xkvXRSsH+PO7SzKcYEkCT50PcP
-         LZNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713551319; x=1714156119;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H6KKRKrG42m1+SjGrehWyieaa8PTg0Hku0vUccqKa3U=;
-        b=Ja/ABhRndQtufJumiWPnywI5NGvP6W6XQSJrn/MACA4OfZ4A+DFbZL/CTsgeu2UlcS
-         ieDGiWwaZLet+Ad5ucLJgOnRzui40pwE1+RlQ/yRYEVRtBqz3bVkuWb7aK1eBZacSL1t
-         YIWdIYdQg4YQd+GNUi0YvGpgWE1Um1a/RW4ULuutkZHDGDqbm0GfAPwsUVZxWOHMooKL
-         NsKkWkzDg8UU/XSJV1lHxX4j2M8EyNQre6qaLfUcP8ty45rpI91Bn/8mZBhPKK7gHyLT
-         +KxYobDkbp8t1FrjMQHwe1V6fMGjE6Ges7gQKocKprSdfjooWgfQXOYVu6evIQ2XmWTK
-         hqdg==
-X-Gm-Message-State: AOJu0YxDQWnF3Oz/RApakAUtwdak3o7xl+r/sFTx+rFWSg4KLWiSsgr6
-	0o4HnIBmL0GG38UzQa0gqmYZwvEhtWbQBU6scimvO4KiufEyYMtd3jUdUzwRSOeWRQfJChxcpe1
-	FZYZJyGU4cqCKDdAy08I4XUymf4U=
-X-Google-Smtp-Source: AGHT+IGt4VGGozNNq3LpkbvN3+27Wj+ugY/kvkPowXTMEkUDANZKOrDvShzHani8m7AVq3VelJ1bMb1iw3nPIcFJ+vc=
-X-Received: by 2002:a67:f414:0:b0:47b:a44d:1ca5 with SMTP id
- p20-20020a67f414000000b0047ba44d1ca5mr3098592vsn.10.1713551319585; Fri, 19
- Apr 2024 11:28:39 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=Z/4B9jfR;
+ spf=pass (domain: prevas.dk, ip: 40.107.13.80, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JlneFK7TWzTzWzSMCP/X1Z0pFj9RASAJjD2AaRSdlGW6iZLL2yrIqMTO14txQYC50a5tinrtODnfIBHCX0tTWuh0m8ZJ8AdmB0IXTbddOuFvvhT5SrjgQtbkd7+1sQbpLaujiOr065cfnRQ3kRwqJFZDkhWnbs+C3J7gKqYzOkmPkCpW/g4/aEFoypvPLGYz34RlKDZ1sQmJHbPw/U3+p9hDtOiBVXXJeAkA+JkxobUSxzBnP4E88SLgNfMlPnpX58BvsNhypo/xrHeLp5tQpsLK5M5DkEiJ9uHiJH0yGYx7Ai0lr5poxFRgywQCmC0cjlLKV82onRvdFEVZHKBuKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xTTJM4skudw6DwfwkpGUDRTtceaidyvzahfnE9WL8XI=;
+ b=VZ+JA6H588jT82QFoSzwA2c4bsmpgTigzvBeOtL5/dS2wciB2buX5grBrWl4f+3kTKFJo24gA9UK4qtiua6tyxe9uaRoISz/SfYX2+jV/0bmoqftsUjIhE7fo7ZCyMe5NwJeRDLBWptzL48lL5w4DWHOIb2ckiOfkqBhdlUmAsvQpwuxDny52tgf4jo+gSdh6AlGp3QwPioQZbqIOqh+Ea1W8lLq48xhsOl4Is/HUwSIvq5bohIdkY2TCSPKUT+DzI3skhFMXPJjpyS/l01UdPYpkEf2AqR4yaroFEW9EUJMYIQNOk11BLm01PfFNENToYhXhJBBmJrQYfE92q/TzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xTTJM4skudw6DwfwkpGUDRTtceaidyvzahfnE9WL8XI=;
+ b=Z/4B9jfR1Acha+oDq4ckKFZ/XjCGF77xTIulvegUUbYwbcCGHJWfT/akgtypPeEl83OaDmjxJNG1XDbYJwAL1nG0jc9C5FbYrt2Ubbgq1xKSBkD+3Es/+KX99+tpzPXo4qfTusHCfZLZJeTN3QvwAhCOZWVgzoe1R5i6g1Q9m58=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=prevas.dk;
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45a::14)
+ by AS2PR10MB7274.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:606::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Fri, 19 Apr
+ 2024 20:31:50 +0000
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3704:5975:fae0:7809]) by DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3704:5975:fae0:7809%6]) with mapi id 15.20.7472.042; Fri, 19 Apr 2024
+ 20:31:49 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+CC: Otavio Salvador <otavio@ossystems.com.br>,
+	Tom Hochstein <tom.hochstein@nxp.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH] bmaptool: add PROVIDES bmap-tools for compatibility
+Date: Fri, 19 Apr 2024 22:31:40 +0200
+Message-ID: <20240419203140.461439-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.40.1.1.g1c60b9335d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: MM0P280CA0065.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:8::19) To DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:45a::14)
 MIME-Version: 1.0
-References: <20240419175309.214181-1-jose.quaresma@foundries.io> <CAMKF1sqndbA_ahF0uG=TTe14f0B9woY0HCDCsGPhxYWnYoE0rQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sqndbA_ahF0uG=TTe14f0B9woY0HCDCsGPhxYWnYoE0rQ@mail.gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 19 Apr 2024 19:28:28 +0100
-Message-ID: <CANPvuRkp_h_VcUs2CvBJHkK-z6ag6d_Fq8aoKOcZD4dGGLEnEA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] go: Drop the linkmode completely
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000b55c4906167741b7"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR10MB7100:EE_|AS2PR10MB7274:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fa95cf1-d823-4f59-e7f1-08dc60afbd72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?P8ycA04lvlltAhgONKgbw/wWWF3muKEtPaYDtIRSopuAdjxbTldc/38zm2cF?=
+ =?us-ascii?Q?59CTnIZ1MfHHdhhiOjck0/JrfVLXRaPrAJso5hWZW+/Y3HZyoz6YnA4qetCa?=
+ =?us-ascii?Q?5k49/ZAv3otak7hCzvZuKAizkeSud/HoM0nWw3LiYmXogclYJ1mUyKj7jR3z?=
+ =?us-ascii?Q?MSmq48zaidWTlvKUncJoVEC0ou0e4Ty1R4pK6lEMxQFRWNufa323fElI4Le/?=
+ =?us-ascii?Q?ZrE7hDrDaLviSg+GjjJFiNTW0nExEV9J9hre/t7w8qKqo4SzSwg2d1bLRYh4?=
+ =?us-ascii?Q?W81CdW2uQOsAQqYCIDaQ+tRwCUhN/lq7ishJ1Tuw32jrDCat21MRnN1pMFxg?=
+ =?us-ascii?Q?lBAt/6fNhtu2aVk+IGSt2zhENscFZNcJu1Ym0GsUkBWdjtq0azrmI7qZzLQX?=
+ =?us-ascii?Q?LjRgpP67yKWuh9y3HctUfUO/GMsbEepFOpvi/2BtpsI3QClNkZmHyYJpOF/V?=
+ =?us-ascii?Q?MYsV4avLwtT+9Bc0F7YReSEImMV7Yuf9v71h3R/dmkugMWvOta4FhLLGM/6I?=
+ =?us-ascii?Q?AMbgnFgqHQFUn8bTvG66q5KNH1PGCFwLPGWquvmIYAHpQGZqqZJu9CWe+MiE?=
+ =?us-ascii?Q?c0VtUkaBS0gHFi4u4uxXuxlHY41icBWROFXEeKaJaKeQQYbxvXKgsaIwFHLl?=
+ =?us-ascii?Q?W5Ey4qzTDKDaX1JSjtJm0jr95nqo/oz6zEj+PJgxka63vgbVg8e+t646tH+s?=
+ =?us-ascii?Q?f9nBdvyzRaMR4jqENiVkkiaqUQ4agqBWVbDX6NrHJdr4MbWy8F6hmgTWzP18?=
+ =?us-ascii?Q?Mr87FZXYiWHsqMbXa2G56AW6by/jxwve8kcMfvDNhe1pk510hq99z7sr5f0y?=
+ =?us-ascii?Q?0p+WhzjXaN902lWCfxTcpizj00uZV5l6qhGiwmV0nwPjZyXir51PYET8cb6J?=
+ =?us-ascii?Q?i3QrNgo//INgJveo6H1GeMmwuYngi0ND37X8aotHBp74MN/ux+zb0WeUbaMZ?=
+ =?us-ascii?Q?TZgrjZ8YdP0BkTTrDAMrK1OEqMg0GgVVD0fABytjbNI04zO2tmpixTRlbI7K?=
+ =?us-ascii?Q?bIXU3UkpqZ8cwT07nGBzM6tGHBAewcetZrx7LI1ZkCjeDgyzIN1yPonrXwXR?=
+ =?us-ascii?Q?Eg0K8i7XNkh59jzpmpuoauGIGasUuO6BBgXYhklpgCMITyRktd7SvGc0dkIq?=
+ =?us-ascii?Q?jZ2lZCfoCSyAXsJoVqmHgryfTlxrQc00R/cUqcjbP7m3E4aIUt8Hp1KdZJe4?=
+ =?us-ascii?Q?lK5+EW9w8kB2QECzrsmnXISotQ+G5szST7J6LGQGjVFjjjJblVvYPKXfp3cw?=
+ =?us-ascii?Q?lj7EPFRYQQy6+7/Yb74PM2JVpAi9OuOeORMb5evoS21brLFlRc8AUeEIlXz/?=
+ =?us-ascii?Q?RP/BBY4/C0YXVYdwxTmEvi38M14jHHc4CcfEa8CV0y2bJw=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(52116005)(376005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?cukWqg1Suo7v7W2hsjVPBSharibrw+wO0IONuCODF43M26C3u9akbPILmGh4?=
+ =?us-ascii?Q?gdb5JKWfDdr08jCPc4l1Mkp1wF/WA4Cln60dm7KD7+r1sPxEZf5oreiKAdEA?=
+ =?us-ascii?Q?y5BsNGnYILuu6+BShm9NBwKY3d1K8DY5EY7clVpANWzXPijGpL5a+DQcLchT?=
+ =?us-ascii?Q?unoiRnO1OmNHDBn0cAKR8APcYmjvks9ATrp/k76O0tEgtKqbZ3+ch2CCkTD7?=
+ =?us-ascii?Q?RXrhgoSrd+TKhbmnhJ0XGx7E4hI1rtwFMMyv0dwnAhZ4ozBNrT8+TGGl+yO+?=
+ =?us-ascii?Q?QvOlf2luU6WfR8XnL2LpgzrF8BTPrzhP+pcmaQJUidw+U1T56HNwhMiBtyNe?=
+ =?us-ascii?Q?na2C0NZ5QKM5iKqsNUWtun5UB+rfRwXZf6NdYXHaHN08HRtZ2JE733iFOOFk?=
+ =?us-ascii?Q?D1nyErR1+R0zkveKxcXGjMYjWLOs5VLj2UD6rRyZu1PRAGMJT2TVkUB9HkbF?=
+ =?us-ascii?Q?wDR6OhpR5JlRwRqhf3JnssSm/WtjjRZJRvhyAKzUhO0vh4+9gx14GBg/wm+r?=
+ =?us-ascii?Q?tf6znaq3+6kkLE/6wOqCiV3Km2HYnRcEF60GYuBI/bDHGeIbdiCVHerHYvCn?=
+ =?us-ascii?Q?G56ZCY37GOmq8XMZxkVi7pKXUaZYAUc1X7iUYWt3imRdrjT/ccT9ZCc71Lof?=
+ =?us-ascii?Q?2qs4AI30qagc2W93TS/xlh0h62UosuyvIXrYzdTCeIkKNvbONcNtQLNPKRVZ?=
+ =?us-ascii?Q?uhjxC5yvDZhh6I+X4AMXSxs0q/WIdFv/zlzF4kLD1FcLH7Po5LyemZM+0eVg?=
+ =?us-ascii?Q?fMHRTSfeUracs/afVZcg7lrzEM9FDriuRqIyj1UTS5SUGGtjEQEd2V5s82IM?=
+ =?us-ascii?Q?7GN0ySRWtaCuF62L/+xwN+KQkuUquBucaNlRfQAYfgJNWC+W6l+UDfE8E3Uq?=
+ =?us-ascii?Q?N1PxSZo6zihSWMj85zTT7jXsnQvmAwPimIrw0PB1pYifBLbzP34gfzvkDlSi?=
+ =?us-ascii?Q?EU25fy+S/1u2nPOEtYBSWf6g7OWYzEte4uSo4WYsDkufcbd2a9GSEttckZkB?=
+ =?us-ascii?Q?afCav3hEhxdO76VNL1csvgvEdQIVHi+tRCRKpzmNxTFkpygMorNVOr+4SY40?=
+ =?us-ascii?Q?OmtGAq4YTlvWpheuSqVHajQn1Zs83FObvkJOKRSrS3ZvM4APRwLSn+XvNZph?=
+ =?us-ascii?Q?O55FpBBEdBx2eMubUDEiy+AR4MvTFZy3AU0y/Up5XZCvSHBcJhMjrpwzFh4H?=
+ =?us-ascii?Q?/KOD+3YrL755DrLO6SJl5mA5Q3rCpTARK9u5FSJgILOZt3cX/rfUYBFwDa44?=
+ =?us-ascii?Q?RYtDsR1M7Y+XBWgeQMiSGYnM/NrJyM1YtwkZoJsP7TMZgb4H88j4EnBN+Lr1?=
+ =?us-ascii?Q?IMnflmsRGEdIRXvH7rKGrZlIvR/40ZPDpih7w4pJicpS137g0g99alavG6en?=
+ =?us-ascii?Q?Iq9Z2IFiIzM/nNCmxnRsIYf6Z91nxj9mnOAzK4rsnC/RGrb+QcizGyK2SQvl?=
+ =?us-ascii?Q?2b/QDEVtbpH6sGwxoWmipr//52sy/bW8B2eAsmt8dn/6EjIZMkBkcLmJu1xe?=
+ =?us-ascii?Q?oQxXnvYBUb1AeN2vZuEzTkfgRWlq/Qw6yg6y4q0PZPEr1nGCgAQGOIKChmY9?=
+ =?us-ascii?Q?CAAzkHY24tq34MMQmW75w3L/AYjXu+eoh8WuSwDvYMZIOA/oT4NN9me74iL5?=
+ =?us-ascii?Q?xw=3D=3D?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fa95cf1-d823-4f59-e7f1-08dc60afbd72
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 20:31:49.5369
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5jUfzAycU8mGJrUjKx1ft9Jr/JUPSMiW7TAtP1EipE53hqI/LxGU3AFiJ4wFFoqpBZtU3JnvJrHBXKP6wxmxb9oGg40ZxEeyrkZ+vKoZ3W0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7274
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 18:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198561
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 20:32:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198562
 
---000000000000b55c4906167741b7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-Khem Raj <raj.khem@gmail.com> escreveu (sexta, 19/04/2024 =C3=A0(s) 19:17):
+This is very often a build dependency, such as in my case using a
+class from meta-ptx, which fails with
 
-> On Fri, Apr 19, 2024 at 10:53=E2=80=AFAM Jose Quaresma via
-> lists.openembedded.org
-> <quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > This will make possible to restore the default dynamic linking globally
-> > which is what we had before the 1.20.X release.
-> >
->
-> Looks good overall. how do we support the static linking if user wanted ?
->
+ERROR: Nothing PROVIDES 'bmap-tools-native'. Close matches:
+  bmaptool-native
+  bpftool-native
+  mtools-native
 
-To disable the dynamic linking, which is the default, we need to unset the
-GO_DYNLINK
-but this needs to be done with a machine arch override otherwise has no
-effect.
+due to the renaming.
 
-GO_DYNLINK:machine_arch =3D ""
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+ meta/recipes-support/bmaptool/bmaptool_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-As an example the below patch enables the static linkiging for all the
-architectures
-https://git.yoctoproject.org/poky/commit/meta/classes-recipe/goarch.bbclass=
-?id=3Dfd2e5e0b89d9c69acc9f813f07cd052630596ad5
-
-Jose
-
-
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> >  meta/classes-recipe/go.bbclass          | 2 --
-> >  meta/recipes-devtools/go/go-runtime.inc | 2 +-
-> >  2 files changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/go.bbclass
-> b/meta/classes-recipe/go.bbclass
-> > index cc3564c36a..d32509aa6d 100644
-> > --- a/meta/classes-recipe/go.bbclass
-> > +++ b/meta/classes-recipe/go.bbclass
-> > @@ -48,8 +48,6 @@ GO_RPATH:class-native =3D "${@'-r
-> ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE
-> >  GO_RPATH_LINK:class-native =3D
-> "${@'-Wl,-rpath-link=3D${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_=
-dynlink'
-> if d.getVar('GO_DYNLINK') else ''}"
-> >  GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LIN=
-K}
-> ${LDFLAGS}"
-> >  GO_LINKMODE ?=3D ""
-> > -GO_LINKMODE:class-nativesdk =3D "--linkmode=3Dexternal"
-> > -GO_LINKMODE:class-native =3D "--linkmode=3Dexternal"
-> >  GO_EXTRA_LDFLAGS ?=3D ""
-> >  GO_LINUXLOADER ?=3D "-I ${@get_linuxloader(d)}"
-> >  # Use system loader. If uninative is used, the uninative loader will b=
-e
-> patched automatically
-> > diff --git a/meta/recipes-devtools/go/go-runtime.inc
-> b/meta/recipes-devtools/go/go-runtime.inc
-> > index 3f1e795dd9..413cf6d33f 100644
-> > --- a/meta/recipes-devtools/go/go-runtime.inc
-> > +++ b/meta/recipes-devtools/go/go-runtime.inc
-> > @@ -15,7 +15,7 @@ export CGO_LDFLAGS =3D "${@ ' '.join(filter(lambda f:
-> not f.startswith('-fdebug-pr
-> >  export GOCACHE =3D "${B}/.cache"
-> >
-> >  GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
-> > -GO_SHLIB_LDFLAGS ?=3D '-ldflags=3D"--linkmode=3Dexternal -extldflags
-> '${GO_EXTLDFLAGS}'"'
-> > +GO_SHLIB_LDFLAGS ?=3D '-ldflags=3D"-extldflags '${GO_EXTLDFLAGS}'"'
-> >
-> >  do_configure() {
-> >         :
-> > --
-> > 2.44.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#198558):
-> https://lists.openembedded.org/g/openembedded-core/message/198558
-> > Mute This Topic: https://lists.openembedded.org/mt/105623011/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
-
+diff --git a/meta/recipes-support/bmaptool/bmaptool_git.bb b/meta/recipes-s=
+upport/bmaptool/bmaptool_git.bb
+index fd53c21c06..b4b3fa1fbd 100644
+--- a/meta/recipes-support/bmaptool/bmaptool_git.bb
++++ b/meta/recipes-support/bmaptool/bmaptool_git.bb
+@@ -23,6 +23,7 @@ RDEPENDS:${PN} =3D "python3-core python3-compression pyth=
+on3-misc python3-mmap pyt
+ inherit setuptools3
+=20
+ # For compatibility with layers before scarthgap
++PROVIDES =3D "bmap-tools"
+ RREPLACES:${PN} =3D "bmap-tools"
+ RCONFLICTS:${PN} =3D "bmap-tools"
+=20
 --=20
-Best regards,
+2.40.1.1.g1c60b9335d
 
-Jos=C3=A9 Quaresma
-
---000000000000b55c4906167741b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Khem Raj &lt;<a href=3D"mailto:raj.kh=
-em@gmail.com">raj.khem@gmail.com</a>&gt; escreveu (sexta, 19/04/2024 =C3=A0=
-(s) 19:17):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On F=
-ri, Apr 19, 2024 at 10:53=E2=80=AFAM Jose Quaresma via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a><br>
-&lt;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" tar=
-get=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This will make possible to restore the default dynamic linking globall=
-y<br>
-&gt; which is what we had before the 1.20.X release.<br>
-&gt;<br>
-<br>
-Looks good overall. how do we support the static linking if user wanted ?<b=
-r></blockquote><div>=C2=A0</div><div>To disable the dynamic linking, which =
-is the default, we need to unset the=C2=A0<span style=3D"color:rgb(0,0,0)">=
-GO_DYNLINK<br>but this needs to be done with a machine arch override otherw=
-ise=C2=A0</span>has no effect.<span style=3D"color:rgb(0,0,0)"><br><br></sp=
-an></div><div><span style=3D"color:rgb(0,0,0)">GO_DYNLINK:machine_arch =3D =
-&quot;&quot;<br></span><br>As an example=C2=A0the below=C2=A0patch enables =
-the static linkiging for all the architectures=C2=A0<br><a href=3D"https://=
-git.yoctoproject.org/poky/commit/meta/classes-recipe/goarch.bbclass?id=3Dfd=
-2e5e0b89d9c69acc9f813f07cd052630596ad5">https://git.yoctoproject.org/poky/c=
-ommit/meta/classes-recipe/goarch.bbclass?id=3Dfd2e5e0b89d9c69acc9f813f07cd0=
-52630596ad5</a><br></div><div>=C2=A0<br>Jose</div><div><br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes-recipe/go.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- | 2 --<br>
-&gt;=C2=A0 meta/recipes-devtools/go/go-runtime.inc | 2 +-<br>
-&gt;=C2=A0 2 files changed, 1 insertion(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.b=
-bclass<br>
-&gt; index cc3564c36a..d32509aa6d 100644<br>
-&gt; --- a/meta/classes-recipe/go.bbclass<br>
-&gt; +++ b/meta/classes-recipe/go.bbclass<br>
-&gt; @@ -48,8 +48,6 @@ GO_RPATH:class-native =3D &quot;${@&#39;-r ${STAGING=
-_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE<br>
-&gt;=C2=A0 GO_RPATH_LINK:class-native =3D &quot;${@&#39;-Wl,-rpath-link=3D$=
-{STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink&#39; if d.getVar(&=
-#39;GO_DYNLINK&#39;) else &#39;&#39;}&quot;<br>
-&gt;=C2=A0 GO_EXTLDFLAGS ?=3D &quot;${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${G=
-O_RPATH_LINK} ${LDFLAGS}&quot;<br>
-&gt;=C2=A0 GO_LINKMODE ?=3D &quot;&quot;<br>
-&gt; -GO_LINKMODE:class-nativesdk =3D &quot;--linkmode=3Dexternal&quot;<br>
-&gt; -GO_LINKMODE:class-native =3D &quot;--linkmode=3Dexternal&quot;<br>
-&gt;=C2=A0 GO_EXTRA_LDFLAGS ?=3D &quot;&quot;<br>
-&gt;=C2=A0 GO_LINUXLOADER ?=3D &quot;-I ${@get_linuxloader(d)}&quot;<br>
-&gt;=C2=A0 # Use system loader. If uninative is used, the uninative loader =
-will be patched automatically<br>
-&gt; diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-de=
-vtools/go/go-runtime.inc<br>
-&gt; index 3f1e795dd9..413cf6d33f 100644<br>
-&gt; --- a/meta/recipes-devtools/go/go-runtime.inc<br>
-&gt; +++ b/meta/recipes-devtools/go/go-runtime.inc<br>
-&gt; @@ -15,7 +15,7 @@ export CGO_LDFLAGS =3D &quot;${@ &#39; &#39;.join(fi=
-lter(lambda f: not f.startswith(&#39;-fdebug-pr<br>
-&gt;=C2=A0 export GOCACHE =3D &quot;${B}/.cache&quot;<br>
-&gt;<br>
-&gt;=C2=A0 GO_EXTLDFLAGS ?=3D &quot;${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${L=
-DFLAGS}&quot;<br>
-&gt; -GO_SHLIB_LDFLAGS ?=3D &#39;-ldflags=3D&quot;--linkmode=3Dexternal -ex=
-tldflags &#39;${GO_EXTLDFLAGS}&#39;&quot;&#39;<br>
-&gt; +GO_SHLIB_LDFLAGS ?=3D &#39;-ldflags=3D&quot;-extldflags &#39;${GO_EXT=
-LDFLAGS}&#39;&quot;&#39;<br>
-&gt;<br>
-&gt;=C2=A0 do_configure() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
-&gt; --<br>
-&gt; 2.44.0<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#198558): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/198558" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/198558</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10562301=
-1/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/105623011/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" t=
-arget=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000b55c4906167741b7--
 
