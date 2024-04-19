@@ -1,236 +1,570 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <padalkards17082001@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA1FC04FF8
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 01:44:55 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by mx.groups.io with SMTP id smtpd.web10.10757.1713491086814608320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0209C4345F
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 08:19:58 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.15312.1713514794205182717
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Apr 2024 18:44:47 -0700
+ Fri, 19 Apr 2024 01:19:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=MGkzoo74;
- spf=pass (domain: intel.com, ip: 198.175.65.14, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713491087; x=1745027087;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=7rB6QFJeO1TFTu9UUNUyAeMV+PSktYW5stN3pPOeoNo=;
-  b=MGkzoo74kVNAqjlkXDU1AH8u2KK7n5y06xePytQ0gqnVB8YN9V+q1SEb
-   +mUsS2uLcIM2G1cFOnpyaEbkpthOZLXhPEIkJIf+NsF7/vX/GZ3GVEmuV
-   8syEhYataGuVR69UqwaKqLy1o+AKU9j5LIMFDUjEMmjxOzmQR2a3youxw
-   MgNiGW551Ce/hFdmEpA2q/GbR9MM2a91TKgCegjy0kwoeFeTrbhtOhLG8
-   x2D4VhVFLj0cb9tvyVarpWvOD6iLtN3vsCbMa0WrFepCpXS9LTg68DCty
-   aZjaxztRWaG5lYyv8ui4DSNUlXEBmj3F7Xcrs27Tx982cm4PfpQeTHjl8
-   Q==;
-X-CSE-ConnectionGUID: xOFnCbD5RiSjl5t+gEvZBw==
-X-CSE-MsgGUID: mTGKrztuQ929Mrjui4t1Rg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12911577"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="12911577"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 18:44:47 -0700
-X-CSE-ConnectionGUID: RBuoqucOSaCvNPTf+zYRog==
-X-CSE-MsgGUID: 4d0Y0wcDT8OFRynRaqDz9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23799723"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Apr 2024 18:44:46 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Apr 2024 18:44:46 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Apr 2024 18:44:45 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 18 Apr 2024 18:44:45 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 18 Apr 2024 18:44:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lN1nl6XXaAU1a7EfWK8qkY4ni4+5O6ILNMbE/8UYiDipNrY7LFtEEQU5WNiwA5tCH1sWAl+PGDJ7G0BvdxoSeZQ6kpU/tCWrmJGSvEa7Hll4hBJvt5hCBR/XYwAwk4KYKnI4aW1+sdTLSI1O9qPImeFySfo8KxhXkCdxqlhcAbXuszjr61qTgzltbO3qRz3Pn2ntEE1M/crKFHQIUrI9rBphalCENBqfZCush69K6haBWSIeJhZxEnRoqgJdrE5oRWYSKcxEYaume3UyNJTpzGVChKrGDD/wQdiN//zwjClpwUNhX8Ef4qcTNLPqfysodM42jmvgbQ9ffLJOI/q4Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WcXMwwL56SZl/F9aqduZqk1JL+Oq67WvRm+uRJsRXZU=;
- b=jKkYEwopE5T4UfRas66J0M1zwxV010c82EV8GznahJPQ+nq1SuEKAKAZgLpq3dgn3uNwpnxQaG2oat65bZH338kpi0gfE5CKb+tkuawIT3dLqIUhdaL3a/AMOV9I9CoyPmc7j1nPXJXnHeRDEfbSiveq0Hkc8ZI8KS3pnjP1OMk03B+zOdkpc/JEULfe5bSYW4AS5S0tnib34/qQ/7WiHrsIzT8RwNAenRpCZMi1srZuWtVI/cU9zfEO3Hi+56o86+M7n1rlE4H8hDqUSiA5gWbRaz7urwHs4x3uH6xyByMo3QbsIBWEo+uLmdXdZ7RHJg6n7AsicCepbabUcW0/cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by DS0PR11MB7972.namprd11.prod.outlook.com (2603:10b6:8:124::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Fri, 19 Apr
- 2024 01:44:43 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::3913:6da8:eb12:6a61]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::3913:6da8:eb12:6a61%4]) with mapi id 15.20.7452.046; Fri, 19 Apr 2024
- 01:44:43 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-5.0.rc4)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.0.rc4)
-Thread-Index: AQHake8XuyEQrDjR3EiaLK1lGvKvv7Fu0LZQ
-Date: Fri, 19 Apr 2024 01:44:43 +0000
-Message-ID: <DM4PR11MB7760A49AF8A5FD4FB855367AA10D2@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <0101018ef3b7ba30-02874709-13d0-4a8b-ac90-e3eff3a6bd60-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018ef3b7ba30-02874709-13d0-4a8b-ac90-e3eff3a6bd60-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|DS0PR11MB7972:EE_
-x-ms-office365-filtering-correlation-id: 1dc554af-8857-4878-26d9-08dc60124938
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2qwh03xIQeRAoOZhunyIOMjrB+vvhOKDBnYdmEubsWUlp2GuPpKgVtuYtCjSo+2sDB+2qqvKjgipSSZpPHu/r2kOmWrSuiyYpN+Cog6pqEw/TJiCYooHecGXqFIBy6zO/m6m2BX5lXsO4cnb5IZmgdpYHdBDXI/gQIW25E39m+JSmRAA5XnULj7uyWB+Xepj+mVt+NtsmXrR6UTj+CKJ066iagcDqhSzFCCqAg+DEenFeBwIZxR5QA1vgcz3LryPLg42b5LlJ2evPqtjQX59ZNRmmx9xcUp6ca440LeCf+kGa2CSK2FGtc+wHpGpdg1jfPNfx3YUG+4NrOMB5kQGOPm0qI+V176Mqi/rMLbt9embWsfBUl8SGAEpVcrvgrWvBOIsq+h5lOnnMgjKvBpGptp/g3EJg0lPaLdhLPCcg7xRj/0D5EVJ+WbKnsKHNqvBF2lzFBaQRXy5U5PaoIsdPSd0x2OWCzvdn9Kao1iEO16434X6gBQmzvvjsstZa6q4A9DF8eiLkzaa2v+3KVHS4YQj2ZGzdeRmtk2qvOGyrxJLSoP+CJ2sp4xHKhd/MYFrnziHQJMCtCs+k/Wvm4aMrPwHtLTJDsvw0p3UyOiMulWrc6GI27ErrPQxA1Esq5BFzYXvneQhp/XjZtGvbCJ1yqN/7Q+sc/TitYDQf60nPvGQsy+ZS8QEVdSUIywpx8rj
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lhDcKuQg6tfbabi4r5awutaX/VNhBT2xGGJGSyIRMJhO1L0Zjt3TZtBbrmJc?=
- =?us-ascii?Q?sDb6C0rv2F9wrBvvvjg/uMzpqCQ3VoZ4LXdibwAsZ7L3EWj7wmzBSl7GOp/L?=
- =?us-ascii?Q?CHGXsp5SVklCy4ok94k8FtxCWz7QfKvVi5lDXJMLOT11+QMgjMFAJ9DcSYxn?=
- =?us-ascii?Q?hd5f26xN3QDArNcKZYaKnns7GkPWYkGPNGHpqDSDxC9QEX6BZ4QQYozImYNw?=
- =?us-ascii?Q?0zWHcySxvVkaiG5lRB5ewL9qckCLAPb/ZwyO52s2l34KPXcEo0mYpomidau0?=
- =?us-ascii?Q?GwIk5mI0Oq20Ge4sRhsOvMBAci1HAb1rUA0FhnV7H+jMCUHdklpK8lNxPWJ4?=
- =?us-ascii?Q?S6juAYMSt9rpl7Z2gf8J60pfKv5ESN7NJGK8Dfrqt1Vy7vCNHPQHnfgGpSHl?=
- =?us-ascii?Q?WuNG1bq2f5vlYnab7D3M1lImRWKRlpqYkAAk+KmwKgwznuzGcKfcu8joUdI/?=
- =?us-ascii?Q?rRGnhDqxApV0BhlaPaKLKoKgQNvJI06V6aHkayKAvnGBEVFVTbFs08x+QK/z?=
- =?us-ascii?Q?tJjvdv8up2BE+bLdhMfjzXpEOb/3J7uD27UZWQORCNaP3mvm0sw7ftbnMKau?=
- =?us-ascii?Q?wSIl3gFA7eEbbhVJ++R+LxhQq3vJg3r4YARGDRxcdqaOEKp+HfWXCRCpuLCV?=
- =?us-ascii?Q?34WXLLVcVdlTuyKgn45yLmJG72qgJVlApWf0BliMeOE+3KUHjpw1I1wKEDmX?=
- =?us-ascii?Q?jq7Q2hycoFjFGXm9sBEqsAtIUz4Sron2P0uHbZcOwKTpQXRsyMSS9N4xiO2h?=
- =?us-ascii?Q?ZVJQ6lr+VApxrfo1JhwYF/MAtGy8HZtfe5/foEHCQ4mIbuGBBzwl+ogREn+I?=
- =?us-ascii?Q?aWOpJ9Lo9ftODs3n2wrMZpHsdTwAYX8z+Cq+v9m2UkywcIvWgw27X1OLqRmU?=
- =?us-ascii?Q?A1dqxuiVF7mpTjdYdchrSZJBLmrqxSScAYFsg6A+bearF0FCrI3KgMp7fpLa?=
- =?us-ascii?Q?7mlhP/aa6JtmRGqIlXyvE88wXnjthaTk/1Zf904ZnEBxGLPQDxb1gQcy6TNo?=
- =?us-ascii?Q?OCMK9Iy1TrxUdXWYssH3IkyjWfK5uYGty8gDJP1i3gyB4jwPYsi5ssbBigJw?=
- =?us-ascii?Q?L/UbVC1lyPeTx7uK0d3UgMnGPqGcl3IZclqgSWcNxOaoHgE1cIZEEJlIlvzF?=
- =?us-ascii?Q?l/C3+h1oJXfQBixJNIe53nahLuExp17YuzWoCvLtnxqdJSw8Vx4tnROWPybJ?=
- =?us-ascii?Q?VRscgSwK/Sj4qlzcKGvXlpN2TJXH330bFV+CqTKSfya2cH4Q1eFOPrrjJUw4?=
- =?us-ascii?Q?M60IRfLM0M/UJi6uFsq/07eN0axpkUiS0e8g1GwjPXpNe9H7qrBT/KhvJSvp?=
- =?us-ascii?Q?n7LMz9+OG8aozzXp/Ucap6jyixBzfKs0nQpDPqNlCb7yXtWiRCiZoxI+6AVv?=
- =?us-ascii?Q?cyGBt+4uoetEf8gnlIwaCySu8sjwqiZiqVcDA+ndouuwTiQyuXbkc2kuMmNr?=
- =?us-ascii?Q?5eyVdBwZzrmGTo1KlAja5dk7KgzgBY4Y2SrIInPUSG7t+2Yl3nYM9Xq3N+kg?=
- =?us-ascii?Q?ZeEjGqkh/HCJxk/pujc9kmdLDx+01yXUFpoWlxKsCxC+qPW8TnIN7Z+B2rzX?=
- =?us-ascii?Q?mtEJBTolijbNyTp25LeF2UBv5HFCaY+8Nix/CkMN?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KGL8O2Vp;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: padalkards17082001@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e8b03fa5e5so8333685ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 01:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713514793; x=1714119593; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GYkWVAPqtgCqkFLUMwujzBbWkkD6g4KUNBKokR7XHxc=;
+        b=KGL8O2Vpzbk3Muuwmio5c7zu9j0Lef2QDg7MwsgNJnSb2M2oYQ5006MyRvlUx0YjgO
+         IlVb2hCGgaaV8gZuIkwQq7EJIIz3yCxVLZ45CmKO3RK6Q4v/JPm/om+e5HLG/NClLOzQ
+         016hNfcpvcKd84pEIcev2+cOMIdiempgMb+n+MwwTs3fvPo3zyoSXUlSrILzIIiDwiKK
+         uamI1AuGjbe7XnovX7WN1ENbm5u1/wwdIHsnDUQmSdr/uTb6OGBjJTdEriqdIgZcaAAt
+         BoEItxiAQQRz5pTu+077ZZsZTvkKHnEUb1lg42dswgCA7gILGNczohKGjxa4iRGOd6Sh
+         Calw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713514793; x=1714119593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GYkWVAPqtgCqkFLUMwujzBbWkkD6g4KUNBKokR7XHxc=;
+        b=QQZYNZ4MbX9Hhf5wJ7g2/Egp67+Mm7EwOXfwI6CQWxDwBw3F4TdA2MypXcvI2QWktw
+         pFFPY9LRvH/In/tWHu6Qaz+LqlIgKUB9x+0o1/3VoK97Lb3/uWsR3JFvDlxAsZA7kq/b
+         EDcmxftSe9TkCxt8zZdx7S1GkuqHJ+TZibQXMGCNI9VICJrm45rnoxTk/zHDYdo+byTI
+         VDOiTzPkdCdc19WCXnFfq53+XVXL3CMmUv1cYfmx3hX3sdahtuGqYwvpyoxhlDO6P3Nn
+         Q0g1ppojaHLB5OSX70HLRqIxp2KPx7Na8U3Qtq8vnWuz1imHtjhO/VxRz2XpxVxn2QaG
+         dSwg==
+X-Gm-Message-State: AOJu0Yx/PckvpGprOjwtDWziwhrNvyWtdC/bzNObp64Ym/a7sSyHDOpb
+	CEOKVccbtvcX3OEEbPuPwIRSd3vgFJ0I9sg6NTmoxA+agmrxicP2Jh5wHg==
+X-Google-Smtp-Source: AGHT+IHq9P/GDI3N4oWDm6UHbLH9GivlZDJzb1IgzuT8Q15Gs5mBfXKY1BB+2Kuov0vwELGAfht0TA==
+X-Received: by 2002:a17:902:d895:b0:1e4:b4f5:5cfa with SMTP id b21-20020a170902d89500b001e4b4f55cfamr1488862plz.27.1713514792607;
+        Fri, 19 Apr 2024 01:19:52 -0700 (PDT)
+Received: from L-17315.kpit.com ([152.59.8.255])
+        by smtp.gmail.com with ESMTPSA id e8-20020a17090301c800b001e0f5034e95sm2762625plh.288.2024.04.19.01.19.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Apr 2024 01:19:52 -0700 (PDT)
+From: dnyandev <padalkards17082001@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	padalkards17082001@gmail.com
+Cc: bhabu.bindu@kpit.com,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone][PATCH] libssh2: backport fix for CVE-2023-48795
+Date: Fri, 19 Apr 2024 13:48:24 +0530
+Message-Id: <20240419081824.998654-1-padalkards17082001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dc554af-8857-4878-26d9-08dc60124938
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2024 01:44:43.3507
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qJIJuyDoLMSYFwNoc5eKzNZCT4IUUyEBWARZWSl09YfVGRckvkASWuWerX1aPNWm4qqqOiMF6PlJuWa0V/hByg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7972
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 01:44:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198527
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 08:19:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198528
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-5.0.rc4 =
-instead of 5.0.rc2. We are planning to execute following tests for this cyc=
-le:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	3. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	4. Meteor Lake-P (14th Generation Intel(r) Core(tm) Processors)
-	5. Beaglebone
-=20
-=20
-ETA for completion next Wednesday, 24 April.
-=20
-Best regards,
-Jing Hui
+Backport the upstream fix for CVE-2023-48795.
 
+(From OE-Core rev: 314fa19c5e07fa632ff0434a6adbb97de1319a02)
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Friday, April 19, 2024 8:18 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-5.0.rc4)
->=20
->=20
->     A build flagged for QA (yocto-5.0.rc4) was completed on the autobuild=
-er
-> and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-5.0.rc4
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6823
->=20
->     Build hash information:
->=20
->     bitbake: c86466d51e8ff14e57a734c1eec5bb651fdc73ef
-> meta-agl: d5420276a2d6bf1fbc4a948e4500744608c3a39d
-> meta-arm: 80f3b85bbd4c459a7c58afa754b40a89c2c9c102
-> meta-aws: 216c095de9d546c141a90017a91a3ccb226de754
-> meta-clang: 989ff6a4e7db59f01d511727135610006124ead2
-> meta-intel: 0093d9f2eaf97063c81bc73736ebe7c29a69200f
-> meta-mingw: acbba477893ef87388effc4679b7f40ee49fc852
-> meta-openembedded: 24044fd3a010dba91f22e3b6af7788529f622795
-> meta-virtualization: b7e77b69d309d8ee985720e88b19b6e9cf03fe63
-> oecore: b65b4e5a8e4473d8ca43835ba17bc8bd4bdca277
-> poky: fb91a49387cfb0c8d48303bb3354325ba2a05587
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#420): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/420
-> Mute This Topic: https://lists.yoctoproject.org/mt/105609427/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3adac25f899054b7d1d8c14458a1a4cd310abbd7)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+---
+ .../libssh2/libssh2/CVE-2023-48795.patch      | 469 ++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.10.0.bb |   1 +
+ 2 files changed, 470 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch
+
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch b/meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch
+new file mode 100644
+index 0000000000..9aaa92bb1c
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch
+@@ -0,0 +1,469 @@
++From d4634630432594b139b3af6b9f254b890c0f275d Mon Sep 17 00:00:00 2001
++From: Michael Buckley <michael@buckleyisms.com>
++Date: Thu, 30 Nov 2023 15:08:02 -0800
++Subject: [PATCH] src: add 'strict KEX' to fix CVE-2023-48795 "Terrapin Attack"
++
++Refs:
++https://terrapin-attack.com/
++https://seclists.org/oss-sec/2023/q4/292
++https://osv.dev/list?ecosystem=&q=CVE-2023-48795
++https://github.com/advisories/GHSA-45x7-px36-x8w8
++https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-48795
++
++Fixes #1290
++Closes #1291
++
++CVE: CVE-2023-48795
++Upstream-Status: Backport
++Comments: Refreshed Hunks
++
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++Signed-off-by: Bindu Bhabu <bhabu.bindu@kpit.com>
++---
++ src/kex.c          | 63 +++++++++++++++++++++++------------
++ src/libssh2_priv.h | 18 +++++++---
++ src/packet.c       | 83 +++++++++++++++++++++++++++++++++++++++++++---
++ src/packet.h       |  2 +-
++ src/session.c      |  3 ++
++ src/transport.c    | 12 ++++++-
++ 6 files changed, 149 insertions(+), 32 deletions(-)
++
++diff --git a/src/kex.c b/src/kex.c
++index d4034a0a..b4b748ca 100644
++--- a/src/kex.c
+++++ b/src/kex.c
++@@ -3026,6 +3026,13 @@ kex_method_ssh_curve25519_sha256 = {
++ };
++ #endif
++ 
+++static const LIBSSH2_KEX_METHOD
+++kex_method_strict_client_extension = {
+++    "kex-strict-c-v00@openssh.com",
+++    NULL,
+++    0,
+++};
+++
++ static const LIBSSH2_KEX_METHOD *libssh2_kex_methods[] = {
++ #if LIBSSH2_ED25519
++     &kex_method_ssh_curve25519_sha256,
++@@ -3043,6 +3050,7 @@ static const LIBSSH2_KEX_METHOD *libssh2
++     &kex_method_diffie_helman_group14_sha1,
++     &kex_method_diffie_helman_group1_sha1,
++     &kex_method_diffie_helman_group_exchange_sha1,
+++    &kex_method_strict_client_extension,
++   NULL
++ };
++
++@@ -3281,13 +3289,13 @@ static int kexinit(LIBSSH2_SESSION * ses
++     return 0;
++ }
++ 
++-/* kex_agree_instr
+++/* _libssh2_kex_agree_instr
++  * Kex specific variant of strstr()
++  * Needle must be precede by BOL or ',', and followed by ',' or EOL
++  */
++-static unsigned char *
++-kex_agree_instr(unsigned char *haystack, unsigned long haystack_len,
++-                const unsigned char *needle, unsigned long needle_len)
+++unsigned char *
+++_libssh2_kex_agree_instr(unsigned char *haystack, size_t haystack_len,
+++                         const unsigned char *needle, size_t needle_len)
++ {
++     unsigned char *s;
++     unsigned char *end_haystack;
++@@ -3398,7 +3406,7 @@ static int kex_agree_hostkey(LIBSSH2_SESSION * session,
++         while(s && *s) {
++             unsigned char *p = (unsigned char *) strchr((char *) s, ',');
++             size_t method_len = (p ? (size_t)(p - s) : strlen((char *) s));
++-            if(kex_agree_instr(hostkey, hostkey_len, s, method_len)) {
+++            if(_libssh2_kex_agree_instr(hostkey, hostkey_len, s, method_len)) {
++                 const LIBSSH2_HOSTKEY_METHOD *method =
++                     (const LIBSSH2_HOSTKEY_METHOD *)
++                     kex_get_method_by_name((char *) s, method_len,
++@@ -3432,9 +3440,9 @@ static int kex_agree_hostkey(LIBSSH2_SESSION * session,
++     }
++ 
++     while(hostkeyp && (*hostkeyp) && (*hostkeyp)->name) {
++-        s = kex_agree_instr(hostkey, hostkey_len,
++-                            (unsigned char *) (*hostkeyp)->name,
++-                            strlen((*hostkeyp)->name));
+++        s = _libssh2_kex_agree_instr(hostkey, hostkey_len,
+++                                     (unsigned char *) (*hostkeyp)->name,
+++                                     strlen((*hostkeyp)->name));
++         if(s) {
++             /* So far so good, but does it suit our purposes? (Encrypting vs
++                Signing) */
++@@ -3468,6 +3476,12 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *kex,
++ {
++     const LIBSSH2_KEX_METHOD **kexp = libssh2_kex_methods;
++     unsigned char *s;
+++    const unsigned char *strict =
+++        (unsigned char *)"kex-strict-s-v00@openssh.com";
+++
+++    if(_libssh2_kex_agree_instr(kex, kex_len, strict, 28)) {
+++        session->kex_strict = 1;
+++    }
++ 
++     if(session->kex_prefs) {
++         s = (unsigned char *) session->kex_prefs;
++@@ -3475,7 +3489,7 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *kex,
++         while(s && *s) {
++             unsigned char *q, *p = (unsigned char *) strchr((char *) s, ',');
++             size_t method_len = (p ? (size_t)(p - s) : strlen((char *) s));
++-            q = kex_agree_instr(kex, kex_len, s, method_len);
+++            q = _libssh2_kex_agree_instr(kex, kex_len, s, method_len);
++             if(q) {
++                 const LIBSSH2_KEX_METHOD *method = (const LIBSSH2_KEX_METHOD *)
++                     kex_get_method_by_name((char *) s, method_len,
++@@ -3509,9 +3523,9 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *kex,
++     }
++ 
++     while(*kexp && (*kexp)->name) {
++-        s = kex_agree_instr(kex, kex_len,
++-                            (unsigned char *) (*kexp)->name,
++-                            strlen((*kexp)->name));
+++        s = _libssh2_kex_agree_instr(kex, kex_len,
+++                                     (unsigned char *) (*kexp)->name,
+++                                     strlen((*kexp)->name));
++         if(s) {
++             /* We've agreed on a key exchange method,
++              * Can we agree on a hostkey that works with this kex?
++@@ -3555,7 +3569,7 @@ static int kex_agree_crypt(LIBSSH2_SESSION * session,
++             unsigned char *p = (unsigned char *) strchr((char *) s, ',');
++             size_t method_len = (p ? (size_t)(p - s) : strlen((char *) s));
++ 
++-            if(kex_agree_instr(crypt, crypt_len, s, method_len)) {
+++            if(_libssh2_kex_agree_instr(crypt, crypt_len, s, method_len)) {
++                 const LIBSSH2_CRYPT_METHOD *method =
++                     (const LIBSSH2_CRYPT_METHOD *)
++                     kex_get_method_by_name((char *) s, method_len,
++@@ -3577,9 +3591,9 @@ static int kex_agree_crypt(LIBSSH2_SESSION * session,
++     }
++ 
++     while(*cryptp && (*cryptp)->name) {
++-        s = kex_agree_instr(crypt, crypt_len,
++-                            (unsigned char *) (*cryptp)->name,
++-                            strlen((*cryptp)->name));
+++        s = _libssh2_kex_agree_instr(crypt, crypt_len,
+++                                     (unsigned char *) (*cryptp)->name,
+++                                     strlen((*cryptp)->name));
++         if(s) {
++             endpoint->crypt = *cryptp;
++             return 0;
++@@ -3619,7 +3633,7 @@ static int kex_agree_mac(LIBSSH2_SESSION * session,
++             unsigned char *p = (unsigned char *) strchr((char *) s, ',');
++             size_t method_len = (p ? (size_t)(p - s) : strlen((char *) s));
++ 
++-            if(kex_agree_instr(mac, mac_len, s, method_len)) {
+++            if(_libssh2_kex_agree_instr(mac, mac_len, s, method_len)) {
++                 const LIBSSH2_MAC_METHOD *method = (const LIBSSH2_MAC_METHOD *)
++                     kex_get_method_by_name((char *) s, method_len,
++                                            (const LIBSSH2_COMMON_METHOD **)
++@@ -3640,8 +3654,9 @@ static int kex_agree_mac(LIBSSH2_SESSION * session,
++     }
++ 
++     while(*macp && (*macp)->name) {
++-        s = kex_agree_instr(mac, mac_len, (unsigned char *) (*macp)->name,
++-                            strlen((*macp)->name));
+++        s = _libssh2_kex_agree_instr(mac, mac_len,
+++                                     (unsigned char *) (*macp)->name,
+++                                     strlen((*macp)->name));
++         if(s) {
++             endpoint->mac = *macp;
++             return 0;
++@@ -3672,7 +3687,7 @@ static int kex_agree_comp(LIBSSH2_SESSION *session,
++             unsigned char *p = (unsigned char *) strchr((char *) s, ',');
++             size_t method_len = (p ? (size_t)(p - s) : strlen((char *) s));
++ 
++-            if(kex_agree_instr(comp, comp_len, s, method_len)) {
+++            if(_libssh2_kex_agree_instr(comp, comp_len, s, method_len)) {
++                 const LIBSSH2_COMP_METHOD *method =
++                     (const LIBSSH2_COMP_METHOD *)
++                     kex_get_method_by_name((char *) s, method_len,
++@@ -3694,8 +3709,9 @@ static int kex_agree_comp(LIBSSH2_SESSION *session,
++     }
++ 
++     while(*compp && (*compp)->name) {
++-        s = kex_agree_instr(comp, comp_len, (unsigned char *) (*compp)->name,
++-                            strlen((*compp)->name));
+++        s = _libssh2_kex_agree_instr(comp, comp_len,
+++                                     (unsigned char *) (*compp)->name,
+++                                     strlen((*compp)->name));
++         if(s) {
++             endpoint->comp = *compp;
++             return 0;
++@@ -3876,6 +3892,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, int reexchange,
++                 session->local.kexinit = key_state->oldlocal;
++                 session->local.kexinit_len = key_state->oldlocal_len;
++                 key_state->state = libssh2_NB_state_idle;
+++                session->state &= ~LIBSSH2_STATE_INITIAL_KEX;
++                 session->state &= ~LIBSSH2_STATE_KEX_ACTIVE;
++                 session->state &= ~LIBSSH2_STATE_EXCHANGING_KEYS;
++                 return -1;
++@@ -3901,6 +3918,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, int reexchange,
++                 session->local.kexinit = key_state->oldlocal;
++                 session->local.kexinit_len = key_state->oldlocal_len;
++                 key_state->state = libssh2_NB_state_idle;
+++                session->state &= ~LIBSSH2_STATE_INITIAL_KEX;
++                 session->state &= ~LIBSSH2_STATE_KEX_ACTIVE;
++                 session->state &= ~LIBSSH2_STATE_EXCHANGING_KEYS;
++                 return -1;
++@@ -3949,6 +3967,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, int reexchange,
++         session->remote.kexinit = NULL;
++     }
++ 
+++    session->state &= ~LIBSSH2_STATE_INITIAL_KEX;
++     session->state &= ~LIBSSH2_STATE_KEX_ACTIVE;
++     session->state &= ~LIBSSH2_STATE_EXCHANGING_KEYS;
++ 
++diff --git a/src/libssh2_priv.h b/src/libssh2_priv.h
++index 82c3afe2..ee1d8b5c 100644
++--- a/src/libssh2_priv.h
+++++ b/src/libssh2_priv.h
++@@ -640,6 +640,9 @@ struct _LIBSSH2_SESSION
++     unsigned char server_hostkey_sha256[SHA256_DIGEST_LENGTH];
++     int server_hostkey_sha256_valid;
++ 
+++    /* Whether to use the OpenSSH Strict KEX extension */
+++    int kex_strict;
+++
++     /* (remote as source of data -- packet_read ) */
++     libssh2_endpoint_data remote;
++ 
++@@ -870,6 +873,7 @@ struct _LIBSSH2_SESSION
++     int fullpacket_macstate;
++     size_t fullpacket_payload_len;
++     int fullpacket_packet_type;
+++    uint32_t fullpacket_required_type;
++ 
++     /* State variables used in libssh2_sftp_init() */
++     libssh2_nonblocking_states sftpInit_state;
++@@ -910,10 +914,11 @@ struct _LIBSSH2_SESSION
++ };
++ 
++ /* session.state bits */
++-#define LIBSSH2_STATE_EXCHANGING_KEYS   0x00000001
++-#define LIBSSH2_STATE_NEWKEYS           0x00000002
++-#define LIBSSH2_STATE_AUTHENTICATED     0x00000004
++-#define LIBSSH2_STATE_KEX_ACTIVE        0x00000008
+++#define LIBSSH2_STATE_INITIAL_KEX       0x00000001
+++#define LIBSSH2_STATE_EXCHANGING_KEYS   0x00000002
+++#define LIBSSH2_STATE_NEWKEYS           0x00000004
+++#define LIBSSH2_STATE_AUTHENTICATED     0x00000008
+++#define LIBSSH2_STATE_KEX_ACTIVE        0x00000010
++ 
++ /* session.flag helpers */
++ #ifdef MSG_NOSIGNAL
++@@ -1144,6 +1149,11 @@ ssize_t _libssh2_send(libssh2_socket_t socket, const void *buffer,
++ int _libssh2_kex_exchange(LIBSSH2_SESSION * session, int reexchange,
++                           key_exchange_state_t * state);
++ 
+++unsigned char *_libssh2_kex_agree_instr(unsigned char *haystack,
+++                                        size_t haystack_len,
+++                                        const unsigned char *needle,
+++                                        size_t needle_len);
+++
++ /* Let crypt.c/hostkey.c expose their method structs */
++ const LIBSSH2_CRYPT_METHOD **libssh2_crypt_methods(void);
++ const LIBSSH2_HOSTKEY_METHOD **libssh2_hostkey_methods(void);
++diff --git a/src/packet.c b/src/packet.c
++index b5b41981..35d4d39e 100644
++--- a/src/packet.c
+++++ b/src/packet.c
++@@ -605,14 +605,13 @@ authagent_exit:
++  * layer when it has received a packet.
++  *
++  * The input pointer 'data' is pointing to allocated data that this function
++- * is asked to deal with so on failure OR success, it must be freed fine.
++- * The only exception is when the return code is LIBSSH2_ERROR_EAGAIN.
+++ * will be freed unless return the code is LIBSSH2_ERROR_EAGAIN.
++  *
++  * This function will always be called with 'datalen' greater than zero.
++  */
++ int
++ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
++-                    size_t datalen, int macstate)
+++                    size_t datalen, int macstate, uint32_t seq)
++ {
++     int rc = 0;
++     unsigned char *message = NULL;
++@@ -657,6 +656,70 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
++         break;
++     }
++ 
+++    if(session->state & LIBSSH2_STATE_INITIAL_KEX) {
+++        if(msg == SSH_MSG_KEXINIT) {
+++            if(!session->kex_strict) {
+++                if(datalen < 17) {
+++                    LIBSSH2_FREE(session, data);
+++                    session->packAdd_state = libssh2_NB_state_idle;
+++                    return _libssh2_error(session,
+++                                          LIBSSH2_ERROR_BUFFER_TOO_SMALL,
+++                                          "Data too short extracting kex");
+++                }
+++                else {
+++                    const unsigned char *strict =
+++                    (unsigned char *)"kex-strict-s-v00@openssh.com";
+++                    struct string_buf buf;
+++                    unsigned char *algs = NULL;
+++                    size_t algs_len = 0;
+++
+++                    buf.data = (unsigned char *)data;
+++                    buf.dataptr = buf.data;
+++                    buf.len = datalen;
+++                    buf.dataptr += 17; /* advance past type and cookie */
+++
+++                    if(_libssh2_get_string(&buf, &algs, &algs_len)) {
+++                        LIBSSH2_FREE(session, data);
+++                        session->packAdd_state = libssh2_NB_state_idle;
+++                        return _libssh2_error(session,
+++                                              LIBSSH2_ERROR_BUFFER_TOO_SMALL,
+++                                              "Algs too short");
+++                    }
+++
+++                    if(algs_len == 0 ||
+++                       _libssh2_kex_agree_instr(algs, algs_len, strict, 28)) {
+++                        session->kex_strict = 1;
+++                    }
+++                }
+++            }
+++
+++            if(session->kex_strict && seq) {
+++                LIBSSH2_FREE(session, data);
+++                session->socket_state = LIBSSH2_SOCKET_DISCONNECTED;
+++                session->packAdd_state = libssh2_NB_state_idle;
+++                libssh2_session_disconnect(session, "strict KEX violation: "
+++                                           "KEXINIT was not the first packet");
+++
+++                return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONNECT,
+++                                      "strict KEX violation: "
+++                                      "KEXINIT was not the first packet");
+++            }
+++        }
+++
+++        if(session->kex_strict && session->fullpacket_required_type &&
+++            session->fullpacket_required_type != msg) {
+++            LIBSSH2_FREE(session, data);
+++            session->socket_state = LIBSSH2_SOCKET_DISCONNECTED;
+++            session->packAdd_state = libssh2_NB_state_idle;
+++            libssh2_session_disconnect(session, "strict KEX violation: "
+++                                       "unexpected packet type");
+++
+++            return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONNECT,
+++                                  "strict KEX violation: "
+++                                  "unexpected packet type");
+++        }
+++    }
+++
++     if(session->packAdd_state == libssh2_NB_state_allocated) {
++         /* A couple exceptions to the packet adding rule: */
++         switch(msg) {
++@@ -1341,6 +1404,15 @@ _libssh2_packet_ask(LIBSSH2_SESSION * session, unsigned char packet_type,
++ 
++             return 0;
++         }
+++        else if(session->kex_strict &&
+++                (session->state & LIBSSH2_STATE_INITIAL_KEX)) {
+++            libssh2_session_disconnect(session, "strict KEX violation: "
+++                                       "unexpected packet type");
+++
+++            return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONNECT,
+++                                  "strict KEX violation: "
+++                                  "unexpected packet type");
+++        }
++         packet = _libssh2_list_next(&packet->node);
++     }
++     return -1;
++@@ -1402,7 +1474,10 @@ _libssh2_packet_require(LIBSSH2_SESSION * session, unsigned char packet_type,
++     }
++ 
++     while(session->socket_state == LIBSSH2_SOCKET_CONNECTED) {
++-        int ret = _libssh2_transport_read(session);
+++        int ret;
+++        session->fullpacket_required_type = packet_type;
+++        ret = _libssh2_transport_read(session);
+++        session->fullpacket_required_type = 0;
++         if(ret == LIBSSH2_ERROR_EAGAIN)
++             return ret;
++         else if(ret < 0) {
++diff --git a/src/packet.h b/src/packet.h
++index 79018bcf..6ea100a5 100644
++--- a/src/packet.h
+++++ b/src/packet.h
++@@ -71,6 +71,6 @@ int _libssh2_packet_burn(LIBSSH2_SESSION * session,
++ int _libssh2_packet_write(LIBSSH2_SESSION * session, unsigned char *data,
++                           unsigned long data_len);
++ int _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
++-                        size_t datalen, int macstate);
+++                        size_t datalen, int macstate, uint32_t seq);
++ 
++ #endif /* __LIBSSH2_PACKET_H */
++diff --git a/src/session.c b/src/session.c
++index a4d602ba..f4bafb57 100644
++--- a/src/session.c
+++++ b/src/session.c
++@@ -500,6 +500,8 @@ libssh2_session_init_ex(LIBSSH2_ALLOC_FU
++         session->abstract = abstract;
++         session->api_timeout = 0; /* timeout-free API by default */
++         session->api_block_mode = 1; /* blocking API by default */
+++        session->state = LIBSSH2_STATE_INITIAL_KEX;
+++        session->fullpacket_required_type = 0;
++         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
++                        "New session resource allocated");
++         _libssh2_init_if_needed();
++@@ -1186,6 +1188,7 @@ libssh2_session_disconnect_ex(LIBSSH2_SESSION *session, int reason,
++                               const char *desc, const char *lang)
++ {
++     int rc;
+++    session->state &= ~LIBSSH2_STATE_INITIAL_KEX;
++     session->state &= ~LIBSSH2_STATE_EXCHANGING_KEYS;
++     BLOCK_ADJUST(rc, session,
++                  session_disconnect(session, reason, desc, lang));
++diff --git a/src/transport.c b/src/transport.c
++index 6d902d33..3b30ff84 100644
++--- a/src/transport.c
+++++ b/src/transport.c
++@@ -187,6 +187,7 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
++     struct transportpacket *p = &session->packet;
++     int rc;
++     int compressed;
+++    uint32_t seq = session->remote.seqno;
++ 
++     if(session->fullpacket_state == libssh2_NB_state_idle) {
++         session->fullpacket_macstate = LIBSSH2_MAC_CONFIRMED;
++@@ -318,7 +319,7 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
++     if(session->fullpacket_state == libssh2_NB_state_created) {
++         rc = _libssh2_packet_add(session, p->payload,
++                                  session->fullpacket_payload_len,
++-                                 session->fullpacket_macstate);
+++                                 session->fullpacket_macstate, seq);
++         if(rc == LIBSSH2_ERROR_EAGAIN)
++             return rc;
++         if(rc) {
++@@ -329,6 +330,11 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
++ 
++     session->fullpacket_state = libssh2_NB_state_idle;
++ 
+++    if(session->kex_strict &&
+++        session->fullpacket_packet_type == SSH_MSG_NEWKEYS) {
+++        session->remote.seqno = 0;
+++    }
+++
++     return session->fullpacket_packet_type;
++ }
++ 
++@@ -892,6 +892,10 @@ int _libssh2_transport_send(LIBSSH2_SESS
++ 
++     session->local.seqno++;
++ 
+++    if(session->kex_strict && data[0] == SSH_MSG_NEWKEYS) {
+++        session->local.seqno = 0;
+++    }
+++
++     ret = LIBSSH2_SEND(session, p->outbuf, total_length,
++                         LIBSSH2_SOCKET_SEND_FLAGS(session));
++     if(ret < 0)
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libssh2/libssh2_1.10.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+index 8483a292c2..9ade9f335c 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.10.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://fix-ssh2-test.patch \
+            file://run-ptest \
+            file://CVE-2020-22218.patch \
++           file://CVE-2023-48795.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
+-- 
+2.25.1
 
 
