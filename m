@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2271AC10F1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32853C10F19
 	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 12:20:02 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web10.19244.1713529195162971008
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.19148.1713529191868610547
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 05:19:55 -0700
+ Fri, 19 Apr 2024 05:19:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AgaCzj1u;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-571d6d1943fso541930a12.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 05:19:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dxRPhAll;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-571bddddbc2so1605320a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 05:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713529193; x=1714133993; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1713529190; x=1714133990; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TCgvdfhiAf+O0n6dAewDU88nC9L4Fp1eoCQXkneMJWk=;
-        b=AgaCzj1ucdcR6+GtmYQyRgM9UBcduwy7xEhx15pqb1ABPkRLF8YYZfXEn21AARau7j
-         HvjCjRibkXvAoSetWwE4xpqK5/dU60K2tgQjmLr4ljm6a7HwoAqpxlULmU8IuaX4bIJd
-         e/pPzEKg3/GU6NJRInWFlJlAFNYtC3AwvwSBFLMmAh6qTYjK/buUph6tgbVXkq2YrhR6
-         TElwAkWa+NINiSStN+YVHzjwe0vgLaHdQlq1WI7752ulrzyhrKJdsCGODOhapRojfniz
-         L4pTrf1Jf6fLlCB785X0cjxiHVwl85AfAECEWLJ3418UDNd3lklAAH6DmD80DBx91QLG
-         /J5Q==
+        bh=rILufnBvPTdYWl1SCq7e13Mz3ZczWMIi2MjGTRZZkQo=;
+        b=dxRPhAllruNCj3pNOkJcnh84MjubFljB7TqheRjltAhBljvI2hQ0RzjGkQ/3VzIoay
+         q7+QgIGfJNhy/yuQNRXj1yr3lNPh8qlO52Qrmpnfty184VujQlzum8w6K2ZzIUg+ek6K
+         XrxdaZOK2eC/B2yVLmtRTK0UQXx7VawSWbfwDhaOUmc8NA0H5q+3ETFwlrg8h6jMYh7j
+         cXjeoV623IlHjpjMts0e8/TO/9ktmKbuAsjG5ZYYFapYcUgB5TvXBc3p1VLfVT12IU/w
+         gkcT7XfIXl0aq++QC8nktQ77G0hiWqLCS9vdJO3R5yRJDXCnOfLm+wpgRw6pW2bn6R20
+         f0gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713529193; x=1714133993;
+        d=1e100.net; s=20230601; t=1713529190; x=1714133990;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TCgvdfhiAf+O0n6dAewDU88nC9L4Fp1eoCQXkneMJWk=;
-        b=ZlP/r0ipcEMjUDH2O+/QjJEM2D8Qy5eacWWVJWJGC7xn0o6OZRgn5WN1PALDOePW3m
-         R1DVwUIzSbZBmTLuOqDr0dY1voIaCJcikO9mJiZ648VxOuK1iyqAoCfV/2vBq+nHikjo
-         WVwsXNFQyC/cA/5yPfu+4rOlh64stjvGcUsTA+buZWXCPKH5q4qtLUEyPeTtGrHBchnF
-         qFMoGOsohB9Bw8g5KNKtJ4ZgGTXfGCHsRoZO9nwB1761duSUBotrKHyeYvYzSufMyfqo
-         7f/jXq6ZuLwji62W0d1riGJHn3V+hwKmS774V6+LVESbJY0YLtCsLCQkOa9SxaK1CTwU
-         UwcA==
-X-Gm-Message-State: AOJu0YwHZxhZf31TDzjIJ/gI5RO6mE5e2topiiVzi4YI0CILMovALyLF
-	7kQqlRGiahL4l/b2FQ0EQUxMDwKfTTsTHrcCgm0As9QCgxwOdQmVlBMZ+A==
-X-Google-Smtp-Source: AGHT+IHzCIbS7U7KcRxODxUlkbsiwHCyI2OzFZt2RsZsQWKmwzIAy+Waf6qOhR3DA2Vr3zOdhqwhSA==
-X-Received: by 2002:a50:d74b:0:b0:56e:2b0b:58 with SMTP id i11-20020a50d74b000000b0056e2b0b0058mr1466621edj.10.1713529193301;
-        Fri, 19 Apr 2024 05:19:53 -0700 (PDT)
+        bh=rILufnBvPTdYWl1SCq7e13Mz3ZczWMIi2MjGTRZZkQo=;
+        b=kYO/DH3RuBX+pXhuxzg6JmVVW30U0nIaJlGxx4jp2SHHRuRcJX9OusKVKPM8altLB+
+         +bXJcGcmXX7sWnPihltdfVAMbW8r9i2IOs4iHwykVAWYGsfKRvsfZLQqy81wPZg/EbSv
+         oHMw0AB+lpZsvMKqZKRDaayBDtjNxs3H9T0NhmTwAi/QU+Erjr3jqeB280juHMXkrqmI
+         OcZucCKbmXqMqHp/8jE/FtqG6mdY67aUQ0eTrSQFJaCihoXILy0F+1rTThYFc+7LKWhm
+         l7NOZz4iCV/c2kkaG8njd7yGrLBCCA/aA817MEAhaZuqGCETWDlyqOYs7X6JH8XT9WqZ
+         HvgQ==
+X-Gm-Message-State: AOJu0YxG7moD9ZYwVrNUJywnyxS5zrhEx27zevkqrJIL135Y9E0y1A35
+	MJ4hY81q6bh9Wof5gbzgJb60G+lZlQzzjhPBxiDStWAd6g2UObIGNBgQOw==
+X-Google-Smtp-Source: AGHT+IHy9WYH6rA284PWYOyGl3yotlCD31yrbLzXpQjEKZZZgIsFea1hI5S3pl0GrkKJOaJM++nQmQ==
+X-Received: by 2002:a50:ccc7:0:b0:56e:23db:3e87 with SMTP id b7-20020a50ccc7000000b0056e23db3e87mr1556536edj.11.1713529189782;
+        Fri, 19 Apr 2024 05:19:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id w22-20020aa7cb56000000b00571c1070edfsm1608415edt.17.2024.04.19.05.19.52
+        by smtp.gmail.com with ESMTPSA id w22-20020aa7cb56000000b00571c1070edfsm1608415edt.17.2024.04.19.05.19.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 05:19:53 -0700 (PDT)
+        Fri, 19 Apr 2024 05:19:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 07/19] expect: mark patches as Inactive-Upstream
-Date: Fri, 19 Apr 2024 14:19:33 +0200
-Message-Id: <20240419121945.1920944-7-alex@linutronix.de>
+Subject: [PATCH 02/19] package_rpm: remove support for DIRFILES
+Date: Fri, 19 Apr 2024 14:19:28 +0200
+Message-Id: <20240419121945.1920944-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240419121945.1920944-1-alex@linutronix.de>
 References: <20240419121945.1920944-1-alex@linutronix.de>
@@ -62,85 +62,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 12:20:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198535
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198530
 
-There's every indication that this is an ex-expect:
-last release in 2018, stale tickets, cvs server gone.
+This was added here:
+https://git.yoctoproject.org/poky/commit/?id=2f42ef8d8fb1febf28252b98884cebabc931f720
+
+It's undocumented, untested, rpm-specific, and currently
+broken, and to begin with looks like a workaround for
+Tizen/smack security label conflicts elsewhere.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../expect/expect/0001-Resolve-string-formatting-issues.patch   | 2 +-
- meta/recipes-devtools/expect/expect/0001-configure.in.patch     | 2 +-
- .../expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch      | 2 +-
- ...1-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch | 2 +-
- meta/recipes-devtools/expect/expect/0002-tcl.m4.patch           | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ meta/classes-global/package_rpm.bbclass | 31 +++++++------------------
+ 1 file changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch b/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
-index af1d8c626c2..bfb6dcd89ae 100644
---- a/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
-+++ b/meta/recipes-devtools/expect/expect/0001-Resolve-string-formatting-issues.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 23 Mar 2017 13:44:41 +0200
- Subject: [PATCH] Resolve string formatting issues.
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index 2e3e4e8c790..790ccbfaf0c 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -191,7 +191,7 @@ python write_specfile () {
+                 if not len(depends_dict[dep]):
+                     array.append("%s: %s" % (tag, dep))
  
--Upstream-Status: Inappropriate [upstream seems dead]
-+Upstream-Status: Inactive-Upstream [no activity since 2018; cvs server went read-only]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  exp_clib.c | 4 ++--
-diff --git a/meta/recipes-devtools/expect/expect/0001-configure.in.patch b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-index 7595a254a8f..618c4bee8eb 100644
---- a/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-+++ b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-@@ -1,7 +1,7 @@
- Allow cross compiling.
+-    def walk_files(walkpath, target, conffiles, dirfiles):
++    def walk_files(walkpath, target, conffiles):
+         # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
+         # when packaging. We just ignore these files which are created in
+         # packages-split/ and not package/
+@@ -233,22 +233,12 @@ python write_specfile () {
+                     return False
+             dirs[:] = [dir for dir in dirs if not move_to_files(dir)]
  
- Signed-off-by: Anders Roxell <anders.roxell@enea.com>
--Upstream-Status: Pending
-+Upstream-Status: Inactive-Upstream [no activity since 2018; cvs server went read-only]
- ---
- diff -uNr a/configure.in b/configure.in
- --- a/configure.in	2012-12-14 15:31:32.623180450 +0100
-diff --git a/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch b/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
-index 37512fb9bc8..d73f4c34215 100644
---- a/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
-+++ b/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
-@@ -10,7 +10,7 @@ Aborted (core dumped)
+-            # Directory handling can happen in two ways, either DIRFILES is not set at all
+-            # in which case we fall back to the older behaviour of packages owning all their
+-            # directories
+-            if dirfiles is None:
+-                for dir in dirs:
+-                    if dir == "CONTROL" or dir == "DEBIAN":
+-                        continue
+-                    p = path + '/' + dir
+-                    # All packages own the directories their files are in...
+-                    target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
+-            elif path:
+-                # packages own only empty directories or explict directory.
+-                # This will prevent the overlapping of security permission.
+-                attr = get_attr(path)
+-                if (not files and not dirs) or path in dirfiles:
+-                    target.append(attr + '%dir "' + escape_chars(path) + '"')
++            for dir in dirs:
++                if dir == "CONTROL" or dir == "DEBIAN":
++                    continue
++                p = path + '/' + dir
++                # All packages own the directories their files are in...
++                target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
  
- Use PATH_MAX to fix the problem.
+             for file in files:
+                 if file == "CONTROL" or file == "DEBIAN":
+@@ -363,9 +353,6 @@ python write_specfile () {
+         localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
  
--Upstream-Status: Pending [Upstream seems dead]
-+Upstream-Status: Inactive-Upstream [no activity since 2018; cvs server went read-only]
+         conffiles = oe.package.get_conffiles(pkg, d)
+-        dirfiles = localdata.getVar('DIRFILES')
+-        if dirfiles is not None:
+-            dirfiles = dirfiles.split()
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-diff --git a/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-index b1d322d5c95..40f7f3bd85a 100644
---- a/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-+++ b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-@@ -42,7 +42,7 @@ Example:
-  }
- Author: Sergei Golovan <sgolovan@debian.org>
+         splitname    = pkgname
  
--Upstream-Status: Pending
-+Upstream-Status: Inactive-Upstream [no activity since 2018; cvs server went read-only]
- This patch is backported from fedora changes for expect:
- http://pkgs.fedoraproject.org/cgit/rpms/expect.git/commit/
- ?h=master&id=b6737eed550be93182f2ed194e836a6cbbcf4fa3
-diff --git a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-index dc4c6ba4066..eb178f462ac 100644
---- a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-+++ b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-@@ -1,7 +1,7 @@
- Use proper -L path when cross compiling.
+@@ -430,7 +417,7 @@ python write_specfile () {
+             srcrpostrm     = splitrpostrm
  
- Signed-off-by: Anders Roxell <anders.roxell@enea.com>
--Upstream-Status: Pending
-+Upstream-Status: Inactive-Upstream [no activity since 2018; cvs server went read-only]
- ---
- diff -uNr a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
- --- a/tclconfig/tcl.m4	2012-12-14 09:16:58.789861281 +0100
+             file_list = []
+-            walk_files(root, file_list, conffiles, dirfiles)
++            walk_files(root, file_list, conffiles)
+             if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
+                 bb.note("Not creating empty RPM package for %s" % splitname)
+             else:
+@@ -522,7 +509,7 @@ python write_specfile () {
+ 
+         # Now process files
+         file_list = []
+-        walk_files(root, file_list, conffiles, dirfiles)
++        walk_files(root, file_list, conffiles)
+         if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
+             bb.note("Not creating empty RPM package for %s" % splitname)
+         else:
 -- 
 2.39.2
 
