@@ -1,116 +1,213 @@
-Return-Path: <daniel.klauer@gin.de>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 836F6C4345F
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 12:40:42 +0000 (UTC)
-Received: from good-out-01.clustermail.de (good-out-01.clustermail.de [212.223.35.17])
- by mx.groups.io with SMTP id smtpd.web10.19866.1713530435253214445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83F2C4345F
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 13:22:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.21003.1713532966518043876
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 05:40:35 -0700
+ Fri, 19 Apr 2024 06:22:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gin.de, ip: 212.223.35.17, mailfrom: daniel.klauer@gin.de)
-Received: from [10.0.0.13] (helo=frontend.clustermail.de)
-	by smtpout-01.clustermail.de with esmtp (Exim 4.96.1)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1rxnXc-0001Oc-1o;
-	Fri, 19 Apr 2024 14:40:33 +0200
-Received: from [62.157.191.2] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
-	(Exim 4.97.1)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1rxnXc-000000002g8-3oU3;
-	Fri, 19 Apr 2024 14:40:32 +0200
-Received: from [10.176.8.60] (10.176.8.60) by Win2012-02.gin-domain.local
- (10.160.128.12) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 19 Apr
- 2024 14:40:32 +0200
-Message-ID: <b64c56a0-30ba-44a1-a169-56c5f7540806@gin.de>
-Date: Fri, 19 Apr 2024 14:40:32 +0200
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BjPMCyO7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=483981f7a8=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43JBC62M032024
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:22:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=FtMsE
+	tfL56ooLAp71eZSL8va9/7BVFPtNROlXEyHo2U=; b=BjPMCyO74gQgkyFHnh2rV
+	6t3chdri3zD+ktJEvb8VPRnLER0QpMccz8Xh3rquA5yRAeFm35E0FyEycWsZFkKz
+	9Ej6aonDt4NCPI2XT/UvbfkEaempTbwiA7xwWLSgTwQQq/A7zgw0bkBwHVXD0U19
+	EA9H3X6AwDhk0oUbQuYu5hueTNowOoBf5AGpTwFKjAb3PD8SIaDyeDFpBLzBywaC
+	SnzJuvvWS8UjySK7nnqTxyMVvUwss4RDOg7v4fa5H6jU+IV1F6YElQn1UNbntAOQ
+	BplHyZFtAjK/sQJ09zWUUfoqhYKw7jNjR0/dKkkfIGO2eXOrUDoSEAKAIFcnts36
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xfh16p2hy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:22:45 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Fri, 19 Apr 2024 06:22:42 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] go: Fix CVE-2023-45288
+Date: Fri, 19 Apr 2024 13:22:24 +0000
+Message-ID: <20240419132224.2631349-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] cmake.bbclass: Add ${COREBASE}/scripts to
- CMAKE_FIND_ROOT_PATH
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20240417112444.395440-1-daniel.klauer@gin.de>
- <CAMKF1sq24dcWjAKkT5C4=bSER7wfvcrbaQb1YfFacVk=f2iv_Q@mail.gmail.com>
-Content-Language: en-US
-From: Daniel Klauer <daniel.klauer@gin.de>
-In-Reply-To: <CAMKF1sq24dcWjAKkT5C4=bSER7wfvcrbaQb1YfFacVk=f2iv_Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.176.8.60]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (10.160.128.12) To
- Win2012-02.gin-domain.local (10.160.128.12)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29342AA850677762
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: BIRSvfBFzFdRPgPTm2uSxF4F6ic38puS
+X-Proofpoint-GUID: BIRSvfBFzFdRPgPTm2uSxF4F6ic38puS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-19_09,2024-04-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404190100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 12:40:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198548
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:22:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198549
 
-Hi,
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
->> ${COREBASE}/scripts contains a "git" wrapper disabling fakeroot/pseudo.
->> This patch allows CMake to find ${COREBASE}/scripts/git instead of
->> ${HOSTTOOLS_DIR}/git. This is needed for git invocations during do_install,
->> since do_install is a fakeroot task, and otherwise all git commands fail
->> with "fatal: detected dubious ownership in repository ...".
->>
->> I don't know how common it is for CMake projects to invoke git during the
->> install phase intentionally. It's probably more common to do this during
->> the configure phase. However, the install step may re-run the configure
->> step, if some dependencies changed.
->
->
-> If a package build system has such dependencies they should be better expressed in recipes and linked using bitbake task level dependency mechanism 
-> 
-> I wonder why git is needed during install phase
-> Can you explain a bit more on that 
-> 
-> And since change it in a class it means it has to be a pattern 
+An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of
+header data by sending an excessive number of CONTINUATION frames.
+Maintaining HPACK state requires parsing and processing all HEADERS
+and CONTINUATION frames on a connection. When a request's headers
+exceed MaxHeaderBytes, no memory is allocated to store the excess
+headers, but they are still parsed. This permits an attacker to cause
+an HTTP/2 endpoint to read arbitrary amounts of header data, all
+associated with a request which is going to be rejected. These headers
+can include Huffman-encoded data which is significantly more expensive
+for the receiver to decode than for an attacker to send. The fix sets
+a limit on the amount of excess header frames we will process before
+closing a connection.
 
-It's just about running "git rev-parse HEAD" or similar, not acquiring external dependencies with "git clone", FetchContent download, etc., if that's what you meant. "dependencies" referred to timestamps of files checked by make/ninja.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-45288
 
-The affected CMake projects are using code like the following to query Git revision information (for storing into header files and binaries):
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ meta/recipes-devtools/go/go-1.17.13.inc       |  3 +-
+ .../go/go-1.22/CVE-2023-45288.patch           | 96 +++++++++++++++++++
+ 2 files changed, 98 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
 
-	find_package(Git REQUIRED)
-	execute_process(COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD ...)
-	set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/.git/HEAD")
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 768961de2c..b5566db1fe 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -1,6 +1,6 @@
+ require go-common.inc
+ 
+-FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}/go-1.20:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
++FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.22:${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}/go-1.20:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ 
+@@ -55,6 +55,7 @@ SRC_URI += "\
+     file://CVE-2023-45290.patch \
+     file://CVE-2024-24784.patch \
+     file://CVE-2024-24785.patch \
++    file://CVE-2023-45288.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch b/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
+new file mode 100644
+index 0000000000..ad84fb84d9
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
+@@ -0,0 +1,96 @@
++From e55d7cf8435ba4e58d4a5694e63b391821d4ee9b Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Thu, 28 Mar 2024 16:57:51 -0700
++Subject: [PATCH] [release-branch.go1.22] net/http: update bundled
++ golang.org/x/net/http2
++
++Disable cmd/internal/moddeps test, since this update includes PRIVATE
++track fixes.
++
++Fixes CVE-2023-45288
++For #65051
++Fixes #66298
++
++Change-Id: I5bbf774ebe7651e4bb7e55139d3794bd2b8e8fa8
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2197227
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/576076
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++TryBot-Bypass: Dmitri Shuralyov <dmitshur@google.com>
++Reviewed-by: Than McIntosh <thanm@google.com>
++
++CVE: CVE-2023-45288
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b391821d4ee9b]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/cmd/internal/moddeps/moddeps_test.go |  1 +
++ src/net/http/h2_bundle.go                | 31 ++++++++++++++++++++++++
++ 2 files changed, 32 insertions(+)
++
++diff --git a/src/cmd/internal/moddeps/moddeps_test.go b/src/cmd/internal/moddeps/moddeps_test.go
++index d48d43f..ee6d455 100644
++--- a/src/cmd/internal/moddeps/moddeps_test.go
+++++ b/src/cmd/internal/moddeps/moddeps_test.go
++@@ -36,6 +36,7 @@ import (
++ func TestAllDependencies(t *testing.T) {
++	t.Skip("TODO(#57009): 1.19.4 contains unreleased changes from vendored modules")
++	t.Skip("TODO(#53977): 1.18.5 contains unreleased changes from vendored modules")
+++	t.Skip("TODO(#65051): 1.22.2 contains unreleased changes from vendored modules")
++
++	goBin := testenv.GoToolPath(t)
++
++diff --git a/src/net/http/h2_bundle.go b/src/net/http/h2_bundle.go
++index 9d6abd8..10ff193 100644
++--- a/src/net/http/h2_bundle.go
+++++ b/src/net/http/h2_bundle.go
++@@ -2842,6 +2842,7 @@ func (fr *http2Framer) readMetaFrame(hf *http2HeadersFrame) (*http2MetaHeadersFr
++		if size > remainSize {
++			hdec.SetEmitEnabled(false)
++			mh.Truncated = true
+++			remainSize = 0
++			return
++		}
++		remainSize -= size
++@@ -2854,6 +2855,36 @@ func (fr *http2Framer) readMetaFrame(hf *http2HeadersFrame) (*http2MetaHeadersFr
++	var hc http2headersOrContinuation = hf
++	for {
++		frag := hc.HeaderBlockFragment()
+++
+++		// Avoid parsing large amounts of headers that we will then discard.
+++		// If the sender exceeds the max header list size by too much,
+++		// skip parsing the fragment and close the connection.
+++		//
+++		// "Too much" is either any CONTINUATION frame after we've already
+++		// exceeded the max header list size (in which case remainSize is 0),
+++		// or a frame whose encoded size is more than twice the remaining
+++		// header list bytes we're willing to accept.
+++		if int64(len(frag)) > int64(2*remainSize) {
+++			if http2VerboseLogs {
+++				log.Printf("http2: header list too large")
+++			}
+++			// It would be nice to send a RST_STREAM before sending the GOAWAY,
+++			// but the struture of the server's frame writer makes this difficult.
+++			return nil, http2ConnectionError(http2ErrCodeProtocol)
+++		}
+++
+++		// Also close the connection after any CONTINUATION frame following an
+++		// invalid header, since we stop tracking the size of the headers after
+++		// an invalid one.
+++		if invalid != nil {
+++			if http2VerboseLogs {
+++				log.Printf("http2: invalid header: %v", invalid)
+++			}
+++			// It would be nice to send a RST_STREAM before sending the GOAWAY,
+++			// but the struture of the server's frame writer makes this difficult.
+++			return nil, http2ConnectionError(http2ErrCodeProtocol)
+++		}
+++
++		if _, err := hdec.Write(frag); err != nil {
++			return nil, http2ConnectionError(http2ErrCodeCompression)
++		}
++--
++2.40.0
+-- 
+2.40.0
 
-${S} is owned by the user that runs bitbake, so cmake succeeds running such git commands during do_configure, but they fail during do_install because it's under fakeroot/pseudo.
-
-This can be fixed by allowing CMake to use the git wrapper script which temporarily disables fakeroot. It's already in PATH anyways (see PATH:prepend = "${COREBASE}/scripts..." in bitbake.conf), but CMake's find_package(Git) only respects CMAKE_FIND_ROOT_PATH. The description of commit af27c81e "scripts: Make git intercept global" hints at this type of situation.
-
-
-As for why cmake re-runs during do_install, I'm still trying to piece it together and reduce it to a minimal example. I can try to explain what I know so far:
-
-Basically, it's normal for a CMake project to be re-configured by "make" or "make install" (or ninja equivalents), if for example the CMakeLists.txt or files referenced by CMAKE_CONFIGURE_DEPENDS were modified, and an existing build directory was re-used. I'm not really surprised to see this case occurring in Yocto aswell. Presumably it can only happen in incremental Yocto builds if do_fetch/do_unpack/do_patch were already run previously and don't need to run again.
-
-What I did:
-
-1. have a recipe for a library
-2. have a recipe for a program which depends on that library (and of courses uses DEPENDS += "library")
-3. run bitbake to build the image
-4. modify library:do_install (to install a different configuration file into /etc)
-5. modify program:do_install (same)
-6. run bitbake to build the image
-
-My observations for the 2nd bitbake run (after I modified the two do_install functions):
-
-6.1. library:do_configure did not run again (makes sense, since I didn't change anything there)
-6.2. library:do_compile   did not run again (same)
-6.3. library:do_install was re-run (due to the changes for the new config file in /etc)
-6.4. library:do_package was re-run (but presumably only the main library package changed, not the library-dev or library-static packages)
-6.5. program:do_configure did not run again (not sure why not, since library recipe changed, but maybe bitbake noticed through the library packaging that only /etc changed and not the library or its header files)
-6.6. program:do_compile   did not run again (same)
-6.7. program:do_install was re-run
-6.7.1. The library was re-populated into the program's recipe-sysroot ("NOTE: <library> exists in sysroot, but is stale")
-6.7.2. "ninja install" re-ran CMake to re-configure the project (I'm guessing due to the re-population of the recipe-sysroot), this is where the git commands failed.
-
-
-Regards,
-Daniel
 
