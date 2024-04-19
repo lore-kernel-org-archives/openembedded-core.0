@@ -1,536 +1,215 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 175BBC4345F
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 14:48:23 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.23162.1713538100612615355
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96573C04FF6
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 16:38:43 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.69])
+ by mx.groups.io with SMTP id smtpd.web11.26095.1713544720766306707
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 07:48:21 -0700
+ Fri, 19 Apr 2024 09:38:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=LBzdS+cv;
- spf=pass (domain: mvista.com, ip: 209.85.208.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d8a2cbe1baso27820421fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 07:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1713538098; x=1714142898; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D7T4CSTFgv1KysaqHqT7UsiZiqFiRLRjEolqQB3ECMo=;
-        b=LBzdS+cvTCDdRQJ5C0V5NP4A3uNsYtjbOGPNWP8qTxHxyGT6CO4IYxocAJ7a+MxnC6
-         V/+0TU62BxIdsjThLBM7ojvXXZQ9emi/yTpeIz/RDoauzw3ciYq6hwQVtECrSslPU2zg
-         86YI1UFkAx+/scB8R8tSnhQOlTYVPTCpYGhVA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713538098; x=1714142898;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D7T4CSTFgv1KysaqHqT7UsiZiqFiRLRjEolqQB3ECMo=;
-        b=LTcu1nGF3rkqlPdhpNjVjt4pLVf8tTFWJqqoUoPdEFE/x2ZrJNC9zp+I3Ic82VEwPm
-         H04TAxR945rHGNvvg/vS8PLMN6wWyLLIqNPTAGkpg0H3VZUIG5cHYcNPvlR9VKfSqhKF
-         tJ1Z0mU5xlJyWTUEp9wiBT+gmp6shq56yrtUhhyRlXC+wtTypeqD3iZ21f/TNXYyJv1j
-         zUjXqwaU0Z8DJT0zofAWNrNYP2M96zQz76AqO5lr18M3V2M3d9C67vnxdJdXLqUxQCjP
-         ZxLFafKhwq7BBhgEGMvXw0wN0zc7kMNuhMxLVL4sBzeVxEZD/vZ78so3prRxiuT5Mzoa
-         r35w==
-X-Gm-Message-State: AOJu0Yypu3i5Dhqfyfn4b7TWwjAwoNNu8yT44d0dm6y+89lY9EoZ1mLj
-	2Cdaf2BbJy8b4W1xJuwAq34Y1MBwNcTSle7mw2wNcyGDFoCw7sf0cpTPxd9jxZ83wFpEu0vhX/K
-	AxAWT0s/Y6RrVGt70+tAq0/XHecPq8vajOZvKLg==
-X-Google-Smtp-Source: AGHT+IFKnbU2qOYM96mGk9+t4JTrQm5OaZzHXWBahWeXiMSrJa2weMSJX0yVmSeOFibsYyjaU9Zn0o96x2/eX51NrZQ=
-X-Received: by 2002:a2e:9bc7:0:b0:2dc:d32d:81e2 with SMTP id
- w7-20020a2e9bc7000000b002dcd32d81e2mr1823941ljj.27.1713538098326; Fri, 19 Apr
- 2024 07:48:18 -0700 (PDT)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=dzyXkRCN;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=dzyXkRCN;
+ spf=pass (domain: arm.com, ip: 40.107.22.69, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=DJT4HMgSVlzoe9gAtbkDT6LxmpRvrr9d7Bvl5AlDBVqOPUqvvk726KREdSxX92MzuL4WlmFAbgY6hU32q/1boOquvAJrk1qXHD3vIQUj9xBfBGRSPbmUcFhvhj1ttfFBmy0Luoaj9WK6E8XML22JzNCvoGdeiNIGe8/HEn0Jy7pw0ffSV/F/ors5vhghteVpB2xlOIwg3CHwX0+W09ccaKRZ0vMPV6J5f8+aQ6Ngh+hcSss8ZtYVQCfGUGJrcaxXNd2ehceY6EtvBxpSq/g1K/n0EP0DnvqfhGaUw2blo+c8YgvtSdG0F3bMfdfGzYNm+asyX5rt1cfy9IAfsMIlhw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1PsedSn5Dva9FetIvrSc/w85jJgvtQ7IwqkwBpV7Y8U=;
+ b=LLtE1DyloAe+OGJ3JZ8v84EXT2b6Kdw5icKgwvQAF7jpnWqZVl6pyfIVhLqDOTl/vyWo5F4ysJSsSaDD3lYPboPateB8hX+c1+/EkWZiQ8Rkg7jxFaMQCl3CLt04449XIYoFLCyE4cb7lBMnZ0n46XoZfSFJaROspcgaf5WFQv6VeJ/rWczTquTEMjKhhtiTlGqwjm73RipiKEciFgkbg3GZDIUSmDsZqGRoB8CaRWEOS6B1mPdggPibXUeUHSyMEbQho0LN3UUme1hHmuXYfnHBoZbJ+dO1BNhWQQyjx2y/7V6r2aMdPOZQgUM6K18ckvm08Z1vz7mGm6wcMJAXgA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1PsedSn5Dva9FetIvrSc/w85jJgvtQ7IwqkwBpV7Y8U=;
+ b=dzyXkRCNoCt+JcgQHEZUHs8xYLOZN5vr7bvPkxnsowDp9SnHfREnos+l8eBM9N8qkQtI1+Zn2rBUNO3hKpeWh08BmVAvxP1I9OOE3i7QTHjXvB3dYBHk42kozMyHLPkMfA0hagNWwdSVIF/FvGIP2bdtgrTBOzxKDa3Ijw8ZruY=
+Received: from DUZPR01CA0008.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c3::17) by PA4PR08MB7643.eurprd08.prod.outlook.com
+ (2603:10a6:102:261::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Fri, 19 Apr
+ 2024 16:38:37 +0000
+Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
+ (2603:10a6:10:3c3:cafe::68) by DUZPR01CA0008.outlook.office365.com
+ (2603:10a6:10:3c3::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.30 via Frontend
+ Transport; Fri, 19 Apr 2024 16:38:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7452.22
+ via Frontend Transport; Fri, 19 Apr 2024 16:38:37 +0000
+Received: ("Tessian outbound f1e9a43166b5:v313"); Fri, 19 Apr 2024 16:38:37 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 820f84bdd7ec4dee
+X-CR-MTA-TID: 64aa7808
+Received: from b917ffb51786.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id AA6A6435-D839-4E6E-AF82-35CD2D648F73.1;
+	Fri, 19 Apr 2024 16:38:30 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b917ffb51786.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 19 Apr 2024 16:38:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gjNhCQ47Jz2t1Obddlw8YZEJbJKvXMTBaxndSoEoaVYTB6o9FNfAljVtQsuzTefhibbFe7W2Pvi87jJNHPttMwuAOkXKMPQe28bMnN8kI3eqJdFteqD8uJRMufqj2ITjsyGViXTAsjtkJtIBK2gDIkHQZKQAP5bphEYY3Gx09Tx5MhA19YM1ED95ZT1P9Qc2/luX6UVKTjHPFG1QdiQDLg8jSw633godDyTDzrvXLlAhOovKzo25/jTyp/RoGWhBqnNtjJ8QaiTM3nXY63fHlt7UU+wca9EDt3DVuuwqS+xm5yx/2p4R0lQRsyVJCqPIOdcrnEPh0ENtkajPzVwJTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1PsedSn5Dva9FetIvrSc/w85jJgvtQ7IwqkwBpV7Y8U=;
+ b=n04XDuI6OOAIIiwioEDZ5Gv5sgYM2gR+sGzpIr+cuj/dgZhnb/eLuD0cailShJock+uOds1sbHw3j+FTYi/PXBo1c4BpwiCcGbJbQrtbSuPyqrMT7LH2ZqmOxMCjbJLaREagPR5MdwgzpSUbPPPw6ETFdHXraiI6OA1v4JNUxROW9vcnANtAojLkGcPj5et0JNUBDOopMiolH0hkMjQc3vvKqB6nfI+8K8eopFZLjr8+RzJiiAOYaoRuiGSiDvo/x+jrPNTasfKv9+VZMR5mYnOIPpmfV/OwCvijb9SdDBH7zXrqO+eaY9CgVM+vQFQJDMzhKEzX2IBsVc/FZmrFJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1PsedSn5Dva9FetIvrSc/w85jJgvtQ7IwqkwBpV7Y8U=;
+ b=dzyXkRCNoCt+JcgQHEZUHs8xYLOZN5vr7bvPkxnsowDp9SnHfREnos+l8eBM9N8qkQtI1+Zn2rBUNO3hKpeWh08BmVAvxP1I9OOE3i7QTHjXvB3dYBHk42kozMyHLPkMfA0hagNWwdSVIF/FvGIP2bdtgrTBOzxKDa3Ijw8ZruY=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU0PR08MB9933.eurprd08.prod.outlook.com (2603:10a6:10:413::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.41; Fri, 19 Apr
+ 2024 16:38:26 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7472.042; Fri, 19 Apr 2024
+ 16:38:26 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	<alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 02/19] package_rpm: remove support for DIRFILES
+Thread-Topic: [OE-core] [PATCH 02/19] package_rpm: remove support for DIRFILES
+Thread-Index: AQHaklP3QLKERCJnD0GeG/hAtvxj7LFvy0oA
+Date: Fri, 19 Apr 2024 16:38:26 +0000
+Message-ID: <39C19BE2-C704-4D5F-AE00-3F13B2FD04C7@arm.com>
+References: <20240419121945.1920944-1-alex@linutronix.de>
+ <20240419121945.1920944-2-alex@linutronix.de>
+In-Reply-To: <20240419121945.1920944-2-alex@linutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.500.171.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU0PR08MB9933:EE_|DU6PEPF0000B61C:EE_|PA4PR08MB7643:EE_
+X-MS-Office365-Filtering-Correlation-Id: a80007ba-914f-4a40-5927-08dc608f2991
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?W88CxEM7BQudMlyh2iJij7/E0+pRET4r/TWEciiZwxSgkIOxGWugsMHhxXQA?=
+ =?us-ascii?Q?pcGXzZ2WTlWB2LhzZa1qkZAS+kmtTLBtSuuSLItnRUlM2SZq++Jfv3tlXev+?=
+ =?us-ascii?Q?NsuGOS7RhkkFn9NC+7E03B9O2r8szPTz5GkjViv04mgQ+GkRRnXmC9cY19zO?=
+ =?us-ascii?Q?yNgogF4X2k87XnVHQMk/BFwx7d1t9P4ga9rC7uENrAUeSU58A+O8UByFjnWS?=
+ =?us-ascii?Q?LAUVaDyJjbg0p80Fbb21Se1VCCnMnZarED8TdCD9weAtikGCa0OoijvDN9+V?=
+ =?us-ascii?Q?6oG25l28VHWv9llEdL9OUlbyf+/X8n6q7HuRMX90GXISZLLvxpIL2FHHag1w?=
+ =?us-ascii?Q?xILKSsuQeOchB8q4A5AuINok7SR4LbGL25vzK7ZjlJb4yXAawb0u/O64+SiQ?=
+ =?us-ascii?Q?m2vqR/5jYAmhIipIVd+i7Fazeoj8rg4zdObh/CQK6xv3RHLNHwhyQCp/TeHX?=
+ =?us-ascii?Q?r8jUBvn6fo9OkNGlVpnGuJBL6GIYuq5HhvrbHACRaHPCQUwf4eanRB/p27Au?=
+ =?us-ascii?Q?b7vgc16XuKM+DrhyQwTZBuaDnQDmWGuGhVEX9ZNAuK7iFxoAlQiVx40fc1xO?=
+ =?us-ascii?Q?WUk6pkAgErXLgjHufh368I0msbVs1VsfPC/G7UJTac5DWC3y3qQfCiZTUip/?=
+ =?us-ascii?Q?DFb3HEaFJEDIuMXc3a2F75zOCyGlzmTtx6GMYzH3B6Ae2j76bkenT++F4kvT?=
+ =?us-ascii?Q?AhIbitS/B+BKbqos6K4fHBAuCTNH4TXE5MinkpIO6xV3uW57u4sbWmClNrER?=
+ =?us-ascii?Q?JohXC2tjkayG70VS4UPe6FkqgWgQ594qW+7hFleQfueGWt38k9FiLp0+RHi2?=
+ =?us-ascii?Q?xHgU1PS/FnpY1//ekBOyz5qusXhkY4Ed8enhBwFJeAlJlsxAedm56Q87SHC0?=
+ =?us-ascii?Q?1ibT69ZHtwnvz7REHiFOpQO+Ndq6edszN8CHBg8RzIWI9n4D4xApq6ubuZCc?=
+ =?us-ascii?Q?aktvR1aP1/2lFuBNE0+tfvhGleBcDdfzhloEVZCiHFRE108Ue1teKHwkrVmj?=
+ =?us-ascii?Q?6uygIRKji5Dt7B3EKmluYIYlX28U61rYwkDlXuaU7wEQgvp4dyog9vm32rtA?=
+ =?us-ascii?Q?yJPZBpu+uOSnP8BjgkkWHd+SPKXPqwuCQK4vCw1auIk2pdIZ73y3jyWxBMy9?=
+ =?us-ascii?Q?xIni2LMR1nUPIsXfrzNzxUrSZ7ZSVHG5xsnfc/aFUOFEZJZXYbePTXrz3V8E?=
+ =?us-ascii?Q?ns6Fgwk/64LYundLP/QQyQMiNho1dIj/4Z6sY0IVJ7C6/dI2MDHVT0LUO117?=
+ =?us-ascii?Q?972AoGLXKzf4iQm7nPfZQZablxXYb8Cy8lve5JD38Q=3D=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <397EA70F0306F64B990D6016F6C91C89@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20240419132224.2631349-1-soumya.sambu@windriver.com>
-In-Reply-To: <20240419132224.2631349-1-soumya.sambu@windriver.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Fri, 19 Apr 2024 20:18:06 +0530
-Message-ID: <CANQUz1-=gmyYaQscOamYYw-K1MaXYAJbg6OEH9QCp5wwzxTALg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH 1/1] go: Fix CVE-2023-45288
-To: soumya.sambu@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a9064f0616742df5"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9933
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	8fead9c2-85c2-440a-8041-08dc608f22fc
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?slx/5umWHR99KUTYxFvQTb18esfoz9l2ZinmzcbMm4a+HLJKKgjMhxgJeWIh?=
+ =?us-ascii?Q?Pcikkp7PlDaKDalHW6jdphw+K+EIX+7KcY9XO+yOUmDKpN9Kd5yq1DhbLKzq?=
+ =?us-ascii?Q?qPZCk5Q1LfkSBdALLpqSnNOwkNdZ1IIZvVXQckQ4/rfEzgvmtpj2qpeaR5OR?=
+ =?us-ascii?Q?KJF7XMzhrNXbXngICnOGJEGFNLDPuxNb+PAgS2qO2DdDeqEmR733UJ/FWwWn?=
+ =?us-ascii?Q?a/HaSAYB6nHQQ4WYKNPyolEj6Ezi60piO90N4lpYCVqY4nwGePayKBWCFmu7?=
+ =?us-ascii?Q?GqAh1JQVap6AjEBKAVXD6/HzJKcVWZ+Z+J9d4yHwuRER39Z9IvbfavkaxT32?=
+ =?us-ascii?Q?b06GJRg9aDm/QdozP/+7dYGcHnur4BgMvFG13Hk43veDi1WKXFUG6gkQjRmV?=
+ =?us-ascii?Q?IgQnIQR2F4p00BWaAOAzX3qbsegKtQiUhEZiuoqR2gkgT0gQGneqEg8tEQiM?=
+ =?us-ascii?Q?JSAcT0/CGudBFDT0cZew62zuAZwTTxSrQ6M/Wmuqy6t5n+dboyPAGR89AdTu?=
+ =?us-ascii?Q?Mcmkv6odria6iitEq+bOe3m0WVtnyATmLpaevUsIrvBx0twwEVCvrtighMg8?=
+ =?us-ascii?Q?srw0JWxbhqxeNP+Hr1B/kfJ6iKVGYhruKjycjARtmnpiQVHmc7eFKyjDkJAw?=
+ =?us-ascii?Q?3EYpL7m+W+pQV6YI3saU2oG8+/yHHTB4EhbiUWH3J7mRbYIpyLhAOTZdMGa8?=
+ =?us-ascii?Q?zcIDyyeT42L0Q9/LHr4QB91/03hOpCkaXnNfucZjZWBkY77ofhvDfE7WLfeO?=
+ =?us-ascii?Q?mi03OSLketWhRQY8OrDCTLENuZaH7F/p4vLTZ20SBXYGJxMn9o3cgtsBgpqg?=
+ =?us-ascii?Q?DVx9LQf38XIHHKMLoYSl4S5ZzV9zWNoZKNMxtHwgKG0PRoWGY9AIztd7gNEL?=
+ =?us-ascii?Q?wi1SM8MJhAcsa0DObH7HM7unqu5BYnUO30x5cnkH07qCJCeiQJXwp/t+MDlW?=
+ =?us-ascii?Q?uV+X08wkgnEOSQCtyyUCCLKlcgPLhSP8QgwiYfyHl1HqUzWhzRB1PZ6aC5Gk?=
+ =?us-ascii?Q?KCwyg+M6xvnRRsZfwNT+2lRQ9+xuJBfffEFXwAu69okv9t6A2D6vJBuaQpSh?=
+ =?us-ascii?Q?UmbU1muu8Qn9UH06okDHOEjaWhxwl1qQaWg17o/Duqo2BmyIhPEl+T7Y6ijI?=
+ =?us-ascii?Q?RB8PzJPE9GKWXUnDIVbI5fXG+lYxQcNYQDegroO4kdBTfA+BOZMTtBgH5K75?=
+ =?us-ascii?Q?j2Rjl8/Z2BhW7iNkoPtaax7CNUYJNKl9XEBzogP9PMN4DpW0xnSsfY3PMwOC?=
+ =?us-ascii?Q?P5MA9tvFvItSOSfUkpmnkHwT4rxLFKJOQaoQurukmMwAOXU2GcS17vhZCGEe?=
+ =?us-ascii?Q?Mc5XP7OXXgvxOPEy441E3DGI?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(376005)(82310400014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 16:38:37.3124
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a80007ba-914f-4a40-5927-08dc608f2991
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7643
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 14:48:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198554
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 16:38:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198555
 
---000000000000a9064f0616742df5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 19 Apr 2024, at 13:19, Alexander Kanavin via lists.openembedded.org <ale=
+x.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+>=20
+> This was added here:
+> https://git.yoctoproject.org/poky/commit/?id=3D2f42ef8d8fb1febf28252b9888=
+4cebabc931f720
+>=20
+> It's undocumented, untested, rpm-specific, and currently
+> broken, and to begin with looks like a workaround for
+> Tizen/smack security label conflicts elsewhere.
 
-Hi Soumya,
+Thanks, this finishes a task that I started poking at long ago that culmina=
+ted with the majestic commit https://git.openembedded.org/meta-openembedded=
+/commit/?id=3D4d921bb5144b653c2f195fb2e8694a31dbd539f1.
 
-I've already sent patch for the Kirkstone branch.
-
-https://lists.openembedded.org/g/openembedded-core/message/198495
-
-Thanks & Regards,
-Vijay
-
-
-On Fri, Apr 19, 2024 at 6:52=E2=80=AFPM Soumya via lists.openembedded.org
-<soumya.sambu=3Dwindriver.com@lists.openembedded.org> wrote:
-
-> From: Soumya Sambu <soumya.sambu@windriver.com>
->
-> An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of
-> header data by sending an excessive number of CONTINUATION frames.
-> Maintaining HPACK state requires parsing and processing all HEADERS
-> and CONTINUATION frames on a connection. When a request's headers
-> exceed MaxHeaderBytes, no memory is allocated to store the excess
-> headers, but they are still parsed. This permits an attacker to cause
-> an HTTP/2 endpoint to read arbitrary amounts of header data, all
-> associated with a request which is going to be rejected. These headers
-> can include Huffman-encoded data which is significantly more expensive
-> for the receiver to decode than for an attacker to send. The fix sets
-> a limit on the amount of excess header frames we will process before
-> closing a connection.
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-45288
->
-> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> ---
->  meta/recipes-devtools/go/go-1.17.13.inc       |  3 +-
->  .../go/go-1.22/CVE-2023-45288.patch           | 96 +++++++++++++++++++
->  2 files changed, 98 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
->
-> diff --git a/meta/recipes-devtools/go/go-1.17.13.inc
-> b/meta/recipes-devtools/go/go-1.17.13.inc
-> index 768961de2c..b5566db1fe 100644
-> --- a/meta/recipes-devtools/go/go-1.17.13.inc
-> +++ b/meta/recipes-devtools/go/go-1.17.13.inc
-> @@ -1,6 +1,6 @@
->  require go-common.inc
->
-> -FILESEXTRAPATHS:prepend :=3D
-> "${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}/go-1.20:${FILE_DIRNAME}/go-1.19:=
-${FILE_DIRNAME}/go-1.18:"
-> +FILESEXTRAPATHS:prepend :=3D
-> "${FILE_DIRNAME}/go-1.22:${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}/go-1.20:=
-${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
->
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0dd74=
-707"
->
-> @@ -55,6 +55,7 @@ SRC_URI +=3D "\
->      file://CVE-2023-45290.patch \
->      file://CVE-2024-24784.patch \
->      file://CVE-2024-24785.patch \
-> +    file://CVE-2023-45288.patch \
->  "
->  SRC_URI[main.sha256sum] =3D
-> "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
->
-> diff --git a/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
-> b/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
-> new file mode 100644
-> index 0000000000..ad84fb84d9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch
-> @@ -0,0 +1,96 @@
-> +From e55d7cf8435ba4e58d4a5694e63b391821d4ee9b Mon Sep 17 00:00:00 2001
-> +From: Damien Neil <dneil@google.com>
-> +Date: Thu, 28 Mar 2024 16:57:51 -0700
-> +Subject: [PATCH] [release-branch.go1.22] net/http: update bundled
-> + golang.org/x/net/http2
-> +
-> +Disable cmd/internal/moddeps test, since this update includes PRIVATE
-> +track fixes.
-> +
-> +Fixes CVE-2023-45288
-> +For #65051
-> +Fixes #66298
-> +
-> +Change-Id: I5bbf774ebe7651e4bb7e55139d3794bd2b8e8fa8
-> +Reviewed-on:
-> https://team-review.git.corp.google.com/c/golang/go-private/+/2197227
-> +Reviewed-by
-> <https://team-review.git.corp.google.com/c/golang/go-private/+/2197227+Re=
-viewed-by>:
-> Tatiana Bradley <tatianabradley@google.com>
-> +Run-TryBot: Damien Neil <dneil@google.com>
-> +Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-> +Reviewed-on: https://go-review.googlesource.com/c/go/+/576076
-> +Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
-> +TryBot-Bypass: Dmitri Shuralyov <dmitshur@google.com>
-> +Reviewed-by: Than McIntosh <thanm@google.com>
-> +
-> +CVE: CVE-2023-45288
-> +
-> +Upstream-Status: Backport [
-> https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b391821d4e=
-e9b
-> ]
-> +
-> +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> +---
-> + src/cmd/internal/moddeps/moddeps_test.go |  1 +
-> + src/net/http/h2_bundle.go                | 31 ++++++++++++++++++++++++
-> + 2 files changed, 32 insertions(+)
-> +
-> +diff --git a/src/cmd/internal/moddeps/moddeps_test.go
-> b/src/cmd/internal/moddeps/moddeps_test.go
-> +index d48d43f..ee6d455 100644
-> +--- a/src/cmd/internal/moddeps/moddeps_test.go
-> ++++ b/src/cmd/internal/moddeps/moddeps_test.go
-> +@@ -36,6 +36,7 @@ import (
-> + func TestAllDependencies(t *testing.T) {
-> +       t.Skip("TODO(#57009): 1.19.4 contains unreleased changes from
-> vendored modules")
-> +       t.Skip("TODO(#53977): 1.18.5 contains unreleased changes from
-> vendored modules")
-> ++      t.Skip("TODO(#65051): 1.22.2 contains unreleased changes from
-> vendored modules")
-> +
-> +       goBin :=3D testenv.GoToolPath(t)
-> +
-> +diff --git a/src/net/http/h2_bundle.go b/src/net/http/h2_bundle.go
-> +index 9d6abd8..10ff193 100644
-> +--- a/src/net/http/h2_bundle.go
-> ++++ b/src/net/http/h2_bundle.go
-> +@@ -2842,6 +2842,7 @@ func (fr *http2Framer) readMetaFrame(hf
-> *http2HeadersFrame) (*http2MetaHeadersFr
-> +               if size > remainSize {
-> +                       hdec.SetEmitEnabled(false)
-> +                       mh.Truncated =3D true
-> ++                      remainSize =3D 0
-> +                       return
-> +               }
-> +               remainSize -=3D size
-> +@@ -2854,6 +2855,36 @@ func (fr *http2Framer) readMetaFrame(hf
-> *http2HeadersFrame) (*http2MetaHeadersFr
-> +       var hc http2headersOrContinuation =3D hf
-> +       for {
-> +               frag :=3D hc.HeaderBlockFragment()
-> ++
-> ++              // Avoid parsing large amounts of headers that we will
-> then discard.
-> ++              // If the sender exceeds the max header list size by too
-> much,
-> ++              // skip parsing the fragment and close the connection.
-> ++              //
-> ++              // "Too much" is either any CONTINUATION frame after we'v=
-e
-> already
-> ++              // exceeded the max header list size (in which case
-> remainSize is 0),
-> ++              // or a frame whose encoded size is more than twice the
-> remaining
-> ++              // header list bytes we're willing to accept.
-> ++              if int64(len(frag)) > int64(2*remainSize) {
-> ++                      if http2VerboseLogs {
-> ++                              log.Printf("http2: header list too large"=
-)
-> ++                      }
-> ++                      // It would be nice to send a RST_STREAM before
-> sending the GOAWAY,
-> ++                      // but the struture of the server's frame writer
-> makes this difficult.
-> ++                      return nil,
-> http2ConnectionError(http2ErrCodeProtocol)
-> ++              }
-> ++
-> ++              // Also close the connection after any CONTINUATION frame
-> following an
-> ++              // invalid header, since we stop tracking the size of the
-> headers after
-> ++              // an invalid one.
-> ++              if invalid !=3D nil {
-> ++                      if http2VerboseLogs {
-> ++                              log.Printf("http2: invalid header: %v",
-> invalid)
-> ++                      }
-> ++                      // It would be nice to send a RST_STREAM before
-> sending the GOAWAY,
-> ++                      // but the struture of the server's frame writer
-> makes this difficult.
-> ++                      return nil,
-> http2ConnectionError(http2ErrCodeProtocol)
-> ++              }
-> ++
-> +               if _, err :=3D hdec.Write(frag); err !=3D nil {
-> +                       return nil,
-> http2ConnectionError(http2ErrCodeCompression)
-> +               }
-> +--
-> +2.40.0
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198549):
-> https://lists.openembedded.org/g/openembedded-core/message/198549
-> Mute This Topic: https://lists.openembedded.org/mt/105617671/7301997
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> vanusuri@mvista.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000a9064f0616742df5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Soumya,</div><div><br></div><div>I&#39;ve already =
-sent patch for the Kirkstone branch.<br><br><a href=3D"https://lists.openem=
-bedded.org/g/openembedded-core/message/198495">https://lists.openembedded.o=
-rg/g/openembedded-core/message/198495</a><br><br></div><div>Thanks &amp; Re=
-gards,<br></div><div>Vijay<br></div><div><br></div></div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 19, 2024 at =
-6:52=E2=80=AFPM Soumya via <a href=3D"http://lists.openembedded.org">lists.=
-openembedded.org</a> &lt;soumya.sambu=3D<a href=3D"mailto:windriver.com@lis=
-ts.openembedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Soumya Sambu=
- &lt;<a href=3D"mailto:soumya.sambu@windriver.com" target=3D"_blank">soumya=
-.sambu@windriver.com</a>&gt;<br>
-<br>
-An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of<br>
-header data by sending an excessive number of CONTINUATION frames.<br>
-Maintaining HPACK state requires parsing and processing all HEADERS<br>
-and CONTINUATION frames on a connection. When a request&#39;s headers<br>
-exceed MaxHeaderBytes, no memory is allocated to store the excess<br>
-headers, but they are still parsed. This permits an attacker to cause<br>
-an HTTP/2 endpoint to read arbitrary amounts of header data, all<br>
-associated with a request which is going to be rejected. These headers<br>
-can include Huffman-encoded data which is significantly more expensive<br>
-for the receiver to decode than for an attacker to send. The fix sets<br>
-a limit on the amount of excess header frames we will process before<br>
-closing a connection.<br>
-<br>
-References:<br>
-<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-45288" rel=3D"noreferr=
-er" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2023-45288</a><b=
-r>
-<br>
-Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windriver.co=
-m" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/go-1.17.13.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 3 +-<br>
-=C2=A0.../go/go-1.22/CVE-2023-45288.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 96 +++++++++++++++++++<br>
-=C2=A02 files changed, 98 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/go/go-1.22/CVE-2023-45288.pa=
-tch<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtool=
-s/go/go-1.17.13.inc<br>
-index 768961de2c..b5566db1fe 100644<br>
---- a/meta/recipes-devtools/go/go-1.17.13.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc<br>
-@@ -1,6 +1,6 @@<br>
-=C2=A0require go-common.inc<br>
-<br>
--FILESEXTRAPATHS:prepend :=3D &quot;${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}=
-/go-1.20:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:&quot;<br>
-+FILESEXTRAPATHS:prepend :=3D &quot;${FILE_DIRNAME}/go-1.22:${FILE_DIRNAME}=
-/go-1.21:${FILE_DIRNAME}/go-1.20:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go=
--1.18:&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5d4950ecb7b26d2c5e4e7=
-b4e0dd74707&quot;<br>
-<br>
-@@ -55,6 +55,7 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2023-45290.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2024-24784.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2024-24785.patch \<br>
-+=C2=A0 =C2=A0 file://CVE-2023-45288.patch \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI[main.sha256sum] =3D &quot;a1a48b23afb206f95e7bbaa9b898d965f90=
-826f6f1d1fc0c1d784ada0cd300fd&quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch b/meta/r=
-ecipes-devtools/go/go-1.22/CVE-2023-45288.patch<br>
-new file mode 100644<br>
-index 0000000000..ad84fb84d9<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/go/go-1.22/CVE-2023-45288.patch<br>
-@@ -0,0 +1,96 @@<br>
-+From e55d7cf8435ba4e58d4a5694e63b391821d4ee9b Mon Sep 17 00:00:00 2001<br>
-+From: Damien Neil &lt;<a href=3D"mailto:dneil@google.com" target=3D"_blank=
-">dneil@google.com</a>&gt;<br>
-+Date: Thu, 28 Mar 2024 16:57:51 -0700<br>
-+Subject: [PATCH] [release-branch.go1.22] net/http: update bundled<br>
-+ <a href=3D"http://golang.org/x/net/http2" rel=3D"noreferrer" target=3D"_b=
-lank">golang.org/x/net/http2</a><br>
-+<br>
-+Disable cmd/internal/moddeps test, since this update includes PRIVATE<br>
-+track fixes.<br>
-+<br>
-+Fixes CVE-2023-45288<br>
-+For #65051<br>
-+Fixes #66298<br>
-+<br>
-+Change-Id: I5bbf774ebe7651e4bb7e55139d3794bd2b8e8fa8<br>
-+Reviewed-on: <a href=3D"https://team-review.git.corp.google.com/c/golang/g=
-o-private/+/2197227+Reviewed-by" rel=3D"noreferrer" target=3D"_blank">https=
-://team-review.git.corp.google.com/c/golang/go-private/+/2197227<br>
-+Reviewed-by</a>: Tatiana Bradley &lt;<a href=3D"mailto:tatianabradley@goog=
-le.com" target=3D"_blank">tatianabradley@google.com</a>&gt;<br>
-+Run-TryBot: Damien Neil &lt;<a href=3D"mailto:dneil@google.com" target=3D"=
-_blank">dneil@google.com</a>&gt;<br>
-+Reviewed-by: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.com" t=
-arget=3D"_blank">dmitshur@google.com</a>&gt;<br>
-+Reviewed-on: <a href=3D"https://go-review.googlesource.com/c/go/+/576076" =
-rel=3D"noreferrer" target=3D"_blank">https://go-review.googlesource.com/c/g=
-o/+/576076</a><br>
-+Auto-Submit: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.com" t=
-arget=3D"_blank">dmitshur@google.com</a>&gt;<br>
-+TryBot-Bypass: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.com"=
- target=3D"_blank">dmitshur@google.com</a>&gt;<br>
-+Reviewed-by: Than McIntosh &lt;<a href=3D"mailto:thanm@google.com" target=
-=3D"_blank">thanm@google.com</a>&gt;<br>
-+<br>
-+CVE: CVE-2023-45288<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/golang/go/commit/=
-e55d7cf8435ba4e58d4a5694e63b391821d4ee9b" rel=3D"noreferrer" target=3D"_bla=
-nk">https://github.com/golang/go/commit/e55d7cf8435ba4e58d4a5694e63b391821d=
-4ee9b</a>]<br>
-+<br>
-+Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windriver.c=
-om" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
-+---<br>
-+ src/cmd/internal/moddeps/moddeps_test.go |=C2=A0 1 +<br>
-+ src/net/http/h2_bundle.go=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 | 31 ++++++++++++++++++++++++<br>
-+ 2 files changed, 32 insertions(+)<br>
-+<br>
-+diff --git a/src/cmd/internal/moddeps/moddeps_test.go b/src/cmd/internal/m=
-oddeps/moddeps_test.go<br>
-+index d48d43f..ee6d455 100644<br>
-+--- a/src/cmd/internal/moddeps/moddeps_test.go<br>
-++++ b/src/cmd/internal/moddeps/moddeps_test.go<br>
-+@@ -36,6 +36,7 @@ import (<br>
-+ func TestAllDependencies(t *testing.T) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0t.Skip(&quot;TODO(#57009): 1.19.4 contains unre=
-leased changes from vendored modules&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0t.Skip(&quot;TODO(#53977): 1.18.5 contains unre=
-leased changes from vendored modules&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 t.Skip(&quot;TODO(#65051): 1.22.2 contains unrelease=
-d changes from vendored modules&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0goBin :=3D testenv.GoToolPath(t)<br>
-+<br>
-+diff --git a/src/net/http/h2_bundle.go b/src/net/http/h2_bundle.go<br>
-+index 9d6abd8..10ff193 100644<br>
-+--- a/src/net/http/h2_bundle.go<br>
-++++ b/src/net/http/h2_bundle.go<br>
-+@@ -2842,6 +2842,7 @@ func (fr *http2Framer) readMetaFrame(hf *http2Header=
-sFrame) (*http2MetaHeadersFr<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if size &gt; remain=
-Size {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0hdec.SetEmitEnabled(false)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0mh.Truncated =3D true<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 remainSize =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0remainSize -=3D siz=
-e<br>
-+@@ -2854,6 +2855,36 @@ func (fr *http2Framer) readMetaFrame(hf *http2Heade=
-rsFrame) (*http2MetaHeadersFr<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var hc http2headersOrContinuation =3D hf<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0frag :=3D hc.Header=
-BlockFragment()<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Avoid parsing large a=
-mounts of headers that we will then discard.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If the sender exceeds=
- the max header list size by too much,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // skip parsing the frag=
-ment and close the connection.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // &quot;Too much&quot; =
-is either any CONTINUATION frame after we&#39;ve already<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // exceeded the max head=
-er list size (in which case remainSize is 0),<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // or a frame whose enco=
-ded size is more than twice the remaining<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // header list bytes we&=
-#39;re willing to accept.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if int64(len(frag)) &gt;=
- int64(2*remainSize) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if http2VerboseLogs {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 log.Printf(&quot;http2: header list too lar=
-ge&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // It would be nice to send a RST_STREAM before sending the GOAWAY,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // but the struture of the server&#39;s frame writer makes this difficu=
-lt.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return nil, http2ConnectionError(http2ErrCodeProtocol)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Also close the connec=
-tion after any CONTINUATION frame following an<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // invalid header, since=
- we stop tracking the size of the headers after<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // an invalid one.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if invalid !=3D nil {<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if http2VerboseLogs {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 log.Printf(&quot;http2: invalid header: %v&=
-quot;, invalid)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // It would be nice to send a RST_STREAM before sending the GOAWAY,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // but the struture of the server&#39;s frame writer makes this difficu=
-lt.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return nil, http2ConnectionError(http2ErrCodeProtocol)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if _, err :=3D hdec=
-.Write(frag); err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return nil, http2ConnectionError(http2ErrCodeCompression)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+--<br>
-+2.40.0<br>
--- <br>
-2.40.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#198549): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/198549" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/198549</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105617671/730=
-1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/105617671/7301997</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
-t=3D"_blank">vanusuri@mvista.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000a9064f0616742df5--
+Ross=
 
