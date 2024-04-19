@@ -1,818 +1,556 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB929C04FF6
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 13:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E67F9C4345F
+	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 14:11:42 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.21391.1713533765401903259
+ by mx.groups.io with SMTP id smtpd.web11.22205.1713535900346603969
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 06:36:05 -0700
+ Fri, 19 Apr 2024 07:11:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=OWNRJEH5;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=483981f7a8=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43JBFQAX004326
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:36:04 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BGtZO9eJ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4839d06d74=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43JBC64X032024
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 14:11:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=dDrh9CZSZzb0Gw8nrV
-	N6aCDjfYTrE3RQpabl9mNwsa4=; b=OWNRJEH5PVdmF8uPvmmzrCZZjk6pL+C9Kv
-	87RZ3mUBcuW5LdFv4SVEKN9eSN3Cd1jjSXPRj8/DAlTAYCxL6TnUMI+tTFI4Kvb4
-	WsvbFQlvqYwSgydtnuJel7w5J0i+mAEYfGpzu4OMAcAONft64IeV9OIKg7EUQWCe
-	Ke9tnOCb/mcvzACLD9W7uagobuzAN1VoeYmlXalPOe9t/1fl9Zt1Ab51CjmrdLog
-	vvYz6gJiSvmMv+nYWJsCKqD6v0bBZV9YxzD6dOlNDufSadFhjIvQJ1l34/5I+9bz
-	Us7gAfsu+g4Hp+eCwWc8GCVH2ixNQ87xbT77N9MOghNSW/Qkx4Bw==
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=lMlQV
+	tu/hj7jsCsrnSFVsdQxmhd6xSTUssJPL5xKLYc=; b=BGtZO9eJql/aPtMRkUhAq
+	OfiP3ggWgqIAqIP2bVuQdmxH/NroM2HssV360/qWf+dL1asJuRGD3Tomb1UWrDu1
+	k/Z7wiQBri/7WEjFPN6ZUtK5aSAL5hkK7Bg8rX2ysLZpPL58sR70kRY5Hs+eQfkX
+	Jqy2Bux6lmiJQt16XlyszsbeyDNLPMMpk6nbNAbP48yzTTl2cYMBq2gmDRImiBUq
+	ExtssMnr/tGlVF7Vn4zxXjBdKcWNNAkjiFzrJ0SXtEp3tHXe5Zm4Up7455CxM6Ox
+	3e2zXqwsx6QC5ROwf3Dq/x9GcGHJDekKn8TRsm6XWW0EZ2Qa6v9MOIrZ2U8Pp2IX
+	A==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xff8ye5jh-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xfh16p44r-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:36:04 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 14:11:38 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Fri, 19 Apr 2024 06:36:01 -0700
-From: ssambu <soumya.sambu@windriver.com>
+ 15.1.2507.37; Fri, 19 Apr 2024 07:11:36 -0700
+From: <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] util-linux: Fix CVE-2024-28085
-Date: Fri, 19 Apr 2024 13:35:44 +0000
-Message-ID: <20240419133544.3010310-1-soumya.sambu@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/2] gnutls: fix CVE-2024-28834
+Date: Fri, 19 Apr 2024 14:10:59 +0000
+Message-ID: <20240419141100.3116142-1-archana.polampalli@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: yhdnKTj__eu_UCLUNb7BCiIGp1UHt2VU
-X-Proofpoint-ORIG-GUID: yhdnKTj__eu_UCLUNb7BCiIGp1UHt2VU
+X-Proofpoint-ORIG-GUID: WeHLEsvFcdYpRzKfGoMvbvuBfN--ZNVJ
+X-Proofpoint-GUID: WeHLEsvFcdYpRzKfGoMvbvuBfN--ZNVJ
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-19_09,2024-04-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 phishscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404190102
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 43JBFQAX004326
+ definitions=main-2404190107
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 13:36:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198550
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 14:11:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198551
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-wall in util-linux through 2.40, often installed with setgid
-tty permissions, allows escape sequences to be sent to other
-users' terminals through argv. (Specifically, escape sequences
-received from stdin are blocked, but escape sequences received
-from argv are not blocked.) There may be plausible scenarios
-where this leads to account takeover.
+A flaw was found in GnuTLS. The Minerva attack is a cryptographic vulnerability
+that exploits deterministic behavior in systems like GnuTLS, leading to
+side-channel leaks. In specific scenarios, such as when using the
+GNUTLS_PRIVKEY_FLAG_REPRODUCIBLE flag, it can result in a noticeable step in
+nonce size from 513 to 512 bits, exposing a potential timing side-channel.
 
-CVE-2024-28085-0004 is the CVE fix and CVE-2024-28085-0001,
-CVE-2024-28085-0002, CVE-2024-28085-0003 are dependent commits
-to fix the CVE.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2024-28085
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |   4 +
- .../util-linux/CVE-2024-28085-0001.patch      | 202 ++++++++++++++++
- .../util-linux/CVE-2024-28085-0002.patch      | 172 ++++++++++++++
- .../util-linux/CVE-2024-28085-0003.patch      | 223 ++++++++++++++++++
- .../util-linux/CVE-2024-28085-0004.patch      |  34 +++
- 5 files changed, 635 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-2808=
-5-0001.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-2808=
-5-0002.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-2808=
-5-0003.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-2808=
-5-0004.patch
+ .../gnutls/gnutls/CVE-2024-28834.patch        | 457 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
+ 2 files changed, 458 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-index 982ec669a2..72c028ac3d 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -35,6 +35,10 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linu=
-x/v${MAJOR_VERSION}/util-lin
-            file://run-ptest \
-            file://display_testname_for_subtest.patch \
-            file://avoid_parallel_tests.patch \
-+           file://CVE-2024-28085-0001.patch \
-+           file://CVE-2024-28085-0002.patch \
-+           file://CVE-2024-28085-0003.patch \
-+           file://CVE-2024-28085-0004.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "634e6916ad913366c3536b6468e7844769549b99a7b2bf80=
-314de78ab5655b83"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.=
-patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
 new file mode 100644
-index 0000000000..7ce2d6c567
+index 0000000000..6c06fc2782
 --- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
-@@ -0,0 +1,202 @@
-+From 8a7b8456d1dc0e7ca557d1ac31f638986704757f Mon Sep 17 00:00:00 2001
-+From: =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>
-+Date: Wed Mar 15 16:16:31 2023 +0100
-+Subject: [PATCH] write: correctly handle wide characters
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
+@@ -0,0 +1,457 @@
++From 1c4701ffc342259fc5965d5a0de90d87f780e3e5 Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Fri, 12 Jan 2024 17:56:58 +0900
++Subject: [PATCH] nettle: avoid normalization of mpz_t in deterministic ECDSA
 +
-+Do this by replacing fputc_careful() (notice that the description said
-+it's locale-aware =E2=80=92 it very much is /not/), with a fputs_careful=
-() which
-+does the same thing, but if it were to output a byte in the \123 format,
-+first it checks whether this byte starts a valid multibyte character.
++This removes function calls that potentially leak bit-length of a
++private key used to calculate a nonce in deterministic ECDSA.  Namely:
 +
-+If it does, and that character is printable, write it verbatim.
-+This means that
-+  echo 'foo =C3=A5=C3=A4=C3=B6 =C4=85=C4=99=C4=87=C5=BA=C5=BC=C5=84 bar'=
- | write nabijaczleweli pts/4
-+instead of
-+  foo \303\245\303\244\303\266
-+  \304\205\304\231\304\207\305\272\305\274\305\204 bar
-+yields
-+  foo =C3=A5=C3=A4=C3=B6 =C4=85=C4=99=C4=87=C5=BA=C5=BC=C5=84 bar
-+or, more realistically, from a message I got earlier today,
-+  Filip powiedzia\305\202 \305\274e zap\305\202aci jutro
-+becomes
-+  Filip powiedzia=C5=82 =C5=BCe zap=C5=82aci jutro
++- _gnutls_dsa_compute_k has been rewritten to work on always
++  zero-padded mp_limb_t arrays instead of mpz_t
++- rnd_mpz_func has been replaced with rnd_datum_func, which is backed
++  by a byte array instead of an mpz_t value
 +
-+Invalid/non-printable sequences get processed as before.
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
-+Line reading in write must become getline() to avoid dealing with
-+partial characters: for example on input consisting solely of
-+=C4=85=C4=99=C4=87=C5=BA=C5=BC=C5=84, where every {1} is an instance, th=
-e output would be
-+  {42}=C4=85=C4=99=C4=87\305\272=C5=BC=C5=84{84}=C4=85=C4=99=C4=87=C5=BA=
-\305\274=C5=84{84}=C4=85=C4=99=C4=87=C5=BA=C5=BC\305\204{39}
-+with just fixed-512 fgets()
++CVE: CVE-2024-28834
 +
-+Bug-Debian: https://bugs.debian.org/826596
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1c4701ffc342259fc5965d5a0de90d87f780e3e5]
 +
-+CVE: CVE-2024-28085
-+
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/comm=
-it/8a7b8456d1dc0e7ca557d1ac31f638986704757f]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ include/carefulputc.h | 62 +++++++++++++++++++++++++++++++------------
-+ login-utils/last.c    |  4 +--
-+ term-utils/write.c    | 25 +++++------------
-+ 3 files changed, 53 insertions(+), 38 deletions(-)
++ lib/nettle/int/dsa-compute-k.c    | 86 ++++++++++++++++++++-----------
++ lib/nettle/int/dsa-compute-k.h    | 32 +++++++++---
++ lib/nettle/int/ecdsa-compute-k.c  | 32 +++---------
++ lib/nettle/int/ecdsa-compute-k.h  |  8 +--
++ lib/nettle/pk.c                   | 78 +++++++++++++++++++---------
++ tests/sign-verify-deterministic.c |  2 +-
++ 6 files changed, 141 insertions(+), 97 deletions(-)
 +
-+diff --git a/include/carefulputc.h b/include/carefulputc.h
-+index 66a0f15..2506614 100644
-+--- a/include/carefulputc.h
-++++ b/include/carefulputc.h
-+@@ -1,31 +1,59 @@
-+ #ifndef UTIL_LINUX_CAREFULPUTC_H
-+ #define UTIL_LINUX_CAREFULPUTC_H
-+
-+-/*
-+- * A putc() for use in write and wall (that sometimes are sgid tty).
-+- * It avoids control characters in our locale, and also ASCII control
-+- * characters.   Note that the locale of the recipient is unknown.
-+-*/
-+ #include <stdio.h>
++diff --git a/lib/nettle/int/dsa-compute-k.c b/lib/nettle/int/dsa-compute-k.c
++index 3f5105a..f937693 100644
++--- a/lib/nettle/int/dsa-compute-k.c
+++++ b/lib/nettle/int/dsa-compute-k.c
++@@ -31,33 +31,39 @@
++ #include "mpn-base256.h"
 + #include <string.h>
-+ #include <ctype.h>
-++#ifdef HAVE_WIDECHAR
-++#include <wctype.h>
++
++-#define BITS_TO_LIMBS(bits) (((bits) + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS)
++-
++-/* The maximum size of q, chosen from the fact that we support
++- * 521-bit elliptic curve generator and 512-bit DSA subgroup at
++- * maximum. */
++-#define MAX_Q_BITS 521
++-#define MAX_Q_SIZE ((MAX_Q_BITS + 7) / 8)
++-#define MAX_Q_LIMBS BITS_TO_LIMBS(MAX_Q_BITS)
++-
++-#define MAX_HASH_BITS (MAX_HASH_SIZE * 8)
++-#define MAX_HASH_LIMBS BITS_TO_LIMBS(MAX_HASH_BITS)
++-
++-int
++-_gnutls_dsa_compute_k(mpz_t k,
++-		      const mpz_t q,
++-		      const mpz_t x,
++-		      gnutls_mac_algorithm_t mac,
++-		      const uint8_t *digest,
++-		      size_t length)
+++/* For mini-gmp */
+++#ifndef GMP_LIMB_BITS
+++#define GMP_LIMB_BITS GMP_NUMB_BITS
 ++#endif
-++#include <stdbool.h>
-+
-+ #include "cctype.h"
-+
-+-static inline int fputc_careful(int c, FILE *fp, const char fail)
-++/*
-++ * A puts() for use in write and wall (that sometimes are sgid tty).
-++ * It avoids control and invalid characters.
-++ * The locale of the recipient is nominally unknown,
-++ * but it's a solid bet that the encoding is compatible with the author=
-'s.
-++ */
-++static inline int fputs_careful(const char * s, FILE *fp, const char ct=
-rl, bool cr_lf)
+++
+++static inline int is_zero_limb(mp_limb_t x)
+++{
+++	x |= (x << 1);
+++	return ((x >> 1) - 1) >> (GMP_LIMB_BITS - 1);
+++}
+++
+++static int sec_zero_p(const mp_limb_t *ap, mp_size_t n)
+++{
+++	volatile mp_limb_t w;
+++	mp_size_t i;
+++
+++	for (i = 0, w = 0; i < n; i++)
+++		w |= ap[i];
+++
+++
+++	return is_zero_limb(w);
+++}
+++
+++int _gnutls_dsa_compute_k(mp_limb_t *h, const mp_limb_t *q, const mp_limb_t *x,
+++			  mp_size_t qn, mp_bitcnt_t q_bits,
+++		          gnutls_mac_algorithm_t mac,
+++		          const uint8_t *digest,
+++		          size_t length)
 + {
++	uint8_t V[MAX_HASH_SIZE];
++	uint8_t K[MAX_HASH_SIZE];
++	uint8_t xp[MAX_Q_SIZE];
++	uint8_t tp[MAX_Q_SIZE];
++-	mp_limb_t h[MAX(MAX_Q_LIMBS, MAX_HASH_LIMBS)];
++-	mp_bitcnt_t q_bits = mpz_sizeinbase (q, 2);
++-	mp_size_t qn = mpz_size(q);
++	mp_bitcnt_t h_bits = length * 8;
++	mp_size_t hn = BITS_TO_LIMBS(h_bits);
++	size_t nbytes = (q_bits + 7) / 8;
++@@ -66,6 +72,7 @@ _gnutls_dsa_compute_k(mpz_t k,
++	mp_limb_t cy;
++	gnutls_hmac_hd_t hd;
++	int ret = 0;
+++	mp_limb_t scratch[MAX_Q_LIMBS];
++
++	if (unlikely(q_bits > MAX_Q_BITS))
++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++@@ -73,7 +80,7 @@ _gnutls_dsa_compute_k(mpz_t k,
++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++
++	/* int2octets(x) */
++-	mpn_get_base256(xp, nbytes, mpz_limbs_read(x), qn);
+++	mpn_get_base256(xp, nbytes, x, qn);
++
++	/* bits2octets(h) */
++	mpn_set_base256(h, hn, digest, length);
++@@ -97,12 +104,12 @@ _gnutls_dsa_compute_k(mpz_t k,
++			mpn_rshift(h, h, hn, shift % GMP_NUMB_BITS);
++	}
++
++-	cy = mpn_sub_n(h, h, mpz_limbs_read(q), qn);
+++	cy = mpn_sub_n(h, h, q, qn);
++	/* Fall back to addmul_1, if nettle is linked with mini-gmp. */
++ #ifdef mpn_cnd_add_n
++-	mpn_cnd_add_n(cy, h, h, mpz_limbs_read(q), qn);
+++	mpn_cnd_add_n(cy, h, h, q, qn);
++ #else
++-	mpn_addmul_1(h, mpz_limbs_read(q), qn, cy != 0);
+++	mpn_addmul_1(h, q, qn, cy != 0);
++ #endif
++	mpn_get_base256(tp, nbytes, h, qn);
++
++@@ -178,12 +185,8 @@ _gnutls_dsa_compute_k(mpz_t k,
++		if (tlen * 8 > q_bits)
++			mpn_rshift (h, h, qn, tlen * 8 - q_bits);
++		/* Check if k is in [1,q-1] */
++-		if (!mpn_zero_p (h, qn) &&
++-		    mpn_cmp (h, mpz_limbs_read(q), qn) < 0) {
++-			mpn_copyi(mpz_limbs_write(k, qn), h, qn);
++-			mpz_limbs_finish(k, qn);
+++		if (!sec_zero_p(h, qn) && mpn_sub_n(scratch, h, q, qn))
++			break;
++-		}
++
++		ret = gnutls_hmac_init(&hd, mac, K, length);
++		if (ret < 0)
++@@ -207,3 +210,24 @@ _gnutls_dsa_compute_k(mpz_t k,
++
++	return ret;
++ }
+++
+++/* cancel-out dsa_sign's addition of 1 to random data */
+++void _gnutls_dsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				  mp_size_t n)
+++{
+++	/* Fall back to sub_1, if nettle is linked with mini-gmp. */
+++#ifdef mpn_sec_sub_1
+++	mp_limb_t t[MAX_Q_LIMBS];
+++
+++	mpn_sec_sub_1(h, h, n, 1, t);
+++#else
+++	mpn_sub_1(h, h, n, 1);
+++#endif
+++	mpn_get_base256(k, nbytes, h, n);
+++}
+++
+++void _gnutls_ecdsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				    mp_size_t n)
+++{
+++	mpn_get_base256(k, nbytes, h, n);
+++}
++diff --git a/lib/nettle/int/dsa-compute-k.h b/lib/nettle/int/dsa-compute-k.h
++index 64e90e0..778c484 100644
++--- a/lib/nettle/int/dsa-compute-k.h
+++++ b/lib/nettle/int/dsa-compute-k.h
++@@ -26,12 +26,30 @@
++ #include <gnutls/gnutls.h>
++ #include <nettle/bignum.h> /* includes gmp.h */
++
++-int
++-_gnutls_dsa_compute_k(mpz_t k,
++-		      const mpz_t q,
++-		      const mpz_t x,
++-		      gnutls_mac_algorithm_t mac,
++-		      const uint8_t *digest,
++-		      size_t length);
+++#define BITS_TO_LIMBS(bits) (((bits) + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS)
+++
+++/* The maximum size of q, chosen from the fact that we support
+++ * 521-bit elliptic curve generator and 512-bit DSA subgroup at
+++ * maximum. */
+++#define MAX_Q_BITS 521
+++#define MAX_Q_SIZE ((MAX_Q_BITS + 7) / 8)
+++#define MAX_Q_LIMBS BITS_TO_LIMBS(MAX_Q_BITS)
+++
+++#define MAX_HASH_BITS (MAX_HASH_SIZE * 8)
+++#define MAX_HASH_LIMBS BITS_TO_LIMBS(MAX_HASH_BITS)
+++
+++#define DSA_COMPUTE_K_ITCH MAX(MAX_Q_LIMBS, MAX_HASH_LIMBS)
+++
+++int _gnutls_dsa_compute_k(mp_limb_t *h, const mp_limb_t *q, const mp_limb_t *x,
+++			  mp_size_t qn, mp_bitcnt_t q_bits,
+++                          gnutls_mac_algorithm_t mac,
+++		          const uint8_t *digest,
+++		          size_t length);
+++
+++void _gnutls_dsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				  mp_size_t n);
+++
+++void _gnutls_ecdsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				    mp_size_t n);
++
++ #endif /* GNUTLS_LIB_NETTLE_INT_DSA_COMPUTE_K_H */
++diff --git a/lib/nettle/int/ecdsa-compute-k.c b/lib/nettle/int/ecdsa-compute-k.c
++index 94914eb..fc3b2ba 100644
++--- a/lib/nettle/int/ecdsa-compute-k.c
+++++ b/lib/nettle/int/ecdsa-compute-k.c
++@@ -29,39 +29,38 @@
++ #include "dsa-compute-k.h"
++ #include "gnutls_int.h"
++
++-static inline int
++-_gnutls_ecc_curve_to_dsa_q(mpz_t *q, gnutls_ecc_curve_t curve)
+++int _gnutls_ecc_curve_to_dsa_q(mpz_t q, gnutls_ecc_curve_t curve)
++ {
++	switch (curve) {
++ #ifdef ENABLE_NON_SUITEB_CURVES
++	case GNUTLS_ECC_CURVE_SECP192R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFF99DEF836"
++				 "146BC9B1B4D22831",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP224R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFF16A2"
++				 "E0B8F03E13DD29455C5C2A3D",
++				 16);
++		return 0;
++ #endif
++	case GNUTLS_ECC_CURVE_SECP256R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFF00000000FFFFFFFFFFFFFFFF"
++				 "BCE6FAADA7179E84F3B9CAC2FC632551",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP384R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFFFFFFFFFFFFFFFC7634D81F4372DDF"
++				 "581A0DB248B0A77AECEC196ACCC52973",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP521R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFA51868783BF2F966B7FCC0148F709A"
++@@ -74,22 +73,3 @@ _gnutls_ecc_curve_to_dsa_q(mpz_t *q, gnutls_ecc_curve_t curve)
++	}
++ }
++
++-int
++-_gnutls_ecdsa_compute_k (mpz_t k,
++-			 gnutls_ecc_curve_t curve,
++-			 const mpz_t x,
++-			 gnutls_mac_algorithm_t mac,
++-			 const uint8_t *digest,
++-			 size_t length)
++-{
++-	mpz_t q;
 +-	int ret;
 +-
-+-	if (isprint(c) || c =3D=3D '\a' || c =3D=3D '\t' || c =3D=3D '\r' || c=
- =3D=3D '\n')
-+-		ret =3D putc(c, fp);
-+-	else if (!c_isascii(c))
-+-		ret =3D fprintf(fp, "\\%3o", (unsigned char)c);
-+-	else {
-+-		ret =3D putc(fail, fp);
-+-		if (ret !=3D EOF)
-+-			ret =3D putc(c ^ 0x40, fp);
-++	int ret =3D 0;
-++
-++	for (size_t slen =3D strlen(s); *s; ++s, --slen) {
-++		if (*s =3D=3D '\n')
-++			ret =3D fputs(cr_lf ? "\r\n" : "\n", fp);
-++		else if (isprint(*s) || *s =3D=3D '\a' || *s =3D=3D '\t' || *s =3D=3D=
- '\r')
-++			ret =3D putc(*s, fp);
-++		else if (!c_isascii(*s)) {
-++#ifdef HAVE_WIDECHAR
-++			wchar_t w;
-++			size_t clen =3D mbtowc(&w, s, slen);
-++			switch(clen) {
-++				case (size_t)-2:  // incomplete
-++				case (size_t)-1:  // EILSEQ
-++					mbtowc(NULL, NULL, 0);
-++				nonprint:
-++					ret =3D fprintf(fp, "\\%3hho", *s);
-++					break;
-++				default:
-++					if(!iswprint(w))
-++						goto nonprint;
-++					ret =3D fwrite(s, 1, clen, fp);
-++					s +=3D clen - 1;
-++					slen -=3D clen - 1;
-++					break;
-++			}
-++#else
-++			ret =3D fprintf(fp, "\\%3hho", *s);
-++#endif
-++		} else
-++			ret =3D fputs((char[]){ ctrl, *s ^ 0x40, '\0' }, fp);
-++		if (ret < 0)
-++			return EOF;
-+	}
-+-	return (ret < 0) ? EOF : 0;
-++	return 0;
-+ }
-+
-+ static inline void fputs_quoted_case(const char *data, FILE *out, int d=
-ir)
-+diff --git a/login-utils/last.c b/login-utils/last.c
-+index f3272ca..aacd1f6 100644
-+--- a/login-utils/last.c
-++++ b/login-utils/last.c
-+@@ -403,7 +403,6 @@ static int list(const struct last_control *ctl, stru=
-ct utmpx *p, time_t logout_t
-+	char		final[512];
-+	char		utline[sizeof(p->ut_line) + 1];
-+	char		domain[256];
-+-	char		*s;
-+	int		mins, hours, days;
-+	int		r, len;
-+	struct last_timefmt *fmt;
-+@@ -559,8 +558,7 @@ static int list(const struct last_control *ctl, stru=
-ct utmpx *p, time_t logout_t
-+	/*
-+	 *	Print out "final" string safely.
-+	 */
-+-	for (s =3D final; *s; s++)
-+-		fputc_careful(*s, stdout, '*');
-++	fputs_careful(final, stdout, '*', false);
-+
-+	if (len < 0 || (size_t)len >=3D sizeof(final))
-+		putchar('\n');
-+diff --git a/term-utils/write.c b/term-utils/write.c
-+index 50f18dc..710a58c 100644
-+--- a/term-utils/write.c
-++++ b/term-utils/write.c
-+@@ -223,21 +223,6 @@ static void signal_handler(int signo)
-+	signal_received =3D signo;
-+ }
-+
-+-/*
-+- * write_line - like fputs(), but makes control characters visible and
-+- *     turns \n into \r\n.
-+- */
-+-static void write_line(char *s)
-+-{
-+-	while (*s) {
-+-		const int c =3D *s++;
++-	ret = _gnutls_ecc_curve_to_dsa_q(&q, curve);
++-	if (ret < 0)
++-		return gnutls_assert_val(ret);
 +-
-+-		if ((c =3D=3D '\n' && fputc_careful('\r', stdout, '^') =3D=3D EOF)
-+-		    || fputc_careful(c, stdout, '^') =3D=3D EOF)
-+-			err(EXIT_FAILURE, _("carefulputc failed"));
-+-	}
++-	ret = _gnutls_dsa_compute_k (k, q, x, mac, digest, length);
++-	mpz_clear(q);
++-	return ret;
 +-}
-+-
-+ /*
-+  * do_write - actually make the connection
-+  */
-+@@ -247,7 +232,8 @@ static void do_write(const struct write_control *ctl=
-)
-+	struct passwd *pwd;
-+	time_t now;
-+	struct tm *tm;
-+-	char *host, line[512];
-++	char *host, *line =3D NULL;
-++	size_t linelen =3D 0;
-+	struct sigaction sigact;
++diff --git a/lib/nettle/int/ecdsa-compute-k.h b/lib/nettle/int/ecdsa-compute-k.h
++index 7ca401d..a7e612b 100644
++--- a/lib/nettle/int/ecdsa-compute-k.h
+++++ b/lib/nettle/int/ecdsa-compute-k.h
++@@ -26,12 +26,6 @@
++ #include <gnutls/gnutls.h>
++ #include <nettle/bignum.h> /* includes gmp.h */
 +
-+	/* Determine our login name(s) before the we reopen() stdout */
-+@@ -286,11 +272,14 @@ static void do_write(const struct write_control *c=
-tl)
-+	free(host);
-+	printf("\r\n");
++-int
++-_gnutls_ecdsa_compute_k (mpz_t k,
++-			 gnutls_ecc_curve_t curve,
++-			 const mpz_t x,
++-			 gnutls_mac_algorithm_t mac,
++-			 const uint8_t *digest,
++-			 size_t length);
+++int _gnutls_ecc_curve_to_dsa_q(mpz_t q, gnutls_ecc_curve_t curve);
 +
-+-	while (fgets(line, sizeof(line), stdin) !=3D NULL) {
-++	while (getline(&line, &linelen, stdin) >=3D 0) {
-+		if (signal_received)
-+			break;
-+-		write_line(line);
-++
-++		if (fputs_careful(line, stdout, '^', true) =3D=3D EOF)
-++			err(EXIT_FAILURE, _("carefulputc failed"));
++ #endif /* GNUTLS_LIB_NETTLE_INT_ECDSA_COMPUTE_K_H */
++diff --git a/lib/nettle/pk.c b/lib/nettle/pk.c
++index eba246f..799cc9d 100644
++--- a/lib/nettle/pk.c
+++++ b/lib/nettle/pk.c
++@@ -97,10 +97,16 @@ static void rnd_nonce_func(void *_ctx, size_t length, uint8_t * data)
 +	}
-++	free(line);
-+	printf("EOF\r\n");
 + }
 +
-+--
-+2.40.0
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.=
-patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
-new file mode 100644
-index 0000000000..1fceebbdb4
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
-@@ -0,0 +1,172 @@
-+From 27ee6446503af7ec0c2647704ca47ac4de3852ef Mon Sep 17 00:00:00 2001
-+From: =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>
-+Date: Wed, 15 Mar 2023 16:16:43 +0100
-+Subject: [PATCH] wall: convert homebrew buffering to open_memstream()
-+
-+The struct buffer system duplicates a plethora of standard I/O
-+functions (including a fork of fputc_careful())
-+and adds a lot of complexity =E2=80=92 open_memstream() is standard,
-+and fits perfectly into this niche
-+
-+CVE: CVE-2024-28085
-+
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/comm=
-it/27ee6446503af7ec0c2647704ca47ac4de3852ef]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ term-utils/wall.c | 95 ++++++++++-------------------------------------
-+ 1 file changed, 20 insertions(+), 75 deletions(-)
-+
-+diff --git a/term-utils/wall.c b/term-utils/wall.c
-+index c601d3e..a51a928 100644
-+--- a/term-utils/wall.c
-++++ b/term-utils/wall.c
-+@@ -274,74 +274,22 @@ int main(int argc, char **argv)
-+	exit(EXIT_SUCCESS);
-+ }
-+
-+-struct buffer {
-+-	size_t	sz;
-+-	size_t	used;
-+-	char	*data;
-+-};
-+-
-+-static void buf_enlarge(struct buffer *bs, size_t len)
-++static void buf_putc_careful(FILE *fs, int c)
++-static void rnd_mpz_func(void *_ctx, size_t length, uint8_t * data)
+++static void rnd_datum_func(void *ctx, size_t length, uint8_t *data)
 + {
-+-	if (bs->sz =3D=3D 0 || len > bs->sz - bs->used) {
-+-		bs->sz +=3D len < 128 ? 128 : len;
-+-		bs->data =3D xrealloc(bs->data, bs->sz);
-+-	}
-+-}
-+-
-+-static void buf_puts(struct buffer *bs, const char *s)
-+-{
-+-	size_t len =3D strlen(s);
-+-
-+-	buf_enlarge(bs, len + 1);
-+-	memcpy(bs->data + bs->used, s, len + 1);
-+-	bs->used +=3D len;
-+-}
-+-
-+-static void __attribute__((__format__ (__printf__, 2, 3)))
-+-	buf_printf(struct buffer *bs, const char *fmt, ...)
-+-{
-+-	int rc;
-+-	va_list ap;
-+-	size_t limit;
-+-
-+-	buf_enlarge(bs, 0);	/* default size */
-+-	limit =3D bs->sz - bs->used;
-+-
-+-	va_start(ap, fmt);
-+-	rc =3D vsnprintf(bs->data + bs->used, limit, fmt, ap);
-+-	va_end(ap);
-+-
-+-	if (rc >=3D 0 && (size_t) rc >=3D limit) {	/* not enough, enlarge */
-+-		buf_enlarge(bs, (size_t)rc + 1);
-+-		limit =3D bs->sz - bs->used;
-+-		va_start(ap, fmt);
-+-		rc =3D vsnprintf(bs->data  + bs->used, limit, fmt, ap);
-+-		va_end(ap);
-+-	}
-+-
-+-	if (rc > 0)
-+-		bs->used +=3D rc;
-+-}
-+-
-+-static void buf_putc_careful(struct buffer *bs, int c)
-+-{
-+-	if (isprint(c) || c =3D=3D '\a' || c =3D=3D '\t' || c =3D=3D '\r' || c=
- =3D=3D '\n') {
-+-		buf_enlarge(bs, 1);
-+-		bs->data[bs->used++] =3D c;
-+-	} else if (!c_isascii(c))
-+-		buf_printf(bs, "\\%3o", (unsigned char)c);
-+-	else {
-+-		char tmp[] =3D { '^', c ^ 0x40, '\0' };
-+-		buf_puts(bs, tmp);
-+-	}
-++	if (isprint(c) || c =3D=3D '\a' || c =3D=3D '\t' || c =3D=3D '\r' || c=
- =3D=3D '\n')
-++		fputc(c, fs);
-++	else if (!c_isascii(c))
-++		fprintf(fs, "\\%3o", (unsigned char)c);
-++	else
-++		fputs((char[]){ '^', c ^ 0x40, '\0' }, fs);
++-	mpz_t *k = _ctx;
++-	nettle_mpz_get_str_256 (length, data, *k);
+++	gnutls_datum_t *d = ctx;
+++
+++	if (length > d->size) {
+++		memset(data, 0, length - d->size);
+++		memcpy(data + (length - d->size), d->data, d->size);
+++	} else {
+++		memcpy(data, d->data, length);
+++	}
 + }
 +
-+ static char *makemsg(char *fname, char **mvec, int mvecsz,
-+		     size_t *mbufsize, int print_banner)
-+ {
-+-	struct buffer _bs =3D {.used =3D 0}, *bs =3D &_bs;
-+	register int ch, cnt;
-+-	char *p, *lbuf;
-++	char *p, *lbuf, *retbuf;
-++	FILE * fs =3D open_memstream(&retbuf, mbufsize);
-+	long line_max;
++ static void rnd_nonce_func_fallback(void *_ctx, size_t length, uint8_t * data)
++@@ -1076,7 +1082,11 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++			struct dsa_signature sig;
++			int curve_id = pk_params->curve;
++			const struct ecc_curve *curve;
++-			mpz_t k;
+++			mpz_t q;
+++	                /* 521-bit elliptic curve generator at maximum */
+++                        uint8_t buf[(521 + 7) / 8];
+++		        gnutls_datum_t k = { NULL, 0 };
+++
++			void *random_ctx;
++			nettle_random_func *random_func;
 +
-+	line_max =3D sysconf(_SC_LINE_MAX);
-+@@ -379,15 +327,15 @@ static char *makemsg(char *fname, char **mvec, int=
- mvecsz,
-+		 */
-+		/* snprintf is not always available, but the sprintf's here
-+		   will not overflow as long as %d takes at most 100 chars */
-+-		buf_printf(bs, "\r%*s\r\n", TERM_WIDTH, " ");
-++		fprintf(fs, "\r%*s\r\n", TERM_WIDTH, " ");
-+
-+		snprintf(lbuf, line_max,
-+				_("Broadcast message from %s@%s (%s) (%s):"),
-+				whom, hostname, where, date);
-+-		buf_printf(bs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
-++		fprintf(fs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
-+		free(hostname);
-+	}
-+-	buf_printf(bs, "%*s\r\n", TERM_WIDTH, " ");
-++	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
-+
-+	 if (mvec) {
-+		/*
-+@@ -396,11 +344,11 @@ static char *makemsg(char *fname, char **mvec, int=
- mvecsz,
-+		int i;
-+
-+		for (i =3D 0; i < mvecsz; i++) {
-+-			buf_puts(bs, mvec[i]);
-++			fputs(mvec[i], fs);
-+			if (i < mvecsz - 1)
-+-				buf_puts(bs, " ");
-++				fputc(' ', fs);
-+		}
-+-		buf_puts(bs, "\r\n");
-++		fputs("\r\n", fs);
-+	} else {
-+		/*
-+		 * read message from <file>
-+@@ -428,23 +376,20 @@ static char *makemsg(char *fname, char **mvec, int=
- mvecsz,
-+		while (fgets(lbuf, line_max, stdin)) {
-+			for (cnt =3D 0, p =3D lbuf; (ch =3D *p) !=3D '\0'; ++p, ++cnt) {
-+				if (cnt =3D=3D TERM_WIDTH || ch =3D=3D '\n') {
-+-					for (; cnt < TERM_WIDTH; ++cnt)
-+-						buf_puts(bs, " ");
-+-					buf_puts(bs, "\r\n");
-++					fprintf(fs, "%*s\r\n", TERM_WIDTH - cnt, "");
-+					cnt =3D 0;
-+				}
-+				if (ch =3D=3D '\t')
-+					cnt +=3D (7 - (cnt % 8));
-+				if (ch !=3D '\n')
-+-					buf_putc_careful(bs, ch);
-++					buf_putc_careful(fs, ch);
++@@ -1123,19 +1133,31 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++				hash_len = vdata->size;
 +			}
-+		}
-+	}
-+-	buf_printf(bs, "%*s\r\n", TERM_WIDTH, " ");
-++	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
 +
-+	free(lbuf);
-+
-+-	bs->data[bs->used] =3D '\0';	/* be paranoid */
-+-	*mbufsize =3D bs->used;
-+-	return bs->data;
-++	fclose(fs);
-++	return retbuf;
-+ }
-+--
-+2.40.0
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.=
-patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
-new file mode 100644
-index 0000000000..55eba9cc49
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
-@@ -0,0 +1,223 @@
-+From aa13246a1bf1be9e4f6eb331f4d4d2dbc875e22f Mon Sep 17 00:00:00 2001
-+From: =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>
-+Date: Wed, 15 Mar 2023 16:16:48 +0100
-+Subject: [PATCH] wall: use fputs_careful()
-+
-+LINE_MAX only applies to teletypes in canonical mode: when stdin is a
-+file, it could still very much tear; start off at 512 for the sprintf(),
-+then use getline() like in write.
-+
-+The line wrapping has one suboptimal edge-case:
-+  $ wall < all
-+
-+  Broadcast message from nabijaczleweli@tarta (pts/4) (Tue Mar 14 22:31:=
-25
-+  2023):
-+
-+  ^N^O^P^Q^R^S^T^U^V^W^X^Y^Z^[^\^]^^^_
-+  !"#$%&'()*+,-./0123456789:;<=3D>?@ABCDEFGHIJ
-+  KLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~^?\200\201\202\203=
-\204\205\206
-+  \207\210\211\212\213\214\215\216\217\220\221\222\223\224\225\226\227\2=
-30\231\232
-+  \233\234\235\236\237\240\241\242\243\244\245\246\247\250\251\252\253\2=
-54\255\256
-+  \257\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277\3=
-00\301\302
-+  \303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\3=
-24\325\326
-+  \327\330\331\332\333\334\335\336\337\340\341\342\343\344\345\346\347\3=
-50\351\352
-+  \353\354\355\356\357\360\361\362\363\364\365\366\367\370\371\372\373\3=
-74\375\376
-+  \377
-+but that's a pathological input, and the result is still infinitely
-+better than it was before, so fixing that is more trouble than it's
-+worth.
-+
-+Bug-Debian: https://bugs.debian.org/826596
-+
-+CVE: CVE-2024-28085
-+
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/comm=
-it/aa13246a1bf1be9e4f6eb331f4d4d2dbc875e22f]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ include/carefulputc.h | 42 +++++++++++++++++++++++++++++++++---------
-+ login-utils/last.c    |  2 +-
-+ term-utils/wall.c     | 38 ++++++--------------------------------
-+ term-utils/write.c    |  2 +-
-+ 4 files changed, 41 insertions(+), 43 deletions(-)
-+
-+diff --git a/include/carefulputc.h b/include/carefulputc.h
-+index 2506614..89f8a99 100644
-+--- a/include/carefulputc.h
-++++ b/include/carefulputc.h
-+@@ -6,6 +6,7 @@
-+ #include <ctype.h>
-+ #ifdef HAVE_WIDECHAR
-+ #include <wctype.h>
-++#include <wchar.h>
-+ #endif
-+ #include <stdbool.h>
-+
-+@@ -15,18 +16,35 @@
-+  * A puts() for use in write and wall (that sometimes are sgid tty).
-+  * It avoids control and invalid characters.
-+  * The locale of the recipient is nominally unknown,
-+- * but it's a solid bet that the encoding is compatible with the author=
-'s.
-++ * but it's a solid bet that it's compatible with the author's.
-++ * Use soft_width=3D0 to disable wrapping.
-+  */
-+-static inline int fputs_careful(const char * s, FILE *fp, const char ct=
-rl, bool cr_lf)
-++static inline int fputs_careful(const char * s, FILE *fp, const char ct=
-rl, bool cr_lf, int soft_width)
-+ {
-+-	int ret =3D 0;
-++	int ret =3D 0, col =3D 0;
-+
-+	for (size_t slen =3D strlen(s); *s; ++s, --slen) {
-+-		if (*s =3D=3D '\n')
-++		if (*s =3D=3D '\t')
-++			col +=3D (7 - (col % 8)) - 1;
-++		else if (*s =3D=3D '\r')
-++			col =3D -1;
-++		else if (*s =3D=3D '\a')
-++			--col;
++-			mpz_init(k);
+++			mpz_init(q);
 ++
-++		if ((soft_width && col >=3D soft_width) || *s =3D=3D '\n') {
-++			if (soft_width) {
-++				fprintf(fp, "%*s", soft_width - col, "");
-++				col =3D 0;
-++			}
-+			ret =3D fputs(cr_lf ? "\r\n" : "\n", fp);
-+-		else if (isprint(*s) || *s =3D=3D '\a' || *s =3D=3D '\t' || *s =3D=3D=
- '\r')
-++			if (*s =3D=3D '\n' || ret < 0)
-++				goto wrote;
-++		}
++			if (_gnutls_get_lib_state() == LIB_STATE_SELFTEST ||
++			    (sign_params->flags & GNUTLS_PK_FLAG_REPRODUCIBLE)) {
++-				ret = _gnutls_ecdsa_compute_k(k,
++-							      curve_id,
++-							      pk_params->params[ECC_K],
++-							      DIG_TO_MAC(sign_params->dsa_dig),
++-							      vdata->data,
++-							      vdata->size);
+++				mp_limb_t h[DSA_COMPUTE_K_ITCH];
 ++
-++		if (isprint(*s) || *s =3D=3D '\a' || *s =3D=3D '\t' || *s =3D=3D '\r'=
-) {
-+			ret =3D putc(*s, fp);
-+-		else if (!c_isascii(*s)) {
-++			++col;
-++		} else if (!c_isascii(*s)) {
-+ #ifdef HAVE_WIDECHAR
-+			wchar_t w;
-+			size_t clen =3D mbtowc(&w, s, slen);
-+@@ -35,21 +53,27 @@ static inline int fputs_careful(const char * s, FILE=
- *fp, const char ctrl, bool
-+				case (size_t)-1:  // EILSEQ
-+					mbtowc(NULL, NULL, 0);
-+				nonprint:
-+-					ret =3D fprintf(fp, "\\%3hho", *s);
-++					col +=3D ret =3D fprintf(fp, "\\%3hho", *s);
-+					break;
-+				default:
-+					if(!iswprint(w))
-+						goto nonprint;
-+					ret =3D fwrite(s, 1, clen, fp);
-++					if (soft_width)
-++						col +=3D wcwidth(w);
-+					s +=3D clen - 1;
-+					slen -=3D clen - 1;
-+					break;
+++		                ret = _gnutls_ecc_curve_to_dsa_q(q, curve_id);
++				if (ret < 0)
++					goto ecdsa_cleanup;
+++
+++				ret = _gnutls_dsa_compute_k(
+++					h, mpz_limbs_read(q), priv.p,
+++				        ecc_size(priv.ecc), ecc_bit_size(priv.ecc),
+++				        DIG_TO_MAC(sign_params->dsa_dig), vdata->data,
+++			                vdata->size);
+++				if (ret < 0)
+++					goto ecdsa_cleanup;
+++				k.data = buf;
+++				k.size = (ecc_bit_size(priv.ecc) + 7) / 8;
+++
+++				_gnutls_ecdsa_compute_k_finish(k.data, k.size, h,
+++						       ecc_size(priv.ecc));
+++
++				random_ctx = &k;
++-				random_func = rnd_mpz_func;
+++				random_func = rnd_datum_func;
++			} else {
++				random_ctx = NULL;
++				random_func = rnd_nonce_func;
++@@ -1156,7 +1178,7 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++  ecdsa_cleanup:
++			dsa_signature_clear(&sig);
++			ecc_scalar_zclear(&priv);
++-			mpz_clear(k);
+++			mpz_clear(q);
++
++			if (ret < 0) {
++				gnutls_assert();
++@@ -1169,7 +1191,10 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++			struct dsa_params pub;
++			bigint_t priv;
++			struct dsa_signature sig;
++-			mpz_t k;
+++			/* 512-bit DSA subgroup at maximum */
+++		        uint8_t buf[(512 + 7) / 8];
+++	                gnutls_datum_t k = { NULL, 0 };
+++
++			void *random_ctx;
++			nettle_random_func *random_func;
++
++@@ -1196,21 +1221,25 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++				hash_len = vdata->size;
 +			}
-+ #else
-+-			ret =3D fprintf(fp, "\\%3hho", *s);
-++			col +=3D ret =3D fprintf(fp, "\\%3hho", *s);
-+ #endif
-+-		} else
-++		} else {
-+			ret =3D fputs((char[]){ ctrl, *s ^ 0x40, '\0' }, fp);
-++			col +=3D 2;
-++		}
++
++-			mpz_init(k);
++			if (_gnutls_get_lib_state() == LIB_STATE_SELFTEST ||
++			    (sign_params->flags & GNUTLS_PK_FLAG_REPRODUCIBLE)) {
++-				ret = _gnutls_dsa_compute_k(k,
++-							    pub.q,
++-							    TOMPZ(priv),
++-							    DIG_TO_MAC(sign_params->dsa_dig),
++-							    vdata->data,
++-							    vdata->size);
+++				mp_limb_t h[DSA_COMPUTE_K_ITCH];
+++				ret = _gnutls_dsa_compute_k(
+++					h, mpz_limbs_read(pub.q),
+++					mpz_limbs_read(TOMPZ(priv)), mpz_size(pub.q),
+++				       	mpz_sizeinbase(pub.q, 2),
+++				       	DIG_TO_MAC(sign_params->dsa_dig), vdata->data,
+++				       	vdata->size);
++				if (ret < 0)
++					goto dsa_fail;
++-				/* cancel-out dsa_sign's addition of 1 to random data */
++-				mpz_sub_ui (k, k, 1);
+++				k.data = buf;
+++				k.size = (mpz_sizeinbase(pub.q, 2) + 7) / 8;
 ++
-++	wrote:
+++				_gnutls_dsa_compute_k_finish(k.data, k.size, h,
+++							     mpz_size(pub.q));
+++
++				random_ctx = &k;
++-				random_func = rnd_mpz_func;
+++				random_func = rnd_datum_func;
++			} else {
++				random_ctx = NULL;
++				random_func = rnd_nonce_func;
++@@ -1230,7 +1259,6 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++
++  dsa_fail:
++			dsa_signature_clear(&sig);
++-			mpz_clear(k);
++
++			if (ret < 0) {
++				gnutls_assert();
++diff --git a/tests/sign-verify-deterministic.c b/tests/sign-verify-deterministic.c
++index 6e90728..25aa553 100644
++--- a/tests/sign-verify-deterministic.c
+++++ b/tests/sign-verify-deterministic.c
++@@ -197,7 +197,7 @@ void doit(void)
++					      &signature);
 +		if (ret < 0)
-+			return EOF;
-+	}
-+diff --git a/login-utils/last.c b/login-utils/last.c
-+index aacd1f6..43c5429 100644
-+--- a/login-utils/last.c
-++++ b/login-utils/last.c
-+@@ -558,7 +558,7 @@ static int list(const struct last_control *ctl, stru=
-ct utmpx *p, time_t logout_t
-+	/*
-+	 *	Print out "final" string safely.
-+	 */
-+-	fputs_careful(final, stdout, '*', false);
-++	fputs_careful(final, stdout, '*', false, 0);
++			testfail("gnutls_pubkey_verify_data2\n");
++-		success(" - pass");
+++		success(" - pass\n");
 +
-+	if (len < 0 || (size_t)len >=3D sizeof(final))
-+		putchar('\n');
-+diff --git a/term-utils/wall.c b/term-utils/wall.c
-+index a51a928..377db45 100644
-+--- a/term-utils/wall.c
-++++ b/term-utils/wall.c
-+@@ -274,29 +274,13 @@ int main(int argc, char **argv)
-+	exit(EXIT_SUCCESS);
-+ }
-+
-+-static void buf_putc_careful(FILE *fs, int c)
-+-{
-+-	if (isprint(c) || c =3D=3D '\a' || c =3D=3D '\t' || c =3D=3D '\r' || c=
- =3D=3D '\n')
-+-		fputc(c, fs);
-+-	else if (!c_isascii(c))
-+-		fprintf(fs, "\\%3o", (unsigned char)c);
-+-	else
-+-		fputs((char[]){ '^', c ^ 0x40, '\0' }, fs);
-+-}
-+-
-+ static char *makemsg(char *fname, char **mvec, int mvecsz,
-+		     size_t *mbufsize, int print_banner)
-+ {
-+-	register int ch, cnt;
-+-	char *p, *lbuf, *retbuf;
-++	char *lbuf, *retbuf;
-+	FILE * fs =3D open_memstream(&retbuf, mbufsize);
-+-	long line_max;
-+-
-+-	line_max =3D sysconf(_SC_LINE_MAX);
-+-	if (line_max <=3D 0)
-+-		line_max =3D 512;
-+-
-+-	lbuf =3D xmalloc(line_max);
-++	size_t lbuflen =3D 512;
-++	lbuf =3D xmalloc(lbuflen);
-+
-+	if (print_banner =3D=3D TRUE) {
-+		char *hostname =3D xgethostname();
-+@@ -329,7 +313,7 @@ static char *makemsg(char *fname, char **mvec, int m=
-vecsz,
-+		   will not overflow as long as %d takes at most 100 chars */
-+		fprintf(fs, "\r%*s\r\n", TERM_WIDTH, " ");
-+
-+-		snprintf(lbuf, line_max,
-++		snprintf(lbuf, lbuflen,
-+				_("Broadcast message from %s@%s (%s) (%s):"),
-+				whom, hostname, where, date);
-+		fprintf(fs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
-+@@ -373,18 +357,8 @@ static char *makemsg(char *fname, char **mvec, int =
-mvecsz,
-+		/*
-+		 * Read message from stdin.
-+		 */
-+-		while (fgets(lbuf, line_max, stdin)) {
-+-			for (cnt =3D 0, p =3D lbuf; (ch =3D *p) !=3D '\0'; ++p, ++cnt) {
-+-				if (cnt =3D=3D TERM_WIDTH || ch =3D=3D '\n') {
-+-					fprintf(fs, "%*s\r\n", TERM_WIDTH - cnt, "");
-+-					cnt =3D 0;
-+-				}
-+-				if (ch =3D=3D '\t')
-+-					cnt +=3D (7 - (cnt % 8));
-+-				if (ch !=3D '\n')
-+-					buf_putc_careful(fs, ch);
-+-			}
-+-		}
-++		while (getline(&lbuf, &lbuflen, stdin) >=3D 0)
-++			fputs_careful(lbuf, fs, '^', true, TERM_WIDTH);
-+	}
-+	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
-+
-+diff --git a/term-utils/write.c b/term-utils/write.c
-+index 710a58c..1d57fce 100644
-+--- a/term-utils/write.c
-++++ b/term-utils/write.c
-+@@ -276,7 +276,7 @@ static void do_write(const struct write_control *ctl=
-)
-+		if (signal_received)
-+			break;
-+
-+-		if (fputs_careful(line, stdout, '^', true) =3D=3D EOF)
-++		if (fputs_careful(line, stdout, '^', true, 0) =3D=3D EOF)
-+			err(EXIT_FAILURE, _("carefulputc failed"));
-+	}
-+	free(line);
++	next:
++		gnutls_free(signature.data);
 +--
 +2.40.0
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.=
-patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
-new file mode 100644
-index 0000000000..dd78e029dc
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
-@@ -0,0 +1,34 @@
-+From 404b0781f52f7c045ca811b2dceec526408ac253 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 21 Mar 2024 11:16:20 +0100
-+Subject: [PATCH] wall: fix escape sequence Injection [CVE-2024-28085]
-+
-+Let's use for all cases the same output function.
-+
-+Reported-by: Skyler Ferrante <sjf5462@rit.edu>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+
-+CVE: CVE-2024-28085
-+
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/comm=
-it/404b0781f52f7c045ca811b2dceec526408ac253]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ term-utils/wall.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/term-utils/wall.c b/term-utils/wall.c
-+index 377db45..1e7e9ab 100644
-+--- a/term-utils/wall.c
-++++ b/term-utils/wall.c
-+@@ -328,7 +328,7 @@ static char *makemsg(char *fname, char **mvec, int m=
-vecsz,
-+		int i;
-+
-+		for (i =3D 0; i < mvecsz; i++) {
-+-			fputs(mvec[i], fs);
-++			fputs_careful(mvec[i], fs, '^', true, TERM_WIDTH);
-+			if (i < mvecsz - 1)
-+				fputc(' ', fs);
-+		}
-+--
-+2.40.0
---=20
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index b290022781..3c4ecc4f59 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2023-5981.patch \
+            file://CVE-2024-0553.patch \
+            file://CVE-2024-0567.patch \
++           file://CVE-2024-28834.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+-- 
 2.40.0
 
 
