@@ -1,175 +1,103 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DBEC4345F
-	for <webhook@archiver.kernel.org>; Fri, 19 Apr 2024 21:25:32 +0000 (UTC)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
- by mx.groups.io with SMTP id smtpd.web11.5100.1713561926959533066
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B20C4345F
+	for <webhook@archiver.kernel.org>; Sat, 20 Apr 2024 12:11:37 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.10850.1713615089194769513
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Apr 2024 14:25:27 -0700
+ Sat, 20 Apr 2024 05:11:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JXaTNvSd;
- spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-618769020bcso27729157b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 14:25:26 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S9/2Ni0Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-41a0979b9adso590415e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Apr 2024 05:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713561926; x=1714166726; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jkFPoYoWCVISo/PSkZrqae/30w5SV5ztE/BwY34GiRU=;
-        b=JXaTNvSdNXfgQZIClaHAPuBHQHpTrRhgQDWIQFbDFr/xAVvFrLNo7wPIWd3M8Mnvvm
-         Sgn5DTnbanNQ1IqHk6ERInDMGKk0XHoIDVsumvcCL4kzV4vwvL6gDWBux+gFKKU7nyn+
-         V0Srzj/IIAW4qCVaG2ep6CGaJKR4Mv2RK98Mou6jgb8l44uK0M2BOjZxFYRKlGR2RREl
-         ULuJDe0TjB1mSpTSjdBWAmLIX44igQcrpJfVUq+UJvdL/XQDy+teRDY4vmPRlGwXmbO6
-         W2BxEmO0FEWYxLaCSmd02GzdQhPBMqkMXUgQuqmUrtEQQdV3g9g1HDDBh2D+RzxUSQzE
-         jnSw==
+        d=linuxfoundation.org; s=google; t=1713615087; x=1714219887; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S8fIeF2t5JCm2FGx9PIvx3F/gfM+i670PYq4SDHwX9I=;
+        b=S9/2Ni0QQLZ+jhZD2qp5DFe1/GwhtLJh9RpiqmicA+R3c5ezsYXmPnpEIJklbp82t+
+         dN2yku95clOKSO7cfh8pFFTwgylSK4HnKIbxEOtkBheAx2R79/zP86+CNv3zgoqIbruu
+         c+umIMBf8fOk7ZpdA+c1TG7/LKaTj9k2NwF8k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713561926; x=1714166726;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jkFPoYoWCVISo/PSkZrqae/30w5SV5ztE/BwY34GiRU=;
-        b=woPzgHkbDyJ3NWx1XeDiFvz7iuXXaJldrl17uHNTX37B9y6fzoOJn8GBowjb8Sws7s
-         y/0HZy1Byi0s7r5sfFMoZr3UzCEh+95uCMAV6PogI4zJoHM3BcYnQvXOZu1ioK/cM8J6
-         FVKpEAjzV5oHt92IRIEQ65D61eMcHzI2ljdftqh+9HndqBIVRc4rzdDC9lWKpn+z0mjb
-         nzbH1C/HKzlVFQwqfPmoLp/sM1fY1bzpGzhN8D3I+1+dMD8rHHTi9r94cvsW02o24YnS
-         WzgzmNZneDWX1/1DPMFeEL+ZT13fWCGhg0EhEmfI9bFYCc+Hij5xYqSKPkbJ5m8yDwZ1
-         TeLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUBKLkRsPy4M/3VqAYhH4PZ3m+4Td+VfOUMNyWCSRE+bgEQskXzWjWetcilOrbyVrLUYIo01iszFBkboFiWyCAeeXGDaP2jVRbOoBlbTMrbvu7Ie7E0NXu
-X-Gm-Message-State: AOJu0Yz7ie/KMBZXYRvk0P7AfN/f6mlGDk8cQQICu8uVXVdZ1OUe06Lr
-	KrV5b3oPscJOd9wI8Tujf2CYbJGW27u7AtMWqY1wXjZk7AKEavTLSwTCL/uzUhzFzf8DigSylWI
-	3+t65x7ucZA85wdhTvOvWgnwhbuI=
-X-Google-Smtp-Source: AGHT+IHIQOSsOFAxjor87odRvmWL7C8Ig2I/8ldKrYUoQP0Hz6rIl2CdYSBEShNbiq3xWDp841GS3dv1xUXjyrGLcmU=
-X-Received: by 2002:a05:690c:6401:b0:61a:f59a:c1b5 with SMTP id
- hr1-20020a05690c640100b0061af59ac1b5mr3316361ywb.23.1713561926025; Fri, 19
- Apr 2024 14:25:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713615087; x=1714219887;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S8fIeF2t5JCm2FGx9PIvx3F/gfM+i670PYq4SDHwX9I=;
+        b=nVFzKx+ViI5MKDrMZnCjd/aneNACqg++GntinHgGuQu3cTDBY7bIZj3boeZdunIDY5
+         vGmKP/rDH9TFNA0QbuWrX9AfIGI4C6wxSJGWHu8Q8iB3zYNH7gNC2UUr0wUlvps1bYzy
+         u6wWNJo3BziMKJY7Lvxr4krLs252QKnc2IgZqhsRBRuNSsTed+S/v7Rp+qiLxv407ptW
+         fkO++bFBrxUQvXzbVuuf2PsHTk6tlosBp4Pe2jD7qna1uP+Bhr1ajrxQUtTI97paKx4g
+         X3t/5lDZD3ADaHflZIXN+t5TFah/cHG2AXWOkNnGE9arBpOb+Gr5H9enn6sQpLOFV89G
+         zWBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrbTvfgwbxbGjrwpr0+jxAqQHXHtumrTBTmuWmGYIEf7tfnJ/zfbLzenFbvRw9aGTPrYYOoBGXhhYvyJ0E9NWOnnrHRShcQ0GH3h35ti9BBB4W7MFBXvLv
+X-Gm-Message-State: AOJu0Yz0GtNlKntjTxRnLZ3zOwpnatDdkdQbIfprJlsCioWJBwPgRhM6
+	L7xUMrQOjBFJIxTEaS90lSEcakzcUTpO7VbLDeU8HRmjZ5JT5uoH1rVQcv6vDuQ=
+X-Google-Smtp-Source: AGHT+IGpQFyWx5bQbyIcf2MSPumK0NsvM4KCGRNRNXJ4MpAKx8VXxi6S25zWwbKzN3ZnD4RIvlbhCw==
+X-Received: by 2002:a05:600c:3b94:b0:416:9f45:e639 with SMTP id n20-20020a05600c3b9400b004169f45e639mr3299136wms.20.1713615087030;
+        Sat, 20 Apr 2024 05:11:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:74a2:1ca5:4cab:95f? ([2001:8b0:aba:5f3c:74a2:1ca5:4cab:95f])
+        by smtp.gmail.com with ESMTPSA id r16-20020a5d6950000000b003477d26736dsm6713575wrw.94.2024.04.20.05.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Apr 2024 05:11:26 -0700 (PDT)
+Message-ID: <5e15b3d150e684bde770d7e1ec14806fb33a01d0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 04/19] swig: merge .inc into .bb
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Sat, 20 Apr 2024 13:11:25 +0100
+In-Reply-To: <20240419121945.1920944-4-alex@linutronix.de>
+References: <20240419121945.1920944-1-alex@linutronix.de>
+	 <20240419121945.1920944-4-alex@linutronix.de>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-References: <20240419203140.461439-1-rasmus.villemoes@prevas.dk>
- <CANNYZj_5AkKa_dJVmjzvnng_7SFrdDr70T_wDN=bcA2WfMX+Bw@mail.gmail.com> <3bcf8a46-6452-488b-85cb-c6938e1066a8@prevas.dk>
-In-Reply-To: <3bcf8a46-6452-488b-85cb-c6938e1066a8@prevas.dk>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 19 Apr 2024 14:25:14 -0700
-Message-ID: <CANx9H-B4-tEGjC_y0GiFrAeR24Z2PjocVX-=6CRbGBQ+rXytgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bmaptool: add PROVIDES bmap-tools for compatibility
-To: rasmus.villemoes@prevas.dk
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Tom Hochstein <tom.hochstein@nxp.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e6c94b061679b90d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Apr 2024 21:25:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198566
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Apr 2024 12:11:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198567
 
---000000000000e6c94b061679b90d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2024-04-19 at 14:19 +0200, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+> =C2=A0meta/recipes-devtools/swig/swig.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+ 67 -----------------------
+> =C2=A0meta/recipes-devtools/swig/swig_4.2.1.bb | 69 +++++++++++++++++++++=
+++-
+> =C2=A02 files changed, 67 insertions(+), 69 deletions(-)
+> =C2=A0delete mode 100644 meta/recipes-devtools/swig/swig.inc
+>=20
+> diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/=
+swig/swig.inc
+> deleted file mode 100644
+> index 7a6c4d7359c..00000000000
 
-On Fri, Apr 19, 2024 at 2:16=E2=80=AFPM Rasmus Villemoes via lists.openembe=
-dded.org
-<rasmus.villemoes=3Dprevas.dk@lists.openembedded.org> wrote:
+This seems to have a reproducibility issue:
 
-> On 19/04/2024 23.00, Alexander Kanavin wrote:
-> > This was already proposed, and rejected.
-> > https://lists.openembedded.org/g/openembedded-core/topic/104753355
-> >
-> > You need to fix the metadata that refers to the old name.
->
-> So, how can a layer then be compatible with both nanbield and scarthgap?
-> Could this perhaps be applied just to the scarthgap branch, but not maste=
-r?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4685/ste=
+ps/12/logs/stdio
 
+Also, your patch From address is now getting corrupted on the mailing
+list, you probably need to add the From: lines to your patches when
+sending.
 
-Ask yourself why you are choosing one branch to be compatible with multiple
-releases? And then have your push scripts push to a =E2=80=9Cnanbield=E2=80=
-=9D branch and a
-=E2=80=9Cscarthgap=E2=80=9D branch. This means the Layer Index will also au=
-tomatically know
-about your compatibility. This means any traditional Yocto project user
-will have zero questions about which of your branches to choose.
+Cheers,
 
-Multiple LAYERSERIES_COMPAT is not really intent. It=E2=80=99s also often n=
-ot
-accurate (layers with addpylib are not actually compatible with dunfell).
+Richard
 
-Branches are cheap. Use them as intended.
-
-
->
-> Rasmus
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198565):
-> https://lists.openembedded.org/g/openembedded-core/message/198565
-> Mute This Topic: https://lists.openembedded.org/mt/105625834/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000e6c94b061679b90d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Apr 19, 2024 at 2:16=E2=80=AFPM Rasmus Villemoes vi=
-a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
-rasmus.villemoes=3D<a href=3D"mailto:prevas.dk@lists.openembedded.org">prev=
-as.dk@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On 19=
-/04/2024 23.00, Alexander Kanavin wrote:<br>
-&gt; This was already proposed, and rejected.<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/10=
-4753355" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.or=
-g/g/openembedded-core/topic/104753355</a><br>
-&gt; <br>
-&gt; You need to fix the metadata that refers to the old name.<br>
-<br>
-So, how can a layer then be compatible with both nanbield and scarthgap?<br=
->
-Could this perhaps be applied just to the scarthgap branch, but not master?=
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ask yourself why=
- you are choosing one branch to be compatible with multiple releases? And t=
-hen have your push scripts push to a =E2=80=9Cnanbield=E2=80=9D branch and =
-a =E2=80=9Cscarthgap=E2=80=9D branch. This means the Layer Index will also =
-automatically know about your compatibility. This means any traditional Yoc=
-to project user will have zero questions about which of your branches to ch=
-oose.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Multiple LAYERSERI=
-ES_COMPAT is not really intent. It=E2=80=99s also often not accurate (layer=
-s with addpylib are not actually compatible with dunfell).</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">Branches are cheap. Use them as intended=
-.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
-<br>
-Rasmus<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#198565): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/198565" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/198565</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105625834/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/105625834/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000e6c94b061679b90d--
 
