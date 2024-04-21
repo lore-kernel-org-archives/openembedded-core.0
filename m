@@ -1,269 +1,670 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92810C4345F
-	for <webhook@archiver.kernel.org>; Sun, 21 Apr 2024 14:21:14 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.32804.1713709274214816806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A273C4345F
+	for <webhook@archiver.kernel.org>; Sun, 21 Apr 2024 17:50:16 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.web11.790.1713721814042725520
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Apr 2024 07:21:14 -0700
+ Sun, 21 Apr 2024 10:50:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PNKZ5zxg;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.181, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-79068f4da67so78669185a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Apr 2024 07:21:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zb3xKXpu;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5aa20adda1dso2438661eaf.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Apr 2024 10:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1713709273; x=1714314073; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1713721813; x=1714326613; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nTXgSCfnRYjeBA0azJXjkwFbfZhfsPgoe7GOZy0ff/U=;
-        b=PNKZ5zxgkJw6HBBcugKReTS5lnp4w8730Ljml+DmekQsShccQfV5XxUpR1SMTgr/mt
-         p62FT2Aj0+zOT++xCA1RoUrKEYfQELV1WUCON6GSeYX1f45r2q1imbtdf0fQPHR7PNWU
-         gOyOaA07AIHiFHW8sJ5OQrVEYjNV/hj5X+0pFzuFneXMQ7Ebn7mCa51C9C0n2g9EESd/
-         3f+eY2r6uO4M4sL0HIaCeq9iGcZ+wyA4uplZRcMAqL+wt6TeczQsUd5LLKJT4PhxgtxA
-         hLXOP3ZtVpIwMfOQjxQgrZ5zLTOmMXy9Y+LU+zWl1i81O1c6gO9n691oz8tbKohxr3EO
-         MQYA==
+        bh=bkyTBdbhoaD58jMwwYYwQq4Edgeo6gNX8YZmSPSTvRI=;
+        b=Zb3xKXpuoBfruKsScfcFcsi7sFRJBXrqmFf8f+0LBMFFNKE9kcGMIutd//rN9p6yRV
+         Yv6zVT9I8rHsuxym+98bhzBKmD0WThgmbhUyRwPIvEp6iDSwRH4SExbO5GLEunrIMyAz
+         vGck/3c0iAwkwHe/H/JhhGZyq1FR8cfTr2gO9cA/aXLmn2yl+cXbfedLiCjWzA9+pP9M
+         xQCuR25z237aB3FsHOA2rFUg9J8Vn1h57Ffm/dpQJGbq3HtV08FOxXfiLE/AlOC7U983
+         TL8d8ryHV1dmpPg5ivQZ+LLC9lF1vtvmCQZqy+E66iZBzigFqG6wo7BFxD7vdrJIRC17
+         LRxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713709273; x=1714314073;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nTXgSCfnRYjeBA0azJXjkwFbfZhfsPgoe7GOZy0ff/U=;
-        b=bF0Hq50/pkrAvK29nbelOdDpyinwHxfnoHA79GujmXRybVqSZSEH+7xbCt2F6kdjwI
-         bJElVR2zpETtFtj1cLjKZr74bD4xeYpUGK1XwADmsv4BJYVdbmNbHDYoKEQNsQLz3PVS
-         CcpJHtKmgICSqgD9Jp6tgNsYsmDhh9a2s0tFA9++PXY5jb7KqqiikShyVTqjwApaRa7G
-         TaeBD0e5z8HykR9iXouanCGr5uB1+vhWjFSmEO/Ooom3Dmxgp02DWIk9s1abddqMkSlf
-         CuEoRv3hEAgDKXvqh7aAuAUQtgegKPEtHPNQb2zZNaRTBIOzeu+o/s3QNvhjKVok4YNt
-         rCew==
-X-Gm-Message-State: AOJu0YxDS5mP4xz1F/JbhxA8344aT5haPW9OY97Liw280vEfFhEG7gSU
-	gGnpAyXxn95N+8LWIxy4QB9gFh/mxh7ZqBxJmExHd+eCg0Lf17QWQ5KLIFCs4s0/CX8HVYB8fW5
-	yiv8=
-X-Google-Smtp-Source: AGHT+IE+fW3K9soZgGQKKSa9crn/614qSsuigHZc+G5LaGDehC9J5kHCtlKJfQvWwmdxTfn2Sg6D9Q==
-X-Received: by 2002:a05:620a:144f:b0:78e:fd19:4e57 with SMTP id i15-20020a05620a144f00b0078efd194e57mr7772300qkl.76.1713709272821;
-        Sun, 21 Apr 2024 07:21:12 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id p23-20020a05620a113700b0079072d96baasm234651qkk.100.2024.04.21.07.21.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Apr 2024 07:21:12 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 573A11068E0; Sun, 21 Apr 2024 04:21:11 -1000 (HST)
-Subject: OE-core CVE metrics for nanbield on Sun 21 Apr 2024 04:00:02 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 21 Apr 2024 04:21:11 -1000
-Message-Id: <20240421142111.573A11068E0@builder.sakoman.com>
+        d=1e100.net; s=20230601; t=1713721813; x=1714326613;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bkyTBdbhoaD58jMwwYYwQq4Edgeo6gNX8YZmSPSTvRI=;
+        b=t8Nmognnt34y+IZselX4V4YaiuxqSsgV1txHiw4y2gM6BzEDsA/oI8vfFbTxzqyLGI
+         BJaDSfL1pRPjWKTF5O9l7QQbNy0htl1ETVPpmVcNUi/hnCJPkkn9eKd+0lyP2lBWhaMX
+         6i2qIloy6S2n6qvjH/9vGNm4zpeuNDWV5drNH0l4H9nL3x0OMBh3K83KsOaji+NiEWIo
+         6QYnjeN8oIzE1yKU7j74hhtKzMkvqtvH8wHVufot3VFlpqlDMXX8u73SjVoBseuc1uYM
+         XbVdlZIKVyxOEy37w28UiCf2f2j3TWvedWJ/CrmhYcqM53dtGAvvNb88SUJ8hga1FR1w
+         NikQ==
+X-Gm-Message-State: AOJu0Yw71z2IbriWx8GcRTlPKhgpFJcp9Auoxcb5P5EztnbgzgIFETzF
+	505KslCoP2C20I888qwMw0z3B0+zyXiYArAoHSqgUG4V4e0bBi+GgsesYl6f9LS/S9nB3MnB4d9
+	rWKvUmhTUT+CGT+yZ/rGrUbL9juQ=
+X-Google-Smtp-Source: AGHT+IHChAheJFm71gxvkKYM0Vn9WFPB60zCBynR2gvacHxKM66VDOC7NimlJEIccOW+P5rOj+0PHJbrLHNJ+w+7oqg=
+X-Received: by 2002:a05:6871:821:b0:22e:c860:9a6a with SMTP id
+ q33-20020a056871082100b0022ec8609a6amr10048063oap.49.1713721813004; Sun, 21
+ Apr 2024 10:50:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240419121945.1920944-1-alex@linutronix.de> <20240419121945.1920944-12-alex@linutronix.de>
+In-Reply-To: <20240419121945.1920944-12-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 21 Apr 2024 10:49:46 -0700
+Message-ID: <CAMKF1soLsrQ=geOLS3xDUqc0Yx1=zmAC=a13hHar3ewV5xWeUQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 12/19] mpeg2dec: remove the recipe
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Apr 2024 14:21:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198576
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Apr 2024 17:50:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198577
 
-Branch: nanbield
+vlc has a dependency on it, perhaps vlc needs tweaking too.
 
-New this week: 26 CVEs
-CVE-2023-52436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52436 *
-CVE-2023-52454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52454 *
-CVE-2023-52458 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52458 *
-CVE-2023-52462 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52462 *
-CVE-2023-52463 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52463 *
-CVE-2023-52464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52464 *
-CVE-2023-52465 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52465 *
-CVE-2023-52467 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52467 *
-CVE-2023-52468 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52468 *
-CVE-2023-52469 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52469 *
-CVE-2023-52470 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52470 *
-CVE-2023-52472 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52472 *
-CVE-2023-52473 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52473 *
-CVE-2024-26581 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26581 *
-CVE-2024-26593 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26593 *
-CVE-2024-26594 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26594 *
-CVE-2024-26595 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26595 *
-CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
-CVE-2024-26597 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26597 *
-CVE-2024-26598 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26598 *
-CVE-2024-26599 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26599 *
-CVE-2024-26600 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26600 *
-CVE-2024-26601 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26601 *
-CVE-2024-26602 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26602 *
-CVE-2024-26603 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26603 *
-CVE-2024-26606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26606 *
-
-Removed this week: 0 CVEs
-
-Full list:  Found 154 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39189 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39189 *
-CVE-2023-39192 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39192 *
-CVE-2023-39193 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39193 *
-CVE-2023-39928 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39928 *
-CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
-CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
-CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
-CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-42754 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42754 *
-CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
-CVE-2023-4623 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4623 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-48795 (CVSS3: 5.9 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-50431 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-50431 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
-CVE-2023-51385 (CVSS3: 6.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-5178 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5178 *
-CVE-2023-51780 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51780 *
-CVE-2023-51781 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51781 *
-CVE-2023-51782 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51782 *
-CVE-2023-5197 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
-CVE-2023-52425 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52425 *
-CVE-2023-52426 (CVSS3: 5.5 MEDIUM): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52426 *
-CVE-2023-52429 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52429 *
-CVE-2023-52434 (CVSS3: 8.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52434 *
-CVE-2023-52435 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52435 *
-CVE-2023-52436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52436 *
-CVE-2023-52438 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52438 *
-CVE-2023-52439 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52439 *
-CVE-2023-52443 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52443 *
-CVE-2023-52444 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52444 *
-CVE-2023-52445 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52445 *
-CVE-2023-52446 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52446 *
-CVE-2023-52447 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52447 *
-CVE-2023-52448 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52448 *
-CVE-2023-52449 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52449 *
-CVE-2023-52450 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52450 *
-CVE-2023-52451 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52451 *
-CVE-2023-52452 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52452 *
-CVE-2023-52454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52454 *
-CVE-2023-52458 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52458 *
-CVE-2023-52462 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52462 *
-CVE-2023-52463 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52463 *
-CVE-2023-52464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52464 *
-CVE-2023-52465 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52465 *
-CVE-2023-52467 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52467 *
-CVE-2023-52468 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52468 *
-CVE-2023-52469 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52469 *
-CVE-2023-52470 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52470 *
-CVE-2023-52472 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52472 *
-CVE-2023-52473 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52473 *
-CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-5633 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5633 *
-CVE-2023-5717 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5717 *
-CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
-CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
-CVE-2023-6356 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6356 *
-CVE-2023-6531 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6531 *
-CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2023-6536 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6536 *
-CVE-2023-6560 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6560 *
-CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
-CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
-CVE-2023-6622 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6622 *
-CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
-CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
-CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
-CVE-2023-6817 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6817 *
-CVE-2023-6915 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6915 *
-CVE-2023-6931 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6931 *
-CVE-2023-6932 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6932 *
-CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
-CVE-2023-7216 (CVSS3: 5.3 MEDIUM): cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7216 *
-CVE-2024-0193 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0193 *
-CVE-2024-0565 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0565 *
-CVE-2024-0582 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0582 *
-CVE-2024-0607 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0607 *
-CVE-2024-0641 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0641 *
-CVE-2024-0646 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0646 *
-CVE-2024-0684 (CVSS3: 5.5 MEDIUM): coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0684 *
-CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
-CVE-2024-1048 (CVSS3: 3.3 LOW): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-1048 *
-CVE-2024-1085 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-1085 *
-CVE-2024-1086 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-1086 *
-CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
-CVE-2024-22386 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22386 *
-CVE-2024-22705 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22705 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
-CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
-CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
-CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
-CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
-CVE-2024-24575 (CVSS3: 7.5 HIGH): libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24575 *
-CVE-2024-24577 (CVSS3: 9.8 CRITICAL): libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24577 *
-CVE-2024-24806 (CVSS3: 7.3 HIGH): libuv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24806 *
-CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
-CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
-CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
-CVE-2024-24860 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24860 *
-CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
-CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
-CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
-CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
-CVE-2024-26581 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26581 *
-CVE-2024-26582 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26582 *
-CVE-2024-26583 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26583 *
-CVE-2024-26585 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26585 *
-CVE-2024-26586 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26586 *
-CVE-2024-26587 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26587 *
-CVE-2024-26588 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26588 *
-CVE-2024-26589 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26589 *
-CVE-2024-26590 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26590 *
-CVE-2024-26591 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26591 *
-CVE-2024-26593 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26593 *
-CVE-2024-26594 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26594 *
-CVE-2024-26595 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26595 *
-CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
-CVE-2024-26597 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26597 *
-CVE-2024-26598 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26598 *
-CVE-2024-26599 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26599 *
-CVE-2024-26600 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26600 *
-CVE-2024-26601 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26601 *
-CVE-2024-26602 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26602 *
-CVE-2024-26603 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26603 *
-CVE-2024-26606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26606 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 122
-  ffmpeg: 5
-  qemu:qemu-native:qemu-system-native: 5
-  busybox: 4
-  openssh: 4
-  expat:expat-native: 2
-  grub:grub-efi:grub-native: 2
-  libgit2: 2
-  coreutils:coreutils-native: 1
-  cpio: 1
-  gnupg:gnupg-native: 1
-  go:go-binary-native:go-cross-core2-64:go-runtime: 1
-  libuv: 1
-  nasm:nasm-native: 1
-  webkitgtk: 1
-  xserver-xorg: 1
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+On Fri, Apr 19, 2024 at 5:20=E2=80=AFAM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> This is as well inactive for over 10 years, and has been superseded by ff=
+mpeg long time ago.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |   1 -
+>  .../gstreamer1.0-plugins-ugly_1.22.11.bb      |   1 -
+>  ...-1206-from-upstream-to-fix-PIE-build.patch | 156 ------------------
+>  ...heck-for-available-arm-optimizations.patch |  55 ------
+>  ...f-global-symbols-used-in-ARM-specifi.patch |  63 -------
+>  .../files/61_global-symbol-test.patch         |  70 --------
+>  .../mpeg2dec/files/altivec_h_needed.patch     |  43 -----
+>  .../mpeg2dec/mpeg2dec_0.5.1.bb                |  51 ------
+>  8 files changed, 440 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/files/0001-Import-re=
+vision-1206-from-upstream-to-fix-PIE-build.patch
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/files/0001-check-for=
+-available-arm-optimizations.patch
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/files/0002-Set-visib=
+ility-of-global-symbols-used-in-ARM-specifi.patch
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/files/61_global-symb=
+ol-test.patch
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/files/altivec_h_need=
+ed.patch
+>  delete mode 100644 meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index 52bb542483d..a11859890e5 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -523,7 +523,6 @@ RECIPE_MAINTAINER:pn-mkfontscale =3D "Unassigned <una=
+ssigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-mmc-utils =3D "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER:pn-mobile-broadband-provider-info =3D "Alexander Kanav=
+in <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER:pn-modutils-initscripts =3D "Yi Zhao <yi.zhao@windrive=
+r.com>"
+> -RECIPE_MAINTAINER:pn-mpeg2dec =3D "Alexander Kanavin <alex.kanavin@gmail=
+.com>"
+>  RECIPE_MAINTAINER:pn-mpfr =3D "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-mpg123 =3D "Alexander Kanavin <alex.kanavin@gmail.c=
+om>"
+>  RECIPE_MAINTAINER:pn-msmtp =3D "Wang Mingyu <wangmy@fujitsu.com>"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_=
+1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.=
+22.11.bb
+> index d89442d7893..99f41d4f3dc 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.11=
+.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.11=
+.bb
+> @@ -25,7 +25,6 @@ GST_PLUGIN_SET_HAS_EXAMPLES =3D "0"
+>
+>  PACKAGECONFIG ??=3D " \
+>      ${GSTREAMER_ORC} \
+> -    mpeg2dec \
+>  "
+>
+>  PACKAGECONFIG[amrnb]    =3D "-Damrnb=3Denabled,-Damrnb=3Ddisabled,openco=
+re-amr"
+> diff --git a/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-=
+1206-from-upstream-to-fix-PIE-build.patch b/meta/recipes-multimedia/mpeg2de=
+c/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
+> deleted file mode 100644
+> index b2544cb44d8..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-fr=
+om-upstream-to-fix-PIE-build.patch
+> +++ /dev/null
+> @@ -1,156 +0,0 @@
+> -From 0cafb99b57f43cf6ac2c6208718e49ad2dbe462d Mon Sep 17 00:00:00 2001
+> -From: Jan Schmidt <thaytan@noraisin.net>
+> -Date: Sun, 10 Nov 2013 00:49:52 +1100
+> -Subject: [PATCH] Import revision 1206 from upstream to fix PIE build.
+> -
+> -Functions MC_put_o_16_arm, MC_put_o_8_arm, MC_put_x_16_arm, MC_put_x_8_a=
+rm
+> -in libmpeg2/motion_comp_arm_s.S have addresses in .text, which is bad
+> -for shared libraries.  Some environments demand that .text actually be
+> -read-only all the time, yet MC_put_o_16_arm etc require that the address=
+es
+> -be modified by the dynamic linking mechanism (dlopen, LoadLibrary, etc.)
+> -Even in those environments which permit the dynamic linker to modify the
+> -.text segment, the runtime cost of doing the relocation can be noticeabl=
+e.
+> -
+> -This commit rewrites the linkage, discarding the tables of addresses
+> -in favor of tables of offsets.  All transfers are local within each indi=
+vidual
+> -function, so there can be no interference by processing that occurs
+> -after assembly, such as link-time re-ordering (even of individual functi=
+ons.)
+> -
+> -Patch by John Reiser <jreiser@bitwagon.com>
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Upstream-Status: Backport [https://code.videolan.org/videolan/libmpeg2/c=
+ommit/946bf4b518aacc224f845e73708f99e394744499]
+> ----
+> - libmpeg2/motion_comp_arm_s.S | 70 +++++++++++++++++-------------------
+> - 1 file changed, 33 insertions(+), 37 deletions(-)
+> -
+> -diff --git a/libmpeg2/motion_comp_arm_s.S b/libmpeg2/motion_comp_arm_s.S
+> -index c921f7c..82143f8 100644
+> ---- a/libmpeg2/motion_comp_arm_s.S
+> -+++ b/libmpeg2/motion_comp_arm_s.S
+> -@@ -30,9 +30,13 @@ MC_put_o_16_arm:
+> -       pld [r1]
+> -         stmfd sp!, {r4-r11, lr} @ R14 is also called LR
+> -       and r4, r1, #3
+> --      adr r5, MC_put_o_16_arm_align_jt
+> --      add r5, r5, r4, lsl #2
+> --      ldr pc, [r5]
+> -+      ldrb r4, [pc, r4]
+> -+      add pc, pc, r4, lsl #2
+> -+      .byte (MC_put_o_16_arm_align0 - 0f)>>2
+> -+      .byte (MC_put_o_16_arm_align1 - 0f)>>2
+> -+      .byte (MC_put_o_16_arm_align2 - 0f)>>2
+> -+      .byte (MC_put_o_16_arm_align3 - 0f)>>2
+> -+0:
+> -
+> - MC_put_o_16_arm_align0:
+> -       ldmia r1, {r4-r7}
+> -@@ -76,11 +80,6 @@ MC_put_o_16_arm_align3:
+> - 1:    PROC(24)
+> -       bne 1b
+> -         ldmfd sp!, {r4-r11, pc} @@ update PC with LR content.
+> --MC_put_o_16_arm_align_jt:
+> --      .word MC_put_o_16_arm_align0
+> --      .word MC_put_o_16_arm_align1
+> --      .word MC_put_o_16_arm_align2
+> --      .word MC_put_o_16_arm_align3
+> -
+> - @ ----------------------------------------------------------------
+> -       .align
+> -@@ -91,9 +90,14 @@ MC_put_o_8_arm:
+> -       pld [r1]
+> -         stmfd sp!, {r4-r10, lr} @ R14 is also called LR
+> -       and r4, r1, #3
+> --      adr r5, MC_put_o_8_arm_align_jt
+> --      add r5, r5, r4, lsl #2
+> --      ldr pc, [r5]
+> -+      ldrb r4, [pc, r4]
+> -+      add pc, pc, r4, lsl #2
+> -+      .byte (MC_put_o_8_arm_align0 - 0f)>>2
+> -+      .byte (MC_put_o_8_arm_align1 - 0f)>>2
+> -+      .byte (MC_put_o_8_arm_align2 - 0f)>>2
+> -+      .byte (MC_put_o_8_arm_align3 - 0f)>>2
+> -+0:
+> -+
+> - MC_put_o_8_arm_align0:
+> -       ldmia r1, {r4-r5}
+> -       add r1, r1, r2
+> -@@ -135,12 +139,6 @@ MC_put_o_8_arm_align3:
+> -       bne 1b
+> -         ldmfd sp!, {r4-r10, pc} @@ update PC with LR content.
+> -
+> --MC_put_o_8_arm_align_jt:
+> --      .word MC_put_o_8_arm_align0
+> --      .word MC_put_o_8_arm_align1
+> --      .word MC_put_o_8_arm_align2
+> --      .word MC_put_o_8_arm_align3
+> --
+> - @ ----------------------------------------------------------------
+> - .macro        AVG_PW rW1, rW2
+> -       mov \rW2, \rW2, lsl #24
+> -@@ -160,12 +158,17 @@ MC_put_x_16_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> -         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
+> -+      ldr r11, 0f
+> -       and r4, r1, #3
+> --      adr r5, MC_put_x_16_arm_align_jt
+> --      ldr r11, [r5]
+> -       mvn r12, r11
+> --      add r5, r5, r4, lsl #2
+> --      ldr pc, [r5, #4]
+> -+      ldrb r4, [pc, r4]
+> -+      add pc, pc, r4, lsl #2
+> -+      .byte (MC_put_x_16_arm_align0 - 0f)>>2
+> -+      .byte (MC_put_x_16_arm_align1 - 0f)>>2
+> -+      .byte (MC_put_x_16_arm_align2 - 0f)>>2
+> -+      .byte (MC_put_x_16_arm_align3 - 0f)>>2
+> -+0:
+> -+        .word 0x01010101
+> -
+> - .macro        ADJ_ALIGN_QW shift, R0, R1, R2, R3, R4
+> -       mov \R0, \R0, lsr #(\shift)
+> -@@ -238,12 +241,6 @@ MC_put_x_16_arm_align3:
+> -       add r0, r0, r2
+> -       bne 1b
+> -         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
+> --MC_put_x_16_arm_align_jt:
+> --      .word 0x01010101
+> --      .word MC_put_x_16_arm_align0
+> --      .word MC_put_x_16_arm_align1
+> --      .word MC_put_x_16_arm_align2
+> --      .word MC_put_x_16_arm_align3
+> -
+> - @ ----------------------------------------------------------------
+> -       .align
+> -@@ -253,12 +250,17 @@ MC_put_x_8_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> -         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
+> -+      ldr r11, 0f
+> -       and r4, r1, #3
+> --      adr r5, MC_put_x_8_arm_align_jt
+> --      ldr r11, [r5]
+> -       mvn r12, r11
+> --      add r5, r5, r4, lsl #2
+> --      ldr pc, [r5, #4]
+> -+      ldrb r4, [pc, r4]
+> -+      add pc, pc, r4, lsl #2
+> -+      .byte (MC_put_x_8_arm_align0 - 0f)>>2
+> -+      .byte (MC_put_x_8_arm_align1 - 0f)>>2
+> -+      .byte (MC_put_x_8_arm_align2 - 0f)>>2
+> -+      .byte (MC_put_x_8_arm_align3 - 0f)>>2
+> -+0:
+> -+        .word 0x01010101
+> -
+> - .macro        ADJ_ALIGN_DW shift, R0, R1, R2
+> -       mov \R0, \R0, lsr #(\shift)
+> -@@ -319,9 +321,3 @@ MC_put_x_8_arm_align3:
+> -       add r0, r0, r2
+> -       bne 1b
+> -         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
+> --MC_put_x_8_arm_align_jt:
+> --      .word 0x01010101
+> --      .word MC_put_x_8_arm_align0
+> --      .word MC_put_x_8_arm_align1
+> --      .word MC_put_x_8_arm_align2
+> --      .word MC_put_x_8_arm_align3
+> diff --git a/meta/recipes-multimedia/mpeg2dec/files/0001-check-for-availa=
+ble-arm-optimizations.patch b/meta/recipes-multimedia/mpeg2dec/files/0001-c=
+heck-for-available-arm-optimizations.patch
+> deleted file mode 100644
+> index 5bf68b39ee6..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/files/0001-check-for-available-arm=
+-optimizations.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From cbcff58ed670c8edc0be1004384cbe0fd07d8d26 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 5 Jul 2017 18:49:21 -0700
+> -Subject: [PATCH 1/2] check for available arm optimizations
+> -
+> -Taken From
+> -http://sources.debian.net/src/mpeg2dec/0.5.1-7/debian/patches/65_arm-tes=
+t-with-compiler.patch/
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - configure.ac | 12 ++++++++----
+> - 1 file changed, 8 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index acdcb1e..2c0a721 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -59,7 +59,7 @@ elif test x"$GCC" =3D x"yes"; then
+> -     AC_TRY_CFLAGS([$TRY_CFLAGS $CFLAGS],[OPT_CFLAGS=3D"$TRY_CFLAGS"])
+> -
+> -     dnl arch-specific flags
+> --    arm_conditional=3Dfalse
+> -+    build_arm_opt=3Dfalse
+> -     case "$host" in
+> -     i?86-* | k?-* | x86_64-* | amd64-*)
+> -       AC_DEFINE([ARCH_X86],,[x86 architecture])
+> -@@ -102,8 +102,12 @@ elif test x"$GCC" =3D x"yes"; then
+> -     alpha*)
+> -       AC_DEFINE([ARCH_ALPHA],,[alpha architecture]);;
+> -     arm*)
+> --      arm_conditional=3D:
+> --      AC_DEFINE([ARCH_ARM],,[ARM architecture]);;
+> -+      AC_LANG(C)
+> -+      AC_COMPILE_IFELSE(
+> -+              [AC_LANG_SOURCE([[
+> -+                      void foo(void) { __asm__ volatile("pld [r1]"); }]=
+])],
+> -+              build_arm_opt=3Dtrue; AC_DEFINE([ARCH_ARM],,[ARM architec=
+ture]),
+> -+              build_arm_opt=3Dfalse);;
+> -     esac
+> - elif test x"$CC" =3D x"tendracc"; then
+> -     dnl TenDRA portability checking compiler
+> -@@ -123,7 +127,7 @@ else
+> -     esac
+> - fi
+> -
+> --AM_CONDITIONAL(ARCH_ARM, ${arm_conditional})
+> -+AM_CONDITIONAL(ARCH_ARM, test x$build_arm_opt =3D xtrue)
+> -
+> - dnl Checks for libtool - this must be done after we set cflags
+> - AC_LIBTOOL_WIN32_DLL
+> ---
+> -2.13.2
+> -
+> diff --git a/meta/recipes-multimedia/mpeg2dec/files/0002-Set-visibility-o=
+f-global-symbols-used-in-ARM-specifi.patch b/meta/recipes-multimedia/mpeg2d=
+ec/files/0002-Set-visibility-of-global-symbols-used-in-ARM-specifi.patch
+> deleted file mode 100644
+> index 83016923685..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/files/0002-Set-visibility-of-globa=
+l-symbols-used-in-ARM-specifi.patch
+> +++ /dev/null
+> @@ -1,63 +0,0 @@
+> -From f9d9dc92d75f8910e3cd5fdcbea72e505cdf3493 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 5 Jul 2017 19:03:36 -0700
+> -Subject: [PATCH 2/2] Set visibility of global symbols used in ARM specif=
+ic
+> - assembly file to internal
+> -
+> -Taken from
+> -http://sources.debian.net/src/mpeg2dec/0.5.1-7/debian/patches/60_arm-pri=
+vate-symbols.patch/
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - libmpeg2/motion_comp_arm_s.S | 12 ++++++++----
+> - 1 file changed, 8 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/libmpeg2/motion_comp_arm_s.S b/libmpeg2/motion_comp_arm_s.S
+> -index f6c3d7d..c921f7c 100644
+> ---- a/libmpeg2/motion_comp_arm_s.S
+> -+++ b/libmpeg2/motion_comp_arm_s.S
+> -@@ -23,7 +23,8 @@
+> -
+> - @ ----------------------------------------------------------------
+> -       .align
+> --      .global MC_put_o_16_arm
+> -+      .global   MC_put_o_16_arm
+> -+      .internal MC_put_o_16_arm
+> - MC_put_o_16_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> -@@ -83,7 +84,8 @@ MC_put_o_16_arm_align_jt:
+> -
+> - @ ----------------------------------------------------------------
+> -       .align
+> --      .global MC_put_o_8_arm
+> -+      .global   MC_put_o_8_arm
+> -+      .internal MC_put_o_8_arm
+> - MC_put_o_8_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> -@@ -152,7 +154,8 @@ MC_put_o_8_arm_align_jt:
+> - .endm
+> -
+> -       .align
+> --      .global MC_put_x_16_arm
+> -+      .global   MC_put_x_16_arm
+> -+      .internal MC_put_x_16_arm
+> - MC_put_x_16_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> -@@ -244,7 +247,8 @@ MC_put_x_16_arm_align_jt:
+> -
+> - @ ----------------------------------------------------------------
+> -       .align
+> --      .global MC_put_x_8_arm
+> -+      .global   MC_put_x_8_arm
+> -+      .internal MC_put_x_8_arm
+> - MC_put_x_8_arm:
+> -       @@ void func(uint8_t * dest, const uint8_t * ref, int stride, int=
+ height)
+> -       pld [r1]
+> ---
+> -2.13.2
+> -
+> diff --git a/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test=
+.patch b/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch
+> deleted file mode 100644
+> index 00b667d3365..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/files/61_global-symbol-test.patch
+> +++ /dev/null
+> @@ -1,70 +0,0 @@
+> -Rewrite the public symbol check to verify the shared libraries, to check=
+ for
+> -more things, and to avoid duplication; fixes make check on ARM
+> -
+> -Taken From
+> -https://sources.debian.org/src/mpeg2dec/0.5.1-8/debian/patches/61_global=
+-symbol-test.patch/
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - test/globals |   42 +++++++++++++++++++++++++++---------------
+> - 1 file changed, 27 insertions(+), 15 deletions(-)
+> -
+> ---- mpeg2dec.orig/test/globals
+> -+++ mpeg2dec/test/globals
+> -@@ -1,4 +1,8 @@
+> - #!/bin/sh
+> -+# TODO
+> -+# - fix checking of .a libs; problem is that "nm -g --defined-only" lis=
+ts
+> -+#   internal symbols; this can be solved by using objdump, but it's pro=
+bably
+> -+#   good enough to just run the tests on the shared lib
+> -
+> - if test x"$srcdir" !=3D x""; then
+> -     builddir=3D"."      # running from make check, but it does not defi=
+ne that
+> -@@ -14,22 +18,30 @@ builddir=3D`cd $builddir;pwd`
+> -
+> - error=3D0
+> -
+> --bad_globals=3D`nm -g --defined-only $builddir/../libmpeg2/*.o |\
+> --    awk '{if ($3) print $3}' | grep -v '^_\?mpeg2_'`
+> --
+> --if test x"$bad_globals" !=3D x""; then
+> --    echo BAD GLOBAL SYMBOLS:
+> --    for s in $bad_globals; do echo $s; done
+> -+# check_bad_public_symbols <symbol prefix> <lib file> [<lib file>...]
+> -+#
+> -+# checks public symbols in shared libs:
+> -+# - allow prefix_anything
+> -+# - reject _prefixanything
+> -+# - allow _anything
+> -+# - reject anything else
+> -+#
+> -+# NB: skips missing files
+> -+check_bad_public_symbols() {
+> -+    symbols_prefix=3D"$1"
+> -+    shift
+> -+    lib_files=3D`ls "$@" 2>/dev/null`
+> -+    [ -z "$lib_files" ] && return
+> -+    bad_globals=3D`nm -g --defined-only $lib_files |
+> -+        awk '{if ($3) print $3}' |
+> -+        sed -n "/^${symbols_prefix}_/ d; /^_${symbols_prefix}/ { p; d }=
+; /^_/ d; p"`
+> -+    [ -z "$bad_globals" ] && return
+> -     error=3D1
+> --fi
+> --
+> --bad_globals=3D`nm -g --defined-only $builddir/../libmpeg2/convert/*.o |=
+\
+> --    awk '{if ($3) print $3}' | grep -v '^_\?mpeg2convert_'`
+> -+    echo BAD GLOBAL SYMBOLS in $lib_files:
+> -+    echo "$bad_globals"
+> -+}
+> -
+> --if test x"$bad_globals" !=3D x""; then
+> --    echo BAD GLOBAL SYMBOLS:
+> --    for s in $bad_globals; do echo $s; done
+> --    error=3D1
+> --fi
+> -+check_bad_public_symbols mpeg2 $builddir/../libmpeg2/.libs/libmpeg2.so
+> -+check_bad_public_symbols mpeg2convert $builddir/../libmpeg2/convert/.li=
+bs/libmpeg2convert.so
+> -
+> - exit $error
+> diff --git a/meta/recipes-multimedia/mpeg2dec/files/altivec_h_needed.patc=
+h b/meta/recipes-multimedia/mpeg2dec/files/altivec_h_needed.patch
+> deleted file mode 100644
+> index 5113ad44fe4..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/files/altivec_h_needed.patch
+> +++ /dev/null
+> @@ -1,43 +0,0 @@
+> -Add new method to judge whether <altivec.h> is needed
+> -
+> -The original logic will use "typedef vector int t;" to judge
+> -whether <altivec.h> is needed. altivec.h contains the following
+> -statement:
+> -
+> - #if !defined(__APPLE_ALTIVEC__)
+> - #define vector __vector
+> - #define pixel __pixel
+> - #define bool
+> - #endif
+> -
+> -In gcc-4.3.3, __APPLE_ALTIVEC__ is not defined by compiler, neither
+> -as vector, pixel, and bool. In order to make "typedef vector int t;"
+> -pass the compilation, we need to include altivec.h.
+> -
+> -However in gcc-4.5.0, __APPLE_ALTIVEC__ is defined by compiler,
+> -so as vector, pixel, and bool. We could not judge whether
+> -altivec.h is needed by "typedef vector int t;".
+> -Here we include another statement "int tmp =3D __CR6_EQ;", in
+> -which __CR6_EQ is defined in altivec.h.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> -
+> -diff -ruN a/configure.in b/configure.in
+> ---- a/configure.ac     2010-09-14 20:55:42.399687663 +0800
+> -+++ b/configure.ac     2010-09-14 20:56:43.403204648 +0800
+> -@@ -79,11 +79,11 @@
+> -                CFLAGS=3D"$OPT_CFLAGS $TRY_CFLAGS $CFLAGS"
+> -                AC_MSG_CHECKING([if <altivec.h> is needed])
+> -                AC_TRY_COMPILE([],
+> --                  [typedef vector int t;
+> -+                  [typedef vector int t; int tmp =3D __CR6_EQ;
+> -                    vec_ld(0, (unsigned char *)0);],
+> -                   [have_altivec=3Dyes; AC_MSG_RESULT(no)],
+> -                   [AC_TRY_COMPILE([#include <altivec.h>],
+> --                      [typedef vector int t; vec_ld(0, (unsigned char *=
+)0);],
+> -+                      [typedef vector int t; int tmp =3D __CR6_EQ; vec_=
+ld(0, (unsigned char *)0);],
+> -                       [AC_DEFINE([HAVE_ALTIVEC_H],,
+> -                           [Define to 1 if you have the <altivec.h> head=
+er.])
+> -                        have_altivec=3Dyes; AC_MSG_RESULT(yes)],
+> diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb b/meta/re=
+cipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
+> deleted file mode 100644
+> index fd8b561657d..00000000000
+> --- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
+> +++ /dev/null
+> @@ -1,51 +0,0 @@
+> -SUMMARY =3D "Library and test program for decoding MPEG-2 and MPEG-1 vid=
+eo streams"
+> -DESCRIPTION =3D "mpeg2dec is a test program for libmpeg2. It decodes \
+> -mpeg-1 and mpeg-2 video streams, and also includes a demultiplexer \
+> -for mpeg-1 and mpeg-2 program streams. The main purpose of mpeg2dec \
+> -is to have a simple test bed for libmpeg2."
+> -HOMEPAGE =3D "https://libmpeg2.sourceforge.io/"
+> -SECTION =3D "libs"
+> -LICENSE =3D "GPL-2.0-or-later"
+> -LICENSE_FLAGS =3D "commercial"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae=
+19f \
+> -                    file://include/mpeg2.h;beginline=3D1;endline=3D22;md=
+5=3D7766f4fcb58f0f8413c49a746f2ab89b"
+> -
+> -SRC_URI =3D "http://libmpeg2.sourceforge.net/files/libmpeg2-${PV}.tar.gz=
+ \
+> -           file://altivec_h_needed.patch \
+> -           file://0001-check-for-available-arm-optimizations.patch \
+> -           file://0002-Set-visibility-of-global-symbols-used-in-ARM-spec=
+ifi.patch \
+> -           file://61_global-symbol-test.patch \
+> -           file://0001-Import-revision-1206-from-upstream-to-fix-PIE-bui=
+ld.patch \
+> -           "
+> -
+> -S =3D "${WORKDIR}/libmpeg2-${PV}"
+> -
+> -SRC_URI[md5sum] =3D "0f92c7454e58379b4a5a378485bbd8ef"
+> -SRC_URI[sha256sum] =3D "dee22e893cb5fc2b2b6ebd60b88478ab8556cb3b93f9a0d7=
+ce8f3b61851871d4"
+> -
+> -UPSTREAM_CHECK_URI =3D "http://libmpeg2.sourceforge.net/downloads.html"
+> -
+> -inherit autotools pkgconfig
+> -
+> -EXTRA_OECONF =3D "--enable-shared --disable-sdl"
+> -
+> -PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+> -PACKAGECONFIG[x11] =3D "--with-x,--without-x,virtual/libx11 libxext libx=
+v"
+> -
+> -PACKAGES =3D "mpeg2dec-dbg mpeg2dec mpeg2dec-doc libmpeg2 libmpeg2-dev l=
+ibmpeg2convert libmpeg2convert-dev libmpeg2-staticdev libmpeg2convert-stati=
+cdev"
+> -
+> -FILES:${PN} =3D "${bindir}/*"
+> -FILES:libmpeg2 =3D "${libdir}/libmpeg2.so.*"
+> -FILES:libmpeg2convert =3D "${libdir}/libmpeg2convert.so.*"
+> -FILES:libmpeg2-dev =3D "${libdir}/libmpeg2.so \
+> -                      ${libdir}/libmpeg2.la \
+> -                      ${libdir}/libmpeg2arch.la \
+> -                      ${libdir}/pkgconfig/libmpeg2.pc \
+> -                      ${includedir}/mpeg2dec/mpeg2.h"
+> -FILES:libmpeg2-staticdev =3D "${libdir}/libmpeg2.a"
+> -FILES:libmpeg2convert-dev =3D "${libdir}/libmpeg2convert.so \
+> -                             ${libdir}/libmpeg2convert.la \
+> -                             ${libdir}/libmpeg2convertarch.la \
+> -                             ${libdir}/pkgconfig/libmpeg2convert.pc \
+> -                             ${includedir}/mpeg2dec/mpeg2convert.h"
+> -FILES:libmpeg2convert-staticdev =3D "${libdir}/libmpeg2convert.a"
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198540): https://lists.openembedded.org/g/openembedde=
+d-core/message/198540
+> Mute This Topic: https://lists.openembedded.org/mt/105616504/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
