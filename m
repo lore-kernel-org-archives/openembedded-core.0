@@ -1,103 +1,157 @@
-Return-Path: <marc.ferland@gmail.com>
+Return-Path: <m.glembo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E19C4345F
-	for <webhook@archiver.kernel.org>; Mon, 22 Apr 2024 14:13:03 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.19608.1713795182567780043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C161EC4345F
+	for <webhook@archiver.kernel.org>; Mon, 22 Apr 2024 14:46:23 +0000 (UTC)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+ by mx.groups.io with SMTP id smtpd.web10.20357.1713797174023837420
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Apr 2024 07:13:02 -0700
+ Mon, 22 Apr 2024 07:46:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D1iDPQzB;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: marc.ferland@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41a4f291f9dso7734055e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Apr 2024 07:13:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UtkFmnX1;
+ spf=pass (domain: gmail.com, ip: 209.85.221.180, mailfrom: m.glembo@gmail.com)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4dc9f17c27bso1274831e0c.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Apr 2024 07:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713795180; x=1714399980; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQMofiAtbCyRgQjAKxBm3ezu5LJLiqq8SFST1ViGFLI=;
-        b=D1iDPQzBDWZNBqA/Gvu8F7G9VAGiOWChtqBpx44MexyGZX7yh9iQvMzmETHmcqvhAf
-         IAB6+ivIWXNX7yM+GJe2XeL0/9kEwLzbMyZ0bVSWdIOUHSRPYlfD/qjWYQuOvMmSyaxY
-         nzu2DjFQheQ8oE3yRFQaQ5qzf+qumWQtw5qc25lbdUBBWMb1FUByEoiNz4qmLHPIXoN4
-         OgE3bFHy5FVZczdf457x3uNIHq+8MH/0giZUpPaP4T0UxS2iFwnV402gINrW78XIOhnX
-         o1smXsfrF3d5mgaNcUuhX/5ov7tnY0V5R+YAbA98DemmAuWRaQGlNd2nxkYX0qkNf889
-         N2Gg==
+        d=gmail.com; s=20230601; t=1713797173; x=1714401973; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:references:in-reply-to:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kedu01ef7Dpd8CV2RVFLR9X3wFNflVL6CkLpA66h62E=;
+        b=UtkFmnX1iBocUWzWhH0fSs7DvEN0VV6O2zYM6YQ3A8zDNnXsxlUAAo5En8PuGNrphu
+         2hrfCqWy9cEfeR6ciwQRvwsn6ehxOPOk0YAIOOJEj2D4ut64l8eg51ntWzeNqSehdDSr
+         32tdGPp7PCZPnFJ+17aup5IT+A1LfCjoGcyGDGePbkG99976SEZFQj6TT1jXSibgTi4S
+         znwL5aOXp6UajDdRA0temAhNX4RTEjmvBsABrmA2N4NrHmQwBhFfXFfGpmpqdBAkvRJa
+         CQVVko1inDDHWz2ZAUmF4gfAgBohR0lhfPOua34qi1xNL+UTax+4tYfoal1fQPGkgAvF
+         Gy9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713795180; x=1714399980;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GQMofiAtbCyRgQjAKxBm3ezu5LJLiqq8SFST1ViGFLI=;
-        b=Pz3YWzfgl31hzxNT8CkVX9XnATmiGJuDTznUDeneKgJtwoZC7Mh2rKfsr5PToewb6N
-         acBLt/C1aOLexNaaLth9hO46Qeyx4drLUxpzHgQH5wDUuFTjUgDKZxJoc71m3JMRhsBQ
-         GZ4aRJZPd3oOZqLzRGjzzCKj1w0DONNHY74EyhwJ5y38JgD/g7xOR+CZ0RdIBqWu+db4
-         KQuHRwUeIrYxOLDBkVqyqP8xbgNRZwDxbTmkZ5JZn0I9c4NzrcRIq0NcBZPy6skU3Jh2
-         Q1hK3XIjt4qL/Vx1UO15KuD6BSmlcdVtH3xT6F+tNvLwF5PWGUIk+jlxantM/wIwhLXy
-         L73w==
-X-Gm-Message-State: AOJu0YwqQ89toEVoT/NH4f/TzYM7y6bHDxNAHeRpsErFOrpS17cRM2uo
-	NHywLzLze6mmMSfVPIFbI8s8etNFwlpO5D0fqDwV2DV9Q1sSyfJup3nUzg==
-X-Google-Smtp-Source: AGHT+IHsu/jDX8Z5HCf+RR4zMN1geZ4CpwPYxoeqfxl/USdZyRoPI+gRMXo6hwBpJZG+Tu9ZCyO+Sg==
-X-Received: by 2002:a05:600c:b8e:b0:41a:8035:af7e with SMTP id fl14-20020a05600c0b8e00b0041a8035af7emr1274499wmb.6.1713795179975;
-        Mon, 22 Apr 2024 07:12:59 -0700 (PDT)
-Received: from mfe-desktop.Sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
-        by smtp.googlemail.com with ESMTPSA id jz14-20020a05600c580e00b0041a68d4fe61sm1508840wmb.0.2024.04.22.07.12.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 07:12:59 -0700 (PDT)
-From: marc.ferland@gmail.com
-X-Google-Original-From: marc.ferland@sonatest.com
-To: openembedded-core@lists.openembedded.org
-Cc: Marc Ferland <marc.ferland@sonatest.com>
-Subject: [PATCH] libinput: fix building with debug-gui option
-Date: Mon, 22 Apr 2024 10:12:54 -0400
-Message-Id: <20240422141254.3218594-1-marc.ferland@sonatest.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1713797173; x=1714401973;
+        h=to:subject:message-id:date:from:references:in-reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kedu01ef7Dpd8CV2RVFLR9X3wFNflVL6CkLpA66h62E=;
+        b=jAGNCRZ1n78GkTx1ZkLCPq86pfGmqZCry5mXEmFvmK2k2PBcWqEXrmG158ua6qJWcr
+         S3MIQi9UwDkG3cnXRPIy4515L2Loaxo7R4957St7HbVoaGEPEa6fhgZffmyjYvsXH/8Q
+         cIg7CIem26Hgi0c6hJ4pz7VzsuNC8pCLlRJA+vgqSPQjOxAYLZzUAsix418rYXg7fNYb
+         PvrVsyGlDdh83fkhSW5uCF6JoQTgvWjtxQfbWJfRWsJ8OHNY9jQ0B2hdDjQVrH+8RChM
+         zRPixs1mFPS6lLdGV29JQxFClufqj2N/WyX/LDKKjRQVFZCmFwhuhH70NVEOt23FRrgR
+         U9hg==
+X-Gm-Message-State: AOJu0YzzvMi9rJ+gOG8Va2JkxlF1uUaHEgMqMuhi45trM8iW9vmlodHc
+	CwMIDFJ5ZyL+jXZccJl8QpPsEe0prh0WTEC572HnFpNXc+U7lw2s0+9xB/XZGFawC94YGx/T7Pk
+	w2zuFigyVs50K/YE5D2SnboKvg2NrwQ==
+X-Google-Smtp-Source: AGHT+IFysVi4BsooU7ZgE5VmGLmsk0uIBcIqoYoo0lSJXHUuhUroICL4DPbhB7lpk8V6CcJhJkqnkBj8M6rOfFAQGjs=
+X-Received: by 2002:a05:6122:1d41:b0:4da:9d3e:a7df with SMTP id
+ gd1-20020a0561221d4100b004da9d3ea7dfmr11811870vkb.5.1713797172476; Mon, 22
+ Apr 2024 07:46:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6124:c97:b0:39a:ca5:2e0a with HTTP; Mon, 22 Apr 2024
+ 07:46:11 -0700 (PDT)
+In-Reply-To: <20240422135552.83928-1-Michael.Glembotzki@iris-sensing.com>
+References: <20240422135552.83928-1-Michael.Glembotzki@iris-sensing.com>
+From: Michael <m.glembo@gmail.com>
+Date: Mon, 22 Apr 2024 16:46:11 +0200
+Message-ID: <CAKDoKkPr57uXMpmDVZba_WCgH47hbRxU0HmOp6B27xQ2wh-MrQ@mail.gmail.com>
+Subject: [master][scarthgap][poky][PATCH] rootfs-postcommands.bbclass: Only
+ set DROPBEAR_RSAKEY_DIR once
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000aec6d30616b07f6a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Apr 2024 14:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198588
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Apr 2024 14:46:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198589
 
-From: Marc Ferland <marc.ferland@sonatest.com>
+--000000000000aec6d30616b07f6a
+Content-Type: text/plain; charset="UTF-8"
 
-When building libinput with the 'gui' PACKAGECONFIG option, it fails
-with:
+If DROPBEAR_RSAKEY_DIR has already been set before, e.g. by overwriting
+the file dropbear.default, the line will still be appended a second time.
 
-| Run-time dependency x11 found: YES 1.8.9
-| Run-time dependency wayland-client found: YES 1.22.0
-| Run-time dependency wayland-protocols found: YES 1.34
-| Program wayland-scanner found: NO
-|
-| ../git/meson.build:578:20: ERROR: Program 'wayland-scanner' not found or not executable
-|
-| A full log can be found at /home/marc/mnt/yocto-latest/build/tmp/work/core2-64-poky-linux/libinput/1.25.0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: exit code 1 from a shell command.
+DROPBEAR_RSAKEY_DIR="/path/to/dropbear"
+DROPBEAR_EXTRA_ARGS="-B"
+DROPBEAR_RSAKEY_DIR=/var/lib/dropbear
 
-Adding a build dependency on wayland-native fixes the issue.
-
-Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
+Signed-off-by: Michael Glembotzki <Michael.Glembotzki@iris-sensing.com>
 ---
- meta/recipes-graphics/wayland/libinput_1.25.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/rootfs-postcommands.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.25.0.bb b/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-index 517b247fed..894858e361 100644
---- a/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-@@ -32,7 +32,7 @@ do_configure:append() {
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
- PACKAGECONFIG[libwacom] = "-Dlibwacom=true,-Dlibwacom=false,libwacom"
--PACKAGECONFIG[gui] = "-Ddebug-gui=true,-Ddebug-gui=false,cairo gtk+3"
-+PACKAGECONFIG[gui] = "-Ddebug-gui=true,-Ddebug-gui=false,cairo gtk+3 wayland-native"
- PACKAGECONFIG[tests] = "-Dtests=true -Dinstall-tests=true,-Dtests=false -Dinstall-tests=false,libcheck"
- 
- UDEVDIR = "`pkg-config --variable=udevdir udev`"
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass
+b/meta/classes-recipe/rootfs-postcommands.bbclass
+index e81b69a239..920da94ba2 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -206,7 +206,9 @@ read_only_rootfs_hook () {
+                # Also tweak the key location for dropbear in the same way.
+                if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
+                        if [ ! -e
+${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key
+]; then
+-                               echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear"
+>> ${IMAGE_ROOTFS}/etc/default/dropbear
++                               if ! grep -q "^DROPBEAR_RSAKEY_DIR="
+${IMAGE_ROOTFS}/etc/default/dropbear ; then
++                                       echo
+"DROPBEAR_RSAKEY_DIR=/var/lib/dropbear"
+>> ${IMAGE_ROOTFS}/etc/default/dropbear
++                               fi
+                        fi
+                fi
+        fi
 -- 
-2.34.1
+2.44.0
 
+--000000000000aec6d30616b07f6a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+If DROPBEAR_RSAKEY_DIR has already been set before, e.g. by overwriting<br>
+the file dropbear.default, the line will still be appended a second time.<b=
+r>
+<br>
+DROPBEAR_RSAKEY_DIR=3D&quot;/path/to/<wbr>dropbear&quot;<br>
+DROPBEAR_EXTRA_ARGS=3D&quot;-B&quot;<br>
+DROPBEAR_RSAKEY_DIR=3D/var/lib/<wbr>dropbear<br>
+<br>
+Signed-off-by: Michael Glembotzki &lt;<a href=3D"mailto:Michael.Glembotzki@=
+iris-sensing.com">Michael.Glembotzki@iris-<wbr>sensing.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/rootfs-<wbr>postcommands.bbclass | 4 +++-<br>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes-recipe/rootfs-<wbr>postcommands.bbclass b/meta/cl=
+asses-recipe/rootfs-<wbr>postcommands.bbclass<br>
+index e81b69a239..920da94ba2 100644<br>
+--- a/meta/classes-recipe/rootfs-<wbr>postcommands.bbclass<br>
++++ b/meta/classes-recipe/rootfs-<wbr>postcommands.bbclass<br>
+@@ -206,7 +206,9 @@ read_only_rootfs_hook () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Also tweak the ke=
+y location for dropbear in the same way.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -d ${IMAGE_ROO=
+TFS}/etc/dropbear ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/<wbr>dropbear_rsa_host_ke=
+y ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;DROPBEAR_RSAKEY_DIR=3D/var=
+/lib/<wbr>dropbear&quot; &gt;&gt; ${IMAGE_ROOTFS}/etc/default/<wbr>dropbear=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ! grep -q &quot;^DROPBEAR_RSAKEY_D=
+IR=3D&quot; ${IMAGE_ROOTFS}/etc/default/<wbr>dropbear ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quo=
+t;DROPBEAR_RSAKEY_DIR=3D/var/lib/<wbr>dropbear&quot; &gt;&gt; ${IMAGE_ROOTF=
+S}/etc/default/<wbr>dropbear<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+-- <br>
+2.44.0<br>
+<br>
+<br>
+
+--000000000000aec6d30616b07f6a--
 
