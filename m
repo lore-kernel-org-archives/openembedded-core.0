@@ -1,23 +1,23 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <iskander.amara.it@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C6EEC4345F
-	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 13:11:42 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.137])
- by mx.groups.io with SMTP id smtpd.web10.18244.1713877893129155742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD277C4345F
+	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 14:19:12 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.130])
+ by mx.groups.io with SMTP id smtpd.web11.19724.1713881950400552835
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Apr 2024 06:11:33 -0700
+ Tue, 23 Apr 2024 07:19:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@theobroma-systems.com header.s=selector1 header.b=AtaEv9Cr;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.20.137, mailfrom: quentin.schulz@theobroma-systems.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@theobroma-systems.com header.s=selector1 header.b=ZT/D5jQR;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.7.130, mailfrom: iskander.amara@theobroma-systems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XBOzue8o1yDtEJEawym1RoGK3qr9aCNkrox6/NUyMMYNTqSZv9FWqawWHCUdjsiS5rf0KkHDWu7X6cWvs+QFBq3w1HGPHFYW9ut70UjAzg+XZMIgeoU+W1M37hN0MlFKQVLl90pqB6GqofaPxyzlKqzFJsx3Bzi23HnhvvjgaPN2xLyr9Uj0eDfAEM8e/JV1y6ytTNu8GaAU+S5ZDrWzOiN2qt5syqYDCmxwZSrSmLm1CC/sZpaJvK6FrYHY2MFmuB4GLWBlLe2ifO/utaiC+Yl8hMbM4gx+jjA6mGHpKFzlEiE6Z2DId8hzO7cStQQjzb6h1FowDNMJHERLzzxISw==
+ b=Fi0hvnPBx5La6LS0mZQbgshuU6jjEHmbLHa7r8bXiuafRdC6YBZD8mdRfIIdgcpV+H3qlTqNxkJFV6P9oi5v03UR0djEIO6qGIowHUimQ/I5zLP4ynTUxLWHxh3FgsV0YPEqc8DiEulZKMHH632LRuCE7QCHuhbkulQ3Y2XQy6YtwSDsuWqidr4XHCV3MoWGQJJFmHSQ4Qua/vXXUaD6pjujSPCuH9TEMD/qES0O9fGF54YdWkkdEK56h6ebdTyaA+eBtaBy/KX3K6uIEt8ZJlhvy+rUlZOFkHytczMEERV0b8Rlu5PIep0J1AdS3WE3cvCLjao2XELeIihfOTXIAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zcaaPpkrhl4N2LI+rJkDky8Y9qh7EkkeRzRaYsYV3iY=;
- b=oDAPRTlCJLS9H4aSQVuu5Uxbpf5QyI9/dis5RfBR+UxboooiZtObkVQJ0QYAG+NpX15AQN7iNebAzw5pipWaShjQjbK6k4LOeYM/6Z+kwr18g1iCjtfjHLR2pyjmg1VD+Gs5cOhyvUiHJC0AL+w4txEOQ+EUc3MRzrjEIeI8R0+eLRQxojG9kC5oruXoeEeSE9tf50yvLdqGbUiWlRsZAF6K8vYPwprJg5pENOl6PPLhAw6KSxMhWmJGfGnwNtcFfOzNU9AgMGZpUG1WyUo1D0iILn5aaNmUfx5NH9ue89BqO/hVAF+GmJfWVd58CoiLBwGod68ELpvsfpKRZBo3Jw==
+ bh=ZGgTNkV4PMWdoZXRs9D0WgZ/s98ZDjL4BFDVZJhMppY=;
+ b=iW1M/gw3dvGzMimkOkUQfpotfdu7Y8GRMr/+4vEhGPSi1yhuT3uRB7XyMjhANLWch5sEpdX38PBDTzwiLCsy06/RXdNS/4B9hGdi7mmSOObNB2a9dbDOqov6LnBr98A8Yto5nm6vp7trXHz368DSaL8Red5IDYfrWaRIwQCg/Ku7iBb1VwK0rAR7OnXZ1EbCJzak1UjPuP/DLKbgjnOF7IkutIAgu5vo38VoD2A5og7Yn+z4YXtYwsOOr/+XVtp7Is7oQvF7eBqOZ9Njh6lxx9N2I9kL9aQ8gwSMyPqFtbJ8MD3gAHSG3eE1Ul+LKa3a0CA3G3cNtmeE5gl3aVJSTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
  header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
@@ -25,188 +25,178 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zcaaPpkrhl4N2LI+rJkDky8Y9qh7EkkeRzRaYsYV3iY=;
- b=AtaEv9CrGuemewkXfCI81ONZTs/ojMR7KCl7tDYfHQc95hcTrIVH79Vy60NDS6K/vjrrzO2HEA9yaHG8U/5grpb7eOy0mCKuNMq7QQSrq6CxIcflV7LlygTdaA02NCm1lPKHILDezSfwxofWkHc5hMKEK+Xvjo7NkhgMZeH962ANsWIyRDefX0mTIAZ4xdANn0B8uM52E2pMeOX0BjBPD3Px6PWPtcRNkAGS47KkhJDIkD9rpUdx4po6ZQ8WFw9loe6njVWKciIErofqAlEabqIGGXSlnG+UK/aGmUGRjRJt5HbValyMuxlPBb3DEEWdUYG+Y4ndJwM0h5g6Ze600g==
+ bh=ZGgTNkV4PMWdoZXRs9D0WgZ/s98ZDjL4BFDVZJhMppY=;
+ b=ZT/D5jQRqDZlC8iwURMy7l37A1IroAFp1YY8/eJRfgvNT1c1CtiG76eO/w+iOJdZO+hae8ecCnJxPys4kWxWyPYWQBXgNvI5gXIZXCTsKb6xxgqH3mu6kIGf+57qLtalyO2Z1GGbQbdORqfHhOpLHkdzt84At9KIxt8qr8dIPVrHuaEG19DEqXxAqCt+EZbnog4zA7u63f3+CzONKVzbukf7Eeeq4DHR/Fdmrnmux5ZhKjN1myNNMXMWIuaThH/YyrWbJ+EjoMe2aa2KzRbi5gDPoraYb64qbLypirCIQH6ZL3M5+3We8ShVfAqkUOBcUITejoPKXZOfWo46/HAiVg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from AM0PR04MB4833.eurprd04.prod.outlook.com (2603:10a6:208:c2::30)
- by VI2PR04MB10221.eurprd04.prod.outlook.com (2603:10a6:800:22b::6) with
+Received: from VI1PR04MB6013.eurprd04.prod.outlook.com (2603:10a6:803:cb::15)
+ by AS8PR04MB8641.eurprd04.prod.outlook.com (2603:10a6:20b:428::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Tue, 23 Apr
- 2024 13:11:28 +0000
-Received: from AM0PR04MB4833.eurprd04.prod.outlook.com
- ([fe80::70be:f731:f7e6:a785]) by AM0PR04MB4833.eurprd04.prod.outlook.com
- ([fe80::70be:f731:f7e6:a785%5]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
- 13:11:27 +0000
-Message-ID: <fb49c80b-b329-4ece-b50d-8e7e6b653dc8@theobroma-systems.com>
-Date: Tue, 23 Apr 2024 15:11:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] linux-firmware: Move 9260 bluetooth firmware to a
- separate package
-To: Iskander Amara <iskander.amara@theobroma-systems.com>,
- openembedded-core@lists.openembedded.org
-References: <20240423120249.158876-1-iskander.amara@theobroma-systems.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <20240423120249.158876-1-iskander.amara@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA1P291CA0017.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:19::17) To AM0PR04MB4833.eurprd04.prod.outlook.com
- (2603:10a6:208:c2::30)
+ 2024 14:19:06 +0000
+Received: from VI1PR04MB6013.eurprd04.prod.outlook.com
+ ([fe80::26a:844c:af55:82ec]) by VI1PR04MB6013.eurprd04.prod.outlook.com
+ ([fe80::26a:844c:af55:82ec%6]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
+ 14:19:05 +0000
+From: Iskander Amara <iskander.amara@theobroma-systems.com>
+To: openembedded-core@lists.openembedded.org
+CC: iskander.amara.it@gmail.com,
+	Iskander Amara <iskander.amara@theobroma-systems.com>,
+	Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Subject: [PATCH v2] linux-firmware: Move Intel AC 9260 bluetooth firmware to a separate package
+Date: Tue, 23 Apr 2024 16:18:42 +0200
+Message-ID: <20240423141842.172020-1-iskander.amara@theobroma-systems.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR0102CA0077.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:15::18) To VI1PR04MB6013.eurprd04.prod.outlook.com
+ (2603:10a6:803:cb::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB4833:EE_|VI2PR04MB10221:EE_
-X-MS-Office365-Filtering-Correlation-Id: a385de3c-f53f-44b5-24ef-08dc6396e293
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6013:EE_|AS8PR04MB8641:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06c344ae-aca0-45d7-8603-08dc63a0553d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?WlRNVXNhNXNMUU9LK3JRb3hYK0YxWUpjVDJ6NmxzR1lyd00zem4wSGY4RUFz?=
- =?utf-8?B?Zzc5YmdqRXY0dEZvRTQyVVN0RDdaRm81QmdVMzZ6SFBwZm14UWROQld6Z1FH?=
- =?utf-8?B?OEFhaWFJbTdnRG5NQ2UrcmpJRFpDYzFDTWVteUdIVDdJaDkxMVFVYi84UjZU?=
- =?utf-8?B?bkhCRCtEd2tjRjhMQy9PNDdOUXIyd1RrY0dDVXlSZWxYcnIxREF0ekpIWW1U?=
- =?utf-8?B?ajFkQzgzWFA0YU1tSlBXWko3MnNTaTVOb1d3TVFLb3RVRHNjc05kYTdaTGZT?=
- =?utf-8?B?cGwvUk5GTGplR0cyc28rZkpQMGJwcWJTb0JCZFAvRXgvMkZWODRtbldNTWRH?=
- =?utf-8?B?SUhZTFJkcTRKMEhUVzRrR3U2VnVWUy95cGdUWi9zbE9PaWdYcURpcGZpdnkw?=
- =?utf-8?B?SFQ2K09IQS9MaUJsR2daVDJKclNmNmpnMW4xNjIwOUpML0NTZWZaMDVqNFRk?=
- =?utf-8?B?RFFvVDNZZi9RTngrWG01ZzNRRzY1STYxTy8vS296WFYvU2lGYWJYMG9OdHFO?=
- =?utf-8?B?aXhJU0xWMTQ0T0VGRmx6c0JMR2w5M0IwZEsrbWl5cHNTS2UrWUExVUFnUTRk?=
- =?utf-8?B?cXhMWW94ZUVvVWJQcEY1T3d4YXdPZTMrM0x0YmhIRHo1TUUrZGF6RGF5cXZU?=
- =?utf-8?B?ZENCejFQeHpFZ1hmSXZHdFU1WGc3aEdvZVo1cWJnSjdxWU9sT040VWEyaC9R?=
- =?utf-8?B?OEJnemp6TTlsQnEySVJya1laMkY4SkNkZnBqS05qaERWRkt3M2xoZGxPUTBz?=
- =?utf-8?B?L0t6czMwNUVhNTZhVzRIS2dMcDJXdHF6UVB0aEQ3eG9FNG5rY0hoanRzaE51?=
- =?utf-8?B?Q3A2b0lHNjlqdytuMDBlME1pTm9Id0xVWk9KUkFOdEdFTHBsUjZGcFp0Zmpy?=
- =?utf-8?B?L0Z3cEJhcjFGbmtsbXZhUTRFZm5YUHErU0FvdDN0NVlmakdScDJiYStwaWJN?=
- =?utf-8?B?M2JSVVhqTzB4WGxvZDFCZnI5UWIvZE1yV2gzampQd0ZPK1pQc3k5Zkc3ajl0?=
- =?utf-8?B?K0JOOWlzVlFzSlkyclJ3RmtFNGQ2cSs4MkpMS1dTMUZPY2FId2FHQytvb21o?=
- =?utf-8?B?cUF0aUxGNDJldEV3YmxHN2xCN01tc2VGNnBpWWV5bmpsMUc3QTVwTUIwTUlh?=
- =?utf-8?B?TDVIc2RUc1IvVmR3bE53TnQ3SUhpbk5sNzVobWF5QmRQK2l5ZmtEeEZGSDhG?=
- =?utf-8?B?a0Q2S3hjRWVReFF3RUtQVmdYVFZKZ0U0N2pObm9GNjBDZC9UZHEyVk1BUC9K?=
- =?utf-8?B?dDBlc2lJVGlUeHhOdGlzRlFFaFVvYk92djZxRXE5SzJ1WWtiM0dxRFlPU00y?=
- =?utf-8?B?TzIyZVBoR0dpKzYxeno2SkFIai9pREZ5ckpxWkpRQ1dhQzkvU0lzbFRtcUVW?=
- =?utf-8?B?UUY2bUcvd041UUR1NCtLV1d6WDlpSEZYYVBDMnBqOEN6K3VOSTZ1Tk5wNzNz?=
- =?utf-8?B?ajdtZmwzNFY5d0h6SXRiQnUwcnd3Rms1aHptMHRVVjFVT0psZTFtZm12eGU3?=
- =?utf-8?B?ZkZwL08xNHZPNURrMkdwV0NXamZSOE5RNVlNVE9KUE9XcTdXWUk0WTdjZk1x?=
- =?utf-8?B?ZHgyRHIvdW4zSEpER21wUTFCdVR1Sy93a1BGVldSTk1sNEpPZWZ3ZWhlYk9S?=
- =?utf-8?B?V0U4VU9QWTRsVzBrcUZZL2tYSEVtNTFwUUhMT0VNTDlIV0hGVVJXNFE2U0F4?=
- =?utf-8?B?ckFhNGR0R3NsVkQyTFdsaDFrTjNsRHI5dUpXaUZPYU53eXJxTlJlS0J3PT0=?=
+	=?us-ascii?Q?WriZiF2EVNj3WPG+H6FTE0DSf39jnYZus/U7nJUN2fluEV6PwYOfUf1jgYNS?=
+ =?us-ascii?Q?EiP0zYbc8K0YtYFK/D67Yv+n1+c7kR+cqC2PXE0rEtK4Jdph52O3aXI4kR95?=
+ =?us-ascii?Q?R18uos3lCA7EQMuj/NoPy+o6wo7/BCl68SOEcaCPLXL1JHubTgngShOJYnND?=
+ =?us-ascii?Q?pAl3GPQCtfZawX4mROPXoV2NJhF8SgN6onMYQvhBp1CqZqV/cK1oPD/P42kH?=
+ =?us-ascii?Q?FoE0T2Y5NDWGxtLRnMArQHoDU7txZnaNBA0ZZVvT3h975JAnM6LhO1ruLPxr?=
+ =?us-ascii?Q?zQ2XN01rjf76h51gBbZMVSFRrp9rYtkngkDnK0dBlvxbIDihV4cr1vbetxaM?=
+ =?us-ascii?Q?9J1MzQ43xi+0sZhjf3dXyqrPyRuAfsohfoREaNOhUTwtFZwT3APvtcD9qhZi?=
+ =?us-ascii?Q?LF8kuxXfO9mU+J5GSRsNbXHAZQeJWslypNhl6vgj0xzOb4x+jOKF4d57vQCN?=
+ =?us-ascii?Q?SjDgLZb7SJnmFvvpPcfFyoewCZFDOlTw1EajseD/tUAGN7jTh8GCuqWxYfBy?=
+ =?us-ascii?Q?YDSonsw43D7eyr1E/9NgoKIRA631MlE9RKsj3C61tyy7+N6OEC0GXEqWbx0t?=
+ =?us-ascii?Q?dhf5oSq2tPhnJY0NuKbIezp78InZm2BZtYKoLL+TaCMOIShd3uU/xWNzJae9?=
+ =?us-ascii?Q?quZ56Kx3afNgch+TS8JAQLa+BZNHbEWL+0ADOL0ysMMZjJuetnvgk+YZwg77?=
+ =?us-ascii?Q?oIO+lrxgNuxsGD4EO4iodHfo8EWQ1wGVJ0AFq/1JV7JCoLpQYRzrRvfCF49s?=
+ =?us-ascii?Q?aQjHTEUuUXWm9LJbc4aaJweiwDw+0uW2xm3xpqgUThu+KwX6Bl+xWQePnoKE?=
+ =?us-ascii?Q?Ua4HdhlQdh1rAnMT+ay3z8oU0kCGRAluK3UdpZJUqL5tzinFvhDq/CbHiWTJ?=
+ =?us-ascii?Q?T1ELkwqtp7zYJ6/mYq6oPxIlOeeTmTFITtAY/O/faBt0Bafq8siUBHi6f3T9?=
+ =?us-ascii?Q?EffDHT42NXAeB/xYPqZggVLSykL2RjXHB9g0eEqq8ILNHFgu0PodnIm+tlhp?=
+ =?us-ascii?Q?uOXAjCe++tKa/dYooEdfp7hTdofyZ7l+iEVSENPFUTv2pI6SViIVe5fVZ4fN?=
+ =?us-ascii?Q?wsLlBzELgjN9NKEaPbtwBR1IXgSFx3m3zFQqQHINZiPl/tDch3h80YCHGe7y?=
+ =?us-ascii?Q?A0cdt1gsBbHE35PbMcUwwVbfbku5122alyX2C1aKOoPmHC6cZVydtkejWt5A?=
+ =?us-ascii?Q?AAnqQkAXpCbTQqvJPOTuKofCwo8KRW8or5dWumsuW1ZJ9k+dEGo2fT5vbrOy?=
+ =?us-ascii?Q?krmFjLtrlfYDyxj3cRxpjUd96xJc5UOt9ngfZS9s2nGQCEz++Jm0RUIKSA3K?=
+ =?us-ascii?Q?cXTrjK7wiJJT8WHAM3XEQ1MuDlzSzXY7BEr7XPbprHTBwQ=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB4833.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB6013.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(52116005)(366007)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?R2NmVXpJWTM1SllvSW5qVms0YnZxaVZ5ZThrYytjQTBSdHF0RTd6TFVmMWpO?=
- =?utf-8?B?a2ZWZXpzTHBSbVI5RGVPTjkyUDV0MFhaWnNwN2pHOE5hVTVrT2UwUnI5UVN6?=
- =?utf-8?B?eEx5bnRBNVBaRk1ac3p3Wmo2c09JcXY2bHQ2ZlBCU0l1ZlB4UVoxeWR1OEV2?=
- =?utf-8?B?aWR0dWhoRXVzREFqaDJibHEwL0FuOVh0bzcrU215QWZLY2dQOTZBMjJONHE2?=
- =?utf-8?B?L1A0MWVaa2ZuNGd2TEszU2FhYXNZQVhNb2FnMnVFQXhyVlBsUmpWK1R6TlNw?=
- =?utf-8?B?N080S0JoQVVnNVhnUTZjNHJWWGdaUDU1VlVEREE2ZWNIODhWd0hnSnFwdjJR?=
- =?utf-8?B?a2E1Q2w3Qkp6b09RVXVxY1JKaXZ6YWQ0aUVaMEZHUC9DSEp1OVhsSEthZG5j?=
- =?utf-8?B?QmVoSGJIa1pMUkM3bFpsZlRmMFJFQk9WU0p5ZFpmeUhITlpBT3lGZ2pWOXUr?=
- =?utf-8?B?MUUydWtUbFo5K2N1K3dzOThrUjlLNXVNTHVOM3RJWjZ5V0tLdWh5WTFLQm9I?=
- =?utf-8?B?a0VqU1p3OTNRWE5lc1gweGhGRFBkNkRYRTIvamJETG1Ka3NLTVl3QThhTkx6?=
- =?utf-8?B?ZUUybFFFWTU5Vk9zeThtWjVxaEplbkc0cllYMFVJU1B1L1h5Tld5SGp1clFS?=
- =?utf-8?B?VDhlb1BYWVc3MVNOVFF1K3daOWs3dGVZTEgvZk9uSW11anVpVDUwVXpQNkR6?=
- =?utf-8?B?bm04VXhJOVRMRndMdHZGMXF6OFVHZUFiOGJ1MHdZQVNycW9tK3NZcXZqdnA2?=
- =?utf-8?B?ekt6a2xnVVZndjlGYTJraCtueTNjaXVPWWZHREFrMzQ5bURFZXpLazYySFFZ?=
- =?utf-8?B?SjJUTEFHVnYwQU1hNU4xRERTRkxtVjcxTm5SaXZabE1PYWlDbkQwWktBREpC?=
- =?utf-8?B?aTFZc1lYVUlXYXMxT0dYWlpIZkxaeThVUE0vYnA3WTVEejNvbUh1ZjcyZWZC?=
- =?utf-8?B?Sno0T2cxc2g1WFNXUlI2aUJSVXl3T2wyR0NuM2s0N1RMcm12c1BzM1hOdmtu?=
- =?utf-8?B?WnJBcjhoMHRqbXQ4TmRxcGZRenpqSDBCczJYVG9xeC9ZSTRGVnVNbWQyZjZF?=
- =?utf-8?B?RjRQL0FXeE9yakNzT0U4MDVROEh1UFdicC9KT1krK3dhL0tzZEk3WDR0UTdL?=
- =?utf-8?B?M2NxR1dxL3F0QWwzczUzMENzYnNBcFB2L004QkMwUjFnVTJzSnZNbmVVUlZZ?=
- =?utf-8?B?WWJEeXlwdHR5cUcxSFRJdEtYTzB6Y2xOVlFtdDdoNWxPMS9jT2MrZjgrdFAx?=
- =?utf-8?B?NVowa1VvWE1CSXNMRE9SbjQrdHBFMHZGb2JSVjZBTnZleW4xc0lvaGZpUmJP?=
- =?utf-8?B?N0RrdEM5Uy9Zckw4WHVTMFBuTGFVWXVtWlVyYnROY3cxS2JTdHRpK2N3UEJM?=
- =?utf-8?B?d2hKb0ZXbkd3dFhqMmsyL3BkaFdlMUtkZE8yWjByVFRIeE1oSE1aZWtKZy9U?=
- =?utf-8?B?b3ZaWGhaTElMYXM5bDkzNjRJOW1ycDE5N25TK0kvNXpnc3NtS1YremFPdjZt?=
- =?utf-8?B?S1lFcDRXRDQxQm5zU0dQVlVXZ1BHN003K1JHT2xZa2o1dWRHWFRZWnBCaW5V?=
- =?utf-8?B?MVBvL09iOUowSndhcFNZOWpYb0xGK0RsMzFka3JxMlFkVmVwL2ljMCtWeUR3?=
- =?utf-8?B?VHdlY3MwTmkyK1ZyUEYvRisxaWVrVmhZWXg3U2pBSFJYdEpHUEVRQmxJMUpj?=
- =?utf-8?B?b2JhdzE4U2xtRlR5cnlkdDZ0VEphdVB2UW1xVHR5TGhBNEVSQkpuWlg3Yzgx?=
- =?utf-8?B?eWp6Y24xOG8zeVEvemVMVnRGWUx6cnlKYUFsbzJPZWlXUGthc29IaFhFcU1Y?=
- =?utf-8?B?TzY5Y2RpZ0V6emdRUlQ2NVhlbUVqdHd2RUxDYkVpYldWL25hdTdjeEtxK3NH?=
- =?utf-8?B?UHBKOEk2anBVUHIzNE5EdVJ5UEdnd0RRUHl1N1djY1BRc0trWFZubDljYjRB?=
- =?utf-8?B?aGRodUJEMlFyMkIxVDNBZFIyMitYUnBSUlFOME5tTDNLa0s3Q2g3Tm1LRUVi?=
- =?utf-8?B?WlZzaXNFWXZvTWFEOEk5a2NUNzhLbmtZV3FjRENrR0U0VG5XSnNsQjZsWDZH?=
- =?utf-8?B?NSt4YTNQMTRYS2piSWpKSncyaTBNTWdGK0UvMmUzblp4Z1RBMzJGTlBlbXlh?=
- =?utf-8?B?eTBZUTZpMEtoTWl5UHlNREhpSS9PazZObTRzL214Si81cFlUaUNzeTFNRGds?=
- =?utf-8?Q?9fADRR7qjOb2dFjRVZHQ84s=3D?=
+	=?us-ascii?Q?h6sOnzG+hK+GWJG9ROhqrxttpAASjktCXeYJOcS47AJHUy0OWy5yOkkm3JVb?=
+ =?us-ascii?Q?ZAVym7iY2QFRL266pP+pEhF80xBBaX6nMNxt7K2g/mzVC7OFJ3uLRMFYEKWd?=
+ =?us-ascii?Q?+Zoz8svGRs+btXzcACr02O9Ug+kGRqmH9C4HdpyLfR8sKQUHZJ8G1ZKfb9sA?=
+ =?us-ascii?Q?F1Nqz8PWtdB8OzmSaWba06PNKseIdEY7AOYKYxvPr8DfmBmmUnpcNmrShe61?=
+ =?us-ascii?Q?ESd5y27ym5TX+ydgcEWOY0NMjRzJxsESlkPGhDXTip6RqC47JnpIZ/36bCBL?=
+ =?us-ascii?Q?OxRNV0o7UJgJ04MxahidlogU0A+j/HLXBLCecs4F4eXxeNwTaaQ+757Y7POb?=
+ =?us-ascii?Q?a/DHmF5tRYjtaX5o4BhRC3sMd64SIJ6lecsFi0IEUAxINwyXX4+9V9xz1PwT?=
+ =?us-ascii?Q?glsg1oXrP3Vmk89yUZngDrD3Q9LnFY1MXoNkQb2aIuEUtJQrydSA4IYmtcIu?=
+ =?us-ascii?Q?qSwobfy1+biQlF9R9m61wmeoH5D+ZLAwoX4G38lfeEfdoNhJFek9DXzydDO0?=
+ =?us-ascii?Q?DIp2/mj2rZ7Y+zBn0bdReXENt4nlSahf2wjAX4D/Bf5vwmk5uc4Cvr+TKeOs?=
+ =?us-ascii?Q?JcUsCHjpH/1zmFtUXnb31sNeViouEeesIJHuv0I11ww8yfBq2ZibvDBIjWw6?=
+ =?us-ascii?Q?tF7Hgt6GtgUYUHOLhL3SEaw97GsghXQm1MpTINgudN30nCgYmSkSQTQFRpL1?=
+ =?us-ascii?Q?xVFg3JBrX0NWdPUChXZfMKg357M9Q2BlkBPR+USbS9CWuukv7M4I6pPPqkFa?=
+ =?us-ascii?Q?D9+HypSZ9FYaeSaFVVShOPrJhKZu1CqsL8sbTJdOVMJTiIsMGmbf/zyeTHPx?=
+ =?us-ascii?Q?6KXFmj7dWZNnHZvSTf81Zho3xl4lRx8vPq311d7r/niHPpD8zPRPhsR90AZT?=
+ =?us-ascii?Q?esjLlICFzAy+j040LZsmeC9ysPRDrdaI2wV/c1DJ30aB9nb6qgZjbc2mtq2J?=
+ =?us-ascii?Q?MhLXIbeAVjb+CkB/7rA8xuE1u28k5vtkgLsh1Ni11hfmPOGV9C+uRxE16k7q?=
+ =?us-ascii?Q?lSCkJ4kVlgBqCKqUFvtzMGvHgz2ALwXM8zMIDL43XCbFetBCC1S10qtpbrWd?=
+ =?us-ascii?Q?+NoU0BzH88eyN87qM2ovccsq9pB8HdQkx2GHhprI8n945XV/P5ci+bZ6FnQC?=
+ =?us-ascii?Q?LeAQx5UjWMei3HpJPs1GXQV4rK30hONLN9K8HxXcbd/kMMNd8wrhssnIOlRU?=
+ =?us-ascii?Q?2mFZQjitj9ECyYz4npZ0QzZOc/f3ymHLPPOsMVg1a1bmLXeZ+gFu9qoZpnVq?=
+ =?us-ascii?Q?Rc49BDXugrIr0i1bIHGs/6NjmW9HoL9JhFhhlDrjzmmOM56LyUJQhYjOk77I?=
+ =?us-ascii?Q?dSULs8Z8ji0YW4sd0RH5ZIFlEj3UAM8wJ3RgpvBzicYTJ3ChMX2NfojIHoTj?=
+ =?us-ascii?Q?GE4brKaz7rHI5b3gIACtKJH859aBd+Fknx1Qe0mAPcO7B/UmGfiqPjxRJwLQ?=
+ =?us-ascii?Q?P7RXorDVsRQgSZ1TF9gJYJlYaILJc3+NSZwjUwuiXnpevs4pig8/HSeDrA/P?=
+ =?us-ascii?Q?9vIi1dLsKQjJvmL9FTr4/VZVI3Xc1EQTcsnGnKNk8n3GDjLLKHpMx+oGJnCR?=
+ =?us-ascii?Q?q2fRcTWPagHUvcnP5hEi0Ob4PZ5nUHEqVytQbfn0KrXAMvOCXmelA+aQtiVm?=
+ =?us-ascii?Q?sTBWEBtJ9+Sa39lpJcp/BHM=3D?=
 X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a385de3c-f53f-44b5-24ef-08dc6396e293
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB4833.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06c344ae-aca0-45d7-8603-08dc63a0553d
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB6013.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 13:11:27.8284
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 14:19:05.6711
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GMC+ilOjd220Ss9QGrT50fjHLI9szOx8V7oHzDkW9f/SS79qgy+NiqzmS2OxkYaAwtFRGfJ+8vrCzRJB3Wa427nmXRtBIVdMqnP3uYZZ1aVoSyVgaT5uohPYp3bE+FE9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10221
+X-MS-Exchange-CrossTenant-UserPrincipalName: DcbJrx5Qy4R5Nh0FQKLwNKn+zAsysR/ekbIDDffA5kr4rOu0Gel/5DCmOV6M1mciu6vaeJgRpZOK2EEgQpeLD/saTfW4hNATdF/s8MhNCQ+/MUEFzlWk+G6V9Vobq5yb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8641
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 13:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198625
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 14:19:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198626
 
-Hi Iskander,
+In order to use Bluetooth on Intel AC 9260, we need to select
+linux-firmware-ibt-misc package that brings a lot of fimw-
+ares that are, in most cases, irrelevant for the used hardware.
 
-linux-firmware storing all firmwware, can you add "Intel AC 9260" in the 
-commit title so we know what we're talking about :) ?
+This adds a new package linux-firmware-ibt-18 that only includes
+the corresponding firmware for Intel AC 9260 bluetooth chips.
 
-On 4/23/24 14:02, Iskander Amara wrote:
-> In order to use the Intel bluetooth 9260 firmware, we need to
+Below, the link to the commit that adds Intel AC 9260 firmwares in linux-
+firmware:
 
-"""
-In order to use Bluetooth on Intel 9260,
-"""
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git=
+/commit/?h=3D20220610&id=3D97339b3a1d3bf3e4c40d679896a27a25fa83765f
 
-is probably a better wording here?
+Reported-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Signed-off-by: Iskander Amara <iskander.amara@theobroma-systems.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> select linux-firmware-ibt-misc package that brings a lot of fi-
-> mwares that are, in most cases, irrelevant for the used hardware.
->  > This adds a new package linux-firmware-ibt-9260 that only inclu-
-> des Intel 9260 bluetooth chip's firmware.
-> 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb =
+b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+index ff79bb9b33..5042d20902 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+@@ -343,6 +343,7 @@ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphion-=
+vpu \
+              ${PN}-ibt-license ${PN}-ibt \
+              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw=
+-37-8 \
+              ${PN}-ibt-17 \
++             ${PN}-ibt-18 \
+              ${PN}-ibt-20 \
+              ${PN}-ibt-misc \
+              ${PN}-i915-license ${PN}-i915 \
+@@ -1272,6 +1273,7 @@ LICENSE:${PN}-ibt-hw-37-8 =3D "Firmware-ibt_firmware"
+ LICENSE:${PN}-ibt-11-5    =3D "Firmware-ibt_firmware"
+ LICENSE:${PN}-ibt-12-16   =3D "Firmware-ibt_firmware"
+ LICENSE:${PN}-ibt-17 =3D "Firmware-ibt_firmware"
++LICENSE:${PN}-ibt-18    =3D "Firmware-ibt_firmware"
+ LICENSE:${PN}-ibt-20 =3D "Firmware-ibt_firmware"
+ LICENSE:${PN}-ibt-misc    =3D "Firmware-ibt_firmware"
+=20
+@@ -1281,6 +1283,7 @@ FILES:${PN}-ibt-hw-37-8 =3D "${nonarch_base_libdir}/f=
+irmware/intel/ibt-hw-37.8*.bs
+ FILES:${PN}-ibt-11-5    =3D "${nonarch_base_libdir}/firmware/intel/ibt-11-=
+5.sfi ${nonarch_base_libdir}/firmware/intel/ibt-11-5.ddc"
+ FILES:${PN}-ibt-12-16   =3D "${nonarch_base_libdir}/firmware/intel/ibt-12-=
+16.sfi ${nonarch_base_libdir}/firmware/intel/ibt-12-16.ddc"
+ FILES:${PN}-ibt-17 =3D "${nonarch_base_libdir}/firmware/intel/ibt-17-*.sfi=
+ ${nonarch_base_libdir}/firmware/intel/ibt-17-*.ddc"
++FILES:${PN}-ibt-18      =3D "${nonarch_base_libdir}/firmware/intel/ibt-18-=
+*.sfi ${nonarch_base_libdir}/firmware/intel/ibt-18-*.ddc"
+ FILES:${PN}-ibt-20 =3D "${nonarch_base_libdir}/firmware/intel/ibt-20-*.sfi=
+ ${nonarch_base_libdir}/firmware/intel/ibt-20-*.ddc"
+ FILES:${PN}-ibt-misc    =3D "${nonarch_base_libdir}/firmware/intel/ibt-*"
+=20
+@@ -1289,6 +1292,7 @@ RDEPENDS:${PN}-ibt-hw-37.8 =3D "${PN}-ibt-license"
+ RDEPENDS:${PN}-ibt-11-5    =3D "${PN}-ibt-license"
+ RDEPENDS:${PN}-ibt-12-16   =3D "${PN}-ibt-license"
+ RDEPENDS:${PN}-ibt-17 =3D "${PN}-ibt-license"
++RDEPENDS:${PN}-ibt-18      =3D "${PN}-ibt-license"
+ RDEPENDS:${PN}-ibt-20 =3D "${PN}-ibt-license"
+ RDEPENDS:${PN}-ibt-misc    =3D "${PN}-ibt-license"
+=20
+--=20
+2.34.1
 
-Would be nice to give the commit in linux-firmware that added the 
-firmware for the Bluetooth part of the Intel AC 9260 to justify this 
-change, c.f.:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?h=20220610&id=97339b3a1d3bf3e4c40d679896a27a25fa83765f
-
-> Reported-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> Signed-off-by: Iskander Amara <iskander.amara@theobroma-systems.com>
-> ---
->   meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-> index ff79bb9b33..dfa387ec11 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-> @@ -344,6 +344,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
->                ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
->                ${PN}-ibt-17 \
->                ${PN}-ibt-20 \
-> +             ${PN}-ibt-9260 \
->                ${PN}-ibt-misc \
->                ${PN}-i915-license ${PN}-i915 \
->                ${PN}-ice-license ${PN}-ice \
-> @@ -1273,6 +1274,7 @@ LICENSE:${PN}-ibt-11-5    = "Firmware-ibt_firmware"
->   LICENSE:${PN}-ibt-12-16   = "Firmware-ibt_firmware"
->   LICENSE:${PN}-ibt-17 = "Firmware-ibt_firmware"
->   LICENSE:${PN}-ibt-20 = "Firmware-ibt_firmware"
-> +LICENSE:${PN}-ibt-9260    = "Firmware-ibt_firmware"
-
-I think we should rather name this ${PN}-ibt-18 to match what seems to 
-be the naming scheme for those packages.
-
-If you do, please order everything alphabetically (so above ibt-20 for 
-example).
-
-Looking good otherwise.
-
-Cheers,
-Quentin
 
