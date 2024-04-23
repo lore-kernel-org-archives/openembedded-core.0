@@ -1,234 +1,658 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C21AC4345F
-	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 12:38:12 +0000 (UTC)
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.42])
- by mx.groups.io with SMTP id smtpd.web11.17262.1713875887476094720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0EDC4345F
+	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 12:51:12 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.17711.1713876667811510512
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Apr 2024 05:38:08 -0700
+ Tue, 23 Apr 2024 05:51:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=lNrOwLEf;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=lNrOwLEf;
- spf=pass (domain: arm.com, ip: 40.107.249.42, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=GJircJdm3Vkz865c+WnwMq0cMzDLbbLgg+yx2QNKmyJk+1KCn32WObDi7zw8c+LYSbmO0jml11iY/JyxqpNgD3oIjUpT0iRSG9yO/zh1DebdZ2H3ulllbbsGE3Q1062tJ+AHgrYKx8qPBhLtldNY0DwibaO8sgBlB2Zu26nmTmx/twjg/FVymT1Rveu9kWszzFd3Tme4EYBpAuINRDztaz80m97AKKLPiGNWKye7R6lBrpa/Wv7b090gbF6uJbzAua3xl8dA6wLOs8ablLgmtP5O2cvafg85alhXABZypDu5uyTrdeIikvhBJxdWHt67MidjtyEsJVHTiyYIuWsjiQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JoB771qV1JUgIZtdOeKFK4Av4m3204AFLFAIOJ+y82I=;
- b=DnvO3Zq6IxGBY2uy3JFfo0qEpxwHTkIW31KSvfeGqa4SaTRN6WBsbdZoz8O9MzFABJPBzSqNM1Zt/UNuTP3iBVz9eXH5MCEvJHdCiCxOc65de66tmc5i19sbUaIKKA4VgTzQ1xvNXF9sYC6r24EIwi+Xv53hBHSzV+ZSqkkLTrZrkv35CGFqxfukA0qWtZhvirNv2IY7bMF/kcj8VzwTO4JHcbpHUTZjhe5UJsru39BReAzrYUOUcG0WnTl35/jbjHKUvh9a0rxVq6nLZ54R/R17pT4lPOsoB8TbKjzT4M1NH1IQdgdklJS3kOSINSeilLp5i2UEnGXqqEqPBPRMlQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JoB771qV1JUgIZtdOeKFK4Av4m3204AFLFAIOJ+y82I=;
- b=lNrOwLEfTPU7kciideoxUlgEO9RdCOWpp6OH6vq0EnM7590pOtjTs6hE0e5hYaPI4Ot9K70f3hMXwiVxit0yZAkwSfTsYatd3pd7545Epg5i4KXEG/2R7gTADozJPr39HMTSABsJJgXRCMJjwxdteyXt203jrFb4uGeVyw69XW8=
-Received: from DB8PR09CA0013.eurprd09.prod.outlook.com (2603:10a6:10:a0::26)
- by GVXPR08MB11058.eurprd08.prod.outlook.com (2603:10a6:150:1f6::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.19; Tue, 23 Apr
- 2024 12:38:04 +0000
-Received: from DB1PEPF000509E3.eurprd03.prod.outlook.com
- (2603:10a6:10:a0:cafe::77) by DB8PR09CA0013.outlook.office365.com
- (2603:10a6:10:a0::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.34 via Frontend
- Transport; Tue, 23 Apr 2024 12:38:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB1PEPF000509E3.mail.protection.outlook.com (10.167.242.53) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7519.19
- via Frontend Transport; Tue, 23 Apr 2024 12:38:03 +0000
-Received: ("Tessian outbound 8c03561b2da6:v313"); Tue, 23 Apr 2024 12:38:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 4b2a1cbd178ca97a
-X-CR-MTA-TID: 64aa7808
-Received: from 8541f6657065.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 232F1BDD-BF65-4906-BC4A-FB49746BB141.1;
-	Tue, 23 Apr 2024 12:37:55 +0000
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8541f6657065.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 23 Apr 2024 12:37:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pb5co/gfRj7QJXodVB5IlyWd9HLieQz+fym+wARjdwhCo0WTrX5DiYjV9YtHoyXFVl6YoRQai4xGvQgUw+3Tl7DU1naOP7y3QZF5RvfGvgvjA4EJMU3o+TlaO/mlBR67SZEjoAoRcnSHusxbW7irKSKMdZbsww6U0JUiRjp2DO+pK1deUc/IPuy3mMJxmDDSr1PvUIY83m9+v3icGFYIIk1pTyA3XHh5rnU7HrzEQfrTUdWuinGAZtYHkuMQXZWfNvmyOJrud41fIwl/qJ6pjCojlKvfyGNZuQofep1h9eYewFWgm7z2M6y9wZNEUrIZp/s2FUSRHFa4aLZ2O+feKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JoB771qV1JUgIZtdOeKFK4Av4m3204AFLFAIOJ+y82I=;
- b=VCIPCysKFO8nM3XuqLu7n+9r1cvKeYFvk1hUId25mhTj5VySi8MWY6RPkfr2y6Wul7R8+w2GJMu1eTFlDhCNVf58LxoC/pnE+J0lXLXTAz2ZUMJmPwiJRli4taWKckNgZ/PieAOn3c+WJJsldyHOkhbRErGuliXHtbp223aIyF/g2h3o2OvseaN2wCaUoxJid1zRyZrVkc2PBAkdOqmFUd9yCZoIyL15AXlOX0m+3hVrxd0cdStndYDfsC3E7wmO5Kl1kpshEjTtc+p1EC8CZKWbr6TEIM78OT8s+6KNvKvSfj0qIb7WadDys618GGhdEpZV2EMxgI8BfZsEEIMZZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JoB771qV1JUgIZtdOeKFK4Av4m3204AFLFAIOJ+y82I=;
- b=lNrOwLEfTPU7kciideoxUlgEO9RdCOWpp6OH6vq0EnM7590pOtjTs6hE0e5hYaPI4Ot9K70f3hMXwiVxit0yZAkwSfTsYatd3pd7545Epg5i4KXEG/2R7gTADozJPr39HMTSABsJJgXRCMJjwxdteyXt203jrFb4uGeVyw69XW8=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB9PR08MB8625.eurprd08.prod.outlook.com (2603:10a6:10:3d3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Tue, 23 Apr
- 2024 12:37:53 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
- 12:37:53 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-Core] [PATCH 27/34] python3-setuptools: upgrade 69.1.1 ->
- 69.2.0
-Thread-Topic: [OE-Core] [PATCH 27/34] python3-setuptools: upgrade 69.1.1 ->
- 69.2.0
-Thread-Index: AQHafxYqSS+GLSmlcEO90tS98eacuLF19+UA
-Date: Tue, 23 Apr 2024 12:37:53 +0000
-Message-ID: <B22245BC-4659-4C7A-AF05-26E3C7518023@arm.com>
-References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
- <1711413292-3025-27-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1711413292-3025-27-git-send-email-wangmy@fujitsu.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.500.171.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB9PR08MB8625:EE_|DB1PEPF000509E3:EE_|GVXPR08MB11058:EE_
-X-MS-Office365-Filtering-Correlation-Id: dafd9ec0-d771-479c-76f2-08dc639237e5
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?bUlIbzlIRHU4TmhMb0Y3WDFFVlg1cUJta0d1dmhHMDY0VVk5c2d4QXFUWlll?=
- =?utf-8?B?ZUx4cXFUeEJlek9Pakt6MUc2ZklEU0N0U0p3eUpuRmI5OTUrVnFBcXFrREU4?=
- =?utf-8?B?N2pmQ2ZZUlhvMGVZbUVCdTI0Q0hYV2VuajZiQnd2c1cyZkh5YktIQmQ1aitD?=
- =?utf-8?B?aG5yNjFlR3lXR1J6bFhVWFdUcm1VT1JxQnUrN0NkMTgwUHIvdE9rMnJsQUQ1?=
- =?utf-8?B?aVJQNVNJVkdtczl5cjYxb1dnZnAybW5RS3dMeEZUT0pHY2lvMmUwdXM2bEFw?=
- =?utf-8?B?NjU1NDhxMDNLbEw3ODhuWEdwYWphL0Mzam5mVlF4S0xzUk0yRFNKQnJlK1Bk?=
- =?utf-8?B?SGhlTTY4bi9rVXc3RTRMVG0xRmVTUnNWNVV4Ymtqd3JJNnhUT251emhvQ0xK?=
- =?utf-8?B?dm4vT0VUOGdMcW8vYzgya0ZzdG1tZnpQdHNoWmJjY29BbDllTGJuRWFRUTFx?=
- =?utf-8?B?aEhHcjdwMHFhR1k3TEk3S1lhVjV2MkZvc0tiZm93SDIwWkJwZ25odzRsT3ZV?=
- =?utf-8?B?QVNmM3VKTzV1SXpmZzg3dWxOQTI0djduN1pBcXhpUFlLT2JuYjFKcU1kSW1R?=
- =?utf-8?B?cG1KRUpMWmlhVWdadjluaTZlRGpEMTBoM0JqUExWMXBWdjJwU2R4b1BReUJq?=
- =?utf-8?B?bitvSDNNS0hVZk8vcEtnaFRaRDl2VDJDTktnaWV1czFCYStySlhnM0cwL3Jq?=
- =?utf-8?B?SUExS0tKZ0Z3WkxuTS9Jck5nZzI1NU5yNUwrR2JORkRKOHJjKzFYejN2TSt5?=
- =?utf-8?B?L3VkSFdFTjJDL3hhbk93L3laUWdaRTJaWjlnK1FPQUt5VVhpNHB6WW5jTFRh?=
- =?utf-8?B?MWczaVdPbGtRTTdYNTdkd3JkYkZMMDBua210MXdEeldMNnBGRXZDVDhMSmtC?=
- =?utf-8?B?TWVkUTJGV2VzTVRjUDY2ZjdLaDZQRWQ0Sko0Z0hnUHVWNmZqelM0VXBiUmMv?=
- =?utf-8?B?Y29rcXpKRjdheW5ON0dhWE5Cb0l6bVBpbkUxUVVuTVNRclg2eFZUTzMvZjFv?=
- =?utf-8?B?OEZQb0R0MjVMUzZ4NWcwUnVQekxyREZrbFNJVmdUZW5JOTJZbFpncWh5TXJv?=
- =?utf-8?B?UHZ6Qk5yaGdweU1JK2YybmxjWkZKRVJSaTAyUGx2eFg2SE1DaWM5YTAzK0RY?=
- =?utf-8?B?c1VBZG1Hdk8zYy9mSzI4cUcxdzl0ajF0WmJ3QlNZOGVCazh6WHlWaVk2bm56?=
- =?utf-8?B?WXRIYjlnNTVHb1ZMYTBBS0ttMGRyTCtVWGJtbEdFMEhXSU16aDZBNmwvM29F?=
- =?utf-8?B?OGplSlgyWmJuT29JNkFWUmFBekRoK2FMWnBPNGdQb0hCZ2RMc3N3WnBmOUho?=
- =?utf-8?B?Y1VnbWxLTk9UcFQ5ZTNxS3d3M2NOSmhMQ1FiSWZKazgwQzhNM05iYkptNDQw?=
- =?utf-8?B?cjFUNHdtRHFRdW9yMU8rVStrUjJHQjNpRVBDcGU1SzVHdjhqbzdZVHNxNGIw?=
- =?utf-8?B?TUY4N2VJNzlHU1pYczI0TXR2TnBqUVBsVGJMNi9rMlZPb0dEVDM0SG9KNGEy?=
- =?utf-8?B?YytLMlM5YnhOZXZZUUxBRmU1TlNlY1BhMlorb0RRSUF3dHFyYStwNXk2MUVV?=
- =?utf-8?B?MmExcWNLcUNSc1FpbHFOQVRvUkxDSTkrYk9DSzFzeS9lRTZDSDBDTHhtcFBQ?=
- =?utf-8?B?YVpSdG5yV2VEQURQcUkvSEhWd0wwZDlRY00rKzFNb01ubHora0Y5aDZEc25U?=
- =?utf-8?B?Q3M1QXgzZitsVHI3dGlTRTdHMytCcEx4UXhvdVpieWk0Y2oyYnFWOVpZWG5m?=
- =?utf-8?B?VVY3RUo5MStiQzg1VUpSZm95TENzV2ZsZzJGbnhyV0UrY05RUXZETFRudmRM?=
- =?utf-8?B?aXp4ZW1kZXFIaUxCbnJmUT09?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F2BC435EF1C3BD49A6179DAD9C028E2B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3aXhS1Z1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-61b601da8f1so23224917b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 05:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1713876667; x=1714481467; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qkPxQ7t7/KRypdmImpx01wKCFKiOAMEg7Tas6bfac7o=;
+        b=3aXhS1Z1g9+qpVpLJ78H5O4yvkqZ9lcvTK/+NIl5knmzFfEYTMOBw7vW1yNxAIu8KV
+         komITfHFGAgn1pE8ZvoKkvzK+A+dreNOPCpdq2+24dHGLCGZ6dIHnTb/hkex3E/sonDw
+         55hf7Ahs8nR2d+78XcwkJ0OFy8r8TighQiR+oGD4wGetsE5CQn7rJTG4DlRZIczLHvYY
+         brLHvjDj+lmhdyDa3j6R8kDRJQGb72lls2ofUsuU1EWzppCeHQp1WGDFgwnXxcuNCkX4
+         O5x1ah5rExMIWJJCmBxoR8owAt0Ag71gHQ4iOh0NcOE91gb+wcA+4WvAx54Q+vvHPzfG
+         tMLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713876667; x=1714481467;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qkPxQ7t7/KRypdmImpx01wKCFKiOAMEg7Tas6bfac7o=;
+        b=BL9Br+G0UE/o6giQ3ws4glRZkrai4e7kxyIG4Zq50EIPZ4j4mQRJ6cOsCS1PbbEMXV
+         PJgKvbn5s9b5dXx1Hsj+UWxE1BSPjy0Vdo5GJ0Db63MD/Rc/S4N4ikGMpTDqCAgw6Rl0
+         A/sRydrF5cuHYBQ0+cN9Q8r3oflqkLDzSNoXFZmjWyr+GHwbVw5/U6L4GVfKRs6Li2Ij
+         rDhFXIRql02VM9yHGePwzY+V1M1MqQmHKFx/4MwKbSoA/llXMO6jmPCg3ohVZtGRE7jH
+         MxTDon86J7VIi6m8O5/sJ+FqsFMesg7nawU+/oGUNiP/hERECMFstgWgsNt3X1miKWQb
+         VLTw==
+X-Gm-Message-State: AOJu0YzR3r95veL2bnQTdvCn44QFUvghwXNhCaAOEHE17M/zksjLyBZg
+	E1S+dc/URvkqEVILJDwhxxxGmouB+CTE+Srt7eZD/+Nj1c+VOeqfwO2Vr8TqGhjy13Fyubhwn79
+	mT5pWnuhzp/3oKRqpTnCxKzc9Z0EAAzf1fOVQlw==
+X-Google-Smtp-Source: AGHT+IHqbBpL9X3rWFKXypfJwB3KRkjozudn0u+6Mo2ml4DetIFqY9N/v2viJf/5GU3BHJJnWKTxedWdofKcZ34zvQI=
+X-Received: by 2002:a05:690c:ed2:b0:61a:e4ef:51d with SMTP id
+ cs18-20020a05690c0ed200b0061ae4ef051dmr15778580ywb.9.1713876666572; Tue, 23
+ Apr 2024 05:51:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8625
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB1PEPF000509E3.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	015b9f12-b215-4773-25c7-08dc63923210
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|1800799015|82310400014|36860700004|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?aElWY2xxSXlJMlpCV1ZKRFVBQkdPTUt3TVJzbXFvYTVxOUFRTTVCUmp4SG1O?=
- =?utf-8?B?cjVzbGFGOFVTaVV4bW4vVnFhZ0NxemhyOFcyRzBBdVQrQjZmdFZidmJpTTRy?=
- =?utf-8?B?T3J5MEYxL25Nejd1SDJKVTRJWEN3MlRVQU5Yb2s4bW0xSE53akdsOHkwUUlX?=
- =?utf-8?B?WHlOdnQrbWdvNjRtKzhNNEpWdVR4LzFKKzAwV0N1SFVmUUpZNUFTR0w4ZHl0?=
- =?utf-8?B?YTU1V2RIelBaZjRNNllOVDk1L3FiV3FmMmE1Y2tvOXFhZ1UxRWFFRUJjbTI4?=
- =?utf-8?B?OExFQXJyeloyVWh2VktQQTd2STlYR1g4WGd6RmRPNm5lYmNseDVwbXpzc3lO?=
- =?utf-8?B?YjM4dmNRTVdCOGhKbFpsN010Q1ZiWWtaMzRRd01IdGJ5TVE4RFpDN28xaklo?=
- =?utf-8?B?SUszZldnUmlDc01qZHM1Tk9RbFBBSzE1RzNFdks5bk5QNlB5M1ZlN3V4Z2E3?=
- =?utf-8?B?cUsyUzlxUEYvak9FSXdnQXBXYzBhb2R0UFRuMyt2V2VXODZ5NlVwUnh2SmVj?=
- =?utf-8?B?SC9pVkNBdjI4azIvRWE1YVBQa1ZCREh1VFlINmhoQ2hkU1VvQWk2M2lpV0xm?=
- =?utf-8?B?M1EwVzl5a2RvNGJlZkZxVzJnNS90NlYvSE15WkdiYWhpQ2FucjYzdUJRYzVZ?=
- =?utf-8?B?RWJtZjdwdHFDWXFpMk9kcm91NUZWeDg1MnVNYU15Zi9nbWQ0MmgxMTkxREFt?=
- =?utf-8?B?bHR4K1hsR1RiV01kZ1lydkp6UWVCbkkyL2VYdUkrOG0yV3Btb0VUd0FtMlZZ?=
- =?utf-8?B?MWRWTFZVWEZ1VDFnUUF4ZGRQRDFvZ2wrTE5oVzNhR3dxOE5LSTFmWHA1aTcz?=
- =?utf-8?B?VnNzak9NZm9vb0ZwRkc3TURPdklQRnNza1c5R2dRam5nTlkzNkJ4eUlENHRx?=
- =?utf-8?B?WDVCendic1RzSkJwTWk1TFJDbHF5LzdvQzhGUnp5ZzAvTjNOMmgyNEQ4LzNQ?=
- =?utf-8?B?TTBmemNlYlJxbXB1UGk5T0M3WkROM1N2QVZiL243Z04reU5FNlJyVkVPcm5m?=
- =?utf-8?B?YW0vaTFSRWlLN2Z6YVUwTXRRUTdmOHI2d015cG9iQlZ4MDdPRjJHMk9qa1Zz?=
- =?utf-8?B?c09iaXRrcXk4cmNORnhBOTlOaXRvazBZaWtnZ1NiZFMralVDMWoyV3ZLbmFp?=
- =?utf-8?B?aFdTTVdSejZYVWtCL1lXWG1WSnpsZktDYmJoNERzUW1sNzF4aHNUbEloUDU4?=
- =?utf-8?B?MGtFZC9wZ05GRTR0ODBqM1NSRklnVlByb3BJeE5DVzQ3Z1AySEFPQWMwSlg4?=
- =?utf-8?B?c2laWnZkUlVBY2F3MjdSSjBVdnptZUI0ZWVOYWJSTUVvZnUvK09ZN2F2UDV4?=
- =?utf-8?B?OFJGZXcvQ1dDKzhncnNzQUN4QVNGNVVIaGx0YVZpZy81ZnJLUHhkaENLaEg3?=
- =?utf-8?B?MnhNR3NpakdNVWRZZWhsekJhaUZqcU5kUzdyZEhjK1lUWHZJMkNjVUtsWkJs?=
- =?utf-8?B?QzQ4Wm5VZWZjZFgyQWQxNm92cCttTjduOHdwV1I0ZXBOZHA4UGVqTk51VVJn?=
- =?utf-8?B?Rk1DcmRhalFvbjhZbjJUOGtNMTBreEpzVFZYOGZxS2tDQWZLNHh1Z1BDTGk2?=
- =?utf-8?B?czRDYWdkaVVDQ3R2Und5Y3ZzT0xrR2NsWDRJUmloU1RCd3FqZ00zM1laMFJI?=
- =?utf-8?B?ZnNpSk5xNEw5WitkN0syNDJwSzlQZUZaV1BCSE5DVW9OK3B4UWlnSjZhYU1I?=
- =?utf-8?B?NmVUaDRxdFc0SGFaTVMrT0YzL2ZuNGtGRlBaaVhuMHNycVNnZ1M2RVBMOUlx?=
- =?utf-8?B?eGdOWTkyeXN6WFdVK1RJYUYwQXNObW93WHo5eXZSd2NYazc3T2JEd3M1eUhr?=
- =?utf-8?B?WFJVVkwzS0VDM2hHWCtRL0lVWGt5WmdrNlZhTFpOY2lMb1RDSVZWYStMbVVh?=
- =?utf-8?Q?ht8lUgJZB7190?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(1800799015)(82310400014)(36860700004)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 12:38:03.3771
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dafd9ec0-d771-479c-76f2-08dc639237e5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509E3.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11058
+References: <20240419081824.998654-1-padalkards17082001@gmail.com>
+In-Reply-To: <20240419081824.998654-1-padalkards17082001@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 23 Apr 2024 05:50:55 -0700
+Message-ID: <CAOSpxdZKu2k+Aro8G3qtijK-beMcNbc17z6q6Byq4cSSZoxEeg@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] libssh2: backport fix for CVE-2023-48795
+To: padalkards17082001@gmail.com
+Cc: openembedded-core@lists.openembedded.org, bhabu.bindu@kpit.com, 
+	Ross Burton <ross.burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 12:38:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198622
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 12:51:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198623
 
-U29tZWhvdywgdGhpcyBkaXN0cmlidXRlcyBhIGNvcHkgb2YgdGhlIGJ1aWxkIHRyZWU6DQoNCkNo
-YW5nZXMgdG8gcGFja2FnZXMvYWFyY2g2NC1saW51eC9weXRob24zLXNldHVwdG9vbHMtbmF0aXZl
-IChzeXNyb290KToNCiAgL3Vzci9saWIvcHl0aG9uMy4xMi9zaXRlLXBhY2thZ2VzL2J1aWxkIHdh
-cyBhZGRlZA0KICAvdXNyL2xpYi9weXRob24zLjEyL3NpdGUtcGFja2FnZXMvYnVpbGQvbGliIHdh
-cyBhZGRlZA0KICAvdXNyL2xpYi9weXRob24zLjEyL3NpdGUtcGFja2FnZXMvYnVpbGQvbGliL19k
-aXN0dXRpbHNfaGFjayB3YXMgYWRkZWQNCiAgL3Vzci9saWIvcHl0aG9uMy4xMi9zaXRlLXBhY2th
-Z2VzL2J1aWxkL2xpYi9fZGlzdHV0aWxzX2hhY2svX19pbml0X18ucHkgd2FzIGFkZGVkDQogIC91
-c3IvbGliL3B5dGhvbjMuMTIvc2l0ZS1wYWNrYWdlcy9idWlsZC9saWIvX2Rpc3R1dGlsc19oYWNr
-L292ZXJyaWRlLnB5IHdhcyBhZGRlZA0KICAvdXNyL2xpYi9weXRob24zLjEyL3NpdGUtcGFja2Fn
-ZXMvYnVpbGQvbGliL3BrZ19yZXNvdXJjZXMgd2FzIGFkZGVkDQogIC91c3IvbGliL3B5dGhvbjMu
-MTIvc2l0ZS1wYWNrYWdlcy9idWlsZC9saWIvcGtnX3Jlc291cmNlcy9leHRlcm4gd2FzIGFkZGVk
-DQogIC91c3IvbGliL3B5dGhvbjMuMTIvc2l0ZS1wYWNrYWdlcy9idWlsZC9saWIvcGtnX3Jlc291
-cmNlcy9leHRlcm4vX19pbml0X18ucHkgd2FzIGFkZGVkDQogIC91c3IvbGliL3B5dGhvbjMuMTIv
-c2l0ZS1wYWNrYWdlcy9idWlsZC9saWIvcGtnX3Jlc291cmNlcy9fX2luaXRfXy5weSB3YXMgYWRk
-ZWQNCiAgL3Vzci9saWIvcHl0aG9uMy4xMi9zaXRlLXBhY2thZ2VzL2J1aWxkL2xpYi9wa2dfcmVz
-b3VyY2VzL192ZW5kb3Igd2FzIGFkZGVkDQrigKYNCg0KVGhpcyBpcyB2ZXJ5IGJyb2tlbiBhbmQg
-aG9wZWZ1bGx5IGEgbmV3ZXIgcmVsZWFzZSBmaXhlZCBpdC4NCg0KUm9zcw==
+There is already a fix for this CVE in kirkstone:
+
+https://git.yoctoproject.org/poky/commit/?h=3Dkirkstone&id=3D888ea24812c219=
+10e74c864313be56f02fad6c2e
+
+Steve
+
+On Fri, Apr 19, 2024 at 1:19=E2=80=AFAM dnyandev via lists.openembedded.org
+<padalkards17082001=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> Backport the upstream fix for CVE-2023-48795.
+>
+> (From OE-Core rev: 314fa19c5e07fa632ff0434a6adbb97de1319a02)
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 3adac25f899054b7d1d8c14458a1a4cd310abbd7)
+> Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+> ---
+>  .../libssh2/libssh2/CVE-2023-48795.patch      | 469 ++++++++++++++++++
+>  .../recipes-support/libssh2/libssh2_1.10.0.bb |   1 +
+>  2 files changed, 470 insertions(+)
+>  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2023-48795.p=
+atch
+>
+> diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch b/=
+meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch
+> new file mode 100644
+> index 0000000000..9aaa92bb1c
+> --- /dev/null
+> +++ b/meta/recipes-support/libssh2/libssh2/CVE-2023-48795.patch
+> @@ -0,0 +1,469 @@
+> +From d4634630432594b139b3af6b9f254b890c0f275d Mon Sep 17 00:00:00 2001
+> +From: Michael Buckley <michael@buckleyisms.com>
+> +Date: Thu, 30 Nov 2023 15:08:02 -0800
+> +Subject: [PATCH] src: add 'strict KEX' to fix CVE-2023-48795 "Terrapin A=
+ttack"
+> +
+> +Refs:
+> +https://terrapin-attack.com/
+> +https://seclists.org/oss-sec/2023/q4/292
+> +https://osv.dev/list?ecosystem=3D&q=3DCVE-2023-48795
+> +https://github.com/advisories/GHSA-45x7-px36-x8w8
+> +https://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2023-48795
+> +
+> +Fixes #1290
+> +Closes #1291
+> +
+> +CVE: CVE-2023-48795
+> +Upstream-Status: Backport
+> +Comments: Refreshed Hunks
+> +
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +Signed-off-by: Bindu Bhabu <bhabu.bindu@kpit.com>
+> +---
+> + src/kex.c          | 63 +++++++++++++++++++++++------------
+> + src/libssh2_priv.h | 18 +++++++---
+> + src/packet.c       | 83 +++++++++++++++++++++++++++++++++++++++++++---
+> + src/packet.h       |  2 +-
+> + src/session.c      |  3 ++
+> + src/transport.c    | 12 ++++++-
+> + 6 files changed, 149 insertions(+), 32 deletions(-)
+> +
+> +diff --git a/src/kex.c b/src/kex.c
+> +index d4034a0a..b4b748ca 100644
+> +--- a/src/kex.c
+> ++++ b/src/kex.c
+> +@@ -3026,6 +3026,13 @@ kex_method_ssh_curve25519_sha256 =3D {
+> + };
+> + #endif
+> +
+> ++static const LIBSSH2_KEX_METHOD
+> ++kex_method_strict_client_extension =3D {
+> ++    "kex-strict-c-v00@openssh.com",
+> ++    NULL,
+> ++    0,
+> ++};
+> ++
+> + static const LIBSSH2_KEX_METHOD *libssh2_kex_methods[] =3D {
+> + #if LIBSSH2_ED25519
+> +     &kex_method_ssh_curve25519_sha256,
+> +@@ -3043,6 +3050,7 @@ static const LIBSSH2_KEX_METHOD *libssh2
+> +     &kex_method_diffie_helman_group14_sha1,
+> +     &kex_method_diffie_helman_group1_sha1,
+> +     &kex_method_diffie_helman_group_exchange_sha1,
+> ++    &kex_method_strict_client_extension,
+> +   NULL
+> + };
+> +
+> +@@ -3281,13 +3289,13 @@ static int kexinit(LIBSSH2_SESSION * ses
+> +     return 0;
+> + }
+> +
+> +-/* kex_agree_instr
+> ++/* _libssh2_kex_agree_instr
+> +  * Kex specific variant of strstr()
+> +  * Needle must be precede by BOL or ',', and followed by ',' or EOL
+> +  */
+> +-static unsigned char *
+> +-kex_agree_instr(unsigned char *haystack, unsigned long haystack_len,
+> +-                const unsigned char *needle, unsigned long needle_len)
+> ++unsigned char *
+> ++_libssh2_kex_agree_instr(unsigned char *haystack, size_t haystack_len,
+> ++                         const unsigned char *needle, size_t needle_len=
+)
+> + {
+> +     unsigned char *s;
+> +     unsigned char *end_haystack;
+> +@@ -3398,7 +3406,7 @@ static int kex_agree_hostkey(LIBSSH2_SESSION * ses=
+sion,
+> +         while(s && *s) {
+> +             unsigned char *p =3D (unsigned char *) strchr((char *) s, '=
+,');
+> +             size_t method_len =3D (p ? (size_t)(p - s) : strlen((char *=
+) s));
+> +-            if(kex_agree_instr(hostkey, hostkey_len, s, method_len)) {
+> ++            if(_libssh2_kex_agree_instr(hostkey, hostkey_len, s, method=
+_len)) {
+> +                 const LIBSSH2_HOSTKEY_METHOD *method =3D
+> +                     (const LIBSSH2_HOSTKEY_METHOD *)
+> +                     kex_get_method_by_name((char *) s, method_len,
+> +@@ -3432,9 +3440,9 @@ static int kex_agree_hostkey(LIBSSH2_SESSION * ses=
+sion,
+> +     }
+> +
+> +     while(hostkeyp && (*hostkeyp) && (*hostkeyp)->name) {
+> +-        s =3D kex_agree_instr(hostkey, hostkey_len,
+> +-                            (unsigned char *) (*hostkeyp)->name,
+> +-                            strlen((*hostkeyp)->name));
+> ++        s =3D _libssh2_kex_agree_instr(hostkey, hostkey_len,
+> ++                                     (unsigned char *) (*hostkeyp)->nam=
+e,
+> ++                                     strlen((*hostkeyp)->name));
+> +         if(s) {
+> +             /* So far so good, but does it suit our purposes? (Encrypti=
+ng vs
+> +                Signing) */
+> +@@ -3468,6 +3476,12 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION =
+* session, unsigned char *kex,
+> + {
+> +     const LIBSSH2_KEX_METHOD **kexp =3D libssh2_kex_methods;
+> +     unsigned char *s;
+> ++    const unsigned char *strict =3D
+> ++        (unsigned char *)"kex-strict-s-v00@openssh.com";
+> ++
+> ++    if(_libssh2_kex_agree_instr(kex, kex_len, strict, 28)) {
+> ++        session->kex_strict =3D 1;
+> ++    }
+> +
+> +     if(session->kex_prefs) {
+> +         s =3D (unsigned char *) session->kex_prefs;
+> +@@ -3475,7 +3489,7 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION *=
+ session, unsigned char *kex,
+> +         while(s && *s) {
+> +             unsigned char *q, *p =3D (unsigned char *) strchr((char *) =
+s, ',');
+> +             size_t method_len =3D (p ? (size_t)(p - s) : strlen((char *=
+) s));
+> +-            q =3D kex_agree_instr(kex, kex_len, s, method_len);
+> ++            q =3D _libssh2_kex_agree_instr(kex, kex_len, s, method_len)=
+;
+> +             if(q) {
+> +                 const LIBSSH2_KEX_METHOD *method =3D (const LIBSSH2_KEX=
+_METHOD *)
+> +                     kex_get_method_by_name((char *) s, method_len,
+> +@@ -3509,9 +3523,9 @@ static int kex_agree_kex_hostkey(LIBSSH2_SESSION *=
+ session, unsigned char *kex,
+> +     }
+> +
+> +     while(*kexp && (*kexp)->name) {
+> +-        s =3D kex_agree_instr(kex, kex_len,
+> +-                            (unsigned char *) (*kexp)->name,
+> +-                            strlen((*kexp)->name));
+> ++        s =3D _libssh2_kex_agree_instr(kex, kex_len,
+> ++                                     (unsigned char *) (*kexp)->name,
+> ++                                     strlen((*kexp)->name));
+> +         if(s) {
+> +             /* We've agreed on a key exchange method,
+> +              * Can we agree on a hostkey that works with this kex?
+> +@@ -3555,7 +3569,7 @@ static int kex_agree_crypt(LIBSSH2_SESSION * sessi=
+on,
+> +             unsigned char *p =3D (unsigned char *) strchr((char *) s, '=
+,');
+> +             size_t method_len =3D (p ? (size_t)(p - s) : strlen((char *=
+) s));
+> +
+> +-            if(kex_agree_instr(crypt, crypt_len, s, method_len)) {
+> ++            if(_libssh2_kex_agree_instr(crypt, crypt_len, s, method_len=
+)) {
+> +                 const LIBSSH2_CRYPT_METHOD *method =3D
+> +                     (const LIBSSH2_CRYPT_METHOD *)
+> +                     kex_get_method_by_name((char *) s, method_len,
+> +@@ -3577,9 +3591,9 @@ static int kex_agree_crypt(LIBSSH2_SESSION * sessi=
+on,
+> +     }
+> +
+> +     while(*cryptp && (*cryptp)->name) {
+> +-        s =3D kex_agree_instr(crypt, crypt_len,
+> +-                            (unsigned char *) (*cryptp)->name,
+> +-                            strlen((*cryptp)->name));
+> ++        s =3D _libssh2_kex_agree_instr(crypt, crypt_len,
+> ++                                     (unsigned char *) (*cryptp)->name,
+> ++                                     strlen((*cryptp)->name));
+> +         if(s) {
+> +             endpoint->crypt =3D *cryptp;
+> +             return 0;
+> +@@ -3619,7 +3633,7 @@ static int kex_agree_mac(LIBSSH2_SESSION * session=
+,
+> +             unsigned char *p =3D (unsigned char *) strchr((char *) s, '=
+,');
+> +             size_t method_len =3D (p ? (size_t)(p - s) : strlen((char *=
+) s));
+> +
+> +-            if(kex_agree_instr(mac, mac_len, s, method_len)) {
+> ++            if(_libssh2_kex_agree_instr(mac, mac_len, s, method_len)) {
+> +                 const LIBSSH2_MAC_METHOD *method =3D (const LIBSSH2_MAC=
+_METHOD *)
+> +                     kex_get_method_by_name((char *) s, method_len,
+> +                                            (const LIBSSH2_COMMON_METHOD=
+ **)
+> +@@ -3640,8 +3654,9 @@ static int kex_agree_mac(LIBSSH2_SESSION * session=
+,
+> +     }
+> +
+> +     while(*macp && (*macp)->name) {
+> +-        s =3D kex_agree_instr(mac, mac_len, (unsigned char *) (*macp)->=
+name,
+> +-                            strlen((*macp)->name));
+> ++        s =3D _libssh2_kex_agree_instr(mac, mac_len,
+> ++                                     (unsigned char *) (*macp)->name,
+> ++                                     strlen((*macp)->name));
+> +         if(s) {
+> +             endpoint->mac =3D *macp;
+> +             return 0;
+> +@@ -3672,7 +3687,7 @@ static int kex_agree_comp(LIBSSH2_SESSION *session=
+,
+> +             unsigned char *p =3D (unsigned char *) strchr((char *) s, '=
+,');
+> +             size_t method_len =3D (p ? (size_t)(p - s) : strlen((char *=
+) s));
+> +
+> +-            if(kex_agree_instr(comp, comp_len, s, method_len)) {
+> ++            if(_libssh2_kex_agree_instr(comp, comp_len, s, method_len))=
+ {
+> +                 const LIBSSH2_COMP_METHOD *method =3D
+> +                     (const LIBSSH2_COMP_METHOD *)
+> +                     kex_get_method_by_name((char *) s, method_len,
+> +@@ -3694,8 +3709,9 @@ static int kex_agree_comp(LIBSSH2_SESSION *session=
+,
+> +     }
+> +
+> +     while(*compp && (*compp)->name) {
+> +-        s =3D kex_agree_instr(comp, comp_len, (unsigned char *) (*compp=
+)->name,
+> +-                            strlen((*compp)->name));
+> ++        s =3D _libssh2_kex_agree_instr(comp, comp_len,
+> ++                                     (unsigned char *) (*compp)->name,
+> ++                                     strlen((*compp)->name));
+> +         if(s) {
+> +             endpoint->comp =3D *compp;
+> +             return 0;
+> +@@ -3876,6 +3892,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, i=
+nt reexchange,
+> +                 session->local.kexinit =3D key_state->oldlocal;
+> +                 session->local.kexinit_len =3D key_state->oldlocal_len;
+> +                 key_state->state =3D libssh2_NB_state_idle;
+> ++                session->state &=3D ~LIBSSH2_STATE_INITIAL_KEX;
+> +                 session->state &=3D ~LIBSSH2_STATE_KEX_ACTIVE;
+> +                 session->state &=3D ~LIBSSH2_STATE_EXCHANGING_KEYS;
+> +                 return -1;
+> +@@ -3901,6 +3918,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, i=
+nt reexchange,
+> +                 session->local.kexinit =3D key_state->oldlocal;
+> +                 session->local.kexinit_len =3D key_state->oldlocal_len;
+> +                 key_state->state =3D libssh2_NB_state_idle;
+> ++                session->state &=3D ~LIBSSH2_STATE_INITIAL_KEX;
+> +                 session->state &=3D ~LIBSSH2_STATE_KEX_ACTIVE;
+> +                 session->state &=3D ~LIBSSH2_STATE_EXCHANGING_KEYS;
+> +                 return -1;
+> +@@ -3949,6 +3967,7 @@ _libssh2_kex_exchange(LIBSSH2_SESSION * session, i=
+nt reexchange,
+> +         session->remote.kexinit =3D NULL;
+> +     }
+> +
+> ++    session->state &=3D ~LIBSSH2_STATE_INITIAL_KEX;
+> +     session->state &=3D ~LIBSSH2_STATE_KEX_ACTIVE;
+> +     session->state &=3D ~LIBSSH2_STATE_EXCHANGING_KEYS;
+> +
+> +diff --git a/src/libssh2_priv.h b/src/libssh2_priv.h
+> +index 82c3afe2..ee1d8b5c 100644
+> +--- a/src/libssh2_priv.h
+> ++++ b/src/libssh2_priv.h
+> +@@ -640,6 +640,9 @@ struct _LIBSSH2_SESSION
+> +     unsigned char server_hostkey_sha256[SHA256_DIGEST_LENGTH];
+> +     int server_hostkey_sha256_valid;
+> +
+> ++    /* Whether to use the OpenSSH Strict KEX extension */
+> ++    int kex_strict;
+> ++
+> +     /* (remote as source of data -- packet_read ) */
+> +     libssh2_endpoint_data remote;
+> +
+> +@@ -870,6 +873,7 @@ struct _LIBSSH2_SESSION
+> +     int fullpacket_macstate;
+> +     size_t fullpacket_payload_len;
+> +     int fullpacket_packet_type;
+> ++    uint32_t fullpacket_required_type;
+> +
+> +     /* State variables used in libssh2_sftp_init() */
+> +     libssh2_nonblocking_states sftpInit_state;
+> +@@ -910,10 +914,11 @@ struct _LIBSSH2_SESSION
+> + };
+> +
+> + /* session.state bits */
+> +-#define LIBSSH2_STATE_EXCHANGING_KEYS   0x00000001
+> +-#define LIBSSH2_STATE_NEWKEYS           0x00000002
+> +-#define LIBSSH2_STATE_AUTHENTICATED     0x00000004
+> +-#define LIBSSH2_STATE_KEX_ACTIVE        0x00000008
+> ++#define LIBSSH2_STATE_INITIAL_KEX       0x00000001
+> ++#define LIBSSH2_STATE_EXCHANGING_KEYS   0x00000002
+> ++#define LIBSSH2_STATE_NEWKEYS           0x00000004
+> ++#define LIBSSH2_STATE_AUTHENTICATED     0x00000008
+> ++#define LIBSSH2_STATE_KEX_ACTIVE        0x00000010
+> +
+> + /* session.flag helpers */
+> + #ifdef MSG_NOSIGNAL
+> +@@ -1144,6 +1149,11 @@ ssize_t _libssh2_send(libssh2_socket_t socket, co=
+nst void *buffer,
+> + int _libssh2_kex_exchange(LIBSSH2_SESSION * session, int reexchange,
+> +                           key_exchange_state_t * state);
+> +
+> ++unsigned char *_libssh2_kex_agree_instr(unsigned char *haystack,
+> ++                                        size_t haystack_len,
+> ++                                        const unsigned char *needle,
+> ++                                        size_t needle_len);
+> ++
+> + /* Let crypt.c/hostkey.c expose their method structs */
+> + const LIBSSH2_CRYPT_METHOD **libssh2_crypt_methods(void);
+> + const LIBSSH2_HOSTKEY_METHOD **libssh2_hostkey_methods(void);
+> +diff --git a/src/packet.c b/src/packet.c
+> +index b5b41981..35d4d39e 100644
+> +--- a/src/packet.c
+> ++++ b/src/packet.c
+> +@@ -605,14 +605,13 @@ authagent_exit:
+> +  * layer when it has received a packet.
+> +  *
+> +  * The input pointer 'data' is pointing to allocated data that this fun=
+ction
+> +- * is asked to deal with so on failure OR success, it must be freed fin=
+e.
+> +- * The only exception is when the return code is LIBSSH2_ERROR_EAGAIN.
+> ++ * will be freed unless return the code is LIBSSH2_ERROR_EAGAIN.
+> +  *
+> +  * This function will always be called with 'datalen' greater than zero=
+.
+> +  */
+> + int
+> + _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+> +-                    size_t datalen, int macstate)
+> ++                    size_t datalen, int macstate, uint32_t seq)
+> + {
+> +     int rc =3D 0;
+> +     unsigned char *message =3D NULL;
+> +@@ -657,6 +656,70 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsi=
+gned char *data,
+> +         break;
+> +     }
+> +
+> ++    if(session->state & LIBSSH2_STATE_INITIAL_KEX) {
+> ++        if(msg =3D=3D SSH_MSG_KEXINIT) {
+> ++            if(!session->kex_strict) {
+> ++                if(datalen < 17) {
+> ++                    LIBSSH2_FREE(session, data);
+> ++                    session->packAdd_state =3D libssh2_NB_state_idle;
+> ++                    return _libssh2_error(session,
+> ++                                          LIBSSH2_ERROR_BUFFER_TOO_SMAL=
+L,
+> ++                                          "Data too short extracting ke=
+x");
+> ++                }
+> ++                else {
+> ++                    const unsigned char *strict =3D
+> ++                    (unsigned char *)"kex-strict-s-v00@openssh.com";
+> ++                    struct string_buf buf;
+> ++                    unsigned char *algs =3D NULL;
+> ++                    size_t algs_len =3D 0;
+> ++
+> ++                    buf.data =3D (unsigned char *)data;
+> ++                    buf.dataptr =3D buf.data;
+> ++                    buf.len =3D datalen;
+> ++                    buf.dataptr +=3D 17; /* advance past type and cooki=
+e */
+> ++
+> ++                    if(_libssh2_get_string(&buf, &algs, &algs_len)) {
+> ++                        LIBSSH2_FREE(session, data);
+> ++                        session->packAdd_state =3D libssh2_NB_state_idl=
+e;
+> ++                        return _libssh2_error(session,
+> ++                                              LIBSSH2_ERROR_BUFFER_TOO_=
+SMALL,
+> ++                                              "Algs too short");
+> ++                    }
+> ++
+> ++                    if(algs_len =3D=3D 0 ||
+> ++                       _libssh2_kex_agree_instr(algs, algs_len, strict,=
+ 28)) {
+> ++                        session->kex_strict =3D 1;
+> ++                    }
+> ++                }
+> ++            }
+> ++
+> ++            if(session->kex_strict && seq) {
+> ++                LIBSSH2_FREE(session, data);
+> ++                session->socket_state =3D LIBSSH2_SOCKET_DISCONNECTED;
+> ++                session->packAdd_state =3D libssh2_NB_state_idle;
+> ++                libssh2_session_disconnect(session, "strict KEX violati=
+on: "
+> ++                                           "KEXINIT was not the first p=
+acket");
+> ++
+> ++                return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DIS=
+CONNECT,
+> ++                                      "strict KEX violation: "
+> ++                                      "KEXINIT was not the first packet=
+");
+> ++            }
+> ++        }
+> ++
+> ++        if(session->kex_strict && session->fullpacket_required_type &&
+> ++            session->fullpacket_required_type !=3D msg) {
+> ++            LIBSSH2_FREE(session, data);
+> ++            session->socket_state =3D LIBSSH2_SOCKET_DISCONNECTED;
+> ++            session->packAdd_state =3D libssh2_NB_state_idle;
+> ++            libssh2_session_disconnect(session, "strict KEX violation: =
+"
+> ++                                       "unexpected packet type");
+> ++
+> ++            return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONN=
+ECT,
+> ++                                  "strict KEX violation: "
+> ++                                  "unexpected packet type");
+> ++        }
+> ++    }
+> ++
+> +     if(session->packAdd_state =3D=3D libssh2_NB_state_allocated) {
+> +         /* A couple exceptions to the packet adding rule: */
+> +         switch(msg) {
+> +@@ -1341,6 +1404,15 @@ _libssh2_packet_ask(LIBSSH2_SESSION * session, un=
+signed char packet_type,
+> +
+> +             return 0;
+> +         }
+> ++        else if(session->kex_strict &&
+> ++                (session->state & LIBSSH2_STATE_INITIAL_KEX)) {
+> ++            libssh2_session_disconnect(session, "strict KEX violation: =
+"
+> ++                                       "unexpected packet type");
+> ++
+> ++            return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONN=
+ECT,
+> ++                                  "strict KEX violation: "
+> ++                                  "unexpected packet type");
+> ++        }
+> +         packet =3D _libssh2_list_next(&packet->node);
+> +     }
+> +     return -1;
+> +@@ -1402,7 +1474,10 @@ _libssh2_packet_require(LIBSSH2_SESSION * session=
+, unsigned char packet_type,
+> +     }
+> +
+> +     while(session->socket_state =3D=3D LIBSSH2_SOCKET_CONNECTED) {
+> +-        int ret =3D _libssh2_transport_read(session);
+> ++        int ret;
+> ++        session->fullpacket_required_type =3D packet_type;
+> ++        ret =3D _libssh2_transport_read(session);
+> ++        session->fullpacket_required_type =3D 0;
+> +         if(ret =3D=3D LIBSSH2_ERROR_EAGAIN)
+> +             return ret;
+> +         else if(ret < 0) {
+> +diff --git a/src/packet.h b/src/packet.h
+> +index 79018bcf..6ea100a5 100644
+> +--- a/src/packet.h
+> ++++ b/src/packet.h
+> +@@ -71,6 +71,6 @@ int _libssh2_packet_burn(LIBSSH2_SESSION * session,
+> + int _libssh2_packet_write(LIBSSH2_SESSION * session, unsigned char *dat=
+a,
+> +                           unsigned long data_len);
+> + int _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+> +-                        size_t datalen, int macstate);
+> ++                        size_t datalen, int macstate, uint32_t seq);
+> +
+> + #endif /* __LIBSSH2_PACKET_H */
+> +diff --git a/src/session.c b/src/session.c
+> +index a4d602ba..f4bafb57 100644
+> +--- a/src/session.c
+> ++++ b/src/session.c
+> +@@ -500,6 +500,8 @@ libssh2_session_init_ex(LIBSSH2_ALLOC_FU
+> +         session->abstract =3D abstract;
+> +         session->api_timeout =3D 0; /* timeout-free API by default */
+> +         session->api_block_mode =3D 1; /* blocking API by default */
+> ++        session->state =3D LIBSSH2_STATE_INITIAL_KEX;
+> ++        session->fullpacket_required_type =3D 0;
+> +         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
+> +                        "New session resource allocated");
+> +         _libssh2_init_if_needed();
+> +@@ -1186,6 +1188,7 @@ libssh2_session_disconnect_ex(LIBSSH2_SESSION *ses=
+sion, int reason,
+> +                               const char *desc, const char *lang)
+> + {
+> +     int rc;
+> ++    session->state &=3D ~LIBSSH2_STATE_INITIAL_KEX;
+> +     session->state &=3D ~LIBSSH2_STATE_EXCHANGING_KEYS;
+> +     BLOCK_ADJUST(rc, session,
+> +                  session_disconnect(session, reason, desc, lang));
+> +diff --git a/src/transport.c b/src/transport.c
+> +index 6d902d33..3b30ff84 100644
+> +--- a/src/transport.c
+> ++++ b/src/transport.c
+> +@@ -187,6 +187,7 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted =
+/* 1 or 0 */ )
+> +     struct transportpacket *p =3D &session->packet;
+> +     int rc;
+> +     int compressed;
+> ++    uint32_t seq =3D session->remote.seqno;
+> +
+> +     if(session->fullpacket_state =3D=3D libssh2_NB_state_idle) {
+> +         session->fullpacket_macstate =3D LIBSSH2_MAC_CONFIRMED;
+> +@@ -318,7 +319,7 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted =
+/* 1 or 0 */ )
+> +     if(session->fullpacket_state =3D=3D libssh2_NB_state_created) {
+> +         rc =3D _libssh2_packet_add(session, p->payload,
+> +                                  session->fullpacket_payload_len,
+> +-                                 session->fullpacket_macstate);
+> ++                                 session->fullpacket_macstate, seq);
+> +         if(rc =3D=3D LIBSSH2_ERROR_EAGAIN)
+> +             return rc;
+> +         if(rc) {
+> +@@ -329,6 +330,11 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted=
+ /* 1 or 0 */ )
+> +
+> +     session->fullpacket_state =3D libssh2_NB_state_idle;
+> +
+> ++    if(session->kex_strict &&
+> ++        session->fullpacket_packet_type =3D=3D SSH_MSG_NEWKEYS) {
+> ++        session->remote.seqno =3D 0;
+> ++    }
+> ++
+> +     return session->fullpacket_packet_type;
+> + }
+> +
+> +@@ -892,6 +892,10 @@ int _libssh2_transport_send(LIBSSH2_SESS
+> +
+> +     session->local.seqno++;
+> +
+> ++    if(session->kex_strict && data[0] =3D=3D SSH_MSG_NEWKEYS) {
+> ++        session->local.seqno =3D 0;
+> ++    }
+> ++
+> +     ret =3D LIBSSH2_SEND(session, p->outbuf, total_length,
+> +                         LIBSSH2_SOCKET_SEND_FLAGS(session));
+> +     if(ret < 0)
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/libssh2/libssh2_1.10.0.bb b/meta/recipe=
+s-support/libssh2/libssh2_1.10.0.bb
+> index 8483a292c2..9ade9f335c 100644
+> --- a/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+> +++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+> @@ -11,6 +11,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.=
+gz \
+>             file://fix-ssh2-test.patch \
+>             file://run-ptest \
+>             file://CVE-2020-22218.patch \
+> +           file://CVE-2023-48795.patch \
+>             "
+>
+>  SRC_URI[sha256sum] =3D "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee0300=
+3e5a6fa621e41d51"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198528): https://lists.openembedded.org/g/openembedde=
+d-core/message/198528
+> Mute This Topic: https://lists.openembedded.org/mt/105614205/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
