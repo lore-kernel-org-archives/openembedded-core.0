@@ -1,100 +1,114 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBE4C4345F
-	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 22:04:10 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.2658.1713909846030991696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F418C4345F
+	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 22:54:31 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.3672.1713912866358944973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Apr 2024 15:04:06 -0700
+ Tue, 23 Apr 2024 15:54:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=V5xI4oxL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0gQKw7lI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018f0cfccca1-2ce541f1-0532-4670-8fa0-c8c7667bf8b1-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713909845; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=uMx2eeKScZiysNoJrNeC2nocs361+F/IaROh33esPFw=;
-	b=V5xI4oxLAvwGS4OwO141d4P3mHAUCErQDO++w0B8NJRZMBhRtKryZA6eSKXR0Mgo
-	DrQT//PyuT/yi72STXM2gB6vcOyCvpJ553Z9rAFznQvAY5IwsilUzZ8WZDgmFP9L/O/
-	7yvVQOfQRlQ4llWvMLP9YPUUTw8OmyYMo88kaG2o=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713909845;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=uMx2eeKScZiysNoJrNeC2nocs361+F/IaROh33esPFw=;
-	b=0gQKw7lIHkgv0qKjlqhnIgEITbiGwPEr12+34svEUZb+lSADtar0HqWzqfW7tc5i
-	EV60g36lyobjpgtEYVXFUWtCGwE6ujql9UVy/ObS1s6LAiL0MCkOUYhEkV9j1wcg6zl
-	s3Dxq9WjPAnp596RBByqrEacgAExbU0+nxSAX+Fk=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][master][scarthgap][PATCH] glibc: Update to latest on stable
- 2.39 branch
-In-Reply-To: <20240423215445.1731153-1-peter.marko@siemens.com>
-References: <20240423215445.1731153-1-peter.marko@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018f0cfccca1-2ce541f1-0532-4670-8fa0-c8c7667bf8b1-000000@us-west-2.amazonses.com>
-Date: Tue, 23 Apr 2024 22:04:05 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.23-54.240.27.191
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RR2FUkHQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=484351f043=joe.slater@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N77w6G005461
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=ZP9dM
+	Yu+ODfa5h2bfH/PAyo3FqU01wlz+8QUIQUGDXM=; b=RR2FUkHQjs0Kx0YqgQYU+
+	uvXbtTRXCiyuzEHrHZ9GFNzOCu9tBNbIUJGSqTflHvyKxYc3s3iEEmRbmLoQiweH
+	NmDrX5neNinqOeyXrWQTgtk8A97Z+7TAKCQ5akzZItp92ZgjHJ+helJkdSxvTy7e
+	ByvkAo5APUo/ts2hDT9kUdy97xxSgHz2cqovZ7Ob1ZjbJ2Z0yRlPwFD36yCvrTMH
+	CCirz+ebVDxjTMZrnrUMmYMDmTIJvBv1LD8YATYhfe/lmHl/Afc2WI7N1krCTTOA
+	jZ8GRmzyJ8Y7Zq7c73/83kPLW27PUg4epPK9lXQc5sSdjxUtjEmjxA3ytoMMCoUC
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xp8asgwtc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:25 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Tue, 23 Apr 2024 15:54:24 -0700
+Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Tue, 23 Apr 2024 15:54:24 -0700
+From: <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] oe-debuginfod: add option for data storage
+Date: Tue, 23 Apr 2024 15:54:24 -0700
+Message-ID: <20240423225424.1697682-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: qsmTPTFQtnKM5KFvx3lNtHWA4dGvmuKh
+X-Proofpoint-ORIG-GUID: qsmTPTFQtnKM5KFvx3lNtHWA4dGvmuKh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-23_17,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 mlxlogscore=910 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404230061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:04:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198634
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198635
 
---NextPart
-Content-Type: text/plain
+From: Joe Slater <joe.slater@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Storing the data files under $HOME can be unreliable if debuginfod
+is used for several projects, especially if $HOME is shared
+between machines.  We provide an option to save files under the
+project directory.  The default behavior is unchanged.
 
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/master-scarthgap-glibc-Update-to-latest-on-stable-2.39-branch.patch
+ scripts/oe-debuginfod | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+diff --git a/scripts/oe-debuginfod b/scripts/oe-debuginfod
+index b525310225..5e70d37b8b 100755
+--- a/scripts/oe-debuginfod
++++ b/scripts/oe-debuginfod
+@@ -15,14 +15,29 @@ scriptpath.add_bitbake_lib_path()
+ 
+ import bb.tinfoil
+ import subprocess
++import argparse
+ 
+ if __name__ == "__main__":
++    p = argparse.ArgumentParser()
++    p.add_argument("-d", action='store_true', \
++                         help="store debuginfod files in project sub-directory")
++    
++    args = p.parse_args()
++    
+     with bb.tinfoil.Tinfoil() as tinfoil:
+         tinfoil.prepare(config_only=True)
+         package_classes_var = "DEPLOY_DIR_" + tinfoil.config_data.getVar("PACKAGE_CLASSES").split()[0].replace("package_", "").upper()
+         feed_dir = tinfoil.config_data.getVar(package_classes_var, expand=True)
+ 
++    opts = [ '--verbose', '-R', '-U', feed_dir ]
++    
++    if args.d:
++        fdir = os.path.join(os.getcwd(), 'oedid-files')
++        os.makedirs(fdir, exist_ok=True)
++        opts += [ '-d', os.path.join(fdir, 'did.sqlite') ]
++        
+     subprocess.call(['bitbake', '-c', 'addto_recipe_sysroot', 'elfutils-native'])
+ 
+-    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-R', '-U', feed_dir])
++    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod'] + opts)
++    # we should not get here
+     print("\nTo use the debuginfod server please ensure that this variable PACKAGECONFIG:pn-elfutils-native = \"debuginfod libdebuginfod\" is set in the local.conf")
+-- 
+2.25.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
