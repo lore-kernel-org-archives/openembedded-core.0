@@ -1,99 +1,98 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A5CC4345F
-	for <webhook@archiver.kernel.org>; Mon, 22 Apr 2024 16:59:10 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1336.1713805148558691829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED58C4345F
+	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 07:14:30 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.12819.1713856469909861597
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Apr 2024 09:59:09 -0700
+ Tue, 23 Apr 2024 00:14:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L4MbFpX5;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=G38gvoAX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018f06bf3ce4-7128281a-389a-4fec-a7d5-39562b9a0e4f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1713805147; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=PVhyiYGzcjNUq70mIwZNsQo52if0cuwE71FeNrH9pp0=;
-	b=L4MbFpX5NiuhwC/Ny7yXLrYPBdR2ZRn1fzt4LUHDCnBupVOREFslFp8WMsZB7258
-	dHAqtTD2IdT3Qmj6oBPJ8eE89CD4f5m12Yd/hNVPNS9QE4hWZ/erOj9G9+bSf3Xi/vR
-	A81Cp5GRgem9MvkrE6OGxIe2MyRJIg+Q2cuD2wGg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1713805147;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=PVhyiYGzcjNUq70mIwZNsQo52if0cuwE71FeNrH9pp0=;
-	b=G38gvoAXGT1X+OzRVpo3mR7SfnH2hFkCKDiKvKLMLRRiiZzuDFPKz5ohSVgsuwkG
-	zv+wSyQoTjayhT5NLyBs/v7bNcrJCi1kIedAzvfvJWBq6cHY6dErDK2K1HswgBxAtWu
-	6u9I7TF0iN5cG6NFCuYhKrkCSQjGgj1xmfazDN14=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/5] npth: update homepage
-In-Reply-To: <20240422163846.1012183-3-ross.burton@arm.com>
-References: <20240422163846.1012183-3-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018f06bf3ce4-7128281a-389a-4fec-a7d5-39562b9a0e4f-000000@us-west-2.amazonses.com>
-Date: Mon, 22 Apr 2024 16:59:07 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.04.22-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vl2ITuG0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d8a2cbe1baso67758341fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 00:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713856468; x=1714461268; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Afm4L00lPQe9QCRpXDpbdyg3toHUgCkJg5lY8lrcCvI=;
+        b=Vl2ITuG0shJEdwHr/IYAA8OONSowCMyERY49O5XY2Bgye0PNoom40AIgQi5R8YFZ2t
+         iyYK7Ff1bFc3VnoQZFR/0tqytNM39BTfOVrLOVUQtfzAMdlVPTzBhb3ouXdWR+TCoEdz
+         vCOQA/PynqsKCKZnRWYBSVQeHgx1+iAaLSF6+fChSkFON2c0JcCxCW0r7qaP/IayLvM/
+         8zyqMtSa0Ooe0wwSg9bHXAMMtG5f5cKkCrjMn0T+Csd1jdCAr8jrz3dPJFwXqn1NjwSW
+         IFNEpSP6qfpmI8i1LbXpuqBQU379C3Fi6wmKnTNbucrb5OkPIebQv07oE+PziMmQKfgN
+         qzhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713856468; x=1714461268;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Afm4L00lPQe9QCRpXDpbdyg3toHUgCkJg5lY8lrcCvI=;
+        b=toRkBJEMBmZpXRTsGLlQytbcGUBw2XX2uYC+CSJeyXey6WYJtJoLE3eSwa5TzZlUo8
+         hFCBu6bltigJQcWuK2bPy4aTDd/58tNUF7nZhHWlUNA4BcArctLvfmToyUeTJMwVaQDI
+         6TYS0MZWCh4bHBE9mY6yci7wUL3aeVXRItc93PclDzvigRXe+tN2iBGjwC4ONg96LtLB
+         Q2+LJcbzNPX8s/YauFp4c2/BshZ9aJV87cUbBVQv4Qub9rukPshWTrnwOTldz/YF7GLg
+         idzT/PYt2V6GuQFHV0oiVjN7fpS1zfZUZckfsMi/24PRMNMSPyjwc8EEgEJy/DgLkq7+
+         +t9A==
+X-Gm-Message-State: AOJu0YyLBNjI4FxU8NjhBYzOsMemUyCrfnNkIXpbND41ZZ19QlVLgWxQ
+	wBDFS8DpR50FC5B7IfTRw8tHr0KT13y1eeqiNsMiI5f8XP2lhSymwRSAmDPF5B7YM+I/UzH5c0W
+	yhbjwtD5j4tPUsTCtBBcSTeWSljs=
+X-Google-Smtp-Source: AGHT+IG9EkpwBazHv15dH8LtD//6pt8L1UrWYdxQOv5elekhMcnJXHUKZU3Poh9Fq7y5FVcOlDC5p7VD9/Lk3HsMtCw=
+X-Received: by 2002:a2e:890a:0:b0:2dd:d2db:1981 with SMTP id
+ d10-20020a2e890a000000b002ddd2db1981mr2655298lji.53.1713856467849; Tue, 23
+ Apr 2024 00:14:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240422143921.3187890-1-joseph.mills@cnhind.com> <20240422143921.3187890-2-joseph.mills@cnhind.com>
+In-Reply-To: <20240422143921.3187890-2-joseph.mills@cnhind.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 23 Apr 2024 09:14:16 +0200
+Message-ID: <CANNYZj__rD=2aVQ2US1ymon7z5p+ruDEbKaH-X44Mo5=uSyxEA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] [mesa] Update do_install as needed per
+ upstream changes
+To: joseph.mills@cnhind.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Apr 2024 16:59:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198604
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 07:14:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198605
 
---NextPart
-Content-Type: text/plain
+On Mon, 22 Apr 2024 at 16:50, Joseph Mills via lists.openembedded.org
+<joseph.mills=cnhind.com@lists.openembedded.org> wrote:
+>
+> Signed-off-by: Joseph Mills <joseph.mills@cnhind.com>
+>
+> Developer's Certificate of Origin 1.1
+...
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Please remove the text of the DCO from the commit message, it is
+entirely unnecessary.
 
----
-Testing patch /home/patchtest/share/mboxes/3-5-npth-update-homepage.patch
+Commit title should be 'mesa: correct sed expression in do_install to
+match upstream changes'.
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+>  #because we cannot rely on the fact that all apps will use pkgconfig,
+> -#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> +#make eglplatform.h independent of USE_X11
+>  do_install:append() {
+>    # sed can't find EGL/eglplatform.h as it doesn't get installed when glvnd enabled.
+>    # So, check if EGL/eglplatform.h exists before running sed.
+>    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)} && [ -f ${D}${includedir}/EGL/eglplatform.h ]; then
+> -      sed -i -e 's/^#elif defined(__unix__) && defined(EGL_NO_X11)$/#elif defined(__unix__) \&\& defined(EGL_NO_X11) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+> +      sed -i -e 's/^#elif defined(USE_X11)$/#elif ${@bb.utils.contains('PACKAGECONFIG', 'x11', '1', '0', d)}/' ${D}${includedir}/EGL/eglplatform.h
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+Is there a way to make this into a proper source code patch that can
+be applied in a way that would fail when upstream changes the code?
+Sed expressions are notoriously unreliable, and this can well again
+quietly regress.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+What is this patching really needed for, and why do we need to do it
+after the fact? Is there some issue that needs to be resolved
+upstream? I'm honestly tempted to drop this rather horrible snippet
+altogether, and force people to resolve it properly.
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
