@@ -1,114 +1,77 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F418C4345F
-	for <webhook@archiver.kernel.org>; Tue, 23 Apr 2024 22:54:31 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.3672.1713912866358944973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBF8C4345F
+	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 02:03:12 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.7159.1713924185752237068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Apr 2024 15:54:26 -0700
+ Tue, 23 Apr 2024 19:03:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RR2FUkHQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=484351f043=joe.slater@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N77w6G005461
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=ZP9dM
-	Yu+ODfa5h2bfH/PAyo3FqU01wlz+8QUIQUGDXM=; b=RR2FUkHQjs0Kx0YqgQYU+
-	uvXbtTRXCiyuzEHrHZ9GFNzOCu9tBNbIUJGSqTflHvyKxYc3s3iEEmRbmLoQiweH
-	NmDrX5neNinqOeyXrWQTgtk8A97Z+7TAKCQ5akzZItp92ZgjHJ+helJkdSxvTy7e
-	ByvkAo5APUo/ts2hDT9kUdy97xxSgHz2cqovZ7Ob1ZjbJ2Z0yRlPwFD36yCvrTMH
-	CCirz+ebVDxjTMZrnrUMmYMDmTIJvBv1LD8YATYhfe/lmHl/Afc2WI7N1krCTTOA
-	jZ8GRmzyJ8Y7Zq7c73/83kPLW27PUg4epPK9lXQc5sSdjxUtjEmjxA3ytoMMCoUC
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xp8asgwtc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:25 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Tue, 23 Apr 2024 15:54:24 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.37 via Frontend Transport; Tue, 23 Apr 2024 15:54:24 -0700
-From: <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] oe-debuginfod: add option for data storage
-Date: Tue, 23 Apr 2024 15:54:24 -0700
-Message-ID: <20240423225424.1697682-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VRn4sSKn;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a5544fd07easo722225966b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 19:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713924184; x=1714528984; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B5cVr/VnP5Tfo98iEfWGBOLd2Zkf2L0KGET0QpjjxeI=;
+        b=VRn4sSKnR0VONoNwZYy8G2ZrI/pwJqeJ0v7L87DCWrehxynJSpk3k9NuDfItZnaPD3
+         BRbxktQPyhw4ym34M9a09jUvNs7OfW+QJ8uSuuZaCzohWuPEJGI4h8IQKkN10XSm8DTT
+         D8woHPrIpmNSFCiIkFbE8U/lBDvAhARt+v0AbgUiONeSmuyr8Ue2/B8dIKe56G5DJILR
+         D/+9AOdrecefy2sxdRtzyKwaU/9/CDfmM4V2BbX420fedwJKpIM3ss2x/EtaYft1Rt0e
+         XbSSwO2Y8mWiHCvTfp1e3plwscvocVlmzL74fTLKOnrsS9yeg9xGDrgqrNO+Rq7TfPIE
+         jyiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713924184; x=1714528984;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B5cVr/VnP5Tfo98iEfWGBOLd2Zkf2L0KGET0QpjjxeI=;
+        b=QgM+dUFrkjAkEjjhfVJ2S+tp/41kwgTNLYHSIoBAdL4TFfU9DWez7Q690CREsj4mZQ
+         1uyrSJvMAyuayOCF773nAHGu4ZJs/g2/PpcayO5xprf0reephzOLcMP6jW70qDDj4Gxw
+         hQgSVmu96IEOViLli3u9p1Nsh2mQ9hr80fjG2mUwSehQvPjfnDYklmzxZugQ9TMu95gl
+         enUX4aD+XjvG3S+dwmO3P4jl1NxXpCzoTrHbKylu+SCG8wfIREQk5IZ5JxXl+H+UkBBG
+         nKm84InoCCQznJCBsBfte6yYbdjhyFEllF+oI1JMCZVzc9qbZiAni4TVR01I68MweCso
+         oj9Q==
+X-Gm-Message-State: AOJu0Yw+K2/vNPRTc6tLNrQtRKrPAS91y0VqYcsmdnBtitlGwah9vQBF
+	neHr29iVVJpEy/I100oVOVdblJzi16O/mlGIabKNp9U0xgyb3BWntunfTObHehfySPWRtbbPNXB
+	lA0xpgLnNIA0kRXtlARHri4XgMdWez6AX
+X-Google-Smtp-Source: AGHT+IH2cxF19jazqt4yPQCfhMPcE7GLubyQmTniIZ0gRLXzJi1Dv/Fd5I4aHMg2nouUdWf2IWlPVUCgDy27FL4E4VU=
+X-Received: by 2002:a17:906:40d7:b0:a58:7505:1968 with SMTP id
+ a23-20020a17090640d700b00a5875051968mr511215ejk.43.1713924183585; Tue, 23 Apr
+ 2024 19:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: qsmTPTFQtnKM5KFvx3lNtHWA4dGvmuKh
-X-Proofpoint-ORIG-GUID: qsmTPTFQtnKM5KFvx3lNtHWA4dGvmuKh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-23_17,2024-04-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
- impostorscore=0 mlxlogscore=910 adultscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404230061
+References: <17C6E6A289A008EF.28114@lists.openembedded.org>
+In-Reply-To: <17C6E6A289A008EF.28114@lists.openembedded.org>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Wed, 24 Apr 2024 05:02:52 +0300
+Message-ID: <CALT56yMqnU_vndjxBiEttPQJd=3RForUGPeqKM7us9eGwLjJsg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ffmpeg: backport patches to use new Vulkan AV1
+ codec API
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Apr 2024 22:54:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198635
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 02:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198636
 
-From: Joe Slater <joe.slater@windriver.com>
+On Wed, 17 Apr 2024 at 02:31, Dmitry Baryshkov via
+lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org>
+wrote:
+>
+> Backport two patches from ffmpeg git to fix compilation with the newest
+> Vulkan API.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Storing the data files under $HOME can be unreliable if debuginfod
-is used for several projects, especially if $HOME is shared
-between machines.  We provide an option to save files under the
-project directory.  The default behavior is unchanged.
+Gracious ping. Otherwise ffmpeg is broken on vulkan-enabled distros.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- scripts/oe-debuginfod | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+See https://storage.tuxsuite.com/public/linaro/nicolas/oebuilds/2fGSSDyVGWy5G5B5QwGHGAOYSlR/build.log
 
-diff --git a/scripts/oe-debuginfod b/scripts/oe-debuginfod
-index b525310225..5e70d37b8b 100755
---- a/scripts/oe-debuginfod
-+++ b/scripts/oe-debuginfod
-@@ -15,14 +15,29 @@ scriptpath.add_bitbake_lib_path()
- 
- import bb.tinfoil
- import subprocess
-+import argparse
- 
- if __name__ == "__main__":
-+    p = argparse.ArgumentParser()
-+    p.add_argument("-d", action='store_true', \
-+                         help="store debuginfod files in project sub-directory")
-+    
-+    args = p.parse_args()
-+    
-     with bb.tinfoil.Tinfoil() as tinfoil:
-         tinfoil.prepare(config_only=True)
-         package_classes_var = "DEPLOY_DIR_" + tinfoil.config_data.getVar("PACKAGE_CLASSES").split()[0].replace("package_", "").upper()
-         feed_dir = tinfoil.config_data.getVar(package_classes_var, expand=True)
- 
-+    opts = [ '--verbose', '-R', '-U', feed_dir ]
-+    
-+    if args.d:
-+        fdir = os.path.join(os.getcwd(), 'oedid-files')
-+        os.makedirs(fdir, exist_ok=True)
-+        opts += [ '-d', os.path.join(fdir, 'did.sqlite') ]
-+        
-     subprocess.call(['bitbake', '-c', 'addto_recipe_sysroot', 'elfutils-native'])
- 
--    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-R', '-U', feed_dir])
-+    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod'] + opts)
-+    # we should not get here
-     print("\nTo use the debuginfod server please ensure that this variable PACKAGECONFIG:pn-elfutils-native = \"debuginfod libdebuginfod\" is set in the local.conf")
 -- 
-2.25.1
-
+With best wishes
+Dmitry
 
