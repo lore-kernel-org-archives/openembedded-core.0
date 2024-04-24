@@ -2,97 +2,77 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B15B5C07E8E
-	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:34:53 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.11638.1713947687882359557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0234C07E8E
+	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:36:33 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.11653.1713947787155127355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Apr 2024 01:34:48 -0700
+ Wed, 24 Apr 2024 01:36:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MlK0+t20;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-518931f8d23so7128464e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 01:34:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LW1YrlVU;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51acb95b892so5825113e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 01:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713947686; x=1714552486; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IAAzxjf//Uz8vpmwaKMP+dRWTFzhiPn4RebzSDY73a4=;
-        b=MlK0+t20YFm4xFu5s7qYwpY52G3vHHcWKjp0qU0DsP2N61Gytd/g8D+68d+GpX0u11
-         TLmTtPQKUejNOrgSxkOTV41AqaGES2L7SIipZXEUoz8cTvyDDs/MGWKtaf+NNvs+rZGV
-         hQS3JXB4acHMQzzmlGDr4x+Rl/fRoCeu7C5Ap0TnJWV+UD33xsMyKKxS5eg+OsByADrK
-         Jny0BSCnUHbRZ+BAZfIeiq2NodjiGSbGP8HfTZ7pchDGKumxseSLYARzCMryaXzN/hec
-         LHrBuI2pSNj8StZTl1nofYAmsNJV6tRf7lNLOxGDb5OMoPb8hKrFW1nyRJf6ayUDKH4M
-         UQKg==
+        d=gmail.com; s=20230601; t=1713947785; x=1714552585; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dDC1h6yruY/HpsaaHC3/rLF4XHehYmfPw5m4lXwP7QA=;
+        b=LW1YrlVUoueJC/ptcA2jbMLAKFjJAWjCiNuGeS00EMYlake79XOV7cygPCS+iaarJ/
+         zDdUBBNKcggn120EmmDtySR/cRa1I1X8kiiGPjxCBVkqK5m1yN2S9CfwLeQohwSw3tO/
+         fVsA1h02GF/KVbfB7qZJds+K1psZToNJeG7kToFDc1NPp7BGiTbkGgbT7IBXP/Ym8FTs
+         jqt870vvyh0lDZWPr4wHzHiO1ILmNpGbeHKTBWBa9LL5a3S1NMRkN3N8V0zlibLmHwQc
+         qD8+hNbS4o+rKU1kk53dsnak0WUM+xOOHY87qTaGzOqOI5ct0q1dzzCiceDbPn93hiAU
+         vjiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713947686; x=1714552486;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IAAzxjf//Uz8vpmwaKMP+dRWTFzhiPn4RebzSDY73a4=;
-        b=KywI4CdvjFpgjAQg1qEXYGkWgGkAen0y4uXfCL1cNeMaHHGffkIIPJl/PHQ57AZEhy
-         R8Uu4aJrMBuIcUU/nSuPzPC/cVHjs1xnSp8hULHx2Ho28se8wjkb34jL3K4s2hiMJykn
-         j2IOHedf9LDsK7TmyR8gUvIukd2KC3CkJQi3R3qdMuctcwA9rru1HKqRADV52wl/skW9
-         Chf6+/sfQAbBr3X0mHDfNs6RVACQs0vVrlPj6bRDNCEvwhGe9Yn86R+CGFtlyBxYVH6r
-         ewfWtiU9DSyhr8c1eLobf4Jc8jJM8cPcoqyoRiXn5Gvf9r8EEeodatZx+W2WyaEFdBJL
-         gSGg==
-X-Gm-Message-State: AOJu0YwoqocawNd8NXUUufG/L/h2zw2Bbk7i9avsXE5WmZ5INOSf3VrR
-	iE3CFLqmJyjTMHP8wASzOd420fpvG88z0VollLwkQlL/T2LnzTiCt2Yf+GaF71QhlisD5DFR5R0
-	e/0McCQw8QXMHq6gMA8ritFc7InQ=
-X-Google-Smtp-Source: AGHT+IHl4G74uaX2sntqFKiwDfPDYVhp93bKSOAO6CGhyVSYaQBjw9ZWp77W1wqoeSuTo/SeogLBaV2sDg+MQbcd0oU=
-X-Received: by 2002:a19:2d4e:0:b0:516:d1bd:7743 with SMTP id
- t14-20020a192d4e000000b00516d1bd7743mr1114713lft.64.1713947685535; Wed, 24
- Apr 2024 01:34:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713947785; x=1714552585;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dDC1h6yruY/HpsaaHC3/rLF4XHehYmfPw5m4lXwP7QA=;
+        b=Crxnwc1bnl2SsFOV0oB7qkbdy5naK3yBaQmeMAm5h+0/MRoTMvcvO26O0AJAkluHFA
+         pE7Ux25aGRSf5jj9JprbN+2SCbLIIicYDP2jFRYDktv91gun9lc7KhYUOjzl6DQiRsqL
+         2D7Mn/pc5f0ybXNbiAnpqpN3reZNOsNeAOHNryfSv+fS9Igw6Z1sHDka9+l/xnc8Cpgp
+         JeE+8J7rqTe/C6kzhp+SH6wzndlM0xGydnYAkaEvb6QyfQz1dHG606oDjIeluisLl6uo
+         Tfj+CuRmGquKLY3TFq7xqFeMv8S+7D16lMP0r0Vmfi6VoVHtSVQDX5mn7vQYGE0ALlXn
+         Tzcg==
+X-Gm-Message-State: AOJu0YzF1gt1SmYtw7VI6+GRXLfjTASItMPJWFKsSiLUTBrT0Afc7/o6
+	OApiTLvsltOVIY/2gMoRCOnSJfVLwOR4zglo0j3/1wCin8SaBxpAtkEuwWmm9oEtpBERs8t4uAb
+	PXJKfivb2buHMM08Hy5G0UZCEH0w=
+X-Google-Smtp-Source: AGHT+IFUZRpf87TJo+op+XdndVpcUUrp6zEyzby/133kObHspRiQm0T2RQd23Hb7T1QbPIuoKKigJ160rjgfqBeQLIU=
+X-Received: by 2002:ac2:5e39:0:b0:513:cf5e:f2ad with SMTP id
+ o25-20020ac25e39000000b00513cf5ef2admr1616755lfg.60.1713947785007; Wed, 24
+ Apr 2024 01:36:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <17C6E6A289A008EF.28114@lists.openembedded.org> <CALT56yMqnU_vndjxBiEttPQJd=3RForUGPeqKM7us9eGwLjJsg@mail.gmail.com>
-In-Reply-To: <CALT56yMqnU_vndjxBiEttPQJd=3RForUGPeqKM7us9eGwLjJsg@mail.gmail.com>
+References: <20240418055843.547573-1-yocto@bsorensen.net> <e34afde6-9687-4f4e-bc98-b9d0c8260169@bsorensen.net>
+In-Reply-To: <e34afde6-9687-4f4e-bc98-b9d0c8260169@bsorensen.net>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Apr 2024 10:34:34 +0200
-Message-ID: <CANNYZj-Y6ewMwQ7=y9PUavF2mKYKTeZECKC8FkmTrD=0Mry4_g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ffmpeg: backport patches to use new Vulkan AV1
- codec API
-To: dbaryshkov@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2024 10:36:13 +0200
+Message-ID: <CANNYZj_syk3DmGvutvxT11P0hO7L8E7tRm7-ga_QKO7Z_PoKZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd: sed ROOT_HOME only if sysusers
+ PACKAGECONFIG is set
+To: yocto@bsorensen.net
+Cc: openembedded-core@lists.openembedded.org, Qi.Chen@windriver.com, 
+	alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 08:34:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198643
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 08:36:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198644
 
-The patch is fine, and it's in abelloni's staging branch. There's no
-separate notification for that. Integration to master for now is a
-lesser priority than getting scarthgap out.
+On Wed, 24 Apr 2024 at 10:19, Christian B. S=C3=B8rensen via
+lists.openembedded.org <yocto=3Dbsorensen.net@lists.openembedded.org>
+wrote:
+
+> Any input on the patchset ? Would appreciate if it could be included in t=
+he scarthgap release.
+
+A little patience would help. The patch is fine (and so there's not
+input), it's in a staging branch, but integration to master would
+happen after scarthgap is out.
 
 Alex
-
-On Wed, 24 Apr 2024 at 04:03, Dmitry Baryshkov via
-lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Wed, 17 Apr 2024 at 02:31, Dmitry Baryshkov via
-> lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > Backport two patches from ffmpeg git to fix compilation with the newest
-> > Vulkan API.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> Gracious ping. Otherwise ffmpeg is broken on vulkan-enabled distros.
->
-> See https://storage.tuxsuite.com/public/linaro/nicolas/oebuilds/2fGSSDyVGWy5G5B5QwGHGAOYSlR/build.log
->
-> --
-> With best wishes
-> Dmitry
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198636): https://lists.openembedded.org/g/openembedded-core/message/198636
-> Mute This Topic: https://lists.openembedded.org/mt/105567763/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
