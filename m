@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA20EC19F4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E94C25B10
 	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:43:03 +0000 (UTC)
 Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
  by mx.groups.io with SMTP id smtpd.web10.11780.1713948176774387245
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Apr 2024 01:43:00 -0700
+ Wed, 24 Apr 2024 01:42:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=gLropOmf;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=cGsVZAIJ;
  spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1713948180; x=1745484180;
+  t=1713948178; x=1745484178;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=Fzs4VURil2e6Ei/PP9/9Grk2qfSscCC3PP5yxFAhZA0=;
-  b=gLropOmfZVphmKRmp/9ImFTYLtanaEIlhQdIQX7rLgbjiInQjI6ugl2J
-   8BF+/pFkQIcgEEFpRUX4Ixm1+5p6gpOc7pOnSlTnhNM2XUGob/+niIw7t
-   p6GrF+Jr1mmKDDgkb8lMpH+BKD5MbYe4d8oyjVoVOwpSOTw3kCW4tKSJv
-   Mtd6je6WSMMCuYmbaZmfed+ZiEVEB0G3xla1QFCjFOQ0pg2eHj8pWGWGx
-   y6Uw4saTolpRgZXyZOqv/bjOHBCQMwyNiReDooRjIjEflUGr4l/vZandf
-   RUVOQOUlqKqWJRWdBZlbViako8XgsDPzZSvrXTZEUn04rHaF0qqu+NIDP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="144151920"
+  bh=rUB8vn0IN/mrBGZY/pLEDrMLKpSLIAOxedJ1SCwku3o=;
+  b=cGsVZAIJTFtyzT5rBYzxuCNM4myaTeZKCBqhdwo6A9YELCoVdg7eSVf4
+   K84dh6SQbetJROchH7MhkCHW3o3vVSAYCcPnM3sVd2UYfkfKJgaFYwWsX
+   wwbsjg3ApCIj3szZ67qsVpx8SJZQw3zwfghxDisB7+YiFDHyJYnCJhV1d
+   uFB5Gge86c+8S/Wr/TunGF+ks/n5zJeB9FZS3DS9lufwMj6FQ5ur1WgsL
+   VYB6VCrHPOcfA+kv/tjjtQ8PZbRgVCeeu6cwRg6QNxp5czcXMTCwUx/uW
+   g6+D08pvUGAuCb9M++RAGD5FgYNYkLy/6NmVpoF7FYJS91PaojknrJcCd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="144151918"
 X-IronPort-AV: E=Sophos;i="6.07,225,1708354800"; 
-   d="scan'208";a="144151920"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 17:42:58 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id C4AB0C2AA1
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 17:42:56 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 0275632470
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 17:42:56 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 82CC51EA822
+   d="scan'208";a="144151918"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 17:42:57 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3D175C53C7
 	for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 17:42:55 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 76F7B9E181
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 17:42:54 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 07C7F202CE131
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 17:42:54 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 2BE731A000A;
-	Wed, 24 Apr 2024 16:42:55 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id A6A3C1A000A;
+	Wed, 24 Apr 2024 16:42:53 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 08/38] libcap-ng: upgrade 0.8.4 -> 0.8.5
-Date: Wed, 24 Apr 2024 16:42:02 +0800
-Message-Id: <1713948152-13501-8-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 07/38] libarchive: upgrade 3.7.2 -> 3.7.3
+Date: Wed, 24 Apr 2024 16:42:01 +0800
+Message-Id: <1713948152-13501-7-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1713948152-13501-1-git-send-email-wangmy@fujitsu.com>
 References: <1713948152-13501-1-git-send-email-wangmy@fujitsu.com>
@@ -54,102 +54,107 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28340.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28340.006
-X-TMASE-Result: 10--6.711500-10.000000
-X-TMASE-MatchedRID: PXzrFdFmygGjz0nOeth/yUIIxwDaU5mrGEfoClqBl86KS8s/FMqmOBMk
-	lSLBVB3RxX6YtSj8yqSeiDAFW6UJG3AhOzvD0jznOjf3A4DTYuFMkOX0UoduuToUdFbHYUaw7v0
-	MlFSLfmnmyE8VIo655KYppTu5ktrmk6cJ+nF8ms7EtKyL0UoBPcE5XPQnBzGXR/IzlV+CMbbT0P
-	pHDbMis/GreLFhOYYLmPp2K47b6clhaj10i6TXQMYv//yaWh0DRTJDocd0f0n1FNU5pHs+BEFvX
-	wCiRuxT+63nkWSx/S0OdJ5y5E1cRPKZUMHzJkSUb056mCmF00Z9LQinZ4QefIWH8POvJNOWM6se
-	g7X1Wbb3FLeZXNZS4PExmMzPfDZvKb/WYA82YMYqeY4YODTtVhlYJSWTnWVMsRsMixRUDmyFFax
-	v2Ib6NZfsbjKtKPmbLapCTx8mEP1xvJLTs1FHC310ySR5cSygS7+RMq/2CK6rA4c7UV2fQpvi2P
-	QO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
+X-TMASE-Result: 10--0.231300-10.000000
+X-TMASE-MatchedRID: +qH7TW9/Rkejz0nOeth/yUIIxwDaU5mrF4r8H5YrEqyt5s9kBup6GIar
+	Zvf3RiBbBEleHrOyiTexMbpbeWfnwiqQO0zIUpyn5TBV9C2UM3EbbhhV65kaY8v8BP3RkorX2d8
+	mtRIRsUMkw8PwVHl/nwXURz+hQhGVWkIi5GvRHEpO5y1KmK5bJTZlY6a4lRLZ1EZ/lznv4UWxbR
+	QneVNyR43BSgam0lwXC6Kd+BnbGsdze/DZgIzfL02xVQmDwU6mBPY4SegK3jypHpQYuqy67p6ba
+	/D5x6cp4vM1YF6AJbZT3DhdVcNYJgtuKBGekqUpnH7sbImOEBRgHpfU0re9ajhYpvlgrcpIUcqF
+	0n5y8gbFFJNOQA5Ol4a941kqQy3pJxKOcLz2b9+H+NQf+LQMVucpViApss98qFNPmjIHfkHsfZ9
+	V6Q6rCZgvUoiYqGrVm457vI8IG8B/Y4nFsBWAdD6Qrn3xh/cy
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 08:43:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198653
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198652
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-============
-- Remove python global exception handler since it's deprecated
-- Make the utilities link against just built libraries
-- Remove unused macro in cap-ng.h
+==========
+-PCRE2 support
+-add trailing letter b to bsdtar(1) substitute pattern
+-add support for long options "--group" and "--owner" to tar(1)
+-Fix possible vulnerability in tar error reporting introduced in f27c173
+-ISO9660: preserve the natural order of links
+-rar5: fix decoding unicode filenames on Windows
+-rar5: fix infinite loop if during rar5 decompression the last block produced no data
+-xz filter: fix incorrect eof at the end of an lzip member
+-zip: fix end-of-data marker processing when decompressing zip archives
+-multiple bsdunzip(1) fixes
+-filetime truncation fix on Windows
 
-fix-issues-with-swig-4-2.patch
-removed since it's included in 0.8.5
+configurehack.patch
+refreshed for 3.7.3
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
- meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
- ...{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} |  0
- 3 files changed, 2 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} (100%)
+ .../libarchive/libarchive/configurehack.patch | 20 ++++++++++++-------
+ ...ibarchive_3.7.2.bb => libarchive_3.7.3.bb} |  2 +-
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.7.2.bb => libarchive_3.7.3.bb} (96%)
 
-diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-deleted file mode 100644
-index fb424fe725..0000000000
---- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
--From: Steve Grubb <ausearch.1@gmail.com>
--Date: Thu, 4 Jan 2024 15:06:29 -0500
--Subject: [PATCH] Remove python global exception handler since its deprecated
--
--Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- bindings/src/capng_swig.i | 7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
--index fcdaf18..fa85e13 100644
----- a/bindings/src/capng_swig.i
--+++ b/bindings/src/capng_swig.i
--@@ -30,13 +30,6 @@
-- 
-- %varargs(16, signed capability = 0) capng_updatev;
-- 
---%except(python) {
---  $action
---  if (result < 0) {
---    PyErr_SetFromErrno(PyExc_OSError);
---    return NULL;
---  }
---}
-- #endif
-- 
-- %define __signed__
---- 
--2.43.2
--
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 845b7c2f0a..875337b954 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+diff --git a/meta/recipes-extended/libarchive/libarchive/configurehack.patch b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+index f3989d99eb..45fddd9147 100644
+--- a/meta/recipes-extended/libarchive/libarchive/configurehack.patch
++++ b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+@@ -2,12 +2,15 @@ To work with autoconf 2.73, tweak the macro ordering in configure.in.
  
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
--           file://fix-issues-with-swig-4-2.patch \
--           "
-+SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
+ Upstream-Status: Pending
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++---
++ configure.ac | 26 +++++++++++++-------------
++ 1 file changed, 13 insertions(+), 13 deletions(-)
  
--SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
-+SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
+-Index: libarchive-3.6.2/configure.ac
+-===================================================================
+---- libarchive-3.6.2.orig/configure.ac
+-+++ libarchive-3.6.2/configure.ac
+-@@ -357,6 +357,19 @@ if test "x$with_bz2lib" != "xno"; then
++diff --git a/configure.ac b/configure.ac
++index 503bb75..e3101da 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -414,6 +414,19 @@ if test "x$with_bz2lib" != "xno"; then
+    esac
+  fi
+  
+@@ -27,9 +30,9 @@ Index: libarchive-3.6.2/configure.ac
+  AC_ARG_WITH([libb2],
+    AS_HELP_STRING([--without-libb2], [Don't build support for BLAKE2 through libb2]))
+  
+-@@ -558,19 +571,6 @@ LDFLAGS=$save_LDFLAGS
++@@ -678,19 +691,6 @@ fi
+  
+- AC_SUBST(GC_SECTIONS)
++ AC_SUBST(DEAD_CODE_REMOVAL)
+  
+ -# Checks for typedefs, structures, and compiler characteristics.
+ -AC_C_CONST
+@@ -47,3 +50,6 @@ Index: libarchive-3.6.2/configure.ac
+  # Check for tm_gmtoff in struct tm
+  AC_CHECK_MEMBERS([struct tm.tm_gmtoff, struct tm.__tm_gmtoff],,,
+  [
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.2.bb b/meta/recipes-extended/libarchive/libarchive_3.7.3.bb
+similarity index 96%
+rename from meta/recipes-extended/libarchive/libarchive_3.7.2.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.7.3.bb
+index 91f521fa4d..bea91b6e97 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.3.bb
+@@ -33,7 +33,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ SRC_URI += "file://configurehack.patch"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-similarity index 100%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
+-SRC_URI[sha256sum] = "df404eb7222cf30b4f8f93828677890a2986b66ff8bf39dac32a804e96ddf104"
++SRC_URI[sha256sum] = "f27a97bc22ceb996e72502df47dc19f99f9a0f09181ae909f09f3c9eb17b67e2"
+ 
+ CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
+ 
 -- 
 2.34.1
 
