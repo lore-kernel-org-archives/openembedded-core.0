@@ -1,245 +1,180 @@
-Return-Path: <lukas.palme@swarco.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C45C4345F
-	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 16:41:03 +0000 (UTC)
-Subject: Pseudo Abort due to path mismatch #pseudo #kirkstone
-To: openembedded-core@lists.openembedded.org
-From: lukas.palme@swarco.com
-X-Originating-Location: US (136.226.198.119)
-X-Originating-Platform: Windows Firefox 125
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E04C07E8E
+	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 16:43:43 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.1547.1713977015677112745
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 24 Apr 2024 09:43:35 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KOOdyGPW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-345522f7c32so5587f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 09:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713977014; x=1714581814; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=81/JqgyFkdIYn0Xke2vXTdNqtqSUwnLACoEePKzbUMY=;
+        b=KOOdyGPW6xRPXWBXRZgH4FcXHVuow5pZ5e7xvnSH5q9hZuqja8ue/GF2Lm6eWnouaQ
+         d31pQVm0qCcuEVShqdsh06a6NpwV52veixF6ajPFwOM1eK7bxPlV41TC9p4vPF/CQ+Hr
+         VNWvioactbBWQWhnbhGD00+O4plPmaQzGzZa1Yze6ZS34ituutL4UzQdXEpqIvkAm+Jk
+         V+npKE2FV9FYhnfkXQ9K1pVyTMTsDqhxMjCZDmAXfuYdd6YZkMsAkZF1lOYGBHSIGWLt
+         n23nza2XqXqEpBDjn/lYmGVg6DHOw2pLfbRBztLhaosTw9G1nbkvCsPJhNl/JSMavO3B
+         xtaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713977014; x=1714581814;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=81/JqgyFkdIYn0Xke2vXTdNqtqSUwnLACoEePKzbUMY=;
+        b=wmmy4UWNkSttaFQ94noGNkAaKZfcAxWXYOkacB60wGrAlIi0kp1mkQmUXQfeALkWCu
+         HMyIANyjh7g081+fV0O3mBBgraH7LyMizclv6K+rFW/v7ZCMVsOn1kY9CYew+P6VtOvX
+         d5I20qBdTw/K1MyJjceLPbDqizhrZuP6qONOMuap6J2mLkov71T/ttVCEJ42tTkl1kqm
+         w85AFEs53g5KFiNn8kVrYbHQZEm3TlUDtEZOrNtJCib9c9VNIlAWQAGfWq+/zxOf5HyU
+         /KO7ADI4ygOBACIip1YJoYNdrveF1j+M1J158tu/5Xa9byvb/AQXWoNpmukgjYsHAbvp
+         mSTQ==
+X-Gm-Message-State: AOJu0YyAvfxQZHMJ271IeNeMLBc2AIMQazRzSQdj97OivjogQcP81RW1
+	qqcsx0JQH8eCS2ve2z0D25UaB+nPINTc7iPk98o4fKv0kPqtfubLr0JkhVIRP3v9KLEZxs8MJmW
+	rX5Ufmzc6fz786GdufCrX1RkPNXU=
+X-Google-Smtp-Source: AGHT+IH4mmHy6mvtNZ0KfSsN1WYqIFUETrCrkauLyHBMYNxijLGHqHmhTV4rbxfWPEHufSnzJY+keLI/0qo917eZVdk=
+X-Received: by 2002:a5d:6585:0:b0:34b:3fd7:5f6f with SMTP id
+ q5-20020a5d6585000000b0034b3fd75f6fmr1964433wru.0.1713977013855; Wed, 24 Apr
+ 2024 09:43:33 -0700 (PDT)
 MIME-Version: 1.0
-Date: Wed, 24 Apr 2024 09:41:01 -0700
-Message-ID: <hF7u.1713976861889896557.dNAi@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="Zqu1iGxcXjmsG3sTLC79"
+References: <hF7u.1713976861889896557.dNAi@lists.openembedded.org>
+In-Reply-To: <hF7u.1713976861889896557.dNAi@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 24 Apr 2024 18:43:21 +0200
+Message-ID: <CA+chaQf4UNbB_1XD4PHMGA2-P-xFXSFOCRTEBu1o+rSbBU7k=g@mail.gmail.com>
+Subject: Re: [OE-core] Pseudo Abort due to path mismatch #pseudo #kirkstone
+To: lukas.palme@swarco.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 16:41:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198689
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Apr 2024 16:43:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198690
 
---Zqu1iGxcXjmsG3sTLC79
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Don't use:
+S =3D "${WORKDIR}"
 
-Hello openembedded community!
+move it to separate directory and it will work fine.
 
-I hope this is the right place to ask this question, https://wiki.yoctoproj=
-ect.org/wiki/Pseudo_Abort ( https://wiki.yoctoproject.org/wiki/Pseudo_Abort=
- ) brought me here.
-
-I have a custom recipe which builds fine on the first build, but fails on s=
-ubsequent builds in the do_install step:
->=20
->=20
-> ERROR: Task
-> (/home/swarco/WindriverLinux22/build/../layers/meta-swarco/meta-vega/reci=
-pes-kernel/mymodule/mymodule.bb:do_install)
-> failed with exit code '1'
+On Wed, Apr 24, 2024 at 6:41=E2=80=AFPM lukas.palme via lists.openembedded.=
+org
+<lukas.palme=3Dswarco.com@lists.openembedded.org> wrote:
+>
+> Hello openembedded community!
+>
+> I hope this is the right place to ask this question, https://wiki.yoctopr=
+oject.org/wiki/Pseudo_Abort brought me here.
+>
+> I have a custom recipe which builds fine on the first build, but fails on=
+ subsequent builds in the do_install step:
+>
+> ERROR: Task (/home/swarco/WindriverLinux22/build/../layers/meta-swarco/me=
+ta-vega/recipes-kernel/mymodule/mymodule.bb:do_install) failed with exit co=
+de '1'
 > Pseudo log:
-> path mismatch [3 links]: ino 78038 db
-> '/home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mym=
-odule/1.0-r0/package/usr/src/debug/mymodule/1.0-r0/mymodule_public.h'
-> req
-> '/home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mym=
-odule/1.0-r0/mymodule_public.h'.
->=20
+> path mismatch [3 links]: ino 78038 db '/home/swarco/WindriverLinux22/buil=
+d/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/package/usr/src/debug/my=
+module/1.0-r0/mymodule_public.h' req '/home/swarco/WindriverLinux22/build/t=
+mp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/mymodule_public.h'.
 > Setup complete, sending SIGUSR1 to pid 12937.
-
-Yocto is the only one touching the files in between builds. Also the files =
-questioned do exist with the noted inode:
->=20
->=20
-> swarco@SWFPERWKS065:~/WindriverLinux22$ stat
-> /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymo=
-dule/1.0-r0/package/usr/src/debug/mymodule/1.0-r0/mymodule_public.h
->=20
-> File:
-> /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymo=
-dule/1.0-r0/package/usr/src/debug/mymodule/1.0-r0/mymodule_public.h
->=20
-> Size: 3146=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Blocks: 8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IO Bloc=
-k: 4096=C2=A0=C2=A0 regular file
-> Device: 820h/2080d=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Inode: 78038=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Links: 3
-> Access: (0644/-rw-r--r--)=C2=A0 Uid: ( 1000/=C2=A0=C2=A0 swarco)=C2=A0=C2=
-=A0 Gid: ( 1000/=C2=A0=C2=A0 swarco)
->=20
+>
+> Yocto is the only one touching the files in between builds. Also the file=
+s questioned do exist with the noted inode:
+>
+> swarco@SWFPERWKS065:~/WindriverLinux22$ stat /home/swarco/WindriverLinux2=
+2/build/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/package/usr/src/de=
+bug/mymodule/1.0-r0/mymodule_public.h
+>   File: /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-li=
+nux/mymodule/1.0-r0/package/usr/src/debug/mymodule/1.0-r0/mymodule_public.h
+>   Size: 3146            Blocks: 8          IO Block: 4096   regular file
+> Device: 820h/2080d      Inode: 78038       Links: 3
+> Access: (0644/-rw-r--r--)  Uid: ( 1000/   swarco)   Gid: ( 1000/   swarco=
+)
 > Access: 2024-04-24 18:17:21.182513722 +0200
 > Modify: 2024-04-24 18:16:50.402199580 +0200
 > Change: 2024-04-24 18:17:19.432495797 +0200
-> Birth: 2024-04-24 18:11:59.419201062 +0200
-
->=20
-> swarco@SWFPERWKS065:~/WindriverLinux22$ stat
-> /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymo=
-dule/1.0-r0/mymodule_public.h
-> File:
-> /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymo=
-dule/1.0-r0/mymodule_public.h
->=20
-> Size: 3146=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Blocks: 8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IO Bloc=
-k: 4096=C2=A0=C2=A0 regular file
-> Device: 820h/2080d=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Inode: 78038=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Links: 3
-> Access: (0644/-rw-r--r--)=C2=A0 Uid: ( 1000/=C2=A0=C2=A0 swarco)=C2=A0=C2=
-=A0 Gid: ( 1000/=C2=A0=C2=A0 swarco)
->=20
+>  Birth: 2024-04-24 18:11:59.419201062 +0200
+>
+> swarco@SWFPERWKS065:~/WindriverLinux22$ stat /home/swarco/WindriverLinux2=
+2/build/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/mymodule_public.h =
+ File: /home/swarco/WindriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux=
+/mymodule/1.0-r0/mymodule_public.h
+>   Size: 3146            Blocks: 8          IO Block: 4096   regular file
+> Device: 820h/2080d      Inode: 78038       Links: 3
+> Access: (0644/-rw-r--r--)  Uid: ( 1000/   swarco)   Gid: ( 1000/   swarco=
+)
 > Access: 2024-04-24 18:17:21.182513722 +0200
 > Modify: 2024-04-24 18:16:50.402199580 +0200
 > Change: 2024-04-24 18:17:19.432495797 +0200
-> Birth: 2024-04-24 18:11:59.419201062 +0200
->=20
-
-This is the recipe mymodule.bb:
->=20
+>  Birth: 2024-04-24 18:11:59.419201062 +0200
+>
+> This is the recipe mymodule.bb:
+>
 > SUMMARY =3D "mymodule"
 > DESCRIPTION =3D "Recipe for building a mymodule Linux kernel module"
 > LICENSE =3D "GPL-2.0-only"
-> LIC_FILES_CHKSUM =3D
-> "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=3D801f80980d171dd642561083=
-3a22dbe6"
->=20
->=20
+> LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=3D801=
+f80980d171dd6425610833a22dbe6"
+>
 > inherit module
->=20
+>
 > SRC_URI =3D "file://Makefile \
-> file://mymodule_core.c \
-> file://mymodule.h \
-> file://mymodule_public.h \
-> file://mymodule_remote_public.h \
-> "
->=20
+>            file://mymodule_core.c \
+>            file://mymodule.h \
+>            file://mymodule_public.h \
+>            file://mymodule_remote_public.h \
+>           "
+>
 > S =3D "${WORKDIR}"
->=20
+>
 > do_install:append() {
-> install -d ${D}${includedir}
-> install -m 0755 ${S}/mymodule_public.h ${D}${includedir}/
+>     install -d ${D}${includedir}
+>     install -m 0755 ${S}/mymodule_public.h ${D}${includedir}/
 > }
-> # The inherit of module.bbclass will automatically name module packages
-> with
+> # The inherit of module.bbclass will automatically name module packages w=
+ith
 > # "kernel-module-" prefix as required by the oe-core build environment.
->=20
+>
 > RPROVIDES:${PN} +=3D "kernel-module-mymodule"
 > FILES:${PN}-dev +=3D "${includedir}/*"
-
-I am doing nothing unusual here.
-
-Additional notes to my setup:
-
-* Host machine: Ubuntu 22.04 on WSL
-* Linux kernel: linux-imx (NXP)
-
-Does someone have an idea what is happening here? Any help is appreciated!
-
-Kind regards,
-
-Lukas Palme
-
---Zqu1iGxcXjmsG3sTLC79
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello openembedded community!<br /><br />I hope this is the right place to =
-ask this question, <a href=3D"https://wiki.yoctoproject.org/wiki/Pseudo_Abo=
-rt" target=3D"_blank" rel=3D"noopener">https://wiki.yoctoproject.org/wiki/P=
-seudo_Abort </a>brought me here.<br /><br />I have a custom recipe which bu=
-ilds fine on the first build, but fails on subsequent builds in the do_inst=
-all step:
-<blockquote><span style=3D"font-family: courier_newregular, courier;">ERROR=
-: Task (/home/swarco/WindriverLinux22/build/../layers/meta-swarco/meta-vega=
-/recipes-kernel/mymodule/mymodule.bb:do_install) failed with exit code '1'<=
-br />Pseudo log:<br />path mismatch [3 links]: ino 78038 db '/home/swarco/W=
-indriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/pack=
-age/usr/src/debug/mymodule/1.0-r0/mymodule_public.h' req '/home/swarco/Wind=
-riverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/mymodul=
-e_public.h'.<br />Setup complete, sending SIGUSR1 to pid 12937.</span></blo=
-ckquote>
-Yocto is the only one touching the files in between builds. Also the files =
-questioned do exist with the noted inode:
-<blockquote><span style=3D"font-family: courier_newregular, courier;">swarc=
-o@SWFPERWKS065:~/WindriverLinux22$ stat /home/swarco/WindriverLinux22/build=
-/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/package/usr/src/debug/mym=
-odule/1.0-r0/mymodule_public.h</span><br /><span style=3D"font-family: cour=
-ier_newregular, courier;">&nbsp; File: /home/swarco/WindriverLinux22/build/=
-tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/package/usr/src/debug/mymo=
-dule/1.0-r0/mymodule_public.h</span><br /><span style=3D"font-family: couri=
-er_newregular, courier;">&nbsp; Size: 3146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Blocks: 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; IO Block: 4096&nbsp;&nbsp; regular file</span><br />=
-<span style=3D"font-family: courier_newregular, courier;">Device: 820h/2080=
-d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inode: 78038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; Links: 3</span><br /><span style=3D"font-family: courier_newregular, =
-courier;">Access: (0644/-rw-r--r--)&nbsp; Uid: ( 1000/&nbsp;&nbsp; swarco)&=
-nbsp;&nbsp; Gid: ( 1000/&nbsp;&nbsp; swarco)</span><br /><span style=3D"fon=
-t-family: courier_newregular, courier;">Access: 2024-04-24 18:17:21.1825137=
-22 +0200</span><br /><span style=3D"font-family: courier_newregular, courie=
-r;">Modify: 2024-04-24 18:16:50.402199580 +0200</span><br /><span style=3D"=
-font-family: courier_newregular, courier;">Change: 2024-04-24 18:17:19.4324=
-95797 +0200</span><br /><span style=3D"font-family: courier_newregular, cou=
-rier;">&nbsp;Birth: 2024-04-24 18:11:59.419201062 +0200</span></blockquote>
-<blockquote><span style=3D"font-family: courier_newregular, courier;"></spa=
-n><span style=3D"font-family: courier_newregular, courier;">swarco@SWFPERWK=
-S065:~/WindriverLinux22$ stat /home/swarco/WindriverLinux22/build/tmp-glibc=
-/work/vegamx8-wrs-linux/mymodule/1.0-r0/mymodule_public.h</span><span style=
-=3D"font-family: courier_newregular, courier;">&nbsp; File: /home/swarco/Wi=
-ndriverLinux22/build/tmp-glibc/work/vegamx8-wrs-linux/mymodule/1.0-r0/mymod=
-ule_public.h<br />&nbsp; Size: 3146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; Blocks: 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; IO Block: 4096&nbsp;&nbsp; regular file<br />Device: 820h/2=
-080d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inode: 78038&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; Links: 3<br />Access: (0644/-rw-r--r--)&nbsp; Uid: ( 1000/&nbsp;&n=
-bsp; swarco)&nbsp;&nbsp; Gid: ( 1000/&nbsp;&nbsp; swarco)<br />Access: 2024=
--04-24 18:17:21.182513722 +0200<br />Modify: 2024-04-24 18:16:50.402199580 =
-+0200<br />Change: 2024-04-24 18:17:19.432495797 +0200<br />&nbsp;Birth: 20=
-24-04-24 18:11:59.419201062 +0200<br /></span></blockquote>
-This is the recipe mymodule.bb:
-<blockquote><span style=3D"font-family: courier_newregular, courier;">SUMMA=
-RY =3D "mymodule"</span><br /><span style=3D"font-family: courier_newregula=
-r, courier;">DESCRIPTION =3D "Recipe for building a mymodule Linux kernel m=
-odule"</span><br /><span style=3D"font-family: courier_newregular, courier;=
-">LICENSE =3D "GPL-2.0-only"</span><br /><span style=3D"font-family: courie=
-r_newregular, courier;">LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/=
-GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6"</span><br /><br /><spa=
-n style=3D"font-family: courier_newregular, courier;">inherit module</span>=
-<br /><br /><span style=3D"font-family: courier_newregular, courier;">SRC_U=
-RI =3D "file://Makefile \</span><br /><span style=3D"font-family: courier_n=
-ewregular, courier;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; file://mymodule_core.c \</span><br /><span style=3D"font-family: cou=
-rier_newregular, courier;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; file://mymodule.h \</span><br /><span style=3D"font-family: co=
-urier_newregular, courier;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; file://mymodule_public.h \</span><br /><span style=3D"font-fa=
-mily: courier_newregular, courier;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; file://mymodule_remote_public.h \</span><br /><span s=
-tyle=3D"font-family: courier_newregular, courier;">&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "</span><br /><br /><span style=3D"font-fami=
-ly: courier_newregular, courier;">S =3D "${WORKDIR}"</span><br /><br /><spa=
-n style=3D"font-family: courier_newregular, courier;">do_install:append() {=
-</span><br /><span style=3D"font-family: courier_newregular, courier;">&nbs=
-p;&nbsp;&nbsp; install -d ${D}${includedir}</span><br /><span style=3D"font=
--family: courier_newregular, courier;">&nbsp;&nbsp;&nbsp; install -m 0755 $=
-{S}/mymodule_public.h ${D}${includedir}/</span><br /><span style=3D"font-fa=
-mily: courier_newregular, courier;">}</span><br /><span style=3D"font-famil=
-y: courier_newregular, courier;"># The inherit of module.bbclass will autom=
-atically name module packages with</span><br /><span style=3D"font-family: =
-courier_newregular, courier;"># "kernel-module-" prefix as required by the =
-oe-core build environment.</span><br /><br /><span style=3D"font-family: co=
-urier_newregular, courier;">RPROVIDES:${PN} +=3D "kernel-module-mymodule"</=
-span><br /><span style=3D"font-family: courier_newregular, courier;">FILES:=
-${PN}-dev +=3D "${includedir}/*"</span></blockquote>
-I am doing nothing unusual here. <br /><br />Additional notes to my setup:
-<ul>
-<li>Host machine: Ubuntu 22.04 on WSL</li>
-<li>Linux kernel: linux-imx (NXP)</li>
-</ul>
-<p>Does someone have an idea what is happening here? Any help is appreciate=
-d!<br /><br />Kind regards,</p>
-<p>Lukas Palme</p>
-
---Zqu1iGxcXjmsG3sTLC79--
+>
+> I am doing nothing unusual here.
+>
+> Additional notes to my setup:
+>
+> Host machine: Ubuntu 22.04 on WSL
+> Linux kernel: linux-imx (NXP)
+>
+> Does someone have an idea what is happening here? Any help is appreciated=
+!
+>
+> Kind regards,
+>
+> Lukas Palme
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198689): https://lists.openembedded.org/g/openembedde=
+d-core/message/198689
+> Mute This Topic: https://lists.openembedded.org/mt/105713810/3617156
+> Mute #pseudo:https://lists.openembedded.org/g/openembedded-core/mutehasht=
+ag/pseudo
+> Mute #kirkstone:https://lists.openembedded.org/g/openembedded-core/muteha=
+shtag/kirkstone
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
