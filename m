@@ -1,117 +1,282 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48F3C4345F
-	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 12:36:00 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.15812.1714048555602669849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBE2C4345F
+	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 15:46:31 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.20470.1714059982554882079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Apr 2024 05:35:56 -0700
+ Thu, 25 Apr 2024 08:46:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V4HJFKa7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5171a529224so1091565e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 05:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1714048554; x=1714653354; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Je8Tnd1Xm0uTpfSgt8zXK2Kd66JusFBpSohyPlSgPMc=;
-        b=V4HJFKa7DXkyJsorvHsFBUa8G8oqwDomlsaGOEYK8UJ00Iq3JF1ZOVTdfWY58gHBWw
-         Ny6V6rgKrNnwkKkI0DgwJaBDZOWeoWjzB03cPEf05v1U/5oxh6Yx4CW6mKBUlzPdtYiY
-         y0xZUxJRHx7ZhtnGh9/P88qt8T5/lAU7sJEeo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714048554; x=1714653354;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Je8Tnd1Xm0uTpfSgt8zXK2Kd66JusFBpSohyPlSgPMc=;
-        b=Vg25FAsb37f75YLdyi7lq/BNazNo3cu8gQvTQJqQw9qmGCQwdVFw84QygT4qBzqVlh
-         74NlCaVjTBQhrqFO+CIukQGPwEYFGeWnhDjAvhpWU58NYRXPB0Az9ep0cqnq6jtIcxTE
-         MrsSZijjttxSES7nfacEEOADFX5h4n9qoXSL4CA6UTXVijkJLvORGybau1pk1idcPfQd
-         Dqa/vfuUHgxUoo94BhIfvoIo08knsowtKkYV8iy35z4PwW6HYMuDATxXIL8tFsGTfydl
-         Ty+FYxN//SGbEvbER9mkeT+9iFiPW1XmhP+BfH8HOXCNWt7IjucChHTR1dFkcbD8mVKZ
-         n/Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUPsNZGnNbAIbR6e9xkdYVhHvE3Jly/VzRM7RSJdTnpIsflMk6ss1U9EkjqQbfUugHyS1fZRSEKPAH+kW3cCWiKn+F3lQm7f9T+TkvN0SFIPxvCZ2RwJoWY
-X-Gm-Message-State: AOJu0Yy7ie+cbkJulLK0JPZQt4bKsP9LPhqD3sOsRdztF4C6QpdSY0ja
-	Bd+w7jzusi0XOLYU5Nxc5lPli5IzutSbCiLSJ/NuyHfHwP80MqzxG8fjGmBriW2PN3vu0/fS/d/
-	BHdo=
-X-Google-Smtp-Source: AGHT+IHBYavf6OiNDPiISGYB7qHLdYU9Bd545IQxiourcBPI7pRY+dJDlBzrlmy/vHYs6mo6+DGhfw==
-X-Received: by 2002:a2e:8706:0:b0:2d6:f5db:4d6e with SMTP id m6-20020a2e8706000000b002d6f5db4d6emr3482400lji.40.1714048553633;
-        Thu, 25 Apr 2024 05:35:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f4d9:2d8a:7792:30e? ([2001:8b0:aba:5f3c:f4d9:2d8a:7792:30e])
-        by smtp.gmail.com with ESMTPSA id i13-20020a05600c354d00b00419fba938d8sm18736238wmq.27.2024.04.25.05.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 05:35:53 -0700 (PDT)
-Message-ID: <9e2d9685c9d39d04cc58ae3f8a9e24cdf4b9d8ea.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] gcc: Oe-selftest failure analysis - fix
- for host key verfication & kex exchange identification failures
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
-	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
-Date: Thu, 25 Apr 2024 13:35:52 +0100
-In-Reply-To: <20240418105051.2559536-1-Harish.Sadineni@windriver.com>
-References: <20240418105051.2559536-1-Harish.Sadineni@windriver.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=oAGthv44;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7FDF11BF205;
+	Thu, 25 Apr 2024 15:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1714059980;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Llzh4UvCU3IY+ojozqkCRrlLRE52Eg3/OWivl8TwuDo=;
+	b=oAGthv44/gLcH+tA7sEEpsDqtYM+J1dk4+DOlTLi1v8zBCnlmItOvjbSkUQJq/9+lah6jM
+	yFtbN+9/PL6hvlDI7aofQ0zeWfDZhIoiJAvR/q7ekypNdiPXaSYwzdd1tVXFwEHy4g8eSc
+	5T+St52BiTBGxWgzL5FJUKx9CnUPfbb902K4Jtc5lZQJNIj0Z0omHWryQ3C1uaK6Qp4Ctv
+	88L8MNH1iE8jzNkMnP8/xknJJTvPUlTMRtlDcdXcqVIWxexJLMKZ5dzf4IWWkNE25NGlhs
+	MaGjYWvtKQhXwcYhK42rCLeQ5+D9rwaN5jjPVFpAAGuTqNmWxACn8e9AesgikQ==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [RFC][PATCH] oeqa/runtime/cases: new image_upgrade test
+Date: Thu, 25 Apr 2024 17:46:07 +0200
+Message-Id: <20240425154607.566716-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 12:36:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198703
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 15:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198704
 
-I did compare a build with this patch in it with the 5.0 rc4 test
-report:
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-http://autobuilder.yocto.io/pub/non-release/20240424-25/testresults/testres=
-ult-report.txt
+New oe-selftest and associated "testimage" test to check that generated
+package feeds can be used to update the latest image built
+by the Yocto Project autobuilder.
 
-vs
+Currently, only the "core-image-full-cmdline" image with IPK packages
+and the "poky-altcfg" distro is supported.
 
-http://autobuilder.yocto.io/pub/releases/yocto-5.0.rc4/testreport.txt
+Test it by running:
+oe-selftest -r image_upgrade
 
-which shows:
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-gcc                          | 149932       | 15        | 27534       | 154=
-8
-gcc-g++                      | 219372       | 22        | 21074       | 135=
-0
-gcc-libatomic                | 27           | 0         | 27          | 513
-gcc-libgomp                  | 3428         | 0         | 1960        | 582
-gcc-libitm                   | 24           | 0         | 24          | 430
-gcc-libstdc++-v3             | 9722         | 0         | 5447        | 220=
-2
+---
+Tested on the latest master against yocto-5.0_M3
 
-vs
+Interested in your feedback about which settings (such as IMAGE)
+can be hardcoded in the scripts or provided by the calling environment.
+---
+ .../lib/oeqa/runtime/cases/opkg_sysupgrade.py |  68 ++++++++++
+ meta/lib/oeqa/selftest/cases/image_upgrade.py | 124 ++++++++++++++++++
+ 2 files changed, 192 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+ create mode 100755 meta/lib/oeqa/selftest/cases/image_upgrade.py
 
-gcc                          | 149794       | 31        | 27672       | 144=
-6
-gcc-g++                      | 219325       | 31        | 21128       | 110=
-0
-gcc-libatomic                | 27           | 1         | 27          | 517
-gcc-libgomp                  | 3411         | 15        | 1977        | 782
-gcc-libitm                   | 24           | 1         | 24          | 397
-gcc-libstdc++-v3             | 9705         | 32        | 5464        | 266=
-9
+diff --git a/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py b/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+new file mode 100644
+index 0000000000..05b5847b4a
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+@@ -0,0 +1,68 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# Test that generated ipk packages can be used to upgrade
++# an older image version.
++#
++# This is done by the meta/lib/oeqa/selftest/cases/image_upgrade.py oe-selftest
++# replacing the newly generated image by an older image
++# generated by the Yocto Project autobuilder.
++#
++# Here, we replace the package feeds in our image by our own
++#
++# This test is not meant to be used as a regular "testimage" test
++# run on the fresh image.
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++from oeqa.utils.httpserver import HTTPService
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class OpkgSysUpgradeTest(OERuntimeTestCase):
++
++    def pkg(self, command, expected = 0):
++        command = 'opkg %s' % command
++        status, output = self.target.run(command, 1500)
++        message = os.linesep.join([command, output])
++        self.assertEqual(status, expected, message)
++        return output
++
++class OpkgRepoTest(OpkgSysUpgradeTest):
++
++    @classmethod
++    def setUp(cls):
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'])
++        cls.repo_server = HTTPService(service_repo,
++                                      '0.0.0.0', port=cls.tc.target.server_port,
++                                      logger=cls.tc.logger)
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDown(cls):
++        cls.repo_server.stop()
++
++    def setup_source_config_for_package_install(self):
++        source_server = 'http://%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
++        sourceslist_dir = '/etc/opkg'
++        pkgarch = self.tc.td["TUNE_PKGARCH"]
++        machinedir = self.tc.td["MACHINE"].replace("-", "_")
++        self.target.run('cd %s; echo src/gz all %s/all > base-feeds.conf' % (sourceslist_dir, source_server))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, pkgarch, source_server, pkgarch))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, machinedir, source_server, machinedir))
++
++    @skipIfNotFeature('package-management',
++                      'Test requires package-management to be in IMAGE_FEATURES')
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'ipk',
++                      'IPK is not the primary package manager')
++    @skipIfFeature('read-only-rootfs',
++                   'Test does not work with read-only-rootfs in IMAGE_FEATURES')
++    @OEHasPackage(['opkg'])
++    def test_opkg_system_upgrade_from_repo(self):
++        self.setup_source_config_for_package_install()
++        self.pkg('update')
++        self.pkg('upgrade')
++
+diff --git a/meta/lib/oeqa/selftest/cases/image_upgrade.py b/meta/lib/oeqa/selftest/cases/image_upgrade.py
+new file mode 100755
+index 0000000000..3e26c7eed0
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/image_upgrade.py
+@@ -0,0 +1,124 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++import subprocess
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runCmd, get_bb_var
++from oeqa.core.decorator.data import skipIfNotQemu
++
++basepath = os.path.abspath(os.path.dirname(__file__) + '/../../../../../')
++
++# Version string utilities copied from yocto-autobuilder-helper/scripts/utils.py
++
++def get_string_from_version(version, milestone=None, rc=None):
++    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
++    those are major releases
++    """
++    if len(version) == 3 and version[-1] == 0:
++        version = version[:-1]
++
++    result = ".".join(list(map(str, version)))
++    if milestone:
++        result += "_M" + str(milestone)
++    if rc:
++        result += ".rc" + str(rc)
++    return result
++
++def get_tag_from_version(version, milestone):
++    if not milestone:
++        return "yocto-" + get_string_from_version(version, milestone)
++    return get_string_from_version(version, milestone)
++
++def get_version_from_string(raw_version):
++    """ Get version as list of int from raw_version.
++
++    Raw version _can_ be prefixed by "yocto-",
++    Raw version _can_ be suffixed by "_MX"
++    Raw version _can_ be suffixed by ".rcY"
++    """
++    version = None
++    milestone = None
++    rc = None
++    if raw_version[:6] == "yocto-":
++        raw_version = raw_version[6:]
++    raw_version = raw_version.split(".")
++    if raw_version[-1][:2] == "rc":
++        rc = int(raw_version[-1][-1])
++        raw_version = raw_version[:-1]
++    if raw_version[-1][-3:-1] == "_M":
++        milestone = int(raw_version[-1][-1])
++        raw_version = raw_version[:-1] + [raw_version[-1][:-3]]
++    version = list(map(int, raw_version))
++    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
++    those are major releases
++    """
++    if len(version) == 3 and version[-1] == 0:
++        version = version[:-1]
++    return version, milestone, rc
++
++def get_latest_image_url(machine, machine_variant, image_file):
++
++    """Returns the URL of the latest generated image for the current branch"""
++
++    baseversion, milestone, _ = get_version_from_string(subprocess.check_output(["git", "describe", "--abbrev=0"], cwd=basepath).decode('utf-8').strip())
++    tag = get_tag_from_version(baseversion, milestone)
++    downloads_base = "https://downloads.yoctoproject.org/releases/yocto/"
++
++    if milestone is not None:
++        downloads_base += "milestones/yocto-%s" % tag
++    else:
++        downloads_base += tag
++
++    return "%s/machines/qemu/%s%s/%s" % (downloads_base, machine, machine_variant, image_file)
++
++class ImageIpkUpgrade(OESelftestTestCase):
++
++    @skipIfNotQemu()
++    def test_image_upgrade(self):
++        """
++        Summary: Test that generated ipk packages can
++        be used to upgrade an older image version.
++        This is done by generating an image but then replacing it
++        by an older image shared by the Yocto Project autobuilder.
++        We then run QEMU on the old image and replace the original
++        original package feeds by our own.
++        """
++
++        image = 'core-image-full-cmdline'
++        machine = get_bb_var("MACHINE")
++
++        features = 'DISTRO = "poky-altcfg"\n'
++        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
++        features += 'PACKAGE_CLASSES = "package_ipk"\n'
++        features += 'IMAGE_CLASSES += "testimage"\n'
++        features += 'TEST_SUITES="opkg_sysupgrade"\n'
++        self.write_config(features)
++
++        # Need to build a full image to build the .json file needed by QEMU.
++        # Therefore, it is not sufficient to run only "package_write_ipk" for the image.
++
++        self.logger.info("Generating '%s' and package index for latest commit in this branch..." % image)
++        bitbake(image)
++        bitbake('package-index')
++
++        # Download previously generated image
++
++        image_file = '%s-%s.rootfs.ext4' % (image, machine)
++        image_path = '%s/tmp/deploy/images/%s/%s' % (self.builddir, machine, image_file)
++        machine_variant = '-alt'
++
++        os.remove(image_path)
++        image_url = get_latest_image_url(machine, machine_variant, image_file)
++        self.logger.info("Downloading image: %s..." % image_url)
++        cmd = 'wget -O %s %s' % (image_path, image_url)
++        result = runCmd(cmd)
++        self.assertEqual(0, result.status, cmd + ' returned a non 0 status: %s' % result.output)
++
++        # Now run the upgrade tests on the old image
++
++        self.logger.info("Running upgrade tests on the downloaded image, using the package feeds generated here...")
++        bitbake(image + ' -c testimage')
+-- 
+2.34.1
 
-
-so I'm not sure this is fixing the large number of skipped tests that
-it is supposed to fix?
-
-Cheers,
-
-Richard
 
