@@ -1,332 +1,533 @@
-Return-Path: <sheng.tan@9elements.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B549FC4345F
-	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 17:40:56 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.23424.1714066853771044581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 592D8C4345F
+	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 19:59:17 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.web10.26631.1714075155407019435
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Apr 2024 10:40:54 -0700
+ Thu, 25 Apr 2024 12:59:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@9elements.com header.s=google header.b=gaEMU1w8;
- spf=pass (domain: 9elements.com, ip: 209.85.218.50, mailfrom: sheng.tan@9elements.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a5557e3ebcaso217103966b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 10:40:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x6O/ywJ4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.172, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6114c9b4d83so12370187b3.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 12:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1714066852; x=1714671652; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gNZBL//tlRfQ+an0K9BD7zYhTldILPaaXmxxV55spEk=;
-        b=gaEMU1w866eA9kztWrTUgjJvapSDJbdd/pjWdfxYh01HjiXgO8Ta8Kn3N4a1MfAqBR
-         5TLysRqxfb3aLObuPRV18jn+Xj4gKTkH4AggomyGz0lB7C+RDm1xHADG6i0TRES+TCee
-         4QT7cjuSHaPgabzvZIHEVgUvyFgq41quyiH+12Jn3lpnpmIJBbHWRQ2O7JKYcFqieOrx
-         O3Bziy2YLkdO9T264bhKrgwoT+Fkyav+n/hZpPmJLzjyTOQsH/Gi4B58exR9Ad5he9Zc
-         kyVtf9XxrqKtSig/6l7fNVie/zzmT31VJHwksj40mPr2Rfz+SMxl1iF6sPqPbcDpWQXf
-         z2yg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714075154; x=1714679954; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qLjsdsINnkY7bXkGSDVhre8Lo3pZSR9ur8ZytQdKfj4=;
+        b=x6O/ywJ4BcYzSPw6VloXI0rcSDbdfCHufpyyCH5XJx6FLWcaiCYw6K2jLvP6+6l7CY
+         Il99L7OzKtN9Nik1AB++wJdT38pX0FqBHwzWIMK18Wij+KuGVi5tgGw2GQKsGJVCNCB2
+         4DvLBqrF0KI54oKN6wxmGrYyHloxJeP0x21xlgGyum2MD+QwGAVORjfBwxv00/M5jTIW
+         UqLXn2IVUYYQ3O3F8Gm+8YN8wYhPf0A0DRy5x9SiQX3tKcBq1C+60Oj2vtvvNWX0CgeQ
+         lYAf4JcPNR1Q7wSYG2oSzfrbl0k2+4b8mMCXXVOt2Rmmwqx3KAo3mpIZTOB6LBE3Y1yv
+         Hrjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714066852; x=1714671652;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gNZBL//tlRfQ+an0K9BD7zYhTldILPaaXmxxV55spEk=;
-        b=pKee3ZD6rNs3nHllDLYLiZBu3jQSSZI6ir5WFSdry/n7+OFlS1gW1BWJBr2G+DeFYA
-         Z9fScQ/jkW/ZTDBR6cMFhO4a+pBww7tbRNqzYvPR1bY2vdOki3OpJAKLKb5iI9ytj+9C
-         vWVAKPlTIVaXOvTM4jp9Pda6JStcS4HeZkfeRjyXkZRY8he9UlJHEByXTci+aTt4EjwJ
-         bWCK9DdZIQIOLyTDPBQWrysLmSiB1vBSiveziTW4s8PHQv0ETpxlC7pxZU73YXIX3RIa
-         hBagLAp9lY8xhwn3bqvN3bK1LME7D1AD4pUUr1/FMZkxPhFe4WYIMGSjYZiAgTRPvNqE
-         ih9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUcxcnQbWFVmJxLnTIrmpN7UbdAb7b6zVCBQY+AwGJm92HNKEULnQuNxBnMEUxTNOtPiFootQeromPahfvE5MN4nIJc5qnCA5f137z+8AkJkhASfIdQTPi/
-X-Gm-Message-State: AOJu0YzxWCeuVbZ5DHjd9ES8x0RreZWfq1LzY9p6T2E5w7BURzsBeb4T
-	eJWEFj4u86TcGuPdWd2itxK/G5s9YoFQS6etiE6ZLPSlnFkkWvAX7fqA0R5SYGnhrozVao7173R
-	b2mXmo1lBhvKG145l2xOqUlZyLAjSsazprnFcsg==
-X-Google-Smtp-Source: AGHT+IF2dhPFig5n2BCSo50QohY8o7G0G3NYFjnndvSriUfV3OeWLDmkBjbB69kxmImvxkr3uWOCHSJGc1KpVUET9w8=
-X-Received: by 2002:a17:907:986a:b0:a58:7830:a548 with SMTP id
- ko10-20020a170907986a00b00a587830a548mr3682899ejc.3.1714066851768; Thu, 25
- Apr 2024 10:40:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714075154; x=1714679954;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qLjsdsINnkY7bXkGSDVhre8Lo3pZSR9ur8ZytQdKfj4=;
+        b=IrkPtiDsAX9/dRG0QCMfaMEYMZdmg9uiVp6HVv+vMtqA5yZ9FtXbAlK15o0iq7vvy5
+         jnlZFvTswtXxRSp2f2j7z98jGsp64BQy5pMzp7K7/aoh7qUUNdmGU2cXP/C+5u+6mZyp
+         AlSj7gtLQ8q2cG4VjPndW+Rn9kuSeyepUR16RWpUNg2QipiB9Rwg9fV993Sxp6a0ZZoc
+         TmD3Vtdik44WPvr/as6UbgZXFRC7U0UpjQf3yMlBz0Ii3TPJGVtNeDaNr1XG3sJ7TePH
+         Cimn3DGUFMGJSp00PUh77bPkwLiIEiaqVUgGdE6ldGhYxjsAc0JVOOao6qyxGOZnxjZ4
+         dJag==
+X-Gm-Message-State: AOJu0YzOm8FEMZtV7nO0PWLG2lqvZEm5AzGfpCceSYFdF4kO37/gDtGt
+	W0qDqiMvHKQ+dXUGhePm3RkyoMRpuCc5dTHeDShI7PAxY5vTNB2IRgG1uNLht8q3LDUCB/sBf3E
+	Lx0iAJKlS4xg0tShBYc51wcWHtOAQaFi9bTIuEQ==
+X-Google-Smtp-Source: AGHT+IGdqf7yqsviK7OraKfnRJSDzxZ2PU5Stk6TEjTjCWzHu1FD6jNYLnfic0JJ3vrlX0+vaRxCoP3Wp7iNPytQ4tQ=
+X-Received: by 2002:a05:690c:680e:b0:615:35e1:e512 with SMTP id
+ id14-20020a05690c680e00b0061535e1e512mr713784ywb.0.1714075154361; Thu, 25 Apr
+ 2024 12:59:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMWxwJ0znPDyQAKAwv8PL9GwyCCEpW9+2SDmXsygNyK26_xF-A@mail.gmail.com>
- <CAMWxwJ1aad-ggrC+Bug=RGx1yQcFADOSWiZMDZv8S2AnJ7ntnw@mail.gmail.com>
- <5684983E-FC35-4766-BA02-4D5BCBCB6796@arm.com> <17C993B983870D20.19690@lists.openembedded.org>
-In-Reply-To: <17C993B983870D20.19690@lists.openembedded.org>
-From: Lean Sheng Tan <sheng.tan@9elements.com>
-Date: Thu, 25 Apr 2024 19:40:15 +0200
-Message-ID: <CAMWxwJ3ok_d17XnVEgSm3H3qeKK+7U3AQ4OuwNFXTo-jWjtHoQ@mail.gmail.com>
-Subject: Re: [OE-core] btrfs-tools-native build python error
-To: sheng.tan@9elements.com
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Hansen, Alexander" <alexander.hansen@9elements.com>, John Chung <John.Chung@arm.com>, patrick@stwcx.xyz
-Content-Type: multipart/alternative; boundary="000000000000d248c80616ef4949"
+References: <20240423162844.1563233-1-vkumbhar@mvista.com>
+In-Reply-To: <20240423162844.1563233-1-vkumbhar@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 25 Apr 2024 12:59:03 -0700
+Message-ID: <CAOSpxdZYEQCU6ufL=ngA1kZ26XEE1kUsX8duaPMpekffTNJrhQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] rpm: Backport fix CVE-2021-35939
+To: vkumbhar@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 17:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198707
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 19:59:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198708
 
---000000000000d248c80616ef4949
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patch caused multiple build failures both locally and on the autobuild=
+er.
 
-Hi Ross,
-Here is the background of this:
-Initially we found this issue, when we are trying to build the Arm FVP for
-openbmc, as you can see from the discussion here:
-https://gerrit.openbmc.org/c/openbmc/openbmc/+/70070/comment/4a963c24_75b11=
-840/
+Here is a link to the autobuilder run:
 
-So thanks to the kind help from Patrick Williams (cc'ed here), he proposed
-to try this fix:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6845
 
-> diff --git a/poky/meta/recipes-kernel/perf/perf.bb
-> b/poky/meta/recipes-kernel/perf/perf.bb
-> index 11fa917649..d39265367b 100644
-> --- a/poky/meta/recipes-kernel/perf/perf.bb
-> +++ b/poky/meta/recipes-kernel/perf/perf.bb
-> @@ -54,7 +54,7 @@ PROVIDES =3D "virtual/perf"
->  inherit linux-kernel-base kernel-arch manpages
+Sample error log:
 
+https://errors.yoctoproject.org/Errors/Details/763370/
 
- # needed for building the tools/perf Python bindings
-> -inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python',
-> 'python3targetconfig', '', d)}
-> +inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python',
-> 'setuptools3-base python3targetconfig', '', d)}
+Steve
 
-
-However, it is still not working. I added a workaround with this patch:
-https://gerrit.openbmc.org/c/openbmc/openbmc/+/71017
-
-Still, Patrick thinks that this should not be the case, and the proper fix
-should be done via OpenEmbedded.
-
-Currently we are not sure how to fix this properly and don't have any idea.
-Much appreciated if you or anyone have any idea on this!
-
-Thank you,
-Sheng
-
-
-On Thu, 25 Apr 2024 at 18:45, Lean Sheng Tan via lists.openembedded.org
-<sheng.tan=3D9elements.com@lists.openembedded.org> wrote:
-
-> Hi Ross,
-> Thank you for your quick response!
-> That makes sense now.
+On Tue, Apr 23, 2024 at 9:30=E2=80=AFAM Vivek Kumbhar via
+lists.openembedded.org <vkumbhar=3Dmvista.com@lists.openembedded.org>
+wrote:
 >
-> Regarding your statement:
-> "That dependency in btrfs-tools might be actually not required, or you
-> might want to make the recipe depend on python3-native."
-> May I know if something has to be fixed from the meta-openembedded or
-> generic yocto build?
-> If not, what would be the best way to approach it?
+> Upstream-Status: Backport https://github.com/rpm-software-management/rpm/=
+commit/96ec957e281220f8e137a2d5eb23b83a6377d556
+>                           https://github.com/rpm-software-management/rpm/=
+commit/fb13f7fd9eff012cb7b9dbf94ac5381c69404055
 >
-> Thanks again.
+> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> ---
+>  .../rpm/files/CVE-2021-35939.patch            | 378 ++++++++++++++++++
+>  meta/recipes-devtools/rpm/rpm_4.17.1.bb       |   1 +
+>  2 files changed, 379 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-35939.patch
 >
-> Best Regards,
-> Sheng
+> diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch b/meta/=
+recipes-devtools/rpm/files/CVE-2021-35939.patch
+> new file mode 100644
+> index 0000000000..b60cc0e5ce
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch
+> @@ -0,0 +1,378 @@
+> +From 96ec957e281220f8e137a2d5eb23b83a6377d556 Mon Sep 17 00:00:00 2001
+> +From: Panu Matilainen <pmatilai@redhat.com>
+> +Date: Thu, 10 Feb 2022 14:32:43 +0200
+> +Subject: [PATCH] Validate intermediate symlinks during installation,
+> + CVE-2021-35939
+> +
+> +Whenever directory changes during unpacking, walk the entire tree from
+> +starting from / and validate any symlinks crossed, fail the install
+> +on invalid links.
+> +
+> +This is the first of step of many towards securing our file operations
+> +against local tamperers and besides plugging that one CVE, paves the way
+> +for the next step by adding the necessary directory fd tracking.
+> +This also bumps the rpm OS requirements to a whole new level by requirin=
+g
+> +the *at() family of calls from POSIX-1.2008.
+> +
+> +This necessarily does a whole lot of huffing and puffing we previously
+> +did not do. It should be possible to cache secure (ie root-owned)
+> +directory structures to avoid validating everything a million times
+> +but for now, just keeping things simple.
+> +
+> +Upstream-Status: Backport [https://github.com/rpm-software-management/rp=
+m/commit/96ec957e281220f8e137a2d5eb23b83a6377d556]
+> +CVE: CVE-2021-35939
+> +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> +---
+> + INSTALL              |   2 +
+> + configure.ac         |   3 +-
+> + lib/fsm.c            | 144 +++++++++++++++++++++++++++++++++++++++++--
+> + lib/rpmfi.c          |  27 +++++++-
+> + lib/rpmfi_internal.h |  17 +++++
+> + 5 files changed, 183 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/INSTALL b/INSTALL
+> +index 358e5ae0d..9a9c7b0d0 100644
+> +--- a/INSTALL
+> ++++ b/INSTALL
+> +@@ -103,6 +103,8 @@ option to configure).  For GCC, OpenMP 4.5 is fully =
+supported since GCC 6.1,
+> + which is available from
+> +     http://www.gnu.org/
+> +
+> ++Rpm requires a POSIX.1-2008 level operating system.
+> ++
+> + To compile RPM:
+> + --------------
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 78c555f90..4ddacdfe2 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -570,7 +570,8 @@ AC_CHECK_FUNCS([secure_getenv __secure_getenv])
+> +
+> + AC_CHECK_FUNCS(
+> +    [mkstemp getcwd basename dirname realpath setenv unsetenv regcomp lc=
+hown \
+> +-    utimes getline localtime_r statvfs getaddrinfo ],
+> ++    utimes getline localtime_r statvfs getaddrinfo \
+> ++    openat mkdirat fstatat ],
+> +    [], [AC_MSG_ERROR([function required by rpm])])
+> +
+> + AC_LIBOBJ(fnmatch)
+> +diff --git a/lib/fsm.c b/lib/fsm.c
+> +index 935a0a5c6..0b29284e8 100644
+> +--- a/lib/fsm.c
+> ++++ b/lib/fsm.c
+> +@@ -8,6 +8,7 @@
+> + #include <inttypes.h>
+> + #include <utime.h>
+> + #include <errno.h>
+> ++#include <fcntl.h>
+> + #if WITH_CAP
+> + #include <sys/capability.h>
+> + #endif
+> +@@ -20,6 +21,7 @@
+> + #include "rpmio/rpmio_internal.h"     /* fdInit/FiniDigest */
+> + #include "lib/fsm.h"
+> + #include "lib/rpmte_internal.h"       /* XXX rpmfs */
+> ++#include "lib/rpmfi_internal.h" /* rpmfiSetOnChdir */
+> + #include "lib/rpmplugins.h"   /* rpm plugins hooks */
+> + #include "lib/rpmug.h"
+> +
+> +@@ -406,17 +408,118 @@ static int fsmRmdir(const char *path)
+> +     return rc;
+> + }
+> +
+> +-static int fsmMkdir(const char *path, mode_t mode)
+> ++static int fsmMkdir(int dirfd, const char *path, mode_t mode)
+> + {
+> +-    int rc =3D mkdir(path, (mode & 07777));
+> ++    int rc =3D mkdirat(dirfd, path, (mode & 07777));
+> +     if (_fsm_debug)
+> +-      rpmlog(RPMLOG_DEBUG, " %8s (%s, 0%04o) %s\n", __func__,
+> +-             path, (unsigned)(mode & 07777),
+> ++      rpmlog(RPMLOG_DEBUG, " %8s (%d %s, 0%04o) %s\n", __func__,
+> ++             dirfd, path, (unsigned)(mode & 07777),
+> +              (rc < 0 ? strerror(errno) : ""));
+> +     if (rc < 0)       rc =3D RPMERR_MKDIR_FAILED;
+> +     return rc;
+> + }
+> +
+> ++static int fsmOpenat(int dirfd, const char *path, int flags)
+> ++{
+> ++    struct stat lsb, sb;
+> ++    int sflags =3D flags | O_NOFOLLOW;
+> ++    int fd =3D openat(dirfd, path, sflags);
+> ++
+> ++    /*
+> ++     * Only ever follow symlinks by root or target owner. Since we can'=
+t
+> ++     * open the symlink itself, the order matters: we stat the link *af=
+ter*
+> ++     * opening the target, and if the link ownership changed between th=
+e calls
+> ++     * it could've only been the link owner or root.
+> ++     */
+> ++    if (fd < 0 && errno =3D=3D ELOOP && flags !=3D sflags) {
+> ++      int ffd =3D openat(dirfd, path, flags);
+> ++      if (ffd >=3D 0 && fstatat(dirfd, path, &lsb, AT_SYMLINK_NOFOLLOW)=
+ =3D=3D 0) {
+> ++          if (fstat(ffd, &sb) =3D=3D 0) {
+> ++              if (lsb.st_uid =3D=3D 0 || lsb.st_uid =3D=3D sb.st_uid) {
+> ++                  fd =3D ffd;
+> ++              } else {
+> ++                  close(ffd);
+> ++              }
+> ++          }
+> ++      }
+> ++    }
+> ++    return fd;
+> ++}
+> ++
+> ++static int fsmDoMkDir(rpmPlugins plugins, int dirfd, const char *dn,
+> ++                      int owned, mode_t mode)
+> ++{
+> ++    int rc;
+> ++    rpmFsmOp op =3D (FA_CREATE);
+> ++    if (!owned)
+> ++      op |=3D FAF_UNOWNED;
+> ++
+> ++    /* Run fsm file pre hook for all plugins */
+> ++    rc =3D rpmpluginsCallFsmFilePre(plugins, NULL, dn, mode, op);
+> ++
+> ++    if (!rc)
+> ++      rc =3D fsmMkdir(dirfd, dn, mode);
+> ++
+> ++    if (!rc) {
+> ++      rc =3D rpmpluginsCallFsmFilePrepare(plugins, NULL, dn, dn, mode, =
+op);
+> ++    }
+> ++
+> ++    /* Run fsm file post hook for all plugins */
+> ++    rpmpluginsCallFsmFilePost(plugins, NULL, dn, mode, op, rc);
+> ++
+> ++    if (!rc) {
+> ++      rpmlog(RPMLOG_DEBUG,
+> ++              "%s directory created with perms %04o\n",
+> ++              dn, (unsigned)(mode & 07777));
+> ++    }
+> ++
+> ++    return rc;
+> ++}
+> ++
+> ++static int ensureDir(rpmPlugins plugins, const char *p, int owned, int =
+create)
+> ++{
+> ++    char *path =3D xstrdup(p);
+> ++    char *dp =3D path;
+> ++    char *sp =3D NULL, *bn;
+> ++    int oflags =3D O_RDONLY;
+> ++
+> ++    int dirfd =3D fsmOpenat(-1, "/", oflags);
+> ++    int fd =3D dirfd; /* special case of "/" */
+> ++
+> ++    while ((bn =3D strtok_r(dp, "/", &sp)) !=3D NULL) {
+> ++      struct stat sb;
+> ++      fd =3D fsmOpenat(dirfd, bn, oflags);
+> ++
+> ++      if (fd < 0 && errno =3D=3D ENOENT && create) {
+> ++          mode_t mode =3D S_IFDIR | (_dirPerms & 07777);
+> ++          if (fsmDoMkDir(plugins, dirfd, bn, owned, mode) =3D=3D 0) {
+> ++              fd =3D fsmOpenat(dirfd, bn, oflags|O_NOFOLLOW);
+> ++          }
+> ++      }
+> ++
+> ++      if (fd >=3D 0 && fstat(fd, &sb) =3D=3D 0 && !S_ISDIR(sb.st_mode))=
+ {
+> ++          close(fd);
+> ++          errno =3D ENOTDIR;
+> ++          fd =3D -1;
+> ++      }
+> ++
+> ++      close(dirfd);
+> ++      if (fd >=3D 0) {
+> ++          dirfd =3D fd;
+> ++      } else {
+> ++          dirfd =3D -1;
+> ++          rpmlog(RPMLOG_ERR, _("failed to open dir %s of %s: %s\n"),
+> ++                              bn, p, strerror(errno));
+> ++          break;
+> ++      }
+> ++
+> ++      dp =3D NULL;
+> ++    }
+> ++
+> ++    free(path);
+> ++    return dirfd;
+> ++}
+> ++
+> + static int fsmMkfifo(const char *path, mode_t mode)
+> + {
+> +     int rc =3D mkfifo(path, (mode & 07777));
+> +@@ -507,7 +610,7 @@ static int fsmMkdirs(rpmfiles files, rpmfs fs, rpmPl=
+ugins plugins)
+> +               rc =3D rpmpluginsCallFsmFilePre(plugins, NULL, dn, mode, =
+op);
+> +
+> +               if (!rc)
+> +-                  rc =3D fsmMkdir(dn, mode);
+> ++                  rc =3D fsmMkdir(-1, dn, mode);
+> +
+> +               if (!rc) {
+> +                   rc =3D rpmpluginsCallFsmFilePrepare(plugins, NULL, dn=
+, dn,
+> +@@ -874,6 +977,21 @@ static void setFileState(rpmfs fs, int i)
+> +     }
+> + }
+> +
+> ++struct diriter_s {
+> ++    int dirfd;
+> ++};
+> ++
+> ++static int onChdir(rpmfi fi, void *data)
+> ++{
+> ++    struct diriter_s *di =3D data;
+> ++
+> ++    if (di->dirfd >=3D 0) {
+> ++      close(di->dirfd);
+> ++      di->dirfd =3D -1;
+> ++    }
+> ++    return 0;
+> ++}
+> ++
+> + int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
+> +               rpmpsm psm, char ** failedFile)
+> + {
+> +@@ -890,6 +1008,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmf=
+iles files,
+> +     char *tid =3D NULL;
+> +     struct filedata_s *fdata =3D xcalloc(fc, sizeof(*fdata));
+> +     struct filedata_s *firstlink =3D NULL;
+> ++    struct diriter_s di =3D { -1 };
+> +
+> +     /* transaction id used for temporary path suffix while installing *=
+/
+> +     rasprintf(&tid, ";%08x", (unsigned)rpmtsGetTid(ts));
+> +@@ -929,6 +1048,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmf=
+iles files,
+> +         rc =3D RPMERR_BAD_MAGIC;
+> +         goto exit;
+> +     }
+> ++    rpmfiSetOnChdir(fi, onChdir, &di);
+> +
+> +     /* Detect and create directories not explicitly in package. */
+> +     if (!rc)
+> +@@ -943,6 +1063,16 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpm=
+files files,
+> +           if (!fp->suffix) {
+> +               rc =3D fsmBackup(fi, fp->action);
+> +           }
+> ++
+> ++          if (di.dirfd =3D=3D -1) {
+> ++              di.dirfd =3D ensureDir(plugins, rpmfiDN(fi), 0,
+> ++                                  (fp->action =3D=3D FA_CREATE));
+> ++              if (di.dirfd =3D=3D -1) {
+> ++                  rc =3D RPMERR_OPEN_FAILED;
+> ++                  break;
+> ++              }
+> ++          }
+> ++
+> +           /* Assume file does't exist when tmp suffix is in use */
+> +           if (!fp->suffix) {
+> +               if (fp->action =3D=3D FA_TOUCH) {
+> +@@ -977,7 +1107,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmf=
+iles files,
+> +                     mode_t mode =3D fp->sb.st_mode;
+> +                     mode &=3D ~07777;
+> +                     mode |=3D  00700;
+> +-                    rc =3D fsmMkdir(fp->fpath, mode);
+> ++                    rc =3D fsmMkdir(di.dirfd, fp->fpath, mode);
+> +                 }
+> +             } else if (S_ISLNK(fp->sb.st_mode)) {
+> +               if (rc =3D=3D RPMERR_ENOENT) {
+> +@@ -1019,6 +1149,8 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpm=
+files files,
+> +       fp->stage =3D FILE_UNPACK;
+> +     }
+> +     fi =3D rpmfiFree(fi);
+> ++    close(di.dirfd);
+> ++    di.dirfd =3D -1;
+> +
+> +     if (!rc && fx < 0 && fx !=3D RPMERR_ITER_END)
+> +       rc =3D fx;
+> +diff --git a/lib/rpmfi.c b/lib/rpmfi.c
+> +index 33b657aa2..740e257fe 100644
+> +--- a/lib/rpmfi.c
+> ++++ b/lib/rpmfi.c
+> +@@ -55,6 +55,9 @@ struct rpmfi_s {
+> +     int intervalStart;                /*!< Start of iterating interval.=
+ */
+> +     int intervalEnd;          /*!< End of iterating interval. */
+> +
+> ++    rpmfiChdirCb onChdir;     /*!< Callback for directory changes */
+> ++    void *onChdirData;                /*!< Caller private callback data=
+ */
+> ++
+> +     rpmfiles files;           /*!< File info set */
+> +     rpmcpio_t archive;                /*!< Archive with payload */
+> +     unsigned char * found;    /*!< Bit field of files found in the arch=
+ive */
+> +@@ -309,6 +312,17 @@ int rpmfiDI(rpmfi fi)
+> + }
+> + #endif
+> +
+> ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data)
+> ++{
+> ++    int rc =3D -1;
+> ++    if (fi !=3D NULL) {
+> ++      fi->onChdir =3D cb;
+> ++      fi->onChdirData =3D data;
+> ++      rc =3D 0;
+> ++    }
+> ++    return rc;
+> ++}
+> ++
+> + int rpmfiFX(rpmfi fi)
+> + {
+> +     return (fi !=3D NULL ? fi->i : -1);
+> +@@ -319,9 +333,17 @@ int rpmfiSetFX(rpmfi fi, int fx)
+> +     int i =3D -1;
+> +
+> +     if (fi !=3D NULL && fx >=3D 0 && fx < rpmfilesFC(fi->files)) {
+> +-      i =3D fi->i;
+> ++      int dx =3D fi->j;
+> ++      i =3D fi->i;
+> +       fi->i =3D fx;
+> +       fi->j =3D rpmfilesDI(fi->files, fi->i);
+> ++      i =3D fi->i;
+> ++
+> ++      if (fi->j !=3D dx && fi->onChdir) {
+> ++          int chrc =3D fi->onChdir(fi, fi->onChdirData);
+> ++          if (chrc < 0)
+> ++              i =3D chrc;
+> ++      }
+> +     }
+> +     return i;
+> + }
+> +@@ -1816,10 +1838,9 @@ static rpmfi initIter(rpmfiles files, int itype, =
+int link)
+> +
+> +     if (files && itype>=3D0 && itype<=3DRPMFILEITERMAX) {
+> +       fi =3D xcalloc(1, sizeof(*fi));
+> +-      fi->i =3D -1;
+> ++      fi->j =3D -1;
+> +       fi->files =3D link ? rpmfilesLink(files) : files;
+> +       fi->next =3D nextfuncs[itype];
+> +-      fi->i =3D -1;
+> +       if (itype =3D=3D RPMFI_ITER_BACK) {
+> +           fi->i =3D rpmfilesFC(fi->files);
+> +       } else if (itype >=3DRPMFI_ITER_READ_ARCHIVE
+> +diff --git a/lib/rpmfi_internal.h b/lib/rpmfi_internal.h
+> +index dccc6ccbe..37f1d45f5 100644
+> +--- a/lib/rpmfi_internal.h
+> ++++ b/lib/rpmfi_internal.h
+> +@@ -13,6 +13,23 @@
+> + extern "C" {
+> + #endif
+> +
+> ++/** \ingroup rpmfi
+> ++ * Callback on file iterator directory changes
+> ++ * @param fi          file info
+> ++ * @param data                caller private callback data
+> ++ * @return            0 on success, < 0 on error (to stop iteration)
+> ++ */
+> ++typedef int (*rpmfiChdirCb)(rpmfi fi, void *data);
+> ++
+> ++/** \ingroup rpmfi
+> ++ * Set a callback for directory changes during iteration.
+> ++ * @param fi          file info
+> ++ * @param cb          callback function
+> ++ * @param data                caller private callback data
+> ++ * @return            string pool handle (weak reference)
+> ++ */
+> ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data);
+> ++
+> + /** \ingroup rpmfi
+> +  * Return file info set string pool handle
+> +  * @param fi          file info
+> +--
+> +2.39.3
+> +
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.17.1.bb b/meta/recipes-devto=
+ols/rpm/rpm_4.17.1.bb
+> index 9b6446f265..aad8f2468f 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+> @@ -40,6 +40,7 @@ SRC_URI =3D "git://github.com/rpm-software-management/r=
+pm;branch=3Drpm-4.17.x;protoc
+>             file://0001-docs-do-not-build-manpages-requires-pandoc.patch =
+\
+>             file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm=
+-me.patch \
+>             file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-=
+han.patch \
+> +           file://CVE-2021-35939.patch \
+>             "
 >
->
-> On Thu, 25 Apr 2024 at 18:34, Ross Burton <Ross.Burton@arm.com> wrote:
->
->> On 25 Apr 2024, at 13:29, Sheng Lean Tan via lists.openembedded.org
->> <sheng.tan=3D9elements.com@lists.openembedded.org> wrote:
->> >
->> > Hi,
->> > Good day to openembedded community!
->> >
->> > This is my first post - hope this is the right place to ask for help
->> regarding a build issue, as refer from here:
->> >
->> https://gerrit.openbmc.org/c/openbmc/openbmc/+/71017/comment/195b742f_6c=
-f8da09/
->> >
->> > Currently, we saw this issue when building this on openBMC which is
->> based on Yocto:-
->> > The error found when manually run bitbake btrfs-tools-native is as
->> follows:
->> >  checking for a Python interpreter with version >=3D 3.4... python3
->> >  checking for python3...
->> /home/apwillia/local/builds/lf-build-yosemite4/tmp/hosttools/python3
->> >  checking for python3 version... 3.11
->> >  checking for python3 platform... linux
->> >  checking for GNU default python3 prefix... ${prefix}
->> >  checking for GNU default python3 exec_prefix... ${exec_prefix}
->> >  checking for python3 script directory (pythondir)...
->> ${libdir}/python3.11/site-packages
->> >  checking for python3 extension module directory (pyexecdir)...
->> ${libdir}/python3.11/site-packages
->> >  checking for python-3.11... no
->> >  configure: error: Package requirements (python-3.11) were not met:
->> >
->> >  No package 'python-3.11' found
->> >
->> > To bypass this, we have to manually remove in OpenBMC with this tweak:
->> > PACKAGECONFIG:remove:pn-btrfs-tools-native =3D "python"
->> >
->> > May I know if this is a real bug, or if we did miss something from our
->> configuration?
->>
->> It looks like the native btrfs-tools is trying to build against the host
->> python:
->>
->> >  checking for python3...
->> /home/apwillia/local/builds/lf-build-yosemite4/tmp/hosttools/python3
->>
->> So the problem is that your build host doesn=E2=80=99t have python3-dev =
-or
->> similar installed.
->>
->> That dependency in btrfs-tools might be actually not required, or you
->> might want to make the recipe depend on python3-native.
->>
->> Ross
+>  PE =3D "1"
+> --
+> 2.39.3
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#198706):
-> https://lists.openembedded.org/g/openembedded-core/message/198706
-> Mute This Topic: https://lists.openembedded.org/mt/105729019/6757431
+> View/Reply Online (#198630): https://lists.openembedded.org/g/openembedde=
+d-core/message/198630
+> Mute This Topic: https://lists.openembedded.org/mt/105692772/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> sheng.tan@9elements.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->
-
---000000000000d248c80616ef4949
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Ross,<div>Here is the background=C2=A0of this:<br>Initi=
-ally we found this issue, when we are trying to build=C2=A0the Arm FVP for =
-openbmc, as you can see from the discussion here:<br><a href=3D"https://ger=
-rit.openbmc.org/c/openbmc/openbmc/+/70070/comment/4a963c24_75b11840/">https=
-://gerrit.openbmc.org/c/openbmc/openbmc/+/70070/comment/4a963c24_75b11840/<=
-/a><br><br>So thanks to the kind help from Patrick Williams (cc&#39;ed here=
-), he proposed to try this fix:</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">diff --git a/poky/meta/recipes-kernel/perf/<a href=3D"http://pe=
-rf.bb">perf.bb</a> b/poky/meta/recipes-kernel/perf/<a href=3D"http://perf.b=
-b">perf.bb</a><br>index 11fa917649..d39265367b 100644<br>--- a/poky/meta/re=
-cipes-kernel/perf/<a href=3D"http://perf.bb">perf.bb</a><br>+++ b/poky/meta=
-/recipes-kernel/perf/<a href=3D"http://perf.bb">perf.bb</a><br>@@ -54,7 +54=
-,7 @@ PROVIDES =3D &quot;virtual/perf&quot;<br>=C2=A0inherit linux-kernel-b=
-ase kernel-arch manpages</blockquote><div><br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">=C2=A0# needed for building the tools/perf Python bind=
-ings<br>-inherit_defer ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;p=
-ython&#39;, &#39;python3targetconfig&#39;, &#39;&#39;, d)}<br>+inherit_defe=
-r ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;python&#39;, &#39;setu=
-ptools3-base python3targetconfig&#39;, &#39;&#39;, d)}</blockquote></div><d=
-iv><br></div><div>However, it is still not working. I added a workaround=C2=
-=A0with=C2=A0this patch:<br><a href=3D"https://gerrit.openbmc.org/c/openbmc=
-/openbmc/+/71017">https://gerrit.openbmc.org/c/openbmc/openbmc/+/71017</a><=
-br></div><div><br></div><div>Still, Patrick thinks that this should not be =
-the case, and the proper fix should be done via OpenEmbedded.<br><br>Curren=
-tly we are not sure how to fix this properly and don&#39;t=C2=A0have any id=
-ea. Much appreciated if you or anyone have any idea on this!</div><div><br>=
-</div><div>Thank you,</div><div>Sheng</div><div><br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 25 Apr 20=
-24 at 18:45, Lean Sheng Tan via <a href=3D"http://lists.openembedded.org">l=
-ists.openembedded.org</a> &lt;sheng.tan=3D<a href=3D"mailto:9elements.com@l=
-ists.openembedded.org">9elements.com@lists.openembedded.org</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
->Hi Ross,<div>Thank you for your quick=C2=A0response!</div><div>That makes =
-sense now.</div><div><br></div><div>Regarding your statement:</div><div>&qu=
-ot;That dependency in btrfs-tools might be actually not required, or you mi=
-ght want to make the recipe depend on python3-native.&quot;<br></div><div>M=
-ay I know=C2=A0if something has to be fixed from the meta-openembedded=C2=
-=A0or generic yocto build?</div><div>If not, what would be the best way to =
-approach it?</div><div><br></div><div>Thanks again.</div><div><br clear=3D"=
-all"><div><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div>=
-<div><font color=3D"#000000" face=3D"Helvetica">Best Regards,</font></div><=
-div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.=
-8px">Sheng</div></div><div style=3D"font-size:medium;color:rgb(34,34,34);fo=
-nt-family:Helvetica;line-height:11px"></div></div></div></div><br></div></d=
-iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Thu, 25 Apr 2024 at 18:34, Ross Burton &lt;<a href=3D"mailto:Ross.Burton@ar=
-m.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On 25 Apr 2024, at 13:29, Sheng=
- Lean Tan via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" =
-target=3D"_blank">lists.openembedded.org</a> &lt;sheng.tan=3D<a href=3D"mai=
-lto:9elements.com@lists.openembedded.org" target=3D"_blank">9elements.com@l=
-ists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; Hi,<br>
-&gt; Good day to openembedded community!<br>
-&gt; <br>
-&gt; This is my first post - hope this is the right place to ask for help r=
-egarding a build issue, as refer from here:<br>
-&gt; <a href=3D"https://gerrit.openbmc.org/c/openbmc/openbmc/+/71017/commen=
-t/195b742f_6cf8da09/" rel=3D"noreferrer" target=3D"_blank">https://gerrit.o=
-penbmc.org/c/openbmc/openbmc/+/71017/comment/195b742f_6cf8da09/</a><br>
-&gt; <br>
-&gt; Currently, we saw this issue when building this on openBMC which is ba=
-sed on Yocto:-<br>
-&gt; The error found when manually run bitbake btrfs-tools-native is as fol=
-lows:<br>
-&gt;=C2=A0 checking for a Python interpreter with version &gt;=3D 3.4... py=
-thon3<br>
-&gt;=C2=A0 checking for python3... /home/apwillia/local/builds/lf-build-yos=
-emite4/tmp/hosttools/python3<br>
-&gt;=C2=A0 checking for python3 version... 3.11<br>
-&gt;=C2=A0 checking for python3 platform... linux<br>
-&gt;=C2=A0 checking for GNU default python3 prefix... ${prefix}<br>
-&gt;=C2=A0 checking for GNU default python3 exec_prefix... ${exec_prefix}<b=
-r>
-&gt;=C2=A0 checking for python3 script directory (pythondir)... ${libdir}/p=
-ython3.11/site-packages<br>
-&gt;=C2=A0 checking for python3 extension module directory (pyexecdir)... $=
-{libdir}/python3.11/site-packages<br>
-&gt;=C2=A0 checking for python-3.11... no<br>
-&gt;=C2=A0 configure: error: Package requirements (python-3.11) were not me=
-t:<br>
-&gt; <br>
-&gt;=C2=A0 No package &#39;python-3.11&#39; found<br>
-&gt; <br>
-&gt; To bypass this, we have to manually remove in OpenBMC with this tweak:=
-<br>
-&gt; PACKAGECONFIG:remove:pn-btrfs-tools-native =3D &quot;python&quot;<br>
-&gt; <br>
-&gt; May I know if this is a real bug, or if we did miss something from our=
- configuration?<br>
-<br>
-It looks like the native btrfs-tools is trying to build against the host py=
-thon:<br>
-<br>
-&gt;=C2=A0 checking for python3... /home/apwillia/local/builds/lf-build-yos=
-emite4/tmp/hosttools/python3<br>
-<br>
-So the problem is that your build host doesn=E2=80=99t have python3-dev or =
-similar installed.<br>
-<br>
-That dependency in btrfs-tools might be actually not required, or you might=
- want to make the recipe depend on python3-native. <br>
-<br>
-Ross</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#198706): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/198706" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/198706</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105729019/675=
-7431" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/105729019/6757431</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:sheng.tan@9elements.com" t=
-arget=3D"_blank">sheng.tan@9elements.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000d248c80616ef4949--
 
