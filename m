@@ -1,517 +1,149 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31545C4345F
-	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 11:31:00 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.14564.1714044658141421108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DA5C4345F
+	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 12:07:50 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.15219.1714046862654792376
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Apr 2024 04:30:58 -0700
+ Thu, 25 Apr 2024 05:07:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=LHnzjZC4;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 876E020002;
-	Thu, 25 Apr 2024 11:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1714044656;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y69wV5nxyKDYp2/G5MPHHt2uM9lJXI5Tw5eBTfnkzZU=;
-	b=LHnzjZC4q6jB+dTscpuPFt8rBfCwF4cRVoc2Vn4nbj/QREs/iD11jeoqWpOC6hUsuxsPUm
-	VEO6TCwNP/+Oq+KMQqnnakc4E7mTuENmH8/aGSS4IqDlS3gVWs2fNDe7jDhNFl5mbn51Nh
-	HA+M8No6q+7H03SvG+9m34eUHY/SJsd4uPcw7mYVSQAX4q2s9j8MFUzobMr59VLuXiLItK
-	SQ2vwmg/TIU9QxCMWhSmL+vhzS54xH9ICPrJy/2+z6dDJvHbt04pRNxjiIUFhyQPybrIOX
-	ovJxkJAsVhWeF4WRbwYuXJcHUyDk5HYG4Px/4wdrzsUDiQOAby2i58PSV8BXiw==
-Date: Thu, 25 Apr 2024 13:30:55 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Martin Hundeb?ll <martin@geanix.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	Andreas Helbech Kleist <andreaskleist@gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/5] ninja: build modified version with GNU
- Make jobserver support
-Message-ID: <202404251130553913ebd5@mail.local>
-References: <20240404111613.2574424-1-martin@geanix.com>
- <20240404111613.2574424-4-martin@geanix.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NLSaU0bF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.176, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2dd6a7ae2dcso13226941fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 05:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1714046861; x=1714651661; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Y/TojTGnZPtEvEDKefzLoCAGJjbLTnY7BQbToyBdlmI=;
+        b=NLSaU0bFCkkaBUVGit1oS6YyTHsq+8SiCiBqWyVOJK79Zq+JwS6RITpJBJ7YPLKGD6
+         S1bjsLqhmCiZ0lwtCvCk7GhdwyWR30ycMh0GiSkII/2u8v3NVmNQYC3ZT/4zUPIRklNM
+         gidFnqX37DKuEyLJe5z0jWk8G0f0RC9sjHD8g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714046861; x=1714651661;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y/TojTGnZPtEvEDKefzLoCAGJjbLTnY7BQbToyBdlmI=;
+        b=LGETEtboHc6flliw5ZLxhRAwCqHwJJFAcJICczDq/1abe1OfjsOm8vqIVXjjkwr9Mk
+         a+AmchHPdfq3agI0swR5vufSRIWdn5fXfxEjMHXuLXEbrgt+r3hjNEG8BBWX/YBGhaJy
+         sn5d7v9bZDqgPMrCWVP8WTVBcogYEv2GiSJS28Ft8Mbmr7efCpi3bkMKsSLAQBHXqt5e
+         R9zGcOnpsqvSMRB5X5TTQ1GhNMZ0528dsuzCgnd92PMRA2imx6HKaPeTaamrzTX7yDYt
+         PYFXu00ej0dMyIjsninYv+x/+4+sUQK1hz/zVahqcuKx/E93j3sgdkGuU6vFFws/Y626
+         9hng==
+X-Forwarded-Encrypted: i=1; AJvYcCWkGgvhSNpOBrSGE3jPMt/Wzt+XuKcWKB6nQuOvQiJQZ9IrEuDEXVbeTN+n9H1D/e91rsoKOoARfpQ+3/plLc445ulTI5wuumdCr/T7G0osu5+NmxMxbw8P
+X-Gm-Message-State: AOJu0YwzWEghRyD66itK4l70dZEIZBk8GbdtV2pVo+ZM/GUjUzZCaime
+	3pXgxeNVwxQrM4voikQgHKC7koikYjCaQUg3NuJXmPx6zeQvdcFTF0Q5YNw5jPk=
+X-Google-Smtp-Source: AGHT+IHdFAPD6WZUgo7LOQEqXwMx41EeCW7vw9QvuAYPCAZNg/RNIEvqyLJ1/XMW1Yf39S5nMZc5NQ==
+X-Received: by 2002:a2e:9b46:0:b0:2d8:8fb6:a53d with SMTP id o6-20020a2e9b46000000b002d88fb6a53dmr4392827ljj.42.1714046860604;
+        Thu, 25 Apr 2024 05:07:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f4d9:2d8a:7792:30e? ([2001:8b0:aba:5f3c:f4d9:2d8a:7792:30e])
+        by smtp.gmail.com with ESMTPSA id he9-20020a05600c540900b0041b64a161c2sm677370wmb.22.2024.04.25.05.07.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Apr 2024 05:07:40 -0700 (PDT)
+Message-ID: <1157d89acde737b10a57db1f18c34f399828adda.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] gcc: Oe-selftest failure analysis - fix
+ for host key verfication & kex exchange identification failures
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
+	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+Date: Thu, 25 Apr 2024 13:07:39 +0100
+In-Reply-To: <20240418105051.2559536-1-Harish.Sadineni@windriver.com>
+References: <20240418105051.2559536-1-Harish.Sadineni@windriver.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240404111613.2574424-4-martin@geanix.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 11:31:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198700
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 12:07:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198701
 
-Hello,
+Hi Harish,
 
-This patch doesn't apply on master anymore because ninja has been updated.
-
-
-On 04/04/2024 13:16:11+0200, Martin Hundeb?ll wrote:
-> Ninja doesn't (yet) support the GNU Make jobserver out of the box, but
-> there is a pull request adding that support[1]. Since that pull request
-> (and its derived three-part pull requests) seem to be ignored by
-> upstream, kitware (creator/maintainer of cmake) has created a fork[2]
-> only to carry the jobserver patches. Change the source uri to point at
-> the kitware fork of ninja, and add two patches from the original pull
-> request to also support the new-style fifo jobserver feature.
-> 
-> Note that the kitware fork of ninja is also used by buildroot[3].
-> 
-> [1] https://github.com/ninja-build/ninja/pull/2263
-> [2] https://github.com/Kitware/ninja
-> [3] https://gitlab.com/buildroot.org/buildroot/-/blob/master/package/ninja/ninja.mk
-> 
-> Signed-off-by: Martin Hundeb�ll <martin@geanix.com>
+On Thu, 2024-04-18 at 03:50 -0700, Sadineni, Harish via
+lists.openembedded.org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> while runnig oe-selftest for gcc, testcases that need to be run on
+> qemu are not running due to below failures.
+> - Executing on ssh: mkdir -p /tmp/runtest.3549641=C2=A0=C2=A0 (timeout =
+=3D 300)
+> =C2=A0=C2=A0 spawn [open ...]
+> =C2=A0=C2=A0 Host key verification failed.
+> =C2=A0=C2=A0 ERROR: Couldn't create remote directory /tmp/runtest.3549641=
+ on
+> ssh
+> - kex_exchange_identification: read: Connection reset by peer^M
+> =C2=A0=C2=A0 Connection reset by 192.168.7.2 port 22^M
+> =C2=A0=C2=A0 ERROR: Couldn't create remote directory /tmp/runtest.3549814=
+ on
+> ssh
+>=20
+> Host key verification failure is happening when ssh board config file
+> name is defined as "ssh.exp" and there are multiple ssh.exp files
+> generated during the build and a wrong ssh config was taken. To
+> resolve this changed the board config file name to "linux-ssh.exp"
+> which ensures correct ssh settings are used.
+>=20
+> To resolve kex exchange identification error increased the
+> MaxStartups.
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 > ---
->  ...ename-TokenPool-Setup-to-SetupClient.patch | 113 ++++++++
->  ...-jobserver-fifo-style-client-support.patch | 271 ++++++++++++++++++
->  meta/recipes-devtools/ninja/ninja_1.11.1.bb   |   8 +-
->  3 files changed, 390 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-devtools/ninja/files/0001-Rename-TokenPool-Setup-to-SetupClient.patch
->  create mode 100644 meta/recipes-devtools/ninja/files/0002-Add-GNU-make-jobserver-fifo-style-client-support.patch
-> 
-> diff --git a/meta/recipes-devtools/ninja/files/0001-Rename-TokenPool-Setup-to-SetupClient.patch b/meta/recipes-devtools/ninja/files/0001-Rename-TokenPool-Setup-to-SetupClient.patch
-> new file mode 100644
-> index 0000000000..a503f8c75f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ninja/files/0001-Rename-TokenPool-Setup-to-SetupClient.patch
-> @@ -0,0 +1,113 @@
-> +From f5642d8b49688dfc84679451b531d92f3b6e7cb0 Mon Sep 17 00:00:00 2001
-> +From: Stefan Becker <chemobejk@gmail.com>
-> +Date: Sat, 15 Dec 2018 19:29:42 +0200
-> +Subject: [PATCH 1/2] Rename TokenPool::Setup() to SetupClient()
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Make space to add new API to set up token pool master.
-> +
-> +Signed-off-by: Martin Hundeb�ll <martin@geanix.com>
-> +Upstream-Status: Submitted [https://github.com/Kitware/ninja/pull/2]
-> +---
-> + src/build.cc              | 6 +++---
-> + src/subprocess_test.cc    | 3 ++-
-> + src/tokenpool-gnu-make.cc | 6 +++---
-> + src/tokenpool-gnu-make.h  | 3 ++-
-> + src/tokenpool.h           | 3 ++-
-> + src/tokenpool_test.cc     | 2 +-
-> + 6 files changed, 13 insertions(+), 10 deletions(-)
-> +
-> +diff --git a/src/build.cc b/src/build.cc
-> +index 53e4405..d8a6dff 100644
-> +--- a/src/build.cc
-> ++++ b/src/build.cc
-> +@@ -474,9 +474,9 @@ struct RealCommandRunner : public CommandRunner {
-> + RealCommandRunner::RealCommandRunner(const BuildConfig& config) : config_(config) {
-> +   max_load_average_ = config.max_load_average;
-> +   if ((tokens_ = TokenPool::Get()) != NULL) {
-> +-    if (!tokens_->Setup(config_.parallelism_from_cmdline,
-> +-                        config_.verbosity == BuildConfig::VERBOSE,
-> +-                        max_load_average_)) {
-> ++    if (!tokens_->SetupClient(config_.parallelism_from_cmdline,
-> ++                              config_.verbosity == BuildConfig::VERBOSE,
-> ++                              max_load_average_)) {
-> +       delete tokens_;
-> +       tokens_ = NULL;
-> +     }
-> +diff --git a/src/subprocess_test.cc b/src/subprocess_test.cc
-> +index eddc110..222b59b 100644
-> +--- a/src/subprocess_test.cc
-> ++++ b/src/subprocess_test.cc
-> +@@ -40,7 +40,8 @@ struct TestTokenPool : public TokenPool {
-> +   void Reserve()     {}
-> +   void Release()     {}
-> +   void Clear()       {}
-> +-  bool Setup(bool ignore_unused, bool verbose, double& max_load_average) { return false; }
-> ++  bool SetupClient(bool ignore_unused, bool verbose,
-> ++                   double& max_load_average) { return false; }
-> + 
-> + #ifdef _WIN32
-> +   bool _token_available;
-> +diff --git a/src/tokenpool-gnu-make.cc b/src/tokenpool-gnu-make.cc
-> +index 60e0552..6fb72a6 100644
-> +--- a/src/tokenpool-gnu-make.cc
-> ++++ b/src/tokenpool-gnu-make.cc
-> +@@ -28,9 +28,9 @@ GNUmakeTokenPool::GNUmakeTokenPool() : available_(1), used_(0) {
-> + GNUmakeTokenPool::~GNUmakeTokenPool() {
-> + }
-> + 
-> +-bool GNUmakeTokenPool::Setup(bool ignore,
-> +-                             bool verbose,
-> +-                             double& max_load_average) {
-> ++bool GNUmakeTokenPool::SetupClient(bool ignore,
-> ++                                   bool verbose,
-> ++                                   double& max_load_average) {
-> +   const char* value = GetEnv("MAKEFLAGS");
-> +   if (!value)
-> +     return false;
-> +diff --git a/src/tokenpool-gnu-make.h b/src/tokenpool-gnu-make.h
-> +index c94cca5..f4ab8d7 100644
-> +--- a/src/tokenpool-gnu-make.h
-> ++++ b/src/tokenpool-gnu-make.h
-> +@@ -24,7 +24,8 @@ struct GNUmakeTokenPool : public TokenPool {
-> +   virtual void Reserve();
-> +   virtual void Release();
-> +   virtual void Clear();
-> +-  virtual bool Setup(bool ignore, bool verbose, double& max_load_average);
-> ++  virtual bool SetupClient(bool ignore, bool verbose,
-> ++                           double& max_load_average);
-> + 
-> +   // platform specific implementation
-> +   virtual const char* GetEnv(const char* name) = 0;
-> +diff --git a/src/tokenpool.h b/src/tokenpool.h
-> +index 931c227..ce2bf48 100644
-> +--- a/src/tokenpool.h
-> ++++ b/src/tokenpool.h
-> +@@ -26,7 +26,8 @@ struct TokenPool {
-> +   virtual void Clear() = 0;
-> + 
-> +   // returns false if token pool setup failed
-> +-  virtual bool Setup(bool ignore, bool verbose, double& max_load_average) = 0;
-> ++  virtual bool SetupClient(bool ignore, bool verbose,
-> ++                           double& max_load_average) = 0;
-> + 
-> + #ifdef _WIN32
-> +   virtual void WaitForTokenAvailability(HANDLE ioport) = 0;
-> +diff --git a/src/tokenpool_test.cc b/src/tokenpool_test.cc
-> +index 1bc1c84..9d07146 100644
-> +--- a/src/tokenpool_test.cc
-> ++++ b/src/tokenpool_test.cc
-> +@@ -77,7 +77,7 @@ struct TokenPoolTest : public testing::Test {
-> +       ENVIRONMENT_INIT(buf_);
-> +     }
-> +     if ((tokens_ = TokenPool::Get()) != NULL) {
-> +-      if (!tokens_->Setup(ignore_jobserver, false, load_avg_)) {
-> ++      if (!tokens_->SetupClient(ignore_jobserver, false, load_avg_)) {
-> +         delete tokens_;
-> +         tokens_ = NULL;
-> +       }
-> +-- 
-> +2.44.0
-> +
-> diff --git a/meta/recipes-devtools/ninja/files/0002-Add-GNU-make-jobserver-fifo-style-client-support.patch b/meta/recipes-devtools/ninja/files/0002-Add-GNU-make-jobserver-fifo-style-client-support.patch
-> new file mode 100644
-> index 0000000000..770a53fbc9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ninja/files/0002-Add-GNU-make-jobserver-fifo-style-client-support.patch
-> @@ -0,0 +1,271 @@
-> +From 830b7fb396383171c5fac2aae7de880ac83ce955 Mon Sep 17 00:00:00 2001
-> +From: Stefan Becker <chemobejk@gmail.com>
-> +Date: Mon, 7 Nov 2022 20:45:27 +0200
-> +Subject: [PATCH 2/2] Add GNU make jobserver fifo style client support
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +GNU make 4.4 introduced a new jobserver style "fifo" for POSIX systems
-> +which passes a named pipe down to the clients.
-> +
-> +- update auth parser to recognize "fifo:<name>" format
-> +- open named pipe for reading and writing
-> +- make sure the file descriptors are closed in the destructor
-> +- add 2 tests that aren't compiled for WIN32
-> +
-> +Signed-off-by: Martin Hundeb�ll <martin@geanix.com>
-> +Upstream-Status: Submitted [https://github.com/Kitware/ninja/pull/2]
-> +---
-> + src/tokenpool-gnu-make-posix.cc | 46 ++++++++++++++++-
-> + src/tokenpool_test.cc           | 88 ++++++++++++++++++++++++++++++---
-> + 2 files changed, 127 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/src/tokenpool-gnu-make-posix.cc b/src/tokenpool-gnu-make-posix.cc
-> +index 8447070..a82cce4 100644
-> +--- a/src/tokenpool-gnu-make-posix.cc
-> ++++ b/src/tokenpool-gnu-make-posix.cc
-> +@@ -40,6 +40,7 @@ struct GNUmakeTokenPoolPosix : public GNUmakeTokenPool {
-> +  private:
-> +   int rfd_;
-> +   int wfd_;
-> ++  bool closeFds_;
-> + 
-> +   struct sigaction old_act_;
-> +   bool restore_;
-> +@@ -48,14 +49,19 @@ struct GNUmakeTokenPoolPosix : public GNUmakeTokenPool {
-> +   static void CloseDupRfd(int signum);
-> + 
-> +   bool CheckFd(int fd);
-> ++  bool CheckFifo(const char* fifo);
-> +   bool SetAlarmHandler();
-> + };
-> + 
-> +-GNUmakeTokenPoolPosix::GNUmakeTokenPoolPosix() : rfd_(-1), wfd_(-1), restore_(false) {
-> ++GNUmakeTokenPoolPosix::GNUmakeTokenPoolPosix() : rfd_(-1), wfd_(-1), closeFds_(false), restore_(false) {
-> + }
-> + 
-> + GNUmakeTokenPoolPosix::~GNUmakeTokenPoolPosix() {
-> +   Clear();
-> ++  if (closeFds_) {
-> ++    close(wfd_);
-> ++    close(rfd_);
-> ++  }
-> +   if (restore_)
-> +     sigaction(SIGALRM, &old_act_, NULL);
-> + }
-> +@@ -69,6 +75,36 @@ bool GNUmakeTokenPoolPosix::CheckFd(int fd) {
-> +   return true;
-> + }
-> + 
-> ++bool GNUmakeTokenPoolPosix::CheckFifo(const char* fifo) {
-> ++  // remove possible junk from end of fifo name
-> ++  char *filename = strdup(fifo);
-> ++  char *end;
-> ++  if ((end = strchr(filename, ' ')) != NULL) {
-> ++    *end = '\0';
-> ++  }
-> ++
-> ++  int rfd = open(filename, O_RDONLY);
-> ++  if (rfd < 0) {
-> ++    free(filename);
-> ++    return false;
-> ++  }
-> ++
-> ++  int wfd = open(filename, O_WRONLY);
-> ++  if (wfd < 0) {
-> ++    close(rfd);
-> ++    free(filename);
-> ++    return false;
-> ++  }
-> ++
-> ++  free(filename);
-> ++
-> ++  rfd_ = rfd;
-> ++  wfd_ = wfd;
-> ++  closeFds_ = true;
-> ++
-> ++  return true;
-> ++}
-> ++
-> + int GNUmakeTokenPoolPosix::dup_rfd_ = -1;
-> + 
-> + void GNUmakeTokenPoolPosix::CloseDupRfd(int signum) {
-> +@@ -89,6 +125,13 @@ bool GNUmakeTokenPoolPosix::SetAlarmHandler() {
-> + }
-> + 
-> + bool GNUmakeTokenPoolPosix::ParseAuth(const char* jobserver) {
-> ++  // check for jobserver-fifo style
-> ++  const char* fifo;
-> ++  if (((fifo = strstr(jobserver, "=fifo:")) != NULL) &&
-> ++      CheckFifo(fifo + 6))
-> ++    return SetAlarmHandler();
-> ++
-> ++  // check for legacy simple pipe style
-> +   int rfd = -1;
-> +   int wfd = -1;
-> +   if ((sscanf(jobserver, "%*[^=]=%d,%d", &rfd, &wfd) == 2) &&
-> +@@ -100,6 +143,7 @@ bool GNUmakeTokenPoolPosix::ParseAuth(const char* jobserver) {
-> +     return true;
-> +   }
-> + 
-> ++  // some jobserver style we don't support
-> +   return false;
-> + }
-> + 
-> +diff --git a/src/tokenpool_test.cc b/src/tokenpool_test.cc
-> +index 9d07146..e15da6c 100644
-> +--- a/src/tokenpool_test.cc
-> ++++ b/src/tokenpool_test.cc
-> +@@ -19,7 +19,10 @@
-> + #ifdef _WIN32
-> + #include <windows.h>
-> + #else
-> ++#include <fcntl.h>
-> + #include <unistd.h>
-> ++#include <sys/types.h>
-> ++#include <sys/stat.h>
-> + #endif
-> + 
-> + #include <stdio.h>
-> +@@ -35,6 +38,8 @@
-> + #define AUTH_FORMAT(tmpl)   "foo " tmpl "=%d,%d bar"
-> + #define ENVIRONMENT_CLEAR() unsetenv("MAKEFLAGS")
-> + #define ENVIRONMENT_INIT(v) setenv("MAKEFLAGS", v, true)
-> ++
-> ++#define FIFO_NAME "ninja-test-tokenpool-fifo"
-> + #endif
-> + 
-> + namespace {
-> +@@ -60,11 +65,24 @@ struct TokenPoolTest : public testing::Test {
-> +     semaphore_name_ = SEMAPHORE_NAME;
-> +     if ((semaphore_ = CreateSemaphore(0, 0, 2, SEMAPHORE_NAME)) == NULL)
-> + #else
-> ++    if (mkfifo(FIFO_NAME, 0600) < 0) {
-> ++      ASSERT_TRUE(false);
-> ++    }
-> ++
-> +     if (pipe(fds_) < 0)
-> + #endif
-> +       ASSERT_TRUE(false);
-> +   }
-> + 
-> ++  void GetPool(bool ignore_jobserver) {
-> ++    if ((tokens_ = TokenPool::Get()) != NULL) {
-> ++      if (!tokens_->SetupClient(ignore_jobserver, false, load_avg_)) {
-> ++        delete tokens_;
-> ++        tokens_ = NULL;
-> ++      }
-> ++    }
-> ++  }
-> ++
-> +   void CreatePool(const char* format, bool ignore_jobserver = false) {
-> +     if (format) {
-> +       sprintf(buf_, format,
-> +@@ -76,18 +94,30 @@ struct TokenPoolTest : public testing::Test {
-> +       );
-> +       ENVIRONMENT_INIT(buf_);
-> +     }
-> +-    if ((tokens_ = TokenPool::Get()) != NULL) {
-> +-      if (!tokens_->SetupClient(ignore_jobserver, false, load_avg_)) {
-> +-        delete tokens_;
-> +-        tokens_ = NULL;
-> +-      }
-> +-    }
-> ++    GetPool(ignore_jobserver);
-> +   }
-> + 
-> +   void CreateDefaultPool() {
-> +     CreatePool(AUTH_FORMAT("--jobserver-auth"));
-> +   }
-> + 
-> ++#ifndef _WIN32
-> ++  void CreateFifoPool() {
-> ++    // close simple pipe fds...
-> ++    close(fds_[0]);
-> ++    close(fds_[1]);
-> ++
-> ++    // ... and open named pipe instead
-> ++    if ((fds_[0] = open(FIFO_NAME, O_RDONLY|O_NONBLOCK)) < 0)
-> ++      ASSERT_TRUE(false);
-> ++    if ((fds_[1] = open(FIFO_NAME, O_WRONLY)) < 0)
-> ++      ASSERT_TRUE(false);
-> ++
-> ++    ENVIRONMENT_INIT("foo --jobserver-auth=fifo:" FIFO_NAME " bar");
-> ++    GetPool(false);
-> ++  }
-> ++#endif
-> ++
-> +   virtual void TearDown() {
-> +     if (tokens_)
-> +       delete tokens_;
-> +@@ -96,6 +126,7 @@ struct TokenPoolTest : public testing::Test {
-> + #else
-> +     close(fds_[0]);
-> +     close(fds_[1]);
-> ++    unlink(FIFO_NAME);
-> + #endif
-> +     ENVIRONMENT_CLEAR();
-> +   }
-> +@@ -167,6 +198,15 @@ TEST_F(TokenPoolTest, MonitorFD) {
-> + 
-> +   EXPECT_EQ(fds_[0], tokens_->GetMonitorFd());
-> + }
-> ++
-> ++TEST_F(TokenPoolTest, MonitorFDFifo) {
-> ++  CreateFifoPool();
-> ++
-> ++  ASSERT_NE(NULL, tokens_);
-> ++  EXPECT_EQ(kLoadAverageDefault, load_avg_);
-> ++
-> ++  EXPECT_NE(-1, tokens_->GetMonitorFd());
-> ++}
-> + #endif
-> + 
-> + TEST_F(TokenPoolTest, ImplicitToken) {
-> +@@ -226,6 +266,42 @@ TEST_F(TokenPoolTest, TwoTokens) {
-> +   EXPECT_TRUE(tokens_->Acquire());
-> + }
-> + 
-> ++#ifndef _WIN32
-> ++TEST_F(TokenPoolTest, TwoTokensFifo) {
-> ++  CreateFifoPool();
-> ++
-> ++  ASSERT_NE(NULL, tokens_);
-> ++  EXPECT_EQ(kLoadAverageDefault, load_avg_);
-> ++
-> ++  // implicit token
-> ++  EXPECT_TRUE(tokens_->Acquire());
-> ++  tokens_->Reserve();
-> ++  EXPECT_FALSE(tokens_->Acquire());
-> ++
-> ++  // jobserver offers 2nd token
-> ++  char test_tokens[1] = { '+' };
-> ++  ASSERT_EQ(1u, write(fds_[1], test_tokens, sizeof(test_tokens)));
-> ++  EXPECT_TRUE(tokens_->Acquire());
-> ++  tokens_->Reserve();
-> ++  EXPECT_FALSE(tokens_->Acquire());
-> ++
-> ++  // release 2nd token
-> ++  tokens_->Release();
-> ++  EXPECT_TRUE(tokens_->Acquire());
-> ++
-> ++  // release implicit token - must return 2nd token back to jobserver
-> ++  tokens_->Release();
-> ++  EXPECT_TRUE(tokens_->Acquire());
-> ++
-> ++  // there must be one token available
-> ++  EXPECT_EQ(1u, read(fds_[0], buf_, sizeof(buf_)));
-> ++  EXPECT_EQ(test_tokens[0], buf_[0]);
-> ++
-> ++  // implicit token
-> ++  EXPECT_TRUE(tokens_->Acquire());
-> ++}
-> ++#endif
-> ++
-> + TEST_F(TokenPoolTest, Clear) {
-> +   CreateDefaultPool();
-> + 
-> +-- 
-> +2.44.0
-> +
-> diff --git a/meta/recipes-devtools/ninja/ninja_1.11.1.bb b/meta/recipes-devtools/ninja/ninja_1.11.1.bb
-> index 8e297ec4d4..dbff2e191a 100644
-> --- a/meta/recipes-devtools/ninja/ninja_1.11.1.bb
-> +++ b/meta/recipes-devtools/ninja/ninja_1.11.1.bb
-> @@ -6,9 +6,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
->  
->  DEPENDS = "re2c-native ninja-native"
->  
-> -SRCREV = "a524bf3f6bacd1b4ad85d719eed2737d8562f27a"
-> +SRCREV = "95dee2a91d96c409d54f9fa0b70ea9aa2bdf8e63"
->  
-> -SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
-> +SRC_URI = " \
-> +    git://github.com/kitware/ninja.git;branch=kitware-staged-features;protocol=https \
-> +    file://0001-Rename-TokenPool-Setup-to-SetupClient.patch \
-> +    file://0002-Add-GNU-make-jobserver-fifo-style-client-support.patch \
-> +"
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
->  
->  S = "${WORKDIR}/git"
-> -- 
-> 2.44.0
-> 
+> =C2=A0meta/lib/oeqa/selftest/cases/gcc.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 2 +-
+> =C2=A0meta/recipes-connectivity/openssh/openssh/sshd_config | 2 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-testsuite.inc=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A03 files changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197956): https://lists.openembedded.org/g/openembedded-core/message/197956
-> Mute This Topic: https://lists.openembedded.org/mt/105326967/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Thanks for these. They did pass testing on the autobuilder but I there
+are some style tweaks needed before they can merge and we have to
+answer some questions about the sshd_config changes.
 
+Style wise, the shortlog of the patch (subject line) needs to be
+improved. It should start "oeqa/selftest/gcc:" to make it clear this
+isn't a gcc recipe change but a selftest change.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+The shortlog should also be a short summary, so for example:
+
+oeqa/selftest/gcc: Fix ssh tests to run correctly
+
+The longer log can contain contain information about the host key and
+key exchange pieces.
+
+Moving on to the patch content, the openssh piece needs to be separated
+out into a separate patch as it is changing a quite key separate part
+of the system.
+
+I noticed the second patch also has an openssh change, so perhaps
+combine those two changes together into a separate patch. The second
+patch also needs the shortlog improving similar to the above.
+
+The rest of the patch content is good.
+
+The remaining issue is where/when to apply the openssh changes. My
+worry is that this does have potential DoS implications on real target
+devices as the config change is being made globally. It made me wonder
+if we should have a "qemuall" openssh config that applies to our qemu
+machines we use for testing as way of handling this?
+
+Cheers,
+
+Richard
 
