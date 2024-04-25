@@ -1,121 +1,96 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <m.glembo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F377BC4345F
-	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 08:24:18 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.12025.1714033456978452472
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36154C10F15
+	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 09:16:19 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.12564.1714036571906970430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Apr 2024 01:24:17 -0700
+ Thu, 25 Apr 2024 02:16:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eEJt7Ay+;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B05F51C0007;
-	Thu, 25 Apr 2024 08:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1714033455;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0EaFJLL8vfxLAo76GNzf47ico4POIivm6kRIcFATk1s=;
-	b=eEJt7Ay+UJtEmG7Ms2MzxHyRh6XDiktMm+HxA2r/b45t0UDFWRLsnoWqwJWzh1ulNbuMil
-	Xug7cKgugHW0s57+oD6mm58TDSwEsw10uP4z7gXo7ofzZm2tyzeYEe276qJ6sAu3giyRBJ
-	2A2G45c12hrBOvq/wy9iNl6qu63qhO6qUqUAs1g/k+7fzS1MOju3CCLB10LFByaGsQhfMO
-	FETIdXiXWC7d0Vbb9ugmh3RhZRciILyeW2RQq1OFl6Iz/fAN64abiT29ZecoVIFrfo877u
-	YsTvMi+KKI2oXWIQl3e03Kd1xeMICjvCm+TWrky1mZPXKBYhZ6M+7osvxoczOw==
-Date: Thu, 25 Apr 2024 10:24:13 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Joseph Mills <joseph.mills@cnhind.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/1] [mesa] Update do_install as needed per
- upstream changes
-Message-ID: <202404250824138d2227a3@mail.local>
-References: <20240422143921.3187890-1-joseph.mills@cnhind.com>
- <20240422143921.3187890-2-joseph.mills@cnhind.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ICEPEwjO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: m.glembo@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a519e1b0e2dso101176566b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 02:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714036570; x=1714641370; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3/uZd7oOorTaZ4VWb/8istAsU2ifoohRpTeU2X26+DU=;
+        b=ICEPEwjOlAPgEvQwAtRr/mXTYv2C0rhxXQCBFbTdII9/V1YfiTk1CPkfRO4OBOTnVJ
+         xrpabyfqoO8TU5UlsW06l0eshLZgpJkv1HAPqG2Vl7ugg3XZCD/TK0wKj5198UxZfb91
+         18lZ7vRQnVURleOgRCMxApD7sYk9fTNzEtu0KgExy2Qh3lfP7fBGu55R6dURCahGCQn1
+         GoOCPaeMJQRsmf7vkvAoAPH+1Dh5CftMkhUbpL2injG47Ado04K90Y5XiTdXj+OcVGWW
+         cC7Ho2nFBRgHJSY4j34HldUxjwsZRM9YnfSpmO+uDjizFe5dtadXh+n5JUUKDN2U28PM
+         HIYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714036570; x=1714641370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3/uZd7oOorTaZ4VWb/8istAsU2ifoohRpTeU2X26+DU=;
+        b=AKNorbRnDJF+c6NLGO0IZ/OZuQ3jTMxkIIGRIaoA6DNnCZ94zHgzx04tRfGCIGI/Nk
+         R54frAh+g/zx73VRvsQ1qsCsbA6oxtz8KJc929+WnlzFnKikSD3fH2dbfFdNNFtxMezH
+         d+D6MbrEU240p/pVeXkfUeJgTo/fxr2jcFWoJlIha9rElo03YfdtHDZXIlbktP9MXJQA
+         ofpLknyCrysL8p3IPYrWnuEvkaAMumVHsDK1oWsbrxo+Uu+h3Cs/9Mt+QoYGVrDVp9nH
+         SFN8qX24p+gpEyzA09yPPlZtJd+QzSEScziOx3fchYnTljQXmrSQ5L4yF+FUb7c4VhZ3
+         9r7A==
+X-Gm-Message-State: AOJu0YyT3LZyHZV14TVyC/rDoS20XRc5QjX9SNkYycFwadOU+uZUc0/B
+	ZhNrnvKn0bCdKVmqg4KOv3hj2cHg9TI4gEePUD/cYiCqpiddUyn7QPyivw==
+X-Google-Smtp-Source: AGHT+IGQugKO68/lWvWoeZ2cu8XVwFTQWwINIz+Izv3YcVhCuVY8plFIOIIlFezTg8jfGIiv4wUZ3A==
+X-Received: by 2002:a17:906:fe03:b0:a58:9748:c94c with SMTP id wy3-20020a170906fe0300b00a589748c94cmr3433478ejb.8.1714036569649;
+        Thu, 25 Apr 2024 02:16:09 -0700 (PDT)
+Received: from localhost.localdomain ([213.61.209.158])
+        by smtp.gmail.com with ESMTPSA id n4-20020a170906164400b00a55967a9038sm6893274ejd.95.2024.04.25.02.16.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Apr 2024 02:16:09 -0700 (PDT)
+From: Michael Glembotzki <m.glembo@gmail.com>
+X-Google-Original-From: Michael Glembotzki <Michael.Glembotzki@iris-sensing.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Glembotzki <Michael.Glembotzki@iris-sensing.com>
+Subject: [kirkstone][poky][PATCH] rootfs-postcommands.bbclass: Only set DROPBEAR_RSAKEY_DIR once
+Date: Thu, 25 Apr 2024 11:11:14 +0200
+Message-ID: <20240425091113.708546-2-Michael.Glembotzki@iris-sensing.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240422143921.3187890-2-joseph.mills@cnhind.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 08:24:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198697
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 09:16:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198698
 
-This causes the following failures:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4702/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/7874/steps/11/logs/stdio
+If DROPBEAR_RSAKEY_DIR has already been set before, e.g. by overwriting
+the file dropbear.default, the line will still be appended a second time.
 
-On 22/04/2024 09:39:21-0500, Joseph Mills wrote:
-> Signed-off-by: Joseph Mills <joseph.mills@cnhind.com>
-> 
-> Developer's Certificate of Origin 1.1
-> 
-> By making a contribution to this project, I certify that:
-> 
-> (a) The contribution was created in whole or in part by me and I
->     have the right to submit it under the open source license
->     indicated in the file; or
-> 
-> (b) The contribution is based upon previous work that, to the best
->     of my knowledge, is covered under an appropriate open source
->     license and I have the right under that license to submit that
->     work with modifications, whether created in whole or in part
->     by me, under the same open source license (unless I am
->     permitted to submit under a different license), as indicated
->     in the file; or
-> 
-> (c) The contribution was provided directly to me by some other
->     person who certified (a), (b) or (c) and I have not modified
->     it.
-> 
-> (d) I understand and agree that this project and the contribution
->     are public and that a record of the contribution (including all
->     personal information I submit with it, including my sign-off) is
->     maintained indefinitely and may be redistributed consistent with
->     this project or the open source license(s) involved.
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index 6e96190084..f4fcf31df0 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -27,12 +27,12 @@ SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b
->  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
->  
->  #because we cannot rely on the fact that all apps will use pkgconfig,
-> -#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
-> +#make eglplatform.h independent of USE_X11
->  do_install:append() {
->    # sed can't find EGL/eglplatform.h as it doesn't get installed when glvnd enabled.
->    # So, check if EGL/eglplatform.h exists before running sed.
->    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)} && [ -f ${D}${includedir}/EGL/eglplatform.h ]; then
-> -      sed -i -e 's/^#elif defined(__unix__) && defined(EGL_NO_X11)$/#elif defined(__unix__) \&\& defined(EGL_NO_X11) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +      sed -i -e 's/^#elif defined(USE_X11)$/#elif ${@bb.utils.contains('PACKAGECONFIG', 'x11', '1', '0', d)}/' ${D}${includedir}/EGL/eglplatform.h
->    fi
->  }
->  
-> -- 
-> 2.43.0
-> 
+DROPBEAR_RSAKEY_DIR="/path/to/dropbear"
+DROPBEAR_EXTRA_ARGS="-B"
+DROPBEAR_RSAKEY_DIR=/var/lib/dropbear
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198591): https://lists.openembedded.org/g/openembedded-core/message/198591
-> Mute This Topic: https://lists.openembedded.org/mt/105670960/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+(Backport of rev: 6045314d2968f6f5a0877a4dd45f35c766a40e40)
 
+Signed-off-by: Michael Glembotzki <Michael.Glembotzki@iris-sensing.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 5c0b3ec37c..f7517c66dc 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -119,7 +119,9 @@ read_only_rootfs_hook () {
+ 		# Also tweak the key location for dropbear in the same way.
+ 		if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
+ 			if [ ! -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
+-				echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
++				if ! grep -q "^DROPBEAR_RSAKEY_DIR=" ${IMAGE_ROOTFS}/etc/default/dropbear ; then
++					echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
++				fi
+ 			fi
+ 		fi
+ 	fi
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.44.0
+
 
