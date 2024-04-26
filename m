@@ -1,90 +1,105 @@
-Return-Path: <alexandre.truong@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C49C41513
-	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 08:31:24 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.8976.1714120276392315275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C246C4345F
+	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 08:37:04 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.9226.1714120620559166239
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Apr 2024 01:31:16 -0700
+ Fri, 26 Apr 2024 01:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=K17BPqhJ;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: alexandre.truong@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4196c62bb4eso14219265e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 01:31:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QfUQob1G;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-516d1ecaf25so2562074e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 01:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1714120274; x=1714725074; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dGqGJtaqIblRi8yVkhtbVK5U/VR+p+93zhYpy5JpvmU=;
-        b=K17BPqhJtm+dRUN1amjZary1EUT5Of9tMFOAvgWrSCm4mIEUJC+KqqLglMH4wkN3Gy
-         WYk78G8lG/6Tyf+DdhMZ5t405S9f3DaHE7DDP4a5p4hEA7U4tuUnVwyUQsECKAkIzITn
-         wMupUS86UoycxjROnhSOSqkpGwXOyS6EVGCSryLvYb0pOGPEi6TW7WV91PaE6s9UUgla
-         /x8MrJJlPxTzhlSo3oTbp17SoS3CR7eZ7STJlJv4PFJ6vSGm91+Lbg94b/Ec335OzSAk
-         QXuQ3AMZvd6zob6P0XRH4v/D8P8rXVVXr8aO9PGJCMjeWmyGQLeId0jCcogw4l+bN/du
-         /jAA==
+        d=gmail.com; s=20230601; t=1714120618; x=1714725418; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NGaaBTt8ryTQggZF2bkbqiVsRLT+1kZ+foxY4ZBaMIw=;
+        b=QfUQob1GVo7IupxW2kuTMHTkScvO7Iz+Qp1em6iAN/2tlhFM46mShFeQ3L4jOo9ttj
+         Mr3HRI09VriPgoBgrxRZRFH9I36quZpH6prpVFmH+JH85Gd78/+eEX7ZUNW5rUV3+qSL
+         D3K6sw178LtfWYMbgLMdVL0KT5BTCmXUSOZK8fB4F4DVR5ZGEWj3QfaqxcpLZVeW38fQ
+         09k0m5MaIUfMErF0vwcjGXBlcjhSKUT3ojOdxYylbfBzG6fW1jgp3KDV+UNAgtstgRqM
+         4uDSRgaj2RFqKdfApN0w/lVyQ6yYWrJZbufqnU4jB8sFFQIzlndm/8p/P3+NBg0NVXTz
+         aPWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714120274; x=1714725074;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1714120618; x=1714725418;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dGqGJtaqIblRi8yVkhtbVK5U/VR+p+93zhYpy5JpvmU=;
-        b=Ci/4HdnA1guwuzA4YDLFtPzjpPRkjTF99WnuzDhAE6wgMswVHkFsg8TePMEei7jhRW
-         RNVC8VBWMyLmHQ7m1wTvEPweTbgUBYq93twjfLaO9I8tivliXgK1YJLQQHlw9dZRjqVx
-         hGnX8pDaI2azcxkzTy6LL3bcy004Wzo5hdTZ67q5lq+7FcYAl7c69boy/7nXpo8hzkDp
-         +EM6GDG6sogp/7D1b/cwsFRKSDQvhf26QOmTp5zhJc9wtlSCMhe8+JKyYgPQkS9J4MLv
-         PorxyviqFkdlQSTN+plaQDzVSXW/f9gvoYLBt2Wi/Y/jZGKoBnOr2ffxcSAeg/TrW1zJ
-         4/RA==
-X-Gm-Message-State: AOJu0YzgqqX09jeeio7TDBhcE3IFOTBSGr8Gf3dtylO/AeE9f94EMDwN
-	JTvZ7vFoBRTcZtqd+MiG/hJqQxpoKOeFFheTZyODNjqBMdouBhfPAHigUCPhXfWNch2jRSM/k+K
-	p
-X-Google-Smtp-Source: AGHT+IET9nUAjHMF81K0U3P15U/2urANDQF44xGGEl8rwswt0MSH55DJ2IVQ/W4ipM7bOnPbJRfciw==
-X-Received: by 2002:a05:600c:470f:b0:41a:8374:7eae with SMTP id v15-20020a05600c470f00b0041a83747eaemr1492889wmo.31.1714120274263;
-        Fri, 26 Apr 2024 01:31:14 -0700 (PDT)
-Received: from P-ASN-MOON.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4844000000b00349f098f4a6sm21685496wrs.53.2024.04.26.01.31.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 01:31:14 -0700 (PDT)
-From: Alexandre Truong <alexandre.truong@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Truong <alexandre.truong@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH 1/2] Revert "oeqa/selftest/devtool: fix test_devtool_add_git_style2"
-Date: Fri, 26 Apr 2024 10:30:37 +0200
-Message-Id: <20240426083038.8555-1-alexandre.truong@smile.fr>
-X-Mailer: git-send-email 2.34.1
+        bh=NGaaBTt8ryTQggZF2bkbqiVsRLT+1kZ+foxY4ZBaMIw=;
+        b=hhC+liCMB/u1ojfDy5EYBJREDqxfg2xrJGXw5POqOS5PiF3sRJgftN0ffB9uJJ6UmW
+         B2zAo+w2CpiXtWWGojw4HcGVqLOu/oBZwnFIMqt35F3DG44irPHLx8jJC5ewiTgyIV99
+         hrf2WkSImCGnDCyheXl+jgpX6RANXXGTE5CNo88DoVucGBXjMD9SZOEXrNXkbcGLcrvr
+         imlyTayMORyD+e/qIaqNQgXyCQKdYgbGkYu1DwxFl6yBG5ArL8zS7wPnjKU/RSjIN/3A
+         vIlgzLwlZc1Zp7vK+oRS5gw/aPw54ME6tNLCKwGfWX6CsUzHf3L4EKIpp31YFd1T9dHV
+         gi4w==
+X-Gm-Message-State: AOJu0YxOX8bowZAeEYYMErlxNL8UyMB7ut+WdW2hZe2qLHlG7WJw27zN
+	OYTvGuRu8LgBVWcrexX94rWif9Od6k7jYq/bzLlpabUQc8/CxgZ2sCeCsZ5t00zRMtWsCMmdFg5
+	mwLh2MqCL5TWzhDXvlgXE3ghczCE=
+X-Google-Smtp-Source: AGHT+IHVI7TEDniqs6SsUDKQOdeMRy24uWTBpFOpexLos+9Tm5ozmHVPHjPiEo1hlgmvGUmOPHRsna/CWTkpSjedobo=
+X-Received: by 2002:a19:760f:0:b0:518:d4c3:4682 with SMTP id
+ c15-20020a19760f000000b00518d4c34682mr1046161lff.24.1714120618349; Fri, 26
+ Apr 2024 01:36:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240426083038.8555-1-alexandre.truong@smile.fr>
+In-Reply-To: <20240426083038.8555-1-alexandre.truong@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 26 Apr 2024 10:36:46 +0200
+Message-ID: <CANNYZj-hFdie-BZsFTYRBFuQrvkw2B8+vU5pHdEx_517puUAkg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] Revert "oeqa/selftest/devtool: fix test_devtool_add_git_style2"
+To: alexandre.truong@smile.fr
+Cc: openembedded-core@lists.openembedded.org, 
+	Yoann Congal <yoann.congal@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 08:31:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198715
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 08:37:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198716
 
-This reverts commit ab6d3e3d645ffc343f434bf731339fa237df027a
-from poky repository.
+When you revert something, you need to explain why.
 
-Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alex
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 51949e3c93..1f8781a28b 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -482,7 +482,7 @@ class DevtoolAddTests(DevtoolBase):
-         pn = 'mbedtls'
-         # this will trigger reformat_git_uri with branch parameter in url
-         git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
--        resulting_src_uri = "gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-+        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri)
- 
-     def test_devtool_add_library(self):
--- 
-2.34.1
-
+On Fri, 26 Apr 2024 at 10:31, Alexandre Truong via
+lists.openembedded.org
+<alexandre.truong=smile.fr@lists.openembedded.org> wrote:
+>
+> This reverts commit ab6d3e3d645ffc343f434bf731339fa237df027a
+> from poky repository.
+>
+> Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
+> Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+> index 51949e3c93..1f8781a28b 100644
+> --- a/meta/lib/oeqa/selftest/cases/devtool.py
+> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
+> @@ -482,7 +482,7 @@ class DevtoolAddTests(DevtoolBase):
+>          pn = 'mbedtls'
+>          # this will trigger reformat_git_uri with branch parameter in url
+>          git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
+> -        resulting_src_uri = "gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
+> +        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
+>          self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri)
+>
+>      def test_devtool_add_library(self):
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198715): https://lists.openembedded.org/g/openembedded-core/message/198715
+> Mute This Topic: https://lists.openembedded.org/mt/105746807/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
