@@ -1,97 +1,96 @@
-Return-Path: <alexandre.truong@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A12C10F15
-	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 10:14:04 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.10293.1714126439076830823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA328C4345F
+	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 10:40:14 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.10634.1714128005842221960
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Apr 2024 03:13:59 -0700
+ Fri, 26 Apr 2024 03:40:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=acl9ZqwX;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: alexandre.truong@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41b782405d5so7659315e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 03:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1714126437; x=1714731237; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xdgIbf082/fMojhD6UXxW2/YldGgUBbc6GKpbpD5rMQ=;
-        b=acl9ZqwX3iLmkyvfQDV3nPMZStZXARYxLa28FS/Cv8+NoTOX7zSCzEiZ0DDH/uxZkf
-         Q7Ym8jVSJkDX+AXcBouAC8O+A+xOU/S9O7rLg2vII1HRaN1+W7DSWlE3QYpwFWH4CmhW
-         0GSUUSKaapOIkQ/mgZdqnNhod73+RqvIs/3Frbw/JXZ2raFLkTOMSTDTIwxSMMoW1yRC
-         1nvhBKOZL8DJuC8AUOwAwWcQcdNEDZ4wSahdfPMtjX9J7WT0KHHesJUuoN20skjs1+l0
-         op/F4dZRtVFo/2n3VbOiwFZpQpRa2wN6RIYxGxvR2MQ9KujF/+y1C2JaVERzlWbNDl2h
-         5JxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714126437; x=1714731237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xdgIbf082/fMojhD6UXxW2/YldGgUBbc6GKpbpD5rMQ=;
-        b=u8eEx7Gx8WkPgw13aozMzIxbgRs+D6NHUL3HQGgeLvT5WChf+cYONSI5L4lgpmAsCo
-         H+ZXVwRj71u7YGgHPlXuTbmNW5PQPbhXAXVBJxt/pLWiNf7WiG1pzYODeXMTp2XSc4+f
-         uWUgG/EaaDJ2OyUycpL8ipDZpyJRcP/wKfjqbaOskjBjj7FYlEcafA8ME3UcbLtT9lAZ
-         JFfSLlHKK02qfWcQEQ9bWqm2O/17wmNNXy8ECZhpTxdDj+//XDvLYhpWOXurFnilyDAa
-         hCLSWbqc3ml1Z92Q2CP4Gup85bHj3uLzaFvJDNOLGOUnfeSakrhdgTx7bvueIxu+WY+n
-         eliQ==
-X-Gm-Message-State: AOJu0Yyo6Pg9ZvobKl4sv6Ur6zBpr4FlSHJo0aqa+ZqT0GAZzW+BihMQ
-	tqxCdJPFlFNJaT/i3nICsnxpmc4Qwhg1moaDP+kZcrWHgOKcGSGG20gorwHaIZUSUAmCD5WQkVA
-	n
-X-Google-Smtp-Source: AGHT+IHanznJXoEAKFu9xGYLOozAL3YSJAxnkwBUqHFUzVHNOK2YJ9GOS+Ts4FoERT+fosbTZXX7Cw==
-X-Received: by 2002:a05:600c:1910:b0:41a:e5f5:99f8 with SMTP id j16-20020a05600c191000b0041ae5f599f8mr2094278wmq.18.1714126437485;
-        Fri, 26 Apr 2024 03:13:57 -0700 (PDT)
-Received: from P-ASN-MOON.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id w17-20020a05600c475100b004162d06768bsm34254171wmo.21.2024.04.26.03.13.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 03:13:57 -0700 (PDT)
-From: Alexandre Truong <alexandre.truong@smile.fr>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BEE02F4;
+	Fri, 26 Apr 2024 03:40:33 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCF433F64C;
+	Fri, 26 Apr 2024 03:40:04 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Truong <alexandre.truong@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v2 2/2] Revert "oeqa/selftest/devtool: fix test_devtool_add_git_style2"
-Date: Fri, 26 Apr 2024 12:13:38 +0200
-Message-Id: <20240426101338.12673-2-alexandre.truong@smile.fr>
+Cc: nd@arm.com
+Subject: [PATCH][master scarthgap] procps: fix build with new glibc but old kernel headers
+Date: Fri, 26 Apr 2024 10:40:01 +0000
+Message-Id: <20240426104001.3076365-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240426101338.12673-1-alexandre.truong@smile.fr>
-References: <20240426101338.12673-1-alexandre.truong@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 10:14:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198720
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 10:40:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198721
 
-This reverts commit ab6d3e3d645ffc343f434bf731339fa237df027a
-from poky repository.
+If you're building procps with a newer glibc (with pidfd_open()) but
+older kernel headers (say 4.x, before __NR_pidfd_open) then procps will
+fail to build because of a typo in configure.ac.
 
-The previous reverted commit was a workaround. The fix
-"oeqa/selftest/devtool: fix _test_devtool_add_git_url"
-tackle the issue. So, the workaround is not needed anymore.
-
-Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../procps/procps/pidfd.patch                 | 25 +++++++++++++++++++
+ meta/recipes-extended/procps/procps_4.0.4.bb  |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/pidfd.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 5475c029b7..c8f9534e41 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -486,7 +486,7 @@ class DevtoolAddTests(DevtoolBase):
-         pn = 'mbedtls'
-         # this will trigger reformat_git_uri with branch parameter in url
-         git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
--        resulting_src_uri = "gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-+        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri, srcrev)
- 
-     def test_devtool_add_library(self):
--- 
+diff --git a/meta/recipes-extended/procps/procps/pidfd.patch b/meta/recip=
+es-extended/procps/procps/pidfd.patch
+new file mode 100644
+index 00000000000..4c19043496b
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/pidfd.patch
+@@ -0,0 +1,25 @@
++From c8f625e085b8249cc009e8b19c3a19100217eb35 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Thu, 25 Apr 2024 13:33:15 +0000
++Subject: [PATCH] Fix pidfd_open detection
++
++This check for pidfd_open uses AC_CHECK_FUNC which just runs the specifi=
+ed code, but=20
++src/pgrep.c checks HAVE_PIDFD_OPEN which will only be defined by AC_CHEC=
+K_FUNCS.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++
++diff --git a/configure.ac b/configure.ac
++index fec27e3f..024731c7 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -170,7 +170,7 @@ AC_TRY_COMPILE([#include <errno.h>],
++ 		AC_MSG_RESULT(yes),
++ 		AC_MSG_RESULT(no))
++=20
++-AC_CHECK_FUNC([pidfd_open], [enable_pidwait=3Dyes], [
+++AC_CHECK_FUNCS([pidfd_open], [enable_pidwait=3Dyes], [
++   AC_MSG_CHECKING([for __NR_pidfd_open])
++   AC_COMPILE_IFELSE([AC_LANG_SOURCE([
++ #include <sys/syscall.h>
+diff --git a/meta/recipes-extended/procps/procps_4.0.4.bb b/meta/recipes-=
+extended/procps/procps_4.0.4.bb
+index 800384f22f7..ec8c4b0261b 100644
+--- a/meta/recipes-extended/procps/procps_4.0.4.bb
++++ b/meta/recipes-extended/procps/procps_4.0.4.bb
+@@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
+=20
+ SRC_URI =3D "git://gitlab.com/procps-ng/procps.git;protocol=3Dhttps;bran=
+ch=3Dmaster \
+            file://sysctl.conf \
++           file://pidfd.patch \
+            "
+ SRCREV =3D "4ddcef2fd843170c8e2d59a83042978f41037a2b"
+=20
+--=20
 2.34.1
 
 
