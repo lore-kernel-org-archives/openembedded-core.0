@@ -1,1162 +1,465 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 228B6C4345F
-	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 04:21:43 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.6298.1714105295669619823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41934C4345F
+	for <webhook@archiver.kernel.org>; Fri, 26 Apr 2024 04:51:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by mx.groups.io with SMTP id smtpd.web10.6446.1714107100435265973
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Apr 2024 21:21:36 -0700
+ Thu, 25 Apr 2024 21:51:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bqyIAvjI;
- spf=pass (domain: mvista.com, ip: 209.85.208.172, mailfrom: vkumbhar@mvista.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2dae975d0dcso28920741fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Apr 2024 21:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1714105294; x=1714710094; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Fo8EP87Qw4w7GOodorfHeDaAyJCkLLL92AtGzM4LYE=;
-        b=bqyIAvjI9clVQNS/PXr9oVQEPFUwmUE4FpHh9La6SKKyaT95E5bSTxPSEMVTDskUmO
-         VKWlBVRTYE6RNTHDbbNiKJJk/IRMgNjhftBNNaztt/V6bTMJaTtjHyeEG35dmRiHKUlG
-         6yclfviJmwIbqAjr3tDRVRRL5P+lMArULtx+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714105294; x=1714710094;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4Fo8EP87Qw4w7GOodorfHeDaAyJCkLLL92AtGzM4LYE=;
-        b=gB6+n6zi+iFjYXVHtQb48bgAFTHa3hc0jhwIWVBnJh1ByCpkPyiQTeDTZpP+PrYyLU
-         Dx+F1KEzE+wzf13Pae0/PqKKgsR3ocLjqBr29E6M4EzHV6GXm3T4GIcT1Whp4PiutP5z
-         Q6S8YF2qwDhph3AS9u/pHFS0dTOSmLFJJYWe1rj+wZ4wiqb9hPh8sENuEBkTpC6VgJja
-         Vz6fdzDgqPg+5AUU01otmF2J6dAQgVUNSW0MRKRd/UaBBTsH8J9nwOrNGhEt9/h17m5Q
-         RfmqpGTzhGUjTseaoebTOc7rAwMwLx2/aQ+x0LZnTPRZnCCFTRgV+M9mxiPIJXpwL5qB
-         EJbg==
-X-Gm-Message-State: AOJu0YwPvw1PHTy/rlgdDPX8wupcU35VnpzR1CuOM11jLjgfcmjhyQ5Y
-	qCbsYzKsrL+UIfIX2rrRcR8nC1c6rlZLvJiuPsS1WxYbPk/oMHwMGU/thRubHf/mwCo6lccCpkY
-	r1PRk2ipQwvwEJEfi+Mr1yuHbqB6JeCzGOkBz9w==
-X-Google-Smtp-Source: AGHT+IHsMRMdwUyIFjhQoFoVGxi8Jzy5tRoC/omSMwd9+CB2K9KtCKrQRq1SZH/7hju/xFHfb3zWZy0Hq/rY0Ro8Y+E=
-X-Received: by 2002:a05:651c:2129:b0:2dd:1f7c:d573 with SMTP id
- a41-20020a05651c212900b002dd1f7cd573mr612934ljq.19.1714105293111; Thu, 25 Apr
- 2024 21:21:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240423162844.1563233-1-vkumbhar@mvista.com> <CAOSpxdZYEQCU6ufL=ngA1kZ26XEE1kUsX8duaPMpekffTNJrhQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZYEQCU6ufL=ngA1kZ26XEE1kUsX8duaPMpekffTNJrhQ@mail.gmail.com>
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-Date: Fri, 26 Apr 2024 09:51:21 +0530
-Message-ID: <CAPun1rGTnKvF5jxy6w0vTCFeqEPdcDK6nECeVGxD6hHMZCzm9A@mail.gmail.com>
+ dkim=pass header.i=@intel.com header.s=Intel header.b=HjEsoJv+;
+ spf=pass (domain: intel.com, ip: 192.198.163.11, mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714107100; x=1745643100;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:content-transfer-encoding:mime-version;
+  bh=HP3v+clzHDRDso2B9csdyz+NcA31bejY1XDloly/CMA=;
+  b=HjEsoJv+qnz7LXRyKJxRdJoMyCuuC2QsLSgMVm5L8Wsy/i+J/yJhGCK+
+   2v6MLP5izYc32th+PEuctG6wcp58KWp3ErqAKfLqUyBejLidHQkEZUn5h
+   ey6ZrPvLPg0HK/tG2qLN5TW8FJnCVUTK/pfX5IyhlHX+ryGxIuQjF2oeo
+   BoVg0qo+UeL4uOf90I0s8vHLYeO41YIRX1r+of3AcbTYYFmdB5zLHO7QT
+   DS7Lnd/3cQwTJues3zVU/xppK0oqRK4deT70kYJkHjcTx9PPeBFj0ybjl
+   dgyXYyhP/qFFmJBsSqUUI94XfPEdhJhV9EmWg0jEgdFsgjrdTQmp01Qsw
+   Q==;
+X-CSE-ConnectionGUID: 12aVSHV4RDqJzwf4G1PHFw==
+X-CSE-MsgGUID: KJ3MMc01SvqgU46WKXT8YA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20445238"
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
+   d="scan'208";a="20445238"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 21:51:40 -0700
+X-CSE-ConnectionGUID: dsyuAv9IRgif0ljBxQmJPw==
+X-CSE-MsgGUID: 8oXlgVe5ThO689MtWIlu5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
+   d="scan'208";a="25721436"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Apr 2024 21:51:41 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 25 Apr 2024 21:51:39 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 25 Apr 2024 21:51:39 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 25 Apr 2024 21:51:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gvf3J5UBvunZZZlBh6lB6Jg2D0V6R96dgLhNeDNnROJkHOPAqWUYRAwSe3rptqNgOyxzpuS0G65dLZ+cJpWFvFbSilT8xlpH6bPjBLyFJtwhV2UuB2JqOQsKsltlgYcY/WMsD0huQX6nXcg96pUY4h4WQ4pHO0foJZIaCilTjM/Oh3jhnGTWr6smufK7CdqCmE6McvJitDQJhr5E3D4LjykICQ7ENFnNXx5oFNCYC0qSTf2/WwjlQZ/hAD4n89UXSUQprVpvgQGtPTq/haVpZBkfKbDQRJAB/01zElfWLO8A0sZKKju24xuy2/MXIf+QEqH4gb+SQ4tiB+hbAY9lAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HP3v+clzHDRDso2B9csdyz+NcA31bejY1XDloly/CMA=;
+ b=kgdvJu7xxHaABNkivqIDLMj3UBd6fFw8wiLA3gA1xkcu2oFv0hxnjYs8MaODRUOl38UKpQjFIQqCCel1Vtz5ngQ8v/2RJ4d+DgrpMQL714qaOt4naJUpSZ+BKNMX4hb75LeJVaUUrOyXNqeyVfZra2XuPIwiKcURP/x9b2qj1YX6i7bBYOB682/MAcEnntZ2EZt4Yb2dMHb/F5FYmqfMv5sk3+XJaT8EZP0y+5/Ws69dEIxeNdHIjG3hOkKEQ7jDwPRuUxikSxFkhK67xvwdbspdbFp0uNNKegrzC2PfUh9hxYJ3DfAcbZnJPqnRoQ8+fSFKOqYo+FYCNnzSdaiDHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB6430.namprd11.prod.outlook.com (2603:10b6:8:b6::15) by
+ CO1PR11MB5105.namprd11.prod.outlook.com (2603:10b6:303:9f::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7519.22; Fri, 26 Apr 2024 04:51:37 +0000
+Received: from DM4PR11MB6430.namprd11.prod.outlook.com
+ ([fe80::9378:e70c:77ca:d46f]) by DM4PR11MB6430.namprd11.prod.outlook.com
+ ([fe80::9378:e70c:77ca:d46f%7]) with mapi id 15.20.7519.021; Fri, 26 Apr 2024
+ 04:51:37 +0000
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "vkumbhar@mvista.com"
+	<vkumbhar@mvista.com>
 Subject: Re: [OE-core][kirkstone][PATCH] rpm: Backport fix CVE-2021-35939
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001aa85e0616f83dda"
+Thread-Topic: [OE-core][kirkstone][PATCH] rpm: Backport fix CVE-2021-35939
+Thread-Index: AQHalZuikCDjUDSNZEKCG6saN6SIobF5/54A
+Date: Fri, 26 Apr 2024 04:51:37 +0000
+Message-ID: <59cf831f7d8dadce20b47f284b234a74961917cc.camel@intel.com>
+References: <20240423162844.1563233-1-vkumbhar@mvista.com>
+In-Reply-To: <20240423162844.1563233-1-vkumbhar@mvista.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6430:EE_|CO1PR11MB5105:EE_
+x-ms-office365-filtering-correlation-id: 50d66126-09d3-42f9-9e33-08dc65ac8e02
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?MktHTDhkQWNrRm14WnM1OHdyd1VHcHNpQ0xGM0dlMTMzUy8rVXNMVzUzcWlL?=
+ =?utf-8?B?TUROVjVhTUdwS1ZBbVkzeWZiVElqb2wxb3BoSWdzcXdvTmVYYjNCTVpxNUFW?=
+ =?utf-8?B?cTdqNHFQTlFOMVFEdEV2c1JGUkVrUENhVG10Q3NHdXhBbXNlUzZXdi9HblhJ?=
+ =?utf-8?B?dGtiK1VQODJIS0QvRUF0MnEzM0h4SzZrRzF2cXV2bzdod0ZadGpoUkhpWXRT?=
+ =?utf-8?B?UnVxUzE0Y0pubExHQ2MrMUlZRmhZVzJLQ1dnSXlSYzhnYWR1endaT0FGUmlp?=
+ =?utf-8?B?dEpSNytiRjRZMi9SRmd6SUdiYWtJREhGQTFubWRmK0htQkdBelNpL2tFS0NJ?=
+ =?utf-8?B?WXpycVA4ZVc2cW16dVdzaXZzZ01IS3h4M0o5Zi91UDhhVGRSaTdzRUFnNWF0?=
+ =?utf-8?B?VkNuNm9VNnNES2pVa1JDS0xYcHF1SlVxa0thSTZxK0F0dmVMeU01OUNTa1Fu?=
+ =?utf-8?B?RXhUU1lac3J1UUZUbG13bm5ESjhHOEhtbGp3Nm1ZZ0NWZDdrV1JTRVFUZ0t6?=
+ =?utf-8?B?UlZwMEsyWXdjb0lCVk1hK2ZidHMzamN3NnZUa2lVYk5WM2xFSEV4Zm9hNnJN?=
+ =?utf-8?B?WEl2eGtXdld4WGhSNXZiR3hoTndJNTlVZy9DTnBjblFQZGFvdklQbkUzTDR5?=
+ =?utf-8?B?NHBWTXR4TDZraGl5bDBpUEIrOFJsaC9XWWQwMnBhbXVSVVJDaktvYmVzQTlF?=
+ =?utf-8?B?RmZWcWNNN1ZLT2xXTmExL3MzSndsNUxhR0lnOHQyYzBQbXpTVXg2SklxcUNz?=
+ =?utf-8?B?dWVSYjVWSjB4TUNSMm9XUXN6NllVRzlRVjN6Yi9BSC9tU21QSVBSbDU0WjJi?=
+ =?utf-8?B?YmpmSmUyZDRnYWs1a2M4RFYySnAyZFJrNFRCeTA0ZTZMNWVVVjhINUFQQXNs?=
+ =?utf-8?B?UDZ3TVJNdnlZc1d6Z1NwRUUybU8rdkdnbTVQUm1NRFBsenNDckE5U2tJSEla?=
+ =?utf-8?B?VE05SmhvMDFRdTRJc1VqQzloN0lVejBzZWhDVmJXY0FvMk92MGhIcytDdUxt?=
+ =?utf-8?B?eWNXQktyd3VyZ21zWmdKM1VsYmJFVnh0NkkzU00yMlhiVW54MFQ1NEE3Q0c3?=
+ =?utf-8?B?MEtqdnAvMGZpMGdNRHFRek9oT1MzV1V1REwvUTUzenlET1VMVDJGc1V4VjQw?=
+ =?utf-8?B?cTRTSENXOS9XQSs1OUxTMlBkZ083N1RwcXJFSDdsdkxFbzRxYk16UlVxSDYw?=
+ =?utf-8?B?aVFoclBWSDVjMnBvSzhmSk5JZzhXNzdxckJXQkFUZlNwV0ZJVThabTdXMWZO?=
+ =?utf-8?B?N1UveXhwL2kxaTlnRjNxb0ZicnpiWnZaREZFUWp0VmtFbUMrc2JjcnF3R1dt?=
+ =?utf-8?B?YjAzN2NVK2s3MnJ0KzRGbGZZUG1ZQ09XVDFZNFNjWUpGOXZLNjQ4aytEa0ZB?=
+ =?utf-8?B?bGxpVHZUKzVvaEg4N0Q5QnFEZjE1OE0yVlNxU0tzZ0dQYi9WVkpqUlJIMitK?=
+ =?utf-8?B?dXhabDlWb0NDQnpwNXhiNXNEN0JiVjIzcXRSaEY0TzJsWUdTNFJhVGJGello?=
+ =?utf-8?B?ZFR1dGRGM2gyMmQ2ZDYyUXFrZHpSb0NKbVVxbWRUekM3TGE5dU44Z1orZUtt?=
+ =?utf-8?B?QnRqcStKZ1pDNkowOFdKVGxDb2k0bTJxWTh1eVdoWXJTSkxXM1JrSmEvMGlI?=
+ =?utf-8?B?SEZJVEt0dC9Pa2dvblhnWDZMSnNxamYxd0s5Q3pGOElpWmcvRXJVd0hwT2tn?=
+ =?utf-8?B?bGtsZmpZUTRnWHErN3l5UlNUcE9nVW42eStCUjNvd1RXRDRuSCtpRkE0cStV?=
+ =?utf-8?Q?h1CprizwFDtO78wJQg=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VDhOV0haSWNudW12NlI4RnN5RlVIaEp1MWFXTXU5UEdEbXVXSjdJRjRzc2VW?=
+ =?utf-8?B?NUZIRTZnZXU5T3BjQjJlVEJFT1FhRFR3Qk1ia0hTcmFIcmNUMWltQUVVa015?=
+ =?utf-8?B?NFNUMjNKQ2ZEY1VlakkvdTZmbmZIZVNLREsvcTBBSmVIeGZkRlloUEV5U0dn?=
+ =?utf-8?B?MFd6NXNGK0lpZmdaUUNpZEpJck1BLy9VTzNJbTlOekRPM0RScG14ZUNRN2w1?=
+ =?utf-8?B?RFpXRkRVK2NoQ285THNzOGxmOHFnaGNrMnExRTNudVk0T281eUh5c0JTMnY1?=
+ =?utf-8?B?WmVpRTF2ZDF3aUV5SWpBRUU2TW5yRHh1ZXhIeHpLd3Q2ejdmakY4VG9Vd3hY?=
+ =?utf-8?B?NGtLT0Y2TUYxR1JDVCt3a3ZvMXJLdEQ5cXF4Nmc5MzRYdXlBZEZ1cGI4NTJF?=
+ =?utf-8?B?RnV3bDJUbEZOQWtYT0g2MHhoMlFpY29ZQ0ZrYXFZNEt4SEZBWEgxSE5rQnFS?=
+ =?utf-8?B?SFVtTHo5WGp1ZGlYeWh5WnRUNURaMVJBdUtNWFFDY3cvK0F3Z0ZzTEk2WlI1?=
+ =?utf-8?B?cFdCRkxYckFVVlo1cjhFSEV0U0pVam5xRjJvdzVKaWlVNE5aMklmcmNFT0xW?=
+ =?utf-8?B?R0pwajRvM25RVitENU5oVUI3OUZDdXlpaUQ0dHV1MkY3SHZhQUxJTG81UC95?=
+ =?utf-8?B?QThnRFZPTHh6OHJmYWtBZ0tQMXdnaUxDallkNGRTTlV6VGlSSGtFcHlVZVNI?=
+ =?utf-8?B?U0pjalQzQmdVbC9DSFRJZkVkb0NGaVdoQUFlZXdVVitSc1ZnczFjd0toRjZn?=
+ =?utf-8?B?dVVjS0RDUmtYSVpHdHM1dzJMVzBIOWRqVGlremJ6cjIxcjVjM0pjOFQ0NmZw?=
+ =?utf-8?B?QWhIaDlkZHBOUEs1K0JVQXg0VCt4OXV2VDYwVFRtOHVxMDJ3WGFmMzBWVmtU?=
+ =?utf-8?B?YWFETXA5WnQwMElvOStERks4NVdOUU11VTRWRW9QbGkwOW1CV0lCTkpabzRJ?=
+ =?utf-8?B?dUNBemhTK0g2OU41ZUI1cHhRc0t4ZjBod3U0bk9iNS8zTXEzcTRjeExWam9x?=
+ =?utf-8?B?QkdiM1VUcGFVTElLUWNrN0k3NW9MVjI5WGF6K2NMOG1DN3g5eGs0UmxKU25a?=
+ =?utf-8?B?ektDQmtubnBTbmttUjMrTHc5Rlgxd3FUM2svK0I2TlBwYlZsek1xSXJvNkJQ?=
+ =?utf-8?B?Slg4NitoODY1cVFqSHhFZCtRM2xqQWp3Wmw3SnEzclV4YXEyQzNpVFBqZWxp?=
+ =?utf-8?B?N0d6TjlvYTVsdG1ET0hIM08vSG5iQldRaXJuZE1PVjJoQ2RrZlA3R1FHZjhX?=
+ =?utf-8?B?OVdNWm4wQllhOFg3aFl5OFlSSXRkRDEzWmQyQUxKbWRnOUViS1RDd2tiT1BP?=
+ =?utf-8?B?dDRsTkcycm4yeE9RazdkZ0haeUw0QitvTmkwd1Y1YklUQUd6UnhadFJoQmRQ?=
+ =?utf-8?B?YXdFeXNQcTNhTGx5eUlXTHFKTGpVSWJyUGVMa2dRWVpERmJQb3lCNnRYcUI5?=
+ =?utf-8?B?Q1JITmJyc2dyd2tmdHQxUGZSNkVkOUdHMU9RYTV6czBxWVErQis3ZCs3SFdW?=
+ =?utf-8?B?NUV1Q050TUp4QUpOMEMzb3lKb0xxUHBjRGVxQTlqNDhBZUdVb2ZtSFF0ekFB?=
+ =?utf-8?B?MVMvUzhIOHByVzhsL2Y1QkllK1pwZjRvcXV4b0dwUzFtMXlrMW0xOU9GYWp0?=
+ =?utf-8?B?T1FXQTNnQkcxZHVFTlVkQkNLZTBSbUtzQ1lpTENWNFhaZkRJM3FKRDcrb2V4?=
+ =?utf-8?B?MFJodVo4eDZOSklBcGVJVXRBY2xEYVpsb2cvcE53aXAwY1JJQlpEVTRzK0Zz?=
+ =?utf-8?B?NEZPR01TUS9BQ3EzNm8rNVVjYnZIbFZhUXBpc1NPaW1KNDNGbmtyaXB2V2xS?=
+ =?utf-8?B?RnptbmVKZGgvQXZtNVFDZy9WZ2taKzM4aVkrQy9ZUnYxRm1PWm16RTdKaDFu?=
+ =?utf-8?B?amxJK1pEUkF0TlIrVGxMYXZsTXVBQ0J3bnN6dzRBMTJTNGtzZ1hhNGNIVGR1?=
+ =?utf-8?B?OG1CTmZ2dzRLTjcxcEdsWnoxNklNY29BTjNCUktOTVVoQTQwM3ZRSmMrY3ZD?=
+ =?utf-8?B?L2RnblJpSTBqVzhPMTRPNXl1RGwxc3VFUk5nYjJYS3JrVGkyYXpVeDQwdTBq?=
+ =?utf-8?B?NUs1WGd0ZUVTMXNjQitGZ0ZBYWE3MVlkOWdhTXZtZlAwMDBMWW85Zjh2S05R?=
+ =?utf-8?B?eE9uZzdnSzhyMDNkdmZrTG8vZ0JXQXU5cFp6MCtBdFpkaG5CLzByN1RsSVBx?=
+ =?utf-8?B?eTdlZFQ5OUYvNEprQUZ4MVByTUZOZ0RXeUhYZ1JvRXB1czVGam1odmo5UmZz?=
+ =?utf-8?B?alJxUk1zWWFHTGpZRDVFaXlpRmhRPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3DFD85C18247CD4189F086BA37B5CCCE@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50d66126-09d3-42f9-9e33-08dc65ac8e02
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2024 04:51:37.0846
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J2hNp9lhC2ycD8GxrXE623g1OYHV9kEr327njRypc45dl4/r4L595LOOCjPAx90DlO2Sn9Mu5i3m9VR0lchCvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5105
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 04:21:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198710
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Apr 2024 04:51:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198711
 
---0000000000001aa85e0616f83dda
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Okay, Will correct and send V2.
-
-Thanks,
-Vivek
-
-On Fri, Apr 26, 2024 at 1:29=E2=80=AFAM Steve Sakoman <steve@sakoman.com> w=
-rote:
-
-> This patch caused multiple build failures both locally and on the
-> autobuilder.
->
-> Here is a link to the autobuilder run:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6845
->
-> Sample error log:
->
-> https://errors.yoctoproject.org/Errors/Details/763370/
->
-> Steve
->
-> On Tue, Apr 23, 2024 at 9:30=E2=80=AFAM Vivek Kumbhar via
-> lists.openembedded.org <vkumbhar=3Dmvista.com@lists.openembedded.org>
-> wrote:
-> >
-> > Upstream-Status: Backport
-> https://github.com/rpm-software-management/rpm/commit/96ec957e281220f8e13=
-7a2d5eb23b83a6377d556
-> >
-> https://github.com/rpm-software-management/rpm/commit/fb13f7fd9eff012cb7b=
-9dbf94ac5381c69404055
-> >
-> > Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> > ---
-> >  .../rpm/files/CVE-2021-35939.patch            | 378 ++++++++++++++++++
-> >  meta/recipes-devtools/rpm/rpm_4.17.1.bb       |   1 +
-> >  2 files changed, 379 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-35939.patc=
-h
-> >
-> > diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch
-> b/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch
-> > new file mode 100644
-> > index 0000000000..b60cc0e5ce
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch
-> > @@ -0,0 +1,378 @@
-> > +From 96ec957e281220f8e137a2d5eb23b83a6377d556 Mon Sep 17 00:00:00 2001
-> > +From: Panu Matilainen <pmatilai@redhat.com>
-> > +Date: Thu, 10 Feb 2022 14:32:43 +0200
-> > +Subject: [PATCH] Validate intermediate symlinks during installation,
-> > + CVE-2021-35939
-> > +
-> > +Whenever directory changes during unpacking, walk the entire tree from
-> > +starting from / and validate any symlinks crossed, fail the install
-> > +on invalid links.
-> > +
-> > +This is the first of step of many towards securing our file operations
-> > +against local tamperers and besides plugging that one CVE, paves the w=
-ay
-> > +for the next step by adding the necessary directory fd tracking.
-> > +This also bumps the rpm OS requirements to a whole new level by
-> requiring
-> > +the *at() family of calls from POSIX-1.2008.
-> > +
-> > +This necessarily does a whole lot of huffing and puffing we previously
-> > +did not do. It should be possible to cache secure (ie root-owned)
-> > +directory structures to avoid validating everything a million times
-> > +but for now, just keeping things simple.
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/rpm-software-management/rpm/commit/96ec957e281220f8e13=
-7a2d5eb23b83a6377d556
-> ]
-> > +CVE: CVE-2021-35939
-> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> > +---
-> > + INSTALL              |   2 +
-> > + configure.ac         |   3 +-
-> > + lib/fsm.c            | 144 +++++++++++++++++++++++++++++++++++++++++-=
--
-> > + lib/rpmfi.c          |  27 +++++++-
-> > + lib/rpmfi_internal.h |  17 +++++
-> > + 5 files changed, 183 insertions(+), 10 deletions(-)
-> > +
-> > +diff --git a/INSTALL b/INSTALL
-> > +index 358e5ae0d..9a9c7b0d0 100644
-> > +--- a/INSTALL
-> > ++++ b/INSTALL
-> > +@@ -103,6 +103,8 @@ option to configure).  For GCC, OpenMP 4.5 is full=
-y
-> supported since GCC 6.1,
-> > + which is available from
-> > +     http://www.gnu.org/
-> > +
-> > ++Rpm requires a POSIX.1-2008 level operating system.
-> > ++
-> > + To compile RPM:
-> > + --------------
-> > +
-> > +diff --git a/configure.ac b/configure.ac
-> > +index 78c555f90..4ddacdfe2 100644
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -570,7 +570,8 @@ AC_CHECK_FUNCS([secure_getenv __secure_getenv])
-> > +
-> > + AC_CHECK_FUNCS(
-> > +    [mkstemp getcwd basename dirname realpath setenv unsetenv regcomp
-> lchown \
-> > +-    utimes getline localtime_r statvfs getaddrinfo ],
-> > ++    utimes getline localtime_r statvfs getaddrinfo \
-> > ++    openat mkdirat fstatat ],
-> > +    [], [AC_MSG_ERROR([function required by rpm])])
-> > +
-> > + AC_LIBOBJ(fnmatch)
-> > +diff --git a/lib/fsm.c b/lib/fsm.c
-> > +index 935a0a5c6..0b29284e8 100644
-> > +--- a/lib/fsm.c
-> > ++++ b/lib/fsm.c
-> > +@@ -8,6 +8,7 @@
-> > + #include <inttypes.h>
-> > + #include <utime.h>
-> > + #include <errno.h>
-> > ++#include <fcntl.h>
-> > + #if WITH_CAP
-> > + #include <sys/capability.h>
-> > + #endif
-> > +@@ -20,6 +21,7 @@
-> > + #include "rpmio/rpmio_internal.h"     /* fdInit/FiniDigest */
-> > + #include "lib/fsm.h"
-> > + #include "lib/rpmte_internal.h"       /* XXX rpmfs */
-> > ++#include "lib/rpmfi_internal.h" /* rpmfiSetOnChdir */
-> > + #include "lib/rpmplugins.h"   /* rpm plugins hooks */
-> > + #include "lib/rpmug.h"
-> > +
-> > +@@ -406,17 +408,118 @@ static int fsmRmdir(const char *path)
-> > +     return rc;
-> > + }
-> > +
-> > +-static int fsmMkdir(const char *path, mode_t mode)
-> > ++static int fsmMkdir(int dirfd, const char *path, mode_t mode)
-> > + {
-> > +-    int rc =3D mkdir(path, (mode & 07777));
-> > ++    int rc =3D mkdirat(dirfd, path, (mode & 07777));
-> > +     if (_fsm_debug)
-> > +-      rpmlog(RPMLOG_DEBUG, " %8s (%s, 0%04o) %s\n", __func__,
-> > +-             path, (unsigned)(mode & 07777),
-> > ++      rpmlog(RPMLOG_DEBUG, " %8s (%d %s, 0%04o) %s\n", __func__,
-> > ++             dirfd, path, (unsigned)(mode & 07777),
-> > +              (rc < 0 ? strerror(errno) : ""));
-> > +     if (rc < 0)       rc =3D RPMERR_MKDIR_FAILED;
-> > +     return rc;
-> > + }
-> > +
-> > ++static int fsmOpenat(int dirfd, const char *path, int flags)
-> > ++{
-> > ++    struct stat lsb, sb;
-> > ++    int sflags =3D flags | O_NOFOLLOW;
-> > ++    int fd =3D openat(dirfd, path, sflags);
-> > ++
-> > ++    /*
-> > ++     * Only ever follow symlinks by root or target owner. Since we
-> can't
-> > ++     * open the symlink itself, the order matters: we stat the link
-> *after*
-> > ++     * opening the target, and if the link ownership changed between
-> the calls
-> > ++     * it could've only been the link owner or root.
-> > ++     */
-> > ++    if (fd < 0 && errno =3D=3D ELOOP && flags !=3D sflags) {
-> > ++      int ffd =3D openat(dirfd, path, flags);
-> > ++      if (ffd >=3D 0 && fstatat(dirfd, path, &lsb, AT_SYMLINK_NOFOLLO=
-W)
-> =3D=3D 0) {
-> > ++          if (fstat(ffd, &sb) =3D=3D 0) {
-> > ++              if (lsb.st_uid =3D=3D 0 || lsb.st_uid =3D=3D sb.st_uid)=
- {
-> > ++                  fd =3D ffd;
-> > ++              } else {
-> > ++                  close(ffd);
-> > ++              }
-> > ++          }
-> > ++      }
-> > ++    }
-> > ++    return fd;
-> > ++}
-> > ++
-> > ++static int fsmDoMkDir(rpmPlugins plugins, int dirfd, const char *dn,
-> > ++                      int owned, mode_t mode)
-> > ++{
-> > ++    int rc;
-> > ++    rpmFsmOp op =3D (FA_CREATE);
-> > ++    if (!owned)
-> > ++      op |=3D FAF_UNOWNED;
-> > ++
-> > ++    /* Run fsm file pre hook for all plugins */
-> > ++    rc =3D rpmpluginsCallFsmFilePre(plugins, NULL, dn, mode, op);
-> > ++
-> > ++    if (!rc)
-> > ++      rc =3D fsmMkdir(dirfd, dn, mode);
-> > ++
-> > ++    if (!rc) {
-> > ++      rc =3D rpmpluginsCallFsmFilePrepare(plugins, NULL, dn, dn, mode=
-,
-> op);
-> > ++    }
-> > ++
-> > ++    /* Run fsm file post hook for all plugins */
-> > ++    rpmpluginsCallFsmFilePost(plugins, NULL, dn, mode, op, rc);
-> > ++
-> > ++    if (!rc) {
-> > ++      rpmlog(RPMLOG_DEBUG,
-> > ++              "%s directory created with perms %04o\n",
-> > ++              dn, (unsigned)(mode & 07777));
-> > ++    }
-> > ++
-> > ++    return rc;
-> > ++}
-> > ++
-> > ++static int ensureDir(rpmPlugins plugins, const char *p, int owned, in=
-t
-> create)
-> > ++{
-> > ++    char *path =3D xstrdup(p);
-> > ++    char *dp =3D path;
-> > ++    char *sp =3D NULL, *bn;
-> > ++    int oflags =3D O_RDONLY;
-> > ++
-> > ++    int dirfd =3D fsmOpenat(-1, "/", oflags);
-> > ++    int fd =3D dirfd; /* special case of "/" */
-> > ++
-> > ++    while ((bn =3D strtok_r(dp, "/", &sp)) !=3D NULL) {
-> > ++      struct stat sb;
-> > ++      fd =3D fsmOpenat(dirfd, bn, oflags);
-> > ++
-> > ++      if (fd < 0 && errno =3D=3D ENOENT && create) {
-> > ++          mode_t mode =3D S_IFDIR | (_dirPerms & 07777);
-> > ++          if (fsmDoMkDir(plugins, dirfd, bn, owned, mode) =3D=3D 0) {
-> > ++              fd =3D fsmOpenat(dirfd, bn, oflags|O_NOFOLLOW);
-> > ++          }
-> > ++      }
-> > ++
-> > ++      if (fd >=3D 0 && fstat(fd, &sb) =3D=3D 0 && !S_ISDIR(sb.st_mode=
-)) {
-> > ++          close(fd);
-> > ++          errno =3D ENOTDIR;
-> > ++          fd =3D -1;
-> > ++      }
-> > ++
-> > ++      close(dirfd);
-> > ++      if (fd >=3D 0) {
-> > ++          dirfd =3D fd;
-> > ++      } else {
-> > ++          dirfd =3D -1;
-> > ++          rpmlog(RPMLOG_ERR, _("failed to open dir %s of %s: %s\n"),
-> > ++                              bn, p, strerror(errno));
-> > ++          break;
-> > ++      }
-> > ++
-> > ++      dp =3D NULL;
-> > ++    }
-> > ++
-> > ++    free(path);
-> > ++    return dirfd;
-> > ++}
-> > ++
-> > + static int fsmMkfifo(const char *path, mode_t mode)
-> > + {
-> > +     int rc =3D mkfifo(path, (mode & 07777));
-> > +@@ -507,7 +610,7 @@ static int fsmMkdirs(rpmfiles files, rpmfs fs,
-> rpmPlugins plugins)
-> > +               rc =3D rpmpluginsCallFsmFilePre(plugins, NULL, dn, mode=
-,
-> op);
-> > +
-> > +               if (!rc)
-> > +-                  rc =3D fsmMkdir(dn, mode);
-> > ++                  rc =3D fsmMkdir(-1, dn, mode);
-> > +
-> > +               if (!rc) {
-> > +                   rc =3D rpmpluginsCallFsmFilePrepare(plugins, NULL, =
-dn,
-> dn,
-> > +@@ -874,6 +977,21 @@ static void setFileState(rpmfs fs, int i)
-> > +     }
-> > + }
-> > +
-> > ++struct diriter_s {
-> > ++    int dirfd;
-> > ++};
-> > ++
-> > ++static int onChdir(rpmfi fi, void *data)
-> > ++{
-> > ++    struct diriter_s *di =3D data;
-> > ++
-> > ++    if (di->dirfd >=3D 0) {
-> > ++      close(di->dirfd);
-> > ++      di->dirfd =3D -1;
-> > ++    }
-> > ++    return 0;
-> > ++}
-> > ++
-> > + int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-> > +               rpmpsm psm, char ** failedFile)
-> > + {
-> > +@@ -890,6 +1008,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te,
-> rpmfiles files,
-> > +     char *tid =3D NULL;
-> > +     struct filedata_s *fdata =3D xcalloc(fc, sizeof(*fdata));
-> > +     struct filedata_s *firstlink =3D NULL;
-> > ++    struct diriter_s di =3D { -1 };
-> > +
-> > +     /* transaction id used for temporary path suffix while installing
-> */
-> > +     rasprintf(&tid, ";%08x", (unsigned)rpmtsGetTid(ts));
-> > +@@ -929,6 +1048,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te,
-> rpmfiles files,
-> > +         rc =3D RPMERR_BAD_MAGIC;
-> > +         goto exit;
-> > +     }
-> > ++    rpmfiSetOnChdir(fi, onChdir, &di);
-> > +
-> > +     /* Detect and create directories not explicitly in package. */
-> > +     if (!rc)
-> > +@@ -943,6 +1063,16 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te,
-> rpmfiles files,
-> > +           if (!fp->suffix) {
-> > +               rc =3D fsmBackup(fi, fp->action);
-> > +           }
-> > ++
-> > ++          if (di.dirfd =3D=3D -1) {
-> > ++              di.dirfd =3D ensureDir(plugins, rpmfiDN(fi), 0,
-> > ++                                  (fp->action =3D=3D FA_CREATE));
-> > ++              if (di.dirfd =3D=3D -1) {
-> > ++                  rc =3D RPMERR_OPEN_FAILED;
-> > ++                  break;
-> > ++              }
-> > ++          }
-> > ++
-> > +           /* Assume file does't exist when tmp suffix is in use */
-> > +           if (!fp->suffix) {
-> > +               if (fp->action =3D=3D FA_TOUCH) {
-> > +@@ -977,7 +1107,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te,
-> rpmfiles files,
-> > +                     mode_t mode =3D fp->sb.st_mode;
-> > +                     mode &=3D ~07777;
-> > +                     mode |=3D  00700;
-> > +-                    rc =3D fsmMkdir(fp->fpath, mode);
-> > ++                    rc =3D fsmMkdir(di.dirfd, fp->fpath, mode);
-> > +                 }
-> > +             } else if (S_ISLNK(fp->sb.st_mode)) {
-> > +               if (rc =3D=3D RPMERR_ENOENT) {
-> > +@@ -1019,6 +1149,8 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te,
-> rpmfiles files,
-> > +       fp->stage =3D FILE_UNPACK;
-> > +     }
-> > +     fi =3D rpmfiFree(fi);
-> > ++    close(di.dirfd);
-> > ++    di.dirfd =3D -1;
-> > +
-> > +     if (!rc && fx < 0 && fx !=3D RPMERR_ITER_END)
-> > +       rc =3D fx;
-> > +diff --git a/lib/rpmfi.c b/lib/rpmfi.c
-> > +index 33b657aa2..740e257fe 100644
-> > +--- a/lib/rpmfi.c
-> > ++++ b/lib/rpmfi.c
-> > +@@ -55,6 +55,9 @@ struct rpmfi_s {
-> > +     int intervalStart;                /*!< Start of iterating
-> interval. */
-> > +     int intervalEnd;          /*!< End of iterating interval. */
-> > +
-> > ++    rpmfiChdirCb onChdir;     /*!< Callback for directory changes */
-> > ++    void *onChdirData;                /*!< Caller private callback
-> data */
-> > ++
-> > +     rpmfiles files;           /*!< File info set */
-> > +     rpmcpio_t archive;                /*!< Archive with payload */
-> > +     unsigned char * found;    /*!< Bit field of files found in the
-> archive */
-> > +@@ -309,6 +312,17 @@ int rpmfiDI(rpmfi fi)
-> > + }
-> > + #endif
-> > +
-> > ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data)
-> > ++{
-> > ++    int rc =3D -1;
-> > ++    if (fi !=3D NULL) {
-> > ++      fi->onChdir =3D cb;
-> > ++      fi->onChdirData =3D data;
-> > ++      rc =3D 0;
-> > ++    }
-> > ++    return rc;
-> > ++}
-> > ++
-> > + int rpmfiFX(rpmfi fi)
-> > + {
-> > +     return (fi !=3D NULL ? fi->i : -1);
-> > +@@ -319,9 +333,17 @@ int rpmfiSetFX(rpmfi fi, int fx)
-> > +     int i =3D -1;
-> > +
-> > +     if (fi !=3D NULL && fx >=3D 0 && fx < rpmfilesFC(fi->files)) {
-> > +-      i =3D fi->i;
-> > ++      int dx =3D fi->j;
-> > ++      i =3D fi->i;
-> > +       fi->i =3D fx;
-> > +       fi->j =3D rpmfilesDI(fi->files, fi->i);
-> > ++      i =3D fi->i;
-> > ++
-> > ++      if (fi->j !=3D dx && fi->onChdir) {
-> > ++          int chrc =3D fi->onChdir(fi, fi->onChdirData);
-> > ++          if (chrc < 0)
-> > ++              i =3D chrc;
-> > ++      }
-> > +     }
-> > +     return i;
-> > + }
-> > +@@ -1816,10 +1838,9 @@ static rpmfi initIter(rpmfiles files, int itype=
-,
-> int link)
-> > +
-> > +     if (files && itype>=3D0 && itype<=3DRPMFILEITERMAX) {
-> > +       fi =3D xcalloc(1, sizeof(*fi));
-> > +-      fi->i =3D -1;
-> > ++      fi->j =3D -1;
-> > +       fi->files =3D link ? rpmfilesLink(files) : files;
-> > +       fi->next =3D nextfuncs[itype];
-> > +-      fi->i =3D -1;
-> > +       if (itype =3D=3D RPMFI_ITER_BACK) {
-> > +           fi->i =3D rpmfilesFC(fi->files);
-> > +       } else if (itype >=3DRPMFI_ITER_READ_ARCHIVE
-> > +diff --git a/lib/rpmfi_internal.h b/lib/rpmfi_internal.h
-> > +index dccc6ccbe..37f1d45f5 100644
-> > +--- a/lib/rpmfi_internal.h
-> > ++++ b/lib/rpmfi_internal.h
-> > +@@ -13,6 +13,23 @@
-> > + extern "C" {
-> > + #endif
-> > +
-> > ++/** \ingroup rpmfi
-> > ++ * Callback on file iterator directory changes
-> > ++ * @param fi          file info
-> > ++ * @param data                caller private callback data
-> > ++ * @return            0 on success, < 0 on error (to stop iteration)
-> > ++ */
-> > ++typedef int (*rpmfiChdirCb)(rpmfi fi, void *data);
-> > ++
-> > ++/** \ingroup rpmfi
-> > ++ * Set a callback for directory changes during iteration.
-> > ++ * @param fi          file info
-> > ++ * @param cb          callback function
-> > ++ * @param data                caller private callback data
-> > ++ * @return            string pool handle (weak reference)
-> > ++ */
-> > ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data);
-> > ++
-> > + /** \ingroup rpmfi
-> > +  * Return file info set string pool handle
-> > +  * @param fi          file info
-> > +--
-> > +2.39.3
-> > +
-> > diff --git a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-> b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-> > index 9b6446f265..aad8f2468f 100644
-> > --- a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-> > +++ b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-> > @@ -40,6 +40,7 @@ SRC_URI =3D "git://
-> github.com/rpm-software-management/rpm;branch=3Drpm-4.17.x;protoc
-> >             file://0001-docs-do-not-build-manpages-requires-pandoc.patc=
-h
-> \
-> >
->  file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-> >
->  file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
-> > +           file://CVE-2021-35939.patch \
-> >             "
-> >
-> >  PE =3D "1"
-> > --
-> > 2.39.3
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#198630):
-> https://lists.openembedded.org/g/openembedded-core/message/198630
-> > Mute This Topic: https://lists.openembedded.org/mt/105692772/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---0000000000001aa85e0616f83dda
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Okay, Will correct and send V2.<div><br></div><div>Thanks,=
-</div><div>Vivek</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Fri, Apr 26, 2024 at 1:29=E2=80=AFAM Steve Sakoman=
- &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">This patch cause=
-d multiple build failures both locally and on the autobuilder.<br>
-<br>
-Here is a link to the autobuilder run:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
-s/6845" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/83/builds/6845</a><br>
-<br>
-Sample error log:<br>
-<br>
-<a href=3D"https://errors.yoctoproject.org/Errors/Details/763370/" rel=3D"n=
-oreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Details=
-/763370/</a><br>
-<br>
-Steve<br>
-<br>
-On Tue, Apr 23, 2024 at 9:30=E2=80=AFAM Vivek Kumbhar via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;vkumbhar=3D<a href=3D"mailto:mvista.com@=
-lists.openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org=
-</a>&gt;<br>
-wrote:<br>
-&gt;<br>
-&gt; Upstream-Status: Backport <a href=3D"https://github.com/rpm-software-m=
-anagement/rpm/commit/96ec957e281220f8e137a2d5eb23b83a6377d556" rel=3D"noref=
-errer" target=3D"_blank">https://github.com/rpm-software-management/rpm/com=
-mit/96ec957e281220f8e137a2d5eb23b83a6377d556</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/rpm-software-manag=
-ement/rpm/commit/fb13f7fd9eff012cb7b9dbf94ac5381c69404055" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/rpm-software-management/rpm/commit/=
-fb13f7fd9eff012cb7b9dbf94ac5381c69404055</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vivek Kumbhar &lt;<a href=3D"mailto:vkumbhar@mvista.com=
-" target=3D"_blank">vkumbhar@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../rpm/files/CVE-2021-35939.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 378 ++++++++++++++++++<br>
-&gt;=C2=A0 meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.17.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.17.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 2 files changed, 379 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3593=
-9.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch b/me=
-ta/recipes-devtools/rpm/files/CVE-2021-35939.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..b60cc0e5ce<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/rpm/files/CVE-2021-35939.patch<br>
-&gt; @@ -0,0 +1,378 @@<br>
-&gt; +From 96ec957e281220f8e137a2d5eb23b83a6377d556 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Panu Matilainen &lt;<a href=3D"mailto:pmatilai@redhat.com" targ=
-et=3D"_blank">pmatilai@redhat.com</a>&gt;<br>
-&gt; +Date: Thu, 10 Feb 2022 14:32:43 +0200<br>
-&gt; +Subject: [PATCH] Validate intermediate symlinks during installation,<=
-br>
-&gt; + CVE-2021-35939<br>
-&gt; +<br>
-&gt; +Whenever directory changes during unpacking, walk the entire tree fro=
-m<br>
-&gt; +starting from / and validate any symlinks crossed, fail the install<b=
-r>
-&gt; +on invalid links.<br>
-&gt; +<br>
-&gt; +This is the first of step of many towards securing our file operation=
-s<br>
-&gt; +against local tamperers and besides plugging that one CVE, paves the =
-way<br>
-&gt; +for the next step by adding the necessary directory fd tracking.<br>
-&gt; +This also bumps the rpm OS requirements to a whole new level by requi=
-ring<br>
-&gt; +the *at() family of calls from POSIX-1.2008.<br>
-&gt; +<br>
-&gt; +This necessarily does a whole lot of huffing and puffing we previousl=
-y<br>
-&gt; +did not do. It should be possible to cache secure (ie root-owned)<br>
-&gt; +directory structures to avoid validating everything a million times<b=
-r>
-&gt; +but for now, just keeping things simple.<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/rpm-software=
--management/rpm/commit/96ec957e281220f8e137a2d5eb23b83a6377d556" rel=3D"nor=
-eferrer" target=3D"_blank">https://github.com/rpm-software-management/rpm/c=
-ommit/96ec957e281220f8e137a2d5eb23b83a6377d556</a>]<br>
-&gt; +CVE: CVE-2021-35939<br>
-&gt; +Signed-off-by: Vivek Kumbhar &lt;<a href=3D"mailto:vkumbhar@mvista.co=
-m" target=3D"_blank">vkumbhar@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + INSTALL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A02 +<br>
-&gt; + <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +-<br>
-&gt; + lib/fsm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 144 +++++++++++=
-++++++++++++++++++++++++++++++--<br>
-&gt; + lib/rpmfi.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 27 +++++++-<br=
->
-&gt; + lib/rpmfi_internal.h |=C2=A0 17 +++++<br>
-&gt; + 5 files changed, 183 insertions(+), 10 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/INSTALL b/INSTALL<br>
-&gt; +index 358e5ae0d..9a9c7b0d0 100644<br>
-&gt; +--- a/INSTALL<br>
-&gt; ++++ b/INSTALL<br>
-&gt; +@@ -103,6 +103,8 @@ option to configure).=C2=A0 For GCC, OpenMP 4.5 i=
-s fully supported since GCC 6.1,<br>
-&gt; + which is available from<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0<a href=3D"http://www.gnu.org/" rel=3D"noreferrer=
-" target=3D"_blank">http://www.gnu.org/</a><br>
-&gt; +<br>
-&gt; ++Rpm requires a POSIX.1-2008 level operating system.<br>
-&gt; ++<br>
-&gt; + To compile RPM:<br>
-&gt; + --------------<br>
-&gt; +<br>
-&gt; +diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" targe=
-t=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"nore=
-ferrer" target=3D"_blank">configure.ac</a><br>
-&gt; +index 78c555f90..4ddacdfe2 100644<br>
-&gt; +--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; ++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; +@@ -570,7 +570,8 @@ AC_CHECK_FUNCS([secure_getenv __secure_getenv])<b=
-r>
-&gt; +<br>
-&gt; + AC_CHECK_FUNCS(<br>
-&gt; +=C2=A0 =C2=A0 [mkstemp getcwd basename dirname realpath setenv unsete=
-nv regcomp lchown \<br>
-&gt; +-=C2=A0 =C2=A0 utimes getline localtime_r statvfs getaddrinfo ],<br>
-&gt; ++=C2=A0 =C2=A0 utimes getline localtime_r statvfs getaddrinfo \<br>
-&gt; ++=C2=A0 =C2=A0 openat mkdirat fstatat ],<br>
-&gt; +=C2=A0 =C2=A0 [], [AC_MSG_ERROR([function required by rpm])])<br>
-&gt; +<br>
-&gt; + AC_LIBOBJ(fnmatch)<br>
-&gt; +diff --git a/lib/fsm.c b/lib/fsm.c<br>
-&gt; +index 935a0a5c6..0b29284e8 100644<br>
-&gt; +--- a/lib/fsm.c<br>
-&gt; ++++ b/lib/fsm.c<br>
-&gt; +@@ -8,6 +8,7 @@<br>
-&gt; + #include &lt;inttypes.h&gt;<br>
-&gt; + #include &lt;utime.h&gt;<br>
-&gt; + #include &lt;errno.h&gt;<br>
-&gt; ++#include &lt;fcntl.h&gt;<br>
-&gt; + #if WITH_CAP<br>
-&gt; + #include &lt;sys/capability.h&gt;<br>
-&gt; + #endif<br>
-&gt; +@@ -20,6 +21,7 @@<br>
-&gt; + #include &quot;rpmio/rpmio_internal.h&quot;=C2=A0 =C2=A0 =C2=A0/* fd=
-Init/FiniDigest */<br>
-&gt; + #include &quot;lib/fsm.h&quot;<br>
-&gt; + #include &quot;lib/rpmte_internal.h&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
-/* XXX rpmfs */<br>
-&gt; ++#include &quot;lib/rpmfi_internal.h&quot; /* rpmfiSetOnChdir */<br>
-&gt; + #include &quot;lib/rpmplugins.h&quot;=C2=A0 =C2=A0/* rpm plugins hoo=
-ks */<br>
-&gt; + #include &quot;lib/rpmug.h&quot;<br>
-&gt; +<br>
-&gt; +@@ -406,17 +408,118 @@ static int fsmRmdir(const char *path)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; + }<br>
-&gt; +<br>
-&gt; +-static int fsmMkdir(const char *path, mode_t mode)<br>
-&gt; ++static int fsmMkdir(int dirfd, const char *path, mode_t mode)<br>
-&gt; + {<br>
-&gt; +-=C2=A0 =C2=A0 int rc =3D mkdir(path, (mode &amp; 07777));<br>
-&gt; ++=C2=A0 =C2=A0 int rc =3D mkdirat(dirfd, path, (mode &amp; 07777));<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (_fsm_debug)<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_DEBUG, &quot; %8s (%s, 0%04o) %s\=
-n&quot;, __func__,<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0path, (unsigned)(mod=
-e &amp; 07777),<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_DEBUG, &quot; %8s (%d %s, 0%04o) =
-%s\n&quot;, __func__,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dirfd, path, (unsign=
-ed)(mode &amp; 07777),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (rc &lt; 0 ? strerro=
-r(errno) : &quot;&quot;));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (rc &lt; 0)=C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D R=
-PMERR_MKDIR_FAILED;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; + }<br>
-&gt; +<br>
-&gt; ++static int fsmOpenat(int dirfd, const char *path, int flags)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 struct stat lsb, sb;<br>
-&gt; ++=C2=A0 =C2=A0 int sflags =3D flags | O_NOFOLLOW;<br>
-&gt; ++=C2=A0 =C2=A0 int fd =3D openat(dirfd, path, sflags);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 /*<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* Only ever follow symlinks by root or target ow=
-ner. Since we can&#39;t<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* open the symlink itself, the order matters: we=
- stat the link *after*<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* opening the target, and if the link ownership =
-changed between the calls<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* it could&#39;ve only been the link owner or ro=
-ot.<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; ++=C2=A0 =C2=A0 if (fd &lt; 0 &amp;&amp; errno =3D=3D ELOOP &amp;&amp;=
- flags !=3D sflags) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 int ffd =3D openat(dirfd, path, flags);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 if (ffd &gt;=3D 0 &amp;&amp; fstatat(dirfd, pat=
-h, &amp;lsb, AT_SYMLINK_NOFOLLOW) =3D=3D 0) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fstat(ffd, &amp;sb) =3D=3D 0)=
- {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (lsb.st_uid =3D=
-=3D 0 || lsb.st_uid =3D=3D sb.st_uid) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =
-=3D ffd;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close=
-(ffd);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 return fd;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; ++static int fsmDoMkDir(rpmPlugins plugins, int dirfd, const char *dn,=
-<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 int owned, mode_t mode)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 int rc;<br>
-&gt; ++=C2=A0 =C2=A0 rpmFsmOp op =3D (FA_CREATE);<br>
-&gt; ++=C2=A0 =C2=A0 if (!owned)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 op |=3D FAF_UNOWNED;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 /* Run fsm file pre hook for all plugins */<br>
-&gt; ++=C2=A0 =C2=A0 rc =3D rpmpluginsCallFsmFilePre(plugins, NULL, dn, mod=
-e, op);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (!rc)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 rc =3D fsmMkdir(dirfd, dn, mode);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (!rc) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 rc =3D rpmpluginsCallFsmFilePrepare(plugins, NU=
-LL, dn, dn, mode, op);<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 /* Run fsm file post hook for all plugins */<br>
-&gt; ++=C2=A0 =C2=A0 rpmpluginsCallFsmFilePost(plugins, NULL, dn, mode, op,=
- rc);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (!rc) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_DEBUG,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s directory =
-created with perms %04o\n&quot;,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dn, (unsigned)(mode=
- &amp; 07777));<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 return rc;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; ++static int ensureDir(rpmPlugins plugins, const char *p, int owned, i=
-nt create)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 char *path =3D xstrdup(p);<br>
-&gt; ++=C2=A0 =C2=A0 char *dp =3D path;<br>
-&gt; ++=C2=A0 =C2=A0 char *sp =3D NULL, *bn;<br>
-&gt; ++=C2=A0 =C2=A0 int oflags =3D O_RDONLY;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 int dirfd =3D fsmOpenat(-1, &quot;/&quot;, oflags);<br=
->
-&gt; ++=C2=A0 =C2=A0 int fd =3D dirfd; /* special case of &quot;/&quot; */<=
-br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 while ((bn =3D strtok_r(dp, &quot;/&quot;, &amp;sp)) !=
-=3D NULL) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 struct stat sb;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 fd =3D fsmOpenat(dirfd, bn, oflags);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 if (fd &lt; 0 &amp;&amp; errno =3D=3D ENOENT &a=
-mp;&amp; create) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mode_t mode =3D S_IFDIR | (_dirPe=
-rms &amp; 07777);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fsmDoMkDir(plugins, dirfd, bn=
-, owned, mode) =3D=3D 0) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D fsmOpenat(di=
-rfd, bn, oflags|O_NOFOLLOW);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 if (fd &gt;=3D 0 &amp;&amp; fstat(fd, &amp;sb) =
-=3D=3D 0 &amp;&amp; !S_ISDIR(sb.st_mode)) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D ENOTDIR;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D -1;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 close(dirfd);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 if (fd &gt;=3D 0) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dirfd =3D fd;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dirfd =3D -1;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_ERR, _(&quot;failed=
- to open dir %s of %s: %s\n&quot;),<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bn, p, strerror(errno));<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 dp =3D NULL;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 free(path);<br>
-&gt; ++=C2=A0 =C2=A0 return dirfd;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; + static int fsmMkfifo(const char *path, mode_t mode)<br>
-&gt; + {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int rc =3D mkfifo(path, (mode &amp; 07777));<br>
-&gt; +@@ -507,7 +610,7 @@ static int fsmMkdirs(rpmfiles files, rpmfs fs, rp=
-mPlugins plugins)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D rpmplug=
-insCallFsmFilePre(plugins, NULL, dn, mode, op);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!rc)<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rc =
-=3D fsmMkdir(dn, mode);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rc =
-=3D fsmMkdir(-1, dn, mode);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!rc) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-rc =3D rpmpluginsCallFsmFilePrepare(plugins, NULL, dn, dn,<br>
-&gt; +@@ -874,6 +977,21 @@ static void setFileState(rpmfs fs, int i)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; + }<br>
-&gt; +<br>
-&gt; ++struct diriter_s {<br>
-&gt; ++=C2=A0 =C2=A0 int dirfd;<br>
-&gt; ++};<br>
-&gt; ++<br>
-&gt; ++static int onChdir(rpmfi fi, void *data)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 struct diriter_s *di =3D data;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (di-&gt;dirfd &gt;=3D 0) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 close(di-&gt;dirfd);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 di-&gt;dirfd =3D -1;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 return 0;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; + int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpmpsm psm, ch=
-ar ** failedFile)<br>
-&gt; + {<br>
-&gt; +@@ -890,6 +1008,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, r=
-pmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0char *tid =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct filedata_s *fdata =3D xcalloc(fc, sizeof(*=
-fdata));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct filedata_s *firstlink =3D NULL;<br>
-&gt; ++=C2=A0 =C2=A0 struct diriter_s di =3D { -1 };<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* transaction id used for temporary path suffix =
-while installing */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rasprintf(&amp;tid, &quot;;%08x&quot;, (unsigned)=
-rpmtsGetTid(ts));<br>
-&gt; +@@ -929,6 +1048,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, r=
-pmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D RPMERR_BAD_MAGIC;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto exit;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; ++=C2=A0 =C2=A0 rpmfiSetOnChdir(fi, onChdir, &amp;di);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Detect and create directories not explicitly i=
-n package. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!rc)<br>
-&gt; +@@ -943,6 +1063,16 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, =
-rpmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!fp-&gt;suffix) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D fsmBack=
-up(fi, fp-&gt;action);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (di.dirfd =3D=3D -1) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 di.dirfd =3D ensure=
-Dir(plugins, rpmfiDN(fi), 0,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (fp-&gt;action =3D=3D =
-FA_CREATE));<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (di.dirfd =3D=3D=
- -1) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rc =
-=3D RPMERR_OPEN_FAILED;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break=
-;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Assume file does&#39;t ex=
-ist when tmp suffix is in use */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!fp-&gt;suffix) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fp-&gt;act=
-ion =3D=3D FA_TOUCH) {<br>
-&gt; +@@ -977,7 +1107,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, r=
-pmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0mode_t mode =3D fp-&gt;sb.st_mode;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0mode &amp;=3D ~07777;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0mode |=3D=C2=A0 00700;<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 rc =3D fsmMkdir(fp-&gt;fpath, mode);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 rc =3D fsmMkdir(di.dirfd, fp-&gt;fpath, mode);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (S_ISLNK(fp=
--&gt;sb.st_mode)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (rc =3D=3D =
-RPMERR_ENOENT) {<br>
-&gt; +@@ -1019,6 +1149,8 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, =
-rpmfiles files,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fp-&gt;stage =3D FILE_UNPACK;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fi =3D rpmfiFree(fi);<br>
-&gt; ++=C2=A0 =C2=A0 close(di.dirfd);<br>
-&gt; ++=C2=A0 =C2=A0 di.dirfd =3D -1;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!rc &amp;&amp; fx &lt; 0 &amp;&amp; fx !=3D R=
-PMERR_ITER_END)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D fx;<br>
-&gt; +diff --git a/lib/rpmfi.c b/lib/rpmfi.c<br>
-&gt; +index 33b657aa2..740e257fe 100644<br>
-&gt; +--- a/lib/rpmfi.c<br>
-&gt; ++++ b/lib/rpmfi.c<br>
-&gt; +@@ -55,6 +55,9 @@ struct rpmfi_s {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int intervalStart;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 /*!&lt; Start of iterating interval. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int intervalEnd;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 /*!&lt; End of iterating interval. */<br>
-&gt; +<br>
-&gt; ++=C2=A0 =C2=A0 rpmfiChdirCb onChdir;=C2=A0 =C2=A0 =C2=A0/*!&lt; Callb=
-ack for directory changes */<br>
-&gt; ++=C2=A0 =C2=A0 void *onChdirData;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 /*!&lt; Caller private callback data */<br>
-&gt; ++<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rpmfiles files;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0/*!&lt; File info set */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rpmcpio_t archive;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 /*!&lt; Archive with payload */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0unsigned char * found;=C2=A0 =C2=A0 /*!&lt; Bit f=
-ield of files found in the archive */<br>
-&gt; +@@ -309,6 +312,17 @@ int rpmfiDI(rpmfi fi)<br>
-&gt; + }<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 int rc =3D -1;<br>
-&gt; ++=C2=A0 =C2=A0 if (fi !=3D NULL) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 fi-&gt;onChdir =3D cb;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 fi-&gt;onChdirData =3D data;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 rc =3D 0;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 return rc;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; + int rpmfiFX(rpmfi fi)<br>
-&gt; + {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return (fi !=3D NULL ? fi-&gt;i : -1);<br>
-&gt; +@@ -319,9 +333,17 @@ int rpmfiSetFX(rpmfi fi, int fx)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int i =3D -1;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (fi !=3D NULL &amp;&amp; fx &gt;=3D 0 &amp;&am=
-p; fx &lt; rpmfilesFC(fi-&gt;files)) {<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 i =3D fi-&gt;i;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 int dx =3D fi-&gt;j;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 i =3D fi-&gt;i;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi-&gt;i =3D fx;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi-&gt;j =3D rpmfilesDI(fi-&gt;files, fi-&=
-gt;i);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 i =3D fi-&gt;i;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 if (fi-&gt;j !=3D dx &amp;&amp; fi-&gt;onChdir)=
- {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int chrc =3D fi-&gt;onChdir(fi, f=
-i-&gt;onChdirData);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (chrc &lt; 0)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i =3D chrc;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return i;<br>
-&gt; + }<br>
-&gt; +@@ -1816,10 +1838,9 @@ static rpmfi initIter(rpmfiles files, int ityp=
-e, int link)<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (files &amp;&amp; itype&gt;=3D0 &amp;&amp; ity=
-pe&lt;=3DRPMFILEITERMAX) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi =3D xcalloc(1, sizeof(*fi));<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 fi-&gt;i =3D -1;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 fi-&gt;j =3D -1;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi-&gt;files =3D link ? rpmfilesLink(files=
-) : files;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi-&gt;next =3D nextfuncs[itype];<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 fi-&gt;i =3D -1;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (itype =3D=3D RPMFI_ITER_BACK) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi-&gt;i =3D rpmfilesFC(fi-&=
-gt;files);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (itype &gt;=3DRPMFI_ITER_READ_AR=
-CHIVE<br>
-&gt; +diff --git a/lib/rpmfi_internal.h b/lib/rpmfi_internal.h<br>
-&gt; +index dccc6ccbe..37f1d45f5 100644<br>
-&gt; +--- a/lib/rpmfi_internal.h<br>
-&gt; ++++ b/lib/rpmfi_internal.h<br>
-&gt; +@@ -13,6 +13,23 @@<br>
-&gt; + extern &quot;C&quot; {<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; ++/** \ingroup rpmfi<br>
-&gt; ++ * Callback on file iterator directory changes<br>
-&gt; ++ * @param fi=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file info<br>
-&gt; ++ * @param data=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 caller private callback data<br>
-&gt; ++ * @return=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0 on success, &l=
-t; 0 on error (to stop iteration)<br>
-&gt; ++ */<br>
-&gt; ++typedef int (*rpmfiChdirCb)(rpmfi fi, void *data);<br>
-&gt; ++<br>
-&gt; ++/** \ingroup rpmfi<br>
-&gt; ++ * Set a callback for directory changes during iteration.<br>
-&gt; ++ * @param fi=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file info<br>
-&gt; ++ * @param cb=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callback function<br>
-&gt; ++ * @param data=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 caller private callback data<br>
-&gt; ++ * @return=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 string pool hand=
-le (weak reference)<br>
-&gt; ++ */<br>
-&gt; ++int rpmfiSetOnChdir(rpmfi fi, rpmfiChdirCb cb, void *data);<br>
-&gt; ++<br>
-&gt; + /** \ingroup rpmfi<br>
-&gt; +=C2=A0 * Return file info set string pool handle<br>
-&gt; +=C2=A0 * @param fi=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file info<br>
-&gt; +--<br>
-&gt; +2.39.3<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.17.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">rpm_4.17.1.bb</a> b/meta/recipes-dev=
-tools/rpm/<a href=3D"http://rpm_4.17.1.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">rpm_4.17.1.bb</a><br>
-&gt; index 9b6446f265..aad8f2468f 100644<br>
-&gt; --- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.17.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.17.1.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.17.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.17.1.bb</a><br>
-&gt; @@ -40,6 +40,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com=
-/rpm-software-management/rpm;branch=3Drpm-4.17.x;protoc" rel=3D"noreferrer"=
- target=3D"_blank">github.com/rpm-software-management/rpm;branch=3Drpm-4.17=
-.x;protoc</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-docs-do-not=
--build-manpages-requires-pandoc.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-build-pack.=
-c-do-not-insert-payloadflags-into-.rpm-me.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-configure.a=
-c-add-linux-gnux32-variant-to-triplet-han.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2021-35939.patch =
-\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;<br>
-&gt;=C2=A0 PE =3D &quot;1&quot;<br>
-&gt; --<br>
-&gt; 2.39.3<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#198630): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/198630" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/198630</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10569277=
-2/3620601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/105692772/3620601</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" ta=
-rget=3D"_blank">steve@sakoman.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div>
-
---0000000000001aa85e0616f83dda--
+T24gVHVlLCAyMDI0LTA0LTIzIGF0IDIxOjU4ICswNTMwLCBWaXZlayBLdW1iaGFyIHZpYQ0KbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0K
+PiBodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvcnBtL2NvbW1pdC85
+NmVjOTU3ZTI4MTIyMGY4ZTEzN2EyZDVlYjIzYjgzYTYzNzdkNTU2DQo+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgDQo+IGh0dHBzOi8vZ2l0aHViLmNv
+bS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9ycG0vY29tbWl0L2ZiMTNmN2ZkOWVmZjAxMmNiN2I5
+ZGJmOTRhYzUzODFjNjk0MDQwNTUNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFZpdmVrIEt1bWJoYXIg
+PHZrdW1iaGFyQG12aXN0YS5jb20+DQo+IC0tLQ0KPiDCoC4uLi9ycG0vZmlsZXMvQ1ZFLTIwMjEt
+MzU5MzkucGF0Y2jCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMzc4DQo+ICsrKysrKysrKysrKysr
+KysrKw0KPiDCoG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtXzQuMTcuMS5iYsKgwqDCoMKg
+wqDCoCB8wqDCoCAxICsNCj4gwqAyIGZpbGVzIGNoYW5nZWQsIDM3OSBpbnNlcnRpb25zKCspDQo+
+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vZmlsZXMvQ1ZF
+LTIwMjEtDQo+IDM1OTM5LnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3JwbS9maWxlcy9DVkUtMjAyMS0zNTkzOS5wYXRjaA0KPiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9ycG0vZmlsZXMvQ1ZFLTIwMjEtMzU5MzkucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uYjYwY2MwZTVjZQ0KPiAtLS0gL2Rldi9udWxsDQo+
+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vZmlsZXMvQ1ZFLTIwMjEtMzU5MzkucGF0
+Y2gNCj4gQEAgLTAsMCArMSwzNzggQEANCj4gK0Zyb20gOTZlYzk1N2UyODEyMjBmOGUxMzdhMmQ1
+ZWIyM2I4M2E2Mzc3ZDU1NiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gK0Zyb206IFBh
+bnUgTWF0aWxhaW5lbiA8cG1hdGlsYWlAcmVkaGF0LmNvbT4NCj4gK0RhdGU6IFRodSwgMTAgRmVi
+IDIwMjIgMTQ6MzI6NDMgKzAyMDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gVmFsaWRhdGUgaW50ZXJt
+ZWRpYXRlIHN5bWxpbmtzIGR1cmluZyBpbnN0YWxsYXRpb24sDQo+ICsgQ1ZFLTIwMjEtMzU5MzkN
+Cj4gKw0KPiArV2hlbmV2ZXIgZGlyZWN0b3J5IGNoYW5nZXMgZHVyaW5nIHVucGFja2luZywgd2Fs
+ayB0aGUgZW50aXJlIHRyZWUNCj4gZnJvbQ0KPiArc3RhcnRpbmcgZnJvbSAvIGFuZCB2YWxpZGF0
+ZSBhbnkgc3ltbGlua3MgY3Jvc3NlZCwgZmFpbCB0aGUgaW5zdGFsbA0KPiArb24gaW52YWxpZCBs
+aW5rcy4NCj4gKw0KPiArVGhpcyBpcyB0aGUgZmlyc3Qgb2Ygc3RlcCBvZiBtYW55IHRvd2FyZHMg
+c2VjdXJpbmcgb3VyIGZpbGUNCj4gb3BlcmF0aW9ucw0KPiArYWdhaW5zdCBsb2NhbCB0YW1wZXJl
+cnMgYW5kIGJlc2lkZXMgcGx1Z2dpbmcgdGhhdCBvbmUgQ1ZFLCBwYXZlcyB0aGUNCj4gd2F5DQo+
+ICtmb3IgdGhlIG5leHQgc3RlcCBieSBhZGRpbmcgdGhlIG5lY2Vzc2FyeSBkaXJlY3RvcnkgZmQg
+dHJhY2tpbmcuDQo+ICtUaGlzIGFsc28gYnVtcHMgdGhlIHJwbSBPUyByZXF1aXJlbWVudHMgdG8g
+YSB3aG9sZSBuZXcgbGV2ZWwgYnkNCj4gcmVxdWlyaW5nDQo+ICt0aGUgKmF0KCkgZmFtaWx5IG9m
+IGNhbGxzIGZyb20gUE9TSVgtMS4yMDA4Lg0KPiArDQo+ICtUaGlzIG5lY2Vzc2FyaWx5IGRvZXMg
+YSB3aG9sZSBsb3Qgb2YgaHVmZmluZyBhbmQgcHVmZmluZyB3ZQ0KPiBwcmV2aW91c2x5DQo+ICtk
+aWQgbm90IGRvLiBJdCBzaG91bGQgYmUgcG9zc2libGUgdG8gY2FjaGUgc2VjdXJlIChpZSByb290
+LW93bmVkKQ0KPiArZGlyZWN0b3J5IHN0cnVjdHVyZXMgdG8gYXZvaWQgdmFsaWRhdGluZyBldmVy
+eXRoaW5nIGEgbWlsbGlvbiB0aW1lcw0KPiArYnV0IGZvciBub3csIGp1c3Qga2VlcGluZyB0aGlu
+Z3Mgc2ltcGxlLg0KPiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+IFtodHRwczov
+L2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvcnBtL2NvbW1pdC85NmVjOTU3ZTI4
+MTIyMA0KPiBmOGUxMzdhMmQ1ZWIyM2I4M2E2Mzc3ZDU1Nl0NCj4gK0NWRTogQ1ZFLTIwMjEtMzU5
+MzkNCj4gK1NpZ25lZC1vZmYtYnk6IFZpdmVrIEt1bWJoYXIgPHZrdW1iaGFyQG12aXN0YS5jb20+
+DQo+ICstLS0NCj4gKyBJTlNUQUxMwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiAr
+DQo+ICsgY29uZmlndXJlLmFjwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAzICstDQo+ICsgbGliL2Zz
+bS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDE0NA0KPiArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKy0tDQo+ICsgbGliL3JwbWZpLmPCoMKgwqDCoMKgwqDCoMKgwqAg
+fMKgIDI3ICsrKysrKystDQo+ICsgbGliL3JwbWZpX2ludGVybmFsLmggfMKgIDE3ICsrKysrDQoN
+CnJwbWZpLmMgYW5kIHJwbWZpX2ludGVybmFsLmggY2hhbmdlcyBhcmUgbm90IHBhcnQgb2YgdGhl
+IGNvbW1pdA0KbWVudGlvbmVkIGluIFVwc3RyZWFtLVN0YXR1cyBhYm92ZS7CoEl0IHNlZW1zIHRo
+ZXkgYXJlIGhlcmU6DQoNCmh0dHBzOi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVu
+dC9ycG0vY29tbWl0L2ZiMTNmN2ZkOWVmZjAxMmNiN2I5ZGJmOTRhYzUzODFjNjk0MDQwNTUNCg0K
+UGxlYXNlIGJhY2twb3J0IHRoaXMgYXMgYSBzZXBhcmF0ZSBwYXRjaCBvciBkZXNjcmliZSB0aGUg
+Y2hhbmdlcyBkb25lLg0KDQpUaGFua3MsDQoNCkFudWoNCg0KPiArIDUgZmlsZXMgY2hhbmdlZCwg
+MTgzIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEv
+SU5TVEFMTCBiL0lOU1RBTEwNCj4gK2luZGV4IDM1OGU1YWUwZC4uOWE5YzdiMGQwIDEwMDY0NA0K
+PiArLS0tIGEvSU5TVEFMTA0KPiArKysrIGIvSU5TVEFMTA0KPiArQEAgLTEwMyw2ICsxMDMsOCBA
+QCBvcHRpb24gdG8gY29uZmlndXJlKS7CoCBGb3IgR0NDLCBPcGVuTVAgNC41IGlzDQo+IGZ1bGx5
+IHN1cHBvcnRlZCBzaW5jZSBHQ0MgNi4xLA0KPiArIHdoaWNoIGlzIGF2YWlsYWJsZSBmcm9tDQo+
+ICvCoMKgwqDCoCBodHRwOi8vd3d3LmdudS5vcmcvDQo+ICsgDQo+ICsrUnBtIHJlcXVpcmVzIGEg
+UE9TSVguMS0yMDA4IGxldmVsIG9wZXJhdGluZyBzeXN0ZW0uDQo+ICsrDQo+ICsgVG8gY29tcGls
+ZSBSUE06DQo+ICsgLS0tLS0tLS0tLS0tLS0NCj4gKyANCj4gK2RpZmYgLS1naXQgYS9jb25maWd1
+cmUuYWMgYi9jb25maWd1cmUuYWMNCj4gK2luZGV4IDc4YzU1NWY5MC4uNGRkYWNkZmUyIDEwMDY0
+NA0KPiArLS0tIGEvY29uZmlndXJlLmFjDQo+ICsrKysgYi9jb25maWd1cmUuYWMNCj4gK0BAIC01
+NzAsNyArNTcwLDggQEAgQUNfQ0hFQ0tfRlVOQ1MoW3NlY3VyZV9nZXRlbnYgX19zZWN1cmVfZ2V0
+ZW52XSkNCj4gKyANCj4gKyBBQ19DSEVDS19GVU5DUygNCj4gK8KgwqDCoCBbbWtzdGVtcCBnZXRj
+d2QgYmFzZW5hbWUgZGlybmFtZSByZWFscGF0aCBzZXRlbnYgdW5zZXRlbnYNCj4gcmVnY29tcCBs
+Y2hvd24gXA0KPiArLcKgwqDCoCB1dGltZXMgZ2V0bGluZSBsb2NhbHRpbWVfciBzdGF0dmZzIGdl
+dGFkZHJpbmZvIF0sDQo+ICsrwqDCoMKgIHV0aW1lcyBnZXRsaW5lIGxvY2FsdGltZV9yIHN0YXR2
+ZnMgZ2V0YWRkcmluZm8gXA0KPiArK8KgwqDCoCBvcGVuYXQgbWtkaXJhdCBmc3RhdGF0IF0sDQo+
+ICvCoMKgwqAgW10sIFtBQ19NU0dfRVJST1IoW2Z1bmN0aW9uIHJlcXVpcmVkIGJ5IHJwbV0pXSkN
+Cj4gKyANCj4gKyBBQ19MSUJPQkooZm5tYXRjaCkNCj4gK2RpZmYgLS1naXQgYS9saWIvZnNtLmMg
+Yi9saWIvZnNtLmMNCj4gK2luZGV4IDkzNWEwYTVjNi4uMGIyOTI4NGU4IDEwMDY0NA0KPiArLS0t
+IGEvbGliL2ZzbS5jDQo+ICsrKysgYi9saWIvZnNtLmMNCj4gK0BAIC04LDYgKzgsNyBAQA0KPiAr
+ICNpbmNsdWRlIDxpbnR0eXBlcy5oPg0KPiArICNpbmNsdWRlIDx1dGltZS5oPg0KPiArICNpbmNs
+dWRlIDxlcnJuby5oPg0KPiArKyNpbmNsdWRlIDxmY250bC5oPg0KPiArICNpZiBXSVRIX0NBUA0K
+PiArICNpbmNsdWRlIDxzeXMvY2FwYWJpbGl0eS5oPg0KPiArICNlbmRpZg0KPiArQEAgLTIwLDYg
+KzIxLDcgQEANCj4gKyAjaW5jbHVkZSAicnBtaW8vcnBtaW9faW50ZXJuYWwuaCIJLyogZmRJbml0
+L0ZpbmlEaWdlc3QgKi8NCj4gKyAjaW5jbHVkZSAibGliL2ZzbS5oIg0KPiArICNpbmNsdWRlICJs
+aWIvcnBtdGVfaW50ZXJuYWwuaCIJLyogWFhYIHJwbWZzICovDQo+ICsrI2luY2x1ZGUgImxpYi9y
+cG1maV9pbnRlcm5hbC5oIiAvKiBycG1maVNldE9uQ2hkaXIgKi8NCj4gKyAjaW5jbHVkZSAibGli
+L3JwbXBsdWdpbnMuaCIJLyogcnBtIHBsdWdpbnMgaG9va3MgKi8NCj4gKyAjaW5jbHVkZSAibGli
+L3JwbXVnLmgiDQo+ICsgDQo+ICtAQCAtNDA2LDE3ICs0MDgsMTE4IEBAIHN0YXRpYyBpbnQgZnNt
+Um1kaXIoY29uc3QgY2hhciAqcGF0aCkNCj4gK8KgwqDCoMKgIHJldHVybiByYzsNCj4gKyB9DQo+
+ICsgDQo+ICstc3RhdGljIGludCBmc21Na2Rpcihjb25zdCBjaGFyICpwYXRoLCBtb2RlX3QgbW9k
+ZSkNCj4gKytzdGF0aWMgaW50IGZzbU1rZGlyKGludCBkaXJmZCwgY29uc3QgY2hhciAqcGF0aCwg
+bW9kZV90IG1vZGUpDQo+ICsgew0KPiArLcKgwqDCoCBpbnQgcmMgPSBta2RpcihwYXRoLCAobW9k
+ZSAmIDA3Nzc3KSk7DQo+ICsrwqDCoMKgIGludCByYyA9IG1rZGlyYXQoZGlyZmQsIHBhdGgsICht
+b2RlICYgMDc3NzcpKTsNCj4gK8KgwqDCoMKgIGlmIChfZnNtX2RlYnVnKQ0KPiArLQlycG1sb2co
+UlBNTE9HX0RFQlVHLCAiICU4cyAoJXMsIDAlMDRvKSAlc1xuIiwgX19mdW5jX18sDQo+ICstCcKg
+wqDCoMKgwqDCoCBwYXRoLCAodW5zaWduZWQpKG1vZGUgJiAwNzc3NyksDQo+ICsrCXJwbWxvZyhS
+UE1MT0dfREVCVUcsICIgJThzICglZCAlcywgMCUwNG8pICVzXG4iLCBfX2Z1bmNfXywNCj4gKysJ
+wqDCoMKgwqDCoMKgIGRpcmZkLCBwYXRoLCAodW5zaWduZWQpKG1vZGUgJiAwNzc3NyksDQo+ICvC
+oAnCoMKgwqDCoMKgwqAgKHJjIDwgMCA/IHN0cmVycm9yKGVycm5vKSA6ICIiKSk7DQo+ICvCoMKg
+wqDCoCBpZiAocmMgPCAwKQlyYyA9IFJQTUVSUl9NS0RJUl9GQUlMRUQ7DQo+ICvCoMKgwqDCoCBy
+ZXR1cm4gcmM7DQo+ICsgfQ0KPiArIA0KPiArK3N0YXRpYyBpbnQgZnNtT3BlbmF0KGludCBkaXJm
+ZCwgY29uc3QgY2hhciAqcGF0aCwgaW50IGZsYWdzKQ0KPiArK3sNCj4gKyvCoMKgwqAgc3RydWN0
+IHN0YXQgbHNiLCBzYjsNCj4gKyvCoMKgwqAgaW50IHNmbGFncyA9IGZsYWdzIHwgT19OT0ZPTExP
+VzsNCj4gKyvCoMKgwqAgaW50IGZkID0gb3BlbmF0KGRpcmZkLCBwYXRoLCBzZmxhZ3MpOw0KPiAr
+Kw0KPiArK8KgwqDCoCAvKg0KPiArK8KgwqDCoMKgICogT25seSBldmVyIGZvbGxvdyBzeW1saW5r
+cyBieSByb290IG9yIHRhcmdldCBvd25lci4gU2luY2Ugd2UNCj4gY2FuJ3QNCj4gKyvCoMKgwqDC
+oCAqIG9wZW4gdGhlIHN5bWxpbmsgaXRzZWxmLCB0aGUgb3JkZXIgbWF0dGVyczogd2Ugc3RhdCB0
+aGUgbGluaw0KPiAqYWZ0ZXIqDQo+ICsrwqDCoMKgwqAgKiBvcGVuaW5nIHRoZSB0YXJnZXQsIGFu
+ZCBpZiB0aGUgbGluayBvd25lcnNoaXAgY2hhbmdlZA0KPiBiZXR3ZWVuIHRoZSBjYWxscw0KPiAr
+K8KgwqDCoMKgICogaXQgY291bGQndmUgb25seSBiZWVuIHRoZSBsaW5rIG93bmVyIG9yIHJvb3Qu
+DQo+ICsrwqDCoMKgwqAgKi8NCj4gKyvCoMKgwqAgaWYgKGZkIDwgMCAmJiBlcnJubyA9PSBFTE9P
+UCAmJiBmbGFncyAhPSBzZmxhZ3MpIHsNCj4gKysJaW50IGZmZCA9IG9wZW5hdChkaXJmZCwgcGF0
+aCwgZmxhZ3MpOw0KPiArKwlpZiAoZmZkID49IDAgJiYgZnN0YXRhdChkaXJmZCwgcGF0aCwgJmxz
+YiwNCj4gQVRfU1lNTElOS19OT0ZPTExPVykgPT0gMCkgew0KPiArKwnCoMKgwqAgaWYgKGZzdGF0
+KGZmZCwgJnNiKSA9PSAwKSB7DQo+ICsrCQlpZiAobHNiLnN0X3VpZCA9PSAwIHx8IGxzYi5zdF91
+aWQgPT0gc2Iuc3RfdWlkKSB7DQo+ICsrCQnCoMKgwqAgZmQgPSBmZmQ7DQo+ICsrCQl9IGVsc2Ug
+ew0KPiArKwkJwqDCoMKgIGNsb3NlKGZmZCk7DQo+ICsrCQl9DQo+ICsrCcKgwqDCoCB9DQo+ICsr
+CX0NCj4gKyvCoMKgwqAgfQ0KPiArK8KgwqDCoCByZXR1cm4gZmQ7DQo+ICsrfQ0KPiArKw0KPiAr
+K3N0YXRpYyBpbnQgZnNtRG9Na0RpcihycG1QbHVnaW5zIHBsdWdpbnMsIGludCBkaXJmZCwgY29u
+c3QgY2hhcg0KPiAqZG4sDQo+ICsrCQkJaW50IG93bmVkLCBtb2RlX3QgbW9kZSkNCj4gKyt7DQo+
+ICsrwqDCoMKgIGludCByYzsNCj4gKyvCoMKgwqAgcnBtRnNtT3Agb3AgPSAoRkFfQ1JFQVRFKTsN
+Cj4gKyvCoMKgwqAgaWYgKCFvd25lZCkNCj4gKysJb3AgfD0gRkFGX1VOT1dORUQ7DQo+ICsrDQo+
+ICsrwqDCoMKgIC8qIFJ1biBmc20gZmlsZSBwcmUgaG9vayBmb3IgYWxsIHBsdWdpbnMgKi8NCj4g
+KyvCoMKgwqAgcmMgPSBycG1wbHVnaW5zQ2FsbEZzbUZpbGVQcmUocGx1Z2lucywgTlVMTCwgZG4s
+IG1vZGUsIG9wKTsNCj4gKysNCj4gKyvCoMKgwqAgaWYgKCFyYykNCj4gKysJcmMgPSBmc21Na2Rp
+cihkaXJmZCwgZG4sIG1vZGUpOw0KPiArKw0KPiArK8KgwqDCoCBpZiAoIXJjKSB7DQo+ICsrCXJj
+ID0gcnBtcGx1Z2luc0NhbGxGc21GaWxlUHJlcGFyZShwbHVnaW5zLCBOVUxMLCBkbiwgZG4sDQo+
+IG1vZGUsIG9wKTsNCj4gKyvCoMKgwqAgfQ0KPiArKw0KPiArK8KgwqDCoCAvKiBSdW4gZnNtIGZp
+bGUgcG9zdCBob29rIGZvciBhbGwgcGx1Z2lucyAqLw0KPiArK8KgwqDCoCBycG1wbHVnaW5zQ2Fs
+bEZzbUZpbGVQb3N0KHBsdWdpbnMsIE5VTEwsIGRuLCBtb2RlLCBvcCwgcmMpOw0KPiArKw0KPiAr
+K8KgwqDCoCBpZiAoIXJjKSB7DQo+ICsrCXJwbWxvZyhSUE1MT0dfREVCVUcsDQo+ICsrCQkiJXMg
+ZGlyZWN0b3J5IGNyZWF0ZWQgd2l0aCBwZXJtcyAlMDRvXG4iLA0KPiArKwkJZG4sICh1bnNpZ25l
+ZCkobW9kZSAmIDA3Nzc3KSk7DQo+ICsrwqDCoMKgIH0NCj4gKysNCj4gKyvCoMKgwqAgcmV0dXJu
+IHJjOw0KPiArK30NCj4gKysNCj4gKytzdGF0aWMgaW50IGVuc3VyZURpcihycG1QbHVnaW5zIHBs
+dWdpbnMsIGNvbnN0IGNoYXIgKnAsIGludCBvd25lZCwNCj4gaW50IGNyZWF0ZSkNCj4gKyt7DQo+
+ICsrwqDCoMKgIGNoYXIgKnBhdGggPSB4c3RyZHVwKHApOw0KPiArK8KgwqDCoCBjaGFyICpkcCA9
+IHBhdGg7DQo+ICsrwqDCoMKgIGNoYXIgKnNwID0gTlVMTCwgKmJuOw0KPiArK8KgwqDCoCBpbnQg
+b2ZsYWdzID0gT19SRE9OTFk7DQo+ICsrDQo+ICsrwqDCoMKgIGludCBkaXJmZCA9IGZzbU9wZW5h
+dCgtMSwgIi8iLCBvZmxhZ3MpOw0KPiArK8KgwqDCoCBpbnQgZmQgPSBkaXJmZDsgLyogc3BlY2lh
+bCBjYXNlIG9mICIvIiAqLw0KPiArKw0KPiArK8KgwqDCoCB3aGlsZSAoKGJuID0gc3RydG9rX3Io
+ZHAsICIvIiwgJnNwKSkgIT0gTlVMTCkgew0KPiArKwlzdHJ1Y3Qgc3RhdCBzYjsNCj4gKysJZmQg
+PSBmc21PcGVuYXQoZGlyZmQsIGJuLCBvZmxhZ3MpOw0KPiArKw0KPiArKwlpZiAoZmQgPCAwICYm
+IGVycm5vID09IEVOT0VOVCAmJiBjcmVhdGUpIHsNCj4gKysJwqDCoMKgIG1vZGVfdCBtb2RlID0g
+U19JRkRJUiB8IChfZGlyUGVybXMgJiAwNzc3Nyk7DQo+ICsrCcKgwqDCoCBpZiAoZnNtRG9Na0Rp
+cihwbHVnaW5zLCBkaXJmZCwgYm4sIG93bmVkLCBtb2RlKSA9PSAwKSB7DQo+ICsrCQlmZCA9IGZz
+bU9wZW5hdChkaXJmZCwgYm4sIG9mbGFnc3xPX05PRk9MTE9XKTsNCj4gKysJwqDCoMKgIH0NCj4g
+KysJfQ0KPiArKw0KPiArKwlpZiAoZmQgPj0gMCAmJiBmc3RhdChmZCwgJnNiKSA9PSAwICYmICFT
+X0lTRElSKHNiLnN0X21vZGUpKQ0KPiB7DQo+ICsrCcKgwqDCoCBjbG9zZShmZCk7DQo+ICsrCcKg
+wqDCoCBlcnJubyA9IEVOT1RESVI7DQo+ICsrCcKgwqDCoCBmZCA9IC0xOw0KPiArKwl9DQo+ICsr
+DQo+ICsrCWNsb3NlKGRpcmZkKTsNCj4gKysJaWYgKGZkID49IDApIHsNCj4gKysJwqDCoMKgIGRp
+cmZkID0gZmQ7DQo+ICsrCX0gZWxzZSB7DQo+ICsrCcKgwqDCoCBkaXJmZCA9IC0xOw0KPiArKwnC
+oMKgwqAgcnBtbG9nKFJQTUxPR19FUlIsIF8oImZhaWxlZCB0byBvcGVuIGRpciAlcyBvZiAlczoN
+Cj4gJXNcbiIpLA0KPiArKwkJCQlibiwgcCwgc3RyZXJyb3IoZXJybm8pKTsNCj4gKysJwqDCoMKg
+IGJyZWFrOw0KPiArKwl9DQo+ICsrDQo+ICsrCWRwID0gTlVMTDsNCj4gKyvCoMKgwqAgfQ0KPiAr
+Kw0KPiArK8KgwqDCoCBmcmVlKHBhdGgpOw0KPiArK8KgwqDCoCByZXR1cm4gZGlyZmQ7DQo+ICsr
+fQ0KPiArKw0KPiArIHN0YXRpYyBpbnQgZnNtTWtmaWZvKGNvbnN0IGNoYXIgKnBhdGgsIG1vZGVf
+dCBtb2RlKQ0KPiArIHsNCj4gK8KgwqDCoMKgIGludCByYyA9IG1rZmlmbyhwYXRoLCAobW9kZSAm
+IDA3Nzc3KSk7DQo+ICtAQCAtNTA3LDcgKzYxMCw3IEBAIHN0YXRpYyBpbnQgZnNtTWtkaXJzKHJw
+bWZpbGVzIGZpbGVzLCBycG1mcyBmcywNCj4gcnBtUGx1Z2lucyBwbHVnaW5zKQ0KPiArwqAJCXJj
+ID0gcnBtcGx1Z2luc0NhbGxGc21GaWxlUHJlKHBsdWdpbnMsIE5VTEwsIGRuLA0KPiBtb2RlLCBv
+cCk7DQo+ICsgDQo+ICvCoAkJaWYgKCFyYykNCj4gKy0JCcKgwqDCoCByYyA9IGZzbU1rZGlyKGRu
+LCBtb2RlKTsNCj4gKysJCcKgwqDCoCByYyA9IGZzbU1rZGlyKC0xLCBkbiwgbW9kZSk7DQo+ICsg
+DQo+ICvCoAkJaWYgKCFyYykgew0KPiArwqAJCcKgwqDCoCByYyA9IHJwbXBsdWdpbnNDYWxsRnNt
+RmlsZVByZXBhcmUocGx1Z2lucywgTlVMTCwNCj4gZG4sIGRuLA0KPiArQEAgLTg3NCw2ICs5Nzcs
+MjEgQEAgc3RhdGljIHZvaWQgc2V0RmlsZVN0YXRlKHJwbWZzIGZzLCBpbnQgaSkNCj4gK8KgwqDC
+oMKgIH0NCj4gKyB9DQo+ICsgDQo+ICsrc3RydWN0IGRpcml0ZXJfcyB7DQo+ICsrwqDCoMKgIGlu
+dCBkaXJmZDsNCj4gKyt9Ow0KPiArKw0KPiArK3N0YXRpYyBpbnQgb25DaGRpcihycG1maSBmaSwg
+dm9pZCAqZGF0YSkNCj4gKyt7DQo+ICsrwqDCoMKgIHN0cnVjdCBkaXJpdGVyX3MgKmRpID0gZGF0
+YTsNCj4gKysNCj4gKyvCoMKgwqAgaWYgKGRpLT5kaXJmZCA+PSAwKSB7DQo+ICsrCWNsb3NlKGRp
+LT5kaXJmZCk7DQo+ICsrCWRpLT5kaXJmZCA9IC0xOw0KPiArK8KgwqDCoCB9DQo+ICsrwqDCoMKg
+IHJldHVybiAwOw0KPiArK30NCj4gKysNCj4gKyBpbnQgcnBtUGFja2FnZUZpbGVzSW5zdGFsbChy
+cG10cyB0cywgcnBtdGUgdGUsIHJwbWZpbGVzIGZpbGVzLA0KPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBycG1wc20gcHNtLCBjaGFyICoqIGZhaWxlZEZpbGUpDQo+ICsgew0KPiArQEAg
+LTg5MCw2ICsxMDA4LDcgQEAgaW50IHJwbVBhY2thZ2VGaWxlc0luc3RhbGwocnBtdHMgdHMsIHJw
+bXRlIHRlLA0KPiBycG1maWxlcyBmaWxlcywNCj4gK8KgwqDCoMKgIGNoYXIgKnRpZCA9IE5VTEw7
+DQo+ICvCoMKgwqDCoCBzdHJ1Y3QgZmlsZWRhdGFfcyAqZmRhdGEgPSB4Y2FsbG9jKGZjLCBzaXpl
+b2YoKmZkYXRhKSk7DQo+ICvCoMKgwqDCoCBzdHJ1Y3QgZmlsZWRhdGFfcyAqZmlyc3RsaW5rID0g
+TlVMTDsNCj4gKyvCoMKgwqAgc3RydWN0IGRpcml0ZXJfcyBkaSA9IHsgLTEgfTsNCj4gKyANCj4g
+K8KgwqDCoMKgIC8qIHRyYW5zYWN0aW9uIGlkIHVzZWQgZm9yIHRlbXBvcmFyeSBwYXRoIHN1ZmZp
+eCB3aGlsZQ0KPiBpbnN0YWxsaW5nICovDQo+ICvCoMKgwqDCoCByYXNwcmludGYoJnRpZCwgIjsl
+MDh4IiwgKHVuc2lnbmVkKXJwbXRzR2V0VGlkKHRzKSk7DQo+ICtAQCAtOTI5LDYgKzEwNDgsNyBA
+QCBpbnQgcnBtUGFja2FnZUZpbGVzSW5zdGFsbChycG10cyB0cywgcnBtdGUgdGUsDQo+IHJwbWZp
+bGVzIGZpbGVzLA0KPiArwqDCoMKgwqDCoMKgwqDCoCByYyA9IFJQTUVSUl9CQURfTUFHSUM7DQo+
+ICvCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZXhpdDsNCj4gK8KgwqDCoMKgIH0NCj4gKyvCoMKgwqAg
+cnBtZmlTZXRPbkNoZGlyKGZpLCBvbkNoZGlyLCAmZGkpOw0KPiArIA0KPiArwqDCoMKgwqAgLyog
+RGV0ZWN0IGFuZCBjcmVhdGUgZGlyZWN0b3JpZXMgbm90IGV4cGxpY2l0bHkgaW4gcGFja2FnZS4g
+Ki8NCj4gK8KgwqDCoMKgIGlmICghcmMpDQo+ICtAQCAtOTQzLDYgKzEwNjMsMTYgQEAgaW50IHJw
+bVBhY2thZ2VGaWxlc0luc3RhbGwocnBtdHMgdHMsIHJwbXRlIHRlLA0KPiBycG1maWxlcyBmaWxl
+cywNCj4gK8KgCcKgwqDCoCBpZiAoIWZwLT5zdWZmaXgpIHsNCj4gK8KgCQlyYyA9IGZzbUJhY2t1
+cChmaSwgZnAtPmFjdGlvbik7DQo+ICvCoAnCoMKgwqAgfQ0KPiArKw0KPiArKwnCoMKgwqAgaWYg
+KGRpLmRpcmZkID09IC0xKSB7DQo+ICsrCQlkaS5kaXJmZCA9IGVuc3VyZURpcihwbHVnaW5zLCBy
+cG1maUROKGZpKSwgMCwNCj4gKysJCQkJwqDCoMKgIChmcC0+YWN0aW9uID09IEZBX0NSRUFURSkp
+Ow0KPiArKwkJaWYgKGRpLmRpcmZkID09IC0xKSB7DQo+ICsrCQnCoMKgwqAgcmMgPSBSUE1FUlJf
+T1BFTl9GQUlMRUQ7DQo+ICsrCQnCoMKgwqAgYnJlYWs7DQo+ICsrCQl9DQo+ICsrCcKgwqDCoCB9
+DQo+ICsrDQo+ICvCoAnCoMKgwqAgLyogQXNzdW1lIGZpbGUgZG9lcyd0IGV4aXN0IHdoZW4gdG1w
+IHN1ZmZpeCBpcyBpbiB1c2UgKi8NCj4gK8KgCcKgwqDCoCBpZiAoIWZwLT5zdWZmaXgpIHsNCj4g
+K8KgCQlpZiAoZnAtPmFjdGlvbiA9PSBGQV9UT1VDSCkgew0KPiArQEAgLTk3Nyw3ICsxMTA3LDcg
+QEAgaW50IHJwbVBhY2thZ2VGaWxlc0luc3RhbGwocnBtdHMgdHMsIHJwbXRlIHRlLA0KPiBycG1m
+aWxlcyBmaWxlcywNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+bW9kZV90IG1vZGUgPSBmcC0+c2Iuc3RfbW9kZTsNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgbW9kZSAmPSB+MDc3Nzc7DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1vZGUgfD3CoCAwMDcwMDsNCj4gKy3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByYyA9IGZzbU1rZGlyKGZwLT5mcGF0aCwgbW9kZSk7
+DQo+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmMgPSBmc21Na2Rp
+cihkaS5kaXJmZCwgZnAtPmZwYXRoLCBtb2RlKTsNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIH0NCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9IGVsc2UgaWYgKFNfSVNM
+TksoZnAtPnNiLnN0X21vZGUpKSB7DQo+ICvCoAkJaWYgKHJjID09IFJQTUVSUl9FTk9FTlQpIHsN
+Cj4gK0BAIC0xMDE5LDYgKzExNDksOCBAQCBpbnQgcnBtUGFja2FnZUZpbGVzSW5zdGFsbChycG10
+cyB0cywgcnBtdGUgdGUsDQo+IHJwbWZpbGVzIGZpbGVzLA0KPiArwqAJZnAtPnN0YWdlID0gRklM
+RV9VTlBBQ0s7DQo+ICvCoMKgwqDCoCB9DQo+ICvCoMKgwqDCoCBmaSA9IHJwbWZpRnJlZShmaSk7
+DQo+ICsrwqDCoMKgIGNsb3NlKGRpLmRpcmZkKTsNCj4gKyvCoMKgwqAgZGkuZGlyZmQgPSAtMTsN
+Cj4gKyANCj4gK8KgwqDCoMKgIGlmICghcmMgJiYgZnggPCAwICYmIGZ4ICE9IFJQTUVSUl9JVEVS
+X0VORCkNCj4gK8KgCXJjID0gZng7DQo+ICtkaWZmIC0tZ2l0IGEvbGliL3JwbWZpLmMgYi9saWIv
+cnBtZmkuYw0KPiAraW5kZXggMzNiNjU3YWEyLi43NDBlMjU3ZmUgMTAwNjQ0DQo+ICstLS0gYS9s
+aWIvcnBtZmkuYw0KPiArKysrIGIvbGliL3JwbWZpLmMNCj4gK0BAIC01NSw2ICs1NSw5IEBAIHN0
+cnVjdCBycG1maV9zIHsNCj4gK8KgwqDCoMKgIGludCBpbnRlcnZhbFN0YXJ0OwkJLyohPCBTdGFy
+dCBvZiBpdGVyYXRpbmcNCj4gaW50ZXJ2YWwuICovDQo+ICvCoMKgwqDCoCBpbnQgaW50ZXJ2YWxF
+bmQ7CQkvKiE8IEVuZCBvZiBpdGVyYXRpbmcgaW50ZXJ2YWwuICovDQo+ICsgDQo+ICsrwqDCoMKg
+IHJwbWZpQ2hkaXJDYiBvbkNoZGlyOwkvKiE8IENhbGxiYWNrIGZvciBkaXJlY3RvcnkgY2hhbmdl
+cw0KPiAqLw0KPiArK8KgwqDCoCB2b2lkICpvbkNoZGlyRGF0YTsJCS8qITwgQ2FsbGVyIHByaXZh
+dGUgY2FsbGJhY2sNCj4gZGF0YSAqLw0KPiArKw0KPiArwqDCoMKgwqAgcnBtZmlsZXMgZmlsZXM7
+CQkvKiE8IEZpbGUgaW5mbyBzZXQgKi8NCj4gK8KgwqDCoMKgIHJwbWNwaW9fdCBhcmNoaXZlOwkJ
+LyohPCBBcmNoaXZlIHdpdGggcGF5bG9hZCAqLw0KPiArwqDCoMKgwqAgdW5zaWduZWQgY2hhciAq
+IGZvdW5kOwkvKiE8IEJpdCBmaWVsZCBvZiBmaWxlcyBmb3VuZCBpbiB0aGUNCj4gYXJjaGl2ZSAq
+Lw0KPiArQEAgLTMwOSw2ICszMTIsMTcgQEAgaW50IHJwbWZpREkocnBtZmkgZmkpDQo+ICsgfQ0K
+PiArICNlbmRpZg0KPiArIA0KPiArK2ludCBycG1maVNldE9uQ2hkaXIocnBtZmkgZmksIHJwbWZp
+Q2hkaXJDYiBjYiwgdm9pZCAqZGF0YSkNCj4gKyt7DQo+ICsrwqDCoMKgIGludCByYyA9IC0xOw0K
+PiArK8KgwqDCoCBpZiAoZmkgIT0gTlVMTCkgew0KPiArKwlmaS0+b25DaGRpciA9IGNiOw0KPiAr
+KwlmaS0+b25DaGRpckRhdGEgPSBkYXRhOw0KPiArKwlyYyA9IDA7DQo+ICsrwqDCoMKgIH0NCj4g
+KyvCoMKgwqAgcmV0dXJuIHJjOw0KPiArK30NCj4gKysNCj4gKyBpbnQgcnBtZmlGWChycG1maSBm
+aSkNCj4gKyB7DQo+ICvCoMKgwqDCoCByZXR1cm4gKGZpICE9IE5VTEwgPyBmaS0+aSA6IC0xKTsN
+Cj4gK0BAIC0zMTksOSArMzMzLDE3IEBAIGludCBycG1maVNldEZYKHJwbWZpIGZpLCBpbnQgZngp
+DQo+ICvCoMKgwqDCoCBpbnQgaSA9IC0xOw0KPiArIA0KPiArwqDCoMKgwqAgaWYgKGZpICE9IE5V
+TEwgJiYgZnggPj0gMCAmJiBmeCA8IHJwbWZpbGVzRkMoZmktPmZpbGVzKSkgew0KPiArLQlpID0g
+ZmktPmk7DQo+ICsrCWludCBkeCA9IGZpLT5qOw0KPiArKwlpID0gZmktPmk7wqDCoMKgIA0KPiAr
+wqAJZmktPmkgPSBmeDsNCj4gK8KgCWZpLT5qID0gcnBtZmlsZXNESShmaS0+ZmlsZXMsIGZpLT5p
+KTsNCj4gKysJaSA9IGZpLT5pOw0KPiArKw0KPiArKwlpZiAoZmktPmogIT0gZHggJiYgZmktPm9u
+Q2hkaXIpIHsNCj4gKysJwqDCoMKgIGludCBjaHJjID0gZmktPm9uQ2hkaXIoZmksIGZpLT5vbkNo
+ZGlyRGF0YSk7DQo+ICsrCcKgwqDCoCBpZiAoY2hyYyA8IDApDQo+ICsrCQlpID0gY2hyYzsNCj4g
+KysJfQ0KPiArwqDCoMKgwqAgfQ0KPiArwqDCoMKgwqAgcmV0dXJuIGk7DQo+ICsgfQ0KPiArQEAg
+LTE4MTYsMTAgKzE4MzgsOSBAQCBzdGF0aWMgcnBtZmkgaW5pdEl0ZXIocnBtZmlsZXMgZmlsZXMs
+IGludA0KPiBpdHlwZSwgaW50IGxpbmspDQo+ICsgDQo+ICvCoMKgwqDCoCBpZiAoZmlsZXMgJiYg
+aXR5cGU+PTAgJiYgaXR5cGU8PVJQTUZJTEVJVEVSTUFYKSB7DQo+ICvCoAlmaSA9IHhjYWxsb2Mo
+MSwgc2l6ZW9mKCpmaSkpOyANCj4gKy0JZmktPmkgPSAtMTsNCj4gKysJZmktPmogPSAtMTsNCj4g
+K8KgCWZpLT5maWxlcyA9IGxpbmsgPyBycG1maWxlc0xpbmsoZmlsZXMpIDogZmlsZXM7DQo+ICvC
+oAlmaS0+bmV4dCA9IG5leHRmdW5jc1tpdHlwZV07DQo+ICstCWZpLT5pID0gLTE7DQo+ICvCoAlp
+ZiAoaXR5cGUgPT0gUlBNRklfSVRFUl9CQUNLKSB7DQo+ICvCoAnCoMKgwqAgZmktPmkgPSBycG1m
+aWxlc0ZDKGZpLT5maWxlcyk7DQo+ICvCoAl9IGVsc2UgaWYgKGl0eXBlID49UlBNRklfSVRFUl9S
+RUFEX0FSQ0hJVkUNCj4gK2RpZmYgLS1naXQgYS9saWIvcnBtZmlfaW50ZXJuYWwuaCBiL2xpYi9y
+cG1maV9pbnRlcm5hbC5oDQo+ICtpbmRleCBkY2NjNmNjYmUuLjM3ZjFkNDVmNSAxMDA2NDQNCj4g
+Ky0tLSBhL2xpYi9ycG1maV9pbnRlcm5hbC5oDQo+ICsrKysgYi9saWIvcnBtZmlfaW50ZXJuYWwu
+aA0KPiArQEAgLTEzLDYgKzEzLDIzIEBADQo+ICsgZXh0ZXJuICJDIiB7DQo+ICsgI2VuZGlmDQo+
+ICsgDQo+ICsrLyoqIFxpbmdyb3VwIHJwbWZpDQo+ICsrICogQ2FsbGJhY2sgb24gZmlsZSBpdGVy
+YXRvciBkaXJlY3RvcnkgY2hhbmdlcw0KPiArKyAqIEBwYXJhbSBmaQkJZmlsZSBpbmZvDQo+ICsr
+ICogQHBhcmFtIGRhdGEJCWNhbGxlciBwcml2YXRlIGNhbGxiYWNrIGRhdGENCj4gKysgKiBAcmV0
+dXJuCQkwIG9uIHN1Y2Nlc3MsIDwgMCBvbiBlcnJvciAodG8gc3RvcA0KPiBpdGVyYXRpb24pDQo+
+ICsrICovDQo+ICsrdHlwZWRlZiBpbnQgKCpycG1maUNoZGlyQ2IpKHJwbWZpIGZpLCB2b2lkICpk
+YXRhKTsNCj4gKysNCj4gKysvKiogXGluZ3JvdXAgcnBtZmkNCj4gKysgKiBTZXQgYSBjYWxsYmFj
+ayBmb3IgZGlyZWN0b3J5IGNoYW5nZXMgZHVyaW5nIGl0ZXJhdGlvbi4NCj4gKysgKiBAcGFyYW0g
+ZmkJCWZpbGUgaW5mbw0KPiArKyAqIEBwYXJhbSBjYgkJY2FsbGJhY2sgZnVuY3Rpb24NCj4gKysg
+KiBAcGFyYW0gZGF0YQkJY2FsbGVyIHByaXZhdGUgY2FsbGJhY2sgZGF0YQ0KPiArKyAqIEByZXR1
+cm4JCXN0cmluZyBwb29sIGhhbmRsZSAod2VhayByZWZlcmVuY2UpDQo+ICsrICovDQo+ICsraW50
+IHJwbWZpU2V0T25DaGRpcihycG1maSBmaSwgcnBtZmlDaGRpckNiIGNiLCB2b2lkICpkYXRhKTsN
+Cj4gKysNCj4gKyAvKiogXGluZ3JvdXAgcnBtZmkNCj4gK8KgICogUmV0dXJuIGZpbGUgaW5mbyBz
+ZXQgc3RyaW5nIHBvb2wgaGFuZGxlDQo+ICvCoCAqIEBwYXJhbSBmaQkJZmlsZSBpbmZvDQo+ICst
+LSANCj4gKzIuMzkuMw0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cnBtL3JwbV80LjE3LjEuYmIgYi9tZXRhL3JlY2lwZXMtDQo+IGRldnRvb2xzL3JwbS9ycG1fNC4x
+Ny4xLmJiDQo+IGluZGV4IDliNjQ0NmYyNjUuLmFhZDhmMjQ2OGYgMTAwNjQ0DQo+IC0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9ycG0vcnBtXzQuMTcuMS5iYg0KPiArKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcnBtL3JwbV80LjE3LjEuYmINCj4gQEAgLTQwLDYgKzQwLDcgQEAgU1JDX1VS
+SSA9ICJnaXQ6Ly9naXRodWIuY29tL3JwbS1zb2Z0d2FyZS0NCj4gbWFuYWdlbWVudC9ycG07YnJh
+bmNoPXJwbS00LjE3Lng7cHJvdG9jDQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqANCj4gZmlsZTov
+LzAwMDEtZG9jcy1kby1ub3QtYnVpbGQtbWFucGFnZXMtcmVxdWlyZXMtcGFuZG9jLnBhdGNowqBc
+DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqANCj4gZmlsZTovLzAwMDEtYnVpbGQtcGFjay5jLWRv
+LW5vdC1pbnNlcnQtcGF5bG9hZGZsYWdzLWludG8tLnJwbS1tZS5wYXRjaA0KPiDCoFwNCj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoA0KPiBmaWxlOi8vMDAwMS1jb25maWd1cmUuYWMtYWRkLWxpbnV4
+LWdudXgzMi12YXJpYW50LXRvLXRyaXBsZXQtaGFuLnBhdGNoDQo+IMKgXA0KPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgZmlsZTovL0NWRS0yMDIxLTM1OTM5LnBhdGNowqBcDQo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgIg0KPiDCoA0KPiDCoFBFID0gIjEiDQo+IA0KPiAtPS09LT0tPS09LT0tPS09
+LT0tPS09LQ0KPiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBn
+cm91cC4NCj4gVmlldy9SZXBseSBPbmxpbmUgKCMxOTg2MzApOg0KPiBodHRwczovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE5ODYzMA0KPiBNdXRl
+IFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMDU2OTI3NzIv
+MzYxNjcwMg0KPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiBVbnN1YnNjcmliZToNCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWLCoFsNCj4gYW51ai5taXR0YWxAaW50ZWwu
+Y29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiANCg0K
 
