@@ -1,1672 +1,294 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE7CC4345F
-	for <webhook@archiver.kernel.org>; Sat, 27 Apr 2024 17:32:15 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web10.15215.1714239129248223328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F34C4345F
+	for <webhook@archiver.kernel.org>; Sun, 28 Apr 2024 03:17:42 +0000 (UTC)
+Received: from esa10.fujitsucc.c3s2.iphmx.com (esa10.fujitsucc.c3s2.iphmx.com [68.232.159.247])
+ by mx.groups.io with SMTP id smtpd.web11.3380.1714274257079532379
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Apr 2024 10:32:09 -0700
+ Sat, 27 Apr 2024 20:17:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lzauZR3P;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-23333ef4a02so1704662fac.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Apr 2024 10:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714239128; x=1714843928; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W/kAoe2QtYGJUwYbOZH+GxHblccSlbXJG8+f4PINTBs=;
-        b=lzauZR3PpsGOkthrzb/Av+dhRCQTJs75nLcHANTUpjg335e5la8u04BHvtMNzqHIon
-         wmbElZsSxV9EMGn8aOksMQt++pPWNk6n7+pLKQgyor8Q3oyXv8qiILxyWEI+5yq0n720
-         mgEgGF3dabCKvjKSFrJpEeSPB7oSKL5E2BfOLIaNa3PrZ+Au3/Q7qRfP1elmUGIa3MSr
-         mzOZ+ixA57eKRaD56eaipttVfMyT0k/nPKdbQVHqSjF92BflPgxjVLmznGTAwBneVd8Q
-         /4IEGFlyHcv/BJJbPOMBRiwhcgphXo5k5cBNVzWvfObVRhfQV2aIIRq8K9Nxmzmln0Y4
-         NlpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714239128; x=1714843928;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W/kAoe2QtYGJUwYbOZH+GxHblccSlbXJG8+f4PINTBs=;
-        b=VpS38iTaXSIxHnxH3/3P75PpCypPY44O80isW8+QzyfygyaAqiDZo0WeoOvATbPpVb
-         3wurz9UdomJQeir06hPetVe5374qvH6elmZXIn3jPr9yqEV/nb/NgWZL9k3cRwgvwa0Y
-         o4Evk+ZGQiSEcXoAq8FfMnjV9wOxblCDQddgsnMXPqDC5MoSQB06YT+0QG/JDnnCcEMZ
-         CGP2gKBZLagRlesrCJkUyMYmQU8A4pPfKPijLsM9ELoiIWF7AXNowPauevwoS1gddxf1
-         M+eiqC4zhZITrAr2zeyU9kswGVPV9cpUMeggxMUa6q9eCBPjOUlWGOyJL+F094uNr8o8
-         sUjw==
-X-Gm-Message-State: AOJu0YwdCecVe1dECtDyW3fzqb+wQtl55k90UEg959ugJ9swtvFmsfZV
-	s15fZcHl9Wy0WdgM0lue5/oap4rkZ4XNeisc6mSG04WTzaq1E9X5P+Eou0t7AOEvoXyq/DBy+mU
-	QpA1oPMstxebNozAGgnFwoQX+1Gw=
-X-Google-Smtp-Source: AGHT+IH+DUOOZ1MC7EJP+lQm89RX28izQgroYFDq3Dgvr3trXH2uarWiAQJZdjpcK2lvLgStu+5T7llwmikxuMIaLP8=
-X-Received: by 2002:a05:6870:a546:b0:22a:9edb:27f0 with SMTP id
- p6-20020a056870a54600b0022a9edb27f0mr7044587oal.3.1714239128140; Sat, 27 Apr
- 2024 10:32:08 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=jgIt6D73;
+ spf=neutral (domain: fujitsu.com, ip: 68.232.159.247, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1714274257; x=1745810257;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=p1sknP6zsb3krONpV2rXOusZUx3K3wfzTXI7l1kJrCc=;
+  b=jgIt6D73gveJghqCMBGrgHuVII6FNXNcyEglr2TseybeB9Q2NRs/zjeH
+   5bktSkQTY90Ghe+5JMzNlUujVb4QQLVHVInaOYXg/F3LbdP+CIXprMrVu
+   zaN6PbGyp3UdGex1MAduxzEVuhqWVK6A33BfhfI8NcmE7usOKv5Hh9qVE
+   ElpJxeuBwgko0Qrn70TakxM+I/84YzCRw1t3u91sXqyq/41YaG339WPWx
+   WKPIQy1GN7Y81tOCAc2X2ljJbim+nauIAr2shhPyXnC8Tq38kOiudDEzg
+   gLRjzK7LTOm7E0VL/ld7ftZSVpU8ijcxM6U4f2PlfZcrcXn1/Nf1B9gf2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="118179613"
+X-IronPort-AV: E=Sophos;i="6.07,236,1708354800"; 
+   d="scan'208";a="118179613"
+Received: from mail-japaneastazlp17010002.outbound.protection.outlook.com (HELO TYVP286CU001.outbound.protection.outlook.com) ([40.93.73.2])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 12:17:33 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g1HkRBQ9UTBgnXKXeHV8Rgxoy6oFrMdZmlmIUyM9AHIpLiqBAfhZ9NW95kDkigoKwnakkt+kaH7+7WuztoHMGEUySzHovWCUCgXOwMTZFPYdd7gPPI0pxYPDRhPHvzOOSHhk/mRYbGfCDr4qOv6hXJsAacwBb/irN0XT/hSpy1w/+zg/tNtnbyQP8wHzQJ6wL2eM8Jb5x4FMoI3Xl+cFDrjIqasT5yO8uvb6KwVx7v0wG2K2oCWY7KiGpfxY9s3WJyJH3OCIJrXXAC/a5XsiD4EAcawlmuNlvEDdQQ3yvI+6SR21o4Gx/hAdao7AEM9YChMhmPeqFFUsvqZaG6k/zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p1sknP6zsb3krONpV2rXOusZUx3K3wfzTXI7l1kJrCc=;
+ b=JdX43Z6xBdREfksDW8JXuc5lBICUkXHd1iK8B7ELQM0y7Y35f45sr8hZgxq6KrLmt9c29tHfBoXVBCTiZr1jy+xnolZz6cgGrYlv3AwDCsKJMD0Q2RjrY5k/+9cKXuSyWMvugMOIPm3RRzKcE++q3RaPVHwB6ANyn1gyffIMsMzIXusL5Dyqp6wT4KP05N0WFj2FGCkBRoEuloHlOEN1aWopA6YFrZTk79r+03ObA+mp+2Jp38onJmVn8O09+EViGHNpvrtRKFRqzfZringQhiFS3qc4LylRSeSmkW/mpJ/8iKg/IVpL+h8muUrmMn2j51AFvX5fysEJcDWhqsjQyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
+ (2603:1096:400:3b4::12) by OSZPR01MB7986.jpnprd01.prod.outlook.com
+ (2603:1096:604:1ba::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.32; Sun, 28 Apr
+ 2024 03:17:30 +0000
+Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
+ ([fe80::c5a5:5492:4703:280e]) by TY3PR01MB11056.jpnprd01.prod.outlook.com
+ ([fe80::c5a5:5492:4703:280e%6]) with mapi id 15.20.7519.030; Sun, 28 Apr 2024
+ 03:17:30 +0000
+From: "Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH v3] libbsd: Fix conflict error when enable
+ multilib.
+Thread-Topic: [OE-core][PATCH v3] libbsd: Fix conflict error when enable
+ multilib.
+Thread-Index: AQHaltTG3T0Exw/BUUKnJbWAd+1sPbF4ocSAgAENpgCAAI1/AIACwaVQ
+Date: Sun, 28 Apr 2024 03:17:30 +0000
+Message-ID: 
+ <TY3PR01MB11056BE6139DB78A63C9871B2A0142@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+References: <20240425055231.668897-1-leimaohui@fujitsu.com>
+ <CANNYZj8U5X==Up3C8QoQf_RzEV1-9Ewo8w0Q00HJ3B-uUYBc5w@mail.gmail.com>
+ <TY3PR01MB11056396A609AFF1770D3F05EA0162@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+ <CANNYZj-RMjrhBZxxmTNrCE+L38YmX1_bvtZnwnBkQLst1XBjkA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-RMjrhBZxxmTNrCE+L38YmX1_bvtZnwnBkQLst1XBjkA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9NjZlZDA4MDYtMGQzZC00NjA1LTlhNmUtNjE1NzQ3ZjYy?=
+ =?utf-8?B?ZjdlO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFROKAiztNU0lQ?=
+ =?utf-8?B?X0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9T?=
+ =?utf-8?B?ZXREYXRlPTIwMjQtMDQtMjhUMDI6NDU6MjBaO01TSVBfTGFiZWxfYTcyOTVj?=
+ =?utf-8?B?YzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
+ =?utf-8?Q?d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11056:EE_|OSZPR01MB7986:EE_
+x-ms-office365-filtering-correlation-id: c59e8bbb-a94f-41fe-37eb-08dc6731bd05
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230031|376005|366007|1800799015|1580799018|38070700009;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?SjlpT0JFSGxGWWgrTGMxZ0xBZ0p2bnNnd2lVQXowWnFvcUpMQVloQVlPSEZB?=
+ =?utf-8?B?K0RnUGp4cFhmbjFaTFBhc2JaaCt5bEdhS1p1Q3ZaY3JTbFp5c0U0VjFxbUc5?=
+ =?utf-8?B?TDhMU1JyMW1ka25CcThDR21XeUZQTDhKcnQwTVNTQUt2VThPMmIxczZwSlUw?=
+ =?utf-8?B?akFHUTc3bEtES1VYY2wwODhpYmJYeWc3RGJvV0tFc0FVSnZyQWhOVFEwTGFp?=
+ =?utf-8?B?VThIdnYyOEFIRm9PSXBQbkJmZW9IcGgxaG03bUpkUmthZUpQRXFmS0ZDL0ZE?=
+ =?utf-8?B?blc0VXpBRG5qV2h6R2liNVZiaGtnVVJOZHZFWHorcXRRMnhoVFNoMW9aQllE?=
+ =?utf-8?B?ZkJzc0h4WStwUk9qa3hoK3piTWlWM25yZ2tpVHdEWlF0c1hOOXFDSnpFc0lW?=
+ =?utf-8?B?eCtGT2NTakRwYUpOKzJmL29ESm9aNzdDY2dKYXNIa00wcHd1NDJaQThxY21J?=
+ =?utf-8?B?OWphcWVsNWhWRit5NHlFOFZLUTlkMXFnRDBJRC9RMnBZU1U0MUQ1UW9CeENN?=
+ =?utf-8?B?YUo0T25zd0c5bGVyZXpTcGh2UUU2Q2lSdCs0VjBjUFV1UFpWT1A0SXJLWDJH?=
+ =?utf-8?B?SnNVMEdCZThCZTh4VjRHODRuMzlqbm1IaEpmWUFmQ1IwOGhpbEZ4MVRLRDh0?=
+ =?utf-8?B?S0RLdzZONStucmtnalhGNUFhOFNLZXRYamlScUhvZXdSTTJpV3dHeGdDSVIr?=
+ =?utf-8?B?OVR3UncrZk1kUng0OVN2N09COXRDanJ5SVorY0ZjbjlzNmlZVmNrZzhBdUJS?=
+ =?utf-8?B?ZUJlc29yelFzcUxDWmRhUlhjTnEyU2Z4S2Z0NWlLZDkxbjdLRnFPUzJ1QjJN?=
+ =?utf-8?B?MXkxY1dwZG5PWGREYTZPV0NReW5WZnVMUWxCVU1raGRsSGNiK2Z1VEJnOHc4?=
+ =?utf-8?B?RG1mM1l5M1crT3lObEhCRE15dEEyblBlTW03M3RYY29UaGo4TFc2ZjBmai9q?=
+ =?utf-8?B?R0llMzdCRHhyaXlINXB6V0xFTkM1WkNsZnJreS91ZkJ0a0g4WXhVMGRiOEs4?=
+ =?utf-8?B?TDlmaHZmMHNIeCtFWi96clRiVEFYYk95REpXMi9uS1FyVGxyTEF2ZFV4elF6?=
+ =?utf-8?B?VHBvQjQ5Y3gvMW5qa0VpQ1pxSVovSE9sM2VXZVVoNUh2SWNuTFpLYmg5Wjl4?=
+ =?utf-8?B?UGpDeHJWRzdVMkF6UU5oT1YyTFRWOENZa3BZRzdxcGdWY0dmUkpoblY0THBO?=
+ =?utf-8?B?SDY5VXVUY1YxWCtiTytuSm43dkxoeTgxZWI5d1NoTjlialRIcXpjeVJ2a1lh?=
+ =?utf-8?B?MGNqNmVsWDdaRisydjAzSE5zZVNLRGZacWw5Y0I2K2ZpUXdhM1h0VXFOTGJL?=
+ =?utf-8?B?RVlCOGl4czkzLyswNTd4YUt6M0ZZVEZuWkpJN3JlR3pMUThKY2xCaEJtTDlO?=
+ =?utf-8?B?aEFjdE1hemlXeUtvYTBQYTFLQWt6UUZTVWRqeXRpZHNmN1V2bGRoSkJyTllm?=
+ =?utf-8?B?d1p6RWl4MkM5dTY2VURLZEVCczY0dGVoK3E2TUx1MnI1eHgyc2F0T2lmOFlT?=
+ =?utf-8?B?OVZWcUw0WGxENkpiQmRtYXpJa3NZRjE2dTFwa3pWUWFqdzVrZlIxK0pGZWdF?=
+ =?utf-8?B?K3BYS0ROeWRpNzF2TXhkQ1F0M081elcwb0hCQjFQajRCRVB3V3JRbEpyY3po?=
+ =?utf-8?B?aVNVT1VsN0dRQmt5cjl2TWhOSnRmSExrRHFZSFBqSjJQeU8xdWN5MWs2VlNu?=
+ =?utf-8?B?T2EzK2d4TlpXQmFoYVduS2N5R21Gc0k1QkpSVUhzbHFWaW1GR2t4bDVCYXBs?=
+ =?utf-8?Q?vGlUeOXqjRu0S7kYbfNTVvgpSASJdWpCS8ThjT4?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11056.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(1580799018)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bDViVitYTDFjM0I5OHhST3hRaGY0aVdNTUhXTGY5RmpuK1EzRXoyMGZDbkdF?=
+ =?utf-8?B?WHc4Tys0TG52QjNSeTRuYVFPajhGWmRQeWpQd3U3eGZJTFNBNzB4a0QrOG5E?=
+ =?utf-8?B?THJka0RNeDlLdUFrTm11bGpsbW1RUHlFTHlLS2lPeWdINnFia3Jic2tkOStp?=
+ =?utf-8?B?Z040OE1DTHpjTVJzdFdmamNFZFFBbnhaY3lmUm9mNEVvQU5Pd2NyQ2lQYjJl?=
+ =?utf-8?B?UGhVekVkTktXSXVKdDN0SkhDVUI1bG1sTzJxMFNUczRYMnpwR3hxa3NPelk2?=
+ =?utf-8?B?eUh6cEpEd3hXenBhMjFqZ2VIY3JSbWJkV2QxVEl2dllmQTlNVHcwT2UvbkNP?=
+ =?utf-8?B?VnM5b1VKd0p4Szl5aFdhUFNlZlNQSXJHdEZybFRIRVdYdkpYZDRTeEFXekE4?=
+ =?utf-8?B?b2RjZmxJUFdqcUl3SDJybDFuTWJFLzJWd0dOZWlmUm5hRWtrSXI5R2lROGRQ?=
+ =?utf-8?B?T0huRjhqc2Y2SW9WWW5wVTRYSnAvaFdTcDM2TWZTa29TeFJmTitFd0dpcUFj?=
+ =?utf-8?B?aUM1cVk5UWlPaTJlUHA0dlFzRXJwdHZaRXdRNXRUQkptTUtDTEpTZTFMaWZN?=
+ =?utf-8?B?WDVrZjV3MHBUL09FenduOTUzdXpyV0U3R1FmTHZXWWZscjNxRG05amJPeWFk?=
+ =?utf-8?B?RTRzSThUUStGNjBSZk9mblZvUERtdFd1VnhXNkJHVTJuei9ob2dYUlgwUC92?=
+ =?utf-8?B?eHpHSzVMQWh3bXhlSmZqbHZHUGxsKzdORU01Y2hNNjFFVVZHdzJQSm1lTnFT?=
+ =?utf-8?B?NFRtZXZyNGFuWWZEN0xveThiai9MWm53aWgzKzFvTHJJWkNkRjd5V3NqTjBX?=
+ =?utf-8?B?cEtMOWhXZWlKb2c0dm8yMEtlVy8yQkdqSGNDczZ5YnRBREdOV3o5c1AwWUtE?=
+ =?utf-8?B?ajgxYXJ6VkhuWGVPaUNVYWlySVNjSEFtTjZzMWY4WnhkNzJLVk5HamZVVGhY?=
+ =?utf-8?B?aE43OXk1cTFjVlhoSGhFb21ndGtRVlRic2JlaTlaMC9DbXkxbE9HdG5MaDg4?=
+ =?utf-8?B?akc5RXE4VnhNOUlPQ1FYVzJ5UlRVNTFRUXBVUFJXb0ZLcVpTREFXT3RCSUpR?=
+ =?utf-8?B?MVNYL1VlTVE2eGR3c1dRemVCbUZQSkFwZWR2d0N5dkQydk5vU05pVWsvQjlF?=
+ =?utf-8?B?SkVCbEowbXBhNm5JaHpRdkF6dE5rVUNtVEd3akJLMGJNcUc2Mk9SdFdLNHE1?=
+ =?utf-8?B?WFRXMi9OOXBqNEVMdEw5aFhYT1VRTDZPOGlYMFFTcDVLdmpKRGhHTWxmc1Ro?=
+ =?utf-8?B?QzVvanRiSUZZU2EzcnRPZHpMU0d6R2NLNUR1ZUVjWkJ1UmtYcFVuK1U3ZXJw?=
+ =?utf-8?B?ZnVCR1VtVitMckhVN05sUHFOYktoSVMzeFllR0tRZ2FMc1QxSjV4VklpYldi?=
+ =?utf-8?B?c1ZjMTIyMmxZbHpGSlpoaWxOWVI3N2FuQlpoVGl6cWwxQkUyOVFwbnVlZ0JB?=
+ =?utf-8?B?Z1lKa3RUZFlzdjNocTk1Um10QnVuSXBmbDhITXlpWGRHRi81K0NyK0hTaXRx?=
+ =?utf-8?B?MkZxeDJxVkxhYlpXU1dRbThpc1hUSUdIeWJwaHViaGlLK1FETEFBdThnK3Ey?=
+ =?utf-8?B?VWxRRkVUTWFyOFpJU0plUXlBeFBDN0Rmcnh6ZDN2djhYcFkwclhhRkVTaUhk?=
+ =?utf-8?B?aUlXYjBXV1F2dUx5aTVWaXJ1cUczd1hKcjV6a2xaeGRvcWNXWExTWmMxS3Y1?=
+ =?utf-8?B?OENUM05tZG11MDhGQUFYNndraU03VUpWdmZKK0tNdkovTEhFSzJhTnlyNjE0?=
+ =?utf-8?B?TW5GTkRZbW8zcWdUS1FTendUTjQyUE85MUdaeTRERjdhbjlLeTI3MUpuNkhF?=
+ =?utf-8?B?ZW5veUhFcExJRGEzYml4dnVxVEF4aGxKTVFhZ2I5Zk81VDJEUE5ncVV2a3E4?=
+ =?utf-8?B?ZUIyeGFsQU9rYmhoV3dtUXlBVk1VUlFGWmJBZEJmaU5NOERiaVdSeW9teWNr?=
+ =?utf-8?B?VGw1TkVRRERNanNvQU0xU01aMS9ibDVEd1ZVS29qc2ZmbHZKdUhEdkwxd2xT?=
+ =?utf-8?B?SjRDVmo5TCtoaDVBRUlwclRnVmFwUDIweWVuc0lsRGJUVHhsR3JNWDNXbDc4?=
+ =?utf-8?B?ZGNabXdRMzJJMCsxNkpKN0pZNmgzVm1WcTFlYmdQUk1OSWw0S2RVbHZtWnM2?=
+ =?utf-8?Q?EZcEQSyq7BN7rVoiLBiypqQhy?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20240423114115.932621-1-alex.kanavin@gmail.com> <20240423114115.932621-2-alex.kanavin@gmail.com>
-In-Reply-To: <20240423114115.932621-2-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 27 Apr 2024 10:31:41 -0700
-Message-ID: <CAMKF1soky9Oa0DNUz4v+Rt1zOgnbzp4E5PKjZNjA3Ps23zH1Gw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] glib/gobject-introspection: update 2.78.4
- -> 2.80.0, 1.78.1 -> 1.80.0
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	goJnRKSMWZ5ULoW8MKp58wMuda3ZXTh/GZMhPzEEkdW2+UA+vNEVWaxjyZWqd9KeHk67gHWnMg1Tr98CC43cnp5H0PEvzAyHCdLZWc+yelEk31JJ4a/kzOe4MSgqeIXQTI9idaGq/f2FqQ5rE3Ssr0y/mBo1PC2pfnyuczFfejHuSlqe/Q33RFzcrlUGpjr5wRULY4mH5/QG3MTUw+/un3M+7XEIjNdRsg7Pti+/Ui7nodZ1XOvs69zTd6ErrynZYHf2Zk/bqwjYX01YzZy0Kg7pxs0PbugqA94LXbISabIpVJqL3QNAdosIuHgnMALSJWcCqGpvdi47yinm42p2trvcdoFHJDn31jC3VOryDHjeC3dh5G5olIOazm1pogR25gbBhIRfNTDyNbcTilzqXUH7l+TU5RxKtJ/sp2/SF5BYWLd1OyMsUFfJG8ckLd7JNruSekbgG35wAXMaKf2QDj1mVxi7N2Y3BY/f2knXUGGxBWGLBFttinGQTrs+A+WEMkrf8SF7qPDCd8+C5LnzoyowwsQHfJpYdrSoD1PCbru0iVh0CXDdstXXU11WXY5BDdGgtWKT99krHL8jMhCFD1OLT4Y0uVb/QA6UignHN/Wxal60Fi6PtVsUDNiSRLn8
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11056.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c59e8bbb-a94f-41fe-37eb-08dc6731bd05
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2024 03:17:30.1919
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MtCi6Kvo278Ebx2pHmBIbGvPZAGVQF2Zl+3R3Q7yHp2IfDbZb53Emtoj4+Ob/gCBAfeUQ4/037Ji8Dgc5bF2cQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7986
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Apr 2024 17:32:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198725
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Apr 2024 03:17:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198726
 
-this could be the reason for breaking build for gweather4
-https://errors.yoctoproject.org/Errors/Details/763702/
-
-On Tue, Apr 23, 2024 at 4:41=E2=80=AFAM Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> With these versions, which need to be updated in lockstep, upstream has
-> relocated glib introspection data from g-i tree to glib tree and made
-> its generation a part of the overall glib build. This creates a circular
-> dependency, where g-i tools are linked with glib, but glib needs the tool=
-s
-> to build its g-i data. (I don't know why the two source trees
-> couldn't be simply merged into one, or g-i data for glib couldn't be gene=
-rated
-> inside g-i build against sysroot glib).
->
-> Upstream is suggesting building glib twice, first without building g-i da=
-ta,
-> then building g-i and linking it with that version, then building
-> the final glib, and that's what is being done here (via the new
-> glib-initial recipe, which is sysroot-only, and is not pulled in
-> via indirect dependencies either).
->
-> Other glib changes:
-> 0001-Do-not-write-bindir-into-pkg-config-files.patch restores
-> writing bindir variable into glib.pc file (meson only writes
-> it out if other variables depend on it, and this custom patch
-> removes that dependency).
->
-> 0001-girepository-introspection-correctly-install-.gir-fi.patch
-> ensures correct installation of .gir into something else
-> than $datadir (useful in multilib).
->
-> Merge previous glib .bb into .inc, so that glib and glib-initial
-> recipes could be cleanly separated with no duplication.
->
-> Convert from gtk-doc to gi-docgen, and manpages from xmlto to
-> docutils.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/conf/distro/include/maintainers.inc      |   1 +
->  ...t-write-bindir-into-pkg-config-files.patch |  31 +-
->  ...0001-Fix-DATADIRNAME-on-uclibc-Linux.patch |   2 +-
->  ...-gio-querymodules-as-libexec_PROGRAM.patch |   6 +-
->  ...ng-about-deprecated-paths-in-schemas.patch |   2 +-
->  ...-correctly-when-building-with-mingw3.patch |  20 +-
->  ...ces.c-comment-out-a-build-host-only-.patch |   4 +-
->  ...rospection-correctly-install-.gir-fi.patch |  88 +++++
->  ...on-Run-atomics-test-on-clang-as-well.patch |   6 +-
->  ...ot-enable-pidfd-features-on-native-g.patch |   6 +-
->  ...dcode-python-path-into-various-tools.patch |   4 +-
->  .../{glib-2.0 =3D> files}/meson.cross.d/common  |   0
->  .../meson.cross.d/common-glibc                |   0
->  .../meson.cross.d/common-linux                |   0
->  .../meson.cross.d/common-mingw                |   0
->  .../meson.cross.d/common-musl                 |   0
->  .../relocate-modules.patch                    |   8 +-
->  .../glib-2.0/{glib-2.0 =3D> files}/run-ptest    |   0
->  .../{glib-2.0 =3D> files}/skip-timeout.patch    |   7 +-
->  .../glib-2.0/glib-2.0-initial_2.80.0.bb       |   5 +
->  ...deprecated-distutils-module-to-the-p.patch |  34 --
->  .../glib-2.0/glib-2.0/fix-regex.patch         |  54 ---
->  .../glib-2.0/glib-2.0/memory-monitor.patch    | 361 ------------------
->  meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb |  57 ---
->  meta/recipes-core/glib-2.0/glib-2.0_2.80.0.bb |   1 +
->  meta/recipes-core/glib-2.0/glib.inc           |  74 +++-
->  ...pository-directory-for-native-builds.patch |  11 +-
->  ...8.1.bb =3D> gobject-introspection_1.80.1.bb} |   8 +-
->  28 files changed, 221 insertions(+), 569 deletions(-)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-Do-not-writ=
-e-bindir-into-pkg-config-files.patch (68%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-Fix-DATADIR=
-NAME-on-uclibc-Linux.patch (92%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-Install-gio=
--querymodules-as-libexec_PROGRAM.patch (84%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-Remove-the-=
-warning-about-deprecated-paths-in-schemas.patch (95%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-Set-host_ma=
-chine-correctly-when-building-with-mingw3.patch (80%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-gio-tests-r=
-esources.c-comment-out-a-build-host-only-.patch (92%)
->  create mode 100644 meta/recipes-core/glib-2.0/files/0001-girepository-in=
-trospection-correctly-install-.gir-fi.patch
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-meson-Run-a=
-tomics-test-on-clang-as-well.patch (88%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0001-meson.build=
--do-not-enable-pidfd-features-on-native-g.patch (84%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/0010-Do-not-hard=
-code-python-path-into-various-tools.patch (93%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/meson.cross.d/co=
-mmon (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/meson.cross.d/co=
-mmon-glibc (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/meson.cross.d/co=
-mmon-linux (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/meson.cross.d/co=
-mmon-mingw (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/meson.cross.d/co=
-mmon-musl (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/relocate-modules=
-.patch (86%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/run-ptest (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0 =3D> files}/skip-timeout.pat=
-ch (90%)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.0.bb
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-=
-the-deprecated-distutils-module-to-the-p.patch
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-regex.patch
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.pa=
-tch
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.80.0.bb
->  rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1=
-.78.1.bb =3D> gobject-introspection_1.80.1.bb} (96%)
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index 20eb3a04468..fbf2d4cc816 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -205,6 +205,7 @@ RECIPE_MAINTAINER:pn-gi-docgen =3D "Alexander Kanavin=
- <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER:pn-git =3D "Robert Yang <liezhi.yang@windriver.com>"
->  RECIPE_MAINTAINER:pn-glew =3D "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-glib-2.0 =3D "Anuj Mittal <anuj.mittal@intel.com>"
-> +RECIPE_MAINTAINER:pn-glib-2.0-initial =3D "Anuj Mittal <anuj.mittal@inte=
-l.com>"
->  RECIPE_MAINTAINER:pn-glib-networking =3D "Anuj Mittal <anuj.mittal@intel=
-.com>"
->  RECIPE_MAINTAINER:pn-glibc =3D "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-glibc-locale =3D "Khem Raj <raj.khem@gmail.com>"
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir=
--into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/files/0001-Do-not=
--write-bindir-into-pkg-config-files.patch
-> similarity index 68%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-=
-into-pkg-config-files.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-=
-pkg-config-files.patch
-> index 8e6598fbef8..f6eba04fd4c 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-p=
-kg-config-files.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-=
-config-files.patch
-> @@ -1,26 +1,30 @@
-> -From e7077aa23bfcd31a8e72e39dc93ce4f854678376 Mon Sep 17 00:00:00 2001
-> +From 0561dcbf0918631d8106c3f6c2d8e92a5ec4b887 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 15 Feb 2019 11:17:27 +0100
-> -Subject: [PATCH] Do not write $bindir into pkg-config files
-> +Subject: [PATCH] Do not prefix executables with $bindir in pkg-config fi=
-les
->
-> -This would otherwise break when using the files to build other target
-> +This would otherwise break when using the executables to build other tar=
-get
->  components (we need to rely on PATH containing the paths to utilities,
->  rather than use target paths).
->
->  Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->  ---
-> - gio/meson.build  | 16 ++++++++--------
-> - glib/meson.build |  6 +++---
-> - 2 files changed, 11 insertions(+), 11 deletions(-)
-> + gio/meson.build  | 17 +++++++++--------
-> + glib/meson.build |  7 ++++---
-> + 2 files changed, 13 insertions(+), 11 deletions(-)
->
->  diff --git a/gio/meson.build b/gio/meson.build
-> -index 5f91586..1a95f4f 100644
-> +index 77cba7b..25d709e 100644
->  --- a/gio/meson.build
->  +++ b/gio/meson.build
-> -@@ -884,14 +884,14 @@ pkg.generate(libgio,
-> +@@ -883,17 +883,18 @@ libgio_dep =3D declare_dependency(link_with : libg=
-io,
-> + pkg.generate(libgio,
-> +   requires : ['glib-2.0', 'gobject-2.0'],
-> +   variables : [
-> ++    'bindir=3D' + '${prefix}' / get_option('bindir'),
-> +     'schemasdir=3D' + '${datadir}' / schemas_subdir,
->       'dtdsdir=3D' + '${datadir}' / dtds_subdir,
-> -     'bindir=3D' + '${prefix}' / get_option('bindir'),
->       'giomoduledir=3D' + pkgconfig_giomodulesdir,
->  -    'gio=3D' + '${bindir}' / 'gio',
->  -    'gio_querymodules=3D' + pkgconfig_multiarch_bindir / 'gio-querymodu=
-les',
-> @@ -42,16 +46,17 @@ index 5f91586..1a95f4f 100644
->     version : glib_version,
->     install_dir : glib_pkgconfigreldir,
->  diff --git a/glib/meson.build b/glib/meson.build
-> -index c26a35e..1d8ca6b 100644
-> +index d2efeba..5f5841d 100644
->  --- a/glib/meson.build
->  +++ b/glib/meson.build
-> -@@ -447,9 +447,9 @@ pkg.generate(libglib,
-> +@@ -447,9 +447,10 @@ pkg.generate(libglib,
-> +   subdirs : ['glib-2.0'],
-> +   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
->     variables : [
-> -     'bindir=3D' + '${prefix}' / get_option('bindir'),
-> -     'datadir=3D' + '${prefix}' / get_option('datadir'),
->  -    'glib_genmarshal=3D' + '${bindir}' / 'glib-genmarshal',
->  -    'gobject_query=3D' + '${bindir}' / 'gobject-query',
->  -    'glib_mkenums=3D' + '${bindir}' / 'glib-mkenums',
-> ++    'bindir=3D' + '${prefix}' / get_option('bindir'),
->  +    'glib_genmarshal=3Dglib-genmarshal',
->  +    'gobject_query=3Dgobject-query',
->  +    'glib_mkenums=3Dglib-mkenums',
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-=
-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-=
-on-uclibc-Linux.patch
-> similarity index 92%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-u=
-clibc-Linux.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc=
--Linux.patch
-> index eb9dfdbcf99..129bc7f8aee 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-=
-Linux.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Lin=
-ux.patch
-> @@ -1,4 +1,4 @@
-> -From 9a5d4bf65b658d744d610ee27ecd2ae65b14b158 Mon Sep 17 00:00:00 2001
-> +From ccb25e8c0bab54eac8ba0e9d7083ce81461ab72a Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Sat, 15 Mar 2014 22:42:29 -0700
->  Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymo=
-dules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/files/0001-Inst=
-all-gio-querymodules-as-libexec_PROGRAM.patch
-> similarity index 84%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymod=
-ules-as-libexec_PROGRAM.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-=
-as-libexec_PROGRAM.patch
-> index ad69f7ec655..3e12f8abbeb 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-a=
-s-libexec_PROGRAM.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-l=
-ibexec_PROGRAM.patch
-> @@ -1,4 +1,4 @@
-> -From 4933aef791857a5aac650b60af800778658b875b Mon Sep 17 00:00:00 2001
-> +From caab40411d8520dae77a4b7933ebaffbb00559fe Mon Sep 17 00:00:00 2001
->  From: Jussi Kukkonen <jussi.kukkonen@intel.com>
->  Date: Tue, 22 Mar 2016 15:14:58 +0200
->  Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
-> @@ -13,10 +13,10 @@ Upstream-Status: Inappropriate [OE specific]
->   1 file changed, 1 insertion(+)
->
->  diff --git a/gio/meson.build b/gio/meson.build
-> -index f9fdf6e..5f91586 100644
-> +index 59c2b0f..77cba7b 100644
->  --- a/gio/meson.build
->  +++ b/gio/meson.build
-> -@@ -1005,6 +1005,7 @@ gio_querymodules =3D executable('gio-querymodules'=
-, 'gio-querymodules.c', 'giomodu
-> +@@ -1007,6 +1007,7 @@ gio_querymodules =3D executable('gio-querymodules'=
-, 'gio-querymodules.c', 'giomodu
->     c_args : gio_c_args,
->     # intl.lib is not compatible with SAFESEH
->     link_args : noseh_link_args,
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-=
-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/files/=
-0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
-> similarity index 95%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-a=
-bout-deprecated-paths-in-schemas.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-=
-deprecated-paths-in-schemas.patch
-> index 0e3a62af6a6..9b0b83afa44 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-d=
-eprecated-paths-in-schemas.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-depr=
-ecated-paths-in-schemas.patch
-> @@ -1,4 +1,4 @@
-> -From 8ae2e9c2a04e089306693a021149dc6b7d1bd679 Mon Sep 17 00:00:00 2001
-> +From 65c036b1ede453e89893076f4ece21c946505096 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 12 Jun 2015 17:08:46 +0300
->  Subject: [PATCH] Remove the warning about deprecated paths in schemas
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-co=
-rrectly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/files/=
-0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-> similarity index 80%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-cor=
-rectly-when-building-with-mingw3.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-Set-host_machine-correctl=
-y-when-building-with-mingw3.patch
-> index 32b4cea409c..a2f9dd9672f 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly=
--when-building-with-mingw3.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-Set-host_machine-correctly-wh=
-en-building-with-mingw3.patch
-> @@ -1,4 +1,4 @@
-> -From c0733f7a91dfe13152abc60c5a3064456b3e9d63 Mon Sep 17 00:00:00 2001
-> +From 01810df82fae752428d3756c85edb2eb7bbf3c15 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Wed, 13 Feb 2019 15:32:05 +0100
->  Subject: [PATCH] Set host_machine correctly when building with mingw32
-> @@ -12,7 +12,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
-m>
->   3 files changed, 8 insertions(+), 5 deletions(-)
->
->  diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-> -index 4ef3343..e498e7e 100644
-> +index 232ecca..563298b 100644
->  --- a/gio/tests/meson.build
->  +++ b/gio/tests/meson.build
->  @@ -29,7 +29,7 @@ endif
-> @@ -24,16 +24,16 @@ index 4ef3343..e498e7e 100644
->     common_gio_tests_deps +=3D [iphlpapi_dep, winsock2, cc.find_library (=
-'secur32')]
->   endif
->
-> -@@ -230,7 +230,7 @@ if have_dbus_daemon
-> +@@ -244,7 +244,7 @@ if have_dbus_daemon
->   endif
->
->   #  Test programs buildable on UNIX only
->  -if host_machine.system() !=3D 'windows'
->  +if host_system !=3D 'windows'
->     gio_tests +=3D {
-> -     'file' : {},
-> -     'gdbus-peer-object-manager' : {},
-> -@@ -562,7 +562,7 @@ if host_machine.system() !=3D 'windows'
-> +     'file' : {
-> +       # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
-> +@@ -593,7 +593,7 @@ if host_machine.system() !=3D 'windows'
->   endif # unix
->
->   #  Test programs buildable on Windows only
-> @@ -42,7 +42,7 @@ index 4ef3343..e498e7e 100644
->     gio_tests +=3D {'win32-streams' : {}}
->   endif
->
-> -@@ -632,7 +632,7 @@ if cc.get_id() !=3D 'msvc' and cc.get_id() !=3D 'cla=
-ng-cl'
-> +@@ -663,7 +663,7 @@ if cc.get_id() !=3D 'msvc' and cc.get_id() !=3D 'cla=
-ng-cl'
->     }
->   endif
->
-> @@ -52,10 +52,10 @@ index 4ef3343..e498e7e 100644
->       'gdbus-example-unix-fd-client' : {
->         'install' : false,
->  diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-> -index d80c86e..5329cda 100644
-> +index f6efc59..83eb5a5 100644
->  --- a/glib/tests/meson.build
->  +++ b/glib/tests/meson.build
-> -@@ -216,7 +216,7 @@ if glib_conf.has('HAVE_EVENTFD')
-> +@@ -226,7 +226,7 @@ if glib_conf.has('HAVE_EVENTFD')
->     }
->   endif
->
-> @@ -65,7 +65,7 @@ index d80c86e..5329cda 100644
->       glib_tests +=3D {
->         'gpoll' : {
->  diff --git a/meson.build b/meson.build
-> -index 813c9b7..6ee775e 100644
-> +index 7534542..2560686 100644
->  --- a/meson.build
->  +++ b/meson.build
->  @@ -54,6 +54,9 @@ else
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources=
-.c-comment-out-a-build-host-only-.patch b/meta/recipes-core/glib-2.0/files/=
-0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
-> similarity index 92%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.=
-c-comment-out-a-build-host-only-.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-com=
-ment-out-a-build-host-only-.patch
-> index aee29860332..bb84f3969e4 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comm=
-ent-out-a-build-host-only-.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment=
--out-a-build-host-only-.patch
-> @@ -1,4 +1,4 @@
-> -From 878e51f82100c698236fda0e069e14ea9249350c Mon Sep 17 00:00:00 2001
-> +From e8b4f53b567339aad90b585673d55a5c6176535a Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Wed, 8 Jan 2020 18:22:46 +0100
->  Subject: [PATCH] gio/tests/resources.c: comment out a build host-only te=
-st
-> @@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
-m>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/gio/tests/resources.c b/gio/tests/resources.c
-> -index f567914..b21b616 100644
-> +index f7dc039..f708876 100644
->  --- a/gio/tests/resources.c
->  +++ b/gio/tests/resources.c
->  @@ -1068,7 +1068,7 @@ main (int   argc,
-> diff --git a/meta/recipes-core/glib-2.0/files/0001-girepository-introspec=
-tion-correctly-install-.gir-fi.patch b/meta/recipes-core/glib-2.0/files/000=
-1-girepository-introspection-correctly-install-.gir-fi.patch
-> new file mode 100644
-> index 00000000000..76e5f587480
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/files/0001-girepository-introspection-co=
-rrectly-install-.gir-fi.patch
-> @@ -0,0 +1,88 @@
-> +From 4e6be5d15e5d2f8e494d22a3d49b623064f9c1a5 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Tue, 23 Apr 2024 11:24:34 +0200
-> +Subject: [PATCH] girepository/introspection: correctly install .gir file=
-s into
-> + custom locations provided via meson option
-> +
-> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_=
-requests/4020]
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +---
-> + girepository/introspection/meson.build | 9 +++++++++
-> + 1 file changed, 9 insertions(+)
-> +
-> +diff --git a/girepository/introspection/meson.build b/girepository/intro=
-spection/meson.build
-> +index 9405686..862ca61 100644
-> +--- a/girepository/introspection/meson.build
-> ++++ b/girepository/introspection/meson.build
-> +@@ -49,6 +49,7 @@ glib_gir =3D gnome.generate_gir(libglib,
-> +   export_packages: 'glib-2.0',
-> +   header: 'glib.h',
-> +   install: true,
-> ++  install_dir_gir: glib_girdir,
-> +   dependencies: [
-> +     libgobject_dep,
-> +   ],
-> +@@ -76,6 +77,7 @@ if host_system =3D=3D 'windows'
-> +     header: 'glib.h',
-> +     includes: [ glib_gir[0] ],
-> +     install: true,
-> ++    install_dir_gir: glib_girdir,
-> +     dependencies: [
-> +       libgobject_dep,
-> +     ],
-> +@@ -104,6 +106,7 @@ else
-> +     header: 'glib.h',
-> +     includes: [ glib_gir[0] ],
-> +     install: true,
-> ++    install_dir_gir: glib_girdir,
-> +     dependencies: [
-> +       libgobject_dep,
-> +     ],
-> +@@ -137,6 +140,7 @@ gobject_gir =3D gnome.generate_gir(libgobject,
-> +   header: 'glib-object.h',
-> +   includes: [ glib_gir[0] ],
-> +   install: true,
-> ++  install_dir_gir: glib_girdir,
-> +   env: gi_gen_env_variables,
-> +   extra_args: gir_args + [
-> +       '-DGOBJECT_COMPILATION',
-> +@@ -162,6 +166,7 @@ gmodule_gir =3D gnome.generate_gir(libgmodule,
-> +   header: 'gmodule.h',
-> +   includes: [ glib_gir[0] ],
-> +   install: true,
-> ++  install_dir_gir: glib_girdir,
-> +   dependencies: [
-> +     libglib_dep,
-> +   ],
-> +@@ -224,6 +229,7 @@ gio_gir =3D gnome.generate_gir(libgio,
-> +   header: 'gio/gio.h',
-> +   includes: [ glib_gir[0], gmodule_gir[0], gobject_gir[0] ],
-> +   install: true,
-> ++  install_dir_gir: glib_girdir,
-> +   dependencies: [
-> +     libglib_dep,
-> +     libgobject_dep,
-> +@@ -249,6 +255,7 @@ if host_system =3D=3D 'windows'
-> +     header: 'gio/gio.h',
-> +     includes: [ glib_gir[0], gmodule_gir[0], gobject_gir[0], gio_gir[0]=
- ],
-> +     install: true,
-> ++    install_dir_gir: glib_girdir,
-> +     dependencies: [
-> +       libglib_dep,
-> +       libgobject_dep,
-> +@@ -277,6 +284,7 @@ else
-> +     header: 'gio/gio.h',
-> +     includes: [ glib_gir[0], gmodule_gir[0], gobject_gir[0], gio_gir[0]=
- ],
-> +     install: true,
-> ++    install_dir_gir: glib_girdir,
-> +     dependencies: [
-> +       libglib_dep,
-> +       libgobject_dep,
-> +@@ -314,6 +322,7 @@ girepository_gir =3D gnome.generate_gir(libgireposit=
-ory,
-> +   header: 'girepository/girepository.h',
-> +   includes: [ glib_gir[0], gmodule_gir[0], gobject_gir[0], gio_gir[0] ]=
-,
-> +   install: true,
-> ++  install_dir_gir: glib_girdir,
-> +   dependencies: [ libglib_dep, libgobject_dep, libgmodule_dep, libgio_d=
-ep ],
-> +   extra_args: gir_args + libgirepository_gir_args,
-> + )
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-t=
-est-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/files/0001-meson-Ru=
-n-atomics-test-on-clang-as-well.patch
-> similarity index 88%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-te=
-st-on-clang-as-well.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on=
--clang-as-well.patch
-> index 0b102691141..2f805299874 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-=
-clang-as-well.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-cla=
-ng-as-well.patch
-> @@ -1,4 +1,4 @@
-> -From b4b523160ef550a53705fcc45ac6e10d086ce491 Mon Sep 17 00:00:00 2001
-> +From 3dc2e741e18ccb740e98eb4e808ff83153b70e83 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Sat, 12 Oct 2019 17:46:26 -0700
->  Subject: [PATCH] meson: Run atomics test on clang as well
-> @@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/meson.build b/meson.build
-> -index 6ee775e..8bc5fa7 100644
-> +index 2560686..5c46d0b 100644
->  --- a/meson.build
->  +++ b/meson.build
-> -@@ -1938,7 +1938,7 @@ atomicdefine =3D '''
-> +@@ -2024,7 +2024,7 @@ atomicdefine =3D '''
->   # We know that we can always use real ("lock free") atomic operations w=
-ith MSVC
->   if cc.get_id() =3D=3D 'msvc' or cc.get_id() =3D=3D 'clang-cl' or cc.lin=
-ks(atomictest, name : 'atomic ops')
->     have_atomic_lock_free =3D true
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-=
-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/files/=
-0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
-> similarity index 84%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-e=
-nable-pidfd-features-on-native-g.patch
-> rename to meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable=
--pidfd-features-on-native-g.patch
-> index 14dcb278e05..82955de6715 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-=
-pidfd-features-on-native-g.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pid=
-fd-features-on-native-g.patch
-> @@ -1,4 +1,4 @@
-> -From 294f3e6e9a0a9f4733e85ed6810d1b743055370b Mon Sep 17 00:00:00 2001
-> +From 59525eedfbbfe4a16fdd0b340bc3f2479431c7d5 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex@linutronix.de>
->  Date: Sat, 16 Sep 2023 22:28:27 +0200
->  Subject: [PATCH] meson.build: do not enable pidfd features on native gli=
-b
-> @@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
->  diff --git a/meson.build b/meson.build
-> -index 8bc5fa7..df1fa60 100644
-> +index 5c46d0b..222c1a1 100644
->  --- a/meson.build
->  +++ b/meson.build
-> -@@ -981,7 +981,8 @@ if cc.links('''#include <sys/syscall.h>
-> +@@ -1022,7 +1022,8 @@ if cc.links('''#include <sys/syscall.h>
->                    waitid (P_PIDFD, 0, &child_info, WEXITED | WNOHANG);
->                    return 0;
->                  }''', name : 'pidfd_open(2) system call')
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-pyt=
-hon-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/files/0010-D=
-o-not-hardcode-python-path-into-various-tools.patch
-> similarity index 93%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-pyth=
-on-path-into-various-tools.patch
-> rename to meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-pa=
-th-into-various-tools.patch
-> index 6dff5179c71..a51c186b004 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-pat=
-h-into-various-tools.patch
-> +++ b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-i=
-nto-various-tools.patch
-> @@ -1,4 +1,4 @@
-> -From 50636758c73e5e61212a8f801c6c602b8aab5ba7 Mon Sep 17 00:00:00 2001
-> +From e6784ba43af83e22556921786c8f15e4cd246298 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Tue, 3 Oct 2017 10:45:55 +0300
->  Subject: [PATCH] Do not hardcode python path into various tools
-> @@ -32,7 +32,7 @@ index aa5af43..56e8e2e 100755
->   # pylint: disable=3Dtoo-many-lines, missing-docstring, invalid-name
->
->  diff --git a/gobject/glib-mkenums.in b/gobject/glib-mkenums.in
-> -index 353e53a..8ed6c39 100755
-> +index e10b910..4b619f8 100755
->  --- a/gobject/glib-mkenums.in
->  +++ b/gobject/glib-mkenums.in
->  @@ -1,4 +1,4 @@
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common b/m=
-eta/recipes-core/glib-2.0/files/meson.cross.d/common
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common
-> rename to meta/recipes-core/glib-2.0/files/meson.cross.d/common
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-gli=
-bc b/meta/recipes-core/glib-2.0/files/meson.cross.d/common-glibc
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-glib=
-c
-> rename to meta/recipes-core/glib-2.0/files/meson.cross.d/common-glibc
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-lin=
-ux b/meta/recipes-core/glib-2.0/files/meson.cross.d/common-linux
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linu=
-x
-> rename to meta/recipes-core/glib-2.0/files/meson.cross.d/common-linux
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-min=
-gw b/meta/recipes-core/glib-2.0/files/meson.cross.d/common-mingw
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-ming=
-w
-> rename to meta/recipes-core/glib-2.0/files/meson.cross.d/common-mingw
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-mus=
-l b/meta/recipes-core/glib-2.0/files/meson.cross.d/common-musl
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-musl
-> rename to meta/recipes-core/glib-2.0/files/meson.cross.d/common-musl
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b=
-/meta/recipes-core/glib-2.0/files/relocate-modules.patch
-> similarity index 86%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-> rename to meta/recipes-core/glib-2.0/files/relocate-modules.patch
-> index 3e79bbf6796..d6e9019f396 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-> +++ b/meta/recipes-core/glib-2.0/files/relocate-modules.patch
-> @@ -1,4 +1,4 @@
-> -From f40e89b3852df37959606ee13b1a14ade81fa886 Mon Sep 17 00:00:00 2001
-> +From 47ea2576a13d5bc86692b4ba8cb4a8f2fd38c6ca Mon Sep 17 00:00:00 2001
->  From: Ross Burton <ross.burton@intel.com>
->  Date: Fri, 11 Mar 2016 15:35:55 +0000
->  Subject: [PATCH] glib-2.0: relocate the GIO module directory for native =
-builds
-> @@ -18,10 +18,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.c=
-om>
->   1 file changed, 7 deletions(-)
->
->  diff --git a/gio/giomodule.c b/gio/giomodule.c
-> -index 17fabe6..8021208 100644
-> +index 1e14955..3c09bb5 100644
->  --- a/gio/giomodule.c
->  +++ b/gio/giomodule.c
-> -@@ -1271,11 +1271,6 @@ get_gio_module_dir (void)
-> +@@ -1259,11 +1259,6 @@ get_gio_module_dir (void)
->         g_free (install_dir);
->   #else
->         module_dir =3D g_strdup (GIO_MODULE_DIR);
-> @@ -33,7 +33,7 @@ index 17fabe6..8021208 100644
->   #include <dlfcn.h>
->         {
->           g_autofree gchar *path =3D NULL;
-> -@@ -1294,8 +1289,6 @@ get_gio_module_dir (void)
-> +@@ -1282,8 +1277,6 @@ get_gio_module_dir (void)
->                 }
->             }
->         }
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes=
--core/glib-2.0/files/run-ptest
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-> rename to meta/recipes-core/glib-2.0/files/run-ptest
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/skip-timeout.patch b/met=
-a/recipes-core/glib-2.0/files/skip-timeout.patch
-> similarity index 90%
-> rename from meta/recipes-core/glib-2.0/glib-2.0/skip-timeout.patch
-> rename to meta/recipes-core/glib-2.0/files/skip-timeout.patch
-> index cd5ac287c3f..b1c62cc39c8 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/skip-timeout.patch
-> +++ b/meta/recipes-core/glib-2.0/files/skip-timeout.patch
-> @@ -1,4 +1,4 @@
-> -From bb11d1a4ae77d93ec0743e54077cf0f990243fa6 Mon Sep 17 00:00:00 2001
-> +From 682d8a616ca111c0e45c8a9cb02e992e63c69586 Mon Sep 17 00:00:00 2001
->  From: Ross Burton <ross.burton@arm.com>
->  Date: Thu, 28 Mar 2024 16:27:09 +0000
->  Subject: [PATCH] Skip /timeout/rounding test
-> @@ -16,7 +16,7 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
->   1 file changed, 1 deletion(-)
->
->  diff --git a/glib/tests/timeout.c b/glib/tests/timeout.c
-> -index 1ae3f3a34..85a715b0f 100644
-> +index 1ae3f3a..85a715b 100644
->  --- a/glib/tests/timeout.c
->  +++ b/glib/tests/timeout.c
->  @@ -214,7 +214,6 @@ main (int argc, char *argv[])
-> @@ -27,6 +27,3 @@ index 1ae3f3a34..85a715b0f 100644
->
->     return g_test_run ();
->   }
-> ---
-> -2.34.1
-> -
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.0.bb b/meta=
-/recipes-core/glib-2.0/glib-2.0-initial_2.80.0.bb
-> new file mode 100644
-> index 00000000000..7da28382650
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.0.bb
-> @@ -0,0 +1,5 @@
-> +require glib.inc
-> +PACKAGES =3D ""
-> +PACKAGECONFIG =3D ""
-> +
-> +
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-dep=
-recated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/glib-2=
-.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
-> deleted file mode 100644
-> index b11c283e6d7..00000000000
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated=
--distutils-module-to-the-p.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -From a8eb944a10353403241608a084787f6efcbb2eb7 Mon Sep 17 00:00:00 2001
-> -From: Jordan Williams <jordan@jwillikers.com>
-> -Date: Fri, 1 Dec 2023 09:53:50 -0600
-> -Subject: [PATCH] Switch from the deprecated distutils module to the pack=
-aging
-> - module
-> -
-> -The distutils module was removed in Python 3.12.
-> -
-> -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-6ef967a0f930ce37a8c9b5aff969693b34714291]
-> -
-> -Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ----
-> - gio/gdbus-2.0/codegen/utils.py | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/util=
-s.py
-> -index 0204610..08f1ba9 100644
-> ---- a/gio/gdbus-2.0/codegen/utils.py
-> -+++ b/gio/gdbus-2.0/codegen/utils.py
-> -@@ -19,7 +19,7 @@
-> - #
-> - # Author: David Zeuthen <davidz@redhat.com>
-> -
-> --import distutils.version
-> -+import packaging.version
-> - import os
-> - import sys
-> -
-> -@@ -166,4 +166,4 @@ def version_cmp_key(key):
-> -         v =3D str(key[0])
-> -     else:
-> -         v =3D "0"
-> --    return (distutils.version.LooseVersion(v), key[1])
-> -+    return (packaging.version.Version(v), key[1])
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-regex.patch b/meta/r=
-ecipes-core/glib-2.0/glib-2.0/fix-regex.patch
-> deleted file mode 100644
-> index bdfbd558999..00000000000
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/fix-regex.patch
-> +++ /dev/null
-> @@ -1,54 +0,0 @@
-> -From cce3ae98a2c1966719daabff5a4ec6cf94a846f6 Mon Sep 17 00:00:00 2001
-> -From: Philip Withnall <pwithnall@gnome.org>
-> -Date: Mon, 26 Feb 2024 16:55:44 +0000
-> -Subject: [PATCH] tests: Remove variable-length lookbehind tests for GReg=
-ex
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -PCRE2 10.43 has now introduced support for variable-length lookbehind,
-> -so these tests now fail if GLib is built against PCRE2 10.43 or higher.
-> -
-> -See
-> -https://github.com/PCRE2Project/pcre2/blob/e8db6fa7137f4c6f66cb87e0a3c94=
-67252ec1ef7/ChangeLog#L94.
-> -
-> -Rather than making the tests conditional on the version of PCRE2 in use,
-> -just remove them. They are mostly testing the PCRE2 code rather than
-> -any code in GLib, so don=C3=A2=E2=82=AC=E2=84=A2t have much value.
-> -
-> -This should fix CI runs on msys2-mingw32, which updated to PCRE2 10.43 2
-> -days ago.
-> -
-> -Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-> -
-> -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-cce3ae98a2c1966719daabff5a4ec6cf94a846f6]
-> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ----
-> - glib/tests/regex.c | 10 ----------
-> - 1 file changed, 10 deletions(-)
-> -
-> -diff --git a/glib/tests/regex.c b/glib/tests/regex.c
-> -index 1082526292..d7a698ec67 100644
-> ---- a/glib/tests/regex.c
-> -+++ b/glib/tests/regex.c
-> -@@ -1885,16 +1885,6 @@ test_lookbehind (void)
-> -   g_match_info_free (match);
-> -   g_regex_unref (regex);
-> -
-> --  regex =3D g_regex_new ("(?<!dogs?|cats?) x", G_REGEX_OPTIMIZE, G_REGE=
-X_MATCH_DEFAULT, &error);
-> --  g_assert (regex =3D=3D NULL);
-> --  g_assert_error (error, G_REGEX_ERROR, G_REGEX_ERROR_VARIABLE_LENGTH_L=
-OOKBEHIND);
-> --  g_clear_error (&error);
-> --
-> --  regex =3D g_regex_new ("(?<=3Dab(c|de)) foo", G_REGEX_OPTIMIZE, G_REG=
-EX_MATCH_DEFAULT, &error);
-> --  g_assert (regex =3D=3D NULL);
-> --  g_assert_error (error, G_REGEX_ERROR, G_REGEX_ERROR_VARIABLE_LENGTH_L=
-OOKBEHIND);
-> --  g_clear_error (&error);
-> --
-> -   regex =3D g_regex_new ("(?<=3Dabc|abde)foo", G_REGEX_OPTIMIZE, G_REGE=
-X_MATCH_DEFAULT, &error);
-> -   g_assert (regex);
-> -   g_assert_no_error (error);
-> ---
-> -GitLab
-> -
-> -
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch b/m=
-eta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch
-> deleted file mode 100644
-> index 4f38509da6f..00000000000
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch
-> +++ /dev/null
-> @@ -1,361 +0,0 @@
-> -From ce840b6b111e1e109e511f6833d6aa419e2b723a Mon Sep 17 00:00:00 2001
-> -From: Philip Withnall <philip@tecnocode.co.uk>
-> -Date: Tue, 23 Jan 2024 11:16:52 +0000
-> -Subject: [PATCH] Merge branch '2887-memory-monitor-tests' into 'main'
-> -
-> -tests: Fix race condition in memory-monitor-dbus.test
-> -
-> -Closes #2887
-> -
-> -See merge request GNOME/glib!3844
-> -
-> -Hopefully these commits fix the occasional failures we've been seeing:
-> -https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15362
-> -
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ----
-> - gio/tests/memory-monitor-dbus.py.in          | 64 +++++++++++++-------
-> - gio/tests/memory-monitor-portal.py.in        | 54 ++++++++++-------
-> - gio/tests/power-profile-monitor-dbus.py.in   | 35 ++++++-----
-> - gio/tests/power-profile-monitor-portal.py.in | 34 ++++++-----
-> - 4 files changed, 113 insertions(+), 74 deletions(-)
-> -
-> -diff --git a/gio/tests/memory-monitor-dbus.py.in b/gio/tests/memory-moni=
-tor-dbus.py.in
-> -index bf32918..7aae01e 100755
-> ---- a/gio/tests/memory-monitor-dbus.py.in
-> -+++ b/gio/tests/memory-monitor-dbus.py.in
-> -@@ -16,7 +16,6 @@ import sys
-> - import subprocess
-> - import fcntl
-> - import os
-> --import time
-> -
-> - import taptestrunner
-> -
-> -@@ -57,53 +56,74 @@ try:
-> -             fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O=
-_NONBLOCK)
-> -             self.last_warning =3D -1
-> -             self.dbusmock =3D dbus.Interface(self.obj_lmm, dbusmock.MOC=
-K_IFACE)
-> -+
-> -+            try:
-> -+                self.wait_for_bus_object('org.freedesktop.LowMemoryMoni=
-tor',
-> -+                                        '/org/freedesktop/LowMemoryMoni=
-tor',
-> -+                                        system_bus=3DTrue)
-> -+            except:
-> -+                raise
-> -+
-> -             self.memory_monitor =3D Gio.MemoryMonitor.dup_default()
-> -+            assert("GMemoryMonitorDBus" in str(self.memory_monitor))
-> -             self.memory_monitor.connect("low-memory-warning", self.memo=
-ry_warning_cb)
-> -             self.mainloop =3D GLib.MainLoop()
-> -             self.main_context =3D self.mainloop.get_context()
-> -
-> -+            # The LowMemoryMonitor API is stateless: it doesn=E2=80=99t=
- expose any
-> -+            # properties, just a warning signal. Emit the signal in a l=
-oop until
-> -+            # the GMemoryMonitor instance has initialised and synchroni=
-sed to
-> -+            # the right state.
-> -+            def emit_warning(level):
-> -+                self.dbusmock.EmitWarning(level)
-> -+                return GLib.SOURCE_CONTINUE
-> -+
-> -+            idle_id =3D GLib.idle_add(emit_warning, 0)
-> -+            while self.last_warning !=3D 0:
-> -+                self.main_context.iteration(True)
-> -+            GLib.source_remove(idle_id)
-> -+
-> -         def tearDown(self):
-> -             self.p_mock.terminate()
-> -             self.p_mock.wait()
-> -
-> --        def assertEventually(self, condition, message=3DNone, timeout=
-=3D50):
-> -+        def assertEventually(self, condition, message=3DNone, timeout=
-=3D5):
-> -             '''Assert that condition function eventually returns True.
-> -
-> --            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
-ssage is
-> -+            Timeout is in seconds, defaulting to 5 seconds. message is
-> -             printed on failure.
-> -             '''
-> --            while timeout >=3D 0:
-> --                context =3D GLib.MainContext.default()
-> --                while context.iteration(False):
-> --                    pass
-> --                if condition():
-> --                    break
-> --                timeout -=3D 1
-> --                time.sleep(0.1)
-> --            else:
-> --                self.fail(message or 'timed out waiting for ' + str(con=
-dition))
-> -+            if not message:
-> -+                message =3D 'timed out waiting for ' + str(condition)
-> -+
-> -+            def timed_out_cb(message):
-> -+                self.fail(message)
-> -+                return GLib.SOURCE_REMOVE
-> -+
-> -+            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
-> -+            timeout_source.set_callback(timed_out_cb, message)
-> -+            timeout_source.attach(self.main_context)
-> -+
-> -+            while not condition():
-> -+                self.main_context.iteration(True)
-> -+
-> -+            timeout_source.destroy()
-> -
-> -         def memory_warning_cb(self, monitor, level):
-> -+            print("Received memory warning signal, level", level)
-> -             self.last_warning =3D level
-> -             self.main_context.wakeup()
-> -
-> -         def test_low_memory_warning_signal(self):
-> -             '''LowMemoryWarning signal'''
-> -
-> --            # Wait 2 seconds
-> --            timeout =3D 2
-> --            while timeout > 0:
-> --                time.sleep(0.5)
-> --                timeout -=3D 0.5
-> --                self.main_context.iteration(False)
-> --
-> -             self.dbusmock.EmitWarning(100)
-> -             # Wait 2 seconds or until warning
-> --            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
- "'100' low-memory warning not received", 20)
-> -+            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
- "'100' low-memory warning not received", 2)
-> -
-> -             self.dbusmock.EmitWarning(255)
-> -             # Wait 2 seconds or until warning
-> --            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
- "'255' low-memory warning not received", 20)
-> -+            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
- "'255' low-memory warning not received", 2)
-> -
-> - except ImportError as e:
-> -     @unittest.skip("Cannot import %s" % e.name)
-> -diff --git a/gio/tests/memory-monitor-portal.py.in b/gio/tests/memory-mo=
-nitor-portal.py.in
-> -index 748cee8..f570508 100755
-> ---- a/gio/tests/memory-monitor-portal.py.in
-> -+++ b/gio/tests/memory-monitor-portal.py.in
-> -@@ -16,7 +16,6 @@ import sys
-> - import subprocess
-> - import fcntl
-> - import os
-> --import time
-> -
-> - import taptestrunner
-> -
-> -@@ -80,26 +79,44 @@ try:
-> -             self.mainloop =3D GLib.MainLoop()
-> -             self.main_context =3D self.mainloop.get_context()
-> -
-> -+            # The LowMemoryMonitor API is stateless: it doesn=E2=80=99t=
- expose any
-> -+            # properties, just a warning signal. Emit the signal in a l=
-oop until
-> -+            # the GMemoryMonitor instance has initialised and synchroni=
-sed to
-> -+            # the right state.
-> -+            def emit_warning(level):
-> -+                self.dbusmock.EmitWarning(level)
-> -+                return GLib.SOURCE_CONTINUE
-> -+
-> -+            idle_id =3D GLib.idle_add(self.emit_warning, 0)
-> -+            while self.last_warning !=3D 0:
-> -+                self.main_context.iteration(True)
-> -+            GLib.source_remove(idle_id)
-> -+
-> -         def tearDown(self):
-> -             self.p_mock.terminate()
-> -             self.p_mock.wait()
-> -
-> --        def assertEventually(self, condition, message=3DNone, timeout=
-=3D50):
-> -+        def assertEventually(self, condition, message=3DNone, timeout=
-=3D5):
-> -             '''Assert that condition function eventually returns True.
-> -
-> --            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
-ssage is
-> -+            Timeout is in seconds, defaulting to 5 seconds. message is
-> -             printed on failure.
-> -             '''
-> --            while timeout >=3D 0:
-> --                context =3D GLib.MainContext.default()
-> --                while context.iteration(False):
-> --                    pass
-> --                if condition():
-> --                    break
-> --                timeout -=3D 1
-> --                time.sleep(0.1)
-> --            else:
-> --                self.fail(message or 'timed out waiting for ' + str(con=
-dition))
-> -+            if not message:
-> -+                message =3D 'timed out waiting for ' + str(condition)
-> -+
-> -+            def timed_out_cb(message):
-> -+                self.fail(message)
-> -+                return GLib.SOURCE_REMOVE
-> -+
-> -+            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
-> -+            timeout_source.set_callback(timed_out_cb, message)
-> -+            timeout_source.attach(self.main_context)
-> -+
-> -+            while not condition():
-> -+                self.main_context.iteration(True)
-> -+
-> -+            timeout_source.destroy()
-> -
-> -         def portal_memory_warning_cb(self, monitor, level):
-> -             self.last_warning =3D level
-> -@@ -108,20 +125,13 @@ try:
-> -         def test_low_memory_warning_portal_signal(self):
-> -             '''LowMemoryWarning signal'''
-> -
-> --            # Wait 2 seconds
-> --            timeout =3D 2
-> --            while timeout > 0:
-> --                time.sleep(0.5)
-> --                timeout -=3D 0.5
-> --                self.main_context.iteration(False)
-> --
-> -             self.dbusmock.EmitWarning(100)
-> -             # Wait 2 seconds or until warning
-> --            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
- "'100' low-memory warning not received", 20)
-> -+            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
- "'100' low-memory warning not received", 2)
-> -
-> -             self.dbusmock.EmitWarning(255)
-> -             # Wait 2 seconds or until warning
-> --            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
- "'255' low-memory warning not received", 20)
-> -+            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
- "'255' low-memory warning not received", 2)
-> -
-> - except ImportError as e:
-> -     @unittest.skip("Cannot import %s" % e.name)
-> -diff --git a/gio/tests/power-profile-monitor-dbus.py.in b/gio/tests/powe=
-r-profile-monitor-dbus.py.in
-> -index 06e594f..f955afc 100755
-> ---- a/gio/tests/power-profile-monitor-dbus.py.in
-> -+++ b/gio/tests/power-profile-monitor-dbus.py.in
-> -@@ -16,7 +16,6 @@ import sys
-> - import subprocess
-> - import fcntl
-> - import os
-> --import time
-> -
-> - import taptestrunner
-> -
-> -@@ -58,6 +57,7 @@ try:
-> -             self.power_saver_enabled =3D False
-> -             self.dbus_props =3D dbus.Interface(self.obj_ppd, dbus.PROPE=
-RTIES_IFACE)
-> -             self.power_profile_monitor =3D Gio.PowerProfileMonitor.dup_=
-default()
-> -+            assert("GPowerProfileMonitorDBus" in str(self.power_profile=
-_monitor))
-> -             self.power_profile_monitor.connect("notify::power-saver-ena=
-bled", self.power_saver_enabled_cb)
-> -             self.mainloop =3D GLib.MainLoop()
-> -             self.main_context =3D self.mainloop.get_context()
-> -@@ -66,22 +66,27 @@ try:
-> -             self.p_mock.terminate()
-> -             self.p_mock.wait()
-> -
-> --        def assertEventually(self, condition, message=3DNone, timeout=
-=3D50):
-> -+        def assertEventually(self, condition, message=3DNone, timeout=
-=3D5):
-> -             '''Assert that condition function eventually returns True.
-> -
-> --            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
-ssage is
-> -+            Timeout is in seconds, defaulting to 5 seconds. message is
-> -             printed on failure.
-> -             '''
-> --            while timeout >=3D 0:
-> --                context =3D GLib.MainContext.default()
-> --                while context.iteration(False):
-> --                    pass
-> --                if condition():
-> --                    break
-> --                timeout -=3D 1
-> --                time.sleep(0.1)
-> --            else:
-> --                self.fail(message or 'timed out waiting for ' + str(con=
-dition))
-> -+            if not message:
-> -+                message =3D 'timed out waiting for ' + str(condition)
-> -+
-> -+            def timed_out_cb(message):
-> -+                self.fail(message)
-> -+                return GLib.SOURCE_REMOVE
-> -+
-> -+            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
-> -+            timeout_source.set_callback(timed_out_cb, message)
-> -+            timeout_source.attach(self.main_context)
-> -+
-> -+            while not condition():
-> -+                self.main_context.iteration(True)
-> -+
-> -+            timeout_source.destroy()
-> -
-> -         def power_saver_enabled_cb(self, spec, data):
-> -             self.power_saver_enabled =3D self.power_profile_monitor.get=
-_power_saver_enabled()
-> -@@ -92,10 +97,10 @@ try:
-> -
-> -             self.assertEqual(self.power_profile_monitor.get_power_saver=
-_enabled(), False)
-> -             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
-ile', dbus.String('power-saver', variant_level=3D1))
-> --            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D True, "power-saver didn't become enabled", 10)
-> -+            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D True, "power-saver didn't become enabled", 1)
-> -
-> -             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
-ile', dbus.String('balanced', variant_level=3D1))
-> --            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D False, "power-saver didn't become disabled", 10)
-> -+            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D False, "power-saver didn't become disabled", 1)
-> -
-> - except ImportError as e:
-> -     @unittest.skip("Cannot import %s" % e.name)
-> -diff --git a/gio/tests/power-profile-monitor-portal.py.in b/gio/tests/po=
-wer-profile-monitor-portal.py.in
-> -index 09e9a45..ad2abf6 100755
-> ---- a/gio/tests/power-profile-monitor-portal.py.in
-> -+++ b/gio/tests/power-profile-monitor-portal.py.in
-> -@@ -16,7 +16,6 @@ import sys
-> - import subprocess
-> - import fcntl
-> - import os
-> --import time
-> -
-> - import taptestrunner
-> -
-> -@@ -90,22 +89,27 @@ try:
-> -             self.p_mock.terminate()
-> -             self.p_mock.wait()
-> -
-> --        def assertEventually(self, condition, message=3DNone, timeout=
-=3D50):
-> -+        def assertEventually(self, condition, message=3DNone, timeout=
-=3D5):
-> -             '''Assert that condition function eventually returns True.
-> -
-> --            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
-ssage is
-> -+            Timeout is in seconds, defaulting to 5 seconds. message is
-> -             printed on failure.
-> -             '''
-> --            while timeout >=3D 0:
-> --                context =3D GLib.MainContext.default()
-> --                while context.iteration(False):
-> --                    pass
-> --                if condition():
-> --                    break
-> --                timeout -=3D 1
-> --                time.sleep(0.1)
-> --            else:
-> --                self.fail(message or 'timed out waiting for ' + str(con=
-dition))
-> -+            if not message:
-> -+                message =3D 'timed out waiting for ' + str(condition)
-> -+
-> -+            def timed_out_cb(message):
-> -+                self.fail(message)
-> -+                return GLib.SOURCE_REMOVE
-> -+
-> -+            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
-> -+            timeout_source.set_callback(timed_out_cb, message)
-> -+            timeout_source.attach(self.main_context)
-> -+
-> -+            while not condition():
-> -+                self.main_context.iteration(True)
-> -+
-> -+            timeout_source.destroy()
-> -
-> -         def power_saver_enabled_cb(self, spec, data):
-> -             self.power_saver_enabled =3D self.power_profile_monitor.get=
-_power_saver_enabled()
-> -@@ -116,10 +120,10 @@ try:
-> -
-> -             self.assertEqual(self.power_profile_monitor.get_power_saver=
-_enabled(), False)
-> -             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
-ile', dbus.String('power-saver', variant_level=3D1))
-> --            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D True, "power-saver didn't become enabled", 10)
-> -+            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D True, "power-saver didn't become enabled", 1)
-> -
-> -             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
-ile', dbus.String('balanced', variant_level=3D1))
-> --            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D False, "power-saver didn't become disabled", 10)
-> -+            self.assertEventually(lambda: self.power_saver_enabled =3D=
-=3D False, "power-saver didn't become disabled", 1)
-> -
-> -         def test_power_profile_power_saver_enabled_portal_default(self)=
-:
-> -             '''power-saver-enabled property default value'''
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.78.4.bb
-> deleted file mode 100644
-> index b1669ead75e..00000000000
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -require glib.inc
-> -
-> -PE =3D "1"
-> -
-> -SHRT_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
-> -
-> -SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-> -           file://run-ptest \
-> -           file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch \
-> -           file://0001-Remove-the-warning-about-deprecated-paths-in-sche=
-mas.patch \
-> -           file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch=
- \
-> -           file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
-tch \
-> -           file://0001-Set-host_machine-correctly-when-building-with-min=
-gw3.patch \
-> -           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-> -           file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-> -           file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
-> -           file://0001-Switch-from-the-deprecated-distutils-module-to-th=
-e-p.patch \
-> -           file://memory-monitor.patch \
-> -           file://fix-regex.patch \
-> -           file://skip-timeout.patch \
-> -           "
-> -SRC_URI:append:class-native =3D " file://relocate-modules.patch \
-> -                                file://0001-meson.build-do-not-enable-pi=
-dfd-features-on-native-g.patch \
-> -                              "
-> -
-> -SRC_URI[sha256sum] =3D "24b8e0672dca120cc32d394bccb85844e732e04fe75d18bb=
-0573b2dbc7548f63"
-> -
-> -# Find any meson cross files in FILESPATH that are relevant for the curr=
-ent
-> -# build (using siteinfo) and add them to EXTRA_OEMESON.
-> -inherit siteinfo
-> -def find_meson_cross_files(d):
-> -    if bb.data.inherits_class('native', d):
-> -        return ""
-> -
-> -    thisdir =3D os.path.normpath(d.getVar("THISDIR"))
-> -    import collections
-> -    sitedata =3D siteinfo_data(d)
-> -    # filename -> found
-> -    files =3D collections.OrderedDict()
-> -    for path in d.getVar("FILESPATH").split(":"):
-> -        for element in sitedata:
-> -            filename =3D os.path.normpath(os.path.join(path, "meson.cros=
-s.d", element))
-> -            sanitized_path =3D filename.replace(thisdir, "${THISDIR}")
-> -            if sanitized_path =3D=3D filename:
-> -                if os.path.exists(filename):
-> -                    bb.error("Cannot add '%s' to --cross-file, because i=
-t's not relative to THISDIR '%s' and sstate signature would contain this fu=
-ll path" % (filename, thisdir))
-> -                continue
-> -            files[filename.replace(thisdir, "${THISDIR}")] =3D os.path.e=
-xists(filename)
-> -
-> -    items =3D ["--cross-file=3D" + k for k,v in files.items() if v]
-> -    d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
-> -    items =3D ["%s:%s" % (k, "True" if v else "False") for k,v in files.=
-items()]
-> -    d.appendVarFlag("do_configure", "file-checksums", " " + " ".join(ite=
-ms))
-> -
-> -python () {
-> -    find_meson_cross_files(d)
-> -}
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.80.0.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.80.0.bb
-> new file mode 100644
-> index 00000000000..e22810a55bc
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.80.0.bb
-> @@ -0,0 +1 @@
-> +require glib.inc
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
--2.0/glib.inc
-> index fac8875d844..692857892ff 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -28,21 +28,25 @@ PACKAGES +=3D "${PN}-codegen ${PN}-utils"
->
->  LEAD_SONAME =3D "libglib-2.0.*"
->
-> -inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-=
-even bash-completion gio-module-cache manpages gobject-introspection-data
-> -
-> -GTKDOC_MESON_OPTION =3D "gtk_doc"
-> +inherit meson gettext gi-docgen pkgconfig ptest-gnome upstream-version-i=
-s-even bash-completion gio-module-cache manpages gobject-introspection-data
->
->  S =3D "${WORKDIR}/glib-${PV}"
->
->  PACKAGECONFIG ??=3D "libmount \
-> +                   ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'intr=
-ospection', '', d)} \
->                     ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '=
-', d)}"
-> +PACKAGECONFIG:class-native =3D ""
-> +
->  PACKAGECONFIG[libmount] =3D "-Dlibmount=3Denabled,-Dlibmount=3Ddisabled,=
-util-linux"
-> -PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue, -Dman=3Dfalse, libxslt-native=
- xmlto-native"
-> +PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue, -Dman=3Dfalse, python3-docuti=
-ls-native"
->  PACKAGECONFIG[libelf] =3D "-Dlibelf=3Denabled,-Dlibelf=3Ddisabled,elfuti=
-ls"
->  PACKAGECONFIG[tests] =3D "-Dinstalled_tests=3Dtrue,-Dinstalled_tests=3Df=
-alse,"
->  PACKAGECONFIG[selinux] =3D "-Dselinux=3Denabled,-Dselinux=3Ddisabled,lib=
-selinux"
-> +PACKAGECONFIG[introspection] =3D "-Dintrospection=3Denabled,-Dintrospect=
-ion=3Ddisabled,gobject-introspection-native gobject-introspection glib-2.0-=
-initial"
->
-> -EXTRA_OEMESON =3D "-Ddtrace=3Dfalse -Dsystemtap=3Dfalse"
-> +EXTRA_OEMESON =3D "-Ddtrace=3Dfalse -Dsystemtap=3Dfalse \
-> +    ${@'-Dgir_dir_prefix=3D${libdir}' if d.getVar('MULTILIBS') else ''} =
-\
-> +"
->
->  do_configure:prepend() {
->         sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2=
-.0/codegen/gdbus-codegen.in
-> @@ -53,14 +57,16 @@ FILES:${PN} =3D "${libdir}/lib*${SOLIBS} \
->                 ${libexecdir}/*gio-querymodules \
->                 ${libexecdir}/*gio-launch-desktop \
->                 ${datadir}/glib-2.0/dtds \
-> -               ${datadir}/glib-2.0/schemas"
-> -
-> +               ${datadir}/glib-2.0/schemas \
-> +               ${libdir}/girepository-*/*.typelib \
-> +"
->  FILES:${PN}-dev +=3D "${libdir}/glib-2.0/include \
->                      ${libdir}/gio/modules/lib*${SOLIBSDEV} \
->                      ${libdir}/gio/modules/*.la \
->                      ${datadir}/glib-2.0/gettext/po/Makefile.in.in \
->                      ${datadir}/glib-2.0/schemas/gschema.dtd \
->                      ${datadir}/glib-2.0/valgrind/glib.supp \
-> +                    ${datadir}/gir-*/*.gir ${libdir}/gir-*/*.gir \
->                      ${datadir}/gettext/its"
->  FILES:${PN}-dbg +=3D "${datadir}/glib-2.0/gdb ${datadir}/gdb"
->  FILES:${PN}-codegen =3D "${datadir}/glib-2.0/codegen/*.py \
-> @@ -204,3 +210,57 @@ RDEPENDS:${PN}-ptest:append:libc-glibc =3D "\
->              locale-base-pl-pl.iso-8859-2 \
->              locale-base-tr-tr \
->             "
-> +
-> +PE =3D "1"
-> +
-> +SHRT_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
-> +
-> +SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-> +           file://run-ptest \
-> +           file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch \
-> +           file://0001-Remove-the-warning-about-deprecated-paths-in-sche=
-mas.patch \
-> +           file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch=
- \
-> +           file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
-tch \
-> +           file://0001-Set-host_machine-correctly-when-building-with-min=
-gw3.patch \
-> +           file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-> +           file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-> +           file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
-> +           file://skip-timeout.patch \
-> +           file://0001-girepository-introspection-correctly-install-.gir=
--fi.patch \
-> +           "
-> +SRC_URI:append:class-native =3D " file://relocate-modules.patch \
-> +                                file://0001-meson.build-do-not-enable-pi=
-dfd-features-on-native-g.patch \
-> +                              "
-> +
-> +SRC_URI[sha256sum] =3D "8228a92f92a412160b139ae68b6345bd28f24434a7b5af15=
-0ebe21ff587a561d"
-> +
-> +# Find any meson cross files in FILESPATH that are relevant for the curr=
-ent
-> +# build (using siteinfo) and add them to EXTRA_OEMESON.
-> +inherit siteinfo
-> +def find_meson_cross_files(d):
-> +    if bb.data.inherits_class('native', d):
-> +        return ""
-> +
-> +    thisdir =3D os.path.normpath(d.getVar("THISDIR"))
-> +    import collections
-> +    sitedata =3D siteinfo_data(d)
-> +    # filename -> found
-> +    files =3D collections.OrderedDict()
-> +    for path in d.getVar("FILESPATH").split(":"):
-> +        for element in sitedata:
-> +            filename =3D os.path.normpath(os.path.join(path, "meson.cros=
-s.d", element))
-> +            sanitized_path =3D filename.replace(thisdir, "${THISDIR}")
-> +            if sanitized_path =3D=3D filename:
-> +                if os.path.exists(filename):
-> +                    bb.error("Cannot add '%s' to --cross-file, because i=
-t's not relative to THISDIR '%s' and sstate signature would contain this fu=
-ll path" % (filename, thisdir))
-> +                continue
-> +            files[filename.replace(thisdir, "${THISDIR}")] =3D os.path.e=
-xists(filename)
-> +
-> +    items =3D ["--cross-file=3D" + k for k,v in files.items() if v]
-> +    d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
-> +    items =3D ["%s:%s" % (k, "True" if v else "False") for k,v in files.=
-items()]
-> +    d.appendVarFlag("do_configure", "file-checksums", " " + " ".join(ite=
-ms))
-> +
-> +python () {
-> +    find_meson_cross_files(d)
-> +}
-> diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
-on/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/re=
-cipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-r=
-epository-directory-for-native-builds.patch
-> index c9e1afffd0f..510bc426d1b 100644
-> --- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001=
--Relocate-the-repository-directory-for-native-builds.patch
-> +++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001=
--Relocate-the-repository-directory-for-native-builds.patch
-> @@ -1,4 +1,4 @@
-> -From aeb5532f8be42d42f4e8725ca42e239b36983a4d Mon Sep 17 00:00:00 2001
-> +From 4e1aa0ddbc43403ff24f644b4c4912b737290c41 Mon Sep 17 00:00:00 2001
->  From: Sascha Silbe <x-yo17@se-silbe.de>
->  Date: Fri, 8 Jun 2018 13:55:10 +0200
->  Subject: [PATCH] Relocate the repository directory for native builds
-> @@ -14,14 +14,13 @@ cache or sstate mirror).
->
->  Upstream-Status: Inappropriate
->  Signed-off-by: Sascha Silbe <x-yo17@se-silbe.de>
-> -
->  ---
->   girepository/girepository.c | 15 +++++++++++++--
->   girepository/meson.build    |  2 +-
->   2 files changed, 14 insertions(+), 3 deletions(-)
->
->  diff --git a/girepository/girepository.c b/girepository/girepository.c
-> -index a0754f4..2d456f9 100644
-> +index 12eaf36..876382c 100644
->  --- a/girepository/girepository.c
->  +++ b/girepository/girepository.c
->  @@ -21,6 +21,8 @@
-> @@ -42,7 +41,7 @@ index a0754f4..2d456f9 100644
->   /**
->    * SECTION:girepository
->    * @short_description: GObject Introspection repository manager
-> -@@ -215,9 +219,16 @@ init_globals (void)
-> +@@ -222,9 +226,16 @@ init_globals (void)
->             g_free (custom_dirs);
->           }
->
-> @@ -62,10 +61,10 @@ index a0754f4..2d456f9 100644
->         typelib_search_path =3D g_slist_prepend (typelib_search_path, typ=
-elib_dir);
->
->  diff --git a/girepository/meson.build b/girepository/meson.build
-> -index 786749a..15cf2a9 100644
-> +index 5ced59e..a580d9b 100644
->  --- a/girepository/meson.build
->  +++ b/girepository/meson.build
-> -@@ -45,7 +45,7 @@ girepo_internals_lib =3D static_library('girepository-=
-internals',
-> +@@ -47,7 +47,7 @@ girepo_internals_lib =3D static_library('girepository-=
-internals',
->     ],
->     c_args: gi_hidden_visibility_cflags + custom_c_args,
->     include_directories : configinc,
-> diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
-on_1.78.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
-on_1.80.1.bb
-> similarity index 96%
-> rename from meta/recipes-gnome/gobject-introspection/gobject-introspectio=
-n_1.78.1.bb
-> rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_=
-1.80.1.bb
-> index 05a08a50e08..582ac248fda 100644
-> --- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78=
-.1.bb
-> +++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80=
-.1.bb
-> @@ -16,7 +16,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc434e8128a68=
-bedd59b80b2ac1eb1c4a \
->  SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)=
-}/${BPN}-${PV}.tar.xz \
->             "
->
-> -SRC_URI[sha256sum] =3D "bd7babd99af7258e76819e45ba4a6bc399608fe762d83fde=
-3cac033c50841bb4"
-> +SRC_URI[sha256sum] =3D "a1df7c424e15bda1ab639c00e9051b9adf5cea1a9e512f8a=
-603b53cd199bc6d8"
->
->  SRC_URI:append:class-native =3D " file://0001-Relocate-the-repository-di=
-rectory-for-native-builds.patch"
->
-> @@ -26,7 +26,9 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
->
->  MULTILIB_SCRIPTS =3D "${PN}:${bindir}/g-ir-annotation-tool ${PN}:${bindi=
-r}/g-ir-scanner"
->
-> -DEPENDS +=3D " libffi zlib glib-2.0 python3 flex-native bison-native"
-> +DEPENDS +=3D " libffi zlib python3 flex-native bison-native"
-> +DEPENDS:append:class-native =3D " glib-2.0"
-> +DEPENDS:append:class-target =3D " glib-2.0-initial"
->
->  # target build needs qemu to run temporary introspection binaries create=
-d
->  # on the fly by g-ir-scanner and a native version of itself to run
-> @@ -189,6 +191,6 @@ FILES:${PN}-dbg +=3D "${libdir}/gobject-introspection=
-/giscanner/.debug/"
->  FILES:${PN}-staticdev +=3D "${libdir}/gobject-introspection/giscanner/*.=
-a"
->
->  # setuptools can be removed when upstream removes all uses of distutils
-> -RDEPENDS:${PN} =3D "python3-pickle python3-xml python3-setuptools"
-> +RDEPENDS:${PN} =3D "python3-pickle python3-xml python3-setuptools glib-2=
-.0"
->
->  BBCLASSEXTEND =3D "native"
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198616): https://lists.openembedded.org/g/openembedde=
-d-core/message/198616
-> Mute This Topic: https://lists.openembedded.org/mt/105687645/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+SGksIEFsZXgNCg0KPiBTbyBJJ2Qgc3VnZ2VzdCB5b3Ugc3VibWl0IHRoZSBwYXRjaCB3aXRob3V0
+IHNlZCAoanVzdCBvZV9tdWx0aWxpYiBwYXJ0cyksIGFuZCB3ZQ0KPiBjYW4gdGhlbiBjb25zaWRl
+ciBpZiBhbnkgZnVydGhlciBmaXhpbmcgaXMgcmVxdWlyZWQuDQo+IEFnYWluOiBwbGVhc2Ugc2hv
+dyB3aGF0IGlzIHRoZSBwcm9ibGVtIHRoYXQgd291bGQgb2NjdXIgd2l0aG91dCBzZWQuDQoNCkkn
+IHNvcnJ5LiBCdXQgbXkgZmlyc3QgVjEgdmVyc2lvbiBwYXRjaCB3aXRob3V0IHNlZCAoanVzdCBv
+ZV9tdWx0aWxpYiBwYXJ0cykgZGlkIG5vdCBwYXNzIEtoZW0gUmFqJ3MgY29tcGlsZSB0ZXN0IChi
+aXRiYWtlIG1nIGh0dHBzOi8vZXJyb3JzLnlvY3RvcHJvamVjdC5vcmcvRXJyb3JzL0RldGFpbHMv
+NzU5NDczLykuIEknbSBub3Qgc3VyZSBpZiBpdCBpcyB0aGUgcHJvYmxlbSB5b3Ugd2FudCB0byBr
+bm93Lg0KU28sIEkgcmVwcm9kdWNlIHRoZSBidWlsZCBlcnJvciBhbmQgZm91bmQgdGhhdCB0aGUg
+Y2RlZnMuaCB0aGF0IGNyZWF0ZWQgYnkgbXVsdGlsaWJfaGVhZGVyIGhhcyB0aGUgcGF0aCAiI2lu
+Y2x1ZGUgPGJzZC9zeXMvY2RlZnMtMzIuaD4iLg0KQnV0IG1nIGZpbmQgaGVyZGVyIGZpbGVzIHdp
+dGhvdXQgbmFtZXNwYWNlZCB3aXRoIGJzZC8uIFNvLCBpdCBmYWlsZWQuIFNoYWRvdyBoYXMgdGhl
+IHNhbWUgYnVpbGQgaXNzdWUuIA0KU28sIEkgc3VibWl0dGVkIFYyIHBhdGNoIHdpdGggc2VkLg0K
+DQoNCj4gV2l0aCBzZWQsIG9ubHkgb3ZlcmxheSBtb2RlIHdpbGwgd29yaywgYW5kIG5vdyB5b3Un
+cmUgcHJvcG9zaW5nIGFkZGl0aW9uYWwNCj4gZml4aW5nIHRvIHVuZG8gdGhhdCBlZmZlY3QuDQpZ
+ZXMsIEkganVzdCB0ZXN0ZWQgbXkgcGF0Y2ggd2l0aCBzZWQgb24gdHdvIHJlY2lwZXMgKG1nIGFu
+ZCBzaGFkb3cpIC4gVGhlIHJlY2lwZXMgdGhhdCBkZXBlbmQgb24gbGliYnNkIGFyZSB0b28gZmV3
+IHRvIGhhdmUgbW9yZSB0ZXN0Lg0KDQoNCg0KQmVzdCByZWdhcmRzDQpMZWkNCg0KDQoNCg0KPiAt
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
+eC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogRnJpZGF5LCBBcHJpbCAyNiwgMjAyNCA0OjQw
+IFBNDQo+IFRvOiBMZWksIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPg0KPiBDYzogb3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
+LWNvcmVdW1BBVENIIHYzXSBsaWJic2Q6IEZpeCBjb25mbGljdCBlcnJvciB3aGVuIGVuYWJsZSBt
+dWx0aWxpYi4NCj4gDQo+IE9uIEZyaSwgMjYgQXByIDIwMjQgYXQgMDg6NTUsIE1hb2h1aSBMZWkg
+KEZ1aml0c3UpIDxsZWltYW9odWlAZnVqaXRzdS5jb20+DQo+IHdyb3RlOg0KPiA+IEZyb20gdGhl
+IGJ1aWxkIGxvZyBhbmQgdGhlIHNvdXJjZSBjb2RlIG9mIGxpYmJzZCwgSSBmb3VuZCB0aGF0IGxp
+YmJzZCBkb2VzDQo+IHByb3ZpZGUgaGVhZGVyIGZpbGUgaW4gb3ZlcmxheSBtb2RlIGJ5IGRlZmF1
+bHQgYXMgdGhlIG1hbiBwYWdlIHNheXMuDQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IC0gJCBscw0K
+PiA+IHRtcC93b3JrL2NvcnRleGE1Ny1wb2t5LWxpbnV4L2xpYmJzZC8wLjEyLjIvaW1hZ2UvdXNy
+L2xpYjY0L3BrZ2NvbmZpZy8NCj4gPiBsaWJic2QtY3Rvci5wYyAgbGliYnNkLW92ZXJsYXkucGMg
+IGxpYmJzZC5wYyAkIGdyZXAgaW5jbHVkZQ0KPiA+IHRtcC93b3JrL2NvcnRleGE1Ny1wb2t5LWxp
+bnV4L2xpYmJzZC8wLjEyLjIvdGVtcC9sb2cuZG9fY29tcGlsZSAtcg0KPiA+IC4uLi4uLiAtSS4u
+IC1pc3lzdGVtIC4uLy4uL2xpYmJzZC0wLjEyLjIvaW5jbHVkZS9ic2QvLi4uLi4uDQo+ID4gLi4u
+Li4uIC1JLi4gLWlzeXN0ZW0gLi4vLi4vbGliYnNkLTAuMTIuMi9pbmNsdWRlL2JzZC8uLi4uLi4N
+Cj4gPiAuLi4uLi4NCj4gPiAkIHZpbQ0KPiA+IHRtcC93b3JrL2NvcnRleGE1Ny1wb2t5LWxpbnV4
+L2xpYmJzZC8wLjEyLjIvbGliYnNkLTAuMTIuMi9pbmNsdWRlL2JzZC8NCj4gPiBzdHJpbmdsaXN0
+LmgNCj4gPiAjaWZkZWYgTElCQlNEX09WRVJMQVkNCj4gPiAjaW5jbHVkZSA8c3lzL2NkZWZzLmg+
+DQo+ID4gI2Vsc2UNCj4gPiAjaW5jbHVkZSA8YnNkL3N5cy9jZGVmcy5oPg0KPiA+ICNlbmRpZg0K
+PiA+ICNpbmNsdWRlIDxzeXMvdHlwZXMuaD4NCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IA0KPiBUaGUg
+bWFuIHBhZ2UgZG9lcyBub3Qgc2F5IG92ZXJsYXkgbW9kZSBpcyBkZWZhdWx0LCBpdCBvbmx5IHNh
+eXMgdGhhdCBpdCdzDQo+IHJlY29tbWVuZGVkLiBBbmQgaW5kZWVkIHRoZSBhYm92ZSBzaG93cyB0
+aGF0IHlvdSBuZWVkIHRvIG9wdCBpbnRvIGl0IGJ5DQo+IGRlZmluaW5nIExJQkJTRF9PVkVSTEFZ
+LiBMZXQncyBzZWUgaG93IGV4YW1wbGUgcHJvamVjdHMgaGFuZGxlIGl0Lg0KPiANCj4gPiBBbmQg
+SSBJbnZlc3RpZ2F0ZWQgc2V2ZXJhbCBPU1MoZS5nLiBzaGFkb3csIG1nLCBsaWJ4ZG1jcCkgdGhh
+dCBkZXBlbmQgb24NCj4gbGliYnNkLiBGcm9tIHRoZSBzb3VyY2UgY29kZSBvZiB0aGVpcnMuIEkg
+Zm91bmQgdGhhdCB0aGV5IGRvZXMgdXNlZCBsaWJic2QgaW4NCj4gb3ZlcmxheSBtb2RlIGJ5IGRl
+ZmF1bHQuDQo+ID4gU3VjaCBhcyBzaGFkb3c6DQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IC0gdmlt
+DQo+ID4gdG1wL3dvcmsvY29ydGV4YTU3LXBva3ktbGludXgvc2hhZG93LzQuMTUuMC9zaGFkb3ct
+NC4xNS4wL2xpYi9yZWFkcGFzcw0KPiA+IHBocmFzZS5oDQo+ID4gLi4uLi4uDQo+ID4gI2lmZGVm
+IExJQkJTRF9PVkVSTEFZDQo+ID4gI2luY2x1ZGUgPHN5cy9jZGVmcy5oPg0KPiA+ICNlbmRpZg0K
+PiA+IC4uLi4uLg0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAtDQo+IA0KPiBzaGFkb3cgZG9lcyBu
+b3QgdXNlIG92ZXJsYXkgbW9kZSBieSBkZWZhdWx0LCBpdCBtYWtlcyB0aGF0IGRlY2lzaW9uIGJh
+c2VkIG9uDQo+IG90aGVyIGZhY3RvcnMgaW4gY29uZmlndXJlLmFjOg0KPiANCj4gaWYgdGVzdCAi
+JHdpdGhfbGliYnNkIiAhPSAibm8iOyB0aGVuDQo+ICAgICAgICAgQUNfU0VBUkNIX0xJQlMoW3Jl
+YWRwYXNzcGhyYXNlXSwgW2JzZF0sIFtdLCBbDQo+ICAgICAgICAgICAgICAgICBBQ19NU0dfRVJS
+T1IoW3JlYWRwYXNzcGhyYXNlKCkgaXMgbWlzc2luZywgZWl0aGVyIGZyb20NCj4gbGliYyBvciBs
+aWJic2RdKQ0KPiAgICAgICAgIF0pDQo+ICAgICAgICAgQVNfSUYoW3Rlc3QgIiRhY19jdl9zZWFy
+Y2hfcmVhZHBhc3NwaHJhc2UiID0gIi1sYnNkIl0sIFsNCj4gICAgICAgICAgICAgICAgIFBLR19D
+SEVDS19NT0RVTEVTKFtMSUJCU0RdLCBbbGliYnNkLW92ZXJsYXldKQ0KPiAgICAgICAgIF0pDQo+
+ICAgICAgICAgZG5sIE1ha2Ugc3VyZSBlaXRoZXIgdGhlIGxpYmMgb3IgbGliYnNkIHByb3ZpZGUg
+dGhlIGhlYWRlci4NCj4gICAgICAgICBzYXZlX0NGTEFHUz0iJENGTEFHUyINCj4gICAgICAgICBD
+RkxBR1M9IiRDRkxBR1MgJExJQkJTRF9DRkxBR1MiDQo+ICAgICAgICAgQUNfQ0hFQ0tfSEVBREVS
+UyhbcmVhZHBhc3NwaHJhc2UuaF0pDQo+ICAgICAgICAgQVNfSUYoW3Rlc3QgIiRhY19jdl9oZWFk
+ZXJfcmVhZHBhc3NwaHJhc2VfaCIgIT0gInllcyJdLCBbDQo+ICAgICAgICAgICAgICAgICBBQ19N
+U0dfRVJST1IoW3JlYWRwYXNzcGhyYXNlLmggaXMgbWlzc2luZ10pDQo+ICAgICAgICAgXSkNCj4g
+ICAgICAgICBDRkxBR1M9IiRzYXZlX0NGTEFHUyINCj4gICAgICAgICBBQ19ERUZJTkUoV0lUSF9M
+SUJCU0QsIDEsIFtCdWlsZCBzaGFkb3cgd2l0aCBsaWJic2Qgc3VwcG9ydF0pIGVsc2UNCj4gICAg
+ICAgICBBQ19ERUZJTkUoV0lUSF9MSUJCU0QsIDAsIFtCdWlsZCBzaGFkb3cgd2l0aG91dCBsaWJi
+c2Qgc3VwcG9ydF0pIGZpDQo+IEFNX0NPTkRJVElPTkFMKFdJVEhfTElCQlNELCB0ZXN0IHgkd2l0
+aF9saWJic2QgPSB4eWVzKQ0KPiANCj4gDQo+ID4gVGhlIHNhbWUgYXMgbWcgOg0KPiA+IC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0NCj4gPiAtICQgdmltIHRtcC93b3JrL2NvcnRleGE1Ny1wb2t5LWxpbnV4L21nLzIw
+MjMwNTAxL2dpdC9DTWFrZUxpc3RzLnR4dA0KPiA+IGlmKENNQUtFX1NZU1RFTV9OQU1FIE1BVENI
+RVMgIkxpbnV4IikNCj4gPiAgIHBrZ19jaGVja19tb2R1bGVzIChCU0QgUkVRVUlSRUQgbGliYnNk
+LW92ZXJsYXkpDQo+ID4gICBsaW5rX2RpcmVjdG9yaWVzICgke0JTRF9MSUJSQVJZX0RJUlN9KQ0K
+PiA+ICAgc3RyaW5nIChSRVBMQUNFICI7IiAiICIgTElCQlNEX0ZMQUdTICIke0JTRF9DRkxBR1N9
+IikNCj4gPiAgIHRhcmdldF9saW5rX2xpYnJhcmllcyAobWcgJHtCU0RfTElCUkFSSUVTfSkNCj4g
+PiAgIHNldCAoQ01BS0VfQ19GTEFHUyAiLVdhbGwgLURSRUdFWCAtRF9HTlVfU09VUkNFICR7TElC
+QlNEX0ZMQUdTfQ0KPiA+ICR7TkNVUlNFU19GTEFHU30gLUwke05DVVJTRVNfTElCUkFSWV9ESVJT
+fSIpDQo+ID4gZWxzZSgpDQo+ID4gICBzZXQgKENNQUtFX0NfRkxBR1MgIi1XYWxsIC1EUkVHRVgg
+JHtMSUJCU0RfRkxBR1N9DQo+ICR7TkNVUlNFU19GTEFHU30NCj4gPiAtTCR7TkNVUlNFU19MSUJS
+QVJZX0RJUlN9IikNCj4gPiBlbmRpZigpDQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IC0NCj4gDQo+
+IFRoaXMgb25lIGRvZXMgdXNlIG92ZXJsYXkgbW9kZSBieSBkZWZhdWx0LCBidXQgdGhhdCBkb2Vz
+bid0IG1lYW4gZXZlcnkgb3RoZXINCj4gcHJvamVjdCBkb2VzIHRoZSBzYW1lLiBXZSBoYXZlIHRv
+IGNvbnRpbnVlIHN1cHBvcnRpbmcgYm90aCBvcHRpb25zIHVudGlsIGxpYmJzZA0KPiB1cHN0cmVh
+bSBwcm92aWRlcyBvbmx5IG9uZSBvcHRpb24uDQo+IA0KPiA+IFNvLCBJIHRoaW5rIHRoZSBoZWFk
+ZXIgZmlsZSBhZnRlciBvZV9tdWx0aWxpYl9oZWFkZXIgc2hvdWxkIGJlIGluIG92ZXJsYXkgbW9k
+ZQ0KPiBhcyB0aGUgb3RoZXIgaGVhZGVyIGZpbGVzIGluIGxpYmJzZC4NCj4gPiBPZiBjb3Vyc2Us
+IElmIGFkZGVkICIjaWZkZWYgTElCQlNEX09WRVJMQVkiIGludG8gdGhlIGhlYWRlciBmaWxlIGFm
+dGVyDQo+IG9lX211bHRpbGliX2hlYWRlciwgbGliYnNkIHdpbGwgaGF2ZSBhIGJldHRlciBjb21w
+YXRpYmlsaXR5LiBXaGF0IGRvIHlvdSB0aGluaz8NCj4gDQo+IEkgZG9uJ3QgdGhpbmsgdGhpcyBp
+cyBjb3JyZWN0LiBXaXRob3V0IHNlZCwgYm90aCBtb2RlcyB3aWxsIHdvcmsgKHVubGVzcyB5b3Ug
+Y2FuDQo+IGRlbW9uc3RyYXRlIGhvdyBpdCB3aWxsIGJyZWFrOyBJIGFza2VkIHRoYXQsIGFuZCB0
+aGVyZSdzIG5vIGFuc3dlciBpbiB0aGUgYWJvdmUpLg0KPiBXaXRoIHNlZCwgb25seSBvdmVybGF5
+IG1vZGUgd2lsbCB3b3JrLCBhbmQgbm93IHlvdSdyZSBwcm9wb3NpbmcgYWRkaXRpb25hbA0KPiBm
+aXhpbmcgdG8gdW5kbyB0aGF0IGVmZmVjdC4NCj4gDQo+IFNvIEknZCBzdWdnZXN0IHlvdSBzdWJt
+aXQgdGhlIHBhdGNoIHdpdGhvdXQgc2VkIChqdXN0IG9lX211bHRpbGliIHBhcnRzKSwgYW5kIHdl
+DQo+IGNhbiB0aGVuIGNvbnNpZGVyIGlmIGFueSBmdXJ0aGVyIGZpeGluZyBpcyByZXF1aXJlZC4N
+Cj4gQWdhaW46IHBsZWFzZSBzaG93IHdoYXQgaXMgdGhlIHByb2JsZW0gdGhhdCB3b3VsZCBvY2N1
+ciB3aXRob3V0IHNlZC4NCj4gDQo+IEFsZXgNCg==
 
