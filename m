@@ -1,87 +1,151 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D24C4345F
-	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 18:09:10 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web10.28938.1714414143295793640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B08AEC4345F
+	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 19:47:20 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.31548.1714420036302203375
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Apr 2024 11:09:03 -0700
+ Mon, 29 Apr 2024 12:47:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ewdAzW2w;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2351c03438cso2127405fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 11:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714414142; x=1715018942; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CTRrtndupXBtLNboHmHGNoZV77bCSUMCeYDmhOKEM0M=;
-        b=ewdAzW2wiOzTmNfeWjqWCThZTillI43ypW+NCx3R/tukyOO9/R3BGM6GGxvvMhlIvN
-         fkp31xEA3v2B7MucbS/iAAO3i6pTcNgbAId1IzZk2go24tz7tviyEXWcALwprj+slt4u
-         PegiB7hH73T+XGsxna15AVgOKkwUgmjCi/hl/cYPo/mqg4T9EVudxAIvnOagi+GoqVBN
-         8+T2xNeaLYqsIxbiPNTPSKNDcpYJAj7VeiV9c65rzGobXNfHOhR5MT0B8ezkQ5WbuVbd
-         t5B4AzdPSRKcc/lBIRfMCDef2WNJZBscGz/pO1l9qly++TMdLRgEIZQ9LUAyYX//LslB
-         ZkLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714414142; x=1715018942;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CTRrtndupXBtLNboHmHGNoZV77bCSUMCeYDmhOKEM0M=;
-        b=mC3XYZ3OsHv5itHrzu7dSrrupo2XvIFQL4b9BkljHhK0qRgOGp2ipPvKMcOGx4LMEs
-         6XoDE703Bn+FVs3rW0BwSTFYtaXK+91oICc1jhr+rxkeNYzHG03MFQZ+kfmQiq3arAUl
-         4wyXVsqEYxxAo/8R8KTFXfgimpk+qISGrxACNpWEEkq1QqUKZFaR11KTaQWX15hhlXSX
-         zUWg3/TH0xolL02mJxP5KQRCW7wLpni4/v0s2Wqb4Q/J/TVAf8s6U1ecv1nwEtjIfXtm
-         1v7gmU/ynpJL7zJYHR/ylURFAYr5cUopT5wnTwCcKMBeJjjo/s5CcZqO1DjfcTryPq6F
-         p5OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ/t68IXCRnzoMwhyLBaESGEDubmcR4OEDKepjs0Hx19lMdFoExa+8NorYr4o1RIzu0cIGuNf2VBktaCe5NXj808u3nqeyYPRGMwmcOimHGm4OktkFepZR
-X-Gm-Message-State: AOJu0YxYLZMVRNV1dIRxNxXyGz1Fg25Dj2YxrRuJGUZuNdXpk0ZLtGu3
-	xQgA4lWhxj4f1ePBsd/+05/TOZSl59HrGtO0Ce8JdrbbyO2J0oUB3QeGdzVk14RwHnB6BBxWSYH
-	NTGDoOCmWI5PbI8RVvHhUq2w6+ss=
-X-Google-Smtp-Source: AGHT+IEaIkmsF8vwS5N0TNjm+X2khtjXyX8o9CbCk4t4qrZx1q/1WMwBEIttuURfJe2IsBiwwlQybCSxLElnSFxhc28=
-X-Received: by 2002:a05:6871:2205:b0:23c:5194:e19d with SMTP id
- sc5-20020a056871220500b0023c5194e19dmr5905799oab.24.1714414142474; Mon, 29
- Apr 2024 11:09:02 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FrZfEpEj;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4537420007;
+	Mon, 29 Apr 2024 19:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1714420034;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KgJ+kmmpcxEYMbO59dB+SBdwn1mvvW2cuhuI0ZvwtjY=;
+	b=FrZfEpEjY2UxVjG27xKketNdcDu3vVkFn61yF26EFZ/ek3kOK+qZact4LAnSm8d2zbwL9S
+	tWUKedWHEiVQtPCfyC9nD5UrkMESacvLKrKNwyNWUT4leqLk0Wi2L+S2RHzSRao0iselna
+	89lgZqwJkdAxAFDUI6r1L7dBcjUvkZ9K2MgB5d9pp78hxGb75jwpNrMOuxaCV1gAuuJ3iD
+	b8y0VxNGehJbNOPoQpi6vothQNa3Py3Hp7AKeyO5jA9tsqSuyAUlqMnec8eoV/jgYp9itg
+	DyngMF3CX6mF0aY3VamfOKtNGqN8Te3RDNIjIxLwVKkHC0tcmvcugEeA+ZsM8w==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH RESEND] oeqa/selftest/prservice: support non integer PR values
+Date: Mon, 29 Apr 2024 21:46:56 +0200
+Message-Id: <20240429194656.655509-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240429102959.3493324-1-zboszor@gmail.com> <CAMKF1so2k-N0VvfNnzOdu5L2pMLppN6UQqkK2VQRhG_ww73z-Q@mail.gmail.com>
- <b0e91df1e218fa314ec717d1192134a0f9e5c02f.camel@linuxfoundation.org>
-In-Reply-To: <b0e91df1e218fa314ec717d1192134a0f9e5c02f.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 29 Apr 2024 20:08:36 +0200
-Message-ID: <CAMKF1soN5FJ5gLH5i6z=k1bkSmtsmTv=UHtpYUL02x1rAbDj_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cracklib: Modify patch to compile with GCC 14
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: zboszor@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Spam-Score: 300
+X-GND-Status: SPAM
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 18:09:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198751
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 19:47:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198752
 
-On Mon, Apr 29, 2024 at 6:37=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2024-04-29 at 08:03 -0700, Khem Raj via lists.openembedded.org
-> wrote:
-> > Thanks for fixing this, however I would also suggest to submit this
-> > upstream and see if this is acceptable
->
-> The patch this is changing one of our patches but I can't tell if the
-> code being patched by the patch is "ours" or upstream.
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-its the behavior coming from our own patch so in that case perhaps
-no need to bother upstream. However, the patch itself is also submitted ups=
-tream
-which has some feedback to reimplement the logic, so perhaps for now
-we are ok to accept it locally.
+Support non integer x.y.z PR values, for when the PR server
+supports upstream PR servers.
 
->
-> Cheers,
->
-> Richard
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+
+---
+
+Note that regular integer PR values are still supported.
+This code has also been tested on master (as of Apr. 29, 2024),
+without the proposed PR server changes.
+---
+ meta/classes/primport.bbclass             |  2 +-
+ meta/lib/oe/prservice.py                  | 17 ++++++++++++-----
+ meta/lib/oeqa/selftest/cases/prservice.py |  9 +++++++--
+ 3 files changed, 20 insertions(+), 8 deletions(-)
+
+diff --git a/meta/classes/primport.bbclass b/meta/classes/primport.bbclass
+index 00924174c1..1ff09c8785 100644
+--- a/meta/classes/primport.bbclass
++++ b/meta/classes/primport.bbclass
+@@ -17,7 +17,7 @@ python primport_handler () {
+             bb.fatal("import failed!")
+ 
+         for (version, pkgarch, checksum, value) in imported:
+-            bb.note("imported (%s,%s,%s,%d)" % (version, pkgarch, checksum, value))
++            bb.note("imported (%s,%s,%s,%s)" % (version, pkgarch, checksum, value))
+     elif isinstance(e, bb.event.ParseStarted):
+         import oe.prservice
+         oe.prservice.prserv_check_avail(e.data)
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index c41242c878..d7920fc511 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -4,6 +4,12 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++import re
++
++def is_legal_prvalue(str):
++    pattern = r'^[0-9]+([.][0-9]+)*$'
++    return bool(re.match(pattern, str))
++
+ def prserv_make_conn(d, check = False):
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+@@ -59,14 +65,15 @@ def prserv_import_db(d, filter_version=None, filter_pkgarch=None, filter_checksu
+                (filter_pkgarch and filter_pkgarch != pkgarch) or \
+                (filter_checksum and filter_checksum != checksum):
+                continue
+-            try:
+-                value = int(d.getVar(remain + '$' + version + '$' + pkgarch + '$' + checksum))
+-            except BaseException as exc:
++
++            value = d.getVar(remain + '$' + version + '$' + pkgarch + '$' + checksum)
++            if not is_legal_prvalue(value):
+                 bb.debug("Not valid value of %s:%s" % (v,str(exc)))
+                 continue
+-            ret = conn.importone(version,pkgarch,checksum,value)
++
++            ret = str(conn.importone(version, pkgarch, checksum, value))
+             if ret != value:
+-                bb.error("importing(%s,%s,%s,%d) failed. DB may have larger value %d" % (version,pkgarch,checksum,value,ret))
++                bb.error("importing(%s,%s,%s,%s) failed. DB may have larger value %s" % (version,pkgarch,checksum,value,ret))
+             else:
+                imported.append((version,pkgarch,checksum,value))
+     conn.close()
+diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
+index 8da3739c57..0e2ca0c5ab 100644
+--- a/meta/lib/oeqa/selftest/cases/prservice.py
++++ b/meta/lib/oeqa/selftest/cases/prservice.py
+@@ -16,6 +16,11 @@ from oeqa.utils.network import get_free_port
+ 
+ import bb.utils
+ 
++def rev_minor(rev):
++    """Returns the last number of an x.y.z revision number"""
++    fields=str(rev).split('.')
++    return int(fields[-1])
++
+ class BitbakePrTests(OESelftestTestCase):
+ 
+     @classmethod
+@@ -78,7 +83,7 @@ class BitbakePrTests(OESelftestTestCase):
+         pr_2 = self.get_pr_version(package_name)
+         stamp_2 = self.get_task_stamp(package_name, track_task)
+ 
+-        self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
++        self.assertTrue(rev_minor(pr_2) - rev_minor(pr_1) == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
+         self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
+ 
+         self.cleanup()
+@@ -104,7 +109,7 @@ class BitbakePrTests(OESelftestTestCase):
+         self.increment_package_pr(package_name)
+         pr_2 = self.get_pr_version(package_name)
+ 
+-        self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
++        self.assertTrue(rev_minor(pr_2) - rev_minor(pr_1) == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
+ 
+         self.cleanup()
+ 
+-- 
+2.34.1
+
 
