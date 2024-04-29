@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F987C4345F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 493ADC25B4F
 	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 12:53:38 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.20192.1714395217603052062
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.20190.1714395215925701862
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Apr 2024 05:53:37 -0700
+ Mon, 29 Apr 2024 05:53:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hLmeBDZe;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e50a04c317so22598055ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 05:53:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z53ZQgmP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e83a2a4f2cso26004905ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 05:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714395217; x=1715000017; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714395215; x=1715000015; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VFpsTHrzcZ4WHbwhov+R5iV+N/wGo3xlM5WBr83xhCs=;
-        b=hLmeBDZeMB5rGeLqLUM395W/zIN+fR8OB6/xCR4aKdAhIU3jW6IDEhCfjHgUvrTx88
-         yzx6gskR/JNLiaTp2wt4zxVzBi2VasP86cvOlvURGDKRbaL5aLYsa4lqbY68X54Kti87
-         AKhjn5kye/YPVecfRifzQZlTs4UjOd1BCRIZUCknUv4ZVafj2dE8FX69kz1Ib77RLNWr
-         ajrXlFMypWdWAKRSlTP5zM20M0xPl+62GFBUy3mQ8+lPLLuLQ+XLwilsw7s6Hsu/P54G
-         3ilSvwJjnuWwOgdIiO55n+YWXed3zcSO+PcSkbZk8HAAQxfwyjF08dDh1Kz4xkUDY9eM
-         qVGA==
+        bh=At+N7/4QxIiXkj4z8N98XhP/SinVIByu5CaKh2alCks=;
+        b=z53ZQgmPFvbE8M183Jy91yOYhGFpgv9Fb9tceXbbDqVWDs6xN8LGrD8IMhSMTBOcQ4
+         w00PctNG2/paHpWfybTsZpEz2crvrBqMmKAnC5SsYCrw1ZSPyZMOKl33Vg0gLb9bgdR7
+         znOpZGF324bMdQjI6jwXNVsrW03TewH1He0WAbWQlaBHGXWMG2RUvt6c54HPZUKdzcio
+         tnK/6gh71tfzmAjvTBlblgmSRL7j0PXfpb48hYtLYmLGOyjB2lzqQIdZWTLjdv0UOXn2
+         H8tM7eIfKwb762sZsFEqGXb/Vl7yr8gwx/O33VOubPVco0mkII7U6790pPou4bc3gdTu
+         DvvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714395217; x=1715000017;
+        d=1e100.net; s=20230601; t=1714395215; x=1715000015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VFpsTHrzcZ4WHbwhov+R5iV+N/wGo3xlM5WBr83xhCs=;
-        b=HP3WtYL1pOSl9VJBGKXQRgvoC6K39/19nLPDzBe4MzxTRh+f0z+AWGyCgBRs3QM26o
-         JdjIjurXsB0Muo3dj3Ma6AQ5slnQwY8vsAgARZf/miXQ4SKIIswWKOyMvoGikrtoQWad
-         Xf9Gu10aUzELHyEpwjnuqCEbrzYVPh6FqBvBmd5zZPDPwCxT0GBdVDz2CbORtIgAjQDW
-         qMBhS8mWOL5D8vuuKQTwjuiCTqdqujXYJXh12+FmjQ9HC8h075CMpV26AMySF+bPRQLO
-         UebjlUWGEzQ//eXZMPn2E5YvBMGHPSvPmmsYQ1yJMTzvDbklkDFoTp/z2BAC/IKpSYp8
-         IqIQ==
-X-Gm-Message-State: AOJu0Yyc8AMJhVr5co9B/7wy6v4Yaod9PzPnm32XGmfSraXFCOq3Rl3f
-	7vzXVy0jrB1/0gkcDx6mfyWawMXCBUVDms8I01WmlHskTKUkoadSMZMvldd8gCovpa20+G+B8Xm
-	BSGtmeg==
-X-Google-Smtp-Source: AGHT+IFyfmLe6NoPNQQbnN8UUOood2qDW5viE0skQHqedS1gm5e1q8rIlxqPM/tBfebb3PwyviK2IA==
-X-Received: by 2002:a17:903:1ce:b0:1e9:4f9:8478 with SMTP id e14-20020a17090301ce00b001e904f98478mr13426839plh.42.1714395216598;
-        Mon, 29 Apr 2024 05:53:36 -0700 (PDT)
+        bh=At+N7/4QxIiXkj4z8N98XhP/SinVIByu5CaKh2alCks=;
+        b=cGhs9TzWZnVC3Qv6buaaPePj8am1T8Vp1E8/Ixq6WNi93TSS40OEf6rY9dzn6wZQC0
+         waa/dOm1WAkI3tN+OAPNfYQsgmcbHyav0JD/LhLvk/agKVdEwfY9s5KYkfnVxodpuJv5
+         I0QQH6tNq5KPc1PW914cTg8moU8tkxECYwD9XKQD/V2841aJmkFzXnc/KT7iE4pyiUd+
+         ByTuaAZkoFE8U1lsQ8x61SlXRsy43SPbuxTNRHdwoBPP6j/qcxFatby2OMbZHXcLT5uM
+         zCWZNqqTEEgfuNXydjQjdJqQV/c0u8Th+DlfAp19A0OfqRoaImDKz4RSLxBJ8kGn29hc
+         xJLA==
+X-Gm-Message-State: AOJu0YztABX4u/cyl2dSObLZqarNddN+n3/aBVayyfCQRkVUH88g15BC
+	gny5Zn2Lfrym+HUBM8B3zC6Dq478Hg21sZLlkGItNN+Cvn1D8D5hjr2Atp/g3xdutHRnIc4fswa
+	x9u0rfg==
+X-Google-Smtp-Source: AGHT+IEJdDbXzkRbiU6hdZosWlglbho6RVHjCimeN/tD82wKzkkSy/6kOSutXHIlZT65S57kejFp0Q==
+X-Received: by 2002:a17:902:784f:b0:1e2:a31e:2062 with SMTP id e15-20020a170902784f00b001e2a31e2062mr10230710pln.53.1714395214856;
+        Mon, 29 Apr 2024 05:53:34 -0700 (PDT)
 Received: from xps13.. ([209.237.67.158])
-        by smtp.gmail.com with ESMTPSA id h8-20020a170902704800b001e868e29fabsm20184399plt.251.2024.04.29.05.53.35
+        by smtp.gmail.com with ESMTPSA id h8-20020a170902704800b001e868e29fabsm20184399plt.251.2024.04.29.05.53.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 05:53:36 -0700 (PDT)
+        Mon, 29 Apr 2024 05:53:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/5] gnutls: fix CVE-2024-28835
-Date: Mon, 29 Apr 2024 05:53:22 -0700
-Message-Id: <e63819fbabbde3d12df06ae302da70ab990df26d.1714394934.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/5] gnutls: fix CVE-2024-28834
+Date: Mon, 29 Apr 2024 05:53:21 -0700
+Message-Id: <18c4f65934331da48c597201c33334578e91a45d.1714394934.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1714394934.git.steve@sakoman.com>
 References: <cover.1714394934.git.steve@sakoman.com>
@@ -62,443 +62,496 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 12:53:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198739
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198738
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A flaw has been discovered in GnuTLS where an application crash can be induced
-when attempting to verify a specially crafted .pem bundle using the
-"certtool --verify-chain" command.
+A flaw was found in GnuTLS. The Minerva attack is a cryptographic vulnerability
+that exploits deterministic behavior in systems like GnuTLS, leading to
+side-channel leaks. In specific scenarios, such as when using the
+GNUTLS_PRIVKEY_FLAG_REPRODUCIBLE flag, it can result in a noticeable step in
+nonce size from 513 to 512 bits, exposing a potential timing side-channel.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/gnutls/CVE-2024-28835.patch        | 406 ++++++++++++++++++
+ .../gnutls/gnutls/CVE-2024-28834.patch        | 457 ++++++++++++++++++
  meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
- 2 files changed, 407 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-28835.patch
+ 2 files changed, 458 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-28835.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-28835.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
 new file mode 100644
-index 0000000000..0341df8bd9
+index 0000000000..6c06fc2782
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-28835.patch
-@@ -0,0 +1,406 @@
-+From e369e67a62f44561d417cb233acc566cc696d82d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-28834.patch
+@@ -0,0 +1,457 @@
++From 1c4701ffc342259fc5965d5a0de90d87f780e3e5 Mon Sep 17 00:00:00 2001
 +From: Daiki Ueno <ueno@gnu.org>
-+Date: Mon, 29 Jan 2024 13:52:46 +0900
-+Subject: [PATCH] gnutls_x509_trust_list_verify_crt2: remove length limit of
-+ input
++Date: Fri, 12 Jan 2024 17:56:58 +0900
++Subject: [PATCH] nettle: avoid normalization of mpz_t in deterministic ECDSA
 +
-+Previously, if cert_list_size exceeded DEFAULT_MAX_VERIFY_DEPTH, the
-+chain verification logic crashed with assertion failure.  This patch
-+removes the restriction while keeping the maximum number of
-+retrieved certificates being DEFAULT_MAX_VERIFY_DEPTH.
++This removes function calls that potentially leak bit-length of a
++private key used to calculate a nonce in deterministic ECDSA.  Namely:
++
++- _gnutls_dsa_compute_k has been rewritten to work on always
++  zero-padded mp_limb_t arrays instead of mpz_t
++- rnd_mpz_func has been replaced with rnd_datum_func, which is backed
++  by a byte array instead of an mpz_t value
 +
 +Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
-+CVE: CVE-2024-28835
++CVE: CVE-2024-28834
 +
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/e369e67a62f44561d417cb233acc566cc696d82d]
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1c4701ffc342259fc5965d5a0de90d87f780e3e5]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ lib/gnutls_int.h       |   5 +-
-+ lib/x509/common.c      |  10 +-
-+ lib/x509/verify-high.c |  43 ++++++---
-+ tests/test-chains.h    | 211 ++++++++++++++++++++++++++++++++++++++++-
-+ 4 files changed, 252 insertions(+), 17 deletions(-)
++ lib/nettle/int/dsa-compute-k.c    | 86 ++++++++++++++++++++-----------
++ lib/nettle/int/dsa-compute-k.h    | 32 +++++++++---
++ lib/nettle/int/ecdsa-compute-k.c  | 32 +++---------
++ lib/nettle/int/ecdsa-compute-k.h  |  8 +--
++ lib/nettle/pk.c                   | 78 +++++++++++++++++++---------
++ tests/sign-verify-deterministic.c |  2 +-
++ 6 files changed, 141 insertions(+), 97 deletions(-)
 +
-+diff --git a/lib/gnutls_int.h b/lib/gnutls_int.h
-+index b2a3ae6..5127996 100644
-+--- a/lib/gnutls_int.h
-++++ b/lib/gnutls_int.h
-+@@ -221,7 +221,10 @@ typedef enum record_send_state_t {
++diff --git a/lib/nettle/int/dsa-compute-k.c b/lib/nettle/int/dsa-compute-k.c
++index 3f5105a..f937693 100644
++--- a/lib/nettle/int/dsa-compute-k.c
+++++ b/lib/nettle/int/dsa-compute-k.c
++@@ -31,33 +31,39 @@
++ #include "mpn-base256.h"
++ #include <string.h>
 +
-+ #define MAX_PK_PARAM_SIZE 2048
-+
-+-/* defaults for verification functions
-++/* Defaults for verification functions.
-++ *
-++ * update many_icas in tests/test-chains.h when increasing
-++ * DEFAULT_MAX_VERIFY_DEPTH.
-+  */
-+ #define DEFAULT_MAX_VERIFY_DEPTH 16
-+ #define DEFAULT_MAX_VERIFY_BITS (MAX_PK_PARAM_SIZE*8)
-+diff --git a/lib/x509/common.c b/lib/x509/common.c
-+index 6367b03..8f8c1f8 100644
-+--- a/lib/x509/common.c
-++++ b/lib/x509/common.c
-+@@ -1749,7 +1749,15 @@ unsigned int _gnutls_sort_clist(gnutls_x509_crt_t *clist,
-+	bool insorted[DEFAULT_MAX_VERIFY_DEPTH]; /* non zero if clist[i] used in sorted list */
-+	gnutls_x509_crt_t sorted[DEFAULT_MAX_VERIFY_DEPTH];
-+
-+-	assert(clist_size <= DEFAULT_MAX_VERIFY_DEPTH);
-++        /* Limit the number of certificates in the chain, to avoid DoS
-++	 * because of the O(n^2) sorting below.  FIXME: Switch to a
-++	 * topological sort algorithm which should be linear to the
-++	 * number of certificates and subject-issuer relationships.
-++	 */
-++	if (clist_size > DEFAULT_MAX_VERIFY_DEPTH) {
-++		_gnutls_debug_log("too many certificates; skipping sorting\n");
-++		return 1;
-++	}
-+
-+	for (i = 0; i < DEFAULT_MAX_VERIFY_DEPTH; i++) {
-+		issuer[i] = -1;
-+diff --git a/lib/x509/verify-high.c b/lib/x509/verify-high.c
-+index 5698d4f..a957511 100644
-+--- a/lib/x509/verify-high.c
-++++ b/lib/x509/verify-high.c
-+@@ -25,7 +25,7 @@
-+ #include "errors.h"
-+ #include <libtasn1.h>
-+ #include <global.h>
-+-#include <num.h>		/* MAX */
-++#include <num.h>		/* MIN */
-+ #include <tls-sig.h>
-+ #include <str.h>
-+ #include <datum.h>
-+@@ -1418,7 +1418,8 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
++-#define BITS_TO_LIMBS(bits) (((bits) + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS)
++-
++-/* The maximum size of q, chosen from the fact that we support
++- * 521-bit elliptic curve generator and 512-bit DSA subgroup at
++- * maximum. */
++-#define MAX_Q_BITS 521
++-#define MAX_Q_SIZE ((MAX_Q_BITS + 7) / 8)
++-#define MAX_Q_LIMBS BITS_TO_LIMBS(MAX_Q_BITS)
++-
++-#define MAX_HASH_BITS (MAX_HASH_SIZE * 8)
++-#define MAX_HASH_LIMBS BITS_TO_LIMBS(MAX_HASH_BITS)
++-
++-int
++-_gnutls_dsa_compute_k(mpz_t k,
++-		      const mpz_t q,
++-		      const mpz_t x,
++-		      gnutls_mac_algorithm_t mac,
++-		      const uint8_t *digest,
++-		      size_t length)
+++/* For mini-gmp */
+++#ifndef GMP_LIMB_BITS
+++#define GMP_LIMB_BITS GMP_NUMB_BITS
+++#endif
+++
+++static inline int is_zero_limb(mp_limb_t x)
+++{
+++	x |= (x << 1);
+++	return ((x >> 1) - 1) >> (GMP_LIMB_BITS - 1);
+++}
+++
+++static int sec_zero_p(const mp_limb_t *ap, mp_size_t n)
+++{
+++	volatile mp_limb_t w;
+++	mp_size_t i;
+++
+++	for (i = 0, w = 0; i < n; i++)
+++		w |= ap[i];
+++
+++
+++	return is_zero_limb(w);
+++}
+++
+++int _gnutls_dsa_compute_k(mp_limb_t *h, const mp_limb_t *q, const mp_limb_t *x,
+++			  mp_size_t qn, mp_bitcnt_t q_bits,
+++		          gnutls_mac_algorithm_t mac,
+++		          const uint8_t *digest,
+++		          size_t length)
++ {
++	uint8_t V[MAX_HASH_SIZE];
++	uint8_t K[MAX_HASH_SIZE];
++	uint8_t xp[MAX_Q_SIZE];
++	uint8_t tp[MAX_Q_SIZE];
++-	mp_limb_t h[MAX(MAX_Q_LIMBS, MAX_HASH_LIMBS)];
++-	mp_bitcnt_t q_bits = mpz_sizeinbase (q, 2);
++-	mp_size_t qn = mpz_size(q);
++	mp_bitcnt_t h_bits = length * 8;
++	mp_size_t hn = BITS_TO_LIMBS(h_bits);
++	size_t nbytes = (q_bits + 7) / 8;
++@@ -66,6 +72,7 @@ _gnutls_dsa_compute_k(mpz_t k,
++	mp_limb_t cy;
++	gnutls_hmac_hd_t hd;
 +	int ret = 0;
-+	unsigned int i;
-+	size_t hash;
-+-	gnutls_x509_crt_t sorted[DEFAULT_MAX_VERIFY_DEPTH];
-++	gnutls_x509_crt_t *cert_list_copy = NULL;
-++	unsigned int cert_list_max_size = 0;
-+	gnutls_x509_crt_t retrieved[DEFAULT_MAX_VERIFY_DEPTH];
-+	unsigned int retrieved_size = 0;
-+	const char *hostname = NULL, *purpose = NULL, *email = NULL;
-+@@ -1472,16 +1473,26 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
-+		}
+++	mp_limb_t scratch[MAX_Q_LIMBS];
++
++	if (unlikely(q_bits > MAX_Q_BITS))
++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++@@ -73,7 +80,7 @@ _gnutls_dsa_compute_k(mpz_t k,
++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++
++	/* int2octets(x) */
++-	mpn_get_base256(xp, nbytes, mpz_limbs_read(x), qn);
+++	mpn_get_base256(xp, nbytes, x, qn);
++
++	/* bits2octets(h) */
++	mpn_set_base256(h, hn, digest, length);
++@@ -97,12 +104,12 @@ _gnutls_dsa_compute_k(mpz_t k,
++			mpn_rshift(h, h, hn, shift % GMP_NUMB_BITS);
 +	}
 +
-+-	memcpy(sorted, cert_list, cert_list_size * sizeof(gnutls_x509_crt_t));
-+-	cert_list = sorted;
-++	/* Allocate extra for retrieved certificates. */
-++	if (!INT_ADD_OK(cert_list_size, DEFAULT_MAX_VERIFY_DEPTH,
-++			&cert_list_max_size))
-++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
-++
-++	cert_list_copy = _gnutls_reallocarray(NULL, cert_list_max_size,
-++					      sizeof(gnutls_x509_crt_t));
-++	if (!cert_list_copy)
-++		return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
-++
-++	memcpy(cert_list_copy, cert_list,
-++	       cert_list_size * sizeof(gnutls_x509_crt_t));
-++	cert_list = cert_list_copy;
++-	cy = mpn_sub_n(h, h, mpz_limbs_read(q), qn);
+++	cy = mpn_sub_n(h, h, q, qn);
++	/* Fall back to addmul_1, if nettle is linked with mini-gmp. */
++ #ifdef mpn_cnd_add_n
++-	mpn_cnd_add_n(cy, h, h, mpz_limbs_read(q), qn);
+++	mpn_cnd_add_n(cy, h, h, q, qn);
++ #else
++-	mpn_addmul_1(h, mpz_limbs_read(q), qn, cy != 0);
+++	mpn_addmul_1(h, q, qn, cy != 0);
++ #endif
++	mpn_get_base256(tp, nbytes, h, qn);
 +
-+	ret = cert_set_init(&cert_set, DEFAULT_MAX_VERIFY_DEPTH);
-+	if (ret < 0) {
-+		return ret;
-+	}
-+
-+-	for (i = 0; i < cert_list_size &&
-+-		     cert_list_size <= DEFAULT_MAX_VERIFY_DEPTH; ) {
-++	for (i = 0; i < cert_list_size;) {
-+		unsigned int sorted_size = 1;
-+		unsigned int j;
-+		gnutls_x509_crt_t issuer;
-+@@ -1491,8 +1502,7 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
-+							 cert_list_size - i);
-+		}
-+
-+-		/* Remove duplicates. Start with index 1, as the first element
-+-		 * may be re-checked after issuer retrieval. */
-++		/* Remove duplicates. */
-+		for (j = 1; j < sorted_size; j++) {
-+			if (cert_set_contains(&cert_set, cert_list[i + j])) {
-+				if (i + j < cert_list_size - 1) {
-+@@ -1539,14 +1549,16 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
-+		ret = retrieve_issuers(list,
-+				       cert_list[i - 1],
-+				       &retrieved[retrieved_size],
-+-				       DEFAULT_MAX_VERIFY_DEPTH -
-+-				       MAX(retrieved_size,
-+-					   cert_list_size));
-++				       MIN(DEFAULT_MAX_VERIFY_DEPTH - retrieved_size,
-++                                           cert_list_max_size - cert_list_size));
-+		if (ret < 0) {
++@@ -178,12 +185,8 @@ _gnutls_dsa_compute_k(mpz_t k,
++		if (tlen * 8 > q_bits)
++			mpn_rshift (h, h, qn, tlen * 8 - q_bits);
++		/* Check if k is in [1,q-1] */
++-		if (!mpn_zero_p (h, qn) &&
++-		    mpn_cmp (h, mpz_limbs_read(q), qn) < 0) {
++-			mpn_copyi(mpz_limbs_write(k, qn), h, qn);
++-			mpz_limbs_finish(k, qn);
+++		if (!sec_zero_p(h, qn) && mpn_sub_n(scratch, h, q, qn))
 +			break;
-+		} else if (ret > 0) {
-+			assert((unsigned int)ret <=
-+-			       DEFAULT_MAX_VERIFY_DEPTH - cert_list_size);
-++                               DEFAULT_MAX_VERIFY_DEPTH - retrieved_size);
-++			assert((unsigned int)ret <=
-++			       cert_list_max_size - cert_list_size);
-++
-+			memmove(&cert_list[i + ret],
-+				&cert_list[i],
-+				(cert_list_size - i) *
-+@@ -1563,8 +1575,10 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
-+	}
++-		}
 +
-+	cert_list_size = shorten_clist(list, cert_list, cert_list_size);
-+-	if (cert_list_size <= 0)
-+-		return gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
-++	if (cert_list_size <= 0) {
-++		ret = gnutls_assert_val(GNUTLS_E_INTERNAL_ERROR);
-++		goto cleanup;
++		ret = gnutls_hmac_init(&hd, mac, K, length);
++		if (ret < 0)
++@@ -207,3 +210,24 @@ _gnutls_dsa_compute_k(mpz_t k,
++
++	return ret;
++ }
+++
+++/* cancel-out dsa_sign's addition of 1 to random data */
+++void _gnutls_dsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				  mp_size_t n)
+++{
+++	/* Fall back to sub_1, if nettle is linked with mini-gmp. */
+++#ifdef mpn_sec_sub_1
+++	mp_limb_t t[MAX_Q_LIMBS];
+++
+++	mpn_sec_sub_1(h, h, n, 1, t);
+++#else
+++	mpn_sub_1(h, h, n, 1);
+++#endif
+++	mpn_get_base256(k, nbytes, h, n);
+++}
+++
+++void _gnutls_ecdsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				    mp_size_t n)
+++{
+++	mpn_get_base256(k, nbytes, h, n);
+++}
++diff --git a/lib/nettle/int/dsa-compute-k.h b/lib/nettle/int/dsa-compute-k.h
++index 64e90e0..778c484 100644
++--- a/lib/nettle/int/dsa-compute-k.h
+++++ b/lib/nettle/int/dsa-compute-k.h
++@@ -26,12 +26,30 @@
++ #include <gnutls/gnutls.h>
++ #include <nettle/bignum.h> /* includes gmp.h */
++
++-int
++-_gnutls_dsa_compute_k(mpz_t k,
++-		      const mpz_t q,
++-		      const mpz_t x,
++-		      gnutls_mac_algorithm_t mac,
++-		      const uint8_t *digest,
++-		      size_t length);
+++#define BITS_TO_LIMBS(bits) (((bits) + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS)
+++
+++/* The maximum size of q, chosen from the fact that we support
+++ * 521-bit elliptic curve generator and 512-bit DSA subgroup at
+++ * maximum. */
+++#define MAX_Q_BITS 521
+++#define MAX_Q_SIZE ((MAX_Q_BITS + 7) / 8)
+++#define MAX_Q_LIMBS BITS_TO_LIMBS(MAX_Q_BITS)
+++
+++#define MAX_HASH_BITS (MAX_HASH_SIZE * 8)
+++#define MAX_HASH_LIMBS BITS_TO_LIMBS(MAX_HASH_BITS)
+++
+++#define DSA_COMPUTE_K_ITCH MAX(MAX_Q_LIMBS, MAX_HASH_LIMBS)
+++
+++int _gnutls_dsa_compute_k(mp_limb_t *h, const mp_limb_t *q, const mp_limb_t *x,
+++			  mp_size_t qn, mp_bitcnt_t q_bits,
+++                          gnutls_mac_algorithm_t mac,
+++		          const uint8_t *digest,
+++		          size_t length);
+++
+++void _gnutls_dsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				  mp_size_t n);
+++
+++void _gnutls_ecdsa_compute_k_finish(uint8_t *k, size_t nbytes, mp_limb_t *h,
+++				    mp_size_t n);
++
++ #endif /* GNUTLS_LIB_NETTLE_INT_DSA_COMPUTE_K_H */
++diff --git a/lib/nettle/int/ecdsa-compute-k.c b/lib/nettle/int/ecdsa-compute-k.c
++index 94914eb..fc3b2ba 100644
++--- a/lib/nettle/int/ecdsa-compute-k.c
+++++ b/lib/nettle/int/ecdsa-compute-k.c
++@@ -29,39 +29,38 @@
++ #include "dsa-compute-k.h"
++ #include "gnutls_int.h"
++
++-static inline int
++-_gnutls_ecc_curve_to_dsa_q(mpz_t *q, gnutls_ecc_curve_t curve)
+++int _gnutls_ecc_curve_to_dsa_q(mpz_t q, gnutls_ecc_curve_t curve)
++ {
++	switch (curve) {
++ #ifdef ENABLE_NON_SUITEB_CURVES
++	case GNUTLS_ECC_CURVE_SECP192R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFF99DEF836"
++				 "146BC9B1B4D22831",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP224R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFF16A2"
++				 "E0B8F03E13DD29455C5C2A3D",
++				 16);
++		return 0;
++ #endif
++	case GNUTLS_ECC_CURVE_SECP256R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFF00000000FFFFFFFFFFFFFFFF"
++				 "BCE6FAADA7179E84F3B9CAC2FC632551",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP384R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFFFFFFFFFFFFFFFC7634D81F4372DDF"
++				 "581A0DB248B0A77AECEC196ACCC52973",
++				 16);
++		return 0;
++	case GNUTLS_ECC_CURVE_SECP521R1:
++-		mpz_init_set_str(*q,
+++		mpz_init_set_str(q,
++				 "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
++				 "FFA51868783BF2F966B7FCC0148F709A"
++@@ -74,22 +73,3 @@ _gnutls_ecc_curve_to_dsa_q(mpz_t *q, gnutls_ecc_curve_t curve)
++	}
++ }
++
++-int
++-_gnutls_ecdsa_compute_k (mpz_t k,
++-			 gnutls_ecc_curve_t curve,
++-			 const mpz_t x,
++-			 gnutls_mac_algorithm_t mac,
++-			 const uint8_t *digest,
++-			 size_t length)
++-{
++-	mpz_t q;
++-	int ret;
++-
++-	ret = _gnutls_ecc_curve_to_dsa_q(&q, curve);
++-	if (ret < 0)
++-		return gnutls_assert_val(ret);
++-
++-	ret = _gnutls_dsa_compute_k (k, q, x, mac, digest, length);
++-	mpz_clear(q);
++-	return ret;
++-}
++diff --git a/lib/nettle/int/ecdsa-compute-k.h b/lib/nettle/int/ecdsa-compute-k.h
++index 7ca401d..a7e612b 100644
++--- a/lib/nettle/int/ecdsa-compute-k.h
+++++ b/lib/nettle/int/ecdsa-compute-k.h
++@@ -26,12 +26,6 @@
++ #include <gnutls/gnutls.h>
++ #include <nettle/bignum.h> /* includes gmp.h */
++
++-int
++-_gnutls_ecdsa_compute_k (mpz_t k,
++-			 gnutls_ecc_curve_t curve,
++-			 const mpz_t x,
++-			 gnutls_mac_algorithm_t mac,
++-			 const uint8_t *digest,
++-			 size_t length);
+++int _gnutls_ecc_curve_to_dsa_q(mpz_t q, gnutls_ecc_curve_t curve);
++
++ #endif /* GNUTLS_LIB_NETTLE_INT_ECDSA_COMPUTE_K_H */
++diff --git a/lib/nettle/pk.c b/lib/nettle/pk.c
++index eba246f..799cc9d 100644
++--- a/lib/nettle/pk.c
+++++ b/lib/nettle/pk.c
++@@ -97,10 +97,16 @@ static void rnd_nonce_func(void *_ctx, size_t length, uint8_t * data)
++	}
++ }
++
++-static void rnd_mpz_func(void *_ctx, size_t length, uint8_t * data)
+++static void rnd_datum_func(void *ctx, size_t length, uint8_t *data)
++ {
++-	mpz_t *k = _ctx;
++-	nettle_mpz_get_str_256 (length, data, *k);
+++	gnutls_datum_t *d = ctx;
+++
+++	if (length > d->size) {
+++		memset(data, 0, length - d->size);
+++		memcpy(data + (length - d->size), d->data, d->size);
+++	} else {
+++		memcpy(data, d->data, length);
 ++	}
++ }
 +
-+	hash =
-+	    hash_pjw_bare(cert_list[cert_list_size - 1]->raw_issuer_dn.
-+@@ -1715,6 +1729,7 @@ gnutls_x509_trust_list_verify_crt2(gnutls_x509_trust_list_t list,
-+	}
-+
-+  cleanup:
-++	gnutls_free(cert_list_copy);
-+	for (i = 0; i < retrieved_size; i++) {
-+		gnutls_x509_crt_deinit(retrieved[i]);
-+	}
-+diff --git a/tests/test-chains.h b/tests/test-chains.h
-+index 09a5461..dd872a9 100644
-+--- a/tests/test-chains.h
-++++ b/tests/test-chains.h
-+@@ -25,7 +25,7 @@
-+
-+ /* *INDENT-OFF* */
-+
-+-#define MAX_CHAIN 10
-++#define MAX_CHAIN 17
-+
-+ static const char *chain_with_no_subject_id_in_ca_ok[] = {
-+	"-----BEGIN CERTIFICATE-----\n"
-+@@ -4386,6 +4386,213 @@ static const char *cross_signed_ca[] = {
-+	NULL
-+ };
-+
-++/* This assumes DEFAULT_MAX_VERIFY_DEPTH to be 16 */
-++static const char *many_icas[] = {
-++	/* Server */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBqzCCAV2gAwIBAgIUIK3+SD3GmqJlRLZ/ESyhTzkSDL8wBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowNzEbMBkGA1UEChMSR251VExTIHRlc3Qgc2VydmVyMRgwFgYD\n"
-++	"VQQDEw90ZXN0LmdudXRscy5vcmcwKjAFBgMrZXADIQAWGjx45NIJiKFsNBxxRRjm\n"
-++	"NxUT5KYK7xXr5HPVywwgLaOBkjCBjzAMBgNVHRMBAf8EAjAAMBoGA1UdEQQTMBGC\n"
-++	"D3Rlc3QuZ251dGxzLm9yZzATBgNVHSUEDDAKBggrBgEFBQcDATAOBgNVHQ8BAf8E\n"
-++	"BAMCB4AwHQYDVR0OBBYEFKgNAQWZPx76/vXqQOdIi5mTftsaMB8GA1UdIwQYMBaA\n"
-++	"FDaPsY6WAGuRtrhYJE6Gk/bg5qbdMAUGAytlcANBAMIDh8aGcIIFDTUrzfV7tnkX\n"
-++	"hHrxyFKBH/cApf6xcJQTfDXm23po627Ibp+WgLaWMY08Fn9Y2V6Ev8ADfqXNbQ8=\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA16 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUSnE0PKdm/dsnZSWBh5Ct4pS6DcwwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAxq9SI8vp0QH1dDBBuZW+t+bLLROppQbjSQ4O1BEonDOjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBQ2j7GOlgBrkba4\n"
-++	"WCROhpP24Oam3TAfBgNVHSMEGDAWgBRvdUKX0aw3nfUIdvivXGSfRO7zyjAFBgMr\n"
-++	"ZXADQQBsI2Hc7X5hXoHTvk01qMc5a1I27QHAFRARJnvIQ15wxNS2LVLzGk+AUmwr\n"
-++	"sOhBKAcVfS55uWtYdjoWQ80h238H\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA15 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUQk4XkgQVImnp6OPZas7ctwgBza4wBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAs3yVKLJd3sKbNVmj6Bxy2j1x025rksyQpZZWnCx5a+CjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBRvdUKX0aw3nfUI\n"
-++	"dvivXGSfRO7zyjAfBgNVHSMEGDAWgBRhGfUXYPh4YQsdtTWYUozLphGgfzAFBgMr\n"
-++	"ZXADQQBXTtm56x6/pHXdW8dTvZLc/8RufNQrMlc23TCgX0apUnrZdTsNAb7OE4Uu\n"
-++	"9PBuxK+CC9NL/BL2hXsKvAT+NWME\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA14 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUKfwz7UUYRvYlvqwmnLJlTOS9o1AwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAXbUetQ08t+F4+IcKL++HpeclqTxXZ7cG4mwqvHmTUEWjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBRhGfUXYPh4YQsd\n"
-++	"tTWYUozLphGgfzAfBgNVHSMEGDAWgBQYRQqO+V1kefF7QvNnFU1fX5H9+jAFBgMr\n"
-++	"ZXADQQAiSHNMTLPFP3oa6q13Dj8jSxF9trQDJGM1ArWffFcPZUt2U4/ODHdcMTHx\n"
-++	"kGwhIj+ghBlu6ykgu6J2wewCUooC\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA13 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUUKOs59gyCPAZzoC7zMZQSh6AnQgwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAmvqhj5GYqsXIpsr1BXBfD+2mTP/m/TEpKIYSZHM62dijYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBQYRQqO+V1kefF7\n"
-++	"QvNnFU1fX5H9+jAfBgNVHSMEGDAWgBQ27HzvP5hl2xR+LOzRcPfmY5ndXjAFBgMr\n"
-++	"ZXADQQBrB3NkrYC7EQ74qgeesVOE71rW012dPOOKPAV0laR+JLEgsv9sfus+AdBF\n"
-++	"WBNwR3KeYBTi/MFDuecxBHU2m5gD\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA12 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUUQooGfH21+sR7/pSgCWm13gg2H4wBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAK2of/B4wMpk6k/KdugC5dMS+jo2fseUM7/PvXkE6HASjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBQ27HzvP5hl2xR+\n"
-++	"LOzRcPfmY5ndXjAfBgNVHSMEGDAWgBSJDHU0Mj1Xr0e8ErCnRK24w7XwTTAFBgMr\n"
-++	"ZXADQQDY8d2bAZpj7oGhdl2dBsCE48jEWj49da0PbgN12koAj3gf4hjMPd8G7p5z\n"
-++	"8RsURAwQmCkE8ShvdNw/Qr2tDL0E\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA11 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUW9Dw0hU2pfjXhb5Stip+mk9SndIwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAn5ISjLVV6RBWsnxDWHDicpye7SjFwGOTwzF01/psiJ2jYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBSJDHU0Mj1Xr0e8\n"
-++	"ErCnRK24w7XwTTAfBgNVHSMEGDAWgBSR9UU27RI0XohiEgHDxNo/9HP4djAFBgMr\n"
-++	"ZXADQQCfQg6MDHk71vhyrEo4/5PcLb2Li5F/FKURyux7snv2TbkSdInloAqca9UR\n"
-++	"DtqHSLCNLXCNdSPr5QwIt5p29rsE\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA10 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUR4uTedG8e6MibKViQ3eX7QzXG1swBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAnslX04kSVOL5LAf1e+Ze3ggNnDJcEAxLDk8I/IhyjTyjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBSR9UU27RI0Xohi\n"
-++	"EgHDxNo/9HP4djAfBgNVHSMEGDAWgBRC7US5gJYnvd5F7EN+C4anMgd2NzAFBgMr\n"
-++	"ZXADQQDo+jHt07Tvz3T5Lbz6apBrSln8xKYfJk2W1wP85XAnf7sZT9apM1bS4EyD\n"
-++	"Kckw+KG+9x7myOZz6AXJgZB5OGAO\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA9 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUSIIIRjrNpE+kEPkiJMOqaNAazvQwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAZKy7p1Gn4W/reRxKJN99+QkHt2q9aELktCKe5PqrX5ejYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBRC7US5gJYnvd5F\n"
-++	"7EN+C4anMgd2NzAfBgNVHSMEGDAWgBSOhR7Ornis2x8g0J+bvTTwMnW60zAFBgMr\n"
-++	"ZXADQQA0MEcC4FgKZEAfalVpApU2to0G158MVz/WTNcSc7fnl8ifJ/g56dVHL1jr\n"
-++	"REvC/S28dn/CGAlbVXUAgxnHAbgE\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA8 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUGGFSgD95vOTSj7iFxfXA5vq6vsYwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAg3W/bTdW0fR32NeZEVMXICpa30d7rSdddLOYDvqqUO+jYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBSOhR7Ornis2x8g\n"
-++	"0J+bvTTwMnW60zAfBgNVHSMEGDAWgBT3zK8Hbn9aVTAOOFY6RSxJ2o5x2jAFBgMr\n"
-++	"ZXADQQBl4gnzE463iMFg57gPvjHdVzA39sJBpiu0kUGfRcLnoRI/VOaLcx7WnJ9+\n"
-++	"c3KxPZBec76EdIoQDkTmI6m2FIAM\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA7 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUGktMGXhNuaMhKyAlecymmLD+/GIwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEA/Z1oc76hOQ0Hi+2hePaGIntnMIDqBlb7RDMjRpYONP2jYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBT3zK8Hbn9aVTAO\n"
-++	"OFY6RSxJ2o5x2jAfBgNVHSMEGDAWgBSPae3JUN3jP0NgUJqDV3eYxcaM3DAFBgMr\n"
-++	"ZXADQQBMkwKaUZlvG/hax8rv3nnDv8kJOr6KVHBnxSx3hZ+8HIBT7GFm1+YDeYOB\n"
-++	"jhNg66kyeFPGXXBCe+mvNQFFjCEE\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA6 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUKn3gz5lAUpKqWlHKLKYDbOJ4rygwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAZ/eD4eTe91ddvHusm7YlLPxU4ByGFc6suAmlP1CxXkWjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBSPae3JUN3jP0Ng\n"
-++	"UJqDV3eYxcaM3DAfBgNVHSMEGDAWgBT9f/qSI/jhxvGI7aMtkpraDcjBnjAFBgMr\n"
-++	"ZXADQQAMRnkmRhnLGdmJaY8B42gfyaAsqCMyds/Tw4OHYy+N48XuAxRjKkhf3szC\n"
-++	"0lY71oU043mNP1yx/dzAuCTrVSgI\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA5 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUEgEYbBXXEyGv3vOq10JQv1SBiUUwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAs2xEDPw8RVal53nX9GVwUd1blq1wjtVFC8S1V7up7MWjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBT9f/qSI/jhxvGI\n"
-++	"7aMtkpraDcjBnjAfBgNVHSMEGDAWgBRBVkLu9BmCKz7HNI8md4vPpoE/7jAFBgMr\n"
-++	"ZXADQQCCufAyLijtzzmeCuO3K50rBSbGvB3FQfep7g6kVsQKM3bw/olWK5/Ji0dD\n"
-++	"ubJ0cFl1FmfAda7aVxLBtJOvO6MI\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA4 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIULj8GkaHw+92HuOTnXnXlxCy3VrEwBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAiedxh4dvtwDellMAHc/pZH0MAOXobRenTUgF1yj5l12jYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBRBVkLu9BmCKz7H\n"
-++	"NI8md4vPpoE/7jAfBgNVHSMEGDAWgBSDtNRgQ36KwW/ASaMyr6WeDt0STDAFBgMr\n"
-++	"ZXADQQDL8U2ckzur7CktdrVUNvfLhVCOz33d/62F28vQFHUa8h/4h+Mi1MMbXOKT\n"
-++	"1bL2TvpFpU7Fx/vcIPXDielVqr4C\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA3 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUQXl74TDDw6MQRMbQUSPa6Qrvba8wBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEA7l0jQ0f4fJRw7Qja/Hz2qn8y91SI7CokxhSf+FT+9M6jYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBSDtNRgQ36KwW/A\n"
-++	"SaMyr6WeDt0STDAfBgNVHSMEGDAWgBQ2inEK4KH6ATftmybxKE1dZUzOozAFBgMr\n"
-++	"ZXADQQCnP7Oqx1epGnFnO7TrTJwcUukXDEYsINve2GeUsi8HEIeKKlMcLZ2Cnaj7\n"
-++	"5v9NGuWh3QJpmmSGpEemiv8dJc4A\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA2 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBYTCCAROgAwIBAgIUP7Nmof8H2F1LyDkjqlYIUpGdXE8wBQYDK2VwMB0xGzAZ\n"
-++	"BgNVBAMMEkdudVRMUyB0ZXN0IElDQSAkaTAgFw0yNDAzMTIyMjUzMzlaGA85OTk5\n"
-++	"MTIzMTIzNTk1OVowHTEbMBkGA1UEAwwSR251VExTIHRlc3QgSUNBICRpMCowBQYD\n"
-++	"K2VwAyEAkW9Rod3CXAnha6nlaHkDbCOegq94lgmjqclA9sOIt3yjYzBhMA8GA1Ud\n"
-++	"EwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBQ2inEK4KH6ATft\n"
-++	"mybxKE1dZUzOozAfBgNVHSMEGDAWgBRPq/CQlK/zuXkjZvTCibu+vejD+jAFBgMr\n"
-++	"ZXADQQBU+A+uF0yrtO/yv9cRUdCoL3Y1NKM35INg8BQDnkv724cW9zk1x0q9Fuou\n"
-++	"zvfSVb8S3vT8fF5ZDOxarQs6ZH0C\n"
-++	"-----END CERTIFICATE-----\n",
-++	/* ICA1 */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBXTCCAQ+gAwIBAgIUfUWP+AQHpdFTRKTf21mMzjaJsp0wBQYDK2VwMBkxFzAV\n"
-++	"BgNVBAMTDkdudVRMUyB0ZXN0IENBMCAXDTI0MDMxMjIyNTMzOVoYDzk5OTkxMjMx\n"
-++	"MjM1OTU5WjAdMRswGQYDVQQDDBJHbnVUTFMgdGVzdCBJQ0EgJGkwKjAFBgMrZXAD\n"
-++	"IQAVmfBAvLbT+pTD24pQrr6S0jEIFIV/qOv93yYvAUzpzKNjMGEwDwYDVR0TAQH/\n"
-++	"BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAgQwHQYDVR0OBBYEFE+r8JCUr/O5eSNm9MKJ\n"
-++	"u7696MP6MB8GA1UdIwQYMBaAFAFpt5wrFsqCtHc4PpluPDvwcxQLMAUGAytlcANB\n"
-++	"AC6+XZnthjlUD0TbBKRF3qT5if3Pp29Bgvutw8859unzUZW8FkHg5KeDBj9ncgJc\n"
-++	"O2tFnNH2hV6LDPJzU0rtLQc=\n"
-++	"-----END CERTIFICATE-----\n",
-++	NULL
-++};
++ static void rnd_nonce_func_fallback(void *_ctx, size_t length, uint8_t * data)
++@@ -1076,7 +1082,11 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++			struct dsa_signature sig;
++			int curve_id = pk_params->curve;
++			const struct ecc_curve *curve;
++-			mpz_t k;
+++			mpz_t q;
+++	                /* 521-bit elliptic curve generator at maximum */
+++                        uint8_t buf[(521 + 7) / 8];
+++		        gnutls_datum_t k = { NULL, 0 };
 ++
-++static const char *many_icas_ca[] = {
-++	/* CA (self-signed) */
-++	"-----BEGIN CERTIFICATE-----\n"
-++	"MIIBNzCB6qADAgECAhRjaokcQwcrtW8tjuVFz3A33F8POjAFBgMrZXAwGTEXMBUG\n"
-++	"A1UEAxMOR251VExTIHRlc3QgQ0EwIBcNMjQwMzEyMjI1MzM5WhgPOTk5OTEyMzEy\n"
-++	"MzU5NTlaMBkxFzAVBgNVBAMTDkdudVRMUyB0ZXN0IENBMCowBQYDK2VwAyEAvoxP\n"
-++	"TNdbWktxA8qQNNH+25Cx9rzP+DxLGeI/7ODwrQGjQjBAMA8GA1UdEwEB/wQFMAMB\n"
-++	"Af8wDgYDVR0PAQH/BAQDAgIEMB0GA1UdDgQWBBQBabecKxbKgrR3OD6Zbjw78HMU\n"
-++	"CzAFBgMrZXADQQCP5IUD74M7WrUx20uqzrzuj+s2jnBVmLQfWf/Ucetx+oTRFeq4\n"
-++	"xZB/adWhycSeJUAB1zKqYUV9hgT8FWHbnHII\n"
-++	"-----END CERTIFICATE-----\n",
-++	NULL
-++};
-++
-+ #if defined __clang__ || __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
-+ #  pragma GCC diagnostic push
-+ #  pragma GCC diagnostic ignored "-Wunused-variable"
-+@@ -4567,6 +4774,8 @@ static struct
-+     GNUTLS_CERT_INSECURE_ALGORITHM | GNUTLS_CERT_INVALID, NULL, 1620118136, 1},
-+   { "cross signed - ok", cross_signed, cross_signed_ca, 0, 0, 0,
-+     1704955300 },
-++  { "many intermediates - ok", many_icas, many_icas_ca, 0, 0, 0,
-++    1710284400 },
-+   { NULL, NULL, NULL, 0, 0}
-+ };
++			void *random_ctx;
++			nettle_random_func *random_func;
 +
++@@ -1123,19 +1133,31 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++				hash_len = vdata->size;
++			}
++
++-			mpz_init(k);
+++			mpz_init(q);
+++
++			if (_gnutls_get_lib_state() == LIB_STATE_SELFTEST ||
++			    (sign_params->flags & GNUTLS_PK_FLAG_REPRODUCIBLE)) {
++-				ret = _gnutls_ecdsa_compute_k(k,
++-							      curve_id,
++-							      pk_params->params[ECC_K],
++-							      DIG_TO_MAC(sign_params->dsa_dig),
++-							      vdata->data,
++-							      vdata->size);
+++				mp_limb_t h[DSA_COMPUTE_K_ITCH];
+++
+++		                ret = _gnutls_ecc_curve_to_dsa_q(q, curve_id);
++				if (ret < 0)
++					goto ecdsa_cleanup;
+++
+++				ret = _gnutls_dsa_compute_k(
+++					h, mpz_limbs_read(q), priv.p,
+++				        ecc_size(priv.ecc), ecc_bit_size(priv.ecc),
+++				        DIG_TO_MAC(sign_params->dsa_dig), vdata->data,
+++			                vdata->size);
+++				if (ret < 0)
+++					goto ecdsa_cleanup;
+++				k.data = buf;
+++				k.size = (ecc_bit_size(priv.ecc) + 7) / 8;
+++
+++				_gnutls_ecdsa_compute_k_finish(k.data, k.size, h,
+++						       ecc_size(priv.ecc));
+++
++				random_ctx = &k;
++-				random_func = rnd_mpz_func;
+++				random_func = rnd_datum_func;
++			} else {
++				random_ctx = NULL;
++				random_func = rnd_nonce_func;
++@@ -1156,7 +1178,7 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++  ecdsa_cleanup:
++			dsa_signature_clear(&sig);
++			ecc_scalar_zclear(&priv);
++-			mpz_clear(k);
+++			mpz_clear(q);
++
++			if (ret < 0) {
++				gnutls_assert();
++@@ -1169,7 +1191,10 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++			struct dsa_params pub;
++			bigint_t priv;
++			struct dsa_signature sig;
++-			mpz_t k;
+++			/* 512-bit DSA subgroup at maximum */
+++		        uint8_t buf[(512 + 7) / 8];
+++	                gnutls_datum_t k = { NULL, 0 };
+++
++			void *random_ctx;
++			nettle_random_func *random_func;
++
++@@ -1196,21 +1221,25 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++				hash_len = vdata->size;
++			}
++
++-			mpz_init(k);
++			if (_gnutls_get_lib_state() == LIB_STATE_SELFTEST ||
++			    (sign_params->flags & GNUTLS_PK_FLAG_REPRODUCIBLE)) {
++-				ret = _gnutls_dsa_compute_k(k,
++-							    pub.q,
++-							    TOMPZ(priv),
++-							    DIG_TO_MAC(sign_params->dsa_dig),
++-							    vdata->data,
++-							    vdata->size);
+++				mp_limb_t h[DSA_COMPUTE_K_ITCH];
+++				ret = _gnutls_dsa_compute_k(
+++					h, mpz_limbs_read(pub.q),
+++					mpz_limbs_read(TOMPZ(priv)), mpz_size(pub.q),
+++				       	mpz_sizeinbase(pub.q, 2),
+++				       	DIG_TO_MAC(sign_params->dsa_dig), vdata->data,
+++				       	vdata->size);
++				if (ret < 0)
++					goto dsa_fail;
++-				/* cancel-out dsa_sign's addition of 1 to random data */
++-				mpz_sub_ui (k, k, 1);
+++				k.data = buf;
+++				k.size = (mpz_sizeinbase(pub.q, 2) + 7) / 8;
+++
+++				_gnutls_dsa_compute_k_finish(k.data, k.size, h,
+++							     mpz_size(pub.q));
+++
++				random_ctx = &k;
++-				random_func = rnd_mpz_func;
+++				random_func = rnd_datum_func;
++			} else {
++				random_ctx = NULL;
++				random_func = rnd_nonce_func;
++@@ -1230,7 +1259,6 @@ _wrap_nettle_pk_sign(gnutls_pk_algorithm_t algo,
++
++  dsa_fail:
++			dsa_signature_clear(&sig);
++-			mpz_clear(k);
++
++			if (ret < 0) {
++				gnutls_assert();
++diff --git a/tests/sign-verify-deterministic.c b/tests/sign-verify-deterministic.c
++index 6e90728..25aa553 100644
++--- a/tests/sign-verify-deterministic.c
+++++ b/tests/sign-verify-deterministic.c
++@@ -197,7 +197,7 @@ void doit(void)
++					      &signature);
++		if (ret < 0)
++			testfail("gnutls_pubkey_verify_data2\n");
++-		success(" - pass");
+++		success(" - pass\n");
++
++	next:
++		gnutls_free(signature.data);
 +--
 +2.40.0
 diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-index 3c4ecc4f59..9f502e3f7c 100644
+index b290022781..3c4ecc4f59 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+@@ -26,6 +26,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2023-5981.patch \
             file://CVE-2024-0553.patch \
             file://CVE-2024-0567.patch \
-            file://CVE-2024-28834.patch \
-+           file://CVE-2024-28835.patch \
++           file://CVE-2024-28834.patch \
             "
  
  SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
