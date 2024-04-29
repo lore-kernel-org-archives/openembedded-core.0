@@ -1,194 +1,136 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C176C4345F
-	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 15:55:29 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.25078.1714406121710806600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C63C4345F
+	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 16:14:49 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.25803.1714407282062542994
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Apr 2024 08:55:22 -0700
+ Mon, 29 Apr 2024 09:14:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HYe7tEe2;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-516d2b9cd69so5525964e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 08:55:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZCG23Kwm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41c011bb920so9362275e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 09:14:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714406120; x=1715010920; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wYdHZxO0BRt7dgpRNiCyfVAfabfi7oZLSCmF+401fHU=;
-        b=HYe7tEe2NizSVq8iXGZQm2sc6BxXH167kpXj6dF2RIrSsoPJsyDFQ99q6CtcECHETj
-         iUjA0VzcURuKRYoXI/jfb8C0TQCzVOjWuR6N1X0UJZjMheOKyN9gfN0zEuXlFn3eHhXs
-         Q/q4+Y8KUcRg5AdBQw16K7Ot625EySJf7Tnj6jZBvwChN5n1GBGKFB+UIPP7kPfwSHq8
-         3R47ooKW/6OsI1sYPAEwgllOkJcXapyAmR4a+1/o5A4avJJcq/e5q8jSKtw9HXz8tKZy
-         KhNQAgjpkvZs+PFlO240ZDK8tOvUMCz7/8uj6DQrp8oOkmHjLcYnM2MYH7KfRF9KKUCU
-         4Exg==
+        d=linuxfoundation.org; s=google; t=1714407280; x=1715012080; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2YwVTSuzjTMkiIUqHmQn2VS0kOdsYzujA/eCDBREWLU=;
+        b=ZCG23KwmlDhJ4MfBvLSxo0Ew3UZtarPlCTRPtAbXxhV/Mw7TsQt1AN+k/OsoZxMJmw
+         vCTPu6xrtCqfG+m7ABELZPK81AB9QtWgtbSyqivsfZyAfg+NZ8ApMh3MHNcw36DdVhH0
+         XZtClAd1wCiZ1An3L3P6q8QebY1lsDKTTF/0M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714406120; x=1715010920;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wYdHZxO0BRt7dgpRNiCyfVAfabfi7oZLSCmF+401fHU=;
-        b=ZHpUlWwPNHl6vUK3igX0rFJMGKB/+mzarSsSO/s6+BvllFadWcmANhVUwGrvcN5MW9
-         nZcO3Y7bcp0a4qtwi076DyUGHjBimHqmqdgKGkpVONi036giokaDbxRB/IQgYBrRu7t8
-         zOEjpnLzzjd7558rcXWk4w3FjS01STpWq27kouuFOmRFHWtb6/H+NjTbtONnELdyM5/m
-         6HBjd4VTCxzG7nnIvGwevo/hj08RvtlWd5kmpc9aRQgflnUGtlkp5CWeKtFiKUAp10xQ
-         IrxK8ROKP5GTiAax5Jxo3tIsiwMKycfkAxPXG+65mNN3lOTve3v6L17wzC6Nica2kYvz
-         cwwg==
-X-Gm-Message-State: AOJu0YxY2QH+pjGfWijrFwpubIqSGN9zvtRyaU78vKm/qJ4S5XUEBfY8
-	TxdKGXZGga9ZY7Lm1jt4H0jMFvaTA2CSuJ/puLBInQg2bz2n/CnUVItkiadrX8Ff0DaoOJ+N6Se
-	xERplaDPpFzwWcll2R9fYBH7yWi8=
-X-Google-Smtp-Source: AGHT+IGwbgS8aQAkZA5460yNKboxuhJ8w/vE+AWhSdVpgG8JC7WwFJ6V6vTv66DwtpE3Rw84R0cSwhqAZ+zE4oZszHs=
-X-Received: by 2002:a05:6512:20ca:b0:51d:1002:520d with SMTP id
- u10-20020a05651220ca00b0051d1002520dmr3831591lfr.64.1714406119464; Mon, 29
- Apr 2024 08:55:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240429152221.3405405-1-michael.opdenacker@bootlin.com>
-In-Reply-To: <20240429152221.3405405-1-michael.opdenacker@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 29 Apr 2024 17:55:07 +0200
-Message-ID: <CANNYZj_PD0+DEM1XT9uqETkUvz5fzO7cQEFwLxZk7p+ZCqYs_Q@mail.gmail.com>
-Subject: Re: [PATCH v2] oeqa/runtime/cases: new image_upgrade test
-To: michael.opdenacker@bootlin.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+        d=1e100.net; s=20230601; t=1714407280; x=1715012080;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2YwVTSuzjTMkiIUqHmQn2VS0kOdsYzujA/eCDBREWLU=;
+        b=C0jJ2CG6picB4FFThwsQrSLKWYY1JLRBq8DgKDvd+XwKdaRPK06y+dROtLaoezvK09
+         sgquTWeYa1wLnqXSMzJhmKPpGlQ1Klrf7tbY90lL/QgDhOTAJziRVp2lBG/XqKXA2fMc
+         O/8Z0IcJfACYSNJH912Q7fz8bARYkccmrhzWXilIj2Px9lM0Ko4XGJ8G2UN6RIhRLUTE
+         oMWvQxwgfo7XY3NTSE5CytQEThA0Gx18DqDxeNpKQGhwXbw67DvMtAkLw4A+MCpbWiu/
+         kveEc5ZVwA3WFG385SUG5MCQA6ptK9+Iz5QXb5S/H527zFlWxlB8XSRR22Mme5x5VCj1
+         cmgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWPopfJwQCmM4Y7e+vTdupTMSNUugFdnBCdLs4zLUbP2TAj5y7vDzuQPafqLTRvsFMIGmx3tuuSvnlWlaxvKKWe3vUt319ZLRnUJMNT8evOSF46pYHcFsd
+X-Gm-Message-State: AOJu0Yxwp3PM3wp3gl1pNaV8myurwU/iHoBvcEBlE39xZoNHAwKdSZpQ
+	gHyGXuam00OFu9AzLQEFCSP9/Hd9Y6nYqHkgYeKDD+4o8HrGxPyB6L5mXM5jJJs=
+X-Google-Smtp-Source: AGHT+IGWn5Lwkpsg7a1BGhA9nZJgfu02B4/1yfaYzn4uMP7Ok4qFmv18ZgE4u7zSc37iyeaxY8MzNA==
+X-Received: by 2002:a05:600c:4712:b0:418:7ec1:7bdb with SMTP id v18-20020a05600c471200b004187ec17bdbmr121457wmo.5.1714407280148;
+        Mon, 29 Apr 2024 09:14:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3369:32ae:27f:46ba? ([2001:8b0:aba:5f3c:3369:32ae:27f:46ba])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05600c511000b0041a68d4fe76sm9861214wms.0.2024.04.29.09.14.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 09:14:39 -0700 (PDT)
+Message-ID: <e4e8979aa535015bafe2b06fdea6078b46f417bf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC][PATCH] oeqa/runtime/cases: new image_upgrade
+ test
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Bruce Ashfield
+	 <bruce.ashfield@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2024 17:14:39 +0100
+In-Reply-To: <5a6d6cce-e996-47ef-bb3e-92c66939395a@bootlin.com>
+References: <20240425154607.566716-1-michael.opdenacker@bootlin.com>
+	 <34a52efaf6a38753f773d5dd6b3cc4d6fe3c91ec.camel@linuxfoundation.org>
+	 <5a6d6cce-e996-47ef-bb3e-92c66939395a@bootlin.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 15:55:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198747
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 16:14:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198748
 
-On Mon, 29 Apr 2024 at 17:22, <michael.opdenacker@bootlin.com> wrote:
-> +# Version string utilities copied from yocto-autobuilder-helper/scripts/utils.py
-> +
-> +def get_string_from_version(version, milestone=None, rc=None):
-> +    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
-> +    those are major releases
-> +    """
-> +    if len(version) == 3 and version[-1] == 0:
-> +        version = version[:-1]
-> +
-> +    result = ".".join(list(map(str, version)))
-> +    if milestone:
-> +        result += "_M" + str(milestone)
-> +    if rc:
-> +        result += ".rc" + str(rc)
-> +    return result
-> +
-> +def get_tag_from_version(version, milestone):
-> +    if not milestone:
-> +        return "yocto-" + get_string_from_version(version, milestone)
-> +    return get_string_from_version(version, milestone)
-> +
-> +def get_version_from_string(raw_version):
-> +    """ Get version as list of int from raw_version.
-> +
-> +    Raw version _can_ be prefixed by "yocto-",
-> +    Raw version _can_ be suffixed by "_MX"
-> +    Raw version _can_ be suffixed by ".rcY"
-> +    """
-> +    version = None
-> +    milestone = None
-> +    rc = None
-> +    if raw_version[:6] == "yocto-":
-> +        raw_version = raw_version[6:]
-> +    raw_version = raw_version.split(".")
-> +    if raw_version[-1][:2] == "rc":
-> +        rc = int(raw_version[-1][-1])
-> +        raw_version = raw_version[:-1]
-> +    if raw_version[-1][-3:-1] == "_M":
-> +        milestone = int(raw_version[-1][-1])
-> +        raw_version = raw_version[:-1] + [raw_version[-1][:-3]]
-> +    version = list(map(int, raw_version))
-> +    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
-> +    those are major releases
-> +    """
-> +    if len(version) == 3 and version[-1] == 0:
-> +        version = version[:-1]
-> +    return version, milestone, rc
+On Mon, 2024-04-29 at 17:21 +0200, Michael Opdenacker wrote:
+> On 4/25/24 at 22:40, Richard Purdie wrote:
+> > Hi Michael,
+> >=20
+> > At least at a first read and without running it, this does look like a
+> > reasonable direction. I suspect that anyone else looking at this would
+> > have a lot of questions about why we'd do it this way but given the
+> > various constraints, it does make sense to me.
+> >=20
+> > What we do need to think about is how someone else would reuse this as
+> > currently it is very poky specific. Our aim is to make it easy for
+> > others to use too. With that in mind:
+> >=20
+> > * We probably want to "tag" this test with something so we can exclude
+> > it from the normal oe-selftest runs on the autobuilder and allow it to
+> > run on a per machine basis. There are other oe-selftests we already do
+> > this with (like toolchain testing or machine specific environment file
+> > tests).
+> >=20
+> > * The configuration about what to test probably needs to come from the
+> > distro (i.e. which DISTRO/MACHINE/image combinations).
+> >=20
+> > * We probably need to parameterise it so that a list of images can be
+> > tested rather than just a single one. I did wonder if we could have it
+> > dynamically add tests for each image configured.
+> >=20
+> > * We don't want to test on all MACHINE (e.g. qemumips and qemuppc are
+> > not going to be included).
+> >=20
+> > * We need to find a better way to share the code with autobuilder-
+> > helper, I don't like duplicating code.
+>=20
+> Is there example code somewhere doing something similar, i.e. importing=
+=20
+> code from an external repository?
 
-I understand that the above is merely a copy-paste, but these
-functions would really benefit from having comments that contain
-examples of input and output. I don't understand what they do.
+What needs to happen is the code needs to be moved into meta/lib/oe, or
+probably better, meta-poky/lib/oe in meta-yocto and then autobuilder-
+helper needs to understand how to access it from there.
 
-> +def get_poky_latest_image_url(machine, machine_variant, image_file):
-> +
-> +    """Returns the URL of the latest generated image for the current branch"""
-> +
-> +    baseversion, milestone, _ = get_version_from_string(subprocess.check_output(["git", "describe", "--abbrev=0"], cwd=basepath).decode('utf-8').strip())
-> +    tag = get_tag_from_version(baseversion, milestone)
-> +    downloads_base = "https://downloads.yoctoproject.org/releases/yocto/"
-> +
-> +    if milestone is not None:
-> +        downloads_base += "milestones/yocto-%s" % tag
-> +    else:
-> +        downloads_base += tag
-> +
-> +    if machine_variant == "":
-> +        subdir = machine
-> +    else:
-> +        subdir = "%s-%s" % (machine, machine_variant)
-> +
-> +    return "%s/machines/qemu/%s/%s" % (downloads_base, subdir, image_file)
+That is probably beyond what we have time for with the current work :(
 
-Same here.  A comment with example input and output would help a lot.
+> > * The image url code is also highly poky specific. That probably needs
+> > to come from the poky repository alongside the configuration.
+>=20
+> I'm going to submit a new version that doesn't assume any specific URL=
+=20
+> scheme.
+> More soon.
 
-> +class ImageIpkUpgrade(OESelftestTestCase):
-> +
-> +    def run_image_upgrade_test(self, image, image_path, image_url, pkg, features):
-> +        """
-> +        Summary: Test that generated packages can
-> +        be used to upgrade an older image version.
-> +        This is done by generating an image but then replacing it
-> +        by an older image available at a specified location.
-> +        We then run QEMU on the old image and replace the original
-> +        original package feeds by our own.
-> +        """
-> +
-> +        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
-> +        features += 'PACKAGE_CLASSES = "package_%s"\n' % pkg
-> +        features += 'IMAGE_CLASSES += "testimage"\n'
-> +        features += 'TEST_SUITES="%s_sysupgrade"\n' % pkg
-> +        self.write_config(features)
-> +
-> +        # Need to build a full image to build the .json file needed by QEMU.
-> +        # Therefore, it is not sufficient to run only "package_write_ipk" for the image.
-> +
-> +        self.logger.info("Generating '%s' and package index for latest commit in this branch..." % image)
-> +        bitbake(image)
-> +        bitbake('package-index')
-> +
-> +        # Download previously generated image
-> +
-> +        image_full_path = '%s/%s' % (self.builddir, image_path)
-> +
-> +        os.remove(image_full_path)
-> +        self.logger.info("Downloading image: %s..." % image_url)
-> +        cmd = 'wget -O %s %s' % (image_full_path, image_url)
-> +        result = runCmd(cmd)
-> +        self.assertEqual(0, result.status, cmd + ' returned a non 0 status: %s' % result.output)
-> +
-> +        # Now run the upgrade tests on the old image
-> +
-> +        self.logger.info("Running upgrade tests on the downloaded image, using the package feeds generated here...")
-> +        bitbake(image + ' -c testimage')
-> +
-> +    def run_poky_image_upgrade_test(self, distro_variant, image, machine_variant, fstype, pkg):
-> +        machine = get_bb_var("MACHINE")
-> +        features = 'DISTRO = "poky%s"\n' % distro_variant
-> +        image_file = '%s-%s.rootfs.%s' % (image, machine, fstype)
-> +        image_path = 'tmp/deploy/images/%s/%s' % (machine, image_file)
-> +        image_url = get_poky_latest_image_url(machine, machine_variant, image_file)
-> +        self.run_image_upgrade_test(image, image_path, image_url, pkg, features)
-> +
-> +    @skipIfNotQemu()
-> +    def test_poky_altcfg_core_image_ext4_full_cmdline_ipk_upgrade(self):
-> +        self.run_poky_image_upgrade_test("-altcfg", "core-image-full-cmdline", "alt", "ext4", "ipk")
 
-This is a much improved code structure that can scale easily, right? :)
+Some assumptions about the url format will have to be made. I still
+maintain this code should be in meta-yocto since it is poky specific
+but should call code with only the configuration coming from poky/meta-
+yocto.
 
-Alex
+Cheers,
+
+Richard
 
