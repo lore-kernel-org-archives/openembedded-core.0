@@ -1,99 +1,99 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFB5C4345F
-	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 10:30:27 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.17262.1714386624669814154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A61AAC25B10
+	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 10:45:47 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.17641.1714387546528968965
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Apr 2024 03:30:24 -0700
+ Mon, 29 Apr 2024 03:45:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HdB0pzrr;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41c011bb920so6401065e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 03:30:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQI++kF/;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51dc5c0ffdbso752026e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 03:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714386622; x=1714991422; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v4yT6Bm/qviUZ3R2jDkzNZAHEqkbDDpXtwLZattB9H8=;
-        b=HdB0pzrrOQKFwU9iawJh+wMAFo3l3kN6bU2UE0zJ5x8hWJu7ZjZhKxVLlKfeENTms/
-         ri+lqn4BStKfS20n+rlvQY+ORlgZ1nmuHJbU5byfaBB33fvwAfzQc0qhfUZUPP2pbubF
-         FgbifsZQQAQrHQ4m+x1iHAj6t2dR33JOaFA3nMpsb2FU+pG7S24eKkKPnmQJDwes55c7
-         7ZgtS1soQiaAxirEEcWthFpuuj8KDJOPTRJvMJvtXi2aRmNhBE68+OufrRm1nb9lN/rP
-         LUVJeexIZ9WUxElXt2YE1whLYjPNOi9inqxdUtGZzPOO5DmH+6fAPnuoXzbcf7EQwSZb
-         oDPQ==
+        d=gmail.com; s=20230601; t=1714387544; x=1714992344; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O5WRsFS+J/gkSbIGhy1Djc/cXYkofiDiZJ+HOhp8OF8=;
+        b=KQI++kF//vCgq0ni0Ixl2I5nI6THc2gwJiWC7eny14epw4zPCtZOrUEAB2k+1rohLw
+         9E+Tei7JS4/r8cgBfafduQzSJUxUCCau16X5HJuwTtVgO/qZidpqeKLhgfgC6TMKX/jl
+         Je0E2dDPUdHBOSsXh7vx572gJxPps4ODBvVArBXA3t21ST0VgR/4s444ukWVfLzH+DfM
+         AdshQP4HbTmIG4lUdhzm+UkWxbey2wsSxIMbxMFFy8Q9s4+N9C7wqT5POaVDAp3+212X
+         ZmRSNWJuAws8KjtpyJz2Od97RJIofxPM4/RwMdP+U0XVFV6VcNVLO90l0BWdThIgEll8
+         pAMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714386622; x=1714991422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1714387544; x=1714992344;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v4yT6Bm/qviUZ3R2jDkzNZAHEqkbDDpXtwLZattB9H8=;
-        b=S4EutyvVveBYYq9099TNvqQfbNRRDeAQ3rpGhCOvzmSm3HIcWnq/VbZKjT307glwWb
-         6iYnW4PQqjiCpwY9i1t+ujD3XAprJAjBGuJ9G4ijvuyXsCuMQTdGhEX7SIJuiTkImOnx
-         QYl6eXOwfegCnbsQNEyt6wENC/r5EPeNPuV3WGsmhTnb0VvGFwakVhLfPf++ooIJexDb
-         leQE+cq5VRCo2cFO7/NzQiPOCbxneREFpJB5QdFa3nSXUXGvwc5LJ2b7NWT/19DM1d5r
-         92ElnmiHKZ5CHvF3eZx4foPqNu2m7457MVG9wQWXg+cAcf8Mfxa8WSPYwdmJXYxIkRzQ
-         9jjg==
-X-Gm-Message-State: AOJu0Yzc/i3JJ4oKfAsAVJalEhN38qAxtKJ4sm8Wwod8/XiJIz+zmXat
-	+/1qh3YZaa7RpJsC9aV8uCVKdxqJ4WSwOsscEB0iCcPgsS+Z/V3NuAMOL6Oy
-X-Google-Smtp-Source: AGHT+IGoi+TrrbflswktUVZ4+VTdWdA9llUhQ3okgHYPt6rpjlru9u42185y4epHgilhRssZDAXDLg==
-X-Received: by 2002:a05:600c:4f15:b0:418:d3f4:677b with SMTP id l21-20020a05600c4f1500b00418d3f4677bmr8346671wmq.17.1714386622235;
-        Mon, 29 Apr 2024 03:30:22 -0700 (PDT)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id p6-20020a05600c468600b00418accde252sm41242144wmo.30.2024.04.29.03.30.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 03:30:22 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] cracklib: Modify patch to compile with GCC 14
-Date: Mon, 29 Apr 2024 12:29:59 +0200
-Message-ID: <20240429102959.3493324-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        bh=O5WRsFS+J/gkSbIGhy1Djc/cXYkofiDiZJ+HOhp8OF8=;
+        b=c5dP+hUQC9PH1av0DwppOhCH7lQcU7Ea/ebr7ItETTA5YCztgFwZqadCABNjmRCGtL
+         LPD24aU36WTX8ayzDPC/xKTWe9d204wDxcC/7gQkhQdCeUtyFxYwrzflWQ2N/35nRRCw
+         9dYUXO/gkbBnjb8UxBTypmoFsPd7LLr33RhuTGkGIRzmHtwxv+EWCTUSUCd7ZE6qteBJ
+         ffyOlyUNYQnWC1we+g5yjGcOHAkfoapsAm2L8JfoOgVD7XFKFsSemjTOAfRJEjPmCvbw
+         UDEAsyV9gupCJHX0IRMJnsB76gCOgMpObdB7hLUIkeH3iI1ZZDoXPaYo62WjiUmLM/PW
+         kjrg==
+X-Gm-Message-State: AOJu0YxnXfAnLBui5VO8i6kIOD6gfh7ZY3UUvjk5Q//8bC9/sgoqnBIu
+	nwc5ROOpLvWvo+lNrQsJLTbb0er+0tHHExlMJuR+cTJMBTca/KFC4Qa3r0OPsEvteJ3+bIE6+Jt
+	Rk0zPM5C6fU2T0msVbTKePQ4RPpo=
+X-Google-Smtp-Source: AGHT+IF//QmkhdsfbIWzaWMMO8WP5pk/E9EO1M/I/YxmsNZl3UlRRNu6+rEe+lhj2bxYFwoFWBTYNgfBH3QiuVV8CnY=
+X-Received: by 2002:ac2:46c3:0:b0:51a:f0ca:adfa with SMTP id
+ p3-20020ac246c3000000b0051af0caadfamr6226216lfo.21.1714387544268; Mon, 29 Apr
+ 2024 03:45:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240425055231.668897-1-leimaohui@fujitsu.com>
+ <CANNYZj8U5X==Up3C8QoQf_RzEV1-9Ewo8w0Q00HJ3B-uUYBc5w@mail.gmail.com>
+ <TY3PR01MB11056396A609AFF1770D3F05EA0162@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+ <CANNYZj-RMjrhBZxxmTNrCE+L38YmX1_bvtZnwnBkQLst1XBjkA@mail.gmail.com> <TY3PR01MB11056BE6139DB78A63C9871B2A0142@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11056BE6139DB78A63C9871B2A0142@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 29 Apr 2024 12:45:32 +0200
+Message-ID: <CANNYZj9qz5cfwKjubtb4vobdZhVi1sFnTtfFAqGjA_VsFj+FrQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3] libbsd: Fix conflict error when enable multilib.
+To: "Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 10:30:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198734
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 10:45:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198735
 
-GCC 14 implicitly turns a warning into a compiler error:
+On Sun, 28 Apr 2024 at 05:17, Maohui Lei (Fujitsu)
+<leimaohui@fujitsu.com> wrote:
+> I' sorry. But my first V1 version patch without sed (just oe_multilib parts) did not pass Khem Raj's compile test (bitbake mg https://errors.yoctoproject.org/Errors/Details/759473/). I'm not sure if it is the problem you want to know.
+> So, I reproduce the build error and found that the cdefs.h that created by multilib_header has the path "#include <bsd/sys/cdefs-32.h>".
+> But mg find herder files without namespaced with bsd/. So, it failed. Shadow has the same build issue.
+> So, I submitted V2 patch with sed.
 
-| ../../git/src/lib/packlib.c: In function ‘PWClose’:
-| ../../git/src/lib/packlib.c:554:40: error: passing argument 1 of ‘HwmsHostToBigEndian’ from incompatible pointer type [-Wincompatible-pointer-types]
-|   554 |             HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
-|       |                                 ~~~~~~~^~~~~
-|       |                                        |
-|       |                                        uint32_t * {aka unsigned int *}
-| ../../git/src/lib/packlib.c:142:27: note: expected ‘char *’ but argument is of type ‘uint32_t *’ {aka ‘unsigned int *’}
-|   142 | HwmsHostToBigEndian(char *pHwms, int nLen,int nBitType)
-|       |                     ~~~~~~^~~~~
+Right, this is the error:
 
-Add the cast to (char *) to silence it.
+| In file included from
+/srv/storage/alex/yocto/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-mg/20230501/lib64-recipe-sysroot/usr/include/bsd/sys/cdefs.h:27,
+|                  from
+/srv/storage/alex/yocto/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-mg/20230501/lib64-recipe-sysroot/usr/include/bsd/sys/queue.h:39,
+|                  from region.c:12:
+| /srv/storage/alex/yocto/build-multilib/tmp/work/x86_64-pokymllib64-linux/lib64-mg/20230501/lib64-recipe-sysroot/usr/include/bsd/sys/cdefs-64.h:49:24:
+error: no include path in which to search for sys/cdefs.h
+|    49 | #if __has_include_next(<sys/cdefs.h>)
+|       |                        ^~~~~~~~~~~~~
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- ...0001-packlib.c-support-dictionary-byte-order-dependent.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm utterly confused by that. Why can't the compiler find
+usr/include/sys/cdefs.h?
+Why is it then happily finding it when bsd/ prefix is dropped from
+cdefs-64 include statement in usr/include/bsd/sys/cdefs.h ?
 
-diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-index 20572b55c4..35229ae890 100644
---- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-+++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-@@ -303,7 +303,7 @@ index 9396e1d..d0bb181 100644
- +	    PWDICT tmp_pwp;
- +
- +	    memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
--+	    HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
-++	    HwmsHostToBigEndian((char *)tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
- +	    fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
-  	}
-      }
--- 
-2.44.0
+But the fix does seem to help, and makes multilib selection header
+match libbsd headers (in overlay mode).
 
+So:
+- the patch is ok; but please add a note (a comment in the recipe just
+above sed) that it hasn't been tested when libbsd is used in
+'namespaced headers' mode according to
+https://man.archlinux.org/man/libbsd.7
+
+Alex
 
