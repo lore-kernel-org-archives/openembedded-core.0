@@ -2,107 +2,309 @@ Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8035C4345F
-	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 15:21:48 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.24126.1714404105421957708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7098C4345F
+	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 15:22:38 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.24318.1714404149511173045
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Apr 2024 08:21:45 -0700
+ Mon, 29 Apr 2024 08:22:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RCixkz9D;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CF90C240004;
-	Mon, 29 Apr 2024 15:21:42 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=p4OGFkEV;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 71216E0005;
+	Mon, 29 Apr 2024 15:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1714404103;
+	t=1714404147;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ieo+NHoNaE72/d923PjVKtNIW0aV4gNI7/akjgAMewI=;
-	b=RCixkz9DhZH+jGKZGberQfKQFMuFXba0HeHUE1RC/KDoGQSrJs4iCnpFxaIMQNDSlKzWTt
-	d1J4Xl94NS1Q+5h4d/GYhp4qz/o8UxdmZL6SdlBY/p3Uh5DHYlZJF2aByWyJSk2bR4VMVb
-	n86UUL8vQDBynRNr+yfDubm4LQ+J1G91JdxM6MMjaXbuLj0RXOi5u5QYe6NJwIkBhaaJa0
-	prvEvrQmT0WqeokoEU9ZtlcX6UPlZsteB/3rBkVsm/dlwVPoDPDA+L6G/hRf4C2Rla7Dc7
-	c/Y5s1j5aphqQ1V/24GO1DcPN50eF6EtdTnO48hdK4WpKYDzEKJoGLSQxSD+hQ==
-Message-ID: <5a6d6cce-e996-47ef-bb3e-92c66939395a@bootlin.com>
-Date: Mon, 29 Apr 2024 17:21:42 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5pIyP/TRacY3dIDCwLpGUsBlWLsqzs42ytFpJQ5SJtM=;
+	b=p4OGFkEVrmhgXoKT0GSAyigYxuUlnNntVbTXfZFK4kVjbBXY3i6TFreSnx7cbglOLM0UgE
+	ATM9OqXjlo/77Ye6DHvkCZBAlipOME3VUXXcDrjqcKQtvFgtnZAjd9lZMMK+xSeDS/r/fd
+	dpZTzBcMHHPhnX2hbfJtmkxtw2bCXEhQ9WBP7s5Z654ry6cXUGhRxrNFuuU9qFgPN1jIHE
+	b4mGYtoMxBRg2teR2sxX5P5Zo8OXIR8TripASqUkC9JqJZz4BEvzfnhr/CjNvzFITbBeHE
+	zF3MAAE0iWJ8tZCV0swLbsAWmZ/5xVcECs5tpZX8yxFy2fJKG20RXiekK8YDIw==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH v2] oeqa/runtime/cases: new image_upgrade test
+Date: Mon, 29 Apr 2024 17:22:21 +0200
+Message-Id: <20240429152221.3405405-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Bruce Ashfield <bruce.ashfield@gmail.com>,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [RFC][PATCH] oeqa/runtime/cases: new image_upgrade test
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20240425154607.566716-1-michael.opdenacker@bootlin.com>
- <34a52efaf6a38753f773d5dd6b3cc4d6fe3c91ec.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <34a52efaf6a38753f773d5dd6b3cc4d6fe3c91ec.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 15:21:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198745
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Apr 2024 15:22:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198746
 
-Hi Richard,
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-Many thanks for your feedback.
-I started by implementing Alex Kanavin's suggestions, which are a little 
-more specific to get started ;-)
+New oe-selftest and associated "testimage" test to check that generated
+package feeds can be used to update the latest image built
+by the Yocto Project autobuilder.
 
-On 4/25/24 at 22:40, Richard Purdie wrote:
-> Hi Michael,
->
-> At least at a first read and without running it, this does look like a
-> reasonable direction. I suspect that anyone else looking at this would
-> have a lot of questions about why we'd do it this way but given the
-> various constraints, it does make sense to me.
->
-> What we do need to think about is how someone else would reuse this as
-> currently it is very poky specific. Our aim is to make it easy for
-> others to use too. With that in mind:
->
-> * We probably want to "tag" this test with something so we can exclude
-> it from the normal oe-selftest runs on the autobuilder and allow it to
-> run on a per machine basis. There are other oe-selftests we already do
-> this with (like toolchain testing or machine specific environment file
-> tests).
->
-> * The configuration about what to test probably needs to come from the
-> distro (i.e. which DISTRO/MACHINE/image combinations).
->
-> * We probably need to parameterise it so that a list of images can be
-> tested rather than just a single one. I did wonder if we could have it
-> dynamically add tests for each image configured.
->
-> * We don't want to test on all MACHINE (e.g. qemumips and qemuppc are
-> not going to be included).
->
-> * We need to find a better way to share the code with autobuilder-
-> helper, I don't like duplicating code.
+Currently, only the "core-image-full-cmdline" image with IPK packages
+and the "poky-altcfg" distro is tested.
 
-Is there example code somewhere doing something similar, i.e. importing 
-code from an external repository?
+Test it by running:
+oe-selftest -r image_upgrade
 
->
-> * The image url code is also highly poky specific. That probably needs
-> to come from the poky repository alongside the configuration.
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Alexander Kanavin <alex.kanavin@gmail.com>
 
-I'm going to submit a new version that doesn't assume any specific URL 
-scheme.
-More soon.
+---
+Changes in V2:
 
-Thanks,
-Michael.
+- Move meta/lib/oeqa/runtime/cases/opkg_sysupgrade.py
+  to meta-selftest/lib/oeqa/runtime/cases/ipk_sysupgrade.py
+  (notice that "ipk" is a new prefix, to match PACKAGE_CLASSES values)
+  as it needs special setup via selftest, and not useful in standalone
+  '-c testimage' runs.
+  Suggested by Alexander Kanavin.
 
+- Implement a more generic run_image_upgrade_test() which can be
+  given any image type, image file path, image download URL,
+  any PACKAGE_CLASSES value, and specific features.
+  This way, the function running the tests is not supposed to be
+  Yocto and Poky specific.
+
+- Tested on the latest master against yocto-5.0_M3
+
+Interested in further (specific) guidelines for making this test
+more generic, depending on the environments calling it and their
+configurations.
+---
+ .../lib/oeqa/runtime/cases/ipk_sysupgrade.py  |  68 +++++++++
+ meta/lib/oeqa/selftest/cases/image_upgrade.py | 134 ++++++++++++++++++
+ 2 files changed, 202 insertions(+)
+ create mode 100644 meta-selftest/lib/oeqa/runtime/cases/ipk_sysupgrade.py
+ create mode 100755 meta/lib/oeqa/selftest/cases/image_upgrade.py
+
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/ipk_sysupgrade.py b/meta-selftest/lib/oeqa/runtime/cases/ipk_sysupgrade.py
+new file mode 100644
+index 0000000000..05b5847b4a
+--- /dev/null
++++ b/meta-selftest/lib/oeqa/runtime/cases/ipk_sysupgrade.py
+@@ -0,0 +1,68 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# Test that generated ipk packages can be used to upgrade
++# an older image version.
++#
++# This is done by the meta/lib/oeqa/selftest/cases/image_upgrade.py oe-selftest
++# replacing the newly generated image by an older image
++# generated by the Yocto Project autobuilder.
++#
++# Here, we replace the package feeds in our image by our own
++#
++# This test is not meant to be used as a regular "testimage" test
++# run on the fresh image.
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++from oeqa.utils.httpserver import HTTPService
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class OpkgSysUpgradeTest(OERuntimeTestCase):
++
++    def pkg(self, command, expected = 0):
++        command = 'opkg %s' % command
++        status, output = self.target.run(command, 1500)
++        message = os.linesep.join([command, output])
++        self.assertEqual(status, expected, message)
++        return output
++
++class OpkgRepoTest(OpkgSysUpgradeTest):
++
++    @classmethod
++    def setUp(cls):
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_IPK'])
++        cls.repo_server = HTTPService(service_repo,
++                                      '0.0.0.0', port=cls.tc.target.server_port,
++                                      logger=cls.tc.logger)
++        cls.repo_server.start()
++
++    @classmethod
++    def tearDown(cls):
++        cls.repo_server.stop()
++
++    def setup_source_config_for_package_install(self):
++        source_server = 'http://%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
++        sourceslist_dir = '/etc/opkg'
++        pkgarch = self.tc.td["TUNE_PKGARCH"]
++        machinedir = self.tc.td["MACHINE"].replace("-", "_")
++        self.target.run('cd %s; echo src/gz all %s/all > base-feeds.conf' % (sourceslist_dir, source_server))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, pkgarch, source_server, pkgarch))
++        self.target.run('cd %s; echo src/gz %s %s/%s >> base-feeds.conf' % (sourceslist_dir, machinedir, source_server, machinedir))
++
++    @skipIfNotFeature('package-management',
++                      'Test requires package-management to be in IMAGE_FEATURES')
++    @skipIfNotDataVar('IMAGE_PKGTYPE', 'ipk',
++                      'IPK is not the primary package manager')
++    @skipIfFeature('read-only-rootfs',
++                   'Test does not work with read-only-rootfs in IMAGE_FEATURES')
++    @OEHasPackage(['opkg'])
++    def test_opkg_system_upgrade_from_repo(self):
++        self.setup_source_config_for_package_install()
++        self.pkg('update')
++        self.pkg('upgrade')
++
+diff --git a/meta/lib/oeqa/selftest/cases/image_upgrade.py b/meta/lib/oeqa/selftest/cases/image_upgrade.py
+new file mode 100755
+index 0000000000..aed526483b
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/image_upgrade.py
+@@ -0,0 +1,134 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++import subprocess
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runCmd, get_bb_var
++from oeqa.core.decorator.data import skipIfNotQemu
++
++basepath = os.path.abspath(os.path.dirname(__file__) + '/../../../../../')
++
++# Version string utilities copied from yocto-autobuilder-helper/scripts/utils.py
++
++def get_string_from_version(version, milestone=None, rc=None):
++    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
++    those are major releases
++    """
++    if len(version) == 3 and version[-1] == 0:
++        version = version[:-1]
++
++    result = ".".join(list(map(str, version)))
++    if milestone:
++        result += "_M" + str(milestone)
++    if rc:
++        result += ".rc" + str(rc)
++    return result
++
++def get_tag_from_version(version, milestone):
++    if not milestone:
++        return "yocto-" + get_string_from_version(version, milestone)
++    return get_string_from_version(version, milestone)
++
++def get_version_from_string(raw_version):
++    """ Get version as list of int from raw_version.
++
++    Raw version _can_ be prefixed by "yocto-",
++    Raw version _can_ be suffixed by "_MX"
++    Raw version _can_ be suffixed by ".rcY"
++    """
++    version = None
++    milestone = None
++    rc = None
++    if raw_version[:6] == "yocto-":
++        raw_version = raw_version[6:]
++    raw_version = raw_version.split(".")
++    if raw_version[-1][:2] == "rc":
++        rc = int(raw_version[-1][-1])
++        raw_version = raw_version[:-1]
++    if raw_version[-1][-3:-1] == "_M":
++        milestone = int(raw_version[-1][-1])
++        raw_version = raw_version[:-1] + [raw_version[-1][:-3]]
++    version = list(map(int, raw_version))
++    """ Point releases finishing by 0 (e.g 4.0.0, 4.1.0) do no exists,
++    those are major releases
++    """
++    if len(version) == 3 and version[-1] == 0:
++        version = version[:-1]
++    return version, milestone, rc
++
++def get_poky_latest_image_url(machine, machine_variant, image_file):
++
++    """Returns the URL of the latest generated image for the current branch"""
++
++    baseversion, milestone, _ = get_version_from_string(subprocess.check_output(["git", "describe", "--abbrev=0"], cwd=basepath).decode('utf-8').strip())
++    tag = get_tag_from_version(baseversion, milestone)
++    downloads_base = "https://downloads.yoctoproject.org/releases/yocto/"
++
++    if milestone is not None:
++        downloads_base += "milestones/yocto-%s" % tag
++    else:
++        downloads_base += tag
++
++    if machine_variant == "":
++        subdir = machine
++    else:
++        subdir = "%s-%s" % (machine, machine_variant)
++
++    return "%s/machines/qemu/%s/%s" % (downloads_base, subdir, image_file)
++
++class ImageIpkUpgrade(OESelftestTestCase):
++
++    def run_image_upgrade_test(self, image, image_path, image_url, pkg, features):
++        """
++        Summary: Test that generated packages can
++        be used to upgrade an older image version.
++        This is done by generating an image but then replacing it
++        by an older image available at a specified location.
++        We then run QEMU on the old image and replace the original
++        original package feeds by our own.
++        """
++
++        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
++        features += 'PACKAGE_CLASSES = "package_%s"\n' % pkg
++        features += 'IMAGE_CLASSES += "testimage"\n'
++        features += 'TEST_SUITES="%s_sysupgrade"\n' % pkg
++        self.write_config(features)
++
++        # Need to build a full image to build the .json file needed by QEMU.
++        # Therefore, it is not sufficient to run only "package_write_ipk" for the image.
++
++        self.logger.info("Generating '%s' and package index for latest commit in this branch..." % image)
++        bitbake(image)
++        bitbake('package-index')
++
++        # Download previously generated image
++
++        image_full_path = '%s/%s' % (self.builddir, image_path)
++
++        os.remove(image_full_path)
++        self.logger.info("Downloading image: %s..." % image_url)
++        cmd = 'wget -O %s %s' % (image_full_path, image_url)
++        result = runCmd(cmd)
++        self.assertEqual(0, result.status, cmd + ' returned a non 0 status: %s' % result.output)
++
++        # Now run the upgrade tests on the old image
++
++        self.logger.info("Running upgrade tests on the downloaded image, using the package feeds generated here...")
++        bitbake(image + ' -c testimage')
++
++    def run_poky_image_upgrade_test(self, distro_variant, image, machine_variant, fstype, pkg):
++        machine = get_bb_var("MACHINE")
++        features = 'DISTRO = "poky%s"\n' % distro_variant
++        image_file = '%s-%s.rootfs.%s' % (image, machine, fstype)
++        image_path = 'tmp/deploy/images/%s/%s' % (machine, image_file)
++        image_url = get_poky_latest_image_url(machine, machine_variant, image_file)
++        self.run_image_upgrade_test(image, image_path, image_url, pkg, features)
++
++    @skipIfNotQemu()
++    def test_poky_altcfg_core_image_ext4_full_cmdline_ipk_upgrade(self):
++        self.run_poky_image_upgrade_test("-altcfg", "core-image-full-cmdline", "alt", "ext4", "ipk")
++
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
 
 
