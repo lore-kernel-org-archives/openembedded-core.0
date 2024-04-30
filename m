@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B363C41513
-	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 21:24:28 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.264.1714512267956600402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B05BAC4345F
+	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 21:24:38 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.267.1714512271675271224
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Apr 2024 14:24:28 -0700
+ Tue, 30 Apr 2024 14:24:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ABv7V+5o;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1eb66b6953cso30798405ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 14:24:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hWBRT4yV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ec486198b6so9677925ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 14:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714512267; x=1715117067; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714512271; x=1715117071; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5GyJgsgk6Jj3H2cPy2TqWsU7AhEFylHV2/ZkN0+vq3c=;
-        b=ABv7V+5o9W3fC8/7IO/f7Io0nZczM/yVjJDSENFx/0AJkubXSXOYh/hBbI5rBjyRZu
-         ejyaolUCZIkrZoEx3WN+Y0z2ml5n+8tXWjy9To/oqNFBfergHtTfhIGsYyW7Wa1iiqyk
-         OuR42XtYwvexUzWdwxTsdaIjTk565lZQf/Ly79suCW9gJML9LkLBCyUdY5fd8xzBdyx+
-         8KMX3JjQrzfoUv6BJiQGC09+XakU4gv6b2J/6tVssXKwoklx8MSvvVRVzly/I03aGytv
-         pURiSt8wdxDPPA9q541w/DyAcriTolptwufTUsHchC4t3Y8TTyNsVJCleplOHlac2L94
-         gjJw==
+        bh=vbbHASvjgVBahji6ntTnrPziFn/USPk3oaC9uAVLbb0=;
+        b=hWBRT4yV1UVoX//QgN0pryusNW21LoWUoy0sOoeetk3AAXj2KHU3wy0EiSAyYAsS5e
+         8SWwjWZFpfxqJIgqCUU1CeDUFnXVibwAvVMeSo+hk4YQbjDJMn0RekMJdkRnB+XJ5fvE
+         OM63PrC6LaRO9LqqO1K05uQEeQjlexgduNaCQrsEr1peyBerqZ9P67Ssudz19fckC1Vd
+         gDfzO2wlkSvsOWn9xUSE3BDL7835IwUpFQJ8yn5WqkfBMX0yG34FySfRWgtFCMwVxiP4
+         CXgvOgHCCXu3BhSs8bUxJkr+6+vtlXo9fZvOtimozzz1W83WMWPQmSbLleaaos4B+xeV
+         /Y+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714512267; x=1715117067;
+        d=1e100.net; s=20230601; t=1714512271; x=1715117071;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5GyJgsgk6Jj3H2cPy2TqWsU7AhEFylHV2/ZkN0+vq3c=;
-        b=DGjmV8/ajwPbosNaW461J8pBOWNNOAd3OlH15vmMVRytOj8C2M5a27yE+eQ2bBghiY
-         HhraWRscXvuoF0XlZNkpusAQXgHvQjcWAgDyeHJbWouApjO+2GXwTbJm7urnvJCB56gQ
-         LO+Q+CtRHxkd856QD1sfA8S6N4QojF5sI4d1n/Jo8SYM4SllCutG3/0jiAfrXQJe5gAV
-         8CqZ5MLE+5ru5CtlgzU4y/W5/sD9wkcMqJyjHoUl7CaC+1+BYmf6mhmQ6LgfoLkdxt4M
-         WmLYjsvMHMJ0/TG3fCRw7g+95aXlp9s+eV8JxEYm2DGvZtUZRupop2Qa8RwdQyF2WryZ
-         ZlEw==
-X-Gm-Message-State: AOJu0Yz5eAo4A9XizxsI9ezhOj8DziJwuRDf6Iaou3y7vrNRm/eAUTTH
-	PBRr9zRZ0ljov4RVH40ZoyTkSCCCd6oe+Qz/B05ufyMyqK7XHAxyw0fnaBTjp09R92e4nxAKGwJ
-	ciAk=
-X-Google-Smtp-Source: AGHT+IFB+K9h/B8CTV80Dl57OQYAN9WXt41LVgME/c05reqrYkL2vGkvEvbj14AER46FXZh5qRnzNw==
-X-Received: by 2002:a17:903:234e:b0:1e2:3e1e:3d9 with SMTP id c14-20020a170903234e00b001e23e1e03d9mr726208plh.63.1714512267275;
-        Tue, 30 Apr 2024 14:24:27 -0700 (PDT)
+        bh=vbbHASvjgVBahji6ntTnrPziFn/USPk3oaC9uAVLbb0=;
+        b=bb24BRs4bt1cQoFGKpvoUUTCB9WaZZYUZ326nhlBvgruzzxlHz+GPP4m7HAixrbItv
+         vj2M/myfE06C2mmkyldL/+8hTkYRPOzxjnvt94yQ8pEsBrl6ME2/6VlGx0GWuNSniUHw
+         EFiTqWUkCnuGiUkFls+eB8SmVCsrITrnDowxzlie7BD6ucYBzH3FXrkaK5Kin0iK9qz4
+         t60w3u+zQHAvJd21e+jMq5puDKJ8ECL5XGzJfpuuxRxEt7/Y5XhQfLd3PXMAZDeb0v5v
+         0pk6NmqcK14SWxa+xnsf9/kmpfMCvJGzLr2eXrgRfLI2hQIlYxIQLJoDzW3LilsHK4WA
+         s2jA==
+X-Gm-Message-State: AOJu0Ywo3lo211ebrGWL1gmo6FgGHhGF5gHB/X6gzVFRahvo1R8Nr+7l
+	g6jsapuYw27Nsb4wUPS5LTr2BqeKrwFPPOZDpTQuBEjbWz1RLU+NsclrfYF6udRLs7oUJLLMFo4
+	nmU8=
+X-Google-Smtp-Source: AGHT+IE3NTnpNNyay3CTW0b/94PNg5uuAVEKgaQoqFc+mQdCu58/hlVa8bCjJNQPGFXWEnyZooc+BA==
+X-Received: by 2002:a17:902:e551:b0:1e2:6165:8086 with SMTP id n17-20020a170902e55100b001e261658086mr661686plf.61.1714512270941;
+        Tue, 30 Apr 2024 14:24:30 -0700 (PDT)
 Received: from xps13.. ([209.237.67.158])
-        by smtp.gmail.com with ESMTPSA id l8-20020a170903244800b001ea9580e6a0sm11193133pls.20.2024.04.30.14.24.26
+        by smtp.gmail.com with ESMTPSA id l8-20020a170903244800b001ea9580e6a0sm11193133pls.20.2024.04.30.14.24.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 14:24:27 -0700 (PDT)
+        Tue, 30 Apr 2024 14:24:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/17] libxml2: upgrade 2.12.5 -> 2.12.6
-Date: Tue, 30 Apr 2024 14:23:54 -0700
-Message-Id: <006bd4dacc0568f04cbcd704f4908386d3540774.1714511660.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/17] babeltrace2: upgrade 2.0.5 -> 2.0.6
+Date: Tue, 30 Apr 2024 14:23:56 -0700
+Message-Id: <0aac0507e769d3d250b0c649bdec821eb333349c.1714511660.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1714511660.git.steve@sakoman.com>
 References: <cover.1714511660.git.steve@sakoman.com>
@@ -61,43 +61,60 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 21:24:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198773
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 21:24:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198775
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
 ===========
-- parser: Fix detection of duplicate attributes in XML namespace
-- xmlreader: Fix xmlTextReaderConstEncoding
-- html: Fix htmlCreatePushParserCtxt with encoding
-- xmllint: Return error code if XPath returns empty nodeset
+* bt2: disable some warnings for 'native_bt.c'
+* bt2: compile 'native_bt.c' with '-Wno-undef'
+* Fix: src.ctf.lttng-live: expect NEW_STREAM/METADATA for inactive streams
+* Fix: 'babeltrace2 convert': don't consider the '--plugin-path' opt.
+* include/babeltrace2/plugin/plugin-dev.h: "define" -> "definition
+* Fix: doc: escape double quote in bt_p alias
+* Fix: bt2: pass _TraceClassConst to destruction listeners
+* fix: 'load_module()' deprecated in Python 3.12
+* tests: retry os.rename on PermissionError failure in lttng_live_server.py
+* doc: fix uptream -> upstream typos
+* fix: test_message_iterator.py hangs on Python 3.12
+* plugin-dev: mark symbols meant to be public with __attribute__((visibility("default")))
+* Silence -Wunused-but-set-variable error with clang
+* Fix: Windows DLL path lookup with Python >= 3.8
+* doc/man: make default values of boolean init. params. clearer
+* RFC: docs: fix: Match stated automake requirement
+* fix: make flake8 6.x happy
+* fix: running black on python 3.11
+* bt_query_executor_create_with_method_data(): fix docs note
+* Fix: ctf-writer: null dereference in bt_ctf_trace_common_add_stream_class
+* Update working version to Babeltrace v2.0.6
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0bc673b0de08e02ff01ec9ad3daf0bb41662da40)
+(cherry picked from commit a5f05da60ca888456900f9fb0a52ef07db754c06)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxml/{libxml2_2.12.5.bb => libxml2_2.12.6.bb}             | 2 +-
+ .../lttng/{babeltrace2_2.0.5.bb => babeltrace2_2.0.6.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxml/{libxml2_2.12.5.bb => libxml2_2.12.6.bb} (97%)
+ rename meta/recipes-kernel/lttng/{babeltrace2_2.0.5.bb => babeltrace2_2.0.6.bb} (98%)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.5.bb b/meta/recipes-core/libxml/libxml2_2.12.6.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.12.5.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.6.bb
-index 47c1a72e77..14fcff7fa4 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.5.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.6.bb
-@@ -20,7 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+similarity index 98%
+rename from meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
+rename to meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+index 9a4007fb25..d6c75d7580 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=http
+            file://0001-tests-do-not-run-test-applications-from-.libs.patch \
+            file://0001-Make-manpages-multilib-identical.patch \
             "
+-SRCREV = "66e76d1ea601705928899138f02730a3a2a3153d"
++SRCREV = "0a6632f77801f3218a288604c646f8a39cb0d2c4"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
  
--SRC_URI[archive.sha256sum] = "a972796696afd38073e0f59c283c3a2f5a560b5268b4babc391b286166526b21"
-+SRC_URI[archive.sha256sum] = "889c593a881a3db5fdd96cc9318c87df34eb648edfc458272ad46fd607353fbb"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
+ S = "${WORKDIR}/git"
 -- 
 2.34.1
 
