@@ -1,112 +1,139 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865A5C4345F
-	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 08:17:07 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.10176.1714465023722356765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A89C4345F
+	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 08:27:17 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.10485.1714465634970185184
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Apr 2024 01:17:04 -0700
+ Tue, 30 Apr 2024 01:27:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HKnPuy9b;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41ba0bb5837so26665525e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 01:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714465022; x=1715069822; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mX9RBWtxJ3Rd9r4pq1p1Zp4AjKGcfyajN2XtLV2F4tM=;
-        b=HKnPuy9bDjMIjkQZNe+4da+62Qrr2cVZETCey9YUiduzbwE0T4CkmgZsdfn6N6zcRi
-         jmIzUwIczVx8BpO6Le7Jye4kmoTeVYw3OWxQxRwf8ezb8pMugcdnvjcarTI+lotjqiN/
-         QQWvSnIwuX4OBrO0FxgHv3wyZjOCdRtsg9XUXN/7JP8FkGwnNOIcYopkiBT6rwaE5BAQ
-         UFuL4mKZMAiA6YVO9JjUZqLbTm044uHfCWxPFTst+om++0WxV/p9ak1jLAldo35k/p93
-         HU7gRbKxfihcCcIWbpd/Xxa0G+W8D5JEorXmMevnmk4kLRQ9S/dfkWmpWuIIlRc7YuKq
-         gpqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714465022; x=1715069822;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mX9RBWtxJ3Rd9r4pq1p1Zp4AjKGcfyajN2XtLV2F4tM=;
-        b=lzpF0AgR/1EVESGcx/uAt13oKRD/RVfpPeZEJlvoRETPivpLMpGfTnA668ctzE7Qlk
-         IrUMc22ZXNo84mRKFLaTAShYohbqF2phu6w2B3k2SzQhI7fbCIvLpJaVQJWKDfnQ5yxp
-         2PNC5clJNrqrHgZ5KG4e+szFPLygWXLgUkF+DFtBi86fTmnIQRp6K1ao3dP+iA1j6WeP
-         c/VeDdNtlnokwK4ZX+FD5Rlcp0uGK3DCfiPk1E0y0ItL6enz9R3hCZP2URgpHJ5Jp6h2
-         0s9bDhItTvcwSPd6akZgMOGytXG85o1D/1f1jFtjGo7JKDFcN18Ch3momKMQRrm3C72T
-         aL9A==
-X-Gm-Message-State: AOJu0YyWC3QjBMus064APejvLEp9Nph34oh+Rl64oj16h/xFKbqjw0VQ
-	GC2mr5/L4BRMdFQ6019BmsWyjmb63HQ0+bNor0X/qAbHO7M576oB
-X-Google-Smtp-Source: AGHT+IH6Bhd+nPkd8QtBFufnAOm0R23dpWbFomSaVJbOrSpuw2ahg8Y7TR7v61h0WNtJDIaY+YFc9Q==
-X-Received: by 2002:a05:600c:b93:b0:41b:ca55:2e2c with SMTP id fl19-20020a05600c0b9300b0041bca552e2cmr6199450wmb.17.1714465021653;
-        Tue, 30 Apr 2024 01:17:01 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id r7-20020a05600c35c700b0041bff91ea43sm9813484wmq.37.2024.04.30.01.17.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 01:17:01 -0700 (PDT)
-Message-ID: <4468a782-f0c1-449c-be65-e5c6fd6bd180@gmail.com>
-Date: Tue, 30 Apr 2024 10:17:00 +0200
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=kVIX78hQ;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1714465634; x=1746001634;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=l0wyWIH8bNoiIQqc4wwYxz2v7MA+mwrO5Msos6C92dg=;
+  b=kVIX78hQljD1/V5ydzpD8xox7Rn3Or6/bNYZGPXpDhfnnud74cJV/xzP
+   Ko+pOqSaJB7Vxj/03/sU1GtBONzgJEYimDOGMrOixfrUg8aNRvLEOGfcG
+   y3b09vH06eDbGDKRUBrMc6D9uv+X4eK95JT1i+LcedeFE7z95DMSJ1Btf
+   fD8zE3SsYXfJXA2EBquYwycTB6XXOTC/ZBnYsPEQjMk618DLF/xDrjSxI
+   ArWskICpAYS3p630W1BIJkYwKSqzPXszaMcubjQ66aL4GzgMT8twqVoEF
+   h+QMXrOw6GS9ZCM1JyfUPWwE4voaRG0LBxAdbaqBEE1bsoKMf1oOxjwF4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="136377450"
+X-IronPort-AV: E=Sophos;i="6.07,241,1708354800"; 
+   d="scan'208";a="136377450"
+Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 17:27:11 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 03580D9DBC
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 17:27:10 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 38535BF3D7
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 17:27:09 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id B33782009326E
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 17:27:08 +0900 (JST)
+Received: from ubuntu20.04 (unknown [10.193.130.22])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 329CA1A0002;
+	Tue, 30 Apr 2024 16:27:08 +0800 (CST)
+From: leimaohui@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core][PATCH v4][PATCH] libbsd: Fix conflict error when enable multilib.
+Date: Tue, 30 Apr 2024 16:27:06 +0800
+Message-Id: <20240430082706.51856-1-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] cracklib: Modify patch to compile with GCC 14
-To: Khem Raj <raj.khem@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20240429102959.3493324-1-zboszor@gmail.com>
- <CAMKF1so2k-N0VvfNnzOdu5L2pMLppN6UQqkK2VQRhG_ww73z-Q@mail.gmail.com>
- <b0e91df1e218fa314ec717d1192134a0f9e5c02f.camel@linuxfoundation.org>
- <CAMKF1soN5FJ5gLH5i6z=k1bkSmtsmTv=UHtpYUL02x1rAbDj_A@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CAMKF1soN5FJ5gLH5i6z=k1bkSmtsmTv=UHtpYUL02x1rAbDj_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28352.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28352.006
+X-TMASE-Result: 10--12.834400-10.000000
+X-TMASE-MatchedRID: R0dsVbq5fRkIGXYTUlAoH6qHmm/V4M/Pfb+ZO7kHlEjpklbZ73CAbS0n
+	XeuwLq8hkr/FYOe3HfoLAm2pIsyKt10ieHN50/kH/HTKStsDGMJHNQ8CqEKO2MC5DTEMxpeQfiq
+	1gj2xET/3fvqqd34PPpXlkEmVqyPsKpA7TMhSnKcJslazArifUlXgGeVUh3WdmyiLZetSf8lBgw
+	5G4NYCZDgGsBPCbyGiIAcCikR3vq8IP61ZoVsJ9EAlQe3Xc/H6ppbVL5ZAzmjqtVcbT5cf1S3La
+	i6qoCMP
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 08:17:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198754
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 08:27:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198755
 
-2024. 04. 29. 20:08 keltezéssel, Khem Raj írta:
-> On Mon, Apr 29, 2024 at 6:37 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2024-04-29 at 08:03 -0700, Khem Raj via lists.openembedded.org
->> wrote:
->>> Thanks for fixing this, however I would also suggest to submit this
->>> upstream and see if this is acceptable
->> The patch this is changing one of our patches but I can't tell if the
->> code being patched by the patch is "ours" or upstream.
-> its the behavior coming from our own patch so in that case perhaps
-> no need to bother upstream. However, the patch itself is also submitted upstream
-> which has some feedback to reimplement the logic, so perhaps for now
-> we are ok to accept it locally.
+From: Lei Maohui <leimaohui@fujitsu.com>
 
-Thank you.
+- Fix the conflict error by oe_multilib_header. The conflict error is as the following:
+Error: Transaction test error:
+  file /usr/include/bsd/sys/cdefs.h conflicts between attempted installs of libbsd-dev-0.12.1-r0.core2_64 and lib32-libbsd-dev-0.12.1-r0.core2_32
 
-FYI, I have upgraded my laptop to Fedora 40 that has GCC 14.
-I tried building pieces of Yocto 4.3 and 5.0, and observed
-some other failures.
+The difference of bsd/sys/cdefs.h between libbsd-dev and lib32-libbsd-dev is as following:
 
-One of them was vala-native. Upgrading the vala recipe to
-0.56.17 fixes the build error, but it also needs newer dependencies.
+ /* Define the ABI for the current system. */
+ -#define LIBBSD_SYS_TIME_BITS 64
+ +#define LIBBSD_SYS_TIME_BITS 32
+ #define LIBBSD_SYS_HAS_TIME64 1
 
-First gobject-introspection 1.80.x, which needs glib 2.80.0.
+- After oe_multilib_header on cdefs.h, the path of cdefs-64.h and cdefs-32.h in cdefs.h need to be corrected for overlay-mode. Please reference to https://man.archlinux.org/man/libbsd.7 for details.
+  @@ -12,19 +12,19 @@
+ #ifdef _MIPS_SIM
 
-In turn, glib 2.80.0 wants to use gobject-introspection by default,
-which can be disabled. It is the current state of affairs, as older
-glib versions do not use gobject-introspection.
+ #if _MIPS_SIM == _ABIO32
+-#include <bsd/sys/cdefs-32.h>
++#include <sys/cdefs-32.h>
+ #elif _MIPS_SIM == _ABIN32
+-#include <bsd/sys/cdefs-n32.h>
++#include <sys/cdefs-n32.h>
+ #else
+ #error "Unknown _MIPS_SIM"
+ #endif
 
-The other way is to introduce a glib-2.0-initial recipe (built with
--Dintrospection=disabled) and add glib-2.0-initial as a build
-dependency to gobject-introspection, and add gobject-introspection
-to the glib-2.0 recipe.
+ #else /* _MIPS_SIM is not defined */
+-#include <bsd/sys/cdefs-32.h>
++#include <sys/cdefs-32.h>
+ #endif
 
-What would be the recommended way if I wanted to post my
-GCC 14 build fix patches?
+ #elif __WORDSIZE == 64
+-#include <bsd/sys/cdefs-64.h>
++#include <sys/cdefs-64.h>
+ #else
+ #error "Unknown __WORDSIZE detected"
+ #endif /* matches #if __WORDSIZE == 32 */
 
-Thanks in advance,
-Zoltán Böszörményi
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+---
+ meta/recipes-support/libbsd/libbsd_0.12.2.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/libbsd/libbsd_0.12.2.bb b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+index 7d5e88f293..1791d97dfd 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.12.2.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+@@ -40,8 +40,16 @@ SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ 
+ SRC_URI[sha256sum] = "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig multilib_header
+ 
+ DEPENDS += "libmd"
+ 
++do_install:append () {
++   oe_multilib_header bsd/sys/cdefs.h
++   # It hasn't been tested when libbsd is used in 'namespaced headers' mode according to
++   # https://man.archlinux.org/man/libbsd.7.
++   sed -i 's:#include <bsd/sys/cdefs:#include <sys/cdefs:g' ${D}${includedir}/bsd/sys/cdefs.h
++}
++
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.34.1
 
 
