@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 522BCC25B79
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51FC8C25B77
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.1124.1714579217067977493
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.1123.1714579217039879267
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dVCmxFWT;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=m7WVh1tA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f34e297df-5a75b078-5227-4067-8d2b-b3f9c7505d6d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Kw+oASDm;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PHY6k7TJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f34e29868-57d8f776-a52f-4d76-823d-dbb22e428572-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2P/GsK7JvyUYc5fOiFAZGVz07gJUmh/Or+kTDAw0sjE=;
-	b=dVCmxFWTF/VB8WZC+dTjBfgWgy353K/SNFB2pEoxlNbSvIbnY4BkWCzx+AZdeJ7P
-	c/9E1I6F6WnKWiGLDrJAKGHcd4OHvaiXgRfUM06cJybCzOGYDPnYdMUED3tjV3BiHCQ
-	gG3e9jzBBh7owMB1YSyJ1C5beACg+kcXoc2PE1xc=
+	bh=oceyD3pUzFjyvP4RCkCI3mG5oMTEElYjD9R1xgMHSXQ=;
+	b=Kw+oASDm8Q7szMwpIbETdBe9cMauHFY6sr9puVWC9AecazHLt+35AhNk7PwO8Y8Y
+	f2tbtF6/Y05gwSTDZpV811pcV7XyMrqVRQVL6wHRgChA6/6tRxJb+zaAVpkXy5GbffT
+	f5zoNl0g50UbGbZIosJHtN4gJZ5Zsx2NPy+t5Jig=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2P/GsK7JvyUYc5fOiFAZGVz07gJUmh/Or+kTDAw0sjE=;
-	b=m7WVh1tA4n1+0H6BDbUhZ+ciBk14oeRUeH4jK9AC+OAwe8MGA39RnQ0/+cY5Vbop
-	flDi2mpEyqmbgJqvwPBFuYcJPssjR56lGnWNLcpZOC95PwTHyQLVFZr8vZR9rGj7V6F
-	uMoncychY71tvzGYnF8OvxHK7B4dJSxzuBUsPKgU=
-Content-Type: multipart/mixed; boundary="===============2247807227358571419=="
+	bh=oceyD3pUzFjyvP4RCkCI3mG5oMTEElYjD9R1xgMHSXQ=;
+	b=PHY6k7TJ6lg52mI4D2J4nBWbxj6aRXZnYq4m9iq7QmvaKfq9BD3PgnwwArp5A9X6
+	PU6OiPs7pigJYpL243gIsxqCSyZrads4bz4fdO73VhobLJtMVG3cs+mwXISxEr+qWx1
+	83rogUu0c8D3u4Wg4nLVmSsdl10w6dRRqO1SdSF8=
+Content-Type: multipart/mixed; boundary="===============1675224357668604624=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.3 FAILED
-Message-ID: <0101018f34e297df-5a75b078-5227-4067-8d2b-b3f9c7505d6d-000000@us-west-2.amazonses.com>
+Subject: [AUH] boost: upgrading to 1.85.0 FAILED
+Message-ID: <0101018f34e29868-57d8f776-a52f-4d76-823d-dbb22e428572-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.45
+X-SES-Outgoing: 2024.05.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198875
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198874
 
---===============2247807227358571419==
+--===============1675224357668604624==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,76 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.24.3* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *boost* to *1.85.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.22.11-1.24.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From da3ce662a0c51ada75075bd32f690e19b5b824cc Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 14:09:23 +0000
-Subject: [PATCH] gstreamer1.0-python: upgrade 1.22.11 -> 1.24.3
-
----
- ...eamer1.0-python_1.22.11.bb => gstreamer1.0-python_1.24.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.11.bb => gstreamer1.0-python_1.24.3.bb} (91%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
-index 0fbb03f757..5fbf860741 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "f7a5450d93fd81bf46060dca7f4a048d095b6717961fec211731a11a994c99a7"
-+SRC_URI[sha256sum] = "ecdb3e2ba94ea2c82b93a8c715d5a7e04f9726a8838c0a6b17694928fd1e8595"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
--- 
-2.44.0
-
-
---===============2247807227358571419==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
+Running 'devtool upgrade' for recipe boost failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
+Loaded 1876 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -130,143 +68,237 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-4016d4e193743e57e5df0fcdad3d8c02ef34d3c6"
+DISTRO_VERSION       = "5.0+snapshot-65668c9330b3ae03ad9655b3b53a778fac4c9e42"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:4016d4e193743e57e5df0fcdad3d8c02ef34d3c6"
+workspace            = "tmp-auh-upgrades:65668c9330b3ae03ad9655b3b53a778fac4c9e42"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 472 Local 460 Mirrors 0 Missed 12 Current 690 (97% match, 98% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2574 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_recipe_qa)
-NOTE: Running task 2810 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_write_config)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_recipe_qa: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 3177 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_fetch)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_fetch: Succeeded
-NOTE: Running task 3178 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_unpack)
-NOTE: Running task 3179 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_unpack: Succeeded
-NOTE: Running task 3180 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_patch)
-NOTE: Running task 3181 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_patch: Succeeded
-NOTE: Running task 3182 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3183 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3184 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure)
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstre
- amer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-pycairo', 'python3-pygobject', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-he
- aders', 'alsa-lib', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 's
- qlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtests=disabled -Dplugin=enabled -Dlibpython-dir=/usr/lib ...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/gst-python-1.24.3
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/build
-| Build type: cross build
-| Project name: gst-python
-| Project version: 1.24.3
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot ld.bfd 2.42.0.20240216
-| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| 
-| ../gst-python-1.24.3/meson.build:20:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950:182 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 182
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 164
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 153
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 195
-NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3184 tasks of which 3174 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501140840.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501140840.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 1876 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (919 cached, 2 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-python-1.24.3-r0 do_configure: meson failed
-ERROR: gstreamer1.0-python-1.24.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/log.do_configure.363950
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.9.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-65668c9330b3ae03ad9655b3b53a778fac4c9e42"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:65668c9330b3ae03ad9655b3b53a778fac4c9e42"
 
---===============2247807227358571419==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-python-upgrade-1.22.11-1.24.3.patch"
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:01:07
+Adding changed files:   1% |                                    | ETA:  0:00:48
+Adding changed files:   1% |                                    | ETA:  0:00:42
+Adding changed files:   2% |                                    | ETA:  0:00:40
+Adding changed files:   2% |#                                   | ETA:  0:00:37
+Adding changed files:   3% |#                                   | ETA:  0:00:36
+Adding changed files:   4% |#                                   | ETA:  0:00:34
+Adding changed files:   4% |#                                   | ETA:  0:00:34
+Adding changed files:   5% |#                                   | ETA:  0:00:33
+Adding changed files:   5% |##                                  | ETA:  0:00:32
+Adding changed files:   6% |##                                  | ETA:  0:00:32
+Adding changed files:   7% |##                                  | ETA:  0:00:31
+Adding changed files:   7% |##                                  | ETA:  0:00:31
+Adding changed files:   8% |###                                 | ETA:  0:00:31
+Adding changed files:   8% |###                                 | ETA:  0:00:31
+Adding changed files:   9% |###                                 | ETA:  0:00:31
+Adding changed files:  10% |###                                 | ETA:  0:00:31
+Adding changed files:  10% |###                                 | ETA:  0:00:30
+Adding changed files:  11% |####                                | ETA:  0:00:30
+Adding changed files:  11% |####                                | ETA:  0:00:30
+Adding changed files:  12% |####                                | ETA:  0:00:30
+Adding changed files:  13% |####                                | ETA:  0:00:30
+Adding changed files:  13% |####                                | ETA:  0:00:30
+Adding changed files:  14% |#####                               | ETA:  0:00:29
+Adding changed files:  14% |#####                               | ETA:  0:00:29
+Adding changed files:  15% |#####                               | ETA:  0:00:29
+Adding changed files:  16% |#####                               | ETA:  0:00:29
+Adding changed files:  16% |######                              | ETA:  0:00:29
+Adding changed files:  17% |######                              | ETA:  0:00:29
+Adding changed files:  17% |######                              | ETA:  0:00:29
+Adding changed files:  18% |######                              | ETA:  0:00:28
+Adding changed files:  19% |######                              | ETA:  0:00:28
+Adding changed files:  19% |#######                             | ETA:  0:00:28
+Adding changed files:  20% |#######                             | ETA:  0:00:28
+Adding changed files:  20% |#######                             | ETA:  0:00:28
+Adding changed files:  21% |#######                             | ETA:  0:00:27
+Adding changed files:  22% |#######                             | ETA:  0:00:27
+Adding changed files:  22% |########                            | ETA:  0:00:27
+Adding changed files:  23% |########                            | ETA:  0:00:27
+Adding changed files:  23% |########                            | ETA:  0:00:27
+Adding changed files:  24% |########                            | ETA:  0:00:26
+Adding changed files:  25% |#########                           | ETA:  0:00:26
+Adding changed files:  25% |#########                           | ETA:  0:00:26
+Adding changed files:  26% |#########                           | ETA:  0:00:25
+Adding changed files:  26% |#########                           | ETA:  0:00:25
+Adding changed files:  27% |#########                           | ETA:  0:00:25
+Adding changed files:  28% |##########                          | ETA:  0:00:25
+Adding changed files:  28% |##########                          | ETA:  0:00:24
+Adding changed files:  29% |##########                          | ETA:  0:00:24
+Adding changed files:  29% |##########                          | ETA:  0:00:24
+Adding changed files:  30% |###########                         | ETA:  0:00:24
+Adding changed files:  31% |###########                         | ETA:  0:00:23
+Adding changed files:  31% |###########                         | ETA:  0:00:23
+Adding changed files:  32% |###########                         | ETA:  0:00:23
+Adding changed files:  32% |###########                         | ETA:  0:00:22
+Adding changed files:  33% |############                        | ETA:  0:00:22
+Adding changed files:  34% |############                        | ETA:  0:00:22
+Adding changed files:  34% |############                        | ETA:  0:00:22
+Adding changed files:  35% |############                        | ETA:  0:00:21
+Adding changed files:  35% |############                        | ETA:  0:00:21
+Adding changed files:  36% |#############                       | ETA:  0:00:21
+Adding changed files:  37% |#############                       | ETA:  0:00:21
+Adding changed files:  37% |#############                       | ETA:  0:00:21
+Adding changed files:  38% |#############                       | ETA:  0:00:20
+Adding changed files:  38% |##############                      | ETA:  0:00:20
+Adding changed files:  39% |##############                      | ETA:  0:00:20
+Adding changed files:  40% |##############                      | ETA:  0:00:20
+Adding changed files:  40% |##############                      | ETA:  0:00:19
+Adding changed files:  41% |##############                      | ETA:  0:00:19
+Adding changed files:  41% |###############                     | ETA:  0:00:19
+Adding changed files:  42% |###############                     | ETA:  0:00:19
+Adding changed files:  43% |###############                     | ETA:  0:00:18
+Adding changed files:  43% |###############                     | ETA:  0:00:18
+Adding changed files:  44% |###############                     | ETA:  0:00:18
+Adding changed files:  44% |################                    | ETA:  0:00:18
+Adding changed files:  45% |################                    | ETA:  0:00:18
+Adding changed files:  46% |################                    | ETA:  0:00:17
+Adding changed files:  46% |################                    | ETA:  0:00:17
+Adding changed files:  47% |#################                   | ETA:  0:00:17
+Adding changed files:  47% |#################                   | ETA:  0:00:17
+Adding changed files:  48% |#################                   | ETA:  0:00:17
+Adding changed files:  49% |#################                   | ETA:  0:00:16
+Adding changed files:  49% |#################                   | ETA:  0:00:16
+Adding changed files:  50% |##################                  | ETA:  0:00:16
+Adding changed files:  50% |##################                  | ETA:  0:00:16
+Adding changed files:  51% |##################                  | ETA:  0:00:15
+Adding changed files:  52% |##################                  | ETA:  0:00:15
+Adding changed files:  52% |###################                 | ETA:  0:00:15
+Adding changed files:  53% |###################                 | ETA:  0:00:15
+Adding changed files:  53% |###################                 | ETA:  0:00:15
+Adding changed files:  54% |###################                 | ETA:  0:00:15
+Adding changed files:  55% |###################                 | ETA:  0:00:14
+Adding changed files:  55% |####################                | ETA:  0:00:14
+Adding changed files:  56% |####################                | ETA:  0:00:14
+Adding changed files:  56% |####################                | ETA:  0:00:14
+Adding changed files:  57% |####################                | ETA:  0:00:14
+Adding changed files:  58% |####################                | ETA:  0:00:13
+Adding changed files:  58% |#####################               | ETA:  0:00:13
+Adding changed files:  59% |#####################               | ETA:  0:00:13
+Adding changed files:  59% |#####################               | ETA:  0:00:13
+Adding changed files:  60% |#####################               | ETA:  0:00:13
+Adding changed files:  61% |######################              | ETA:  0:00:12
+Adding changed files:  61% |######################              | ETA:  0:00:12
+Adding changed files:  62% |######################              | ETA:  0:00:12
+Adding changed files:  62% |######################              | ETA:  0:00:12
+Adding changed files:  63% |######################              | ETA:  0:00:12
+Adding changed files:  64% |#######################             | ETA:  0:00:11
+Adding changed files:  64% |#######################             | ETA:  0:00:11
+Adding changed files:  65% |#######################             | ETA:  0:00:11
+Adding changed files:  65% |#######################             | ETA:  0:00:11
+Adding changed files:  66% |#######################             | ETA:  0:00:11
+Adding changed files:  67% |########################            | ETA:  0:00:10
+Adding changed files:  67% |########################            | ETA:  0:00:10
+Adding changed files:  68% |########################            | ETA:  0:00:10
+Adding changed files:  68% |########################            | ETA:  0:00:10
+Adding changed files:  69% |#########################           | ETA:  0:00:10
+Adding changed files:  70% |#########################           | ETA:  0:00:09
+Adding changed files:  70% |#########################           | ETA:  0:00:09
+Adding changed files:  71% |#########################           | ETA:  0:00:09
+Adding changed files:  71% |#########################           | ETA:  0:00:09
+Adding changed files:  72% |##########################          | ETA:  0:00:09
+Adding changed files:  73% |##########################          | ETA:  0:00:09
+Adding changed files:  73% |##########################          | ETA:  0:00:08
+Adding changed files:  74% |##########################          | ETA:  0:00:08
+Adding changed files:  74% |##########################          | ETA:  0:00:08
+Adding changed files:  75% |###########################         | ETA:  0:00:08
+Adding changed files:  76% |###########################         | ETA:  0:00:08
+Adding changed files:  76% |###########################         | ETA:  0:00:07
+Adding changed files:  77% |###########################         | ETA:  0:00:07
+Adding changed files:  77% |############################        | ETA:  0:00:07
+Adding changed files:  78% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:06
+Adding changed files:  80% |############################        | ETA:  0:00:06
+Adding changed files:  80% |#############################       | ETA:  0:00:06
+Adding changed files:  81% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:05
+Adding changed files:  83% |##############################      | ETA:  0:00:05
+Adding changed files:  83% |##############################      | ETA:  0:00:05
+Adding changed files:  84% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:04
+Adding changed files:  86% |###############################     | ETA:  0:00:04
+Adding changed files:  86% |###############################     | ETA:  0:00:04
+Adding changed files:  87% |###############################     | ETA:  0:00:04
+Adding changed files:  88% |###############################     | ETA:  0:00:04
+Adding changed files:  88% |###############################     | ETA:  0:00:03
+Adding changed files:  89% |################################    | ETA:  0:00:03
+Adding changed files:  89% |################################    | ETA:  0:00:03
+Adding changed files:  90% |################################    | ETA:  0:00:03
+Adding changed files:  91% |################################    | ETA:  0:00:03
+Adding changed files:  91% |#################################   | ETA:  0:00:02
+Adding changed files:  92% |#################################   | ETA:  0:00:02
+Adding changed files:  92% |#################################   | ETA:  0:00:02
+Adding changed files:  93% |#################################   | ETA:  0:00:02
+Adding changed files:  94% |#################################   | ETA:  0:00:01
+Adding changed files:  94% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  97% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:34
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2...
+INFO: Rebasing devtool onto b793540940aea8ea656794e47d23744d6a9af811
+WARNING: Command 'git rebase b793540940aea8ea656794e47d23744d6a9af811' failed:
+Auto-merging libs/math/build/Jamfile.v2
+CONFLICT (content): Merge conflict in libs/math/build/Jamfile.v2
 
-RnJvbSBkYTNjZTY2MmEwYzUxYWRhNzUwNzViZDMyZjY5MGUxOWI1YjgyNGNjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNDowOToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yMi4xMSAtPiAxLjI0LjMKCi0tLQogLi4uZWFt
-ZXIxLjAtcHl0aG9uXzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
-aG9uXzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmJ9ICg5MSUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1weXRob25fMS4yMi4xMS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
-c3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhv
-bl8xLjIyLjExLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
-Z3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmIKaW5kZXggMGZiYjAzZjc1Ny4uNWZiZjg2MDc0
-MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1weXRob25fMS4yMi4xMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
-ZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmIKQEAgLTgsNyArOCw3IEBAIExJQ0VO
-U0UgPSAiTEdQTC0yLjEtb3ItbGF0ZXIiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
-SU5HO21kNT1jMzRkZWFlNGUzOTVjYTA3ZTcyNWFiMDA3NmE1Zjc0MCIKIAogU1JDX1VSSSA9ICJo
-dHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjLyR7UE5SRUFMfS8ke1BOUkVBTH0t
-JHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImY3YTU0NTBkOTNmZDgxYmY0NjA2
-MGRjYTdmNGEwNDhkMDk1YjY3MTc5NjFmZWMyMTE3MzFhMTFhOTk0Yzk5YTciCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiZWNkYjNlMmJhOTRlYTJjODJiOTNhOGM3MTVkNWE3ZTA0Zjk3MjZhODgzOGMw
-YTZiMTc2OTQ5MjhmZDFlODU5NSIKIAogREVQRU5EUyA9ICJnc3RyZWFtZXIxLjAgZ3N0cmVhbWVy
-MS4wLXBsdWdpbnMtYmFzZSBweXRob24zLXB5Z29iamVjdCIKIFJERVBFTkRTOiR7UE59ICs9ICJn
-c3RyZWFtZXIxLjAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSBweXRob24zLXB5Z29iamVjdCIK
-LS0gCjIuNDQuMAoK
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/boost
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/boost/boost_1.85.0.bb
 
---===============2247807227358571419==--
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============1675224357668604624==--
 
