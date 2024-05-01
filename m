@@ -1,90 +1,492 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1CAC4345F
-	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 22:22:07 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web11.55.1714602123282879484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87395C4345F
+	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 23:27:20 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.web11.1096.1714606035098871204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 May 2024 15:22:03 -0700
+ Wed, 01 May 2024 16:27:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nOLNYynt;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7da09662332so43805739f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 15:22:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S+J2hIbF;
+ spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-61500da846fso52945477b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714602121; x=1715206921; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iiOSUA1x1/0fYYD03F4wRfZlGTHUpPvjwkdYpGSkGaI=;
-        b=nOLNYynti4M6BTCSTdEUwVW8iaYlEj9zPK+CyqX+p+j/L8M+JYmKvnj3+sSZVw9+bJ
-         JMRU3WRQjrwfLczcoXwXK4GD013E0rx3vzsjeSq0GCSY/vB0bpSWhTw/bmnlO0Z/un6F
-         x7tIJpArKdz8G9jH45lGqVMTgYP9q098SGcLvpTrpkdyMDmwOKlLAb9BA2kGviEJN3fA
-         Zdw1XHallq0fXzgDfjZ+GS5DYupsgZIOWJnLyR7Zj7kPR6wPeq1SlCrKfiIcl4KWVaDK
-         SP5KpQUCWp3RKkaJKtiQSVK+uElAVV/P03XfF/ir7hVMX+aKaAxr7sebadU80Mg4dgcI
-         z8Hw==
+        d=gmail.com; s=20230601; t=1714606034; x=1715210834; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zI3XDxPaHVr6cyw2S25ciuN/JVX1COIFLn2pRPXSAiw=;
+        b=S+J2hIbFW9Evo5Sj1yU+75rFuT4DwY+onu0DIxNzYVUAUWvkNX/ZROBYXq/+D/m/Sp
+         UMBvZh/8d6z5vXdXDWnfBQ94aLrvHofgzI4a1+em+YK3QxbVg5LruLq/R3S4fFHomSAg
+         NieTpBpA3bbFYJOe/KLhH96eYU5jf3Z5KjVqJiQ3+8+6+KK08Ro2kI3s6MHXxtJ99b+e
+         nDh9FA8nkmOSUlDy+Ff6mvJNPkFbtphwaqWzWKFVagwkLSHYjQwQQlZjhRZWdA8gDt1Q
+         QZmonaisfdVqLaTqqglhUYrVKdqTbKU1U298KxPtA3TvDK2HoEvpaB2pJsT8XazRqU8B
+         6gwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714602121; x=1715206921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1714606034; x=1715210834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iiOSUA1x1/0fYYD03F4wRfZlGTHUpPvjwkdYpGSkGaI=;
-        b=adtBlOW42Zp8SAZjMeDiNhuH7X5TBcP1unw/lQ1lCWbMOqHLupc1W/OZee7ghn7JNj
-         j2DUDUwOCJjXI4Rv17ZVTPjixtJoePWcrmfRGNRHiTYhLC96Cw3wUUtLMTUEsLx63XX3
-         9hzrgaCJ65tLU7CT0YhUxj6De4eR1D0B4qSafEwL6RsyhLqzh6O1UXbvC1AG1ChsjnSm
-         ZSHjtU3xbC1I9g8WIr6NnNSM43mxMUgw4wOuZk7Y3j+LYXBRdwrzxkcEGvEYC2DcqLIS
-         90W+kG0csXAgPk2vbZikwYNhfY/AdjemeDALyNT+4/BPfl5bbyWH2gOjMMovU3pCnXf1
-         kASA==
-X-Gm-Message-State: AOJu0YxEk8XK7JVU2keH2ZJ+KtIduzjcQ/RcTsE5KTd9dWpJCYjL1rwp
-	SnP7GBVf9vqqM57ZnByHLkp7YVNyk7jNIx7ReOkfrOe4C+T/r7FYTRnNsA==
-X-Google-Smtp-Source: AGHT+IEQi0wtJuJpjsdbPeuKlZ9EAYNN0OsqJDijMzdM7N/vM7g48xdiK7Tj/TlDw54J+kDbfayKKQ==
-X-Received: by 2002:a05:6602:14c6:b0:7da:1a22:e832 with SMTP id b6-20020a05660214c600b007da1a22e832mr1109995iow.0.1714602121328;
-        Wed, 01 May 2024 15:22:01 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::d802])
-        by smtp.gmail.com with ESMTPSA id ky4-20020a056638940400b0048805115ed7sm863061jab.79.2024.05.01.15.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 15:22:00 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/create-spdx-2.2: Fix SPDX Namespace Prefix
-Date: Wed,  1 May 2024 16:21:58 -0600
-Message-Id: <20240501222158.1038949-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=zI3XDxPaHVr6cyw2S25ciuN/JVX1COIFLn2pRPXSAiw=;
+        b=uN3XEXmeO7yW+NdCB+De5P8erwRFV7aJiekK+6ch5JFOt7WGtPNG2QCCTD6E9z/u2q
+         RFqNvm7KEvhJbKRVYgUZHKFXgsHLQj6BpNE281hPEfFQxx22Jhbbilf2xxq4316+BecU
+         lYcJaRLusg4sW+GzGD4B6iDsD7mnVkpH9eAOXCgWPUwTLqvcq//kYwu1LR0rIYjCrJra
+         cTqDfQAH6LeFYou12WDXsu5jI+UGeNBGmd+cvOprlQgpatlk8ZyzvWT3EeDtUHwTCblf
+         l1S+ZLy69Yeil1hrvtZfSzcPTRNdbeUrRvAtm/iGD+pYl4DS6BLURJNaud+PYgOIpc2m
+         BqaA==
+X-Gm-Message-State: AOJu0Yx+XgCWPDLpPu245NEY28TS4WpHqq19qitqkfEaaqA/U+qUptq5
+	s7UzuIhm7SIJ20HXdPo+LGDaWUG23WIxH8TatE2tCZHKtGkK+9vNQApJDKfv2COmlV6hI6qa8V+
+	DN4pgBzf/WXtvT/JkUqfzHrRpipI=
+X-Google-Smtp-Source: AGHT+IEWb4wZb3fDC56W1/U2K/xcnBa4lm43IvQSC+p/mJTmNih1DE71lxg8VbrN/idQGFwKv8yIHnqaQr4FeAxBMq8=
+X-Received: by 2002:a05:690c:3685:b0:618:83a4:588e with SMTP id
+ fu5-20020a05690c368500b0061883a4588emr443165ywb.37.1714606033892; Wed, 01 May
+ 2024 16:27:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240501212753.275862-1-gudnimar@noxmedical.com>
+In-Reply-To: <20240501212753.275862-1-gudnimar@noxmedical.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Wed, 1 May 2024 16:27:02 -0700
+Message-ID: <CANx9H-BtxHrpWuRC7uobB1s3m4Pd3XPRLOEX_R7YVpCTiOQ0dA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-manifest: prune python3-core
+To: gudnimar@noxmedical.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000947e3706176cd3b8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 22:22:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198895
+ <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 23:27:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198896
 
-According to the SPDX documentation, it should be "spdxdocs" not
-"spdxdoc"
+--000000000000947e3706176cd3b8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #15398]
+On Wed, May 1, 2024 at 2:28=E2=80=AFPM Gu=C3=B0ni M=C3=A1r Gilbert via list=
+s.openembedded.org
+<gudnimar=3Dnoxmedical.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/create-spdx-2.2.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Remove file entries which no longer exist in the source.
+>
+> I spotted this when I added a custom QA error locally which
+> raised a warning when a file in FILES list of a package isn't
+> found in the source.
+>
+>
+This manifest is automatically generated by:
+https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/python3=
+/create_manifest3.py
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index bae437f48e7..7c8a0b8b0f7 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -28,7 +28,7 @@ SPDX_ARCHIVE_SOURCES ??= "0"
- SPDX_ARCHIVE_PACKAGED ??= "0"
- 
- SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
--SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdoc"
-+SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdocs"
- SPDX_PRETTY ??= "0"
- 
- SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
--- 
-2.34.1
+We do not want to be making manual changes to the json file. If there are
+mistakes due to changes in what is now shipped with Python 3.12.x, we
+should be fixing in the tooling, not this file.
 
+Also, please share your local QA tooling. It does no one any good to have
+that be siloed.
+
+
+> Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudnimar@noxmedical.com>
+> ---
+> .../python/python3/python3-manifest.json | 23 -------------------
+> 1 file changed, 23 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json
+> b/meta/recipes-devtools/python/python3/python3-manifest.json
+> index 46092d4004..6e06002783 100644
+> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+> @@ -219,15 +219,9 @@
+> "rdepends": [],
+> "files": [
+> "${bindir}/python${PYTHON_MAJMIN}",
+> - "${bindir}/python${PYTHON_MAJMIN}.real",
+> "${bindir}/python3",
+> "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
+> - "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/UserString.py",
+> "${libdir}/python${PYTHON_MAJMIN}/__future__.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/_abcoll.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py",
+> "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py",
+> "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
+> "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
+> @@ -262,7 +256,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/getopt.py",
+> "${libdir}/python${PYTHON_MAJMIN}/gettext.py",
+> "${libdir}/python${PYTHON_MAJMIN}/heapq.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/imp.py",
+> "${libdir}/python${PYTHON_MAJMIN}/importlib",
+> "${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py",
+> "${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py",
+> @@ -274,10 +267,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/io.py",
+> "${libdir}/python${PYTHON_MAJMIN}/ipaddress.py",
+> "${libdir}/python${PYTHON_MAJMIN}/keyword.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/_struct.*.so"=
+,
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/binascii.*.so=
+",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/time.*.so",
+> -
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/xreadlines.*.so=
+",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so",
+> @@ -286,22 +275,17 @@
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubprocess.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata.*.so",
+> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
+> "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
+> "${libdir}/python${PYTHON_MAJMIN}/locale.py",
+> "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/new.py",
+> "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
+> "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
+> "${libdir}/python${PYTHON_MAJMIN}/operator.py",
+> @@ -323,7 +307,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/shutil.py",
+> "${libdir}/python${PYTHON_MAJMIN}/signal.py",
+> "${libdir}/python${PYTHON_MAJMIN}/site.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py",
+> "${libdir}/python${PYTHON_MAJMIN}/sre_compile.py",
+> "${libdir}/python${PYTHON_MAJMIN}/sre_constants.py",
+> "${libdir}/python${PYTHON_MAJMIN}/sre_parse.py",
+> @@ -331,7 +314,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/stringprep.py",
+> "${libdir}/python${PYTHON_MAJMIN}/struct.py",
+> "${libdir}/python${PYTHON_MAJMIN}/subprocess.py",
+> - "${libdir}/python${PYTHON_MAJMIN}/symbol.py",
+> "${libdir}/python${PYTHON_MAJMIN}/sysconfig.py",
+> "${libdir}/python${PYTHON_MAJMIN}/textwrap.py",
+> "${libdir}/python${PYTHON_MAJMIN}/threading.py",
+> @@ -349,7 +331,6 @@
+> ],
+> "cached": [
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.*.pyc",
+> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collections_abc.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compression.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase.*.pyc",
+> @@ -378,7 +359,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc",
+> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*.pyc",
+> @@ -395,7 +375,6 @@
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
+> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc",
+> @@ -410,13 +389,11 @@
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.*.pyc",
+> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.pyc",
+> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc",
+> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.pyc",
+> --
+> 2.34.1
+>
+>
+> Warning: Copyright Nox Health. This communication is confidential and may
+> contain privileged information. By the use of email over the Internet or
+> other communication systems, Nox Health is not waiving either
+> confidentiality of, or legal privilege in, the content of the email and o=
+f
+> any attachments. If the recipient of this message is not the intended
+> addressee, please call Nox Health immediately by calling (+1) 888.505.028=
+0
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198888):
+> https://lists.openembedded.org/g/openembedded-core/message/198888
+> Mute This Topic: https://lists.openembedded.org/mt/105851698/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000947e3706176cd3b8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 1, 2024 at 2:28=E2=80=AFP=
+M Gu=C3=B0ni M=C3=A1r Gilbert via <a href=3D"http://lists.openembedded.org"=
+>lists.openembedded.org</a> &lt;gudnimar=3D<a href=3D"mailto:noxmedical.com=
+@lists.openembedded.org">noxmedical.com@lists.openembedded.org</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D=
+"msg-5473510541801915532"><div>Remove file entries which no longer exist in=
+ the source.<br>
+<br>
+I spotted this when I added a custom QA error locally which<br>
+raised a warning when a file in FILES list of a package isn&#39;t<br>
+found in the source.<br>
+<br></div></div></blockquote><div><br></div><div>This manifest is automatic=
+ally generated by:</div><div><a href=3D"https://git.yoctoproject.org/poky/t=
+ree/meta/recipes-devtools/python/python3/create_manifest3.py">https://git.y=
+octoproject.org/poky/tree/meta/recipes-devtools/python/python3/create_manif=
+est3.py</a></div><div><br></div><div>We do not want to be making manual cha=
+nges to the json file. If there are mistakes due to changes in what is now =
+shipped with Python 3.12.x, we should be fixing in the tooling, not this fi=
+le.</div><div><br></div><div>Also, please share your local QA tooling. It d=
+oes no one any good to have that be siloed.</div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg-5473510541801915=
+532"><div>
+Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert &lt;<a href=3D"mailto:gudnimar@n=
+oxmedical.com" target=3D"_blank">gudnimar@noxmedical.com</a>&gt;<br>
+---<br>
+ .../python/python3/python3-manifest.json      | 23 -------------------<br>
+ 1 file changed, 23 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
+eta/recipes-devtools/python/python3/python3-manifest.json<br>
+index 46092d4004..6e06002783 100644<br>
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json<br>
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json<br>
+@@ -219,15 +219,9 @@<br>
+         &quot;rdepends&quot;: [],<br>
+         &quot;files&quot;: [<br>
+             &quot;${bindir}/python${PYTHON_MAJMIN}&quot;,<br>
+-            &quot;${bindir}/python${PYTHON_MAJMIN}.real&quot;,<br>
+             &quot;${bindir}/python3&quot;,<br>
+             &quot;${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h&quot;,<=
+br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/UserDict.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/UserList.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/UserString.py&quot;,<br=
+>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__future__.py&quot;,<br=
+>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/_abcoll.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py&quot;,<b=
+r>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py&quo=
+t;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/_compression.py&quot;,<=
+br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/_markupbase.py&quot;,<b=
+r>
+@@ -262,7 +256,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/getopt.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/gettext.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/heapq.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/imp.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py&quot;=
+,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py=
+&quot;,<br>
+@@ -274,10 +267,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/io.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/ipaddress.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/keyword.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
+/_struct.*.so&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
+/binascii.*.so&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
+/time.*.so&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
+/xreadlines.*.so&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.s=
+o&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so&q=
+uot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so&q=
+uot;,<br>
+@@ -286,22 +275,17 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.s=
+o&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubpr=
+ocess.*.so&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.s=
+o&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.s=
+o&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so&=
+quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.=
+so&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so&qu=
+ot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so&q=
+uot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so=
+&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.=
+so&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so=
+&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so&q=
+uot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata=
+.*.so&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.=
+*.so&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so&q=
+uot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/linecache.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/locale.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/lzma.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/new.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/ntpath.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/opcode.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/operator.py&quot;,<br>
+@@ -323,7 +307,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/shutil.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/signal.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/site.py&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py&quot;,=
+<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_compile.py&quot;,<b=
+r>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_constants.py&quot;,=
+<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_parse.py&quot;,<br>
+@@ -331,7 +314,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/stringprep.py&quot;,<br=
+>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/struct.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/subprocess.py&quot;,<br=
+>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/symbol.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/sysconfig.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/textwrap.py&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/threading.py&quot;,<br>
+@@ -349,7 +331,6 @@<br>
+         ],<br>
+         &quot;cached&quot;: [<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.=
+*.pyc&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale=
+.*.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collection=
+s_abc.*.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compressio=
+n.*.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase=
+.*.pyc&quot;,<br>
+@@ -378,7 +359,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.py=
+c&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.p=
+yc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc=
+&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc&q=
+uot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.p=
+yc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc&qu=
+ot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*=
+.pyc&quot;,<br>
+@@ -395,7 +375,6 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.p=
+yc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.=
+pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*=
+.pyc&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc&qu=
+ot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.p=
+yc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter=
+.*.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc=
+&quot;,<br>
+@@ -410,13 +389,11 @@<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.=
+*.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.py=
+c&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.=
+*.pyc&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.py=
+c&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*=
+.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.=
+pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*=
+.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc=
+&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.=
+pyc&quot;,<br>
+-            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*=
+.pyc&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc=
+&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.py=
+c&quot;,<br>
+             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.=
+pyc&quot;,<br>
+-- <br>
+2.34.1<br>
+
+<br><br><p style=3D"font-family:Verdana;font-size:10pt;color:rgb(102,102,10=
+2)"></p><p style=3D"font-family:Verdana;font-size:8pt;color:rgb(102,102,102=
+)">Warning:  Copyright Nox Health.  This communication is confidential and =
+may contain privileged information.  By the use of email over the Internet =
+or other communication systems, Nox Health is not waiving either confidenti=
+ality of, or legal privilege in, the content of the email and of any attach=
+ments.  If the recipient of this message is not the intended addressee, ple=
+ase call Nox Health immediately by calling (+1) 888.505.0280</p></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#198888): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/198888" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/198888</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105851698/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/105851698/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</div></blockquote></div></div>
+
+--000000000000947e3706176cd3b8--
 
