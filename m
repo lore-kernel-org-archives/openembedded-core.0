@@ -2,170 +2,225 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A46C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2947C25B5C
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:19 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1124.1714579215999617592
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.1143.1714579217241263645
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=f95Z6hWf;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=a/ZNvLOA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018f34e29970-e6212fc0-7a2a-48ef-845a-58bc39b68293-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NGv+NKrz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=p6RQ0Dho;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018f34e298d6-b2d2dddd-fc45-4b6a-91d0-4a8aadf34dd1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uk2+5Fb7TynCAdagOoIHPdp6h4YfX7LXiYt3fn4pWeU=;
-	b=f95Z6hWfbArkgDt/dcD49ISP2LvGLSniImI3jj8/dqtzC2xWDJ5PnuMY0vr6qOCG
-	zUbB9KsvHgpcVdJdbwK/z7qs2+NA+emk0jg+Evzdfur+DYV8zEhsvK9SlEguA/XdH90
-	4+0o2CO3Ihrzj8xFFgMaCOGQUoVk1n6WggC0HWms=
+	bh=fvws0m5Epeu0lss/pHNlCXwtwwPUQs/M96LnLzwhX4w=;
+	b=NGv+NKrzfr75icq65SkHAFsqcYPJiCOOJRCZcMjkvONPGjFrPV3MJ3AE4W1PWhk3
+	DcpAxu+2S55sXPDqlhLLVnyX1qT4z8Qkf+O8VJxtg+xQAHtv5SIM+k/9Dg2VydHvW+o
+	ke97ZBJWDev+q50kq28WGOaXxFUy5JgFlncGcsaE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uk2+5Fb7TynCAdagOoIHPdp6h4YfX7LXiYt3fn4pWeU=;
-	b=a/ZNvLOAY2BAJvpvaGj20OYUMsPBJDQFZXlCJjxgSmwbpTWOu3t/Ay32Je5QwvH0
-	Dho2W+PguIjYyJrx3UlntbJuH27z6YvVhf6kjVlye9J6uNnigEFHbxJIIXdT9NVMxYB
-	0tM2pN43su22xTnvW7ozb6bSE5BU9nLtjj28fTd4=
-Content-Type: multipart/mixed; boundary="===============6262803867806281738=="
+	bh=fvws0m5Epeu0lss/pHNlCXwtwwPUQs/M96LnLzwhX4w=;
+	b=p6RQ0Dho9dLbpVFvN5NWNr5PmyyNrnPMxD8Z+X1T1ArFUMg2c2jwt69tlGxJzY5C
+	YjT+9EvC6DUgVuxQPqRNTDLr91bA1RU/JJIpk9CyrNgwzwlTWJXohAsVj6WpRJODz5/
+	UWQ4mAtyUlfsqnGAOr+vd5BLwJKh9q71B5igcRMw=
+Content-Type: multipart/mixed; boundary="===============0182943950410181192=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vte: upgrading to 0.76.1 FAILED
-Message-ID: <0101018f34e29970-e6212fc0-7a2a-48ef-845a-58bc39b68293-000000@us-west-2.amazonses.com>
+Subject: [AUH] libcap-ng-python: upgrading to 0.8.5 FAILED
+Message-ID: <0101018f34e298d6-b2d2dddd-fc45-4b6a-91d0-4a8aadf34dd1-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.33
+X-SES-Outgoing: 2024.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198881
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198880
 
---===============6262803867806281738==
-Content-Type: text/plain; charset="utf-8"
+--===============0182943950410181192==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICp2dGUqIHRvICowLjc2LjEqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
-ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
-cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtdnRlLXVwZ3JhZGUtMC43NC4yLTAuNzYuMS5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSBjODgyOWY4YjNkODgyMzY3N2RmOWJlOTQxYTg1M2QzNWNjNmM2Zjc5IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFdlZCwgMSBNYXkgMjAyNCAxNTo1MzoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0ZTog
-dXBncmFkZSAwLjc0LjIgLT4gMC43Ni4xCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFjcm8t
-Zm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUve3Z0
-ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMS5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIgZmls
-ZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4xLmJifSAoOTYl
-KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19F
-WElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1z
-eXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmZkYWRlNTE4NGUgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3It
-bm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0
-ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNmNjk1
-OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzAxMjljYjQyMDVkM2NhOWFiNGJl
-MjkyM2UxZjM2MTViMTQ5OWEzMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERhbmls
-byBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEgTWFy
-IDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUgbWFj
-cm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9mZi1i
-eTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0dHBz
-Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lkZ2V0
-LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMvd2lk
-Z2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZm
-IC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJmLi4z
-MWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9zcmMv
-d2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAgLTMw
-LDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRlICJj
-b25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjEuYmIKaW5kZXggZDhlYWZkZTJmYi4uMGU1
-NTJkNDU2MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjEuYmIKQEAgLTE5LDcg
-KzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21lYmFz
-ZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdvYmpl
-Y3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAwMDEt
-QWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JDX1VS
-SVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1MTkw
-MTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
-dW1dID0gIjA4NGU4M2VmNzY1Nzc0MjY5YTRiMjlkZjk3Y2EyMmVkYzM0M2I5YTFkODE0MzNkMzAw
-YjhjYjJkMDg3YTFlYzIiCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJP
-RkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
+Hello,
 
---===============6262803867806281738==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *libcap-ng-python* to *0.8.5* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-libcap-ng-python-upgrade-0.8.4-0.8.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 872cfc7b244c4f236bba6fac3ac953b179801484 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 May 2024 14:53:09 +0000
+Subject: [PATCH] libcap-ng-python: upgrade 0.8.4 -> 0.8.5
+
+---
+ .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
+ ...hon_0.8.4.bb => libcap-ng-python_0.8.5.bb} |  0
+ meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
+ 3 files changed, 2 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.8.4.bb => libcap-ng-python_0.8.5.bb} (100%)
+
+diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+deleted file mode 100644
+index fb424fe725..0000000000
+--- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
+-From: Steve Grubb <ausearch.1@gmail.com>
+-Date: Thu, 4 Jan 2024 15:06:29 -0500
+-Subject: [PATCH] Remove python global exception handler since its deprecated
+-
+-Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- bindings/src/capng_swig.i | 7 -------
+- 1 file changed, 7 deletions(-)
+-
+-diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
+-index fcdaf18..fa85e13 100644
+---- a/bindings/src/capng_swig.i
+-+++ b/bindings/src/capng_swig.i
+-@@ -30,13 +30,6 @@
+- 
+- %varargs(16, signed capability = 0) capng_updatev;
+- 
+--%except(python) {
+--  $action
+--  if (result < 0) {
+--    PyErr_SetFromErrno(PyExc_OSError);
+--    return NULL;
+--  }
+--}
+- #endif
+- 
+- %define __signed__
+--- 
+-2.43.2
+-
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 845b7c2f0a..875337b954 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+ 
+-SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+-           file://fix-issues-with-swig-4-2.patch \
+-           "
++SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
++SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
+ 
+ EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+ EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+-- 
+2.44.0
+
+
+--===============0182943950410181192==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vte-upgrade-0.74.2-0.76.1.patch"
+ filename="0001-libcap-ng-python-upgrade-0.8.4-0.8.5.patch"
 
-RnJvbSBjODgyOWY4YjNkODgyMzY3N2RmOWJlOTQxYTg1M2QzNWNjNmM2Zjc5IE1vbiBTZXAgMTcg
+RnJvbSA4NzJjZmM3YjI0NGM0ZjIzNmJiYTZmYWMzYWM5NTNiMTc5ODAxNDg0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNTo1MzoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0
-ZTogdXBncmFkZSAwLjc0LjIgLT4gMC43Ni4xCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFj
-cm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUv
-e3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMS5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIg
-ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4xLmJifSAo
-OTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQt
-V19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGli
-Yy1zeXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmZkYWRlNTE4NGUgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1m
-b3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRl
-L3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNm
-Njk1OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzAxMjljYjQyMDVkM2NhOWFi
-NGJlMjkyM2UxZjM2MTViMTQ5OWEzMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERh
-bmlsbyBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEg
-TWFyIDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUg
-bWFjcm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9m
-Zi1ieTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0
-dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lk
-Z2V0LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMv
-d2lkZ2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBk
-aWZmIC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJm
-Li4zMWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9z
-cmMvd2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAg
-LTMwLDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRl
-ICJjb25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjEuYmIKaW5kZXggZDhlYWZkZTJmYi4u
-MGU1NTJkNDU2MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0
-LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjEuYmIKQEAgLTE5
-LDcgKzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21l
-YmFzZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdv
-YmplY3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAw
-MDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JD
-X1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1
-MTkwMTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEy
-NTZzdW1dID0gIjA4NGU4M2VmNzY1Nzc0MjY5YTRiMjlkZjk3Y2EyMmVkYzM0M2I5YTFkODE0MzNk
-MzAwYjhjYjJkMDg3YTFlYzIiCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElT
-VFJPRkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNDo1MzowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmNhcC1uZy1weXRob246IHVwZ3JhZGUgMC44LjQgLT4gMC44LjUKCi0tLQogLi4uL2ZpbGVzL2Zp
+eC1pc3N1ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaCAgICAgIHwgMzIgLS0tLS0tLS0tLS0tLS0tLS0t
+LQogLi4uaG9uXzAuOC40LmJiID0+IGxpYmNhcC1uZy1weXRob25fMC44LjUuYmJ9IHwgIDAKIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmcuaW5jICB8ICA2ICsrLS0KIDMg
+ZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vl
+cy13aXRoLXN3aWctNC0yLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2Fw
+LW5nL3tsaWJjYXAtbmctcHl0aG9uXzAuOC40LmJiID0+IGxpYmNhcC1uZy1weXRob25fMC44LjUu
+YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9m
+aWxlcy9maXgtaXNzdWVzLXdpdGgtc3dpZy00LTIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoCmRlbGV0ZWQg
+ZmlsZSBtb2RlIDEwMDY0NAppbmRleCBmYjQyNGZlNzI1Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9maWxlcy9maXgtaXNzdWVzLXdpdGgtc3dpZy00LTIu
+cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMiArMCwwIEBACi1Gcm9tIDM1NWVhZGEyZDIwODg2
+Mjg3Y2ZmYzE2ZTMwNDA4N2RkNmY2NmFlMzcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
+OiBTdGV2ZSBHcnViYiA8YXVzZWFyY2guMUBnbWFpbC5jb20+Ci1EYXRlOiBUaHUsIDQgSmFuIDIw
+MjQgMTU6MDY6MjkgLTA1MDAKLVN1YmplY3Q6IFtQQVRDSF0gUmVtb3ZlIHB5dGhvbiBnbG9iYWwg
+ZXhjZXB0aW9uIGhhbmRsZXIgc2luY2UgaXRzIGRlcHJlY2F0ZWQKLQotVXBzdHJlYW0tU3RhdHVz
+OiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlZ3J1YmIvbGliY2FwLW5nL2NvbW1p
+dC8zMDQ1M2I2NTUzOTQ4Y2QwNWM0MzhmOWY1MDkwMTNlM2JiODRmMjViXQotU2lnbmVkLW9mZi1i
+eTogQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KLS0tLQotIGJpbmRpbmdzL3Ny
+Yy9jYXBuZ19zd2lnLmkgfCA3IC0tLS0tLS0KLSAxIGZpbGUgY2hhbmdlZCwgNyBkZWxldGlvbnMo
+LSkKLQotZGlmZiAtLWdpdCBhL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkgYi9iaW5kaW5ncy9z
+cmMvY2Fwbmdfc3dpZy5pCi1pbmRleCBmY2RhZjE4Li5mYTg1ZTEzIDEwMDY0NAotLS0tIGEvYmlu
+ZGluZ3Mvc3JjL2NhcG5nX3N3aWcuaQotKysrIGIvYmluZGluZ3Mvc3JjL2NhcG5nX3N3aWcuaQot
+QEAgLTMwLDEzICszMCw2IEBACi0gCi0gJXZhcmFyZ3MoMTYsIHNpZ25lZCBjYXBhYmlsaXR5ID0g
+MCkgY2FwbmdfdXBkYXRldjsKLSAKLS0lZXhjZXB0KHB5dGhvbikgewotLSAgJGFjdGlvbgotLSAg
+aWYgKHJlc3VsdCA8IDApIHsKLS0gICAgUHlFcnJfU2V0RnJvbUVycm5vKFB5RXhjX09TRXJyb3Ip
+OwotLSAgICByZXR1cm4gTlVMTDsKLS0gIH0KLS19Ci0gI2VuZGlmCi0gCi0gJWRlZmluZSBfX3Np
+Z25lZF9fCi0tLSAKLTIuNDMuMgotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJjYXAtbmcvbGliY2FwLW5nLXB5dGhvbl8wLjguNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYmNhcC1uZy9saWJjYXAtbmctcHl0aG9uXzAuOC41LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAw
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLXB5
+dGhvbl8wLjguNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xp
+YmNhcC1uZy1weXRob25fMC44LjUuYmIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYmNhcC1uZy9saWJjYXAtbmcuaW5jIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5n
+L2xpYmNhcC1uZy5pbmMKaW5kZXggODQ1YjdjMmYwYS4uODc1MzM3Yjk1NCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5pbmMKKysrIGIvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5pbmMKQEAgLTcsMTEgKzcsOSBAQCBM
+SUNFTlNFID0gIkdQTC0yLjAtb3ItbGF0ZXIgJiBMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTk0ZDU1ZDUxMmE5YmEzNmNhYTliN2RmMDc5
+YmFlMTlmIFwKIAkJICAgIGZpbGU6Ly9DT1BZSU5HLkxJQjttZDU9ZTNlZGEwMWQ5ODE1ZjhkMjRh
+YWUyZGJkODliNjhiMDYiCiAKLVNSQ19VUkkgPSAiaHR0cHM6Ly9wZW9wbGUucmVkaGF0LmNvbS9z
+Z3J1YmIvbGliY2FwLW5nL2xpYmNhcC1uZy0ke1BWfS50YXIuZ3ogXAotICAgICAgICAgICBmaWxl
+Oi8vZml4LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoIFwKLSAgICAgICAgICAgIgorU1JDX1VS
+SSA9ICJodHRwczovL3Blb3BsZS5yZWRoYXQuY29tL3NncnViYi9saWJjYXAtbmcvbGliY2FwLW5n
+LSR7UFZ9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4NTgxZDNiMzhlNzU1M2Ni
+NmY2ZGRmNzgxM2IxZmM5OWU1Mjg1NmYyMTQyMWY3YjQ3N2NlNWFiZDI2MDVhOGEiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiM2JhNTI5NGQxY2JkZmE5OGFmYWFjZmJjMDBiNmFmOWVkMmI4M2U4YTIx
+ODE3MTg1ZGZkODQ0Y2M4YzdhYzZmZiIKIAogRVhUUkFfT0VDT05GOmFwcGVuZDpjbGFzcy10YXJn
+ZXQgPSAiIC0td2l0aC1jYXBhYmlsaXR5X2hlYWRlcj0ke1NUQUdJTkdfSU5DRElSfS9saW51eC9j
+YXBhYmlsaXR5LmgiCiBFWFRSQV9PRUNPTkY6YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgLS13
+aXRoLWNhcGFiaWxpdHlfaGVhZGVyPSR7U1RBR0lOR19JTkNESVJ9L2xpbnV4L2NhcGFiaWxpdHku
+aCIKLS0gCjIuNDQuMAoK
 
---===============6262803867806281738==
+--===============0182943950410181192==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -173,9 +228,9 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1877 entries from dependency cache.
+Loaded 1879 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
+Parsing of 920 .bb files complete (918 cached, 2 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
 Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
@@ -187,277 +242,360 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-952afae4a5ca5f1743eb8ebb72ff41063b06790f"
+DISTRO_VERSION       = "5.0+snapshot-9992db5c078bedfc974d462af197506050c941e0"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:952afae4a5ca5f1743eb8ebb72ff41063b06790f"
+workspace            = "tmp-auh-upgrades:9992db5c078bedfc974d462af197506050c941e0"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 541 Local 528 Mirrors 0 Missed 13 Current 770 (97% match, 99% complete)
-done.
+Sstate summary: Wanted 194 Local 106 Mirrors 0 Missed 88 Current 259 (54% match, 80% complete)
+Removing 7 stale sstate objects for arch core2-64...done.
+Removing 7 stale sstate objects for arch x86_64...done.
+Removing 21 stale sstate objects for arch qemux86_64...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 294 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 297 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 300 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 303 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 306 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 311 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 312 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 313 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 316 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 319 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 322 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 327 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 328 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 331 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 345 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 351 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_create_spdx_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 352 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 358 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 363 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_stash_locale_setscene)
+NOTE: recipe libedit-20230828-3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 364 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 367 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 368 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe ncurses-6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Started
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running noexec task 438 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 448 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_fetch)
+NOTE: Running task 505 of 1306 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa)
+NOTE: Running noexec task 567 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_fetch)
+NOTE: Running task 599 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_fetch)
+NOTE: Running task 603 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_fetch)
+NOTE: Running task 686 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_fetch)
+NOTE: Running task 692 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_fetch)
+NOTE: Running task 693 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_fetch)
+NOTE: Running task 694 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_fetch)
+NOTE: Running task 695 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_fetch)
+NOTE: Running task 696 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_fetch)
+NOTE: Running task 717 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_fetch)
+NOTE: Running task 718 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_fetch: Started
+NOTE: Running task 745 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_fetch)
+NOTE: Running task 746 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_fetch)
+NOTE: Running task 747 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_fetch: Succeeded
+NOTE: Running task 748 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_unpack)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Succeeded
+NOTE: Running task 749 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libtirpc-1.3.4-r0: task do_fetch: Started
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_recipe_qa: Started
+NOTE: recipe gdbm-1.23-r0: task do_fetch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Started
+NOTE: recipe openssl-3.3.0-r0: task do_fetch: Started
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_fetch: Started
+NOTE: recipe xz-5.4.6-r0: task do_fetch: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_fetch: Started
+NOTE: Running task 750 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_unpack)
+NOTE: recipe gdbm-1.23-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Started
+NOTE: recipe openssl-3.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_fetch: Succeeded
+NOTE: Running task 751 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_unpack)
+NOTE: Running setscene task 447 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe xz-5.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe libedit-20230828-3.1-r0: task do_fetch: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_unpack: Started
+NOTE: recipe zlib-1.3.1-r0: task do_fetch: Started
+NOTE: Running setscene task 448 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_populate_sysroot_setscene)
+NOTE: Running task 752 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_unpack)
+NOTE: Running task 753 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_unpack)
+NOTE: Running task 754 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_unpack)
+NOTE: recipe expat-2.6.2-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Succeeded
+NOTE: Running task 755 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_fetch)
+NOTE: recipe zlib-1.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 756 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_unpack)
+NOTE: recipe expat-2.6.2-r0: task do_fetch: Succeeded
+NOTE: Running task 757 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_unpack)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Succeeded
+NOTE: Running task 758 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_unpack)
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 759 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_fetch)
+NOTE: recipe xz-5.4.6-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Started
+NOTE: recipe openssl-3.3.0-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.23-r0: task do_unpack: Started
+NOTE: recipe libffi-3.4.6-r0: task do_fetch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_unpack: Started
+NOTE: Running task 760 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_unpack)
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_fetch: Succeeded
+NOTE: Running task 761 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_fetch)
+NOTE: recipe zlib-1.3.1-r0: task do_unpack: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Started
+NOTE: recipe ncurses-6.4-r0: task do_fetch: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_unpack: Succeeded
+NOTE: Running task 762 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_unpack)
+NOTE: Running task 763 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_patch)
+NOTE: recipe xz-5.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 764 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_patch)
+NOTE: recipe libnsl2-2.0.1-r0: task do_fetch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_unpack: Started
+NOTE: Running task 765 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_fetch)
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 449 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_gcc_stash_builddir_setscene)
+NOTE: Running setscene task 451 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 766 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_patch)
+NOTE: recipe ncurses-6.4-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Succeeded
+NOTE: Running task 769 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_patch)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_patch: Started
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_patch: Started
+NOTE: recipe expat-2.6.2-r0: task do_unpack: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Started
+NOTE: Running task 770 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_patch)
+NOTE: recipe libnsl2-2.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 774 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_fetch)
+NOTE: recipe libtirpc-1.3.4-r0: task do_patch: Started
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 779 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_unpack)
+NOTE: recipe zlib-1.3.1-r0: task do_patch: Started
+NOTE: recipe xz-5.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 781 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_unpack)
+NOTE: recipe libxcrypt-4.4.36-r0: task do_fetch: Succeeded
+NOTE: Running task 782 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_unpack)
+NOTE: recipe expat-2.6.2-r0: task do_patch: Started
+NOTE: recipe gdbm-1.23-r0: task do_patch: Succeeded
+NOTE: Running task 784 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_unpack)
+NOTE: recipe libedit-20230828-3.1-r0: task do_unpack: Started
+NOTE: recipe python3-3.12.3-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_patch: Succeeded
+NOTE: Running task 785 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_patch)
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_unpack: Started
+NOTE: Running task 786 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_generate_toolchain_file)
+NOTE: recipe libtirpc-1.3.4-r0: task do_patch: Succeeded
+NOTE: recipe libedit-20230828-3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_unpack)
+NOTE: Running task 790 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_unpack)
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Started
+NOTE: Running task 791 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_unpack)
+NOTE: recipe zlib-1.3.1-r0: task do_patch: Succeeded
+NOTE: Running task 793 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_patch)
+NOTE: recipe libffi-3.4.6-r0: task do_unpack: Started
+NOTE: recipe python3-3.12.3-r0: task do_fetch: Succeeded
+NOTE: Running task 796 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_unpack)
+NOTE: recipe libffi-3.4.6-r0: task do_unpack: Succeeded
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_unpack: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_unpack: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_unpack: Started
+NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 797 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_patch)
+NOTE: Running task 798 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_patch)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Started
+NOTE: Running task 799 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.1.bb:do_patch)
+NOTE: recipe libxcrypt-4.4.36-r0: task do_unpack: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Succeeded
+NOTE: Running task 800 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_patch)
+NOTE: recipe libedit-20230828-3.1-r0: task do_patch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Started
+NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 849 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa)
+NOTE: recipe libffi-3.4.6-r0: task do_patch: Started
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_patch: Started
+NOTE: recipe python3-3.12.3-r0: task do_unpack: Started
+NOTE: recipe openssl-3.3.0-r0: task do_patch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Started
+NOTE: recipe ncurses-6.4-r0: task do_unpack: Succeeded
+NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa: Started
+NOTE: Running task 850 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_patch)
+NOTE: recipe libedit-20230828-3.1-r0: task do_patch: Succeeded
+NOTE: Running task 888 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_recipe_qa)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Succeeded
+NOTE: recipe sqlite3-3_3.45.1-r0: task do_patch: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_recipe_qa: Started
+NOTE: recipe ncurses-6.4-r0: task do_patch: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 984 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_patch)
+NOTE: recipe openssl-3.3.0-r0: task do_patch: Succeeded
+NOTE: recipe libxcrypt-4.4.36-r0: task do_unpack: Succeeded
+NOTE: Running task 986 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_patch)
+NOTE: recipe libnsl2-2.0.1-r0: task do_patch: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe libxcrypt-4.4.36-r0: task do_patch: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Succeeded
+NOTE: Running task 988 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_patch)
+NOTE: recipe libxcrypt-4.4.36-r0: task do_patch: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Started
+NOTE: recipe ncurses-6.4-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 3237 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_recipe_qa)
-NOTE: Running task 3435 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_write_config)
-NOTE: recipe vte-0.76.1-r0: task do_recipe_qa: Started
-NOTE: recipe vte-0.76.1-r0: task do_write_config: Started
-NOTE: recipe vte-0.76.1-r0: task do_write_config: Succeeded
-NOTE: recipe vte-0.76.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 3570 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_fetch)
-NOTE: recipe vte-0.76.1-r0: task do_fetch: Started
-NOTE: recipe vte-0.76.1-r0: task do_fetch: Succeeded
-NOTE: Running task 3571 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_unpack)
-NOTE: Running task 3572 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.76.1-r0: task do_unpack: Started
-NOTE: recipe vte-0.76.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.76.1-r0: task do_unpack: Succeeded
-NOTE: Running task 3573 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_patch)
-NOTE: Running task 3574 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_collect_spdx_deps)
-NOTE: recipe vte-0.76.1-r0: task do_patch: Started
-NOTE: recipe vte-0.76.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vte-0.76.1-r0: task do_patch: Succeeded
-NOTE: Running task 3575 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3576 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_populate_lic)
-NOTE: recipe vte-0.76.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.76.1-r0: task do_populate_lic: Started
-NOTE: recipe vte-0.76.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vte-0.76.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vte-0.76.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe vte-0.76.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3577 of 3589 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_configure)
-NOTE: recipe vte-0.76.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroo
- t', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.14.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb
- :do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gperf/gperf_3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:na
- tive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gi-docgen', 'gobject-introspection', 'gtk+3', 'gtk4', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-s
- tubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', '
- gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dgir=true -Ddocs=false -Dvapi=true -Dfribidi=false -Dgnutls=true -Dgtk4=true -D_systemd=true...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/vte-0.76.1
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/build
-| Build type: cross build
-| Project name: vte
-| Project version: 0.76.1
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot ld.bfd 2.42.0.20240216
-| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-g++ (GCC) 13.2.0")
-| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot ld.bfd 2.42.0.20240216
-| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
-| C++ compiler for the build machine: g++ (gcc 13.2.0 "g++ (GCC) 13.2.0")
-| C++ linker for the build machine: g++ ld.bfd 2.42.0.20240216
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Compiler for C supports arguments -std=gnu11: YES
-| ../vte-0.76.1/meson.build:143: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu11".
-| Compiler for C++ supports arguments -std=gnu++20: YES
-| ../vte-0.76.1/meson.build:151: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu++20".
-| Program python3 (dataclasses) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot-native/usr/bin/nativepython3) modules: dataclasses
-| Header "sys/ioctl.h" has symbol "TIOCGWINSZ" : YES
-| Library m found: YES
-| Checking if "fork" compiles: YES
-| Checking if "grantpt" compiles: YES
-| Checking if "posix_openpt" compiles: YES
-| Checking if "ptsname" compiles: YES
-| Checking if "tcgetattr" compiles: YES
-| Checking if "unlockpt" compiles: YES
-| Checking if "explicit_bzero" compiles: YES
-| Checking if "fdwalk" compiles: NO
-| Checking if "pread" compiles: YES
-| Checking if "pwrite" compiles: YES
-| Checking if "strchrnul" compiles: YES
-| Checking if "close_range" compiles: YES
-| Checking if "ceil" with dependency -lm compiles: YES
-| Checking if "floor" with dependency -lm compiles: YES
-| Checking if "round" with dependency -lm compiles: YES
-| Compiler for C supports arguments -Wall: YES
-| Compiler for C supports arguments -Wextra: YES
-| Compiler for C supports arguments -Wcast-align: YES
-| Compiler for C supports arguments -Wcast-function-type: YES
-| Compiler for C supports arguments -Wclobbered: YES
-| Compiler for C supports arguments -Wempty-body: YES
-| Compiler for C supports arguments -Wendif-labels: YES
-| Compiler for C supports arguments -Werror=init-self: YES
-| Compiler for C supports arguments -Werror=missing-include-dirs: YES
-| Compiler for C supports arguments -Werror=pointer-arith: YES
-| Compiler for C supports arguments -Wfloat-equal: YES
-| Compiler for C supports arguments -Wignored-qualifiers: YES
-| Compiler for C supports arguments -Winvalid-pch: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmisleading-indentation: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-field-initializers: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wno-deprecated-declarations: YES
-| Compiler for C supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C supports arguments -Wno-c99-designator: NO
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-packed: YES
-| Compiler for C supports arguments -Wno-switch-enum: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Compiler for C supports arguments -Wno-volatile: NO
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wshift-negative-value: YES
-| Compiler for C supports arguments -Wsign-compare: YES
-| Compiler for C supports arguments -Wstrict-aliasing=2: YES
-| Compiler for C supports arguments -Wtype-limits: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wuninitialized: YES
-| Compiler for C supports arguments -Wuninitialized: YES (cached)
-| Compiler for C supports arguments -Wunsafe-loop-optimizations: YES
-| Compiler for C supports arguments -Wunused: YES
-| Compiler for C supports arguments -Wunused-but-set-parameter: YES
-| Compiler for C supports arguments -Wunused-but-set-variable: YES
-| Compiler for C supports arguments -Wunused-function: YES
-| Compiler for C supports arguments -Wunused-label: YES
-| Compiler for C supports arguments -Wunused-local-typedefs: YES
-| Compiler for C supports arguments -Wunused-value: YES
-| Compiler for C supports arguments -Wunused-variable: YES
-| Compiler for C supports arguments -Wvla: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -fdiagnostics-show-option: YES
-| Compiler for C supports arguments -fno-common: YES
-| Compiler for C supports arguments -fno-semantic-interposition: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Compiler for C supports arguments -Waggregate-return: YES
-| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
-| Compiler for C supports arguments -Werror=missing-prototypes: YES
-| Compiler for C supports arguments -Wimplicit: YES
-| Compiler for C supports arguments -Wimplicit-fallthrough=3: YES
-| Compiler for C supports arguments -Wmissing-parameter-type: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wold-style-declaration: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Woverride-init: YES
-| Compiler for C supports arguments -Wsign-compare: YES (cached)
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C++ supports arguments -Wall: YES
-| Compiler for C++ supports arguments -Wextra: YES
-| Compiler for C++ supports arguments -Wcast-align: YES
-| Compiler for C++ supports arguments -Wcast-function-type: YES
-| Compiler for C++ supports arguments -Wclobbered: YES
-| Compiler for C++ supports arguments -Wempty-body: YES
-| Compiler for C++ supports arguments -Wendif-labels: YES
-| Compiler for C++ supports arguments -Werror=init-self: YES
-| Compiler for C++ supports arguments -Werror=missing-include-dirs: YES
-| Compiler for C++ supports arguments -Werror=pointer-arith: YES
-| Compiler for C++ supports arguments -Wfloat-equal: YES
-| Compiler for C++ supports arguments -Wignored-qualifiers: YES
-| Compiler for C++ supports arguments -Winvalid-pch: YES
-| Compiler for C++ supports arguments -Wlogical-op: YES
-| Compiler for C++ supports arguments -Wmisleading-indentation: YES
-| Compiler for C++ supports arguments -Wmissing-declarations: YES
-| Compiler for C++ supports arguments -Wmissing-field-initializers: YES
-| Compiler for C++ supports arguments -Wmissing-format-attribute: YES
-| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
-| Compiler for C++ supports arguments -Wmissing-noreturn: YES
-| Compiler for C++ supports arguments -Wno-deprecated-declarations: YES
-| Compiler for C++ supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C++ supports arguments -Wno-c99-designator: NO
-| Compiler for C++ supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C++ supports arguments -Wno-packed: YES
-| Compiler for C++ supports arguments -Wno-switch-enum: YES
-| Compiler for C++ supports arguments -Wno-unused-parameter: YES
-| Compiler for C++ supports arguments -Wno-volatile: YES
-| Compiler for C++ supports arguments -Wshadow: YES
-| Compiler for C++ supports arguments -Wshift-negative-value: YES
-| Compiler for C++ supports arguments -Wsign-compare: YES
-| Compiler for C++ supports arguments -Wstrict-aliasing=2: YES
-| Compiler for C++ supports arguments -Wtype-limits: YES
-| Compiler for C++ supports arguments -Wundef: YES
-| Compiler for C++ supports arguments -Wuninitialized: YES
-| Compiler for C++ supports arguments -Wuninitialized: YES (cached)
-| Compiler for C++ supports arguments -Wunsafe-loop-optimizations: YES
-| Compiler for C++ supports arguments -Wunused: YES
-| Compiler for C++ supports arguments -Wunused-but-set-parameter: YES
-| Compiler for C++ supports arguments -Wunused-but-set-variable: YES
-| Compiler for C++ supports arguments -Wunused-function: YES
-| Compiler for C++ supports arguments -Wunused-label: YES
-| Compiler for C++ supports arguments -Wunused-local-typedefs: YES
-| Compiler for C++ supports arguments -Wunused-value: YES
-| Compiler for C++ supports arguments -Wunused-variable: YES
-| Compiler for C++ supports arguments -Wvla: YES
-| Compiler for C++ supports arguments -Wwrite-strings: YES
-| Compiler for C++ supports arguments -fdiagnostics-show-option: YES
-| Compiler for C++ supports arguments -fno-common: YES
-| Compiler for C++ supports arguments -fno-semantic-interposition: YES
-| Compiler for C++ supports arguments -fno-strict-aliasing: YES
-| Compiler for C++ supports arguments -Wimplicit-fallthrough=5: YES
-| Compiler for C++ supports arguments -Wnon-virtual-dtor: YES
-| Compiler for C++ supports arguments -Wstrict-null-sentinel: YES
-| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES
-| Compiler for C++ supports arguments -fvisibility=hidden: YES
-| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES (cached)
-| Compiler for C++ supports arguments -fvisibility=hidden: YES (cached)
-| Compiler for C supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
-| Compiler for C++ supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
-| ../vte-0.76.1/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
-| ../vte-0.76.1/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
-| ../vte-0.76.1/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
-| ../vte-0.76.1/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
-| Compiler for C supports link arguments -Wl,-Bsymbolic: YES
-| Compiler for C++ supports link arguments -Wl,-Bsymbolic: YES
-| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C++ supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C supports link arguments -fstack-protector: YES
-| Compiler for C++ supports link arguments -fstack-protector: YES
-| Compiler for C supports link arguments -fstack-protector-strong: YES
-| Compiler for C++ supports link arguments -fstack-protector-strong: YES
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency cairo found: YES 1.18.0
-| Run-time dependency cairo-gobject found: YES 1.18.0
-| Run-time dependency gio-2.0 found: YES 2.78.4
-| Run-time dependency glib-2.0 found: YES 2.78.4
-| Run-time dependency gobject-2.0 found: YES 2.78.4
-| Run-time dependency pango found: YES 1.52.2
-| Run-time dependency libpcre2-8 found: YES 10.43
-| Run-time dependency threads found: YES
-| Found CMake: NO
-| Run-time dependency liblz4 found: NO (tried pkgconfig)
-| 
-| ../vte-0.76.1/meson.build:615:20: ERROR: Dependency "liblz4" not found, tried pkgconfig
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251:177 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251, line 177
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251, line 166
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251, line 155
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251, line 190
-NOTE: recipe vte-0.76.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3577 tasks of which 3567 didn't need to be rerun and 1 failed.
+NOTE: Running task 993 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_patch)
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Succeeded
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_patch: Started
+NOTE: recipe python3-3.12.3-r0: task do_unpack: Succeeded
+NOTE: Running task 996 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_patch)
+NOTE: recipe python3-3.12.3-r0: task do_patch: Started
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_recipe_qa: Succeeded
+NOTE: Task virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa unihash changed to 58ce1859ea7968d1a3d706cce9e426d2317663488e43e356d8137c1672c78188
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Succeeded
+NOTE: recipe libcap-ng-0.8.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_patch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_recipe_qa unihash changed to cbb581f27f67b8f26be94a3fd385d8826401ac77d31c020192b2d59c4d231132
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_patch: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_unpack: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 997 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_patch)
+NOTE: Running task 999 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_preconfigure)
+NOTE: Running task 1002 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_patch)
+NOTE: Running task 1004 of 1306 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch)
+NOTE: Running task 1006 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1008 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch)
+NOTE: Running task 1009 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_fetch)
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_preconfigure: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_patch: Started
+NOTE: recipe libcap-ng-0.8.4-r0: task do_fetch: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_fetch: Started
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_fetch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1010 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_unpack)
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_unpack: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1011 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_patch)
+NOTE: Running noexec task 1013 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_configure)
+NOTE: Running noexec task 1014 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_compile)
+NOTE: Running task 1015 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_install)
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_preconfigure: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_patch: Succeeded
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Checksum failure encountered with download of https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz - will attempt other sources if available
+NOTE: Running task 1016 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1017 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_populate_lic)
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_install: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_populate_lic: Started
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Succeeded
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Checksum failure encountered with download of https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz - will attempt other sources if available
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_populate_lic: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_install: Succeeded
+NOTE: Running task 1033 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glibc-2.39+git-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glibc-2.39+git-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1034 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_configure)
+NOTE: recipe glibc-2.39+git-r0: task do_configure: Started
+NOTE: recipe libcap-ng-0.8.4-r0: task do_fetch: Failed
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_fetch: Failed
+NOTE: recipe glibc-2.39+git-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 1034 tasks of which 956 didn't need to be rerun and 2 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501155253.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501145217.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501155253.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501145217.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: vte-0.76.1-r0 do_configure: meson failed
-ERROR: vte-0.76.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/run.do_configure.3119251', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.1/temp/log.do_configure.3119251
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.1.bb:do_configure) failed with exit code '1'
+Summary: 2 tasks failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch
+Summary: There were 8 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-ng-0.8.4-r0 do_fetch: Checksum failure fetching https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz
+ERROR: libcap-ng-0.8.4-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz\' has sha256 checksum \'68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a\' when \'3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz')
+ERROR: libcap-ng-native-0.8.4-r0 do_fetch: Checksum failure fetching https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz
+ERROR: libcap-ng-native-0.8.4-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz\' has sha256 checksum \'68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a\' when \'3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libcap-ng/0.8.4/temp/log.do_fetch.729690
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/libcap-ng-native/0.8.4/temp/log.do_fetch.729688
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch) failed with exit code '1'
 
---===============6262803867806281738==--
+--===============0182943950410181192==--
 
