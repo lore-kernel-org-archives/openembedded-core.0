@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854A6C25B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF750C27C42
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1120.1714579216882264496
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.1093.1714579215146077115
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 May 2024 09:00:16 -0700
+ Wed, 01 May 2024 09:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KJqrEClH;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zGT0Qpa7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f34e29518-8dd2141d-2f29-472b-9e63-09a92236a849-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ACZ9TmWb;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NU9Tj9ap;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f34e28ff8-0ce13086-41ce-46a6-acf9-ca7dbdf73c60-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1714579216;
+	t=1714579214;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hjtyxgdv/Qy719AMNEKWT1sTr5G942/ToHQinhrm07Q=;
-	b=KJqrEClHHLxKt2NiPOTyGfYyaVciQ7v0FrJSdCKmC3wCf1fFrVpfnDWPLEyc9igs
-	ayVGB0gYMKTvreDraVrDfIR5d0ShvTT/XNJ7Q821et4WxbzahlXHy5WzWlh0PBUHWj2
-	J6mLqQi1AsTvVuq1vgGnamqxQPUW8KpOSZZhpyU8=
+	bh=u808l298x92rhe9YYMc3vWEqZqfDlY6i8mvDD8uvCc8=;
+	b=ACZ9TmWbmORN0bzEdtxYBmXRDUmmDbcneaVzwk364rv9ebL3CZln529Pn8/EQGS7
+	L3FRwsa0VW5fjsUtLGeDYbRtaKqnBSKr1hfN/OF5XDVfgzzZKW8NoEhDpwQztvC0M7i
+	1r70B4+gTpMZ93skXt445vtVRFhmEHsWrjNt7Q2w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579214;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hjtyxgdv/Qy719AMNEKWT1sTr5G942/ToHQinhrm07Q=;
-	b=zGT0Qpa79Fvv3VgT6Fdwfym4qUnJA/uZ3CTumssRwQutyJxhfA4XSwpMh4QNAHCz
-	yvyYXPOwALWmjgOt8RSTRnRuz2hs5gOdlGbDkPKqzmO/oI/WBaIW0c70FFveBq+YHSb
-	J/Nv3ejxmq/D0Hred2JHZ6dJwBcJO7jiZXjD8zFo=
-Content-Type: multipart/mixed; boundary="===============0395911314217839941=="
+	bh=u808l298x92rhe9YYMc3vWEqZqfDlY6i8mvDD8uvCc8=;
+	b=NU9Tj9apljcA87GSEjQDOTd+WkcMCnDP5s6Snfo1xrfZROQJTEsT+W/0sns0Ensa
+	aaqaJMO24KQtox0uTox79LoOY3zEBAOaPR1Vfafxx9LdOWqPxADuK9vJX4ip8Sx4zec
+	wjh3iHH5OCRm1i81KY+tVP7Z5SeqHVnOxEgPT5gQ=
+Content-Type: multipart/mixed; boundary="===============1209695059728147877=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gobject-introspection: upgrading to 1.80.1 FAILED
-Message-ID: <0101018f34e29518-8dd2141d-2f29-472b-9e63-09a92236a849-000000@us-west-2.amazonses.com>
-Date: Wed, 1 May 2024 16:00:15 +0000
+Subject: [AUH] dropbear: upgrading to 2024.85 SUCCEEDED
+Message-ID: <0101018f34e28ff8-0ce13086-41ce-46a6-acf9-ca7dbdf73c60-000000@us-west-2.amazonses.com>
+Date: Wed, 1 May 2024 16:00:14 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.193
+X-SES-Outgoing: 2024.05.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198870
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198794
 
---===============0395911314217839941==
+--===============1209695059728147877==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.80.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *dropbear* to *2024.85* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gobject-introspection-upgrade-1.78.1-1.80.1.patch
+    - apply the patch: git am 0001-dropbear-upgrade-2024.84-2024.85.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,358 +72,325 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 17165e52ac785ac5cce7c867096c8761aa6834ea Mon Sep 17 00:00:00 2001
+From 200af49f572c2eba4b215730c54e658006c1e686 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 09:19:13 +0000
-Subject: [PATCH] gobject-introspection: upgrade 1.78.1 -> 1.80.1
+Date: Wed, 1 May 2024 05:17:56 +0000
+Subject: [PATCH] dropbear: upgrade 2024.84 -> 2024.85
 
 ---
- ...e-the-repository-directory-for-native-builds.patch | 11 +++++------
- ...tion_1.78.1.bb => gobject-introspection_1.80.1.bb} |  2 +-
- 2 files changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.78.1.bb => gobject-introspection_1.80.1.bb} (99%)
+ .../0001-urandom-xauth-changes-to-options.h.patch   |  8 ++++----
+ .../dropbear/0005-dropbear-enable-pam.patch         | 13 +++++--------
+ .../dropbear/0006-dropbear-configuration-file.patch | 11 ++++-------
+ .../dropbear/dropbear-disable-weak-ciphers.patch    |  9 +++------
+ .../{dropbear_2024.84.bb => dropbear_2024.85.bb}    |  2 +-
+ 5 files changed, 17 insertions(+), 26 deletions(-)
+ rename meta/recipes-core/dropbear/{dropbear_2024.84.bb => dropbear_2024.85.bb} (98%)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-index c9e1afffd0..c63d81bb97 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-@@ -1,4 +1,4 @@
--From aeb5532f8be42d42f4e8725ca42e239b36983a4d Mon Sep 17 00:00:00 2001
-+From fda03337b512f8c54c4996d81b347adbb8e0fee8 Mon Sep 17 00:00:00 2001
- From: Sascha Silbe <x-yo17@se-silbe.de>
- Date: Fri, 8 Jun 2018 13:55:10 +0200
- Subject: [PATCH] Relocate the repository directory for native builds
-@@ -14,14 +14,13 @@ cache or sstate mirror).
+diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
+index c74f09e484..0cf572a02a 100644
+--- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
++++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
+@@ -1,4 +1,7 @@
+-Subject: [PATCH 1/6] urandom-xauth-changes-to-options.h
++From 431c421cf3ad93f580efd401e0ad8d9fa08d3f3d Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard@openedhand.com>
++Date: Wed, 31 Aug 2005 10:45:47 +0000
++Subject: [PATCH] urandom-xauth-changes-to-options.h
  
- Upstream-Status: Inappropriate
- Signed-off-by: Sascha Silbe <x-yo17@se-silbe.de>
--
+ Upstream-Status: Inappropriate [configuration]
  ---
-  girepository/girepository.c | 15 +++++++++++++--
-  girepository/meson.build    |  2 +-
-  2 files changed, 14 insertions(+), 3 deletions(-)
+@@ -18,6 +21,3 @@ index 6e970bb..ccc8b47 100644
+  
+  
+  /* If you want to enable running an sftp server (such as the one included with
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
+index fe667ddc25..ee7d46ed17 100644
+--- a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
++++ b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
+@@ -1,7 +1,7 @@
+-From b8cece92ba19aa77ac013ea161bfe4c7147747c9 Mon Sep 17 00:00:00 2001
++From 70959c18d1fd89329e6bdd3d782929dc60ce8449 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Wed, 2 Dec 2015 11:36:02 +0200
+-Subject: Enable pam
++Subject: [PATCH] Enable pam
  
- diff --git a/girepository/girepository.c b/girepository/girepository.c
--index a0754f4..2d456f9 100644
-+index 12eaf36..876382c 100644
- --- a/girepository/girepository.c
- +++ b/girepository/girepository.c
- @@ -21,6 +21,8 @@
-@@ -42,7 +41,7 @@ index a0754f4..2d456f9 100644
-  /**
-   * SECTION:girepository
-   * @short_description: GObject Introspection repository manager
--@@ -215,9 +219,16 @@ init_globals (void)
-+@@ -222,9 +226,16 @@ init_globals (void)
-            g_free (custom_dirs);
-          }
+ We need modify file default_options.h besides enabling pam in
+ configure if we want dropbear to support pam.
+@@ -15,10 +15,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/src/default_options.h b/src/default_options.h
+-index 0e3d027..349338c 100644
++index ccc8b47..12768d1 100644
+ --- a/src/default_options.h
+ +++ b/src/default_options.h
+-@@ -210,7 +210,7 @@ group1 in Dropbear server too */
++@@ -228,7 +228,7 @@ group1 in Dropbear server too */
   
-@@ -62,10 +61,10 @@ index a0754f4..2d456f9 100644
-        typelib_search_path = g_slist_prepend (typelib_search_path, typelib_dir);
+  /* Authentication Types - at least one required.
+     RFC Draft requires pubkey auth, and recommends password */
+@@ -27,7 +27,7 @@ index 0e3d027..349338c 100644
   
- diff --git a/girepository/meson.build b/girepository/meson.build
--index 786749a..15cf2a9 100644
-+index 5ced59e..a580d9b 100644
- --- a/girepository/meson.build
- +++ b/girepository/meson.build
--@@ -45,7 +45,7 @@ girepo_internals_lib = static_library('girepository-internals',
-+@@ -47,7 +47,7 @@ girepo_internals_lib = static_library('girepository-internals',
-    ],
-    c_args: gi_hidden_visibility_cflags + custom_c_args,
-    include_directories : configinc,
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-similarity index 99%
-rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb
-rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-index 05a08a50e0..6c72d27379 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+  /* Note: PAM auth is quite simple and only works for PAM modules which just do
+   * a simple "Login: " "Password: " (you can edit the strings in svr-authpam.c).
+-@@ -218,7 +218,7 @@ group1 in Dropbear server too */
++@@ -236,7 +236,7 @@ group1 in Dropbear server too */
+   * but there's an interface via a PAM module. It won't work for more complex
+   * PAM challenge/response.
+   * You can't enable both PASSWORD and PAM. */
+@@ -36,6 +36,3 @@ index 0e3d027..349338c 100644
+  
+  /* ~/.ssh/authorized_keys authentication.
+   * You must define DROPBEAR_SVR_PUBKEY_AUTH in order to use plugins. */
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
+index f54f634a4e..40f36d1362 100644
+--- a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
++++ b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
+@@ -1,4 +1,4 @@
+-From e3a5db1b6d3f6382a15b2266458c26c645a10f18 Mon Sep 17 00:00:00 2001
++From 94873be8ee31d9ea0adc3c5eeb7ba08124640ed2 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <Mingli.Yu@windriver.com>
+ Date: Thu, 6 Sep 2018 15:54:00 +0800
+ Subject: [PATCH] dropbear configuration file
+@@ -15,11 +15,11 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+  src/svr-authpam.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/srec/svr-authpam.c b/src/svr-authpam.c
+-index d201bc9..165ec5c 100644
++diff --git a/src/svr-authpam.c b/src/svr-authpam.c
++index ec14632..026102f 100644
+ --- a/src/svr-authpam.c
+ +++ b/src/svr-authpam.c
+-@@ -223,7 +223,7 @@ void svr_auth_pam(int valid_user) {
++@@ -224,7 +224,7 @@ void svr_auth_pam(int valid_user) {
+  	}
+  
+  	/* Init pam */
+@@ -28,6 +28,3 @@ index d201bc9..165ec5c 100644
+  		dropbear_log(LOG_WARNING, "pam_start() failed, rc=%d, %s", 
+  				rc, pam_strerror(pamHandlep, rc));
+  		goto cleanup;
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch b/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
+index f998caa255..5946d051f2 100644
+--- a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
++++ b/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
+@@ -1,4 +1,4 @@
+-From c347ece05a7fdbf50d76cb136b9ed45caed333f6 Mon Sep 17 00:00:00 2001
++From e7f91072fb5be30ad83acb8d0f0f0fc7a20f7617 Mon Sep 17 00:00:00 2001
+ From: Joseph Reynolds <joseph.reynolds1@ibm.com>
+ Date: Thu, 20 Jun 2019 16:29:15 -0500
+ Subject: [PATCH] dropbear: new feature: disable-weak-ciphers
+@@ -14,10 +14,10 @@ Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/default_options.h b/src/default_options.h
+-index d417588..bc5200f 100644
++index 12768d1..2b07497 100644
+ --- a/src/default_options.h
+ +++ b/src/default_options.h
+-@@ -180,7 +180,7 @@ IMPORTANT: Some options will require "make clean" after changes */
++@@ -197,7 +197,7 @@ IMPORTANT: Some options will require "make clean" after changes */
+   * Small systems should generally include either curve25519 or ecdh for performance.
+   * curve25519 is less widely supported but is faster
+   */
+@@ -26,6 +26,3 @@ index d417588..bc5200f 100644
+  #define DROPBEAR_DH_GROUP14_SHA256 1
+  #define DROPBEAR_DH_GROUP16 0
+  #define DROPBEAR_CURVE25519 1
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/dropbear/dropbear_2024.84.bb b/meta/recipes-core/dropbear/dropbear_2024.85.bb
+similarity index 98%
+rename from meta/recipes-core/dropbear/dropbear_2024.84.bb
+rename to meta/recipes-core/dropbear/dropbear_2024.85.bb
+index 69c7b04c55..90e3f1d0bd 100644
+--- a/meta/recipes-core/dropbear/dropbear_2024.84.bb
++++ b/meta/recipes-core/dropbear/dropbear_2024.85.bb
+@@ -23,7 +23,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
             "
  
--SRC_URI[sha256sum] = "bd7babd99af7258e76819e45ba4a6bc399608fe762d83fde3cac033c50841bb4"
-+SRC_URI[sha256sum] = "a1df7c424e15bda1ab639c00e9051b9adf5cea1a9e512f8a603b53cd199bc6d8"
+-SRC_URI[sha256sum] = "16e22b66b333d6b7e504c43679d04ed6ca30f2838db40a21f935c850dfc01009"
++SRC_URI[sha256sum] = "86b036c433a69d89ce51ebae335d65c47738ccf90d13e5eb0fea832e556da502"
  
- SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
- 
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+                file://0006-dropbear-configuration-file.patch \
 -- 
 2.44.0
 
 
---===============0395911314217839941==
+--===============1209695059728147877==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/dropbear/dropbear-dbg: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-dbg: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear-dev: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-dev: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear-doc: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-doc: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear-locale: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-locale: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear-src: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-src: PKGSIZE changed from 1411613 to 1411745 (+0%)
+packages/core2-64-poky-linux/dropbear/dropbear-src: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear-staticdev: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear-staticdev: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear/dropbear: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear/dropbear: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear: PV changed from "2024.84" to "2024.85"
+packages/core2-64-poky-linux/dropbear: PKGV changed from 2024.84 [default] to 2024.85 [default]
+packages/core2-64-poky-linux/dropbear: SRC_URI changed from "http://matt.ucc.asn.au/dropbear/releases/dropbear-2024.84.tar.bz2 file://0001-urandom-xauth-changes-to-options.h.patch file://init file://dropbearkey.service file://dropbear@.service file://dropbear.socket file://dropbear.default file://0005-dropbear-enable-pam.patch file://0006-dropbear-configuration-file.patch file://dropbear file://dropbear-disable-weak-ciphers.patch" to "http://matt.ucc.asn.au/dropbear/releases/dropbear-2024.85.tar.bz2 file://0001-urandom-xauth-changes-to-options.h.patch file://init file://dropbearkey.service file://dropbear@.service file://dropbear.socket file://dropbear.default file://0005-dropbear-enable-pam.patch file://0006-dropbear-configuration-file.patch file://dropbear file://dropbear-disable-weak-ciphers.patch"
 
-Build Configuration:
-BB_VERSION           = "2.9.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-c87988fde2c49bbdd77110361cde76eaf32c4135"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c87988fde2c49bbdd77110361cde76eaf32c4135"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 300 Local 287 Mirrors 0 Missed 13 Current 397 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 491 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 498 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 500 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 642 of 697 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_recipe_qa_setscene)
-NOTE: Running task 1028 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_write_config)
-NOTE: Running task 1036 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 666 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_write_config: Succeeded
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 672 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 674 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running task 1170 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_fetch)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_write_config: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1172 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_fetch)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_fetch: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 682 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1181 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1182 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_unpack)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 687 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_unpack: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1185 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_patch)
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 692 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1202 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_patch)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_patch: Succeeded
-NOTE: Running task 1203 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_patch: Succeeded
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1755 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1934 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_collect_spdx_deps)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_deploy_source_date_epoch unihash changed to 69d7636777d62f00611edae253e98f1be3aeb8c0ff6690da2d348d2647eef95a
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_collect_spdx_deps: Started
-NOTE: Setscene tasks completed
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1946 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_configure)
-NOTE: Running task 1947 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_create_spdx)
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_create_spdx: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1948 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_collect_spdx_deps)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_collect_spdx_deps: Succeeded
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:nat
- ive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'cmake-native', 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'bison-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'perl-native', 'pkgconfig-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'gtk-doc-native', 'gdbm-native', 'libcap-ng-native', 'libffi-native', 'libpcre2-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dgtk_doc=false -Ddoctool=disabled...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/gobject-introspection-1.80.1
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/build
-| Build type: native build
-| Project name: gobject-introspection
-| Project version: 1.80.1
-| C compiler for the host machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the host machine: gcc ld.bfd 2.42.0.20240216
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Program python3 found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/recipe-sysroot-native/usr/bin/python3-native/python3)
-| Program python3 (setuptools) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/recipe-sysroot-native/usr/bin/python3-native/python3) modules: setuptools
-| Compiler for C supports arguments -Warray-bounds: YES
-| Compiler for C supports arguments -Wcast-align: YES
-| Compiler for C supports arguments -Wduplicated-branches: YES
-| Compiler for C supports arguments -Wformat=2: YES
-| Compiler for C supports arguments -Wformat-nonliteral: YES
-| Compiler for C supports arguments -Wformat-security: YES
-| Compiler for C supports arguments -Wimplicit-function-declaration: YES
-| Compiler for C supports arguments -Winit-self: YES
-| Compiler for C supports arguments -Wjump-misses-init: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wnull-dereference: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Wpacked: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wrestrict: YES
-| Compiler for C supports arguments -Wreturn-type: YES
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wsign-compare: YES
-| Compiler for C supports arguments -Wstrict-aliasing: YES
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wunused-but-set-variable: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Checking for size of "char" : 1
-| Checking for size of "short" : 2
-| Checking for size of "int" : 4
-| Checking for size of "long" : 8
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/recipe-sysroot-native/usr/bin/pkg-config-native) 0.29.2
-| Dependency glib-2.0 found: NO found 2.78.4 but need: '>=2.80.0'
-| Found CMake: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/recipe-sysroot-native/usr/bin/cmake (3.28.3)
-| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency glib-2.0
-| 
-| ../gobject-introspection-1.80.1/meson.build:134:11: ERROR: Automatic wrap-based subproject downloading is disabled
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801:177 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801, line 177
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801, line 166
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801, line 155
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801, line 190
-NOTE: recipe gobject-introspection-native-1.80.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1948 tasks of which 1934 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501091848.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501091848.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gobject-introspection-native-1.80.1-r0 do_configure: meson failed
-ERROR: gobject-introspection-native-1.80.1-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/run.do_configure.1431801', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.1/temp/log.do_configure.1431801
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_configure) failed with exit code '1'
-
---===============0395911314217839941==
+--===============1209695059728147877==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gobject-introspection-upgrade-1.78.1-1.80.1.patch"
+ filename="0001-dropbear-upgrade-2024.84-2024.85.patch"
 
-RnJvbSAxNzE2NWU1MmFjNzg1YWM1Y2NlN2M4NjcwOTZjODc2MWFhNjgzNGVhIE1vbiBTZXAgMTcg
+RnJvbSAyMDBhZjQ5ZjU3MmMyZWJhNGIyMTU3MzBjNTRlNjU4MDA2YzFlNjg2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAwOToxOToxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
-YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjc4LjEgLT4gMS44MC4xCgotLS0KIC4uLmUt
-dGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoIHwgMTEgKysr
-KystLS0tLS0KIC4uLnRpb25fMS43OC4xLmJiID0+IGdvYmplY3QtaW50cm9zcGVjdGlvbl8xLjgw
-LjEuYmJ9IHwgIDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA3IGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24v
-e2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc4LjEuYmIgPT4gZ29iamVjdC1pbnRyb3NwZWN0aW9u
-XzEuODAuMS5iYn0gKDk5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVj
-dC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1y
-ZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uLzAwMDEt
-UmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNo
-CmluZGV4IGM5ZTFhZmZmZDAuLmM2M2Q4MWJiOTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
-bm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uLzAwMDEtUmVs
-b2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRy
-b3NwZWN0aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRp
-dmUtYnVpbGRzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhZWI1NTMyZjhiZTQyZDQyZjRl
-ODcyNWNhNDJlMjM5YjM2OTgzYTRkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmZGEw
-MzMzN2I1MTJmOGM1NGM0OTk2ZDgxYjM0N2FkYmI4ZTBmZWU4IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogU2FzY2hhIFNpbGJlIDx4LXlvMTdAc2Utc2lsYmUuZGU+CiBEYXRlOiBGcmks
-IDggSnVuIDIwMTggMTM6NTU6MTAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmVsb2NhdGUgdGhl
-IHJlcG9zaXRvcnkgZGlyZWN0b3J5IGZvciBuYXRpdmUgYnVpbGRzCkBAIC0xNCwxNCArMTQsMTMg
-QEAgY2FjaGUgb3Igc3N0YXRlIG1pcnJvcikuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3By
-aWF0ZQogU2lnbmVkLW9mZi1ieTogU2FzY2hhIFNpbGJlIDx4LXlvMTdAc2Utc2lsYmUuZGU+Ci0K
-IC0tLQogIGdpcmVwb3NpdG9yeS9naXJlcG9zaXRvcnkuYyB8IDE1ICsrKysrKysrKysrKystLQog
-IGdpcmVwb3NpdG9yeS9tZXNvbi5idWlsZCAgICB8ICAyICstCiAgMiBmaWxlcyBjaGFuZ2VkLCAx
-NCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvZ2lyZXBvc2l0
-b3J5L2dpcmVwb3NpdG9yeS5jIGIvZ2lyZXBvc2l0b3J5L2dpcmVwb3NpdG9yeS5jCi1pbmRleCBh
-MDc1NGY0Li4yZDQ1NmY5IDEwMDY0NAoraW5kZXggMTJlYWYzNi4uODc2MzgyYyAxMDA2NDQKIC0t
-LSBhL2dpcmVwb3NpdG9yeS9naXJlcG9zaXRvcnkuYwogKysrIGIvZ2lyZXBvc2l0b3J5L2dpcmVw
-b3NpdG9yeS5jCiBAQCAtMjEsNiArMjEsOCBAQApAQCAtNDIsNyArNDEsNyBAQCBpbmRleCBhMDc1
-NGY0Li4yZDQ1NmY5IDEwMDY0NAogIC8qKgogICAqIFNFQ1RJT046Z2lyZXBvc2l0b3J5CiAgICog
-QHNob3J0X2Rlc2NyaXB0aW9uOiBHT2JqZWN0IEludHJvc3BlY3Rpb24gcmVwb3NpdG9yeSBtYW5h
-Z2VyCi1AQCAtMjE1LDkgKzIxOSwxNiBAQCBpbml0X2dsb2JhbHMgKHZvaWQpCitAQCAtMjIyLDkg
-KzIyNiwxNiBAQCBpbml0X2dsb2JhbHMgKHZvaWQpCiAgICAgICAgICAgIGdfZnJlZSAoY3VzdG9t
-X2RpcnMpOwogICAgICAgICAgfQogIApAQCAtNjIsMTAgKzYxLDEwIEBAIGluZGV4IGEwNzU0ZjQu
-LjJkNDU2ZjkgMTAwNjQ0CiAgICAgICAgdHlwZWxpYl9zZWFyY2hfcGF0aCA9IGdfc2xpc3RfcHJl
-cGVuZCAodHlwZWxpYl9zZWFyY2hfcGF0aCwgdHlwZWxpYl9kaXIpOwogIAogZGlmZiAtLWdpdCBh
-L2dpcmVwb3NpdG9yeS9tZXNvbi5idWlsZCBiL2dpcmVwb3NpdG9yeS9tZXNvbi5idWlsZAotaW5k
-ZXggNzg2NzQ5YS4uMTVjZjJhOSAxMDA2NDQKK2luZGV4IDVjZWQ1OWUuLmE1ODBkOWIgMTAwNjQ0
-CiAtLS0gYS9naXJlcG9zaXRvcnkvbWVzb24uYnVpbGQKICsrKyBiL2dpcmVwb3NpdG9yeS9tZXNv
-bi5idWlsZAotQEAgLTQ1LDcgKzQ1LDcgQEAgZ2lyZXBvX2ludGVybmFsc19saWIgPSBzdGF0aWNf
-bGlicmFyeSgnZ2lyZXBvc2l0b3J5LWludGVybmFscycsCitAQCAtNDcsNyArNDcsNyBAQCBnaXJl
-cG9faW50ZXJuYWxzX2xpYiA9IHN0YXRpY19saWJyYXJ5KCdnaXJlcG9zaXRvcnktaW50ZXJuYWxz
-JywKICAgIF0sCiAgICBjX2FyZ3M6IGdpX2hpZGRlbl92aXNpYmlsaXR5X2NmbGFncyArIGN1c3Rv
-bV9jX2FyZ3MsCiAgICBpbmNsdWRlX2RpcmVjdG9yaWVzIDogY29uZmlnaW5jLApkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJv
-c3BlY3Rpb25fMS43OC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVj
-dGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS44MC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTkl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29i
-amVjdC1pbnRyb3NwZWN0aW9uXzEuNzguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21l
-L2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS44MC4xLmJiCmlu
-ZGV4IDA1YTA4YTUwZTAuLjZjNzJkMjczNzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9t
-ZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuNzguMS5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
-cm9zcGVjdGlvbl8xLjgwLjEuYmIKQEAgLTE2LDcgKzE2LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vQ09QWUlORzttZDU9YzQzNGU4MTI4YTY4YmVkZDU5YjgwYjJhYzFlYjFjNGEgXAog
-U1JDX1VSSSA9ICIke0dOT01FX01JUlJPUn0vJHtCUE59LyR7QG9lLnV0aWxzLnRyaW1fdmVyc2lv
-bigiJHtQVn0iLCAyKX0vJHtCUE59LSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgICIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImJkN2JhYmQ5OWFmNzI1OGU3NjgxOWU0NWJhNGE2YmMzOTk2MDhm
-ZTc2MmQ4M2ZkZTNjYWMwMzNjNTA4NDFiYjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTFkZjdj
-NDI0ZTE1YmRhMWFiNjM5YzAwZTkwNTFiOWFkZjVjZWExYTllNTEyZjhhNjAzYjUzY2QxOTliYzZk
-OCIKIAogU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1SZWxvY2F0
-ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2giCiAKLS0g
-CjIuNDQuMAoK
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAwNToxNzo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRy
+b3BiZWFyOiB1cGdyYWRlIDIwMjQuODQgLT4gMjAyNC44NQoKLS0tCiAuLi4vMDAwMS11cmFuZG9t
+LXhhdXRoLWNoYW5nZXMtdG8tb3B0aW9ucy5oLnBhdGNoICAgfCAgOCArKysrLS0tLQogLi4uL2Ry
+b3BiZWFyLzAwMDUtZHJvcGJlYXItZW5hYmxlLXBhbS5wYXRjaCAgICAgICAgIHwgMTMgKysrKyst
+LS0tLS0tLQogLi4uL2Ryb3BiZWFyLzAwMDYtZHJvcGJlYXItY29uZmlndXJhdGlvbi1maWxlLnBh
+dGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi9kcm9wYmVhci9kcm9wYmVhci1kaXNhYmxlLXdlYWst
+Y2lwaGVycy5wYXRjaCAgICB8ICA5ICsrKy0tLS0tLQogLi4uL3tkcm9wYmVhcl8yMDI0Ljg0LmJi
+ID0+IGRyb3BiZWFyXzIwMjQuODUuYmJ9ICAgIHwgIDIgKy0KIDUgZmlsZXMgY2hhbmdlZCwgMTcg
+aW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUv
+ZHJvcGJlYXIve2Ryb3BiZWFyXzIwMjQuODQuYmIgPT4gZHJvcGJlYXJfMjAyNC44NS5iYn0gKDk4
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDAx
+LXVyYW5kb20teGF1dGgtY2hhbmdlcy10by1vcHRpb25zLmgucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Y29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDAxLXVyYW5kb20teGF1dGgtY2hhbmdlcy10by1vcHRp
+b25zLmgucGF0Y2gKaW5kZXggYzc0ZjA5ZTQ4NC4uMGNmNTcyYTAyYSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwMS11cmFuZG9tLXhhdXRoLWNoYW5n
+ZXMtdG8tb3B0aW9ucy5oLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ry
+b3BiZWFyLzAwMDEtdXJhbmRvbS14YXV0aC1jaGFuZ2VzLXRvLW9wdGlvbnMuaC5wYXRjaApAQCAt
+MSw0ICsxLDcgQEAKLVN1YmplY3Q6IFtQQVRDSCAxLzZdIHVyYW5kb20teGF1dGgtY2hhbmdlcy10
+by1vcHRpb25zLmgKK0Zyb20gNDMxYzQyMWNmM2FkOTNmNTgwZWZkNDAxZTBhZDhkOWZhMDhkM2Yz
+ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJk
+QG9wZW5lZGhhbmQuY29tPgorRGF0ZTogV2VkLCAzMSBBdWcgMjAwNSAxMDo0NTo0NyArMDAwMAor
+U3ViamVjdDogW1BBVENIXSB1cmFuZG9tLXhhdXRoLWNoYW5nZXMtdG8tb3B0aW9ucy5oCiAKIFVw
+c3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbY29uZmlndXJhdGlvbl0KIC0tLQpAQCAtMTgs
+NiArMjEsMyBAQCBpbmRleCA2ZTk3MGJiLi5jY2M4YjQ3IDEwMDY0NAogIAogIAogIC8qIElmIHlv
+dSB3YW50IHRvIGVuYWJsZSBydW5uaW5nIGFuIHNmdHAgc2VydmVyIChzdWNoIGFzIHRoZSBvbmUg
+aW5jbHVkZWQgd2l0aAotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
+cmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwNS1kcm9wYmVhci1lbmFibGUtcGFtLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwNS1kcm9wYmVhci1lbmFibGUtcGFt
+LnBhdGNoCmluZGV4IGZlNjY3ZGRjMjUuLmVlN2Q0NmVkMTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLzAwMDUtZHJvcGJlYXItZW5hYmxlLXBhbS5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDA1LWRyb3BiZWFy
+LWVuYWJsZS1wYW0ucGF0Y2gKQEAgLTEsNyArMSw3IEBACi1Gcm9tIGI4Y2VjZTkyYmExOWFhNzdh
+YzAxM2VhMTYxYmZlNGM3MTQ3NzQ3YzkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDcw
+OTU5YzE4ZDFmZDg5MzI5ZTZiZGQzZDc4MjkyOWRjNjBjZTg0NDkgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBKdXNzaSBLdWtrb25lbiA8anVzc2kua3Vra29uZW5AaW50ZWwuY29tPgog
+RGF0ZTogV2VkLCAyIERlYyAyMDE1IDExOjM2OjAyICswMjAwCi1TdWJqZWN0OiBFbmFibGUgcGFt
+CitTdWJqZWN0OiBbUEFUQ0hdIEVuYWJsZSBwYW0KIAogV2UgbmVlZCBtb2RpZnkgZmlsZSBkZWZh
+dWx0X29wdGlvbnMuaCBiZXNpZGVzIGVuYWJsaW5nIHBhbSBpbgogY29uZmlndXJlIGlmIHdlIHdh
+bnQgZHJvcGJlYXIgdG8gc3VwcG9ydCBwYW0uCkBAIC0xNSwxMCArMTUsMTAgQEAgU2lnbmVkLW9m
+Zi1ieTogSnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNvbT4KICAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEv
+c3JjL2RlZmF1bHRfb3B0aW9ucy5oIGIvc3JjL2RlZmF1bHRfb3B0aW9ucy5oCi1pbmRleCAwZTNk
+MDI3Li4zNDkzMzhjIDEwMDY0NAoraW5kZXggY2NjOGI0Ny4uMTI3NjhkMSAxMDA2NDQKIC0tLSBh
+L3NyYy9kZWZhdWx0X29wdGlvbnMuaAogKysrIGIvc3JjL2RlZmF1bHRfb3B0aW9ucy5oCi1AQCAt
+MjEwLDcgKzIxMCw3IEBAIGdyb3VwMSBpbiBEcm9wYmVhciBzZXJ2ZXIgdG9vICovCitAQCAtMjI4
+LDcgKzIyOCw3IEBAIGdyb3VwMSBpbiBEcm9wYmVhciBzZXJ2ZXIgdG9vICovCiAgCiAgLyogQXV0
+aGVudGljYXRpb24gVHlwZXMgLSBhdCBsZWFzdCBvbmUgcmVxdWlyZWQuCiAgICAgUkZDIERyYWZ0
+IHJlcXVpcmVzIHB1YmtleSBhdXRoLCBhbmQgcmVjb21tZW5kcyBwYXNzd29yZCAqLwpAQCAtMjcs
+NyArMjcsNyBAQCBpbmRleCAwZTNkMDI3Li4zNDkzMzhjIDEwMDY0NAogIAogIC8qIE5vdGU6IFBB
+TSBhdXRoIGlzIHF1aXRlIHNpbXBsZSBhbmQgb25seSB3b3JrcyBmb3IgUEFNIG1vZHVsZXMgd2hp
+Y2gganVzdCBkbwogICAqIGEgc2ltcGxlICJMb2dpbjogIiAiUGFzc3dvcmQ6ICIgKHlvdSBjYW4g
+ZWRpdCB0aGUgc3RyaW5ncyBpbiBzdnItYXV0aHBhbS5jKS4KLUBAIC0yMTgsNyArMjE4LDcgQEAg
+Z3JvdXAxIGluIERyb3BiZWFyIHNlcnZlciB0b28gKi8KK0BAIC0yMzYsNyArMjM2LDcgQEAgZ3Jv
+dXAxIGluIERyb3BiZWFyIHNlcnZlciB0b28gKi8KICAgKiBidXQgdGhlcmUncyBhbiBpbnRlcmZh
+Y2UgdmlhIGEgUEFNIG1vZHVsZS4gSXQgd29uJ3Qgd29yayBmb3IgbW9yZSBjb21wbGV4CiAgICog
+UEFNIGNoYWxsZW5nZS9yZXNwb25zZS4KICAgKiBZb3UgY2FuJ3QgZW5hYmxlIGJvdGggUEFTU1dP
+UkQgYW5kIFBBTS4gKi8KQEAgLTM2LDYgKzM2LDMgQEAgaW5kZXggMGUzZDAyNy4uMzQ5MzM4YyAx
+MDA2NDQKICAKICAvKiB+Ly5zc2gvYXV0aG9yaXplZF9rZXlzIGF1dGhlbnRpY2F0aW9uLgogICAq
+IFlvdSBtdXN0IGRlZmluZSBEUk9QQkVBUl9TVlJfUFVCS0VZX0FVVEggaW4gb3JkZXIgdG8gdXNl
+IHBsdWdpbnMuICovCi0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29y
+ZS9kcm9wYmVhci9kcm9wYmVhci8wMDA2LWRyb3BiZWFyLWNvbmZpZ3VyYXRpb24tZmlsZS5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLzAwMDYtZHJvcGJlYXItY29u
+ZmlndXJhdGlvbi1maWxlLnBhdGNoCmluZGV4IGY1NGY2MzRhNGUuLjQwZjM2ZDEzNjIgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLzAwMDYtZHJvcGJlYXIt
+Y29uZmlndXJhdGlvbi1maWxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFy
+L2Ryb3BiZWFyLzAwMDYtZHJvcGJlYXItY29uZmlndXJhdGlvbi1maWxlLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSBlM2E1ZGIxYjZkM2Y2MzgyYTE1YjIyNjY0NThjMjZjNjQ1YTEwZjE4IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NDg3M2JlOGVlMzFkOWVhMGFkYzNjNWVlYjdi
+YTA4MTI0NjQwZWQyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxN
+aW5nbGkuWXVAd2luZHJpdmVyLmNvbT4KIERhdGU6IFRodSwgNiBTZXAgMjAxOCAxNTo1NDowMCAr
+MDgwMAogU3ViamVjdDogW1BBVENIXSBkcm9wYmVhciBjb25maWd1cmF0aW9uIGZpbGUKQEAgLTE1
+LDExICsxNSwxMSBAQCBTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPE1pbmdsaS5ZdUB3aW5kcml2
+ZXIuY29tPgogIHNyYy9zdnItYXV0aHBhbS5jIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCi1kaWZmIC0tZ2l0IGEvc3JlYy9zdnItYXV0aHBh
+bS5jIGIvc3JjL3N2ci1hdXRocGFtLmMKLWluZGV4IGQyMDFiYzkuLjE2NWVjNWMgMTAwNjQ0Citk
+aWZmIC0tZ2l0IGEvc3JjL3N2ci1hdXRocGFtLmMgYi9zcmMvc3ZyLWF1dGhwYW0uYworaW5kZXgg
+ZWMxNDYzMi4uMDI2MTAyZiAxMDA2NDQKIC0tLSBhL3NyYy9zdnItYXV0aHBhbS5jCiArKysgYi9z
+cmMvc3ZyLWF1dGhwYW0uYwotQEAgLTIyMyw3ICsyMjMsNyBAQCB2b2lkIHN2cl9hdXRoX3BhbShp
+bnQgdmFsaWRfdXNlcikgeworQEAgLTIyNCw3ICsyMjQsNyBAQCB2b2lkIHN2cl9hdXRoX3BhbShp
+bnQgdmFsaWRfdXNlcikgewogIAl9CiAgCiAgCS8qIEluaXQgcGFtICovCkBAIC0yOCw2ICsyOCwz
+IEBAIGluZGV4IGQyMDFiYzkuLjE2NWVjNWMgMTAwNjQ0CiAgCQlkcm9wYmVhcl9sb2coTE9HX1dB
+Uk5JTkcsICJwYW1fc3RhcnQoKSBmYWlsZWQsIHJjPSVkLCAlcyIsIAogIAkJCQlyYywgcGFtX3N0
+cmVycm9yKHBhbUhhbmRsZXAsIHJjKSk7CiAgCQlnb3RvIGNsZWFudXA7Ci0tLSAKLTIuNy40Ci0K
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyL2Ryb3BiZWFy
+LWRpc2FibGUtd2Vhay1jaXBoZXJzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIv
+ZHJvcGJlYXIvZHJvcGJlYXItZGlzYWJsZS13ZWFrLWNpcGhlcnMucGF0Y2gKaW5kZXggZjk5OGNh
+YTI1NS4uNTk0NmQwNTFmMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIv
+ZHJvcGJlYXIvZHJvcGJlYXItZGlzYWJsZS13ZWFrLWNpcGhlcnMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvZHJvcGJlYXItZGlzYWJsZS13ZWFrLWNpcGhl
+cnMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGMzNDdlY2UwNWE3ZmRiZjUwZDc2Y2IxMzZi
+OWVkNDVjYWVkMzMzZjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGU3ZjkxMDcyZmI1
+YmUzMGFkODNhY2I4ZDBmMGYwZmM3YTIwZjc2MTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBKb3NlcGggUmV5bm9sZHMgPGpvc2VwaC5yZXlub2xkczFAaWJtLmNvbT4KIERhdGU6IFRo
+dSwgMjAgSnVuIDIwMTkgMTY6Mjk6MTUgLTA1MDAKIFN1YmplY3Q6IFtQQVRDSF0gZHJvcGJlYXI6
+IG5ldyBmZWF0dXJlOiBkaXNhYmxlLXdlYWstY2lwaGVycwpAQCAtMTQsMTAgKzE0LDEwIEBAIFNp
+Z25lZC1vZmYtYnk6IEpvc2VwaCBSZXlub2xkcyA8am9zZXBoLnJleW5vbGRzMUBpYm0uY29tPgog
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0t
+Z2l0IGEvc3JjL2RlZmF1bHRfb3B0aW9ucy5oIGIvc3JjL2RlZmF1bHRfb3B0aW9ucy5oCi1pbmRl
+eCBkNDE3NTg4Li5iYzUyMDBmIDEwMDY0NAoraW5kZXggMTI3NjhkMS4uMmIwNzQ5NyAxMDA2NDQK
+IC0tLSBhL3NyYy9kZWZhdWx0X29wdGlvbnMuaAogKysrIGIvc3JjL2RlZmF1bHRfb3B0aW9ucy5o
+Ci1AQCAtMTgwLDcgKzE4MCw3IEBAIElNUE9SVEFOVDogU29tZSBvcHRpb25zIHdpbGwgcmVxdWly
+ZSAibWFrZSBjbGVhbiIgYWZ0ZXIgY2hhbmdlcyAqLworQEAgLTE5Nyw3ICsxOTcsNyBAQCBJTVBP
+UlRBTlQ6IFNvbWUgb3B0aW9ucyB3aWxsIHJlcXVpcmUgIm1ha2UgY2xlYW4iIGFmdGVyIGNoYW5n
+ZXMgKi8KICAgKiBTbWFsbCBzeXN0ZW1zIHNob3VsZCBnZW5lcmFsbHkgaW5jbHVkZSBlaXRoZXIg
+Y3VydmUyNTUxOSBvciBlY2RoIGZvciBwZXJmb3JtYW5jZS4KICAgKiBjdXJ2ZTI1NTE5IGlzIGxl
+c3Mgd2lkZWx5IHN1cHBvcnRlZCBidXQgaXMgZmFzdGVyCiAgICovCkBAIC0yNiw2ICsyNiwzIEBA
+IGluZGV4IGQ0MTc1ODguLmJjNTIwMGYgMTAwNjQ0CiAgI2RlZmluZSBEUk9QQkVBUl9ESF9HUk9V
+UDE0X1NIQTI1NiAxCiAgI2RlZmluZSBEUk9QQkVBUl9ESF9HUk9VUDE2IDAKICAjZGVmaW5lIERS
+T1BCRUFSX0NVUlZFMjU1MTkgMQotLS0gCi0yLjI1LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXJfMjAyNC44NC5iYiBiL21ldGEvcmVjaXBlcy1jb3Jl
+L2Ryb3BiZWFyL2Ryb3BiZWFyXzIwMjQuODUuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXJfMjAyNC44NC5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXJfMjAyNC44NS5iYgppbmRl
+eCA2OWM3YjA0YzU1Li45MGUzZjFkMGJkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9k
+cm9wYmVhci9kcm9wYmVhcl8yMDI0Ljg0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3Bi
+ZWFyL2Ryb3BiZWFyXzIwMjQuODUuYmIKQEAgLTIzLDcgKzIzLDcgQEAgU1JDX1VSSSA9ICJodHRw
+Oi8vbWF0dC51Y2MuYXNuLmF1L2Ryb3BiZWFyL3JlbGVhc2VzL2Ryb3BiZWFyLSR7UFZ9LnRhci5i
+ejIgXAogICAgICAgICAgICAke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdk
+aXNhYmxlLXdlYWstY2lwaGVycycsICdmaWxlOi8vZHJvcGJlYXItZGlzYWJsZS13ZWFrLWNpcGhl
+cnMucGF0Y2gnLCAnJywgZCl9IFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMTZlMjJiNjZiMzMzZDZiN2U1MDRjNDM2NzlkMDRlZDZjYTMwZjI4MzhkYjQwYTIxZjkzNWM4
+NTBkZmMwMTAwOSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4NmIwMzZjNDMzYTY5ZDg5Y2U1MWVi
+YWUzMzVkNjVjNDc3MzhjY2Y5MGQxM2U1ZWIwZmVhODMyZTU1NmRhNTAyIgogCiBQQU1fU1JDX1VS
+SSA9ICJmaWxlOi8vMDAwNS1kcm9wYmVhci1lbmFibGUtcGFtLnBhdGNoIFwKICAgICAgICAgICAg
+ICAgIGZpbGU6Ly8wMDA2LWRyb3BiZWFyLWNvbmZpZ3VyYXRpb24tZmlsZS5wYXRjaCBcCi0tIAoy
+LjQ0LjAKCg==
 
---===============0395911314217839941==--
+--===============1209695059728147877==--
 
