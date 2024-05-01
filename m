@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F802C4345F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60756C10F1A
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 22:10:47 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.9743.1714601440474052586
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.9909.1714601440088041649
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 15:10:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NiZKrjbZ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RA/5P7pZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f3635b174-3079cff0-fccc-4db7-887b-f3fa7cc22a64-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e+hwEXJL;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=W7KS0zaC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018f3635afca-11842871-ef2c-4a0a-a6f4-a880a28cca92-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714601439; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=N33Za3GmEYsfGHTjDCxakdv9q0cy2bx7S/zt9CSIbvc=;
-	b=NiZKrjbZP8q7Ds1at2rI818CABQR6Ue/TQGdeWN/GH1dFQYj+GBSLHEPlePLOKQR
-	vYXFJcAx4olHjTJbkJdttFjz3FnBAXni7WwdIEEq9ufO9pan8pbgRVwk3W6vjVaHLvA
-	k0+G8epPEysC9sY6lYmUkELZ8J4+BL8gUNd9hPXw=
+	bh=3q3rTmBX9rLRSSmZeO9rwRsVrz35da1+Ihkp2SUgq+w=;
+	b=e+hwEXJLoonBvwY2BtfL3dFn1KyAPoIz89ZBMb2kZheGZUytOEus1HSJiE72Gqro
+	kNG52bMl7Ivn9hrMlOCcrkphyAW2/OoGTjZ9TBkr+CbnSu7tTpBPLXKPxw2rqmPewjo
+	2H3tPXWan/AQi/PH+8O4nN9aMoRr/vQYjBgiIMGQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714601439;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=N33Za3GmEYsfGHTjDCxakdv9q0cy2bx7S/zt9CSIbvc=;
-	b=RA/5P7pZkAU3mppheQbLlLdeJPc653zPnnwBKa4U99Tceu7QW8kR9/jXWl/fXAwj
-	DnpWblNbl4LFMTKvemo/nE79Px/nIKTMR4J5ngjokyronCpIROTSr7MjVAAN9SYyK5r
-	6jUy078InY2pYOBKoJoZqZLZ9c54AeHBecnOXS/c=
+	bh=3q3rTmBX9rLRSSmZeO9rwRsVrz35da1+Ihkp2SUgq+w=;
+	b=W7KS0zaCANgPUHzNXdS8b0PWB9bHVu8E2d2xj/mEd8NDchcwkPh0XYYCt8KwbpX7
+	KteTcS3QRSvfXwbRlf34x52d3BFwbvluYsIrS9N8BjO51U8xXn6klxRyw+TBxrkDhRX
+	1AAUARI0AAD+KmHx8VQM328nB8A7NCkKYp7ju5VU=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/4] recipes: Update WORKDIR references to UNPACKDIR
-In-Reply-To: <20240501215643.3386307-4-richard.purdie@linuxfoundation.org>
-References: <20240501215643.3386307-4-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 3/4] recipes: Update S = WORKDIR recipes to use ${S} correctly
+In-Reply-To: <20240501215643.3386307-3-richard.purdie@linuxfoundation.org>
+References: <20240501215643.3386307-3-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018f3635b174-3079cff0-fccc-4db7-887b-f3fa7cc22a64-000000@us-west-2.amazonses.com>
+Message-ID: <0101018f3635afca-11842871-ef2c-4a0a-a6f4-a880a28cca92-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 22:10:39 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.193
+X-SES-Outgoing: 2024.05.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 22:10:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198893
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/4-4-recipes-Update-WORKDIR-references-to-UNPACKDIR.patch
+Testing patch /home/patchtest/share/mboxes/3-4-recipes-Update-S-WORKDIR-recipes-to-use-S-correctly.patch
 
 FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
