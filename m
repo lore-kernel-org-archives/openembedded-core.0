@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA03C3DA45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BE3C3DA47
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:25 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.1113.1714579215414642812
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.1112.1714579214975898697
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XJxEBwTe;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nc80OlT6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f34e290fa-e8fc7f33-4f3b-485d-839c-3392fcf7a1a2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UMCPZlhK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=etMVas6q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018f34e28eeb-a6094192-388a-446f-b731-193bae2e0640-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579214;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Uef10z2dCeSD5Sesvnomwrehxg8RCNVdEvAPOhkFOqM=;
-	b=XJxEBwTePp+R2v3I0GmGp8GO6ZO/rRYxHXr2KdQ15WkHcYiC2onJ3wdOL7S786g7
-	cY1tH0BTDW0xWeUkF2XaFCJs4xDz1LqqOj2aVywyU2PbUF7Uc9xXpmqgbaJFz6+LXsz
-	qKqomQeDdb/rj/hc2RHfK7bvMQyZ16WKZIn/tyRI=
+	bh=HM9EldKzI8B7t5eyv6sBo8CATxhUrR4uqzVnKMnTXso=;
+	b=UMCPZlhK2z1SHcH92U2RfD3hrSjHj/J+FejsBIB/Yx0g40aGgCCMrJuCaCZ+5Cgg
+	Sn//5oA4MlvI3km/5Kuw+eFfMjgQFbGKaYDPkC6OHr90UhTnsWAJbvJ9m6NQp6szyLf
+	68h6yMc+2XmeO5d89No5dKOhhx+iqRSJcrRX+a1M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579214;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Uef10z2dCeSD5Sesvnomwrehxg8RCNVdEvAPOhkFOqM=;
-	b=nc80OlT6Dsyg9vUEckJC21pwxYiD9y0hO5BTdbAt6vJJm4CrU/ebf3+arW1HcPIx
-	ELg2IqxOHRPFMuaC8ilISQuOYzMxW7aEC/4Q087JTlA1U/a/3vwrmPoLMO5qh67ElCB
-	3+HzNgaBDxg0Qsx7u7z02vIhUn3H6mFiLneA/umI=
-Content-Type: multipart/mixed; boundary="===============7496955739023095640=="
+	bh=HM9EldKzI8B7t5eyv6sBo8CATxhUrR4uqzVnKMnTXso=;
+	b=etMVas6qhcZqhBEuyuZ0kDXOyjgnHETJzgQ3m8zkGxygwNO/6cgv5UVFq9pzqYTo
+	oLE8xNLoZyChCKLXKsPyncki536w3Qj/VqsqI+xFVCSnBA63RS/IGC8yDYRXGEEU+bg
+	qtGWQRh7daDraOo3DOJ9DQy/matkvmEL5vIlhMPA=
+Content-Type: multipart/mixed; boundary="===============4723820327984214301=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ifupdown: upgrading to 0.8.43 FAILED
-Message-ID: <0101018f34e290fa-e8fc7f33-4f3b-485d-839c-3392fcf7a1a2-000000@us-west-2.amazonses.com>
+Subject: [AUH] bluez5: upgrading to 5.75 FAILED
+Message-ID: <0101018f34e28eeb-a6094192-388a-446f-b731-193bae2e0640-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:14 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.23
+X-SES-Outgoing: 2024.05.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198798
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198792
 
---===============7496955739023095640==
+--===============4723820327984214301==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ifupdown* to *0.8.43* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *bluez5* to *5.75* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-ifupdown-upgrade-0.8.41-0.8.43.patch
+    - apply the patch: git am 0001-bluez5-upgrade-5.72-5.75.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,144 +78,121 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1d8a8a3b31b9303cf5508ce24ea4589284848855 Mon Sep 17 00:00:00 2001
+From f4bb5d85e2c6fcbd24ff869b75b3518407aa54ac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 05:31:06 +0000
-Subject: [PATCH] ifupdown: upgrade 0.8.41 -> 0.8.43
+Date: Wed, 1 May 2024 05:09:38 +0000
+Subject: [PATCH] bluez5: upgrade 5.72 -> 5.75
 
 ---
- .../ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch | 3 +--
- ...-Makefile-do-not-use-dpkg-for-determining-OS-type.patch | 7 +++----
- .../files/0001-ifupdown-skip-wrong-test-case.patch         | 3 +--
- ...n2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch | 3 +--
- meta/recipes-core/ifupdown/files/tweak-ptest-script.patch  | 3 +--
- .../ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb}    | 2 +-
- 6 files changed, 8 insertions(+), 13 deletions(-)
- rename meta/recipes-core/ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb} (97%)
+ .../bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch      | 7 +++----
+ ...ts-add-a-target-for-building-tests-without-runnin.patch | 7 +++----
+ .../0004-src-shared-util.c-include-linux-limits.h.patch    | 5 ++---
+ .../bluez5/{bluez5_5.72.bb => bluez5_5.75.bb}              | 2 +-
+ 4 files changed, 9 insertions(+), 12 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.72.bb => bluez5_5.75.bb} (94%)
 
-diff --git a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-index 6c4ed526bf..5526e45684 100644
---- a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+index b1e93dbe19..8d49a8eee1 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
 @@ -1,4 +1,4 @@
--From 8dfbcf02e424ba1fdef587d81c9e08a37ab8c1b6 Mon Sep 17 00:00:00 2001
-+From f2dfde6e3b226b3b2e679aca7ab0135bab3bbc4a Mon Sep 17 00:00:00 2001
- From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
- Date: Tue, 2 Jul 2019 20:10:42 +0200
- Subject: [PATCH] Define FNM_EXTMATCH for musl
-@@ -24,7 +24,6 @@ function); did you mean 'FNM_NOMATCH'?
- Upstream-Status: Submitted [https://salsa.debian.org/debian/ifupdown/merge_requests/5]
+-From fb583a57f9f4ab956a09e9bb96d89aa13553bf21 Mon Sep 17 00:00:00 2001
++From f127f3652c9999364ed0785441743ad0019a4c9b Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <Mingli.Yu@windriver.com>
+ Date: Fri, 24 Aug 2018 12:04:03 +0800
+ Subject: [PATCH] test-gatt: Fix hung issue
+@@ -21,16 +21,15 @@ no action.
+ Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=153508881804635&w=2]
  
- Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 -
  ---
-  archcommon.h | 4 ++++
-  1 file changed, 4 insertions(+)
-diff --git a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-index 6e15a25224..7753e8ce02 100644
---- a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
-@@ -1,17 +1,16 @@
--From 7fe516cbaf9fda09d99dcb54d4645367cffc8a4d Mon Sep 17 00:00:00 2001
-+From 8ddb190e1ef03fa19481ce2ab6a5a89f51bbf43d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 9 Jan 2020 15:38:06 +0100
- Subject: [PATCH] Makefile: do not use dpkg for determining OS type
+  unit/test-gatt.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- Upstream-Status: Inappropriate [oe-core specific]
+ diff --git a/unit/test-gatt.c b/unit/test-gatt.c
+-index 5e06d4e..4864d36 100644
++index 1613fbc..25dd614 100644
+ --- a/unit/test-gatt.c
+ +++ b/unit/test-gatt.c
+-@@ -4546,7 +4546,7 @@ int main(int argc, char *argv[])
++@@ -4547,7 +4547,7 @@ int main(int argc, char *argv[])
+  			test_server, service_db_1, NULL,
+  			raw_pdu(0x03, 0x00, 0x02),
+  			raw_pdu(0xbf, 0x00),
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+index 881494a354..4f48057958 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -1,20 +1,19 @@
+-From 738e73b386352fd90f1f26cc1ee75427cf4dc23b Mon Sep 17 00:00:00 2001
++From a75c4a8cd89022263cc1a3ef1aa2d8096d714da9 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 1 Apr 2016 17:07:34 +0300
+ Subject: [PATCH] tests: add a target for building tests without running them
+ 
+ Upstream-Status: Inappropriate [oe specific]
  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
  ---
-  Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+  Makefile.am | 3 +++
+  1 file changed, 3 insertions(+)
  
- diff --git a/Makefile b/Makefile
--index 0ce2fa3..739aef2 100644
-+index 9cd758b..58b4173 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -1,6 +1,6 @@
-@@ -21,4 +20,4 @@ index 0ce2fa3..739aef2 100644
- +ARCH := linux
+ diff --git a/Makefile.am b/Makefile.am
+-index e738eb3..dab17dd 100644
++index 05d0293..534a340 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -710,6 +710,9 @@ endif
++@@ -708,6 +708,9 @@ endif
+  TESTS = $(unit_tests)
+  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
   
-  BASEDIR ?= $(DESTDIR)
-- 
-+ PKGLIBDIR ?= /lib/ifupdown
-diff --git a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-index 9ae24da51e..d7d05ae499 100644
---- a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-+++ b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
+index 516d859069..89067e9862 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
 @@ -1,4 +1,4 @@
--From 782d8a869c266820d0f34974436f244f67afaea7 Mon Sep 17 00:00:00 2001
-+From 13fffaccce5adb8069195d53bc5be58322c18c5b Mon Sep 17 00:00:00 2001
- From: Zqiang <qiang.zhang@windriver.com>
- Date: Mon, 19 Apr 2021 14:15:45 +0800
- Subject: [PATCH] ifupdown: skip wrong test case
-@@ -10,7 +10,6 @@ and are skipped directly.
- Upstream-Status: Inappropriate [oe-core specific]
+-From b53df61b41088b68c127ac76cc71683ac3453b9d Mon Sep 17 00:00:00 2001
++From f43ec6e0eb91d5beec18cb1c67aaebf7c8ea14b6 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 12 Dec 2022 13:10:19 +0100
+ Subject: [PATCH] src/shared/util.c: include linux/limits.h
+@@ -8,13 +8,12 @@ systems such as those using musl.
  
- Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+ Upstream-Status: Submitted [to linux-bluetooth@vger.kernel.org,luiz.von.dentz@intel.com,frederic.danis@collabora.com]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 -
  ---
-  tests/testbuild-linux | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-index 7b4b761e6a..46c193d7a6 100644
---- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-+++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
-@@ -1,4 +1,4 @@
--From fc8e8d4cb19ff30e69aa1855332544f1017f974c Mon Sep 17 00:00:00 2001
-+From f641ee7b30e80e88e69be3337ed3dc9327d10154 Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Wed, 6 Aug 2014 14:54:12 -0400
- Subject: [PATCH] defn2[c|man]: don't rely on dpkg-architecture to set arch
-@@ -13,7 +13,6 @@ like the loopback device not being configured/enabled.
+  src/shared/util.c | 1 +
+  1 file changed, 1 insertion(+)
  
- Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
- Upstream-Status: Pending
--
- ---
-  defn2c.pl   | 6 +++---
-  defn2man.pl | 6 +++---
-diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-index fa6bb84df3..f1154b24c3 100644
---- a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-+++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-@@ -1,4 +1,4 @@
--From a6bb2ac5f521c678abbbdb1960d28f750f4357a6 Mon Sep 17 00:00:00 2001
-+From 290ccf29dc19a4eb5e6b2ca8caf9cc5c5bd40ce3 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Mon, 3 Feb 2020 17:33:11 +0800
- Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
-@@ -7,7 +7,6 @@ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
- Upstream-Status: Inappropriate [oe-core specific]
+ diff --git a/src/shared/util.c b/src/shared/util.c
+-index c0c2c4a..036dc0d 100644
++index ee59b94..84e5820 100644
+ --- a/src/shared/util.c
+ +++ b/src/shared/util.c
+ @@ -23,6 +23,7 @@
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb b/meta/recipes-connectivity/bluez5/bluez5_5.75.bb
+similarity index 94%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.72.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.75.bb
+index 9fda960ea7..32ff32e998 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.75.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
  
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
- ---
-  tests/testbuild-linux | 11 ++++++-----
-  1 file changed, 6 insertions(+), 5 deletions(-)
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-similarity index 97%
-rename from meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
-rename to meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-index 16425ea9e4..3e95a09d16 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
-@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
-            file://defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch \
-            file://tweak-ptest-script.patch \
-            "
--SRCREV = "369d9d3c13a0c56ad09fd4f13b4a80eb9a94e270"
-+SRCREV = "cf86ad5819aba8f9b020a95257c9a8c4911b1c85"
+-SRC_URI[sha256sum] = "499d7fa345a996c1bb650f5c6749e1d929111fa6ece0be0e98687fee6124536e"
++SRC_URI[sha256sum] = "988cb3c4551f6e3a667708a578f5ca9f93fc896508f98f08709be4f8ab033c2f"
  
- S = "${WORKDIR}/git"
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
  
 -- 
 2.44.0
 
 
---===============7496955739023095640==
+--===============4723820327984214301==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -223,7 +200,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1876 entries from dependency cache.
+Loaded 1879 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -237,490 +214,347 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-bdc91f4a753ee90ef2eb614d3f4018acb6d7dbc9"
+DISTRO_VERSION       = "5.0+snapshot-aab1335523688531127ac964ad00131d8e721ab1"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:bdc91f4a753ee90ef2eb614d3f4018acb6d7dbc9"
+workspace            = "tmp-auh-upgrades:aab1335523688531127ac964ad00131d8e721ab1"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 205 Local 191 Mirrors 0 Missed 14 Current 202 (93% match, 96% complete)
+Sstate summary: Wanted 385 Local 373 Mirrors 0 Missed 12 Current 603 (96% match, 98% complete)
 done.
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 903 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_recipe_qa)
-NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1154 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_fetch)
-NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Succeeded
-NOTE: Running task 1155 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_unpack)
-NOTE: Running task 1156 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Succeeded
-NOTE: Running task 1157 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_patch)
-NOTE: Running task 1158 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_collect_spdx_deps)
-NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Succeeded
-NOTE: Running task 1159 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1160 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_populate_lic)
-NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Succeeded
-NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1161 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure)
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Succeeded
-NOTE: Running task 1162 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure_ptest_base)
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Started
-NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1163 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile)
-NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Started
+NOTE: Running task 1962 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_recipe_qa)
+NOTE: recipe bluez5-5.75-r0: task do_recipe_qa: Started
+NOTE: recipe bluez5-5.75-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2667 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_fetch)
+NOTE: recipe bluez5-5.75-r0: task do_fetch: Started
+NOTE: recipe bluez5-5.75-r0: task do_fetch: Succeeded
+NOTE: Running task 2668 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_unpack)
+NOTE: Running task 2669 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_prepare_recipe_sysroot)
+NOTE: recipe bluez5-5.75-r0: task do_unpack: Started
+NOTE: recipe bluez5-5.75-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bluez5-5.75-r0: task do_unpack: Succeeded
+NOTE: Running task 2670 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_patch)
+NOTE: Running task 2671 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_collect_spdx_deps)
+NOTE: recipe bluez5-5.75-r0: task do_patch: Started
+NOTE: recipe bluez5-5.75-r0: task do_collect_spdx_deps: Started
+NOTE: recipe bluez5-5.75-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe bluez5-5.75-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe bluez5-5.75-r0: task do_patch: Succeeded
+NOTE: Running task 2672 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2673 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_populate_lic)
+NOTE: recipe bluez5-5.75-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe bluez5-5.75-r0: task do_populate_lic: Started
+NOTE: recipe bluez5-5.75-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bluez5-5.75-r0: task do_populate_lic: Succeeded
+NOTE: Running task 2674 of 2689 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_configure)
+NOTE: recipe bluez5-5.75-r0: task do_configure: Started
 Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75 CC=x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot CFLAGS= -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pok
- ybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o main.o main.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o addrfam.o addrfam.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o execute.o execute.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o config.o config.c
-| ./defn2c.pl inet.defn > inet.c
-| ./defn2c.pl ipx.defn > ipx.c
-| ./defn2c.pl inet6.defn > inet6.c
-| ./defn2c.pl can.defn > can.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archcommon.o archcommon.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archlinux.o archlinux.c
-| ./defn2c.pl meta.defn > meta.c
-| ./defn2c.pl link.defn > link.c
-| ln -sf ifup.8 ifdown.8
-| ln -sf ifup.8 ifquery.8
-| ./defn2man.pl inet.defn > inet.man
-| ./defn2man.pl ipx.defn > ipx.man
-| ./defn2man.pl inet6.defn > inet6.man
-| ./defn2man.pl can.defn > can.man
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o ipx.o ipx.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o can.o can.c
-| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 7.
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o meta.o meta.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet.o inet.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet6.o inet6.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
- d/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o link.o link.c
-| sed -e '/^##ADDRESSFAM##$/r inet.man' -e '/^##ADDRESSFAM##$/r ipx.man' -e '/^##ADDRESSFAM##$/r inet6.man' -e '/^##ADDRESSFAM##$/r can.man' \
-|      -e '/^##ADDRESSFAM##$/d' < interfaces.5.pre > interfaces.5
-| ipx.c: In function '_static_rename':
-| ipx.c:27:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| ipx.c:27:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| can.c: In function '_static_rename':
-| can.c:48:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| can.c:48:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| ipx.c: In function '_dynamic_rename':
-| ipx.c:46:44: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                            ~~~~~~~~~~~~~~~~^~~
-| ipx.c:46:57: warning: unused parameter 'exec' [-Wunused-parameter]
-|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                 ~~~~~~~~^~~~
-| meta.c: In function '_none_up':
-| meta.c:15:37: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
-|       |                     ~~~~~~~~~~~~~~~~^~~
-| meta.c:15:50: warning: unused parameter 'exec' [-Wunused-parameter]
-|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
-|       |                                          ~~~~~~~~^~~~
-| meta.c: In function '_none_down':
-| meta.c:18:39: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
-|       |                       ~~~~~~~~~~~~~~~~^~~
-| meta.c:18:52: warning: unused parameter 'exec' [-Wunused-parameter]
-|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
-|       |                                            ~~~~~~~~^~~~
-| meta.c: In function '_none_rename':
-| meta.c:21:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| meta.c:21:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c: In function '_loopback_rename':
-| inet.c:27:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet.c:27:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet.c: In function '_static_rename':
-| inet.c:68:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:68:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_auto_rename':
-| inet6.c:67:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet6.c:67:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c: In function '_manual_rename':
-| inet.c:97:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:97:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_loopback_rename':
-| inet6.c:92:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet6.c:92:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet.c: In function '_dhcp_rename':
-| inet.c:143:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet.c:143:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c: In function '_bootp_rename':
-| inet.c:163:42: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                          ~~~~~~~~~~~~~~~~^~~
-| inet.c:163:55: warning: unused parameter 'exec' [-Wunused-parameter]
-|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                               ~~~~~~~~^~~~
-| inet6.c: In function '_static_rename':
-| inet6.c:159:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c:159:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c: In function '_tunnel_rename':
-| inet.c:192:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:192:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_manual_rename':
-| inet6.c:188:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c: In function '_ppp_rename':
-| inet6.c:188:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet.c:211:40: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                        ~~~~~~~~~~~~~~~~^~~
-| inet.c:211:53: warning: unused parameter 'exec' [-Wunused-parameter]
-|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                             ~~~~~~~~^~~~
-| inet.c: In function '_wvdial_rename':
-| inet.c:232:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet.c:232:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_dhcp_rename':
-| inet.c: In function '_ipv4ll_rename':
-| inet6.c:242:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet.c:251:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c:242:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| inet.c:251:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_tunnel_rename':
-| inet6.c:277:43: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                           ~~~~~~~~~~~~~~~~^~~
-| inet6.c:277:56: warning: unused parameter 'exec' [-Wunused-parameter]
-|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                ~~~~~~~~^~~~
-| inet6.c: In function '_v4tunnel_rename':
-| inet6.c:314:45: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                             ~~~~~~~~~~~~~~~~^~~
-| inet6.c:314:58: warning: unused parameter 'exec' [-Wunused-parameter]
-|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                                  ~~~~~~~~^~~~
-| inet6.c: In function '_6to4_rename':
-| inet6.c:355:41: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                         ~~~~~~~~~~~~~~~~^~~
-| inet6.c:355:54: warning: unused parameter 'exec' [-Wunused-parameter]
-|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
-|       |                                              ~~~~~~~~^~~~
-| archcommon.c: In function 'cleanup_hwaddress':
-| archcommon.c:82:40: warning: unused parameter 'ifd' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                        ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:82:64: warning: unused parameter 'argc' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                            ~~~~^~~~
-| archcommon.c:82:77: warning: unused parameter 'argv' [-Wunused-parameter]
-|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                      ~~~~~~~^~~~
-| archcommon.c: In function 'make_hex_address':
-| archcommon.c:120:39: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                       ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:120:63: warning: unused parameter 'argc' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                           ~~~~^~~~
-| archcommon.c:120:76: warning: unused parameter 'argv' [-Wunused-parameter]
-|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                     ~~~~~~~^~~~
-| archcommon.c: In function 'compute_v4_addr':
-| archcommon.c:134:38: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                      ~~~~~~~~~~~~~~~~^~~
-| config.c: In function 'add_allow_up':
-| archcommon.c:134:62: warning: unused parameter 'argc' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                          ~~~~^~~~
-| archcommon.c:134:75: warning: unused parameter 'argv' [-Wunused-parameter]
-|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                    ~~~~~~~^~~~
-| config.c:182:47: warning: unused parameter 'filename' [-Wunused-parameter]
-|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
-|       |                                   ~~~~~~~~~~~~^~~~~~~~
-| config.c:182:61: warning: unused parameter 'line' [-Wunused-parameter]
-|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
-|       |                                                         ~~~~^~~~
-| archcommon.c: In function 'compute_v4_mask':
-| archcommon.c:150:38: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                      ~~~~~~~~~~~~~~~~^~~
-| archcommon.c:150:62: warning: unused parameter 'argc' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                          ~~~~^~~~
-| archcommon.c:150:75: warning: unused parameter 'argv' [-Wunused-parameter]
-|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                    ~~~~~~~^~~~
-| archcommon.c: In function 'compute_v4_broadcast':
-| archcommon.c:201:67: warning: unused parameter 'argc' [-Wunused-parameter]
-|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                               ~~~~^~~~
-| archcommon.c:201:80: warning: unused parameter 'argv' [-Wunused-parameter]
-|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                         ~~~~~~~^~~~
-| archcommon.c: In function 'set_preferred_lft':
-| archcommon.c:252:64: warning: unused parameter 'argc' [-Wunused-parameter]
-|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                            ~~~~^~~~
-| archcommon.c:252:77: warning: unused parameter 'argv' [-Wunused-parameter]
-|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                                                                      ~~~~~~~^~~~
-| archcommon.c: In function 'get_token':
-| archcommon.c:266:32: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   266 | void get_token(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'to_decimal':
-| archcommon.c:297:33: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   297 | void to_decimal(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                 ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'map_value':
-| archcommon.c:312:32: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   312 | void map_value(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |                ~~~~~~~~~~~~~~~~^~~
-| archcommon.c: In function 'if_set':
-| archcommon.c:331:29: warning: unused parameter 'ifd' [-Wunused-parameter]
-|   331 | void if_set(interface_defn *ifd, char **pparam, int argc, char **argv) {
-|       |             ~~~~~~~~~~~~~~~~^~~
-| execute.c: In function 'set_environ':
-| execute.c:107:48: error: 'PKGLIBDIR' undeclared (first use in this function)
-|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-|       |                                                ^~~~~~~~~
-| execute.c:107:48: note: each undeclared identifier is reported only once for each function it appears in
-| execute.c:107:57: error: expected ')' before string constant
-|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-|       |                              ~                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                         )
-| make: *** [<builtin>: execute.o] Error 1
-| make: *** Waiting for unfinished jobs....
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709:167 exit 1 from 'exit 1'
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/
+ home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72e.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes
+ -devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'quilt-native', 'vala', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'wayland-protocols', 'wayland', 'libice', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxkbcommon', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'acl', 'attr', 'bash-completion', 'gdbm', 'icu', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'sqlite3', 'zl
+ ib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'shadow-native', 'xz-native', 'zstd-native', 'attr-native', 'gmp-native', 'libbsd-native', 'libmd-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.16.5
+| Copyright (C) 2021 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+| 
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.16
+| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal/
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: configure.ac: not using Gettext
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: configure.ac: tracing
+| autoreconf: running: libtoolize --copy --force
+| libtoolize: putting auxiliary files in '.'.
+| libtoolize: copying file './ltmain.sh'
+| libtoolize: Consider adding 'AC_CONFIG_MACRO_DIRS([m4])' to configure.ac,
+| libtoolize: and rerunning libtoolize and aclocal.
+| libtoolize: Consider adding '-I m4' to ACLOCAL_AMFLAGS in Makefile.am.
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| configure.ac:21: installing './compile'
+| configure.ac:5: installing './missing'
+| Makefile.am: installing './depcomp'
+| autoreconf: './install-sh' is updated
+| autoreconf: './config.sub' is updated
+| autoreconf: './config.guess' is updated
+| autoreconf: Leaving directory '.'
+| NOTE: Running ../bluez-5.75/configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot   --enable-test   --enable-datafiles   --enable-library   --enable-pie    --without-zsh-completion-dir  --disable-static  --enable-a2dp --enable-avrcp --disable-btpclient --disable-cups --enable-deprecated --disable-health --enable-hid --enable-hog --disable-manpages --disable-mesh --disable-midi --enable-network --disable-nfc 
+ --enable-obex --enable-client --disable-sap --disable-sixaxis --enable-systemd --disable-testing --disable-threads --enable-tools --enable-udev
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/endian-little
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common-glibc
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/x86_64-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot/usr/share/x86_64-poky-linux_config_site.d/ncurses_config
+| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
+| checking whether build environment is sane... yes
+| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
+| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking how to create a pax tar archive... gnutar
+| checking whether make supports nested variables... (cached) yes
+| checking whether to enable maintainer-specific portions of Makefiles... no
+| checking for x86_64-poky-linux-pkg-config... no
+| checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot-native/usr/bin/pkg-config
+| configure: WARNING: using cross tools not prefixed with host triplet
+| checking pkg-config is at least version 0.9.0... yes
+| checking whether make supports the include directive... yes (GNU style)
+| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -g... yes
+| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot option to enable C11 features... none needed
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot... none
+| checking for C/C++ restrict keyword... __restrict__
+| checking for x86_64-poky-linux-gcc... (cached) x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot
+| checking whether the compiler supports GNU C... (cached) yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -g... (cached) yes
+| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot option to enable C11 features... (cached) none needed
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot understands -c and -o together... (cached) yes
+| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot... (cached) none
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -fPIE... yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -fsanitize=address... yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -fsanitize=leak... yes
+| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot accepts -fsanitize=undefined... yes
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... x86_64-poky-linux-gnu
+| checking how to print strings... printf
+| checking for a sed that does not truncate output... (cached) sed
+| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep
+| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
+| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -F
+| checking for ld used by x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot
+| checking if the linker (x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot  ) is GNU ld... yes
+| checking for BSD- or MS-compatible name lister (nm)... x86_64-poky-linux-gcc-nm
+| checking the name lister (x86_64-poky-linux-gcc-nm) interface... BSD nm
+| checking whether ln -s works... yes
+| checking the maximum length of command line arguments... 1572864
+| checking how to convert x86_64-pc-linux-gnu file names to x86_64-poky-linux-gnu format... func_convert_file_noop
+| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+| checking for x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot   option to reload object files... -r
+| checking for x86_64-poky-linux-file... no
+| checking for file... file
+| checking for x86_64-poky-linux-objdump... x86_64-poky-linux-objdump
+| checking how to recognize dependent libraries... pass_all
+| checking for x86_64-poky-linux-dlltool... no
+| checking for dlltool... no
+| checking how to associate runtime and link libraries... printf %s\n
+| checking for x86_64-poky-linux-ar... x86_64-poky-linux-gcc-ar
+| checking for archiver @FILE support... @
+| checking for x86_64-poky-linux-strip... (cached) x86_64-poky-linux-strip
+| checking for x86_64-poky-linux-ranlib... x86_64-poky-linux-gcc-ranlib
+| checking command to parse x86_64-poky-linux-gcc-nm output from x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot object... ok
+| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot
+| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd
+| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd bs=4096 count=1
+| checking for x86_64-poky-linux-mt... no
+| checking for mt... no
+| checking if : is a manifest tool... no
+| checking for stdio.h... (cached) yes
+| checking for stdlib.h... (cached) yes
+| checking for string.h... (cached) yes
+| checking for inttypes.h... (cached) yes
+| checking for stdint.h... (cached) yes
+| checking for strings.h... (cached) yes
+| checking for sys/stat.h... (cached) yes
+| checking for sys/types.h... (cached) yes
+| checking for unistd.h... (cached) yes
+| checking for dlfcn.h... yes
+| checking for objdir... .libs
+| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot supports -fno-rtti -fno-exceptions... no
+| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot option to produce PIC... -fPIC -DPIC
+| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot PIC flag -fPIC -DPIC works... yes
+| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot static flag -static works... yes
+| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot supports -c -o file.o... yes
+| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot supports -c -o file.o... (cached) yes
+| checking whether the x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
+| checking whether -lc should be explicitly linked in... no
+| checking dynamic linker characteristics... GNU/Linux ld.so
+| checking how to hardcode library paths into programs... immediate
+| checking whether stripping libraries is possible... yes
+| checking if libtool supports shared libraries... yes
+| checking whether to build shared libraries... yes
+| checking whether to build static libraries... no
+| checking for explicit_bzero... yes
+| checking for getrandom... yes
+| checking for rawmemchr... yes
+| checking for signalfd... yes
+| checking for clock_gettime in -lrt... yes
+| checking for pthread_create in -lpthread... yes
+| checking for dlopen in -ldl... yes
+| checking for linux/types.h... yes
+| checking for linux/if_alg.h... yes
+| checking for linux/uinput.h... yes
+| checking for linux/uhid.h... yes
+| checking for sys/random.h... yes
+| checking for glib-2.0 >= 2.28... yes
+| checking for dbus-1 >= 1.10... yes
+| checking D-Bus configuration directory... /usr/share
+| checking D-Bus system bus services dir... /usr/share/dbus-1/system-services
+| checking D-Bus session bus services dir... /usr/share/dbus-1/services
+| checking for libudev >= 196... yes
+| checking udev directory... /usr/lib/udev
+| checking for libical... yes
+| checking for readline/readline.h... yes
+| checking systemd system unit dir... /usr/lib/systemd/system
+| checking systemd user unit dir... /usr/lib/systemd/user
+| configure: error: conditional "CUPS_SERVERBIN" was never defined.
+| Usually this means the macro was only invoked conditionally.
+| NOTE: The following config.log files may provide further information.
+| NOTE: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/build/config.log
+| ERROR: configure failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715:285 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709, line 167
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709, line 151
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709, line 146
-| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709, line 141
-| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709, line 180
-NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1163 tasks of which 1152 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715, line 285
+| 	#2: oe_runconf, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715, line 261
+| 	#3: autotools_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715, line 231
+| 	#4: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715, line 151
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715, line 289
+NOTE: recipe bluez5-5.75-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2674 tasks of which 2665 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501053042.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501050910.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501053042.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501050910.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_configure
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ifupdown-0.8.43-r0 do_compile: oe_runmake failed
-ERROR: ifupdown-0.8.43-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3698709', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/log.do_compile.3698709
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile) failed with exit code '1'
+ERROR: bluez5-5.75-r0 do_configure: configure failed
+ERROR: bluez5-5.75-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/run.do_configure.3335715', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/bluez5/5.75/temp/log.do_configure.3335715
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.75.bb:do_configure) failed with exit code '1'
 
---===============7496955739023095640==
+--===============4723820327984214301==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ifupdown-upgrade-0.8.41-0.8.43.patch"
+ filename="0001-bluez5-upgrade-5.72-5.75.patch"
 
-RnJvbSAxZDhhOGEzYjMxYjkzMDNjZjU1MDhjZTI0ZWE0NTg5Mjg0ODQ4ODU1IE1vbiBTZXAgMTcg
+RnJvbSBmNGJiNWQ4NWUyYzZmY2JkMjRmZjg2OWI3NWIzNTE4NDA3YWE1NGFjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAwNTozMTowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlm
-dXBkb3duOiB1cGdyYWRlIDAuOC40MSAtPiAwLjguNDMKCi0tLQogLi4uL2lmdXBkb3duL2ZpbGVz
-LzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5wYXRjaCB8IDMgKy0tCiAuLi4tTWFr
-ZWZpbGUtZG8tbm90LXVzZS1kcGtnLWZvci1kZXRlcm1pbmluZy1PUy10eXBlLnBhdGNoIHwgNyAr
-KystLS0tCiAuLi4vZmlsZXMvMDAwMS1pZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRj
-aCAgICAgICAgIHwgMyArLS0KIC4uLm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNoaXRl
-Y3R1cmUtdG8tc2V0LWEucGF0Y2ggfCAzICstLQogbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24v
-ZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNoICB8IDMgKy0tCiAuLi4vaWZ1cGRvd24ve2lm
-dXBkb3duXzAuOC40MS5iYiA9PiBpZnVwZG93bl8wLjguNDMuYmJ9ICAgIHwgMiArLQogNiBmaWxl
-cyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1jb3JlL2lmdXBkb3duL3tpZnVwZG93bl8wLjguNDEuYmIgPT4gaWZ1cGRvd25fMC44
-LjQzLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2Zp
-bGVzLzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtRGVmaW5lLUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5w
-YXRjaAppbmRleCA2YzRlZDUyNmJmLi41NTI2ZTQ1Njg0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLURlZmluZS1GTk1fRVhUTUFUQ0gtZm9yLW11c2wu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1EZWZpbmUt
-Rk5NX0VYVE1BVENILWZvci1tdXNsLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4ZGZiY2Yw
-MmU0MjRiYTFmZGVmNTg3ZDgxYzllMDhhMzdhYjhjMWI2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBmMmRmZGU2ZTNiMjI2YjNiMmU2NzlhY2E3YWIwMTM1YmFiM2JiYzRhIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBv
-bGVrc2FuZHIta3JhdmNodWsuY29tPgogRGF0ZTogVHVlLCAyIEp1bCAyMDE5IDIwOjEwOjQyICsw
-MjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERlZmluZSBGTk1fRVhUTUFUQ0ggZm9yIG11c2wKQEAgLTI0
-LDcgKzI0LDYgQEAgZnVuY3Rpb24pOyBkaWQgeW91IG1lYW4gJ0ZOTV9OT01BVENIJz8KIFVwc3Ry
-ZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL3NhbHNhLmRlYmlhbi5vcmcvZGViaWFuL2lm
-dXBkb3duL21lcmdlX3JlcXVlc3RzLzVdCiAKIFNpZ25lZC1vZmYtYnk6IE9sZWtzYW5kciBLcmF2
-Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KLQogLS0tCiAgYXJjaGNv
-bW1vbi5oIHwgNCArKysrCiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1NYWtlZmlsZS1kby1u
-b3QtdXNlLWRwa2ctZm9yLWRldGVybWluaW5nLU9TLXR5cGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-Y29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRvLW5vdC11c2UtZHBrZy1mb3ItZGV0
-ZXJtaW5pbmctT1MtdHlwZS5wYXRjaAppbmRleCA2ZTE1YTI1MjI0Li43NzUzZThjZTAyIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRv
-LW5vdC11c2UtZHBrZy1mb3ItZGV0ZXJtaW5pbmctT1MtdHlwZS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLU1ha2VmaWxlLWRvLW5vdC11c2UtZHBrZy1m
-b3ItZGV0ZXJtaW5pbmctT1MtdHlwZS5wYXRjaApAQCAtMSwxNyArMSwxNiBAQAotRnJvbSA3ZmU1
-MTZjYmFmOWZkYTA5ZDk5ZGNiNTRkNDY0NTM2N2NmZmM4YTRkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA4ZGRiMTkwZTFlZjAzZmExOTQ4MWNlMmFiNmE1YTg5ZjUxYmJmNDNkIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDkgSmFuIDIwMjAgMTU6Mzg6MDYgKzAxMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gTWFrZWZpbGU6IGRvIG5vdCB1c2UgZHBrZyBmb3IgZGV0ZXJtaW5pbmcgT1Mg
-dHlwZQogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNd
-CiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KLQogLS0tCiAgTWFrZWZpbGUgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCi1p
-bmRleCAwY2UyZmEzLi43MzlhZWYyIDEwMDY0NAoraW5kZXggOWNkNzU4Yi4uNThiNDE3MyAxMDA2
-NDQKIC0tLSBhL01ha2VmaWxlCiArKysgYi9NYWtlZmlsZQogQEAgLTEsNiArMSw2IEBACkBAIC0y
-MSw0ICsyMCw0IEBAIGluZGV4IDBjZTJmYTMuLjczOWFlZjIgMTAwNjQ0CiArQVJDSCA6PSBsaW51
-eAogIAogIEJBU0VESVIgPz0gJChERVNURElSKQotIAorIFBLR0xJQkRJUiA/PSAvbGliL2lmdXBk
-b3duCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLWlm
-dXBkb3duLXNraXAtd3JvbmctdGVzdC1jYXNlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1
-cGRvd24vZmlsZXMvMDAwMS1pZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRjaAppbmRl
-eCA5YWUyNGRhNTFlLi5kN2QwNWFlNDk5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9p
-ZnVwZG93bi9maWxlcy8wMDAxLWlmdXBkb3duLXNraXAtd3JvbmctdGVzdC1jYXNlLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtaWZ1cGRvd24tc2tpcC13
-cm9uZy10ZXN0LWNhc2UucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc4MmQ4YTg2OWMyNjY4
-MjBkMGYzNDk3NDQzNmYyNDRmNjdhZmFlYTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDEzZmZmYWNjY2U1YWRiODA2OTE5NWQ1M2JjNWJlNTgzMjJjMThjNWIgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBacWlhbmcgPHFpYW5nLnpoYW5nQHdpbmRyaXZlci5jb20+CiBEYXRl
-OiBNb24sIDE5IEFwciAyMDIxIDE0OjE1OjQ1ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGlmdXBk
-b3duOiBza2lwIHdyb25nIHRlc3QgY2FzZQpAQCAtMTAsNyArMTAsNiBAQCBhbmQgYXJlIHNraXBw
-ZWQgZGlyZWN0bHkuCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3Bl
-Y2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IFpxaWFuZyA8cWlhbmcuemhhbmdAd2luZHJpdmVyLmNv
-bT4KLQogLS0tCiAgdGVzdHMvdGVzdGJ1aWxkLWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvcmUvaWZ1cGRvd24vZmlsZXMvZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hp
-dGVjdHVyZS10by1zZXQtYS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVz
-L2RlZm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNoaXRlY3R1cmUtdG8tc2V0LWEucGF0
-Y2gKaW5kZXggN2I0Yjc2MWU2YS4uNDZjMTkzZDdhNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvcmUvaWZ1cGRvd24vZmlsZXMvZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hp
-dGVjdHVyZS10by1zZXQtYS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9m
-aWxlcy9kZWZuMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0ZWN0dXJlLXRvLXNldC1h
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmYzhlOGQ0Y2IxOWZmMzBlNjlhYTE4NTUzMzI1
-NDRmMTAxN2Y5NzRjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmNjQxZWU3YjMwZTgw
-ZTg4ZTY5YmUzMzM3ZWQzZGM5MzI3ZDEwMTU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiBEYXRlOiBX
-ZWQsIDYgQXVnIDIwMTQgMTQ6NTQ6MTIgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gZGVmbjJbY3xt
-YW5dOiBkb24ndCByZWx5IG9uIGRwa2ctYXJjaGl0ZWN0dXJlIHRvIHNldCBhcmNoCkBAIC0xMyw3
-ICsxMyw2IEBAIGxpa2UgdGhlIGxvb3BiYWNrIGRldmljZSBub3QgYmVpbmcgY29uZmlndXJlZC9l
-bmFibGVkLgogCiBTaWduZWQtb2ZmLWJ5OiBQYXVsIEdvcnRtYWtlciA8cGF1bC5nb3J0bWFrZXJA
-d2luZHJpdmVyLmNvbT4KIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwotCiAtLS0KICBkZWZuMmMu
-cGwgICB8IDYgKysrLS0tCiAgZGVmbjJtYW4ucGwgfCA2ICsrKy0tLQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNo
-CmluZGV4IGZhNmJiODRkZjMuLmYxMTU0YjI0YzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1j
-b3JlL2lmdXBkb3duL2ZpbGVzL3R3ZWFrLXB0ZXN0LXNjcmlwdC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy90d2Vhay1wdGVzdC1zY3JpcHQucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIGE2YmIyYWM1ZjUyMWM2NzhhYmJiZGIxOTYwZDI4Zjc1MGY0MzU3YTYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDI5MGNjZjI5ZGMxOWE0ZWI1ZTZiMmNhOGNh
-ZjljYzVjNWJkNDBjZTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLYWkgS2FuZyA8
-a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgMyBGZWIgMjAyMCAxNzozMzoxMSAr
-MDgwMAogU3ViamVjdDogW1BBVENIXSBUd2VhayB0ZXN0cyBvZiBpZnVwZG93biB0byBtYWtlIGl0
-IHdvcmsgd2l0aCBvZS1jb3JlIHB0ZXN0CkBAIC03LDcgKzcsNiBAQCBTdWJqZWN0OiBbUEFUQ0hd
-IFR3ZWFrIHRlc3RzIG9mIGlmdXBkb3duIHRvIG1ha2UgaXQgd29yayB3aXRoIG9lLWNvcmUgcHRl
-c3QKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIAog
-U2lnbmVkLW9mZi1ieTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+Ci0KIC0tLQog
-IHRlc3RzL3Rlc3RidWlsZC1saW51eCB8IDExICsrKysrKy0tLS0tCiAgMSBmaWxlIGNoYW5nZWQs
-IDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1jb3JlL2lmdXBkb3duL2lmdXBkb3duXzAuOC40MS5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2lm
-dXBkb3duL2lmdXBkb3duXzAuOC40My5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9pZnVwZG93bl8wLjguNDEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2lmdXBkb3duXzAuOC40My5iYgppbmRleCAxNjQy
-NWVhOWU0Li4zZTk1YTA5ZDE2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93
-bi9pZnVwZG93bl8wLjguNDEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vaWZ1
-cGRvd25fMC44LjQzLmJiCkBAIC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vc2Fsc2Eu
-ZGViaWFuLm9yZy9kZWJpYW4vaWZ1cGRvd24uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0
-CiAgICAgICAgICAgIGZpbGU6Ly9kZWZuMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0
-ZWN0dXJlLXRvLXNldC1hLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3R3ZWFrLXB0ZXN0LXNj
-cmlwdC5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICIzNjlkOWQzYzEzYTBjNTZhZDA5
-ZmQ0ZjEzYjRhODBlYjlhOTRlMjcwIgorU1JDUkVWID0gImNmODZhZDU4MTlhYmE4ZjliMDIwYTk1
-MjU3YzlhOGM0OTExYjFjODUiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAwNTowOTozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJs
+dWV6NTogdXBncmFkZSA1LjcyIC0+IDUuNzUKCi0tLQogLi4uL2JsdWV6NS9ibHVlejUvMDAwMS10
+ZXN0LWdhdHQtRml4LWh1bmctaXNzdWUucGF0Y2ggICAgICB8IDcgKysrLS0tLQogLi4udHMtYWRk
+LWEtdGFyZ2V0LWZvci1idWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRjaCB8IDcgKysr
+LS0tLQogLi4uLzAwMDQtc3JjLXNoYXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5w
+YXRjaCAgICB8IDUgKystLS0KIC4uLi9ibHVlejUve2JsdWV6NV81LjcyLmJiID0+IGJsdWV6NV81
+Ljc1LmJifSAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9u
+cygrKSwgMTIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
+bHVlejUve2JsdWV6NV81LjcyLmJiID0+IGJsdWV6NV81Ljc1LmJifSAoOTQlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAxLXRlc3QtZ2F0
+dC1GaXgtaHVuZy1pc3N1ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1
+L2JsdWV6NS8wMDAxLXRlc3QtZ2F0dC1GaXgtaHVuZy1pc3N1ZS5wYXRjaAppbmRleCBiMWU5M2Ri
+ZTE5Li44ZDQ5YThlZWUxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Js
+dWV6NS9ibHVlejUvMDAwMS10ZXN0LWdhdHQtRml4LWh1bmctaXNzdWUucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEtdGVzdC1nYXR0LUZpeC1o
+dW5nLWlzc3VlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmYjU4M2E1N2Y5ZjRhYjk1NmEw
+OWU5YmI5NmQ4OWFhMTM1NTNiZjIxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmMTI3
+ZjM2NTJjOTk5OTM2NGVkMDc4NTQ0MTc0M2FkMDAxOWE0YzliIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogTWluZ2xpIFl1IDxNaW5nbGkuWXVAd2luZHJpdmVyLmNvbT4KIERhdGU6IEZy
+aSwgMjQgQXVnIDIwMTggMTI6MDQ6MDMgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdC1nYXR0
+OiBGaXggaHVuZyBpc3N1ZQpAQCAtMjEsMTYgKzIxLDE1IEBAIG5vIGFjdGlvbi4KIFVwc3RyZWFt
+LVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL21hcmMuaW5mby8/bD1saW51eC1ibHVldG9vdGgm
+bT0xNTM1MDg4ODE4MDQ2MzUmdz0yXQogCiBTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPE1pbmds
+aS5ZdUB3aW5kcml2ZXIuY29tPgotCiAtLS0KICB1bml0L3Rlc3QtZ2F0dC5jIHwgMiArLQogIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0
+IGEvdW5pdC90ZXN0LWdhdHQuYyBiL3VuaXQvdGVzdC1nYXR0LmMKLWluZGV4IDVlMDZkNGUuLjQ4
+NjRkMzYgMTAwNjQ0CitpbmRleCAxNjEzZmJjLi4yNWRkNjE0IDEwMDY0NAogLS0tIGEvdW5pdC90
+ZXN0LWdhdHQuYwogKysrIGIvdW5pdC90ZXN0LWdhdHQuYwotQEAgLTQ1NDYsNyArNDU0Niw3IEBA
+IGludCBtYWluKGludCBhcmdjLCBjaGFyICphcmd2W10pCitAQCAtNDU0Nyw3ICs0NTQ3LDcgQEAg
+aW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkKICAJCQl0ZXN0X3NlcnZlciwgc2Vydmlj
+ZV9kYl8xLCBOVUxMLAogIAkJCXJhd19wZHUoMHgwMywgMHgwMCwgMHgwMiksCiAgCQkJcmF3X3Bk
+dSgweGJmLCAweDAwKSwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1
+ZXo1L2JsdWV6NS8wMDAxLXRlc3RzLWFkZC1hLXRhcmdldC1mb3ItYnVpbGRpbmctdGVzdHMtd2l0
+aG91dC1ydW5uaW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVl
+ejUvMDAwMS10ZXN0cy1hZGQtYS10YXJnZXQtZm9yLWJ1aWxkaW5nLXRlc3RzLXdpdGhvdXQtcnVu
+bmluLnBhdGNoCmluZGV4IDg4MTQ5NGEzNTQuLjRmNDgwNTc5NTggMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAxLXRlc3RzLWFkZC1hLXRhcmdl
+dC1mb3ItYnVpbGRpbmctdGVzdHMtd2l0aG91dC1ydW5uaW4ucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEtdGVzdHMtYWRkLWEtdGFyZ2V0LWZv
+ci1idWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRjaApAQCAtMSwyMCArMSwxOSBAQAot
+RnJvbSA3MzhlNzNiMzg2MzUyZmQ5MGYxZjI2Y2MxZWU3NTQyN2NmNGRjMjNiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSBhNzVjNGE4Y2Q4OTAyMjI2M2NjMWEzZWYxYWEyZDgwOTZkNzE0
+ZGE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
+ZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDEgQXByIDIwMTYgMTc6MDc6MzQgKzAz
+MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBhIHRhcmdldCBmb3IgYnVpbGRpbmcgdGVz
+dHMgd2l0aG91dCBydW5uaW5nIHRoZW0KIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRl
+IFtvZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPgotCiAtLS0KICBNYWtlZmlsZS5hbSB8IDMgKysrCiAgMSBmaWxlIGNo
+YW5nZWQsIDMgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUuYW0gYi9NYWtl
+ZmlsZS5hbQotaW5kZXggZTczOGViMy4uZGFiMTdkZCAxMDA2NDQKK2luZGV4IDA1ZDAyOTMuLjUz
+NGEzNDAgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KLUBAIC03
+MTAsNiArNzEwLDkgQEAgZW5kaWYKK0BAIC03MDgsNiArNzA4LDkgQEAgZW5kaWYKICBURVNUUyA9
+ICQodW5pdF90ZXN0cykKICBBTV9URVNUU19FTlZJUk9OTUVOVCA9IE1BTExPQ19DSEVDS189MyBN
+QUxMT0NfUEVSVFVSQl89NjkKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvYmx1ZXo1L2JsdWV6NS8wMDA0LXNyYy1zaGFyZWQtdXRpbC5jLWluY2x1ZGUtbGludXgtbGlt
+aXRzLmgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAw
+NC1zcmMtc2hhcmVkLXV0aWwuYy1pbmNsdWRlLWxpbnV4LWxpbWl0cy5oLnBhdGNoCmluZGV4IDUx
+NmQ4NTkwNjkuLjg5MDY3ZTk4NjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvYmx1ZXo1L2JsdWV6NS8wMDA0LXNyYy1zaGFyZWQtdXRpbC5jLWluY2x1ZGUtbGludXgtbGlt
+aXRzLmgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1
+LzAwMDQtc3JjLXNoYXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5wYXRjaApAQCAt
+MSw0ICsxLDQgQEAKLUZyb20gYjUzZGY2MWI0MTA4OGI2OGMxMjdhYzc2Y2M3MTY4M2FjMzQ1M2I5
+ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjQzZWM2ZTBlYjkxZDViZWVjMThjYjFj
+NjdhYWViZjdjOGVhMTRiNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBNb24sIDEyIERlYyAyMDIyIDEz
+OjEwOjE5ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHNyYy9zaGFyZWQvdXRpbC5jOiBpbmNsdWRl
+IGxpbnV4L2xpbWl0cy5oCkBAIC04LDEzICs4LDEyIEBAIHN5c3RlbXMgc3VjaCBhcyB0aG9zZSB1
+c2luZyBtdXNsLgogCiBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbdG8gbGludXgtYmx1ZXRv
+b3RoQHZnZXIua2VybmVsLm9yZyxsdWl6LnZvbi5kZW50ekBpbnRlbC5jb20sZnJlZGVyaWMuZGFu
+aXNAY29sbGFib3JhLmNvbV0KIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+QGxpbnV0cm9uaXguZGU+Ci0KIC0tLQogIHNyYy9zaGFyZWQvdXRpbC5jIHwgMSArCiAgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9zcmMvc2hhcmVkL3V0aWwu
+YyBiL3NyYy9zaGFyZWQvdXRpbC5jCi1pbmRleCBjMGMyYzRhLi4wMzZkYzBkIDEwMDY0NAoraW5k
+ZXggZWU1OWI5NC4uODRlNTgyMCAxMDA2NDQKIC0tLSBhL3NyYy9zaGFyZWQvdXRpbC5jCiArKysg
+Yi9zcmMvc2hhcmVkL3V0aWwuYwogQEAgLTIzLDYgKzIzLDcgQEAKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjcyLmJiIGIvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzUuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzIu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81Ljc1
+LmJiCmluZGV4IDlmZGE5NjBlYTcuLjMyZmYzMmU5OTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjcyLmJiCisrKyBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81Ljc1LmJiCkBAIC0xLDYgKzEsNiBAQAogcmVxdWly
+ZSBibHVlejUuaW5jCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0OTlkN2ZhMzQ1YTk5NmMxYmI2
+NTBmNWM2NzQ5ZTFkOTI5MTExZmE2ZWNlMGJlMGU5ODY4N2ZlZTYxMjQ1MzZlIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjk4OGNiM2M0NTUxZjZlM2E2Njc3MDhhNTc4ZjVjYTlmOTNmYzg5NjUwOGY5
+OGYwODcwOWJlNGY4YWIwMzNjMmYiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMjAtMjQ0OTBdID0gImNw
+ZS1pbmNvcnJlY3Q6IFRoaXMgaXNzdWUgaGFzIGtlcm5lbCBmaXhlcyByYXRoZXIgdGhhbiBibHVl
+eiBmaXhlcyIKIAotLSAKMi40NC4wCgo=
 
---===============7496955739023095640==--
+--===============4723820327984214301==--
 
