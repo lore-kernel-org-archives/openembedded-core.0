@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17509C27C51
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 012B8C27C4E
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:21 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1111.1714579214878288848
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.1109.1714579216018214838
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RjQ+Z2fj;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BuOi6csT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018f34e2987d-0646d37e-e006-4c7c-987d-50a567fa23c0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lp6JGGCT;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gvXzfEfR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f34e297eb-fb60cd8e-0560-458a-8238-894cc85c0ebc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hw2NV37lq8lyHRP8u8meRD/RtPw+OCwd/uwRCxH3mAo=;
-	b=RjQ+Z2fjifKa+k/daxuupM12DOab9Kz44xqNriLhv1PQwUG3LBpce68DtewOe1N9
-	+9aNUnYshK04CuYFR0Wwnfe1WERNIc37waMRPNDXLLXPOUkERoT3G3CxwfgKxH5rex8
-	hracEHxXkcQBzIIu+FKUBactfu5Ac5NNBc9R4o68=
+	bh=HWZIWi+kSab2+VnpB/vpEQEUXjiHZQz/gGwMl3u1qB0=;
+	b=Lp6JGGCTE8fGjkvITrsen6VhqRRpnurq2I917Oj8gEjFXidjHNkPKrX0v6mFklVI
+	3tm5qJh4aZWQKxnhj5LXtGOG4MPwpd+CiOhUL6Y3NGqG2+jRLJEFfWdxJTMweMTFJlL
+	T+g62mlcfu/VHMZu0PBCan+BIcQjL80Wq2vM0bgo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hw2NV37lq8lyHRP8u8meRD/RtPw+OCwd/uwRCxH3mAo=;
-	b=BuOi6csTzEg9Aq0kAIaPZdl0ey8FLG/LYhyK4fPNEgS5nz7SJZP3B4Tu4Pq0+WdR
-	HgUpq6NnVP72/O/z1QOwPJa6nTzTWwhVfTWIOAiVqGChL7mCk6ChiWNCTFiVs4n0Sne
-	JqsJOSDeDpII6X2ofahdQP0o9CLBsTkKmLJ0OrGk=
-Content-Type: multipart/mixed; boundary="===============7344219221731825337=="
+	bh=HWZIWi+kSab2+VnpB/vpEQEUXjiHZQz/gGwMl3u1qB0=;
+	b=gvXzfEfRSbgCpq2gcHkgwwwpTuDegB4g4OtZW5Y9bdAaPe76Xvr2gDHOYzHgHNCR
+	GN5xoT/FG96Ak5Da7fRW9iGH3p2vXKPThvpDTVO9mSDAF1fsev4vuIxlQ0bbtB5LiSi
+	JmyJGQkEgMONo19iuTrYG7q8g8vyG2uYUTNONOjM=
+Content-Type: multipart/mixed; boundary="===============8777466146847277998=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] enchant2: upgrading to 2.7.2 SUCCEEDED
-Message-ID: <0101018f34e2987d-0646d37e-e006-4c7c-987d-50a567fa23c0-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-libav: upgrading to 1.24.3 FAILED
+Message-ID: <0101018f34e297eb-fb60cd8e-0560-458a-8238-894cc85c0ebc-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.192
+X-SES-Outgoing: 2024.05.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198860
+ <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198862
 
---===============7344219221731825337==
+--===============8777466146847277998==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *enchant2* to *2.7.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-libav* to *1.24.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-enchant2-upgrade-2.6.9-2.7.2.patch
+    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.22.11-1.24.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,121 +78,197 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b784949a22171ca59ce4e050942569d4fbbcfe95 Mon Sep 17 00:00:00 2001
+From 218c97f34a2068ba7dd84efeeef3b81870e0bf64 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 14:42:11 +0000
-Subject: [PATCH] enchant2: upgrade 2.6.9 -> 2.7.2
+Date: Wed, 1 May 2024 13:40:00 +0000
+Subject: [PATCH] gstreamer1.0-libav: upgrade 1.22.11 -> 1.24.3
 
 ---
- .../enchant/{enchant2_2.6.9.bb => enchant2_2.7.2.bb}            | 2 +-
+ ...treamer1.0-libav_1.22.11.bb => gstreamer1.0-libav_1.24.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/enchant/{enchant2_2.6.9.bb => enchant2_2.7.2.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.11.bb => gstreamer1.0-libav_1.24.3.bb} (91%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.6.9.bb b/meta/recipes-support/enchant/enchant2_2.7.2.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb
 similarity index 91%
-rename from meta/recipes-support/enchant/enchant2_2.6.9.bb
-rename to meta/recipes-support/enchant/enchant2_2.7.2.bb
-index aaf3525ad8..08998dd48f 100644
---- a/meta/recipes-support/enchant/enchant2_2.6.9.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.7.2.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
- inherit autotools pkgconfig github-releases
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb
+index f3287efa96..d468f2983c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "d9a5a10dc9b38a43b3a0fa22c76ed6ebb7e09eb535aff62954afcdbd40efff6b"
-+SRC_URI[sha256sum] = "7cc3400a6657974a740b6e3c2568e2935c70e5302f07fadb2095366b75ecad6f"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6b13dcc9332ef27a7c1e7005c0196883874f91622f8aa6e52f218b05b15d2bf5"
++SRC_URI[sha256sum] = "d9c5b152468a45c1fa8351410422090a7192707ad74d2e1a4367f5254e188d91"
  
- GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
+ S = "${WORKDIR}/gst-libav-${PV}"
  
 -- 
 2.44.0
 
 
---===============7344219221731825337==
+--===============8777466146847277998==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-enchant2-upgrade-2.6.9-2.7.2.patch"
+ filename="0001-gstreamer1.0-libav-upgrade-1.22.11-1.24.3.patch"
 
-RnJvbSBiNzg0OTQ5YTIyMTcxY2E1OWNlNGUwNTA5NDI1NjlkNGZiYmNmZTk1IE1vbiBTZXAgMTcg
+RnJvbSAyMThjOTdmMzRhMjA2OGJhN2RkODRlZmVlZWYzYjgxODcwZTBiZjY0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNDo0MjoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVu
-Y2hhbnQyOiB1cGdyYWRlIDIuNi45IC0+IDIuNy4yCgotLS0KIC4uLi9lbmNoYW50L3tlbmNoYW50
-Ml8yLjYuOS5iYiA9PiBlbmNoYW50Ml8yLjcuMi5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2VuY2hhbnQve2VuY2hhbnQyXzIuNi45LmJiID0+IGVuY2hhbnQyXzIuNy4y
-LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2VuY2hhbnQvZW5j
-aGFudDJfMi42LjkuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIu
-Ny4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2VuY2hhbnQvZW5jaGFudDJfMi42LjkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2VuY2hhbnQvZW5jaGFudDJfMi43LjIuYmIKaW5kZXggYWFmMzUyNWFkOC4uMDg5OThkZDQ4
-ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZW5jaGFudC9lbmNoYW50Ml8yLjYu
-OS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIuNy4yLmJi
-CkBAIC0xMiw3ICsxMiw3IEBAIERFUEVORFMgPSAiZ2xpYi0yLjAgZ3JvZmYtbmF0aXZlIgogaW5o
-ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGdpdGh1Yi1yZWxlYXNlcwogCiBTUkNfVVJJID0gIiR7
-R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vZW5jaGFudC0ke1BWfS50YXIuZ3oiCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiZDlhNWExMGRjOWIzOGE0M2IzYTBmYTIyYzc2ZWQ2ZWJiN2Uw
-OWViNTM1YWZmNjI5NTRhZmNkYmQ0MGVmZmY2YiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3Y2Mz
-NDAwYTY2NTc5NzRhNzQwYjZlM2MyNTY4ZTI5MzVjNzBlNTMwMmYwN2ZhZGIyMDk1MzY2Yjc1ZWNh
-ZDZmIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL0FiaVdvcmQvZW5j
-aGFudC9yZWxlYXNlcyIKIAotLSAKMi40NC4wCgo=
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxMzo0MDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1saWJhdjogdXBncmFkZSAxLjIyLjExIC0+IDEuMjQuMwoKLS0tCiAuLi50cmVh
+bWVyMS4wLWxpYmF2XzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjQuMy5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJh
+dl8xLjIyLjExLmJiID0+IGdzdHJlYW1lcjEuMC1saWJhdl8xLjI0LjMuYmJ9ICg5MSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1s
+aWJhdl8xLjIyLjExLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
+YW1lcjEuMC1saWJhdl8xLjI0LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1saWJhdl8xLjIy
+LjExLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
+bWVyMS4wLWxpYmF2XzEuMjQuMy5iYgppbmRleCBmMzI4N2VmYTk2Li5kNDY4ZjI5ODNjIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxp
+YmF2XzEuMjIuMTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
+dHJlYW1lcjEuMC1saWJhdl8xLjI0LjMuYmIKQEAgLTEyLDcgKzEyLDcgQEAgTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NjkzMzNkYWEwNDRjYjc3ZTQ4NmNjMzYxMjlmN2E3
+NzAgXAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFt
+ZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3QtbGliYXYvZ3N0LWxpYmF2LSR7UFZ9LnRhci54eiIK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2YjEzZGNjOTMzMmVmMjdhN2MxZTcwMDVjMDE5Njg4Mzg3
+NGY5MTYyMmY4YWE2ZTUyZjIxOGIwNWIxNWQyYmY1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ5
+YzViMTUyNDY4YTQ1YzFmYTgzNTE0MTA0MjIwOTBhNzE5MjcwN2FkNzRkMmUxYTQzNjdmNTI1NGUx
+ODhkOTEiCiAKIFMgPSAiJHtXT1JLRElSfS9nc3QtbGliYXYtJHtQVn0iCiAKLS0gCjIuNDQuMAoK
 
---===============7344219221731825337==
+--===============8777466146847277998==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 168456 to 331584 (+97%)
-packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGSIZE changed from 26668 to 20827 (-22%)
-packages/core2-64-poky-linux/enchant2/enchant2-dev: FILELIST: removed "/usr/include/enchant-2/enchant-provider.h"
-packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 168899 to 352494 (+109%)
-packages/core2-64-poky-linux/enchant2/enchant2: PKGSIZE changed from 90410 to 119162 (+32%)
-packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.6.9", added "/usr/lib/libenchant-2.so.2.7.2"
-Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
-  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.6.9 to libenchant-2.so.2.7.2
-  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.6.9 to libenchant-2.so.2.7.2
-  /usr/lib/libenchant-2.so.2.6.9 moved to /usr/lib/libenchant-2.so.2.7.2
-  /usr/include/enchant-2/enchant-provider.h was removed
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============7344219221731825337==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Build Configuration:
+BB_VERSION           = "2.9.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-209ce5f689eb1a7173ea66cecd39764b974b9be1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:209ce5f689eb1a7173ea66cecd39764b974b9be1"
 
-packages/core2-64-poky-linux/enchant2/enchant2-dbg: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 168456 to 331584 (+97%)
-packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2-dbg: FILELIST: removed "/usr/lib/.debug/libenchant-2.so.2.6.9", added "/usr/lib/.debug/libenchant-2.so.2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-dev: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGSIZE changed from 26668 to 20827 (-22%)
-packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2-dev: FILELIST: removed "/usr/include/enchant-2/enchant-provider.h"
-packages/core2-64-poky-linux/enchant2/enchant2-doc: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2-locale: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-locale: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2-src: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 168899 to 352494 (+109%)
-packages/core2-64-poky-linux/enchant2/enchant2-src: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2-src: FILELIST: directory renamed /usr/src/debug/enchant2/2.6.9/providers -> /usr/src/debug/enchant2/2.7.2/providers, removed "/usr/src/debug/enchant2/2.6.9/src/enchant-lsmod.c /usr/src/debug/enchant2/2.6.9/lib/string.h /usr/src/debug/enchant2/2.6.9/src/enchant-provider.h /usr/src/debug/enchant2/2.6.9/src/pwl.h /usr/src/debug/enchant2/2.6.9/src/enchant.h /usr/src/debug/enchant2/2.6.9/src/pwl.c /usr/src/debug/enchant2/2.6.9/src/enchant.c /usr/src/debug/enchant2/2.6.9/src/lib.c", added "/usr/src/debug/enchant2/2.7.2/src/enchant-lsmod.c /usr/src/debug/enchant2/2.7.2/lib/api.vala /usr/src/debug/enchant2/2.7.2/lib/pwl.vala /usr/src/debug/enchant2/2.7.2/lib/dict.vala /usr/src/debug/enchant2/2.7.2/lib/util.vala /usr/src/debug/enchant2/2.7.2/lib/util.c /usr/src/debug/enchant2/2.7.2/lib/broker.vala /usr/src/debug/enchant2/2.7.2/lib/gnu.vapi /usr/src/debug/enchant2/2.7.2/lib/session.vala /usr/src/debug/enchant2/2.7.2/lib/enchant.h /usr/src/debug/en
- chant2/2.7.2/lib/pwl.c /usr/src/debug/enchant2/2.7.2/lib/broker.c /usr/src/debug/enchant2/2.7.2/lib/enchant-provider.h /usr/src/debug/enchant2/2.7.2/lib/provider.vala /usr/src/debug/enchant2/2.7.2/lib/dict.c /usr/src/debug/enchant2/2.7.2/lib/api.c /usr/src/debug/enchant2/2.7.2/lib/session.c /usr/src/debug/enchant2/2.7.2/src/enchant.c /usr/src/debug/enchant2/2.7.2/lib/provider.c"
-packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2: PV changed from "2.6.9" to "2.7.2"
-packages/core2-64-poky-linux/enchant2/enchant2: PKGSIZE changed from 90410 to 119162 (+32%)
-packages/core2-64-poky-linux/enchant2/enchant2: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.6.9", added "/usr/lib/libenchant-2.so.2.7.2"
-packages/core2-64-poky-linux/enchant2: PKGV changed from 2.6.9 [default] to 2.7.2 [default]
-packages/core2-64-poky-linux/enchant2: SRC_URI changed from "https://github.com/AbiWord/enchant/releases/download/v2.6.9/enchant-2.6.9.tar.gz" to "https://github.com/AbiWord/enchant/releases/download/v2.7.2/enchant-2.7.2.tar.gz"
-packages/core2-64-poky-linux/enchant2: PV changed from "2.6.9" to "2.7.2"
-Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
-  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.6.9 to libenchant-2.so.2.7.2
-  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.6.9 to libenchant-2.so.2.7.2
-  /usr/lib/libenchant-2.so.2.6.9 moved to /usr/lib/libenchant-2.so.2.7.2
-  /usr/include/enchant-2/enchant-provider.h was removed
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 357 Local 345 Mirrors 0 Missed 12 Current 564 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2301 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_recipe_qa)
+NOTE: Running task 2409 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_write_config)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_recipe_qa: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2534 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_fetch)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2535 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_unpack)
+NOTE: Running task 2536 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2537 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_patch)
+NOTE: Running task 2538 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_patch: Succeeded
+NOTE: Running task 2539 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2540 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2541 of 2553 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_configure)
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-
+ devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'ffmpeg', 'gstreamer
+ 1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dtests=disabled ...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/gst-libav-1.24.3
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/build
+| Build type: cross build
+| Project name: gst-libav
+| Project version: 1.24.3
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency libavfilter found: YES 9.12.100
+| Run-time dependency libavformat found: YES 60.16.100
+| Run-time dependency libavcodec found: YES 60.31.102
+| Run-time dependency libavutil found: YES 58.29.100
+| Checking if "libav is provided by FFmpeg" with dependencies libavfilter, libavformat, libavcodec, libavutil compiles: YES
+| Has header "unistd.h" : YES
+| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
+| Found CMake: NO
+| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency gstreamer-1.0
+| 
+| ../gst-libav-1.24.3/meson.build:91:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844:170 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844, line 170
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844, line 159
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844, line 148
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844, line 183
+NOTE: recipe gstreamer1.0-libav-1.24.3-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2541 tasks of which 2531 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501133923.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501133923.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
---===============7344219221731825337==--
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gstreamer1.0-libav-1.24.3-r0 do_configure: meson failed
+ERROR: gstreamer1.0-libav-1.24.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/run.do_configure.3547844', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-libav/1.24.3/temp/log.do_configure.3547844
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb:do_configure) failed with exit code '1'
+
+--===============8777466146847277998==--
 
