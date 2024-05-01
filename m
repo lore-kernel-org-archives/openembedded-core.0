@@ -1,128 +1,182 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE5BC4345F
-	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 06:37:28 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.6400.1714545438556275916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0964C4345F
+	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 08:15:58 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.7695.1714551347932957010
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Apr 2024 23:37:18 -0700
+ Wed, 01 May 2024 01:15:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gN+ZYZez;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34cfd924eaeso2403285f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Apr 2024 23:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1714545437; x=1715150237; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aQ21XK/pPJ3fmKg6vhmkZ8qasoD8GTKIqyRIHh3kanY=;
-        b=gN+ZYZezB2cFm5nRMHmFcLDWZAPYlIAhD64YE506kG/VGS5DRduLIdUge79skbR6Bl
-         O7mWpVUShmkMxrPcuYdTXyAuE0ChL8R/gs/sDvhok4N1+Mthmmu5zOpb/jVfoc1aEOtY
-         powOc5S9lFnNRBDa3lTURNQZHT6YYTxtdC6EU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714545437; x=1715150237;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aQ21XK/pPJ3fmKg6vhmkZ8qasoD8GTKIqyRIHh3kanY=;
-        b=gv1mMVE4JSNWxaj7JYcyO8IuYaEIanIUP3HU3c0Re3HqUfdfMVSNdhalEjMuq7xXem
-         eqxbNKugii0/D6auyL9aonnU2lyo6cyLvQoLTslwu4TJA7kzYyalKgo9uMbNmaQMuJHg
-         8Ktv44u+wzxjrfHCoDa51PDGe+5a/fXYIL/Xb2q24tM3ymw0YVTXPzP9UBhQxPa0y4Sa
-         DX1HivLcTCGaLeo5JaBnIvn2dfrcP2c/rrI80N3Us0Trr8OULLHcGN52LWciMluqqilG
-         Oyaczt5fOiNpKwsjpeJII4G76hQGXTAKTicg09avcasPykATT+R7focnC8QlJrXZgOeb
-         KMLw==
-X-Forwarded-Encrypted: i=1; AJvYcCU45qopxF8n/JpVCAhPL5nFIc/rDSC7xMiVmc4rYk5mU8EVnozq3Q1WZeTXzaHw71UgqslVdGKJHF5ghubsMESdAujilCIU7o9y0TRhVfPfy1Iwkx5gWwrA
-X-Gm-Message-State: AOJu0YxI06zRiufUf2sUiSi8IRvlovxXOR81SBaA9jlZ0S9J0cvGrpCe
-	WFaBacHyQhe67vn5JDz8aAOwzMjcR78dgmEhzfOMbKm+ZfuE/Inko1EBEPDcDxM=
-X-Google-Smtp-Source: AGHT+IEi2xhTvSC/9ZdgmNzQnU4/dQjFHxq6Hj8/SsL4pqtxPbhm/ihexKGfPEODJeQGpkl8RbWN0g==
-X-Received: by 2002:adf:9b88:0:b0:34d:a4d7:5c8e with SMTP id d8-20020adf9b88000000b0034da4d75c8emr1187061wrc.15.1714545436896;
-        Tue, 30 Apr 2024 23:37:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7f26:b75:1898:f5af? ([2001:8b0:aba:5f3c:7f26:b75:1898:f5af])
-        by smtp.gmail.com with ESMTPSA id g2-20020a5d5542000000b0034720354152sm33553313wrw.117.2024.04.30.23.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 23:37:16 -0700 (PDT)
-Message-ID: <d2c9a52edde8e5d77b58339ff0fb5f01cd337301.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] glib/gobject-introspection: update 2.78.4
- -> 2.80.0, 1.78.1 -> 1.80.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Wed, 01 May 2024 07:37:15 +0100
-In-Reply-To: <20240423114115.932621-2-alex.kanavin@gmail.com>
-References: <20240423114115.932621-1-alex.kanavin@gmail.com>
-	 <20240423114115.932621-2-alex.kanavin@gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=lvUpzl+M;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2024050108154427cf5e5fc506517103-okb4hb@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2024050108154427cf5e5fc506517103
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 01 May 2024 10:15:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=CwajTJax3IW2QepX9GUUX9Cp6G2OMopRL7KYNzuDpz8=;
+ b=lvUpzl+M7ebTC7UTCsFsC1yQcnFkBE2yyyI6UyWZAaOrZDfOAiuqYlgVpk/pRte2p7aBdO
+ XR2JExS2jPmNyv5EwhQtR25TnTCejRr+3T7Uw7YTJXsrLqjVsJFLggE08IyoqbgCiEI9naIK
+ lu2ndTdN9g0uLCEblo1HLPwBP9DF0=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] libarchive: fix multiple security vulnerabilities in pax writer
+Date: Wed,  1 May 2024 10:14:53 +0200
+Message-Id: <20240501081453.889935-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 06:37:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198788
+ <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 08:15:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198789
 
-On Tue, 2024-04-23 at 13:41 +0200, Alexander Kanavin via lists.openembedded=
-.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
->=20
-> With these versions, which need to be updated in lockstep, upstream has
-> relocated glib introspection data from g-i tree to glib tree and made
-> its generation a part of the overall glib build. This creates a circular
-> dependency, where g-i tools are linked with glib, but glib needs the tool=
-s
-> to build its g-i data. (I don't know why the two source trees
-> couldn't be simply merged into one, or g-i data for glib couldn't be gene=
-rated
-> inside g-i build against sysroot glib).
->=20
-> Upstream is suggesting building glib twice, first without building g-i da=
-ta,
-> then building g-i and linking it with that version, then building
-> the final glib, and that's what is being done here (via the new
-> glib-initial recipe, which is sysroot-only, and is not pulled in
-> via indirect dependencies either).
->=20
-> Other glib changes:
-> 0001-Do-not-write-bindir-into-pkg-config-files.patch restores
-> writing bindir variable into glib.pc file (meson only writes
-> it out if other variables depend on it, and this custom patch
-> removes that dependency).
->=20
-> 0001-girepository-introspection-correctly-install-.gir-fi.patch
-> ensures correct installation of .gir into something else
-> than $datadir (useful in multilib).
->=20
-> Merge previous glib .bb into .inc, so that glib and glib-initial
-> recipes could be cleanly separated with no duplication.
->=20
-> Convert from gtk-doc to gi-docgen, and manpages from xmlto to
-> docutils.
+From: Peter Marko <peter.marko@siemens.com>
 
-This is causing a selftest failure for:
+There was no CVE assigned but the commit message is clear.
 
-"oe-selftest -r sstatetests.SStateHashSameSigs2.test_sstate_nativesdk_sames=
-igs_multilib"
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...ix-multiple-security-vulnerabilities.patch | 107 ++++++++++++++++++
+ .../libarchive/libarchive_3.6.2.bb            |   4 +-
+ 2 files changed, 110 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch
 
-e.g.
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch b/meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch
+new file mode 100644
+index 0000000000..0fec6a9b8c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch
+@@ -0,0 +1,107 @@
++From 1b4e0d0f9d445ba3e4d0c7db7ce0b30300572fe8 Mon Sep 17 00:00:00 2001
++From: Martin Matuska <martin@matuska.de>
++Date: Fri, 18 Aug 2023 00:28:39 +0200
++Subject: [PATCH] pax writer: fix multiple security vulnerabilities
++
++Security vulnerabilities:
++1. Heap overflow in url_encode() in archive_write_set_format_pax.c
++2. NULL dereference in archive_write_pax_header_xattrs()
++3. Another NULL dereference in archive_write_pax_header_xattrs()
++4. NULL dereference in archive_write_pax_header_xattr()
++
++The vulnerabilities can be triggered when writing pax archives
++with extended attributes (SCHILY or LIBARCHIVE) by feeding attribute
++names longer than INT_MAX or attribute names that fail to be encoded
++properly.
++
++Reported-by: Bahaa Naamneh of Crosspoint Labs
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/1b4e0d0f9d445ba3e4d0c7db7ce0b30300572fe8]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ libarchive/archive_write_set_format_pax.c | 35 ++++++++++++++++-------
++ 1 file changed, 25 insertions(+), 10 deletions(-)
++
++diff --git a/libarchive/archive_write_set_format_pax.c b/libarchive/archive_write_set_format_pax.c
++index c9c15916..1eb9a9a4 100644
++--- a/libarchive/archive_write_set_format_pax.c
+++++ b/libarchive/archive_write_set_format_pax.c
++@@ -367,10 +367,12 @@ archive_write_pax_header_xattr(struct pax *pax, const char *encoded_name,
++ 	struct archive_string s;
++ 	char *encoded_value;
++ 
+++	if (encoded_name == NULL)
+++		return;
+++
++ 	if (pax->flags & WRITE_LIBARCHIVE_XATTR) {
++ 		encoded_value = base64_encode((const char *)value, value_len);
++-
++-		if (encoded_name != NULL && encoded_value != NULL) {
+++		if (encoded_value != NULL) {
++ 			archive_string_init(&s);
++ 			archive_strcpy(&s, "LIBARCHIVE.xattr.");
++ 			archive_strcat(&s, encoded_name);
++@@ -403,17 +405,22 @@ archive_write_pax_header_xattrs(struct archive_write *a,
++ 
++ 		archive_entry_xattr_next(entry, &name, &value, &size);
++ 		url_encoded_name = url_encode(name);
++-		if (url_encoded_name != NULL) {
+++		if (url_encoded_name == NULL)
+++			goto malloc_error;
+++		else {
++ 			/* Convert narrow-character to UTF-8. */
++ 			r = archive_strcpy_l(&(pax->l_url_encoded_name),
++ 			    url_encoded_name, pax->sconv_utf8);
++ 			free(url_encoded_name); /* Done with this. */
++ 			if (r == 0)
++ 				encoded_name = pax->l_url_encoded_name.s;
++-			else if (errno == ENOMEM) {
++-				archive_set_error(&a->archive, ENOMEM,
++-				    "Can't allocate memory for Linkname");
++-				return (ARCHIVE_FATAL);
+++			else if (r == -1)
+++				goto malloc_error;
+++			else {
+++				archive_set_error(&a->archive,
+++				    ARCHIVE_ERRNO_MISC,
+++				    "Error encoding pax extended attribute");
+++				return (ARCHIVE_FAILED);
++ 			}
++ 		}
++ 
++@@ -422,6 +429,9 @@ archive_write_pax_header_xattrs(struct archive_write *a,
++ 
++ 	}
++ 	return (ARCHIVE_OK);
+++malloc_error:
+++	archive_set_error(&a->archive, ENOMEM, "Can't allocate memory");
+++	return (ARCHIVE_FATAL);
++ }
++ 
++ static int
++@@ -1904,14 +1914,19 @@ url_encode(const char *in)
++ {
++ 	const char *s;
++ 	char *d;
++-	int out_len = 0;
+++	size_t out_len = 0;
++ 	char *out;
++ 
++ 	for (s = in; *s != '\0'; s++) {
++-		if (*s < 33 || *s > 126 || *s == '%' || *s == '=')
+++		if (*s < 33 || *s > 126 || *s == '%' || *s == '=') {
+++			if (SIZE_MAX - out_len < 4)
+++				return (NULL);
++ 			out_len += 3;
++-		else
+++		} else {
+++			if (SIZE_MAX - out_len < 2)
+++				return (NULL);
++ 			out_len++;
+++		}
++ 	}
++ 
++ 	out = (char *)malloc(out_len + 1);
++-- 
++2.30.2
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index 0219ffa720..7d328a0060 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -28,7 +28,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ 
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
++    file://0001-pax-writer-fix-multiple-security-vulnerabilities.patch \
++"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
+-- 
+2.30.2
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6644/step=
-s/14/logs/stdio
-
-(other failures there are my fault but I confirmed the sstate one is from t=
-his patch)
-
-Cheers,
-
-Richard
 
