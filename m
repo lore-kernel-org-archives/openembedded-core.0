@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC6FC25B75
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 522BCC25B79
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:20 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1142.1714579217171597751
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1124.1714579217067977493
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JMC6BEti;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=i6fj9A5/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018f34e298d3-f3f4bede-a332-4c75-a8e6-17f34c1a98e9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dVCmxFWT;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=m7WVh1tA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f34e297df-5a75b078-5227-4067-8d2b-b3f9c7505d6d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=izYIatG2VwRbsg1G0qWHSnrFPHyiB0bhdH/480XAV04=;
-	b=JMC6BEtiD2xKoaluF5C+NxHTz5+k0ha4/rTe5NUqFAder8MH4WP2qY1m7lmp8aP0
-	NAu5YmkQboq8OLIprrSz0p/pqPwWX+x4XHCKm1sKgaiQ3SYnZYo+jePwAXfGe2bnhy0
-	IAJqrdAWKFaxkfzzaZYlEIJtvhEX+AtgCK/Vzynk=
+	bh=2P/GsK7JvyUYc5fOiFAZGVz07gJUmh/Or+kTDAw0sjE=;
+	b=dVCmxFWTF/VB8WZC+dTjBfgWgy353K/SNFB2pEoxlNbSvIbnY4BkWCzx+AZdeJ7P
+	c/9E1I6F6WnKWiGLDrJAKGHcd4OHvaiXgRfUM06cJybCzOGYDPnYdMUED3tjV3BiHCQ
+	gG3e9jzBBh7owMB1YSyJ1C5beACg+kcXoc2PE1xc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=izYIatG2VwRbsg1G0qWHSnrFPHyiB0bhdH/480XAV04=;
-	b=i6fj9A5/lLYI4uPxcra+9dBBn1Zp7+cya6Od3I9XvoUoOx7LO0fcJdN6IWLe4paW
-	j8uv6LGJ6Uqt0DRWWI51QfGKObnikLcFpABN1+Et3CY1YGpTQoisJQ6cT64WHAMfbYb
-	CXTw9g7HTGcB6OHsUIhGV/+o+G1QRr9mebc7phqc=
-Content-Type: multipart/mixed; boundary="===============2873777940336452955=="
+	bh=2P/GsK7JvyUYc5fOiFAZGVz07gJUmh/Or+kTDAw0sjE=;
+	b=m7WVh1tA4n1+0H6BDbUhZ+ciBk14oeRUeH4jK9AC+OAwe8MGA39RnQ0/+cY5Vbop
+	flDi2mpEyqmbgJqvwPBFuYcJPssjR56lGnWNLcpZOC95PwTHyQLVFZr8vZR9rGj7V6F
+	uMoncychY71tvzGYnF8OvxHK7B4dJSxzuBUsPKgU=
+Content-Type: multipart/mixed; boundary="===============2247807227358571419=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap-ng: upgrading to 0.8.5 SUCCEEDED
-Message-ID: <0101018f34e298d3-f3f4bede-a332-4c75-a8e6-17f34c1a98e9-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.3 FAILED
+Message-ID: <0101018f34e297df-5a75b078-5227-4067-8d2b-b3f9c7505d6d-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.31
+X-SES-Outgoing: 2024.05.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198876
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198875
 
---===============2873777940336452955==
+--===============2247807227358571419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcap-ng* to *0.8.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.24.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libcap-ng-upgrade-0.8.4-0.8.5.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.22.11-1.24.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,175 +78,195 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d04980a27de936cab3e5d81dfd74b848cf746f6a Mon Sep 17 00:00:00 2001
+From da3ce662a0c51ada75075bd32f690e19b5b824cc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 15:02:59 +0000
-Subject: [PATCH] libcap-ng: upgrade 0.8.4 -> 0.8.5
+Date: Wed, 1 May 2024 14:09:23 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.22.11 -> 1.24.3
 
 ---
- .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
- meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
- ...{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} |  0
- 3 files changed, 2 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} (100%)
+ ...eamer1.0-python_1.22.11.bb => gstreamer1.0-python_1.24.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.11.bb => gstreamer1.0-python_1.24.3.bb} (91%)
 
-diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-deleted file mode 100644
-index fb424fe725..0000000000
---- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
--From: Steve Grubb <ausearch.1@gmail.com>
--Date: Thu, 4 Jan 2024 15:06:29 -0500
--Subject: [PATCH] Remove python global exception handler since its deprecated
--
--Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- bindings/src/capng_swig.i | 7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
--index fcdaf18..fa85e13 100644
----- a/bindings/src/capng_swig.i
--+++ b/bindings/src/capng_swig.i
--@@ -30,13 +30,6 @@
-- 
-- %varargs(16, signed capability = 0) capng_updatev;
-- 
---%except(python) {
---  $action
---  if (result < 0) {
---    PyErr_SetFromErrno(PyExc_OSError);
---    return NULL;
---  }
---}
-- #endif
-- 
-- %define __signed__
---- 
--2.43.2
--
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 845b7c2f0a..875337b954 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
+index 0fbb03f757..5fbf860741 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
--           file://fix-issues-with-swig-4-2.patch \
--           "
-+SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "f7a5450d93fd81bf46060dca7f4a048d095b6717961fec211731a11a994c99a7"
++SRC_URI[sha256sum] = "ecdb3e2ba94ea2c82b93a8c715d5a7e04f9726a8838c0a6b17694928fd1e8595"
  
--SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
-+SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
- 
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-similarity index 100%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.44.0
 
 
---===============2873777940336452955==
+--===============2247807227358571419==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-4016d4e193743e57e5df0fcdad3d8c02ef34d3c6"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:4016d4e193743e57e5df0fcdad3d8c02ef34d3c6"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 472 Local 460 Mirrors 0 Missed 12 Current 690 (97% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2574 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_recipe_qa)
+NOTE: Running task 2810 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_write_config)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_recipe_qa: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3177 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_fetch)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_fetch: Succeeded
+NOTE: Running task 3178 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_unpack)
+NOTE: Running task 3179 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_unpack: Succeeded
+NOTE: Running task 3180 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_patch)
+NOTE: Running task 3181 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_patch: Succeeded
+NOTE: Running task 3182 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3183 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 3184 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure)
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstre
+ amer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-pycairo', 'python3-pygobject', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-he
+ aders', 'alsa-lib', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 's
+ qlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dtests=disabled -Dplugin=enabled -Dlibpython-dir=/usr/lib ...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/gst-python-1.24.3
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/build
+| Build type: cross build
+| Project name: gst-python
+| Project version: 1.24.3
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
+| Found CMake: NO
+| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency gstreamer-1.0
+| 
+| ../gst-python-1.24.3/meson.build:20:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950:182 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 182
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 164
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 153
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950, line 195
+NOTE: recipe gstreamer1.0-python-1.24.3-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3184 tasks of which 3174 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501140840.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501140840.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gstreamer1.0-python-1.24.3-r0 do_configure: meson failed
+ERROR: gstreamer1.0-python-1.24.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/run.do_configure.363950', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.3/temp/log.do_configure.363950
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb:do_configure) failed with exit code '1'
+
+--===============2247807227358571419==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libcap-ng-upgrade-0.8.4-0.8.5.patch"
+ filename="0001-gstreamer1.0-python-upgrade-1.22.11-1.24.3.patch"
 
-RnJvbSBkMDQ5ODBhMjdkZTkzNmNhYjNlNWQ4MWRmZDc0Yjg0OGNmNzQ2ZjZhIE1vbiBTZXAgMTcg
+RnJvbSBkYTNjZTY2MmEwYzUxYWRhNzUwNzViZDMyZjY5MGUxOWI1YjgyNGNjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNTowMjo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmNhcC1uZzogdXBncmFkZSAwLjguNCAtPiAwLjguNQoKLS0tCiAuLi4vZmlsZXMvZml4LWlzc3Vl
-cy13aXRoLXN3aWctNC0yLnBhdGNoICAgICAgfCAzMiAtLS0tLS0tLS0tLS0tLS0tLS0tCiBtZXRh
-L3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmluYyAgfCAgNiArKy0tCiAuLi57
-bGliY2FwLW5nXzAuOC40LmJiID0+IGxpYmNhcC1uZ18wLjguNS5iYn0gfCAgMAogMyBmaWxlcyBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDM2IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9maWxlcy9maXgtaXNzdWVzLXdpdGgt
-c3dpZy00LTIucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcve2xp
-YmNhcC1uZ18wLjguNC5iYiA9PiBsaWJjYXAtbmdfMC44LjUuYmJ9ICgxMDAlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9maWxlcy9maXgtaXNzdWVzLXdpdGgt
-c3dpZy00LTIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4
-LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRl
-eCBmYjQyNGZlNzI1Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNh
-cC1uZy9maWxlcy9maXgtaXNzdWVzLXdpdGgtc3dpZy00LTIucGF0Y2gKKysrIC9kZXYvbnVsbApA
-QCAtMSwzMiArMCwwIEBACi1Gcm9tIDM1NWVhZGEyZDIwODg2Mjg3Y2ZmYzE2ZTMwNDA4N2RkNmY2
-NmFlMzcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBTdGV2ZSBHcnViYiA8YXVzZWFy
-Y2guMUBnbWFpbC5jb20+Ci1EYXRlOiBUaHUsIDQgSmFuIDIwMjQgMTU6MDY6MjkgLTA1MDAKLVN1
-YmplY3Q6IFtQQVRDSF0gUmVtb3ZlIHB5dGhvbiBnbG9iYWwgZXhjZXB0aW9uIGhhbmRsZXIgc2lu
-Y2UgaXRzIGRlcHJlY2F0ZWQKLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9n
-aXRodWIuY29tL3N0ZXZlZ3J1YmIvbGliY2FwLW5nL2NvbW1pdC8zMDQ1M2I2NTUzOTQ4Y2QwNWM0
-MzhmOWY1MDkwMTNlM2JiODRmMjViXQotU2lnbmVkLW9mZi1ieTogQW51aiBNaXR0YWwgPGFudWou
-bWl0dGFsQGludGVsLmNvbT4KLS0tLQotIGJpbmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkgfCA3IC0t
-LS0tLS0KLSAxIGZpbGUgY2hhbmdlZCwgNyBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL2Jp
-bmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkgYi9iaW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pCi1pbmRl
-eCBmY2RhZjE4Li5mYTg1ZTEzIDEwMDY0NAotLS0tIGEvYmluZGluZ3Mvc3JjL2NhcG5nX3N3aWcu
-aQotKysrIGIvYmluZGluZ3Mvc3JjL2NhcG5nX3N3aWcuaQotQEAgLTMwLDEzICszMCw2IEBACi0g
-Ci0gJXZhcmFyZ3MoMTYsIHNpZ25lZCBjYXBhYmlsaXR5ID0gMCkgY2FwbmdfdXBkYXRldjsKLSAK
-LS0lZXhjZXB0KHB5dGhvbikgewotLSAgJGFjdGlvbgotLSAgaWYgKHJlc3VsdCA8IDApIHsKLS0g
-ICAgUHlFcnJfU2V0RnJvbUVycm5vKFB5RXhjX09TRXJyb3IpOwotLSAgICByZXR1cm4gTlVMTDsK
-LS0gIH0KLS19Ci0gI2VuZGlmCi0gCi0gJWRlZmluZSBfX3NpZ25lZF9fCi0tLSAKLTIuNDMuMgot
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmlu
-YyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmcuaW5jCmluZGV4IDg0
-NWI3YzJmMGEuLjg3NTMzN2I5NTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
-YmNhcC1uZy9saWJjYXAtbmcuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1u
-Zy9saWJjYXAtbmcuaW5jCkBAIC03LDExICs3LDkgQEAgTElDRU5TRSA9ICJHUEwtMi4wLW9yLWxh
-dGVyICYgTEdQTC0yLjEtb3ItbGF0ZXIiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
-SU5HO21kNT05NGQ1NWQ1MTJhOWJhMzZjYWE5YjdkZjA3OWJhZTE5ZiBcCiAJCSAgICBmaWxlOi8v
-Q09QWUlORy5MSUI7bWQ1PWUzZWRhMDFkOTgxNWY4ZDI0YWFlMmRiZDg5YjY4YjA2IgogCi1TUkNf
-VVJJID0gImh0dHBzOi8vcGVvcGxlLnJlZGhhdC5jb20vc2dydWJiL2xpYmNhcC1uZy9saWJjYXAt
-bmctJHtQVn0udGFyLmd6IFwKLSAgICAgICAgICAgZmlsZTovL2ZpeC1pc3N1ZXMtd2l0aC1zd2ln
-LTQtMi5wYXRjaCBcCi0gICAgICAgICAgICIKK1NSQ19VUkkgPSAiaHR0cHM6Ly9wZW9wbGUucmVk
-aGF0LmNvbS9zZ3J1YmIvbGliY2FwLW5nL2xpYmNhcC1uZy0ke1BWfS50YXIuZ3oiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI2ODU4MWQzYjM4ZTc1NTNjYjZmNmRkZjc4MTNiMWZjOTllNTI4NTZm
-MjE0MjFmN2I0NzdjZTVhYmQyNjA1YThhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNiYTUyOTRk
-MWNiZGZhOThhZmFhY2ZiYzAwYjZhZjllZDJiODNlOGEyMTgxNzE4NWRmZDg0NGNjOGM3YWM2ZmYi
-CiAKIEVYVFJBX09FQ09ORjphcHBlbmQ6Y2xhc3MtdGFyZ2V0ID0gIiAtLXdpdGgtY2FwYWJpbGl0
-eV9oZWFkZXI9JHtTVEFHSU5HX0lOQ0RJUn0vbGludXgvY2FwYWJpbGl0eS5oIgogRVhUUkFfT0VD
-T05GOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIC0td2l0aC1jYXBhYmlsaXR5X2hlYWRlcj0k
-e1NUQUdJTkdfSU5DRElSfS9saW51eC9jYXBhYmlsaXR5LmgiCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nXzAuOC40LmJiIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZ18wLjguNS5iYgpzaW1pbGFyaXR5IGluZGV4IDEw
-MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZ18w
-LjguNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1u
-Z18wLjguNS5iYgotLSAKMi40NC4wCgo=
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxNDowOToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yMi4xMSAtPiAxLjI0LjMKCi0tLQogLi4uZWFt
+ZXIxLjAtcHl0aG9uXzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
+aG9uXzEuMjIuMTEuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmJ9ICg5MSUpCgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC1weXRob25fMS4yMi4xMS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhv
+bl8xLjIyLjExLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmIKaW5kZXggMGZiYjAzZjc1Ny4uNWZiZjg2MDc0
+MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC1weXRob25fMS4yMi4xMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjMuYmIKQEAgLTgsNyArOCw3IEBAIExJQ0VO
+U0UgPSAiTEdQTC0yLjEtb3ItbGF0ZXIiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
+SU5HO21kNT1jMzRkZWFlNGUzOTVjYTA3ZTcyNWFiMDA3NmE1Zjc0MCIKIAogU1JDX1VSSSA9ICJo
+dHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjLyR7UE5SRUFMfS8ke1BOUkVBTH0t
+JHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImY3YTU0NTBkOTNmZDgxYmY0NjA2
+MGRjYTdmNGEwNDhkMDk1YjY3MTc5NjFmZWMyMTE3MzFhMTFhOTk0Yzk5YTciCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiZWNkYjNlMmJhOTRlYTJjODJiOTNhOGM3MTVkNWE3ZTA0Zjk3MjZhODgzOGMw
+YTZiMTc2OTQ5MjhmZDFlODU5NSIKIAogREVQRU5EUyA9ICJnc3RyZWFtZXIxLjAgZ3N0cmVhbWVy
+MS4wLXBsdWdpbnMtYmFzZSBweXRob24zLXB5Z29iamVjdCIKIFJERVBFTkRTOiR7UE59ICs9ICJn
+c3RyZWFtZXIxLjAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSBweXRob24zLXB5Z29iamVjdCIK
+LS0gCjIuNDQuMAoK
 
---===============2873777940336452955==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libcap-ng: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng: SRC_URI changed from "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz file://fix-issues-with-swig-4-2.patch" to "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.5.tar.gz"
-packages/core2-64-poky-linux/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGSIZE changed from 166944 to 167440 (+0%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGSIZE changed from 5249 to 5214 (-1%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGSIZE changed from 80819 to 81067 (+0%)
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-packages/core2-64-poky-linux/libcap-ng/libcap-ng: PV changed from "0.8.4" to "0.8.5"
-packages/core2-64-poky-linux/libcap-ng/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
-
---===============2873777940336452955==--
+--===============2247807227358571419==--
 
