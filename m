@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11567C2B9FB
-	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:22 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.1130.1714579216357830170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2A0C27C7B
+	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:21 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.1113.1714579216392429206
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NvPGX8go;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=saVhOWNC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018f34e295da-9bf3f6e5-611f-452e-953c-9d0186e06a3e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CQi7F7GK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nEaXLhI3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f34e29620-e631e6bb-8de9-4468-8f9f-4ce9b764616e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1714579215;
+	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OWjOf2XXHS31+2Ha3gT6tTxsED7+9KDNT7ki6/RfVmM=;
-	b=NvPGX8goyI779cFXAGsKbRZPRJyO/3ehsmckOeLnIrwZr3GATF7JUEXWuAWyd4aH
-	4VDGA5qq15ah2cxwepDnr0/EKc0eP/V6aV9C1qI2z7HEnMZrxQEK7VeViftfvPfdLwO
-	KyE+lhAC4MzchW6RVl7+iC2I3pJ7NWH4LT5X79QU=
+	bh=1uWsT53OhTOOPk04IAHQzmZZlf3KZDlIxH3tA6h0eaE=;
+	b=CQi7F7GKPERffARPKLP7U2lVRzf/DBZ292Wl4WexlKF7Js0ztQv+CRo73RiXGTv2
+	dIpv3+xHOwd8l6wdtvWR5SnjrwYpUeaeB/5+3zQkllLMejhQTlleQmJXbR1ZXChgeUb
+	dtGsPoyrdk0wc72KW8i8WVBBWNSfMGqiK0sq+lfw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579215;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OWjOf2XXHS31+2Ha3gT6tTxsED7+9KDNT7ki6/RfVmM=;
-	b=saVhOWNCyY5q5mTqYH9OmJuafN1+gh2LY7j/nJfIDqKy6eWF5EOKWcYgFn09lB2b
-	0eqA3YsxdOPXgJT+7vPuds3knsxF9k8Epv+QGuX9siCfF3Mg7N0FhEBuKMHaUPKOp9u
-	dI7XzLh5t7gzqtg1TIH7DDMRw53BmJ/mp+mvDdOM=
-Content-Type: multipart/mixed; boundary="===============3119830893254102802=="
+	bh=1uWsT53OhTOOPk04IAHQzmZZlf3KZDlIxH3tA6h0eaE=;
+	b=nEaXLhI3y9Cbc9cfoz5EhDDA7h6XswF6/DIC1QM5QUNZiNpzSI9lHEK3hm/j2E9n
+	aPEnnBOC+VyeHr45FvXlYoNkjpp8ZOmCfbkpesfSmq4mq87yPw7rJIj6fzArW2r3WhY
+	dRHktMez8KL0x9o6kPQJOhCVhC0Y9xyy9fIMvu1o=
+Content-Type: multipart/mixed; boundary="===============8623118962071990453=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libva-initial: upgrading to 2.21.0 FAILED
-Message-ID: <0101018f34e295da-9bf3f6e5-611f-452e-953c-9d0186e06a3e-000000@us-west-2.amazonses.com>
+Subject: [AUH] libva: upgrading to 2.21.0 FAILED
+Message-ID: <0101018f34e29620-e631e6bb-8de9-4468-8f9f-4ce9b764616e-000000@us-west-2.amazonses.com>
 Date: Wed, 1 May 2024 16:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.29
+X-SES-Outgoing: 2024.05.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198841
+ <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198843
 
---===============3119830893254102802==
+--===============8623118962071990453==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,32 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libva-initial* to *2.21.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libva* to *2.21.0* has Failed(do_compile).
 
 Detailed error information:
 
-The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (920 cached, 1 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
+do_compile failed
 
-INFO: No patches or local source files needed updating
-INFO: Cleaning sysroot for recipe libva-initial...
-ERROR: Command 'bitbake -c clean libva-initial' failed, output:
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Parsing recipes...
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-
-If you wish, you may specify -n/--no-clean to skip running this command when resetting
 
 
 Next steps:
-    - apply the patch: git am 0001-libva-initial-upgrade-2.20.0-2.21.0.patch
+    - apply the patch: git am 0001-libva-upgrade-2.20.0-2.21.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -94,132 +78,207 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 42b4a9edb691a26604e13906355086ad4dbca78e Mon Sep 17 00:00:00 2001
+From b5dbc5cc07605e6427d02aba62aa950c88fdfda2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 10:32:59 +0000
-Subject: [PATCH] libva-initial: upgrade 2.20.0 -> 2.21.0
+Date: Wed, 1 May 2024 10:40:07 +0000
+Subject: [PATCH] libva: upgrade 2.20.0 -> 2.21.0
 
 ---
- .../libva/libva-initial_2.20.0.bb             |  8 ----
- meta/recipes-graphics/libva/libva.inc         | 37 -------------------
- 2 files changed, 45 deletions(-)
- delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.20.0.bb
- delete mode 100644 meta/recipes-graphics/libva/libva.inc
+ meta/recipes-graphics/libva/libva.inc                           | 2 +-
+ .../recipes-graphics/libva/{libva_2.20.0.bb => libva_2.21.0.bb} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libva/{libva_2.20.0.bb => libva_2.21.0.bb} (100%)
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb b/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
-deleted file mode 100644
-index 453096822f..0000000000
---- a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require libva.inc
--
--PACKAGECONFIG ?= ""
--
--do_install:append () {
--	rm -f ${D}${libdir}/*.so*
--}
--
 diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
-deleted file mode 100644
-index 486291bced..0000000000
+index 486291bced..af40d8cbba 100644
 --- a/meta/recipes-graphics/libva/libva.inc
-+++ /dev/null
-@@ -1,37 +0,0 @@
--SUMMARY = "Video Acceleration (VA) API for Linux"
--DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
--and API specification which enables and provides access to graphics \
--hardware (GPU) acceleration for video processing on Linux and UNIX \
--based operating systems. Accelerated processing includes video \
--decoding, video encoding, subpicture blending and rendering. The \
--specification was originally designed by Intel for its GMA (Graphics \
--Media Accelerator) series of GPU hardware, the API is however not \
--limited to GPUs or Intel specific hardware, as other hardware and \
--manufacturers can also freely use this API for hardware accelerated \
--video decoding."
--
--HOMEPAGE = "https://01.org/linuxmedia/vaapi"
--BUGTRACKER = "https://github.com/intel/libva/issues"
--
--SECTION = "x11"
--LICENSE = "MIT"
--
--SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -18,7 +18,7 @@ LICENSE = "MIT"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
 -SRC_URI[sha256sum] = "f72bdb4f48dfe71ad01f1cbefe069672a2c949a6abd51cf3c4d4784210badc49"
--
--S = "${WORKDIR}/libva-${PV}"
--
--GITHUB_BASE_URI = "https://github.com/intel/libva/releases"
--
--DEPENDS = "libdrm"
--
--inherit meson pkgconfig github-releases
--
--PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11 libxext libxfixes"
--PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/mesa"
--
--PACKAGECONFIG[wayland] = "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
--
--BBCLASSEXTEND = "native nativesdk"
--
++SRC_URI[sha256sum] = "9dc1a84373b656434e6a8f3ac7522bc1c959cc3434aea89d2c02092986d87016"
+ 
+ S = "${WORKDIR}/libva-${PV}"
+ 
+diff --git a/meta/recipes-graphics/libva/libva_2.20.0.bb b/meta/recipes-graphics/libva/libva_2.21.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva_2.20.0.bb
+rename to meta/recipes-graphics/libva/libva_2.21.0.bb
 -- 
 2.44.0
 
 
---===============3119830893254102802==
+--===============8623118962071990453==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (918 cached, 2 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-6c052599b505d7c28d888ae2b5f33aacc788a751"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6c052599b505d7c28d888ae2b5f33aacc788a751"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 266 Local 254 Mirrors 0 Missed 12 Current 439 (95% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1711 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_recipe_qa)
+NOTE: Running task 1882 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_write_config)
+NOTE: recipe libva-2.21.0-r0: task do_recipe_qa: Started
+NOTE: recipe libva-2.21.0-r0: task do_write_config: Started
+NOTE: recipe libva-2.21.0-r0: task do_write_config: Succeeded
+NOTE: recipe libva-2.21.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1983 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_fetch)
+NOTE: recipe libva-2.21.0-r0: task do_fetch: Started
+NOTE: recipe libva-2.21.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1984 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_unpack)
+NOTE: Running task 1985 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libva-2.21.0-r0: task do_unpack: Started
+NOTE: recipe libva-2.21.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libva-2.21.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1986 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_patch)
+NOTE: Running task 1987 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_collect_spdx_deps)
+NOTE: recipe libva-2.21.0-r0: task do_patch: Started
+NOTE: recipe libva-2.21.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libva-2.21.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libva-2.21.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libva-2.21.0-r0: task do_patch: Succeeded
+NOTE: Running task 1988 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1989 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_populate_lic)
+NOTE: recipe libva-2.21.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libva-2.21.0-r0: task do_populate_lic: Started
+NOTE: recipe libva-2.21.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe libva-2.21.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1990 of 2002 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_configure)
+NOTE: recipe libva-2.21.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_populate_sysroot', '
+ /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/
+ auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libnsl2', 'libtirpc', 'texinfo-dummy-native', 'xz', 'libdrm', 'mesa', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxrandr', 'libxrender', 'libxshmfence', 'libxxf86vm', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'gdbm', 'libffi', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libed
+ it-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'wayland-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dwith_glx=yes -Dwith_wayland=yes -Dwith_x11=yes...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/libva-2.21.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/build
+| Build type: cross build
+| Project name: libva
+| Project version: 2.21.0
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Library dl found: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency libdrm found: YES 2.4.120
+| Run-time dependency x11 found: YES 1.8.9
+| Run-time dependency xext found: YES 1.3.6
+| Run-time dependency xfixes found: YES 6.0.1
+| Run-time dependency x11-xcb found: YES 1.8.9
+| Run-time dependency xcb found: YES 1.16.1
+| Run-time dependency xcb-dri3 found: YES 1.16.1
+| Run-time dependency gl found: YES 24.0.5
+| Run-time dependency wayland-client found: YES 1.22.0
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot-native/usr/bin/pkg-config-native) 0.29.2
+| Build-time dependency wayland-scanner found: YES 1.22.0
+| Program /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/bin/wayland-scanner found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/bin/wayland-scanner)
+| Checking for function "secure_getenv" : YES
+| Configuring va_version.h using configuration
+| Checking if "-Wl,--version-script" : links: YES
+| Program doxygen found: NO
+| 
+| ../libva-2.21.0/meson.build:161:6: ERROR: Program './autogen.sh' not found or not executable
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342:170 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342, line 170
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342, line 159
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342, line 148
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342, line 183
+NOTE: recipe libva-2.21.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1990 tasks of which 1980 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 5 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501103927.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501103927.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: libva-2.21.0-r0 do_configure: meson failed
+ERROR: libva-2.21.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/run.do_configure.1451342', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libva/2.21.0/temp/log.do_configure.1451342
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.21.0.bb:do_configure) failed with exit code '1'
+
+--===============8623118962071990453==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libva-initial-upgrade-2.20.0-2.21.0.patch"
+ filename="0001-libva-upgrade-2.20.0-2.21.0.patch"
 
-RnJvbSA0MmI0YTllZGI2OTFhMjY2MDRlMTM5MDYzNTUwODZhZDRkYmNhNzhlIE1vbiBTZXAgMTcg
+RnJvbSBiNWRiYzVjYzA3NjA1ZTY0MjdkMDJhYmE2MmFhOTUwYzg4ZmRmZGEyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxMDozMjo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnZhLWluaXRpYWw6IHVwZ3JhZGUgMi4yMC4wIC0+IDIuMjEuMAoKLS0tCiAuLi4vbGlidmEvbGli
-dmEtaW5pdGlhbF8yLjIwLjAuYmIgICAgICAgICAgICAgfCAgOCAtLS0tCiBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvbGlidmEvbGlidmEuaW5jICAgICAgICAgfCAzNyAtLS0tLS0tLS0tLS0tLS0tLS0t
-CiAyIGZpbGVzIGNoYW5nZWQsIDQ1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS1pbml0aWFsXzIuMjAuMC5iYgogZGVsZXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAuYmIK
-ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQ1MzA5NjgyMmYuLjAwMDAwMDAwMDAKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLWluaXRpYWxfMi4yMC4wLmJiCisr
-KyAvZGV2L251bGwKQEAgLTEsOCArMCwwIEBACi1yZXF1aXJlIGxpYnZhLmluYwotCi1QQUNLQUdF
-Q09ORklHID89ICIiCi0KLWRvX2luc3RhbGw6YXBwZW5kICgpIHsKLQlybSAtZiAke0R9JHtsaWJk
-aXJ9Lyouc28qCi19Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9s
-aWJ2YS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCmRlbGV0ZWQg
-ZmlsZSBtb2RlIDEwMDY0NAppbmRleCA0ODYyOTFiY2VkLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKKysrIC9kZXYvbnVsbApAQCAtMSwzNyAr
-MCwwIEBACi1TVU1NQVJZID0gIlZpZGVvIEFjY2VsZXJhdGlvbiAoVkEpIEFQSSBmb3IgTGludXgi
-Ci1ERVNDUklQVElPTiA9ICJWaWRlbyBBY2NlbGVyYXRpb24gQVBJIChWQSBBUEkpIGlzIGEgbGli
-cmFyeSAobGliVkEpIFwKLWFuZCBBUEkgc3BlY2lmaWNhdGlvbiB3aGljaCBlbmFibGVzIGFuZCBw
-cm92aWRlcyBhY2Nlc3MgdG8gZ3JhcGhpY3MgXAotaGFyZHdhcmUgKEdQVSkgYWNjZWxlcmF0aW9u
-IGZvciB2aWRlbyBwcm9jZXNzaW5nIG9uIExpbnV4IGFuZCBVTklYIFwKLWJhc2VkIG9wZXJhdGlu
-ZyBzeXN0ZW1zLiBBY2NlbGVyYXRlZCBwcm9jZXNzaW5nIGluY2x1ZGVzIHZpZGVvIFwKLWRlY29k
-aW5nLCB2aWRlbyBlbmNvZGluZywgc3VicGljdHVyZSBibGVuZGluZyBhbmQgcmVuZGVyaW5nLiBU
-aGUgXAotc3BlY2lmaWNhdGlvbiB3YXMgb3JpZ2luYWxseSBkZXNpZ25lZCBieSBJbnRlbCBmb3Ig
-aXRzIEdNQSAoR3JhcGhpY3MgXAotTWVkaWEgQWNjZWxlcmF0b3IpIHNlcmllcyBvZiBHUFUgaGFy
-ZHdhcmUsIHRoZSBBUEkgaXMgaG93ZXZlciBub3QgXAotbGltaXRlZCB0byBHUFVzIG9yIEludGVs
-IHNwZWNpZmljIGhhcmR3YXJlLCBhcyBvdGhlciBoYXJkd2FyZSBhbmQgXAotbWFudWZhY3R1cmVy
-cyBjYW4gYWxzbyBmcmVlbHkgdXNlIHRoaXMgQVBJIGZvciBoYXJkd2FyZSBhY2NlbGVyYXRlZCBc
-Ci12aWRlbyBkZWNvZGluZy4iCi0KLUhPTUVQQUdFID0gImh0dHBzOi8vMDEub3JnL2xpbnV4bWVk
-aWEvdmFhcGkiCi1CVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9saWJ2YS9p
-c3N1ZXMiCi0KLVNFQ1RJT04gPSAieDExIgotTElDRU5TRSA9ICJNSVQiCi0KLVNSQ19VUkkgPSAi
-JHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L2xpYnZhLSR7UFZ9LnRhci5iejIiCi1M
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yZTQ4OTQwZjk0YWNiMGFmNTgy
-ZTVlZjAzNTM3ODAwZiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmNzJiZGI0ZjQ4ZGZlNzFhZDAx
-ZjFjYmVmZTA2OTY3MmEyYzk0OWE2YWJkNTFjZjNjNGQ0Nzg0MjEwYmFkYzQ5IgotCi1TID0gIiR7
-V09SS0RJUn0vbGlidmEtJHtQVn0iCi0KLUdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1
-Yi5jb20vaW50ZWwvbGlidmEvcmVsZWFzZXMiCi0KLURFUEVORFMgPSAibGliZHJtIgotCi1pbmhl
-cml0IG1lc29uIHBrZ2NvbmZpZyBnaXRodWItcmVsZWFzZXMKLQotUEFDS0FHRUNPTkZJR1t4MTFd
-ID0gIi1Ed2l0aF94MTE9eWVzLC1Ed2l0aF94MTE9bm8sdmlydHVhbC9saWJ4MTEgbGlieGV4dCBs
-aWJ4Zml4ZXMiCi1QQUNLQUdFQ09ORklHW2dseF0gPSAiLUR3aXRoX2dseD15ZXMsLUR3aXRoX2ds
-eD1ubyx2aXJ0dWFsL21lc2EiCi0KLVBBQ0tBR0VDT05GSUdbd2F5bGFuZF0gPSAiLUR3aXRoX3dh
-eWxhbmQ9eWVzLC1Ed2l0aF93YXlsYW5kPW5vLHdheWxhbmQtbmF0aXZlIHdheWxhbmQiCi0KLUJC
-Q0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLQotLSAKMi40NC4wCgo=
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxMDo0MDowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnZhOiB1cGdyYWRlIDIuMjAuMCAtPiAyLjIxLjAKCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L2xpYnZhL2xpYnZhLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbGlidmEve2xpYnZhXzIuMjAuMC5iYiA9PiBsaWJ2YV8yLjIxLjAuYmJ9
+IHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS97bGlidmFfMi4yMC4wLmJiID0+IGxpYnZh
+XzIuMjEuMC5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xp
+YnZhL2xpYnZhLmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKaW5k
+ZXggNDg2MjkxYmNlZC4uYWY0MGQ4Y2JiYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2xpYnZhL2xpYnZhLmluYworKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGli
+dmEuaW5jCkBAIC0xOCw3ICsxOCw3IEBAIExJQ0VOU0UgPSAiTUlUIgogCiBTUkNfVVJJID0gIiR7
+R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS9saWJ2YS0ke1BWfS50YXIuYnoyIgogTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MmU0ODk0MGY5NGFjYjBhZjU4MmU1
+ZWYwMzUzNzgwMGYiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjcyYmRiNGY0OGRmZTcxYWQwMWYx
+Y2JlZmUwNjk2NzJhMmM5NDlhNmFiZDUxY2YzYzRkNDc4NDIxMGJhZGM0OSIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICI5ZGMxYTg0MzczYjY1NjQzNGU2YThmM2FjNzUyMmJjMWM5NTljYzM0MzRhZWE4
+OWQyYzAyMDkyOTg2ZDg3MDE2IgogCiBTID0gIiR7V09SS0RJUn0vbGlidmEtJHtQVn0iCiAKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YV8yLjIwLjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4yMS4wLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4y
+MC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4yMS4w
+LmJiCi0tIAoyLjQ0LjAKCg==
 
---===============3119830893254102802==--
+--===============8623118962071990453==--
 
