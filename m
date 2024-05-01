@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D07C27C7A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E246C2BA18
 	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 16:00:22 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1097.1714579215467404073
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1118.1714579215531497306
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 May 2024 09:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hy19Recq;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gczRgRFr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f34e2979f-afb80f8c-2c53-4c45-a570-9e594e828dd2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=R7WB0Jja;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PxxI3kwQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018f34e29644-d40d73de-57d7-442a-bf3c-b586fe0d98f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=F45J3D5MpY9x/5icYUXrIaGTwzL6xCI0Wv5c6Nv8NG4=;
-	b=hy19Recq4K3GLb1bUNhvVVjbuFLJzpzTQ60EhKfJI81Be+jX79JBJ5zfjTzxOBsW
-	6kObisWdHFbVdD/S6VH4d73Mo3meLQjZevhRjgKOyD8LUly8ohRga+ZNbuI2xTx1l5J
-	SR2uirL6nvbSFo9gOJ2eUaFuTOPAB1C74qxKwNVo=
+	bh=B+t5CTRHc8KLBAGW72/aqSTAhOBl1TFai9aBCWRCO8M=;
+	b=R7WB0JjaB3dwFtCZCjTZ0trSjRw0O7htdWt9/FfqGf4Y9WEzY7cncY8rvlepwRy2
+	0JcNJsaP8G2gRRs5KIE/mdg4LhPm5K67HrgFvsILa7z6O78cnFfQZu+yYwvUZSYWyT1
+	BVPT+1vJaLjwAc8BQt5beER7DTp6BQuV26iFF5+Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714579216;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=F45J3D5MpY9x/5icYUXrIaGTwzL6xCI0Wv5c6Nv8NG4=;
-	b=gczRgRFrxQzkhiDfD+GjLC8fiRoRAQPdxshKFgrKHBP07gm+s794eRHgcRHqR7YV
-	1aNJQ9Ls1XkeB9E3f3pLfZPgbxIVUSdF6KXla2IXgB7MJ4QqViKpBMu7IirEcPfKeWd
-	6X3hRmmd2hmoQKI7mfyT7VVu3ljByJhe32C5DXj8=
-Content-Type: multipart/mixed; boundary="===============3440224734279890098=="
+	bh=B+t5CTRHc8KLBAGW72/aqSTAhOBl1TFai9aBCWRCO8M=;
+	b=PxxI3kwQP4V+guj25bNbS53ZaN7NSnwXzLsPj/01SY/plgIJTiJi71aAjRROz8U9
+	NklzhH3kcv5M+kK+1gJWD321yX8vsbI+pRoEoKZpoQyWk73RRjp309lEOuQ8MW9WKha
+	GyCR1DeNMpPGET9dRiONrbCvGdA/fhh/THvz5sRM=
+Content-Type: multipart/mixed; boundary="===============8312383809475758953=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-base: upgrading to 1.24.3 FAILED
-Message-ID: <0101018f34e2979f-afb80f8c-2c53-4c45-a570-9e594e828dd2-000000@us-west-2.amazonses.com>
-Date: Wed, 1 May 2024 16:00:16 +0000
+Subject: [AUH] mesa: upgrading to 24.0.6 SUCCEEDED
+Message-ID: <0101018f34e29644-d40d73de-57d7-442a-bf3c-b586fe0d98f0-000000@us-west-2.amazonses.com>
+Date: Wed, 1 May 2024 16:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.01-54.240.27.193
+X-SES-Outgoing: 2024.05.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:00:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198851
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198836
 
---===============3440224734279890098==
+--===============8312383809475758953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-base* to *1.24.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *mesa* to *24.0.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-plugins-base-upgrade-1.22.11-1.24.3.patch
+    - apply the patch: git am 0001-mesa-upgrade-24.0.5-24.0.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,504 +72,380 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 07c6862d71f532bb3ddb225a17593550f0aa54d7 Mon Sep 17 00:00:00 2001
+From 805320a62efe76edfd608955b0821f23a55e4039 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 May 2024 13:57:43 +0000
-Subject: [PATCH] gstreamer1.0-plugins-base: upgrade 1.22.11 -> 1.24.3
+Date: Wed, 1 May 2024 11:37:15 +0000
+Subject: [PATCH] mesa: upgrade 24.0.5 -> 24.0.6
 
 ---
- ...-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 5 ++---
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch       | 5 ++---
- .../0003-viv-fb-Make-sure-config.h-is-included.patch         | 3 +--
- ...s-base_1.22.11.bb => gstreamer1.0-plugins-base_1.24.3.bb} | 2 +-
- 4 files changed, 6 insertions(+), 9 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.11.bb => gstreamer1.0-plugins-base_1.24.3.bb} (98%)
+ ...1-Revert-meson-do-not-pull-in-clc-for-clover.patch |  4 ++--
+ .../files/0001-drisw-fix-build-without-dri3.patch     | 11 ++++-------
+ ...meson-misdetects-64bit-atomics-on-mips-clang.patch |  2 +-
+ ...ild-check-for-all-linux-host_os-combinations.patch |  4 ++--
+ ...glxext-don-t-try-zink-if-not-enabled-in-mesa.patch |  9 +++------
+ meta/recipes-graphics/mesa/mesa.inc                   |  2 +-
+ .../mesa/{mesa_24.0.5.bb => mesa_24.0.6.bb}           |  0
+ 7 files changed, 13 insertions(+), 19 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.6.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 34c99ded42..409cb79674 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+index 1711e22585..efd8a6702b 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
 @@ -1,4 +1,4 @@
--From 63fe5a7b4ef70e2c490bad3b0838329935a8d77c Mon Sep 17 00:00:00 2001
-+From 843a4c0727332001d181369b41f560ab708f4120 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-@@ -8,7 +8,6 @@ https://bugzilla.gnome.org/show_bug.cgi?id=728312
- Upstream-Status: Pending
+-From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
++From a1aad6583e073523139e1edc7116dcd14ea88edd Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Fri, 8 Mar 2024 15:53:11 +0100
+ Subject: [PATCH] Revert "meson: do not pull in clc for clover"
+@@ -18,7 +18,7 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
+  2 files changed, 3 insertions(+), 2 deletions(-)
  
- Signed-off-by: zhouming <b42586@freescale.com>
--
- ---
-  gst-libs/gst/tag/gsttagdemux.c | 13 +++++++++++++
-  1 file changed, 13 insertions(+)
-@@ -17,7 +16,7 @@ Signed-off-by: zhouming <b42586@freescale.com>
- diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
- old mode 100644
- new mode 100755
--index 173da37..2b7f34c
-+index ef0ff90..53f05c8
- --- a/gst-libs/gst/tag/gsttagdemux.c
- +++ b/gst-libs/gst/tag/gsttagdemux.c
- @@ -1796,6 +1796,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index 2adeae93d6..c2ed53cc70 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 7bf9525528c8f4a47413d7f82214d76f95f0c5f6 Mon Sep 17 00:00:00 2001
-+From fade288e74ff6692ef14265e9888fa1683bebaac Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-@@ -9,7 +9,6 @@ and there's are maybe multiple Dialog lines in one input buffer.
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/issues/178]
+ diff --git a/meson.build b/meson.build
+-index 2db6185..741b5d1 100644
++index d0d9c5a..277093a 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -813,6 +813,7 @@ if _opencl != 'disabled'
+diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+index ab16152090..bb1da96485 100644
+--- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
++++ b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+@@ -1,7 +1,7 @@
+-From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
++From ae2d8a262faa51019de3a3e58edf72399888f308 Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:09 +0100
+-Subject: [PATCH 1/2] drisw: fix build without dri3
++Subject: [PATCH] drisw: fix build without dri3
  
- Signed-off-by: Mingke Wang <mingke.wang@freescale.com>
--
- ---
-  gst/subparse/gstssaparse.c | 150 +++++++++++++++++++++++++++++++++----
-  1 file changed, 134 insertions(+), 16 deletions(-)
-@@ -18,7 +17,7 @@ Signed-off-by: Mingke Wang <mingke.wang@freescale.com>
- diff --git a/gst/subparse/gstssaparse.c b/gst/subparse/gstssaparse.c
- old mode 100644
- new mode 100755
--index d6fdb9c..5ebe678
-+index 42fbb42..2dab51c
- --- a/gst/subparse/gstssaparse.c
- +++ b/gst/subparse/gstssaparse.c
- @@ -270,6 +270,7 @@ gst_ssa_parse_remove_override_codes (GstSsaParse * parse, gchar * txt)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index a605533be8..630f2105b4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 2b07840122bc2e83bd23dad59aa80d9479f2e1e4 Mon Sep 17 00:00:00 2001
-+From 39baa1aa173386a7921986bee323c3ed8bf13616 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-@@ -8,7 +8,6 @@ This prevents build errors due to missing GST_API_* symbols
- Upstream-Status: Pending
- 
- Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
--
- ---
-  gst-libs/gst/gl/gl-prelude.h | 4 ++++
+ commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
+ added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
+@@ -24,7 +24,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 4 insertions(+)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb
-index 7aa10eb646..8a967cf6eb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "65eaf72296cc5edc985695a4d80affc931e64a79f4879d05615854f7a2cf5bd1"
-+SRC_URI[sha256sum] = "f1094397eaa7932f06e57ebbb075aa33aa2c76e4b75630a16b02c8d4af46832e"
  
- S = "${WORKDIR}/gst-plugins-base-${PV}"
+ diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
+-index 3d3f752..4b19e2d 100644
++index cbba547..6f07709 100644
+ --- a/src/glx/drisw_glx.c
+ +++ b/src/glx/drisw_glx.c
+ @@ -32,7 +32,9 @@
+@@ -45,7 +45,7 @@ index 3d3f752..4b19e2d 100644
+     if (pdpyp->zink) {
+        bool err;
+        psc->has_multibuffer = dri3_check_multibuffer(priv->dpy, &err);
+-@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
++@@ -1007,6 +1010,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
+           goto handle_error;
+        }
+     }
+@@ -53,6 +53,3 @@ index 3d3f752..4b19e2d 100644
+  
+     glx_config_destroy_list(psc->base.configs);
+     psc->base.configs = configs;
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index baa98a0d46..336ffb1dd4 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,4 +1,4 @@
+-From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
++From a18a10d65871fa039c16e46a6f397faec3f6b03a Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index 7be7d81eeb..c7a2a7036f 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
++From 54309a782d3e06e5b890576786cdf902bc30fd69 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -19,7 +19,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
+ diff --git a/meson.build b/meson.build
+-index 133fd9a..817861e 100644
++index 8963b31..d0d9c5a 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+index 036a0b4945..863ff2ae14 100644
+--- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
++++ b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+@@ -1,7 +1,7 @@
+-From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
++From 8fd3b8a45317b7c4f2cabc260c5c911f5403126d Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:10 +0100
+-Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
++Subject: [PATCH] glxext: don't try zink if not enabled in mesa
+ 
+ Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
+ added an automatic zink fallback even when the zink gallium is not
+@@ -22,7 +22,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/src/glx/glxext.c b/src/glx/glxext.c
+-index 05c825a..7a06aa9 100644
++index fd53e00..31e8511 100644
+ --- a/src/glx/glxext.c
+ +++ b/src/glx/glxext.c
+ @@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
+@@ -37,6 +37,3 @@ index 05c825a..7a06aa9 100644
+     }
+  #endif /* GLX_USE_DRM */
+     if (glx_direct)
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 77e9c80fcb..0110c4e837 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
++SRC_URI[sha256sum] = "8b7a92dbe6468c18f2383700135b5fe9de836cdf0cc8fd7dbae3c7110237d604"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.5.bb b/meta/recipes-graphics/mesa/mesa_24.0.6.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.5.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.6.bb
 -- 
 2.44.0
 
 
---===============3440224734279890098==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-27438c46b74e70ea9d76474a62dd5adaa6af7fec"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:27438c46b74e70ea9d76474a62dd5adaa6af7fec"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 377 Local 365 Mirrors 0 Missed 12 Current 532 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 543 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.38.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 544 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 545 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 546 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 547 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 548 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 549 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 560 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 561 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 562 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 563 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb:do_create_spdx_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe orc-0.4.38-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iso-codes-4.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.52.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe orc-0.4.38-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 679 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 686 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
-NOTE: recipe pango-1.52.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 713 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_create_spdx_setscene)
-NOTE: recipe iso-codes-4.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 723 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_create_spdx_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpng-1.6.43-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mesa-2_24.0.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpng-1.6.43-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 730 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 739 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.35.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 740 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 753 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 767 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-protocols-1.35-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libdrm-2.4.120-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-protocols-1.35-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 775 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libdrm-2.4.120-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1234 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_recipe_qa)
-NOTE: Running task 1270 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_write_config)
-NOTE: recipe util-linux-2.39.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 837 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: recipe libx11-1_1.8.9-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_recipe_qa: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_write_config: Started
-NOTE: recipe libx11-1_1.8.9-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_write_config: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 885 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 889 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 896 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 898 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 908 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2505 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_fetch)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2506 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_unpack)
-NOTE: Running task 2507 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2508 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_patch)
-NOTE: Running task 2509 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_patch: Succeeded
-NOTE: Running task 2510 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2511 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2512 of 2524 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.38.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_p
- opulate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.52.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.35.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_populate_sysroot', '
- /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb:do_po
- pulate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/gettext/gettext_0.22.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.38.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:nat
- ive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'alsa-lib', 'gstreamer1.0', 'lib
- ogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'orc-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'wayland-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2
- c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dintrospection=enabled -Dexamples=disabled -Dnls=enabled -Ddoc=disabled -Dgl_api=opengl,gles2 -Dgl_platform=egl,glx -Dgl_winsys=egl,wayland,x11 -Dalsa=enabled -Dcdparanoia=disabled -Dgl-graphene=disabled -Dgl-jpeg=enabled -Dogg=enabled -Dopus=disabled -Dorc=enabled -Dpango=enabled -Dgl-png=enabled -Dqt5=disabled -Dtheora=enabled -Dtremor=disabled -Dlibvisual=disabled -Dvorbis=enabled -Dx11=enabled -Dxvideo=enabled -Dxshm=enabled...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/gst-plugins-base-1.24.3
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/build
-| Build type: cross build
-| Project name: gst-plugins-base
-| Project version: 1.24.3
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/recipe-sysroot ld.bfd 2.42.0.20240216
-| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-g++ (GCC) 13.2.0")
-| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/recipe-sysroot ld.bfd 2.42.0.20240216
-| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C supports link arguments -Wl,-z,nodelete: YES
-| Compiler for C supports arguments -fvisibility=hidden: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Message: Disabling GLib cast checks
-| Has header "dlfcn.h" : YES
-| Has header "emmintrin.h" : YES
-| Has header "inttypes.h" : YES
-| Has header "memory.h" : YES
-| Has header "netinet/in.h" : YES
-| Has header "netinet/tcp.h" : YES
-| Has header "process.h" : NO
-| Has header "smmintrin.h" : YES
-| Has header "stdint.h" : YES
-| Has header "strings.h" : YES
-| Has header "string.h" : YES
-| Has header "sys/socket.h" : YES
-| Has header "sys/stat.h" : YES
-| Has header "sys/types.h" : YES
-| Has header "sys/wait.h" : YES
-| Has header "unistd.h" : YES
-| Has header "winsock2.h" : NO
-| Has header "xmmintrin.h" : YES
-| Has header "linux/dma-buf.h" : YES
-| Library m found: YES
-| Checking for function "dcgettext" with dependency -lm: YES
-| Checking for function "gmtime_r" with dependency -lm: YES
-| Checking for function "localtime_r" with dependency -lm: YES
-| Checking for function "lrintf" with dependency -lm: YES
-| Checking for function "mmap" with dependency -lm: YES
-| Checking for function "log2" with dependency -lm: YES
-| Checking for size of "char" : 1
-| Checking for size of "int" : 4
-| Checking for size of "long" : 8
-| Checking for size of "short" : 2
-| Checking for size of "void*" : 8
-| Compiler for C++ supports arguments -Waggregate-return: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C++ supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wredundant-decls: YES
-| Compiler for C++ supports arguments -Wredundant-decls: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C++ supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C++ supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -Wformat: YES
-| Compiler for C++ supports arguments -Wformat: YES
-| Compiler for C supports arguments -Wformat-nonliteral: YES
-| Compiler for C++ supports arguments -Wformat-nonliteral: YES
-| Compiler for C supports arguments -Wformat-security: YES
-| Compiler for C++ supports arguments -Wformat-security: YES
-| Compiler for C supports arguments -Winit-self: YES
-| Compiler for C++ supports arguments -Winit-self: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Waddress: YES
-| Compiler for C++ supports arguments -Waddress: YES
-| Compiler for C supports arguments -Wno-multichar: YES
-| Compiler for C++ supports arguments -Wno-multichar: YES
-| Compiler for C supports arguments -Wvla: YES
-| Compiler for C++ supports arguments -Wvla: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C++ supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency libdrm found: YES 2.4.120
-| Run-time dependency x11 found: YES 1.8.9
-| Run-time dependency gio-2.0 found: YES 2.78.4
-| Run-time dependency gio-unix-2.0 found: YES 2.78.4
-| Run-time dependency gmodule-no-export-2.0 found: YES 2.78.4
-| Dependency gdk-pixbuf-2.0 skipped: feature examples disabled
-| Dependency gtk+-3.0 skipped: feature examples disabled
-| Dependency gtk+-x11-3.0 skipped: feature examples disabled
-| Dependency gstreamer-1.0 found: NO found 1.22.11 but need: '>= 1.24.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| 
-| ../gst-plugins-base-1.24.3/meson.build:362:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803:176 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803, line 176
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803, line 165
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803, line 154
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803, line 189
-NOTE: recipe gstreamer1.0-plugins-base-1.24.3-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2512 tasks of which 2502 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501135706.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240501135706.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.24.3-r0 do_configure: meson failed
-ERROR: gstreamer1.0-plugins-base-1.24.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/run.do_configure.205803', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.3/temp/log.do_configure.205803
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.3.bb:do_configure) failed with exit code '1'
-
---===============3440224734279890098==
+--===============8312383809475758953==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-plugins-base-upgrade-1.22.11-1.24.3.patch"
+ filename="0001-mesa-upgrade-24.0.5-24.0.6.patch"
 
-RnJvbSAwN2M2ODYyZDcxZjUzMmJiM2RkYjIyNWExNzU5MzU1MGYwYWE1NGQ3IE1vbiBTZXAgMTcg
+RnJvbSA4MDUzMjBhNjJlZmU3NmVkZmQ2MDg5NTViMDgyMWYyM2E1NWU0MDM5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxMzo1Nzo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2U6IHVwZ3JhZGUgMS4yMi4xMSAtPiAxLjI0LjMKCi0tLQog
-Li4uLUVOR1IwMDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1jYXBzLnBh
-dGNoIHwgNSArKy0tLQogLi4uLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1saW5lcy1w
-YXJzaW5nLnBhdGNoICAgICAgIHwgNSArKy0tLQogLi4uLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1j
-b25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaCAgICAgICAgIHwgMyArLS0KIC4uLnMtYmFzZV8xLjIy
-LjExLmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC4zLmJifSB8IDIgKy0KIDQg
-ZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZV8xLjIyLjExLmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC4zLmJifSAoOTgl
-KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20tc3JjLXBh
-ZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxLUVOR1IwMDMxMjUxNS1nZXQtY2Fwcy1m
-cm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1jYXBzLnBhdGNoCmluZGV4IDM0Yzk5ZGVkNDIuLjQwOWNi
-Nzk2NzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20tc3Jj
-LXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
-Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMS1FTkdSMDAzMTI1MTUtZ2V0
-LWNhcHMtZnJvbS1zcmMtcGFkLXdoZW4tcXVlcnktY2Fwcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
-LUZyb20gNjNmZTVhN2I0ZWY3MGUyYzQ5MGJhZDNiMDgzODMyOTkzNWE4ZDc3YyBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKK0Zyb20gODQzYTRjMDcyNzMzMjAwMWQxODEzNjliNDFmNTYwYWI3MDhm
-NDEyMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IHpob3VtaW5nIDxiNDI1ODZAZnJl
-ZXNjYWxlLmNvbT4KIERhdGU6IFdlZCwgMTQgTWF5IDIwMTQgMTA6MTY6MjAgKzA4MDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gRU5HUjAwMzEyNTE1OiBnZXQgY2FwcyBmcm9tIHNyYyBwYWQgd2hlbiBxdWVy
-eSBjYXBzCkBAIC04LDcgKzgsNiBAQCBodHRwczovL2J1Z3ppbGxhLmdub21lLm9yZy9zaG93X2J1
-Zy5jZ2k/aWQ9NzI4MzEyCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1i
-eTogemhvdW1pbmcgPGI0MjU4NkBmcmVlc2NhbGUuY29tPgotCiAtLS0KICBnc3QtbGlicy9nc3Qv
-dGFnL2dzdHRhZ2RlbXV4LmMgfCAxMyArKysrKysrKysrKysrCiAgMSBmaWxlIGNoYW5nZWQsIDEz
-IGluc2VydGlvbnMoKykKQEAgLTE3LDcgKzE2LDcgQEAgU2lnbmVkLW9mZi1ieTogemhvdW1pbmcg
-PGI0MjU4NkBmcmVlc2NhbGUuY29tPgogZGlmZiAtLWdpdCBhL2dzdC1saWJzL2dzdC90YWcvZ3N0
-dGFnZGVtdXguYyBiL2dzdC1saWJzL2dzdC90YWcvZ3N0dGFnZGVtdXguYwogb2xkIG1vZGUgMTAw
-NjQ0CiBuZXcgbW9kZSAxMDA3NTUKLWluZGV4IDE3M2RhMzcuLjJiN2YzNGMKK2luZGV4IGVmMGZm
-OTAuLjUzZjA1YzgKIC0tLSBhL2dzdC1saWJzL2dzdC90YWcvZ3N0dGFnZGVtdXguYwogKysrIGIv
-Z3N0LWxpYnMvZ3N0L3RhZy9nc3R0YWdkZW11eC5jCiBAQCAtMTc5Niw2ICsxNzk2LDE5IEBAIGdz
-dF90YWdfZGVtdXhfcGFkX3F1ZXJ5IChHc3RQYWQgKiBwYWQsIEdzdE9iamVjdCAqIHBhcmVudCwg
-R3N0UXVlcnkgKiBxdWVyeSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
-dHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1T
-U0EtdGV4dC1saW5lcy1wYXJzaW5nLnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
-cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNT
-QS10ZXh0LWxpbmVzLXBhcnNpbmcucGF0Y2gKaW5kZXggMmFkZWFlOTNkNi4uYzJlZDUzY2M3MCAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1wbHVnaW5zLWJhc2UvMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBhcnNp
-bmcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhc2UvMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBh
-cnNpbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDdiZjk1MjU1MjhjOGY0YTQ3NDEzZDdm
-ODIyMTRkNzZmOTVmMGM1ZjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZhZGUyODhl
-NzRmZjY2OTJlZjE0MjY1ZTk4ODhmYTE2ODNiZWJhYWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBNaW5na2UgV2FuZyA8bWluZ2tlLndhbmdAZnJlZXNjYWxlLmNvbT4KIERhdGU6IFRo
-dSwgMTkgTWFyIDIwMTUgMTQ6MTc6MTAgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gc3NhcGFyc2U6
-IGVuaGFuY2UgU1NBIHRleHQgbGluZXMgcGFyc2luZy4KQEAgLTksNyArOSw2IEBAIGFuZCB0aGVy
-ZSdzIGFyZSBtYXliZSBtdWx0aXBsZSBEaWFsb2cgbGluZXMgaW4gb25lIGlucHV0IGJ1ZmZlci4K
-IFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5v
-cmcvZ3N0cmVhbWVyL2dzdC1wbHVnaW5zLWJhc2UvLS9pc3N1ZXMvMTc4XQogCiBTaWduZWQtb2Zm
-LWJ5OiBNaW5na2UgV2FuZyA8bWluZ2tlLndhbmdAZnJlZXNjYWxlLmNvbT4KLQogLS0tCiAgZ3N0
-L3N1YnBhcnNlL2dzdHNzYXBhcnNlLmMgfCAxNTAgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrLS0tLQogIDEgZmlsZSBjaGFuZ2VkLCAxMzQgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRp
-b25zKC0pCkBAIC0xOCw3ICsxNyw3IEBAIFNpZ25lZC1vZmYtYnk6IE1pbmdrZSBXYW5nIDxtaW5n
-a2Uud2FuZ0BmcmVlc2NhbGUuY29tPgogZGlmZiAtLWdpdCBhL2dzdC9zdWJwYXJzZS9nc3Rzc2Fw
-YXJzZS5jIGIvZ3N0L3N1YnBhcnNlL2dzdHNzYXBhcnNlLmMKIG9sZCBtb2RlIDEwMDY0NAogbmV3
-IG1vZGUgMTAwNzU1Ci1pbmRleCBkNmZkYjljLi41ZWJlNjc4CitpbmRleCA0MmZiYjQyLi4yZGFi
-NTFjCiAtLS0gYS9nc3Qvc3VicGFyc2UvZ3N0c3NhcGFyc2UuYwogKysrIGIvZ3N0L3N1YnBhcnNl
-L2dzdHNzYXBhcnNlLmMKIEBAIC0yNzAsNiArMjcwLDcgQEAgZ3N0X3NzYV9wYXJzZV9yZW1vdmVf
-b3ZlcnJpZGVfY29kZXMgKEdzdFNzYVBhcnNlICogcGFyc2UsIGdjaGFyICogdHh0KQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVn
-aW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWluY2x1ZGVkLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5z
-LWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWluY2x1ZGVkLnBhdGNoCmlu
-ZGV4IGE2MDU1MzNiZTguLjYzMGYyMTA1YjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDMtdml2LWZiLU1h
-a2Utc3VyZS1jb25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAzLXZpdi1mYi1N
-YWtlLXN1cmUtY29uZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDJiMDc4NDAxMjJiYzJlODNiZDIzZGFkNTlhYTgwZDk0NzlmMmUxZTQgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIDM5YmFhMWFhMTczMzg2YTc5MjE5ODZiZWUzMjNjM2VkOGJmMTM2MTYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDYXJsb3MgUmFmYWVsIEdpYW5pIDxjcmc3
-NDc1QG1haWxib3gub3JnPgogRGF0ZTogVHVlLCAyMSBNYXkgMjAxOSAxNDowMToxMSArMDIwMAog
-U3ViamVjdDogW1BBVENIXSB2aXYtZmI6IE1ha2Ugc3VyZSBjb25maWcuaCBpcyBpbmNsdWRlZApA
-QCAtOCw3ICs4LDYgQEAgVGhpcyBwcmV2ZW50cyBidWlsZCBlcnJvcnMgZHVlIHRvIG1pc3Npbmcg
-R1NUX0FQSV8qIHN5bWJvbHMKIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2Zm
-LWJ5OiBDYXJsb3MgUmFmYWVsIEdpYW5pIDxjcmc3NDc1QG1haWxib3gub3JnPgotCiAtLS0KICBn
-c3QtbGlicy9nc3QvZ2wvZ2wtcHJlbHVkZS5oIHwgNCArKysrCiAgMSBmaWxlIGNoYW5nZWQsIDQg
-aW5zZXJ0aW9ucygrKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yMi4xMS5iYiBiL21ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjQuMy5iYgpz
-aW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjIyLjExLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZV8xLjI0LjMuYmIKaW5kZXggN2FhMTBlYjY0Ni4uOGE5NjdjZjZlYiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2Vf
-MS4yMi4xMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLXBsdWdpbnMtYmFzZV8xLjI0LjMuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9
-ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWJhc2Uv
-Z3N0LXBsdWdpbnMtYmEKICAgICAgICAgICAgZmlsZTovLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1j
-b25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLXNzYXBh
-cnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaCBcCiAgICAgICAgICAgICIK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2NWVhZjcyMjk2Y2M1ZWRjOTg1Njk1YTRkODBhZmZjOTMx
-ZTY0YTc5ZjQ4NzlkMDU2MTU4NTRmN2EyY2Y1YmQxIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImYx
-MDk0Mzk3ZWFhNzkzMmYwNmU1N2ViYmIwNzVhYTMzYWEyYzc2ZTRiNzU2MzBhMTZiMDJjOGQ0YWY0
-NjgzMmUiCiAKIFMgPSAiJHtXT1JLRElSfS9nc3QtcGx1Z2lucy1iYXNlLSR7UFZ9IgogCi0tIAoy
-LjQ0LjAKCg==
+CkRhdGU6IFdlZCwgMSBNYXkgMjAyNCAxMTozNzoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c2E6IHVwZ3JhZGUgMjQuMC41IC0+IDI0LjAuNgoKLS0tCiAuLi4xLVJldmVydC1tZXNvbi1kby1u
+b3QtcHVsbC1pbi1jbGMtZm9yLWNsb3Zlci5wYXRjaCB8ICA0ICsrLS0KIC4uLi9maWxlcy8wMDAx
+LWRyaXN3LWZpeC1idWlsZC13aXRob3V0LWRyaTMucGF0Y2ggICAgIHwgMTEgKysrKy0tLS0tLS0K
+IC4uLm1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoIHwg
+IDIgKy0KIC4uLmlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBh
+dGNoIHwgIDQgKystLQogLi4uZ2x4ZXh0LWRvbi10LXRyeS16aW5rLWlmLW5vdC1lbmFibGVkLWlu
+LW1lc2EucGF0Y2ggfCAgOSArKystLS0tLS0KIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KIC4uLi9tZXNhL3ttZXNhXzI0LjAuNS5i
+YiA9PiBtZXNhXzI0LjAuNi5iYn0gICAgICAgICAgIHwgIDAKIDcgZmlsZXMgY2hhbmdlZCwgMTMg
+aW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL21lc2Eve21lc2FfMjQuMC41LmJiID0+IG1lc2FfMjQuMC42LmJifSAoMTAwJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLVJldmVydC1tZXNv
+bi1kby1ub3QtcHVsbC1pbi1jbGMtZm9yLWNsb3Zlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9tZXNhL2ZpbGVzLzAwMDEtUmV2ZXJ0LW1lc29uLWRvLW5vdC1wdWxsLWluLWNsYy1mb3It
+Y2xvdmVyLnBhdGNoCmluZGV4IDE3MTFlMjI1ODUuLmVmZDhhNjcwMmIgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtUmV2ZXJ0LW1lc29uLWRvLW5vdC1w
+dWxsLWluLWNsYy1mb3ItY2xvdmVyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9t
+ZXNhL2ZpbGVzLzAwMDEtUmV2ZXJ0LW1lc29uLWRvLW5vdC1wdWxsLWluLWNsYy1mb3ItY2xvdmVy
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwNTFmNDFiZWRhNTQwZjBhZTc3YjM0MWRiMDFh
+NmRlODNjOWU5MzhhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhMWFhZDY1ODNlMDcz
+NTIzMTM5ZTFlZGM3MTE2ZGNkMTRlYTg4ZWRkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTogRnJpLCA4IE1hciAyMDI0
+IDE1OjUzOjExICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJldmVydCAibWVzb246IGRvIG5vdCBw
+dWxsIGluIGNsYyBmb3IgY2xvdmVyIgpAQCAtMTgsNyArMTgsNyBAQCBTaWduZWQtb2ZmLWJ5OiBN
+YXJrdXMgVm9sayA8Zl9sX2tAdC1vbmxpbmUuZGU+CiAgMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21l
+c29uLmJ1aWxkCi1pbmRleCAyZGI2MTg1Li43NDFiNWQxIDEwMDY0NAoraW5kZXggZDBkOWM1YS4u
+Mjc3MDkzYSAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAg
+LTgxMyw2ICs4MTMsNyBAQCBpZiBfb3BlbmNsICE9ICdkaXNhYmxlZCcKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhv
+dXQtZHJpMy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZHJp
+c3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaAppbmRleCBhYjE2MTUyMDkwLi5iYjFkYTk2
+NDg1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRy
+aXN3LWZpeC1idWlsZC13aXRob3V0LWRyaTMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL21lc2EvZmlsZXMvMDAwMS1kcmlzdy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoCkBA
+IC0xLDcgKzEsNyBAQAotRnJvbSA0YmQxNWE0MTllODkyZGE4NDM0ODljMzc0YzU4YzViMjljNDBi
+NWQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhZTJkOGEyNjJmYWE1MTAxOWRlM2Ez
+ZTU4ZWRmNzIzOTk4ODhmMzA4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWlu
+IE5hb3VyIDxyb21haW4ubmFvdXJAc21pbGUuZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6
+NDc6MDkgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSCAxLzJdIGRyaXN3OiBmaXggYnVpbGQgd2l0aG91
+dCBkcmkzCitTdWJqZWN0OiBbUEFUQ0hdIGRyaXN3OiBmaXggYnVpbGQgd2l0aG91dCBkcmkzCiAK
+IGNvbW1pdCAxODg3MzY4ZGY0MSAoImdseC9zdzogY2hlY2sgZm9yIG1vZGlmaWVyIHN1cHBvcnQg
+aW4gdGhlIGtvcHBlciBwYXRoIikKIGFkZGVkIGRyaTNfcHJpdi5oIGhlYWRlciBhbmQgZHJpM19j
+aGVja19tdWx0aWJ1ZmZlcigpIGZ1bmN0aW9uIGluIGRyaXN3IHRoYXQKQEAgLTI0LDcgKzI0LDcg
+QEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUg
+Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9zcmMvZ2x4L2RyaXN3X2ds
+eC5jIGIvc3JjL2dseC9kcmlzd19nbHguYwotaW5kZXggM2QzZjc1Mi4uNGIxOWUyZCAxMDA2NDQK
+K2luZGV4IGNiYmE1NDcuLjZmMDc3MDkgMTAwNjQ0CiAtLS0gYS9zcmMvZ2x4L2RyaXN3X2dseC5j
+CiArKysgYi9zcmMvZ2x4L2RyaXN3X2dseC5jCiBAQCAtMzIsNyArMzIsOSBAQApAQCAtNDUsNyAr
+NDUsNyBAQCBpbmRleCAzZDNmNzUyLi40YjE5ZTJkIDEwMDY0NAogICAgIGlmIChwZHB5cC0+emlu
+aykgewogICAgICAgIGJvb2wgZXJyOwogICAgICAgIHBzYy0+aGFzX211bHRpYnVmZmVyID0gZHJp
+M19jaGVja19tdWx0aWJ1ZmZlcihwcml2LT5kcHksICZlcnIpOwotQEAgLTEwMDUsNiArMTAwOCw3
+IEBAIGRyaXN3Q3JlYXRlU2NyZWVuRHJpdmVyKGludCBzY3JlZW4sIHN0cnVjdCBnbHhfZGlzcGxh
+eSAqcHJpdiwKK0BAIC0xMDA3LDYgKzEwMTAsNyBAQCBkcmlzd0NyZWF0ZVNjcmVlbkRyaXZlcihp
+bnQgc2NyZWVuLCBzdHJ1Y3QgZ2x4X2Rpc3BsYXkgKnByaXYsCiAgICAgICAgICAgZ290byBoYW5k
+bGVfZXJyb3I7CiAgICAgICAgfQogICAgIH0KQEAgLTUzLDYgKzUzLDMgQEAgaW5kZXggM2QzZjc1
+Mi4uNGIxOWUyZCAxMDA2NDQKICAKICAgICBnbHhfY29uZmlnX2Rlc3Ryb3lfbGlzdChwc2MtPmJh
+c2UuY29uZmlncyk7CiAgICAgcHNjLT5iYXNlLmNvbmZpZ3MgPSBjb25maWdzOwotLS0gCi0yLjQ0
+LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1t
+ZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1h
+dG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKaW5kZXggYmFhOThhMGQ0Ni4uMzM2ZmZiMWRkNCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1t
+aXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRv
+bWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMmNjMjE4MDBm
+ZTI5ZjU2NmFkZDUyNWU2M2Y2MTljMDUzNmQ2ZTdiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
+RnJvbSBhMThhMTBkNjU4NzFmYTAzOWMxNmU0NmE2ZjM5N2ZhZWMzZjZiMDNhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6
+IE1vbiwgMTMgSmFuIDIwMjAgMTU6MjM6NDcgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gbWVzb24g
+bWlzZGV0ZWN0cyA2NGJpdCBhdG9taWNzIG9uIG1pcHMvY2xhbmcKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hlY2stZm9yLWFs
+bC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hlY2stZm9yLWFsbC1saW51eC1ob3N0X29z
+LWNvbWJpbmF0aW9ucy5wYXRjaAppbmRleCA3YmU3ZDgxZWViLi5jN2EyYTcwMzZmIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNo
+ZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi5idWlsZC1jaGVjay1mb3ItYWxs
+LWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBl
+OGVjNmIxY2M1ZTQwMWJhNzE5MDk1NzIyZDhiMzE3ZDc1NWFlNjEzIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSA1NDMwOWE3ODJkM2UwNmU1Yjg5MDU3Njc4NmNkZjkwMmJjMzBmZDY5IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXJA
+YWxpc3RhaXIyMy5tZT4KIERhdGU6IFRodSwgMTQgTm92IDIwMTkgMTM6MDQ6NDkgLTA4MDAKIFN1
+YmplY3Q6IFtQQVRDSF0gbWVzb24uYnVpbGQ6IGNoZWNrIGZvciBhbGwgbGludXggaG9zdF9vcyBj
+b21iaW5hdGlvbnMKQEAgLTE5LDcgKzE5LDcgQEAgU2lnbmVkLW9mZi1ieTogQWxpc3RhaXIgRnJh
+bmNpcyA8YWxpc3RhaXJAYWxpc3RhaXIyMy5tZT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNv
+bi5idWlsZAotaW5kZXggMTMzZmQ5YS4uODE3ODYxZSAxMDA2NDQKK2luZGV4IDg5NjNiMzEuLmQw
+ZDljNWEgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBAIC0x
+MjgsNyArMTI4LDcgQEAgd2l0aF9hbnlfb3BlbmdsID0gd2l0aF9vcGVuZ2wgb3Igd2l0aF9nbGVz
+MSBvciB3aXRoX2dsZXMyCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9m
+aWxlcy8wMDAyLWdseGV4dC1kb24tdC10cnktemluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQt
+dHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRjaAppbmRleCAwMzZhMGI0OTQ1Li44
+NjNmZjJhZTE0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8w
+MDAyLWdseGV4dC1kb24tdC10cnktemluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDItZ2x4ZXh0LWRvbi10LXRy
+eS16aW5rLWlmLW5vdC1lbmFibGVkLWluLW1lc2EucGF0Y2gKQEAgLTEsNyArMSw3IEBACi1Gcm9t
+IDYyNDk1ZWJiOTc3ODY2YzUyZDViZWQ4NDk5YTU0N2M0OWYwZDliYzEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDhmZDNiOGE0NTMxN2I3YzRmMmNhYmMyNjBjNWM5MTFmNTQwMzEyNmQg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb21haW4gTmFvdXIgPHJvbWFpbi5uYW91
+ckBzbWlsZS5mcj4KIERhdGU6IFR1ZSwgNiBGZWIgMjAyNCAwOTo0NzoxMCArMDEwMAotU3ViamVj
+dDogW1BBVENIIDIvMl0gZ2x4ZXh0OiBkb24ndCB0cnkgemluayBpZiBub3QgZW5hYmxlZCBpbiBt
+ZXNhCitTdWJqZWN0OiBbUEFUQ0hdIGdseGV4dDogZG9uJ3QgdHJ5IHppbmsgaWYgbm90IGVuYWJs
+ZWQgaW4gbWVzYQogCiBDb21taXQgN2Q5ZWE3N2I0NTkgKCJnbHg6IGFkZCBhdXRvbWF0aWMgemlu
+ayBmYWxsYmFjayBsb2FkaW5nIGJldHdlZW4gaHcgYW5kIHN3IGRyaXZlcnMiKQogYWRkZWQgYW4g
+YXV0b21hdGljIHppbmsgZmFsbGJhY2sgZXZlbiB3aGVuIHRoZSB6aW5rIGdhbGxpdW0gaXMgbm90
+CkBAIC0yMiw3ICsyMiw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEv
+c3JjL2dseC9nbHhleHQuYyBiL3NyYy9nbHgvZ2x4ZXh0LmMKLWluZGV4IDA1YzgyNWEuLjdhMDZh
+YTkgMTAwNjQ0CitpbmRleCBmZDUzZTAwLi4zMWU4NTExIDEwMDY0NAogLS0tIGEvc3JjL2dseC9n
+bHhleHQuYwogKysrIGIvc3JjL2dseC9nbHhleHQuYwogQEAgLTkwOCw5ICs5MDgsMTEgQEAgX19n
+bFhJbml0aWFsaXplKERpc3BsYXkgKiBkcHkpCkBAIC0zNyw2ICszNywzIEBAIGluZGV4IDA1Yzgy
+NWEuLjdhMDZhYTkgMTAwNjQ0CiAgICAgfQogICNlbmRpZiAvKiBHTFhfVVNFX0RSTSAqLwogICAg
+IGlmIChnbHhfZGlyZWN0KQotLS0gCi0yLjQ0LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL21lc2EvbWVzYS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNh
+LmluYwppbmRleCA3N2U5YzgwZmNiLi4wMTEwYzRlODM3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYworKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
+YS9tZXNhLmluYwpAQCAtMjIsNyArMjIsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vbWVzYS5mcmVl
+ZGVza3RvcC5vcmcvYXJjaGl2ZS9tZXNhLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6
+Ly8wMDAxLVJldmVydC1tZXNvbi1kby1ub3QtcHVsbC1pbi1jbGMtZm9yLWNsb3Zlci5wYXRjaCBc
+CiAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzOGNjMjQ1Y2E4ZmFhM2M2OWRhNmQyNjg3Zjg5
+MDYzNzcwMDFmNjMzNjUzNDhhNjJjYzZmN2ZhZmIxZThjMDE4IgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjhiN2E5MmRiZTY0NjhjMThmMjM4MzcwMDEzNWI1ZmU5ZGU4MzZjZGYwY2M4ZmQ3ZGJhZTNj
+NzExMDIzN2Q2MDQiCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2
+ZXI+XGQrKFwuXGQrKSspIgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
+YS9tZXNhXzI0LjAuNS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjQuMC42
+LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvbWVzYS9tZXNhXzI0LjAuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
+c2EvbWVzYV8yNC4wLjYuYmIKLS0gCjIuNDQuMAoK
 
---===============3440224734279890098==--
+--===============8312383809475758953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch"
+packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253480752 to 253490536 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 22995287 to 22999383 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153682856 to 153687941 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 26324869 to 26328965 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.5" to "24.0.6"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.5 [default] to 24.0.6 [default]
+
+--===============8312383809475758953==--
 
