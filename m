@@ -1,100 +1,160 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <patrick@stwcx.xyz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F754C4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 12:04:06 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.11667.1714651439488935353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EB7C4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 12:52:06 +0000 (UTC)
+Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
+ by mx.groups.io with SMTP id smtpd.web10.4429.1714654323739646893
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 05:03:59 -0700
+ Thu, 02 May 2024 05:52:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I7tc6aRT;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=S1pZ8qvi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f39309e21-c6ef5471-280f-4ada-8c09-93b41d03b060-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1714651438; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=J/FyTUwBT/AUZ0l3EgTlVvpHoLGCtPxVzC0Fza1tpoU=;
-	b=I7tc6aRTg7ZeRjGsz+cDkKsSfgU/ltYXZJM+6nOkTVvZSvtm3QLVZRpLgJbEluaT
-	80KmSRHQRONCiFXvaJW0FwqDvdz2ErncwbtE48aVA68jtQfgr+701xs6z+9DaA0qFae
-	BVzI2+ENtLCJRLfb5J1ZwdkfbAQAE88Ys+UxVL0E=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714651438;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=J/FyTUwBT/AUZ0l3EgTlVvpHoLGCtPxVzC0Fza1tpoU=;
-	b=S1pZ8qviQ/prkmQfLi0xe0G94joyJ9EDfuLrA2O19W1j7HJ9eE5pmGMvrZCzxZkB
-	o5FuqNcrsnPOWcZmko9NPu3RujTjKmxRpAuiga9lNvGMfTy7YYYT8hhOPC6i2ao3ec9
-	PoUb9p+1Jx522rdTqz3wECaeZ72AEe46ZF8ARQpk=
-From: patchtest@automation.yoctoproject.org
+ dkim=pass header.i=@stwcx.xyz header.s=fm2 header.b=l+KzAfVX;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Abuk35ni;
+ spf=pass (domain: stwcx.xyz, ip: 103.168.172.155, mailfrom: patrick@stwcx.xyz)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id D77651140083;
+	Thu,  2 May 2024 08:52:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 02 May 2024 08:52:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1714654322; x=1714740722; bh=OtCb2xDadn
+	DTYnz3T+fMuekYcXG07wTP8VPDcSBHFWU=; b=l+KzAfVXtM1p6u+mZH1+ilEPsD
+	o+7NkQQ7EB2rsu1PZQdUWyQ9KxHtc3FfSBhajE01L6PD5xz0EnSx40PtVr0MqOlI
+	TM1nph5OopISOtgk7WqOrNrgda3JCxdC2QV4HHcm5RVjVI2QsUXe3NV6REIfX/1t
+	jop9yKpC+PmRXqV6vqIycobac63KRissIJnZKyv6JPuK9PtmvuxjsKNqHg+FG8Ba
+	WoFgBRRPYtA3I8g2dFKHpBefFsbRqgXPgj4A88CKYbvZA6PEOWbd0tyzmMNXeDEO
+	jakGpPnrrFPWxY+ELVwRhCaGlWbbErRhmf3CuFnq2b3fHFujCyFP2/d3MOgQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714654322; x=1714740722; bh=OtCb2xDadnDTYnz3T+fMuekYcXG0
+	7wTP8VPDcSBHFWU=; b=Abuk35niw0hE2+5U3pYlFiFS79OCylUuZHVD0bo047Jf
+	AbooJ6NI47ePcZvwcBYMp10jJgdFM7v0AgtGAEu7U58gF0JivFnhXoBz9h0wSDzj
+	nShpOHfZGMhRVz6ogGT2q9ThNK40G+k8wogtdfT490Il7zSynTSZ17sRuviDEi2G
+	ZgRK5UywTwgfC9fLIjHAzuDtdcJZPL+rZZ3jmezIxvhGUnS1MEufWZlVvFA4mB5/
+	e8S/II0M2HZHpXgadg28sx4azxqDZwQtgwmYinTb67MzOI6OKeOdjIoF2X2HvCYx
+	60EyYs3XRJI+xQGy0AKhAsiEMWbf9unJPYHSgWkE0A==
+X-ME-Sender: <xms:cowzZoerowGDDaEooJUwZmX508BLKtHC0bb8NbwD6NFLW60GPzK5LA>
+    <xme:cowzZqNuNTk3SpCZAc6JTXD_v5RXP48EB5lJHAF6uM4Ca6iEzjuFcHGCEZPKIsLuW
+    MzhQqI9LbxJhHIxMbQ>
+X-ME-Received: <xmr:cowzZpjlyqx957FYjPVV_xKxnVkEGzO-D1gIGLAM44A5yoQK9xAtjR-PxEIUg9jdbi6xCqehGWfLMirLmy7eoj91z31hXxz3DXw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddukedgheekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
+    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
+    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpefgleffhffhieelledthfefleff
+    feeivddvfffhffetfeehueelheduheffhfeghfenucffohhmrghinhepohhpvghnvghmsg
+    gvugguvggurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:cowzZt-9rZnkaQm4nl8ls_x1u-Qud7T6g98Q7D3qZS02zu0RUL9-IQ>
+    <xmx:cowzZkv2Zy-V_vg2tbJ1mNu3PQGm4FyVYdbTJzMTHDlTBG4q9ZIy_w>
+    <xmx:cowzZkHclS5UwYJ9I4dKueE3TR-ekRXer86OnGTPZKUt4A5rkTk-5Q>
+    <xmx:cowzZjO_OlajeWUwK4NfivrwagzHfPSWpiJisx-OHDsJY_KfgIQ6zA>
+    <xmx:cowzZogAf7bCebKE1mV83O7LKEWqM93Mv9WRe7QPj9BZ1s9j5_V6C5Fi>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 May 2024 08:52:02 -0400 (EDT)
+Date: Thu, 2 May 2024 07:52:00 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH] scripts/oe-setup-build: write a build environment
- initialization one-liner into the build directory
-In-Reply-To: <20240502114421.644096-1-alex.kanavin@gmail.com>
-References: <20240502114421.644096-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018f39309e21-c6ef5471-280f-4ada-8c09-93b41d03b060-000000@us-west-2.amazonses.com>
-Date: Thu, 2 May 2024 12:03:58 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.02-54.240.27.45
+Cc: Lean Sheng Tan <sheng.tan@9elements.com>,
+	Ross Burton <Ross.Burton@arm.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
+	"Hansen, Alexander" <alexander.hansen@9elements.com>,
+	John Chung <John.Chung@arm.com>
+Subject: Re: [OE-core] btrfs-tools-native build python error
+Message-ID: <ZjOMcNhYVh50R0lt@heinlein.vulture-banana.ts.net>
+References: <CAMWxwJ0znPDyQAKAwv8PL9GwyCCEpW9+2SDmXsygNyK26_xF-A@mail.gmail.com>
+ <CAMWxwJ1aad-ggrC+Bug=RGx1yQcFADOSWiZMDZv8S2AnJ7ntnw@mail.gmail.com>
+ <5684983E-FC35-4766-BA02-4D5BCBCB6796@arm.com>
+ <17C993B983870D20.19690@lists.openembedded.org>
+ <CAMWxwJ3ok_d17XnVEgSm3H3qeKK+7U3AQ4OuwNFXTo-jWjtHoQ@mail.gmail.com>
+ <ZjKzwmSpKmznOedr@heinlein.vulture-banana.ts.net>
+ <CANNYZj8eFxRVx6PE9RuOPS2L0Km+4O=19XC6gDctZ4v3dVH-jw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ThNcwGX9oHe92gpN"
+Content-Disposition: inline
+In-Reply-To: <CANNYZj8eFxRVx6PE9RuOPS2L0Km+4O=19XC6gDctZ4v3dVH-jw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 12:04:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198914
-
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/scarthgap-scripts-oe-setup-build-write-a-build-environment-initialization-one-liner-into-the-build-directory.patch
-
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 107 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+ <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 12:52:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198915
 
 
---NextPart--
+--ThNcwGX9oHe92gpN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 02, 2024 at 11:28:54AM +0200, Alexander Kanavin wrote:
+> On Wed, 1 May 2024 at 23:27, Patrick Williams via
+> lists.openembedded.org <patrick=3Dstwcx.xyz@lists.openembedded.org>
+> wrote:
+> > What is going on here?  Well, this:
+> >
+> > ```
+> > meta-phosphor/conf/distro/include/phosphor-pkg-tweaks.inc
+> > 6:# Disable python from btrfs-tools
+> > 7:PACKAGECONFIG:remove:pn-btrfs-tools =3D "python"
+> > ```
+> >
+> > We explicitly remove `python` from the _target_ btrfs-tools
+> > `PACKAGECONFIG`, because we don't want it on-device (since that pulls
+> > python itself as a side-effect).  If I remove this _target_ setting
+> > everything works fine for the native package:
+>=20
+> It's not a target setting. PACKAGECONFIG without qualifier overrides
+> applies to all variants.
+
+I'm not convinced this is true.  As I wrote, the final result of
+PACKAGECONFIG is exactly what I expect; it includes `python` for the
+btrfs-tools-native and doesn't for the plain btrfs-tools:
+
+```
+# pre-expansion value:
+#   "     programs     convert     python     crypto-builtin "
+PACKAGECONFIG=3D"     programs     convert     python     crypto-builtin "
+```
+
+I've also tried switching to this, which is very clearly a "target"
+qualifier and have the same exact results; it applies on "native"
+`inherit_defer` evaluations:
+
+btrfs-tools_%.bbappend with...
+```
+PACKAGECONFIG:remove:class-target =3D "python"
+```
+
+--=20
+Patrick Williams
+
+--ThNcwGX9oHe92gpN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmYzjG4ACgkQqwNHzC0A
+wRnQSw//a+NxtwR5TSqhPSF4taLz2GJ8DBRLQcdGVY1bh2sTaCe3BqtufDAItBoJ
+v0ItkCob5l5YtAhzW2loau07vfU1a8pTodRf8K90glnj/ZkJAJOMNLakqwwwKAms
+D6ZnaVVnY5ImIJpHNsuMrg49/0cWC/Ryes8S7ibdar876C9NVf8Faq0MtEIGhkRd
+oXaV7VF79pfhhXaoThUPtOR5CdKCRKv+grb9jlx1eMDXoq/uo41IFRjttwkJwmZl
+jbrOoxpiZ4b2QT5Zc6gHbCbs98MAa5nXYAnTQjeQJRPrdakYc2kymJqBsm2wGKEz
+K46Ms6KWfPB1dfJRjVFWXuarYlMIXFZwPo6cd48qeI0Zggs+1du9HSwbf0EP5kme
+qHoCaPuB1txzTgeC5bFuixcZMCU6UWgZ0+Ujkr02psX3B7ctlWE8T9ff4kPuNOeX
+PHejozsNKyzmwizXgcL+BUBH8PEJo5Z0l7JmS8Wxu5y5pddL5o/nKYgDsC0u60pS
+ltMKEoNYkph0bv4Isc4xcrJUaR0MY6CCPGC+40Zh/OsEYChjUxVdiORVmwM054++
+kOae0L18comkj7XKxmdxwfhs8UXsE6Sxge1ttKoEVRKI448NiP0IY6JJYDwLEa17
+WxpyLcmS0s1DphrTY3ozPfNLPAxKaJ6cgxf/+58Ra04dSDjUQJ0=
+=1TiO
+-----END PGP SIGNATURE-----
+
+--ThNcwGX9oHe92gpN--
 
