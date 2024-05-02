@@ -1,492 +1,115 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <gudnimar@noxmedical.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87395C4345F
-	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 23:27:20 +0000 (UTC)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
- by mx.groups.io with SMTP id smtpd.web11.1096.1714606035098871204
- for <openembedded-core@lists.openembedded.org>;
- Wed, 01 May 2024 16:27:15 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=S+J2hIbF;
- spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-61500da846fso52945477b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 16:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714606034; x=1715210834; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zI3XDxPaHVr6cyw2S25ciuN/JVX1COIFLn2pRPXSAiw=;
-        b=S+J2hIbFW9Evo5Sj1yU+75rFuT4DwY+onu0DIxNzYVUAUWvkNX/ZROBYXq/+D/m/Sp
-         UMBvZh/8d6z5vXdXDWnfBQ94aLrvHofgzI4a1+em+YK3QxbVg5LruLq/R3S4fFHomSAg
-         NieTpBpA3bbFYJOe/KLhH96eYU5jf3Z5KjVqJiQ3+8+6+KK08Ro2kI3s6MHXxtJ99b+e
-         nDh9FA8nkmOSUlDy+Ff6mvJNPkFbtphwaqWzWKFVagwkLSHYjQwQQlZjhRZWdA8gDt1Q
-         QZmonaisfdVqLaTqqglhUYrVKdqTbKU1U298KxPtA3TvDK2HoEvpaB2pJsT8XazRqU8B
-         6gwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714606034; x=1715210834;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zI3XDxPaHVr6cyw2S25ciuN/JVX1COIFLn2pRPXSAiw=;
-        b=uN3XEXmeO7yW+NdCB+De5P8erwRFV7aJiekK+6ch5JFOt7WGtPNG2QCCTD6E9z/u2q
-         RFqNvm7KEvhJbKRVYgUZHKFXgsHLQj6BpNE281hPEfFQxx22Jhbbilf2xxq4316+BecU
-         lYcJaRLusg4sW+GzGD4B6iDsD7mnVkpH9eAOXCgWPUwTLqvcq//kYwu1LR0rIYjCrJra
-         cTqDfQAH6LeFYou12WDXsu5jI+UGeNBGmd+cvOprlQgpatlk8ZyzvWT3EeDtUHwTCblf
-         l1S+ZLy69Yeil1hrvtZfSzcPTRNdbeUrRvAtm/iGD+pYl4DS6BLURJNaud+PYgOIpc2m
-         BqaA==
-X-Gm-Message-State: AOJu0Yx+XgCWPDLpPu245NEY28TS4WpHqq19qitqkfEaaqA/U+qUptq5
-	s7UzuIhm7SIJ20HXdPo+LGDaWUG23WIxH8TatE2tCZHKtGkK+9vNQApJDKfv2COmlV6hI6qa8V+
-	DN4pgBzf/WXtvT/JkUqfzHrRpipI=
-X-Google-Smtp-Source: AGHT+IEWb4wZb3fDC56W1/U2K/xcnBa4lm43IvQSC+p/mJTmNih1DE71lxg8VbrN/idQGFwKv8yIHnqaQr4FeAxBMq8=
-X-Received: by 2002:a05:690c:3685:b0:618:83a4:588e with SMTP id
- fu5-20020a05690c368500b0061883a4588emr443165ywb.37.1714606033892; Wed, 01 May
- 2024 16:27:13 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0908C4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 00:50:10 +0000 (UTC)
+Subject: Re: [PATCH] python3-manifest: prune python3-core
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudnimar@noxmedical.com>
+X-Originating-Location: Kopavogur, Capital Region, IS (81.15.100.92)
+X-Originating-Platform: Windows Chrome 124
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20240501212753.275862-1-gudnimar@noxmedical.com>
-In-Reply-To: <20240501212753.275862-1-gudnimar@noxmedical.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 1 May 2024 16:27:02 -0700
-Message-ID: <CANx9H-BtxHrpWuRC7uobB1s3m4Pd3XPRLOEX_R7YVpCTiOQ0dA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-manifest: prune python3-core
-To: gudnimar@noxmedical.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000947e3706176cd3b8"
+Date: Wed, 01 May 2024 17:50:01 -0700
+References: <CANx9H-BtxHrpWuRC7uobB1s3m4Pd3XPRLOEX_R7YVpCTiOQ0dA@mail.gmail.com>
+In-Reply-To: <CANx9H-BtxHrpWuRC7uobB1s3m4Pd3XPRLOEX_R7YVpCTiOQ0dA@mail.gmail.com>
+Message-ID: <2135.1714611001880482361@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="48JrIjI2BYG3wq91kApj"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 23:27:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198896
+ <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 00:50:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198897
 
---000000000000947e3706176cd3b8
-Content-Type: text/plain; charset="UTF-8"
+--48JrIjI2BYG3wq91kApj
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 1, 2024 at 2:28=E2=80=AFPM Gu=C3=B0ni M=C3=A1r Gilbert via list=
-s.openembedded.org
-<gudnimar=3Dnoxmedical.com@lists.openembedded.org> wrote:
+On Wed, May 1, 2024 at 11:27 PM, Tim Orling wrote:
 
-> Remove file entries which no longer exist in the source.
->
-> I spotted this when I added a custom QA error locally which
-> raised a warning when a file in FILES list of a package isn't
-> found in the source.
->
->
-This manifest is automatically generated by:
-https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/python3=
-/create_manifest3.py
+>=20
+> This manifest is automatically generated by:
+> https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/pytho=
+n3/create_manifest3.py
+>=20
+>=20
+> We do not want to be making manual changes to the json file. If there are
+> mistakes due to changes in what is now shipped with Python 3.12.x, we
+> should be fixing in the tooling, not this file.
+>=20
 
-We do not want to be making manual changes to the json file. If there are
-mistakes due to changes in what is now shipped with Python 3.12.x, we
-should be fixing in the tooling, not this file.
+Using the script was my first approach, but I found out that the script doe=
+sn't prune the core package and is essentially expecting that the core is a=
+lready set up correctly in the manifest file. Only items are appended to th=
+e core, items are never removed as far as I could see.
 
-Also, please share your local QA tooling. It does no one any good to have
-that be siloed.
+This could certainly be improved and I made an attempt but could not finish=
+ it today. I'd be happy to look into it when I find time.
 
+>=20
+> Also, please share your local QA tooling. It does no one any good to have
+> that be siloed
+>=20
 
-> Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudnimar@noxmedical.com>
-> ---
-> .../python/python3/python3-manifest.json | 23 -------------------
-> 1 file changed, 23 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json
-> b/meta/recipes-devtools/python/python3/python3-manifest.json
-> index 46092d4004..6e06002783 100644
-> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
-> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-> @@ -219,15 +219,9 @@
-> "rdepends": [],
-> "files": [
-> "${bindir}/python${PYTHON_MAJMIN}",
-> - "${bindir}/python${PYTHON_MAJMIN}.real",
-> "${bindir}/python3",
-> "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
-> - "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/UserString.py",
-> "${libdir}/python${PYTHON_MAJMIN}/__future__.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/_abcoll.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py",
-> "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py",
-> "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
-> "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
-> @@ -262,7 +256,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/getopt.py",
-> "${libdir}/python${PYTHON_MAJMIN}/gettext.py",
-> "${libdir}/python${PYTHON_MAJMIN}/heapq.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/imp.py",
-> "${libdir}/python${PYTHON_MAJMIN}/importlib",
-> "${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py",
-> "${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py",
-> @@ -274,10 +267,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/io.py",
-> "${libdir}/python${PYTHON_MAJMIN}/ipaddress.py",
-> "${libdir}/python${PYTHON_MAJMIN}/keyword.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/_struct.*.so"=
-,
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/binascii.*.so=
-",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/time.*.so",
-> -
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/xreadlines.*.so=
-",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so",
-> @@ -286,22 +275,17 @@
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubprocess.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata.*.so",
-> - "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
-> "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
-> "${libdir}/python${PYTHON_MAJMIN}/locale.py",
-> "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/new.py",
-> "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
-> "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
-> "${libdir}/python${PYTHON_MAJMIN}/operator.py",
-> @@ -323,7 +307,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/shutil.py",
-> "${libdir}/python${PYTHON_MAJMIN}/signal.py",
-> "${libdir}/python${PYTHON_MAJMIN}/site.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py",
-> "${libdir}/python${PYTHON_MAJMIN}/sre_compile.py",
-> "${libdir}/python${PYTHON_MAJMIN}/sre_constants.py",
-> "${libdir}/python${PYTHON_MAJMIN}/sre_parse.py",
-> @@ -331,7 +314,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/stringprep.py",
-> "${libdir}/python${PYTHON_MAJMIN}/struct.py",
-> "${libdir}/python${PYTHON_MAJMIN}/subprocess.py",
-> - "${libdir}/python${PYTHON_MAJMIN}/symbol.py",
-> "${libdir}/python${PYTHON_MAJMIN}/sysconfig.py",
-> "${libdir}/python${PYTHON_MAJMIN}/textwrap.py",
-> "${libdir}/python${PYTHON_MAJMIN}/threading.py",
-> @@ -349,7 +331,6 @@
-> ],
-> "cached": [
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.*.pyc",
-> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collections_abc.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compression.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase.*.pyc",
-> @@ -378,7 +359,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc",
-> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*.pyc",
-> @@ -395,7 +375,6 @@
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
-> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc",
-> @@ -410,13 +389,11 @@
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.*.pyc",
-> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.pyc",
-> - "${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc",
-> "${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.pyc",
-> --
-> 2.34.1
->
->
-> Warning: Copyright Nox Health. This communication is confidential and may
-> contain privileged information. By the use of email over the Internet or
-> other communication systems, Nox Health is not waiving either
-> confidentiality of, or legal privilege in, the content of the email and o=
-f
-> any attachments. If the recipient of this message is not the intended
-> addressee, please call Nox Health immediately by calling (+1) 888.505.028=
-0
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198888):
-> https://lists.openembedded.org/g/openembedded-core/message/198888
-> Mute This Topic: https://lists.openembedded.org/mt/105851698/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+What I have so far is to insert the warning in this line: https://github.co=
+m/openembedded/openembedded-core/blob/914128f6bd988cde278e087fb9457a0c70c7e=
+5ec/meta/lib/oe/package.py#L1343 and adding the following two lines:
 
---000000000000947e3706176cd3b8
-Content-Type: text/html; charset="UTF-8"
+msg =3D f "FILES variable for package { pkg } contains ' { file } ' but was=
+ not found. \n "
+oe.qa.handle_error( "files-not-found" , msg , d )
+
+before the 'continue' statement.
+
+I also added "files-not-found" to WARN_QA in insane.class just like how "fi=
+les-invalid" is handled
+
+--48JrIjI2BYG3wq91kApj
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 1, 2024 at 2:28=E2=80=AFP=
-M Gu=C3=B0ni M=C3=A1r Gilbert via <a href=3D"http://lists.openembedded.org"=
->lists.openembedded.org</a> &lt;gudnimar=3D<a href=3D"mailto:noxmedical.com=
-@lists.openembedded.org">noxmedical.com@lists.openembedded.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D=
-"msg-5473510541801915532"><div>Remove file entries which no longer exist in=
- the source.<br>
-<br>
-I spotted this when I added a custom QA error locally which<br>
-raised a warning when a file in FILES list of a package isn&#39;t<br>
-found in the source.<br>
-<br></div></div></blockquote><div><br></div><div>This manifest is automatic=
-ally generated by:</div><div><a href=3D"https://git.yoctoproject.org/poky/t=
-ree/meta/recipes-devtools/python/python3/create_manifest3.py">https://git.y=
-octoproject.org/poky/tree/meta/recipes-devtools/python/python3/create_manif=
-est3.py</a></div><div><br></div><div>We do not want to be making manual cha=
-nges to the json file. If there are mistakes due to changes in what is now =
-shipped with Python 3.12.x, we should be fixing in the tooling, not this fi=
-le.</div><div><br></div><div>Also, please share your local QA tooling. It d=
-oes no one any good to have that be siloed.</div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg-5473510541801915=
-532"><div>
-Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert &lt;<a href=3D"mailto:gudnimar@n=
-oxmedical.com" target=3D"_blank">gudnimar@noxmedical.com</a>&gt;<br>
----<br>
- .../python/python3/python3-manifest.json      | 23 -------------------<br>
- 1 file changed, 23 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
-eta/recipes-devtools/python/python3/python3-manifest.json<br>
-index 46092d4004..6e06002783 100644<br>
---- a/meta/recipes-devtools/python/python3/python3-manifest.json<br>
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json<br>
-@@ -219,15 +219,9 @@<br>
-         &quot;rdepends&quot;: [],<br>
-         &quot;files&quot;: [<br>
-             &quot;${bindir}/python${PYTHON_MAJMIN}&quot;,<br>
--            &quot;${bindir}/python${PYTHON_MAJMIN}.real&quot;,<br>
-             &quot;${bindir}/python3&quot;,<br>
-             &quot;${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h&quot;,<=
-br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserDict.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserList.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserString.py&quot;,<br=
->
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__future__.py&quot;,<br=
->
--            &quot;${libdir}/python${PYTHON_MAJMIN}/_abcoll.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py&quot;,<b=
-r>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py&quo=
-t;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_compression.py&quot;,<=
-br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_markupbase.py&quot;,<b=
-r>
-@@ -262,7 +256,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/getopt.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/gettext.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/heapq.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/imp.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py&quot;=
-,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py=
-&quot;,<br>
-@@ -274,10 +267,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/io.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/ipaddress.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/keyword.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/_struct.*.so&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/binascii.*.so&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/time.*.so&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/xreadlines.*.so&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.s=
-o&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so&q=
-uot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so&q=
-uot;,<br>
-@@ -286,22 +275,17 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.s=
-o&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubpr=
-ocess.*.so&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.s=
-o&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.s=
-o&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so&=
-quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.=
-so&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so&qu=
-ot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so&q=
-uot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so=
-&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.=
-so&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so=
-&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so&q=
-uot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata=
-.*.so&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.=
-*.so&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so&q=
-uot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/linecache.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/locale.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lzma.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/new.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/ntpath.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/opcode.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/operator.py&quot;,<br>
-@@ -323,7 +307,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/shutil.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/signal.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/site.py&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py&quot;,=
-<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_compile.py&quot;,<b=
-r>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_constants.py&quot;,=
-<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_parse.py&quot;,<br>
-@@ -331,7 +314,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/stringprep.py&quot;,<br=
->
-             &quot;${libdir}/python${PYTHON_MAJMIN}/struct.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/subprocess.py&quot;,<br=
->
--            &quot;${libdir}/python${PYTHON_MAJMIN}/symbol.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sysconfig.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/textwrap.py&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/threading.py&quot;,<br>
-@@ -349,7 +331,6 @@<br>
-         ],<br>
-         &quot;cached&quot;: [<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.=
-*.pyc&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale=
-.*.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collection=
-s_abc.*.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compressio=
-n.*.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase=
-.*.pyc&quot;,<br>
-@@ -378,7 +359,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.py=
-c&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.p=
-yc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc=
-&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc&q=
-uot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.p=
-yc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc&qu=
-ot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*=
-.pyc&quot;,<br>
-@@ -395,7 +375,6 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.p=
-yc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.=
-pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*=
-.pyc&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc&qu=
-ot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.p=
-yc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter=
-.*.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc=
-&quot;,<br>
-@@ -410,13 +389,11 @@<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.=
-*.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.py=
-c&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.=
-*.pyc&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.py=
-c&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*=
-.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.=
-pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*=
-.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc=
-&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.=
-pyc&quot;,<br>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*=
-.pyc&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc=
-&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.py=
-c&quot;,<br>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.=
-pyc&quot;,<br>
--- <br>
-2.34.1<br>
+On Wed, May 1, 2024 at 11:27 PM, Tim Orling wrote:<br />
+<blockquote>
+<div>This manifest is automatically generated by:</div>
+<div><a href=3D"https://git.yoctoproject.org/poky/tree/meta/recipes-devtool=
+s/python/python3/create_manifest3.py" target=3D"_blank" rel=3D"nofollow noo=
+pener">https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/python/=
+python3/create_manifest3.py</a></div>
+<div>&nbsp;</div>
+<div>We do not want to be making manual changes to the json file. If there =
+are mistakes due to changes in what is now shipped with Python 3.12.x, we s=
+hould be fixing in the tooling, not this file.</div>
+</blockquote>
+Using the script was my first approach, but I found out that the script doe=
+sn't prune the core package and is essentially expecting that the core is a=
+lready set up correctly in the manifest file. Only items are appended to th=
+e core, items are never removed as far as I could see.<br /><br />This coul=
+d certainly be improved and I made an attempt but could not finish it today=
+. I'd be happy to look into it when I find time.<br />
+<div>&nbsp;</div>
+<blockquote>
+<div>Also, please share your local QA tooling. It does no one any good to h=
+ave that be siloed</div>
+</blockquote>
+<div>What I have so far is to insert the warning in this line: <a href=3D"h=
+ttps://github.com/openembedded/openembedded-core/blob/914128f6bd988cde278e0=
+87fb9457a0c70c7e5ec/meta/lib/oe/package.py#L1343" target=3D"_blank" rel=3D"=
+noopener">https://github.com/openembedded/openembedded-core/blob/914128f6bd=
+988cde278e087fb9457a0c70c7e5ec/meta/lib/oe/package.py#L1343</a> and adding =
+the following two lines:<br />
+<div>
+<div><span><br />msg</span><span> </span><span>=3D</span><span> </span><spa=
+n>f</span><span>"FILES variable for package </span><span>{</span><span>pkg<=
+/span><span>}</span><span> contains '</span><span>{</span><span>file</span>=
+<span>}</span><span>' but was not found.</span><span>\n</span><span>"</span=
+></div>
+<div><span>oe</span><span>.qa.handle_error(</span><span>"files-not-found"</=
+span><span>, </span><span>msg</span><span>, </span><span>d</span><span>)<br=
+ /><br />before the 'continue' statement.</span></div>
+</div>
+<br />I also added "files-not-found" to WARN_QA in insane.class just like h=
+ow "files-invalid" is handled</div>
 
-<br><br><p style=3D"font-family:Verdana;font-size:10pt;color:rgb(102,102,10=
-2)"></p><p style=3D"font-family:Verdana;font-size:8pt;color:rgb(102,102,102=
-)">Warning:  Copyright Nox Health.  This communication is confidential and =
-may contain privileged information.  By the use of email over the Internet =
-or other communication systems, Nox Health is not waiving either confidenti=
-ality of, or legal privilege in, the content of the email and of any attach=
-ments.  If the recipient of this message is not the intended addressee, ple=
-ase call Nox Health immediately by calling (+1) 888.505.0280</p></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#198888): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/198888" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/198888</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105851698/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/105851698/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</div></blockquote></div></div>
-
---000000000000947e3706176cd3b8--
+--48JrIjI2BYG3wq91kApj--
 
