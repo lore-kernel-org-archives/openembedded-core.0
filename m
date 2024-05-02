@@ -1,106 +1,95 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <philip.lorenz@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD94C4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 14:20:16 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.6623.1714659616221705890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 112CBC4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 14:28:47 +0000 (UTC)
+Received: from esa7.hc324-48.eu.iphmx.com (esa7.hc324-48.eu.iphmx.com [207.54.71.126])
+ by mx.groups.io with SMTP id smtpd.web10.6861.1714660123052141932
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 07:20:16 -0700
+ Thu, 02 May 2024 07:28:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R0kLPL6y;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51f40b5e059so682315e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 07:20:15 -0700 (PDT)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=FIb7gpm9;
+ spf=pass (domain: bmw.de, ip: 207.54.71.126, mailfrom: prvs=8451f0b36=philip.lorenz@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714659613; x=1715264413; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vbLd4LGvLLG0l+Pfl6EOqWb3uXZIUWbBV3aNgs09kcw=;
-        b=R0kLPL6yEiPdqkdcBjLAiHMVT6iGhMJAR30P9826miI3XNQpz908h6GSftMQ4O1mTU
-         Lu0gpyEYR+8OXJGU/USL2JTJ4FY2Jyd32r6qJ89EMUguGalHNQ+7KwF63wVRkq0eTaUp
-         pRsSZZmvFJDKkFoLbNXpEWlQ+PL4a9hzndedYMDnCJDtQYHvhQVt+Evij9xtzPbjoqTK
-         4LARzrsQLrOOeNdkv78m5yE+4N+tTrFnG5IkhRBTrfJrIrBveTqqw9vYFczoOv8FjOCy
-         KZyEPY/mKB7RUlEylFJzzzmED6AcAf50Mj6d+j7oTs46VyVqvBOEi2mCD+D8DWAj49Q5
-         J3pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714659613; x=1715264413;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vbLd4LGvLLG0l+Pfl6EOqWb3uXZIUWbBV3aNgs09kcw=;
-        b=l1xTmhnSySN07LEp6bu1jjHCzzEZwIghodcdQN0VbF4ENBB4EpIvH2jL1yS6lVXobI
-         YFDunmlV994c9VjNFVhIa1HbTvQ2xVOio5Gd97Y/4WkDtufAyzWOUDQJC1+JtfNAerBL
-         DQhSU346Eug7iCkj7+6j77T582RzEiHLIYLFn3L/epPyUQYlec0MHY5pPum7udAIZWcc
-         53gZRcRxmF3LdR4jf9sSm0+/x7uieofJx+WhBEcKrLP4jPgPZtt8BYJmoFNfTqx6Cpo8
-         ONSc4iQS/G1KPbYZRvNib7Sepx9yNjRee5BiMCD3mIKXiS5I8SynxXPLxGz6e9hzaMul
-         cbcA==
-X-Gm-Message-State: AOJu0YzXze10x48HrZURdOiefRv0DLnb3uLOs9Udc9OJMWoGSg/xW+Os
-	5bUFt6Lv8ZrK/HLWe+rS+uI46rEp/B/8gCMvdz6merOo9GLy6ggdFSufKhcS6w8N634G5FTxvBV
-	r9pevk++9wz66ISeYIasfYpAGJKVntw==
-X-Google-Smtp-Source: AGHT+IHSwAquWy68MLBL2FWf+P65yZa9GQdD/0h6rIn+KArEfZQ5VtNgPY452Ge/j7KDtZJfIBn01+sRer+FqqTW6co=
-X-Received: by 2002:a05:6512:71:b0:51e:f177:a1db with SMTP id
- i17-20020a056512007100b0051ef177a1dbmr2020471lfo.57.1714659613358; Thu, 02
- May 2024 07:20:13 -0700 (PDT)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1714660123; x=1746196123;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=koNHgFzP2KhqwE8UfGw1YyF9Nx6ezn+skWt4m9jzY7U=;
+  b=FIb7gpm9nKCAz2+XOp/d8YV02VZ0NEBsmGgzZfEVPquaUAJwmN0gy1g0
+   TiVNw9PlMoF4vBhH3+MGgdK9jfClXUkcVY9/PusmMZcrxjraAPLOIJ61o
+   EDoeI2XVyN3tweXv5MwLq0xPHT5k7z3rLvYYJorK+r8i5eQ3wPtCycAnO
+   E=;
+X-CSE-ConnectionGUID: oeBCLhbbQ0agXlrV/lp/Vg==
+X-CSE-MsgGUID: 8yQj0dSNSGGhvkq15cb0jA==
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa7.hc324-48.eu.iphmx.com with ESMTP/TLS; 02 May 2024 16:28:40 +0200
+Received: from esabb1.muc ([160.50.100.31])  by esagw3.muc with ESMTP/TLS;
+ 02 May 2024 16:28:40 +0200
+Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
+ by esabb1.muc with ESMTP/TLS; 02 May 2024 16:28:40 +0200
+Received: from localhost.localdomain (10.30.85.215) by SMUCMP10E.europe.bmw.corp
+ (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
+ Thu, 2 May 2024 16:28:40 +0200
+From: Philip Lorenz <philip.lorenz@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Philip Lorenz <philip.lorenz@bmw.de>
+Subject: [PATCH] ipk: Do not hardcode payload compression algorithm
+Date: Thu, 2 May 2024 16:27:16 +0200
+Message-ID: <20240502142716.2112863-1-philip.lorenz@bmw.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240502141830.1137815-1-JPEWhacker@gmail.com>
-In-Reply-To: <20240502141830.1137815-1-JPEWhacker@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 2 May 2024 08:20:00 -0600
-Message-ID: <CAJdd5Gb+c_PJFaTESbzL0PWKb2wh2CRcVXhQpO7N1d4S1HUXvQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] cooker: Use hash client to ping upstream server
-To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp03c.europe.bmw.corp (2a03:1e80:a15:58f::1:1a) To
+ SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 14:20:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198926
+ <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 14:28:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198927
 
-Disregard. Wrong mailing list
+The chosen payload compression algorithm can be changed by overriding
+`OPKGBUILDCMD`. Ensure that package extraction deals with this by
+globbing for "data.tar.*" to select the actual payload tarball.
 
-On Thu, May 2, 2024 at 8:18=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com> w=
-rote:
->
-> The cooker attempts to connect to the upstream hash equivalent server to
-> warn the user early if it is misconfigured. However, this was making the
-> assumption that it was a raw TCP connection and failed when attempting
-> to use a websocket upstream server. Fix this by creating an hash client
-> and using the ping API to check the server instead of using a raw
-> socket.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  bitbake/lib/bb/cooker.py | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-> index c5bfef55d67..25b614f1e44 100644
-> --- a/bitbake/lib/bb/cooker.py
-> +++ b/bitbake/lib/bb/cooker.py
-> @@ -315,11 +315,10 @@ class BBCooker:
->                  dbfile =3D (self.data.getVar("PERSISTENT_DIR") or self.d=
-ata.getVar("CACHE")) + "/hashserv.db"
->                  upstream =3D self.data.getVar("BB_HASHSERVE_UPSTREAM") o=
-r None
->                  if upstream:
-> -                    import socket
->                      try:
-> -                        sock =3D socket.create_connection(upstream.split=
-(":"), 5)
-> -                        sock.close()
-> -                    except socket.error as e:
-> +                        with hashserv.create_client(upstream) as client:
-> +                            client.ping()
-> +                    except ConnectionError as e:
->                          bb.warn("BB_HASHSERVE_UPSTREAM is not valid, una=
-ble to connect hash equivalence server at '%s': %s"
->                                   % (upstream, repr(e)))
->
-> --
-> 2.34.1
->
+Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
+---
+ meta/lib/oe/package_manager/ipk/__init__.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
+index 8cc9953a027..0f0038d00d9 100644
+--- a/meta/lib/oe/package_manager/ipk/__init__.py
++++ b/meta/lib/oe/package_manager/ipk/__init__.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++import glob
+ import re
+ import shutil
+ import subprocess
+@@ -134,11 +135,16 @@ class OpkgDpkgPM(PackageManager):
+         tmp_dir = tempfile.mkdtemp()
+         current_dir = os.getcwd()
+         os.chdir(tmp_dir)
+-        data_tar = 'data.tar.zst'
+ 
+         try:
+             cmd = [ar_cmd, 'x', pkg_path]
+             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++            data_tar = glob.glob("data.tar.*")
++            if len(data_tar) != 1:
++                bb.fatal("Unable to extract %s package. Failed to identify "
++                         "data tarball (found tarballs '%s').",
++                         pkg_path, data_tar)
++            data_tar = data_tar[0]
+             cmd = [tar_cmd, 'xf', data_tar]
+             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+         except subprocess.CalledProcessError as e:
+-- 
+2.44.0
+
 
