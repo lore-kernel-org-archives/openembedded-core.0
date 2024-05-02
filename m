@@ -1,171 +1,99 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1C5BC4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 08:50:04 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.8918.1714639800439644092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E291FC04FFE
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 09:04:14 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.9086.1714640642486716659
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 01:50:00 -0700
+ Thu, 02 May 2024 02:04:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Pik1cCxm;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: zboszor@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f036e9f4dso769997e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 01:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714639798; x=1715244598; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BRfNRgPncPSIrOrSVA73JgS1SYFavW6B/WupNk9w0O8=;
-        b=Pik1cCxmV57VL6BJTv6QExYqzO1IEJOiC2q/teS2hcFd9ALTkjkBzGK9wLhcsWo5vH
-         0uWUCwXg2qkVowEWRkHu/MYKhnp4bVhb93ZJQUfuyzu3Il0N+wAuWUCYJlZBrIpud6G2
-         TS0lDli2De4d/e6FYWffLkiLeguqoNMbmLrAGqngO5Bbe0wofDo9baENiwSNyGtmD/4G
-         30wQuoa5aYniib2msw+vDCZRWCRdqBrTP4v99KoD1FUH6x/x26k/GvwVUU2gOBUmAWdG
-         ZNd4/xfowYpDWIjfDfPWrnnpQeCGGNJXpMhVazIRWWocGyX6BVXz/GjWIsvEL2Tr2Iz9
-         mEsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714639798; x=1715244598;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BRfNRgPncPSIrOrSVA73JgS1SYFavW6B/WupNk9w0O8=;
-        b=ub5LpUPZiCmf2QGuvE8MGBSPVsXP4KingGVzvqT5kHbRoCXPDlCwlxfS45/igUF3TP
-         pytW4EshFG8Bt0/arIsfOEQUwyGWeDB+/R/NhzCKe6yz8md9aRKeOm8GAvb1DhC20QkA
-         Dfc+xdJQYs/qH20h7PMv5mihPi1N3vAKuVDBa08H1aqIi7nObxkGW6WA75cn2oPjLX79
-         vaLZ+rORWLOCDw/vio5bHsbBhuixk4RO8mqhzVqwcwVUUH9dhttEpPOlrCqHCm5Srxg2
-         9ypEhUVWk9geUseRgS/a81Y1QUsfoMAnEUStNmltNKLhTFT34rQap86BAO1EDk2koRzJ
-         xdQw==
-X-Gm-Message-State: AOJu0Yx4slDVjOu1cP0X+odpMUssRP/tlDQp07nWS2XDx3vy64/xKzgX
-	ELAGxdWY2hdPTEgZRtZObZUwrpG7G37GpuFAtUVtJ8nVN0vE8ggyQqS06OW/
-X-Google-Smtp-Source: AGHT+IFOx+7Zn6FKS1FX4Wb/aHxpWXZcV7yakOE5Sg0kncqZGmYpNXBKm+zsxWTr719AUTpuHVtIFA==
-X-Received: by 2002:ac2:4c4e:0:b0:51b:f78d:c189 with SMTP id o14-20020ac24c4e000000b0051bf78dc189mr4100858lfk.14.1714639797603;
-        Thu, 02 May 2024 01:49:57 -0700 (PDT)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id p13-20020a056000018d00b0034e229a7d5bsm724832wrx.7.2024.05.02.01.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 01:49:57 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH v2] syslinux: Fix build with GCC 14
-Date: Thu,  2 May 2024 10:49:33 +0200
-Message-ID: <20240502084933.1784665-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.44.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Vj4IoIO6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IHxuo8AY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018f388bde6b-2917a416-0179-4398-8523-5a09b11c1cca-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1714640641; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=I6KfxbDOBHqzRQ26yB7F48IvoljLEvhEkJOPN0vcJy0=;
+	b=Vj4IoIO6FJ3ZDGDfxviLaA5Ee0I5Cy2r+xwA+Mq8mq8lZ1Va8/lApUVaqda1USGE
+	6aN588Dc1KOvD2m0glGqYi4XcTCJNUFBukIwjlCij8REdFoQtp+06h6yanOiMkVy6vq
+	WCQhmHm40+2isIMgsqnfaUj2AhIK65xEWhSRctoQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1714640641;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=I6KfxbDOBHqzRQ26yB7F48IvoljLEvhEkJOPN0vcJy0=;
+	b=IHxuo8AYx3xa0kfo70g6RnGpVhtvGIBoJpXW77qlHpzVDX8Ulv4+Xgx4wEirETzs
+	EGpoB1RNFPy110uN/A4O95tWMfTHgMWae/1Wqm/RFHZ82ZIznRiMo+o7eEkHKGXTIzB
+	gmYA6+CL0Fq5L6W5luUom7Ok+l8khqxwWUm0k8MM=
+From: patchtest@automation.yoctoproject.org
+To: =?utf-8?b?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] syslinux: Fix build with GCC 14
+In-Reply-To: <20240502084933.1784665-1-zboszor@gmail.com>
+References: <20240502084933.1784665-1-zboszor@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018f388bde6b-2917a416-0179-4398-8523-5a09b11c1cca-000000@us-west-2.amazonses.com>
+Date: Thu, 2 May 2024 09:04:01 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.05.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 08:50:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198904
+ <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 09:04:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198905
 
-Add a patch from Fedora 40 to fix build with GCC 14.
+--NextPart
+Content-Type: text/plain
 
-Remove internal (long obsolete) copies of ext2_fs.h that clash
-with the one from e2fsprogs when built with GCC 14.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../syslinux/0008-Fix-build-with-GCC-14.patch | 63 +++++++++++++++++++
- .../syslinux/syslinux_6.04-pre2.bb            |  5 ++
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
+Testing patch /home/patchtest/share/mboxes/v2-syslinux-Fix-build-with-GCC-14.patch
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch b/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
-new file mode 100644
-index 0000000000..d7c8aa50d0
---- /dev/null
-+++ b/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
-@@ -0,0 +1,63 @@
-+From 321433861cc9cd3c7e0ee02830e561bc0f956998 Mon Sep 17 00:00:00 2001
-+From: rpm-build <rpm-build>
-+Date: Sun, 4 Feb 2024 11:46:02 -0500
-+Subject: [PATCH] Fix build with GCC 14
-+
-+com32/lib/syslinux/debug.c: In function ‘syslinux_debug’:
-+com32/lib/syslinux/debug.c:91:5: error: implicit declaration of function ‘printf’
-+
-+com32/libupload/upload_tftp.c: In function ‘upload_tftp_write’:
-+com32/libupload/upload_tftp.c:64:11: error: implicit declaration of function ‘tftp_put’
-+
-+com32/chain/chain.c: In function ‘main’:
-+com32/chain/chain.c:517:44: error: passing argument 3 of ‘loadfile’ from incompatible pointer type
-+com32/include/syslinux/loadfile.h:11:37: note: expected ‘size_t *’ but argument is of type ‘addr_t *’
-+
-+Upstream-Status: Inactive-Upstream [no upstream]
-+Signed-off-by: rpm-build <rpm-build@fedora.org>
-+---
-+ com32/chain/chain.c        | 2 +-
-+ com32/lib/syslinux/debug.c | 1 +
-+ com32/libupload/tftp.h     | 3 +++
-+ 3 files changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/com32/chain/chain.c b/com32/chain/chain.c
-+index 4e9e32d..b11b880 100644
-+--- a/com32/chain/chain.c
-++++ b/com32/chain/chain.c
-+@@ -514,7 +514,7 @@ int main(int argc, char *argv[])
-+     if (opt.file) {
-+ 	fdat.base = (opt.fseg << 4) + opt.foff;
-+ 
-+-	if (loadfile(opt.file, &fdat.data, &fdat.size)) {
-++	if (loadfile(opt.file, &fdat.data, (size_t*)&fdat.size)) {
-+ 	    error("Couldn't read the boot file.");
-+ 	    goto bail;
-+ 	}
-+diff --git a/com32/lib/syslinux/debug.c b/com32/lib/syslinux/debug.c
-+index d9ab863..e8f53d5 100644
-+--- a/com32/lib/syslinux/debug.c
-++++ b/com32/lib/syslinux/debug.c
-+@@ -1,6 +1,7 @@
-+ #include <linux/list.h>
-+ #include <string.h>
-+ #include <stdbool.h>
-++#include <stdio.h>
-+ 
-+ #ifdef DYNAMIC_DEBUG
-+ 
-+diff --git a/com32/libupload/tftp.h b/com32/libupload/tftp.h
-+index 323dc16..09aa40b 100644
-+--- a/com32/libupload/tftp.h
-++++ b/com32/libupload/tftp.h
-+@@ -19,4 +19,7 @@ TFTP_OK	= 11, /* Not in RFC */
-+ };
-+ 
-+ extern const char *tftp_string_error_message[];
-++
-++extern int tftp_put(struct url_info *url, int flags, struct inode *inode,
-++                               const char **redir, char *data, int data_length);
-+ #endif
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index c8e7f25d2b..190891b6fe 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
-            file://0012-libinstaller-Fix-build-with-glibc-2.36.patch \
-            file://0013-remove-clean-script.patch \
-            file://0014-Fix-reproducibility-issues.patch \
-+           file://0008-Fix-build-with-GCC-14.patch \
- "
- 
- SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
-@@ -71,6 +72,10 @@ PACKAGECONFIG[mtools] = ",,,"
- # Tasks for native/nativesdk which just build the installer.
- #
- do_configure() {
-+	# These clash with ext2_fs.h from e2fsprogs when built with GCC 14
-+	rm -f ${S}/core/fs/ext2/ext2_fs.h
-+	rm -f ${S}/libinstaller/ext2fs/ext2_fs.h
-+
- 	oe_runmake firmware="bios" clean
- }
- 
--- 
-2.44.0
+FAIL: test Upstream-Status presence: Upstream-Status is in incorrect format (test_patch.TestPatch.test_upstream_status_presence_format)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
