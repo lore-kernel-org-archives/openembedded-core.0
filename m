@@ -1,170 +1,97 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83031C4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 07:44:34 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.8198.1714635864635087440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8661BC4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 07:48:04 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.8229.1714636081991234225
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 00:44:24 -0700
+ Thu, 02 May 2024 00:48:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gq2AAy3m;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34dc9065606so761843f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 00:44:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C2NtCpMj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41b79451128so44078715e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 00:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714635863; x=1715240663; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpCccaA6SbuR+i9ymEIVX6Aq6PB9gbgq4/ErnijsoK8=;
-        b=Gq2AAy3mMdIKTW9VlKkcRS4/jNcojwC2oM/ZamCgGHBTbmcxxstTFLjjP5vUDok/C8
-         AEk5vdv0uN1LoCpsO6CntJ8QZFNgt82s0bKN2tCt6nbO/XUZeSH99Kn7F3ohNU4LHVl9
-         nk9cnemnq96DZk34ZR9TNuENsaC7u+7LAGJfxiIh9SZ9l3sw49w5VnUO5LY3Ge87wmRU
-         //Xjng7NSxoXfipOpyOB8VoqDmUNniUUeXPNEJuyXJ2JpGbvAqH50VDCffk/6qKo9EBD
-         pTDKqBVUZmuQP78F5oHfs/Yjq4fECGFBAham4zIvJxlkCEa+MWXdfWNOTbxLE039Cctd
-         HqUQ==
+        d=linuxfoundation.org; s=google; t=1714636080; x=1715240880; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=im3LH6iY5fSJV5K8FToY9IC0gCQd390MsgHMFVCU+bk=;
+        b=C2NtCpMjv8Wt0EP79NzFHofnxdZherF/sd044SZ2NYiQ2wtBODx+lNzWxRO9Banl14
+         CQcZYx/4+hJGwyANUu8OMXnZyTADHxMIBY4sJ4rXPwZTb/+BwIZXwEJ9EavKfEL1z8Jx
+         WL9MTVsPV/jp1CP01xWraeLBGksofgwFBqqwo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714635863; x=1715240663;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HpCccaA6SbuR+i9ymEIVX6Aq6PB9gbgq4/ErnijsoK8=;
-        b=CIfO9tPMxPeaUZvLghqcBj/HaylVV8orS813Hm4X6XR3BwRReGS+Wchxr5diVlhWsn
-         HVpU9SubLGm18obKZLfp2yqjZjs91V404W8yrI+untdIa7TTlkwnG1kK6zno8mkwyqAg
-         CneWlOOqsa+dGT1KAqY4MD9aQ6ZewHJp5jkrKt826O0CJU+uCNRMixApiGi7thVnyxeh
-         13GG6fmgoboopZ53t+tx4jRU1iBGKyfSiMVqDQ4roqvwFo8f+V9sCQuoPhwocLAxuSLT
-         gGQ+/M2jzX/S42+Q+9c84bDJrGkoTlHQhbgfw+g+xGDmH7gMijOZDR5+zorFT3nDvvz2
-         FswQ==
-X-Gm-Message-State: AOJu0YzX4ToaLjM5VqSIVZp2bzBHdru2mjXQJMfJV7t2uzmTfz73hR0L
-	BRrZD8npB3hq0kj/j39PAqx24vhAg34IiYAWEd1rRdhMPiljMVQWzKj3fTZk
-X-Google-Smtp-Source: AGHT+IEINNHLNlzeXwK4OU+ojdUgksBj/gk72lxyC1VZuO6Y6CUKN6ZmPRkvpuzkfuEL/1B3V4vyaw==
-X-Received: by 2002:a5d:66c8:0:b0:34d:13c9:eb52 with SMTP id k8-20020a5d66c8000000b0034d13c9eb52mr1281015wrw.3.1714635862517;
-        Thu, 02 May 2024 00:44:22 -0700 (PDT)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id q15-20020a5d658f000000b0034ddf05a3e6sm564982wru.76.2024.05.02.00.44.22
+        d=1e100.net; s=20230601; t=1714636080; x=1715240880;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=im3LH6iY5fSJV5K8FToY9IC0gCQd390MsgHMFVCU+bk=;
+        b=VxpoCaHJXBPcaj03+vKfO9JSnIMqR/8C8x8YLGMK/tE05Frye4A/dax9HPj6SUQzCg
+         154Wv5427QJ9poPFLRJNqbQPuvNMoFGo/QWSo5buW3sjetnzKPnnD6SX8CSuUT5wuwJP
+         CDBIJsKO+C5xyb8GQFg6nz53xMelX0JpgWgaeOAYjV5XTsn35h+Xdi3JXXoDISz0SIAl
+         uCswvZKKdnFnvz5fwOcr2rUVQ3H6kE8QWvTeg3ctieRkYxNsFP2TnuVTQuGH/+PcH8Ca
+         LUgkxESv7TKU7SNEz6sdr5PlLpKZcliQXu8TPIWl05aStcSNR2225h2wZ7JRs9jAWe9f
+         vweg==
+X-Forwarded-Encrypted: i=1; AJvYcCXVDUgg0/xYvI2BAyIvQyBunxWxSztDdREo+WHHI8UtHqx4IDAXNltckkDnImHZihtX4zvU3gzQpP0PUiIvmQ+wX6VozvTUyhTTMXmMPyIJzBLXk23BUHO/
+X-Gm-Message-State: AOJu0Yw9u1yC1ytPZrv1IT3G2wVHHXtFo+NgZrcyaH56ywbfGb+9ys3G
+	O4tTWEVB+HfxtGRujyS9D8/mrWCSDWwzr8ra4uMrD22CsueFqxOpa4ki/Wehjb0=
+X-Google-Smtp-Source: AGHT+IEZzVQyaEPLi4o/3K3Nw+33FgUMEwI/xJPUKAJ6o9S0oOxuxElzsdsJCzWg+YG7gxjIp+My5w==
+X-Received: by 2002:a05:600c:5606:b0:418:f826:58c3 with SMTP id jr6-20020a05600c560600b00418f82658c3mr3623542wmb.15.1714636080313;
+        Thu, 02 May 2024 00:48:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e92c:f8cd:59ee:48e5? ([2001:8b0:aba:5f3c:e92c:f8cd:59ee:48e5])
+        by smtp.gmail.com with ESMTPSA id o27-20020a05600c511b00b00418a386c17bsm4715595wms.12.2024.05.02.00.47.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 00:44:22 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] syslinux: Fix build with GCC 14
-Date: Thu,  2 May 2024 09:44:19 +0200
-Message-ID: <20240502074419.1422773-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        Thu, 02 May 2024 00:47:59 -0700 (PDT)
+Message-ID: <42a41730981a22e3e7fc86b0971835f3c15a1488.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/4] base/bitbake.conf: Introduce UNPACKDIR
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Marko, Peter" <Peter.Marko@siemens.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 02 May 2024 08:47:59 +0100
+In-Reply-To: <AS1PR10MB569747BB183FCC2B2704775AFD182@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240501215643.3386307-1-richard.purdie@linuxfoundation.org>
+	 <AS1PR10MB569747BB183FCC2B2704775AFD182@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 07:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198901
+ <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 07:48:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198902
 
-Add a patch from Fedora 40 to fix build with GCC 14.
+On Thu, 2024-05-02 at 06:49 +0000, Marko, Peter wrote:
+> I wonder if it we could name it "U" instead of "UNPACKDIR".
+> It will be mostly used on the same places as all the other short
+> names like S/B/T...
 
-Remove internal (long obsolete) copies of ext2_fs.h that clash
-with the one from e2fsprogs when built with GCC 14.
+Personally, I do like the idea but I'm not sure it aids
+readability/discoverability of the code.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- .../syslinux/0008-Fix-build-with-GCC-14.patch | 62 +++++++++++++++++++
- .../syslinux/syslinux_6.04-pre2.bb            |  5 ++
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
+I've assumed people would shoot down the idea as the short vars do have
+a relatively negative following but if the majority were in favour...
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch b/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
-new file mode 100644
-index 0000000000..41414ed0f5
---- /dev/null
-+++ b/meta/recipes-devtools/syslinux/syslinux/0008-Fix-build-with-GCC-14.patch
-@@ -0,0 +1,62 @@
-+From 321433861cc9cd3c7e0ee02830e561bc0f956998 Mon Sep 17 00:00:00 2001
-+From: rpm-build <rpm-build>
-+Date: Sun, 4 Feb 2024 11:46:02 -0500
-+Subject: [PATCH] Fix build with GCC 14
-+
-+com32/lib/syslinux/debug.c: In function ‘syslinux_debug’:
-+com32/lib/syslinux/debug.c:91:5: error: implicit declaration of function ‘printf’
-+
-+com32/libupload/upload_tftp.c: In function ‘upload_tftp_write’:
-+com32/libupload/upload_tftp.c:64:11: error: implicit declaration of function ‘tftp_put’
-+
-+com32/chain/chain.c: In function ‘main’:
-+com32/chain/chain.c:517:44: error: passing argument 3 of ‘loadfile’ from incompatible pointer type
-+com32/include/syslinux/loadfile.h:11:37: note: expected ‘size_t *’ but argument is of type ‘addr_t *’
-+
-+Upstream-Status: Inactive-Upstream [no upstream]
-+---
-+ com32/chain/chain.c        | 2 +-
-+ com32/lib/syslinux/debug.c | 1 +
-+ com32/libupload/tftp.h     | 3 +++
-+ 3 files changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/com32/chain/chain.c b/com32/chain/chain.c
-+index 4e9e32d..b11b880 100644
-+--- a/com32/chain/chain.c
-++++ b/com32/chain/chain.c
-+@@ -514,7 +514,7 @@ int main(int argc, char *argv[])
-+     if (opt.file) {
-+ 	fdat.base = (opt.fseg << 4) + opt.foff;
-+ 
-+-	if (loadfile(opt.file, &fdat.data, &fdat.size)) {
-++	if (loadfile(opt.file, &fdat.data, (size_t*)&fdat.size)) {
-+ 	    error("Couldn't read the boot file.");
-+ 	    goto bail;
-+ 	}
-+diff --git a/com32/lib/syslinux/debug.c b/com32/lib/syslinux/debug.c
-+index d9ab863..e8f53d5 100644
-+--- a/com32/lib/syslinux/debug.c
-++++ b/com32/lib/syslinux/debug.c
-+@@ -1,6 +1,7 @@
-+ #include <linux/list.h>
-+ #include <string.h>
-+ #include <stdbool.h>
-++#include <stdio.h>
-+ 
-+ #ifdef DYNAMIC_DEBUG
-+ 
-+diff --git a/com32/libupload/tftp.h b/com32/libupload/tftp.h
-+index 323dc16..09aa40b 100644
-+--- a/com32/libupload/tftp.h
-++++ b/com32/libupload/tftp.h
-+@@ -19,4 +19,7 @@ TFTP_OK	= 11, /* Not in RFC */
-+ };
-+ 
-+ extern const char *tftp_string_error_message[];
-++
-++extern int tftp_put(struct url_info *url, int flags, struct inode *inode,
-++                               const char **redir, char *data, int data_length);
-+ #endif
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index c8e7f25d2b..190891b6fe 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
-            file://0012-libinstaller-Fix-build-with-glibc-2.36.patch \
-            file://0013-remove-clean-script.patch \
-            file://0014-Fix-reproducibility-issues.patch \
-+           file://0008-Fix-build-with-GCC-14.patch \
- "
- 
- SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
-@@ -71,6 +72,10 @@ PACKAGECONFIG[mtools] = ",,,"
- # Tasks for native/nativesdk which just build the installer.
- #
- do_configure() {
-+	# These clash with ext2_fs.h from e2fsprogs when built with GCC 14
-+	rm -f ${S}/core/fs/ext2/ext2_fs.h
-+	rm -f ${S}/libinstaller/ext2fs/ext2_fs.h
-+
- 	oe_runmake firmware="bios" clean
- }
- 
--- 
-2.44.0
+We could force an audit of all WORKDIR references by changing it to W
+too :) (I'm only half joking).
+
+Cheers,
+
+Richard
+
+
+
+
 
 
