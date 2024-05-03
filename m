@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F380C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09D3C25B74
 	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 02:40:54 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.4002.1714704053828368713
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web10.3823.1714704050039910826
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 19:40:53 -0700
+ Thu, 02 May 2024 19:40:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LZyxALKI;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-790f4650f93so479417785a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 19:40:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R+6zwbcc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78f05341128so582326985a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 19:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714704053; x=1715308853; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1714704049; x=1715308849; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YtTLQsmVQAUeMyy53LHYQWXi6+M+hNR+oreNQ2nFKos=;
-        b=LZyxALKIw3Wuq37DEPmr3FhB/26E9v2zUHufqYkQgxvuw6Ux8e7vGPmns0BnGlSirj
-         qtnI+LXioILNiNMfp84nS5ziy8PBxzUAj+27xO5zcUXK1fQF5HOkeY6sziIfZufVBl2Z
-         2OHwkphnMnlg6oTDbeoivM7GxunkxWgbTwR3TLdcFbJ/i+4kNGj+UoS6NN3lIt/Z7qvL
-         4WKk/6cJU0Y/inFhVqog2Uu3jEsFYL4CZgEuj2ur3I9hPTGIVZiBueHCA2WXDYtX+fo4
-         XjdJbp46wJv0pNF4TM3G1p8ZzKjz/FVw03x0eSnOp95e34zu5zEYHlzrAhyiDFjjhfda
-         SeuQ==
+        bh=v9cDz5ZM3e1ArFiT6fGLdyJGS/SRMIbhKJwwLycF6Ag=;
+        b=R+6zwbccB6HwZt9fU28jdegmpN8aDUb8NYKebpfWYykofoxK73HE1gS/JMxqX3DAvP
+         SwbIRM5CkTmS5w8AyI4moueqx0MrtXye4dE0U/hbP8AZwVAJfPOb2ZNWZFmDC4pzDFUh
+         RBOy+5HtgtGAuyqxj29R510949hFobGDHY0dUc+UIV/BNom31wXvzeoTfc3nkKKud+hN
+         IpQjs0OUHHrjasdEPlGY6omZe+uSHpbCIGigTNxb4NOCgyBsqUwfhID/usaraQDNnZKW
+         g6H1oJu2UBFKLgs9dwtslbd4x4ZHMKKA5cxxqNL4RlpC/+/STI+WDVgfaNl8HMBQBXdZ
+         OUNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714704053; x=1715308853;
+        d=1e100.net; s=20230601; t=1714704049; x=1715308849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YtTLQsmVQAUeMyy53LHYQWXi6+M+hNR+oreNQ2nFKos=;
-        b=APkiP5fnCE0yXkMNVPEiMlb5DfrqvmM0OtO8hfH65IW/fnkV9HVAKtLd8GianqExUj
-         L0Q0YFw7IZ7mtqPamqL1YetTx5iLN75G94zJdHoj209YTWNdDOSCGsc5qZLP6joQNetk
-         ZUprjXZQVzZWagKobnrMZPuNwPijlzsX4VVYLsS9DDzjASwZAes/CzXS0r23sWmy1FTH
-         kSgkh4QCV+bLjMeUAQVzsp3i4FAzFj+DGbbkPFGGVJgPGQljSCC5jfiWFCzhJ4OjAiR/
-         TRzGJjK/FWqCOvVh0mR2pUSPdFHPYlW926974MzExeE8bJzQ8hcrQgbtXlEGAVDMmqt4
-         oQhg==
-X-Gm-Message-State: AOJu0YwEA5MO3P1toHIUbKjGXaEeVcc3o2ncwDi/qFvLqfZXLSK0OE/L
-	nQYw4KqEtYoKb9DV/dJcoBCb8QaOFSqCatF5OrLd9LX1LS6DfmQ9
-X-Google-Smtp-Source: AGHT+IFHEkXIimDarBdrjIPGX1WnIWaqv9XkOSnp+jZEoJlWsqsnLI1QQlnAvGwOry96cWOMGiBGdA==
-X-Received: by 2002:a05:620a:578c:b0:78e:d962:5171 with SMTP id wk12-20020a05620a578c00b0078ed9625171mr1704357qkn.28.1714704052683;
-        Thu, 02 May 2024 19:40:52 -0700 (PDT)
+        bh=v9cDz5ZM3e1ArFiT6fGLdyJGS/SRMIbhKJwwLycF6Ag=;
+        b=bndDHqilWAeaLawhmAJ7K7uPznjXIsipguaD12ZIs/BEV9mnI7RcPzvKrhEPgheoJU
+         jnBrEXJqDd2Wlkjh5MTxNBRLC3JxLyIlCXCjzc4Cb2gRpZckCCYeqoGwNpwlLxTtuROZ
+         MTuZreIkpppYlMOxot5uYWzD6kA+yCA10XKfCkHA/JlJyEFpA7e2jNWvJvVEGba/kPVm
+         om1AvzwHO0fhlQAN004cxn7nZspjNfUVXmeE6ai4+mA2FAgrAduwB3DCWA98iZ8i/eKZ
+         +Kt/Dy2mIhAVZIrCbvDsoXyvD/67Q40+nW8z4EuDiWgKrgWFprVq5KTtEhO4dG6dSlEY
+         rqUw==
+X-Gm-Message-State: AOJu0YwCIzrEE1vT6hlDx+eI/4WPqJsYCf2Vrz3SUg689+dKUQpyw9pX
+	rGZxjQpgmSNfPkHsPR10X021PZezoPufBx5Ob1obwE2m+leqhN/NHHiQjA==
+X-Google-Smtp-Source: AGHT+IF/Usfe2dZwXBrHm+b/NAO+HJOTkTROCeT7fcmaP6aXDNYT5uBlG/kBzB7D3Wcn9YM2xOirjg==
+X-Received: by 2002:a05:620a:cc4:b0:790:f905:3c4b with SMTP id b4-20020a05620a0cc400b00790f9053c4bmr1232024qkj.57.1714704049024;
+        Thu, 02 May 2024 19:40:49 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id bm34-20020a05620a19a200b0078ec3aa9cc7sm856163qkb.25.2024.05.02.19.40.52
+        by smtp.gmail.com with ESMTPSA id bm34-20020a05620a19a200b0078ec3aa9cc7sm856163qkb.25.2024.05.02.19.40.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 19:40:52 -0700 (PDT)
+        Thu, 02 May 2024 19:40:48 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/12] linux-yocto/6.6: cfg: drop obselete options
-Date: Thu,  2 May 2024 22:40:36 -0400
-Message-Id: <7b4f3b1d8db004d4e098dd6aa38e3ef83eb7f5f6.1714703667.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 05/12] linux-yocto/6.6: nft: enable veth
+Date: Thu,  2 May 2024 22:40:33 -0400
+Message-Id: <bbadf7a01e4847e464eea11090f595f9637c19bf.1714703667.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1714703667.git.bruce.ashfield@gmail.com>
 References: <cover.1714703667.git.bruce.ashfield@gmail.com>
@@ -61,37 +61,26 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 02:40:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198938
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198936
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 Integrating the following commit(s) to linux-yocto/.:
 
-1/2 [
-    Author: Paul Gortmaker
-    Email: paulg@kernel.org
-    Subject: cgl: drop SELINUX_DISABLE option
-    Date: Tue, 16 Apr 2024 12:28:43 -0400
+1/1 [
+    Author: Khem Raj
+    Email: raj.khem@gmail.com
+    Subject: nft_test.cfg: Enable CONFIG_VETH
+    Date: Wed, 10 Apr 2024 16:11:47 -0700
 
-    It was removed from mainline in v6.4 in commit f22f9aaf6c3d ("selinux:
-    remove the runtime disable functionality").
+    nftable ptests do create interfaces of veth type and this
+    feature would be needed to enable those tests
 
-    Signed-off-by: Paul Gortmaker <paulg@kernel.org>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
+    e.g. from tests/shell/testcases/packetpath/vlan_8021ad_tag
 
-2/2 [
-    Author: Paul Gortmaker
-    Email: paulg@kernel.org
-    Subject: full_nohz: remove RCU_FAST_NO_HZ gone from upstream
-    Date: Tue, 16 Apr 2024 14:56:42 -0400
+    ip link add veth0 netns $ns1 type veth peer name veth0 netns $ns2
 
-    In commit e2c73a6860bd ("rcu: Remove the RCU_FAST_NO_HZ Kconfig option")
-    the so named option was removed from the v5.17 kernel.
-
-    We should get it out of our active branches to prevent a warning.
-
-    Signed-off-by: Paul Gortmaker <paulg@kernel.org>
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ]
 
@@ -103,41 +92,41 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 91dbbf55ca..0972d4edde 100644
+index 5071550640..be60bbee78 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
 @@ -15,7 +15,7 @@ python () {
  }
  
- SRCREV_machine ?= "5272561b019836f2ee2f175b23029649431d6fca"
--SRCREV_meta ?= "3bf5e5e5a7323795af0955da818c6e93215fd119"
-+SRCREV_meta ?= "c3d1322fb6ff68cdcf4d7a3c1140d81bfdc1320a"
+ SRCREV_machine ?= "9f39c8adfc6025293e5ff131f7bb4f728edd0c99"
+-SRCREV_meta ?= "f057956f86fc59540ed6cf4cb1599050fd3121a8"
++SRCREV_meta ?= "00aab388b73211bf49b352e7475595aa2e5fbc44"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index fba19c97df..3b3e277c38 100644
+index a4af8c8a16..559ca3563a 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
 @@ -18,7 +18,7 @@ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
- SRCREV_machine ?= "4f3a41583a21c529bc7fc3a6c4a33bdffb16fa24"
--SRCREV_meta ?= "3bf5e5e5a7323795af0955da818c6e93215fd119"
-+SRCREV_meta ?= "c3d1322fb6ff68cdcf4d7a3c1140d81bfdc1320a"
+ SRCREV_machine ?= "5ac0c93287792fba862b1f78e513dbaf10696a09"
+-SRCREV_meta ?= "f057956f86fc59540ed6cf4cb1599050fd3121a8"
++SRCREV_meta ?= "00aab388b73211bf49b352e7475595aa2e5fbc44"
  
  PV = "${LINUX_VERSION}+git"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index f887e293b7..a02452feda 100644
+index 583dade097..b0674348e8 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "4f3a41583a21c529bc7fc3a6c4a33bdffb16fa24"
- SRCREV_machine:qemux86-64 ?= "4f3a41583a21c529bc7fc3a6c4a33bdffb16fa24"
- SRCREV_machine:qemumips64 ?= "d3abfe3c736d5869cb26f24c653b7e6eeafac715"
- SRCREV_machine ?= "4f3a41583a21c529bc7fc3a6c4a33bdffb16fa24"
--SRCREV_meta ?= "3bf5e5e5a7323795af0955da818c6e93215fd119"
-+SRCREV_meta ?= "c3d1322fb6ff68cdcf4d7a3c1140d81bfdc1320a"
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "5ac0c93287792fba862b1f78e513dbaf10696a09"
+ SRCREV_machine:qemux86-64 ?= "5ac0c93287792fba862b1f78e513dbaf10696a09"
+ SRCREV_machine:qemumips64 ?= "936a9ceb126dfb2cc4b38229cab68636263ecfab"
+ SRCREV_machine ?= "5ac0c93287792fba862b1f78e513dbaf10696a09"
+-SRCREV_meta ?= "f057956f86fc59540ed6cf4cb1599050fd3121a8"
++SRCREV_meta ?= "00aab388b73211bf49b352e7475595aa2e5fbc44"
  
  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
  # get the <version>/base branch, which is pure upstream -stable, and the same
