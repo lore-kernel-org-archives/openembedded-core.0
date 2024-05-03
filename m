@@ -2,57 +2,57 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B8CC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15844C25B5C
 	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 13:10:39 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.12191.1714741838584739553
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web10.12188.1714741837444037933
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 06:10:38 -0700
+ Fri, 03 May 2024 06:10:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=geS4GZXq;
- spf=pass (domain: baylibre.com, ip: 209.85.219.50, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6a05f376effso67402366d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:10:38 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=q6zuBgVI;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a0d1032362so22168666d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714741837; x=1715346637; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714741836; x=1715346636; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PDLQ8Ddxh9OEUGInsddUB2jLWf6lvx2JDytZmXZh5Ys=;
-        b=geS4GZXqm2U4U7I5JcXuXKpzzsbuHH/yJchtKf+GmhxVoQ1/Vmlvza7SEyHNsW7GDt
-         yeGkM3d07e8gMN086wZWSb0sHyvoueoPSQWBJ12F1tNHjY8vF/GbIQNjyqQOhdRWo2Nz
-         Im7w9Ks3vmPr/9qaKeAMT0xVhyYDOr/RAlR5wiGJQ09gnQ8uADQgd2oRdQrh/YSHB5xj
-         KexN5E5QMuNW6TMKnoCFP24T+V2IfJCslNxERhNZ10Yp4Q861pNKJv9x6/XKmFUdzceh
-         6svOr+OptnVhH553lobwwFu+jN6ePsA0Os+lCfCyZijk7PwMh/IiJY2KDXTfHcDFg2dG
-         f5pg==
+        bh=/LPvlFYvAlpNBmqXQKP6hkZXJyqxh+/BN+3gCDmG7v4=;
+        b=q6zuBgVIBaXbWdqAicoWG5iojLdywS8YOdY3Lh5svxzoGykzXhUzRXruEGyB5wGXjw
+         FW4FWXX7vQg/AzypO118tYUQthUj4vfwLMs1iguAHp3Sc44KUOn1v0rmbJhTDBhJ1kf/
+         Mmi4rDOXIa67eFCUDGqhj7sR+0zLytjzQx9J6hjReqKIu9z1Ew0xkYESS9VRPvrX/vhg
+         cO/wT1JQ+vTVVUWIqU1WaSZAW5ToeAbp85aYvSy7iLjUiGAe3cXtk8YcQSTwVGd6eGXP
+         xEhdZYn79VklvZwX7AFevY/FLJpCVRx+3CGWr9IsQXOUmoXWkA/DKdbEWJC61BxkM2wc
+         JEJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714741837; x=1715346637;
+        d=1e100.net; s=20230601; t=1714741836; x=1715346636;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PDLQ8Ddxh9OEUGInsddUB2jLWf6lvx2JDytZmXZh5Ys=;
-        b=KCNIxx2HMRGELULFq2KrU/P9n4BYktwA+Vv2adZU+j6U+Rq0EtrAaPR3HNUVJpcUaX
-         yreH2Ovy/2BvFUr5ih/ryPyMCbbnY07pHSTwlLvVIlSCoIz6TnOFhl1DGPuuVpYo8gdc
-         pzTSIojnFk4GICZKMiuJjDA87NMUjOrfywFo/VDhrbX+YmdzddRk0ZcQH9wc1tV3Dosb
-         qygT0ulvlNshQQ/MFWRuJynx+h9TPmSRYH3HpbygSVAaH9V0xAP/5akXGNdgq9ZTtj2a
-         lslaFl+oPqRh2Rd48xmcomiByRsXQcBuscgEzv/SfblH7lMllEdOjRdYje6dgsKLX2f+
-         XgWQ==
-X-Gm-Message-State: AOJu0YwPdblC0yNjCvBZYPXytVhCJjhdUgq4EKo02jBD/qIfUsMHoIyu
-	vPmrpwDPbUXN7M39sa5siJ4icPl38vnIr09TENZyqX4kbGj36uUqFcn62I3i6zWMmfNQrgakJBU
-	MBrs=
-X-Google-Smtp-Source: AGHT+IGTzPQ3eXlJwE0Cj7RAZATn4fsjoR2GdCSrldciO/0nODoTkArPUPnNK4y+sV5xa35W5/Sfuw==
-X-Received: by 2002:a05:6214:29ca:b0:6a0:cb52:b065 with SMTP id gh10-20020a05621429ca00b006a0cb52b065mr2544697qvb.32.1714741837392;
-        Fri, 03 May 2024 06:10:37 -0700 (PDT)
+        bh=/LPvlFYvAlpNBmqXQKP6hkZXJyqxh+/BN+3gCDmG7v4=;
+        b=MQPfz3ZyrXRBZgf1AoXe3n6ivjpcT06xlARg6931MY2B3iX96TLLMtlv62qGo2oxTa
+         EuKuLT5trQFhJwfd0Wy/vJi9DpKoQ/4pK9Q8Caqln6v6MEP5Sy3+Q6hvUiybIalDDkuZ
+         dhmVvefspnmlSDKP0EA28hkZmDJC7Z6ejDfmoX8sGIvYbchhzXvRNyAFL3JnDc140peG
+         YWIFRyzCl7NZMcTC9YQCdG7+V0NzkgdHNmh283DBznJJB3CIKIfvDL/pRCPZza6se64V
+         MxswXsVzlE5Ex+qwi1qj2CmFzK4ED688Rf5D26+4oSMIv31C46VxP7Yjmf8RrrCsmryj
+         b2uw==
+X-Gm-Message-State: AOJu0YySpfF6ta9WEvl8+JbicrTXrUppHPtKCW7a+lLAzd/KI6SmbpjH
+	uBcf+t8IIj9mU9z6tvNj36mt3K2NIqU+seFOfHKSAIm4//XwQ093E0kKlW2YuB9FqDBkrcYWl+X
+	Kbvw=
+X-Google-Smtp-Source: AGHT+IEiGt8U0cC6JQzJaHJ5g4RcSMzJC1LmRtrowKKLf4rVCBOIxcYyYd1qi4qtRjh68cm2+hJAuQ==
+X-Received: by 2002:a05:6214:29c3:b0:6a0:d291:a35e with SMTP id gh3-20020a05621429c300b006a0d291a35emr2269152qvb.52.1714741836168;
+        Fri, 03 May 2024 06:10:36 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id jh20-20020a0562141fd400b006a0e94eb3e9sm1193510qvb.34.2024.05.03.06.10.36
+        by smtp.gmail.com with ESMTPSA id jh20-20020a0562141fd400b006a0e94eb3e9sm1193510qvb.34.2024.05.03.06.10.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 06:10:37 -0700 (PDT)
+        Fri, 03 May 2024 06:10:35 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 4/4] patchtest: utils: remove unused functions
-Date: Fri,  3 May 2024 09:10:32 -0400
-Message-ID: <20240503131033.1665297-5-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/4] patchtest: repo: refactor to use GitPython
+Date: Fri,  3 May 2024 09:10:30 -0400
+Message-ID: <20240503131033.1665297-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240503131033.1665297-1-tgamblin@baylibre.com>
 References: <20240503131033.1665297-1-tgamblin@baylibre.com>
@@ -62,179 +62,171 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 13:10:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198989
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198987
 
-Specifically, remove four things:
+The repo module currently uses a custom _exec() function in order to run
+various git commands as part of the patchtest setup/test process. These
+can more efficiently be done with the GitPython module, so use that
+instead and reduce the amount of custom code to be maintained for
+patchtest in the process. Some specifics replaced using GitPython:
 
-- get_subject_prefix(): This function is only being used once (in the next
-function found in the module), so remove it for easier
-comprehension/maintenance.
-- exec_cmd: the backend for executing a custom command
-- exec_cmds: for running multiple calls to exec_cmd
-- CmdException: A custom exception class specifically for exec_cmd
+- get branch list
+- use repo.active_branch to determine current branch
+- use execute() for checkout, merge check, abort, rev-parse, reset
 
-These are only used to execute git commands, but GitPython can be used
-to handle all of that more efficiently, so remove them.
+The _exec() function is removed entirely with this change.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/utils.py | 129 +++---------------------------------
- 1 file changed, 11 insertions(+), 118 deletions(-)
+ meta/lib/patchtest/repo.py | 88 ++++++++------------------------------
+ 1 file changed, 17 insertions(+), 71 deletions(-)
 
-diff --git a/meta/lib/patchtest/utils.py b/meta/lib/patchtest/utils.py
-index dd0abc22d9b..8eddf3e85fb 100644
---- a/meta/lib/patchtest/utils.py
-+++ b/meta/lib/patchtest/utils.py
-@@ -14,109 +14,6 @@ import logging
- import re
- import mailbox
+diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
+index d3788f466d3..5f361ac5005 100644
+--- a/meta/lib/patchtest/repo.py
++++ b/meta/lib/patchtest/repo.py
+@@ -11,6 +11,7 @@
+ import os
+ import utils
+ import logging
++import git
+ from patch import PatchTestPatch
  
--class CmdException(Exception):
--    """ Simple exception class where its attributes are the ones passed when instantiated """
--    def __init__(self, cmd):
--        self._cmd = cmd
--    def __getattr__(self, name):
--        value = None
--        if self._cmd.has_key(name):
--            value = self._cmd[name]
--        return value
--
--def exec_cmd(cmd, cwd, ignore_error=False, input=None, strip=True, updateenv={}):
--    """
--         Input:
--
--            cmd: dict containing the following keys:
--
--                cmd : the command itself as an array of strings
--                ignore_error: if False, no exception is raised
--                strip: indicates if strip is done on the output (stdout and stderr)
--                input: input data to the command (stdin)
--                updateenv: environment variables to be appended to the current
--                process environment variables
--
--            NOTE: keys 'ignore_error' and 'input' are optional; if not included,
--            the defaults are the ones specify in the arguments
--            cwd: directory where commands are executed
--            ignore_error: raise CmdException if command fails to execute and
--            this value is False
--            input: input data (stdin) for the command
--
--         Output: dict containing the following keys:
--
--             cmd: the same as input
--             ignore_error: the same as input
--             strip: the same as input
--             input: the same as input
--             stdout: Standard output after command's execution
--             stderr: Standard error after command's execution
--             returncode: Return code after command's execution
--
--    """
--    cmddefaults = {
--        'cmd':'',
--        'ignore_error':ignore_error,
--        'strip':strip,
--        'input':input,
--        'updateenv':updateenv,
--    }
--
--    # update input values if necessary
--    cmddefaults.update(cmd)
--
--    _cmd = cmddefaults
--
--    if not _cmd['cmd']:
--        raise CmdException({'cmd':None, 'stderr':'no command given'})
--
--    # update the environment
--    env = os.environ
--    env.update(_cmd['updateenv'])
--
--    _command = [e for e in _cmd['cmd']]
--    p = subprocess.Popen(_command,
--                         stdin=subprocess.PIPE,
--                         stdout=subprocess.PIPE,
--                         stderr=subprocess.PIPE,
--                         universal_newlines=True,
--                         cwd=cwd,
--                         env=env)
--
--    # execute the command and strip output
--    (_stdout, _stderr) = p.communicate(_cmd['input'])
--    if _cmd['strip']:
--        _stdout, _stderr = map(str.strip, [_stdout, _stderr])
--
--    # generate the result
--    result = _cmd
--    result.update({'cmd':_command,'stdout':_stdout,'stderr':_stderr,'returncode':p.returncode})
--
--    # launch exception if necessary
--    if not _cmd['ignore_error'] and p.returncode:
--        raise CmdException(result)
--
--    return result
--
--def exec_cmds(cmds, cwd):
--    """ Executes commands
--
--         Input:
--             cmds: Array of commands
--             cwd: directory where commands are executed
--
--         Output: Array of output commands
--    """
--    results = []
--    _cmds = cmds
--
--    for cmd in _cmds:
--        result = exec_cmd(cmd, cwd)
--        results.append(result)
--
--    return results
--
- def logger_create(name):
-     logger = logging.getLogger(name)
-     loggerhandler = logging.StreamHandler()
-@@ -125,20 +22,6 @@ def logger_create(name):
-     logger.setLevel(logging.INFO)
-     return logger
+ logger = logging.getLogger('patchtest')
+@@ -21,15 +22,17 @@ class PatchTestRepo(object):
+     # prefixes used for temporal branches/stashes
+     prefix = 'patchtest'
  
--def get_subject_prefix(path):
--    prefix = ""
--    mbox = mailbox.mbox(path)
--
--    if len(mbox):
--        subject = mbox[0]['subject']
--        if subject:
--            pattern = re.compile(r"(\[.*\])", re.DOTALL)
--            match = pattern.search(subject)
--            if match:
--                prefix = match.group(1)
--
--    return prefix
--
- def valid_branch(branch):
-     """ Check if branch is valid name """
-     lbranch = branch.lower()
-@@ -153,7 +36,17 @@ def valid_branch(branch):
- 
- def get_branch(path):
-     """ Get the branch name from mbox """
--    fullprefix = get_subject_prefix(path)
-+    fullprefix = ""
-+    mbox = mailbox.mbox(path)
 +
-+    if len(mbox):
-+        subject = mbox[0]['subject']
-+        if subject:
-+            pattern = re.compile(r"(\[.*\])", re.DOTALL)
-+            match = pattern.search(subject)
-+            if match:
-+                fullprefix = match.group(1)
-+
-     branch, branches, valid_branches = None, [], []
+     def __init__(self, patch, repodir, commit=None, branch=None):
+         self._repodir = repodir
++        self._repo = git.Repo.init(repodir)
+         self._patch = PatchTestPatch(patch)
+-        self._current_branch = self._get_current_branch()
++        self._current_branch = self._repo.active_branch.name
  
-     if fullprefix:
+         # targeted branch defined on the patch may be invalid, so make sure there
+         # is a corresponding remote branch
+         valid_patch_branch = None
+-        if self._patch.branch in self.upstream_branches():
++        if self._patch.branch in self._repo.branches:
+             valid_patch_branch = self._patch.branch
+             
+         # Target Branch
+@@ -52,22 +55,19 @@ class PatchTestRepo(object):
+ 
+         self._workingbranch = "%s_%s" % (PatchTestRepo.prefix, os.getpid())
+ 
+-        # create working branch
+-        self._exec({'cmd': ['git', 'checkout', '-b', self._workingbranch, self._commit]})
++        # create working branch. Use the '-B' flag so that we just
++        # check out the existing one if it's there
++        self._repo.git.execute(['git', 'checkout', '-B', self._workingbranch, self._commit])
+ 
+         self._patchmerged = False
+ 
+         # Check if patch can be merged using git-am
+         self._patchcanbemerged = True
+         try:
+-            self._exec({'cmd': ['git', 'am', '--keep-cr'], 'input': self._patch.contents})
+-        except utils.CmdException as ce:
+-            self._exec({'cmd': ['git', 'am', '--abort']})
++            # Make sure to get the absolute path of the file
++            self._repo.git.execute(['git', 'apply', '--check', os.path.abspath(self._patch.path)], with_exceptions=True)
++        except git.exc.GitCommandError as ce:
+             self._patchcanbemerged = False
+-        finally:
+-            # if patch was applied, remove it
+-            if self._patchcanbemerged:
+-                self._exec({'cmd':['git', 'reset', '--hard', self._commit]})
+ 
+         # for debugging purposes, print all repo parameters
+         logger.debug("Parameters")
+@@ -97,78 +97,24 @@ class PatchTestRepo(object):
+     def canbemerged(self):
+         return self._patchcanbemerged
+ 
+-    def _exec(self, cmds):
+-        _cmds = []
+-        if isinstance(cmds, dict):
+-            _cmds.append(cmds)
+-        elif isinstance(cmds, list):
+-            _cmds = cmds
+-        else:
+-            raise utils.CmdException({'cmd':str(cmds)})
+-
+-        results = []
+-        cmdfailure = False
+-        try:
+-            results = utils.exec_cmds(_cmds, self._repodir)
+-        except utils.CmdException as ce:
+-            cmdfailure = True
+-            raise ce
+-        finally:
+-            if cmdfailure:
+-                for cmd in _cmds:
+-                    logger.debug("CMD: %s" % ' '.join(cmd['cmd']))
+-            else:
+-                for result in results:
+-                    cmd, rc, stdout, stderr = ' '.join(result['cmd']), result['returncode'], result['stdout'], result['stderr']
+-                    logger.debug("CMD: %s RCODE: %s STDOUT: %s STDERR: %s" % (cmd, rc, stdout, stderr))
+-
+-        return results
+-
+-    def _get_current_branch(self, commit='HEAD'):
+-        cmd = {'cmd':['git', 'rev-parse', '--abbrev-ref', commit]}
+-        cb = self._exec(cmd)[0]['stdout']
+-        if cb == commit:
+-            logger.warning('You may be detached so patchtest will checkout to master after execution')
+-            cb = 'master'
+-        return cb
+-
+     def _get_commitid(self, commit):
+ 
+         if not commit:
+             return None
+ 
+         try:
+-            cmd = {'cmd':['git', 'rev-parse', '--short', commit]}
+-            return self._exec(cmd)[0]['stdout']
+-        except utils.CmdException as ce:
+-            # try getting the commit under any remotes
+-            cmd = {'cmd':['git', 'remote']}
+-            remotes = self._exec(cmd)[0]['stdout']
+-            for remote in remotes.splitlines():
+-                cmd = {'cmd':['git', 'rev-parse', '--short', '%s/%s' % (remote, commit)]}
+-                try:
+-                    return self._exec(cmd)[0]['stdout']
+-                except utils.CmdException:
+-                    pass
++            return self._repo.rev_parse(commit).hexsha
++        except Exception as e:
++            print(f"Couldn't find commit {commit} in repo")
+ 
+         return None
+ 
+-    def upstream_branches(self):
+-        cmd = {'cmd':['git', 'branch', '--remotes']}
+-        remote_branches = self._exec(cmd)[0]['stdout']
+-
+-        # just get the names, without the remote name
+-        branches = set(branch.split('/')[-1] for branch in remote_branches.splitlines())
+-        return branches
+-
+     def merge(self):
+         if self._patchcanbemerged:
+-            self._exec({'cmd': ['git', 'am', '--keep-cr'],
+-                        'input': self._patch.contents,
+-                        'updateenv': {'PTRESOURCE':self._patch.path}})
++            self._repo.git.execute(['git', 'am', '--keep-cr', os.path.abspath(self._patch.path)])
+             self._patchmerged = True
+ 
+     def clean(self):
+-        self._exec({'cmd':['git', 'checkout', '%s' % self._current_branch]})
+-        self._exec({'cmd':['git', 'branch', '-D', self._workingbranch]})
++        self._repo.git.execute(['git', 'checkout', self._current_branch])
++        self._repo.git.execute(['git', 'branch', '-D', self._workingbranch])
+         self._patchmerged = False
 -- 
 2.44.0
 
