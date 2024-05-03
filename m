@@ -1,93 +1,136 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE21CC4345F
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 06:14:26 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.6456.1714716860449552699
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7DAC4345F
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 10:26:47 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.9299.1714732001455870272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 23:14:20 -0700
+ Fri, 03 May 2024 03:26:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sw0OHv8l;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ecd9a81966so11127285ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 23:14:20 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=cvmcqxHF;
+ spf=pass (domain: linaro.org, ip: 209.85.167.44, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51bae805c56so10273827e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 03:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714716859; x=1715321659; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1714732000; x=1715336800; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wOL9ulCLOlWB+OuPsMXjjCWBHZBb6AZU21DsdFf4AX8=;
-        b=Sw0OHv8l9GWTC8QtvZYYUadcpcJ/DJhlAp7C6uYwWXgBUgSeW5f/nSe1v8aOFSD4cj
-         QeDM2oaVG7Hva2pUXJw9wYWSh/B42B+6zWfV7ntoW+XqgJEdBKWP5xoEL2MF8JIPTWsF
-         FRLQYBoTyaa18fg9zbQDK7ZZjyVrE4Mc++62ShS6tHm9Q8vzYbzE5BxjUJFCvWQLho+j
-         AddgdYvK3kcXQnjQbMvnQuK4/LSTrmgRTw2W4Xs1JKzm4h4iOIDkCJtgfTB11uVS+lfh
-         nv2xvYs2+6i823/6M4V3cQhoSsR60tTTF6fY21UCkZmqwHjtypXML7g0+QCYueSITUub
-         g7hQ==
+        bh=jJ3kagYWkZWJa6hhv5AXLdJ0uAIIhb3ShlDJ3ch9NuA=;
+        b=cvmcqxHF2+ROQ2vc41DVKUVAN1VxrLOEVf5TNEYzxVXGszsvF/EidVl5pSZ9Pasya8
+         OZjGzIPpEyGc9YEqVMeVc+J/k+i3qNCle+fITUVKNJLYxPSB8OfYClz5gR4Qn70GIbVz
+         h/ck9GsYD0t71mz8bbuhsOO6MW/dBVQi7naZ7s68Fi2Z+nm7rOvRF3cBTU9BInFDlO0N
+         cP+dPYj9ArHFjuu/18UJNavIIywMwrP+AmI0zW1V2Bl5Ts/zc823hnSDQ8Yj9uRbpu+O
+         1pG4yhYPZHmwvMrpzB1p/9aH4JSToOXXJEdLyc1dGPwCfS4hiAfQ/srLFavQkdBvq3tZ
+         ipdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714716859; x=1715321659;
+        d=1e100.net; s=20230601; t=1714732000; x=1715336800;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wOL9ulCLOlWB+OuPsMXjjCWBHZBb6AZU21DsdFf4AX8=;
-        b=LcsBTl59rdR/+Uqu8DSzaSk3nFGQa31+HwUJhK/6kQd1qu12d3f9MPrJYnERORVoRR
-         wHE0vP9XDcxR/SKY6SY+PhBAWfOwnrvM7zWtFvSH2+dzKSmJyxpWAtlGnrZnc0gLnfhe
-         frfLLMXoUgnnv+oHolGDDhHe3AHGSHTTdOW4k+YoqQHdR2LdCOooU8ZKRi/Wqy/vVA7j
-         iBLpCmk5aZqeQiAkSNa3VMuJilRaRv3Da9gcMt8SunTNBIAGpTgeckHjXXLRVGhRCkFo
-         XD7RdQ3WB0bTwMANalkTGSMlO1josizdUxMWknf7VD3mOPZRcABZZeVrRDeWUoCDV0uS
-         vVTQ==
-X-Gm-Message-State: AOJu0YwxarOXIq4qmZ6Q/bmSQU4y1y7QdHpnB9OoSLrtc364zLyoLdu9
-	5lFHEOKiFZhD10aM2TzkK13L/2BadZe0GS5b9xWqw+WfCnBuQg1Bal27uorVOQ==
-X-Google-Smtp-Source: AGHT+IHuYhRoBohlaUnuDJNwfNHzvy01RqTZWLA6MkEmVAucJb26LcdesnMWA/x88hIXVzDkc1qXUQ==
-X-Received: by 2002:a17:902:6546:b0:1ea:691b:3692 with SMTP id d6-20020a170902654600b001ea691b3692mr6148381pln.17.1714716859079;
-        Thu, 02 May 2024 23:14:19 -0700 (PDT)
-Received: from L-17494.kpit.com ([103.189.135.234])
-        by smtp.gmail.com with ESMTPSA id km6-20020a17090327c600b001ebf263d2fasm2427828plb.7.2024.05.02.23.14.16
+        bh=jJ3kagYWkZWJa6hhv5AXLdJ0uAIIhb3ShlDJ3ch9NuA=;
+        b=EXKYW0mjZz3EFjGv+dYRoRsMVLiVUYd0hx2HRMAkGj/3otHDzvzsqqdCqBo7QmPAcA
+         1wzDIeTkBGvfeoE4JvThipSrqFVQG9xhiA2nBupM7vnrslSFWx2+Kp0pEIRzhdm1zm7h
+         fqmNSlmhu/nS+BfYEMpNpZwdv3ykbGGzhLZsebtk5dW8+Xe2DEJGD413VfyU8MCdX6fA
+         IGi9r7xHaId9mKgpFgStykeXgLebdwaB4SrDOnuwGJOhKdsz56z6oHguEEarrVs87XXs
+         LfmUqeSm3HGmEmAcLSw5K2Jg41GyLE0/FpLvbaKZzvH0hz/4sxMP387erry8/2Ezni40
+         Rbuw==
+X-Gm-Message-State: AOJu0Yx+In4YSWOShoAaoClFPFFuelLyMTUf8Er3YAylckApCWM1Q3KX
+	JO9vjcxg6q3MbEvzxYxipS82c/ek6cjXK3vvhC7M9KznUimg2yUkvG5gPH5YhNP019QElrYRIAa
+	iGZI=
+X-Google-Smtp-Source: AGHT+IHY8sGvH3MMHCVtYPH+23zQwYlfTZ50YprUWVYdBrXW7hpGfp5IA3yW817vFRKOXwoP/AHoxw==
+X-Received: by 2002:ac2:43bc:0:b0:51b:e46c:19fd with SMTP id t28-20020ac243bc000000b0051be46c19fdmr1424358lfl.18.1714731999631;
+        Fri, 03 May 2024 03:26:39 -0700 (PDT)
+Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id j5-20020a056512108500b0051b29477815sm494425lfg.166.2024.05.03.03.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 23:14:18 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
-X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	bindu.bhabu@kpit.com
-Cc: Nikhil R <nikhil.r@kpit.com>,
-	Bhabu Bindu <bhabu.bindu@kpit.com>
-Subject: [OE-core][kirkstone][PATCH] libpciaccess: Remove duplicated license entry
-Date: Fri,  3 May 2024 11:44:11 +0530
-Message-Id: <20240503061411.27610-1-nikhil.r@kpit.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 03 May 2024 03:26:38 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] openssl: fix pkg-config file libdir from /usr back to /usr/lib
+Date: Fri,  3 May 2024 13:26:24 +0300
+Message-Id: <20240503102624.594443-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198968
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 10:26:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198969
 
-Remove duplicated MIT license entry for libpciaccess
+openssl update from 3.2.1 to 3.3.0 changed pkg-config generators
+and libdir changed from /usr/lib to /lib. This breaks builds
+of recipes which use openssl pkg-config files for library install
+etc paths. For example meta-security tpm2-openssl fails to build:
 
-Duplication was done as part of below commit:
+ERROR: mc:trs-qemuarm64:tpm2-openssl-1.1.1-r0 do_package: QA Issue: tpm2-openssl: Files/directories were installed but not shipped in any package:
+  /usr/ossl-modules/tpm2.so
 
-Link: https://git.yoctoproject.org/poky/commit/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb?h=kirkstone&id=b0130fcf91daee0d905af755302fabe608da141c
+Affected pkg-config files are: libssl.pc, openssl.pc and libcrypto.pc
 
-Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+Fix this by hard coding LIBDIR variable to "lib". Prefix should
+be correctly used as before.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../openssl/openssl_pkg-config_libdir.patch   | 31 +++++++++++++++++++
+ .../openssl/openssl_3.3.0.bb                  |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl_pkg-config_libdir.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb
-index d55315efc2..445f3751fe 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb
-@@ -11,7 +11,7 @@ SRC_URI += "\
- SRC_URI[md5sum] = "b34e2cbdd6aa8f9cc3fa613fd401a6d6"
- SRC_URI[sha256sum] = "214c9d0d884fdd7375ec8da8dcb91a8d3169f263294c9a90c575bf1938b9f489"
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl_pkg-config_libdir.patch b/meta/recipes-connectivity/openssl/openssl/openssl_pkg-config_libdir.patch
+new file mode 100644
+index 0000000000..e3b4249a69
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/openssl_pkg-config_libdir.patch
+@@ -0,0 +1,31 @@
++openssl: fix pkg-config file libdir from /usr back to /usr/lib
++
++openssl update from 3.2.1 to 3.3.0 changed pkg-config generators
++and libdir changed from /usr/lib to /lib. This breaks builds
++of recipes which use openssl pkg-config files for library install
++etc paths. For example meta-security tpm2-openssl fails to build:
++
++ERROR: mc:trs-qemuarm64:tpm2-openssl-1.1.1-r0 do_package: QA Issue: tpm2-openssl: Files/directories were installed but not shipped in any package:
++  /usr/ossl-modules/tpm2.so
++
++Affected pkg-config files are: libssl.pc, openssl.pc and libcrypto.pc
++
++Fix this by hard coding LIBDIR variable to "lib". Prefix should
++be correctly used as before.
++
++Upstream-Status: Inappropriate [configuration change]
++
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++
++--- a/exporters/build.info
+++++ b/exporters/build.info
++@@ -19,7 +19,7 @@ DEPEND[openssl.pc]=libcrypto.pc libssl.pc
++ DEPEND[""]=openssl.pc
++ 
++ GENERATE[../installdata.pm]=../util/mkinstallvars.pl \
++-    "PREFIX=$(INSTALLTOP)" BINDIR=bin "LIBDIR=$(LIBDIR)" \
+++    "PREFIX=$(INSTALLTOP)" BINDIR=bin LIBDIR=lib \
++     INCLUDEDIR=include APPLINKDIR=include/openssl \
++     "ENGINESDIR=$(ENGINESDIR)" "MODULESDIR=$(MODULESDIR)" \
++     "PKGCONFIGDIR=$(PKGCONFIGDIR)" "CMAKECONFIGDIR=$(CMAKECONFIGDIR)" \
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.3.0.bb b/meta/recipes-connectivity/openssl/openssl_3.3.0.bb
+index 2cdaf4c75d..5ee8375ebc 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.3.0.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.3.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
+            file://bti.patch \
++           file://openssl_pkg-config_libdir.patch \
+            "
  
--LICENSE = "MIT & MIT"
-+LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
- 
- REQUIRED_DISTRO_FEATURES = ""
+ SRC_URI:append:class-nativesdk = " \
 -- 
-2.25.1
+2.34.1
 
 
