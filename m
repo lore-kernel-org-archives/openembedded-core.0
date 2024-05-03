@@ -2,60 +2,60 @@ Return-Path: <ninette@thehoodiefirm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC427C25B5C
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 14:43:49 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.14701.1714747428129034050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3580C41513
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 14:43:59 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.14885.1714747430919500650
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 07:43:48 -0700
+ Fri, 03 May 2024 07:43:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=Jf+/o7d0;
- spf=neutral (domain: thehoodiefirm.com, ip: 209.85.218.44, mailfrom: ninette@thehoodiefirm.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a5200202c1bso1402045766b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 07:43:47 -0700 (PDT)
+ dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=uE6RtzWU;
+ spf=neutral (domain: thehoodiefirm.com, ip: 209.85.218.41, mailfrom: ninette@thehoodiefirm.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a595199cb9bso492040666b.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 07:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1714747426; x=1715352226; darn=lists.openembedded.org;
+        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1714747429; x=1715352229; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=laU5DtLkGDZTFTKvvaITQ8cXBDzM9hQQPvEygWw3MYc=;
-        b=Jf+/o7d0N9Mksl9f6zmIvYd9BSSReeTrmSPjjgJlDVxOpCl21oM26dkw73dWrQrUGP
-         XHFryWmtSO46QcixhK9UrSyO7/ciUXvMpBxmGtr8h5vCYXH3gwB0SN5K+t5Joi0PeuWs
-         Jj6SOybJrnknCDWW0SagGFE4Aug7WEFGsYwmloMooUKtRj2ISmnlSCom44AOEK0W+K11
-         p3Pmgt7UmSk4jHSpFqkxceAbcUjjhrGMHPrkmmo/LW6ITpx4CloPpL+bCpPHwq4RvUoN
-         YgQviTogA9ALA4gaNrGyW7ZNDfCyQXNtb19I8SYO+jBhuEJznjXNagH53vjn3XYmaTv2
-         okKA==
+        bh=yc5VQSFptfXAKtZw1flQE4ob7d1CsnhF/ViiQcx8wJM=;
+        b=uE6RtzWU4EBG6pDoO34gnNnBd0UcfAWF73d7FbHklgRXvNUemNfMX6YwR8RK6c6hIj
+         a06ZUnzoPyKKwDA1nbcGKABQXx5qfFMQkEsDBpXr0LPYivYKXPHliBpWBushmfsGWyoG
+         UDb+Q2DDucbB62OReqzP8m/sAag+W4EDBn9dSaNbv5Q+o/yoJznM14SaVkVXtOx5Zy0K
+         QmcDoG8bm4TtpQz9Vl/CgrRCOx9DP2vZGZlo/wLzgRbqg4mjUElp7QyB/Og1IF0JwYf9
+         xKnAdkFmgEcNXESNbclh3JkkxhvIDq7mIcBqaA673bOLQXZ/dRWpY0WQcuqPzN4KB4D1
+         2DRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714747426; x=1715352226;
+        d=1e100.net; s=20230601; t=1714747429; x=1715352229;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=laU5DtLkGDZTFTKvvaITQ8cXBDzM9hQQPvEygWw3MYc=;
-        b=Hm5qEH4QhbFTitnXhTWasaszAtnaBPyEBk3OlCeETykwAf1pN+Z3np9O+qYblwiA/l
-         Cmw3UtUQFtAzWoKxUT7JOIBA7c+0SbTfAaW353uAuEhFFS2SzGLX1FcpidKqpMZ8pSq2
-         eA1AAj7FqddEplZiac334jaaeoNNoYth2aLJRwbiSVpAOdbtXvfBkiaydW4npiQiq0YE
-         b8pCM9NwKWyn2ttpI+yzEpoax2wuYlYAXEk4vMm3wAKotyohzIRwDW/qZnj83B1U1l+g
-         uKAcg/37efO1EZNcfe0ssmNS6Ygar5sUxwJQoyEZHljjMT+5DgPjzcH+xvme29jmGY4y
-         d1UA==
-X-Gm-Message-State: AOJu0YxSd9LAcjed30IIuD+8Nsi5eih9zQUY47/9PKPrV8FB2Nkh2noL
-	+zpPY09xOtZzIRnx5CdZtDljdf4aomyyblCTY4+8tc99bW2Ug9zwhJdOTh46kpPtQipw73RPP+D
-	v6FM=
-X-Google-Smtp-Source: AGHT+IHdhyMMN1lJHUFTOJrYhuRYpOQ/s3loDzMQ9d0hgDGlkSH70vqZlfxNSDFQSdLaiZan0JCtzg==
-X-Received: by 2002:a50:c003:0:b0:572:7c13:c7d8 with SMTP id r3-20020a50c003000000b005727c13c7d8mr2029029edb.34.1714747426692;
-        Fri, 03 May 2024 07:43:46 -0700 (PDT)
+        bh=yc5VQSFptfXAKtZw1flQE4ob7d1CsnhF/ViiQcx8wJM=;
+        b=Q1fH/Hbxyt0jv8piDO+GaO2G0/Bgs+vU3udYABb2TQbkW/mjEALsTmmbXP7y44Poo+
+         yih2ZfZt2nZX+4tfOVher+i92TEwB/yOQEcjGHR74eQlCe2FKyaKiTmitkLa9FWM26hM
+         rPB5MlYKVcKwD+3JhDgdRwlqQBDiIstFLW7t/Xi4vXK2O9mAl1OuMjtppXEa69qTtQ6B
+         ln3ZtQ15P/Jx9D/fIRF4X59vh8OkLArvfv1u/OrieqiilG6qps3LeEKrrCoDzgpret7n
+         142VirWPKdpUh7/F5TLbnTW3oCDdo3ybTUKHm3NeBirc2/fxr50dF7QupNdExcYIWvx2
+         Si5w==
+X-Gm-Message-State: AOJu0YzPe8od9YbcVwMI+SAbfnkV7AEPPHng/MQl2ca4yzM6Fa58VJUB
+	0DFcFFpdg83YCbLWv8PJtXu/iBHmF5SXdENB9qlp+xAex7R7swm9rplh3DjAxCAvsPH+WRomhS7
+	/xPs=
+X-Google-Smtp-Source: AGHT+IE04TQNrIXFfvgI8F30xWnAV13S6FjqqpmjPZTVrE4+Cg4kXqsXBTcaHwrGc90sC/q6pXH5/g==
+X-Received: by 2002:a50:d4d5:0:b0:56a:ae8a:acc0 with SMTP id e21-20020a50d4d5000000b0056aae8aacc0mr1610059edj.21.1714747429442;
+        Fri, 03 May 2024 07:43:49 -0700 (PDT)
 Received: from localhost.localdomain ([95.90.235.164])
-        by smtp.gmail.com with ESMTPSA id en18-20020a056402529200b005721b7bfea2sm1731017edb.22.2024.05.03.07.43.46
+        by smtp.gmail.com with ESMTPSA id en18-20020a056402529200b005721b7bfea2sm1731017edb.22.2024.05.03.07.43.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 07:43:46 -0700 (PDT)
+        Fri, 03 May 2024 07:43:49 -0700 (PDT)
 From: Ninette Adhikari <ninette@thehoodiefirm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
 	randy.macleod@windriver.com,
 	engineering@neighbourhood.ie,
-	Ninette Adhikari <13760198+ninetteadhikari@users.noreply.github.com>
-Subject: [PATCH v2 2/5] oe-build-perf-report: Display more than 300 commits and date instead of commit number
-Date: Fri,  3 May 2024 16:43:37 +0200
-Message-ID: <20240503144340.27385-3-ninette@thehoodiefirm.com>
+	Ninette Adhikari <ninette@thehoodiefirm.com>
+Subject: [PATCH v2 4/5] oe-build-perf-report: Update chart tooltip and chart type
+Date: Fri,  3 May 2024 16:43:39 +0200
+Message-ID: <20240503144340.27385-5-ninette@thehoodiefirm.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240503144340.27385-1-ninette@thehoodiefirm.com>
 References: <5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
@@ -66,71 +66,81 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 14:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198998
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 14:43:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199000
 
-From: Ninette Adhikari <13760198+ninetteadhikari@users.noreply.github.com>
+- Update chart tooltip format to show value as size in MB for 'rootfs size'
+and timestamp for 'tmpdir size'
+- Add commit number to tooltip
+- Update chart type to 'step chart' instead of 'line chart'
 
-- This commit updates measurement statistics data to include start_time so that time can be displayed instead of commit numbers on the chart.
-- It also updates default commit history length to 300.
+Signed-off-by: Ninette Adhikari <ninette@thehoodiefirm.com>
 ---
- scripts/lib/build_perf/report.py | 4 +++-
- scripts/oe-build-perf-report     | 6 ++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ .../build_perf/html/measurement_chart.html    | 31 ++++++++++++++-----
+ 1 file changed, 24 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/build_perf/report.py b/scripts/lib/build_perf/report.py
-index ab77424cc7..82c56830d7 100644
---- a/scripts/lib/build_perf/report.py
-+++ b/scripts/lib/build_perf/report.py
-@@ -294,7 +294,7 @@ class SizeVal(MeasurementVal):
-             return "null"
-         return self / 1024
+diff --git a/scripts/lib/build_perf/html/measurement_chart.html b/scripts/lib/build_perf/html/measurement_chart.html
+index 9acb3785e2..7982ec39c2 100644
+--- a/scripts/lib/build_perf/html/measurement_chart.html
++++ b/scripts/lib/build_perf/html/measurement_chart.html
+@@ -10,13 +10,19 @@
+     return time[0]*60 + time[1] + time[2]/60 + time[3]/3600;
+   }
  
--def measurement_stats(meas, prefix=''):
-+def measurement_stats(meas, prefix='', time=0):
-     """Get statistics of a measurement"""
-     if not meas:
-         return {prefix + 'sample_cnt': 0,
-@@ -319,6 +319,7 @@ def measurement_stats(meas, prefix=''):
-     stats['quantity'] = val_cls.quantity
-     stats[prefix + 'sample_cnt'] = len(values)
++  // Update value format to either minutes or leave as size value
++  const updateValue = (value) => {
++    // Assuming the array values are duration in the format [hours, minutes, seconds, milliseconds]
++    return Array.isArray(value) ? convertToMinute(value) : value
++  }
++
+   // Convert raw data to the format: [time, value]
+   const data = rawData.map(([commit, value, time]) => {
+     return [
+       // The Date object takes values in milliseconds rather than seconds. So to use a Unix timestamp we have to multiply it by 1000.
+       new Date(time * 1000).getTime(),
+       // Assuming the array values are duration in the format [hours, minutes, seconds, milliseconds]
+-      Array.isArray(value) ? convertToMinute(value) : value
++      updateValue(value)
+     ]
+   });
  
-+    start_time = time # Add start time for both type sysres and disk usage
-     mean_val = val_cls(mean(values))
-     min_val = val_cls(min(values))
-     max_val = val_cls(max(values))
-@@ -334,6 +335,7 @@ def measurement_stats(meas, prefix=''):
-     stats[prefix + 'max'] = max_val
-     stats[prefix + 'minus'] = val_cls(mean_val - min_val)
-     stats[prefix + 'plus'] = val_cls(max_val - mean_val)
-+    stats[prefix + 'start_time'] = start_time
- 
-     return stats
- 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index 7812ea4540..266700d294 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -336,7 +336,9 @@ def print_html_report(data, id_comp, buildstats):
-                 test_i = test_data['tests'][test]
-                 meas_i = test_i['measurements'][meas]
-                 commit_num = get_data_item(meta, 'layers.meta.commit_count')
--                samples.append(measurement_stats(meas_i))
-+                # Add start_time for both test measurement types of sysres and disk usage
-+                start_time = test_i['start_time'][0]
-+                samples.append(measurement_stats(meas_i, '', start_time))
-                 samples[-1]['commit_num'] = commit_num
- 
-             absdiff = samples[-1]['val_cls'](samples[-1]['mean'] - samples[id_comp]['mean'])
-@@ -473,7 +475,7 @@ Examine build performance test results from a Git repository"""
-     group.add_argument('--branch', '-B', default='master', help="Branch to find commit in")
-     group.add_argument('--branch2', help="Branch to find comparision revisions in")
-     group.add_argument('--machine', default='qemux86')
--    group.add_argument('--history-length', default=25, type=int,
-+    group.add_argument('--history-length', default=300, type=int,
-                        help="Number of tested revisions to plot in html report")
-     group.add_argument('--commit',
-                        help="Revision to search for")
+@@ -25,11 +31,22 @@
+     tooltip: {
+       trigger: 'axis',
+       valueFormatter: (value) => {
+-        const hours = Math.floor(value/60)
+-        const minutes = Math.floor(value % 60)
+-        const seconds = Math.floor((value * 60) % 60)
+-        return hours + ':' + minutes + ':' + seconds
+-      }
++        const commitNumber  = rawData.filter(([commit, dataValue, time]) => updateValue(dataValue) === value)
++        if ('{{ measurement.value_type.quantity }}' == 'time') {
++          const hours = Math.floor(value/60)
++          const minutes = Math.floor(value % 60)
++          const seconds = Math.floor((value * 60) % 60)
++          return [
++                hours + ':' + minutes + ':' + seconds + ', ' +
++                'commit number: ' + commitNumber[0][0]
++              ]
++        }
++        return [
++          value.toFixed(2) + ' MB' + ', ' +
++          'commit number: ' + commitNumber[0][0]
++        ]
++      },
++
+     },
+     xAxis: {
+       type: 'time',
+@@ -55,7 +72,7 @@
+       {
+         name: '{{ measurement.value_type.quantity }}',
+         type: 'line',
+-        smooth: true,
++        step: 'start',
+         symbol: 'none',
+         data: data
+       }
 -- 
 2.44.0
 
