@@ -2,47 +2,47 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15844C25B5C
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 13:10:39 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web10.12188.1714741837444037933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE127C25B5F
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 13:10:38 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web11.12366.1714741836588599647
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 06:10:37 -0700
+ Fri, 03 May 2024 06:10:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=q6zuBgVI;
- spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a0d1032362so22168666d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:10:37 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=dDnVr6c9;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.41, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-69b6d36b71cso46255106d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714741836; x=1715346636; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714741835; x=1715346635; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/LPvlFYvAlpNBmqXQKP6hkZXJyqxh+/BN+3gCDmG7v4=;
-        b=q6zuBgVIBaXbWdqAicoWG5iojLdywS8YOdY3Lh5svxzoGykzXhUzRXruEGyB5wGXjw
-         FW4FWXX7vQg/AzypO118tYUQthUj4vfwLMs1iguAHp3Sc44KUOn1v0rmbJhTDBhJ1kf/
-         Mmi4rDOXIa67eFCUDGqhj7sR+0zLytjzQx9J6hjReqKIu9z1Ew0xkYESS9VRPvrX/vhg
-         cO/wT1JQ+vTVVUWIqU1WaSZAW5ToeAbp85aYvSy7iLjUiGAe3cXtk8YcQSTwVGd6eGXP
-         xEhdZYn79VklvZwX7AFevY/FLJpCVRx+3CGWr9IsQXOUmoXWkA/DKdbEWJC61BxkM2wc
-         JEJQ==
+        bh=LQH1zNLKx9qtzbMLnbd9/4zzrAQ1yYYTPegK2snqZTU=;
+        b=dDnVr6c9g2IITLA1uOTIiy5tyxufO0sB2TUBHZnKZ8yjHB49Tj+R9P1DPR9vRdxWI6
+         PVQP2/qkBtyY53A9w3+6IKYotWh8L6kZa9PWVMdGt9jpVk7WBgm6U9Xx+8Diu0lGaaKW
+         EDWH5MRPKoyLJvE1bqSPYe0h2IDT+W1uyyaAB4Wfqt+eorlyHmuqFBb4XVnReL0FRgXq
+         CN4/3hc0m2SPFjv812V/MPUrOrAn5AGKyabbJfhLTieRQvYUmeXw1Fk91H4mEIgjM9vm
+         kwyHCzLqGInVmlHP3wQVqBzfCq5AyaPmDJIctc0RMQ614iw9pyOTYzP0gsza4UPqFWZ5
+         dtRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714741836; x=1715346636;
+        d=1e100.net; s=20230601; t=1714741835; x=1715346635;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/LPvlFYvAlpNBmqXQKP6hkZXJyqxh+/BN+3gCDmG7v4=;
-        b=MQPfz3ZyrXRBZgf1AoXe3n6ivjpcT06xlARg6931MY2B3iX96TLLMtlv62qGo2oxTa
-         EuKuLT5trQFhJwfd0Wy/vJi9DpKoQ/4pK9Q8Caqln6v6MEP5Sy3+Q6hvUiybIalDDkuZ
-         dhmVvefspnmlSDKP0EA28hkZmDJC7Z6ejDfmoX8sGIvYbchhzXvRNyAFL3JnDc140peG
-         YWIFRyzCl7NZMcTC9YQCdG7+V0NzkgdHNmh283DBznJJB3CIKIfvDL/pRCPZza6se64V
-         MxswXsVzlE5Ex+qwi1qj2CmFzK4ED688Rf5D26+4oSMIv31C46VxP7Yjmf8RrrCsmryj
-         b2uw==
-X-Gm-Message-State: AOJu0YySpfF6ta9WEvl8+JbicrTXrUppHPtKCW7a+lLAzd/KI6SmbpjH
-	uBcf+t8IIj9mU9z6tvNj36mt3K2NIqU+seFOfHKSAIm4//XwQ093E0kKlW2YuB9FqDBkrcYWl+X
-	Kbvw=
-X-Google-Smtp-Source: AGHT+IEiGt8U0cC6JQzJaHJ5g4RcSMzJC1LmRtrowKKLf4rVCBOIxcYyYd1qi4qtRjh68cm2+hJAuQ==
-X-Received: by 2002:a05:6214:29c3:b0:6a0:d291:a35e with SMTP id gh3-20020a05621429c300b006a0d291a35emr2269152qvb.52.1714741836168;
-        Fri, 03 May 2024 06:10:36 -0700 (PDT)
+        bh=LQH1zNLKx9qtzbMLnbd9/4zzrAQ1yYYTPegK2snqZTU=;
+        b=hWks1pHq8qPF8c/yLZ6d0cMgtNdnUp3AfDSBESkJGRD2AAMFptMOV9BK2bJ6yrSRlU
+         ALR2M3VW/L9+9E6JpiTKWikXnKCNKjGRjozQKBtoWx6wJNNatGhR4QlAgfV7PrPBT81a
+         6oGHVKKggWhBQ1wtEJM3/tyFdG3+5v3MhGV7XzYOTjOgHeISKRm3SrGbAETgFYJ5K2BB
+         xtxW24aXCO8c7MsDXajw7VMJDOuugib3Me33IIYpZwX04UpF9jgo/yg8C/UWRrn7rUXm
+         DfIQauGdSapuXTiSKF6eaX37ZSKYtSLRYwTuHzfyrApWuaW5aoY1BZns++h3c1ThQctU
+         K+nQ==
+X-Gm-Message-State: AOJu0Yysij9DD9QWjb2xILxhScsI8J2qaE+lGIC/eNhnmphaV1WB2OJ7
+	DLg4rOL7Af9VwiHZuYaFc8KxzFolo2jxIt9jbt2leRcsBoxk6sXSmq3lcfgPdZNDVQAakZ2y7xu
+	aDrI=
+X-Google-Smtp-Source: AGHT+IGal5/9xAETMko8qOBtpVGN4RX/wAopLcpirsvE2TdgoQUBHzzc0KJrKhwx+GagKElVfQ5hig==
+X-Received: by 2002:a05:6214:1944:b0:6a0:9371:9eeb with SMTP id q4-20020a056214194400b006a093719eebmr3581864qvk.8.1714741835441;
+        Fri, 03 May 2024 06:10:35 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
         by smtp.gmail.com with ESMTPSA id jh20-20020a0562141fd400b006a0e94eb3e9sm1193510qvb.34.2024.05.03.06.10.35
         for <openembedded-core@lists.openembedded.org>
@@ -50,9 +50,9 @@ Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24
         Fri, 03 May 2024 06:10:35 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/4] patchtest: repo: refactor to use GitPython
-Date: Fri,  3 May 2024 09:10:30 -0400
-Message-ID: <20240503131033.1665297-3-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 1/4] patchtest: requirements.txt: add GitPython
+Date: Fri,  3 May 2024 09:10:29 -0400
+Message-ID: <20240503131033.1665297-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240503131033.1665297-1-tgamblin@baylibre.com>
 References: <20240503131033.1665297-1-tgamblin@baylibre.com>
@@ -61,172 +61,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 13:10:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198987
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 13:10:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198986
 
-The repo module currently uses a custom _exec() function in order to run
-various git commands as part of the patchtest setup/test process. These
-can more efficiently be done with the GitPython module, so use that
-instead and reduce the amount of custom code to be maintained for
-patchtest in the process. Some specifics replaced using GitPython:
-
-- get branch list
-- use repo.active_branch to determine current branch
-- use execute() for checkout, merge check, abort, rev-parse, reset
-
-The _exec() function is removed entirely with this change.
+GitPython provides some simple utilities for retrieving repo
+configurations that can replace the manual work that patchtest currently
+does. Add it to the requirements so that the source can make use of it.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/repo.py | 88 ++++++++------------------------------
- 1 file changed, 17 insertions(+), 71 deletions(-)
+ meta/lib/patchtest/requirements.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
-index d3788f466d3..5f361ac5005 100644
---- a/meta/lib/patchtest/repo.py
-+++ b/meta/lib/patchtest/repo.py
-@@ -11,6 +11,7 @@
- import os
- import utils
- import logging
-+import git
- from patch import PatchTestPatch
- 
- logger = logging.getLogger('patchtest')
-@@ -21,15 +22,17 @@ class PatchTestRepo(object):
-     # prefixes used for temporal branches/stashes
-     prefix = 'patchtest'
- 
-+
-     def __init__(self, patch, repodir, commit=None, branch=None):
-         self._repodir = repodir
-+        self._repo = git.Repo.init(repodir)
-         self._patch = PatchTestPatch(patch)
--        self._current_branch = self._get_current_branch()
-+        self._current_branch = self._repo.active_branch.name
- 
-         # targeted branch defined on the patch may be invalid, so make sure there
-         # is a corresponding remote branch
-         valid_patch_branch = None
--        if self._patch.branch in self.upstream_branches():
-+        if self._patch.branch in self._repo.branches:
-             valid_patch_branch = self._patch.branch
-             
-         # Target Branch
-@@ -52,22 +55,19 @@ class PatchTestRepo(object):
- 
-         self._workingbranch = "%s_%s" % (PatchTestRepo.prefix, os.getpid())
- 
--        # create working branch
--        self._exec({'cmd': ['git', 'checkout', '-b', self._workingbranch, self._commit]})
-+        # create working branch. Use the '-B' flag so that we just
-+        # check out the existing one if it's there
-+        self._repo.git.execute(['git', 'checkout', '-B', self._workingbranch, self._commit])
- 
-         self._patchmerged = False
- 
-         # Check if patch can be merged using git-am
-         self._patchcanbemerged = True
-         try:
--            self._exec({'cmd': ['git', 'am', '--keep-cr'], 'input': self._patch.contents})
--        except utils.CmdException as ce:
--            self._exec({'cmd': ['git', 'am', '--abort']})
-+            # Make sure to get the absolute path of the file
-+            self._repo.git.execute(['git', 'apply', '--check', os.path.abspath(self._patch.path)], with_exceptions=True)
-+        except git.exc.GitCommandError as ce:
-             self._patchcanbemerged = False
--        finally:
--            # if patch was applied, remove it
--            if self._patchcanbemerged:
--                self._exec({'cmd':['git', 'reset', '--hard', self._commit]})
- 
-         # for debugging purposes, print all repo parameters
-         logger.debug("Parameters")
-@@ -97,78 +97,24 @@ class PatchTestRepo(object):
-     def canbemerged(self):
-         return self._patchcanbemerged
- 
--    def _exec(self, cmds):
--        _cmds = []
--        if isinstance(cmds, dict):
--            _cmds.append(cmds)
--        elif isinstance(cmds, list):
--            _cmds = cmds
--        else:
--            raise utils.CmdException({'cmd':str(cmds)})
--
--        results = []
--        cmdfailure = False
--        try:
--            results = utils.exec_cmds(_cmds, self._repodir)
--        except utils.CmdException as ce:
--            cmdfailure = True
--            raise ce
--        finally:
--            if cmdfailure:
--                for cmd in _cmds:
--                    logger.debug("CMD: %s" % ' '.join(cmd['cmd']))
--            else:
--                for result in results:
--                    cmd, rc, stdout, stderr = ' '.join(result['cmd']), result['returncode'], result['stdout'], result['stderr']
--                    logger.debug("CMD: %s RCODE: %s STDOUT: %s STDERR: %s" % (cmd, rc, stdout, stderr))
--
--        return results
--
--    def _get_current_branch(self, commit='HEAD'):
--        cmd = {'cmd':['git', 'rev-parse', '--abbrev-ref', commit]}
--        cb = self._exec(cmd)[0]['stdout']
--        if cb == commit:
--            logger.warning('You may be detached so patchtest will checkout to master after execution')
--            cb = 'master'
--        return cb
--
-     def _get_commitid(self, commit):
- 
-         if not commit:
-             return None
- 
-         try:
--            cmd = {'cmd':['git', 'rev-parse', '--short', commit]}
--            return self._exec(cmd)[0]['stdout']
--        except utils.CmdException as ce:
--            # try getting the commit under any remotes
--            cmd = {'cmd':['git', 'remote']}
--            remotes = self._exec(cmd)[0]['stdout']
--            for remote in remotes.splitlines():
--                cmd = {'cmd':['git', 'rev-parse', '--short', '%s/%s' % (remote, commit)]}
--                try:
--                    return self._exec(cmd)[0]['stdout']
--                except utils.CmdException:
--                    pass
-+            return self._repo.rev_parse(commit).hexsha
-+        except Exception as e:
-+            print(f"Couldn't find commit {commit} in repo")
- 
-         return None
- 
--    def upstream_branches(self):
--        cmd = {'cmd':['git', 'branch', '--remotes']}
--        remote_branches = self._exec(cmd)[0]['stdout']
--
--        # just get the names, without the remote name
--        branches = set(branch.split('/')[-1] for branch in remote_branches.splitlines())
--        return branches
--
-     def merge(self):
-         if self._patchcanbemerged:
--            self._exec({'cmd': ['git', 'am', '--keep-cr'],
--                        'input': self._patch.contents,
--                        'updateenv': {'PTRESOURCE':self._patch.path}})
-+            self._repo.git.execute(['git', 'am', '--keep-cr', os.path.abspath(self._patch.path)])
-             self._patchmerged = True
- 
-     def clean(self):
--        self._exec({'cmd':['git', 'checkout', '%s' % self._current_branch]})
--        self._exec({'cmd':['git', 'branch', '-D', self._workingbranch]})
-+        self._repo.git.execute(['git', 'checkout', self._current_branch])
-+        self._repo.git.execute(['git', 'branch', '-D', self._workingbranch])
-         self._patchmerged = False
+diff --git a/meta/lib/patchtest/requirements.txt b/meta/lib/patchtest/requirements.txt
+index ba55ff905e2..4247b91f094 100644
+--- a/meta/lib/patchtest/requirements.txt
++++ b/meta/lib/patchtest/requirements.txt
+@@ -1,5 +1,6 @@
+ boto3
+ git-pw>=2.5.0
++GitPython
+ jinja2
+ pylint
+ pyparsing>=3.0.9
 -- 
 2.44.0
 
