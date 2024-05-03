@@ -1,143 +1,112 @@
-Return-Path: <philip.lorenz@bmw.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F98AC4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 18:00:50 +0000 (UTC)
-Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
- by mx.groups.io with SMTP id smtpd.web11.1478.1714672846755947583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C53AC4345F
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 02:40:44 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.3819.1714704043519289192
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 11:00:48 -0700
+ Thu, 02 May 2024 19:40:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=LBF1UKtY;
- spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=8451f0b36=philip.lorenz@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K2tpMGRO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-78f05341128so582321885a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 19:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1714672846; x=1746208846;
-  h=message-id:date:mime-version:subject:to:references:from:
-   cc:in-reply-to:content-transfer-encoding;
-  bh=h/WgtDwC0sGfvrIj73m9xn+LT25VsGiBkoY9fkaqHy4=;
-  b=LBF1UKtYImP6w1wgdWkqwWZzJLy0S1We5Bw4Tg54icabdFvw7/uys+gK
-   CzVLuv6/Vs3etvs6nOysuWfdxyl69gQ9sT1prLgiuFRMkKfYz7alNUrfZ
-   hLR0TQsJeDtSH0H/+pZrv+XY/fgBVJinqvFSw1p3AGsXUxePACUIvPFLa
-   s=;
-X-CSE-ConnectionGUID: WWuz+AvtSdWKY7QHIsnbtg==
-X-CSE-MsgGUID: dHKnmc8nTneW5clh3B2rFQ==
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 02 May 2024 20:00:44 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw4.muc with ESMTP/TLS;
- 02 May 2024 20:00:28 +0200
-Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
- by esabb2.muc with ESMTP/TLS; 02 May 2024 20:00:29 +0200
-Received: from [10.242.8.5] (10.30.85.208) by SMUCMP10E.europe.bmw.corp
- (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
- Thu, 2 May 2024 20:00:27 +0200
-Message-ID: <a0cff382-4302-4f27-96b6-ec41c243588b@bmw.de>
-Date: Thu, 2 May 2024 20:00:26 +0200
+        d=gmail.com; s=20230601; t=1714704042; x=1715308842; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N5RgaTL+vKXV2iT7cjmHcsWPVuMzosgRxcXAHDUwEHA=;
+        b=K2tpMGROogUniW6oIayM9WXzn/BDWZUB5iuEups7FYTLsYa2qvuFsOvheUc3B12Cus
+         O3qG1VqprnfSwuNNPFaLZg6Px68MyLEHLsFkNExc5IXJ1L7nVOPoPrdZ/x3mVSsiwUEI
+         JIjbE6KRWKu5mNgQbDNHfMllumIdDoX7j8tP7tyKEFyQLN1k4WpUvpmhs0AuAFMftt0k
+         n6bzKFnRGGpt1hauOCTvSqBgDYAAgh0AugdkY+xqshQJOSCKQTZUw7Rl1lu1k/k2UcjO
+         QJFKX92vEppur+Au7/XvpAoKEHEysCZB/+x7K79w0R467vEUAulsr7YmiHU5LnRIoNGn
+         ESPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714704042; x=1715308842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N5RgaTL+vKXV2iT7cjmHcsWPVuMzosgRxcXAHDUwEHA=;
+        b=FLh/rMtKoJhKt5n8LCTgh0dfgWvWHZ9U4yamvIvPwL3kKAhvdkQL6GeQPd/eeKFIoX
+         2Rf8qjesm2QIO1wDRdcOkCk/c4m6HtGJ786ADm2XTOLKkjq7uZOTz6hJ/c3gEkUruZgc
+         QuIPF5RWjJOwDqa4GQAlHiPp5wpO3ucSRI2oB8CPddcFpDzwEkNQ7ZRtfHOFhLCRy7md
+         NljYx5xI4PznsHMeMyAEOV2IwYpH+7hkouIWud3bb2diTD+JxLYzxBaEgnCvW6GwklEC
+         Z8y/4rjlMFyFBqnlQ1O4eHJR/MNlNSyA3PUbFqHLDQmRh+4h7ptPyejomQvNuUwBJuvo
+         kbNA==
+X-Gm-Message-State: AOJu0Yx2PlraaFckKZJ9Z2eQ5t8AwOMtC7+9SwazJr6bWKNCLvjI2xRd
+	KJqhtgmHRz1dKELOHbPSEtKPetFIfafUqp/GhD+4jitGcQl0AkmFQ3lM3w==
+X-Google-Smtp-Source: AGHT+IF+9mwLNfrM404H4IbkLqFs7GDbBD5d8zQ2FeeI/uush2ulkrbBoNpJ7qt0YWxY5pUkiGlD3A==
+X-Received: by 2002:a05:620a:1245:b0:790:f42f:cdc0 with SMTP id a5-20020a05620a124500b00790f42fcdc0mr1533302qkl.7.1714704042316;
+        Thu, 02 May 2024 19:40:42 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id bm34-20020a05620a19a200b0078ec3aa9cc7sm856163qkb.25.2024.05.02.19.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 19:40:41 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/12] linux-yocto: v6.6 updates
+Date: Thu,  2 May 2024 22:40:28 -0400
+Message-Id: <cover.1714703667.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] ipk: Do not hardcode payload compression
- algorithm
-To: Quentin Schulz <quentin.schulz@cherry.de>
-References: <20240502142716.2112863-1-philip.lorenz@bmw.de>
- <af6e8a05-7c2d-4310-9414-a747593275c7@cherry.de>
-From: Philip Lorenz <philip.lorenz@bmw.de>
-CC: <openembedded-core@lists.openembedded.org>
-In-Reply-To: <af6e8a05-7c2d-4310-9414-a747593275c7@cherry.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: smucmp15d.europe.bmw.corp (2a03:1e80:a15:58f::1:62) To
- SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 18:00:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198930
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 02:40:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198931
 
-Hi Quentin,
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On 02.05.24 19:19, Quentin Schulz wrote:
-> Sent from outside the BMW organization  - be CAUTIOUS, particularly 
-> with links and attachments.
-> Absender außerhalb der BMW Organisation - Bitte VORSICHT beim Öffnen 
-> von Links und Anhängen.
-> ----------------------------------------------------------------------------------------------- 
->
->
-> Hi Philip,
->
-> On 5/2/24 4:27 PM, Philip Lorenz via lists.openembedded.org wrote:
->> [You don't often get email from 
->> philip.lorenz=bmw.de@lists.openembedded.org. Learn why this is 
->> important at https://aka.ms/LearnAboutSenderIdentification ]
->>
->> The chosen payload compression algorithm can be changed by overriding
->> `OPKGBUILDCMD`. Ensure that package extraction deals with this by
->> globbing for "data.tar.*" to select the actual payload tarball.
->>
->> Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
->> ---
->>   meta/lib/oe/package_manager/ipk/__init__.py | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oe/package_manager/ipk/__init__.py 
->> b/meta/lib/oe/package_manager/ipk/__init__.py
->> index 8cc9953a027..0f0038d00d9 100644
->> --- a/meta/lib/oe/package_manager/ipk/__init__.py
->> +++ b/meta/lib/oe/package_manager/ipk/__init__.py
->> @@ -4,6 +4,7 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   #
->>
->> +import glob
->>   import re
->>   import shutil
->>   import subprocess
->> @@ -134,11 +135,16 @@ class OpkgDpkgPM(PackageManager):
->>           tmp_dir = tempfile.mkdtemp()
->>           current_dir = os.getcwd()
->>           os.chdir(tmp_dir)
->> -        data_tar = 'data.tar.zst'
->>
->>           try:
->>               cmd = [ar_cmd, 'x', pkg_path]
->>               output = subprocess.check_output(cmd, 
->> stderr=subprocess.STDOUT)
->> +            data_tar = glob.glob("data.tar.*")
->
-> What happens if we have two consecutive builds with the same build 
-> directory but different compression algorithms? Would we have two 
-> data.tar.* matches?
+Richard,
 
-Each call to extract() creates a new temporary directory into which the 
-content of that particular IPK are extracted. IPKs should contain only 
-one data tarball and as such the described scenario should never occur 
-(and the length check I added is a merely a safety measure).
+Now that scarthgap has released, here are my queued 6.6 changes
+for master. Obviously these are all appropriate for scarthgap
+as well.
 
-I initially considered introducing a dedicated variable to specify the 
-IPK compression algorithm, but this would have also required to introduce
+Once the 6.9 kernel releases, my plan is to do an interim
+bump to 6.9 for the kernel and linux-libc-headers so that our
+jump to the fall release isn't as large as it would otherwise
+be.
 
-* another variable for the parametrization of said algorithm (see 
-ZSTD_DEFAULTS, XZ_DEFAULTS)
-* a mapping from opkg-build algorithm name to the actual file extension 
-(see [1])
+Cheers,
 
-This seems overly complex when a glob achieves the same effect so I went 
-for the submitted solution instead.
+Bruce
 
-Br,
+The following changes since commit 0e163082bd8a68412c66e2ea20e665b1ddfcc9f7:
 
-Philip
+  brief-yoctoprojectqs: Update to the correct hash equivalence server address (2024-05-02 17:07:13 +0100)
 
-[1] https://git.yoctoproject.org/opkg-utils/tree/opkg-build#n157
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (12):
+  linux-yocto/6.6: update to v6.6.24
+  linux-yocto/6.6: update CVE exclusions (6.6.24)
+  linux-yocto/6.6: update to v6.6.25
+  linux-yocto/6.6: update CVE exclusions (6.6.25)
+  linux-yocto/6.6: nft: enable veth
+  linux-yocto/6.6: update to v6.6.27
+  linux-yocto/6.6: update CVE exclusions (6.6.27)
+  linux-yocto/6.6: cfg: drop obselete options
+  linux-yocto/6.6: update to v6.6.28
+  linux-yocto/6.6: update CVE exclusions (6.6.28)
+  linux-yocto/6.6: update to v6.6.29
+  linux-yocto/6.6: update CVE exclusions (6.6.29)
+
+ .../linux/cve-exclusion_6.6.inc               | 2720 ++++++++++++-----
+ .../linux/linux-yocto-rt_6.6.bb               |    6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   28 +-
+ 4 files changed, 2018 insertions(+), 742 deletions(-)
 
 -- 
-Philip Lorenz
-BMW Car IT GmbH, Software-Plattform, -Integration Connected Company, Lise-Meitner-Straße 14, 89081 Ulm
--------------------------------------------------------------------------
-BMW Car IT GmbH
-Management: Chris Brandt and Michael Böttrich
-Domicile and Court of Registry: München HRB 134810
--------------------------------------------------------------------------
+2.39.2
 
 
