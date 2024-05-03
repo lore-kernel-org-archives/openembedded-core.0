@@ -1,156 +1,280 @@
-Return-Path: <louis.rannou@non.se.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC112C4345F
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 12:36:58 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.70])
- by mx.groups.io with SMTP id smtpd.web10.11361.1714739813863007051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FDFC4345F
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 12:51:19 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.11668.1714740668848625948
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 05:36:54 -0700
+ Fri, 03 May 2024 05:51:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@non.se.com header.s=selector2 header.b=TzH3ATo+;
- spf=pass (domain: non.se.com, ip: 40.107.247.70, mailfrom: louis.rannou@non.se.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FkOQKcbUBJtMccT1VgSLlWnV/Tm6vQWt7Oz9yKAHOWq4sNsoPP3/q+9HXhg+Munfqn/eNypoJfHFF8fujUYeSKz0Asp+3lkCSlGM3KAhgDspXuL2/Cfovx+uD+4/Ltc6PEb3el14RZ4wxC6fIqIQusPif53mMy4HXIKIBhtyCRIrBcWQiXcpqrL432B3cvQdCSQKwvC63CUdVM+mSpi5La2IlC6Qr2SSVG6g8WoDHLtFkDAqLWU37zgS7XFYSAWSpqIfGaIFdFfm3rgQquM7WKDrlOp+GNmaQMqln0a+QikQfEo/TX5V2BALlvW0VbqVK5MiKTMRB1ueJyWsvPCL5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JL5wtsc6FWY5PVPc1B3GyN71aKK6sLN62jN6pBeY8ls=;
- b=IY2L88DobNBf6GspPIMaqYLVXXDZplbdjRUdObcVfhbK2r0vVkfHPoH6N95wO28+Wlh/QJOCb7q2K+Y4SJw5WJV5y+JxjbNsPKEu66nvPDSDp7YNjRmRvMYE718k0fogiENi40LyIcispSwWnElDwdRhDlteJRS1HFW/wbO1leIBnnlt3JsMq6lQvMua49L+qXYNgR/zrb3PbizcOXyupyyfwXS1GGYnswldsD1KHMTmjKtP0gVeLgSL2cR9ZtGeIbNorV/1FgXjVAyAgo4hvXEiT3VRozCz5oM9WTFCidlz/BeUxMpvMtSaDKP2A0nkuzgG9VKPJedjxuIw3GjHzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=non.se.com; dmarc=pass action=none header.from=non.se.com;
- dkim=pass header.d=non.se.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=non.se.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JL5wtsc6FWY5PVPc1B3GyN71aKK6sLN62jN6pBeY8ls=;
- b=TzH3ATo+eM34Igz57ZJIkSaKwjneXPdPl3tlMXPaYSS7Oo8bscucJmOcHua7JyFM3sxn+/6aWqp/6SrjewlQwaFx/6TvrXYjwTCTDnMnDyW3LFfzGHESijn0qphg7StMScgYuC4xOaBSqj5IFHFtwXLSZvWNaHzwrUQYQut++YyugZl0xy7aDkl7CLpTLZYALImYwXKvBz5VGRtckyXRecgcjgxT1Ty/z7ZzSieSo8HSDFwddJONNCRkMr2/D4Lh2TX9YMpFRnEBd3aOnrdEscp5BKNoKfpN/wCnUl7IDqFFglb8I/AacUX/MrC2uMLD+N36IJVc4RaWZUaXDA2SOQ==
-Received: from AS4PR04MB9316.eurprd04.prod.outlook.com (2603:10a6:20b:4e7::19)
- by DU2PR04MB9132.eurprd04.prod.outlook.com (2603:10a6:10:2f7::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.30; Fri, 3 May
- 2024 12:36:49 +0000
-Received: from AS4PR04MB9316.eurprd04.prod.outlook.com
- ([fe80::2430:4340:c5ba:cd60]) by AS4PR04MB9316.eurprd04.prod.outlook.com
- ([fe80::2430:4340:c5ba:cd60%4]) with mapi id 15.20.7544.029; Fri, 3 May 2024
- 12:36:49 +0000
-From: Louis Rannou <louis.rannou@non.se.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] dm-verity image support
-Thread-Topic: [RFC] dm-verity image support
-Thread-Index: AQHanVaLmPCRyLZfnkqCo2igQ/1TUw==
-Date: Fri, 3 May 2024 12:36:49 +0000
-Message-ID: 
- <AS4PR04MB9316F4B1CCD8C19274FB36EEA91F2@AS4PR04MB9316.eurprd04.prod.outlook.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_Enabled=True;MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_SiteId=6e51e1ad-c54b-4b39-b598-0ffe9ae68fef;MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_SetDate=2024-05-03T12:36:49.843Z;MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_Name=General;MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_ContentBits=0;MSIP_Label_57443d00-af18-408c-9335-47b5de3ec9b9_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=non.se.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS4PR04MB9316:EE_|DU2PR04MB9132:EE_
-x-ms-office365-filtering-correlation-id: 203c1526-e296-46e8-42ee-08dc6b6db43d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
-x-microsoft-antispam-message-info: 
- =?iso-8859-1?Q?2bNGmeKdfJlpA9SNJOnU/Y+YgguZx2IEg1D6Vkv2CLL08S/No0nxf75oO7?=
- =?iso-8859-1?Q?GUH+f8ItpXvlWxHON1CyrmjCx6FqBNfme9DtU2hfqV6KfMMUmwz2n2UqlX?=
- =?iso-8859-1?Q?aHgynPH9s3FK7GXFwZUkNas0dD5vAMUiTnXgdgkUCkQNH2iY72xZneRCqB?=
- =?iso-8859-1?Q?P1LMkrRjrGeIAHbFg51CJsulIwJLBLRwDpGQio8pGZ1ark7Izjg1ELy7qZ?=
- =?iso-8859-1?Q?fuOchJK4Gb0mTyjyFNtAu8QQZOPhTYpRqlOtaMwPLAN78i88jxC53dqqbm?=
- =?iso-8859-1?Q?BRDOhfBlaB33G5Rwn1YdokmPN5dsMLs9w8DSiEVhLl+74HJmXApTqxCfp3?=
- =?iso-8859-1?Q?UCQ+kBYn8m80M6KS3GxgQ7LxCD8FTMDYehObUue8/jAGwwfH8fxhsGS6YC?=
- =?iso-8859-1?Q?HHxvckBEmIK1BPdcF40KeanttYqd8kNd3MJcHbVLT/LE48tDRl1hawvr8l?=
- =?iso-8859-1?Q?BLsYYhivOUEkYcIdJ0oRHXSc7S0v9F26lsXmoBCRwGJPOHzQOhK53HIJx2?=
- =?iso-8859-1?Q?DPU5T29vOKjsXsP8JhYW0wkUbiEBg4TEqZqlBaLuO/KDV3XNfA43rgAm6c?=
- =?iso-8859-1?Q?r5DzrCsZygoBmFV0lHqpBFnbTt5FuuzWfmN91+CL6rfy9TlWMnnnYEteRP?=
- =?iso-8859-1?Q?3b8Z5DYHCFdBmc5gUHrzJRp/JVGzM2Xw2LEPAl3D9IFCKDlKDvJ4Yx7XKu?=
- =?iso-8859-1?Q?8XInvvY+U4hLBk+PR3p0o5dnCFCqVCG0DLS015g+nQhmvUk2mRgsF7MpRP?=
- =?iso-8859-1?Q?S4+oTTP+56L1YHoEPp7MBliKmeE/cKnfq1wLY4QEvDVdFYfIeFOD1IYSho?=
- =?iso-8859-1?Q?X7+iVFKNc4W+QGj3WeZ9HcPzfD7QrzaSJOQIm/gXo5380HPAthAnAfsAGx?=
- =?iso-8859-1?Q?4gbidxkLUKMfWPSxw9dwU6dN1+itxdbOrTyAoHeLs9Cv3NFY1ZSrWiVIYa?=
- =?iso-8859-1?Q?mUI5oittgT4xh7bwuwhkw6R+HtDQDjvjgFLG/Vy9NaKXoHrJW6mo5wIcdr?=
- =?iso-8859-1?Q?7Ocns3vOH/HuWqPaN1RRuPEVehiCRRirb8PlOreehdZQUOW3ccSVTh7CKY?=
- =?iso-8859-1?Q?bvJQ4qbE2ghDvzL/XFb7diEp0dLcYts4hJm1m5ORTKtFsEZpbNWY19VniB?=
- =?iso-8859-1?Q?KgXPpxElIG+snmeLXHq4r3Ll99B1rTWYqByf69ac9Np8CQYkrI/cmo2m+m?=
- =?iso-8859-1?Q?wIQd5M5jpALCK3MKX6vxoH1SkggfJK33rnw95NZqJEi3Njt1IPYJCmN77B?=
- =?iso-8859-1?Q?282hWwx8Nqn0o6WzAy5fvW0BazmwS5td/N8pTo6lmrrmCpc3LdDA6oOmsv?=
- =?iso-8859-1?Q?jM4f/2m0xrh3gHnlBKQGre7VsnogyGs9fAnupqCa7FgEsycrvBmX9xS9/f?=
- =?iso-8859-1?Q?IyH9BkAocl?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?v+FvW4n989cjOT7ygR5Xol9s5/1kjcz4ibiEmPI2L15v/EGOqhHUvy43rO?=
- =?iso-8859-1?Q?91OJHA0GpnOvaIc7xoBVCDwVKEbD7NWKLqiZenC6hwqtk7ukc/bhbqDU7R?=
- =?iso-8859-1?Q?DWPlwWNhMqWSnODQ55AInAyByPkE6VS3HhqCxEKhMaEuHuAzzAG3lDFjKg?=
- =?iso-8859-1?Q?wQSx+BNslpbN+w/eam6J/1NEq2RvR80TY13pzn2SafOizoFKpoPfmmPgc2?=
- =?iso-8859-1?Q?YmUTqNAs6NwX1UhJDRBLajDDKAukOYLWvfsOKhI2GKxSRzJ2gZX0jtHqKM?=
- =?iso-8859-1?Q?CXMt2Pu9N1o7893VZQ3Aaz73//3Kfa4DbRIKu1jGGhUQJbMiqZ+8lcyp78?=
- =?iso-8859-1?Q?tL+LA8c0ZdXllDur+Gu2F2GfbY3N+EB5a4Ji+09DUisKBMCq+XwgyUpmw3?=
- =?iso-8859-1?Q?CJrtA6obkUHtrJceoWVTfPuHQrr9mydXih4rUI6PGoJAjAMStjCcBdETWT?=
- =?iso-8859-1?Q?6ZN5BMKp5bMnLZPeWfZQ3XStBfZnwdg84TO4imtuwDK2CHRy+C835GxtdN?=
- =?iso-8859-1?Q?jWG8z8PobWlW11VA+5YOAsq6KkUJ2bpCjtBAkxqr32t2+QRsJr04rQ/Vnr?=
- =?iso-8859-1?Q?z2g1amEJeXTkj5mNxHMm57N60RT86BZ2VYNOaMDh1LZ3Z571xIvFH97o1r?=
- =?iso-8859-1?Q?ZA6dmmjuOx3/RMSP6vxYGt9ZjRCKipfI3WjbVXKg9YxXNNpIXS/kOLAI47?=
- =?iso-8859-1?Q?ddl4cNaY/VxT6PT31E2KwMPjRV8QnNKvFnUHeDQdSdunZRJH0Uj8GrcwsF?=
- =?iso-8859-1?Q?lI9Fn9T+sbcvivhkw4HlfU9JuIZFwFysYrP89Z8khjpy9QfFZh7zyLYXZf?=
- =?iso-8859-1?Q?qz3lm15XkEddtiuSWVCNRaw4hoFrBrr3MhUUjJQVfmqHlblAd8O2gaf49m?=
- =?iso-8859-1?Q?jskYgrfnWc5ABpmCf/W7Nq3ituiRMEGgklrOe8/bBj2U4eYxtWOcI8+qfE?=
- =?iso-8859-1?Q?FbY6sww2b+7uuzgTsXecZpl28fV+68DdRock+KtNVdERNhh/x588dC1x4t?=
- =?iso-8859-1?Q?dh7pIuB97ryINpmCf5oNlf4sceQiZwg+or0kr0shg5ubmEALMzA9r4oJzJ?=
- =?iso-8859-1?Q?WIHaEkOtRTLNRMcA5vZyNHIGyZVw1kdqHU/jUc0iWtEemB8KoGPpSj7mOY?=
- =?iso-8859-1?Q?GZTBc12ax/EPCAp8p2EqHeQIqUAQFn0LQddnqoKuWLpnxM8YSwIkuF9BuO?=
- =?iso-8859-1?Q?+VOmKxxnQJvrItgUkebnwFsGu84ypK8VdbUVSiGKMsT64HrrrGpa+s3kLV?=
- =?iso-8859-1?Q?HJRQnA3S3MqKx6LcOpQlMfwdwqK9SLq+AX3YL2KxwZIFRgDuoIJ+8oC9uw?=
- =?iso-8859-1?Q?YjfXMk+BSuTlEWaWHDHgkRzn7BGGWWjO9vi18jcMBLHTMcdeLiaqXLDOpu?=
- =?iso-8859-1?Q?wiR1Mq/dQYZ0lEnYHRYUV1AaFUnQJgKqelwQ0Zq5S5E6/1cAK979ip/ahC?=
- =?iso-8859-1?Q?cJzTQxI+xqpby75FTSI8oTj3HIwvuP0IOj82SJKYRQ9pyBp61oMxabrotn?=
- =?iso-8859-1?Q?UlZRSFymqXTu8VRDUCEz9RPHPcgs01rk0JlerSqMdwMikGt1Yiz2FD5+4f?=
- =?iso-8859-1?Q?kBzHq9ADky3FP5aI++fljAKhOMD2vD3xPcdu6taiyXd210QyJJe/0wASbZ?=
- =?iso-8859-1?Q?fQbAfBusErhLE=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J4uKtk6l;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5d3907ff128so7184842a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 05:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714740668; x=1715345468; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CAlaN3W4vHKCi3l/RbxEnJVSCu0ndzpvRtt5dDo0Q60=;
+        b=J4uKtk6lMiCMQHVVYU3bSWTqRBbMhOHRSbG64Dy80IUAOT22UbhRhfZI2q7F8eS70P
+         /1XfR3Gi3cRz7vQt6+DjdVbq33NKvnifUm0RoI1u7iAYj4ecRbg7QuXi+IHNmkQ8gDiE
+         jpmvZ84OBxMr2zt3t5I+IF4Q7PRc9wZrQVVhFVSIwBi4ordD0tk+Pjc2B/ssWsK9xDph
+         6N9tI/1/zGg/xmq8FWrbXOSsv1NYs+qljqwDg43COORA9NzCm6wak0lJeyYMeM3a7HWX
+         gpPa7rgQTmRr38qUZw1NDVMyVdhNxJf1gZEMKPsCQheLxneFdXUqzVg/zjGpqXGMa9zE
+         avgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714740668; x=1715345468;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CAlaN3W4vHKCi3l/RbxEnJVSCu0ndzpvRtt5dDo0Q60=;
+        b=Z5dsDW+Rx5AMfeVrrcdZVEjGWbhWbSZX0szRFC6bf68w6FQ5Vpo/yfjR8rkvSG1RKg
+         /B2FCO8RdO054kiHuFeZfGkkj055LtjboL5GgVS03GmhHnYJnQtC+KXHkyIWK3NqEAjs
+         9f7W9h8ocIUpD8Wy6OpnFiU+BTDxIbsOEFVD+yN4lwtyI+L3OfWdF4I/7h91YVWsE9CU
+         84ry05BT1cB+9GvThRKRXjX4gLxQHhpvqdAlf0zS3i/N0tI9PxgePBQY4VDj/lZNkuuw
+         XNcTaI20RYE7kx0ogRlvGAXcvpf5Otnm4+djntCLCWOQFHOQOVkMI/sBRiWkKAQLdhok
+         n8HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7XgActII1EudF6j6musxBAwBKksCcGAfU8JrWzmfcqR+wDC/hADEkizWpbp1PMR245JUExzxEaRzqbb3lirk5Dy8WeGEw1VM8MpdZnE8p4EREhvCilq3z
+X-Gm-Message-State: AOJu0YxxR+BwI5EMCP7RS2rXzmsCWc1My2J4qt1gztn+DVJ43ulBGcGV
+	JbaprXUJUYsygXKDCON6ATAQ+CBxJ8cFB1eQiCCfC4o/gUQA6FCSTMPMcT6fwUBrvuiSdAfejpa
+	tTNMaTR0ZX5+r0qUg3DqB7gvB8CvEkQ==
+X-Google-Smtp-Source: AGHT+IFkrgm5ul5ro07H2PeqvWm1/lKFnYR47sDOXBa8U4tL8tfi8pmbOYSFR1Lygr2fut6N8QMzyOA6wwvghHKs9KM=
+X-Received: by 2002:a17:90b:46d0:b0:2a2:cf1d:895c with SMTP id
+ jx16-20020a17090b46d000b002a2cf1d895cmr2324277pjb.41.1714740668069; Fri, 03
+ May 2024 05:51:08 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: non.se.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9316.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 203c1526-e296-46e8-42ee-08dc6b6db43d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2024 12:36:49.8964
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6e51e1ad-c54b-4b39-b598-0ffe9ae68fef
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lNsE7UQmPo2NL9BmvNep+Y8tJw+NjsyhFJRg6MgkxgcsUBDCVasr7amDW1EaxbC023r6zjegtmVSOQnU/RREWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9132
+References: <cover.1714703667.git.bruce.ashfield@gmail.com>
+ <fd6e4f80902a641f397ac02aa3de486aa2dcd137.1714703667.git.bruce.ashfield@gmail.com>
+ <CAApg2=R-fUrVcD3Fb1gvozynwCJE-pW+7=erXFUG7iW0npFPqw@mail.gmail.com>
+In-Reply-To: <CAApg2=R-fUrVcD3Fb1gvozynwCJE-pW+7=erXFUG7iW0npFPqw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 3 May 2024 08:50:56 -0400
+Message-ID: <CADkTA4MhZjv6jo22XmakDgt-c0wpGb2H66LU7m3oiWrqp1pMXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/12] linux-yocto/6.6: update CVE exclusions (6.6.24)
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: yocto-security@lists.yoctoproject.org, richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000067041106178c2c89"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 12:36:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198983
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 12:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198984
 
-Hello,
+--00000000000067041106178c2c89
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Would that be ok to have support for verity images in oe-core ?
+On Fri, May 3, 2024 at 1:42=E2=80=AFAM Marta Rybczynska <rybczynska@gmail.c=
+om>
+wrote:
 
-We may use the bbclass dm-verity-image from meta-security. But in my opinio=
-n we should not include the commit that creates a wic fragment 3b88f75 (dm-=
-verity: add wks.in fragment with dynamic build hash data (10 months ago) <P=
-aul Gortmaker>)
+> Hello Bruce et al,
+> For information, the linux_kernel_cves repo has now a banner "This
+> repository has been archived by the owner on May 2, 2024. It is now
+> read-only. ",
+>
 
-Instead, we may develop a wic plugin that builds the desired verity partiti=
-on.
+Yes, I had noticed that, but was letting my release scripts do their "thing=
+"
+to at least update the date on the file. That way it was documented that
+I'm checking and waiting for the replacement to arrive.
 
-Please tell me if there is any interest
+I did squash all the commits against the 6.1 kernel for that reason, since
+they are a no-op until something new arrives.
 
-Regards,
-Louis Rannou
+Bruce
 
-General
+
+
+> so I guess this is the last update.
+>
+> Greg has scripting for statistics of the new process, haven't looked
+> into them yet.
+
+
+> Regards,
+> Marta
+>
+> On Fri, May 3, 2024 at 4:40=E2=80=AFAM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Data pulled from: https://github.com/nluedtke/linux_kernel_cves
+> >
+> >     1/1 [
+> >         Author: Nicholas Luedtke
+> >         Email: nicholas.luedtke@uwalumni.com
+> >         Subject: Update 25Feb24
+> >         Date: Sun, 25 Feb 2024 07:03:08 -0500
+> >
+> >     ]
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  meta/recipes-kernel/linux/cve-exclusion_6.6.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+> b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+> > index bb9ba49c48..133cab88a3 100644
+> > --- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+> > +++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+> > @@ -1,9 +1,9 @@
+> >
+> >  # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+> > -# Generated at 2024-03-28 16:40:04.102652+00:00 for version 6.6.23
+> > +# Generated at 2024-04-04 03:23:25.421265+00:00 for version 6.6.24
+> >
+> >  python check_kernel_cve_status_version() {
+> > -    this_version =3D "6.6.23"
+> > +    this_version =3D "6.6.24"
+> >      kernel_version =3D d.getVar("LINUX_VERSION")
+> >      if kernel_version !=3D this_version:
+> >          bb.warn("Kernel CVE status needs updating: generated for %s bu=
+t
+> kernel is %s" % (this_version, kernel_version))
+> > --
+> > 2.39.2
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#198933):
+> https://lists.openembedded.org/g/openembedded-core/message/198933
+> > Mute This Topic: https://lists.openembedded.org/mt/105881317/5827677
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rybczynska@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000067041106178c2c89
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Fri, May 3, 2024 at 1:42=E2=80=AFAM Marta Rybczy=
+nska &lt;<a href=3D"mailto:rybczynska@gmail.com">rybczynska@gmail.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello =
+Bruce et al,<br>
+For information, the linux_kernel_cves repo has now a banner &quot;This<br>
+repository has been archived by the owner on May 2, 2024. It is now<br>
+read-only. &quot;,<br></blockquote><div><br></div><div><div class=3D"gmail_=
+default" style=3D"font-size:small">Yes, I had noticed that, but was letting=
+ my release scripts do their &quot;thing&quot;<br></div><div class=3D"gmail=
+_default" style=3D"font-size:small">to at least update the date on the file=
+. That way it was documented that</div><div class=3D"gmail_default" style=
+=3D"font-size:small">I&#39;m checking and waiting for the replacement to ar=
+rive.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div=
+><div class=3D"gmail_default" style=3D"font-size:small">I did squash all th=
+e commits against the 6.1 kernel for that reason, since</div><div class=3D"=
+gmail_default" style=3D"font-size:small">they are a no-op until something n=
+ew arrives.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
+></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><b=
+r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+so I guess this is the last update.<br>
+<br>
+Greg has scripting for statistics of the new process, haven&#39;t looked<br=
+>
+into them yet.</blockquote><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+<br>
+Regards,<br>
+Marta<br>
+<br>
+On Fri, May 3, 2024 at 4:40=E2=80=AFAM Bruce Ashfield via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a><br>
+&lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" ta=
+rget=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
+arget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; Data pulled from: <a href=3D"https://github.com/nluedtke/linux_kernel_=
+cves" rel=3D"noreferrer" target=3D"_blank">https://github.com/nluedtke/linu=
+x_kernel_cves</a><br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A01/1 [<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Author: Nicholas Luedtke<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Email: <a href=3D"mailto:nicholas.lue=
+dtke@uwalumni.com" target=3D"_blank">nicholas.luedtke@uwalumni.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Subject: Update 25Feb24<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Date: Sun, 25 Feb 2024 07:03:08 -0500=
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0]<br>
+&gt;<br>
+&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gma=
+il.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/cve-exclusion_6.6.inc | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc b/meta/re=
+cipes-kernel/linux/cve-exclusion_6.6.inc<br>
+&gt; index bb9ba49c48..133cab88a3 100644<br>
+&gt; --- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc<br>
+&gt; +++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc<br>
+&gt; @@ -1,9 +1,9 @@<br>
+&gt;<br>
+&gt;=C2=A0 # Auto-generated CVE metadata, DO NOT EDIT BY HAND.<br>
+&gt; -# Generated at 2024-03-28 16:40:04.102652+00:00 for version 6.6.23<br=
+>
+&gt; +# Generated at 2024-04-04 03:23:25.421265+00:00 for version 6.6.24<br=
+>
+&gt;<br>
+&gt;=C2=A0 python check_kernel_cve_status_version() {<br>
+&gt; -=C2=A0 =C2=A0 this_version =3D &quot;6.6.23&quot;<br>
+&gt; +=C2=A0 =C2=A0 this_version =3D &quot;6.6.24&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 kernel_version =3D d.getVar(&quot;LINUX_VERSION&qu=
+ot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if kernel_version !=3D this_version:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Kernel CVE status need=
+s updating: generated for %s but kernel is %s&quot; % (this_version, kernel=
+_version))<br>
+&gt; --<br>
+&gt; 2.39.2<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#198933): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/198933" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/198933</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10588131=
+7/5827677" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/105881317/5827677</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmail.com"=
+ target=3D"_blank">rybczynska@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--00000000000067041106178c2c89--
 
