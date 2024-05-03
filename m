@@ -2,60 +2,60 @@ Return-Path: <ninette@thehoodiefirm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF340C10F16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC427C25B5C
 	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 14:43:49 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.14880.1714747427174534860
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.14701.1714747428129034050
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 07:43:47 -0700
+ Fri, 03 May 2024 07:43:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=qJDCBsGR;
- spf=neutral (domain: thehoodiefirm.com, ip: 209.85.208.41, mailfrom: ninette@thehoodiefirm.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-572adaa172cso2427894a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 07:43:46 -0700 (PDT)
+ dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=Jf+/o7d0;
+ spf=neutral (domain: thehoodiefirm.com, ip: 209.85.218.44, mailfrom: ninette@thehoodiefirm.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a5200202c1bso1402045766b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 07:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1714747425; x=1715352225; darn=lists.openembedded.org;
+        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1714747426; x=1715352226; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=7lDlcqKNspL3K1VgWcO6LUgJSEP1qm/7i0L+k+2Hh0U=;
-        b=qJDCBsGRZSwTdqxfARFtvIP7XS5e6oY2gxBxmVkS+EcVKU7BvHGR5SSsBIdj2ce8p+
-         RrxEyMBw77hrItGp9E/9xCDFT4pY4i/z2QWUOWWFjnRufzJ9P7oEpdAeOEG/nFP9kj1e
-         VtQfsuagY3x9yBy8WPeyzyYW+iwKExl4BSafm3qo7cdQPeyGfgg7DOXKy2+B9W5B9spN
-         WTIEprFfnn1drx8yaegaesum9VH2hzvY0QTaaJDiwCZZvliIOjXsnCf9yJX1iZT0/K/l
-         T1mUH5fjwiaHFezFnnBsaMQVJAh4E5N/miJrm8FXOq123laCFQKzpa7+naWk8oAn+rVm
-         vMHQ==
+        bh=laU5DtLkGDZTFTKvvaITQ8cXBDzM9hQQPvEygWw3MYc=;
+        b=Jf+/o7d0N9Mksl9f6zmIvYd9BSSReeTrmSPjjgJlDVxOpCl21oM26dkw73dWrQrUGP
+         XHFryWmtSO46QcixhK9UrSyO7/ciUXvMpBxmGtr8h5vCYXH3gwB0SN5K+t5Joi0PeuWs
+         Jj6SOybJrnknCDWW0SagGFE4Aug7WEFGsYwmloMooUKtRj2ISmnlSCom44AOEK0W+K11
+         p3Pmgt7UmSk4jHSpFqkxceAbcUjjhrGMHPrkmmo/LW6ITpx4CloPpL+bCpPHwq4RvUoN
+         YgQviTogA9ALA4gaNrGyW7ZNDfCyQXNtb19I8SYO+jBhuEJznjXNagH53vjn3XYmaTv2
+         okKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714747425; x=1715352225;
+        d=1e100.net; s=20230601; t=1714747426; x=1715352226;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7lDlcqKNspL3K1VgWcO6LUgJSEP1qm/7i0L+k+2Hh0U=;
-        b=h2JqF8roqbOmyaHCxPnLsc3PuqdhzLLJwWxH1K7r7L4rCb1OFiLmyOALrBiEuFISjd
-         QSTTjRo+RdE1hqDD5vjoDtNdAN9vy1hxmyZDlNd5pJJuT5AkyQ4XX7ZlLbAX0pae17BV
-         4b9uTJucsq/ngvajIMQ2H9Wkz1GsA8BXbWyWn5mKB2/tn1CIYofBMMPgxsMQ0gdh0XcE
-         htuQD3Yixo2ePlaenDRzOnmbSk5tGj3b43pry/MsBY3tfzpRzSAXZFVE6b/hrpYS9hHV
-         oASTWRTxrFP47WA2SG7mOHTv/duW97ohSIwJKfjnlumNgYwQi0axNXgnZi8zQ4VyhiwN
-         X5Ww==
-X-Gm-Message-State: AOJu0Yz3oMn3sdGlPn4CTaQ/k6jIiZ/Qkxg+QDNNBSNXrQsZ/3zC2tUu
-	gWws6P+cThhzz5bpMcmUL3zHP/ayIvlb4Wlrh4T/A+1tlKQvcIktEi+WQLeh6w3BaEsb0LQuArl
-	w4kM=
-X-Google-Smtp-Source: AGHT+IG1+LHQjPyOyGTBjlOFOCBiVFWGLsM9DXctLy7KLtM8G+JerppUfSfUx/re6nDS5CF/WEkpgg==
-X-Received: by 2002:a50:c04d:0:b0:572:1fb7:2a77 with SMTP id u13-20020a50c04d000000b005721fb72a77mr2600433edd.6.1714747425412;
-        Fri, 03 May 2024 07:43:45 -0700 (PDT)
+        bh=laU5DtLkGDZTFTKvvaITQ8cXBDzM9hQQPvEygWw3MYc=;
+        b=Hm5qEH4QhbFTitnXhTWasaszAtnaBPyEBk3OlCeETykwAf1pN+Z3np9O+qYblwiA/l
+         Cmw3UtUQFtAzWoKxUT7JOIBA7c+0SbTfAaW353uAuEhFFS2SzGLX1FcpidKqpMZ8pSq2
+         eA1AAj7FqddEplZiac334jaaeoNNoYth2aLJRwbiSVpAOdbtXvfBkiaydW4npiQiq0YE
+         b8pCM9NwKWyn2ttpI+yzEpoax2wuYlYAXEk4vMm3wAKotyohzIRwDW/qZnj83B1U1l+g
+         uKAcg/37efO1EZNcfe0ssmNS6Ygar5sUxwJQoyEZHljjMT+5DgPjzcH+xvme29jmGY4y
+         d1UA==
+X-Gm-Message-State: AOJu0YxSd9LAcjed30IIuD+8Nsi5eih9zQUY47/9PKPrV8FB2Nkh2noL
+	+zpPY09xOtZzIRnx5CdZtDljdf4aomyyblCTY4+8tc99bW2Ug9zwhJdOTh46kpPtQipw73RPP+D
+	v6FM=
+X-Google-Smtp-Source: AGHT+IHdhyMMN1lJHUFTOJrYhuRYpOQ/s3loDzMQ9d0hgDGlkSH70vqZlfxNSDFQSdLaiZan0JCtzg==
+X-Received: by 2002:a50:c003:0:b0:572:7c13:c7d8 with SMTP id r3-20020a50c003000000b005727c13c7d8mr2029029edb.34.1714747426692;
+        Fri, 03 May 2024 07:43:46 -0700 (PDT)
 Received: from localhost.localdomain ([95.90.235.164])
-        by smtp.gmail.com with ESMTPSA id en18-20020a056402529200b005721b7bfea2sm1731017edb.22.2024.05.03.07.43.45
+        by smtp.gmail.com with ESMTPSA id en18-20020a056402529200b005721b7bfea2sm1731017edb.22.2024.05.03.07.43.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 07:43:45 -0700 (PDT)
+        Fri, 03 May 2024 07:43:46 -0700 (PDT)
 From: Ninette Adhikari <ninette@thehoodiefirm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
 	randy.macleod@windriver.com,
 	engineering@neighbourhood.ie,
 	Ninette Adhikari <13760198+ninetteadhikari@users.noreply.github.com>
-Subject: [PATCH v2 1/5] oe-build-perf-report: Add apache echarts to make report interactive
-Date: Fri,  3 May 2024 16:43:36 +0200
-Message-ID: <20240503144340.27385-2-ninette@thehoodiefirm.com>
+Subject: [PATCH v2 2/5] oe-build-perf-report: Display more than 300 commits and date instead of commit number
+Date: Fri,  3 May 2024 16:43:37 +0200
+Message-ID: <20240503144340.27385-3-ninette@thehoodiefirm.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240503144340.27385-1-ninette@thehoodiefirm.com>
 References: <5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
@@ -67,162 +67,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 14:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198997
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198998
 
 From: Ninette Adhikari <13760198+ninetteadhikari@users.noreply.github.com>
 
-- Add Apache echarts (https://echarts.apache.org/en/index.html) library to create build performance charts.
-- Restructure data to time and value array format so that it can be used by echarts.
-- This commit also converts test duration to minutes to map against the values axis.
-- Zoom is added to the line charts.
+- This commit updates measurement statistics data to include start_time so that time can be displayed instead of commit numbers on the chart.
+- It also updates default commit history length to 300.
 ---
- .../build_perf/html/measurement_chart.html    | 116 +++++++++++-------
- scripts/lib/build_perf/html/report.html       |   6 +-
- 2 files changed, 72 insertions(+), 50 deletions(-)
+ scripts/lib/build_perf/report.py | 4 +++-
+ scripts/oe-build-perf-report     | 6 ++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/build_perf/html/measurement_chart.html b/scripts/lib/build_perf/html/measurement_chart.html
-index 65f1a227ad..ffec3d09db 100644
---- a/scripts/lib/build_perf/html/measurement_chart.html
-+++ b/scripts/lib/build_perf/html/measurement_chart.html
-@@ -1,50 +1,76 @@
--<script type="text/javascript">
--  chartsDrawing += 1;
--  google.charts.setOnLoadCallback(drawChart_{{ chart_elem_id }});
--  function drawChart_{{ chart_elem_id }}() {
--    var data = new google.visualization.DataTable();
-+<script type="module">
-+  // Get raw data
-+  const rawData = [
-+    {% for sample in measurement.samples %}
-+      [{{ sample.commit_num }}, {{ sample.mean.gv_value() }}, {{ sample.start_time }}],
-+    {% endfor %}
-+  ];
+diff --git a/scripts/lib/build_perf/report.py b/scripts/lib/build_perf/report.py
+index ab77424cc7..82c56830d7 100644
+--- a/scripts/lib/build_perf/report.py
++++ b/scripts/lib/build_perf/report.py
+@@ -294,7 +294,7 @@ class SizeVal(MeasurementVal):
+             return "null"
+         return self / 1024
  
--    // Chart options
--    var options = {
--      theme : 'material',
--      legend: 'none',
--      hAxis: { format: '', title: 'Commit number',
--               minValue: {{ chart_opts.haxis.min }},
--               maxValue: {{ chart_opts.haxis.max }} },
--      {% if measurement.type == 'time' %}
--      vAxis: { format: 'h:mm:ss' },
--      {% else %}
--      vAxis: { format: '' },
--      {% endif %}
--      pointSize: 5,
--      chartArea: { left: 80, right: 15 },
--    };
-+  const convertToMinute = (time) => {
-+    return time[0]*60 + time[1] + time[2]/60 + time[3]/3600;
-+  }
+-def measurement_stats(meas, prefix=''):
++def measurement_stats(meas, prefix='', time=0):
+     """Get statistics of a measurement"""
+     if not meas:
+         return {prefix + 'sample_cnt': 0,
+@@ -319,6 +319,7 @@ def measurement_stats(meas, prefix=''):
+     stats['quantity'] = val_cls.quantity
+     stats[prefix + 'sample_cnt'] = len(values)
  
--    // Define data columns
--    data.addColumn('number', 'Commit');
--    data.addColumn('{{ measurement.value_type.gv_data_type }}',
--                   '{{ measurement.value_type.quantity }}');
--    // Add data rows
--    data.addRows([
--      {% for sample in measurement.samples %}
--        [{{ sample.commit_num }}, {{ sample.mean.gv_value() }}],
--      {% endfor %}
--    ]);
-+  // Convert raw data to the format: [time, value]
-+  const data = rawData.map(([commit, value, time]) => {
-+    return [
-+      new Date(time * 1000).getTime(), // The Date object takes values in milliseconds rather than seconds. So to use a Unix timestamp we have to multiply it by 1000.
-+      Array.isArray(value) ? convertToMinute(value) : value // Assuming the array values are duration in the format [hours, minutes, seconds, milliseconds]
-+    ]
-+  });
++    start_time = time # Add start time for both type sysres and disk usage
+     mean_val = val_cls(mean(values))
+     min_val = val_cls(min(values))
+     max_val = val_cls(max(values))
+@@ -334,6 +335,7 @@ def measurement_stats(meas, prefix=''):
+     stats[prefix + 'max'] = max_val
+     stats[prefix + 'minus'] = val_cls(mean_val - min_val)
+     stats[prefix + 'plus'] = val_cls(max_val - mean_val)
++    stats[prefix + 'start_time'] = start_time
  
--    // Finally, draw the chart
--    chart_div = document.getElementById('{{ chart_elem_id }}');
--    var chart = new google.visualization.LineChart(chart_div);
--    google.visualization.events.addListener(chart, 'ready', function () {
--      //chart_div = document.getElementById('{{ chart_elem_id }}');
--      //chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
--      png_div = document.getElementById('{{ chart_elem_id }}_png');
--      png_div.outerHTML = '<a id="{{ chart_elem_id }}_png" href="' + chart.getImageURI() + '">PNG</a>';
--      console.log("CHART READY: {{ chart_elem_id }}");
--      chartsDrawing -= 1;
--      if (chartsDrawing == 0)
--        console.log("ALL CHARTS READY");
--    });
--    chart.draw(data, options);
--}
-+  // Set chart options
-+  const option = {
-+    tooltip: {
-+      trigger: 'axis',
-+      position: function (pt) {
-+        return [pt[0], '10%'];
-+      },
-+      valueFormatter: (value) => value.toFixed(2)
-+    },
-+    xAxis: {
-+      type: 'time',
-+    },
-+    yAxis: {
-+      name: '{{ measurement.value_type.quantity }}' == 'time' ? 'Duration (minutes)' : 'Disk size (MB)',
-+      type: 'value',
-+      min: function(value) {
-+        return Math.round(value.min - 0.5);
-+      },
-+      max: function(value) {
-+        return Math.round(value.max + 0.5);
-+      }
-+    },
-+    dataZoom: [
-+      {
-+        type: 'inside',
-+        start: 0,
-+        end: 100
-+      },
-+      {
-+        start: 0,
-+        end: 100
-+      }
-+    ],
-+    series: [
-+      {
-+        name: '{{ measurement.value_type.quantity }}',
-+        type: 'line',
-+        smooth: true,
-+        symbol: 'none',
-+        data: data
-+      }
-+    ]
-+  };
-+
-+  // Draw chart
-+  const chart_div = document.getElementById('{{ chart_elem_id }}');
-+  const measurement_chart= echarts.init(chart_div, null, {
-+    height: 320
-+  });
-+  // Change chart size with browser resize
-+  window.addEventListener('resize', function() {
-+    measurement_chart.resize();
-+  });
-+  measurement_chart.setOption(option);
- </script>
+     return stats
  
-diff --git a/scripts/lib/build_perf/html/report.html b/scripts/lib/build_perf/html/report.html
-index d1ba6f2578..653fd985bc 100644
---- a/scripts/lib/build_perf/html/report.html
-+++ b/scripts/lib/build_perf/html/report.html
-@@ -3,11 +3,7 @@
- <head>
- {# Scripts, for visualization#}
- <!--START-OF-SCRIPTS-->
--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
--<script type="text/javascript">
--google.charts.load('current', {'packages':['corechart']});
--var chartsDrawing = 0;
--</script>
-+<script src=" https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js "></script>
+diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
+index 7812ea4540..266700d294 100755
+--- a/scripts/oe-build-perf-report
++++ b/scripts/oe-build-perf-report
+@@ -336,7 +336,9 @@ def print_html_report(data, id_comp, buildstats):
+                 test_i = test_data['tests'][test]
+                 meas_i = test_i['measurements'][meas]
+                 commit_num = get_data_item(meta, 'layers.meta.commit_count')
+-                samples.append(measurement_stats(meas_i))
++                # Add start_time for both test measurement types of sysres and disk usage
++                start_time = test_i['start_time'][0]
++                samples.append(measurement_stats(meas_i, '', start_time))
+                 samples[-1]['commit_num'] = commit_num
  
- {# Render measurement result charts #}
- {% for test in test_data %}
+             absdiff = samples[-1]['val_cls'](samples[-1]['mean'] - samples[id_comp]['mean'])
+@@ -473,7 +475,7 @@ Examine build performance test results from a Git repository"""
+     group.add_argument('--branch', '-B', default='master', help="Branch to find commit in")
+     group.add_argument('--branch2', help="Branch to find comparision revisions in")
+     group.add_argument('--machine', default='qemux86')
+-    group.add_argument('--history-length', default=25, type=int,
++    group.add_argument('--history-length', default=300, type=int,
+                        help="Number of tested revisions to plot in html report")
+     group.add_argument('--commit',
+                        help="Revision to search for")
 -- 
 2.44.0
 
