@@ -1,138 +1,83 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD36C25B5F
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 11:43:38 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.10402.1714736611342424582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98239C25B5C
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 12:05:28 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.10809.1714737923604566975
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 04:43:31 -0700
+ Fri, 03 May 2024 05:05:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=p+kH21Iw;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5853a5d84a=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443BA3pb018268
-	for <openembedded-core@lists.openembedded.org>; Fri, 3 May 2024 11:43:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=9x2AA
-	a7dLK8hHrPMvRF66PZaiEIt+qgdbw4Vte4Nfz4=; b=p+kH21Iw5mSwCLuYqs+nY
-	+uioxRlyofZWpR/jsplDhHB1Z6RDeFWVD1Sv+ZTWeIvsbcbdsY1hYdV42LYNMg6E
-	rqdOsNAD5T7y9hAiuMqhGqlQuWd4oD1Mr1KytomwxcDeWRefe+4fKJQFAw8zV3MP
-	sqFH0S5eqkcqq7zqzvWBtU3ARXm+PmYEXjtbMPGdkpE4JUO2F+/ziXCvijioQnzx
-	FtHNfEYy+riQiY1/UVC2BGFUk8mgqgOj+eZqG6FLJFnhYHx+1dAT6BHy47V9XyDe
-	wWIm9kJ7zO6H060eGPhLhBU1x5rk5tz/gXm+jMuTNJ6tyXWdZw2F2WyXU2gxHAkZ
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xrpjxejq8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 11:43:30 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Fri, 3 May 2024 04:43:27 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/4] ofono: fix CVE-2023-4234
-Date: Fri, 3 May 2024 11:41:52 +0000
-Message-ID: <20240503114155.449802-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a+7luTJZ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a58e787130fso493307066b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 05:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714737922; x=1715342722; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+L7eKfwaDrZSMkYH4iqiUK0aXA190SMiTJ12jH2+XJo=;
+        b=a+7luTJZpKuELS3h/KQv/Hg/0fRFMDN8C4pcyj75PdWl1MzFeF8UyAcgx0wO+lV3n8
+         CXv7ytPjouGn6ps42UhbQ+S42SMVPHHYVfRuV6/OV8B75FSMq+jY/bLh0O3WOcmbMyEq
+         uZ+JQzwdKwc9a2jf12ECwuyNITBijrxf91yeZ7NbKMmAzSY8ENVfqm1yKWZasVlNjXgZ
+         5GotkTTWysMGGScpAO4Tn7LI92hZLij4xv6IvQhwCgsx6QUchwFg29nnj9nTsgVPdmV8
+         Zo8yIkJC0W9yWfHWvS4MePWH6oTLe0Vj/5V45I0xQ/jpBYQwjF7lD5895WJd0m5KfWZz
+         iOjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714737922; x=1715342722;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+L7eKfwaDrZSMkYH4iqiUK0aXA190SMiTJ12jH2+XJo=;
+        b=AJ+MVRamMu0FNd69Ozfw6IuAWeDWvGDF4HHnfYP/sg0RzPjJkE8yeXoa7AZi9p8I7l
+         LyOhJAKuIVUeNoidXdY8g2Pw04htSrJ5AV3x0Ab23U4T5/fki/1CpR9GCcaV8QOYXSDZ
+         KShVj6EJzXoaRVoe9sA+jFMz560sF06RgYXyQHwIWY3mU4DoytLXZHirG+tJp3Nsezil
+         oga6se8gu0l6KMaF6vu67liDHEYG8JQzH2oo7FoJRbCbWCStJhlNRxV+lLaK7mtNOdrX
+         CG7h97/pPNanLwsTkH8JSpV3QXUn8LyBhPXefv26s5KcGZq3Tb0VRTCsPDLjIksDWLSo
+         sbWA==
+X-Gm-Message-State: AOJu0Ywp1Prur8k8TXlYE+8wxlmWMvkM4lElTEL5FIq6OzcJnd6sFnCM
+	FNzeDT7tjIvKCfBBDUp5BSQIp3Wpks0QsOnfdzNJQR8WgN20e/v3OSHhoQ==
+X-Google-Smtp-Source: AGHT+IGo1JDdeX9MhZ33KkmNw6mskgxAad9uNWJ7fYFrzzS/qQKdm5Ddzgi82N7e7aT/k3zzvjLTtA==
+X-Received: by 2002:a17:906:4a4b:b0:a59:908e:42d with SMTP id a11-20020a1709064a4b00b00a59908e042dmr1097840ejv.32.1714737921809;
+        Fri, 03 May 2024 05:05:21 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id mc20-20020a170906eb5400b00a599a85777dsm306362ejb.153.2024.05.03.05.05.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 May 2024 05:05:20 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/2] python3-pyproject-hooks: fix upstream version check
+Date: Fri,  3 May 2024 14:05:14 +0200
+Message-Id: <20240503120515.1428284-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: nFhbs-9cl6TUHlJ4NHQMbRuhkdp3IBr7
-X-Proofpoint-GUID: nFhbs-9cl6TUHlJ4NHQMbRuhkdp3IBr7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_07,2024-05-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- clxscore=1011 mlxscore=0 spamscore=0 impostorscore=0 suspectscore=0
- adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405030084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 11:43:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198977
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 12:05:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198981
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-A flaw was found in ofono, an Open Source Telephony on Linux. A stack overflow bug
-is triggered within the decode_submit_report() function during the SMS decoding.
-It is assumed that the attack scenario is accessible from a compromised modem,
-a malicious base station, or just SMS. There is a bound check for this memcpy
-length in decode_submit(), but it was forgotten in decode_submit_report().
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../ofono/ofono/CVE-2023-4234.patch           | 39 +++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
+ meta/recipes-devtools/python/python3-pyproject-hooks_1.0.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
-new file mode 100644
-index 0000000000..9d7b56c1ae
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
-@@ -0,0 +1,39 @@
-+From 8d74bc66146ea78620d140640a0a57af86fc8936 Mon Sep 17 00:00:00 2001
-+From: Denis Grigorev <d.grigorev@omp.ru>
-+Date: Thu, 21 Dec 2023 17:16:38 +0300
-+Subject: [PATCH] smsutil: Check that submit report fits in memory
-+
-+This addresses CVE-2023-4234.
-+
-+CVE: CVE-2023-4234.
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=8d74bc66146ea786]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ src/smsutil.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/src/smsutil.c b/src/smsutil.c
-+index 8e57a06..5a12708 100644
-+--- a/src/smsutil.c
-++++ b/src/smsutil.c
-+@@ -938,10 +938,16 @@ static gboolean decode_submit_report(const unsigned char *pdu, int len,
-+			return FALSE;
-+
-+		if (out->type == SMS_TYPE_SUBMIT_REPORT_ERROR) {
-++			if (expected > (int) sizeof(out->submit_err_report.ud))
-++                                return FALSE;
-++
-+			out->submit_err_report.udl = udl;
-+			memcpy(out->submit_err_report.ud,
-+					pdu + offset, expected);
-+		} else {
-++			if (expected > (int) sizeof(out->submit_ack_report.ud))
-++                                return FALSE;
-++
-+			out->submit_ack_report.udl = udl;
-+			memcpy(out->submit_ack_report.ud,
-+					pdu + offset, expected);
-+--
-+2.40.0
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-index 23631747a7..8aab312ff8 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-@@ -12,6 +12,7 @@ SRC_URI = "\
-     file://ofono \
-     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
-     file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch \
-+    file://CVE-2023-4234.patch \
- "
- SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
- 
+diff --git a/meta/recipes-devtools/python/python3-pyproject-hooks_1.0.0.bb b/meta/recipes-devtools/python/python3-pyproject-hooks_1.0.0.bb
+index 9d08e7acc41..c3f1fb75ed1 100644
+--- a/meta/recipes-devtools/python/python3-pyproject-hooks_1.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyproject-hooks_1.0.0.bb
+@@ -22,5 +22,3 @@ RDEPENDS:${PN} += " \
+ do_compile:class-native () {
+     python_flit_core_do_manual_build
+ }
+-
+-UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
 -- 
-2.40.0
+2.39.2
 
 
