@@ -1,90 +1,119 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE127C25B5F
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 13:10:38 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.12366.1714741836588599647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F38C4345F
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 13:35:19 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.web11.12973.1714743311144588708
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 May 2024 06:10:36 -0700
+ Fri, 03 May 2024 06:35:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=dDnVr6c9;
- spf=pass (domain: baylibre.com, ip: 209.85.219.41, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-69b6d36b71cso46255106d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:10:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GZ32ShNE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.172, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-61af74a010aso91338727b3.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 06:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714741835; x=1715346635; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LQH1zNLKx9qtzbMLnbd9/4zzrAQ1yYYTPegK2snqZTU=;
-        b=dDnVr6c9g2IITLA1uOTIiy5tyxufO0sB2TUBHZnKZ8yjHB49Tj+R9P1DPR9vRdxWI6
-         PVQP2/qkBtyY53A9w3+6IKYotWh8L6kZa9PWVMdGt9jpVk7WBgm6U9Xx+8Diu0lGaaKW
-         EDWH5MRPKoyLJvE1bqSPYe0h2IDT+W1uyyaAB4Wfqt+eorlyHmuqFBb4XVnReL0FRgXq
-         CN4/3hc0m2SPFjv812V/MPUrOrAn5AGKyabbJfhLTieRQvYUmeXw1Fk91H4mEIgjM9vm
-         kwyHCzLqGInVmlHP3wQVqBzfCq5AyaPmDJIctc0RMQ614iw9pyOTYzP0gsza4UPqFWZ5
-         dtRQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1714743310; x=1715348110; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eFSwbTzdcBVRGYS1Je8uXqCYRGY9FBb19xfuEqZdedw=;
+        b=GZ32ShNEDz34r5kPyYKXYLme4+WPLg6NHpE7rk+Hz/xS58mY5xFxhzT30JI/QMx6gZ
+         4IXZd7a2v7VDaokJf/rNgPaAWEs3SbU/Mh6b5UzJiZ5BSKhP+hW0yMfpHOeVVxAoJY8/
+         XX/HEHX9K5O4QCqyBk/vsQbdEUzikEG1V2iKkiAwZFW7M8WuRsZw1Q53JZhl6RughJwy
+         yQZx1umg7aWEZclt9/RlKDFLvjyJxCnk9O++ha8HvIjhY6ctWGtjYZ1LqUXOoe0ZISoO
+         y7n8KJCndw82dZi6ySRRJwPYR8r3BEefolbW3i9Oq5GznAEaDKgLX458GYIzImtQ0ZtQ
+         MDhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714741835; x=1715346635;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1714743310; x=1715348110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LQH1zNLKx9qtzbMLnbd9/4zzrAQ1yYYTPegK2snqZTU=;
-        b=hWks1pHq8qPF8c/yLZ6d0cMgtNdnUp3AfDSBESkJGRD2AAMFptMOV9BK2bJ6yrSRlU
-         ALR2M3VW/L9+9E6JpiTKWikXnKCNKjGRjozQKBtoWx6wJNNatGhR4QlAgfV7PrPBT81a
-         6oGHVKKggWhBQ1wtEJM3/tyFdG3+5v3MhGV7XzYOTjOgHeISKRm3SrGbAETgFYJ5K2BB
-         xtxW24aXCO8c7MsDXajw7VMJDOuugib3Me33IIYpZwX04UpF9jgo/yg8C/UWRrn7rUXm
-         DfIQauGdSapuXTiSKF6eaX37ZSKYtSLRYwTuHzfyrApWuaW5aoY1BZns++h3c1ThQctU
-         K+nQ==
-X-Gm-Message-State: AOJu0Yysij9DD9QWjb2xILxhScsI8J2qaE+lGIC/eNhnmphaV1WB2OJ7
-	DLg4rOL7Af9VwiHZuYaFc8KxzFolo2jxIt9jbt2leRcsBoxk6sXSmq3lcfgPdZNDVQAakZ2y7xu
-	aDrI=
-X-Google-Smtp-Source: AGHT+IGal5/9xAETMko8qOBtpVGN4RX/wAopLcpirsvE2TdgoQUBHzzc0KJrKhwx+GagKElVfQ5hig==
-X-Received: by 2002:a05:6214:1944:b0:6a0:9371:9eeb with SMTP id q4-20020a056214194400b006a093719eebmr3581864qvk.8.1714741835441;
-        Fri, 03 May 2024 06:10:35 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id jh20-20020a0562141fd400b006a0e94eb3e9sm1193510qvb.34.2024.05.03.06.10.35
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 06:10:35 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/4] patchtest: requirements.txt: add GitPython
-Date: Fri,  3 May 2024 09:10:29 -0400
-Message-ID: <20240503131033.1665297-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240503131033.1665297-1-tgamblin@baylibre.com>
-References: <20240503131033.1665297-1-tgamblin@baylibre.com>
+        bh=eFSwbTzdcBVRGYS1Je8uXqCYRGY9FBb19xfuEqZdedw=;
+        b=tlCTBOd1vY3QqX1+bNXTPSsfjgrFtBiVNZXEKFMzA5923IaH7lyM7BKiCiF+bg6Pcy
+         IVvmO/q2VYPfareDUiYs9jVqGW0Z9JaT0/hGNx30OrlPZt4cMR/w6xMm/arTD1rdvZ0N
+         7N1Lim1UyiwHuNBqKfDWPYdpJn1rDeIWkHLuEumF0ls7MitIuWiISqobF8A+FUS38uwE
+         n7ABcgT9qidHdS4gkTTBe4LdtiWWRjdf2YE21I3MtQTXCt/bJD7d+SYT3OabkOcxXoEL
+         EKn6Bomd1PZCN5PLegE2oIflqWIcUUj0EeY10Gb7l2uNUiBOJPVbjq2bBMDTYskfGSgp
+         EWCQ==
+X-Gm-Message-State: AOJu0YyggRjMba28ZyZj1sRA5bRxo2/WiEtrtGjje1PLofBuctkOP88M
+	vjvex05oWcfRlkrXXkMaPiLxwDySZWy8baG29DfkbOGn49g/cP1yFYLDq8hN3YMzxyY8SyiNlH9
+	g2de5WXxX8Hb8943y9tYtosFaq1vqx9Szs2OeNg==
+X-Google-Smtp-Source: AGHT+IGQDv9vZLV/BbOETaeL37P4v/ydNQjJ7siU0Djcga7M62mGsF/nteGIZmhk4HWTCPe1lVP1PmsKQZuMSilS294=
+X-Received: by 2002:a81:8346:0:b0:618:8a27:f06 with SMTP id
+ t67-20020a818346000000b006188a270f06mr2588424ywf.9.1714743310270; Fri, 03 May
+ 2024 06:35:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240503061411.27610-1-nikhil.r@kpit.com>
+In-Reply-To: <20240503061411.27610-1-nikhil.r@kpit.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 3 May 2024 06:34:59 -0700
+Message-ID: <CAOSpxdaxOLtjejw3cweD65nb663Fk8BUdvzUO3oD3q2iqnhstw@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] libpciaccess: Remove duplicated
+ license entry
+To: nikhilar2410@gmail.com
+Cc: openembedded-core@lists.openembedded.org, bindu.bhabu@kpit.com, 
+	Nikhil R <nikhil.r@kpit.com>, Bhabu Bindu <bhabu.bindu@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 13:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198986
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 13:35:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198990
 
-GitPython provides some simple utilities for retrieving repo
-configurations that can replace the manual work that patchtest currently
-does. Add it to the requirements so that the source can make use of it.
+Since this is also an issue in master branch, I'll need you to submit
+this patch for master first before I can take it in kirkstone.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/lib/patchtest/requirements.txt | 1 +
- 1 file changed, 1 insertion(+)
+Thanks,
 
-diff --git a/meta/lib/patchtest/requirements.txt b/meta/lib/patchtest/requirements.txt
-index ba55ff905e2..4247b91f094 100644
---- a/meta/lib/patchtest/requirements.txt
-+++ b/meta/lib/patchtest/requirements.txt
-@@ -1,5 +1,6 @@
- boto3
- git-pw>=2.5.0
-+GitPython
- jinja2
- pylint
- pyparsing>=3.0.9
--- 
-2.44.0
+Steve
 
+On Thu, May 2, 2024 at 11:14=E2=80=AFPM nikhil via lists.openembedded.org
+<nikhilar2410=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> Remove duplicated MIT license entry for libpciaccess
+>
+> Duplication was done as part of below commit:
+>
+> Link: https://git.yoctoproject.org/poky/commit/meta/recipes-graphics/xorg=
+-lib/libpciaccess_0.16.bb?h=3Dkirkstone&id=3Db0130fcf91daee0d905af755302fab=
+e608da141c
+>
+> Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb b/meta/r=
+ecipes-graphics/xorg-lib/libpciaccess_0.16.bb
+> index d55315efc2..445f3751fe 100644
+> --- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb
+> @@ -11,7 +11,7 @@ SRC_URI +=3D "\
+>  SRC_URI[md5sum] =3D "b34e2cbdd6aa8f9cc3fa613fd401a6d6"
+>  SRC_URI[sha256sum] =3D "214c9d0d884fdd7375ec8da8dcb91a8d3169f263294c9a90=
+c575bf1938b9f489"
+>
+> -LICENSE =3D "MIT & MIT"
+> +LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D277aada5222b9a22fbf3471ff3687=
+068"
+>
+>  REQUIRED_DISTRO_FEATURES =3D ""
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#198968): https://lists.openembedded.org/g/openembedde=
+d-core/message/198968
+> Mute This Topic: https://lists.openembedded.org/mt/105883179/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
