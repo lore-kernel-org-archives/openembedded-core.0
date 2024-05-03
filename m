@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD7FC4345F
-	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 02:52:54 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web11.4190.1714704766461127121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F550C25B74
+	for <webhook@archiver.kernel.org>; Fri,  3 May 2024 02:52:55 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web10.4014.1714704768911258043
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 May 2024 19:52:46 -0700
+ Thu, 02 May 2024 19:52:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JlDUBNNF;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-790f699eb2cso429619685a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 19:52:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aGYaRMMB;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-43a8246b51dso45749301cf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 May 2024 19:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714704765; x=1715309565; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1714704768; x=1715309568; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UAV4yb4QDxE31f7dClG7HZYDcqxP5l0YZbZ31+AbznE=;
-        b=JlDUBNNFihczkarwC7hjEBOnAG1Qh7RAyQEzJszV7YkL5sQcquvdR89IxYPohEFRQu
-         J++A88XaLuec4l9f2jpGqVNRzrkmynInU8WubTZT3AmxPsJPXjvRT4CEzttCybg1AuUF
-         Bi6tHnCKx2qP7z/YaS9rcuK3m8Qolfsu3EP0LNRQsaXf80Ddm1GK9hqWLpg06yQIMySV
-         AcZ1HkQD+lBY4TZbDhXGwXNWkyTGjadzpPuEXoHYTPYNlVtLjY2IVYKir5KbC46BOUUZ
-         7RHR6uTqkOcVVkLepg3W/Hmb3K+7WDYoGggKb7EiHXTTWRquf2r8ckcmpp0d2hlEnjRg
-         2NdQ==
+        bh=T185VuSluXoHUy8YxQe0n9Qmh0omgQDo9br7K6hGlFI=;
+        b=aGYaRMMBZaMly7mEujxunakDFeYTmlXWrTaw7hzLvZETs3T0TgI//tvNA0fkXafE4z
+         IFEsURnfHRxN2S1nHNXfjbF2fZL/Bi2HsDNQ1ZsL4UUxTktOP4tnvqtUApx6MHm3QQU7
+         u1dAXK7VcRHTd4wEoLweFAhcYTRqI5z5FwInA9NtyV3AUQ3zyUazQd7gC1aeHmWLl1RC
+         mf2NwmVKXWa+hMFL81QiqJ5iAuYCs4m5Tl9+Dzby/QUVIxvfcXUGTUss1UePlyo+bAE1
+         uTrHsAh9UItLUbGOCRPXY5wNBe1FVFGpBIojw3L126ZMkhvmbHvVKUONQV9o551KR1oJ
+         eImw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714704765; x=1715309565;
+        d=1e100.net; s=20230601; t=1714704768; x=1715309568;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UAV4yb4QDxE31f7dClG7HZYDcqxP5l0YZbZ31+AbznE=;
-        b=LmU9rcMOth9cfUxtFQ+IrFegJ0sjC6jEo3JHpG5l5hsfrcSMc8fS0AKvP0NMsGwTXR
-         kezKpNhTi+m1RHkzZdLfv0K7MePVqt8XMcYkI0jBHP9HjKh3ydZla2pZ9TYL5MIy9MIR
-         ZUquQMeAveC+aKrgnShPIbN7vVX5Nl93zr+DiXeNQ8zIHJKGUOoNRkhP8XVa8yoirtxM
-         iuU/nSC5Ruzf8rGVrYOnQZE0NmZy5Skt/dK/r4gosZ1x3FfJLoGc6Pz0GZS880v/3VTb
-         Ky3vtwz+/uvOKAWEZHwTZbHo0RTiRxtfeo8/V7bSqqb81NPSJA+LRpSPbmFiKn0HaIlK
-         JWTQ==
-X-Gm-Message-State: AOJu0YzdvY5LaEWrJVasvkOF/g7hs3AOg9GUxc3dlRTD85/mtMsXhChn
-	Rb2avQqS8tn0FG38ld+vWQeHPAv8PnzGMC+NcAub+TjbV7TQ01+r
-X-Google-Smtp-Source: AGHT+IGSrCgGaq5qhA7oKjwJpwatZpt1h8bgUVvTB1oN6pDfc7u/V33itPQs6Z1zFF86srfqc+8ASw==
-X-Received: by 2002:a05:6214:1d2a:b0:6a0:e0c9:edd with SMTP id f10-20020a0562141d2a00b006a0e0c90eddmr1645734qvd.50.1714704765199;
-        Thu, 02 May 2024 19:52:45 -0700 (PDT)
+        bh=T185VuSluXoHUy8YxQe0n9Qmh0omgQDo9br7K6hGlFI=;
+        b=MIPbrQ5lwGRpOvhIcNlYp0egHS2MvEeCvFRPgzbIHerF3oz7X4AeHd1bDmCSok56PD
+         hmC+ztK7hUFexS7CoeAZ02f8Hludb/uP4dhJBIrI92BKw2PG3+d+UWacGipvI+w8Df7V
+         +4dPesHeMVrD+XO2S0P6K20g8BvRBjzV2CpxTTShtTc3NngYDbaG/of1H9mFub4Utc4g
+         6vJ1YwdmTWp8N4cpxyLCNV/C+g3Y/74Ahjr50E9IZOc2xTXV2DEYsl1sJW2orHdlDmTe
+         4KmSI7N3yYwusznOEkIHpCiCiak2XIk0uVp66g3sxczFzSHnZq2/N8B2wK+r0FJoTpWR
+         aKXQ==
+X-Gm-Message-State: AOJu0YxPtXHGq6ijqQoYjK8nBsv25V+EJKXaTvbswPG5BIyu80X/VRwL
+	T1HeWWISYINcXInkQT2gzv5CkQxjbhEpest0OCb3Guctpy2relzT
+X-Google-Smtp-Source: AGHT+IFYzeXLaH2icRVQuIGhgjLUaZHYBNmWaQHRDwTd5YnLCizjXcfiTnjUtY/NUdDdJBK1wjFlQQ==
+X-Received: by 2002:ad4:5ceb:0:b0:6a0:584d:3e55 with SMTP id iv11-20020ad45ceb000000b006a0584d3e55mr1829836qvb.7.1714704767540;
+        Thu, 02 May 2024 19:52:47 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id ml17-20020a056214585100b006a0ee113c94sm837369qvb.30.2024.05.02.19.52.44
+        by smtp.gmail.com with ESMTPSA id ml17-20020a056214585100b006a0ee113c94sm837369qvb.30.2024.05.02.19.52.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 19:52:44 -0700 (PDT)
+        Thu, 02 May 2024 19:52:47 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: steve@sakoman.com
 Cc: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/12] linux-yocto/5.15: update CVE exclusions (5.15.152)
-Date: Thu,  2 May 2024 22:52:32 -0400
-Message-Id: <20240503025240.373184-4-bruce.ashfield@gmail.com>
+Subject: [OE-core][kirkstone 06/12] linux-yocto/5.15: update CVE exclusions (5.15.153)
+Date: Thu,  2 May 2024 22:52:34 -0400
+Message-Id: <20240503025240.373184-6-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240503025240.373184-1-bruce.ashfield@gmail.com>
 References: <20240503025240.373184-1-bruce.ashfield@gmail.com>
@@ -60,8 +60,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 02:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198947
+ <openembedded-core@lists.openembedded.org>; Fri, 03 May 2024 02:52:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/198949
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
@@ -81,18 +81,18 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
-index 32e066bda4..f60ba5177a 100644
+index f60ba5177a..c163fe4938 100644
 --- a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
 +++ b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
 @@ -1,9 +1,9 @@
  
  # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2024-03-12 23:12:55.402667 for version 5.15.151
-+# Generated at 2024-03-19 17:41:49.053760 for version 5.15.152
+-# Generated at 2024-03-19 17:41:49.053760 for version 5.15.152
++# Generated at 2024-03-28 13:46:59.505239 for version 5.15.153
  
  python check_kernel_cve_status_version() {
--    this_version = "5.15.151"
-+    this_version = "5.15.152"
+-    this_version = "5.15.152"
++    this_version = "5.15.153"
      kernel_version = d.getVar("LINUX_VERSION")
      if kernel_version != this_version:
          bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
