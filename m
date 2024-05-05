@@ -1,199 +1,181 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8292C4345F
-	for <webhook@archiver.kernel.org>; Sun,  5 May 2024 19:22:49 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.4680.1714936960435578403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03495C4345F
+	for <webhook@archiver.kernel.org>; Sun,  5 May 2024 20:44:00 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.79])
+ by mx.groups.io with SMTP id smtpd.web10.6496.1714941836392791734
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 May 2024 12:22:40 -0700
+ Sun, 05 May 2024 13:43:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XREqwDvN;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-22ed075a629so861944fac.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 May 2024 12:22:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714936960; x=1715541760; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hhyu+QvWDnrx5er8BC20ZUZ0OU9IYww1VDKCb17iPhI=;
-        b=XREqwDvNP38TtLPEBUfKsk0AL6lB+R7HOD/8jETGhEmfBQmSxCv0CLGoIaTePp4JSo
-         aa0c3AWJ3OHP318o88mU9+QrgBNjs+aJoPLbLjSmf38qNMAynrVui96sFxGc8P1AvhFO
-         ZFSRPNkLKGwV8iqAWelCyJCDYawaBTy1CjqstUFmWNgeEPw9/tHX7AaUp/cX+X+6OTWC
-         UucbZPlyuFdokd/jMt9sBw9PRJyKVFl7Jkhgp81xQJDWHxvtW8pYzVS5Zcl4ZETXriX1
-         DhF6GHsmakOtJuBvXMkK7OYLEqtbDfZcMULgwsqq4HWhbS3h78oHU3qahX1HwFj20pvx
-         LiIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714936960; x=1715541760;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hhyu+QvWDnrx5er8BC20ZUZ0OU9IYww1VDKCb17iPhI=;
-        b=YmCKqMo5ZFF1vFfRcZlEWUZsTT8uf1Zwimjf9kWHHQsluAaV2YB0H/lLmzP33dkKMA
-         OoQvL+ApcpcXwMQjFFZmb3Wq2yezqKCITOSQzNI/jDBj6/kA37ouz0eqfarNAnHrV7sT
-         XMIg/1Cc38rK1kVmMAPM2vZeM34YLoyZ+hAG7HCJgbMtG6Q08KTdcAu7K6u8p86CKH8u
-         OfKD5Ck76LuJeHJVhuv8fIR+D1ia3Fk/EFUPkq8tYhaX/bpAScGqa8a6ZjJt+TdE1GR9
-         vhBZ/wxXgrYMTOeLX6UkF7TaUjDF8Q2tx24DpgZb+MS96kR3MQbbL6PGjqzHK+f0Ifl8
-         gPFw==
-X-Gm-Message-State: AOJu0YzrgG/V5lxuaTuE7pYknRagPbGZ2NUiWyJvSrWo0PiFggvQZ/oM
-	M7QBULTw9nA+Fewx2LF0ra3VyF8fFey7HidwShnNSKe1fgh1mibWTZ2q6pV0wNkKz9ZePRasafQ
-	zRSaAueAm0hS+O7LAupU7g8WzRik=
-X-Google-Smtp-Source: AGHT+IGRG7b06WuuJFoX/2/vpsKxtfPHEQGJe3vLT9htY0nt1IaRgK31xbTHlSjx3pIaf5SL/uGtFRXjVLdYQiIi1SQ=
-X-Received: by 2002:a05:6870:d24a:b0:22e:c434:ec with SMTP id
- h10-20020a056870d24a00b0022ec43400ecmr10149536oac.56.1714936959379; Sun, 05
- May 2024 12:22:39 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ULHFs9FV;
+ spf=pass (domain: siemens.com, ip: 40.107.21.79, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lS5lhswFWJxEEnr5YoWjSOuz146hc/IcGR5jxFgnJSxsfa1c5wpGFni+ry+8MGVAuULY+s2zRLnbQJiGu+KjoVGeYDKtmwiGNtf+l9Nxk7B/tHF8R9Q37IxzxBl4aidaarNuqSXkqmkD4V/coKKa3jvsI5riW51/grnsTn4m9AodIPY7W/4vVC2z3JnnV2SMsA3zPgggWfoOnXBshRRqKpRzOI0L9AYTnVjqPU0g9papgQ6QxoaDJIRFr/ac9Bddk+MittveCT9vTah9Wvq1lEbM9/lLCh2OTEIXxWWQdSuaiVZoP2UbMKMoVQ+d6prbTwarUrcqUNsKY067CcqK6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PVEQpc5JYuWwThKTAQDu2q/W4GPMqL6t/OQ+El795CM=;
+ b=Su8Khx6zXpSJRvMQTyCJGUQVYz+PgvZA27Gtvfxg9D7QSVvqJXLZiPAD7s2wnWU0HH+LTYs6eDd50+w7TU1e4aPtTasX1i5OaVx6+FpE7TA3CeIlRysnSuddGZT/dfLHEkIgkCKe9e/zV9OZ49UJTyeGKwOqD3+pHciRtHbodG7P579zZlFW7GVps9xbCZMaKunIFdq3cmueqkBB5CXmeK53RIYrZ1iU2fWOD/KTfqFQWTYgxQio0OdEUuDCmLisMUQlnliq1rUcl/1uLTukNDJIexNCbfasOC1ZGum85Pr6XS60RcBRd72FwHXSdxJux/5x3s4lpEUr9/gb8f2Duw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PVEQpc5JYuWwThKTAQDu2q/W4GPMqL6t/OQ+El795CM=;
+ b=ULHFs9FVAR/dEv+2dTh5t2cNJOrmJQMHwCvM8Ca0xmFqmYuQ8GcVKE26umVeNEX8Cpw5xxOGm3dUdFNV452AB/D/H853/FZOXKk8Rs+L25RFHzpWRV28Ox2ss+eu5CWtW4vrSgDj3sh07i8kBCZRgo7rXBxqhtfE/KkAM06ciX//SXNIlK4/8KGiAcBNkGEvWTTnzeFH5ygSZZ04FfNiPIlBszhflTNqPlOyv7DpV0eryM1V3dGEjqpeT8/yZynEdYDKmzPqvFs7x/2GZoVIkm2gsziZ6eOm1cjjaAjnMAfMrR0rgwd7eQi5WUGLRdK1Fn6laY/8nmb7j2njpAjA4g==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by AS2PR10MB7178.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:60e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Sun, 5 May
+ 2024 20:43:52 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7544.041; Sun, 5 May 2024
+ 20:43:52 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] glibc: correct license
+Thread-Topic: [OE-core][PATCH] glibc: correct license
+Thread-Index: AQHans0l/jk2PEjbEEmdiWfRXhr8b7GJBYgAgAAURJA=
+Date: Sun, 5 May 2024 20:43:52 +0000
+Message-ID: 
+ <AS1PR10MB569772E4AD10E6FAA803DBDCFD1D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20240505091720.8682-1-peter.marko@siemens.com>
-In-Reply-To: <20240505091720.8682-1-peter.marko@siemens.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 5 May 2024 12:22:28 -0700
-Message-ID: <CAMKF1sp1=f6Akrn2NeYtS6EuOO+_PVxpbc+oSCNyFSVsKnktDg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] glibc: correct license
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000046b16c0617b9e087"
+ <CAMKF1sp1=f6Akrn2NeYtS6EuOO+_PVxpbc+oSCNyFSVsKnktDg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sp1=f6Akrn2NeYtS6EuOO+_PVxpbc+oSCNyFSVsKnktDg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=8854fda9-8ec3-4e82-baa6-2c1d778b542e;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-05-05T20:35:00Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS2PR10MB7178:EE_
+x-ms-office365-filtering-correlation-id: f88a8225-a07a-458d-8885-08dc6d44133a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|38070700009;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?Y2FPeDNCQ1loSkNBbjAweXNiYTdJK0ZXL3g0ZHFtM0FzYk9JemlYdm9oM2hH?=
+ =?utf-8?B?b1pCSEQ0Z1dKVXVaMVRJdDMvVmN1bG1sZEdkTk5jTmxISklwWFRNNzRGaHVz?=
+ =?utf-8?B?M3l5aXA0bWZORFV4NGhzSEk1eUMxQnhOcEEyYlQwMkZmSHVoc010ZWpweVB0?=
+ =?utf-8?B?ZVc0d3UzM0RCZFFleXJ3VWdVd2JXM2pMNXJEbDR4bnk2ZmJuRm12cmRUeTVX?=
+ =?utf-8?B?algrNzdCclphOUFTeS9ZK21CQ3lkOWwzc0ZRN2NTbDM4cUhBVzlMUEJaSktQ?=
+ =?utf-8?B?SUFKQjkwZTJxc2RFdFFqa2J1RGQydzZPdjByc204R2w4c3lmQW5lRGw5bUR4?=
+ =?utf-8?B?RmJjVVRRWnd5b2dVaGZ0VTQyQ2ZCQktFYitwN29xZEEzWDZ1V3hyS0xIT3B4?=
+ =?utf-8?B?c1NOSEUzMEN5a21UUlZySEw1K2tCeksxMEN2cnFabGo3WkhxVCtqTHlJbEt6?=
+ =?utf-8?B?enlHaVlTSGkrMU1nNUl6OXJMWG84STZaYXVBaXZOWnhxN2RnUU5RcWhVU29F?=
+ =?utf-8?B?RjRRZ1d6NW1PTHhXUjkyZDE3VGg1MUgxWThEdTdXVnVUWTNHQ2htYk0vbGNV?=
+ =?utf-8?B?WklTTlFpSjREenpQa1pFcklHbXp2RldjTTZlYUd6alNDVXRNK0o5SnZNK3hV?=
+ =?utf-8?B?em5qSjZOUUpwelU4djN0TjMvdW51d1dubGtidm9tNWtmZHRBWVkvY3V1Tk9H?=
+ =?utf-8?B?U2IwSzVudm1zTnBqdXRsOTlHQ3ZJSXJjbysrU0gwcUZCU1YvRVVuRURia3RF?=
+ =?utf-8?B?SE1oTFNLOHIrL0tod3IrdHl3V2N3THZUNTluZm9Xd1g2TDRURVVLeXVrNFFs?=
+ =?utf-8?B?cDBrZGZnMDNpT1IyU3B4TlMvM1dub201VkxWZGFvTzZLcFpXK1FkRTNQZFN1?=
+ =?utf-8?B?OW95S0JmQ2pJcjNkKzFNNzFpcjlCMm10UEkxOTZwdGdNUjBqM3dYMmlVeC80?=
+ =?utf-8?B?eGhNYmFrTTRhaUpiVVF5bXpUOFRtdUJNMFl5VGZ0N0k3dlRBQlRQYnBnMit1?=
+ =?utf-8?B?Z20rVE5iMUV6OTVBc3dWVkxBRFFJMHlmRkx0RXhQMEw4MGZFSVA1Y1NldW9p?=
+ =?utf-8?B?bjlEbUpodjdkVVNHUXFQTngxYWVBRmlUa1JsL3JKaEtIbU1FbG9ySkNpRCtT?=
+ =?utf-8?B?YXJLVGEwcXdFUXA0Y1BMYmt1VzVYN3ltRUU0aVRMYUF5NmNpQ2FtQkFTUmto?=
+ =?utf-8?B?MUhEY3hyWWF2TEpkekdvb0Z5T1Rwdks1MTMyemEyTnowWU16VmNaVXdlbFMz?=
+ =?utf-8?B?MUxwNVFGdzI0WTJmbGdKdlJuOW9aR2VXTHF3ckVoVE4rYTduY0t2THl5YkVR?=
+ =?utf-8?B?T0QxNTFaOXY2YnptZDNXZlV6REhQM1dBWnZEUzlnVHFOQzFsakVubUx0bERX?=
+ =?utf-8?B?dXBYOHVuN1FPY3gvUE1ZN0xUemxQS0sxb0ppbC9EKytvSGs4cDBobS9OQlJK?=
+ =?utf-8?B?cG5VQjRmRHA5aVBEOVpuNUdRLzRSRFg3eXhtdjZmOWxnSVp6YmdjR3hFNXBu?=
+ =?utf-8?B?NkowOUgwTWo4YjFENGp1RnJveStrVXpLWSt5NHZIRi9FMTBaV2VUaXVHak1h?=
+ =?utf-8?B?U3daWXN1ZlFTbTQ4OXdZR3YzR0JaTGxNeTdTMlgvNzQxcFBHbzR3TGw5Q0pu?=
+ =?utf-8?B?TmpKT3JYejVsQ0hMWUdZMDdSUW1mZlhxU3JVNHlXMFpFYmo1UTg5dnhpYWNk?=
+ =?utf-8?B?MkRlSmhXaDFvNE5jbCtQc0xXemVaTW9iNlQ5a1I4T2ptOGtLak1hZE9BPT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?c0xuaU9McEJzVVdWNStMS1Y5eHk5NUFZbWdJR2lGR2J2Y1AzRm84TEhxbmVx?=
+ =?utf-8?B?eHlRVXZUNEcxOEI3KzlKYzZiaWpRMUlaTFhvc1poNXdzaG5OQWRQdjRJV2dv?=
+ =?utf-8?B?bWJnd0h4K043VkJjcHlrZ1o2WWhrMDNuWjl4MU9kWWJRaER2RW14aW9rUkVV?=
+ =?utf-8?B?QXVvVENxV1hzMXpUR2ZFV0EyN2lIaWZTcnRUSi9CM3RYck15VXpQZlFnQk5x?=
+ =?utf-8?B?S1ZYMXJETmR3SWRTTTNPZFNoSjJsR1BrQWdDb0dOQnkza0V1ODRLUkVsTEI1?=
+ =?utf-8?B?SXVKT05CWWxZblBUcndzWGlRd2t1bzlrMWwyMUk1RnRvdGVudnNVcGhoRENT?=
+ =?utf-8?B?bGxkazJaTTQvbjZ1RWpUQzJkbGJDMitLS0x2am1kNkUvSEhvQnFEYkt6SUJv?=
+ =?utf-8?B?M0pPY1dkTVRpYVkzZTA1RWhTR3liSzl6bDNBck14d2ZsUm0zWFQ0KzhTczhP?=
+ =?utf-8?B?cTM0NTZVL0ZmTDQ0QlF4RDRXZkFmMmNESXB5ZnFXT0xudFhvaGlLeHZnRWFs?=
+ =?utf-8?B?REFLWmt0TzdNL2FTeGdkcVVEek1hdlBmNncybDAxUkROYVFTRDRyQzF5N0RO?=
+ =?utf-8?B?VzMyOTlOSXlsZ3FEeGcxdWFOVk4rQUwzKzlMRU1sVXVjcWM4cDVxZkVwVnNz?=
+ =?utf-8?B?TXcxdUdpblpFUXlJSXA1T0dmZ0NIa21kZDVaUnh0UUdiTFRqUVVESjNldEVH?=
+ =?utf-8?B?Z3FJZWhrNUc3aURMT2l6VEJiQnNxQnF0anhPaEgza1RBcThYWHhHTkFaZVhp?=
+ =?utf-8?B?VVk1a3BSQmo1RVptQlNOdFExL2lrMGRvRnpOSXJOS0tJVVptYnYydE0yQ1ZO?=
+ =?utf-8?B?V3NjWEs5ZWJJTFZNTGU4eHJHMDdaOTlOV0N1Y3cxRmttWjI0NVdNL3lTL0Vo?=
+ =?utf-8?B?aC9NS3FyazFpdTNOS0xmTHdrS0dhMHYvaTB6dmprckpKWlVUbnFaY0Q4b0M5?=
+ =?utf-8?B?b2p4dUcxZi9kNzZWSW43RkVRbmdzdlJCd1dUWWwzRFRtSG9ZOTJ6NHE1QjFL?=
+ =?utf-8?B?SHUyRTQ2aERqRmJORkpVR1ZVNjJrSzNaNlhwZjgzNE02T3lUYkYzRnlKNWRU?=
+ =?utf-8?B?eWVHVzl0T0wvQW80cTFsODJReTRIcmEzNkoycTZRdFhZay90cXE5eEdnZWFl?=
+ =?utf-8?B?eG9OTXNrUmJPci9rTFdzTjVLQ2l1M1J5UEpOTGgwaVcwaVFkRHllNE9vYXNw?=
+ =?utf-8?B?Ukd5UDJSZFFJc2VONXVUaDlIdXpPT2tWTVgwYzBJMkdwcTJuaWZCOHptUkt2?=
+ =?utf-8?B?WHU2VlBXYmh3YlZnSDd4Vk0zbTVhYmRaQkd4WmpQSWFCejJ5NmRXNzRHRUxk?=
+ =?utf-8?B?SWVJdm9MdmRlTEs1TnhlUkFkSmU3UFoxK1JpY3QxdGtOVHdsOXVWbjArYm1T?=
+ =?utf-8?B?Q3dONm9hWmd1TzBQcDV2aklCc2VkUEQweUs4bG9nNFJXU3JERm9GUUVFMjNM?=
+ =?utf-8?B?blYyTzBTVkRyT2xKTGlsa3dPZ1RaRlVGT2VseVJNRjM0Vjk4bnBaR2VIWElo?=
+ =?utf-8?B?MWd2NTRQck1iZFo3cllyRjR5aWdWVVNUTWo3dnpUdGJtb1RkZC9VUGk1QnlP?=
+ =?utf-8?B?OTNvV3REVDNZOXZqdWp2allaa3R3Mys5QzhtdDRqVVJoZklhMzNwRHNCYnRG?=
+ =?utf-8?B?d3hRYUxrSit1TEtKaTZXb09POEFPdEJhVFNvWFBjRW1mbXR2UU05WjNTUHFi?=
+ =?utf-8?B?cUs1dWxqQ1E2T1U1Q2dkVGJsL2k4SVlzalhGdWhObDVSN1EwWG43QkEwQ1NX?=
+ =?utf-8?B?eHkzR0ZCdlRuNGQxYkpERk1IMzc3OGpKcjh0WUZCcmNLR1lpb3NUQmZoZSti?=
+ =?utf-8?B?Wi94Zk9ST3poM0o4K2JqRVRsVmFvN0FGYXJOK294Smp0UHE1dll3cE5uT2ha?=
+ =?utf-8?B?TzZFaGM0SUgzMUtHeExKNDVyc0V6VjBveWJnWjBZc1ZGdG14bXY1NGx2N0Qx?=
+ =?utf-8?B?ZXJFU0ppOFQ0OXVDRjU2TWJUOTMvWmZ4Q1psUVdyMk9nWCtCZG1FckRUMm9z?=
+ =?utf-8?B?eVB1L0ZYUGRYTVpWSXJscE52S0JxNC9rYlJCZXFiengzUnA0RUVRM2o5bkZ6?=
+ =?utf-8?B?cDdYc01GdmY3S0VlNEd6dHdSNGNDSUFpUHFvVEFnblQ5cUZiZXVnR2xLcVBJ?=
+ =?utf-8?Q?3OlftI2OpmtFPqve2MATzRtbG?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f88a8225-a07a-458d-8885-08dc6d44133a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2024 20:43:52.7100
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4uu8VIJEC62IKGENT2GQQFg9g24839Vd1XpBEEEiouH4BzgythwkExpjbrlpUi5LP3cL54/J9mnM0Y2NIcr98g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7178
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 May 2024 19:22:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199025
+ <openembedded-core@lists.openembedded.org>; Sun, 05 May 2024 20:44:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199026
 
---00000000000046b16c0617b9e087
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, May 5, 2024 at 2:18=E2=80=AFAM Peter Marko via lists.openembedded.o=
-rg
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
-
-> From: Peter Marko <peter.marko@siemens.com>
->
-> The license per https://www.gnu.org/software/libc/ is LGPL-2.1-or-later.
->
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D273a835fe7c6=
-85cc54266bb8b502787bad5e9bae
-> converted last LGPL-2.1-only references.
->
-> License-Update: correction
->
-
-This should reflect reason but overall the patch is ok
-
-
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-core/glibc/glibc-common.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-common.inc
-> b/meta/recipes-core/glibc/glibc-common.inc
-> index b9516e77f0..91a3f5bcd5 100644
-> --- a/meta/recipes-core/glibc/glibc-common.inc
-> +++ b/meta/recipes-core/glibc/glibc-common.inc
-> @@ -2,7 +2,7 @@ SUMMARY =3D "GLIBC (GNU C Library)"
->  DESCRIPTION =3D "The GNU C Library is used as the system C library in mo=
-st
-> systems with the Linux kernel."
->  HOMEPAGE =3D "http://www.gnu.org/software/libc/libc.html"
->  SECTION =3D "libs"
-> -LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
-> +LICENSE =3D "GPL-2.0-only & LGPL-2.1-or-later"
->
->  LIC_FILES_CHKSUM ?=3D "file://LICENSES;md5=3Df77e878d320e99e94ae9a4aea7f=
-491d1
-> \
->        file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199017):
-> https://lists.openembedded.org/g/openembedded-core/message/199017
-> Mute This Topic: https://lists.openembedded.org/mt/105919323/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000046b16c0617b9e087
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, May 5, 2024 at 2:18=E2=80=AFAM Peter Marko via <a h=
-ref=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;peter.=
-marko=3D<a href=3D"mailto:siemens.com@lists.openembedded.org">siemens.com@l=
-ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=
-=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-<br>
-The license per <a href=3D"https://www.gnu.org/software/libc/" rel=3D"noref=
-errer" target=3D"_blank">https://www.gnu.org/software/libc/</a> is LGPL-2.1=
--or-later.<br>
-<a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D273=
-a835fe7c685cc54266bb8b502787bad5e9bae" rel=3D"noreferrer" target=3D"_blank"=
->https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D273a835fe7c68=
-5cc54266bb8b502787bad5e9bae</a><br>
-converted last LGPL-2.1-only references.<br>
-<br>
-License-Update: correction<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This should refl=
-ect reason but overall the patch is ok</div><div dir=3D"auto"><br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><br>
-Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
-arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/glibc-common.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/g=
-libc/glibc-common.inc<br>
-index b9516e77f0..91a3f5bcd5 100644<br>
---- a/meta/recipes-core/glibc/glibc-common.inc<br>
-+++ b/meta/recipes-core/glibc/glibc-common.inc<br>
-@@ -2,7 +2,7 @@ SUMMARY =3D &quot;GLIBC (GNU C Library)&quot;<br>
-=C2=A0DESCRIPTION =3D &quot;The GNU C Library is used as the system C libra=
-ry in most systems with the Linux kernel.&quot;<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.gnu.org/software/libc/libc.h=
-tml" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/software/libc/=
-libc.html</a>&quot;<br>
-=C2=A0SECTION =3D &quot;libs&quot;<br>
--LICENSE =3D &quot;GPL-2.0-only &amp; LGPL-2.1-only&quot;<br>
-+LICENSE =3D &quot;GPL-2.0-only &amp; LGPL-2.1-or-later&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://LICENSES;md5=3Df77e878d320e99e94ae=
-9a4aea7f491d1 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4=
-a4263 \<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#199017): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/199017" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/199017</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105919323/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/105919323/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000046b16c0617b9e087--
+RnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4gDQpTZW50OiBTdW5kYXksIE1heSA1
+LCAyMDI0IDIxOjIyDQpUbzogTWFya28sIFBldGVyIChBRFYgRCBFVSBTSyBCRlMxKSA8UGV0ZXIu
+TWFya29Ac2llbWVucy5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXVtQQVRDSF0gZ2xpYmM6IGNvcnJlY3QgbGlj
+ZW5zZQ0KDQo+IE9uIFN1biwgTWF5IDUsIDIwMjQgYXQgMjoxOOKAr0FNIFBldGVyIE1hcmtvIHZp
+YSBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8cGV0ZXIubWFya289bWFpbHRvOnNpZW1l
+bnMuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+IEZyb206IFBldGVyIE1h
+cmtvIDxtYWlsdG86cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4NCj4gPiBUaGUgbGljZW5z
+ZSBwZXIgaHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9saWJjLyBpcyBMR1BMLTIuMS1vci1s
+YXRlci4NCj4gPiBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC8/cD1nbGliYy5naXQ7YT1jb21t
+aXRkaWZmO2g9MjczYTgzNWZlN2M2ODVjYzU0MjY2YmI4YjUwMjc4N2JhZDVlOWJhZQ0KPiA+IGNv
+bnZlcnRlZCBsYXN0IExHUEwtMi4xLW9ubHkgcmVmZXJlbmNlcy4NCj4gPg0KPiA+IExpY2Vuc2Ut
+VXBkYXRlOiBjb3JyZWN0aW9uDQo+DQo+IFRoaXMgc2hvdWxkIHJlZmxlY3QgcmVhc29uIGJ1dCBv
+dmVyYWxsIHRoZSBwYXRjaCBpcyBvaw0KPg0KDQpDb3VsZCB5b3UgcGxlYXNlIGJlIG1vcmUgc3Bl
+Y2lmaWMgd2hhdCBzaG91bGQgSSB3cml0ZT8NClRoZSBsb25nIHJlYXNvbiBpcyB3cml0dGVuIGFi
+b3ZlIHRoZSBMaWNlbnNlLVVwZGF0ZSBmaWVsZCwgSSBqdXN0IGFkZGVkIHRoZSBmaWVsZCB0byBz
+YXRpc2Z5IHRoZSBwYXRjaCBjaGVja2VyIGJvdC4NClB1dHRpbmcgdGhlIHdob2xlIHRleHQgdG8g
+dGhpcyBmaWVsZCBkb2Vzbid0IGxvb2sgcmlnaHQuDQoNCkkgZG9uJ3Qga25vdyB0aGUgaGlzdG9y
+eSBvZiBnbGliYyBsaWNlbnNlIHRvIGJlIGFibGUgdG8gYXNzZXNzIGlmIHRoZXkgbWlncmF0ZWQg
+cmVjZW50bHkgb3IgaWYgdGhlc2Ugd2VyZSBqdXN0IHdyb25nbHkgY29tbWl0dGVkIGxpY2Vuc2Vz
+Lg0KSSBqdXN0IG5vdGljZWQgdGhlIGNvbW1pdCB3aGVuIHVwZGF0aW5nIGdsaWJjIHRvIHRoZSBs
+YXRlc3QgaGFzaCBhbmQgZGVjaWRlZCB0byBjb3JyZWN0IHRoZSByZWNpcGUgTElDRU5TRSBmaWVs
+ZCBhY2NvcmRpbmcgdG8gdGhpcyBoaW50Lg0KU28gImNvcnJlY3Rpb24iIGxvb2tzIHRvIG1lIGxp
+a2UgYSBnb29kIHNob3J0IHN0YXRlbWVudCB3cnQgdGhlIHJlY2lwZSBMSUNFTlNFIGZpZWxkLg0K
+DQpUaGFua3MsDQogIFBldGVyDQo=
 
