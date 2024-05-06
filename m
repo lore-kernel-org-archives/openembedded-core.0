@@ -1,107 +1,111 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 045E0C25B5C
-	for <webhook@archiver.kernel.org>; Mon,  6 May 2024 11:09:04 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.17997.1714993734358763228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3D5C10F16
+	for <webhook@archiver.kernel.org>; Mon,  6 May 2024 12:24:44 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web10.19293.1714998280964660352
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 May 2024 04:08:54 -0700
+ Mon, 06 May 2024 05:24:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C3vzVCfl;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ab1ddfded1so1635770a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 04:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714993733; x=1715598533; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCApSTzBdCs/oap4XpmZJHYKMb2TuLSxrJSX5qv054c=;
-        b=C3vzVCfl8J/HgerWwI8OheJ6fLN+ROu/eXE8EF8qnHd9MA67XHXazyy7hs9+wz7+GR
-         FP0OrtlMVYISSF4Dq/1pDiGH4R52KmiJHMbzY66ihbbXkl2r4ATlbPi4n7H0qKFibhKq
-         OUD1uKIn74Nej6k02c2qQVF6kuFORKaWWuwCeOSwfi41vFMPuWR9I6PxiqPw7ZrJghuU
-         E367np0PS4N5Dx99e4M7YETT/hzrpvH9oBC63erFgIOXc/6RpacpmFQijKhZp+YWT4wH
-         4jSBb3cIgikAiXgbxFKjRcr9n73Jun1jtZLYGDHXerlj939ADh1I0rxZj5E4wcLKfMKg
-         iLCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714993733; x=1715598533;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iCApSTzBdCs/oap4XpmZJHYKMb2TuLSxrJSX5qv054c=;
-        b=oqECUvsh1uKiyf6AqmI92ggUzGAveuPLjlnkyy+kVXRxLKW0bh10XH73lI6t5R/iAm
-         TyzpVDM5PbPzQGRLWYEvxMw0IzPtCkpgOWsDJYffoVj6W1Qu6ctT+xmKzR2AtAQCaJ8y
-         6d2LdKt5Md8ckZIJe7ZO8fGR0duFxbQEtla0BobaEBOke2CWwqYWnpCRkFuTioDIqpLH
-         +Dz6Dm3jJQ5NXX+uzddNsm5/HuyEPKaXT+27gFrXNhnFGKE0epNbN6jEu/uHXwcwjp5w
-         9/4YPpHcGiDHY/VXyHWUf530c87lVqkuObLBTXX+iGbKN9jWZ2B5aoaRwZHFBFqPb4nt
-         B1jg==
-X-Gm-Message-State: AOJu0YyBat3UzKL9qnOn6Ah8FtMOhc6GWtv4fWJ+iENVv/X0W1EhPdO2
-	J0jGIzh7Nwa6WbDgSCQkfeQnFRM9APPpBFs0aH6c1jCkYpfq6s7bcfxrwJY/0g==
-X-Google-Smtp-Source: AGHT+IE68BFW647Q9QVJdOPErnH4gtAvko5X9D5J8ZbMVrkAXzpM0JqQBERi/rAK5a6+us/mzXEjDw==
-X-Received: by 2002:a17:90b:23c6:b0:2b2:7986:229b with SMTP id md6-20020a17090b23c600b002b27986229bmr8468946pjb.37.1714993732606;
-        Mon, 06 May 2024 04:08:52 -0700 (PDT)
-Received: from L-17494.kpit.com ([103.189.135.144])
-        by smtp.gmail.com with ESMTPSA id nw10-20020a17090b254a00b002b0e8d4c426sm9842702pjb.11.2024.05.06.04.08.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 04:08:52 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
-X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	bhabu.bindu@kpit.com
-Cc: Nikhil R <nikhil.r@kpit.com>,
-	Bhabu Bindu <bindudaniel1996@gmail.com>
-Subject: [OE-core][kirkstone][PATCH] xz: Update LICENSE variable for xz packages
-Date: Mon,  6 May 2024 16:38:46 +0530
-Message-Id: <20240506110846.125652-1-nikhil.r@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=FVvQi82x;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=EwEVwY0M8fgFKIYRm8Mjx7xccTvwWRRhPAZfujb9RN4=; b=FVvQi82xd3jdxWUFNXPiqKl2IK
+	JAkqvbia0bu10k83NIIWqRdGBt2bkzOvSoYDRuBaNaUyzz0SOyF3fXGLYXf/DPJJ0gHGII3BidlyH
+	2S3SLn//e34J78hxtwZESBpp45WT4QywPR3LyDGD8GbB/30zUvD2JpLspiHwF4RdYzjzBhGi6y8ol
+	QMp8TI1lDMVhFYBOZKDz97ucsd1dWz9WnHo6eRk550c+gdvqCA3cCttsSJz+zBC9zNk8bhxC9fgID
+	zLO2EOIAzSnXXLhQGAT0fLwM3vUldaq8rxryhkkn7YyaWQ2GRrX9GqCHjjSVIW7n5OFngruGdr8j4
+	ckfRwX7g==;
+Received: from sslproxy05.your-server.de ([78.46.172.2])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <martin@geanix.com>)
+	id 1s3xOX-0003ws-RQ; Mon, 06 May 2024 14:24:37 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <martin@geanix.com>)
+	id 1s3xOX-000HIM-0t;
+	Mon, 06 May 2024 14:24:37 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <steve@sakoman.com>,
+	=?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+Subject: [PATH][master][scarthgap] classes: image_types: apply EXTRA_IMAGECMD:squashfs* in oe_mksquashfs()
+Date: Mon,  6 May 2024 14:24:13 +0200
+Message-ID: <20240506122414.1783512-1-martin@geanix.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: martin@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27267/Mon May  6 10:24:34 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 11:09:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199040
+ <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 12:24:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199041
 
-Update LICENSE defined for xz packages to match the license
-information provided in the xz COPYING file.
+Since commit c991f9d6031 ("image_types: Set SOURCE_DATE_EPOCH for squashfs"),
+I assume, the EXTRA_IMAGECMD:squashfs* variable(s) has been ignored.
+This is due to the override magic, which isn't applied to functions
+called by IMAGE_CMD:<type>, but only to the IMAGE_CMD:<type> itself.
 
-The License information from PACKAGERS file of xz mentions
-packages with lzma files are in public domain.They ask to
-use GPLv2+, if only it's not possible to mention "PD and GPLv2+".
+Other image types (e.g. ext*) works around this by passing the
+EXTRA_IMAGECMD variable as an argument to the called function.
 
-Include PD license with GPLv2 to packages with lzma content:
-xz-dev package contains lzma header
-xz-doc package contains lzma man pages
-xz packages contains lzma binaries
+To do the same for oe_mksquashfs(), the number of mandatory arguments is
+fixed to one (with a little logic to handle the zstd filename). This
+allows passing ${EXTRA_IMAGECMD} as an argument to oe_mksquashfs(),
+which makes the variable functional again.
 
-Links: https://github.com/tukaani-project/xz/blob/v5.2.6/COPYING
-       https://github.com/tukaani-project/xz/blob/v5.4.1/PACKAGERS
-
-Signed-off-by: Bhabu Bindu <bindudaniel1996@gmail.com>
+Signed-off-by: Martin Hundebøll <martin@geanix.com>
 ---
- meta/recipes-extended/xz/xz_5.2.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes-recipe/image_types.bbclass | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.6.bb b/meta/recipes-extended/xz/xz_5.2.6.bb
-index 3482622471..33496748bc 100644
---- a/meta/recipes-extended/xz/xz_5.2.6.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.6.bb
-@@ -9,10 +9,10 @@ SECTION = "base"
- # libgnu, which appears to be used for DOS builds. So we're left with
- # GPL-2.0-or-later and PD.
- LICENSE = "GPL-2.0-or-later & GPL-3.0-with-autoconf-exception & LGPL-2.1-or-later & PD"
--LICENSE:${PN} = "GPL-2.0-or-later"
--LICENSE:${PN}-dev = "GPL-2.0-or-later"
-+LICENSE:${PN} = "PD & GPL-2.0-or-later"
-+LICENSE:${PN}-dev = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-staticdev = "GPL-2.0-or-later"
--LICENSE:${PN}-doc = "GPL-2.0-or-later"
-+LICENSE:${PN}-doc = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-dbg = "GPL-2.0-or-later"
- LICENSE:${PN}-locale = "GPL-2.0-or-later"
- LICENSE:liblzma = "PD"
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index 913cb8788c..b4a83ae284 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -112,18 +112,22 @@ IMAGE_CMD:btrfs () {
+ }
+ 
+ oe_mksquashfs () {
+-    local comp=$1
+-    local suffix=$2
++    local comp=$1; shift
++    local extra_imagecmd=$@
++
++    if [ "$comp" = "zstd" ]; then
++        suffix="zst"
++    fi
+ 
+     # Use the bitbake reproducible timestamp instead of the hardcoded squashfs one
+     export SOURCE_DATE_EPOCH=$(stat -c '%Y' ${IMAGE_ROOTFS})
+-    mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.squashfs${comp:+-}${suffix:-$comp} ${EXTRA_IMAGECMD} -noappend ${comp:+-comp }$comp
++    mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.squashfs${comp:+-}${suffix:-$comp} -noappend ${comp:+-comp }$comp $extra_imagecmd
+ }
+-IMAGE_CMD:squashfs = "oe_mksquashfs"
+-IMAGE_CMD:squashfs-xz = "oe_mksquashfs xz"
+-IMAGE_CMD:squashfs-lzo = "oe_mksquashfs lzo"
+-IMAGE_CMD:squashfs-lz4 = "oe_mksquashfs lz4"
+-IMAGE_CMD:squashfs-zst = "oe_mksquashfs zstd zst"
++IMAGE_CMD:squashfs = "oe_mksquashfs '' ${EXTRA_IMAGECMD}"
++IMAGE_CMD:squashfs-xz = "oe_mksquashfs xz ${EXTRA_IMAGECMD}"
++IMAGE_CMD:squashfs-lzo = "oe_mksquashfs lzo ${EXTRA_IMAGECMD}"
++IMAGE_CMD:squashfs-lz4 = "oe_mksquashfs lz4 ${EXTRA_IMAGECMD}"
++IMAGE_CMD:squashfs-zst = "oe_mksquashfs zstd ${EXTRA_IMAGECMD}"
+ 
+ IMAGE_CMD:erofs = "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs ${IMAGE_ROOTFS}"
+ IMAGE_CMD:erofs-lz4 = "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs-lz4 ${IMAGE_ROOTFS}"
 -- 
-2.25.1
+2.44.0
 
 
