@@ -1,459 +1,422 @@
-Return-Path: <philip@balister.org>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3955EC41513
-	for <webhook@archiver.kernel.org>; Mon,  6 May 2024 01:07:01 +0000 (UTC)
-Received: from usb-smtp-delivery-118.mimecast.com (usb-smtp-delivery-118.mimecast.com [170.10.151.118])
- by mx.groups.io with SMTP id smtpd.web11.8544.1714598237681131318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F340C4345F
+	for <webhook@archiver.kernel.org>; Mon,  6 May 2024 04:03:42 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.13072.1714968214898104436
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 May 2024 14:17:17 -0700
+ Sun, 05 May 2024 21:03:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@noxmedical.com header.s=mimecast20231107 header.b=b7Fqr3Z/;
- spf=pass (domain: noxmedical.com, ip: 170.10.151.118, mailfrom: gudnimar@noxmedical.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noxmedical.com;
-	s=mimecast20231107; t=1714598237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=T1h4okz7x6NyZPU+DqH11EatyoE7YchPtrW8OYlkWwU=;
-	b=b7Fqr3Z/AyttlGEjjkn+YLBvfJcmCkIUB9RovijlUhmTXpgdh5DWwYvxka+YdVdb4Q2b38
-	kcFpWFKhWCx81kwFWFrSTU8W45a2JadThqHFBFM9l+vS1KSvtFiyvP8a3iX3ifoF88tAIU
-	9Y4/UUdx5Vqj+ISjVAXrlGEh0THv7L0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- usb-mta-7-cnPynBokNs6V-SuJkH7qWw-1; Wed, 01 May 2024 14:17:12 -0700
-X-MC-Unique: cnPynBokNs6V-SuJkH7qWw-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-34e0d8b7636so72105f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 May 2024 14:17:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714598231; x=1715203031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7JNL8sgVWRxO9mIf9s26EXGKab7gAXcfjEvM5N3uP9Q=;
-        b=CQDM1ookXuIo7N2TSw+IonG2c7hkNIF02WL2eo+bOIcgGUa2Cm1hh3/oY+hDig1Ma9
-         XTPxf7soCrMQUJqDIQ9Ul9n7tklmcSq4dqdlXxsYdMTMUjc3u9SMQmTan/1eSWW75u2y
-         tFFOw/tGi/guSwzYbsHw1ROO+FLG2zrIBjYf/i8W4/FRdNEC7THHOq9CPBbq+WDG2HaA
-         RZOBcYp6yrasLwf+QQTbXngByTB0WT3VZesKM3oBrFvvg5atDGQ02Zl6TCHlA45JSnY6
-         X3So/vI63Hyy445PJ8HxrnY6Asp/gvqtDhuyk/QNLJqm2IGbXxXP8ymAe175YC1ljFip
-         i+sg==
-X-Gm-Message-State: AOJu0YzzU00mh5fbn5KANx4J1O85tZ6bluZvaxUONtPeVQtBKg55Jk0z
-	JM7EROS2B/rH/AVYCTaxeQzFnH6ZRYYmjUuZfLaldA7fEzahq/PJnHZGA0qajPGri5ZZ5q9/Cmt
-	fATEYuPmSMxj3xiZJJS3nkyrvZow9w+XzWrHHd2URcVOjTzRGSfMXXr6iJVAWCC5+iYyC4sIYqj
-	eX6S6G+tIpa10PEftYUm18yAk6kOMBxZB38yj1zowJ1XlzuE1jg5HfU1kt0GZ/TEFkodE=
-X-Received: by 2002:adf:e74c:0:b0:34d:ab1a:6384 with SMTP id c12-20020adfe74c000000b0034dab1a6384mr585570wrn.13.1714598230781;
-        Wed, 01 May 2024 14:17:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGrK0Hd+ojTE7//apuaXzKScnstJOGs2cVwDVbqx1pcbdaQvAmbAH2+kLz1lN1XWER1SNcgAg==
-X-Received: by 2002:adf:e74c:0:b0:34d:ab1a:6384 with SMTP id c12-20020adfe74c000000b0034dab1a6384mr585553wrn.13.1714598230186;
-        Wed, 01 May 2024 14:17:10 -0700 (PDT)
-Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id e18-20020a056000195200b003462fec9f5asm35204380wry.62.2024.05.01.14.17.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 14:17:09 -0700 (PDT)
-From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudnimar@noxmedical.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudnimar@noxmedical.com>
-Subject: [PATCH] python3-manifest: prune python3-core
-Date: Wed,  1 May 2024 21:16:56 +0000
-Message-Id: <20240501211656.275800-1-gudnimar@noxmedical.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=q0mdZsAh;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5856ba2f23=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4463Ynfq018076
+	for <openembedded-core@lists.openembedded.org>; Sun, 5 May 2024 21:03:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=lWK1H
+	Hrrzuxk68c+WAZIeBhnKpS3dbktg7WNakJOsjg=; b=q0mdZsAhHFT98wV/XMpJj
+	G59tfFPCPb4KRW4UwtxN+um29yaH+w3VSx752OxeL3gBSgvYiloK0uij4VrYEj7b
+	vUoBl8u6LKdA/1A185DDvVb2eiuIMgsYUXKf26JJnUOZ/YISatTC1kpXPRcMeOSs
+	F3VRumvLs1dA+Ae/jqRaAcpRi3ViVYF9SrRXuwZ2k0MD9SISFdkWsgCpXIP0WNS/
+	l3IQ0Vn0U9NeI/uSlMa6DBlnSGUs2WBZ3ciUoucN8Pzz8fNG2FTz95vS2J5kqUst
+	mQTBElV8QJC1K+dtu4vcVJYhrj+P1kLZx3OV+yjl0M6qdCJ3Loq65zqLJW3KQif0
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xwg9ys5e9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 05 May 2024 21:03:34 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Sun, 5 May 2024 21:03:32 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH V2 1/1] gstreamer1.0-plugins-bad: fix CVE-2023-44446
+Date: Mon, 6 May 2024 04:03:19 +0000
+Message-ID: <20240506040319.854336-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: noxmedical.com
-Content-Type: multipart/alternative;
-	boundary="MCBoundary=_12405011417154101"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: vNvKa0GyTCJsfmfLq1ARr3rYpTxeVQ4v
+X-Proofpoint-GUID: vNvKa0GyTCJsfmfLq1ARr3rYpTxeVQ4v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-05_17,2024-05-03_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 mlxscore=0 phishscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405060020
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 01:07:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199028
+ <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 04:03:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199032
 
---MCBoundary=_12405011417154101
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Remove file entries which no longer exist in the source.
-
-I spotted this when I added a custom QA error locally which
-raised a warning when a file in FILES list of a package isn't
-found in the source.
-
-Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudnimar@noxmedical.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../python/python3/python3-manifest.json      | 23 -------------------
- 1 file changed, 23 deletions(-)
+ .../CVE-2023-44446.patch                      | 329 ++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.20.7.bb        |   1 +
+ 2 files changed, 330 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
-eta/recipes-devtools/python/python3/python3-manifest.json
-index 46092d4004..6e06002783 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -219,15 +219,9 @@
-         "rdepends": [],
-         "files": [
-             "${bindir}/python${PYTHON_MAJMIN}",
--            "${bindir}/python${PYTHON_MAJMIN}.real",
-             "${bindir}/python3",
-             "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
--            "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
--            "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
--            "${libdir}/python${PYTHON_MAJMIN}/UserString.py",
-             "${libdir}/python${PYTHON_MAJMIN}/__future__.py",
--            "${libdir}/python${PYTHON_MAJMIN}/_abcoll.py",
--            "${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
-@@ -262,7 +256,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/getopt.py",
-             "${libdir}/python${PYTHON_MAJMIN}/gettext.py",
-             "${libdir}/python${PYTHON_MAJMIN}/heapq.py",
--            "${libdir}/python${PYTHON_MAJMIN}/imp.py",
-             "${libdir}/python${PYTHON_MAJMIN}/importlib",
-             "${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py",
-@@ -274,10 +267,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/io.py",
-             "${libdir}/python${PYTHON_MAJMIN}/ipaddress.py",
-             "${libdir}/python${PYTHON_MAJMIN}/keyword.py",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/_str=
-uct.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/bina=
-scii.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/time=
-.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/xrea=
-dlines.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so",
-@@ -286,22 +275,17 @@
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubprocess=
-.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata.*.so=
-",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.*.so"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
-             "${libdir}/python${PYTHON_MAJMIN}/locale.py",
-             "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
--            "${libdir}/python${PYTHON_MAJMIN}/new.py",
-             "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
-             "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
-             "${libdir}/python${PYTHON_MAJMIN}/operator.py",
-@@ -323,7 +307,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/shutil.py",
-             "${libdir}/python${PYTHON_MAJMIN}/signal.py",
-             "${libdir}/python${PYTHON_MAJMIN}/site.py",
--            "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py",
-             "${libdir}/python${PYTHON_MAJMIN}/sre_compile.py",
-             "${libdir}/python${PYTHON_MAJMIN}/sre_constants.py",
-             "${libdir}/python${PYTHON_MAJMIN}/sre_parse.py",
-@@ -331,7 +314,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/stringprep.py",
-             "${libdir}/python${PYTHON_MAJMIN}/struct.py",
-             "${libdir}/python${PYTHON_MAJMIN}/subprocess.py",
--            "${libdir}/python${PYTHON_MAJMIN}/symbol.py",
-             "${libdir}/python${PYTHON_MAJMIN}/sysconfig.py",
-             "${libdir}/python${PYTHON_MAJMIN}/textwrap.py",
-             "${libdir}/python${PYTHON_MAJMIN}/threading.py",
-@@ -349,7 +331,6 @@
-         ],
-         "cached": [
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.*.pyc=
-",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale.*.py=
-c",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collections_abc=
-.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compression.*.p=
-yc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase.*.py=
-c",
-@@ -378,7 +359,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*.pyc"=
-,
-@@ -395,7 +375,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc"=
-,
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.py=
-c",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc",
-@@ -410,13 +389,11 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.*.pyc=
-",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.*.pyc=
-",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*.pyc"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*.pyc"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*.pyc"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.pyc",
---=20
-2.34.1
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch
+new file mode 100644
+index 0000000000..92fe82d36d
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch
+@@ -0,0 +1,329 @@
++From 7dfaa57b6f9b55f17ffe824bd8988bb71ae11353 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 20 Oct 2023 00:09:57 +0300
++Subject: [PATCH] mxfdemux: Store GstMXFDemuxEssenceTrack in their own fixed
++ allocation
++
++Previously they were stored inline inside a GArray, but as references to
++the tracks were stored in various other places although the array could
++still be updated (and reallocated!), this could lead to dangling
++references in various places.
++
++Instead now store them in a GPtrArray in their own allocation so each
++track's memory position stays fixed.
++
++Fixes ZDI-CAN-22299
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3055
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5638>
++
++CVE: CVE-2023-44446
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/7dfaa57b6f9b55f1]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ gst/mxf/mxfdemux.c | 117 ++++++++++++++++++++-------------------------
++ gst/mxf/mxfdemux.h |   2 +-
++ 2 files changed, 52 insertions(+), 67 deletions(-)
++
++diff --git a/gst/mxf/mxfdemux.c b/gst/mxf/mxfdemux.c
++index b0ccc17..7eb990c 100644
++--- a/gst/mxf/mxfdemux.c
+++++ b/gst/mxf/mxfdemux.c
++@@ -170,10 +170,25 @@ gst_mxf_demux_partition_free (GstMXFDemuxPartition * partition)
++ }
++
++ static void
++-gst_mxf_demux_reset_mxf_state (GstMXFDemux * demux)
+++gst_mxf_demux_essence_track_free (GstMXFDemuxEssenceTrack * t)
++ {
++-  guint i;
+++  if (t->offsets)
+++    g_array_free (t->offsets, TRUE);
+++
+++  g_free (t->mapping_data);
+++
+++  if (t->tags)
+++    gst_tag_list_unref (t->tags);
+++
+++  if (t->caps)
+++    gst_caps_unref (t->caps);
+++
+++  g_free (t);
+++}
++
+++static void
+++gst_mxf_demux_reset_mxf_state (GstMXFDemux * demux)
+++{
++   GST_DEBUG_OBJECT (demux, "Resetting MXF state");
++
++   g_list_foreach (demux->partitions, (GFunc) gst_mxf_demux_partition_free,
++@@ -183,22 +198,7 @@ gst_mxf_demux_reset_mxf_state (GstMXFDemux * demux)
++
++   demux->current_partition = NULL;
++
++-  for (i = 0; i < demux->essence_tracks->len; i++) {
++-    GstMXFDemuxEssenceTrack *t =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
++-
++-    if (t->offsets)
++-      g_array_free (t->offsets, TRUE);
++-
++-    g_free (t->mapping_data);
++-
++-    if (t->tags)
++-      gst_tag_list_unref (t->tags);
++-
++-    if (t->caps)
++-      gst_caps_unref (t->caps);
++-  }
++-  g_array_set_size (demux->essence_tracks, 0);
+++  g_ptr_array_set_size (demux->essence_tracks, 0);
++ }
++
++ static void
++@@ -216,7 +216,7 @@ gst_mxf_demux_reset_linked_metadata (GstMXFDemux * demux)
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++     GstMXFDemuxEssenceTrack *track =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++        g_ptr_array_index (demux->essence_tracks, i);
++
++     track->source_package = NULL;
++     track->delta_id = -1;
++@@ -419,7 +419,7 @@ gst_mxf_demux_partition_postcheck (GstMXFDemux * demux,
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++     GstMXFDemuxEssenceTrack *cand =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++        g_ptr_array_index (demux->essence_tracks, i);
++
++     if (cand->body_sid != partition->partition.body_sid)
++       continue;
++@@ -866,8 +866,7 @@ gst_mxf_demux_update_essence_tracks (GstMXFDemux * demux)
++
++       for (k = 0; k < demux->essence_tracks->len; k++) {
++         GstMXFDemuxEssenceTrack *tmp =
++-            &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
++-            k);
+++	    g_ptr_array_index (demux->essence_tracks, k);
++
++         if (tmp->track_number == track->parent.track_number &&
++             tmp->body_sid == edata->body_sid) {
++@@ -885,24 +884,24 @@ gst_mxf_demux_update_essence_tracks (GstMXFDemux * demux)
++       }
++
++       if (!etrack) {
++-        GstMXFDemuxEssenceTrack tmp;
+++	GstMXFDemuxEssenceTrack *tmp = g_new0 (GstMXFDemuxEssenceTrack, 1);
+++
+++        tmp->body_sid = edata->body_sid;
+++        tmp->index_sid = edata->index_sid;
+++        tmp->track_number = track->parent.track_number;
+++        tmp->track_id = track->parent.track_id;
+++        memcpy (&tmp->source_package_uid, &package->parent.package_uid, 32);
++
++-        memset (&tmp, 0, sizeof (tmp));
++-        tmp.body_sid = edata->body_sid;
++-        tmp.index_sid = edata->index_sid;
++-        tmp.track_number = track->parent.track_number;
++-        tmp.track_id = track->parent.track_id;
++-        memcpy (&tmp.source_package_uid, &package->parent.package_uid, 32);
++
++         if (demux->current_partition->partition.body_sid == edata->body_sid &&
++             demux->current_partition->partition.body_offset == 0)
++-          tmp.position = 0;
+++          tmp->position = 0;
++         else
++-          tmp.position = -1;
+++          tmp->position = -1;
++
++-        g_array_append_val (demux->essence_tracks, tmp);
+++        g_ptr_array_add (demux->essence_tracks, tmp);
++         etrack =
++-            &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
+++            g_ptr_array_index (demux->essence_tracks,
++             demux->essence_tracks->len - 1);
++         new = TRUE;
++       }
++@@ -1050,13 +1049,7 @@ gst_mxf_demux_update_essence_tracks (GstMXFDemux * demux)
++
++     next:
++       if (new) {
++-        g_free (etrack->mapping_data);
++-        if (etrack->tags)
++-          gst_tag_list_unref (etrack->tags);
++-        if (etrack->caps)
++-          gst_caps_unref (etrack->caps);
++-
++-        g_array_remove_index (demux->essence_tracks,
+++       g_ptr_array_remove_index (demux->essence_tracks,
++             demux->essence_tracks->len - 1);
++       }
++     }
++@@ -1069,7 +1062,8 @@ gst_mxf_demux_update_essence_tracks (GstMXFDemux * demux)
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++     GstMXFDemuxEssenceTrack *etrack =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++        g_ptr_array_index (demux->essence_tracks, i);
+++
++
++     if (!etrack->source_package || !etrack->source_track || !etrack->caps) {
++       GST_ERROR_OBJECT (demux, "Failed to update essence track %u", i);
++@@ -1438,7 +1432,7 @@ gst_mxf_demux_update_tracks (GstMXFDemux * demux)
++
++     for (k = 0; k < demux->essence_tracks->len; k++) {
++       GstMXFDemuxEssenceTrack *tmp =
++-          &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, k);
+++          g_ptr_array_index (demux->essence_tracks, k);
++
++       if (tmp->source_package == source_package &&
++           tmp->source_track == source_track) {
++@@ -1927,8 +1921,7 @@ gst_mxf_demux_pad_set_component (GstMXFDemux * demux, GstMXFDemuxPad * pad,
++   pad->current_essence_track = NULL;
++
++   for (k = 0; k < demux->essence_tracks->len; k++) {
++-    GstMXFDemuxEssenceTrack *tmp =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, k);
+++    GstMXFDemuxEssenceTrack *tmp = g_ptr_array_index (demux->essence_tracks, k);
++
++     if (tmp->source_package == source_package &&
++         tmp->source_track == source_track) {
++@@ -2712,7 +2705,7 @@ gst_mxf_demux_handle_generic_container_essence_element (GstMXFDemux * demux,
++   if (!etrack) {
++     for (i = 0; i < demux->essence_tracks->len; i++) {
++       GstMXFDemuxEssenceTrack *tmp =
++-          &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++          g_ptr_array_index (demux->essence_tracks, i);
++
++       if (tmp->body_sid == demux->current_partition->partition.body_sid &&
++           (tmp->track_number == track_number || tmp->track_number == 0)) {
++@@ -3933,8 +3926,7 @@ from_track_offset:
++   gst_mxf_demux_set_partition_for_offset (demux, demux->offset);
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++-    GstMXFDemuxEssenceTrack *t =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++    GstMXFDemuxEssenceTrack *t = g_ptr_array_index (demux->essence_tracks, i);
++
++     if (index_start_position != -1 && t == etrack)
++       t->position = index_start_position;
++@@ -3958,8 +3950,7 @@ from_track_offset:
++       /* Handle EOS */
++       for (i = 0; i < demux->essence_tracks->len; i++) {
++         GstMXFDemuxEssenceTrack *t =
++-            &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
++-            i);
+++            g_ptr_array_index (demux->essence_tracks, i);
++
++         if (t->position > 0)
++           t->duration = t->position;
++@@ -4197,8 +4188,7 @@ gst_mxf_demux_pull_and_handle_klv_packet (GstMXFDemux * demux)
++           guint i;
++           for (i = 0; i < demux->essence_tracks->len; i++) {
++             GstMXFDemuxEssenceTrack *etrack =
++-                &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
++-                i);
+++                g_ptr_array_index (demux->essence_tracks, i);
++
++             if (etrack->body_sid != partition->partition.body_sid)
++               continue;
++@@ -4669,9 +4659,8 @@ gst_mxf_demux_pad_to_track_and_position (GstMXFDemux * demux,
++   /* Get the corresponding essence track for the given source package and stream id */
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++     GstMXFDemuxEssenceTrack *track =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
++-    GST_LOG_OBJECT (pad,
++-        "Looking at essence track body_sid:%d index_sid:%d",
+++	g_ptr_array_index (demux->essence_tracks, i);
+++    GST_LOG_OBJECT (pad, "Looking at essence track body_sid:%d index_sid:%d",
++         track->body_sid, track->index_sid);
++     if (clip->source_track_id == 0 || (track->track_id == clip->source_track_id
++             && mxf_umid_is_equal (&clip->source_package_id,
++@@ -4920,8 +4909,7 @@ gst_mxf_demux_seek_push (GstMXFDemux * demux, GstEvent * event)
++   }
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++-    GstMXFDemuxEssenceTrack *t =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++    GstMXFDemuxEssenceTrack *t = g_ptr_array_index (demux->essence_tracks, i);
++     t->position = -1;
++   }
++
++@@ -5359,8 +5347,7 @@ gst_mxf_demux_seek_pull (GstMXFDemux * demux, GstEvent * event)
++   }
++
++   for (i = 0; i < demux->essence_tracks->len; i++) {
++-    GstMXFDemuxEssenceTrack *t =
++-        &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++    GstMXFDemuxEssenceTrack *t = g_ptr_array_index (demux->essence_tracks, i);
++     t->position = -1;
++   }
++
++@@ -5659,7 +5646,7 @@ gst_mxf_demux_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
++
++       for (i = 0; i < demux->essence_tracks->len; i++) {
++         GstMXFDemuxEssenceTrack *t =
++-            &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack, i);
+++            g_ptr_array_index (demux->essence_tracks, i);
++
++         if (t->position > 0)
++           t->duration = t->position;
++@@ -5700,8 +5687,7 @@ gst_mxf_demux_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
++
++           for (i = 0; i < demux->essence_tracks->len; i++) {
++             GstMXFDemuxEssenceTrack *etrack =
++-                &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
++-                i);
+++                g_ptr_array_index (demux->essence_tracks, i);
++             etrack->position = -1;
++           }
++           ret = TRUE;
++@@ -5725,8 +5711,7 @@ gst_mxf_demux_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
++
++       for (i = 0; i < demux->essence_tracks->len; i++) {
++         GstMXFDemuxEssenceTrack *t =
++-            &g_array_index (demux->essence_tracks, GstMXFDemuxEssenceTrack,
++-            i);
+++            g_ptr_array_index (demux->essence_tracks, i);
++         t->position = -1;
++       }
++       demux->current_partition = NULL;
++@@ -5999,7 +5984,7 @@ gst_mxf_demux_finalize (GObject * object)
++
++   g_ptr_array_free (demux->src, TRUE);
++   demux->src = NULL;
++-  g_array_free (demux->essence_tracks, TRUE);
+++  g_ptr_array_free (demux->essence_tracks, TRUE);
++   demux->essence_tracks = NULL;
++
++   g_hash_table_destroy (demux->metadata);
++@@ -6076,8 +6061,8 @@ gst_mxf_demux_init (GstMXFDemux * demux)
++   g_rw_lock_init (&demux->metadata_lock);
++
++   demux->src = g_ptr_array_new ();
++-  demux->essence_tracks =
++-      g_array_new (FALSE, FALSE, sizeof (GstMXFDemuxEssenceTrack));
+++  demux->essence_tracks = g_ptr_array_new_with_free_func ((GDestroyNotify)
+++      gst_mxf_demux_essence_track_free);
++
++   gst_segment_init (&demux->segment, GST_FORMAT_TIME);
++
++diff --git a/gst/mxf/mxfdemux.h b/gst/mxf/mxfdemux.h
++index d079a1d..1dc8a4e 100644
++--- a/gst/mxf/mxfdemux.h
+++++ b/gst/mxf/mxfdemux.h
++@@ -266,7 +266,7 @@ struct _GstMXFDemux
++   GList *partitions;
++   GstMXFDemuxPartition *current_partition;
++
++-  GArray *essence_tracks;
+++  GPtrArray *essence_tracks;
++
++   GList *pending_index_table_segments;
++   GList *index_tables; /* one per BodySID / IndexSID */
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+index 219ebe4fa7..4151e54284 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://CVE-2023-40476.patch \
+            file://CVE-2023-44429.patch \
+            file://CVE-2024-0444.patch \
++           file://CVE-2023-44446.patch \
+            "
+ SRC_URI[sha256sum] = "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195"
+ 
+-- 
+2.40.0
 
-Disclaimer
-
-The information contained in this communication from the sender is confiden=
-tial. It is intended solely for use by the recipient and others authorized =
-to receive it. If you are not the recipient, you are hereby notified that a=
-ny disclosure, copying, distribution or taking action in relation of the co=
-ntents of this information is strictly prohibited and may be unlawful.
-
-This email has been scanned for viruses and malware, and may have been auto=
-matically archived by Mimecast, a leader in email security and cyber resili=
-ence. Mimecast integrates email defenses with brand protection, security aw=
-areness training, web security, compliance and other essential capabilities=
-. Mimecast helps protect large and small organizations from malicious activ=
-ity, human error and technology failure; and to lead the movement toward bu=
-ilding a more resilient world. To find out more, visit our website.
-
---MCBoundary=_12405011417154101
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<html><head><style type=3D"text/css">.style1 {font-family: "Times New Roman=
-";}</style></head><body>Remove file entries which no longer exist in the so=
-urce.<BR>
-<BR>
-I spotted this when I added a custom QA error locally which<BR>
-raised a warning when a file in FILES list of a package isn't<BR>
-found in the source.<BR>
-<BR>
-Signed-off-by: Gu&eth;ni M&aacute;r Gilbert &lt;gudnimar@noxmedical.com&gt;=
-<BR>
----<BR>
- .../python/python3/python3-manifest.json      | 23 -------------------<BR>
- 1 file changed, 23 deletions(-)<BR>
-<BR>
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
-eta/recipes-devtools/python/python3/python3-manifest.json<BR>
-index 46092d4004..6e06002783 100644<BR>
---- a/meta/recipes-devtools/python/python3/python3-manifest.json<BR>
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json<BR>
-@@ -219,15 +219,9 @@<BR>
-         &quot;rdepends&quot;: [],<BR>
-         &quot;files&quot;: [<BR>
-             &quot;${bindir}/python${PYTHON_MAJMIN}&quot;,<BR>
--            &quot;${bindir}/python${PYTHON_MAJMIN}.real&quot;,<BR>
-             &quot;${bindir}/python3&quot;,<BR>
-             &quot;${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h&quot;,<=
-BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserDict.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserList.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/UserString.py&quot;,<BR=
->
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__future__.py&quot;,<BR=
->
--            &quot;${libdir}/python${PYTHON_MAJMIN}/_abcoll.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py&quot;,<B=
-R>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py&quo=
-t;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_compression.py&quot;,<=
-BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/_markupbase.py&quot;,<B=
-R>
-@@ -262,7 +256,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/getopt.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/gettext.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/heapq.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/imp.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_abc.py&quot;=
-,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/importlib/_bootstrap.py=
-&quot;,<BR>
-@@ -274,10 +267,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/io.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/ipaddress.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/keyword.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/_struct.*.so&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/binascii.*.so&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/time.*.so&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__=
-/xreadlines.*.so&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.s=
-o&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so&q=
-uot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so&q=
-uot;,<BR>
-@@ -286,22 +275,17 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.s=
-o&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubpr=
-ocess.*.so&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.s=
-o&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_typing.*.s=
-o&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/array.*.so&=
-quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/binascii.*.=
-so&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/grp.*.so&qu=
-ot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/math.*.so&q=
-uot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/parser.*.so=
-&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/readline.*.=
-so&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/select.*.so=
-&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so&q=
-uot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata=
-.*.so&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.=
-*.so&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so&q=
-uot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/linecache.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/locale.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/lzma.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/new.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/ntpath.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/opcode.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/operator.py&quot;,<BR>
-@@ -323,7 +307,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/shutil.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/signal.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/site.py&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py&quot;,=
-<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_compile.py&quot;,<B=
-R>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_constants.py&quot;,=
-<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sre_parse.py&quot;,<BR>
-@@ -331,7 +314,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/stringprep.py&quot;,<BR=
->
-             &quot;${libdir}/python${PYTHON_MAJMIN}/struct.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/subprocess.py&quot;,<BR=
->
--            &quot;${libdir}/python${PYTHON_MAJMIN}/symbol.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/sysconfig.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/textwrap.py&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/threading.py&quot;,<BR>
-@@ -349,7 +331,6 @@<BR>
-         ],<BR>
-         &quot;cached&quot;: [<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/__future__.=
-*.pyc&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_bootlocale=
-.*.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_collection=
-s_abc.*.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compressio=
-n.*.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase=
-.*.pyc&quot;,<BR>
-@@ -378,7 +359,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/getopt.*.py=
-c&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/gettext.*.p=
-yc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/heapq.*.pyc=
-&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/imp.*.pyc&q=
-uot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/inspect.*.p=
-yc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/io.*.pyc&qu=
-ot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/ipaddress.*=
-.pyc&quot;,<BR>
-@@ -395,7 +375,6 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.p=
-yc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.=
-pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*=
-.pyc&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc&qu=
-ot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.p=
-yc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter=
-.*.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/runpy.*.pyc=
-&quot;,<BR>
-@@ -410,13 +389,11 @@<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/stringprep.=
-*.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/struct.*.py=
-c&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/subprocess.=
-*.pyc&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/symbol.*.py=
-c&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/sysconfig.*=
-.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/textwrap.*.=
-pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/threading.*=
-.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/token.*.pyc=
-&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.=
-pyc&quot;,<BR>
--            &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*=
-.pyc&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc=
-&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.py=
-c&quot;,<BR>
-             &quot;${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.=
-pyc&quot;,<BR>
--- <BR>
-2.34.1<BR>
-
-<br><br><p style=3D"font-family: Verdana; font-size:10pt; color:#666666;"><=
-/p><p style=3D"font-family: Verdana; font-size:8pt; color:#666666;">Warning=
-:  Copyright Nox Health.  This communication is confidential and may contai=
-n privileged information.  By the use of email over the Internet or other c=
-ommunication systems, Nox Health is not waiving either confidentiality of, =
-or legal privilege in, the content of the email and of any attachments.  If=
- the recipient of this message is not the intended addressee, please call N=
-ox Health immediately by calling (+1) 888.505.0280</p></body></html>
-
---MCBoundary=_12405011417154101--
 
