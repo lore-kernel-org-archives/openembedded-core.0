@@ -2,57 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D17C25B77
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27826C25B76
 	for <webhook@archiver.kernel.org>; Tue,  7 May 2024 05:33:33 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.4769.1715060008442876422
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.4736.1715060009378704111
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 May 2024 22:33:28 -0700
+ Mon, 06 May 2024 22:33:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iymITuxZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1ed96772f92so18182905ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 22:33:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OL0NGbCP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1eab16c8d83so20125375ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 22:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1715060008; x=1715664808; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FS8Ng2ILnd/moW06hNKZoPQzRtfOgKrme3ZDRhA8xTg=;
-        b=iymITuxZPfJnULUVQVNPI2JH2vgQ0BK6t8jMCTzs4ZgsUTB47kUiyaB8xDQnon7860
-         k1BSTqU37iKlpGfph055P4xJnKm8MMs1ap82Qdmfg4c22zui04N1aoeSWo4X4dmhKVL0
-         vzk7PDhhH1uIApmo6AJjw3xvzpkD3XmOp6urfvT0OS9AV0ZtrmUhduXcWiGdf/q9el68
-         S3zTlbnJC86jERiezxoKbJy2th6tFoUzIdl+3r9Kh1/wQlzIQbTSedCipBfS89Cpm5mx
-         gVWVfrdU+b3mA0dHe7xqalZDXqUKH3atCkhRXDIay0i1q2sy7wp9ffLpO5VkITGuEiBB
-         2Glg==
+        bh=c7AnVRSxIKtYuf0ywbbYH2gMA5NjwE30SWIXQ4oYqb4=;
+        b=OL0NGbCPXxbdTbvh1V3KMsUIsF0ffL9Ro/HWvnH6zmxpVnMizsmNaQrIxH0gKuJWbJ
+         8YpzXLjTd5Aw6eBzRryJUlZVMyJp5ibH9rhJsovbz9fxhOf6b1982OsS4CDyHjVWYCa6
+         ezEzHCa0f+Av6JpKsEu9IyyKnX6BtcFqasKfMd34DbGD7jBhgLM+9Qtpsi0ASkvaiq7L
+         rXQc1ktkFHBEqi/HVsjI2rnKLITuqUf+VUqt3U+jHYr2Kq32DnTIBn0VfqLt+Bbg4iSS
+         mSg5Pzj85dkTzRixlH3HxYaT0Xy+tnl4sbqqdUPTc53qTngUCRNpQTE5Kw11ymQ3DVTz
+         mwrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1715060008; x=1715664808;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FS8Ng2ILnd/moW06hNKZoPQzRtfOgKrme3ZDRhA8xTg=;
-        b=c/YP2Ik3m7U7JeUc2n/dU0iDk5Qi2+Y07gkAkBsBN+rZv61tuFINPRhbE3XipvQUDA
-         HKGE+kLcxPG5sXdBmXA0Ppdw6PVJMWqCHVf3f0l4ohCBGQ42sauoHXKv1Az7g8dka4Z/
-         N1kugt3+yBgZOSHT7zFkEmzJjYBzUq79Y/kikH++EmP+/pmbZ736ZrAhYhzAdy4uz6qa
-         EQxQGppGgTN0tSA3Mj71NJIby9Hd42UTgh5U+kMoNNgstg/VojoMMx7diXgqxexLIFWq
-         j+DLvBjovF+D3Ha61rotsaL1AGH9/EOiVwe6ikNGT1PNYp+VOCcgZ/O8bYIx5k9DcV7T
-         xzug==
-X-Gm-Message-State: AOJu0YxDMXWi70badeuonFAPe1EKHaCN5MHHVV4MnlLiJEYxK6LSSk2m
-	QRLvEBDNksB9gU/hVYtUy84oNYSHpYyUIUmrWy6sLNb+URbuxx30zYKuWQRB
-X-Google-Smtp-Source: AGHT+IGHtQViT8kiVGbCLunQKHq63DG64GDwejKBlVCzBo+5Y7tiJuqjypxT9xAytDsf26H6EJRBLw==
-X-Received: by 2002:a17:902:ccc5:b0:1ec:2517:3a06 with SMTP id z5-20020a170902ccc500b001ec25173a06mr13365658ple.27.1715060007597;
-        Mon, 06 May 2024 22:33:27 -0700 (PDT)
+        bh=c7AnVRSxIKtYuf0ywbbYH2gMA5NjwE30SWIXQ4oYqb4=;
+        b=AvEd1o9mM0MCA/Cn7day7b0N8UANuoykqE5tiGLZKKiR4MV54BNZ+TFX4I4DcVRD99
+         jCXvxH+80zDg3MQ78GyxgBsF203IwreJSdFZficRYk9GhRvyfLD44e3J2VzFOMqGwjg0
+         lePqRdpl3Y/KzmdM7g292sRvGNpik91fnWZEW4Xah8j+/w0Qgp2MyurcG6xvM+OjVK9r
+         0QsgnzUImCDHy5H0kYvbMVaoAxIaeVPeSxSz6YhmEqLbNNRd1Z9/1Bz/Lr0iKJNo6orl
+         Gm3zVyR2jignW/+ki8UdtV+4us31IcI6DHGpEsPN4Jwq7smwuyBMVurZrOXjLozljMjZ
+         aeHQ==
+X-Gm-Message-State: AOJu0Yz/4iClANSclX/8TkK9RvYlxxhvSbvL3lHBvtFPOqIgAvvtzC76
+	ModTq+iyEtqVlACfI1tTbhofuaC8En+zFXj+nXFe3mRU0ZNr5F6SgtaNiD9k
+X-Google-Smtp-Source: AGHT+IFiv61brRGSn1beO0DnkDmWuvocrU6hmAqDxcXIr5ckTK17YOb5AKrNKsiVGxjhbb+9SJMkfQ==
+X-Received: by 2002:a17:903:2349:b0:1e5:3c5:55a5 with SMTP id c9-20020a170903234900b001e503c555a5mr13060313plh.8.1715060008426;
+        Mon, 06 May 2024 22:33:28 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::cf93])
-        by smtp.gmail.com with ESMTPSA id i10-20020a170902c94a00b001eb4a71cb58sm9221483pla.114.2024.05.06.22.33.26
+        by smtp.gmail.com with ESMTPSA id i10-20020a170902c94a00b001eb4a71cb58sm9221483pla.114.2024.05.06.22.33.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 22:33:26 -0700 (PDT)
+        Mon, 06 May 2024 22:33:28 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 05/11] p11-kit: ignore various issues fatal with gcc-14 (for 32bit MACHINEs)
-Date: Mon,  6 May 2024 22:33:16 -0700
-Message-ID: <20240507053320.1566814-5-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 06/11] pcmanfm: Disable incompatible-pointer-types warning as error
+Date: Mon,  6 May 2024 22:33:17 -0700
+Message-ID: <20240507053320.1566814-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240507053320.1566814-1-raj.khem@gmail.com>
 References: <20240507053320.1566814-1-raj.khem@gmail.com>
@@ -62,39 +61,26 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 May 2024 05:33:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199074
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199075
 
-From: Martin Jansa <martin.jansa@gmail.com>
-
-* these are reproducible only with 32bit MACHINEs and probably related
-  to time64.inc
-
-* http://errors.yoctoproject.org/Errors/Build/183154/
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/p11-kit/p11-kit_0.25.3.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-index b7ebd44abc6..2ede38deba2 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-@@ -32,3 +32,13 @@ FILES:${PN} += " \
- INSANE_SKIP:${PN} = "dev-so"
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
+index 22c9fa59dcd..2e463cd7b36 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
+@@ -27,6 +27,8 @@ inherit autotools pkgconfig features_check mime-xdg
+ REQUIRED_DISTRO_FEATURES = "x11"
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+# # This one is reproducible only on 32bit MACHINEs
-+# http://errors.yoctoproject.org/Errors/Details/766969/
-+# git/p11-kit/import-object.c:223:62: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
-+# git/p11-kit/import-object.c:229:70: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
-+# git/p11-kit/import-object.c:264:78: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
-+# git/p11-kit/import-object.c:223:62: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
-+# git/p11-kit/import-object.c:229:70: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
-+# git/p11-kit/import-object.c:264:78: error: passing argument 3 of 'p11_asn1_read' from incompatible pointer type [-Wincompatible-pointer-types]
+ EXTRA_OECONF = "--with-gtk=3"
++# GCC 14 finds extra incompatible pointer type warnings which are treated as errors
 +CFLAGS += "-Wno-error=incompatible-pointer-types"
+ 
+ do_install:append () {
+ 	install -d ${D}/${datadir}
 -- 
 2.45.0
 
