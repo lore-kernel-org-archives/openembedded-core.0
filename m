@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9422FC25B76
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94397C25B78
 	for <webhook@archiver.kernel.org>; Tue,  7 May 2024 11:46:55 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.9480.1715082408509365177
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.9478.1715082405919969932
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 May 2024 04:46:48 -0700
+ Tue, 07 May 2024 04:46:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=beyZ7+hb;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a59c04839caso625467866b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 May 2024 04:46:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J+4Uq12L;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51f0b6b682fso3120239e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 May 2024 04:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715082407; x=1715687207; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1715082404; x=1715687204; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qZuV6K7EP+DvEfVyw1ILZ0ycOKrtDUL+3lvt0f+lOGA=;
-        b=beyZ7+hbShjtKVuq4MyQc0Dzya5sAtVOaLi+AJ1CFTXalsVJLukoPDCDfXe/YhfGvs
-         FFRW6vVjOr+IhAamRbateGp5Z3GYwGxrDX5o7rx2TYpklyNRvLLD3m3ShlHVTPXl9xGk
-         Y4TZXQmiqAqBiHsk0pv3zz4U3WOpufoxtulwgOQAqZwo2OJaN0M/iaT28Bfpmjf1LN8s
-         WbF5X5xi7tbAiGPVo4gmv2fQwNKy32r+dhAg15j6OCfD0K4w1XPxEV9LPfO95mmWtGtC
-         Rpvt/OsJBuNvO+zIJeiuUh2SQu5pJT2LrMjRvU7/59QGT6nv94AO1nV2iohPqKxgW6eM
-         s/Mw==
+        bh=s3KjOQMiol6AhvXTwXnrEgF8B6xzHo9Kpiwd0eNmqHM=;
+        b=J+4Uq12Lq+ej3uz5Ja8Rd0jXEek7x6t9RvOR/G3vCcWUDNsuKYjAvm0VUcTDEQ6bf8
+         wXd0mbRJHxzcioje1FXMkdD5WnpMkaDgJo9ztJjEdP5XoUP89lkjQNJZsBCQ+A8r1hGW
+         qgvSuRV6ndyNO81plJfX0tkn5H7fzOgX0nqkVj2Azhh9ovxKpP4m90Av0uvCQ2o7e/H4
+         UdqvAO7iqQdGAivj0AXoR6WOTCeMY+MDsIZqtdUu4P7LSOEgUBwGVYgOSZA9eCXItRpm
+         Omg4W/HUW6aDeqd3HWUDviRWtnarjgrcPa7enxrux3BHeISBYePWo2i8syfx4Uh1hiL/
+         NAhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715082407; x=1715687207;
+        d=1e100.net; s=20230601; t=1715082404; x=1715687204;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qZuV6K7EP+DvEfVyw1ILZ0ycOKrtDUL+3lvt0f+lOGA=;
-        b=sTcwBo0Hv4b4JA2fMvAOSxCoQ9biSjxWIgNqutwW8FudRJ76ZnEfeSF3cpeHpWyhSY
-         racurjG3FSA9Fg79IF9UQnlpNIomIP8Cfgo7dfGWAh0tWhpc1KdSaBsw5SCqIBKsuz+I
-         U4KORMZ9PT3o9TLtuiDv1jjmoHAxxJJVq4EAFdExxT2xqGEdz3uA/Lmw1B5ewnCXnBsL
-         17iIAn8k8VKLzNj9uA+EykXxQwhMAMUt8oExeGzn8RDfH6k+j7jqMrIQFyrc/Yw42DYJ
-         m3IDD9So3GCgGQaWT1/zYWKwD/Y8DVoBQX/GX89zmXsqXJrkF3fVV/Ld6yaiahtjREzh
-         079g==
-X-Gm-Message-State: AOJu0YypA7zZIJAoJ5g60VIMvBKDZcUTOxhXtbJ4jRGN0lIOIACO3Fxm
-	yRLMdW4uadIB7L63U1brblwCo95wylpDujpwG6Bb9721jjdUDOIuFW7QkA==
-X-Google-Smtp-Source: AGHT+IGwHbhpeDdAEf5QGzmTvyLwjc2+MiPB758IivfDbwb723wdSbd11DbpDavGvU3CsjmgDp+BlQ==
-X-Received: by 2002:a50:ab5e:0:b0:570:1de6:8a2d with SMTP id t30-20020a50ab5e000000b005701de68a2dmr8045902edc.10.1715082406863;
-        Tue, 07 May 2024 04:46:46 -0700 (PDT)
+        bh=s3KjOQMiol6AhvXTwXnrEgF8B6xzHo9Kpiwd0eNmqHM=;
+        b=cf5JnYHz2I7KCnlEZx9SC31rExZnWxY/JINYwg3SPGrM7gHrkLbDCflL+iVoUFwoqJ
+         R+sgW+1/+AzFJ9j88CNk67WgPqCKW9bP2Gl0SRB0y42Stlcif2ySeQNLfK7xNuomz6I/
+         gTubHufjUu6yM2yxhtWaiICMAwWu11nKqkdn86nLz7sA3HxGaVJddhjvZaON3lRJ+j6r
+         bJZVQakkqqfMBAh6cZWddj+aGe8d6Rz7xy7piu3DFngsipa/wJfSf5OgyX2+kKNbAwJB
+         bZgM7AJDgWy4DoxZIESmJlYuSeSmIi7594bdPxScpgD8WGaSPZOZgBsK2JylQTZrpMmW
+         y1uQ==
+X-Gm-Message-State: AOJu0Yx7iHGKz3kru28MhQ5gip0+GWc6b8mqgEGM/Mr/bTqsRps/NKoa
+	4wbSHh2xHuzGrd3tUIeNQ0nYpq7OUzEEbgx9FL5TnPo9zBUe3ZqoJ9pbAQ==
+X-Google-Smtp-Source: AGHT+IEX5+1ObK4d0vxzBx6G3fMT0aqpgat8TRn1ZVXD9E8HjPBlrvuKa1I0MUUKKMA99LHpN/YZiQ==
+X-Received: by 2002:a05:6512:3d87:b0:51e:876d:17d0 with SMTP id k7-20020a0565123d8700b0051e876d17d0mr14404138lfv.52.1715082403835;
+        Tue, 07 May 2024 04:46:43 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id et4-20020a056402378400b00572d255e342sm5268215edb.10.2024.05.07.04.46.46
+        by smtp.gmail.com with ESMTPSA id et4-20020a056402378400b00572d255e342sm5268215edb.10.2024.05.07.04.46.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 04:46:46 -0700 (PDT)
+        Tue, 07 May 2024 04:46:43 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 8/9] selftest/sstatetests: move exception list for cache objects to the parent class
-Date: Tue,  7 May 2024 13:46:28 +0200
-Message-Id: <20240507114629.2591882-8-alex.kanavin@gmail.com>
+Subject: [PATCH 3/9] bblayers/makesetup: move check for existence of git remotes to oe-setup-layers plugin
+Date: Tue,  7 May 2024 13:46:23 +0200
+Message-Id: <20240507114629.2591882-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240507114629.2591882-1-alex.kanavin@gmail.com>
 References: <20240507114629.2591882-1-alex.kanavin@gmail.com>
@@ -61,75 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 May 2024 11:46:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199091
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199086
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-This is useful not just in cdn/local cache tests, but also in the build bundle test,
-and so should be applied by default.
+This helps when making a local copy of all the layers: it's fine to
+not have any remotes configured in that case.
+
+Also correct the mistake in accessing 'contains_this_file' property:
+it may not necessarily exist, and if so, it should default to False.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 26 ++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ meta/lib/bblayers/makesetup.py                    | 4 ----
+ meta/lib/bblayers/setupwriters/oe-setup-layers.py | 3 +++
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 8f843139ebc..94ad6e38b68 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -918,13 +918,24 @@ INHERIT += "base-do-configure-modified"
- expected_sametmp_output, expected_difftmp_output)
+diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+index 48dc73c288d..4199b5f0698 100644
+--- a/meta/lib/bblayers/makesetup.py
++++ b/meta/lib/bblayers/makesetup.py
+@@ -63,10 +63,6 @@ class MakeSetupPlugin(LayerPlugin):
+                         'describe':oe.buildcfg.get_metadata_git_describe(repo_path)}}
+                 if repo_path == destdir_repo:
+                     repos[repo_path]['contains_this_file'] = True
+-                if not repos[repo_path]['git-remote']['remotes'] and not repos[repo_path]['contains_this_file']:
+-                    e = "Layer repository in {path} does not have any remotes configured. Please add at least one with 'git remote add'.".format(path=repo_path)
+-                    logger.error(e)
+-                    raise Exception(e)
  
- class SStateCheckObjectPresence(SStateBase):
--    def check_bb_output(self, output, exceptions, check_cdn):
-+    def check_bb_output(self, output, targets, exceptions, check_cdn):
-         def is_exception(object, exceptions):
-             for e in exceptions:
-                 if re.search(e, object):
-                     return True
-             return False
+         top_path = os.path.commonpath([os.path.dirname(r) for r in repos.keys()])
  
-+        # sstate is checked for existence of these, but they never get written out to begin with
-+        exceptions += ["{}.*image_qa".format(t) for t in targets.split()]
-+        exceptions += ["{}.*deploy_source_date_epoch".format(t) for t in targets.split()]
-+        exceptions += ["{}.*image_complete".format(t) for t in targets.split()]
-+        exceptions += ["linux-yocto.*shared_workdir"]
-+        # these get influnced by IMAGE_FSTYPES tweaks in yocto-autobuilder-helper's config.json (on x86-64)
-+        # additionally, they depend on noexec (thus, absent stamps) package, install, etc. image tasks,
-+        # which makes tracing other changes difficult
-+        exceptions += ["{}.*create_spdx".format(t) for t in targets.split()]
-+        exceptions += ["{}.*create_runtime_spdx".format(t) for t in targets.split()]
-+
-         output_l = output.splitlines()
-         for l in output_l:
-             if l.startswith("Sstate summary"):
-@@ -962,17 +973,6 @@ class SStateCheckObjectPresence(SStateBase):
- @OETestTag("yocto-mirrors")
- class SStateMirrors(SStateCheckObjectPresence):
-     def run_test(self, machine, targets, exceptions, check_cdn = True, ignore_errors = False):
--        # sstate is checked for existence of these, but they never get written out to begin with
--        exceptions += ["{}.*image_qa".format(t) for t in targets.split()]
--        exceptions += ["{}.*deploy_source_date_epoch".format(t) for t in targets.split()]
--        exceptions += ["{}.*image_complete".format(t) for t in targets.split()]
--        exceptions += ["linux-yocto.*shared_workdir"]
--        # these get influnced by IMAGE_FSTYPES tweaks in yocto-autobuilder-helper's config.json (on x86-64)
--        # additionally, they depend on noexec (thus, absent stamps) package, install, etc. image tasks,
--        # which makes tracing other changes difficult
--        exceptions += ["{}.*create_spdx".format(t) for t in targets.split()]
--        exceptions += ["{}.*create_runtime_spdx".format(t) for t in targets.split()]
--
-         if check_cdn:
-             self.config_sstate(True)
-             self.append_config("""
-@@ -988,7 +988,7 @@ MACHINE = "{}"
-         bitbake("-S none {}".format(targets))
-         if ignore_errors:
-             return
--        self.check_bb_output(result.output, exceptions, check_cdn)
-+        self.check_bb_output(result.output, targets, exceptions, check_cdn)
- 
-     def test_cdn_mirror_qemux86_64(self):
-         exceptions = []
+diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+index 56c929471e6..8faeabfabc8 100644
+--- a/meta/lib/bblayers/setupwriters/oe-setup-layers.py
++++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+@@ -86,6 +86,9 @@ class OeSetupLayersWriter():
+                 os.makedirs(args.destdir)
+             repos = parent.make_repo_config(args.destdir)
+             for r in repos.values():
++                if not r['git-remote']['remotes'] and not r.get('contains_this_file', False):
++                    e = "Layer repository in {path} does not have any remotes configured. Please add at least one with 'git remote add'.".format(path=r['originpath'])
++                    raise Exception(e)
+                 del r['originpath']
+             json = {"version":"1.0","sources":repos}
+             if not repos:
 -- 
 2.39.2
 
