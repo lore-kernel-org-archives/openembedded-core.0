@@ -2,56 +2,57 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61907C25B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CF0C25B76
 	for <webhook@archiver.kernel.org>; Tue,  7 May 2024 01:15:11 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.1143.1715044504314934999
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.1144.1715044504833982986
  for <openembedded-core@lists.openembedded.org>;
  Mon, 06 May 2024 18:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MY71/Muy;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2b3c1ea9a68so1651301a91.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JekkI1SX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2b4a7671abaso1700179a91.0
         for <openembedded-core@lists.openembedded.org>; Mon, 06 May 2024 18:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715044503; x=1715649303; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1715044504; x=1715649304; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c7AnVRSxIKtYuf0ywbbYH2gMA5NjwE30SWIXQ4oYqb4=;
-        b=MY71/Muyy5Y28GmNOAsorBO1mUCG91GtV0kEQek7t//etcw6Khx27HWpHfFYQLfmud
-         D0ThbkdjxJHGuvT6knLjqbT+ckwVma3w4F3wZMkjxmKGFdvkCx4Bm3sNUY9NQylPm5DR
-         qhOid2SHx6nNGM1jyyXdQomwDCLnXwMEfn1j90kv+Z10Zy+pIiIgLLWPUYXM/3uBZu7g
-         7uGCt80y5XOx5opn/LBBJBt790S1epBAonv4ZSbSa+MMOR/883gjyYEboBeMmceOHUvK
-         KyU5BkSNfRsLsZSunAX+nAynXpL7DPhkxPYw0yFso4UoTHQKM8JebMPydEBOoAJQwQQ7
-         23cA==
+        bh=gDPWRU/xZQ/9o2VHGwc/X6WbwfvgfOBDOaoAbMu7wr4=;
+        b=JekkI1SXtM/P1XbNKxG8ZfkKLmoWsJzD3D0myCbIyoEGF6lbaifD7asXCvGmolDCYf
+         VtyWhkPEgjE415OWJ0ayM0w2gTK268ATSeK4AdYAGtp/9mTj4BWn8vbxQf6O6osmAOzJ
+         8+N8GcXA6FpKsOKHqf12h2vhBse8Vn61ETXykrhCRJ4dKwUYh4260+FVFbEaYpSGUaR0
+         UrTnLANhvjIWd3i01YUUi3/doie0dhQOk20sRHL2vNkwFRODuREN4wQDzTFruRWpyV+o
+         WVhx4QuE3sWSUyXhHBMTXeP5vZVI2PDNt0514EUJ2rJMbNcbX1iEPd68P/5n6cO2duT0
+         krBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715044503; x=1715649303;
+        d=1e100.net; s=20230601; t=1715044504; x=1715649304;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c7AnVRSxIKtYuf0ywbbYH2gMA5NjwE30SWIXQ4oYqb4=;
-        b=LUnIJPLjEvpHybRXNqyYcPzJW8iSKDOhgxAs1k3bRvao3uSoNfq6twy6revigoIR0V
-         TNBpYdZBmopQPv9oP5KrANwWt7XBZoCvh0ms3L+g9WU+miknjQpmzIsNUl8HN+vicl3F
-         IIGYQco+rH2Q+NAJYv7nr4bbvwNk2NcfZ9i142DD0qYYi37DxUmmtZu9ObKGGebUrzuw
-         RkAO3V1DJ46fQH61GRhMhsuUtlrOwHGuROtjYFKFlnkPPtS2soaznOlWIBRAPCmxmSYg
-         lVDmwj5CkhzsPDKX/tyHxO/nr29+rYFV3YHgcBhu6Gsm6elaFqouLowsGHwqld7mxlwO
-         Oehg==
-X-Gm-Message-State: AOJu0YyNzrPmZeECRlflA7owcYEe3T3BQW8jHXrPIqFgBcKW1JwgcZ7E
-	ae+p30O0Gs2lPAFQPRMTuL/jjNOnVZSuyQhHsFFv08fdfBu7Nt0JQJ8xkhKA
-X-Google-Smtp-Source: AGHT+IHzwnIoC04DN80rYwbzVHW6xjQFyWQOmHpYuxkzEr+LQDRfim0BGY3QWxTXIOKw9/qJFdq/8w==
-X-Received: by 2002:a17:90a:ab83:b0:2b1:54e4:e125 with SMTP id n3-20020a17090aab8300b002b154e4e125mr1742704pjq.22.1715044503149;
+        bh=gDPWRU/xZQ/9o2VHGwc/X6WbwfvgfOBDOaoAbMu7wr4=;
+        b=f6I1Uf5ggHvRv2m5if8PuNgOoUlsA0f0umzalCwn8rXTrL2e2ROqwVOP4x9j6oP3qD
+         4xiWQPZiDFitFn1AteBtjv417Xbk4FX1WrPighO0jwl/Wg5ry7i0PwtfPTSiA+0Noiir
+         EU9sZLieoOBvYX5T2iTRLz8sGU09j6saUo/wbnpNmjEjmD2aOTJb901hd8vpb7E8PM3S
+         sXG3bh8B53ovPoz14s4OPgUBMJLCw4LyxaaCo5HPAjfklvzJTDp9I9OF64uSsoqFHXPT
+         VyRJQ42FtyWFB089C28acx6m/EpuOmIDHMngJbilm/NkIncV/mkxpXAoBIJlnt0GiVH0
+         iSVw==
+X-Gm-Message-State: AOJu0Yy/nwHwTsULE58oxS4DoV2tp8M1AmXMCnEXCcQV4gON3o7XRh21
+	dMGg7qIDn/ynVno1s6Vx7GXdIPpd9d3URJDvmQ6tm1m2YJjSjKYpqecM9sKl
+X-Google-Smtp-Source: AGHT+IHL0c1MITy4JnkfX/0hgX4rEfTzy3g5dDfamma/mXlELk9t9O0a5zXs+Sas16/Ii2YuELeYqg==
+X-Received: by 2002:a17:90a:d606:b0:2a2:9b37:367a with SMTP id w6-20020a17090ad60600b002a29b37367amr9546072pju.39.1715044503902;
         Mon, 06 May 2024 18:15:03 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::cf93])
-        by smtp.gmail.com with ESMTPSA id b11-20020a170902d50b00b001eb2f4648d3sm8830898plg.228.2024.05.06.18.15.02
+        by smtp.gmail.com with ESMTPSA id b11-20020a170902d50b00b001eb2f4648d3sm8830898plg.228.2024.05.06.18.15.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 18:15:02 -0700 (PDT)
+        Mon, 06 May 2024 18:15:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 06/10] pcmanfm: Disable incompatible-pointer-types warning as error
-Date: Mon,  6 May 2024 18:14:51 -0700
-Message-ID: <20240507011455.313230-6-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH 07/10] kea: Remove -fvisibility-inlines-hidden from C++ flags
+Date: Mon,  6 May 2024 18:14:52 -0700
+Message-ID: <20240507011455.313230-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240507011455.313230-1-raj.khem@gmail.com>
 References: <20240507011455.313230-1-raj.khem@gmail.com>
@@ -61,26 +62,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 May 2024 01:15:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199053
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199054
+
+This fixes build with gcc-14, where default visibility is extended to
+inline functions and getAll() function now falls into this category
+and functions are marked hidden resulting in linking errors
+
+Fixes
+/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::Dhcpv4Srv::appendRequestedVendorOptions(isc::dhcp::Dhcpv4Exchange&)':
+/usr/src/debug/kea/2.5.8/src/bin/dhcp4/dhcp4_srv.cc:2356:(.text+0xaac2): undefined reference to `isc::dhcp::CfgOption::getAll(unsigned int) const'
+/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::OptionDescriptor isc::dhcp::CfgOption::get<unsigned int>(unsigned int const&, unsigned short) const':
+/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:609:(.text+0xb288): undefined reference to `isc::dhcp::CfgOption::getAll(unsigned int) const'
+/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::Dhcpv4Srv::appendRequestedOptions(isc::dhcp::Dhcpv4Exchange&)':
+/usr/src/debug/kea/2.5.8/src/bin/dhcp4/dhcp4_srv.cc:2128:(.text+0xc556): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
+/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `std::vector<isc::dhcp::OptionDescriptor, std::allocator<isc::dhcp::OptionDescriptor> > isc::dhcp::CfgOption::getList<char [6]>(char const (&) [6], unsigned short) const':
+/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:641:(.text._ZNK3isc4dhcp9CfgOption7getListIA6_cEESt6vectorINS0_16OptionDescriptorESaIS5_EERKT_t[_ZNK3isc4dhcp9CfgOption7getListIA6_cEESt6vectorINS0_16OptionDescriptorESaIS5_EERKT_t]+0x86): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
+/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::OptionDescriptor isc::dhcp::CfgOption::get<char [6]>(char const (&) [6], unsigned short) const':
+/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:609:(.text._ZNK3isc4dhcp9CfgOption3getIA6_cEENS0_16OptionDescriptorERKT_t[_ZNK3isc4dhcp9CfgOption3getIA6_cEENS0_16OptionDescriptorERKT_t]+0x77): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
+collect2: error: ld returned 1 exit status
+make[5]: *** [Makefile:651: kea-dhcp4] Error 1
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-connectivity/kea/kea_2.4.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
-index 22c9fa59dcd..2e463cd7b36 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
-@@ -27,6 +27,8 @@ inherit autotools pkgconfig features_check mime-xdg
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectivity/kea/kea_2.4.1.bb
+index fc963e545ad..4fd042cd566 100644
+--- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
++++ b/meta/recipes-connectivity/kea/kea_2.4.1.bb
+@@ -38,6 +38,7 @@ DEBUG_OPTIMIZATION:append:mipsel = " -O"
+ BUILD_OPTIMIZATION:remove:mipsel = " -Og"
+ BUILD_OPTIMIZATION:append:mipsel = " -O"
  
- EXTRA_OECONF = "--with-gtk=3"
-+# GCC 14 finds extra incompatible pointer type warnings which are treated as errors
-+CFLAGS += "-Wno-error=incompatible-pointer-types"
- 
- do_install:append () {
- 	install -d ${D}/${datadir}
++CXXFLAGS:remove = "-fvisibility-inlines-hidden"
+ EXTRA_OECONF = "--with-boost-libs=-lboost_system \
+                 --with-log4cplus=${STAGING_DIR_TARGET}${prefix} \
+                 --with-openssl=${STAGING_DIR_TARGET}${prefix}"
 -- 
 2.45.0
 
