@@ -1,110 +1,112 @@
-Return-Path: <r.czerwinski@pengutronix.de>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FCEC04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 12:21:32 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.10807.1715170890313426350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A58F2C04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 12:23:52 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.10845.1715171028643857811
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 05:21:30 -0700
+ Wed, 08 May 2024 05:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: r.czerwinski@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <r.czerwinski@pengutronix.de>)
-	id 1s4gIa-0000qR-HD
-	for openembedded-core@lists.openembedded.org; Wed, 08 May 2024 14:21:28 +0200
-Message-ID: <2e8a718dd39f7fc89b34c91e552a6ba1fa658572.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH] kernel-fitImage: use IMAGE_NAME_SUFFIX
-From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 08 May 2024 14:21:27 +0200
-In-Reply-To: <20240430102448.1068114-1-r.czerwinski@pengutronix.de>
-References: <20240430102448.1068114-1-r.czerwinski@pengutronix.de>
-Autocrypt: addr=r.czerwinski@pengutronix.de; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MO/IS/LJ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5858ca950f=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4489h7h2028842
+	for <openembedded-core@lists.openembedded.org>; Wed, 8 May 2024 05:23:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=afbwj
+	RNjdWgnW78uQB/kyWLlxagbD5sKwfvC9N0u+kc=; b=MO/IS/LJfpEN1pUELaaJW
+	Jo8m4RyEZisN1ef5thc8lEz57lMnjQQLY96DJ9bR3apsrndyjRwTTwzGKbwX4tnn
+	Yq9V67nanXWMk2+ZAlVl/+n4lV3XE6k1CrslNCZQln80EPQEkzfMqEUMtdmtaqjB
+	YFXoRWz5C3LiP9BfMz+dAmfQ9fI27I3kOl0g+wC37+MP48evf3KdpmFUG3zqAhkf
+	6hI4cmCR1vXTavv7gYZjfZjYtKwaxaDhGy7hsETUFC678v8N5C3twv194JxfpINL
+	D6kKMI0/zl2Qbd7ECfQhBD6H1hRig3vbG/5vp6ALNRZJJOkTHxcoNg+NqvqxbrzZ
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xyse18rqe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 05:23:48 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Wed, 8 May 2024 05:23:46 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][master][scarthgap][PATCH 1/1] xserver-xorg: upgrade 21.1.11 -> 21.1.12
+Date: Wed, 8 May 2024 12:23:28 +0000
+Message-ID: <20240508122328.1930030-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: r.czerwinski@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: ia8yJH0wSpU0u5wjf4vLAgHQwS5oNE2r
+X-Proofpoint-ORIG-GUID: ia8yJH0wSpU0u5wjf4vLAgHQwS5oNE2r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-08_07,2024-05-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 suspectscore=0 bulkscore=90 adultscore=0
+ lowpriorityscore=90 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405080087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 12:21:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199117
+ <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 12:23:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199118
 
-Hi,
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-please disregard this patch. Apparently the convention is for initramfs
-images to set IMAGE_NAME_SUFFIX ?=3D "", which lets kernel-
-fitimage.bbclass work as expected.
+This release contains security fixes for
 
-Best regards,
-Rouven
+* CVE-2024-31080
+* CVE-2024-31081
+* CVE-2024-31082
+* CVE-2024-31083
 
-On Tue, 2024-04-30 at 12:24 +0200, Rouven Czerwinski wrote:
-> Without taking IMAGE_NAME_SUFFIX into account, the kernel-fitimage
-> class
-> will always fail to find the initramfs, fix the search path and error
-> message to include IMAGE_NAME_SUFFIX.
->=20
-> Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
-> ---
-> =C2=A0meta/classes-recipe/kernel-fitimage.bbclass | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
-> b/meta/classes-recipe/kernel-fitimage.bbclass
-> index 4b74ddc201..e0a26d26b9 100644
-> --- a/meta/classes-recipe/kernel-fitimage.bbclass
-> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-> @@ -683,7 +683,7 @@ fitimage_assemble() {
-> =C2=A0		# Find and use the first initramfs image archive
-> type we find
-> =C2=A0		found=3D
-> =C2=A0		for img in ${FIT_SUPPORTED_INITRAMFS_FSTYPES}; do
-> -
-> 			initramfs_path=3D"${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img"
-> +			initramfs_path=3D"${DEPLOY_DIR_IMAGE}/${INITRA
-> MFS_IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$img"
-> =C2=A0			if [ -e "$initramfs_path" ]; then
-> =C2=A0				bbnote "Found initramfs image:
-> $initramfs_path"
-> =C2=A0				found=3Dtrue
-> @@ -695,7 +695,7 @@ fitimage_assemble() {
-> =C2=A0		done
-> =C2=A0
-> =C2=A0		if [ -z "$found" ]; then
-> -			bbfatal "Could not find a valid initramfs
-> type for ${INITRAMFS_IMAGE_NAME}, the supported types are:
-> ${FIT_SUPPORTED_INITRAMFS_FSTYPES}"
-> +			bbfatal "Could not find a valid initramfs
-> type for ${INITRAMFS_IMAGE_NAME}${IMAGE_NAME_SUFFIX}, the supported
-> types are: ${FIT_SUPPORTED_INITRAMFS_FSTYPES}"
-> =C2=A0		fi
-> =C2=A0	fi
-> =C2=A0
->=20
-> base-commit: 7ef767d84d56b25498e45db83bb8f9d9caebeaf9
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#198759):
-> https://lists.openembedded.org/g/openembedded-core/message/198759
-> Mute This Topic: https://lists.openembedded.org/mt/105818094/3620320
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> rcz@pengutronix.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Changelog:
+===========
+101caa1b0 (tag: xorg-server-21.1.12) xserver 21.1.12
+117315640 render: fix refcounting of glyphs during ProcRenderAddGlyphs
+0e34d8ebc Xquartz: ProcAppleDRICreatePixmap needs to use unswapped length to send reply
+cea92ca78 Xi: ProcXIPassiveGrabDevice needs to use unswapped length to send reply
+8a7cd0e3e Xi: ProcXIGetSelectedEvents needs to use unswapped length to send reply
+5ca3a9513 Xext: SProcSyncCreateFence needs to swap drawable id too
+5d7272f05 Allow disabling byte-swapped clients
+8a46a463f Initialize Mode->name in xf86CVTMode()
+f653d9a0a hw/xfree86: fix NULL pointer refrence to mode name
+8b75ec34d dix: Fix use after free in input device shutdown
+
+https://lists.x.org/archives/xorg-announce/2024-April/003497.html
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../{xserver-xorg_21.1.11.bb => xserver-xorg_21.1.12.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.11.bb => xserver-xorg_21.1.12.bb} (92%)
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+index 6506d775ca..570e08d5ae 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+@@ -3,7 +3,7 @@ require xserver-xorg.inc
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            "
+-SRC_URI[sha256sum] = "1d3dadbd57fb86b16a018e9f5f957aeeadf744f56c0553f55737628d06d326ef"
++SRC_URI[sha256sum] = "1e016e2be1b5ccdd65eac3ea08e54bd13ce8f4f6c3fb32ad6fdac4e71729a90f"
+ 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
+-- 
+2.40.0
 
 
