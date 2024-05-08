@@ -1,117 +1,79 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jorcrous@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E579C04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 15:16:13 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.15317.1715181367115113046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5404EC04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 15:20:13 +0000 (UTC)
+Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
+ by mx.groups.io with SMTP id smtpd.web11.15456.1715181603381434940
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 08:16:07 -0700
+ Wed, 08 May 2024 08:20:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=URzJuND5;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f4a817f1e5so664486b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 08:16:07 -0700 (PDT)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=i2MNus1C;
+ spf=pass (domain: amazon.com, ip: 99.78.197.217, mailfrom: prvs=85158e01a=jorcrous@amazon.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715181366; x=1715786166; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AfUQq/AgjTi3Sne+yOmTjhkeZjD8XcZo5o8xvByrMtU=;
-        b=URzJuND5riOlM2VHodN/zJCOQQ1RJQYmONCbmZWHW+5/ps5lHg+jzjVZhegab9GokC
-         iUM5hzSWALcz5RIw/hY3nAdoQQRvelmEz4hbVI7GVRe5Czo/SU5KW2E4M+WgXUJKb9xX
-         eB4GHeEZHrsHKJt6czq2k6oHcBHHPO9cTg0lUsI7I0Da2+Y9C68fwLzNXZ5NSQrmEDhk
-         yu/n3ZZSNqlFrkcUbrB0h+E4Iv9PPiPnC/vKVPDYG+wvAN2yqOFHz8Q6KZ8mUzK9LOgC
-         kKFB3SntaerbasytUG4gWccWrcniK0HftpM0loQmBo/mQo4TSDv4Z2fes8cQuT9MFL3D
-         61/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715181366; x=1715786166;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AfUQq/AgjTi3Sne+yOmTjhkeZjD8XcZo5o8xvByrMtU=;
-        b=hvQ1yP0DonWaMof+Gn4Kb+xogNurNa3TvCUwqGi6mvtvawVtDikpLW9iOCadVI3saP
-         TE2KyAB9a18ZR/GrSRvOCGKv2szUnsS1JpkN0w6utT16nLyWBLXxEVCgKQPmr3h3ZoUx
-         lSA2991lEdclTyei6xLXy4JIBhrODPYfKK9ZA0gsCqOXCwlgVQy4PhKHbtgI1DJOB2wA
-         xvd9r6KF0TeOyKK9P5Grzy0gsoohVwSnoCMwowGM3yS5AtB1YXNVQ122BHn5P9cofHgP
-         TDhJLjkytELse7XgA9ONEtPhKLnl+LuCmBdSWWEPuY9/CSYIcxYjtMTomI+PAw/VtNno
-         imXw==
-X-Gm-Message-State: AOJu0Yw1oJNY6p8h8ktjiHxi+8I4vhGddZ6cisup6+pfzeguv/xHNp2V
-	7bIoPdJj+tzYuDKtl45RcIal6E0qyZSFQd+r7D0mIr5zdJvXtLWMOSU9vTlY
-X-Google-Smtp-Source: AGHT+IFWBM5WAvTz4/YBPx86Qr5VyW5/9e+JViSYC98yiShiGX6alvkvSIPFpdjQqm5Rx76MHSLIZw==
-X-Received: by 2002:aa7:8b44:0:b0:6ed:7684:484b with SMTP id d2e1a72fcca58-6f49c295075mr3244255b3a.27.1715181366236;
-        Wed, 08 May 2024 08:16:06 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::af2d])
-        by smtp.gmail.com with ESMTPSA id n10-20020aa78a4a000000b006f260fb17e5sm11645543pfa.141.2024.05.08.08.16.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 08:16:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] llvm: Switch to using release tarballs
-Date: Wed,  8 May 2024 08:16:03 -0700
-Message-ID: <20240508151603.2629233-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.0
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1715181603; x=1746717603;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=klWIpPX6qewKBdNPa5ltY1+TEa27oc0Fqknf8JcWPCQ=;
+  b=i2MNus1Cuz3q+Smnb6JWRjzi2tGkON+0Vx6HlIwlV3lY77CG7aL5y+RK
+   KjtTZ/DmooClC566fidSIEE7jqear1xCuKyAxEaVdQ7pVJjniNt2oMrlR
+   RpbN/smyTPAetKUgxUq4jApYWhZJryQBxBk0jV3X+O255/YGQR4KzFIL4
+   8=;
+X-IronPort-AV: E=Sophos;i="6.08,145,1712620800"; 
+   d="scan'208";a="293781009"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 15:20:02 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:59466]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.40:2525] with esmtp (Farcaster)
+ id 752de6de-cf39-4374-af98-db1f29430473; Wed, 8 May 2024 15:20:01 +0000 (UTC)
+X-Farcaster-Flow-ID: 752de6de-cf39-4374-af98-db1f29430473
+Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Wed, 8 May 2024 15:20:01 +0000
+Received: from dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com
+ (10.189.195.130) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
+ Server id 15.2.1258.28 via Frontend Transport; Wed, 8 May 2024 15:20:01 +0000
+Received: by dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com (Postfix, from userid 14178300)
+	id 85807E4C9; Wed,  8 May 2024 15:20:01 +0000 (UTC)
+From: Jordan Crouse <jorcrous@amazon.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libxcrypt-compat: Rename libcrypto.so.1 -> libcrypt.so.1
+Date: Wed, 8 May 2024 15:20:01 +0000
+Message-ID: <20240508152001.67054-1-jorcrous@amazon.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 15:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199123
+ <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 15:20:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199124
 
-git checkouts are in excess of 3G, which is not
-ideal for everyone to download/clone, instead switch to
-fetching release tarball which is ~126M as of 18.1.5 release
+The comment in libxcrypt-cmpat incorrectly mentions libcrypto instead of
+libcrypt which could be misleading to the unsuspecting grep user.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
 ---
- .../llvm/{llvm_git.bb => llvm_18.1.5.bb}            | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/llvm/{llvm_git.bb => llvm_18.1.5.bb} (93%)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
-similarity index 93%
-rename from meta/recipes-devtools/llvm/llvm_git.bb
-rename to meta/recipes-devtools/llvm/llvm_18.1.5.bb
-index 6413b041a8d..9c80b46b607 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
-@@ -13,27 +13,26 @@ DEPENDS = "libffi libxml2 zlib zstd libedit ninja-native llvm-native"
- RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
+ meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
+index d5546ce9ba..30ec6a4674 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
+@@ -1,5 +1,5 @@
+ #
+-# This provides libcrypto.so.1 which contains obsolete APIs, needed for uninative in particular
++# This provides libcrypt.so.1 which contains obsolete APIs, needed for uninative in particular
+ #
  
- inherit cmake pkgconfig
--
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
--PV = "18.1.5${VER_SUFFIX}"
-+PV .= "${VER_SUFFIX}"
- 
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
- 
- LLVM_RELEASE = "${PV}"
- 
--BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "617a15a9eac96088ae5e9134248d8236e34b91b1"
--SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-+SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-            file://llvm-config \
-            "
-+SRC_URI[sha256sum] = "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d019b67a57edd7de56"
- 
--UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
-+UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
-+UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
- 
--S = "${WORKDIR}/git/llvm"
-+S = "${WORKDIR}/llvm-project-${PV}.src/llvm"
- 
- LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
- 
+ require libxcrypt.inc
 -- 
-2.45.0
+2.40.1
 
 
