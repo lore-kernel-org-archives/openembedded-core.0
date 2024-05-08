@@ -1,118 +1,140 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3ACCC04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 16:52:18 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.2160.1715187137052766006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6586C04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 17:10:18 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.2603.1715188217695933270
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 09:52:17 -0700
+ Wed, 08 May 2024 10:10:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h1Zm7ATM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41b79451153so36023785e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 09:52:16 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=YrfzmGSl;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.179, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-792b8bca915so57849285a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 10:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715187135; x=1715791935; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dG0BrZe5hx+AjLN9t3D81ZWq3y5rC1cOU9LxiRd6QXg=;
-        b=h1Zm7ATMjcapWDepIiAd0yMjtaGM5IpXGSzOuSZfc81fySElYdM208fKwnntT7YD4m
-         yhebAiphUM1ZoSPJB+IUd2UIuuv4uXxoRbXDj2zCvyha97EZb2hUfGZBSeTKQaY7wlVT
-         tgrqCAYBtqkU4BYJODR+46e1B3FWtcGWxDF98=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715188216; x=1715793016; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uyqr6otg8fLh+GlG4Ng8E7HyY6TB5eAHC4xjpdW/cDs=;
+        b=YrfzmGSl0TVdVYpGKOQCN8l8GzanbzA/H0QzGutLnw/JJ81cXtjGVfOOoExRz8MrrA
+         EVNydWnxklDtK6j9w+FGoj3VZv24kliQRvt5a6AFGDPlq//E1InDm+Gku0St7dVNKIY4
+         jjBtjtfbxKuMyYbJQATZWE3g04MzTP9jDkfSlfXMljh1H/uApGq3RMC32NeiK2GydzX+
+         XJm7rpfOjOQfsUencTdj1evb+cs/WO/AzN5qJhbDbKzuhTWpnygtafuRvyM2YGslKQXG
+         dw2QefczQ/2B7I6pbh8WeanPYs3n/Y5iuERNSDyIYF3SvTZhG7uU3Q4bG8nbtwxXBZ/A
+         E7Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715187135; x=1715791935;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dG0BrZe5hx+AjLN9t3D81ZWq3y5rC1cOU9LxiRd6QXg=;
-        b=oyK/J1qmzkjrvQwEcU1ZeoFT8kE2kB7rkHgcmRm1gPf9pNCAZobtMX+1L8ZiIUYbTW
-         ivuwTLaxvI7NZWOvJfvbmRnfJMwPuH5gbwEQagmxlw/Ej2RmttpzGxalx7393bzCuEFK
-         tXOkOlcjz0DnUBQ02NdoqLGrjzsrusrfh2TfCcU/exSyY88XFySCISylhgEwg42NB0iy
-         osV0NF35x2r+HXLAKTupxNKwO/GYrgECkCyRlRaHNA6ByZHfxbuJi5DEcXk3ozTQjPbJ
-         Wg2EXHXhqw/NQKCfst6oXrN7Znt3mQBeuV1QiKgjBxtaFiavN0OLt9TWUwFGFauAPvrF
-         CDxQ==
-X-Gm-Message-State: AOJu0Yxfc8VUOY5No+UzFVPVzNkiEznIXg8ph8v7aTfAg6/UmYRCf7UX
-	HaHh3YxvxmtLaxMrBtFNARy2gwCggmyGXY9gRQwdlbXFUWCIgH8vYE6iXwvS0Ko=
-X-Google-Smtp-Source: AGHT+IFMN0yQ/EhtmCHoDj8IVL0Uhhiq67uf8K1pw8zVKj6ZMI1DFX7PIe0k5p0ReDWNDAFe7mnv2g==
-X-Received: by 2002:adf:f903:0:b0:34c:f989:e4a5 with SMTP id ffacd0b85a97d-34fca810502mr2432233f8f.66.1715187135450;
-        Wed, 08 May 2024 09:52:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2? ([2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2])
-        by smtp.gmail.com with ESMTPSA id dd3-20020a0560001e8300b0034c9f060a14sm15687922wrb.11.2024.05.08.09.52.14
+        d=1e100.net; s=20230601; t=1715188216; x=1715793016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uyqr6otg8fLh+GlG4Ng8E7HyY6TB5eAHC4xjpdW/cDs=;
+        b=iwayQ5ClEgMdp35lRrfN0h+DZch8zgD6Nm8UHoD5TKOOSIX8MEQqQDs2vuMUSAPoAm
+         9fuTLTrT/tlEfrtFJfpUf96b0MNAwpNLZDH4wtqyX9h+o2B2QOlCJgy3mi0M24loah8I
+         qCEdoVwDYEp8ZDn2clq9n85W8aS9z3yC0UVEqyjGLGRw4QEhPwQYoLw9GlVvIaXYOmkx
+         OjMoW4PyUtg8XLwHIQNuL+8Uhs/dz8YpNZs+9UoM9DSeLSv1uHNBF0hbfiRN8/Q8NiLW
+         a9bUvCEQaCmentLHZo6vl91mSQCx3PvBflP0YVFfUbTlOkcfQiZvvdfXW72cj6HKNrgr
+         Ysig==
+X-Gm-Message-State: AOJu0Yyct8+d9zc6RSZsnNDlBe0I+zgX3FrU2U+mZB+QJdg2whb7mbSO
+	lOEGLQt4ojCWTFB5iB+tAGFHM1QfpPwTyMO81mNjo1kPsq9uP3T6pLuNhznHnRytPG+W3CogR2o
+	T
+X-Google-Smtp-Source: AGHT+IGbBB1EBvSRpAw0HRzHjixqbosKcX9wpdf1wNDNBUYvsN+uUjo0jP1KZwEFow1Z6zLTFVeL8w==
+X-Received: by 2002:a37:e31a:0:b0:790:f387:c2bb with SMTP id af79cd13be357-792b275c3c5mr355756685a.14.1715188216196;
+        Wed, 08 May 2024 10:10:16 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id ay10-20020a05620a178a00b0078d677e72f3sm6094165qkb.118.2024.05.08.10.10.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 09:52:15 -0700 (PDT)
-Message-ID: <eb48faa035af553d92f96173c25ada530c2c54a7.camel@linuxfoundation.org>
-Subject: Re: [PATCH] sanity.conf: Require bitbake 2.9.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tom Rini <trini@konsulko.com>, Michael Halstead
-	 <mhalstead@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 08 May 2024 17:52:13 +0100
-In-Reply-To: <20240508161419.GD2568172@bill-the-cat>
-References: <20240508135739.3848839-1-richard.purdie@linuxfoundation.org>
-	 <20240508161419.GD2568172@bill-the-cat>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
- xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
- NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
- KjTi3em7xDpqA1Rxd/rV4z9VQJrbpL/oiPCnTW/iCx+eMH70dRk+gHxSU8FWVf+CucFZprvO9UMi tGHLvfpBxfnGDT2EOqOoFOYgYHq7MfSDZT+zM/gBWfHXbyz6W9RYqycwWCIhG5jhMhT2sEWr4FlwmXfogvSqxvKondwPfXsgNT1MdBqa0Hhm0pIJYs4ovKWnvymTraziqSWI2C9X5lPmf6ugNiuzJt5BqlilNHxsej9OC53HfBbkgDONdcJbduW9nrJlIl9OLanB4/fvuqG1ZIS/eFFAkb2YnBBuS2TNz3aPd7vFkOoMU7VegDic/sH23eZPGQm3XWcTYwIY2djBU8Jzyy4mRIOQZMGXb/ygrGXAuIxL2R2O1uFYEY3VB1RIIKoZIzj0DAQcCAwQzkAYGjbS/m2SeumSYfDZKeazIkOpwUxpTQ7kPxz0ijiquKSsEZzlPMFzhA+iBJh2jdCyabi5K+8+v3VZZglbWAwEIB4kCNgQYAQoAIBYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUHVAhsMAAoJEJpQxjUYvLKAr6UQAMyaDatvvCkxvOyFgO6jxLLzbkwl40hTNB/TsG5RdwL6FXnBMzkIa5lEfgV1u2zwu0p7SKWH9J3DSNqYKjUCAfwDEv6aDKrFYqGQZMuke1ZAfKqmWTIYOKYG4vRgvvF1u0aCOrRJiipjEPnrw1LC6eaqpnI3WGJyy8Wgr8aO0RBUO93ax/+Mpw3QG+jQqZjuomBWGvUwsjRtzE9j2QUcGxjyTrocVsR2qjK0boE4jLGJWNreSIgs5Nllww++3l0pabmXhyXqDdoYE1U0WkI/yemsc8ydDtjpeG4uzv9rfd5VUqHoZpuYZ1sc4DTGFrEAoght/9FXWsOFOtX8vZprLFFi7iFNSDChIFEsyuizHOW5wl/PYkGCCMZvwPK61IvCARKwevdnSrle9omYEqjnU/HjVZ/kvtKxn1VN15j1NNF
- 0zgmm+/RfbZFHbeuea/lVInXpNBMDj+pl3VyygUae65DMFWgYVSLtXPTRLVMb2mIxiNpk3T2UcuVW 1XC9LWup6h8jHEJ0zBCPjPyd1tFQ9hHVOJnwRthV+VG3zuBf8sri1TPnz5XjNpu3Q3r/6turvh+Khal2itb980tITH5fDbLUewPiA2jCAgZCkVMQcvYTS4rZCC+hpHSMte4m1n7AcmF9ohhw6tt41AEhwbMh+nRkyjDkY+k/vivg0obC2JpruDMEY3VCGBYJKwYBBAHaRw8BAQdArl5/9Fe2aA9JEc+HRm2rnCl6NMb7DZJLnM0xmQg1ouyJAq0EGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCGAIbAgCBCRCaUMY1GLyygHYgBBkWCAAdFiEEHKt8QO5c0zRDdmiGodJewzbIKeYFAmN1QhgACgkQodJewzbIKeawUgEAzEwjSYf8lXVNcZVYL/4SLX9FEop83Q8+WmwT2rGhA+MBAKga5Fl8afYVHuPlPOxB/M7aQdP8vfYEx/cWmHmQEUICQxQQAJd85C4//BU0FOUPlEQ1vofZGNC1wTzVA7cQtYlIRrgQOmjR4tOFTxEzusA8QvXxOYkMkDlaa/Ai4/nicMqadnWPQ37BmTAW3/O5PVA22mWaC/ZVeG6DGBGVWb/OAwZe9KMxOR6say+bEIM6B6iDgc3V/HNsLWYYPHaj5HebHOKAJ7dqGGUlFV02OrVW5yAaOUEI61cKw0QuwoN1fZgih94EvFicNaLnDVDV64cbOnNyxGlJhbv4WMErtU4RVD3tT1soESmDB4jS2v49reBpsVVXg2G/M1xFO3sUcczHeo5LRaKtXpkXNh4WO3HDT/eb/IWP8Me2YKpwa5dzlrUz0AYi2s+h+LGclOP0Mls0tgS8sQSVdTj/feLk1FSSQGhSKdHMMGTlSsqj7XjToTAnIheq+5sdaY8UCEYu4s6jDiKu6G02HlF
- WpERQ9FmtGo2PVqnMaZy2w9lkNNn8ccyMWpP2EwGuCxONQrc22a7WnCYLTpOukLUSD7ApH7M2Jk8on
- kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Wed, 08 May 2024 10:10:15 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] python3: skip test_concurrent_futures/test_shutdown
+Date: Wed,  8 May 2024 13:10:14 -0400
+Message-ID: <20240508171014.2679217-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 16:52:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199128
+ <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 17:10:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199129
 
-On Wed, 2024-05-08 at 10:14 -0600, Tom Rini wrote:
-> On Wed, May 08, 2024 at 02:57:39PM +0100, Richard Purdie wrote:
->=20
-> > We need a recent siggen change in bitbake to allow SPDX to work
-> > better.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > =C2=A0meta/conf/sanity.conf | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
-> > index d2f56a3fb00..02775970aee 100644
-> > --- a/meta/conf/sanity.conf
-> > +++ b/meta/conf/sanity.conf
-> > @@ -3,7 +3,7 @@
-> > =C2=A0# See sanity.bbclass
-> > =C2=A0#
-> > =C2=A0# Expert users can confirm their sanity with "touch
-> > conf/sanity.conf"
-> > -BB_MIN_VERSION =3D "2.7.3"
-> > +BB_MIN_VERSION =3D "2.9.1"
-> > =C2=A0
-> > =C2=A0SANITY_ABIFILE =3D "${TMPDIR}/abi_version"
->=20
-> Apologies if I've missed a policy change in the bitbake repository
-> but there's no tag for 2.9.1. For that matter there also isn't for
-> 2.7.3, and I only bring this up because tags do make it easier when
-> coming back to older releases to get a correct bitbake version.
+These tests are causing hangs on the Autobuilder, so disable them for
+now.
 
-I've not been tagging things as I don't have the ability to make signed
-tags :/. As you say, we've not done this for a while. Unsigned tags
-would be easy enough but that would probably raise different questions.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...-test_shutdown-skip-problematic-test.patch | 46 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.3.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
 
-I've mainly been using the versions to ensure OE-Core errors sanely if
-it needs a specific bitbake version.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
+new file mode 100644
+index 00000000000..1d4cda18b16
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
+@@ -0,0 +1,46 @@
++From 9d4cdbde100798ba9fa1cf3f82dbaf18fd10a543 Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <tgamblin@baylibre.com>
++Date: Wed, 8 May 2024 11:58:09 -0400
++Subject: [PATCH] test_shutdown: skip problematic test
++
++This test hangs frequently when run on the Autobuilder. Disable it in
++testing until the cause can be determined.
++
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
++---
++ Lib/test/test_concurrent_futures/test_shutdown.py | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/Lib/test/test_concurrent_futures/test_shutdown.py b/Lib/test/test_concurrent_futures/test_shutdown.py
++index 7a4065afd4..6b878a48bf 100644
++--- a/Lib/test/test_concurrent_futures/test_shutdown.py
+++++ b/Lib/test/test_concurrent_futures/test_shutdown.py
++@@ -20,6 +20,7 @@ def sleep_and_print(t, msg):
++     sys.stdout.flush()
++ 
++ 
+++@unittest.skip("skipping problematic test")
++ class ExecutorShutdownTest:
++     def test_run_after_shutdown(self):
++         self.executor.shutdown()
++@@ -156,6 +157,7 @@ def timeout(_signum, _frame):
++             signal.signal(signal.SIGALRM, old_handler)
++ 
++ 
+++@unittest.skip("skipping problematic test")
++ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase):
++     def test_threads_terminate(self):
++         def acquire_lock(lock):
++@@ -252,6 +254,7 @@ def test_cancel_futures_wait_false(self):
++         self.assertIn(out.strip(), [b"apple", b""])
++ 
++ 
+++@unittest.skip("skipping problematic test")
++ class ProcessPoolShutdownTest(ExecutorShutdownTest):
++     def test_processes_terminate(self):
++         def acquire_lock(lock):
++-- 
++2.45.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.3.bb b/meta/recipes-devtools/python/python3_3.12.3.bb
+index 04558a64634..93709b207ce 100644
+--- a/meta/recipes-devtools/python/python3_3.12.3.bb
++++ b/meta/recipes-devtools/python/python3_3.12.3.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
++           file://0001-test_shutdown-skip-problematic-test.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+-- 
+2.45.0
 
 
