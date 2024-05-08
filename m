@@ -1,79 +1,93 @@
-Return-Path: <jorcrous@amazon.com>
+Return-Path: <trini@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5404EC04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 15:20:13 +0000 (UTC)
-Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
- by mx.groups.io with SMTP id smtpd.web11.15456.1715181603381434940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E176C04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 16:14:28 +0000 (UTC)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.1050.1715184865126298549
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 08:20:03 -0700
+ Wed, 08 May 2024 09:14:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=i2MNus1C;
- spf=pass (domain: amazon.com, ip: 99.78.197.217, mailfrom: prvs=85158e01a=jorcrous@amazon.com)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=AQXud0D6;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.177, mailfrom: trini@konsulko.com)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c98820fc2cso498410b6e.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 09:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1715181603; x=1746717603;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=klWIpPX6qewKBdNPa5ltY1+TEa27oc0Fqknf8JcWPCQ=;
-  b=i2MNus1Cuz3q+Smnb6JWRjzi2tGkON+0Vx6HlIwlV3lY77CG7aL5y+RK
-   KjtTZ/DmooClC566fidSIEE7jqear1xCuKyAxEaVdQ7pVJjniNt2oMrlR
-   RpbN/smyTPAetKUgxUq4jApYWhZJryQBxBk0jV3X+O255/YGQR4KzFIL4
-   8=;
-X-IronPort-AV: E=Sophos;i="6.08,145,1712620800"; 
-   d="scan'208";a="293781009"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 15:20:02 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:59466]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.40:2525] with esmtp (Farcaster)
- id 752de6de-cf39-4374-af98-db1f29430473; Wed, 8 May 2024 15:20:01 +0000 (UTC)
-X-Farcaster-Flow-ID: 752de6de-cf39-4374-af98-db1f29430473
-Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Wed, 8 May 2024 15:20:01 +0000
-Received: from dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com
- (10.189.195.130) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Wed, 8 May 2024 15:20:01 +0000
-Received: by dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com (Postfix, from userid 14178300)
-	id 85807E4C9; Wed,  8 May 2024 15:20:01 +0000 (UTC)
-From: Jordan Crouse <jorcrous@amazon.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libxcrypt-compat: Rename libcrypto.so.1 -> libcrypt.so.1
-Date: Wed, 8 May 2024 15:20:01 +0000
-Message-ID: <20240508152001.67054-1-jorcrous@amazon.com>
-X-Mailer: git-send-email 2.40.1
+        d=konsulko.com; s=google; t=1715184864; x=1715789664; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QQlLF+moVqT2eN/8OdJNM2oekcVt9OwWbRrJlmKU25w=;
+        b=AQXud0D6PXfY1RQdjSbBvqfXiRRSeW9yfqy7wWtyvcKlISo8zBMgvMzte4EJmW53eX
+         8Zscuve+VZkwQNiLfYGJ7ezFHcWUGfJe4/f2A1dKwp4Zho7HCIMTHbxDtnB0hojYxnKY
+         IJT9KQ/VNShlmcNnjGw5nEeHQGCJWsjH6F12E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715184864; x=1715789664;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QQlLF+moVqT2eN/8OdJNM2oekcVt9OwWbRrJlmKU25w=;
+        b=eSA7zVvS/Cs0ZBkqcm2SBDLuWMVNmfoWoQsk4OOgRYpwUoEUNZWCPNG/gQLjoUSpmH
+         ys/mAP8bJydDa/I2j4R3IcGUB2XMAFM9Iu00Fwe9xNoYZheSdJsh1SeqkspAkBSDwWbP
+         34oqRXNZaupr7ztmp7inbSyjkj/FlRbnWDOSrWnZ5inhUNOIqpxHpRIireYREMtD8TkQ
+         p6/5pYOM+jJ1RD7jz3BkWC/KV4uwFpormUMEo4mJrgrPDz/LZw1Fk4yNieZITpSLox0T
+         DrM5aPzY3b0w1/zrvVTAfOTiZvTzX3oeuHYXXjMDjd/dChFgaNmKlX+iJl5e3rrhc6tc
+         9DwQ==
+X-Gm-Message-State: AOJu0YxtK/6uTS8kgV+HGsqRL+VuDJQLyRJIuU87WOSkVkF+sb7YI0UU
+	SlptBdAQh9ldMH7odIkHzG68psQ6lm7GuKdOxIpqF0sjJmEEwbnUmhlo/4Qzxps=
+X-Google-Smtp-Source: AGHT+IFSv2h8Mrn4qRyE/79od/JBC5nJaB0iLpeej2NXkGLSoLPvAAihpLxWiD4Hoj8GnfGw8tgsHg==
+X-Received: by 2002:a05:6808:418b:b0:3c6:574:eb45 with SMTP id 5614622812f47-3c98530666bmr3134349b6e.45.1715184862967;
+        Wed, 08 May 2024 09:14:22 -0700 (PDT)
+Received: from bill-the-cat ([187.144.98.216])
+        by smtp.gmail.com with ESMTPSA id l16-20020ad44090000000b0069b4f48003bsm5646242qvp.100.2024.05.08.09.14.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 09:14:22 -0700 (PDT)
+Date: Wed, 8 May 2024 10:14:19 -0600
+From: Tom Rini <trini@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sanity.conf: Require bitbake 2.9.1
+Message-ID: <20240508161419.GD2568172@bill-the-cat>
+References: <20240508135739.3848839-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508135739.3848839-1-richard.purdie@linuxfoundation.org>
+X-Clacks-Overhead: GNU Terry Pratchett
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 15:20:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199124
+ <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 16:14:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199126
 
-The comment in libxcrypt-cmpat incorrectly mentions libcrypto instead of
-libcrypt which could be misleading to the unsuspecting grep user.
+On Wed, May 08, 2024 at 02:57:39PM +0100, Richard Purdie wrote:
 
-Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
----
+> We need a recent siggen change in bitbake to allow SPDX to work
+> better.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/conf/sanity.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
+> index d2f56a3fb00..02775970aee 100644
+> --- a/meta/conf/sanity.conf
+> +++ b/meta/conf/sanity.conf
+> @@ -3,7 +3,7 @@
+>  # See sanity.bbclass
+>  #
+>  # Expert users can confirm their sanity with "touch conf/sanity.conf"
+> -BB_MIN_VERSION = "2.7.3"
+> +BB_MIN_VERSION = "2.9.1"
+>  
+>  SANITY_ABIFILE = "${TMPDIR}/abi_version"
 
- meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Apologies if I've missed a policy change in the bitbake repository but
+there's no tag for 2.9.1. For that matter there also isn't for 2.7.3,
+and I only bring this up because tags do make it easier when coming back
+to older releases to get a correct bitbake version.
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
-index d5546ce9ba..30ec6a4674 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.36.bb
-@@ -1,5 +1,5 @@
- #
--# This provides libcrypto.so.1 which contains obsolete APIs, needed for uninative in particular
-+# This provides libcrypt.so.1 which contains obsolete APIs, needed for uninative in particular
- #
- 
- require libxcrypt.inc
 -- 
-2.40.1
-
+Tom
 
