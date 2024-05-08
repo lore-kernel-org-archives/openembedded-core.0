@@ -1,116 +1,118 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B7C0C04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 16:18:38 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.1222.1715185111439742772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3ACCC04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 16:52:18 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.2160.1715187137052766006
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 09:18:31 -0700
+ Wed, 08 May 2024 09:52:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SyMKoteA;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-23d39e4c0d9so2763968fac.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 09:18:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h1Zm7ATM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41b79451153so36023785e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 09:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715185111; x=1715789911; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E2off8csrAtJSsMyveIcWgCyS0n8cJxbz/dzZ+PKdP4=;
-        b=SyMKoteA/Nf/gHaybGLCC5MSb1QOfWryRIpMyNxNzUleihSM+yNA5G5vCoXUE+hXY9
-         7HrihtG8HrY6vCxEywL7rgQYkHP0TNB7ZAkaXSFh3Ri7Qdtsi50IyDLFd7qIiE32/D+W
-         nIwSKN1Hz7iDkfXCf1+G3F09n4MRRi/UB9c+hcC65h5NdOBZra0EGOMGD2tnqBPQMHmV
-         JTSUSc18y1E9fsBfIF395m6q7worRXPL1VzA+CCQae6h8UybbHCZYpa2D82+6kyr2u8m
-         BrWGzdp5KMLhUT+4Q6Qlw8lDsaHCuqbyAREgLCLVSu9VGjCPFJg9zz/029iUU5IKrLT7
-         Ot6Q==
+        d=linuxfoundation.org; s=google; t=1715187135; x=1715791935; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dG0BrZe5hx+AjLN9t3D81ZWq3y5rC1cOU9LxiRd6QXg=;
+        b=h1Zm7ATMjcapWDepIiAd0yMjtaGM5IpXGSzOuSZfc81fySElYdM208fKwnntT7YD4m
+         yhebAiphUM1ZoSPJB+IUd2UIuuv4uXxoRbXDj2zCvyha97EZb2hUfGZBSeTKQaY7wlVT
+         tgrqCAYBtqkU4BYJODR+46e1B3FWtcGWxDF98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715185111; x=1715789911;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E2off8csrAtJSsMyveIcWgCyS0n8cJxbz/dzZ+PKdP4=;
-        b=Cv4bMcqcyk4UlvV9oVUFHHpFgE4yocKe/0V4dfNSr0upevQ/HUzQHq2O5Y3nlKIsAB
-         ro3he5upPyRt0/KUSkxjHYO6oEeAac+jiq2XXDJ+AR/A2Vxx60/BydUIeR3zSfAlMbJW
-         cBLe68i4R0GLt05yhaGrPvmOuLfWEoWRGLxXORpH4oBdm8QtKtkDDw5f5Lq4HK8fxxnE
-         jrv1OdLn3q5c46jJKyYKC6FPxoukDXZM+YHnAKaZd5hP/yyTzpjVnIJdzYyOX/2UMhE/
-         Jd1zTlYyfmKgK6RrOLKEaDMyequofUP7D48/VR1avJqJMFUdV3hWg/12c4PjfrWbZnja
-         XhAA==
-X-Gm-Message-State: AOJu0YwgYJfBCJzkCdUm5G6xlXxs6hYkesUGZsLtic+rXLaz9aPwLmVp
-	zfQkoKSiUNemZCozDLqxeC0Yi9d6kp2CR6kqqzP+UncFXGFLMLDhHLm4rIcWhs6Q6m/TxmFsz25
-	zmWUdtJgp/CjKMNiVgQ51AqfapZAhAPgsfoE=
-X-Google-Smtp-Source: AGHT+IERa9hkMtg8Q34gYheuccrLwJElL7IzdO3DK60DmB5tJRta7iOhJ9dyH+TZH+yeYB6c8gEkVDuCy7nGewskP18=
-X-Received: by 2002:a05:6871:48f:b0:23d:510d:ea55 with SMTP id
- 586e51a60fabf-24097c5536amr3197224fac.18.1715185110671; Wed, 08 May 2024
- 09:18:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1404aa44-8e02-44fc-8a1b-d4737ce020a1@topic.nl>
-In-Reply-To: <1404aa44-8e02-44fc-8a1b-d4737ce020a1@topic.nl>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 May 2024 09:18:03 -0700
-Message-ID: <CAMKF1sohpPpcdi5WSa2+EnTwjnnbEe6LY4P_03EHQwXnDDDVbg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap] psplash no longer working
-To: mike.looijmans@topic.nl
+        d=1e100.net; s=20230601; t=1715187135; x=1715791935;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dG0BrZe5hx+AjLN9t3D81ZWq3y5rC1cOU9LxiRd6QXg=;
+        b=oyK/J1qmzkjrvQwEcU1ZeoFT8kE2kB7rkHgcmRm1gPf9pNCAZobtMX+1L8ZiIUYbTW
+         ivuwTLaxvI7NZWOvJfvbmRnfJMwPuH5gbwEQagmxlw/Ej2RmttpzGxalx7393bzCuEFK
+         tXOkOlcjz0DnUBQ02NdoqLGrjzsrusrfh2TfCcU/exSyY88XFySCISylhgEwg42NB0iy
+         osV0NF35x2r+HXLAKTupxNKwO/GYrgECkCyRlRaHNA6ByZHfxbuJi5DEcXk3ozTQjPbJ
+         Wg2EXHXhqw/NQKCfst6oXrN7Znt3mQBeuV1QiKgjBxtaFiavN0OLt9TWUwFGFauAPvrF
+         CDxQ==
+X-Gm-Message-State: AOJu0Yxfc8VUOY5No+UzFVPVzNkiEznIXg8ph8v7aTfAg6/UmYRCf7UX
+	HaHh3YxvxmtLaxMrBtFNARy2gwCggmyGXY9gRQwdlbXFUWCIgH8vYE6iXwvS0Ko=
+X-Google-Smtp-Source: AGHT+IFMN0yQ/EhtmCHoDj8IVL0Uhhiq67uf8K1pw8zVKj6ZMI1DFX7PIe0k5p0ReDWNDAFe7mnv2g==
+X-Received: by 2002:adf:f903:0:b0:34c:f989:e4a5 with SMTP id ffacd0b85a97d-34fca810502mr2432233f8f.66.1715187135450;
+        Wed, 08 May 2024 09:52:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2? ([2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2])
+        by smtp.gmail.com with ESMTPSA id dd3-20020a0560001e8300b0034c9f060a14sm15687922wrb.11.2024.05.08.09.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 09:52:15 -0700 (PDT)
+Message-ID: <eb48faa035af553d92f96173c25ada530c2c54a7.camel@linuxfoundation.org>
+Subject: Re: [PATCH] sanity.conf: Require bitbake 2.9.1
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Rini <trini@konsulko.com>, Michael Halstead
+	 <mhalstead@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 08 May 2024 17:52:13 +0100
+In-Reply-To: <20240508161419.GD2568172@bill-the-cat>
+References: <20240508135739.3848839-1-richard.purdie@linuxfoundation.org>
+	 <20240508161419.GD2568172@bill-the-cat>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 16:18:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199127
+ <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 16:52:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199128
 
-On Wed, May 8, 2024 at 3:07=E2=80=AFAM Mike Looijmans via
-lists.openembedded.org
-<mike.looijmans=3Dtopic.nl@lists.openembedded.org> wrote:
->
-> I'm puzzled.
->
-> Migrating from kirkstone to scarthgap, and psplash somehow broke.
->
-> Systemd doesn't start is because "/usr/bin/psplash" is missing.
->
-> Interestingly, the line that appears to be responsible for that is in
-> the do_install:append
->
->    rm -f ${D}${bindir}/psplash
->
-> If I copy that file from ${B} to the board, psplash works again.
->
-> But what really baffles me is that kirkstone already had that line in
-> do_install:append but somehow /usr/bin/psplash still got created. And I
-> cannot find the magic that puts it there...
->
+On Wed, 2024-05-08 at 10:14 -0600, Tom Rini wrote:
+> On Wed, May 08, 2024 at 02:57:39PM +0100, Richard Purdie wrote:
+>=20
+> > We need a recent siggen change in bitbake to allow SPDX to work
+> > better.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > =C2=A0meta/conf/sanity.conf | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
+> > index d2f56a3fb00..02775970aee 100644
+> > --- a/meta/conf/sanity.conf
+> > +++ b/meta/conf/sanity.conf
+> > @@ -3,7 +3,7 @@
+> > =C2=A0# See sanity.bbclass
+> > =C2=A0#
+> > =C2=A0# Expert users can confirm their sanity with "touch
+> > conf/sanity.conf"
+> > -BB_MIN_VERSION =3D "2.7.3"
+> > +BB_MIN_VERSION =3D "2.9.1"
+> > =C2=A0
+> > =C2=A0SANITY_ABIFILE =3D "${TMPDIR}/abi_version"
+>=20
+> Apologies if I've missed a policy change in the bitbake repository
+> but there's no tag for 2.9.1. For that matter there also isn't for
+> 2.7.3, and I only bring this up because tags do make it easier when
+> coming back to older releases to get a correct bitbake version.
 
-maybe this commit [1] is bringing this to front
+I've not been tagging things as I don't have the ability to make signed
+tags :/. As you say, we've not done this for a while. Unsigned tags
+would be easy enough but that would probably raise different questions.
 
-[1] https://git.yoctoproject.org/poky/commit/?id=3D1ba76de20bca63cec4ccaf04=
-766dfd994a728c75
+I've mainly been using the versions to ensure OE-Core errors sanely if
+it needs a specific bitbake version.
 
-> --
-> Mike Looijmans
-> System Expert
->
-> TOPIC Embedded Products B.V.
-> Materiaalweg 4, 5681 RJ Best
-> The Netherlands
->
-> T: +31 (0) 499 33 69 69
-> E: mike.looijmans@topic.nl
-> W: www.topic.nl
->
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199113): https://lists.openembedded.org/g/openembedde=
-d-core/message/199113
-> Mute This Topic: https://lists.openembedded.org/mt/105978071/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Cheers,
+
+Richard
+
+
+
+
 
