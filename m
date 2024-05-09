@@ -1,93 +1,149 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AB7C10F1A
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 11:53:10 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.8192.1715255584023357440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D58C10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:05:10 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.8610.1715256308473205721
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 04:53:04 -0700
+ Thu, 09 May 2024 05:05:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HJw0gz/0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.172, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e2c70f0c97so9753601fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 04:53:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eHfum5Nt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f44ed6e82fso728436b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715255582; x=1715860382; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RX448ghFnuj5DBUdon6k/IaxAd4DIl1NntuAS5berk4=;
-        b=HJw0gz/0AGlGeY/NnrbNgIhURGGIPmPMqrbxXrTloYRUIa5+RvSf0Y82SCwcGj0++k
-         a62Cj6fv96MtqR2wHbckUPldPWzN+UHz5w/zwRuKDiFE9guScHlZ87hMrbCdc0d9Sd7s
-         RpZEeLK6WrOi3fhwC2E1pl9M8lHzU8x+TSdxk=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715256308; x=1715861108; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=58Rd2GHXvWb581RlOZYamQAPKgulYy6xVL3vUzPtEmw=;
+        b=eHfum5Nt+vE4KYchpvdrJSgg0k0+b7/C39tc0OpRqDhyr7p/rrFw/c1dMQdQcv1d/A
+         U+Sly78J1iDyYy5I3WyeREit+OgwKIDP4FfkBNh/KWbXiuSmAahv9+L9aWd93NhoDwvb
+         95R8e1md6Ho+GNBy4bmQc8EjXVVkJmaNgOxldLU398WFyvL0wGlESAPNCg1WU4yJuK3N
+         s8YxQtFBrB5dWYXMyTG6yL1vkZSodiqKVWcyUntuDsnCVRRfNLg3FoncMZB9ovLMo81P
+         B5FhrUhh+kVg7MwrotwGBrKuJU2FrPeI+tI8m1cEwhDqapPXPSqufX1S0qA8/8JMHIIC
+         C9Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715255582; x=1715860382;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RX448ghFnuj5DBUdon6k/IaxAd4DIl1NntuAS5berk4=;
-        b=JOQyPuzd5AWNKpCA/xVLjHDlbaXrsVHEfOFLKaNUNog45lfhZugHPXDa6NEWQPutpR
-         x+QDjo3HxRCFuZJCXloUkuFP0jkGUJPAd4WAfw5q1foyIH9uu9YBLHQ/l28gccaKReIy
-         bbpRBzznBrIK2basK5anujlvoa0DxOXN3qwBsEkzqEk83HZ1SJfC8PplzSs/Dk+veOUH
-         0SxWmzJTnbtr4hMpYPXcL/jKFFJCNZkqb6hMgrfjz0GYNov5PKzFkLvIevztOLidpDuB
-         ihBwKp0fnS6CoetTVE6Gu//soalW88SRNexXJoUbJ/Y44rL5QkH7BU0vWb2yQhDXQdOl
-         iHJg==
-X-Gm-Message-State: AOJu0Yya9CptoGs226/yjeeRECnCHMB9ulXxu9mqa+4RusW5iCfJ/0Yf
-	Y/2YKacIbbhgjyDkp2PqltmmoQQEQ4eiPyykcfgFsDnv69HP7KjVR3uVRiu7I2sI/zNQdesaBdn
-	LQGI=
-X-Google-Smtp-Source: AGHT+IGHOdzpvYcK4DPbE+zC/x1acOlQcFocDleL4AI+010MWdy9QGM5OWRcbAnPApbKD1pXtqiqFA==
-X-Received: by 2002:a2e:be09:0:b0:2e1:ebec:1ded with SMTP id 38308e7fff4ca-2e447698ccemr34973981fa.25.1715255581828;
-        Thu, 09 May 2024 04:53:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a95b:1bc1:5128:ffbc? ([2001:8b0:aba:5f3c:a95b:1bc1:5128:ffbc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce9348sm22592995e9.24.2024.05.09.04.53.01
+        d=1e100.net; s=20230601; t=1715256308; x=1715861108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=58Rd2GHXvWb581RlOZYamQAPKgulYy6xVL3vUzPtEmw=;
+        b=SIecRj6ivlUWyhQ6WUnDuMadt14jNNWQsX378OSICBvoaJJN3ZP1ckKEzhpf+UvQg1
+         RN6QI7kpZX/7Usq5PAqwwmmxXURkTrQM6v4W3p4nxBF2wysI29eYD39TpDC6D1PdaSxE
+         8/7IRjLWtbuyDJNxJAzqNRvje8gAVuQGA+ol8AYgCbAfxHOWajaJPWZNtTDK4XNAK+8h
+         QBe+RQ65iyDhlJcw+769wEHs1yqlCGQk4yoZ7BpD7OFSGgVnFaO0+oSBdTzggwpOWaoW
+         P3g5CkD2WQKjpcrN8rskLjb4rv3WHRP4mu4FkUfnSY8tdVB1NhZ6ggXOu5OR/26FNZO2
+         fikw==
+X-Gm-Message-State: AOJu0YwdQYB994DDHn1GQm2+td4djP/c3BoGpQSB3Zv8viHP4uudrlH6
+	M4Zl9hykh7RL10goCwq6+jS3BuHSzEJ9G0E4pTDHk4p9rteJLRDF+ViXs6dkIBpVpKLy29/SXQp
+	A
+X-Google-Smtp-Source: AGHT+IFYXmzibzW9xRw/0rEdRyBd4kxfOtETUWYxcFu1DvJoSpwAuhpmJn4ouGvLvL4Z1TV8+0GulQ==
+X-Received: by 2002:aa7:820b:0:b0:6ea:c2c7:5d6a with SMTP id d2e1a72fcca58-6f49c206b3cmr5474588b3a.2.1715256307445;
+        Thu, 09 May 2024 05:05:07 -0700 (PDT)
+Received: from xps13.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2c41sm1185613b3a.172.2024.05.09.05.05.06
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 04:53:01 -0700 (PDT)
-Message-ID: <c98fa269df5aa2b7a7cae7c1110ea8eb2c07ba3d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ssh-pregen-hostkeys: Limit to qemu machines
- by default
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 09 May 2024 05:05:07 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>, Jon Mason <Jon.Mason@arm.com>
-Date: Thu, 09 May 2024 12:53:00 +0100
-In-Reply-To: <17CDCFA3A4D0E385.8965@lists.openembedded.org>
-References: <17CDCFA3A4D0E385.8965@lists.openembedded.org>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+Subject: [OE-core][kirkstone 00/23] Patch review
+Date: Thu,  9 May 2024 05:04:38 -0700
+Message-Id: <cover.1715256149.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 11:53:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199146
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:05:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199147
 
-On Thu, 2024-05-09 at 12:48 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> There are potential security issues from using pre-generated host keys. W=
-e made
-> the recipe available for autobuilder testing purposes but concerns remain=
- about
-> how easily this could end up in production.
->=20
-> I thought we'd already done this, but limit the recipe to qemu* machines,
-> which means any real hardware trying to use it will need to be a bit more
-> explicit about it and specifically enable it.
+Please review this set of changes for kirkstone and have comments back by
+end of day Monday, May 13
 
- * This change may require some BSPs to opt into the recipe such as
-   fvp-base in meta-arm. Given the security concerns around this, that
-   does seem like a reasonable compromise though.
+Passed a-full on autobuilder:
 
-Cheers,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6889
 
-Richard
+The following changes since commit 8a502301209ef144932ef5071c1a9b738db23270:
+
+  rootfs-postcommands.bbclass: Only set DROPBEAR_RSAKEY_DIR once (2024-04-26 06:15:55 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Archana Polampalli (4):
+  ofono: fix CVE-2023-4234
+  ofono: fix CVE-2023-4233
+  gstreamer1.0-plugins-bad: fix CVE-2024-0444
+  gstreamer1.0-plugins-bad: fix CVE-2023-44446
+
+Bruce Ashfield (13):
+  linux-yocto/5.15: update to v5.15.151
+  linux-yocto/5.15: update CVE exclusions (5.15.151)
+  linux-yocto/5.15: update to v5.15.152
+  linux-yocto/5.15: update CVE exclusions (5.15.152)
+  linux-yocto/5.15: update to v5.15.153
+  linux-yocto/5.15: update CVE exclusions (5.15.153)
+  linux-yocto/5.15: update to v5.15.155
+  linux-yocto/5.15: update CVE exclusions (5.15.155)
+  linux-yocto/5.15: update to v5.15.156
+  linux-yocto/5.15: update CVE exclusions (5.15.156)
+  linux-yocto/5.15: update to v5.15.157
+  linux-yocto/5.15: update CVE exclusions (5.15.157)
+  linux-yocto/5.15: cfg: remove obselete CONFIG_NFSD_V3 option
+
+Heiko (1):
+  kernel.bbclass: check, if directory exists before removing empty
+    module directory
+
+Peter Marko (2):
+  python3: Upgrade 3.10.13 -> 3.10.14
+  libarchive: fix multiple security vulnerabilities in pax writer
+
+Poonam Jadhav (1):
+  ppp: Add RSA-MD in LICENSE
+
+Soumya Sambu (1):
+  ncurses: Fix CVE-2023-45918
+
+Vijay Anusuri (1):
+  less: backport Debian patch for CVE-2024-32487
+
+ meta/classes/kernel.bbclass                   |    2 +-
+ .../ofono/ofono/CVE-2023-4233.patch           |   32 +
+ .../ofono/ofono/CVE-2023-4234.patch           |   39 +
+ meta/recipes-connectivity/ofono/ofono_1.34.bb |    2 +
+ meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |    2 +-
+ .../ncurses/files/CVE-2023-45918.patch        |  180 +
+ .../ncurses/ncurses_6.3+20220423.bb           |    1 +
+ ...{python3_3.10.13.bb => python3_3.10.14.bb} |    2 +-
+ .../less/less/CVE-2024-32487.patch            |   69 +
+ meta/recipes-extended/less/less_600.bb        |    1 +
+ ...ix-multiple-security-vulnerabilities.patch |  107 +
+ .../libarchive/libarchive_3.6.2.bb            |    4 +-
+ .../linux/cve-exclusion_5.15.inc              | 4508 ++++++++++++-----
+ .../linux/linux-yocto-rt_5.15.bb              |    6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |   26 +-
+ .../CVE-2023-44446.patch                      |  329 ++
+ .../CVE-2024-0444.patch                       |   42 +
+ .../gstreamer1.0-plugins-bad_1.20.7.bb        |    2 +
+ 19 files changed, 4007 insertions(+), 1353 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4233.patch
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-45918.patch
+ rename meta/recipes-devtools/python/{python3_3.10.13.bb => python3_3.10.14.bb} (99%)
+ create mode 100644 meta/recipes-extended/less/less/CVE-2024-32487.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2024-0444.patch
+
+-- 
+2.34.1
+
 
