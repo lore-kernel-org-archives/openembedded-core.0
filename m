@@ -2,87 +2,144 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5ADC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC8D1C04FFE
 	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 01:30:56 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.13.1715218255351798128
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.11.1715218252358999387
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 18:30:55 -0700
+ Wed, 08 May 2024 18:30:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mKcAYKmi;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5d4d15ec7c5so290294a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 18:30:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CBgqGvPo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-53fa455cd94so301050a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 18:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715218254; x=1715823054; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2YtvmovBBWnofGhcs6Aevab305mRK4DwcGIVZRdkW6s=;
-        b=mKcAYKmi+M6ca5aw0lqErV6mHKhrT60Ykhpl9wG6RJfvgTKp3Dynrv3C80dHEfdwDo
-         QvDYmK+SyRHgQg3yVq/2F2xrF+n4uDcVX8UV58/TDbi5RjBsqrAkmzG7HFw17hvwY3tk
-         bjyBYOjKZJ6g9EKND8Do1li7tQpBAeckpTnv9AElIZrwUH9/uIyzkRVNn2Bgo0u0PdY0
-         BBED31IpoxtbsUpgw9uB8x7OYSybRIY5gNcQldPdIj1T2cE93URcYT1C49QMVxERHaKH
-         PW5T1aEU3YYXZmEilalHF7fkBuRQRwkPABZSe6YnZ5M8YkdkPzxS1/nrNQq0FuI6ZN5P
-         HUFQ==
+        d=gmail.com; s=20230601; t=1715218251; x=1715823051; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TBOp6RWOEOt2ptt6RZbOi15dpuHcI0yKw4Cb7SNiNI4=;
+        b=CBgqGvPoDs7+pTKDljmUH4In01cdeMOG3oHXc184vOrlHR5v4YZ3O4VwYdRtMwHAaP
+         cG/ROffW/ia9NsjvCLHkD+VFkH0/B8X3ztGEPnjU0hECVcFO3WbMmGMUUXCPMEsp77K3
+         KutpgPJ/dJikv06qzih9Kn9aiLBTnHH1wM5EXLKP9LLBSaUJyL0CMfUZnRd4EEh/bi5U
+         ssYTFwZDnAI1kNoHliaWGTzJc3+NZnJHY6V8GxDmEhuAMls7ujIL6+bxVJWKeyMQQ/J7
+         3AarnTA6ECoRijMRO0Kj8/jDgSjniOwa26VIU0HBv95HOuh+g8yaulmjT6eA4cF95R1c
+         jXmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715218254; x=1715823054;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2YtvmovBBWnofGhcs6Aevab305mRK4DwcGIVZRdkW6s=;
-        b=tAbCVeBomiQcckDOSE0FOXQVqkn2EOBbxBa+6yFvDo7CVQKH1b4DCPM4F36JnBPwkS
-         r1OCrFCV8LedLIqXINARXw+B0OPfVHjsk5TmvmZA1zcolnN2WMEiqWXeTiZti3+HScwM
-         HlUbl6/hRJBO9ntw4dCBrf466xyoZytl7hGcHFYzJf2xRMCoFRb930Zy2okpAvs0k9PF
-         ByVGGr7b0Nf5LfTTW9JPwBzYmX8xFbd0EnugfPRHOveKirxvhStj+xxKrKJXso6T3uLL
-         4TGYqwn2QR4gzgh+AJvWJXOYA147QnHyFu+hCUlceISdGrBjCA1NHTY7P/5u0JaFnvUE
-         FOuA==
-X-Gm-Message-State: AOJu0Yx7nzEzdzcylZYsOr80LYBhDTFJ4h/w2cEaUP8LoCIVry/L7B6d
-	sw5d2RYz7GyVgMe6bB87Z6PpxYd542RLZut/7kWIJu5BQzMaN5/75i7IqoNQ
-X-Google-Smtp-Source: AGHT+IFtkbmavdUGQTdDIddd5vOd8hxu2zhG2QLDv5pNHV6oDzCAuzrnYPSm+VnfY9/mWtJU1xwONw==
-X-Received: by 2002:a17:90b:1914:b0:2b1:9fa4:16fd with SMTP id 98e67ed59e1d1-2b6163a3570mr4554037a91.4.1715218254402;
-        Wed, 08 May 2024 18:30:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715218251; x=1715823051;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TBOp6RWOEOt2ptt6RZbOi15dpuHcI0yKw4Cb7SNiNI4=;
+        b=cJaHMsu70cPdL7BvZqoKQ8PpikgN7ELx9LRHlBr5mGsZG3t9kY9xDhwj1S1OeZ5AzL
+         fydpX1q1uxMyAZirC5p8uqnkjbRYvHfSKPZNiSJ4a8Am2/k2vzXf5SYqPW5JsUIA8ubJ
+         ervVWCfgBUe8/VjjT9HnOSFN6Ljw0BLlV9FaX1i0JOVdAhhrkpoLUX4R1H04h/DgChxR
+         zQ7sTmIRaAWVyby8QoCq70WaPUIrtv5onbtEXP9Qc+TpYcw3v5zw37A/+9qIc760sUxV
+         ApsdouX6fYAu8N76Irv0HVTwsABFBjRiuuZuLwcgmqpRHV9heF/u1o7fng0BsSv0Fxhb
+         1Gkw==
+X-Gm-Message-State: AOJu0Yw/WJpvoa0UCd2XX8YSrONaABjIeg4qnV76hRDd252P/RGrH8Z/
+	EseOY/pXPiaBU6E5HOVQmwlTmyrm6zAQRhjbIr6jvCDwX4Mz+cq2VpwR+/yk
+X-Google-Smtp-Source: AGHT+IHylgz2ceFczXehh2NNDYf71jCPKLhOdJKirMJ3BkKMW7Pjoe8Zivwrc614xojMXXcUeFTsqw==
+X-Received: by 2002:a17:90b:4d89:b0:2b5:af18:4222 with SMTP id 98e67ed59e1d1-2b616c00d4bmr4077625a91.44.1715218251490;
+        Wed, 08 May 2024 18:30:51 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::af2d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67158de4dsm244558a91.42.2024.05.08.18.30.53
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67158de4dsm244558a91.42.2024.05.08.18.30.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 18:30:54 -0700 (PDT)
+        Wed, 08 May 2024 18:30:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH V2 4/4] iproute2: Fix build with GCC-14
-Date: Wed,  8 May 2024 18:30:49 -0700
-Message-ID: <20240509013049.523093-4-raj.khem@gmail.com>
+Subject: [PATCH V2 1/4] python3: Treat UID/GID overflow as failure
+Date: Wed,  8 May 2024 18:30:46 -0700
+Message-ID: <20240509013049.523093-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240509013049.523093-1-raj.khem@gmail.com>
-References: <20240509013049.523093-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 01:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199135
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199132
+
+This fixes ptest failures on 32bit architectures
+
+AssertionError:
+Failed ptests:
+{'python3': ['test_extractall_none_gid',
+             'test_extractall_none_gname',
+             'test_extractall_none_mode',
+             'test_extractall_none_mtime',
+             'test_extractall_none_uid',
+             'test_extractall_none_uname',
+             'setUpClass',
+             'python3']}
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-V2: Rebased
+v2: Fix typo in subject
 
- meta/recipes-connectivity/iproute2/iproute2_6.8.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...e-treat-overflow-in-UID-GID-as-failu.patch | 40 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.3.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.8.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.8.0.bb
-index 68f7611943f..24539e3d998 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.8.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.8.0.bb
-@@ -26,6 +26,8 @@ PACKAGECONFIG[selinux] = ",,libselinux"
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+new file mode 100644
+index 00000000000..88b84c60243
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -0,0 +1,40 @@
++From 999d4e74d34afa233ad8ad0c70b989d77a21957f Mon Sep 17 00:00:00 2001
++From: Petr Viktorin <encukou@gmail.com>
++Date: Wed, 23 Aug 2023 20:00:07 +0200
++Subject: [PATCH] gh-107811: tarfile: treat overflow in UID/GID as failure to
++ set it (#108369)
++
++Upstream-Status: Backport [https://github.com/python/cpython/pull/108369]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Lib/tarfile.py                                                 | 3 ++-
++ .../Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst     | 3 +++
++ 2 files changed, 5 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index 3bbbcaa..473167d 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -2557,7 +2557,8 @@ class TarFile(object):
++                     os.lchown(targetpath, u, g)
++                 else:
++                     os.chown(targetpath, u, g)
++-            except OSError as e:
+++            except (OSError, OverflowError) as e:
+++                # OverflowError can be raised if an ID doesn't fit in `id_t`
++                 raise ExtractError("could not change owner") from e
++ 
++     def chmod(self, tarinfo, targetpath):
++diff --git a/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst b/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++new file mode 100644
++index 0000000..ffca413
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++@@ -0,0 +1,3 @@
+++:mod:`tarfile`: extraction of members with overly large UID or GID (e.g. on
+++an OS with 32-bit :c:type:`!id_t`) now fails in the same way as failing to
+++set the ID.
++-- 
++2.45.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.3.bb b/meta/recipes-devtools/python/python3_3.12.3.bb
+index 93709b207ce..37afa442fa3 100644
+--- a/meta/recipes-devtools/python/python3_3.12.3.bb
++++ b/meta/recipes-devtools/python/python3_3.12.3.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
+            file://0001-test_shutdown-skip-problematic-test.patch \
++           file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
+            "
  
- IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc rdma', d)}"
- 
-+# This is needed with GCC-14 and musl
-+CFLAGS += "-Wno-error=incompatible-pointer-types"
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
- EXTRA_OEMAKE = "\
+ SRC_URI:append:class-native = " \
 -- 
 2.45.0
 
