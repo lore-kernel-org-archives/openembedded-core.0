@@ -1,84 +1,81 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84833C10F1A
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 20:21:24 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.1795.1715286076501373922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA360C10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 20:55:24 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.2609.1715288121458068036
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 13:21:16 -0700
+ Thu, 09 May 2024 13:55:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hohch3tl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41ebcf01013so7550295e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 13:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715286074; x=1715890874; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wv0HVPJpb5vbjK/xZGez4S1e+GMnb+ZFW/1jHwB+mpU=;
-        b=Hohch3tlqa3sH++fAmdrI6xX6LZp514eY0L2LawgUdbs1DR7tH3M6XldOAZrPjzkmF
-         AveAsfvLdMEv+iCqovBrs8gbfMtQEUxOsLFkwfsp0UHWBS9CB2N6j819rMw1qNquYYS0
-         lVChBVrRMNbvStVvhbLDG/PjFR8ozOpC7C+Cg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715286074; x=1715890874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wv0HVPJpb5vbjK/xZGez4S1e+GMnb+ZFW/1jHwB+mpU=;
-        b=dxaLwnxHKUL+hsjwBofDu99wGSaZ+g6jy+qNNVUH5aMjx2eitEMXenrjFIRg/UFi4J
-         M1te3c3ulBs/5WU8RN418+OWKpQrQYFwc2d+aJI6rqPq3HPwZ24BEdyDJnkpZW2kD0ds
-         GLjf+gdkeFaF79NEJL3hK2PLQDvL+isgdrIQPad/4otLo595DUHB/Dua+Pf5FMgptKRt
-         pKA2tyMxivUZnRnHP8qv2GP7/IKp69UF63VM5xE7Jv3/qjD/RBI0+4d/AZsKUu7rwz4j
-         +LUGnFNd65aNneDJ2FlIvOCUginv9Z5RZvm0qLgSKJYWxqVaYAmbZaU9QconUeucBDUk
-         fnVg==
-X-Gm-Message-State: AOJu0YwZXR7ScU+XL6nXrUkx2vlsqPCsq1gl5ZIMT6I8ZGap+M2J2qbX
-	hntAxn++n2ea1t4MTYxwIv8q7HT4cS9D9p1B9lKg0WqUn8pI935gQKPRBpbfmw7yj5drCDF+CN5
-	+qwM=
-X-Google-Smtp-Source: AGHT+IGj3BcPKfHLkqswCGL87EnS+KIBNq0DiX9lfI2EvxHiGSFly0YA/aQfLiabQTX91VFDiI8jRw==
-X-Received: by 2002:a05:600c:1f8d:b0:41b:4506:9fd with SMTP id 5b1f17b1804b1-41feaa2fdc1mr5637445e9.6.1715286074239;
-        Thu, 09 May 2024 13:21:14 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bbe2:a647:8a36:3a80])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fdcdd5788sm22715325e9.13.2024.05.09.13.21.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 13:21:13 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=KMFAqCQ+;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2024050920551873ba30d57512094395-edg1tu@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2024050920551873ba30d57512094395
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 09 May 2024 22:55:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=ykUynLNk577uUouSgh+uzNhpJzjsjznUvbSqWH7MD9M=;
+ b=KMFAqCQ+3v7cw0kAh5IxOvx0lLulTi4E+IAm5cDyl90yFriG8vlSKmDqLCs1xzJ2rufju8
+ f88JI16XYpDA4dp4kp43DviSYAK57cAzvodM/fBLcgDL8oVfeT1HZIW3la1k7X5/TvqixU2/
+ AM1yhTmf4xqJ3avh1217jGxO8Xb8A=;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] insane: Fix case where S doesn't exist
-Date: Thu,  9 May 2024 21:21:11 +0100
-Message-Id: <20240509202111.3959830-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] glib-2.0: Upgrade 2.78.5 -> 2.78.6
+Date: Thu,  9 May 2024 22:54:30 +0200
+Message-Id: <20240509205430.250059-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 20:21:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199183
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 20:55:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199184
 
-If S doesn't exist, do_qa_patch would fail. Fix the code to not fail
-in this situation.
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Handle regression of CVE-2024-34397 fix.
+
+News (https://gitlab.gnome.org/GNOME/glib/-/commit/d40f72e98e4734ba826ba9a278814530720ba760):
+
+Overview of changes in GLib 2.78.6, 2024-05-08
+==============================================
+* Fix a regression with IBus caused by the fix for CVE-2024-34397 (#3353,
+  work by Simon McVittie)
+* Bugs fixed:
+  - #3353 Fixing CVE-2024-34397 caused regressions for ibus (Simon McVittie)
+  - !4056 Backport !4053 “gdbusconnection: Allow name owners to have the syntax
+    of a well-known name” to glib-2-78
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-global/insane.bbclass | 2 +-
+ .../glib-2.0/{glib-2.0_2.78.5.bb => glib-2.0_2.78.6.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.78.5.bb => glib-2.0_2.78.6.bb} (96%)
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index c32dfffd836..03ac06b102f 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -1399,7 +1399,7 @@ python do_qa_patch() {
-         oe.qa.handle_error("unimplemented-ptest", "%s: autotools-based tests detected" % d.getVar('PN'), d)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.5.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+similarity index 96%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.78.5.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index d0aac737f7..1a4278b1bc 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.5.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -22,7 +22,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
  
-     # Last resort, detect a test directory in sources
--    elif any(filename.lower() in ["test", "tests"] for filename in os.listdir(srcdir)):
-+    elif os.path.exists(srcdir) and any(filename.lower() in ["test", "tests"] for filename in os.listdir(srcdir)):
-         oe.qa.handle_error("unimplemented-ptest", "%s: test subdirectory detected" % d.getVar('PN'), d)
+-SRC_URI[sha256sum] = "39b26044bd44dc30f427202add4997f554723c30017e92ff36da4197a2c916aa"
++SRC_URI[sha256sum] = "244854654dd82c7ebcb2f8e246156d2a05eb9cd1ad07ed7a779659b4602c9fae"
  
-     oe.qa.exit_if_errors(d)
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
-2.40.1
+2.30.2
 
 
