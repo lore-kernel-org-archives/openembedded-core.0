@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EFEFC25B10
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC474C25B77
 	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:06:00 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.8417.1715256355988978401
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.8414.1715256353288870000
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 05:05:56 -0700
+ Thu, 09 May 2024 05:05:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PvIN/wjI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f4603237e0so597487b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:05:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OAqAIIlI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f4551f2725so705903b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715256355; x=1715861155; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715256352; x=1715861152; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nxvxWhbbEm7g4ZgX9PfB4UETGetKt7sOS/3R1URp8ao=;
-        b=PvIN/wjI5WUqqGwbGMP5Vvkw4XGp1lzy6jympVfm3xObNWunY+8I1a6ocuZmQzT1s2
-         zv0HyQnbzb6yC9U8PtgXAShBVHhrihBkseN+luZ0ovXNFn2YIZ7XbqWIIT4V5wRew+im
-         1+v8XXmmVXaJBMtUqCRntFtI+HSJ+r+BZwzsSpT0yYVK4jvnPxviG801BVUC+TJBMsCa
-         H5XavH1UX5A7jZk3ipKs1s/I4xCadG6nrljErmX8OYquYfPb6kAZEsI5yGcUYlTDiwK2
-         aOMCcMfEUXmhp+B+Uzk3xa+quYcbEbOhvaOxpb0npspP/xvWVH35+p7V39q+bLnLTFUT
-         73pQ==
+        bh=yPkBeof8T58RMd0o9HrzifLYTqNNMAWLfaoaEwRRexI=;
+        b=OAqAIIlINtBFL/YuKIFVX5m0PRdjqluDPUm2xdUjo7xBac60lL0JtmnMhjzBpNO8++
+         sq3tHbau3VOP7LYk0SaddmFgmofbeLT1ApY2SWHT441PD5YMlXsg93TsAUVBjbX6on/X
+         LbjcR6hFEHMiupwHZVRES/5ePasMtkcbb0t02hTCLl5yV7ATVoszOwq4NqrcnU0IiVGP
+         8DGifNY2YuAC8fAeyYcPyqrsZ86l1gO83MyT+u2BpHQGE1AimMCPQM+uhlh+pDwG6RlR
+         sXD0NxCMuiwZF4I0B62JRC8hJA1YU/PRPAUU7HVparUho0uSgsJHJJnu7Z9y6TPysXx7
+         Je3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715256355; x=1715861155;
+        d=1e100.net; s=20230601; t=1715256352; x=1715861152;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nxvxWhbbEm7g4ZgX9PfB4UETGetKt7sOS/3R1URp8ao=;
-        b=bX2BHsEwJ54n8dEkpu5E7NmnzmxhBiiEor5lrGj70wMWHD6Loh7pOXKgiILx9q/Iah
-         1TK/tHMaTMAZtRpM7kkzyiRhMmBsg1yt5GmlV+fNLJQQBi0tLgIq4nN3tZg2Q4fWXVPB
-         H/hrslfHGXJbfDQXmHk9I95jHTY2IY1BA8xCayssPE5zPc1QYhRIuwMzXtJAio84Eh1t
-         StISf9uBiAQekU7dKA8zEbylw0F3FwPiu8bNYmtWGbSRSFkAtF6Er0eaZtl1p3a62kKY
-         w7BafZqTdCGbtcf/lgObdycbK35z3IclvkGgpDRpyMybdKwHjsAr/9Q5CPJFUvz2cWcK
-         1zNQ==
-X-Gm-Message-State: AOJu0Ywk04WUnanrgqLrw2T/E4uzAeBjTg+UsBurln7ieVy7VgIu5R9T
-	oafNcH1B2vpuKZJ14yeDhaNUEZWZEaxAgU9rRj13mhVpPRYvanDB/qDoEywdiE7nOWQaiMM7mxX
-	u
-X-Google-Smtp-Source: AGHT+IHPgpLlXmh7D2BloRjOpjaqCY9NHBsG/ggvUvazSyTwO3wIrkiZDVjJKGMVWT+5xM/rIhmkfg==
-X-Received: by 2002:a05:6a00:2e13:b0:6ed:2f0d:8d73 with SMTP id d2e1a72fcca58-6f4c90b4ea9mr4395195b3a.3.1715256355163;
-        Thu, 09 May 2024 05:05:55 -0700 (PDT)
+        bh=yPkBeof8T58RMd0o9HrzifLYTqNNMAWLfaoaEwRRexI=;
+        b=texRoc4Lb4gPssoJM8YRXHmDCrX6ATZJNNRLzRyOV8z+Gi+irTHUtp5UQevxktfXsg
+         5EysBdaMyo6lERU3dx9LxBM2NxuzO4OTymMQq4VIMXuxc5Pd69tB7IN70OYBC1s4RsKF
+         po7au67eshcBDe9yB/sOwjjduE83iosSw//L/IeIc9x4kSWK/NDO+P5CV+79WrmRswS2
+         C7z99APu3kTWQPlozQ/qsgmij7bJVM5KhbkBd0N65LHncvhGkjQ/40Yu0rgL0NgW+aZv
+         ff2bAWXnFhMSpWRhl2JPoyWGwGVvlM1fp9hzs3XMnE4JDbdH9ah+7aWDMVSvgOiwgYKR
+         FfAA==
+X-Gm-Message-State: AOJu0YxRYATQ50ODvmBMv0sx+F+G2a3XPzXzMezYyYu8bye2442lPpgS
+	/sa/mJESICuXK6AmA7Mh8xv/Mgvug27FSsN+CrVMvzxDDfjk4AY/rOFv3l0VgwYdQgxzAH2YPXs
+	K
+X-Google-Smtp-Source: AGHT+IHi5mdYi0bFohzg4zSst5C+YmZ74gMIhBc3zTdbOzPmH+C0blhenNmK3cg7D5xMDrjIVRBv7w==
+X-Received: by 2002:a05:6a00:6985:b0:6ed:1c7:8c5d with SMTP id d2e1a72fcca58-6f49c21ef15mr5591638b3a.12.1715256352615;
+        Thu, 09 May 2024 05:05:52 -0700 (PDT)
 Received: from xps13.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2c41sm1185613b3a.172.2024.05.09.05.05.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2c41sm1185613b3a.172.2024.05.09.05.05.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 05:05:54 -0700 (PDT)
+        Thu, 09 May 2024 05:05:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 23/23] ppp: Add RSA-MD in LICENSE
-Date: Thu,  9 May 2024 05:05:01 -0700
-Message-Id: <24fd9b6756728a0337100f53a1c6e92aba092f9d.1715256149.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/23] kernel.bbclass: check, if directory exists before removing empty module directory
+Date: Thu,  9 May 2024 05:04:59 -0700
+Message-Id: <4e4681b26e0d88ad219d72b75e598e6b81b430fc.1715256149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1715256149.git.steve@sakoman.com>
 References: <cover.1715256149.git.steve@sakoman.com>
@@ -62,33 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:06:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199170
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199168
 
-From: Poonam Jadhav <ppjadhav456@gmail.com>
+From: Heiko <heiko.thole@entwicklung.eq-3.de>
 
-ppp package has "RSA Data Security" license text
-in Message-Digest Algorithm source file md5.c and md4.c
-Add RSA-MD in LICENSE field for ppp package
+If the kernel folder does not exist, find will result in an error.
+This can occur if the kernel has no modules but, for example, custom modules are created.
 
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+Add check before deleting.
+
+Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7ef767d84d56b25498e45db83bb8f9d9caebeaf9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.9.bb | 2 +-
+ meta/classes/kernel.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-index 7e3ae43b58..b7f71b673d 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-@@ -5,7 +5,7 @@ SECTION = "console/network"
- HOMEPAGE = "http://samba.org/ppp/"
- BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
- DEPENDS = "libpcap openssl virtual/crypt"
--LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD"
-+LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD & RSA-MD"
- LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea \
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index dbd89057f3..988a489396 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -452,7 +452,7 @@ kernel_do_install() {
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
+ 		# Remove empty module directories to prevent QA issues
+-		find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
++		[ -d "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" ] && find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
+ 	else
+ 		bbnote "no modules to install"
+ 	fi
 -- 
 2.34.1
 
