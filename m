@@ -1,197 +1,112 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B630C04FFE
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 02:38:57 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.1055.1715222335176342192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE73C10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 03:16:27 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.1612.1715224587239053198
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 19:38:55 -0700
+ Wed, 08 May 2024 20:16:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RDXaYPSl;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f447976de7so427800b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 19:38:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bhP0Knvf;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-613a6bb2947so351171a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 20:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715222334; x=1715827134; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xwx9WvMKCaeUXVf84YKcdCco2VobnoUOq4sS1x/vjEY=;
-        b=RDXaYPSl+ED+ay8eJj8S0Ggi5PfU+s0VdLsIhUOTPh1oS8RIkkyLwgpiclBfIxBXLs
-         BgmKRAr5bMSqxsUSoVVqJcCZWGnF791ey6+co2LBP+rhejxMwthVh18Q61JD8wW56ooB
-         loL4A3vm+9r29HLXyuakunAxGCgao4x4JGwe4XJ1HldoLBsW3dqSzSnnRY6tqHhn3liD
-         IFLgwOCK7Z3xkI94tEiKQCRmF80K+hFa6tVQ9oE8Bh/xcdxQ+EzFzd5QXOXQb58RQNAM
-         RGUkCbtyLTeiR+VV1tNAw5vp1g4/nkYLspKLYYjNla+TdKHAu7G00dEFarfpARONRvMn
-         XzCA==
+        d=gmail.com; s=20230601; t=1715224586; x=1715829386; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7KA0aUutEEe+WrAYb1zDNhpFRe16ZvrNk5ItrGmyh1Y=;
+        b=bhP0Knvf/jvCelOZdyALYMEq5/yLUg2xurVCG53ShJsf93zDciSRDc4/EiVcogOm2T
+         4ATG8bYzMRqRmSc6vgyk/N8+TvSxL8ejlj4dEzJZ2ZQb5x48RBAzbF7nwwwByTRC/F7k
+         0cuujuATGz8mDJXwDgnWlq+tSJq57440wgYMOTQ7imURM109ssKF7VpXKVQDWWrs7q23
+         pNOJKSGjJdBmKysVyCMo3foa4Ze3EypusMQ74u+a7COBIrnxW4WqV8N342JRzlkbVl/e
+         1BfWJ/Vb5LvdTwjutXjiMrpTvCFFTy/x7npbLfIx7iitnbs0p2tddGlCWRQC/bcECh9p
+         ywHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715222334; x=1715827134;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xwx9WvMKCaeUXVf84YKcdCco2VobnoUOq4sS1x/vjEY=;
-        b=vOe4rurySLr9zCyEe8/q1KQM/Nlh/QK8bHobjhaWZxhSYdcuYIrFpNfSezjtc3PPV3
-         eYNembtN8+iHSK3YHF7NO7hqDyVSdiDXB2naiIvfdkMSnKMnKUC0sc8rrFVV9jark790
-         KKhPGXJ/D7Hor1BrmT8vZRcdSd4WP1TLvM/BmhPPRTXhmrRjQ3fyz59cKk6fMvIFECS6
-         FlDO+Mb7anWPn0CKnVGBAy2urFE0olWi5HBHhvkjD6aTivY4f0UZ3d9l9PTGfZhoKaPu
-         p9orsdhFrVztN3ln3kmEtFb5Q56syTeeCXxaiGAjTv+T/k4CDbFCto/8fmjxd8Lvq6/h
-         ujtg==
-X-Gm-Message-State: AOJu0Yxw//cW9HtSifO5dn3y5UdBmgSRKOe94moWAgM+2fPa62YMkU6R
-	uvPWJzTnI8OaJs+oLXKjwFwulog0FoSoIVfdP5D9vOjB82h9GF1UjNRoX8ns
-X-Google-Smtp-Source: AGHT+IHnnOoWZuv1w/80BwDFwsJ5uZ3iyRiFGzl6c7YniOCX4kcnT76dp+srdW+/b71FXlic8/61MQ==
-X-Received: by 2002:aa7:8c10:0:b0:6e6:ccec:fdc0 with SMTP id d2e1a72fcca58-6f49c2bfd01mr4907142b3a.33.1715222334090;
-        Wed, 08 May 2024 19:38:54 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::af2d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a6664dsm270274b3a.12.2024.05.08.19.38.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 19:38:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH V2] zip: Fix build with gcc-14
-Date: Wed,  8 May 2024 19:38:48 -0700
-Message-ID: <20240509023848.586972-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.0
+        d=1e100.net; s=20230601; t=1715224586; x=1715829386;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7KA0aUutEEe+WrAYb1zDNhpFRe16ZvrNk5ItrGmyh1Y=;
+        b=ZokCFeU2c3YMkDnSo7dGBGwIdUyXOC2o9g7bdmbJtDkS2v9PvgwFgoy89HMoYf1PQb
+         Hbl9pNdmo8GNCnis/f4IbvigP2Ok7A2s2YfiG443/4NBfCiEymcf0G4YFLKEc8L6cvPo
+         0FJ2OCww04H12tHR39Jnzehqn14dtBmVsvhhCXSsycj8ts19Is0cu6TmCvGe7KuCV85F
+         P/17f02RscHmh/1YRtZ5pyEVQy1rWdcWxkbjT9TZx7z5S1QickbWM6aT+W11Bi0BeAx7
+         0vprgk1i5BFuRzZOAsKI5nrvWTJ+uOBCSfbHrLIQmIhusCefyBeo8SDwUpx6UtoXx99I
+         XVsg==
+X-Gm-Message-State: AOJu0YyVpvT/8QtzX+lgVBrF9ACd+rczX2er7RqrRrG/HdDvRQtEJ+Pv
+	W4K1tjcr4nCwGsPkLCRmplz8XsteoM/juUhce2ZitkQMzkpkxmJvr1DKchvRItc7qv7zG9htymo
+	u5tgoAJ1mwO0xNcf86zlFwZ2q304=
+X-Google-Smtp-Source: AGHT+IEP0LcIYiJgviF5QMxFigWy9vwhZtK/C6eO7fN88LgIc97NBt9ScMmOHiP+7a+2d38ZvVaWW6E6Wduk+PHb//4=
+X-Received: by 2002:a17:90a:d501:b0:2ae:b8df:89e7 with SMTP id
+ 98e67ed59e1d1-2b6169db565mr4639663a91.38.1715224586323; Wed, 08 May 2024
+ 20:16:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240509012206.517279-1-raj.khem@gmail.com>
+In-Reply-To: <20240509012206.517279-1-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 8 May 2024 23:16:15 -0400
+Message-ID: <CADkTA4PtK4TvaqpO=0wZMjG78QTygojrDO7S33sTbb4M_ZPiLw@mail.gmail.com>
+Subject: Re: [PATCH] linux-yocto: Enable team net driver
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 02:38:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199136
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 03:16:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199137
 
-zip's configure fails to link this piece of test code:
+On Wed, May 8, 2024 at 9:22=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto_6.6.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-=
+kernel/linux/linux-yocto_6.6.bb
+> index 71bfbf9e032..4503ec94ae9 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> @@ -66,6 +66,7 @@ KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg=
+/paravirt_kvm.scc"
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
+", " cfg/x32.scc", "", d)}"
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc", "", =
+d)}"
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
 
-  int main() { return closedir(opendir(".")); }
+We are getting quite a few of these now and that isn't a problem. But
+I think we should
+probably start putting comments above the enable lines so casual users
+will know why
+the various fragments are being enabled.
 
-with GCC-14 because it now treats implicit declaration of function
-as error, unline older GCC version where it was just a warning
-and this test would build fine.
+For example, I don't really know what the team driver is, and why
+ptest needs it!
 
-Remove 0002-unix.c-Do-not-redefine-DIR-as-FILE.patch which
-is now unnecessary.
+Bruce
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Redo the patches differently
+> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " features/net/team/team.scc", "", d)}"
+>  KERNEL_FEATURES:append:powerpc =3D" arch/powerpc/powerpc-debug.scc"
+>  KERNEL_FEATURES:append:powerpc64 =3D" arch/powerpc/powerpc-debug.scc"
+>  KERNEL_FEATURES:append:powerpc64le =3D" arch/powerpc/powerpc-debug.scc"
+> --
+> 2.45.0
+>
 
- ...e-dirent.h-for-closedir-opendir-APIs.patch | 45 +++++++++++++++++++
- ...2-unix.c-Do-not-redefine-DIR-as-FILE.patch | 35 ---------------
- meta/recipes-extended/zip/zip_3.0.bb          |  2 +-
- 3 files changed, 46 insertions(+), 36 deletions(-)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
- delete mode 100644 meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch b/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
-new file mode 100644
-index 00000000000..0d3af37ded2
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
-@@ -0,0 +1,45 @@
-+From 9db2f8cdbbc0dfb359d3b4e5dfe48c18652ce531 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 8 May 2024 19:02:46 -0700
-+Subject: [PATCH] configure: Include dirent.h for closedir/opendir APIs
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+GCC-14 is strict about function prototypes and since the
-+testcase tries to compile/link opendir/closedir functions
-+without including signatures, it fails to build the test
-+due to missing signatures which come from dirent.h
-+
-+Therefore include the needed system header and make it more
-+robust.
-+
-+Fixes
-+a.c:2:21: error: implicit declaration of function ‘closedir’ [-Wimplicit-function-declaration]
-+    2 | int main() { return closedir(opendir(".")); }
-+      |                     ^~~~~~~~
-+a.c:2:30: error: implicit declaration of function ‘opendir’ [-Wimplicit-function-declaration]
-+    2 | int main() { return closedir(opendir(".")); }
-+      |                              ^~~~~~~
-+
-+Upstream-Status: Inactive-Upstream
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ unix/configure | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/unix/configure b/unix/configure
-+index f917086..1dd98c6 100644
-+--- a/unix/configure
-++++ b/unix/configure
-+@@ -591,6 +591,7 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
-+ 
-+ echo Check for directory libraries
-+ cat > conftest.c << _EOF_
-++#include <dirent.h>
-+ int main() { return closedir(opendir(".")); }
-+ _EOF_
-+ 
-+-- 
-+2.45.0
-+
-diff --git a/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch b/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
-deleted file mode 100644
-index a86e03e6203..00000000000
---- a/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 76f5bf3546d826dcbc03acbefcf0b10b972bf136 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 10 Aug 2022 17:19:38 -0700
--Subject: [PATCH 2/2] unix.c: Do not redefine DIR as FILE
--
--DIR is already provided on Linux via
--/usr/include/dirent.h system header
--
--Upstream-Status: Inactive-Upstream
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- unix/unix.c | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/unix/unix.c b/unix/unix.c
--index ba87614..6e6f4d2 100644
----- a/unix/unix.c
--+++ b/unix/unix.c
--@@ -61,13 +61,11 @@ local time_t label_utim = 0;
-- /* Local functions */
-- local char *readd OF((DIR *));
-- 
---
-- #ifdef NO_DIR                    /* for AT&T 3B1 */
-- #include <sys/dir.h>
-- #ifndef dirent
-- #  define dirent direct
-- #endif
---typedef FILE DIR;
-- /*
-- **  Apparently originally by Rich Salz.
-- **  Cleaned up and modified by James W. Birdsall.
---- 
--2.37.1
--
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 70df5ab8728..ec542063357 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -17,8 +17,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://0002-configure-support-PIC-code-build.patch \
-            file://0001-configure-Use-CFLAGS-and-LDFLAGS-when-doing-link-tes.patch \
-            file://0001-configure-Specify-correct-function-signatures-and-de.patch \
--           file://0002-unix.c-Do-not-redefine-DIR-as-FILE.patch \
-            file://0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch \
-+           file://0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
--- 
-2.45.0
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
