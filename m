@@ -2,85 +2,94 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C022BC10F1A
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 10:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05FA6C10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 11:49:00 +0000 (UTC)
 Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.7114.1715251252753135995
+ by mx.groups.io with SMTP id smtpd.web10.8337.1715255333742297816
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 03:40:53 -0700
+ Thu, 09 May 2024 04:48:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b5yCwSia;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DhpjxO0q;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41fc53252ceso5428575e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 03:40:52 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41b7a26326eso5659655e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 04:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715251251; x=1715856051; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CEQiR0DNo0EKBRIZJXf6uIGlb+6Ja94wrG36uBr+scU=;
-        b=b5yCwSiaE5eC7afHb+0yf9vY/tEVb8NDiL1zqnDx1cwW1zbOfJvyYWmlWwvgojBWX+
-         MPB4IRG8ZY+cztaXq4FFz9Hlxy0cnLe6adRvVw2HGD4HApqsO1J/sNPDrotODlnQyx6z
-         b9mt01RVjHx213b9KDlImHC8xQAwhTyIF9XXk=
+        d=linuxfoundation.org; s=google; t=1715255332; x=1715860132; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=17xfJiFCwY8QFVBMj81lDq/N/u+zm+bZRWgvJxPcz/8=;
+        b=DhpjxO0qn9FcTTS4F+7MgzFcc0Wh+AHp3jMPVdjM7JSRtZOWBKPoEl3GBGXlaSncmA
+         4cJCkcOZjFrEwfzwlsiAmmOYYKwb1j+7ZmpkELnIhGFkLX8o2/A1h59yHZlmVZrvZM4W
+         UlNjIPmPBHLiMv21zOJGaAntEPXlH/itMz2bA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715251251; x=1715856051;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CEQiR0DNo0EKBRIZJXf6uIGlb+6Ja94wrG36uBr+scU=;
-        b=vjaUqplgrgPBW+udlTWWOU1TnS3REo2TlaFM8ZB/YuJ/eoXVhMNg0OsQk0OmmMQStq
-         4jol0ZkYRFQ8iifALnNUtIwAzISCvgTUZFfBqVH1MGqU2TfHbbyT3b3APMjczc+Ow/SM
-         RaxKCxacDEVKD6Rkc0i6rAQHq42dKY/KEi7EVVoL3Fbx9VZxy/CcNKLMtYT+2BBz6wWh
-         hB5vmjnt092PdX+BDyn+A0zuPcoYKxUEzAoiU9/pI7sHRFcjjei0vmTSZIEBHcQ6okur
-         fugRIeZ0rOYncmC/lOQhTE9L7obfg8zGLtU5adyUlG7KmaxrVGPJFb91MilWguyBURn+
-         bi4Q==
-X-Gm-Message-State: AOJu0YwVeDnDF42xKfjDs5CSpc5lFGReDm7X2eaB+pbeWbPKAo5VwdIu
-	UfowSXJAPKTM/1dT5PXEN4S0Hzw3fmQqlqfcr7gs7/qur5bz+Pf4plcCzoEw99jcHoGloqre5pZ
-	d0bU=
-X-Google-Smtp-Source: AGHT+IE+z2bkIJBNmU7q4RsSA4zKxbukz+b7UryMidOW2ZfleVGha4U03dAsn/uXpzzber9HG0722A==
-X-Received: by 2002:a05:600c:384a:b0:415:4b4b:1e28 with SMTP id 5b1f17b1804b1-41f71ec27e1mr40695055e9.20.1715251250828;
-        Thu, 09 May 2024 03:40:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715255332; x=1715860132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=17xfJiFCwY8QFVBMj81lDq/N/u+zm+bZRWgvJxPcz/8=;
+        b=afyytIPkRt2pDJUq8cUW9a0TbARMaq2Qf+Jkup7HI6NTVNYjUnr4yAWvD9EDn2g1u3
+         hPGQLesS2dOQ1HMmVhjVcDXB9jPXhGg0ab9mhHvIQeOWsrwQG7X3O8oUFL41ykKAKiz+
+         alNqpXZ5AZqMFU14LUL9wZ6Xhj5rPV+IfiYEkMITwNxC6kei1neH+VN8MtY8E87t5qda
+         8QSS4PhPF+xKHcUy4XTpEcpJDL0xhTjg/NdQ0fZHqa5Je1seKTfVM7y9NuEhXzlnVeS4
+         y9Uic/fkdxDjB8By7rKvp/2A8TKP0CVG/iD9HtlzJu6B1YScO2qZJvxEw10slf9JvKDy
+         ez2A==
+X-Gm-Message-State: AOJu0Yx4Nvfv+SFSGnhFzw0nVyAEKkq/R/gYYwycl1aCEJSXPlY2qCxj
+	IkYB32Do6eIiL+2MVYrRklxuufDC/TuR/jOkWhQNkrHrRjRbOHmYTA55fi/bgB22g7FYOovULV5
+	MAuk=
+X-Google-Smtp-Source: AGHT+IH2NuVombFXcmiMFk7AE1ODeaquRlXkVw/oeizzNl3iPDf5mYOMj2oK4PjnHrKdHRYsmne8kw==
+X-Received: by 2002:a05:600c:450c:b0:418:fb6f:5f59 with SMTP id 5b1f17b1804b1-41f71cc25a8mr44264205e9.2.1715255331569;
+        Thu, 09 May 2024 04:48:51 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a95b:1bc1:5128:ffbc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccee9318sm21116965e9.30.2024.05.09.03.40.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b896a89sm1486085f8f.31.2024.05.09.04.48.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 03:40:50 -0700 (PDT)
+        Thu, 09 May 2024 04:48:51 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jookia <contact@jookia.org>
-Subject: [PATCH] populate_sdk_ext.bbclass: Fix undefined variable error
-Date: Thu,  9 May 2024 11:40:49 +0100
-Message-Id: <20240509104049.3912261-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] ssh-pregen-hostkeys: Limit to qemu machines by default
+Date: Thu,  9 May 2024 12:48:50 +0100
+Message-Id: <20240509114850.3922334-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 10:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199144
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 11:49:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199145
 
-From: Jookia <contact@jookia.org>
+There are potential security issues from using pre-generated host keys. We made
+the recipe available for autobuilder testing purposes but concerns remain about
+how easily this could end up in production.
 
-The variable uninative_checksum is returned without being set, causing a
-build error. Set it to None by default instead.
+I thought we'd already done this, but limit the recipe to qemu* machines,
+which means any real hardware trying to use it will need to be a bit more
+explicit about it and specifically enable it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/populate_sdk_ext.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb            | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index f5687e58997..09d5e2aeb66 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -276,6 +276,8 @@ def write_bblayers_conf(d, baseoutpath, sdkbblayers):
- def copy_uninative(d, baseoutpath):
-     import shutil
+diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
+index ede18a00317..4a62ddacd5f 100644
+--- a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
++++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
+@@ -8,6 +8,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
  
-+    uninative_checksum = None
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++COMPATIBLE_MACHINE = "^qemu.*$"
 +
-     # Copy uninative tarball
-     # For now this is where uninative.bbclass expects the tarball
-     if bb.data.inherits_class('uninative', d):
+ do_install () {
+ 	install -d ${D}${sysconfdir}/dropbear
+ 	install ${UNPACKDIR}/dropbear_rsa_host_key -m 0600 ${D}${sysconfdir}/dropbear/
+@@ -16,4 +18,4 @@ do_install () {
+ 	install ${UNPACKDIR}/openssh/* ${D}${sysconfdir}/ssh/
+ 	chmod 0600 ${D}${sysconfdir}/ssh/*
+ 	chmod 0644 ${D}${sysconfdir}/ssh/*.pub
+-}
+\ No newline at end of file
++}
 -- 
 2.40.1
 
