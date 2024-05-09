@@ -2,147 +2,141 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D58C10F1A
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:05:10 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.8610.1715256308473205721
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032D4C10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:05:20 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.8386.1715256310753029406
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 05:05:08 -0700
+ Thu, 09 May 2024 05:05:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eHfum5Nt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f44ed6e82fso728436b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:05:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ll29UiKt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f4521ad6c0so723549b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715256308; x=1715861108; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=58Rd2GHXvWb581RlOZYamQAPKgulYy6xVL3vUzPtEmw=;
-        b=eHfum5Nt+vE4KYchpvdrJSgg0k0+b7/C39tc0OpRqDhyr7p/rrFw/c1dMQdQcv1d/A
-         U+Sly78J1iDyYy5I3WyeREit+OgwKIDP4FfkBNh/KWbXiuSmAahv9+L9aWd93NhoDwvb
-         95R8e1md6Ho+GNBy4bmQc8EjXVVkJmaNgOxldLU398WFyvL0wGlESAPNCg1WU4yJuK3N
-         s8YxQtFBrB5dWYXMyTG6yL1vkZSodiqKVWcyUntuDsnCVRRfNLg3FoncMZB9ovLMo81P
-         B5FhrUhh+kVg7MwrotwGBrKuJU2FrPeI+tI8m1cEwhDqapPXPSqufX1S0qA8/8JMHIIC
-         C9Kg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715256310; x=1715861110; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vFq827j5dPIKy/T7inqIjx3kE+XT/B9+H0lAKiZfIfY=;
+        b=ll29UiKt8QEPOzSYXMHHdO5zFIWVH38g8ie9DuiLW+lHqiyhWrKctMPJ+M/xfSbTgp
+         L8aDNwnLn5cb4RQy2zwc/H1hAfqGNUuc85qmLNlKqkRz50nNCrjj5hK3plNc41DCV76k
+         3C2tobBpQR5WzusrKeEgktfDMfZ9GyQ9gryx6vGTXXC2DmIKWlnZPL1z49l07Rn/kDoi
+         j84MCJVVLEsd+vV9NyiFmszd/KShQYegmmg+vBhyct9FmAJo/CIr68cqox9YyZnYQL5+
+         woXNAonUE8/lkckmvnjgReierqF3kJU6UiONn5GkY76YOiMnu8y8VUg9Ui0Z/BjzUCCv
+         UBog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715256308; x=1715861108;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=58Rd2GHXvWb581RlOZYamQAPKgulYy6xVL3vUzPtEmw=;
-        b=SIecRj6ivlUWyhQ6WUnDuMadt14jNNWQsX378OSICBvoaJJN3ZP1ckKEzhpf+UvQg1
-         RN6QI7kpZX/7Usq5PAqwwmmxXURkTrQM6v4W3p4nxBF2wysI29eYD39TpDC6D1PdaSxE
-         8/7IRjLWtbuyDJNxJAzqNRvje8gAVuQGA+ol8AYgCbAfxHOWajaJPWZNtTDK4XNAK+8h
-         QBe+RQ65iyDhlJcw+769wEHs1yqlCGQk4yoZ7BpD7OFSGgVnFaO0+oSBdTzggwpOWaoW
-         P3g5CkD2WQKjpcrN8rskLjb4rv3WHRP4mu4FkUfnSY8tdVB1NhZ6ggXOu5OR/26FNZO2
-         fikw==
-X-Gm-Message-State: AOJu0YwdQYB994DDHn1GQm2+td4djP/c3BoGpQSB3Zv8viHP4uudrlH6
-	M4Zl9hykh7RL10goCwq6+jS3BuHSzEJ9G0E4pTDHk4p9rteJLRDF+ViXs6dkIBpVpKLy29/SXQp
-	A
-X-Google-Smtp-Source: AGHT+IFYXmzibzW9xRw/0rEdRyBd4kxfOtETUWYxcFu1DvJoSpwAuhpmJn4ouGvLvL4Z1TV8+0GulQ==
-X-Received: by 2002:aa7:820b:0:b0:6ea:c2c7:5d6a with SMTP id d2e1a72fcca58-6f49c206b3cmr5474588b3a.2.1715256307445;
-        Thu, 09 May 2024 05:05:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715256310; x=1715861110;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vFq827j5dPIKy/T7inqIjx3kE+XT/B9+H0lAKiZfIfY=;
+        b=XcUqiZuPgVyPYlGo3uqUxCCDmFRbPqVRQXcHA5h2JbMd3F0zqMpf4r/LqlL/1Dxyih
+         cIA4agT8A0VGAKbmzrInYCgHKZ8k7e2XyAsdAhzzIw/87FbV7nzIm969KIztiTOsZXRH
+         sidgQ/oOReaPCcd8xUfTgSCX1Z8DyiiW98wOaAtHw8A/jCw5JS8Nfo76OpVKx7vKvdJp
+         Ta3eDUU97LETJcb5TDnMPzb+eBshfTiHW6ilJNMgkJ9EJCHKgUE2k5T6l/0MO+phq1Lt
+         Mg2k8dYPnXN5cGzL4P9SJDfJEJ4lIEoMNL/O/T3uNAQwD5iKzJ1CJruzRi29QyllQLjJ
+         pdsQ==
+X-Gm-Message-State: AOJu0YyEW29iBxtLtlFQ5ielRj+Bq9I01EPI46K67be7mtu3piDTM/lM
+	rrmNP7ElxiZC5394BHbEpJe9dGqVXpTCmiRD+Pck2ypgXbV/mStlcdLwiPQEcAGwsbc5cZI9GWs
+	r
+X-Google-Smtp-Source: AGHT+IE7ESHwwMrN99UoUZbHhZGVJ44hTNaoszSgnYnlMZkuz9o6jBl98HztCSJqpTHOLNZNjXzHZg==
+X-Received: by 2002:a05:6a00:741d:b0:6e7:20a7:9fc0 with SMTP id d2e1a72fcca58-6f49c2b1b5dmr4727458b3a.34.1715256309910;
+        Thu, 09 May 2024 05:05:09 -0700 (PDT)
 Received: from xps13.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2c41sm1185613b3a.172.2024.05.09.05.05.06
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2c41sm1185613b3a.172.2024.05.09.05.05.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 05:05:07 -0700 (PDT)
+        Thu, 09 May 2024 05:05:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/23] Patch review
-Date: Thu,  9 May 2024 05:04:38 -0700
-Message-Id: <cover.1715256149.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/23] ofono: fix CVE-2023-4234
+Date: Thu,  9 May 2024 05:04:39 -0700
+Message-Id: <51cf006ac7b5b97e65864fb1cb6f5b47192c4ebf.1715256149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1715256149.git.steve@sakoman.com>
+References: <cover.1715256149.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:05:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199147
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:05:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199148
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, May 13
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Passed a-full on autobuilder:
+A flaw was found in ofono, an Open Source Telephony on Linux. A stack overflow bug
+is triggered within the decode_submit_report() function during the SMS decoding.
+It is assumed that the attack scenario is accessible from a compromised modem,
+a malicious base station, or just SMS. There is a bound check for this memcpy
+length in decode_submit(), but it was forgotten in decode_submit_report().
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6889
-
-The following changes since commit 8a502301209ef144932ef5071c1a9b738db23270:
-
-  rootfs-postcommands.bbclass: Only set DROPBEAR_RSAKEY_DIR once (2024-04-26 06:15:55 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (4):
-  ofono: fix CVE-2023-4234
-  ofono: fix CVE-2023-4233
-  gstreamer1.0-plugins-bad: fix CVE-2024-0444
-  gstreamer1.0-plugins-bad: fix CVE-2023-44446
-
-Bruce Ashfield (13):
-  linux-yocto/5.15: update to v5.15.151
-  linux-yocto/5.15: update CVE exclusions (5.15.151)
-  linux-yocto/5.15: update to v5.15.152
-  linux-yocto/5.15: update CVE exclusions (5.15.152)
-  linux-yocto/5.15: update to v5.15.153
-  linux-yocto/5.15: update CVE exclusions (5.15.153)
-  linux-yocto/5.15: update to v5.15.155
-  linux-yocto/5.15: update CVE exclusions (5.15.155)
-  linux-yocto/5.15: update to v5.15.156
-  linux-yocto/5.15: update CVE exclusions (5.15.156)
-  linux-yocto/5.15: update to v5.15.157
-  linux-yocto/5.15: update CVE exclusions (5.15.157)
-  linux-yocto/5.15: cfg: remove obselete CONFIG_NFSD_V3 option
-
-Heiko (1):
-  kernel.bbclass: check, if directory exists before removing empty
-    module directory
-
-Peter Marko (2):
-  python3: Upgrade 3.10.13 -> 3.10.14
-  libarchive: fix multiple security vulnerabilities in pax writer
-
-Poonam Jadhav (1):
-  ppp: Add RSA-MD in LICENSE
-
-Soumya Sambu (1):
-  ncurses: Fix CVE-2023-45918
-
-Vijay Anusuri (1):
-  less: backport Debian patch for CVE-2024-32487
-
- meta/classes/kernel.bbclass                   |    2 +-
- .../ofono/ofono/CVE-2023-4233.patch           |   32 +
- .../ofono/ofono/CVE-2023-4234.patch           |   39 +
- meta/recipes-connectivity/ofono/ofono_1.34.bb |    2 +
- meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |    2 +-
- .../ncurses/files/CVE-2023-45918.patch        |  180 +
- .../ncurses/ncurses_6.3+20220423.bb           |    1 +
- ...{python3_3.10.13.bb => python3_3.10.14.bb} |    2 +-
- .../less/less/CVE-2024-32487.patch            |   69 +
- meta/recipes-extended/less/less_600.bb        |    1 +
- ...ix-multiple-security-vulnerabilities.patch |  107 +
- .../libarchive/libarchive_3.6.2.bb            |    4 +-
- .../linux/cve-exclusion_5.15.inc              | 4508 ++++++++++++-----
- .../linux/linux-yocto-rt_5.15.bb              |    6 +-
- .../linux/linux-yocto-tiny_5.15.bb            |    6 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |   26 +-
- .../CVE-2023-44446.patch                      |  329 ++
- .../CVE-2024-0444.patch                       |   42 +
- .../gstreamer1.0-plugins-bad_1.20.7.bb        |    2 +
- 19 files changed, 4007 insertions(+), 1353 deletions(-)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4233.patch
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../ofono/ofono/CVE-2023-4234.patch           | 39 +++++++++++++++++++
+ meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
+ 2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-45918.patch
- rename meta/recipes-devtools/python/{python3_3.10.13.bb => python3_3.10.14.bb} (99%)
- create mode 100644 meta/recipes-extended/less/less/CVE-2024-32487.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-pax-writer-fix-multiple-security-vulnerabilities.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44446.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2024-0444.patch
 
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
+new file mode 100644
+index 0000000000..9d7b56c1ae
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4234.patch
+@@ -0,0 +1,39 @@
++From 8d74bc66146ea78620d140640a0a57af86fc8936 Mon Sep 17 00:00:00 2001
++From: Denis Grigorev <d.grigorev@omp.ru>
++Date: Thu, 21 Dec 2023 17:16:38 +0300
++Subject: [PATCH] smsutil: Check that submit report fits in memory
++
++This addresses CVE-2023-4234.
++
++CVE: CVE-2023-4234.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=8d74bc66146ea786]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/smsutil.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/src/smsutil.c b/src/smsutil.c
++index 8e57a06..5a12708 100644
++--- a/src/smsutil.c
+++++ b/src/smsutil.c
++@@ -938,10 +938,16 @@ static gboolean decode_submit_report(const unsigned char *pdu, int len,
++			return FALSE;
++
++		if (out->type == SMS_TYPE_SUBMIT_REPORT_ERROR) {
+++			if (expected > (int) sizeof(out->submit_err_report.ud))
+++                                return FALSE;
+++
++			out->submit_err_report.udl = udl;
++			memcpy(out->submit_err_report.ud,
++					pdu + offset, expected);
++		} else {
+++			if (expected > (int) sizeof(out->submit_ack_report.ud))
+++                                return FALSE;
+++
++			out->submit_ack_report.udl = udl;
++			memcpy(out->submit_ack_report.ud,
++					pdu + offset, expected);
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+index 23631747a7..8aab312ff8 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+@@ -12,6 +12,7 @@ SRC_URI = "\
+     file://ofono \
+     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+     file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch \
++    file://CVE-2023-4234.patch \
+ "
+ SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
+ 
 -- 
 2.34.1
 
