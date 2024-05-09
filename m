@@ -2,92 +2,83 @@ Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FD3C10F1A
-	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:42:30 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web10.9434.1715258549173505263
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9AFEC25B10
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:47:50 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web11.9231.1715258861536291169
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 May 2024 05:42:29 -0700
+ Thu, 09 May 2024 05:47:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=KgsK9zkM;
- spf=pass (domain: linaro.org, ip: 209.85.222.180, mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-792b94301eeso68577085a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:42:29 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=FZulHOc1;
+ spf=pass (domain: linaro.org, ip: 209.85.128.170, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-61b68644ab4so7816027b3.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 05:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715258548; x=1715863348; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bcbKB/tKTfeV7/ZJ+QnMCmUgVEokOrXFGvH9eaiIfqY=;
-        b=KgsK9zkMo0M42qXyWNOqeZvxdou6bAFlRdQ8cXV0w1EjlY31UsCKfFD6zhWfhPU+YY
-         5QFMmqCvpPXzH0RAu1s6ow00Jky7sYexz4M0uiPjzjpK+cKBQP+QT6ort0kzpt5jcTvy
-         RChIDt9TmLKMA8icGhNakpaEs5wajilPVley4KCX74AYsmNFn2curq4UBDjSeyPuxKWV
-         ly2Mn+TAtF0QjdhXga+ojy4cbUnCKgJR8xtWOKZmNEUquLPdxuRQIuJOSW4gkRl8R8+n
-         n1fuBsQuKecdbG/0mmdm1NJVB3C6mU1WbuRezmdRz61zAcWYVzb7Aedhu5xG8im75nwG
-         4m+Q==
+        d=linaro.org; s=google; t=1715258860; x=1715863660; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NT9gTc3CJzLl7z0l2KaLandLBIYkIiID2qHyrGBqxGI=;
+        b=FZulHOc1v7eF/UH7b573t5dgJl/R/Beijq0DnOklwz2VvBgT1h7I5WgPr/GyJ/vLdg
+         QZNljKnQ4Lpud0vdwivh0TprNefxr5QJJj4F6tlFVFLH3CPekvlTojgsiNQswxsY4uGr
+         RqjDFo2wz/R8T3b9spJHRR2/zsTbHoN7DSPDWtr7wxK4Yu6izf+XYeZpxythRSqwjUcW
+         ZNIkCcxgdlgzM4da9CIqmCmZP1o9bkgjBILRm3dzYzbeMZl6sMgSBUGi9IYAKYUuzuql
+         x+T44NbAQWqtKPTdF+Mtkr/38KL01Bg6ohTvqoWPMW9oFc/2QVc7pD8otLfHWeqMQ+Kr
+         Bikw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715258548; x=1715863348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bcbKB/tKTfeV7/ZJ+QnMCmUgVEokOrXFGvH9eaiIfqY=;
-        b=TdkZFyAKeYYOGdDEMdU1zkYwk+nFbH1GHz9Fv82SWYbjX89KORb8V8/CbB1lTvaZuS
-         4M2OOAHnQjfc4+SlAgL4VRPF7iH5MTxYBd1hg6YqNXYUy6Z4a5R5/lV5zhi7zBKDCOGm
-         srNSvIF6mMQ+pGuuzDPOhd+0DtAWfAx7QnnGVAkgZvGU8yZqkymVRTdELKKP0RVNrh0a
-         S9K5QZgbsIYujgpwSPPRd62RKVtNogHPgclWLgeqPmcQHPpW7q6LxGGQv0REwX+WG8On
-         n5NWcuWVT9v7hD3N64iCb33+QyCW9zO8RWb9UVrdEj+pGOIzhYV/LOER0TQ5AhzpdsOy
-         xYRQ==
-X-Gm-Message-State: AOJu0YykTa+0Ij6XsdKrM4EPWNWloXhhVSnkGpFy2lt9BbCBvyqByvcW
-	0UEA4MSiHY6V/KqRzyKuiKBhjwqBzezmfoxpB7V0WW/t2v8RqGCmkiMYSCX2SKE0OMOA+CugrEo
-	D
-X-Google-Smtp-Source: AGHT+IE7zwwUooffiQ9z5Cd2EBzem5fkfK9tOq/VZoWR+lmrXMZqy2svMLP1Aop9ucCEwSoFlSyygA==
-X-Received: by 2002:a05:620a:8218:b0:792:989e:7c4e with SMTP id af79cd13be357-792b2769696mr582502685a.72.1715258548184;
-        Thu, 09 May 2024 05:42:28 -0700 (PDT)
-Received: from maple.home ([76.69.90.99])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf31171esm62779985a.116.2024.05.09.05.42.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 05:42:27 -0700 (PDT)
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org,
-	Ralph Siemsen <ralph.siemsen@linaro.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] uboot-sign: fix loop in do_uboot_assemble_fitimage
-Date: Thu,  9 May 2024 08:42:04 -0400
-Message-Id: <20240509124204.2436895-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1715258860; x=1715863660;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NT9gTc3CJzLl7z0l2KaLandLBIYkIiID2qHyrGBqxGI=;
+        b=qO9RM8K2vLH7JC/Wh4lPPxWNJph05s4s3xC1rnH3xtWmu3uNIPdZleHJ+IMonI7Vuv
+         znYnp9XJO0f2YrpGlfeWLNbfkZMHPNAY2s+QmncMZjb+oCW7nQmyWNjgKV2BNOjH/iBK
+         jnScpUD15K9tuKG8C65zDyQya/+SciziRJObmsFIFmJNLxTiFiYz8XUOKrCSZYL24697
+         UQ+lsecAWfBnvDwrQGcPNGox8+q+kk4kqYX1SL9ljsRP7M3Vmlmbxw69EawM1IaY4D6E
+         1RGFtMYg1dds0tLEvOuo6iq+CcvDY4+0w+NyAiQovnMj5jRzTOTjt6i5qk8nnO7r/Nkw
+         ynog==
+X-Forwarded-Encrypted: i=1; AJvYcCXoIRra92NqX9xRAtX4enw+t/2iAfuga99pZyz1LOLsnoI66Mh8+6Hb0dyz3Ry6kgw6qU5z3qtgAnPWyXpjeUrm43hWwGKC4vko/PmnYoeQ536UizNxMR1E
+X-Gm-Message-State: AOJu0Yw4eVM0NXGf2DpdrUzW8NGDphKT2MHIZuhy6gc7anTlr5RWzoe8
+	boT8+HdG6Om0EwtVftPAblDrhkldZ6XP+QPJhYexLyHcCy7sVjU8yc6soPdGHJ53ezHJPrPS8jm
+	lzfxlK62awdbh6OWWYXb+4hNCHpscLjS+5JBwsw==
+X-Google-Smtp-Source: AGHT+IFKSSw9l4ochQ/o50Dn5wCxsCL2Gavl+Py4waoqDDhjJazv88U/cDecyvroO8CFb47I6X4hSJ7E1KEnd122u8M=
+X-Received: by 2002:a0d:ca07:0:b0:615:20db:4a4d with SMTP id
+ 00721157ae682-62085d371famr56746487b3.35.1715258859890; Thu, 09 May 2024
+ 05:47:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240503151827.1387077-1-ralph.siemsen@linaro.org>
+ <e7b395f6-b9f6-4566-9237-42d5b7f9c9ce@cherry.de> <CAOSpxdZxkuaEwpPCWuvFjRm+qfbDxbW5Udk7-i95r89zEadGbA@mail.gmail.com>
+ <17CD500B64E4E788.19123@lists.openembedded.org>
+In-Reply-To: <17CD500B64E4E788.19123@lists.openembedded.org>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Thu, 9 May 2024 08:49:32 -0400
+Message-ID: <CANp-EDY5rxAN98OV3BFYi=sHow0Q++c15xA_GMVTM6TjMpTSZQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uboot-sign: fix loop in do_uboot_assemble_fitimage
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Quentin Schulz <quentin.schulz@cherry.de>, openembedded-core@lists.openembedded.org, 
+	sean.anderson@seco.com, jamin_lin@aspeedtech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:42:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199171
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 12:47:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199172
 
-When using multiple u-boot configurations in UBOOT_CONFIG, the helper
-function uboot_assemble_fitimage_helper() was not called with all
-combinations of type & binary, due to a copy-n-paste indexing error.
+On Tue, May 7, 2024 at 4:50=E2=80=AFPM Ralph Siemsen via
+lists.openembedded.org
+<ralph.siemsen=3Dlinaro.org@lists.openembedded.org> wrote:
+>
+> On Fri, May 3, 2024 at 1:36=E2=80=AFPM Steve Sakoman <steve@sakoman.com> =
+wrote:
+> >
+> > Please submit a kirkstone patch once this hits the master branch.
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2d338548a4b745a71eaf6c29231adc93c4165778)
----
- meta/classes-recipe/uboot-sign.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've just sent a patch for scarthgap, clean cherry-picked from master.
+The same patch also works for nanbield.
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 7a0b8047e4..c8e097f2f2 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -367,7 +367,7 @@ do_uboot_assemble_fitimage() {
- 			done
- 
- 			for binary in ${UBOOT_BINARIES}; do
--				k=$(expr $j + 1);
-+				k=$(expr $k + 1);
- 				if [ $k -eq $i ]; then
- 					break;
- 				fi
--- 
-2.25.1
+No change is necessary on kirsksone, as it does not contain the
+problematic line.
 
+Ralph
 
