@@ -1,134 +1,85 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44574C04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 19:17:09 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web10.5933.1715195824899618135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B750AC25B4F
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 01:22:19 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.3825.1715217729614448921
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 12:17:05 -0700
+ Wed, 08 May 2024 18:22:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout01.t-online.de (Postfix) with SMTP id 665D86E71
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 May 2024 21:17:02 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([79.219.233.36]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1s4mmj-0ZL3h30; Wed, 8 May 2024 21:17:01 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j+z02XXB;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ed012c1afbso3357875ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 18:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715217729; x=1715822529; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W5yYHV+83YY+Jr/hjqJe4Y9x6GjkTRfd5So0aRpjyjM=;
+        b=j+z02XXBKcbkkhONq1WHr5ebZlwBbCxcvnO2Qz5uD2YpsmAey/wLghVkJnICQjAPJt
+         8JFWM0nwUGhvSIB+A1xvMDXHY3q6tXA3jjFbkuFt0qu26M/penqns9dogv5ZvmFzyPDm
+         2CYw2gQ7sQTioT+y8qdeOzGShefmCYq4G9n4H4+A70anyC214rA/GFBcW9OofESoNsZj
+         Nbqd6sdvpPct9b0mrqSu4iCoTgxZR4OVrYr+cXsQrpvlfKhUIbtqVrTIqbR4a8wUExWY
+         J2VpGMkZADaVcEtQPciyyTNk9zz3v60PcV+5rWXuTnO8LQ0t3eTFaw3pSAzWC3xOZJsH
+         zM3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715217729; x=1715822529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W5yYHV+83YY+Jr/hjqJe4Y9x6GjkTRfd5So0aRpjyjM=;
+        b=dRdHoWnHLCXPbrB2MPtoQgWDT/cPt5GGkZnGlc75cjulOeKqTV7YqqaM5G6UICElGM
+         rp7MuUHLBoeKw8+8O176nnSd1pXsBhxNiqF87OANx4UynlhDH7GdCZsu4E7xNxpdbpvN
+         y4ZAzjIO2SGilQZl72/d0aC5A1am/Hu/CfaABaQsm+sW4JexWW397l/SLDaSb/Zsyy2z
+         gI30u5k3O8KSljG9EujbkffgszNT98pB3dDfCSLRQlYEpc3056l4LKW4Q+/Ax5oLw79g
+         azBOpG5iVlEvdTgDawvKnl3admtmxqpOZQ0eTO0q7f9GQzDrhkkYOD9bXNml+BuQLWp4
+         S8Pg==
+X-Gm-Message-State: AOJu0YzmBHynD3NGMOFmAm2lf8w+j2BcEc0bHKJSCSsqAIynNv1zzfvT
+	Vat0G+sLIkz0ztdSAaJ0DdapMelEO8U2EhlW+oXTH7f2EPqK19mlTqkcupHm
+X-Google-Smtp-Source: AGHT+IGCcqFgeE3fBBZu+bBDQdvIigLoKWT5wfni4mp7GYxy3kBfw269MsjQPymGb00mjmsWkUhS0w==
+X-Received: by 2002:a17:902:eccf:b0:1e4:39e0:660c with SMTP id d9443c01a7336-1eefa5746c8mr18805915ad.23.1715217728786;
+        Wed, 08 May 2024 18:22:08 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::af2d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bae9d09sm1839485ad.119.2024.05.08.18.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 18:22:08 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] gtk4: update 4.14.2 -> 4.14.4
-Date: Wed,  8 May 2024 21:17:13 +0200
-Message-ID: <20240508191713.2704442-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.44.0
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH] linux-yocto: Enable team net driver
+Date: Wed,  8 May 2024 18:22:06 -0700
+Message-ID: <20240509012206.517279-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1715195821-C5FF8D1D-1EDD28C4/0/0 CLEAN NORMAL
-X-TOI-MSGID: e241b60e-a34f-4997-abf4-5694b88f1b79
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 19:17:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199130
+ <openembedded-core@lists.openembedded.org>; Thu, 09 May 2024 01:22:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199131
 
-Overview of Changes in 4.14.4, 02-05-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkGraphicsOffload:
- - Don't crash without a child
-
-* Icontheme:
- - Make symbolic svg loading more efficient
- - Handle color-free symbolics more efficiently
-
-* Accessibility:
- - Make the gtk-demo sidebar search more accessible
- - Stop emitting focus events
-
-* GDK:
- - Support XDG_ACTIVATION_TOKEN
- - dmabuf: Be more defensive when importing unknown formats to G
- - dmabuf: Use narrow range for YUV
-
-* GSK:
- - gpu: Handle  tiny offscreens correctl
-
-* Build:
- - Fix many ubsan warning
-
-* macOS
- - Fix problems with events handed back to the OS
- - Respect GDK_DEBUG=3Ddefault-settings
-
-* Translation updates:
- German
- Indonesian
- Kabyle
- Korean
- Lithuanian
- Russian
-
-Overview of Changes in 4.14.3, 18-04-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkShortcutManager:
- - Track the propagation phase of added controllers
-
-* Accessibility:
- - Implement GtkAccessibleRange for scrollbars
-
-* X11:
- - Fix some confusing debug messages
- - Drop a no-longer-relevant optimization that was interfering with
-   getting the current window manager capabilities
-
-* Tools:
- - Support generating pdf in gtk4-rendernode-tool
-
-* Translation updates:
- Basque
- Brazilian Portuguese
- Georgian
- Hebrew
- Kabyle
- Persian
- Polish
- Slovenian
- Swedish
- Ukrainian
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-gnome/gtk+/{gtk4_4.14.2.bb =3D> gtk4_4.14.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.14.2.bb =3D> gtk4_4.14.4.bb} (98%=
-)
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.2.bb b/meta/recipes-gnome/=
-gtk+/gtk4_4.14.4.bb
-similarity index 98%
-rename from meta/recipes-gnome/gtk+/gtk4_4.14.2.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.14.4.bb
-index 39483357b4..cda0552f7c 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.14.2.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb
-@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
-=20
- SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
--SRC_URI[sha256sum] =3D "22604cef2898a79e5f2143bb7aee2b7d1fa2eb946989a9d1=
-338ecf9c8ae0e072"
-+SRC_URI[sha256sum] =3D "443518b97e8348f9f6430ac435b1010f9a6c5207f4dc6a7c=
-d5d24e3820cee633"
-=20
- S =3D "${WORKDIR}/gtk-${PV}"
-=20
---=20
-2.44.0
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 71bfbf9e032..4503ec94ae9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -66,6 +66,7 @@ KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc", "", d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/net/team/team.scc", "", d)}"
+ KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
+-- 
+2.45.0
 
 
