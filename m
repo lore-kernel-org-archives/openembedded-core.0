@@ -2,86 +2,101 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8E1EC25B10
-	for <webhook@archiver.kernel.org>; Fri, 10 May 2024 09:48:42 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.8975.1715334512254057393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E11C25B4F
+	for <webhook@archiver.kernel.org>; Fri, 10 May 2024 09:52:22 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.9236.1715334734649718495
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 May 2024 02:48:32 -0700
+ Fri, 10 May 2024 02:52:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UnBLWiwJ;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51fea3031c3so2472853e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 May 2024 02:48:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R63wgUbh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e428242a38so26829711fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 May 2024 02:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715334510; x=1715939310; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1715334733; x=1715939533; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NG1gx6HAuyJkTGI4WXqhhkXUr1z3VlMLOVkIAUj1gaU=;
-        b=UnBLWiwJSkd/NoiFMkUjRlockq9cojXykJpeOXtlYM6Z01Ni0mYJ4NNBeF8dg46YyM
-         Hcbw7qSlwrdivltieNnx5zn7WwiWUj4rncqoHbXk8uaCYsQOYhI8LLIA10fhJ6G6scsv
-         WJCByshBXDtKhsyIeRmFIyZgoO3Jp6hZxX9rNOPjCrMAgWmXvxGh+IBsQvxhGZAwhfe8
-         f7v2WyY0ZebkbzYhU6rhJ6bACRg6LB/T6ru+DPSTiNa9mH47WSU5EAxs74R0FPd00c2L
-         9Xze4e0s7ZGqqhJPjpMyLnSGMmgRRDydFJs0N01o6IA5sSEg8qEFUhveEqjEjVLJ+3Si
-         AIdQ==
+        bh=HioVaaTc04ykfMbtWxUEkC20t5Av8Y16j7cpTR+whYg=;
+        b=R63wgUbhBEws1ux09gqL9MEW/PGBUCU90FUbHLLE71sa2KRNEJkDl7Hxxzc/f7F9Jl
+         qaWR47whX5zQhPbFZgb7yMq4rZU6T+1ZOwxX4nTJtXwvViTB0OSXrHLKK0U1dwQ6Ixcb
+         U7hUJb1R+yS/u77yNOGdMoUpkk/y6GgN5ma7aqCUgsprFLp853QZvAAt7H4nYR96BKoj
+         cKLWFU5tFp9f+ltcIjF6WiHjhZK32cwusWZyS22b7UeeQRHWyU35ARJNvgWj9OD1PbOw
+         qZoEZHcWuOELZQqYwexi+BOagSEIg47s/n/+ttrHKDPF31f444FrLbnAdqOWYDUPUYsN
+         Nw+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715334510; x=1715939310;
+        d=1e100.net; s=20230601; t=1715334733; x=1715939533;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NG1gx6HAuyJkTGI4WXqhhkXUr1z3VlMLOVkIAUj1gaU=;
-        b=MT3+m31lN3izm1VllJ4EvOJ3P21CeFWIpCnu0kprTgRiE+jNW+H1cnpzaq4Qwl7JdZ
-         cL8nIdtoB2u6SWGCi36yVGqXlsJuCkmaur2MAzLQkacmQhfdQd8Tad0CykNtqMwMKbdE
-         hxlz0kVosQBYa470OlUcZw06FrAPXll60f2nLzlJL/HfgzPrLzgD53dXKDLdvg67CGI5
-         Hz0RpzUGw9rIgQWr+lKUHT92UI2rXxprX0AcfGjwNtd36rDOMaVNzl2ptbqoVSzctmeL
-         s8Plgg8BQ5d2/a5UWd8r8XuSjFmKsLkd2qk2jDaQlzqeYx3NXpgQyvXq6KkQltL0plgS
-         0KQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVZTd1iDK7hprv7UvbFwGN5R6beMiWLNjvB9olU0vdQbvUQt9VeF6fR2pTz8jCihTe5FsKHnZMGMJ/yWObWoYzpSffDEGAvhdg65MAqv9Z2HXLkFW/4wUj
-X-Gm-Message-State: AOJu0YxXjOD61iK8jYS93ZUYIKf5RlRwMTZWM6FameRN5sYp74WxMNRJ
-	5OEIbMLt0X4ItAbUvtevg/6202C4eE6y4CjQ01FXjtpw01NW2BOmkM6aIVCQeCx3nFlmLBFm4Ob
-	GhTg+74xHv625Q+uqfi/HuRdQF3Y=
-X-Google-Smtp-Source: AGHT+IHk3l5/LHT9ZKg1Oqda39aHUhFhftDLhvChGRP2nle+ULslMnHVxw/qn6EOI7YN0plfdR14rB1aIkBaBcOdU04=
-X-Received: by 2002:a19:a415:0:b0:51b:528e:ce7d with SMTP id
- 2adb3069b0e04-5220fe79854mr1564478e87.34.1715334510026; Fri, 10 May 2024
- 02:48:30 -0700 (PDT)
+        bh=HioVaaTc04ykfMbtWxUEkC20t5Av8Y16j7cpTR+whYg=;
+        b=hONpfbSSzecFlVOK6jB13E8JalIV5pIboKeb58eUSb+YJxO4JdouS6dIlr69kIHau6
+         UI4PVDljcjaEEfKISZhqxN2BxqNoRCT5l2r3DpTPT3OxIC6mkIdcHfVDDgTvDdgCQfOq
+         Y/t8rilqt0y+mFoml+cMXBMz61bVBXymY7blTzSFfxWqZdF1vGWtXB+wURxY8hoKdyKc
+         B34QowvZRidrW7Sh0LuNJf8xvFbR8F5SbsGt0oUEGMJ3MdkpW9jFnBCbmi79/LXVzhKJ
+         9YVYiAy0JdLLG1Yg3MH6tktwsjv3lCe+2Or1l1rEXovIOS1FJ1lICgtjTRC5rs90VHFg
+         UrAQ==
+X-Gm-Message-State: AOJu0YyzgBlkWkUpmjk5GrwI4fzg2OLmVzJdW45/HyPL2PPqSlxy9xiA
+	5ofwKoMYxO8AUAZ7/s3fi5Ly+eUJS0urv7ML3G0Ij8PbW5AoyV2mE4oFKGACa/8eRGm1QyrmUqu
+	nTv2hNK23lvimW7hAZovitMQ6nDg=
+X-Google-Smtp-Source: AGHT+IEGC5LaQkl3mOiGFkVpMmYwHky+xo1GMxaX3lxQA/wK6O/m4mbZOdYuylzobZlGlYuDH46hOfRo2ludVfX4Gp4=
+X-Received: by 2002:a2e:9695:0:b0:2e0:5d7:a3a6 with SMTP id
+ 38308e7fff4ca-2e51fc3442emr15782171fa.9.1715334732379; Fri, 10 May 2024
+ 02:52:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240502103252.1102710-1-alex.kanavin@gmail.com>
- <8272EB4D-B779-468B-9A14-1F7415301046@arm.com> <17CD4EAB9E2E17EE.17376@lists.openembedded.org>
-In-Reply-To: <17CD4EAB9E2E17EE.17376@lists.openembedded.org>
+References: <20240502103252.1102710-1-alex.kanavin@gmail.com> <C300C299-DA24-4A7D-9B40-B3809E44EDEF@arm.com>
+In-Reply-To: <C300C299-DA24-4A7D-9B40-B3809E44EDEF@arm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 10 May 2024 11:48:18 +0200
-Message-ID: <CANNYZj_FvLisx23AQcP94thd=O2hOh6RVGrTcr478ULzbMi=Zg@mail.gmail.com>
+Date: Fri, 10 May 2024 11:52:01 +0200
+Message-ID: <CANNYZj90WmiHqLYjiMCZ1Q+WnmWehS46pVeZpCX3=-jqct8H9Q@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2] glib/gobject-introspection: update 2.78.4 ->
  2.80.0, 1.78.1 -> 1.80.0
-To: alex.kanavin@gmail.com
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex@linutronix.de>, Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 May 2024 09:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199193
+ <openembedded-core@lists.openembedded.org>; Fri, 10 May 2024 09:52:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199194
 
-On Tue, 7 May 2024 at 22:25, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
-> > > # setuptools can be removed when upstream removes all uses of distuti=
-ls
-> > > -RDEPENDS:${PN} =3D "python3-pickle python3-xml python3-setuptools"
-> > > +RDEPENDS:${PN} =3D "python3-pickle python3-xml python3-setuptools gl=
-ib-2.0=E2=80=9D
-> >
-> > Is setuptools still needed?  If so, might be worth calling out what the=
- exact user is because a simple grep doesn=E2=80=99t find any users.
+On Tue, 7 May 2024 at 17:47, Ross Burton <Ross.Burton@arm.com> wrote:
+> packages/cortexa57-poky-linux/glib-2.0/glib-2.0-utils: FILELIST: added "/=
+usr/bin/gi-compile-repository /usr/bin/gi-inspect-typelib /usr/bin/gi-decom=
+pile-typelib=E2=80=9D
+> packages/cortexa57-poky-linux/glib-2.0/glib-2.0-utils: PKGSIZE changed fr=
+om 770935 to 1105901 (+43%)
 >
-> Indeed, neither distutils nor setuptools are anywhere in 2.80.0 tree.
+> Any image that uses GSettings pulls in this package for the gsettings too=
+ls.  Should these normally built-time utilities be moved to glib-2.0-codege=
+n instead?
 
-This is in g-i recipe, not in glib. And that still has plenty of
-references to distutils as of 1.80.1.
+glib-2.0-codegen is meant specifically for that utility. If we need to
+trim down space usage, I'd rather put gsettings stuff in its own
+package, but it's not clear what is actually needed for it:
+
+alex@Zen2:/srv/storage/alex/yocto/build-64-alt/tmp/work/core2-64-poky-linux=
+/glib-2.0/2.80.0$
+find packages-split/glib-2.0-utils/usr/bin/
+packages-split/glib-2.0-utils/usr/bin/
+packages-split/glib-2.0-utils/usr/bin/gtester
+packages-split/glib-2.0-utils/usr/bin/gobject-query
+packages-split/glib-2.0-utils/usr/bin/gio
+packages-split/glib-2.0-utils/usr/bin/gresource
+packages-split/glib-2.0-utils/usr/bin/glib-compile-schemas
+packages-split/glib-2.0-utils/usr/bin/glib-compile-resources
+packages-split/glib-2.0-utils/usr/bin/gsettings
+packages-split/glib-2.0-utils/usr/bin/gdbus
+packages-split/glib-2.0-utils/usr/bin/gapplication
+packages-split/glib-2.0-utils/usr/bin/gi-compile-repository
+packages-split/glib-2.0-utils/usr/bin/gi-decompile-typelib
+packages-split/glib-2.0-utils/usr/bin/gi-inspect-typelib
+packages-split/glib-2.0-utils/usr/bin/glib-gettextize
+packages-split/glib-2.0-utils/usr/bin/glib-genmarshal
+packages-split/glib-2.0-utils/usr/bin/glib-mkenums
+packages-split/glib-2.0-utils/usr/bin/gtester-report
 
 Alex
 
