@@ -1,80 +1,110 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5016C25B10
-	for <webhook@archiver.kernel.org>; Fri, 10 May 2024 17:58:54 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.20642.1715363931105908625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C366C25B4F
+	for <webhook@archiver.kernel.org>; Sat, 11 May 2024 01:50:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.6149.1715392202565360416
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 May 2024 10:58:51 -0700
+ Fri, 10 May 2024 18:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SrKwRqdU;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2e09138a2b1so28032171fa.3;
-        Fri, 10 May 2024 10:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715363929; x=1715968729; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OeMbVPruBmJFVfleHM27o7UuzSBjAnwpIRsnCWVrAtk=;
-        b=SrKwRqdU0bJOsczT047nS9czLQNoaliEYhUVed6UOwefnbKXiwSzuTAOdpz3lJJ0Xj
-         W1wfY1J6UcIXjEmMm+nTBpQVfpv9Q8Dkwmf7aKM6QDl2+bFL87xg6baszDB/uajqD5E3
-         Kj0OSoAzraHLm0A1ATubvp6HAyq56d1PveRVbnCRl0pUynwv9rcL7zM0u8w7oG+uxTGk
-         WleqPWxZ4yHWHpQQ8UHJSsmKD/10KhRnXr/FYtirn35H0XK+SPjXXZoaCHRi+0VNlV79
-         jg6Ghi9rYdDF7C0wt4RGHjQek4m46MCv4FOipbIJycGR3OxU2OWmN8tGcyHwvIcMOKcZ
-         K4KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715363929; x=1715968729;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OeMbVPruBmJFVfleHM27o7UuzSBjAnwpIRsnCWVrAtk=;
-        b=bXhk6lcxyodJM0QaaMW1K9Y81d9LaGscc0qmJaaqjRycoRgobuDT391/vF8j6QHJXN
-         X8KqkIXffUEjeW3rf+GPPzuoOFZxVEYikm9gQZ6T6RzXVq91oasaxAbgb7VBWXLsF8d1
-         TE/pKjrZ98Y3OC0zqwA89Qin73scFgm34Z5EB9z709++iR7o4/LRURoI6HI5mfDRN9xv
-         e11B0fulbc7e0Dn3v99UdV4djhe0M02BCa2KaJf/6TsCvRY7Y0HRs/zO9VJ6cHjCAwOm
-         OuBHUnwmtTy/4Aekdfyggi/ZpwIF3BXbf4dHiNx4DXbM4tLIq1p1m9APMO71czIRJ0ae
-         xOGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjL11mbJ5wFvTVeUE3qaj1Muw1WeFRVvwtPTMm8Q0I234NEpBfZA81h+zXhDsFqe6g0SOTCr+Iki/+n/qVf+HhAm/kdZqQ17SEiCxUb2uniWr+Nej3S6hn
-X-Gm-Message-State: AOJu0YyIyh36GU6GTL3OKwAFR/Inmu9/X+HcDluti0Aq2eSZwBliv7SZ
-	HUNr/IYBA5aK4krLWvWuLZj/Ix5NNTPs3I3wosubNEZ6uUtd+YD8STCoFSMVxu8HG7fzaNgGY6m
-	QzC8lTiLi3j/AEcNoDSyu8fo1Wtw=
-X-Google-Smtp-Source: AGHT+IE6FYCTGRlREsOFpWpAAiewepqPRPhLlY1mND54S8cfF15oPOlYxWbkv9+EzTVy9TeR0lvyPZUAPbGBtygHk6Q=
-X-Received: by 2002:a2e:9051:0:b0:2e1:ebec:1ded with SMTP id
- 38308e7fff4ca-2e5200627a2mr19630551fa.25.1715363928830; Fri, 10 May 2024
- 10:58:48 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=58612e8482=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44B1loj2014871
+	for <openembedded-core@lists.openembedded.org>; Sat, 11 May 2024 01:50:01 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3y1y9x002g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 11 May 2024 01:50:01 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Fri, 10 May 2024 18:50:00 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Fri, 10 May 2024 18:49:59 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] glibc: fix multilib headers conflict for arm
+Date: Sat, 11 May 2024 09:49:53 +0800
+Message-ID: <20240511014953.5360-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <737087f797ecd87620bc96abab014d4fac6bb1e5.camel@linuxfoundation.org>
-In-Reply-To: <737087f797ecd87620bc96abab014d4fac6bb1e5.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 10 May 2024 19:58:36 +0200
-Message-ID: <CANNYZj-i90gLUfdk51Now0HY+=RCNkg8ugr2qcK65xXS+AypZg@mail.gmail.com>
-Subject: Re: [yocto] Where are we at?
-To: yocto@lists.yoctoproject.org, richard.purdie@linuxfoundation.org
-Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: eFsWDd58DwkN5bx4ATaFlbftZWUH3qas
+X-Proofpoint-GUID: eFsWDd58DwkN5bx4ATaFlbftZWUH3qas
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-10_18,2024-05-10_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 phishscore=0 clxscore=1011 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405110012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 May 2024 17:58:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199201
+ <openembedded-core@lists.openembedded.org>; Sat, 11 May 2024 01:50:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199202
 
-On Thu, 9 May 2024 at 11:37, Richard Purdie via lists.yoctoproject.org
-<richard.purdie=linuxfoundation.org@lists.yoctoproject.org> wrote:
-> A rust reproducibility issue lurking somewhere:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/8318
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/8906/steps/17/logs/stdio
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=15185
-> [both master and scarthgap]
+From: Kai Kang <kai.kang@windriver.com>
 
-I have reproduced this. The filenames differ depending on whether the
-build host is arm or x86. If packagedata sstate comes from arm and
-package sstate from x86, the reported error will occur.
+The header files conflic when multilib enabled for arm:
 
-I'm going to look into how the hash part is formed and how the build
-host architecture leaks into it (on monday).
+| Error: Transaction test error:
+|   file /usr/include/finclude/math-vector-fortran.h conflicts between attempted installs of
+    lib32-libc6-dev-2.39+git0+312e159626-r0.armv7at2hf_neon and libc6-dev-2.39+git0+312e159626-r0.cortexa72
 
-Alex
+Invoke function oe_multilib_header to resolve it.
+
+But gfortran-cross can NOT recognize macros such as `#ifdef` as
+expected, so pass option `-nostdinc` to gfortran-cross-aarch64 that not
+preinclude multilib specific math-vector-fortran.h [1].
+
+[1]: https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/config/gnu-user.h;h=f7eefdafe8b330787c412ad950675d7a2d595e61;hb=HEAD#l158
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/conf/bitbake.conf                    | 5 ++++-
+ meta/recipes-core/glibc/glibc-package.inc | 2 ++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b2c500d873..262c3e32ee 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -555,11 +555,14 @@ HOSTTOOLS_NONFATAL += "git-lfs"
+ 
+ CCACHE ??= ""
+ 
++FC_OPTIONS ??= ""
++FC_OPTIONS:append:aarch64 = " -nostdinc"
++
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+ 
+ export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-export FC = "${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++export FC = "${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}${FC_OPTIONS}"
+ export CPP = "${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
+ export LD = "${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+ export CCLD = "${CC}"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 0c5e3b4c3d..3a2ebfff75 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -167,6 +167,8 @@ do_install_armmultilib () {
+ 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
+ 
+ 	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys/user.h
++
++	oe_multilib_header finclude/math-vector-fortran.h
+ }
+ 
+ 
+-- 
+2.34.1
+
 
