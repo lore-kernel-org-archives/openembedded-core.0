@@ -1,573 +1,466 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <philip@balister.org>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F17AC04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 15:54:19 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.442.1715183647575130705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF67C25B10
+	for <webhook@archiver.kernel.org>; Mon, 13 May 2024 15:34:31 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.61757.1715610548491690008
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 May 2024 08:54:08 -0700
+ Mon, 13 May 2024 07:29:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=GVsafsVK;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5858d00153=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4485s5no003611
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 May 2024 15:54:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=BWO/pCLj2B11Wnconia
-	AHaGsmbEl+45ozWBov+JD3ig=; b=GVsafsVKGHzxAzVLtBusTT18gLoMi1V64js
-	w9qE6BeGdxHtaNnDzBk+TRmCE4BPgTSNWcImNSccdWQI7R5oEhGGrjzT5Ee2zSkW
-	hxoEK6RjfdIqtNCIMlsrx4TYkxrbAHwmr0+WxHZAht8+UeoStG0Dc285PAEnTSPF
-	iTICiSrFnSobkYYN97+30sBBJjWyCTArKfCXgXg3Uw7xwQ0ZKMHVk40u8yL/YsqB
-	Fq+QggMckbpK7BnT5nUGtAlj1TlRx5Yi92EATaqWd/hux/fCV0XjHO+eoU2EEMZj
-	1pPpQFdIzLb3MMUbsva0FFuaHueJwoPgdjU/9GNwp/pMyaWqesA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xysjxrxch-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 15:54:04 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 448Fs4in005648;
-	Wed, 8 May 2024 15:54:04 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xysjxrxcg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 May 2024 15:54:04 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SZUhOTBvwCaHvtrxZWl65m1xFPMYtArGcUFHq4I1c47bg9r+M3A1LGcI7W9YNpZIbZSENCo94GHqhgd9IjrI55yxhKSICyzJzUJn93GG1nlN9SeAJgS/lQw3DotaLsXJZoGhgluRvye8Zip3UlDpZCq2JeR4ERywPNgnlZDxzi6pV8q5kUQT9XPLrE29+lQ2Qb8kJnQHmyGOKp0+NjUsPUcFc2P3p88Ja/PwMW87G8W92YTkMqdNYf7FW5qE1puFL4OEiKsqaikxv/qIsn+YsNNOSvBkp9QvpCg6CUWigsmMf/6k6fpchdz2Zu1mWaXLvRzdiAg/z2wQa/PPpS2RzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BWO/pCLj2B11WnconiaAHaGsmbEl+45ozWBov+JD3ig=;
- b=ZoVarhgZamWx8L5Nn0gobKfBALxyM5CN8bPsVeyrPSSh/jJXQGqG2Yv25h/FyWwoOZ2SwPrKCKxDiC12Q3MlvCO4fi75DHWCvsbNlvZeLrE+Hod7kuQbSoT2TQGMe+J6qkjAseRl3xhVDByWOt45yTmNvvRl7k7VhLNU/lPMKKevKcFuZjA0yEpBBnzeVP145VUbEUaI52oRFObp51lH9cFlM5uzYCUBDdi/HTqV0XZAzh3oV6tAlq50WEwiasCHalZBiRhrdr1ZfAogcwnGuE68TKyikpPOn+2lYZMbVInchaUsV56Tz9JnqdNa1LE15QWk0rMWOnY2LAZBQW2DOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5920.namprd11.prod.outlook.com (2603:10b6:a03:42e::9)
- by DS0PR11MB7971.namprd11.prod.outlook.com (2603:10b6:8:122::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.46; Wed, 8 May
- 2024 15:53:55 +0000
-Received: from SJ0PR11MB5920.namprd11.prod.outlook.com
- ([fe80::c141:cdae:82f5:1b89]) by SJ0PR11MB5920.namprd11.prod.outlook.com
- ([fe80::c141:cdae:82f5:1b89%4]) with mapi id 15.20.7544.045; Wed, 8 May 2024
- 15:53:55 +0000
-Content-Type: multipart/alternative;
- boundary="------------tyat0alTh4Q1asq2WiPmkl3Y"
-Message-ID: <a88565ef-b623-4d98-82a2-fd2a2f34267c@windriver.com>
-Date: Wed, 8 May 2024 11:53:48 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 0/5] Improvements for performance test report
- view
-To: Ninette Adhikari <ninette@neighbourhood.ie>
-Cc: engineering@neighbourhood.ie, openembedded-core@lists.openembedded.org,
-        richard.purdie@linuxfoundation.org
-References: <5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
- <20240503144340.27385-1-ninette@thehoodiefirm.com>
- <17CC0A5CB7913FF6.8557@lists.openembedded.org>
- <50e3629a-c68c-4a33-9ad5-a1519e2838b1@windriver.com>
- <CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxURR=S0w5ask9KwOxr3TwQ@mail.gmail.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxURR=S0w5ask9KwOxr3TwQ@mail.gmail.com>
-X-ClientProxiedBy: YQBPR0101CA0237.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:66::32) To SJ0PR11MB5920.namprd11.prod.outlook.com
- (2603:10b6:a03:42e::9)
+ dkim=pass header.i=@thehoodiefirm-com.20230601.gappssmtp.com header.s=20230601 header.b=HZrcEqKH;
+ spf=neutral (domain: thehoodiefirm.com, ip: 209.85.218.41, mailfrom: ninette@thehoodiefirm.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a5a552c8cbaso482868066b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 May 2024 07:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thehoodiefirm-com.20230601.gappssmtp.com; s=20230601; t=1715610547; x=1716215347; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GOQOBdup7A9Z/v6SPOYI5QlzLKyizyqbmYTucq2AEgQ=;
+        b=HZrcEqKHARkOyL6ZK8NcJ5NBobVnaI2Jqk3yAGNeN88r6xUU9f6KzbPueJ3cdWihwW
+         aUpvErBisSv51EUYyUTXVBXRkFMOq2j6elzPy+Bk5Hnm30gLQ5ViHx5O/NLOsTwCW4W6
+         ReC1Tymb5ucM6H6slzPQ9x37zcKzKhWmg1KjRekjdc0K6VVxRZ4v3faTr1PehZwuBw8N
+         L5WlJipTM0Bj8+ELeZkr3ESbQzpnBtPDHOPoP+s2a21CF/VJJ8r8JAHoj4TS2LGB4wpM
+         ahkqws6onWzJzixAzr8fCSRUrkdH+nvDKdqKVD+UCSTKUIRtKykjs9PBj0Rm4KBV2sN1
+         l47w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715610547; x=1716215347;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GOQOBdup7A9Z/v6SPOYI5QlzLKyizyqbmYTucq2AEgQ=;
+        b=n6eqUevtNQBvQFbk2ye+vczxno8px61ZSN6+/414oXWB67x8BhBV4aDME+009xvOrJ
+         Yhmo4uchTqr6OXpTjkmXLjaFAEphffPJB2TaGNQ7A6F/XA2vZ+M+AtNjxTrbBmzuGsV3
+         4zI6RhBU3JjWgImon6KK6CIUu8MxRbX6mrlYKLTZTVJFXeHDsMf8NXvwqDS6CXviFyDU
+         W+HR23oqt6ps0MpvImdy6XJcDrrzV5noYR5DkjXcINPyKfanR8X/+so6OGmetxzpiPUT
+         YJfWHVi90nBOVmEJLOkASP0tYSX3kmvAu7lkGrbQewG/8/VeVhw9qhXFSxqFm35n695K
+         9zwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXAKsVhaJwdF55EP3ZvUDgUWHUTsDBzf9AbkGaX2sBkU/gaE1+iPsp8OJJilFrbNmIRlGwa4eIgKipImhnzWr6MKT6ij7xKJ3E4wWY8MsVPiSBlwD+enqv
+X-Gm-Message-State: AOJu0YzcUG63EGpWTkQnGjD1cF5J9rdR4QEEBM6VJuGkGBTEnSNud2Bv
+	93Mg3HqXJLAjMCCRc2mF5VK5PTzKd4qPVqJJhcSq0+Br/G0gdcTahc+8CdLIzVz+yx4xWCaKC5v
+	Pz42CR7KO83toGxZqTK6ACAyY1ixLvUKhKYtvxA==
+X-Google-Smtp-Source: AGHT+IFu5JqgmrmKiFC6MOYl5g/FCSHYuLWxoV55Ob/SwVVFawyZsMcF1OwtBZ8VcXAh+gKc7SizCaYZMM8IZX7QAgk=
+X-Received: by 2002:a17:907:9710:b0:a5a:2d30:b8c1 with SMTP id
+ a640c23a62f3a-a5a2d54c038mr842218666b.14.1715610545934; Mon, 13 May 2024
+ 07:29:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5920:EE_|DS0PR11MB7971:EE_
-X-MS-Office365-Filtering-Correlation-Id: ded3b051-5687-4eaa-6b1b-08dc6f770f29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?T0dtRDdpTDgwZnpxQ1BPcURFMmZ6UWRxVjFFbnphU3dqUExNbUVTREMwM0xS?=
- =?utf-8?B?Z0Z1Z3VGMEw0S3prdVVVY1BxZXAxd3NRak9mQTZ4L2JVS0pQc2htekNqb24v?=
- =?utf-8?B?aThTdUZpakY4RG5WTFd2OHc5cll3emNROTNWdkxPQS9TZXlFYndFV3ZoeGF3?=
- =?utf-8?B?cGgvNVdFaXJoS0tHSkNVTDBpeVJoaGFxOFY2RUZ5ZjhZS05lTXRqakFpNWli?=
- =?utf-8?B?cXVqeDN4Q2hsaWxWdW1BMEhhU2I0NzRVd0RyVkxlOEY4bU91ZGhwOEZBdFBu?=
- =?utf-8?B?Rm10c01qeWphWm1adis3RyszMXN3T1NBdWRiWDdEQ0Z3VWY2azU1OW5JUU1N?=
- =?utf-8?B?K1dkMXhid0x2Z1BPZkJWM1IydHhUMVZ0RjB3aEpmRmEvcWlXa2o3MXZramti?=
- =?utf-8?B?MXFUcCtBTjN5QjN0bGRSaXVoWWhrU1YrVG4wUkNoQnViQk9GSkhEcmR4VklB?=
- =?utf-8?B?N1UyNTBodmV5Slc0QVBoTXFyQTFuVU5WNzByenNzNllQeTZ0ZXdIdFgrTERh?=
- =?utf-8?B?dytXR1p2Mkl6ZmlKT2N6ZFRCVzdldS9HZFFQL3ZXcEpGaEJSUUViaGpqUGI0?=
- =?utf-8?B?VEhtUmdOdGNPZHVheWY5Wmh5QmVjaWVJdW1UWGFjOTdiYTV5VnFySGZxMnBB?=
- =?utf-8?B?QWRvMlhzUU5KYmNFQUV6N2cyRzdRNUlaendVUEFPb2hHVjhBbnU4cENRdllV?=
- =?utf-8?B?TXVjNGtUQUVQOGkwd291MHZnMXNodUI0bjdvei8vaE5DU2RDMkJaNEswMEt0?=
- =?utf-8?B?cTEvYko3cDhzZm0xWlNIWW1BYjB2OVdQVGNjVEVTWE5YK1VVOUkyYm9uWkFi?=
- =?utf-8?B?STNRaVJXZUs2UC9qOFJ2WTVmeTJQVTNsSVhROS9IRzZQeWhlMUVsaEFWU25x?=
- =?utf-8?B?eEpEcU9BdytvcHVFUGV6YXM5V2FuWTdWNktLZnlQY0pUK2JmUmJOQU0wYUlu?=
- =?utf-8?B?VXFNN2NVMGZlWXVXMHBUZkt2S2x6OE52R3FIa1ZYRlNlVkxwd3VWdytHNkM2?=
- =?utf-8?B?MUIwUXo4SEJNYzlvLzl5UmJad0ZML3kyQ0hjSWxVSE01YXNERDVtVHRTazNM?=
- =?utf-8?B?UjFXUUR2SXI1bWJaZk5EL0doRWFweE9JNW9NQ2t0eHVPUVVnT1VQYWNMVmdM?=
- =?utf-8?B?MFdRY3V1SHoxMjJQMEZHOW9OVW5mQ0QrUjRrdWR3M1czR0l2N1BWeFpkNys3?=
- =?utf-8?B?Vi9ET090ekVCQVArTHFaVE5CcEIwUUE2SnJLOWhqTEQ0cVBteUVyVU5jemJO?=
- =?utf-8?B?YzMyZ2NvYlFON2czd0xGTU5hVTVtajNhWmhzdGpsdHdJc2Eva00yM2xwbkpP?=
- =?utf-8?B?UGw2RnJLWjVxSTdzL1B0ZXc5RjRvbUk2bW9OZE1FR0JQbFJZejZsV3V2Skty?=
- =?utf-8?B?d0R6MDlyQ011ZWpHT3lvdTV6OXVRajZLNXJJclJKLzJIUnN4TlMxOUlKancr?=
- =?utf-8?B?UllPVXZTbFI1TUFrRVp4azJOV1dWaEhWWEVjaG55S21vWk9VSXlmYTAzRGxw?=
- =?utf-8?B?UXhVT2gySUpjRUhrT1FqRnNBWGgwS0FsK0pOYkNpNUlaVlA5bWRzRzhrV2FL?=
- =?utf-8?B?VkJ4VnhuM1l5UUZvR0oyRXZkc0VwbEFsSkloZHJSTWZGcjVKWnd3dkxBd1lU?=
- =?utf-8?Q?/5xjl2+o47HbUYvLehsP9HJFtR+x58PwFSoy1gH6+3FA=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5920.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Z1NjekRnZHkzak1neWhpeFVJV3orN1piR05jVmJpRHl2RGZVMEVBdDdEcElJ?=
- =?utf-8?B?YjlrWmUxcDJPK2pqSDBHTVdnL1ZRNENnWG44cVBaZG9yK01YenIyNG1oK2ZZ?=
- =?utf-8?B?R3ltMXdNVUxURVRxa3hhQk5zMmVxS2ZFbGk2SUIrUDR5VkZFci8wTlVma2hW?=
- =?utf-8?B?NU5JcjdaTzVNa3ZSeFZrQ0pWQTZpa085SW5kcFplZ0dneHhGaHRhTlZYVFNG?=
- =?utf-8?B?TGwwRm5FT2U3a2NxM293YmVZckhmMElkTFA4a1hGSlhQOHlmYzJOaHM2eHF1?=
- =?utf-8?B?VzdOODQ1QWxyTE00Mk8xM0RjVnFmc0lJVDBTQnJxRTUxdlVtSW1WVktESlRu?=
- =?utf-8?B?Zk0vMmhIdG1CdWJ5OXNMY05MRDVaNnN1OWFjajUvcitNQlg2K0FER1FRTW92?=
- =?utf-8?B?VDFuQWNWcGFicGlwY25IZ0Q0SDlldzdQZTF0Rm5NL2REaDJ5Ly9SYTJDZGVG?=
- =?utf-8?B?QTV4QUkydXQ3NUdzYlNaSGFmQ1ZPb3k4azFndHNZdjB3djVhcUxYZ2V0am40?=
- =?utf-8?B?YmFaWlV4TDNJczBSZWptdFVGZGVQZVVPcTNsakdPb3dIK3g0M2VzeWIvc2Iv?=
- =?utf-8?B?dlNYbkpNOUpIVkl0UXBKYjBCRUVJcWdlL3dodzJSNExrVWhoZzE3U29vTGlm?=
- =?utf-8?B?ckFqODV6aElNS3M4TlMxMi80WTNva3FqdjdFWWpiRHFodWpLWktyN3hIdGdq?=
- =?utf-8?B?UzBVV2dZZVYzQkgrcmRabFc5ZFN0TDMzMFI0Zjl2ZDFITmc0ODNkbjR4OXZq?=
- =?utf-8?B?UHFMM1BDVlR3cmkzb3dPVWJERnZ1aDJwaFA3TW5SL0p1WWo1dm5EOWFzSVhK?=
- =?utf-8?B?VjQrT3NCN3N2djVEUktIOC9lKzI3SjlRZnJLN1k1b3pnOElIWWNSYyt4MUJk?=
- =?utf-8?B?TEc0YXplM0xwcitOOWhJNWY1NktoQzl5Zk1jSys5TmYzNitWWjRiNU9MbzJL?=
- =?utf-8?B?UXdmVk04MlNOVDc3aDcrK0N1QlEzeStOUVFmK2F0ZE91Y2NvdEVPN0JjMnNQ?=
- =?utf-8?B?bUxSWHJUczVGaUJtMm9sZlVTZlpZSkQ0R3N2cFNDYnJBcUtpeEpjR20rRU9a?=
- =?utf-8?B?K1NiWGJVeGxnQ242VStXeFhvc1VBTzlON3ZYQllUaEtWaXZkN0M0TE0wRGFQ?=
- =?utf-8?B?VkI4OWJ2Rk9jTFhIVzZrZUxDMlo0SnVNZ05hbVp3dGdnRFVoWWdxZHZ1cjRJ?=
- =?utf-8?B?dGJRaFhiYTdybjFRK09tQ0FJNWl0cllNVjZSSlJ2b1FYS1pKZDc1NGFLVjBt?=
- =?utf-8?B?aWptdDVycVM1WUNIWlJrTGZSRCthcXh5SU9uTVhXdFhNWDZkZlNTT2h5d1BM?=
- =?utf-8?B?elpSZXVyTWR0Z0VqeDNQdDJBWElVM28zbENweTRpNGN5OGw5Tno3czlVdU43?=
- =?utf-8?B?VzFlamJpMnNFSS9GTXl5eFlKMWhJME9wbldpTjR0TEREbkpwMVlsencrOGEx?=
- =?utf-8?B?MVA1MnVxUlYyOUFiV0haWFNPdWdLaEdaSXEvQk9Gb1FuTVdtZ0RIcTBPWHZu?=
- =?utf-8?B?NFFmeVpBUW5MQklQcnpyRTdkem1ldTJYTVU3dnpoUjRDYWJ2WHdSU21XWE00?=
- =?utf-8?B?enJOUGFwWmVLM3dnSmJGNExTMXNObHJ4MWdQTmMwTEk5UU91NFhMYVo2Q3BY?=
- =?utf-8?B?TnVwd3pWRzVaS3N4MmN4alFJSXZOcjVMZFhKSGVjak9pcDVZbTlWelpucVJx?=
- =?utf-8?B?VEUxNXdaVDZmUFYyaW9DM3EzQXM3WXcyRHJWTFdOVXd4dFVMeC9zdVkvZnVV?=
- =?utf-8?B?RTFpT3FDV2duWmZWL0VHcEFjV0VZUXhpSzBBSmNWTzJJL0RoODlVWEl2UThz?=
- =?utf-8?B?RHplUzRuamRNZlhPaVI3dGFCblZkY3BWMWhldG1rZ1piYnhoYkpuVjcrcmts?=
- =?utf-8?B?NFlxWjdoaWdaNWhXRXNUb0R5TzJhSVFLY0IvdVFPa2VQTEpqdFF5MlVQeUFO?=
- =?utf-8?B?Q2gzUXNQeFg4ODhDcjkvQzFpbzJ3L1dET2pOL0FBV3RjS09qbGdCTlJ5THM3?=
- =?utf-8?B?RVFIbzJhZEttZFRmMVBOckJmMDhxTGNEanluWnphUjY5VlNTTCtFOGJZcENH?=
- =?utf-8?B?cnhHeHcvSk0ydS90TDBxYUY2Vkx5enQ1SDQ4OU94QWR3NUE0SjByQmJaK0hL?=
- =?utf-8?B?bmZ5aE1SbDdRRGFRNkNWSTNCbFl2SmVicjBuYkNjRWtwWUNrcFBXMWlXNWFn?=
- =?utf-8?B?S2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ded3b051-5687-4eaa-6b1b-08dc6f770f29
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5920.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 15:53:55.0026
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LQPCuso2W0UK8vSXENuXrjo9j+pgTmOqy+92BifjKz/hB/imSjPl2Qlu7FpjflZzml3IBvU/BsMunic1a5iZln2uKoUvAsHBc+GGj1n91vs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7971
-X-Proofpoint-GUID: CgvC25bM31cx4O1zj8kUpzhmdz9nXHWN
-X-Proofpoint-ORIG-GUID: tDzFdTquLOkFfpYZrbQjeYYdcUHGkwLG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-08_09,2024-05-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 spamscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=281 bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0
- clxscore=1015 classifier=parse_limit adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405080114
+References: <5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
+ <20240503144340.27385-1-ninette@thehoodiefirm.com> <17CC0A5CB7913FF6.8557@lists.openembedded.org>
+ <50e3629a-c68c-4a33-9ad5-a1519e2838b1@windriver.com> <CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxURR=S0w5ask9KwOxr3TwQ@mail.gmail.com>
+ <a88565ef-b623-4d98-82a2-fd2a2f34267c@windriver.com>
+In-Reply-To: <a88565ef-b623-4d98-82a2-fd2a2f34267c@windriver.com>
+From: "Ninette Adhikari" <ninette@neighbourhood.ie>
+Date: Mon, 13 May 2024 16:28:54 +0200
+Message-ID: <CAG1aeW1Wa4BgXxzE5MXAUo4dX41oTEomAtvn-ShMj_z0Q1zkng@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/5] Improvements for performance test report view
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: engineering@neighbourhood.ie, openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Content-Type: multipart/related; boundary="0000000000002a5439061856b5d0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 May 2024 15:54:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199125
+ <openembedded-core@lists.openembedded.org>; Mon, 13 May 2024 15:34:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199243
 
---------------tyat0alTh4Q1asq2WiPmkl3Y
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--0000000000002a5439061856b5d0
+Content-Type: multipart/alternative; boundary="0000000000002a5437061856b5cf"
+
+--0000000000002a5437061856b5cf
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4485s5no003611
 
-On 2024-05-07 10:17 a.m., Ninette Adhikari wrote:
+Thanks for your response Randy:)
+For the Stdev error in the chart I have opened a ticket here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15482
+Hope this helps!
+
+Thanks,
+Ninette
+
+On Wed, May 8, 2024 at 5:54=E2=80=AFPM Randy MacLeod <randy.macleod@windriv=
+er.com>
+wrote:
+
+> On 2024-05-07 10:17 a.m., Ninette Adhikari wrote:
+>
 > Hi Randy,
 >
-> Thank you so much for the detailed feedback. This is very helpful:)=20
-> Here are my comments:
+> Thank you so much for the detailed feedback. This is very helpful:) Here
+> are my comments:
 >
->   * whitespace warning: Thanks for the catch. I'll make sure to check
->     the patches next time to make sure there are no warnings.
->   * local setup: You are right this can be updated. Do I need to
->     update this in the cover letter and resend it? Let me know, then I
->     can also include the update on --commit argument.
+>    - whitespace warning: Thanks for the catch. I'll make sure to check
+>    the patches next time to make sure there are no warnings.
+>    - local setup: You are right this can be updated. Do I need to update
+>    this in the cover letter and resend it? Let me know, then I can also
+>    include the update on --commit argument.
 >
-Since this is only in the cover letter and not in a commit and, since I=20
-was able to make use of the work and document how I did that
-on the email thread, so I won't insist on a v3.
+> Since this is only in the cover letter and not in a commit and, since I
+> was able to make use of the work and document how I did that
+> on the email thread, so I won't insist on a v3.
 >
->   * stdev as nan: I was able to reproduce the issue and I think this
->     is where the nan error is being generated.
->     https://git.yoctoproject.org/poky/tree/scripts/lib/build_perf/repor=
-t.py#n331
->     <https://urldefense.com/v3/__https://git.yoctoproject.org/poky/tree=
-/scripts/lib/build_perf/report.py*n331__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx=
-1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4fhQ=
-cEM2g$>.
->     This error persists in the current master branch. Unfortunately
->     I'm not exactly sure on the logic of how this is generated and was
->     not able to resolve this issue. If you have any suggestions on how
->     to proceed do let me know.
 >
-I'm not sure off-hand. Would you open a defect in=20
-bugzilla.yoctoproject.org to record the problem and what you know about i=
-t?
+>    - stdev as nan: I was able to reproduce the issue and I think this is
+>    where the nan error is being generated.
+>    https://git.yoctoproject.org/poky/tree/scripts/lib/build_perf/report.p=
+y#n331
+>    <https://urldefense.com/v3/__https://git.yoctoproject.org/poky/tree/sc=
+ripts/lib/build_perf/report.py*n331__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbH=
+emIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4fhQcEM2g$>=
+.
+>    This error persists in the current master branch. Unfortunately I'm
+>    not exactly sure on the logic of how this is generated and was not abl=
+e to
+>    resolve this issue. If you have any suggestions on how to proceed do l=
+et me
+>    know.
 >
->   * vertical dashed line (VDL) behavior: I tried to troubleshoot this
->     but it seems like Apache echarts tooltip
->     <https://urldefense.com/v3/__https://echarts.apache.org/en/option.h=
-tml*tooltip__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8m=
-HVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4d-aXgexg$>
->     is only triggered when there is a data point in the x axis. And in
->     your example the data points are on the edges of the bar. Some of
->     the charts do have continuous data points and hence seems
->     smoother. Hope this is not too much of a holdup.
+> I'm not sure off-hand. Would you open a defect in
+> bugzilla.yoctoproject.org to record the problem and what you know about
+> it?
 >
-Well, now that I've seen it, I can't unsee it and my OCD is triggered! ;-=
+>
+>    - vertical dashed line (VDL) behavior: I tried to troubleshoot this
+>    but it seems like Apache echarts tooltip
+>    <https://urldefense.com/v3/__https://echarts.apache.org/en/option.html=
+*tooltip__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9E=
+qQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4d-aXgexg$>
+>    is only triggered when there is a data point in the x axis. And in you=
+r
+>    example the data points are on the edges of the bar. Some of the chart=
+s do
+>    have continuous data points and hence seems smoother. Hope this is not=
+ too
+>    much of a holdup.
+>
+> Well, now that I've seen it, I can't unsee it and my OCD is triggered! ;-=
 )
-
-I don't think it's a big problem for anyone else so let's not worry=20
-about it unless you'd like to report it in the YP bugzilla as an=20
-enhancement.
-
-Thanks again,
-
-../Randy
-
-
->   * tooltip.gif
+>
+> I don't think it's a big problem for anyone else so let's not worry about
+> it unless you'd like to report it in the YP bugzilla as an enhancement.
+>
+> Thanks again,
+>
+> ../Randy
+>
+>
+>
+>    - [image: tooltip.gif]
+>
 >
 > Let me know if you have any other questions. Thanks again!
 >
 > Ninette
 >
-> On Fri, May 3, 2024 at 8:10=E2=80=AFPM Randy MacLeod=20
-> <randy.macleod@windriver.com> wrote:
+> On Fri, May 3, 2024 at 8:10=E2=80=AFPM Randy MacLeod <randy.macleod@windr=
+iver.com>
+> wrote:
 >
->     On 2024-05-03 1:22 p.m., Randy MacLeod via lists.openembedded.org
->     <https://urldefense.com/v3/__http://lists.openembedded.org__;!!Ajve=
-Ydw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwb=
-wokVjGdK9UtctqWrK5jy4cx6ub3iw$>
->     wrote:
->>     On 2024-05-03 10:43 a.m., Ninette Adhikari wrote:
->>>     This work is done according to "Milestone 9: Build performance te=
-st report view" as stated in the Scope of Work with Sovereign Tech Fund (=
-STF) (https://www.sovereigntechfund.de/).
->>>     The current report can be accessed here:
->>>     Performance test report HTML (https://autobuilder.yocto.io/pub/no=
-n-release/20240117-15/testresults/buildperf-alma8/perf-alma8_master_20240=
-117090048_663f180574.html)
->>>     The report is created using the `oe-build-perf-report` script in =
-the poky repository. This script generates a performance test report in H=
-TML format using the data from the yocto-buildstats (https://git.yoctopro=
-ject.org/yocto-buildstats/) repository.
->>>     The report displays the performance test results in line chart fo=
-rmat. The chart x-axis represents the commit numbers, and the y-axis repr=
-esents the test duration in minutes.
->>>     The report also includes a table that displays the measurement st=
-atistics data for each test. The report is interactive and allows users t=
-o zoom in on specific sections of the line chart.
->>>
->>>     The current report format required some updates to make it more i=
-nteractive and user-friendly. And this patch addresses such improvements:
->>>
->>>     - Add [Apache echart](https://echarts.apache.org/en/index.html) l=
-ibrary to create oe build performance report charts and make them interac=
-tive.
->>>     - Restructure data to time and value array format to be used by e=
-charts. It also converts test duration to minutes and adds zoom to the ch=
-arts.
->>>     - Update measurement statistics data to include `start_time` so t=
-hat time can be displayed instead of commit numbers on the chart. It also=
- updates default commit history length to 300.
->>>     - Add styling updates including page margin, labels for x and y a=
-xis, tooltip, and section descriptions.
->>     The tooltips are very nice and useful so
->>>     - The charts are created as step charts instead of plain line cha=
-rts.
->>>     - Add start time, size, and commit number to tooltip.
->>>     - Add dark mode view
->>>
->>>     Updated report screenshots:
->>>     https://github.com/neighbourhoodie/poky/assets/13760198/65a1890c-=
-fd2a-40d4-ac90-f13055735e53
->>>     https://github.com/neighbourhoodie/poky/assets/13760198/b40c326b-=
-17d2-42e2-8e41-72e52ed2c003
->>>     https://github.com/neighbourhoodie/poky/assets/13760198/cc7ec996-=
-9dab-435a-8fdc-82a2a4193c0a
->>>     https://github.com/neighbourhoodie/poky/assets/13760198/6e0fe09d-=
-50e5-4b0b-b70b-6943f71b5208
+>> On 2024-05-03 1:22 p.m., Randy MacLeod via lists.openembedded.org
+>> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8E=
+vQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGd=
+K9UtctqWrK5jy4cx6ub3iw$>
+>> wrote:
+>>
+>> On 2024-05-03 10:43 a.m., Ninette Adhikari wrote:
+>>
+>> This work is done according to "Milestone 9: Build performance test repo=
+rt view" as stated in the Scope of Work with Sovereign Tech Fund (STF) (htt=
+ps://www.sovereigntechfund.de/).
+>> The current report can be accessed here:
+>> Performance test report HTML (https://autobuilder.yocto.io/pub/non-relea=
+se/20240117-15/testresults/buildperf-alma8/perf-alma8_master_20240117090048=
+_663f180574.html)
+>> The report is created using the `oe-build-perf-report` script in the pok=
+y repository. This script generates a performance test report in HTML forma=
+t using the data from the yocto-buildstats (https://git.yoctoproject.org/yo=
+cto-buildstats/) repository.
+>> The report displays the performance test results in line chart format. T=
+he chart x-axis represents the commit numbers, and the y-axis represents th=
+e test duration in minutes.
+>> The report also includes a table that displays the measurement statistic=
+s data for each test. The report is interactive and allows users to zoom in=
+ on specific sections of the line chart.
+>>
+>> The current report format required some updates to make it more interact=
+ive and user-friendly. And this patch addresses such improvements:
+>>
+>> - Add [Apache echart](https://echarts.apache.org/en/index.html) library =
+to create oe build performance report charts and make them interactive.
+>> - Restructure data to time and value array format to be used by echarts.=
+ It also converts test duration to minutes and adds zoom to the charts.
+>> - Update measurement statistics data to include `start_time` so that tim=
+e can be displayed instead of commit numbers on the chart. It also updates =
+default commit history length to 300.
+>> - Add styling updates including page margin, labels for x and y axis, to=
+oltip, and section descriptions.
+>>
+>> The tooltips are very nice and useful so
+>>
+>> - The charts are created as step charts instead of plain line charts.
+>> - Add start time, size, and commit number to tooltip.
+>> - Add dark mode view
+>>
+>> Updated report screenshots: https://github.com/neighbourhoodie/poky/asse=
+ts/13760198/65a1890c-fd2a-40d4-ac90-f13055735e53https://github.com/neighbou=
+rhoodie/poky/assets/13760198/b40c326b-17d2-42e2-8e41-72e52ed2c003https://gi=
+thub.com/neighbourhoodie/poky/assets/13760198/cc7ec996-9dab-435a-8fdc-82a2a=
+4193c0ahttps://github.com/neighbourhoodie/poky/assets/13760198/6e0fe09d-50e=
+5-4b0b-b70b-6943f71b5208
 >>
 >>
->>     Very nice! Thanks for the work and the v2 improvements.
+>> Very nice! Thanks for the work and the v2 improvements.
 >>
 >>
->>     I applied the patches by saving them from email and there was a
->>     minor whitespace warning which
->>     is really nothing to worry about but if you want to avoid such
->>     noise, you could send yourself
->>     patches by email and then apply them in a different branch if you
->>     want to check for such problems.
+>> I applied the patches by saving them from email and there was a minor
+>> whitespace warning which
+>> is really nothing to worry about but if you want to avoid such noise, yo=
+u
+>> could send yourself
+>> patches by email and then apply them in a different branch if you want t=
+o
+>> check for such problems.
 >>
 >>
->>     =E2=9D=AF git am /tmp/ninette-v2/*
->>     Applying: oe-build-perf-report: Add apache echarts to make report
->>     interactive
->>     Applying: oe-build-perf-report: Display more than 300 commits and
->>     date instead of commit number
->>     Applying: oe-build-perf-report: Improve report styling and add
->>     descriptions
->>     .git/rebase-apply/patch:240: trailing whitespace.
->>     =C2=A0=C2=A0=C2=A0 start_time =3D time
->>     warning: 1 line adds whitespace errors.
->>     Applying: oe-build-perf-report: Update chart tooltip and chart typ=
-e
->>     Applying: oe-build-perf-report: Add dark mode
+>> =E2=9D=AF git am /tmp/ninette-v2/*
+>> Applying: oe-build-perf-report: Add apache echarts to make report
+>> interactive
+>> Applying: oe-build-perf-report: Display more than 300 commits and date
+>> instead of commit number
+>> Applying: oe-build-perf-report: Improve report styling and add
+>> descriptions
+>> .git/rebase-apply/patch:240: trailing whitespace.
+>>     start_time =3D time
+>> warning: 1 line adds whitespace errors.
+>> Applying: oe-build-perf-report: Update chart tooltip and chart type
+>> Applying: oe-build-perf-report: Add dark mode
 >>
->>     poky.git on ninette-v2 [$?]
->>     =E2=9D=AF ls /tmp/ninette-v2/*
->>     '/tmp/ninette-v2/[OE-core] [PATCH v2 1_5] oe-build-perf-report:
->>     Add apache echarts to make report interactive - "Ninette Adhikari
->>     via lists.openembedded.org
->>     <https://urldefense.com/v3/__http://lists.openembedded.org__;!!Ajv=
-eYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuw=
-bwokVjGdK9UtctqWrK5jy4cx6ub3iw$>"
->>     <ninette=3Dthehoodiefirm.com@lists.openembedded.org>
->>     <mailto:ninette=3Dthehoodiefirm.com@lists.openembedded.org> -
->>     2024-05-03 1043.eml'
->>     '/tmp/ninette-v2/[PATCH v2 2_5] oe-build-perf-report: Display
->>     more than 300 commits and date instead of commit number - Ninette
->>     Adhikari <ninette@thehoodiefirm.com>
->>     <mailto:ninette@thehoodiefirm.com> - 2024-05-03 1043.eml'
->>     '/tmp/ninette-v2/[PATCH v2 3_5] oe-build-perf-report: Improve
->>     report styling and add descriptions - Ninette Adhikari
->>     <ninette@thehoodiefirm.com> <mailto:ninette@thehoodiefirm.com> -
->>     2024-05-03 1043.eml'
->>     '/tmp/ninette-v2/[PATCH v2 4_5] oe-build-perf-report: Update
->>     chart tooltip and chart type - Ninette Adhikari
->>     <ninette@thehoodiefirm.com> <mailto:ninette@thehoodiefirm.com> -
->>     2024-05-03 1043.eml'
->>     '/tmp/ninette-v2/[PATCH v2 5_5] oe-build-perf-report: Add dark
->>     mode - Ninette Adhikari <ninette@thehoodiefirm.com>
->>     <mailto:ninette@thehoodiefirm.com> - 2024-05-03 1043.eml'
+>> poky.git on ninette-v2 [$?]
+>> =E2=9D=AF ls /tmp/ninette-v2/*
+>> '/tmp/ninette-v2/[OE-core] [PATCH v2 1_5] oe-build-perf-report: Add
+>> apache echarts to make report interactive - "Ninette Adhikari via
+>> lists.openembedded.org
+>> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8E=
+vQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGd=
+K9UtctqWrK5jy4cx6ub3iw$>"
+>> <ninette=3Dthehoodiefirm.com@lists.openembedded.org>
+>> <ninette=3Dthehoodiefirm.com@lists.openembedded.org> - 2024-05-03 1043.e=
+ml'
+>> '/tmp/ninette-v2/[PATCH v2 2_5] oe-build-perf-report: Display more than
+>> 300 commits and date instead of commit number - Ninette Adhikari
+>> <ninette@thehoodiefirm.com> <ninette@thehoodiefirm.com> - 2024-05-03
+>> 1043.eml'
+>> '/tmp/ninette-v2/[PATCH v2 3_5] oe-build-perf-report: Improve report
+>> styling and add descriptions - Ninette Adhikari
+>> <ninette@thehoodiefirm.com> <ninette@thehoodiefirm.com> - 2024-05-03
+>> 1043.eml'
+>> '/tmp/ninette-v2/[PATCH v2 4_5] oe-build-perf-report: Update chart
+>> tooltip and chart type - Ninette Adhikari <ninette@thehoodiefirm.com>
+>> <ninette@thehoodiefirm.com> - 2024-05-03 1043.eml'
+>> '/tmp/ninette-v2/[PATCH v2 5_5] oe-build-perf-report: Add dark mode -
+>> Ninette Adhikari <ninette@thehoodiefirm.com> <ninette@thehoodiefirm.com>
+>> - 2024-05-03 1043.eml'
 >>
->>>     For local setup, you can do the following:
->>>
->>>     1. Clone the yocto-buildstats (https://git.yoctoproject.org/yocto=
--buildstats/) and the poky repository (https://git.yoctoproject.org/poky/=
-)
->>>
->>>     2. In the poky repository run the following to build the report H=
-TML:
->>>     ```bash
->>>     ./scripts/oe-build-perf-report -r "LOCAL_PATH_TO_YOCTO_BUILDSTATS=
-" --branch "master" --commit "663f1805742ff6fb6955719d0ab7846a425debcf" -=
--branch2 "master" --html > test.html
+>> For local setup, you can do the following:
 >>
->>     These are the same setup step as last time I think and again,
->>     they aren't quite right but
->>     the script tells you do do:
+>> 1. Clone the yocto-buildstats (https://git.yoctoproject.org/yocto-builds=
+tats/) and the poky repository (https://git.yoctoproject.org/poky/)
 >>
->>     =E2=9D=AF git fetch origin
->>     refs/notes/buildstats/perf-debian11/master/qemux86:refs/notes/buil=
-dstats/perf-debian11/master/qemux86
+>> 2. In the poky repository run the following to build the report HTML:
+>> ```bash
+>> ./scripts/oe-build-perf-report -r "LOCAL_PATH_TO_YOCTO_BUILDSTATS" --bra=
+nch "master" --commit "663f1805742ff6fb6955719d0ab7846a425debcf" --branch2 =
+"master" --html > test.html
+>>
+>> These are the same setup step as last time I think and again, they aren'=
+t
+>> quite right but
+>> the script tells you do do:
+>>
+>> =E2=9D=AF git fetch origin
+>> refs/notes/buildstats/perf-debian11/master/qemux86:refs/notes/buildstats=
+/perf-debian11/master/qemux86
 >>
 >>
->>     and that works.
+>> and that works.
 >>
 >>
->>>     ```
->>>     Note:
->>>     - Add your local path to the yocto-buildstats repo
->>>     - The above command builds the report in a file called `test.html=
-`. You can access it in the root directory in poky.
->>>     - This exmaple report uses the commit `663f1805742ff6fb6955719d0a=
-b7846a425debcf` from `master` branch.
+>> ```
+>> Note:
+>> - Add your local path to the yocto-buildstats repo
+>> - The above command builds the report in a file called `test.html`. You =
+can access it in the root directory in poky.
+>> - This exmaple report uses the commit `663f1805742ff6fb6955719d0ab7846a4=
+25debcf` from `master` branch.
 >>
->>     Hmmm, ah, that's a poky commit id. I (stupidly!) expected it to
->>     be a commit ID in the yocto-buildstats repo.
->>
->>
->>     One thing that you can think about fixing or just ignore is that
->>     the --commit arg needs to be the
->>     full commit hash not the shortened version. i.e. this doesn't work=
-:
->>
->>     =E2=9D=AF ./scripts/oe-build-perf-report -r
->>     "/media/rmacleod/gitter/rmacleod/src/distro/yocto/yocto-buildstats=
-.git"
->>     --branch "master" --commit "663f180574" --branch2 "master" --html
->>     > /tmp/ninette-v2-test-663f180574.html
->>     Traceback (most recent call last):
->>     =C2=A0 File
->>     "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scrip=
-ts/oe-build-perf-report",
->>     line 617, in <module>
->>     =C2=A0=C2=A0=C2=A0 sys.exit(main())
->>     =C2=A0 File
->>     "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scrip=
-ts/oe-build-perf-report",
->>     line 532, in main
->>     =C2=A0=C2=A0=C2=A0 index1 =3D gitarchive.rev_find(revs, 'commit', =
-args.commit)
->>     =C2=A0 File
->>     "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/meta/li=
-b/oeqa/utils/gitarchive.py",
->>     line 282, in rev_find
->>     =C2=A0=C2=A0=C2=A0 raise ValueError("Unable to find '{}' value
->>     '{}'".format(attr, val))
->>     ValueError: Unable to find 'commit' value '663f180574'
->>
->>     Since the script is going to be used in other scripts run on the
->>     autobuilder, this is a low priority enhancement.
+>> Hmmm, ah, that's a poky commit id. I (stupidly!) expected it to be a
+>> commit ID in the yocto-buildstats repo.
 >>
 >>
->>     I was happy to see that a newer poky commit, worked fine:
+>> One thing that you can think about fixing or just ignore is that the
+>> --commit arg needs to be the
+>> full commit hash not the shortened version. i.e. this doesn't work:
 >>
->>     =E2=9D=AF ./scripts/oe-build-perf-report -r
->>     "/media/rmacleod/gitter/rmacleod/src/distro/yocto/yocto-buildstats=
-.git"
->>     --branch "master" --commit
->>     "632e3170595bb32717c0471a55a619b4b33fe787" --branch2 "master"
->>     --html >
->>     /tmp/ninette-v2-test-632e3170595bb32717c0471a55a619b4b33fe787.html
->>     INFO: Parsing buildstats from
->>     'refs/notes/buildstats/perf-debian11/master/qemux86'
+>> =E2=9D=AF ./scripts/oe-build-perf-report -r
+>> "/media/rmacleod/gitter/rmacleod/src/distro/yocto/yocto-buildstats.git"
+>> --branch "master" --commit "663f180574" --branch2 "master" --html >
+>> /tmp/ninette-v2-test-663f180574.html
+>> Traceback (most recent call last):
+>>   File
+>> "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts/oe-=
+build-perf-report",
+>> line 617, in <module>
+>>     sys.exit(main())
+>>   File
+>> "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts/oe-=
+build-perf-report",
+>> line 532, in main
+>>     index1 =3D gitarchive.rev_find(revs, 'commit', args.commit)
+>>   File
+>> "/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/meta/lib/oeqa=
+/utils/gitarchive.py",
+>> line 282, in rev_find
+>>     raise ValueError("Unable to find '{}' value '{}'".format(attr, val))
+>> ValueError: Unable to find 'commit' value '663f180574'
 >>
->>
->>     but I did notice:=C2=A0 Stdev: nan
->>
->>
->>     whereas in your linked charts, and in my first run with commit:
->>     663f1805742ff6fb6955719d0ab7846a425debcf
->>
->>     the correct numerical standard deviation is displayed.
->>
->>     I can debug this is you can't reproduce it yourself.
->>
->     * if you can't=C2=A0 ...
->
->
->     Also, I wanted to draw your attention to how the vertical dashed
->     line (VDL) behaves
->     to see if it's something that can (or should) be changed.
->
->     If you zoom in on a graph the VDL is placed at the left edge of=C2=A0
->     bar until the pointer passes the mid-point of the bar:
->
->
->     at which time the VDL moves to the next bar/data point:
->
->
->
->     It's a small thing but it would be nice if:
->     =C2=A0 1) the VDL was placed in the centre of the bar and
->     =C2=A0 2) the commit number /tooltip data only changed when the poi=
-nter
->     move to a different bar
->     =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 so the same data would be displayed =
-as one swept across a
->     given bar.
->
->     What do you think?
->
->
->     Picky, eh! ;-)
->
->
->     That's all for now.
->
->     ../Randy
->
->
->>
->>     Again. these reports and beautiful interactive charts are great
->>     to see.
->>
->>     Thanks!
->>
->>     ../Randy
+>> Since the script is going to be used in other scripts run on the
+>> autobuilder, this is a low priority enhancement.
 >>
 >>
->>>     Ninette Adhikari (5):
->>>        oe-build-perf-report: Add apache echarts to make report intera=
-ctive
->>>        oe-build-perf-report: Display more than 300 commits and date i=
-nstead
->>>          of commit number
->>>        oe-build-perf-report: Improve report styling and add descripti=
-ons
->>>        oe-build-perf-report: Update chart tooltip and chart type
->>>        oe-build-perf-report: Add dark mode
->>>
->>>       .../build_perf/html/measurement_chart.html    | 140 +++++++++++=
-+------
->>>       scripts/lib/build_perf/html/report.html       | 124 +++++++++++=
------
->>>       scripts/lib/build_perf/report.py              |   5 +-
->>>       scripts/oe-build-perf-report                  |   6 +-
->>>       4 files changed, 193 insertions(+), 82 deletions(-)
->>>
+>> I was happy to see that a newer poky commit, worked fine:
 >>
->>     --=20
->>     # Randy MacLeod
->>     # Wind River Linux
+>> =E2=9D=AF ./scripts/oe-build-perf-report -r
+>> "/media/rmacleod/gitter/rmacleod/src/distro/yocto/yocto-buildstats.git"
+>> --branch "master" --commit "632e3170595bb32717c0471a55a619b4b33fe787"
+>> --branch2 "master" --html >
+>> /tmp/ninette-v2-test-632e3170595bb32717c0471a55a619b4b33fe787.html
+>> INFO: Parsing buildstats from
+>> 'refs/notes/buildstats/perf-debian11/master/qemux86'
 >>
->>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>     Links: You receive all messages sent to this group.
->>     View/Reply Online (#199007):https://lists.openembedded.org/g/opene=
-mbedded-core/message/199007
->>     Mute This Topic:https://lists.openembedded.org/mt/105889450/361676=
-5
->>     Group Owner:openembedded-core+owner@lists.openembedded.org
->>     Unsubscribe:https://lists.openembedded.org/g/openembedded-core/uns=
-ub  [randy.macleod@windriver.com]
->>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>> but I did notice:  Stdev: nan
+>>
+>>
+>> whereas in your linked charts, and in my first run with commit:
+>> 663f1805742ff6fb6955719d0ab7846a425debcf
+>>
+>> the correct numerical standard deviation is displayed.
+>>
+>> I can debug this is you can't reproduce it yourself.
+>>
+>> * if you can't  ...
+>>
+>>
+>> Also, I wanted to draw your attention to how the vertical dashed line
+>> (VDL) behaves
+>> to see if it's something that can (or should) be changed.
+>>
+>> If you zoom in on a graph the VDL is placed at the left edge of  bar
+>> until the pointer passes the mid-point of the bar:
+>>
+>>
+>> at which time the VDL moves to the next bar/data point:
+>>
+>>
+>>
+>> It's a small thing but it would be nice if:
+>>   1) the VDL was placed in the centre of the bar and
+>>   2) the commit number /tooltip data only changed when the pointer move
+>> to a different bar
+>>       so the same data would be displayed as one swept across a given ba=
+r.
+>>
+>> What do you think?
+>>
+>>
+>> Picky, eh! ;-)
+>>
+>>
+>> That's all for now.
+>>
+>> ../Randy
+>>
+>>
+>>
+>> Again. these reports and beautiful interactive charts are great to see.
+>>
+>> Thanks!
+>>
+>> ../Randy
+>>
+>>
+>> Ninette Adhikari (5):
+>>   oe-build-perf-report: Add apache echarts to make report interactive
+>>   oe-build-perf-report: Display more than 300 commits and date instead
+>>     of commit number
+>>   oe-build-perf-report: Improve report styling and add descriptions
+>>   oe-build-perf-report: Update chart tooltip and chart type
+>>   oe-build-perf-report: Add dark mode
+>>
+>>  .../build_perf/html/measurement_chart.html    | 140 ++++++++++++------
+>>  scripts/lib/build_perf/html/report.html       | 124 +++++++++++-----
+>>  scripts/lib/build_perf/report.py              |   5 +-
+>>  scripts/oe-build-perf-report                  |   6 +-
+>>  4 files changed, 193 insertions(+), 82 deletions(-)
+>>
+>>
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+>>
+>>
+>>=20
+>>
+>>
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+>>
 >>
 >
->     --=20
->     # Randy MacLeod
->     # Wind River Linux
->
->
->
-> --=20
+> --
 > Ninette Adhikari
 > Software developer
 > The Neighbourhoodie Software GmbH
 > Harzer Stra=C3=9Fe 39, 12059 Berlin
-> neighbourhood.ie=20
-> <https://urldefense.com/v3/__http://neighbourhood.ie__;!!AjveYdw8EvQ!ZW=
-tNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9U=
-tctqWrK5jy4ey5Kw-Rg$>
+> neighbourhood.ie
+> <https://urldefense.com/v3/__http://neighbourhood.ie__;!!AjveYdw8EvQ!ZWtN=
+p8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9Utctq=
+WrK5jy4ey5Kw-Rg$>
 >
 > Handelsregister HRB 157851 B Amtsgericht Charlottenburg
 > Gesch=C3=A4ftsf=C3=BChrung: Jan Lehnardt, Simone Haas
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
 
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------tyat0alTh4Q1asq2WiPmkl3Y
-Content-Type: multipart/related;
- boundary="------------Y1vYQa66Am7DU1eDOR4eXhWl"
-
---------------Y1vYQa66Am7DU1eDOR4eXhWl
-Content-Type: text/html; charset=UTF-8
+--0000000000002a5437061856b5cf
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4485s5no003611
 
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">On 2024-05-07 10:17 a.m., Ninette
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Thanks for your response Randy:)</di=
+v><div>For the <span style=3D"font-family:monospace">Stdev</span> error in =
+the chart I have opened a ticket here: <a href=3D"https://bugzilla.yoctopro=
+ject.org/show_bug.cgi?id=3D15482">https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D15482</a><br></div><div>Hope this helps!<br></div><div><br></div=
+><div>Thanks,</div><div>Ninette<br></div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 8, 2024 at 5:54=E2=80=
+=AFPM Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com">rand=
+y.macleod@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex"><u></u>
+
+ =20
+  <div>
+    <div>On 2024-05-07 10:17 a.m., Ninette
       Adhikari wrote:<br>
     </div>
-    <blockquote type=3D"cite" cite=3D"mid:CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxU=
-RR=3DS0w5ask9KwOxr3TwQ@mail.gmail.com">
+    <blockquote type=3D"cite">
      =20
       <div dir=3D"ltr">
         <div>Hi Randy,</div>
@@ -578,43 +471,40 @@ RR=3DS0w5ask9KwOxr3TwQ@mail.gmail.com">
         </div>
         <div>
           <ul>
-            <li>whitespace warning: Thanks for the catch. I'll make sure
+            <li>whitespace warning: Thanks for the catch. I&#39;ll make sur=
+e
               to check the patches next time to make sure there are no
               warnings.<br>
             </li>
             <li>local setup: You are right this can be updated. Do I
               need to update this in the cover letter and resend it? Let
               me know, then I can also include the update on <span style=3D=
-"font-family:monospace">--commit</span> argument.<font face=3D"arial,sans=
--serif"><br>
+"font-family:monospace">--commit</span> argument.<font face=3D"arial,sans-s=
+erif"><br>
               </font></li>
           </ul>
         </div>
       </div>
     </blockquote>
-    <font face=3D"arial,sans-serif">Since this is only in the cover lette=
-r
+    <font face=3D"arial,sans-serif">Since this is only in the cover letter
       and not in a commit and, since I was able to make use of the work
       and document how I did that<br>
-      on the email thread, so I won't insist on a v3. </font><br>
-    <blockquote type=3D"cite" cite=3D"mid:CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxU=
-RR=3DS0w5ask9KwOxr3TwQ@mail.gmail.com">
+      on the email thread, so I won&#39;t insist on a v3. </font><br>
+    <blockquote type=3D"cite">
       <div dir=3D"ltr">
         <div>
           <ul>
-            <li>stdev as <span style=3D"font-family:monospace">nan</span>=
-:
+            <li>stdev as <span style=3D"font-family:monospace">nan</span>:
               I was able to reproduce the issue and I think this is
               where the <span style=3D"font-family:monospace">nan</span>
-              error is being generated. <a href=3D"https://urldefense.com=
-/v3/__https://git.yoctoproject.org/poky/tree/scripts/lib/build_perf/repor=
-t.py*n331__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHV=
-d9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4fhQcEM2g$" moz-do-not-send=3D"tr=
-ue">https://git.yoctoproject.org/poky/tree/scripts/lib/build_perf/report.=
-py#n331</a>.
-              This error persists in the current <span style=3D"font-fami=
-ly:monospace">master</span> branch.
-              Unfortunately I'm not exactly sure on the logic of how
+              error is being generated. <a href=3D"https://urldefense.com/v=
+3/__https://git.yoctoproject.org/poky/tree/scripts/lib/build_perf/report.py=
+*n331__;Iw!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQH=
+uHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4fhQcEM2g$" target=3D"_blank">https://git=
+.yoctoproject.org/poky/tree/scripts/lib/build_perf/report.py#n331</a>.
+              This error persists in the current <span style=3D"font-family=
+:monospace">master</span> branch.
+              Unfortunately I&#39;m not exactly sure on the logic of how
               this is generated and was not able to resolve this issue.
               If you have any suggestions on how to proceed do let me
               know.</li>
@@ -622,20 +512,20 @@ ly:monospace">master</span> branch.
         </div>
       </div>
     </blockquote>
-    I'm not sure off-hand. Would you open a defect in
-    bugzilla.yoctoproject.org to record the problem and what you know
+    I&#39;m not sure off-hand. Would you open a defect in
+    <a href=3D"http://bugzilla.yoctoproject.org" target=3D"_blank">bugzilla=
+.yoctoproject.org</a> to record the problem and what you know
     about it?<br>
-    <blockquote type=3D"cite" cite=3D"mid:CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxU=
-RR=3DS0w5ask9KwOxr3TwQ@mail.gmail.com">
+    <blockquote type=3D"cite">
       <div dir=3D"ltr">
         <div>
           <ul>
             <li>vertical dashed line (VDL) behavior: I tried to
-              troubleshoot this but it seems like <a href=3D"https://urld=
-efense.com/v3/__https://echarts.apache.org/en/option.html*tooltip__;Iw!!A=
-jveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFk=
-uwbwokVjGdK9UtctqWrK5jy4d-aXgexg$" moz-do-not-send=3D"true">Apache echart=
-s tooltip</a> is
+              troubleshoot this but it seems like <a href=3D"https://urldef=
+ense.com/v3/__https://echarts.apache.org/en/option.html*tooltip__;Iw!!AjveY=
+dw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwok=
+VjGdK9UtctqWrK5jy4d-aXgexg$" target=3D"_blank">Apache echarts tooltip</a> i=
+s
               only triggered when there is a data point in the x axis.
               And in your example the data points are on the edges of
               the bar. Some of the charts do have continuous data points
@@ -645,24 +535,23 @@ s tooltip</a> is
         </div>
       </div>
     </blockquote>
-    Well, now that I've seen it, I can't unsee it and my OCD is
+    Well, now that I&#39;ve seen it, I can&#39;t unsee it and my OCD is
     triggered! ;-)<br>
-    <p>I don't think it's a big problem for anyone else so let's not
-      worry about it unless you'd like to report it in the YP bugzilla
+    <p>I don&#39;t think it&#39;s a big problem for anyone else so let&#39;=
+s not
+      worry about it unless you&#39;d like to report it in the YP bugzilla
       as an enhancement.<br>
     </p>
     <p>Thanks again,</p>
     <p>../Randy</p>
     <p><br>
     </p>
-    <blockquote type=3D"cite" cite=3D"mid:CAG1aeW1Ncwb2yrxwtLyR_kD1j5woxU=
-RR=3DS0w5ask9KwOxr3TwQ@mail.gmail.com">
+    <blockquote type=3D"cite">
       <div dir=3D"ltr">
         <div>
           <ul>
-            <li><img src=3D"cid:part1.V6aIORRD.BLD35vER@windriver.com" al=
-t=3D"tooltip.gif" style=3D"margin-right: 0px;" class=3D"" width=3D"223" h=
-eight=3D"173"><br>
+            <li><img src=3D"cid:ii_18f72571d2531e48f591" alt=3D"tooltip.gif=
+" style=3D"margin-right: 0px;" width=3D"223" height=3D"173"><br>
               <br>
             </li>
           </ul>
@@ -678,91 +567,84 @@ eight=3D"173"><br>
       <div class=3D"gmail_quote">
         <div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 3, 2024 at 8:10=
 =E2=80=AFPM
-          Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com=
-" moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">randy.macleod@=
-windriver.com</a>&gt;
+          Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com" =
+target=3D"_blank">randy.macleod@windriver.com</a>&gt;
           wrote:<br>
         </div>
-        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
           <div>
-            <div>On 2024-05-03 1:22 p.m., Randy MacLeod via <a href=3D"ht=
-tps://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!Z=
-WtNp8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9=
-UtctqWrK5jy4cx6ub3iw$" target=3D"_blank" moz-do-not-send=3D"true">lists.o=
-penembedded.org</a>
+            <div>On 2024-05-03 1:22 p.m., Randy MacLeod via <a href=3D"http=
+s://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!ZWtNp=
+8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqW=
+rK5jy4cx6ub3iw$" target=3D"_blank">lists.openembedded.org</a>
               wrote:<br>
             </div>
             <blockquote type=3D"cite">
               <div>On 2024-05-03 10:43 a.m., Ninette Adhikari wrote:<br>
               </div>
               <blockquote type=3D"cite">
-                <pre>This work is done according to &quot;Milestone 9: Bu=
-ild performance test report view&quot; as stated in the Scope of Work wit=
-h Sovereign Tech Fund (STF) (<a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://www.sovereigntechfund.de/">https://www.sovereigntechfund.de/</a>).
+                <pre>This work is done according to &quot;Milestone 9: Buil=
+d performance test report view&quot; as stated in the Scope of Work with So=
+vereign Tech Fund (STF) (<a href=3D"https://www.sovereigntechfund.de/" targ=
+et=3D"_blank">https://www.sovereigntechfund.de/</a>).
 The current report can be accessed here:=20
-Performance test report HTML (<a class=3D"moz-txt-link-freetext" href=3D"=
-https://autobuilder.yocto.io/pub/non-release/20240117-15/testresults/buil=
-dperf-alma8/perf-alma8_master_20240117090048_663f180574.html">https://aut=
-obuilder.yocto.io/pub/non-release/20240117-15/testresults/buildperf-alma8=
-/perf-alma8_master_20240117090048_663f180574.html</a>)
-The report is created using the `oe-build-perf-report` script in the poky=
- repository. This script generates a performance test report in HTML form=
-at using the data from the yocto-buildstats (<a class=3D"moz-txt-link-fre=
-etext" href=3D"https://git.yoctoproject.org/yocto-buildstats/">https://gi=
-t.yoctoproject.org/yocto-buildstats/</a>) repository.
-The report displays the performance test results in line chart format. Th=
-e chart x-axis represents the commit numbers, and the y-axis represents t=
-he test duration in minutes.=20
-The report also includes a table that displays the measurement statistics=
- data for each test. The report is interactive and allows users to zoom i=
-n on specific sections of the line chart.
+Performance test report HTML (<a href=3D"https://autobuilder.yocto.io/pub/n=
+on-release/20240117-15/testresults/buildperf-alma8/perf-alma8_master_202401=
+17090048_663f180574.html" target=3D"_blank">https://autobuilder.yocto.io/pu=
+b/non-release/20240117-15/testresults/buildperf-alma8/perf-alma8_master_202=
+40117090048_663f180574.html</a>)
+The report is created using the `oe-build-perf-report` script in the poky r=
+epository. This script generates a performance test report in HTML format u=
+sing the data from the yocto-buildstats (<a href=3D"https://git.yoctoprojec=
+t.org/yocto-buildstats/" target=3D"_blank">https://git.yoctoproject.org/yoc=
+to-buildstats/</a>) repository.
+The report displays the performance test results in line chart format. The =
+chart x-axis represents the commit numbers, and the y-axis represents the t=
+est duration in minutes.=20
+The report also includes a table that displays the measurement statistics d=
+ata for each test. The report is interactive and allows users to zoom in on=
+ specific sections of the line chart.
 
-The current report format required some updates to make it more interacti=
-ve and user-friendly. And this patch addresses such improvements:
+The current report format required some updates to make it more interactive=
+ and user-friendly. And this patch addresses such improvements:
 
-- Add [Apache echart](<a class=3D"moz-txt-link-freetext" href=3D"https://=
-echarts.apache.org/en/index.html">https://echarts.apache.org/en/index.htm=
-l</a>) library to create oe build performance report charts and make them=
- interactive.
-- Restructure data to time and value array format to be used by echarts. =
-It also converts test duration to minutes and adds zoom to the charts.
-- Update measurement statistics data to include `start_time` so that time=
- can be displayed instead of commit numbers on the chart. It also updates=
- default commit history length to 300.
-- Add styling updates including page margin, labels for x and y axis, too=
-ltip, and section descriptions.</pre>
+- Add [Apache echart](<a href=3D"https://echarts.apache.org/en/index.html" =
+target=3D"_blank">https://echarts.apache.org/en/index.html</a>) library to =
+create oe build performance report charts and make them interactive.
+- Restructure data to time and value array format to be used by echarts. It=
+ also converts test duration to minutes and adds zoom to the charts.
+- Update measurement statistics data to include `start_time` so that time c=
+an be displayed instead of commit numbers on the chart. It also updates def=
+ault commit history length to 300.
+- Add styling updates including page margin, labels for x and y axis, toolt=
+ip, and section descriptions.</pre>
               </blockquote>
               The tooltips are very nice and useful so<br>
               <blockquote type=3D"cite">
-                <pre>- The charts are created as step charts instead of p=
-lain line charts.
+                <pre>- The charts are created as step charts instead of pla=
+in line charts.
 - Add start time, size, and commit number to tooltip.
 - Add dark mode view
 
 Updated report screenshots:=20
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/neighbourho=
-odie/poky/assets/13760198/65a1890c-fd2a-40d4-ac90-f13055735e53">https://g=
-ithub.com/neighbourhoodie/poky/assets/13760198/65a1890c-fd2a-40d4-ac90-f1=
-3055735e53</a>
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/neighbourho=
-odie/poky/assets/13760198/b40c326b-17d2-42e2-8e41-72e52ed2c003">https://g=
-ithub.com/neighbourhoodie/poky/assets/13760198/b40c326b-17d2-42e2-8e41-72=
-e52ed2c003</a>
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/neighbourho=
-odie/poky/assets/13760198/cc7ec996-9dab-435a-8fdc-82a2a4193c0a">https://g=
-ithub.com/neighbourhoodie/poky/assets/13760198/cc7ec996-9dab-435a-8fdc-82=
-a2a4193c0a</a>
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/neighbourho=
-odie/poky/assets/13760198/6e0fe09d-50e5-4b0b-b70b-6943f71b5208">https://g=
-ithub.com/neighbourhoodie/poky/assets/13760198/6e0fe09d-50e5-4b0b-b70b-69=
-43f71b5208</a></pre>
+<a href=3D"https://github.com/neighbourhoodie/poky/assets/13760198/65a1890c=
+-fd2a-40d4-ac90-f13055735e53" target=3D"_blank">https://github.com/neighbou=
+rhoodie/poky/assets/13760198/65a1890c-fd2a-40d4-ac90-f13055735e53</a>
+<a href=3D"https://github.com/neighbourhoodie/poky/assets/13760198/b40c326b=
+-17d2-42e2-8e41-72e52ed2c003" target=3D"_blank">https://github.com/neighbou=
+rhoodie/poky/assets/13760198/b40c326b-17d2-42e2-8e41-72e52ed2c003</a>
+<a href=3D"https://github.com/neighbourhoodie/poky/assets/13760198/cc7ec996=
+-9dab-435a-8fdc-82a2a4193c0a" target=3D"_blank">https://github.com/neighbou=
+rhoodie/poky/assets/13760198/cc7ec996-9dab-435a-8fdc-82a2a4193c0a</a>
+<a href=3D"https://github.com/neighbourhoodie/poky/assets/13760198/6e0fe09d=
+-50e5-4b0b-b70b-6943f71b5208" target=3D"_blank">https://github.com/neighbou=
+rhoodie/poky/assets/13760198/6e0fe09d-50e5-4b0b-b70b-6943f71b5208</a></pre>
               </blockquote>
               <p><br>
               </p>
-              <p>Very nice! Thanks for the work and the v2 improvements.<=
-/p>
+              <p>Very nice! Thanks for the work and the v2 improvements.</p=
+>
               <p><br>
               </p>
               <p>I applied the patches by saving them from email and
@@ -781,7 +663,7 @@ ithub.com/neighbourhoodie/poky/assets/13760198/6e0fe09d-50e5-4b0b-b70b-69=
                 Applying: oe-build-perf-report: Improve report styling
                 and add descriptions<br>
                 .git/rebase-apply/patch:240: trailing whitespace.<br>
-                &nbsp;&nbsp;&nbsp; start_time =3D time <br>
+                =C2=A0=C2=A0=C2=A0 start_time =3D time <br>
                 warning: 1 line adds whitespace errors.<br>
                 Applying: oe-build-perf-report: Update chart tooltip and
                 chart type<br>
@@ -789,64 +671,58 @@ ithub.com/neighbourhoodie/poky/assets/13760198/6e0fe09d-50e5-4b0b-b70b-69=
                 <br>
                 poky.git on ninette-v2 [$?] <br>
                 =E2=9D=AF ls /tmp/ninette-v2/*<br>
-                '/tmp/ninette-v2/[OE-core] [PATCH v2 1_5]
+                &#39;/tmp/ninette-v2/[OE-core] [PATCH v2 1_5]
                 oe-build-perf-report: Add apache echarts to make report
-                interactive - &quot;Ninette Adhikari via <a href=3D"https=
-://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!ZWtN=
-p8Bad2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9Utc=
-tqWrK5jy4cx6ub3iw$" target=3D"_blank" moz-do-not-send=3D"true">lists.open=
-embedded.org</a>&quot;
-                <a href=3D"mailto:ninette=3Dthehoodiefirm.com@lists.opene=
-mbedded.org" target=3D"_blank" moz-do-not-send=3D"true">&lt;ninette=3Dthe=
-hoodiefirm.com@lists.openembedded.org&gt;</a>
-                - 2024-05-03 1043.eml'<br>
-                '/tmp/ninette-v2/[PATCH v2 2_5] oe-build-perf-report:
+                interactive - &quot;Ninette Adhikari via <a href=3D"https:/=
+/urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!ZWtNp8Ba=
+d2XL45Cx1mXbHemIY3wl2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5=
+jy4cx6ub3iw$" target=3D"_blank">lists.openembedded.org</a>&quot;
+                <a href=3D"mailto:ninette=3Dthehoodiefirm.com@lists.openemb=
+edded.org" target=3D"_blank">&lt;ninette=3Dthehoodiefirm.com@lists.openembe=
+dded.org&gt;</a>
+                - 2024-05-03 1043.eml&#39;<br>
+                &#39;/tmp/ninette-v2/[PATCH v2 2_5] oe-build-perf-report:
                 Display more than 300 commits and date instead of commit
-                number - Ninette Adhikari <a href=3D"mailto:ninette@theho=
-odiefirm.com" target=3D"_blank" moz-do-not-send=3D"true">&lt;ninette@theh=
-oodiefirm.com&gt;</a>
-                - 2024-05-03 1043.eml'<br>
-                '/tmp/ninette-v2/[PATCH v2 3_5] oe-build-perf-report:
+                number - Ninette Adhikari <a href=3D"mailto:ninette@thehood=
+iefirm.com" target=3D"_blank">&lt;ninette@thehoodiefirm.com&gt;</a>
+                - 2024-05-03 1043.eml&#39;<br>
+                &#39;/tmp/ninette-v2/[PATCH v2 3_5] oe-build-perf-report:
                 Improve report styling and add descriptions - Ninette
-                Adhikari <a href=3D"mailto:ninette@thehoodiefirm.com" tar=
-get=3D"_blank" moz-do-not-send=3D"true">&lt;ninette@thehoodiefirm.com&gt;=
-</a>
-                - 2024-05-03 1043.eml'<br>
-                '/tmp/ninette-v2/[PATCH v2 4_5] oe-build-perf-report:
-                Update chart tooltip and chart type - Ninette Adhikari <a=
- href=3D"mailto:ninette@thehoodiefirm.com" target=3D"_blank" moz-do-not-s=
-end=3D"true">&lt;ninette@thehoodiefirm.com&gt;</a>
-                - 2024-05-03 1043.eml'<br>
-                '/tmp/ninette-v2/[PATCH v2 5_5] oe-build-perf-report:
-                Add dark mode - Ninette Adhikari <a href=3D"mailto:ninett=
-e@thehoodiefirm.com" target=3D"_blank" moz-do-not-send=3D"true">&lt;ninet=
-te@thehoodiefirm.com&gt;</a>
-                - 2024-05-03 1043.eml'<br>
+                Adhikari <a href=3D"mailto:ninette@thehoodiefirm.com" targe=
+t=3D"_blank">&lt;ninette@thehoodiefirm.com&gt;</a>
+                - 2024-05-03 1043.eml&#39;<br>
+                &#39;/tmp/ninette-v2/[PATCH v2 4_5] oe-build-perf-report:
+                Update chart tooltip and chart type - Ninette Adhikari <a h=
+ref=3D"mailto:ninette@thehoodiefirm.com" target=3D"_blank">&lt;ninette@theh=
+oodiefirm.com&gt;</a>
+                - 2024-05-03 1043.eml&#39;<br>
+                &#39;/tmp/ninette-v2/[PATCH v2 5_5] oe-build-perf-report:
+                Add dark mode - Ninette Adhikari <a href=3D"mailto:ninette@=
+thehoodiefirm.com" target=3D"_blank">&lt;ninette@thehoodiefirm.com&gt;</a>
+                - 2024-05-03 1043.eml&#39;<br>
                 <br>
               </p>
               <blockquote type=3D"cite">
                 <pre>For local setup, you can do the following:
 
-1. Clone the yocto-buildstats (<a class=3D"moz-txt-link-freetext" href=3D=
-"https://git.yoctoproject.org/yocto-buildstats/">https://git.yoctoproject=
-.org/yocto-buildstats/</a>) and the poky repository (<a class=3D"moz-txt-=
-link-freetext" href=3D"https://git.yoctoproject.org/poky/">https://git.yo=
-ctoproject.org/poky/</a>)
+1. Clone the yocto-buildstats (<a href=3D"https://git.yoctoproject.org/yoct=
+o-buildstats/" target=3D"_blank">https://git.yoctoproject.org/yocto-buildst=
+ats/</a>) and the poky repository (<a href=3D"https://git.yoctoproject.org/=
+poky/" target=3D"_blank">https://git.yoctoproject.org/poky/</a>)
 
 2. In the poky repository run the following to build the report HTML:
 ```bash
-./scripts/oe-build-perf-report -r &quot;LOCAL_PATH_TO_YOCTO_BUILDSTATS&qu=
-ot; --branch &quot;master&quot; --commit &quot;663f1805742ff6fb6955719d0a=
-b7846a425debcf&quot; --branch2 &quot;master&quot; --html &gt; test.html</=
-pre>
+./scripts/oe-build-perf-report -r &quot;LOCAL_PATH_TO_YOCTO_BUILDSTATS&quot=
+; --branch &quot;master&quot; --commit &quot;663f1805742ff6fb6955719d0ab784=
+6a425debcf&quot; --branch2 &quot;master&quot; --html &gt; test.html</pre>
               </blockquote>
               <p>These are the same setup step as last time I think and
-                again, they aren't quite right but<br>
+                again, they aren&#39;t quite right but<br>
                 the script tells you do do:<br>
                 <br>
                 =E2=9D=AF git fetch origin
-refs/notes/buildstats/perf-debian11/master/qemux86:refs/notes/buildstats/=
-perf-debian11/master/qemux86</p>
+refs/notes/buildstats/perf-debian11/master/qemux86:refs/notes/buildstats/pe=
+rf-debian11/master/qemux86</p>
               <p><br>
               </p>
               <p>and that works.<br>
@@ -857,12 +733,12 @@ perf-debian11/master/qemux86</p>
                 <pre>```
 Note:
 - Add your local path to the yocto-buildstats repo
-- The above command builds the report in a file called `test.html`. You c=
-an access it in the root directory in poky.
-- This exmaple report uses the commit `663f1805742ff6fb6955719d0ab7846a42=
-5debcf` from `master` branch.</pre>
+- The above command builds the report in a file called `test.html`. You can=
+ access it in the root directory in poky.
+- This exmaple report uses the commit `663f1805742ff6fb6955719d0ab7846a425d=
+ebcf` from `master` branch.</pre>
               </blockquote>
-              <p>Hmmm, ah, that's a poky commit id. I (stupidly!)
+              <p>Hmmm, ah, that&#39;s a poky commit id. I (stupidly!)
                 expected it to be a commit ID in the yocto-buildstats
                 repo.</p>
               <p><br>
@@ -870,37 +746,37 @@ an access it in the root directory in poky.
               <p>One thing that you can think about fixing or just
                 ignore is that the --commit arg needs to be the<br>
                 full commit hash not the shortened version. i.e. this
-                doesn't work:<br>
+                doesn&#39;t work:<br>
                 <br>
                 =E2=9D=AF ./scripts/oe-build-perf-report -r
-                &quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/yo=
-cto-buildstats.git&quot;
-                --branch &quot;master&quot; --commit &quot;663f180574&quo=
-t; --branch2
+                &quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/yoct=
+o-buildstats.git&quot;
+                --branch &quot;master&quot; --commit &quot;663f180574&quot;=
+ --branch2
                 &quot;master&quot; --html &gt;
                 /tmp/ninette-v2-test-663f180574.html<br>
                 Traceback (most recent call last):<br>
-                &nbsp; File
-&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts=
-/oe-build-perf-report&quot;,
+                =C2=A0 File
+&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts/o=
+e-build-perf-report&quot;,
                 line 617, in &lt;module&gt;<br>
-                &nbsp;&nbsp;&nbsp; sys.exit(main())<br>
-                &nbsp; File
-&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts=
-/oe-build-perf-report&quot;,
+                =C2=A0=C2=A0=C2=A0 sys.exit(main())<br>
+                =C2=A0 File
+&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/./scripts/o=
+e-build-perf-report&quot;,
                 line 532, in main<br>
-                &nbsp;&nbsp;&nbsp; index1 =3D gitarchive.rev_find(revs, '=
-commit',
+                =C2=A0=C2=A0=C2=A0 index1 =3D gitarchive.rev_find(revs, &#3=
+9;commit&#39;,
                 args.commit)<br>
-                &nbsp; File
-&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/meta/lib/=
-oeqa/utils/gitarchive.py&quot;,
+                =C2=A0 File
+&quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/poky.git/meta/lib/oe=
+qa/utils/gitarchive.py&quot;,
                 line 282, in rev_find<br>
-                &nbsp;&nbsp;&nbsp; raise ValueError(&quot;Unable to find =
-'{}' value
-                '{}'&quot;.format(attr, val))<br>
-                ValueError: Unable to find 'commit' value '663f180574'<br=
->
+                =C2=A0=C2=A0=C2=A0 raise ValueError(&quot;Unable to find &#=
+39;{}&#39; value
+                &#39;{}&#39;&quot;.format(attr, val))<br>
+                ValueError: Unable to find &#39;commit&#39; value &#39;663f=
+180574&#39;<br>
               </p>
               <p>Since the script is going to be used in other scripts
                 run on the autobuilder, this is a low priority
@@ -912,64 +788,60 @@ oeqa/utils/gitarchive.py&quot;,
                 fine:<br>
                 <br>
                 =E2=9D=AF ./scripts/oe-build-perf-report -r
-                &quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/yo=
-cto-buildstats.git&quot;
+                &quot;/media/rmacleod/gitter/rmacleod/src/distro/yocto/yoct=
+o-buildstats.git&quot;
                 --branch &quot;master&quot; --commit
-                &quot;632e3170595bb32717c0471a55a619b4b33fe787&quot; --br=
-anch2
+                &quot;632e3170595bb32717c0471a55a619b4b33fe787&quot; --bran=
+ch2
                 &quot;master&quot; --html &gt;
-                /tmp/ninette-v2-test-632e3170595bb32717c0471a55a619b4b33f=
-e787.html<br>
+                /tmp/ninette-v2-test-632e3170595bb32717c0471a55a619b4b33fe7=
+87.html<br>
                 INFO: Parsing buildstats from
-                'refs/notes/buildstats/perf-debian11/master/qemux86'<br>
+                &#39;refs/notes/buildstats/perf-debian11/master/qemux86&#39=
+;<br>
               </p>
               <p><br>
               </p>
-              <p>but I did notice:&nbsp; Stdev: nan</p>
-              <p><img src=3D"cid:part2.5E1yTa8U.iG1q82HB@windriver.com" a=
-lt=3D"" class=3D""></p>
+              <p>but I did notice:=C2=A0 Stdev: nan</p>
+              <p><img src=3D"cid:ii_18f72571d27d03c15732" alt=3D""></p>
               <p><br>
               </p>
               <p>whereas in your linked charts, and in my first run with
-                commit:&nbsp;&nbsp; <span style=3D"white-space:pre-wrap">
+                commit:=C2=A0=C2=A0 <span style=3D"white-space:pre-wrap">
    663f1805742ff6fb6955719d0ab7846a425debcf</span></p>
-              <p>the correct numerical standard deviation is displayed.<b=
-r>
+              <p>the correct numerical standard deviation is displayed.<br>
                 <br>
-                I can debug this is you can't reproduce it yourself.</p>
+                I can debug this is you can&#39;t reproduce it yourself.</p=
+>
             </blockquote>
-            <p>* if you can't&nbsp; ...</p>
+            <p>* if you can&#39;t=C2=A0 ...</p>
             <p><br>
             </p>
             <p>Also, I wanted to draw your attention to how the vertical
               dashed line (VDL) behaves<br>
-              to see if it's something that can (or should) be changed.</=
-p>
+              to see if it&#39;s something that can (or should) be changed.=
+</p>
             <p>If you zoom in on a graph the VDL is placed at the left
-              edge of&nbsp; bar until the pointer passes the mid-point of=
- the
+              edge of=C2=A0 bar until the pointer passes the mid-point of t=
+he
               bar:<br>
             </p>
-            <p><img src=3D"cid:part3.uCaYWiPL.GTam1cLA@windriver.com" alt=
-=3D"" class=3D""></p>
+            <p><img src=3D"cid:ii_18f72571d27cf9d254c3" alt=3D""></p>
             <p><br>
             </p>
-            <p>at which time the VDL moves to the next bar/data point:</p=
->
-            <p><img src=3D"cid:part4.ZSGgRzVn.DQ6Tj20H@windriver.com" alt=
-=3D"" class=3D""></p>
+            <p>at which time the VDL moves to the next bar/data point:</p>
+            <p><img src=3D"cid:ii_18f72571d2742d1d6834" alt=3D""></p>
             <p><br>
             </p>
             <p><br>
             </p>
-            <p>It's a small thing but it would be nice if:<br>
-              &nbsp; 1) the VDL was placed in the centre of the bar and<b=
-r>
-              &nbsp; 2) the commit number /tooltip data only changed when=
- the
+            <p>It&#39;s a small thing but it would be nice if:<br>
+              =C2=A0 1) the VDL was placed in the centre of the bar and<br>
+              =C2=A0 2) the commit number /tooltip data only changed when t=
+he
               pointer move to a different bar <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; so the same data would be di=
-splayed as one swept
+              =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 so the same data would be disp=
+layed as one swept
               across a given bar.</p>
             <p> What do you think?</p>
             <p><br>
@@ -977,7 +849,7 @@ splayed as one swept
             <p>Picky, eh! ;-)</p>
             <p><br>
             </p>
-            <p>That's all for now.</p>
+            <p>That&#39;s all for now.</p>
             <p>../Randy</p>
             <p><br>
             </p>
@@ -1016,22 +888,7 @@ splayed as one swept
 # Wind River Linux</pre>
               <br>
               <fieldset></fieldset>
-              <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#199007): <a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/199007">https:/=
-/lists.openembedded.org/g/openembedded-core/message/199007</a>
-Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.openembedded.org/mt/105889450/3616765">https://lists.openembedded.org/mt=
-/105889450/3616765</a>
-Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
-edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
-enembedded.org</a>
-Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
-nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
-/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
-"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+              <pre>
 
 </pre>
             </blockquote>
@@ -1050,36 +907,40 @@ nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
         <div dir=3D"ltr">
           <div><font color=3D"#666666">Ninette Adhikari</font></div>
           <div><font color=3D"#666666">Software developer</font></div>
-          <div><font color=3D"#666666">The Neighbourhoodie Software GmbH<=
+          <div><font color=3D"#666666">The Neighbourhoodie Software GmbH</f=
+ont></div>
+          <div><font color=3D"#666666">Harzer Stra=C3=9Fe 39, 12059 Berlin<=
 /font></div>
-          <div><font color=3D"#666666">Harzer Stra=C3=9Fe 39, 12059 Berli=
-n</font></div>
-          <div><font color=3D"#666666"><a href=3D"https://urldefense.com/=
-v3/__http://neighbourhood.ie__;!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl=
-2IPMBdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4ey5Kw-Rg$" targ=
-et=3D"_blank" moz-do-not-send=3D"true">neighbourhood.ie</a></font></div>
+          <div><font color=3D"#666666"><a href=3D"https://urldefense.com/v3=
+/__http://neighbourhood.ie__;!!AjveYdw8EvQ!ZWtNp8Bad2XL45Cx1mXbHemIY3wl2IPM=
+BdPCgq8oL8mHVd9EqQHuHxTrflNrFkuwbwokVjGdK9UtctqWrK5jy4ey5Kw-Rg$" target=3D"=
+_blank">neighbourhood.ie</a></font></div>
           <div><font color=3D"#666666"><br>
             </font></div>
           <div><font color=3D"#666666">Handelsregister HRB 157851 B
               Amtsgericht Charlottenburg</font></div>
-          <div><font color=3D"#666666">Gesch=C3=A4ftsf=C3=BChrung: Jan Le=
-hnardt,
+          <div><font color=3D"#666666">Gesch=C3=A4ftsf=C3=BChrung: Jan Lehn=
+ardt,
               Simone Haas</font></div>
         </div>
       </div>
     </blockquote>
     <p><br>
     </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
+    <pre cols=3D"72">--=20
 # Randy MacLeod
 # Wind River Linux</pre>
-  </body>
-</html>
---------------Y1vYQa66Am7DU1eDOR4eXhWl
+  </div>
+</blockquote></div><br></div>
+
+--0000000000002a5437061856b5cf--
+
+--0000000000002a5439061856b5d0
 Content-Type: image/gif; name="tooltip.gif"
 Content-Disposition: inline; filename="tooltip.gif"
-Content-Id: <part1.V6aIORRD.BLD35vER@windriver.com>
 Content-Transfer-Encoding: base64
+Content-ID: <ii_18f72571d2531e48f591>
+X-Attachment-Id: ii_18f72571d2531e48f591
 
 R0lGODlhqQISAncAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQADgAAACwAAAAAqQISAoYAAABucHlx
 c3x1doB2eIF6fIR9f4hTcMZWc8hYc8dZdMhdeMljfMt+gId+gIhmgMxrg81viM9uhtBviNBwh89w
@@ -5451,11 +5312,12 @@ xcbHObq8hq6iwqLI0dLT1CHKrM2wmMPV3d7f3te92cGxq+Do6eq44sy/r+Xb0Ov09fZ6lpjLvsDP
 9/8AA37JJ2uNAF8H4PkTyLChQycH5QEIQMCAKoWxQj3cyLEp449CBBCJWhMS3sSQu+Z5XMmyZYs6
 8+LMMnjHpc2bOEVwm8htjcoZCQAAOw==
 
---------------Y1vYQa66Am7DU1eDOR4eXhWl
+--0000000000002a5439061856b5d0
 Content-Type: image/png; name="ipZPodcPGxdg4E4H.png"
 Content-Disposition: inline; filename="ipZPodcPGxdg4E4H.png"
-Content-Id: <part2.5E1yTa8U.iG1q82HB@windriver.com>
 Content-Transfer-Encoding: base64
+Content-ID: <ii_18f72571d27d03c15732>
+X-Attachment-Id: ii_18f72571d27d03c15732
 
 iVBORw0KGgoAAAANSUhEUgAABnkAAAH7CAYAAAAAQPptAAAABHNCSVQICAgIfAhkiAAAABl0RVh0
 U29mdHdhcmUAZ25vbWUtc2NyZWVuc2hvdO8Dvz4AAAApdEVYdENyZWF0aW9uIFRpbWUARnJpIDAz
@@ -6600,11 +6462,12 @@ hBBCCCGEEEIIIYQQQohrkAR5hBBCCCGEEEIIIYQQQgghrkES5BFCCCGEEEIIIYQQQgghhLgGSZBH
 CCGEEEIIIYQQQgghhBDiGiRBHiGEEEIIIYQQQgghhBBCiGuQBHmEEEIIIYQQQgghhBBCCCGuQRLk
 EUIIIYQQQgghhBBCCCGEuAb9/xvJI8hKoX6DAAAAAElFTkSuQmCC
 
---------------Y1vYQa66Am7DU1eDOR4eXhWl
+--0000000000002a5439061856b5d0
 Content-Type: image/png; name="EVQkTyvIsYDJlcL7.png"
 Content-Disposition: inline; filename="EVQkTyvIsYDJlcL7.png"
-Content-Id: <part3.uCaYWiPL.GTam1cLA@windriver.com>
 Content-Transfer-Encoding: base64
+Content-ID: <ii_18f72571d27cf9d254c3>
+X-Attachment-Id: ii_18f72571d27cf9d254c3
 
 iVBORw0KGgoAAAANSUhEUgAABfoAAARvCAIAAADPPcLLAAAN7npUWHRSYXcgcHJvZmlsZSB0eXBl
 IGV4aWYAAHjanZhrbiS7DUb/1yqyBImkKGk5egLZQZafw3L7ZjwZXARpY+ye6iqJIvk92M/51z/v
@@ -46613,11 +46476,12 @@ kE2JpCFQkNv9YqqfX1+ttVIrEbZjV1ubhJsnoiCMiGS9KxOLiJgSYFkqdXLmCiBEA9cjhkCAiGQw
 4+g9BsjEsmOkrc8NZja5G2OHiEqBEwfq9g2Z18tb16dGQ2sdNVHr0klJCp+aP2pOeQAB8f++GbuD
 5A7qhwAAAABJRU5ErkJggg==
 
---------------Y1vYQa66Am7DU1eDOR4eXhWl
+--0000000000002a5439061856b5d0
 Content-Type: image/png; name="ceOAY8Zii7KShL9e.png"
 Content-Disposition: inline; filename="ceOAY8Zii7KShL9e.png"
-Content-Id: <part4.ZSGgRzVn.DQ6Tj20H@windriver.com>
 Content-Transfer-Encoding: base64
+Content-ID: <ii_18f72571d2742d1d6834>
+X-Attachment-Id: ii_18f72571d2742d1d6834
 
 iVBORw0KGgoAAAANSUhEUgAABgAAAAQ+CAIAAACWY2PIAAANhXpUWHRSYXcgcHJvZmlsZSB0eXBl
 IGV4aWYAAHjanZhrciM5DoT/1yn2CHwABHEcPiPmBnv8/VCWe7s7ZiYmRgrbcqlEEkAiM6Hn/PeP
@@ -82913,7 +82777,5 @@ s7Wmy8mqTUVHjpBMH5qZsWLwYes1M412+3wuRVVZFt0V7z2Ac2a25QBAW2PDrBHROTIFlQUQWIfO
 ufd+5PubW5WDc4vUyN2t2XA3e4gsA0uyzfztDtIdMed+2ssm1p6SzUlzo8K1W6hL3aZqpL8FB7fX
 2+DjisxuI7/9/P+M3ZsJvI6UDAAAAABJRU5ErkJggg==
 
---------------Y1vYQa66Am7DU1eDOR4eXhWl--
-
---------------tyat0alTh4Q1asq2WiPmkl3Y--
+--0000000000002a5439061856b5d0--
 
