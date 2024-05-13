@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D63C25B75
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7842EC25B79
 	for <webhook@archiver.kernel.org>; Mon, 13 May 2024 12:18:29 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.58757.1715602708919914292
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.58494.1715602701990650139
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 May 2024 05:18:28 -0700
+ Mon, 13 May 2024 05:18:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RqABP6+Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1ed835f3c3cso37544265ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 May 2024 05:18:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RoJM73SF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e50a04c317so22271425ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 May 2024 05:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715602708; x=1716207508; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1715602701; x=1716207501; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WTsWvdcpwjQ2hC3R4U3yF5DLeemUW9e7p/z/pRWJVdc=;
-        b=RqABP6+ZXPpn2yrjng1ikb0lD6RSEFyDKQSKm51oE6SaRxhodE45BU97VsB9NKckPS
-         6EEvHgl6qNfTxb/lfNUuibxH5U2Ma2HrhUS+qTQ6So2cF8C6JSGMS4wyr6uK7LHv5Y6B
-         A4lDiDG+ytn/mwdZFbCFT7c8TntQy9OiDbnYuJy/An0mMVjiHPkrtkz9j27jp3ov5Fx2
-         o3Y+E6Py9A1GMBHOMhwmwq2W4W7KPndLTcN5+R0xoby9t0MKhFvh1unK/UijHWGiMKMe
-         z7QHs/x9OQyEYLU7VINdGzMOekLhSfvegjACcCFEJH1C55v6/8YgqtsoGTXsekfdp2hC
-         wSzw==
+        bh=lRFSOynMZXZsQQNt7BAW4VbYkJIH/6jY0ck+JPNbLwE=;
+        b=RoJM73SF98Y2e4qXVPU4YrSxI+AUYn+teUGvJ7xsPtBOInOpkdhoj345SF2HHvNSpn
+         Er/n3g+yuajQ2tgZuIMKayk8lNMFrd43lshAOOo859GBsLZxymCPWAR4xz7cZo8nhMdm
+         +lLGCu6Q605+rdHOkQ7A+ZbqsdmZqPwoELkGoNNLRIot2t4pC4x1KMFH6QnBbJ0DPpZD
+         97UzlAj9vHJHPzywW71iA7pmgw1H+5s21tbzL+5sHQdhv9NzMI73oO1nfLTa8KhkERSD
+         Ih7onxTjV738F7SKLb1dNnnFhbn0tMGv7FX6IOwjY0DqkAWGN8yu+FW/Ee/NWRk5D41m
+         2zkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715602708; x=1716207508;
+        d=1e100.net; s=20230601; t=1715602701; x=1716207501;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WTsWvdcpwjQ2hC3R4U3yF5DLeemUW9e7p/z/pRWJVdc=;
-        b=cwIGgo55bY/q7BJ1D0Hw1MCMmvvcEgngkqNSq6qvhd306slMtoHQvuLdTVg8Q4TD5U
-         Wcsh2IjpOdhh6xgdJjM501nFjRMVD1FTxT6WyZSaGJKpzE/frs/5PXeokcCzKMpxuDHo
-         aIuSPYAgXJxX2OpkIsr4zMgBDHOLKM4FHo02qAps2oDC53FJY1Vt7Y12SSM/kKunjI7T
-         GbGc3F3Uomgu6Y5mZGFVbNYjwHRhbUskO67K+Kd8ZU8Mn4+QyJGH45BbPqcA2x8sISAv
-         zxcKaNFx1uE7GExw+N/FY3dDGSGjPH2bnwiuqBlbSG21iGnmRDDVl5A9Owgo1/2DhHRl
-         harw==
-X-Gm-Message-State: AOJu0YxKn79hQni0tPEysVvi5O0RNpHr6tWjZ3veyuKFri957wENwAy5
-	UmUVwtHI4iIYnH3Xe7uU8U8TaRS+gW6ZPBR0P/UDt/h3ZRRM0na2OUk4YTPARBJap8Wp5wk/w11
-	1T5I=
-X-Google-Smtp-Source: AGHT+IFJI23FHJpjj+G3jpaJ1nzGJeJv8hk/CBhQMZmEy8i4zO3tz9qALXyv9oXzFkAE1FgbTBuohA==
-X-Received: by 2002:a17:902:ecc7:b0:1e8:c994:b55b with SMTP id d9443c01a7336-1ef43d15786mr140205995ad.7.1715602705579;
-        Mon, 13 May 2024 05:18:25 -0700 (PDT)
+        bh=lRFSOynMZXZsQQNt7BAW4VbYkJIH/6jY0ck+JPNbLwE=;
+        b=bT6V2GfvV3TsuZti+cZvAIuumFu546xv72G/M8m6RLxecv+JpzT/HbvnZ1yMOHvvqt
+         nD7O7sLpdTaI07W8wpaCDOXR9JVTvnq3Bd0sBlXGGuqi7nuh6CLy1GCHGIIsv8pei4PA
+         MKpQc4RaRwJJtyH5UsWPYPHW0Ti7AFBKfuxG4iSGsDFTzUQeAi6wImQAc9+b/ZgPE8ix
+         7L/rsTwYcPA+XiPADmpCvWGcn6ggW+LXm0ujXdJz/FIBJHQjGLm1hdYoIXSttgBLsvoB
+         fuFv5ojR/XgO3zhQdUuFmWU0HKpAoOQt7cZX0X0TbrvbYwFKhV6sxqXgRmkF1ozXTVaE
+         PdAg==
+X-Gm-Message-State: AOJu0YzD2vhS0to6fC6AOgRfbpyTHXdWkiHWGI784RcbDC0YeqafHnW+
+	UDxvlAJq5T+qP25VxGAKX5u3OilWQqgydm8RmvU9zJICyAb+SFZFlgQ/tlCuPvflUnrF3qR04/T
+	UVok=
+X-Google-Smtp-Source: AGHT+IFBBFEb9ndjADTHcB3SSUhpVefL8ZcNjVGYayYHQonDz4CdyNXy60BzJDxPmAJ64p6LAiXuww==
+X-Received: by 2002:a17:903:1ce:b0:1e3:d4eb:a0f2 with SMTP id d9443c01a7336-1ef4404956emr109939085ad.51.1715602701052;
+        Mon, 13 May 2024 05:18:21 -0700 (PDT)
 Received: from xps13.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf30b85sm77599225ad.181.2024.05.13.05.18.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf30b85sm77599225ad.181.2024.05.13.05.18.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 05:18:25 -0700 (PDT)
+        Mon, 13 May 2024 05:18:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/6] glibc: Update to latest on stable 2.35 branch
-Date: Mon, 13 May 2024 05:18:11 -0700
-Message-Id: <10b57ae56e6205414a44531728f691fda59a16c7.1715602539.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/6] xserver-xorg: fix CVE-2024-31083
+Date: Mon, 13 May 2024 05:18:08 -0700
+Message-Id: <cc2d9275203ad9489da43ff4e1f0983c00f235fd.1715602539.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1715602539.git.steve@sakoman.com>
 References: <cover.1715602539.git.steve@sakoman.com>
@@ -62,159 +62,241 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 May 2024 12:18:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199238
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199234
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Adresses CVEs: CVE-2024-33599, CVE-2024-33600, CVE-2024-33601, CVE-2024-33602
+FreeGlyph() function declared in render/glyphstr_priv.h, it is not present in
+current recipe version and introduced in later versions, added this change to
+render/glyphstr.h
 
-Changes:
-54a666dc5c elf: Disable some subtests of ifuncmain1, ifuncmain5 for !PIE
-3a38600cc7 malloc: Exit early on test failure in tst-realloc
-924a98402a nscd: Use time_t for return type of addgetnetgrentX
-396f065496 login: structs utmp, utmpx, lastlog _TIME_BITS independence (bug 30701)
-77d8f49058 login: Check default sizes of structs utmp, utmpx, lastlog
-8e7f0eba01 sparc: Remove 64 bit check on sparc32 wordsize (BZ 27574)
-55771aba9d elf: Also compile dl-misc.os with $(rtld-early-cflags)
-7a5864cac6 CVE-2024-33601, CVE-2024-33602: nscd: netgroup: Use two buffers in addgetnetgrentX (bug 31680)
-bafadc589f CVE-2024-33600: nscd: Avoid null pointer crashes after notfound response (bug 31678)
-4370bef52b CVE-2024-33600: nscd: Do not send missing not-found response in addgetnetgrentX (bug 31678)
-7a95873543 CVE-2024-33599: nscd: Stack-based buffer overflow in netgroup cache (bug 31677)
-
-Since glibc introduced file sysdeps/arm/bits/wordsize.h
-our multilib patch needed to be updated.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- ...y-the-header-between-arm-and-aarch64.patch | 64 +++++++++++--------
- meta/recipes-core/glibc/glibc_2.35.bb         |  5 +-
- 3 files changed, 41 insertions(+), 30 deletions(-)
+ .../xserver-xorg/CVE-2024-31083-0001.patch    | 117 ++++++++++++++++++
+ .../xserver-xorg/CVE-2024-31083-0002.patch    |  76 ++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |   2 +
+ 3 files changed, 195 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0001.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0002.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index cd8c7ecf94..1a8d51ef63 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.35/master"
- PV = "2.35"
--SRCREV_glibc ?= "36280d1ce5e245aabefb877fe4d3c6cff95dabfa"
-+SRCREV_glibc ?= "54a666dc5c94897dab63856ba264ab2c53503303"
- SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-diff --git a/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-index 3b2d638b5f..789d2edf23 100644
---- a/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-+++ b/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-@@ -11,16 +11,15 @@ Upstream-Status: Inappropriate [ OE-Specific ]
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- sysdeps/aarch64/bits/wordsize.h          |  8 ++++++--
-- sysdeps/{aarch64 => arm}/bits/wordsize.h | 10 +++++++---
-- 2 files changed, 13 insertions(+), 5 deletions(-)
-- copy sysdeps/{aarch64 => arm}/bits/wordsize.h (80%)
-+ sysdeps/aarch64/bits/wordsize.h | 11 +++++++++--
-+ sysdeps/arm/bits/wordsize.h     | 16 +++++++++++++++-
-+ 2 files changed, 24 insertions(+), 3 deletions(-)
- 
- diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/aarch64/bits/wordsize.h
--index 4635431f0e..5ef0ed21f3 100644
-+index 4635431f0e..1639bcb063 100644
- --- a/sysdeps/aarch64/bits/wordsize.h
- +++ b/sysdeps/aarch64/bits/wordsize.h
--@@ -17,12 +17,16 @@
-+@@ -17,12 +17,19 @@
-     License along with the GNU C Library; if not, see
-     <https://www.gnu.org/licenses/>.  */
-  
-@@ -33,38 +32,47 @@ index 4635431f0e..5ef0ed21f3 100644
-  # define __WORDSIZE32_SIZE_ULONG	1
-  # define __WORDSIZE32_PTRDIFF_LONG	1
- +#else
--+# define __WORDSIZE			32
--+# define __WORDSIZE32_SIZE_ULONG	0
--+# define __WORDSIZE32_PTRDIFF_LONG	0
-++#define __WORDSIZE			32
-++#define __WORDSIZE_TIME64_COMPAT32	1
-++#define __WORDSIZE32_SIZE_ULONG		0
-++#define __WORDSIZE32_PTRDIFF_LONG	0
-  #endif
-  
-++#ifdef __aarch64__
-  #define __WORDSIZE_TIME64_COMPAT32	0
--diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/arm/bits/wordsize.h
--similarity index 80%
--copy from sysdeps/aarch64/bits/wordsize.h
--copy to sysdeps/arm/bits/wordsize.h
--index 4635431f0e..34fcdef1f1 100644
----- a/sysdeps/aarch64/bits/wordsize.h
-++#endif
-+diff --git a/sysdeps/arm/bits/wordsize.h b/sysdeps/arm/bits/wordsize.h
-+index 6ecbfe7c86..1639bcb063 100644
-+--- a/sysdeps/arm/bits/wordsize.h
- +++ b/sysdeps/arm/bits/wordsize.h
--@@ -17,12 +17,16 @@
-+@@ -1,4 +1,6 @@
-+-/* Copyright (C) 1999-2024 Free Software Foundation, Inc.
-++/* Determine the wordsize from the preprocessor defines.
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0001.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0001.patch
+new file mode 100644
+index 0000000000..1ef9d933ae
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0001.patch
+@@ -0,0 +1,117 @@
++From bdca6c3d1f5057eeb31609b1280fc93237b00c77 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Tue, 30 Jan 2024 13:13:35 +1000
++Subject: [PATCH] render: fix refcounting of glyphs during ProcRenderAddGlyphs
++
++Previously, AllocateGlyph would return a new glyph with refcount=0 and a
++re-used glyph would end up not changing the refcount at all. The
++resulting glyph_new array would thus have multiple entries pointing to
++the same non-refcounted glyphs.
++
++AddGlyph may free a glyph, resulting in a UAF when the same glyph
++pointer is then later used.
++
++Fix this by returning a refcount of 1 for a new glyph and always
++incrementing the refcount for a re-used glyph, followed by dropping that
++refcount back down again when we're done with it.
++
++CVE-2024-31083, ZDI-CAN-22880
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1463>
++
++CVE: CVE-2024-31083
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/bdca6c3d1f5057ee]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ render/glyph.c    |  5 +++--
++ render/glyphstr.h |  2 ++
++ render/render.c   | 15 +++++++++++----
++ 3 files changed, 16 insertions(+), 6 deletions(-)
++
++diff --git a/render/glyph.c b/render/glyph.c
++index f3ed9cf..d5fc5f3 100644
++--- a/render/glyph.c
+++++ b/render/glyph.c
++@@ -245,10 +245,11 @@ FreeGlyphPicture(GlyphPtr glyph)
++     }
++ }
++
++-static void
+++void
++ FreeGlyph(GlyphPtr glyph, int format)
++ {
++     CheckDuplicates(&globalGlyphs[format], "FreeGlyph");
+++    BUG_RETURN(glyph->refcnt == 0);
++     if (--glyph->refcnt == 0) {
++         GlyphRefPtr gr;
++         int i;
++@@ -354,7 +355,7 @@ AllocateGlyph(xGlyphInfo * gi, int fdepth)
++     glyph = (GlyphPtr) malloc(size);
++     if (!glyph)
++         return 0;
++-    glyph->refcnt = 0;
+++    glyph->refcnt = 1;
++     glyph->size = size + sizeof(xGlyphInfo);
++     glyph->info = *gi;
++     dixInitPrivates(glyph, (char *) glyph + head_size, PRIVATE_GLYPH);
++diff --git a/render/glyphstr.h b/render/glyphstr.h
++index 2f51bd2..68f8c9e 100644
++--- a/render/glyphstr.h
+++++ b/render/glyphstr.h
++@@ -117,6 +117,8 @@ extern GlyphSetPtr AllocateGlyphSet(int fdepth, PictFormatPtr format);
++ extern int
++  FreeGlyphSet(void *value, XID gid);
++
+++void FreeGlyph(GlyphPtr glyph, int format);
 ++
-++   Copyright (C) 2016-2022 Free Software Foundation, Inc.
-+    This file is part of the GNU C Library.
-+ 
-+    The GNU C Library is free software; you can redistribute it and/or
-+@@ -15,7 +17,19 @@
-     License along with the GNU C Library; if not, see
-     <https://www.gnu.org/licenses/>.  */
-  
---#ifdef __LP64__
- +#if defined (__aarch64__) && defined (__LP64__)
-- # define __WORDSIZE			64
---#else
-++# define __WORDSIZE			64
- +#elif defined (__aarch64__)
-- # define __WORDSIZE			32
-- # define __WORDSIZE32_SIZE_ULONG	1
-- # define __WORDSIZE32_PTRDIFF_LONG	1
--+#else
- +# define __WORDSIZE			32
--+# define __WORDSIZE32_SIZE_ULONG	0
--+# define __WORDSIZE32_PTRDIFF_LONG	0
-- #endif
-- 
-- #define __WORDSIZE_TIME64_COMPAT32	0
-++# define __WORDSIZE32_SIZE_ULONG	1
-++# define __WORDSIZE32_PTRDIFF_LONG	1
-++#else
-+ #define __WORDSIZE			32
-+ #define __WORDSIZE_TIME64_COMPAT32	1
-+ #define __WORDSIZE32_SIZE_ULONG		0
-+ #define __WORDSIZE32_PTRDIFF_LONG	0
-++#endif
-++
-++#ifdef __aarch64__
-++#define __WORDSIZE_TIME64_COMPAT32	0
-++#endif
- -- 
- 2.34.1
- 
-diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 74d7f753d8..9400e1e920 100644
---- a/meta/recipes-core/glibc/glibc_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -24,7 +24,10 @@ CVE_CHECK_IGNORE += "CVE-2019-1010025"
- CVE_CHECK_IGNORE += "CVE-2023-4527"
- 
- # To avoid these in cve-check reports since the recipe version did not change
--CVE_CHECK_IGNORE += "CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156 CVE-2024-2961"
-+CVE_CHECK_IGNORE += " \
-+    CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156 \
-+    CVE-2024-2961 CVE-2024-33599 CVE-2024-33600 CVE-2024-33601 CVE-2024-33602 \
-+"
- 
- DEPENDS += "gperf-native bison-native"
++ #define GLYPH_HAS_GLYPH_PICTURE_ACCESSOR 1 /* used for api compat */
++ extern _X_EXPORT PicturePtr
++  GetGlyphPicture(GlyphPtr glyph, ScreenPtr pScreen);
++diff --git a/render/render.c b/render/render.c
++index 456f156..5bc2a20 100644
++--- a/render/render.c
+++++ b/render/render.c
++@@ -1076,6 +1076,7 @@ ProcRenderAddGlyphs(ClientPtr client)
++
++         if (glyph_new->glyph && glyph_new->glyph != DeletedGlyph) {
++             glyph_new->found = TRUE;
+++            ++glyph_new->glyph->refcnt;
++         }
++         else {
++             GlyphPtr glyph;
++@@ -1168,8 +1169,10 @@ ProcRenderAddGlyphs(ClientPtr client)
++         err = BadAlloc;
++         goto bail;
++     }
++-    for (i = 0; i < nglyphs; i++)
+++    for (i = 0; i < nglyphs; i++) {
++         AddGlyph(glyphSet, glyphs[i].glyph, glyphs[i].id);
+++        FreeGlyph(glyphs[i].glyph, glyphSet->fdepth);
+++    }
++
++     if (glyphsBase != glyphsLocal)
++         free(glyphsBase);
++@@ -1179,9 +1182,13 @@ ProcRenderAddGlyphs(ClientPtr client)
++         FreePicture((void *) pSrc, 0);
++     if (pSrcPix)
++         FreeScratchPixmapHeader(pSrcPix);
++-    for (i = 0; i < nglyphs; i++)
++-        if (glyphs[i].glyph && !glyphs[i].found)
++-            free(glyphs[i].glyph);
+++    for (i = 0; i < nglyphs; i++) {
+++        if (glyphs[i].glyph) {
+++            --glyphs[i].glyph->refcnt;
+++            if (!glyphs[i].found)
+++                free(glyphs[i].glyph);
+++        }
+++    }
++     if (glyphsBase != glyphsLocal)
++         free(glyphsBase);
++     return err;
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0002.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0002.patch
+new file mode 100644
+index 0000000000..3cea29f001
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-31083-0002.patch
+@@ -0,0 +1,76 @@
++From 337d8d48b618d4fc0168a7b978be4c3447650b04 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Fri, 5 Apr 2024 15:24:49 +0200
++Subject: [PATCH] render: Avoid possible double-free in ProcRenderAddGlyphs()
++ ProcRenderAddGlyphs() adds the glyph to the glyphset using AddGlyph() and
++ then frees it using FreeGlyph() to decrease the reference count, after
++ AddGlyph() has increased it.
++
++AddGlyph() however may chose to reuse an existing glyph if it's already
++in the glyphSet, and free the glyph that was given, in which case the
++caller function, ProcRenderAddGlyphs() will call FreeGlyph() on an
++already freed glyph, as reported by ASan:
++
++  READ of size 4 thread T0
++    #0 in FreeGlyph xserver/render/glyph.c:252
++    #1 in ProcRenderAddGlyphs xserver/render/render.c:1174
++    #2 in Dispatch xserver/dix/dispatch.c:546
++    #3 in dix_main xserver/dix/main.c:271
++    #4 in main xserver/dix/stubmain.c:34
++    #5 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
++    #6 in __libc_start_main_impl ../csu/libc-start.c:360
++    #7  (/usr/bin/Xwayland+0x44fe4)
++  Address is located 0 bytes inside of 64-byte region
++  freed by thread T0 here:
++    #0 in __interceptor_free libsanitizer/asan/asan_malloc_linux.cpp:52
++    #1 in _dixFreeObjectWithPrivates xserver/dix/privates.c:538
++    #2 in AddGlyph xserver/render/glyph.c:295
++    #3 in ProcRenderAddGlyphs xserver/render/render.c:1173
++    #4 in Dispatch xserver/dix/dispatch.c:546
++    #5 in dix_main xserver/dix/main.c:271
++    #6 in main xserver/dix/stubmain.c:34
++    #7 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
++  previously allocated by thread T0 here:
++    #0 in __interceptor_malloc libsanitizer/asan/asan_malloc_linux.cpp:69
++    #1 in AllocateGlyph xserver/render/glyph.c:355
++    #2 in ProcRenderAddGlyphs xserver/render/render.c:1085
++    #3 in Dispatch xserver/dix/dispatch.c:546
++    #4 in dix_main xserver/dix/main.c:271
++    #5 in main xserver/dix/stubmain.c:34
++    #6 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
++  SUMMARY: AddressSanitizer: heap-use-after-free xserver/render/glyph.c:252 in FreeGlyph
++
++To avoid that, make sure not to free the given glyph in AddGlyph().
++
++v2: Simplify the test using the boolean returned from AddGlyph() (Michel)
++v3: Simplify even more by not freeing the glyph in AddGlyph() (Peter)
++
++Fixes: bdca6c3d1 - render: fix refcounting of glyphs during ProcRenderAddGlyphs
++Closes: https://gitlab.freedesktop.org/xorg/xserver/-/issues/1659
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1476>
++
++CVE: CVE-2024-31083
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/337d8d48b618d4fc]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ render/glyph.c | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/render/glyph.c b/render/glyph.c
++index d5fc5f3..f5069d4 100644
++--- a/render/glyph.c
+++++ b/render/glyph.c
++@@ -291,8 +291,6 @@ AddGlyph(GlyphSetPtr glyphSet, GlyphPtr glyph, Glyph id)
++     gr = FindGlyphRef(&globalGlyphs[glyphSet->fdepth], signature,
++                       TRUE, glyph->sha1);
++     if (gr->glyph && gr->glyph != DeletedGlyph && gr->glyph != glyph) {
++-        FreeGlyphPicture(glyph);
++-        dixFreeObjectWithPrivates(glyph, PRIVATE_GLYPH);
++         glyph = gr->glyph;
++     }
++     else if (gr->glyph != glyph) {
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+index 0a8cb7d81a..fe577050d9 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+@@ -19,6 +19,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://CVE-2024-31080.patch \
+            file://CVE-2024-31081.patch \
+            file://CVE-2024-31082.patch \
++           file://CVE-2024-31083-0001.patch \
++           file://CVE-2024-31083-0002.patch \
+            "
+ SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
  
 -- 
 2.34.1
