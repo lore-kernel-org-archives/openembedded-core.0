@@ -1,169 +1,134 @@
-Return-Path: <olani@axis.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B2CC04FFE
-	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 09:56:03 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.72])
- by mx.groups.io with SMTP id smtpd.web10.11502.1715680556911515009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19ACDC04FFE
+	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 10:30:23 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.12017.1715682620065018003
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 May 2024 02:55:57 -0700
+ Tue, 14 May 2024 03:30:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=M64YAaNU;
- spf=pass (domain: axis.com, ip: 40.107.8.72, mailfrom: ola.x.nilsson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=afsOV11kPU1hHYvtnpYlR/PaDGWiaJlAGz/Xz3PWrrbOm0OSjBia0oBG3g13mm4d4hwkEMv/1Cb5FZotWlj+AcxcmgAAIbLSlzbh4M4ZxI9pFpMAYHj718TyUbYgbvD3WIXI9XGhNm8WVsm16wpIk3BAQghcS87CL3Mpd/RASRDgGVSRtGx6+5ejBBzYMp/giWXAOv+xZjp5woJRKEdQWEiFt+6KmzR8jEnlBfSTPDieu2HKQ8zM2DpD+kE9q9XDsw/s3lsovMUVpgQgpoXkRgJ2AV8Ss/Z0qEGwu0jODeJrDBqdfDL1goS1XI0nRHOHJFj0sbRW5BQa96HLiCZxlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DYIZ0+6QSxqGqotR0gtc8J3q7Zk/OsPdwRXAI5nN1d0=;
- b=hsukA8byCrW+wPbbiMAdkO7oURJe/5EEJJXJn8KGl8aLga3HdpXBVUdCE3IjEj3Ib2Co0eaJZFwlf6IoHJR+0l7uRRC/9E5TuvL1JKj1U6mx3o/iTUGWI7LqTWyZc2VLtg/tl8/sqpVTF/gvGy9RLAMfiX32lu8o98rgMZPy8l1wD6fdJ+3diikv1arkJBXtMwMiibSzT+mZTFfzEQL74yPK5vtToEZV772DT8MM1tr5+xTJJuSR4OF365I4uCJZi5jC36OjJ3TgYeRrredFFPG+Lb79tyW6eCimscAxp5muokIISI3KEddM8ykQAZMneZoTk0r6yBbBntZVSYAwVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYIZ0+6QSxqGqotR0gtc8J3q7Zk/OsPdwRXAI5nN1d0=;
- b=M64YAaNU6UtxlhiUhzi1r3Hg24J7xrxtEkNgQWexi8tSl8wkGoKgSkHBvVjrsngH2zaCIz3IY6qbNR3HgrwrmGSE4hskAU6a46GWYFDYCwj6bGscgJZ4yj5ELZX/vjtDGL4yKnj5TKBKj2fbzl2bM3CMtkHpD0DkwImT3BtKtiI=
-Received: from AS9PR05CA0220.eurprd05.prod.outlook.com (2603:10a6:20b:494::25)
- by DU0PR02MB9369.eurprd02.prod.outlook.com (2603:10a6:10:415::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Tue, 14 May
- 2024 09:55:53 +0000
-Received: from AMS1EPF0000004D.eurprd04.prod.outlook.com
- (2603:10a6:20b:494:cafe::69) by AS9PR05CA0220.outlook.office365.com
- (2603:10a6:20b:494::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55 via Frontend
- Transport; Tue, 14 May 2024 09:55:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS1EPF0000004D.mail.protection.outlook.com (10.167.16.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7587.21 via Frontend Transport; Tue, 14 May 2024 09:55:51 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 14 May
- 2024 11:55:51 +0200
-Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 14 May 2024 11:55:51 +0200
-Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 5CE20DEB;
-	Tue, 14 May 2024 11:55:51 +0200 (CEST)
-Received: by pc58073-2410.se.axis.com (Postfix, from userid 20853)
-	id 8657E404553F; Tue, 14 May 2024 11:56:23 +0200 (CEST)
-From: <olani@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <olani@axis.com>
-Subject: [PATCH] devtool: modify: Catch git submodule error for go code
-Date: Tue, 14 May 2024 11:56:23 +0200
-Message-ID: <20240514095623.3951836-1-olani@axis.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JxTKYVDU;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-34d8f6cfe5bso4212326f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715682618; x=1716287418; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YOLfkzLlTAy3qiRCFWSj6Skn+l724Zgb9tvV/c+csSY=;
+        b=JxTKYVDUPAfVDjjRUPtq7TMs8lFssOZwuAoJGy4DUvG8PvuiX4G6Ps6gWEHb0t3gDc
+         X9fHtBAMVOoD8QUoIJ9OyhRYXgfgPgqD3J9rdDjQUNgWjfyRZSbu4YzIrI+Cr9AWf8Yp
+         noJf9efz5brFJUk9B58yl/kzUwp6LfCDa7DImXIXI8z0MY/g7Cwzosn/1vJTpp5efBI/
+         47hr3FEQ5D9gtIRZvjnc5CbQCdfP0oLsPcY+7QqssKfs5H9yI/RB4xDK8f4sW4LEIZQv
+         r5Xc9PJzs7xF5rMm0QDCCNa5uo1lCTuDdx6AuTYiQu3pbJsEZB+Btf5inhcbQDxutTI0
+         n0cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715682618; x=1716287418;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YOLfkzLlTAy3qiRCFWSj6Skn+l724Zgb9tvV/c+csSY=;
+        b=jz0eI1BXuRNQWIJDxgq9UJsmR7O+P+mkb4qXIHwvjvbI3OIHCfaWAE3p3ySy0dDoka
+         Yl5+TQDMx/XUfVOWLE5TQbJn4eAUEx+EyOdsFCiHddpReckkcj7q33ArtQ31zVdjOEmU
+         utVBMgp9XRM5wTpaMaDjd0h2f3i5QCnLBgd5s/LY9R/1lVtJ39A9aWrUUmGGd7rOtc7y
+         Hw3CiAEGWxJvrtKiuC8lFsxJ1oSpCK/ohIwyjJdznM4I/SzlZiChw4pH1EIHacT0+t7T
+         2lMRkv2RdeT9C4LbiKMCU5tHa4eHrOkqZaT+RAKrxr0JHe5KLp7tWMei9GP6RJ5yKG2v
+         8Z6A==
+X-Gm-Message-State: AOJu0Yydo7aPXYkIuv14gjT4J1vmxW/qwfaHnW3rmOKdSL/HHl1YvOYP
+	PyPQy4XCV19/Tgo5aSx+OeLXYetnpjF+resJI0RdXrfvSM+bIqMZdnOkfHdvmKublaJv
+X-Google-Smtp-Source: AGHT+IHG8qBZyNwS4eIj60djwbbhFzmzvG0cI99fU7RAu1YdzexmlC0toMZyLodsHl/YqT9xQ7p/uA==
+X-Received: by 2002:a5d:6e8b:0:b0:34c:d6c2:18cb with SMTP id ffacd0b85a97d-3504aa62c6cmr8197553f8f.63.1715682617972;
+        Tue, 14 May 2024 03:30:17 -0700 (PDT)
+Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b79bd40sm13429239f8f.4.2024.05.14.03.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 03:30:17 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	Dmitry Baryshkov <dbaryshkov@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][kirkstone][PATCH 2/2] go.bbclass: fix path to linker in native Go builds
+Date: Tue, 14 May 2024 11:30:11 +0100
+Message-ID: <20240514103011.582683-2-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240514103011.582683-1-jose.quaresma@foundries.io>
+References: <20240514103011.582683-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF0000004D:EE_|DU0PR02MB9369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bac491a-204b-412b-f60d-08dc73fc0a26
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|376005|1800799015|36860700004|82310400017;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Ufha3MIwTozHdvrpcFfqGQnLkCiZ2I6O9jsu4q7lhvmP54MdNYv2jkIGP2GO?=
- =?us-ascii?Q?LKYpOyTa3KM0bg92B/IAUCHmUtgoEpyUzB7H+1Qwv/ysbv6PqaFDt1nWEASw?=
- =?us-ascii?Q?VviYe6UnblgLwzgVr/TA4bgX5FtjgFdoLo0kElg2iRPjBGANBX5r/J5uAMp4?=
- =?us-ascii?Q?hFLUaEg5FP0bouNQQF0wNniZVsscouN3Ak/NHsfjITdDhO6fUKGxqMqZI5hf?=
- =?us-ascii?Q?2v0X/EARDpmniwAyIy1J9RAFErv2mOzVnYaQ9n9ZfwjSeoljchkeBrrfP1n7?=
- =?us-ascii?Q?V7w4Dvmfv+4Yvo63QCC8nACKcZYkyE6RonBG6tI3k0TvsVtwwCmgW9IweZae?=
- =?us-ascii?Q?Ntbm81LdxSdnjO6P3l8o2VxYkkdEjOVHeoRrKOxtQPaTtyw9VlRCGcHxi0MA?=
- =?us-ascii?Q?/fO4K/oWkHCs6kWJWj648Umn71tOpfaNKfpayIgrSLtT4IPTI5mt8YrMtmEF?=
- =?us-ascii?Q?4lB69vzfcSKxmnqDrwfrlcwf8wVngGoWOdwYIKHrZnzctZjyGblBKrei+632?=
- =?us-ascii?Q?ufAn+OB/RWFLPyyWtEqHZDC2WUPI7zTi2zrPwnyjAd2IiDLX1AhMeqf6nHx8?=
- =?us-ascii?Q?amJ1kECF02d5EPeRGu857foAx87NZNsnNpDmh1Pzk/nIfpaXfDEaA4XTK7Uh?=
- =?us-ascii?Q?NRYcelsFoV+tTOj7ColDKtSlKiJqCfPe9Gl8UcqJNnTHN6q/454+xn/OPBYU?=
- =?us-ascii?Q?uOxjieTt1seg4pnAgnZ3oTx88fU+1zF2asxGKiXnFCyzaOBS3JyvBpIiGh8f?=
- =?us-ascii?Q?Sw/iKR0I7108PDm7rAEyJ6nxoSqc5qokeqNQo/cOM8wXLBzYjq0yegabRfWC?=
- =?us-ascii?Q?7lQskyO06VzRHr+MrSry093ufe+PwTdWr4MK5ujOLToUut4xm10kTPYpWovb?=
- =?us-ascii?Q?YshePyvzVzuMCiKmtkyAEP4d9ztx+eN9vI8VScACxtl7Jt+PQDpf0VbHV1ms?=
- =?us-ascii?Q?DHCM/FNaSsOPXGa99iUQzwDQQwF8jOMUDO+DbENInzjxuxOJ9VhhN6IVETv7?=
- =?us-ascii?Q?iCRAKeg5fU2+2yappBKzT3EdafTDwMOKr6qTv0/kKmUbQmLB8NJq03Opr/fF?=
- =?us-ascii?Q?yzzJFcOgBfaDPIRf91+LComc/lDOU3anVVoFL7sfyuKXkQ5RbERoNCJmoxul?=
- =?us-ascii?Q?aHU02+sAfDSZZzyTamP/3ll1l7Zjvg1JWarX1NwlnC8lfnR9HRtxCT99KmRa?=
- =?us-ascii?Q?B8u6XGAHjwbp3KmUD0eO8mGEgXoDX5jceq6eChSuB9NnJLpYKfQUwK7S+Vci?=
- =?us-ascii?Q?+B6KOMBSYFBszSNn1k4aWeuSLdZ9cblce3EJLUyRj0abIlC05fX2fXkSfs5S?=
- =?us-ascii?Q?Lete0y2fupRqi5dsDAN2QdvfpoOc44CVcgkMCpxYnZy4ouq0qKVHC2hf1BZa?=
- =?us-ascii?Q?VjzZSBUY/jZ0cyOK3ovyPUhV1eMe?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230031)(376005)(1800799015)(36860700004)(82310400017);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 09:55:51.8733
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bac491a-204b-412b-f60d-08dc73fc0a26
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF0000004D.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9369
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 09:56:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199252
+ <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 10:30:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199254
 
-From: Anton Almqvist <antonal@axis.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-One of the git submodule commands failed for source extracted for
-recipes using go.bbclass.  The root cause is probably the path set up
-by go_do_unpack which makes S and gitroot not match.
+Building native Go tools results in the tool pointing to the wrong
+location of dynamic linker (see below). The linker is looked up in the
+temporary dir, which can be removed if rm_work is inherited. This
+results in being unable to execute the program with the 'No such file or
+directory' error. Override linker specificiation for native recipes (and
+let Go build environment to pick up a correct one on it's own).
 
-This patch does not fix the root problem, but at least it is no worse
-than before the git submodule support.
+The error is observed in case the distro doesn't use uninative.bbclass.
 
-The extracted source will still have two .git folders, one in S
-created by devtool and one in the go path which will contain the tru
-git history.
+If uninative.bbclass is used, the binary will be patched automatically
+to use the uninative loader instead of the system one.
 
-[ YOCTO #15483 ]
+Without this patch:
 
-Signed-off-by: Anton Almqvist <antonal@axis.com>
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
+	linux-vdso.so.1 (0x00007ffe945ec000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3a7490e000)
+	/home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/x86_64-linux/go-md2man-native/1.0.10+gitAUTOINC+f79a8a8ca6-r0/recipe-sysroot-native/usr/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f3a74d13000)
+$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
+-bash: tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man: No such file or directory
+
+With the patch
+
+$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
+	linux-vdso.so.1 (0x00007ffd19dbf000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2d44181000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f2d44586000)
+$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
+Usage of tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man:
+  -in string
+	Path to file to be processed (default: stdin)
+  -out string
+	Path to output processed file (default: stdout)
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 44b397daa68b4d0a461225fe9ff7db8b5fcfdb7b)
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- scripts/lib/devtool/standard.py | 5 ++++-
+ meta/classes/go.bbclass | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
-.py
-index bd009f44b1..05161942b7 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -904,7 +904,10 @@ def modify(args, config, basepath, workspace):
-                 (stdout, _) =3D bb.process.run('git rev-list --reverse %s.=
-.HEAD' % initial_revs["."], cwd=3Dsrctree)
-                 commits["."] =3D stdout.split()
-                 check_commits =3D True
--                (stdout, _) =3D bb.process.run('git submodule --quiet fore=
-ach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=3Dsrctree=
-)
-+                try:
-+                    (stdout, _) =3D bb.process.run('git submodule --quiet =
-foreach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=3Dsrc=
-tree)
-+                except bb.process.ExecutionError:
-+                    stdout =3D ""
-                 for line in stdout.splitlines():
-                     (rev, submodule_path) =3D line.split()
-                     submodule =3D os.path.relpath(submodule_path, srctree)
---=20
-2.39.2
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 55f9d8f230..97366779e3 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -45,7 +45,10 @@ GO_LINKMODE ?= ""
+ GO_LINKMODE:class-nativesdk = "--linkmode=external"
+ GO_LINKMODE:class-native = "--linkmode=external"
+ GO_EXTRA_LDFLAGS ?= ""
+-GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -I ${@get_linuxloader(d)} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
++GO_LINUXLOADER ?= "-I ${@get_linuxloader(d)}"
++# Use system loader. If uninative is used, the uninative loader will be patched automatically
++GO_LINUXLOADER:class-native = ""
++GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
+ export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
+ export GOPATH_OMIT_IN_ACTIONID ?= "1"
+ export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+-- 
+2.45.0
 
 
