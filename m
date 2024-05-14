@@ -1,95 +1,115 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 146A2C25B75
-	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 10:31:03 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.12032.1715682656100146239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F6BC41513
+	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 10:54:33 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.12377.1715684067347791314
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 May 2024 03:30:56 -0700
+ Tue, 14 May 2024 03:54:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lEOSS6dk;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-34ef66c0178so3718540f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715682654; x=1716287454; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rIJFhYT2brPwP0tPrWqdLFN8wM0xf0r1a9g1JpAtT3w=;
-        b=lEOSS6dkNMhxpSTqcdjeyqgYqgBTacLQtthHofAIQAg2oSN6q8fSmk2HEOFPpZeu7F
-         W97Qoqnik93EoGSRe4JWwhrhe0f25tjcXFwdrd6M3lkASr0+5cPx1yK/dEXYohPPLMIj
-         Y1ueao/lqP02+vqHyNTsAxkqtEQEhK6Ld69fhj9GkyolX9bsshBLL2o/iupSCjpPubgi
-         6sUqC+5yLSVEb9198IPsbKIN+0ygdzNKEsu1IC8fAFvaZ873Fbw2xEshWYzMdWkeAPJD
-         hQ6r1dNquuvb8e4yVREWgYoE2YPbuGHmy5s1P3ywf9a6Fk7l0cOhlLJLKCmg0+SUZJ0s
-         Po0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715682654; x=1716287454;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rIJFhYT2brPwP0tPrWqdLFN8wM0xf0r1a9g1JpAtT3w=;
-        b=o2UmxlqfLgRaI7uibm2KNRXVtPlInIPoumytsB4kEttejsiJ+uoQkW7+DAVUfEbfiX
-         SvcG9zBlENtOxt3bQhUe1qfUbvssAScafqaL5P6sasj88DFqQ4+6dvOZCc5LTRpoPoVt
-         fSMrki/EBUGyda85VyD9nGjKNlW8QmfAny/a+N73Uax401DdXY93S4Q8alKHFEToAwDd
-         2XxieUaMZSmEetFz0C8a9A2azLjyYdK608wevbECyN/C8WgPrVuMzmjY/uWDY3Si5jVU
-         wdDAKN1zTe3lvqxRvApmpipzfF+xeckeo3antmCv/evCcAUZ0jcPg9VwchaQr0ABSToO
-         cYzQ==
-X-Gm-Message-State: AOJu0YwTCtZvrWVFdSb2ex+iAmVfF2VDlz7uI5ssloRmc+LNCecnHbYp
-	bBQNfSye8jqPdpbXlkryAUTTq9tqw02HJAo4XkvlQEWNFt6nTsx5OV3pa1FVui5JYAOY
-X-Google-Smtp-Source: AGHT+IG9H92GGWY7bLH8dOlfTRk5v9lYcn1dEbPFtL8jFpLA0CldNAxdutK7tm9W7NoKs4oq/BxPtw==
-X-Received: by 2002:adf:ea8c:0:b0:34e:5551:49e0 with SMTP id ffacd0b85a97d-3504a10fb3fmr13181428f8f.0.1715682654023;
-        Tue, 14 May 2024 03:30:54 -0700 (PDT)
-Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacfdesm13449293f8f.73.2024.05.14.03.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 03:30:53 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC69C1007
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:51 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A31C53F762
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:26 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
-	Lukas Funke <lukas.funke@weidmueller.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][kirkstone][PATCH] classes: go-mod: do not pack go mod cache
-Date: Tue, 14 May 2024 11:30:43 +0100
-Message-ID: <20240514103043.582705-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.45.0
+Subject: [PATCH 3/3] oeqa/selftest/debuginfod: use localpkgfeed to speed server startup
+Date: Tue, 14 May 2024 10:54:23 +0000
+Message-Id: <20240514105423.2496922-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240514105423.2496922-1-ross.burton@arm.com>
+References: <20240514105423.2496922-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 10:31:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199255
+ <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 10:54:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199258
 
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Sometimes the debuginfod selftest fails due to a timeout, because it
+spends too long scanning a huge deploy directory that due to what tests
+were ran previously can contain 30K packages.
 
-Clean go module cache from builddir to prevent it of beeing packed.
+The test only needs a subset of the feed, so use the new localpkgfeed
+class to construct a minimal feed before running the test.
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 328bea56dec8f83b5c118f567e122510f9243087)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+[ YOCTO #14937 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/go-mod.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/selftest/cases/debuginfod.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/go-mod.bbclass b/meta/classes/go-mod.bbclass
-index 674d2434e0..1ad782a304 100644
---- a/meta/classes/go-mod.bbclass
-+++ b/meta/classes/go-mod.bbclass
-@@ -18,3 +18,7 @@ inherit go
- 
- GO_WORKDIR ?= "${GO_IMPORT}"
- do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
-+
-+export GOMODCACHE = "${B}/.mod"
-+
-+do_compile[cleandirs] += "${B}/.mod"
--- 
-2.45.0
+diff --git a/meta/lib/oeqa/selftest/cases/debuginfod.py b/meta/lib/oeqa/s=
+elftest/cases/debuginfod.py
+index 505b4be8373..46c0cd87bbc 100644
+--- a/meta/lib/oeqa/selftest/cases/debuginfod.py
++++ b/meta/lib/oeqa/selftest/cases/debuginfod.py
+@@ -62,7 +62,7 @@ class Debuginfod(OESelftestTestCase):
+=20
+         raise TimeoutError("Cannot connect debuginfod, still %d scan job=
+s running" % latest)
+=20
+-    def start_debuginfod(self):
++    def start_debuginfod(self, feed_dir):
+         # We assume that the caller has already bitbake'd elfutils-nativ=
+e:do_addto_recipe_sysroot
+=20
+         # Save some useful paths for later
+@@ -82,7 +82,7 @@ class Debuginfod(OESelftestTestCase):
+             # Disable rescanning, this is a one-shot test
+             "--rescan-time=3D0",
+             "--groom-time=3D0",
+-            get_bb_var("DEPLOY_DIR"),
++            feed_dir,
+         ]
+=20
+         format =3D get_bb_var("PACKAGE_CLASSES").split()[0]
+@@ -114,11 +114,12 @@ class Debuginfod(OESelftestTestCase):
+         self.write_config("""
+ TMPDIR =3D "${TOPDIR}/tmp-debuginfod"
+ DISTRO_FEATURES:append =3D " debuginfod"
++INHERIT +=3D "localpkgfeed"
+ """)
+-        bitbake("elfutils-native:do_addto_recipe_sysroot xz xz:do_packag=
+e")
++        bitbake("elfutils-native:do_addto_recipe_sysroot xz xz:do_packag=
+e xz:do_localpkgfeed")
+=20
+         try:
+-            self.start_debuginfod()
++            self.start_debuginfod(get_bb_var("LOCALPKGFEED_DIR", "xz"))
+=20
+             env =3D os.environ.copy()
+             env["DEBUGINFOD_URLS"] =3D "http://localhost:%d/" % self.por=
+t
+@@ -141,12 +142,13 @@ DISTRO_FEATURES:append =3D " debuginfod"
+         self.write_config("""
+ TMPDIR =3D "${TOPDIR}/tmp-debuginfod"
+ DISTRO_FEATURES:append =3D " debuginfod"
++INHERIT +=3D "localpkgfeed"
+ CORE_IMAGE_EXTRA_INSTALL +=3D "elfutils xz"
+         """)
+-        bitbake("core-image-minimal elfutils-native:do_addto_recipe_sysr=
+oot")
++        bitbake("core-image-minimal elfutils-native:do_addto_recipe_sysr=
+oot xz:do_localpkgfeed")
+=20
+         try:
+-            self.start_debuginfod()
++            self.start_debuginfod(get_bb_var("LOCALPKGFEED_DIR", "xz"))
+=20
+             with runqemu("core-image-minimal", runqemuparams=3D"nographi=
+c") as qemu:
+                 cmd =3D "DEBUGINFOD_URLS=3Dhttp://%s:%d/ debuginfod-find=
+ debuginfo /usr/bin/xz" % (qemu.server_ip, self.port)
+--=20
+2.34.1
 
 
