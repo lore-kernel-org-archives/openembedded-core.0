@@ -2,86 +2,82 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51940C04FFE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64091C25B7A
 	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 10:54:33 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.12376.1715684066337544143
+ by mx.groups.io with SMTP id smtpd.web11.12349.1715684066737070182
  for <openembedded-core@lists.openembedded.org>;
  Tue, 14 May 2024 03:54:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9E951007
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:50 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6898F1042
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:51 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F5843F762
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:25 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1F2B23F762
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 03:54:26 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] lib/oe/package-manager: allow including self in create_packages_dir
-Date: Tue, 14 May 2024 10:54:21 +0000
-Message-Id: <20240514105423.2496922-1-ross.burton@arm.com>
+Subject: [PATCH 2/3] selftest/classes: add localpkgfeed class
+Date: Tue, 14 May 2024 10:54:22 +0000
+Message-Id: <20240514105423.2496922-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240514105423.2496922-1-ross.burton@arm.com>
+References: <20240514105423.2496922-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 10:54:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199256
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199257
 
-This function is typically used to construct a limited feed for image
-creation, but there are other cases when you might want a limited feed
-and include the current recipe's packages in it.
-
-To ensure that existing behaviour is preserved, add a boolean to control
-this behaviour and default it to False.
+This class can be used to construct a subset of a deployed package feed
+for use in tests which iterate the deploy directory, and as such a huge
+feed of 30K+ packages can result in very slow tests.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oe/package_manager/__init__.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta-selftest/classes/localpkgfeed.bbclass | 27 ++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta-selftest/classes/localpkgfeed.bbclass
 
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/packag=
-e_manager/__init__.py
-index 6774cdb794d..d3b23178949 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -449,7 +449,7 @@ class PackageManager(object, metaclass=3DABCMeta):
-             return res
-         return _append(uris, base_paths)
-=20
--def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydep=
-endencies):
-+def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydep=
-endencies, include_self=3DFalse):
-     """
-     Go through our do_package_write_X dependencies and hardlink the pack=
-ages we depend
-     upon into the repo directory. This prevents us seeing other packages=
- that may
-@@ -486,14 +486,17 @@ def create_packages_dir(d, subrepo_dir, deploydir, =
-taskname, filterbydependencie
-         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
-     pkgdeps =3D set()
-     start =3D [start]
--    seen =3D set(start)
-+    if include_self:
-+        seen =3D set()
-+    else:
-+        seen =3D set(start)
-     # Support direct dependencies (do_rootfs -> do_package_write_X)
-     # or indirect dependencies within PN (do_populate_sdk_ext -> do_root=
-fs -> do_package_write_X)
-     while start:
-         next =3D []
-         for dep2 in start:
-             for dep in taskdepdata[dep2][3]:
--                if taskdepdata[dep][0] !=3D pn:
-+                if include_self or taskdepdata[dep][0] !=3D pn:
-                     if "do_" + taskname in dep:
-                         pkgdeps.add(dep)
-                 elif dep not in seen:
+diff --git a/meta-selftest/classes/localpkgfeed.bbclass b/meta-selftest/c=
+lasses/localpkgfeed.bbclass
+new file mode 100644
+index 00000000000..bd6975637a8
+--- /dev/null
++++ b/meta-selftest/classes/localpkgfeed.bbclass
+@@ -0,0 +1,27 @@
++# Create a subset of the package feed that just contain the
++# packages depended on by this recipe.
++
++LOCALPKGFEED_DIR =3D "${WORKDIR}/localpkgfeed"
++
++addtask localpkgfeed after do_build
++do_localpkgfeed[cleandirs] =3D "${LOCALPKGFEED_DIR}"
++do_localpkgfeed[nostamp] =3D "1"
++
++def get_packaging_class(d):
++    package_class =3D d.getVar("PACKAGE_CLASSES").split()[0]
++    return package_class.replace("package_", "")
++
++python () {
++    packaging =3D get_packaging_class(d)
++    d.setVarFlag("do_localpkgfeed", "rdeptask", f"do_package_write_{pack=
+aging}")
++}
++
++python do_localpkgfeed() {
++    import oe.package_manager
++
++    packaging =3D get_packaging_class(d)
++    deploydir =3D d.getVar(f"DEPLOY_DIR_{packaging.upper()}")
++    task =3D f"package_write_{packaging}"
++
++    oe.package_manager.create_packages_dir(d, d.getVar("LOCALPKGFEED_DIR=
+"), deploydir, task, True, True)
++}
 --=20
 2.34.1
 
