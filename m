@@ -1,139 +1,210 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA4BC25B75
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 19:09:14 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.2786.1715800149701672399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0385C41513
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 22:35:15 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.46])
+ by mx.groups.io with SMTP id smtpd.web10.7727.1715812511361556157
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 12:09:10 -0700
+ Wed, 15 May 2024 15:35:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ds/ow1Lv;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 97B9A20002;
-	Wed, 15 May 2024 19:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1715800148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pNzGtuE9AdyU5PN0w49n6keLB9D5q/2HA1JzLh++vy8=;
-	b=ds/ow1Lv9EZJpInHJNHOXuOjkqldJQVZR/aY0xQFOlMkamWVemCrN3rrxseKJ2dJyizxwe
-	H88Fbi18oFT/1APw1g6AAUdU+wS6s0EAB7GeyAxWTKyIC+kOjLYN4NLZLBFjhBUDS51Eil
-	3wBz1B45vAi4W0DTKUsQ2BhcU/Ix2b2dpCGovbjgTXvULst28exNI9JIAOZhiBhvZYS0KW
-	+T3i/FzrlVFfj+4M550dKHCg9/FmApwbOtmIGnYNfbvuGjO6Oz2varG6lKkTi86naWQ9Gm
-	XTqFJxl0/4t3SD3UVP4JKVciGZK7sTiWQBw335B1CMW/jxyYvCEGWW3Sbb8BHg==
-Date: Wed, 15 May 2024 21:09:07 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: johannes.schneider@leica-geosystems.com
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, alex.kanavin@gmail.com
-Subject: Re: [OE-core] [PATCH v8 0/3] pkg-database and systemd-sysext image
-Message-ID: <2024051519090741f660dd@mail.local>
-References: <20240512063159.1249522-1-johannes.schneider@leica-geosystems.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=KAIWjYDt;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.105.46, mailfrom: johannes.schneider@leica-geosystems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NTf6z2tufIuNyPJZx5iATf7zE6uRvcnI9aBQhR9Mv/Sbtzy3CHmGEs/Az3dAgXQZ0wVBl1baWsvmqicXkbm+40Fki9mRSNMx/D9qcPA4yUtJ6VaB4SIL71A0RWy5ZYhcxXx6dNyN8wRqzCh7vaBqLSFXb3fxH1PKUAVHnW868xBcC1HopMI0SvOYCdv8ZAb1+E4/tcGFYft5xQt/j9aLA26GMgKDY5dim0NMgCvb5d1MNdhwfVfgQ1pHRaqePogd8ISZIqwHMPMJbJbs6VesRYw5cXLJ7KlHp5UgUpqc3ToqqdXAecM9oFWAVPBiCAsiQuVsLIT2Y4fPR8oHBfW8iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZKtblxxRrANVU8PaI2XIgyTLDwMaOc+7yM+MzGuoNPg=;
+ b=KG2GmnxPPH5KXfIkBShVKixRltfPQWsNi0LRJd9W4s3yyQRtU+pYJ7v7j0sHR6kwEH82Byu72BfY1daN+qKfSrEO+Ds98qsQpM0tY1qrejk1kQydx0D8I+BETL6tM6f10VhruHDL2EH+ZfdHoi8r4vmvsrT37pBntxtFA4FAWERlkHBVvvWZ93vd2MVbjnMUcSzLd/jtrD2XCQHHO9Yji9JzWRzYU69l0uYmhC4GlTg5S7QZonuyqLZdMN+l0OMA825iYN+A/a7C0J6R9YJx14iOz9udy300cBIcmBpz8YUDHGdmvrVRxDWSrKokzBIZiF8torgHKD93Oa4WsBNVdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZKtblxxRrANVU8PaI2XIgyTLDwMaOc+7yM+MzGuoNPg=;
+ b=KAIWjYDtHwXGxDgIXGfedbHT6vdVFiPG0Y/sRSwJfBJEaNjFKT2SXmKl9JJi0dB76k4v34lPtkSUVnkagJcHXEZs2pynfP1gR2+bCTUtbzY4xiTHuCQCTNkPSnVnZbQAKDYSq/G3HXP7f/Yf8SQU5dQB40Kba0JkEM9Zhds3ds0=
+Received: from AS9PR06CA0539.eurprd06.prod.outlook.com (2603:10a6:20b:49d::28)
+ by PA2PR06MB9353.eurprd06.prod.outlook.com (2603:10a6:102:402::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Wed, 15 May
+ 2024 22:35:07 +0000
+Received: from AMS0EPF000001AB.eurprd05.prod.outlook.com
+ (2603:10a6:20b:49d:cafe::81) by AS9PR06CA0539.outlook.office365.com
+ (2603:10a6:20b:49d::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.25 via Frontend
+ Transport; Wed, 15 May 2024 22:35:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.94; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.94) by
+ AMS0EPF000001AB.mail.protection.outlook.com (10.167.16.151) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7587.21 via Frontend Transport; Wed, 15 May 2024 22:35:07 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Thu, 16 May 2024 00:35:04 +0200
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org,
+	alex.kanavin@gmail.com,
+	alexandre.belloni@bootlin.com
+CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v9 3/3] classes: add a systemd-sysext image class
+Date: Thu, 16 May 2024 00:35:00 +0200
+Message-ID: <20240515223500.3464486-4-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240515223500.3464486-1-johannes.schneider@leica-geosystems.com>
+References: <20240515223500.3464486-1-johannes.schneider@leica-geosystems.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240512063159.1249522-1-johannes.schneider@leica-geosystems.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: quoted-printable
+X-OriginalArrivalTime: 15 May 2024 22:35:04.0258 (UTC) FILETIME=[216B3A20:01DAA718]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001AB:EE_|PA2PR06MB9353:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: bdd730d5-e403-49f7-e226-08dc752f45d2
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|36860700004|376005|1800799015|82310400017;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ehtRLrleIWaXOVhWkhQt+gr7x9FPgTKOJXVzA4Ta7vOYfIKumyVusXvBCpQG?=
+ =?us-ascii?Q?8ArzDpIzDt9SJ4I+eqtOuKL6TPtUMajZ6vS3kfjrYJK0p9Zw76XX2iBwN3kz?=
+ =?us-ascii?Q?OqyDqgS53S1X1U3vApb4S1lDLnPEllLx8wfFXLxET4QABS4nqUI5gIY6cYA9?=
+ =?us-ascii?Q?H43/0hWpdg1ggie0HBvpCRMsPoW1NAgs2k98Zoz5MbA2lrmvKqJXj19dj9Vh?=
+ =?us-ascii?Q?iwGzxhBzopglJjcW5pGaeu8T4lDa9scNue4EaseT5yhwa4h0jip6mM6WFQ3J?=
+ =?us-ascii?Q?BAxmJsGMmp3yEnIpQv+qSzlD58/uhLyPGQrQVi9hV6it0Jtgxs09F27lxVIO?=
+ =?us-ascii?Q?k0vOYrQ1FpJNWRMR7N6qg3k7Cb+eWm8IUFeCr38EfluVvcef/8VLcLUTGN5Q?=
+ =?us-ascii?Q?DWpeNuAvfWRu64YR+3sB4tJvj2sJcK0A/BiD5Ofdzq4CKNOZqbRAvFOX3iT4?=
+ =?us-ascii?Q?dpZgjKN5aFhieLtKzczRmUxxDhIZez5NyKdAxIhghDJxcXL2TkYx14IOow/F?=
+ =?us-ascii?Q?eMcMMwYpDXHAGEcNjvN4DcimNaHZJpAhhSLB+Oii+EfjF7mJ7WzlyK0raWop?=
+ =?us-ascii?Q?nmq1bhX8IqyDbVWVFMwwk0hhiaNWSymctXFpE8n45TU5kAfE76BDbxG83Byc?=
+ =?us-ascii?Q?Em1qljArD3aXubW75KRGch97WYRUnl0GbKOxCU7Lx6l/Yo3mBe2+8fnewWpF?=
+ =?us-ascii?Q?Hz0nLkQtDo6A2BNZKsmU7pCJbKZScByCn19kfvIZ10NYuc4EEK9YABGwtGBP?=
+ =?us-ascii?Q?x24UYRB2DlDy18qr8e84Bmf95ITUThYjwMyPjA8479INpAODCnqMw3iiVf0a?=
+ =?us-ascii?Q?pAk3xWqGwRdr/SlaecTkGyeQ5hpV2GDnpA/8iRbfSvr+2B91GIpDrMmLy6QE?=
+ =?us-ascii?Q?1JsC54kcst1Rwz5SN8Tq2FEX8qeXFbVubjA1Cc0Hx+0g4/Jlotfptkm25Ld+?=
+ =?us-ascii?Q?5JnO4in88o4dLv4T9wWTGtDGIQNZJK471CYtVtZC+ij+CNraizPS4uxYYor5?=
+ =?us-ascii?Q?S9SYy9/GwWuObuCMsiwT5mbcdVqQ6AHCL/xIaS4YY2zLeKI8BBfj4OHRE7oU?=
+ =?us-ascii?Q?ZnR+j/fBPlhg2wZ4NsObXcKQmNRGr4/zlEMN4FX8y3NZYpL/stDtSW2amTio?=
+ =?us-ascii?Q?foaL3tBU0FiCYaVeFMAbVrajsHZ51PU+btBFmL6c/KMFDUZbo+mD+vpE9mc8?=
+ =?us-ascii?Q?JgH1nPCoaDCfgcxIWuJXCTmkFczQFUZzrNt/QruFfrwCKC9Tdn9fSLAZ1LoE?=
+ =?us-ascii?Q?puyqzSOBN2d9zfeSLGQrDYi/V9nCqnSy/MqnojLknnpImYy+CfyS+RNzHeTj?=
+ =?us-ascii?Q?gZAmsYyFTfs0vYTEXH1sMLSv?=
+X-Forefront-Antispam-Report: 
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(36860700004)(376005)(1800799015)(82310400017);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2024 22:35:07.4191
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdd730d5-e403-49f7-e226-08dc752f45d2
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF000001AB.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR06MB9353
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 19:09:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199429
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 22:35:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199433
 
-Hello,
+systemd-sysext can load a raw-image containing usr/ and opt/ folders
+to mount them as RO overlay over the rootfs, to "extend" the systems.
 
-It seems that this reliably fails oe-selftest-armhost. I didn't really
-pay attention until now beause we had other issues but in this build,
-those are the only failing tests:
+This class provides the necessary changes/additions to the enclosed
+file-system so that systemd-sysext accepts the extension for "merge"
+into the rootfs.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3322/steps/15/logs/stdio
+With such an created image, placed into the correct folder (see [1]),
+`systemd-sysext list` should be able to list the "extension" and
+`systemd-sysext merge` should enable the overlay. On both commands a
+preceding "SYSTEMD_LOG_LEVEL=3Ddebug" can aide in figuring out what is
+amiss.
 
-On 12/05/2024 08:31:56+0200, Johannes Schneider via lists.openembedded.org wrote:
-> systemd-sysext allows to overlay another image (or multiple) ontop of
-> a "base-image" = the current rootfs, via the use of overlayfs; to add
-> tools and features meant for development purposes.
-> 
-> To quote the documentation on systemd-sysext:
-> " ...addition in order to make debugging/development easier). System
-> extension images should not be misunderstood as a generic software
-> packaging framework, ..."
-> 
-> To build a lean image, that only holds packages that are not already
-> part of the base-image, a snapshot of the package-database is taken
-> after the installation of the base-rootfs is done, and picked up again
-> when collecting the rootfs of such a extension image.
-> 
-> with all this in place an example usage could look like this:
-> some-core-image.bb
->   inherit core-image
->   IMAGE_GEN_PKGDBFS = "1"
-> 
-> extending-image.bb
->   inherit image-sysext
->   IMAGE_FSTYPES = "squashfs"
->   IMAGE_BASE_PKGDB = "some-core-image"
->   # the above pointing at a package-db similar to:
->   # build/deploy/images/$MACHINE/some-core-image-$MACHINE-20240210172305-pkgdb.rootfs.tar.gz
-> 
-> then on the device, running some-core-image, with the extension image placed at FN:
-> $> ln -s "$FN" /run/extensions/$(basename $FN).raw
-> $> systemd-sysext list
-> $> SYSTEMD_LOG_LEVEL=debug systemd-sysext merge
-> 
-> As long as the VERSION_ID of the extension image matches the os-release
-> in the base image, the above commands return sucessfully;
-> for details on the compativility check see the docs for systemd-sysext.
-> 
-> =========
-> 
-> changes with v2:
->         rebase from 'kirkstone' onto 'master'
-> 
-> changes with v3:
-> 	incorporate review suggestions for simplification
-> 	add task dependency handling
-> 	add oe-selftest for the pkgdb handling
-> 	add variable documentation and
-> 	some more comments, and examples in the commit-msg
-> 
-> changes with v4:
-> 	rebase onto 'master' => no functional changes
-> 	fixed patchtest findings
-> 
-> changes with v5:
->         rebase onto 'master'
-> 	add '.sysext' to the deployed symlink name
->         sidenote on the tests and autobuilder failure: run locally they succeed, e.g.:
->           #> oe-selftest --verbose -r imagefeatures.ImageFeatures.test_image_gen_pkgdbfs
-> 
-> changes with v6:
-> 	tests: restructure to call 'bitbake' only once in the testcase itself
-> 	  (in hopes of solving the autobuilder problem; local test runs succeed)
-> 
-> changes with v7:
->         tests: undo the restructuring of done in v6, in favour of explicitly forcing steps:
-> 	  '-c rootfs -f'.  since concurrency of the autobuilder, and reusing artifacts/sstate-caching is probably the issue?
-> 
-> changes with v8:
->         tests: fixed missing feature=PACKAGE_CLASSES during 'test_image_gen_pkgdbfs'
-> 	   which is now split into three, one for each of the three available packagemanager: ipk, deb, rpm
+The strict name checking systemd-sysext does against the name of
+extension-release.NAME file, is disabled, as there is only one such in
+the resulting image. This is done to allow a user to freely rename the
+resulting image file.
+Note that for e.g. squashfs, the kernel needs CONFIG_SQUASHFS_XATTR=3Dy
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199209): https://lists.openembedded.org/g/openembedded-core/message/199209
-> Mute This Topic: https://lists.openembedded.org/mt/106051545/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysex=
+t.html
+Link: https://0pointer.net/blog/testing-my-system-code-in-usr-without-modif=
+ying-usr.html
+Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+---
+ meta/classes-recipe/image-sysext.bbclass | 43 ++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/classes-recipe/image-sysext.bbclass
 
+diff --git a/meta/classes-recipe/image-sysext.bbclass b/meta/classes-recipe=
+/image-sysext.bbclass
+new file mode 100644
+index 0000000000..bc3e4d52b5
+--- /dev/null
++++ b/meta/classes-recipe/image-sysext.bbclass
+@@ -0,0 +1,43 @@
++# SPDX-License-Identifier: MIT
++#
++# Copyright Leica Geosystems AG
++#
++
++# systemd-sysext [1] has a simple mechanism for version compatibility:
++# the extension to be loaded has to contain a
++# /usr/lib/extension-release.d/extension-release.NAME
++# with "NAME" *exactly* matching the filename of the extensions
++# raw-device filename/
++#
++# from the extension-release file the "ID" and "VERSION_ID" fields are
++# matched against the etc/os-release and the extension is only "merged"
++# if no mismatches between NAME, ID, and VERSION_ID.
++#
++# Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sy=
+sext.html
++
++inherit image
++
++IMAGE_NAME_SUFFIX =3D ".sysext"
++EXTENSION_NAME =3D "${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${IMAGE_FSTYPES}"
++IMAGE_LINK_NAME:append =3D ".sysext"
++
++DEPENDS +=3D " os-release"
++
++sysext_image_mangle_rootfs() {
++    R=3D${IMAGE_ROOTFS}
++
++    # pull a copy of the rootfs version information, which systemd-sysext =
+matches against
++    cp -av ${RECIPE_SYSROOT}/${nonarch_libdir}/os-release ${WORKDIR}/exten=
+sion-release.base
++
++    echo 'EXTENSION_RELOAD_MANAGER=3D1' >> ${WORKDIR}/extension-release.ba=
+se
++
++    install -d $R${nonarch_libdir}/extension-release.d
++    install -m 0644 ${WORKDIR}/extension-release.base \
++        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
+ION_NAME}
++
++    # disable systemd-sysext's strict name checking, so that the image fil=
+e can be renamed, while still being 'merge'-able
++    setfattr -n user.extension-release.strict -v false \
++        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
+ION_NAME}
++}
++
++ROOTFS_POSTPROCESS_COMMAND +=3D " sysext_image_mangle_rootfs; "
+--=20
+2.34.1
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
