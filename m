@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDEDC3DA6A
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:32 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1235.1715794337388673754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFCAC25B78
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:41:54 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.84.1715794909780360474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:32:19 -0700
+ Wed, 15 May 2024 10:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Y1Q6Jdrm;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XFuR/byy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018f7d4fe1e3-df8ce6a2-183a-47d0-a1a6-953f98d48f48-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Er41S4R0;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bYCKQNhj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f7d589796-87eb5d6d-06ed-4275-b5bc-6bad87216833-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794339;
+	t=1715794909;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3NDAU8jwlZQ5GC/u2glLCBr+ZN8okrOv/oWwcTShlfg=;
-	b=Y1Q6JdrmEJwmw58cjk+gsmQtyVckuh8sdbiyJfDTd0i4Gvo8erG/VcpCbKfoZn0L
-	mlKVk9f7TEpHKmlGJjVRJnZP0ti2gGdKSwL9UFWN2bfSSx0pzvMdNi5jsWjwqy2LyAV
-	fOoDTBB6huXAI0bukuVEI7bLrH1c0jJ/+Dst8zKY=
+	bh=W33GlodGv9tlOMzQyN8ubWadTUBjAiHzI+S5qmm7ztE=;
+	b=Er41S4R0OtY2LOtzVN06gOG2aOInS67eaU8bfUGH559P5ABURFuDZ4tYToBBbgDz
+	TjPtautXhTXjLsTACzuzprviTnD8te3SNv4r1J6QwpaVy34jzwGjv0nh7mB128BkjAw
+	KyRgnpugxcu0yTluOpvRQmZwmDGePUOOC1sWKobo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794909;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3NDAU8jwlZQ5GC/u2glLCBr+ZN8okrOv/oWwcTShlfg=;
-	b=XFuR/byy1k+jZ/innV0wW/D3V+Ky+Z5eyr5i9TwIDvOFhuEj3/yNSoWswcbxT8Xx
-	AVO7yT0aqx7dpeiFktElba1mc0BEYVH1+jT1p4ty4YqWe5WKT+YnVyUGRe7fyW9PS0/
-	wPXnzm51TJs9Du1g5y0ImiBa2hrs9enT09fyHn7I=
-Content-Type: multipart/mixed; boundary="===============7575010159543603400=="
+	bh=W33GlodGv9tlOMzQyN8ubWadTUBjAiHzI+S5qmm7ztE=;
+	b=bYCKQNhjpCIUKBb1uoB7IelOzprHe7jaZKHLplCFS7cK+KOs4VDuwxq+cgseuU63
+	YeJ55ifP5RY+6ii13y+AAmz8rvwNJqc+EwUzyf1ZctyIJ58yFyJdd5+SdDz2LnYHNNh
+	Nh9HqUNCPLpZ+UEkVIabN+laVYbWhMiCqFXs1bHw=
+Content-Type: multipart/mixed; boundary="===============6925171605795177161=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ed: upgrading to 1.20.2 SUCCEEDED
-Message-ID: <0101018f7d4fe1e3-df8ce6a2-183a-47d0-a1a6-953f98d48f48-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:18 +0000
+Subject: [AUH] nghttp2: upgrading to 1.62.0 SUCCEEDED
+Message-ID: <0101018f7d589796-87eb5d6d-06ed-4275-b5bc-6bad87216833-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:41:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.31
+X-SES-Outgoing: 2024.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199384
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:41:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199421
 
---===============7575010159543603400==
+--===============6925171605795177161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ed* to *1.20.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.62.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ed-upgrade-1.20.1-1.20.2.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.61.0-1.62.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,61 +72,545 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7f5fe76a5d7bd4632154da448cf285639b8bf0c3 Mon Sep 17 00:00:00 2001
+From 08d94f459eaba9be618896174b2679e237f7399d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 12:05:29 +0000
-Subject: [PATCH] ed: upgrade 1.20.1 -> 1.20.2
+Date: Wed, 15 May 2024 17:14:27 +0000
+Subject: [PATCH] nghttp2: upgrade 1.61.0 -> 1.62.0
 
 ---
- meta/recipes-extended/ed/{ed_1.20.1.bb => ed_1.20.2.bb} | 2 +-
+ .../nghttp2/{nghttp2_1.61.0.bb => nghttp2_1.62.0.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/ed/{ed_1.20.1.bb => ed_1.20.2.bb} (93%)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.61.0.bb => nghttp2_1.62.0.bb} (91%)
 
-diff --git a/meta/recipes-extended/ed/ed_1.20.1.bb b/meta/recipes-extended/ed/ed_1.20.2.bb
-similarity index 93%
-rename from meta/recipes-extended/ed/ed_1.20.1.bb
-rename to meta/recipes-extended/ed/ed_1.20.2.bb
-index 9ae53002c3..2b78b080ba 100644
---- a/meta/recipes-extended/ed/ed_1.20.1.bb
-+++ b/meta/recipes-extended/ed/ed_1.20.2.bb
-@@ -19,7 +19,7 @@ bindir = "${base_bindir}"
- SRC_URI = "${GNU_MIRROR}/ed/${BP}.tar.lz"
- UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb
+similarity index 91%
+rename from meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.62.0.bb
+index ad85576dcb..5a820d8cd5 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.61.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
  
--SRC_URI[sha256sum] = "b1a463b297a141f9876c4b1fcd01477f645cded92168090e9a35db2af4babbca"
-+SRC_URI[sha256sum] = "65fec7318f48c2ca17f334ac0f4703defe62037bb13cc23920de077b5fa24523"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "c0e660175b9dc429f11d25b9507a834fb752eea9135ab420bb7cb7e9dbcc9654"
++SRC_URI[sha256sum] = "26798308fa0a12dabdb7ba8c77f74383019d3a0f1f36d25958b836af22474958"
  
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
+ inherit cmake manpages python3native github-releases
+ PACKAGECONFIG[manpages] = ""
 -- 
 2.44.0
 
 
---===============7575010159543603400==
+--===============6925171605795177161==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.61.0-1.62.0.patch"
+
+RnJvbSAwOGQ5NGY0NTllYWJhOWJlNjE4ODk2MTc0YjI2NzllMjM3ZjczOTlkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTc6MTQ6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Z2h0dHAyOiB1cGdyYWRlIDEuNjEuMCAtPiAxLjYyLjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
+cDJfMS42MS4wLmJiID0+IG5naHR0cDJfMS42Mi4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjYxLjAuYmIgPT4gbmdodHRwMl8xLjYy
+LjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
+Z2h0dHAyXzEuNjEuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
+LjYyLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjIuMC5iYgppbmRleCBhZDg1NTc2ZGNiLi41YTgyMGQ4
+Y2Q1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS42
+MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjYyLjAu
+YmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9NzY0YWJkZjMwYjJlYWRkMzdjZTQ3ZGNiY2UwZWExZWMiCiAKIFNS
+Q19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9
+LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjMGU2NjAxNzViOWRjNDI5ZjExZDI1Yjk1
+MDdhODM0ZmI3NTJlZWE5MTM1YWI0MjBiYjdjYjdlOWRiY2M5NjU0IgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjI2Nzk4MzA4ZmEwYTEyZGFiZGI3YmE4Yzc3Zjc0MzgzMDE5ZDNhMGYxZjM2ZDI1OTU4
+YjgzNmFmMjI0NzQ5NTgiCiAKIGluaGVyaXQgY21ha2UgbWFucGFnZXMgcHl0aG9uM25hdGl2ZSBn
+aXRodWItcmVsZWFzZXMKIFBBQ0tBR0VDT05GSUdbbWFucGFnZXNdID0gIiIKLS0gCjIuNDQuMAoK
+
+--===============6925171605795177161==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (0 cached, 921 parsed). 1880 targets, 46 skipped, 0 masked, 0 errors.
+Removing 8 recipes from the core2-64 sysroot...done.
+Removing 56 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-32b843d4d57954521a72d0021cd8ee7db713b546"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:32b843d4d57954521a72d0021cd8ee7db713b546"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 429 Local 414 Mirrors 0 Missed 15 Current 199 (96% match, 97% complete)
+Removing 5 stale sstate objects for arch x86_64...done.
+Removing 2 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 200 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 201 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 202 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 206 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 207 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 208 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 212 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_create_spdx_setscene)
+NOTE: Running task 642 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_recipe_qa)
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_recipe_qa: Started
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 728 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_fetch)
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 282 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_create_spdx_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_fetch: Started
+NOTE: recipe openssl-3.3.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_fetch: Succeeded
+NOTE: Running task 729 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_unpack)
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 297 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 299 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_unpack: Succeeded
+NOTE: Running task 730 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_patch)
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_patch: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 303 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_patch: Succeeded
+NOTE: Running task 731 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 732 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_generate_toolchain_file)
+NOTE: Running task 733 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_populate_lic)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 304 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 305 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 306 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 307 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 308 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 309 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 310 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 311 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_populate_lic: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_populate_lic unihash changed to 35febf3f637b0a2cf5d364073d9cf74e09f3c26cb1f6d68a7d6086328df2f594
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 332 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_packagedata_setscene)
+NOTE: Running setscene task 337 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe nghttp2-1.62.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 345 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 348 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 350 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 352 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 356 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 358 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 361 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 363 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: Running setscene task 365 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 369 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 371 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 373 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 375 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_packagedata_setscene)
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 404 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 410 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 412 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 414 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 416 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb:do_packagedata_setscene)
+NOTE: recipe libarchive-3.7.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 426 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 439 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 441 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 443 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 445 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 452 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 456 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_packagedata_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 462 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 466 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 468 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 470 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 491 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libgpg-error/1.48/temp/log.do_packagedata_setscene.3863506
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 498 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_package_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 505 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_packagedata_setscene)
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 510 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 511 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.38.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 512 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
+NOTE: Running setscene task 513 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 514 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb:do_packagedata_setscene)
+NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.38.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_package_setscene: Started
+NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 519 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 520 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 524 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.0.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.15.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 532 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 536 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1101 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe libgpg-error-1.48-r0: task do_package_setscene: Succeeded
+NOTE: recipe shadow-4.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 545 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 549 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 552 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running task 1112 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1113 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1119 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1126 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 1127 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1128 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 560 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1139 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe perl-5.38.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 568 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 570 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 574 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1145 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 583 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 585 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 046af30f485647cdc4daf97991a290103f143d7d3bc201e5aa9bffcd6d2b5b32
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 591 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 593 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 594 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 596 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 597 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 599 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 601 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 602 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 603 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 604 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 605 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 607 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 615 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 618 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 621 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 623 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 624 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 626 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 628 of 628 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1592 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1669 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_packagedata)
+NOTE: Running task 1721 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_collect_spdx_deps)
+NOTE: recipe nghttp2-1.62.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1747 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_configure)
+NOTE: recipe nghttp2-1.62.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_configure: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_configure: Succeeded
+NOTE: Running task 1759 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_compile)
+NOTE: recipe nghttp2-1.62.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_compile: Succeeded
+NOTE: Running task 1760 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_install)
+NOTE: recipe nghttp2-1.62.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_install: Succeeded
+NOTE: Running task 1761 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_package)
+NOTE: Running task 1762 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.62.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_package: Succeeded
+NOTE: Running task 1763 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.62.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1764 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_create_spdx)
+NOTE: Running task 1765 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_package_write_ipk)
+NOTE: Running task 1766 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_package_write_deb)
+NOTE: Running task 1767 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_package_write_rpm)
+NOTE: Running task 1768 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.62.0-r0: task do_create_spdx: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_ipk: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_deb: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1769 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_create_runtime_spdx)
+NOTE: recipe nghttp2-1.62.0-r0: task do_create_runtime_spdx: Started
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe nghttp2-1.62.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1770 of 1770 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.62.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1770 tasks of which 1738 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+
+Summary: There were 29 ERROR messages, returning a non-zero exit code.
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-src went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dbg went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-ptest went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-staticdev went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dev went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-doc went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-cs went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-da went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-de went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-eo went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-es went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-fr went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-hu went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-it went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ja went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-nl went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pl went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pt went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ro went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ru went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sr went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sv went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-tr went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-uk went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-vi went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-cn went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-tw went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error went backwards which would break package feeds (from 0:1.49-r0 to 0:1.48-r0) [version-going-backwards]
+ERROR: libgpg-error-1.48-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============6925171605795177161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ed/ed-dbg: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-dbg: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed-dev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-dev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed-doc: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-doc: PKGSIZE changed from 73729 to 73723 (-0%)
-packages/core2-64-poky-linux/ed/ed-doc: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed-locale: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-locale: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed-src: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-src: PKGSIZE changed from 113135 to 113189 (+0%)
-packages/core2-64-poky-linux/ed/ed-src: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed-staticdev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed-staticdev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed/ed: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed/ed: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed: PV changed from "1.20.1" to "1.20.2"
-packages/core2-64-poky-linux/ed: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-64-poky-linux/ed: SRC_URI changed from "https://ftp.gnu.org/gnu/ed/ed-1.20.1.tar.lz" to "https://ftp.gnu.org/gnu/ed/ed-1.20.2.tar.lz"
+packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.61.0/nghttp2-1.61.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.62.0/nghttp2-1.62.0.tar.xz"
+packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.0", added "/usr/lib/libnghttp2.so.14.28.1"
+packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 556736 to 564280 (+1%)
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.0", added "/usr/lib/.debug/libnghttp2.so.14.28.1"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 174403 to 175232 (+0%)
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1089380 to 1090548 (+0%)
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.61.0" to "1.62.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.61.0 [default] to 1.62.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.61.0" to "1.62.0"
+Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.0 to libnghttp2.so.14.28.1
+  /usr/lib/libnghttp2.so.14.28.0 moved to /usr/lib/libnghttp2.so.14.28.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1766,12 +2250,16 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7575010159543603400==
+--===============6925171605795177161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.0", added "/usr/lib/libnghttp2.so.14.28.1"
+Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.0 to libnghttp2.so.14.28.1
+  /usr/lib/libnghttp2.so.14.28.0 moved to /usr/lib/libnghttp2.so.14.28.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3411,32 +3899,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7575010159543603400==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ed-upgrade-1.20.1-1.20.2.patch"
-
-RnJvbSA3ZjVmZTc2YTVkN2JkNDYzMjE1NGRhNDQ4Y2YyODU2MzliOGJmMGMzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTI6MDU6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-ZDogdXBncmFkZSAxLjIwLjEgLT4gMS4yMC4yCgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9l
-ZC97ZWRfMS4yMC4xLmJiID0+IGVkXzEuMjAuMi5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvZWQve2VkXzEuMjAuMS5iYiA9PiBlZF8xLjIwLjIuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2VkL2VkXzEuMjAuMS5iYiBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9lZC9lZF8xLjIwLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWV4dGVuZGVkL2VkL2VkXzEuMjAuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL2VkL2VkXzEuMjAuMi5iYgppbmRleCA5YWU1MzAwMmMzLi4yYjc4YjA4MGJhIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZWQvZWRfMS4yMC4xLmJiCisrKyBiL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9lZC9lZF8xLjIwLjIuYmIKQEAgLTE5LDcgKzE5LDcgQEAgYmlu
-ZGlyID0gIiR7YmFzZV9iaW5kaXJ9IgogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9L2VkLyR7QlB9
-LnRhci5seiIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICIke0dOVV9NSVJST1J9L2VkLyIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImIxYTQ2M2IyOTdhMTQxZjk4NzZjNGIxZmNkMDE0NzdmNjQ1Y2Rl
-ZDkyMTY4MDkwZTlhMzVkYjJhZjRiYWJiY2EiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjVmZWM3
-MzE4ZjQ4YzJjYTE3ZjMzNGFjMGY0NzAzZGVmZTYyMDM3YmIxM2NjMjM5MjBkZTA3N2I1ZmEyNDUy
-MyIKIAogRVhUUkFfT0VNQUtFID0gIi1lIE1BS0VGTEFHUz0iCiAKLS0gCjIuNDQuMAoK
-
---===============7575010159543603400==--
+--===============6925171605795177161==--
 
