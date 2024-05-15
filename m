@@ -1,139 +1,165 @@
-Return-Path: <seungkyun.kim@lge.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F90C25B79
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 13:59:53 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web11.16263.1715781582337684198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91752C25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 14:44:43 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.17798.1715784278737173858
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 06:59:42 -0700
+ Wed, 15 May 2024 07:44:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: seungkyun.kim@lge.com)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.52 with ESMTP; 15 May 2024 22:59:40 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: seungkyun.kim@lge.com
-Received: from unknown (HELO SK-linux.seoul) (10.178.97.151)
-	by 156.147.1.121 with ESMTP; 15 May 2024 22:59:40 +0900
-X-Original-SENDERIP: 10.178.97.151
-X-Original-MAILFROM: seungkyun.kim@lge.com
-From: seungkyun.kim@lge.com
-To: openembedded-core@lists.openembedded.org
-Cc: "seungkyun.kim" <seungkyun.kim@lge.com>
-Subject: [PATCH v3] ipk/rootfs: run sanity test of multilib in parallel
-Date: Wed, 15 May 2024 13:59:38 +0000
-Message-Id: <20240515135938.1547467-1-seungkyun.kim@lge.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iLEFjeb1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-437610adf96so45022881cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 07:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715784278; x=1716389078; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qHasSuvU6yGYBqTBlLHg4+4PXnxz6jeftpQy7SKZ6cI=;
+        b=iLEFjeb17ba5C9rNu5H4h48HEG2YEab+2jtZ58AF09x2cSLyTWv2v+RPyU1t/9DAn4
+         nSLBgQ5P7iiDSoxMSHAYGPCj/j+prXfsdL5TVnBsrcIFKbbfWCmoES8CMmScQfpx3TFV
+         4cMX9Gt1obMHbs4PrrvwawvifEjUOpxCQsYOHZHdWWIVKlCvBhcc3BUL3rjniOUxIe4l
+         cTLoGHFkDSTPhMvFdA8JFTe+qb0T9xez/UIRBCi7SWn/cfXV6xyRJMQWqAInhub+LKtp
+         GfwnLiB8fKW14s4aE1NcUTo1qQQF9nHdjTPKEti4mjaJBFlb0xLJI2Jo6VivCsXB1Ox8
+         WECQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715784278; x=1716389078;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qHasSuvU6yGYBqTBlLHg4+4PXnxz6jeftpQy7SKZ6cI=;
+        b=Uo+UHqpbIN3f/1XdIRdWvhkp22fwYnLizIpOH61wGOxNu2GMzFVNoRLi+1Qz8vZpMf
+         5zyAL3GOp7tjvO1UbVTzpkn0rzK7QhJH0yFw/TP+ABCUTNHpO+6mDBlE/2F/UzAARW9h
+         s/qcmc/BvGizO6ZGXNjAiUeliXVDOahUT2hLCMDVQmOhU1UO78EqB/c9yrsdz+vu6lzl
+         MkVcfk/ZOzuJxXedef9AHCC/UpTrIr+HzdrXu/pGgRNhF6A0deYPq2uyrSEPPBYUWL8c
+         titEDBXXpmtPK+291jTXVI9n+Fi4hOt3nHXMEvQd9iHzHDqk3N+fLFYP+g1YjoOo4+ZY
+         umJg==
+X-Gm-Message-State: AOJu0YxHhnyVLRs+OFZ1aEPbJC3LNAlVwDGduLOFUQIt3P7o/h+7+yTy
+	hDgcaPdYa0qCu3r5+s/2kPJd8Os/WMFpNKVcU1g5VWJjwtLjCAMn
+X-Google-Smtp-Source: AGHT+IGjhqwthQCE9kALAhTE/Ilelg6kdO6xe6GdFcccaz/2Qd2u5Vht+KOEwLvt8eWBZPtkWijtnQ==
+X-Received: by 2002:a05:622a:14cf:b0:43d:f335:425b with SMTP id d75a77b69052e-43dfdb68ffamr169673231cf.44.1715784277232;
+        Wed, 15 May 2024 07:44:37 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43df54d6e47sm83003011cf.28.2024.05.15.07.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 May 2024 07:44:36 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] systemd: fix build against 6.9 libc-headers
+Date: Wed, 15 May 2024 10:44:32 -0400
+Message-Id: <20240515144432.3152351-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 13:59:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199290
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 14:44:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199291
 
-From: "seungkyun.kim" <seungkyun.kim@lge.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-For multilib type packages, there is an additional temporary
-installation before the actual installation. It makes almost doubles
-the do_rootfs time if having many multilib type packages.
-To avoid this overhead, run sanity test in parallel.
-Installing package groups through opkg takes much more time than
-copying directory.
+When building against the 6.9 linux-libc-headrs the following build
+issue was hit:
 
-- Changes in V2:
-    Fix FileNotFoundError exception when copying rootfs
-- Changes in V3:
-    Removed unnecessary test call
+  | Program check-filesystems.sh found: YES (build/tmp/work/cortexa57-poky-linux/systemd/255.4/git/src/basic/check-filesystems.sh)
+  |
+  | ../git/src/basic/meson.build:238:8: ERROR: Problem encountered: Unknown filesystems defined in kernel headers:
+  |
+  | Filesystem found in kernel header but not in filesystems-gperf.gperf: PID_FS_MAGIC
 
-Signed-off-by: seungkyun.kim <seungkyun.kim@lge.com>
+Upstream already has this fixed, so we backport the commit.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/lib/oe/package_manager/ipk/rootfs.py | 36 +++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index ba93eb62ea..fa34dc56a2 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -6,7 +6,9 @@
- 
- import re
- import filecmp
-+import multiprocessing
- import shutil
-+import stat
- from oe.rootfs import Rootfs
- from oe.manifest import Manifest
- from oe.utils import execute_pre_post_process
-@@ -197,11 +199,34 @@ class PkgRootfs(DpkgOpkgRootfs):
-                         files[key] = item
- 
-     def _multilib_test_install(self, pkgs):
-+        def _copy_rootfs(src, dst):
-+            if os.path.islink(src):
-+                linkto = os.readlink(src)
-+                if os.path.isabs(linkto):
-+                    linkto = os.path.normpath(os.path.join(os.path.dirname(dst),
-+                                                           os.path.relpath(linkto, src)))
-+                os.symlink(linkto, dst)
-+            elif os.path.isfile(src):
-+                shutil.copy2(src, dst)
-+            elif stat.S_ISFIFO(os.stat(src).st_mode):
-+                os.mkfifo(dst)
-+            else:
-+                bb.warn("Skip unsupported file type: %s" % src)
+Richard,
+
+I only lightly tested this against the older headers, but it shoudln't
+be an issue.
+
+Bruce
+
+ .../0001-basic-add-PIDFS-magic-31709.patch    | 53 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_255.4.bb    |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-basic-add-PIDFS-magic-31709.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0001-basic-add-PIDFS-magic-31709.patch b/meta/recipes-core/systemd/systemd/0001-basic-add-PIDFS-magic-31709.patch
+new file mode 100644
+index 0000000000..dd4be5ed2a
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-basic-add-PIDFS-magic-31709.patch
+@@ -0,0 +1,53 @@
++From ed01b92e1c92871bbd92711f280e2b2d15753f0e Mon Sep 17 00:00:00 2001
++From: cpackham-atlnz <85916201+cpackham-atlnz@users.noreply.github.com>
++Date: Tue, 12 Mar 2024 00:55:36 +1300
++Subject: [PATCH] basic: add PIDFS magic (#31709)
 +
-         ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
-+        rootfs_temp = os.path.join(ml_temp, "rootfs")
-         bb.utils.mkdirhier(ml_temp)
-+        bb.utils.remove(rootfs_temp, True)
- 
--        dirs = [self.image_rootfs]
-+        if os.path.exists(self.image_rootfs):
-+            shutil.copytree(self.image_rootfs, rootfs_temp, copy_function=_copy_rootfs)
-+        else:
-+            bb.utils.mkdirhier(rootfs_temp)
-+        dirs = [rootfs_temp]
-+        return multiprocessing.Process(target=self._multilib_test_pkg_install,
-+                                       args=(pkgs, ml_temp, dirs, False))
- 
-+    def _multilib_test_pkg_install(self, pkgs, ml_temp, dirs):
-         for variant in self.d.getVar("MULTILIB_VARIANTS").split():
-             ml_target_rootfs = os.path.join(ml_temp, variant)
- 
-@@ -218,6 +243,8 @@ class PkgRootfs(DpkgOpkgRootfs):
-             dirs.append(ml_target_rootfs)
- 
-         self._multilib_sanity_test(dirs)
-+        rootfs_temp = os.path.join(ml_temp, "rootfs")
-+        bb.utils.remove(rootfs_temp)
- 
-     '''
-     While ipk incremental image generation is enabled, it will remove the
-@@ -300,15 +327,20 @@ class PkgRootfs(DpkgOpkgRootfs):
- 
-         for pkg_type in self.install_order:
-             if pkg_type in pkgs_to_install:
-+                sanity_test = None
-                 # For multilib, we perform a sanity test before final install
-                 # If sanity test fails, it will automatically do a bb.fatal()
-                 # and the installation will stop
-                 if pkg_type == Manifest.PKG_TYPE_MULTILIB:
--                    self._multilib_test_install(pkgs_to_install[pkg_type])
-+                    sanity_test= self._multilib_test_install(pkgs_to_install[pkg_type])
-+                    sanity_test.start()
- 
-                 self.pm.install(pkgs_to_install[pkg_type],
-                                 [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
- 
-+                if sanity_test is not None:
-+                    sanity_test.join()
++Kernel commit cb12fd8e0dabb9a1c8aef55a6a41e2c255fcdf4b added pidfs.
++Update filesystems-gperf.gperf and missing_magic.h accordingly.
 +
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
++This fixes the following error building against a bleeding edge kernel.
++```
++../src/basic/meson.build:234:8: ERROR: Problem encountered: Unknown filesystems defined in kernel headers:
++
++Filesystem found in kernel header but not in filesystems-gperf.gperf: PID_FS_MAGIC
++```
++
++Upstream-Status: Backport [commit ed01b92e1c92871bbd92711f280e2b2d15753f0e]
++
++---
++ src/basic/filesystems-gperf.gperf | 1 +
++ src/basic/missing_magic.h         | 5 +++++
++ 2 files changed, 6 insertions(+)
++
++diff --git a/src/basic/filesystems-gperf.gperf b/src/basic/filesystems-gperf.gperf
++index e8c5357f91..1cd66b5a5f 100644
++--- a/src/basic/filesystems-gperf.gperf
+++++ b/src/basic/filesystems-gperf.gperf
++@@ -91,6 +91,7 @@ ocfs2,           {OCFS2_SUPER_MAGIC}
++ openpromfs,      {OPENPROM_SUPER_MAGIC}
++ orangefs,        {ORANGEFS_DEVREQ_MAGIC}
++ overlay,         {OVERLAYFS_SUPER_MAGIC}
+++pidfs,           {PID_FS_MAGIC}
++ pipefs,          {PIPEFS_MAGIC}
++ ppc-cmm,         {PPC_CMM_MAGIC}
++ proc,            {PROC_SUPER_MAGIC}
++diff --git a/src/basic/missing_magic.h b/src/basic/missing_magic.h
++index 27a33adecb..82d71c8ad1 100644
++--- a/src/basic/missing_magic.h
+++++ b/src/basic/missing_magic.h
++@@ -128,6 +128,11 @@
++ #define DEVMEM_MAGIC 0x454d444d
++ #endif
++ 
+++/* cb12fd8e0dabb9a1c8aef55a6a41e2c255fcdf4b (6.8) */
+++#ifndef PID_FS_MAGIC
+++#define PID_FS_MAGIC 0x50494446
+++#endif
+++
++ /* Not in mainline but included in Ubuntu */
++ #ifndef SHIFTFS_MAGIC
++ #define SHIFTFS_MAGIC 0x6a656a62
++-- 
++2.39.2
++
+diff --git a/meta/recipes-core/systemd/systemd_255.4.bb b/meta/recipes-core/systemd/systemd_255.4.bb
+index 62842d43c8..08af221a93 100644
+--- a/meta/recipes-core/systemd/systemd_255.4.bb
++++ b/meta/recipes-core/systemd/systemd_255.4.bb
+@@ -28,6 +28,7 @@ SRC_URI += " \
+            file://systemd-pager.sh \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
++           file://0001-basic-add-PIDFS-magic-31709.patch \
+            "
  
+ # patches needed by musl
 -- 
-2.34.1
+2.39.2
 
 
