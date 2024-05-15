@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A14DC25B79
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E25F9C25B7C
 	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:18 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1231.1715794337130697224
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.1240.1715794337546557322
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RsfSbrkv;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=24Luruqy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018f7d4fda44-272aecbd-d905-4255-bcc3-a9e355995992-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SNVeWU6c;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JNdU9I1g;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f7d4fdc55-2075fb1f-1351-4e8f-b544-88fd173a587e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794336;
+	t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=14iRe1MBtplKaPLE8n5OkINDuKbniBZ9D+xLBknCI9s=;
-	b=RsfSbrkv0IvHSaaL3JdzRvzdV2OqgAHvMDxaAiWiLAyNb0n4YXk3+n1e3QD+tnWd
-	akq8tIouRDChtR4IY/gaKrpzTqTsM2kxZvD88HrxxE4tE92BYkHImWR8rwUN/LQgYE8
-	FPLo24BDvGpTTSI7zEBfTlWsxhBbnlWUlOe69WCU=
+	bh=25a5HCxUxTbmubnJON2FfL66150qp7PYIjbsOfHZHYY=;
+	b=SNVeWU6czYCDnHNJ6fo0YAX1uQ3qWWOH4E7TW/dZMuQrKhm0SpvX2p6NAoTI+Woz
+	/52br7djyZD+0CDCztiWMnDqqpP7y586yrGImygCh89hvEyqA3nKIC4VeTR3UfGam+u
+	K4Nz7P6f9YtIrQTt5PY6eofTD9iWW5pCLQrPAZgw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794336;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=14iRe1MBtplKaPLE8n5OkINDuKbniBZ9D+xLBknCI9s=;
-	b=24Luruqy1CWmMaIAdKPGfo9/e+//nLP6/Cpnptm1sqA7/qM1mO1vkrJfhOyAo1gh
-	mX6Y6XGKhGctXYtAMDmpRAVrN7IrnBQFh+BLCAqON3g+aKtQkYIKv4rGrK7sE1P46cm
-	QxMBs4L/owJH8qgRkR+3d9VW1co+j/UttG7R8wyU=
-Content-Type: multipart/mixed; boundary="===============3815114817136306569=="
+	bh=25a5HCxUxTbmubnJON2FfL66150qp7PYIjbsOfHZHYY=;
+	b=JNdU9I1gqPVZWlh6Tf3eaJ3z6ObCxcIOq0DmGj1NTtrCZXvklYyG2Z2ez/ZpOHdC
+	3RqgmCBu0u8lV6YRFpH8tkj+8kE/hcGrGO6VND6yJW9wk8/nd7GN6pfuaqHcTjrwcgW
+	jsf8n3YzcBmdsXlgR7d8Ovbe4sLwsPOaCLZDl9Dw=
+Content-Type: multipart/mixed; boundary="===============6136695676759861334=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mobile-broadband-provider-info: upgrading to 20240407 FAILED
-Message-ID: <0101018f7d4fda44-272aecbd-d905-4255-bcc3-a9e355995992-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxml2: upgrading to 2.12.7 SUCCEEDED
+Message-ID: <0101018f7d4fdc55-2075fb1f-1351-4e8f-b544-88fd173a587e-000000@us-west-2.amazonses.com>
 Date: Wed, 15 May 2024 17:32:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.192
+X-SES-Outgoing: 2024.05.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199299
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199311
 
---===============3815114817136306569==
+--===============6136695676759861334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mobile-broadband-provider-info* to *20240407* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libxml2* to *2.12.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mobile-broadband-provider-info-upgrade-20230416-2024.patch
+    - apply the patch: git am 0001-libxml2-upgrade-2.12.6-2.12.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,198 +72,147 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 15fbdf18542b69e99675a1fc5dd06ee28d623132 Mon Sep 17 00:00:00 2001
+From cc40c402799954b4bab1c6a37c711f61f8502d55 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 06:51:06 +0000
-Subject: [PATCH] mobile-broadband-provider-info: upgrade 20230416 -> 20240407
+Date: Wed, 15 May 2024 07:44:55 +0000
+Subject: [PATCH] libxml2: upgrade 2.12.6 -> 2.12.7
 
 ---
- .../mobile-broadband-provider-info_git.bb                     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/libxml/libxml2/install-tests.patch            | 2 +-
+ .../libxml/{libxml2_2.12.6.bb => libxml2_2.12.7.bb}             | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.12.6.bb => libxml2_2.12.7.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index a4030b7b32..53435634ca 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -5,8 +5,8 @@ SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 478eeea81b..dc41c1fbbe 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -1,4 +1,4 @@
+-From 0779511838a8cbd1e0f431c22f28f286a2a37b1b Mon Sep 17 00:00:00 2001
++From 7095cfa61ff41f9e6f276ee742231a7846667ec2 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 5 Dec 2022 17:02:32 +0000
+ Subject: [PATCH] add yocto-specific install-ptest target
+diff --git a/meta/recipes-core/libxml/libxml2_2.12.6.bb b/meta/recipes-core/libxml/libxml2_2.12.7.bb
+similarity index 97%
+rename from meta/recipes-core/libxml/libxml2_2.12.6.bb
+rename to meta/recipes-core/libxml/libxml2_2.12.7.bb
+index 14fcff7fa4..84601c282f 100644
+--- a/meta/recipes-core/libxml/libxml2_2.12.6.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.7.bb
+@@ -20,7 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
+            "
  
--SRCREV = "aae7c68671d225e6d35224613d5b98192b9b2ffe"
--PV = "20230416"
-+SRCREV = "55ba955d53305df96123534488fd160ea882b4dd"
-+PV = "20240407"
- PE = "1"
+-SRC_URI[archive.sha256sum] = "889c593a881a3db5fdd96cc9318c87df34eb648edfc458272ad46fd607353fbb"
++SRC_URI[archive.sha256sum] = "24ae78ff1363a973e6d8beba941a7945da2ac056e19b53956aeb6927fd6cfb56"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
+ # Disputed as a security issue, but fixed in d39f780
 -- 
 2.44.0
 
 
---===============3815114817136306569==
+--===============6136695676759861334==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.6.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.6;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.7.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.7;name=testtar file://run-ptest file://install-tests.patch"
+packages/core2-64-poky-linux/libxml2: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7515768 to 7515544 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.12.6", added "/usr/lib/.debug/libxml2.so.2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGSIZE changed from 3119599 to 3119618 (+0%)
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7764699 to 7765135 (+0%)
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.12.6" to "2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.12.6 [default] to 2.12.7 [default]
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.12.6", added "/usr/lib/libxml2.so.2.12.7"
+packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.12.6" to "2.12.7"
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so.2.12.6 moved to /usr/lib/libxml2.so.2.12.7
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so.2.12.6 moved to /usr/lib/libxml2.so.2.12.7
+
+--===============6136695676759861334==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.12.6", added "/usr/lib/libxml2.so.2.12.7"
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so.2.12.6 moved to /usr/lib/libxml2.so.2.12.7
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.12.6 to libxml2.so.2.12.7
+  /usr/lib/libxml2.so.2.12.6 moved to /usr/lib/libxml2.so.2.12.7
+
+--===============6136695676759861334==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mobile-broadband-provider-info-upgrade-20230416-2024.patch"
+ filename="0001-libxml2-upgrade-2.12.6-2.12.7.patch"
 
-RnJvbSAxNWZiZGYxODU0MmI2OWU5OTY3NWExZmM1ZGQwNmVlMjhkNjIzMTMyIE1vbiBTZXAgMTcg
+RnJvbSBjYzQwYzQwMjc5OTk1NGI0YmFiMWM2YTM3YzcxMWY2MWY4NTAyZDU1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDY6NTE6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-b2JpbGUtYnJvYWRiYW5kLXByb3ZpZGVyLWluZm86IHVwZ3JhZGUgMjAyMzA0MTYgLT4gMjAyNDA0
-MDcKCi0tLQogLi4uL21vYmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5mb19naXQuYmIgICAgICAg
-ICAgICAgICAgICAgICB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L21v
-YmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5mby9tb2JpbGUtYnJvYWRiYW5kLXByb3ZpZGVyLWlu
-Zm9fZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9tb2JpbGUtYnJvYWRiYW5kLXBy
-b3ZpZGVyLWluZm8vbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRlci1pbmZvX2dpdC5iYgppbmRleCBh
-NDAzMGI3YjMyLi41MzQzNTYzNGNhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L21vYmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5mby9tb2JpbGUtYnJvYWRiYW5kLXByb3Zp
-ZGVyLWluZm9fZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbW9iaWxlLWJy
-b2FkYmFuZC1wcm92aWRlci1pbmZvL21vYmlsZS1icm9hZGJhbmQtcHJvdmlkZXItaW5mb19naXQu
-YmIKQEAgLTUsOCArNSw4IEBAIFNFQ1RJT04gPSAibmV0d29yayIKIExJQ0VOU0UgPSAiUEQiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT04Nzk2NDU3OWIyYThlY2U0YmM2
-NzQ0ZDJkYzlhOGIwNCIKIAotU1JDUkVWID0gImFhZTdjNjg2NzFkMjI1ZTZkMzUyMjQ2MTNkNWI5
-ODE5MmI5YjJmZmUiCi1QViA9ICIyMDIzMDQxNiIKK1NSQ1JFViA9ICI1NWJhOTU1ZDUzMzA1ZGY5
-NjEyMzUzNDQ4OGZkMTYwZWE4ODJiNGRkIgorUFYgPSAiMjAyNDA0MDciCiBQRSA9ICIxIgogCiBT
-UkNfVVJJID0gImdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbW9iaWxlLWJyb2FkYmFuZC1w
-cm92aWRlci1pbmZvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiIKLS0gCjIuNDQuMAoK
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDc6NDQ6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4bWwyOiB1cGdyYWRlIDIuMTIuNiAtPiAyLjEyLjcKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUv
+bGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRjaCAgICAgICAgICAgIHwgMiArLQogLi4u
+L2xpYnhtbC97bGlieG1sMl8yLjEyLjYuYmIgPT4gbGlieG1sMl8yLjEyLjcuYmJ9ICAgICAgICAg
+ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL3tsaWJ4bWwyXzIuMTIuNi5iYiA9
+PiBsaWJ4bWwyXzIuMTIuNy5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29y
+ZS9saWJ4bWwvbGlieG1sMi9pbnN0YWxsLXRlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUv
+bGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRjaAppbmRleCA0NzhlZWVhODFiLi5kYzQx
+YzFmYmJlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9pbnN0
+YWxsLXRlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2lu
+c3RhbGwtdGVzdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDA3Nzk1MTE4MzhhOGNiZDFl
+MGY0MzFjMjJmMjhmMjg2YTJhMzdiMWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDcw
+OTVjZmE2MWZmNDFmOWU2ZjI3NmVlNzQyMjMxYTc4NDY2NjdlYzIgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IE1v
+biwgNSBEZWMgMjAyMiAxNzowMjozMiArMDAwMAogU3ViamVjdDogW1BBVENIXSBhZGQgeW9jdG8t
+c3BlY2lmaWMgaW5zdGFsbC1wdGVzdCB0YXJnZXQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b3JlL2xpYnhtbC9saWJ4bWwyXzIuMTIuNi5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9s
+aWJ4bWwyXzIuMTIuNy5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjEyLjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTIuNy5iYgppbmRleCAxNGZjZmY3ZmE0Li44NDYwMWMy
+ODJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjEyLjYu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xMi43LmJiCkBAIC0y
+MCw3ICsyMCw3IEBAIFNSQ19VUkkgKz0gImh0dHA6Ly93d3cudzMub3JnL1hNTC9UZXN0L3htbHRz
+MjAxMzA5MjMudGFyO3N1YmRpcj0ke0JQfTtuYW1lPXRlc3R0CiAgICAgICAgICAgIGZpbGU6Ly9p
+bnN0YWxsLXRlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hh
+MjU2c3VtXSA9ICI4ODljNTkzYTg4MWEzZGI1ZmRkOTZjYzkzMThjODdkZjM0ZWI2NDhlZGZjNDU4
+MjcyYWQ0NmZkNjA3MzUzZmJiIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMjRhZTc4
+ZmYxMzYzYTk3M2U2ZDhiZWJhOTQxYTc5NDVkYTJhYzA1NmUxOWI1Mzk1NmFlYjY5MjdmZDZjZmI1
+NiIKIFNSQ19VUklbdGVzdHRhci5zaGEyNTZzdW1dID0gImM2YjJkNDJlZTUwYjhiMjM2ZTcxMWE5
+N2Q2OGU2YzRiNWM4ZDgzZTY5YTJiZTQ3MjIzNzlmMDg3MDJlYTcyNzMiCiAKICMgRGlzcHV0ZWQg
+YXMgYSBzZWN1cml0eSBpc3N1ZSwgYnV0IGZpeGVkIGluIGQzOWY3ODAKLS0gCjIuNDQuMAoK
 
---===============3815114817136306569==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (920 cached, 1 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-a1c10d89351cfd63d74e2f1d81b661350502b2a1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a1c10d89351cfd63d74e2f1d81b661350502b2a1"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 159 Local 147 Mirrors 0 Missed 12 Current 163 (92% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 179 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 180 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 265 of 322 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 266 of 322 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_populate_sysroot_setscene)
-NOTE: Running task 292 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_recipe_qa)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa: Started
-NOTE: recipe libxslt-native-1.1.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxslt-native-1.1.39-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 274 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxslt-native-1.1.39-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 276 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libxslt-native-1.1.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 278 of 322 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 316 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxslt-native-1.1.39-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 282 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe libxslt-native-1.1.39-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_fetch: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 289 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 291 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 317 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 319 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 322 of 322 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_fetch: Succeeded
-NOTE: Running task 941 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
-NOTE: Running task 942 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_unpack: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_unpack: Succeeded
-NOTE: Running task 943 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
-NOTE: Running task 944 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_patch: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_patch: Succeeded
-NOTE: Running task 945 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 946 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_lic)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_lic: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_lic: Succeeded
-NOTE: Running task 947 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_configure: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_configure: Succeeded
-NOTE: Running task 948 of 959 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| make: *** No targets specified and no makefile found.  Stop.
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512:182 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 182
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 166
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 161
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 156
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 151
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512, line 195
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 948 tasks of which 938 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515065041.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515065041.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: mobile-broadband-provider-info-1_20240407-r0 do_compile: oe_runmake failed
-ERROR: mobile-broadband-provider-info-1_20240407-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/run.do_compile.2556512', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mobile-broadband-provider-info/20240407/temp/log.do_compile.2556512
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile) failed with exit code '1'
-
---===============3815114817136306569==--
+--===============6136695676759861334==--
 
