@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5365AC3DA6C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00297C3DA66
 	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:32 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1239.1715794337483687526
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.1281.1715794338438560651
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:32:19 -0700
+ Wed, 15 May 2024 10:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NTzttMJ1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uoVYBPcw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018f7d4fe3ab-77b6ad05-4484-4fc1-87d8-94b5a562f620-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fF1yUYuH;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WFSzO1/p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018f7d4fe776-f79d295c-6774-4b3a-b404-f91ab62447ca-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794338;
+	t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mAdWYrzgDUToj9HDuSr7CoiMCyPIgyLHPC5jzELXCdo=;
-	b=NTzttMJ1ADluXEBphDrVDMDdZMVn2kDbfLjR8bhP1u7GS+RyuAvpIk1H/U2koz5D
-	a0dF9CMn4vVLF6/mEmBH+Y/yrYPuEDgOLuVPMASxRPro5opNqqyhcIH7kTXr+A8fI0M
-	3e3F/yze46PC/ZDUQ+j9GGz2rhyRStyRCeQSybPw=
+	bh=KFOygW00mcUyZnQbHtUI6CfQnMnHqdB42Foki2NXVdc=;
+	b=fF1yUYuHxjjpQJHepoyRQ2ChV0tKKTmcuk1INZEvvXysG1BvynW52/f7dzsMv7hp
+	YaSfbPybj0gJx4/IHNPdSpZnTexgbhHFpfkVEUIBJuO+RHYU1J7CEZe1I4o752qcnpf
+	awyrfBzvvjbUQkjbe5okQPrH2/lwcFX+UwjagfCQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794338;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mAdWYrzgDUToj9HDuSr7CoiMCyPIgyLHPC5jzELXCdo=;
-	b=uoVYBPcwQurM5MbW12zqHU0L81OBL8UutXXaOqmb3ltQ5L/JBLFnX1Gx5ONR5RrQ
-	E/tLDJhbukrjTW5emzezbbtYGBF/4C4JywT4h0N1BaZmZ5xan/dOKLHxg86oupLo558
-	KBFL+hvKr9tuQCMs4JifkD0dTdLgPfkcjStFvDj0=
-Content-Type: multipart/mixed; boundary="===============0658394997936179114=="
+	bh=KFOygW00mcUyZnQbHtUI6CfQnMnHqdB42Foki2NXVdc=;
+	b=WFSzO1/pSN+OH5Tb3apTvKNCsa21P+a4CAiEZ6H8uoGZijCRu/iYgwPywg1zqGwg
+	XUCBvd4N+IPsR+dZqYWgvVnb7+bawH4e2jFw1AVvrpO5qebx1MpF1Yv+jl9HGXqLXgW
+	5t9V7O/Bo7UA2NywoJvigAtrOyf2vlmrsI2BhZI4=
+Content-Type: multipart/mixed; boundary="===============5490394723518021473=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 24.0.7 SUCCEEDED
-Message-ID: <0101018f7d4fe3ab-77b6ad05-4484-4fc1-87d8-94b5a562f620-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:18 +0000
+Subject: [AUH] libcap-ng-python: upgrading to 0.8.5 FAILED
+Message-ID: <0101018f7d4fe776-f79d295c-6774-4b3a-b404-f91ab62447ca-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.31
+X-SES-Outgoing: 2024.05.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199379
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199377
 
---===============0658394997936179114==
+--===============5490394723518021473==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *24.0.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *libcap-ng-python* to *0.8.5* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-24.0.5-24.0.7.patch
+    - apply the patch: git am 0001-libcap-ng-python-upgrade-0.8.4-0.8.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,380 +78,497 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f5c3aa1715016e922713dee94324a80d43f4f7e1 Mon Sep 17 00:00:00 2001
+From 66fcab0d356c559735a42fbf17cb1b11ff200209 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 13:41:07 +0000
-Subject: [PATCH] mesa: upgrade 24.0.5 -> 24.0.7
+Date: Wed, 15 May 2024 16:35:49 +0000
+Subject: [PATCH] libcap-ng-python: upgrade 0.8.4 -> 0.8.5
 
 ---
- ...1-Revert-meson-do-not-pull-in-clc-for-clover.patch |  4 ++--
- .../files/0001-drisw-fix-build-without-dri3.patch     | 11 ++++-------
- ...meson-misdetects-64bit-atomics-on-mips-clang.patch |  2 +-
- ...ild-check-for-all-linux-host_os-combinations.patch |  4 ++--
- ...glxext-don-t-try-zink-if-not-enabled-in-mesa.patch |  9 +++------
- meta/recipes-graphics/mesa/mesa.inc                   |  2 +-
- .../mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb}           |  0
- 7 files changed, 13 insertions(+), 19 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb} (100%)
+ .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
+ ...hon_0.8.4.bb => libcap-ng-python_0.8.5.bb} |  0
+ meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
+ 3 files changed, 2 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.8.4.bb => libcap-ng-python_0.8.5.bb} (100%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
-index 1711e22585..766f659bce 100644
---- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
-@@ -1,4 +1,4 @@
--From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
-+From 47c44b843ec7349fd7c2f3313107f972d68e976a Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Fri, 8 Mar 2024 15:53:11 +0100
- Subject: [PATCH] Revert "meson: do not pull in clc for clover"
-@@ -18,7 +18,7 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
-  2 files changed, 3 insertions(+), 2 deletions(-)
- 
- diff --git a/meson.build b/meson.build
--index 2db6185..741b5d1 100644
-+index d0d9c5a..277093a 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -813,6 +813,7 @@ if _opencl != 'disabled'
-diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-index ab16152090..1a3f590d57 100644
---- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-@@ -1,7 +1,7 @@
--From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
-+From 37dbddea4215161bf64e5fa4c12826678faf4d8d Mon Sep 17 00:00:00 2001
- From: Romain Naour <romain.naour@smile.fr>
- Date: Tue, 6 Feb 2024 09:47:09 +0100
--Subject: [PATCH 1/2] drisw: fix build without dri3
-+Subject: [PATCH] drisw: fix build without dri3
- 
- commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
- added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
-@@ -24,7 +24,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+)
- 
- diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
--index 3d3f752..4b19e2d 100644
-+index cbba547..6f07709 100644
- --- a/src/glx/drisw_glx.c
- +++ b/src/glx/drisw_glx.c
- @@ -32,7 +32,9 @@
-@@ -45,7 +45,7 @@ index 3d3f752..4b19e2d 100644
-     if (pdpyp->zink) {
-        bool err;
-        psc->has_multibuffer = dri3_check_multibuffer(priv->dpy, &err);
--@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
-+@@ -1007,6 +1010,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
-           goto handle_error;
-        }
-     }
-@@ -53,6 +53,3 @@ index 3d3f752..4b19e2d 100644
-  
-     glx_config_destroy_list(psc->base.configs);
-     psc->base.configs = configs;
---- 
--2.44.0
+diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+deleted file mode 100644
+index fb424fe725..0000000000
+--- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
+-From: Steve Grubb <ausearch.1@gmail.com>
+-Date: Thu, 4 Jan 2024 15:06:29 -0500
+-Subject: [PATCH] Remove python global exception handler since its deprecated
 -
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46..531d3b52bf 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From f2a2e96bb51b207f11d5bb62d3fd21404104b474 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-index 7be7d81eeb..6b86a4f72d 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-@@ -1,4 +1,4 @@
--From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
-+From 409953c656ee2c9d8c1a9b7a2bc832503b5b1931 Mon Sep 17 00:00:00 2001
- From: Alistair Francis <alistair@alistair23.me>
- Date: Thu, 14 Nov 2019 13:04:49 -0800
- Subject: [PATCH] meson.build: check for all linux host_os combinations
-@@ -19,7 +19,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/meson.build b/meson.build
--index 133fd9a..817861e 100644
-+index 8963b31..d0d9c5a 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-index 036a0b4945..f729ed487d 100644
---- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-+++ b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-@@ -1,7 +1,7 @@
--From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
-+From 4ac712a8f4faa928bcaf340164f14e34835a0b83 Mon Sep 17 00:00:00 2001
- From: Romain Naour <romain.naour@smile.fr>
- Date: Tue, 6 Feb 2024 09:47:10 +0100
--Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
-+Subject: [PATCH] glxext: don't try zink if not enabled in mesa
- 
- Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
- added an automatic zink fallback even when the zink gallium is not
-@@ -22,7 +22,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 2 insertions(+)
- 
- diff --git a/src/glx/glxext.c b/src/glx/glxext.c
--index 05c825a..7a06aa9 100644
-+index fd53e00..31e8511 100644
- --- a/src/glx/glxext.c
- +++ b/src/glx/glxext.c
- @@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
-@@ -37,6 +37,3 @@ index 05c825a..7a06aa9 100644
-     }
-  #endif /* GLX_USE_DRM */
-     if (glx_direct)
---- 
--2.44.0
+-Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- bindings/src/capng_swig.i | 7 -------
+- 1 file changed, 7 deletions(-)
 -
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 77e9c80fcb..48ef7c47f1 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
- "
- 
--SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
-+SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_24.0.5.bb b/meta/recipes-graphics/mesa/mesa_24.0.7.bb
+-diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
+-index fcdaf18..fa85e13 100644
+---- a/bindings/src/capng_swig.i
+-+++ b/bindings/src/capng_swig.i
+-@@ -30,13 +30,6 @@
+- 
+- %varargs(16, signed capability = 0) capng_updatev;
+- 
+--%except(python) {
+--  $action
+--  if (result < 0) {
+--    PyErr_SetFromErrno(PyExc_OSError);
+--    return NULL;
+--  }
+--}
+- #endif
+- 
+- %define __signed__
+--- 
+-2.43.2
+-
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
 similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_24.0.5.bb
-rename to meta/recipes-graphics/mesa/mesa_24.0.7.bb
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 845b7c2f0a..875337b954 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+ 
+-SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+-           file://fix-issues-with-swig-4-2.patch \
+-           "
++SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
++SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
+ 
+ EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+ EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
 -- 
 2.44.0
 
 
---===============0658394997936179114==
+--===============5490394723518021473==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-24.0.5-24.0.7.patch"
+ filename="0001-libcap-ng-python-upgrade-0.8.4-0.8.5.patch"
 
-RnJvbSBmNWMzYWExNzE1MDE2ZTkyMjcxM2RlZTk0MzI0YTgwZDQzZjRmN2UxIE1vbiBTZXAgMTcg
+RnJvbSA2NmZjYWIwZDM1NmM1NTk3MzVhNDJmYmYxN2NiMWIxMWZmMjAwMjA5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTM6NDE6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNhOiB1cGdyYWRlIDI0LjAuNSAtPiAyNC4wLjcKCi0tLQogLi4uMS1SZXZlcnQtbWVzb24tZG8t
-bm90LXB1bGwtaW4tY2xjLWZvci1jbG92ZXIucGF0Y2ggfCAgNCArKy0tCiAuLi4vZmlsZXMvMDAw
-MS1kcmlzdy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoICAgICB8IDExICsrKystLS0tLS0t
-CiAuLi5tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCB8
-ICAyICstCiAuLi5pbGQtY2hlY2stZm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5w
-YXRjaCB8ICA0ICsrLS0KIC4uLmdseGV4dC1kb24tdC10cnktemluay1pZi1ub3QtZW5hYmxlZC1p
-bi1tZXNhLnBhdGNoIHwgIDkgKysrLS0tLS0tCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9t
-ZXNhLmluYyAgICAgICAgICAgICAgICAgICB8ICAyICstCiAuLi4vbWVzYS97bWVzYV8yNC4wLjUu
-YmIgPT4gbWVzYV8yNC4wLjcuYmJ9ICAgICAgICAgICB8ICAwCiA3IGZpbGVzIGNoYW5nZWQsIDEz
-IGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy9tZXNhL3ttZXNhXzI0LjAuNS5iYiA9PiBtZXNhXzI0LjAuNy5iYn0gKDEwMCUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1SZXZlcnQtbWVz
-b24tZG8tbm90LXB1bGwtaW4tY2xjLWZvci1jbG92ZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvbWVzYS9maWxlcy8wMDAxLVJldmVydC1tZXNvbi1kby1ub3QtcHVsbC1pbi1jbGMtZm9y
-LWNsb3Zlci5wYXRjaAppbmRleCAxNzExZTIyNTg1Li43NjZmNjU5YmNlIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLVJldmVydC1tZXNvbi1kby1ub3Qt
-cHVsbC1pbi1jbGMtZm9yLWNsb3Zlci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-bWVzYS9maWxlcy8wMDAxLVJldmVydC1tZXNvbi1kby1ub3QtcHVsbC1pbi1jbGMtZm9yLWNsb3Zl
-ci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDUxZjQxYmVkYTU0MGYwYWU3N2IzNDFkYjAx
-YTZkZTgzYzllOTM4YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDdjNDRiODQzZWM3
-MzQ5ZmQ3YzJmMzMxMzEwN2Y5NzJkNjhlOTc2YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KIERhdGU6IEZyaSwgOCBNYXIgMjAy
-NCAxNTo1MzoxMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBSZXZlcnQgIm1lc29uOiBkbyBub3Qg
-cHVsbCBpbiBjbGMgZm9yIGNsb3ZlciIKQEAgLTE4LDcgKzE4LDcgQEAgU2lnbmVkLW9mZi1ieTog
-TWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNl
-cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9t
-ZXNvbi5idWlsZAotaW5kZXggMmRiNjE4NS4uNzQxYjVkMSAxMDA2NDQKK2luZGV4IGQwZDljNWEu
-LjI3NzA5M2EgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBA
-IC04MTMsNiArODEzLDcgQEAgaWYgX29wZW5jbCAhPSAnZGlzYWJsZWQnCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRyaXN3LWZpeC1idWlsZC13aXRo
-b3V0LWRyaTMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRy
-aXN3LWZpeC1idWlsZC13aXRob3V0LWRyaTMucGF0Y2gKaW5kZXggYWIxNjE1MjA5MC4uMWEzZjU5
-MGQ1NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1k
-cmlzdy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9tZXNhL2ZpbGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaApA
-QCAtMSw3ICsxLDcgQEAKLUZyb20gNGJkMTVhNDE5ZTg5MmRhODQzNDg5YzM3NGM1OGM1YjI5YzQw
-YjVkNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzdkYmRkZWE0MjE1MTYxYmY2NGU1
-ZmE0YzEyODI2Njc4ZmFmNGQ4ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvbWFp
-biBOYW91ciA8cm9tYWluLm5hb3VyQHNtaWxlLmZyPgogRGF0ZTogVHVlLCA2IEZlYiAyMDI0IDA5
-OjQ3OjA5ICswMTAwCi1TdWJqZWN0OiBbUEFUQ0ggMS8yXSBkcmlzdzogZml4IGJ1aWxkIHdpdGhv
-dXQgZHJpMworU3ViamVjdDogW1BBVENIXSBkcmlzdzogZml4IGJ1aWxkIHdpdGhvdXQgZHJpMwog
-CiBjb21taXQgMTg4NzM2OGRmNDEgKCJnbHgvc3c6IGNoZWNrIGZvciBtb2RpZmllciBzdXBwb3J0
-IGluIHRoZSBrb3BwZXIgcGF0aCIpCiBhZGRlZCBkcmkzX3ByaXYuaCBoZWFkZXIgYW5kIGRyaTNf
-Y2hlY2tfbXVsdGlidWZmZXIoKSBmdW5jdGlvbiBpbiBkcmlzdyB0aGF0CkBAIC0yNCw3ICsyNCw3
-IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxl
-IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2dseC9kcmlzd19n
-bHguYyBiL3NyYy9nbHgvZHJpc3dfZ2x4LmMKLWluZGV4IDNkM2Y3NTIuLjRiMTllMmQgMTAwNjQ0
-CitpbmRleCBjYmJhNTQ3Li42ZjA3NzA5IDEwMDY0NAogLS0tIGEvc3JjL2dseC9kcmlzd19nbHgu
-YwogKysrIGIvc3JjL2dseC9kcmlzd19nbHguYwogQEAgLTMyLDcgKzMyLDkgQEAKQEAgLTQ1LDcg
-KzQ1LDcgQEAgaW5kZXggM2QzZjc1Mi4uNGIxOWUyZCAxMDA2NDQKICAgICBpZiAocGRweXAtPnpp
-bmspIHsKICAgICAgICBib29sIGVycjsKICAgICAgICBwc2MtPmhhc19tdWx0aWJ1ZmZlciA9IGRy
-aTNfY2hlY2tfbXVsdGlidWZmZXIocHJpdi0+ZHB5LCAmZXJyKTsKLUBAIC0xMDA1LDYgKzEwMDgs
-NyBAQCBkcmlzd0NyZWF0ZVNjcmVlbkRyaXZlcihpbnQgc2NyZWVuLCBzdHJ1Y3QgZ2x4X2Rpc3Bs
-YXkgKnByaXYsCitAQCAtMTAwNyw2ICsxMDEwLDcgQEAgZHJpc3dDcmVhdGVTY3JlZW5Ecml2ZXIo
-aW50IHNjcmVlbiwgc3RydWN0IGdseF9kaXNwbGF5ICpwcml2LAogICAgICAgICAgIGdvdG8gaGFu
-ZGxlX2Vycm9yOwogICAgICAgIH0KICAgICB9CkBAIC01Myw2ICs1MywzIEBAIGluZGV4IDNkM2Y3
-NTIuLjRiMTllMmQgMTAwNjQ0CiAgCiAgICAgZ2x4X2NvbmZpZ19kZXN0cm95X2xpc3QocHNjLT5i
-YXNlLmNvbmZpZ3MpOwogICAgIHBzYy0+YmFzZS5jb25maWdzID0gY29uZmlnczsKLS0tIAotMi40
-NC4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEt
-bWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQt
-YXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IGJhYTk4YTBkNDYuLjUzMWQzYjUyYmYg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24t
-bWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0
-b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDJjYzIxODAw
-ZmUyOWY1NjZhZGQ1MjVlNjNmNjE5YzA1MzZkNmU3YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gZjJhMmU5NmJiNTFiMjA3ZjExZDViYjYyZDNmZDIxNDA0MTA0YjQ3NCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRl
-OiBNb24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29u
-IG1pc2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1h
-bGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGludXgtaG9zdF9v
-cy1jb21iaW5hdGlvbnMucGF0Y2gKaW5kZXggN2JlN2Q4MWVlYi4uNmI4NmE0ZjcyZCAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi5idWlsZC1j
-aGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hlY2stZm9yLWFs
-bC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-ZThlYzZiMWNjNWU0MDFiYTcxOTA5NTcyMmQ4YjMxN2Q3NTVhZTYxMyBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gNDA5OTUzYzY1NmVlMmM5ZDhjMWE5YjdhMmJjODMyNTAzYjViMTkzMSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWly
-QGFsaXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAyMDE5IDEzOjA0OjQ5IC0wODAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBmb3IgYWxsIGxpbnV4IGhvc3Rfb3Mg
-Y29tYmluYXRpb25zCkBAIC0xOSw3ICsxOSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsaXN0YWlyIEZy
-YW5jaXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1aWxkIGIvbWVz
-b24uYnVpbGQKLWluZGV4IDEzM2ZkOWEuLjgxNzg2MWUgMTAwNjQ0CitpbmRleCA4OTYzYjMxLi5k
-MGQ5YzVhIDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAt
-MTI4LDcgKzEyOCw3IEBAIHdpdGhfYW55X29wZW5nbCA9IHdpdGhfb3BlbmdsIG9yIHdpdGhfZ2xl
-czEgb3Igd2l0aF9nbGVzMgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
-ZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDItZ2x4ZXh0LWRvbi10
-LXRyeS16aW5rLWlmLW5vdC1lbmFibGVkLWluLW1lc2EucGF0Y2gKaW5kZXggMDM2YTBiNDk0NS4u
-ZjcyOWVkNDg3ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMv
-MDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAyLWdseGV4dC1kb24tdC10
-cnktemluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoCkBAIC0xLDcgKzEsNyBAQAotRnJv
-bSA2MjQ5NWViYjk3Nzg2NmM1MmQ1YmVkODQ5OWE1NDdjNDlmMGQ5YmMxIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQorRnJvbSA0YWM3MTJhOGY0ZmFhOTI4YmNhZjM0MDE2NGYxNGUzNDgzNWEwYjgz
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxyb21haW4ubmFv
-dXJAc21pbGUuZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MTAgKzAxMDAKLVN1Ympl
-Y3Q6IFtQQVRDSCAyLzJdIGdseGV4dDogZG9uJ3QgdHJ5IHppbmsgaWYgbm90IGVuYWJsZWQgaW4g
-bWVzYQorU3ViamVjdDogW1BBVENIXSBnbHhleHQ6IGRvbid0IHRyeSB6aW5rIGlmIG5vdCBlbmFi
-bGVkIGluIG1lc2EKIAogQ29tbWl0IDdkOWVhNzdiNDU5ICgiZ2x4OiBhZGQgYXV0b21hdGljIHpp
-bmsgZmFsbGJhY2sgbG9hZGluZyBiZXR3ZWVuIGh3IGFuZCBzdyBkcml2ZXJzIikKIGFkZGVkIGFu
-IGF1dG9tYXRpYyB6aW5rIGZhbGxiYWNrIGV2ZW4gd2hlbiB0aGUgemluayBnYWxsaXVtIGlzIG5v
-dApAQCAtMjIsNyArMjIsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKIAogZGlmZiAtLWdpdCBh
-L3NyYy9nbHgvZ2x4ZXh0LmMgYi9zcmMvZ2x4L2dseGV4dC5jCi1pbmRleCAwNWM4MjVhLi43YTA2
-YWE5IDEwMDY0NAoraW5kZXggZmQ1M2UwMC4uMzFlODUxMSAxMDA2NDQKIC0tLSBhL3NyYy9nbHgv
-Z2x4ZXh0LmMKICsrKyBiL3NyYy9nbHgvZ2x4ZXh0LmMKIEBAIC05MDgsOSArOTA4LDExIEBAIF9f
-Z2xYSW5pdGlhbGl6ZShEaXNwbGF5ICogZHB5KQpAQCAtMzcsNiArMzcsMyBAQCBpbmRleCAwNWM4
-MjVhLi43YTA2YWE5IDEwMDY0NAogICAgIH0KICAjZW5kaWYgLyogR0xYX1VTRV9EUk0gKi8KICAg
-ICBpZiAoZ2x4X2RpcmVjdCkKLS0tIAotMi40NC4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9tZXNhL21lc2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVz
-YS5pbmMKaW5kZXggNzdlOWM4MGZjYi4uNDhlZjdjNDdmMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
-c2EvbWVzYS5pbmMKQEAgLTIyLDcgKzIyLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJl
-ZWRlc2t0b3Aub3JnL2FyY2hpdmUvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1SZXZlcnQtbWVzb24tZG8tbm90LXB1bGwtaW4tY2xjLWZvci1jbG92ZXIucGF0Y2gg
-XAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzhjYzI0NWNhOGZhYTNjNjlkYTZkMjY4N2Y4
-OTA2Mzc3MDAxZjYzMzY1MzQ4YTYyY2M2ZjdmYWZiMWU4YzAxOCIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI3NDU0NDI1ZjFlZDRhNmYxYjViMTA3ZTE2NzJiMzBjODhiMjJlYTBlZmVhMDAwYWUyYzdk
-OTZkYjkzZjZjMjZhIgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJtZXNhLSg/UDxw
-dmVyPlxkKyhcLlxkKykrKSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
-c2EvbWVzYV8yNC4wLjUuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0LjAu
-Ny5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL21lc2EvbWVzYV8yNC4wLjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9t
-ZXNhL21lc2FfMjQuMC43LmJiCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTY6MzU6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJjYXAtbmctcHl0aG9uOiB1cGdyYWRlIDAuOC40IC0+IDAuOC41CgotLS0KIC4uLi9maWxlcy9m
+aXgtaXNzdWVzLXdpdGgtc3dpZy00LTIucGF0Y2ggICAgICB8IDMyIC0tLS0tLS0tLS0tLS0tLS0t
+LS0KIC4uLmhvbl8wLjguNC5iYiA9PiBsaWJjYXAtbmctcHl0aG9uXzAuOC41LmJifSB8ICAwCiBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmluYyAgfCAgNiArKy0tCiAz
+IGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMzYgZGVsZXRpb25zKC0pCiBkZWxldGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2ZpbGVzL2ZpeC1pc3N1
+ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNh
+cC1uZy97bGliY2FwLW5nLXB5dGhvbl8wLjguNC5iYiA9PiBsaWJjYXAtbmctcHl0aG9uXzAuOC41
+LmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcv
+ZmlsZXMvZml4LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvbGliY2FwLW5nL2ZpbGVzL2ZpeC1pc3N1ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaApkZWxldGVk
+IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZmI0MjRmZTcyNS4uMDAwMDAwMDAwMAotLS0gYS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRoLXN3aWctNC0y
+LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzIgKzAsMCBAQAotRnJvbSAzNTVlYWRhMmQyMDg4
+NjI4N2NmZmMxNmUzMDQwODdkZDZmNjZhZTM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJv
+bTogU3RldmUgR3J1YmIgPGF1c2VhcmNoLjFAZ21haWwuY29tPgotRGF0ZTogVGh1LCA0IEphbiAy
+MDI0IDE1OjA2OjI5IC0wNTAwCi1TdWJqZWN0OiBbUEFUQ0hdIFJlbW92ZSBweXRob24gZ2xvYmFs
+IGV4Y2VwdGlvbiBoYW5kbGVyIHNpbmNlIGl0cyBkZXByZWNhdGVkCi0KLVVwc3RyZWFtLVN0YXR1
+czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9zdGV2ZWdydWJiL2xpYmNhcC1uZy9jb21t
+aXQvMzA0NTNiNjU1Mzk0OGNkMDVjNDM4ZjlmNTA5MDEzZTNiYjg0ZjI1Yl0KLVNpZ25lZC1vZmYt
+Ynk6IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+Ci0tLS0KLSBiaW5kaW5ncy9z
+cmMvY2Fwbmdfc3dpZy5pIHwgNyAtLS0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDcgZGVsZXRpb25z
+KC0pCi0KLWRpZmYgLS1naXQgYS9iaW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pIGIvYmluZGluZ3Mv
+c3JjL2NhcG5nX3N3aWcuaQotaW5kZXggZmNkYWYxOC4uZmE4NWUxMyAxMDA2NDQKLS0tLSBhL2Jp
+bmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkKLSsrKyBiL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkK
+LUBAIC0zMCwxMyArMzAsNiBAQAotIAotICV2YXJhcmdzKDE2LCBzaWduZWQgY2FwYWJpbGl0eSA9
+IDApIGNhcG5nX3VwZGF0ZXY7Ci0gCi0tJWV4Y2VwdChweXRob24pIHsKLS0gICRhY3Rpb24KLS0g
+IGlmIChyZXN1bHQgPCAwKSB7Ci0tICAgIFB5RXJyX1NldEZyb21FcnJubyhQeUV4Y19PU0Vycm9y
+KTsKLS0gICAgcmV0dXJuIE5VTEw7Ci0tICB9Ci0tfQotICNlbmRpZgotIAotICVkZWZpbmUgX19z
+aWduZWRfXwotLS0gCi0yLjQzLjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bGliY2FwLW5nL2xpYmNhcC1uZy1weXRob25fMC44LjQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJjYXAtbmcvbGliY2FwLW5nLXB5dGhvbl8wLjguNS5iYgpzaW1pbGFyaXR5IGluZGV4IDEw
+MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy1w
+eXRob25fMC44LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9s
+aWJjYXAtbmctcHl0aG9uXzAuOC41LmJiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJjYXAtbmcvbGliY2FwLW5nLmluYyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1u
+Zy9saWJjYXAtbmcuaW5jCmluZGV4IDg0NWI3YzJmMGEuLjg3NTMzN2I5NTQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmcuaW5jCisrKyBiL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmcuaW5jCkBAIC03LDExICs3LDkgQEAg
+TElDRU5TRSA9ICJHUEwtMi4wLW9yLWxhdGVyICYgTEdQTC0yLjEtb3ItbGF0ZXIiCiBMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT05NGQ1NWQ1MTJhOWJhMzZjYWE5YjdkZjA3
+OWJhZTE5ZiBcCiAJCSAgICBmaWxlOi8vQ09QWUlORy5MSUI7bWQ1PWUzZWRhMDFkOTgxNWY4ZDI0
+YWFlMmRiZDg5YjY4YjA2IgogCi1TUkNfVVJJID0gImh0dHBzOi8vcGVvcGxlLnJlZGhhdC5jb20v
+c2dydWJiL2xpYmNhcC1uZy9saWJjYXAtbmctJHtQVn0udGFyLmd6IFwKLSAgICAgICAgICAgZmls
+ZTovL2ZpeC1pc3N1ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaCBcCi0gICAgICAgICAgICIKK1NSQ19V
+UkkgPSAiaHR0cHM6Ly9wZW9wbGUucmVkaGF0LmNvbS9zZ3J1YmIvbGliY2FwLW5nL2xpYmNhcC1u
+Zy0ke1BWfS50YXIuZ3oiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2ODU4MWQzYjM4ZTc1NTNj
+YjZmNmRkZjc4MTNiMWZjOTllNTI4NTZmMjE0MjFmN2I0NzdjZTVhYmQyNjA1YThhIgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjNiYTUyOTRkMWNiZGZhOThhZmFhY2ZiYzAwYjZhZjllZDJiODNlOGEy
+MTgxNzE4NWRmZDg0NGNjOGM3YWM2ZmYiCiAKIEVYVFJBX09FQ09ORjphcHBlbmQ6Y2xhc3MtdGFy
+Z2V0ID0gIiAtLXdpdGgtY2FwYWJpbGl0eV9oZWFkZXI9JHtTVEFHSU5HX0lOQ0RJUn0vbGludXgv
+Y2FwYWJpbGl0eS5oIgogRVhUUkFfT0VDT05GOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIC0t
+d2l0aC1jYXBhYmlsaXR5X2hlYWRlcj0ke1NUQUdJTkdfSU5DRElSfS9saW51eC9jYXBhYmlsaXR5
+LmgiCi0tIAoyLjQ0LjAKCg==
 
---===============0658394997936179114==
+--===============5490394723518021473==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.7.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch"
-packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253480800 to 253507752 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 22995287 to 23003479 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153682856 to 153713495 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 26324869 to 26328965 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.5" to "24.0.7"
-packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.5 [default] to 24.0.7 [default]
-packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.5" to "24.0.7"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1882 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (919 cached, 2 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============0658394997936179114==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-f886a03a8464694e7e43ba845d61fe6067d3d803"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f886a03a8464694e7e43ba845d61fe6067d3d803"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 192 Local 107 Mirrors 0 Missed 85 Current 261 (55% match, 81% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
+Removing 21 stale sstate objects for arch qemux86_64...done.
+Removing 6 stale sstate objects for arch core2-64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 296 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 299 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 302 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 305 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 308 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 313 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 314 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 315 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 318 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 321 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 324 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 329 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 330 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 333 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 337 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 346 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxcrypt-4.4.36-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 352 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 353 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 359 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 364 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_stash_locale_setscene)
+NOTE: Running setscene task 365 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libedit-20230828-3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 368 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 369 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe openssl-3.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Started
+NOTE: Running noexec task 429 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 461 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_fetch)
+NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 506 of 1306 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch)
+NOTE: Running noexec task 568 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_fetch)
+NOTE: Running task 600 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_fetch)
+NOTE: Running task 604 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_fetch)
+NOTE: Running task 687 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_fetch)
+NOTE: Running task 693 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_fetch)
+NOTE: Running task 694 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_fetch)
+NOTE: Running task 695 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_fetch)
+NOTE: Running task 696 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_fetch)
+NOTE: Running task 697 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_fetch: Started
+NOTE: Running task 718 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_fetch)
+NOTE: Running task 719 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_fetch)
+NOTE: Running task 746 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_fetch)
+NOTE: Running task 747 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_fetch)
+NOTE: Running task 748 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_fetch: Succeeded
+NOTE: Running task 749 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_unpack)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Started
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_fetch: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Started
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe zlib-1.3.1-r0: task do_fetch: Started
+NOTE: recipe expat-2.6.2-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_fetch: Started
+NOTE: recipe gdbm-1.23-r0: task do_fetch: Started
+NOTE: recipe xz-5.4.6-r0: task do_fetch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Started
+NOTE: recipe openssl-3.3.0-r0: task do_fetch: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_fetch: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_fetch: Started
+NOTE: recipe ncurses-6.4-r0: task do_fetch: Started
+NOTE: recipe libffi-3.4.6-r0: task do_fetch: Started
+NOTE: recipe zlib-1.3.1-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_fetch: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_fetch: Succeeded
+NOTE: Running task 750 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_unpack: Started
+NOTE: recipe xz-5.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_fetch: Succeeded
+NOTE: Running task 751 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_unpack)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Succeeded
+NOTE: Running task 752 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_unpack)
+NOTE: Running task 753 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_unpack)
+NOTE: Running task 754 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_unpack)
+NOTE: recipe libffi-3.4.6-r0: task do_fetch: Succeeded
+NOTE: Running task 755 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_unpack)
+NOTE: Running task 756 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_unpack)
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 447 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 448 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Started
+NOTE: recipe zlib-1.3.1-r0: task do_unpack: Started
+NOTE: Running task 757 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_unpack)
+NOTE: recipe expat-2.6.2-r0: task do_unpack: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.23-r0: task do_unpack: Started
+NOTE: recipe xz-5.4.6-r0: task do_unpack: Started
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 758 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_unpack)
+NOTE: recipe libnsl2-2.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 759 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_fetch)
+NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_fetch: Succeeded
+NOTE: recipe libxcrypt-4.4.36-r0: task do_fetch: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 760 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_unpack)
+NOTE: Running task 761 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_unpack)
+NOTE: Running task 762 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_fetch)
+NOTE: recipe zlib-1.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 763 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_patch)
+NOTE: recipe gdbm-1.23-r0: task do_unpack: Succeeded
+NOTE: Running task 764 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_patch)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Started
+NOTE: recipe xz-5.4.6-r0: task do_unpack: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_unpack: Succeeded
+NOTE: Running task 765 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_patch)
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 766 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_patch)
+NOTE: Running task 767 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_fetch)
+NOTE: recipe libtirpc-1.3.4-r0: task do_unpack: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_fetch: Started
+NOTE: Running task 768 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_patch)
+NOTE: recipe openssl-3.3.0-r0: task do_unpack: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Started
+NOTE: recipe ncurses-6.4-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_patch: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_fetch: Succeeded
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 771 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_fetch)
+NOTE: Running task 775 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_fetch)
+NOTE: Running setscene task 449 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_gcc_stash_builddir_setscene)
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 451 of 453 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_patch: Started
+NOTE: recipe expat-2.6.2-r0: task do_patch: Started
+NOTE: recipe xz-5.4.6-r0: task do_patch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_patch: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 778 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_unpack)
+NOTE: recipe zlib-1.3.1-r0: task do_patch: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_patch: Succeeded
+NOTE: Running task 780 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_unpack)
+NOTE: recipe xz-5.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 781 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_generate_toolchain_file)
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 784 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_unpack)
+NOTE: recipe gdbm-1.23-r0: task do_patch: Succeeded
+NOTE: Running task 786 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_unpack)
+NOTE: recipe python3-3.12.3-r0: task do_fetch: Started
+NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_unpack: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_unpack: Started
+NOTE: Running task 789 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_unpack)
+NOTE: recipe python3-3.12.3-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 790 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_unpack)
+NOTE: recipe libxcrypt-4.4.36-r0: task do_unpack: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_patch: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_unpack: Started
+NOTE: Running task 794 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_unpack)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Succeeded
+NOTE: Running task 795 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_patch)
+NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 814 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_patch)
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Succeeded
+NOTE: Running task 846 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch)
+NOTE: Running task 847 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_unpack)
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_unpack: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Started
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Checksum failure encountered with download of https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz - will attempt other sources if available
+NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Succeeded
+NOTE: recipe libedit-20230828-3.1-r0: task do_unpack: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_unpack: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_patch: Started
+NOTE: Running task 848 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_patch)
+NOTE: Running task 849 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_patch)
+NOTE: recipe libcap-ng-0.8.4-r0: task do_fetch: Started
+NOTE: Running task 850 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_patch)
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-native-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe python3-3.12.3-r0: task do_unpack: Started
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_patch: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_patch: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Started
+NOTE: recipe libffi-3.4.6-r0: task do_patch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_unpack: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Succeeded
+NOTE: Running task 889 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_fetch)
+NOTE: Running task 890 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_patch)
+NOTE: recipe openssl-3.3.0-r0: task do_unpack: Succeeded
+NOTE: Running task 908 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_patch)
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_patch: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_patch: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 986 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_patch)
+NOTE: recipe libedit-20230828-3.1-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_fetch: Started
+NOTE: recipe ncurses-6.4-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_fetch: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_patch: Started
+NOTE: Running task 988 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_unpack)
+NOTE: recipe libnsl2-2.0.1-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_unpack: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_unpack: Succeeded
+NOTE: Running task 990 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_patch)
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_patch: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_unpack: Succeeded
+NOTE: Running task 991 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.36.bb:do_patch)
+NOTE: recipe openssl-3.3.0-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_patch: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Succeeded
+NOTE: Running task 993 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcrypt-4.4.36-r0: task do_patch: Started
+NOTE: Running task 994 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_populate_lic)
+NOTE: Running task 995 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_patch)
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Checksum failure encountered with download of https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz - will attempt other sources if available
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz
+Cleaning and trying again.
+WARNING: libcap-ng-0.8.4-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz to /srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz_bad-checksum_68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_populate_lic: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Started
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcrypt-4.4.36-r0: task do_patch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_populate_lic: Succeeded
+NOTE: recipe libcap-ng-python-0.8.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_populate_lic unihash changed to 0ffb428b0642eba2cc76bcb95f6b533589729397a7ccaab812b377cbbbb6f89b
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb:do_deploy_source_date_epoch unihash changed to a8774b7d78c4d12302c25846447c2182e99ece2cc55f17f7b1d5648851be59ca
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_unpack: Succeeded
+NOTE: Running task 999 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_patch)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1002 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_patch)
+NOTE: recipe python3-3.12.3-r0: task do_patch: Started
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_patch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Succeeded
+NOTE: Running task 1004 of 1306 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_patch)
+NOTE: recipe python3-3.12.3-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-native-0.8.4-r0: task do_fetch: Failed
+NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libcap-ng-0.8.4-r0: task do_fetch: Failed
+NOTE: recipe linux-libc-headers-6.6-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1006 tasks of which 939 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515163518.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515163518.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 2 tasks failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch
+Summary: There were 8 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-ng-native-0.8.4-r0 do_fetch: Checksum failure fetching https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz
+ERROR: libcap-ng-native-0.8.4-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz\' has sha256 checksum \'68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a\' when \'3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz')
+ERROR: libcap-ng-0.8.4-r0 do_fetch: Checksum failure fetching https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz
+ERROR: libcap-ng-0.8.4-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/libcap-ng-0.8.4.tar.gz\' has sha256 checksum \'68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a\' when \'3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/libcap-ng-native/0.8.4/temp/log.do_fetch.3901496
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch) failed with exit code '1'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libcap-ng/0.8.4/temp/log.do_fetch.3902475
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_fetch) failed with exit code '1'
+
+--===============5490394723518021473==--
 
