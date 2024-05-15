@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EACEC3DA4B
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:28 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1265.1715794339953771460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81243C3DA44
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:27 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1301.1715794340183339731
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S2GlwEjp;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=O5mzzZSt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f7d4fe41e-140569b2-4cae-43d9-b183-e08541b9e02d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BEqMknai;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vOfj24Ob;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f7d4fe6f4-36ccea97-22e7-45d5-be81-74fb60db61bc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iyhC269c/Kni5xvneScZWJoHMl0lwVYScqsigBtczYs=;
-	b=S2GlwEjppMSay0sYSw79cAPVGxJoiUL5+Etc+01sV2zZCOTuL2gUbuo5MLAX6Dgn
-	IDQ4t12A0T3DYNUUjatPTAmgtpP8bfoDZishLstaWBeGQ62MxKIjYNRXqc8gqNU5TNQ
-	vvXKlnP3cGNtNz9gC8KikTHjzGFBZqXkkZSyhdqg=
+	bh=zBsE1E00hVh82CUwNVAuJWv+Zx42n/rktRo4vsxpE4I=;
+	b=BEqMknaiTnYrmfC/+4xP1BcGnuTwRP8V4W84mU/FCvpRYFAAZYP07ovJQD2YjaZt
+	QRrNQ1elBOdZ67zMUoclZLT0T/xJwJ0We49cLqfateNk3dqokJ0iBojtDvpe6mj9iYT
+	8zq9gogvfdZE0FyNbkrGqWNzYv7PVPaSGIx3M0iw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iyhC269c/Kni5xvneScZWJoHMl0lwVYScqsigBtczYs=;
-	b=O5mzzZSteBf4yrbN/esNvsstP9axvagju1u0K/3b0yR1loIThXTEP7tNrzQkG9iF
-	XjFdXgZcLTu2ezMB7XCIAijn5OaLAIGZ+kEsxK7oNlRuUleOnahevI1FrzkVzhmEOwl
-	jQ997jU2/rp5WxPJgficqRT5u7D7+eqQOM0uhbfg=
-Content-Type: multipart/mixed; boundary="===============2016176102773590035=="
+	bh=zBsE1E00hVh82CUwNVAuJWv+Zx42n/rktRo4vsxpE4I=;
+	b=vOfj24Ob+xus8+ZXWvAZdahGVi5BMvB3/P4nFxB0t+bT6IbgDoZpIz1YmgEEbghC
+	WPUHpmzpBaozP7ZEBngN8Tq85BZGT+/igtdnitPaaIe7BUqXVN3n7UjPM6H0iJM6oQy
+	iUiXFP8T9jc9Xv6WSWtpSSVajRtbGA7fPOr2hnvM=
+Content-Type: multipart/mixed; boundary="===============4637627659429633559=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-headers: upgrading to 1.3.283.0 SUCCEEDED
-Message-ID: <0101018f7d4fe41e-140569b2-4cae-43d9-b183-e08541b9e02d-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:18 +0000
+Subject: [AUH] bash-completion: upgrading to 2.14.0 SUCCEEDED
+Message-ID: <0101018f7d4fe6f4-36ccea97-22e7-45d5-be81-74fb60db61bc-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.193
+X-SES-Outgoing: 2024.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199407
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199413
 
---===============2016176102773590035==
+--===============4637627659429633559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.283.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *bash-completion* to *2.14.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.280.0-1.3.283.0.patch
+    - apply the patch: git am 0001-bash-completion-upgrade-2.13.0-2.14.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,90 +72,96 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 68cd868bbf3c147f24d34fbd2e6dce08d320d238 Mon Sep 17 00:00:00 2001
+From 7cdccc420970f094d5863433ea480f292093acd1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 14:00:59 +0000
-Subject: [PATCH] spirv-headers: upgrade 1.3.280.0 -> 1.3.283.0
+Date: Wed, 15 May 2024 16:11:52 +0000
+Subject: [PATCH] bash-completion: upgrade 2.13.0 -> 2.14.0
 
 ---
- .../{spirv-headers_1.3.280.0.bb => spirv-headers_1.3.283.0.bb}  | 2 +-
+ .../{bash-completion_2.13.0.bb => bash-completion_2.14.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-headers_1.3.280.0.bb => spirv-headers_1.3.283.0.bb} (93%)
+ rename meta/recipes-support/bash-completion/{bash-completion_2.13.0.bb => bash-completion_2.14.0.bb} (92%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb
-rename to meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
-index 26bfd9c4fa..efa3e94048 100644
---- a/meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d14ee3b13f42e9c9674acc5925c3d741"
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.13.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
+similarity index 92%
+rename from meta/recipes-support/bash-completion/bash-completion_2.13.0.bb
+rename to meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
+index f75d61e219..06c81beaa0 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.13.0.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
+@@ -14,7 +14,7 @@ SECTION = "console/utils"
  
--SRCREV = "8b246ff75c6615ba4532fe4fde20f1be090c3764"
-+SRCREV = "4f7b471f1a66b6d06462cd4ba57628cc0cd087d7"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
- PE = "1"
- # These recipes need to be updated in lockstep with each other:
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "c5f99a39e40f0d154c03ff15438e87ece1f5ac666336a4459899e2ff4bedf3d1"
++SRC_URI[sha256sum] = "5c7494f968280832d6adb5aa19f745a56f1a79df311e59338c5efa6f7285e168"
+ GITHUB_BASE_URI = "https://github.com/scop/bash-completion/releases"
+ 
+ PARALLEL_MAKE = ""
 -- 
 2.44.0
 
 
---===============2016176102773590035==
+--===============4637627659429633559==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-headers-upgrade-1.3.280.0-1.3.283.0.patch"
+ filename="0001-bash-completion-upgrade-2.13.0-2.14.0.patch"
 
-RnJvbSA2OGNkODY4YmJmM2MxNDdmMjRkMzRmYmQyZTZkY2UwOGQzMjBkMjM4IE1vbiBTZXAgMTcg
+RnJvbSA3Y2RjY2M0MjA5NzBmMDk0ZDU4NjM0MzNlYTQ4MGYyOTIwOTNhY2QxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTQ6MDA6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cGlydi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yODAuMCAtPiAxLjMuMjgzLjAKCi0tLQogLi4uL3tz
-cGlydi1oZWFkZXJzXzEuMy4yODAuMC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuMy4yODMuMC5iYn0g
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWhlYWRlcnNfMS4zLjI4MC4w
-LmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI4My4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI4MC4wLmJiIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjgzLjAuYmIKc2ltaWxh
-cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3Bp
-cnYtaGVhZGVyc18xLjMuMjgwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9z
-cGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI4My4wLmJiCmluZGV4IDI2YmZkOWM0ZmEuLmVmYTNlOTQw
-NDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNf
-MS4zLjI4MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRl
-cnNfMS4zLjI4My4wLmJiCkBAIC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL3d3dy5r
-aHJvbm9zLm9yZy9yZWdpc3RyeS9zcGlyLXYiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWQxNGVlM2IxM2Y0MmU5Yzk2NzRhY2M1OTI1YzNk
-NzQxIgogCi1TUkNSRVYgPSAiOGIyNDZmZjc1YzY2MTViYTQ1MzJmZTRmZGUyMGYxYmUwOTBjMzc2
-NCIKK1NSQ1JFViA9ICI0ZjdiNDcxZjFhNjZiNmQwNjQ2MmNkNGJhNTc2MjhjYzBjZDA4N2Q3Igog
-U1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9TUElSVi1IZWFkZXJzO3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogUEUgPSAiMSIKICMgVGhlc2UgcmVjaXBlcyBuZWVk
-IHRvIGJlIHVwZGF0ZWQgaW4gbG9ja3N0ZXAgd2l0aCBlYWNoIG90aGVyOgotLSAKMi40NC4wCgo=
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTY6MTE6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+YXNoLWNvbXBsZXRpb246IHVwZ3JhZGUgMi4xMy4wIC0+IDIuMTQuMAoKLS0tCiAuLi4ve2Jhc2gt
+Y29tcGxldGlvbl8yLjEzLjAuYmIgPT4gYmFzaC1jb21wbGV0aW9uXzIuMTQuMC5iYn0gICAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24ve2Jhc2gtY29tcGxldGlvbl8y
+LjEzLjAuYmIgPT4gYmFzaC1jb21wbGV0aW9uXzIuMTQuMC5iYn0gKDkyJSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIu
+MTMuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBs
+ZXRpb25fMi4xNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBsZXRpb25fMi4xMy4wLmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0
+aW9uXzIuMTQuMC5iYgppbmRleCBmNzVkNjFlMjE5Li4wNmM4MWJlYWEwIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTMu
+MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21w
+bGV0aW9uXzIuMTQuMC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTRUNUSU9OID0gImNvbnNvbGUvdXRp
+bHMiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9LyR7QlBO
+fS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjNWY5OWEzOWU0MGYwZDE1
+NGMwM2ZmMTU0MzhlODdlY2UxZjVhYzY2NjMzNmE0NDU5ODk5ZTJmZjRiZWRmM2QxIgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjVjNzQ5NGY5NjgyODA4MzJkNmFkYjVhYTE5Zjc0NWE1NmYxYTc5ZGYz
+MTFlNTkzMzhjNWVmYTZmNzI4NWUxNjgiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL3JlbGVhc2VzIgogCiBQQVJBTExFTF9NQUtFID0g
+IiIKLS0gCjIuNDQuMAoK
 
---===============2016176102773590035==
+--===============4637627659429633559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 2942796 to 2943154 (+0%)
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.280.0" to "1.3.283.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_bao /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/_zarf"
+packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 877240 to 884853 (+1%)
+packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-src: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-src: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 140974 to 140997 (+0%)
+packages/core2-64-poky-linux/bash-completion/bash-completion: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion/bash-completion: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/bash-completion: SRC_URI changed from "https://github.com/scop/bash-completion/releases/download/2.13.0/bash-completion-2.13.0.tar.xz" to "https://github.com/scop/bash-completion/releases/download/2.14.0/bash-completion-2.14.0.tar.xz"
+packages/core2-64-poky-linux/bash-completion: PV changed from "2.13.0" to "2.14.0"
+packages/core2-64-poky-linux/bash-completion: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1795,12 +1801,13 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2016176102773590035==
+--===============4637627659429633559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_bao"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3440,5 +3447,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2016176102773590035==--
+--===============4637627659429633559==--
 
