@@ -1,145 +1,114 @@
-Return-Path: <pmi183@gmail.com>
+Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D04C25B78
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 09:36:41 +0000 (UTC)
-Subject: Re: [PATCH] buildhistory: Fix do_package race issues
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4947AC25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 09:42:31 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.10643.1715766150424950575
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 May 2024 02:42:30 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OGA5oVF7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ec41d82b8bso62780595ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 02:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715766149; x=1716370949; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbKrsuYyp8H5K9w6JiW5g9ddSP0tP7aVqLU9dSXLl64=;
+        b=OGA5oVF79jPje9lCAIsIaW00YDpLwlzK0VEyhpB1p+5e7Vb3+4JEAnM8cuWShpLDbw
+         f6CNWKWydPZYsCYcd2PNxBTdjzd8sYo1ysf/ZylLSNJ+bVZy2fLX/hC++IIC4APAzEW3
+         +10DcPXveYJH93YqJUdnIb8d9IuZbKo/jEgd7IYqTGGUfhHVCM4V1tq6+n/4hGTOws7D
+         +7aSZ3mt2O0hOmvfQXSN8Yp2xrOvA70DGtGHmD7Se8SZmlOZG1VgdUosukUqS8miPlgR
+         IdiEZKVHWI+xOMd2Ixs4TckgIUPIER6ARab7aGW5jLRMoLDLVoqnsSXL4mx/HPvmLS5Y
+         txCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715766149; x=1716370949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JbKrsuYyp8H5K9w6JiW5g9ddSP0tP7aVqLU9dSXLl64=;
+        b=vHXRATD51aJMhp826/iAUwqhJyf5glQ0yGvBzRaAA12p+uDsNjFofrggl3oYn/cGHD
+         uDKF1TLbq1C4KxwwYdAADBigQf8EbYrHWyJs6IJcymO5wDoCo9I7h1oPKMzknUWq9MNO
+         R2wjKYjeQNakvvmyHwKaqIJA4C4Bqp4OrH4AJhHepLGmlG7ekAIxLLKtlD/jblGjRKq2
+         KehWx8ePR1uN/DdPMwNpyu35PnasSh81UNLHxQ9HkwhfLzTS5kzTLIXHARoTyBPgX2jP
+         Q5YERzkeBmP4gRN1BUb2bO78lnlYj+/366rz/WmY3fYneIg2VHft+6ucdyYY5Up90E3x
+         QcBw==
+X-Gm-Message-State: AOJu0Yw/twIUCzWYgMsg2iUQpSbKbyqGOlpgZ0fRcDksNhcrMC5MuHv0
+	zhAiaEUy6vBQf0+xpXwVbk7+z3h7e1GaK0u0eBhnvOeClGVCoRfApfkQuVd4ScA=
+X-Google-Smtp-Source: AGHT+IEKpVjD/EBxmZaEvSCIx26kAhlyY9gmFjdf24YD7KAvGvaeenQGF0lGOlQ6KeyfDKFuPzWI4w==
+X-Received: by 2002:a17:902:db04:b0:1e3:ca5a:2d9a with SMTP id d9443c01a7336-1ef43f52059mr193011135ad.53.1715766148804;
+        Wed, 15 May 2024 02:42:28 -0700 (PDT)
+Received: from LL-2917.kpit.com ([103.85.11.91])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c035605sm113226735ad.184.2024.05.15.02.42.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 May 2024 02:42:28 -0700 (PDT)
+From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: pmi183@gmail.com
-X-Originating-Location: Vila Nova de Foz Coa, Guarda, PT (213.205.68.220)
-X-Originating-Platform: Windows Chrome 124
-User-Agent: GROUPS.IO Web Poster
+Cc: Bob Henz <robert_henz@jabil.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Subject: [OE-Core][kirkstone][PATCH] systemd-systemctl: Fix WantedBy processing
+Date: Wed, 15 May 2024 15:12:18 +0530
+Message-Id: <20240515094218.92772-1-ranjitsinhrathod1991@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Wed, 15 May 2024 02:36:34 -0700
-References: <CANNYZj-uDz_gCpvkb5F9R6NkkQVGn768=mHXyvZJPHfKyZ-t2g@mail.gmail.com>
-In-Reply-To: <CANNYZj-uDz_gCpvkb5F9R6NkkQVGn768=mHXyvZJPHfKyZ-t2g@mail.gmail.com>
-Message-ID: <22166.1715765794274311096@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="p8TM0rV07Oeo5blRp3hS"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 09:36:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199272
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 09:42:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199273
 
---p8TM0rV07Oeo5blRp3hS
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Bob Henz <robert_henz@jabil.com>
 
-Hi Alex,
+An empty string assignment to WantedBy should clear all prior WantedBy
+settings. This matches behavior of the current systemd implementation.
 
-I did some investigation on this topic,
+(From OE-Core rev: 8ede0083c28fadf1e83c9256618190b931edd306)
 
-- why is it not a hard error?
+Signed-off-by: Bob Henz <robert_henz@jabil.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c653bfc68b06bfd4fa07ba18322599a130b1c59a)
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+---
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-That is because find command in `buildhistory_list_pkg_files` is tested ins=
-ide the loop for, hiding this issue and for loop is always returning 0 even=
- if `find` fails.
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 0fd7e24085..7fe751b397 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -26,6 +26,9 @@ locations = list()
+ 
+ class SystemdFile():
+     """Class representing a single systemd configuration file"""
++
++    _clearable_keys = ['WantedBy']
++
+     def __init__(self, root, path, instance_unit_name):
+         self.sections = dict()
+         self._parse(root, path)
+@@ -80,6 +83,14 @@ class SystemdFile():
+                 v = m.group('value')
+                 if k not in section:
+                     section[k] = list()
++
++                # If we come across a "key=" line for a "clearable key", then
++                # forget all preceding assignments. This works because we are
++                # processing files in correct parse order.
++                if k in self._clearable_keys and not v:
++                    del section[k]
++                    continue
++
+                 section[k].extend(v.split())
+ 
+     def get(self, section, prop):
+-- 
+2.25.1
 
->=20
-> .....
-> buildhistory_list_pkg_files() {
-> # Create individual files-in-package for each recipe's package
-> pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
->=20
-> for pkgdir in pkgdirlist; do
-> .....
->=20
-
-- why is it unable to find anything in packages-split/, if it executes afte=
-r populate_packages which places things there?
-
-As far as i could understand, there is some concurrency issue between packa=
-ge.bbclass and buildhistory.bbclass. Taking in consideration that `buildhis=
-tory_list_pkg_files` is triggered by checking if `BB_CURRENTTASK` is `packa=
-ge` and at the same time `PACKAGESPLITFUNCS` is triggered on `do_package`, =
-this leads to the issue with missing files since buildhistory bbclass might=
- be looking into something that wasnt yet created. In my findings, `buildhi=
-story_list_pkg_files` should be called in the end of `do_package` execution=
- where `packages-split` directory is created and populated.
-
-Is there any clear reason why we cant move `buildhistory_list_pkg_files` to=
- `packagedata` task since its the next task to be executed?
-
-Any suggestion or any idea how can i, from buildhistory.bbclass, determine =
-if `PACKAGESPLITFUNCS` was already executed?
-
-Thank you
-
---p8TM0rV07Oeo5blRp3hS
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Alex,<br /><br />I did some investigation on this topic,<br /><span styl=
-e=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica=
- Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emo=
-ji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16=
-px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: s=
-tart; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px;=
- -webkit-text-stroke-width: 0px; white-space: pre-wrap; background-color: #=
-ffffff; text-decoration-thickness: initial; text-decoration-style: initial;=
- text-decoration-color: initial; display: inline !important; float: none;">=
-<br />- why is it not a hard error?<br /></span><br style=3D"box-sizing: bo=
-rder-box; overflow-wrap: break-word !important; color: #333333; font-family=
-: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation=
- Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI=
- Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-var=
-iant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tra=
-nsform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;=
- white-space: pre-wrap; background-color: #ffffff; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
-" />That is because find command in `buildhistory_list_pkg_files` is tested=
- inside the loop for, hiding this issue and for loop is always returning 0 =
-even if `find` fails.<br /><br /><br />
-<blockquote>
-<div>.....</div>
-<div>buildhistory_list_pkg_files() {</div>
-<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
-> </span># Create individual files-in-package for each recipe's package</sp=
-an></div>
-<div>&nbsp;pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)</div>
-<div>&nbsp;</div>
-<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
-> </span>for pkgdir in pkgdirlist; do</span></div>
-<div>.....</div>
-</blockquote>
-<div>&nbsp;</div>
-<div><span style=3D"background-color: var(--light-mode-body-color);"></span=
-><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto,=
- 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Appl=
-e Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; fo=
-nt-size: 16px; font-style: normal; font-variant-ligatures: normal; font-var=
-iant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; te=
-xt-align: start; text-indent: 0px; text-transform: none; widows: 2; word-sp=
-acing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgrou=
-nd-color: #ffffff; text-decoration-thickness: initial; text-decoration-styl=
-e: initial; text-decoration-color: initial; display: inline !important; flo=
-at: none;">- why is it unable to find anything in packages-split/, if it ex=
-ecutes <span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', R=
-oboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,=
- 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoj=
-i'; font-size: 16px; font-style: normal; font-variant-ligatures: normal; fo=
-nt-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans:=
- 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; w=
-ord-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; ba=
-ckground-color: #ffffff; text-decoration-thickness: initial; text-decoratio=
-n-style: initial; text-decoration-color: initial; display: inline !importan=
-t; float: none;">after populate_packages which places things there?<br /><b=
-r /></span></span></div>
-As far as i could understand, there is some concurrency issue between packa=
-ge.bbclass and buildhistory.bbclass. Taking in consideration that `buildhis=
-tory_list_pkg_files` is triggered by checking if `BB_CURRENTTASK` is `packa=
-ge` and at the same time `PACKAGESPLITFUNCS` is triggered on `do_package`, =
-this leads to the issue with missing files since buildhistory bbclass might=
- be looking into something that wasnt yet created. In my findings, `buildhi=
-story_list_pkg_files` should be called in the end of `do_package` execution=
- where `packages-split` directory is created and populated.<br /><br />Is t=
-here any clear reason why we cant move `buildhistory_list_pkg_files` to `pa=
-ckagedata` task since its the next task to be executed?<br /><br />Any sugg=
-estion or any idea how can i, from buildhistory.bbclass, determine if `PACK=
-AGESPLITFUNCS` was already executed?<br /><br />Thank you
-
---p8TM0rV07Oeo5blRp3hS--
 
