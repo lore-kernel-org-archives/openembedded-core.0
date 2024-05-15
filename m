@@ -2,61 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE74BC25B75
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 18:28:34 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.1524.1715797713791712536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1515C25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 18:33:14 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.1721.1715797984311838418
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 11:28:34 -0700
+ Wed, 15 May 2024 11:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=emFS2t/6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e6ffe57c23so1998971fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 11:28:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BgXAn5n1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-420160f8f52so24618325e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 11:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715797712; x=1716402512; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1715797983; x=1716402783; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=37w7hznzKykWZW0TQ9FYS8YCu79MDhwsc8E08lQ3aP4=;
-        b=emFS2t/6fCmgqorajfbvjvN4fvdnM3zLAVX+ZSFYscdSWy73IZ6SBMbBY86lqCLLlr
-         fjl11M5ik+eGQ3+0JWBi/IvznN81J19XVxR29Q1ZD0haziymHqe7MVPgS2vqFOY0NsxB
-         kCLT3JUhnOrgC40XfFBqFSPYV129z5YETJdMk=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ARgIAQ+PsYjKY0RzhWfKYM+zu3te3Mm5bhbzXi4Eq5w=;
+        b=BgXAn5n1+8vxvre+8BLvh6s47wzJIXWOQrAZgJ5FvrzGWvrRmunZXvRPhGhLc24Lt2
+         80+M3zPADoQFxQlv03pxpdJ3OD1qc+z6trgHogHkcclZoIfg2GgDnpEz64QSwpCrDu1K
+         fqUseyC/pvG8xHFl208Ucw6KAtRY0mg/zPbIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715797712; x=1716402512;
+        d=1e100.net; s=20230601; t=1715797983; x=1716402783;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=37w7hznzKykWZW0TQ9FYS8YCu79MDhwsc8E08lQ3aP4=;
-        b=olnwjv9GjTUxcQGtPMGoFOrRLKnRAxRc2wW2uVID5Kv0vyn9/0hhYOGr9E6hxaXjXP
-         WEMOZFrBdWmkfKZd4JCS06QJ8L4Xq+SBmNnd3pix3oYiL2LYMGhEp3ZrXQr+CM1HDiRA
-         6Ab2H2mPjnmdgsfHP6G6uN7PTw2cNCPn7g1pli4VmscfuaKhYcFjssdVILEPJIg6ITzF
-         gXVHGHXN/BJ7xUbBff4DYTLCBhQDw3l8ypdRRpfvj7FujIW+LqS/vn7r011CD/5MNXhM
-         iwVM2b1uVQZQPqh/rmSBOZtuXxQulAftjrHU+BEJ45D+sI/fCBZK5WKq2w5yhnzhzhbe
-         yNPw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5eHRiFWMWohdoA3BAT9ifbgOImW3NSOq8+jwpff6inOLDLrIbWleWMwLcQZjQ1Yx+QoLc+oObkUeX9vBKOF+JYPGPVXJHhQctsnSrLWXAWfB8o3XBnZ4I
-X-Gm-Message-State: AOJu0YwlRuQuKf+R3yD5Q39cn+uUxM1SFFI2mZ+5d8r8OdOfQlJ52OGA
-	o0B5lFsRqj1c7DtJyOzSp9Brl+oGui0VE/u1becGHlkokl5okjUs7Of/7B3T0Te7EGI25azLw5m
-	mvVY=
-X-Google-Smtp-Source: AGHT+IE4SQv+dQOK0p/MurSM+KcgATT/eQUhLnlBSWvNBTt7sMRBr8knUVQPcRjEzOCfwfcjU7drWg==
-X-Received: by 2002:a2e:a7c5:0:b0:2e6:f4c1:31e5 with SMTP id 38308e7fff4ca-2e6f4c13875mr25557691fa.23.1715797711714;
-        Wed, 15 May 2024 11:28:31 -0700 (PDT)
+        bh=ARgIAQ+PsYjKY0RzhWfKYM+zu3te3Mm5bhbzXi4Eq5w=;
+        b=KrWrbr5Wa4XDWEmxQtZBU+4VismXdp63ATavq07KivnYrW6CtHWfeavHJgwQhqQK91
+         vW3dlQnSpxeiBdaqBKdYV8olEy0qW9a6tnlwe5CY9UajKoJLxyjlKjJCSclpqqz3+z0y
+         Gty2XFLIi2mDP/IW3ZFykLSpSYcy25XakpON1XfaSW3+cqYjwIquHxMmBr9aqXP6KDrM
+         MT+k3w95Cr4dDDSmHM8qikutrnS4+SZzkGWQbh8xtse7mMILCfgoTdodGztiOLz5ecdY
+         pIxNpffbVrXUaZdSt/zpxPF0I0N4mxjei1XX8VC4DTIYMpBQLEAYaj2U/q5UZW7jKCQn
+         3Ucw==
+X-Gm-Message-State: AOJu0Yz6Rup5AAPsHMh0AlmqIdby19vW21zYtE0RQEv9PqvB6vk9sivq
+	AbqVFiTmMKaNj+gI4gKPjljc082YXAm/vd6EjU0zsrvzd5BKaNySo4HPNkCKmwY=
+X-Google-Smtp-Source: AGHT+IEsu07mi1sxU2YhuWYoTfeuP8h5SXTrfmQwfGe7H76SDEptHrNZInrIioT9XdBHLZs0CU8vBQ==
+X-Received: by 2002:a05:600c:3594:b0:41b:f41a:c67e with SMTP id 5b1f17b1804b1-41fead6ae4dmr112859065e9.33.1715797982664;
+        Wed, 15 May 2024 11:33:02 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915? ([2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42016b88f99sm115327385e9.10.2024.05.15.11.28.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42015deac1asm121102075e9.17.2024.05.15.11.33.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 11:28:31 -0700 (PDT)
-Message-ID: <83e296cd1840fb6ad73209ac6d10593ff34dfa33.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of
- WORKDIR
+        Wed, 15 May 2024 11:33:02 -0700 (PDT)
+Message-ID: <3dd9023b2d75aed77c182092644cae6c8a1a7de4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] devtool: modify: Catch git submodule error
+ for go code
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 May 2024 19:28:30 +0100
-In-Reply-To: <DB5PR02MB10213711E57BF5F07C4259761EFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
-	 <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
-	 <DB5PR02MB10213711E57BF5F07C4259761EFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+To: peter.kjellerstedt@axis.com, Steve Sakoman <steve@sakoman.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, Ola x Nilsson
+	 <Ola.x.Nilsson@axis.com>
+Date: Wed, 15 May 2024 19:33:01 +0100
+In-Reply-To: <DB5PR02MB1021322BDD00EAF753CAE684DEFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20240514095623.3951836-1-olani@axis.com>
+	 <DB5PR02MB1021322BDD00EAF753CAE684DEFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -72,167 +70,97 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 18:28:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199424
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 18:33:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199425
 
-On Wed, 2024-05-15 at 17:42 +0000, Peter Kjellerstedt wrote:
+On Wed, 2024-05-15 at 17:55 +0000, Peter Kjellerstedt via lists.openembedde=
+d.org wrote:
+> Steve, please cherry-pick this to Scarthgap.
+>=20
+> //Peter
+>=20
 > > -----Original Message-----
 > > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@=
-lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 15 maj 2024 13:56
+lists.openembedded.org> On Behalf Of Ola x Nilsson
+> > Sent: den 14 maj 2024 11:56
 > > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of =
-WORKDIR
+> > Cc: Ola x Nilsson <Ola.x.Nilsson@axis.com>
+> > Subject: [OE-core] [PATCH] devtool: modify: Catch git submodule error f=
+or go code
 > >=20
-> > Change do_unpack to unpack files to a subdirectory of WORKDIR instead o=
-f WORKDIR
-> > itself. There are several good reasons for this but it is mainly about =
-being able
-> > to isolate the output of the unpack task and tell the files apart from =
-other things
-> > which are created in workdir (logs, sysroots, temp dirs and more).
+> > From: Anton Almqvist <antonal@axis.com>
 > >=20
-> > This means that when the do_unpack task reruns, we can clean UNPACKDIR =
-and know
-> > we have a standard point to start builds from.
+> > One of the git submodule commands failed for source extracted for
+> > recipes using go.bbclass.=C2=A0 The root cause is probably the path set=
+ up
+> > by go_do_unpack which makes S and gitroot not match.
 > >=20
-> > It also makes code in tools like devtool and recipetool easier.
+> > This patch does not fix the root problem, but at least it is no worse
+> > than before the git submodule support.
 > >=20
-> > To reduce the impact to users, if a subdirectory under UNPACKDIR matche=
-s
-> > the first subdirectory under WORKDIR of S, that directory is moved into=
- position
-> > inside WORKDIR. This preserves the behaviour of S =3D "${WORKDIR}/git",
-> > S =3D "${WORKDIR}/${BPN}" and other commonly used source directory setu=
-ps.
+> > The extracted source will still have two .git folders, one in S
+> > created by devtool and one in the go path which will contain the tru
+> > git history.
 > >=20
-> > The directory is moved since sadly many autotools based projects can't =
-cope with
-> > symlinks in their paths.
->=20
-> Would it be an option to create a symbolic link by default, and instead=
-=20
-> let the autotools bbclass replace it with a moved directory? If it is
-> in fact only autotools based projects that have this problem.
-
-Maybe. I've reached the point with this where I really didn't want to
-try and explore that particular set of problems and I'd rather things
-were consistent.
-
-I'm not going to rule out trying to clean up and improve this somehow
-in the future but for now, it works, it solves the original major
-problem (cleanup of obsolete sources) and we have most of the major
-pieces like devtool working. It also doesn't look as different to users
-as moving S would from a documentation perspective.
-
-I'm a bit torn on what the end result for S should look like. I'm happy
-enough with the changes so far and I think the best thing to do is
-merge these, then consider if we do want to go further or not.
-
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > [ YOCTO #15483 ]
+> >=20
+> > Signed-off-by: Anton Almqvist <antonal@axis.com>
+> > Signed-off-by: Ola x Nilsson <olani@axis.com>
 > > ---
-> > =C2=A0meta/classes-global/base.bbclass | 21 ++++++++++++++++++---
-> > =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A02 files changed, 19 insertions(+), 4 deletions(-)
+> > =C2=A0scripts/lib/devtool/standard.py | 5 ++++-
+> > =C2=A01 file changed, 4 insertions(+), 1 deletion(-)
 > >=20
-> > diff --git a/meta/classes-global/base.bbclass b/meta/classes-
-> > global/base.bbclass
-> > index 066f3848f7c..cdce0538273 100644
-> > --- a/meta/classes-global/base.bbclass
-> > +++ b/meta/classes-global/base.bbclass
-> > @@ -153,20 +153,35 @@ python base_do_fetch() {
-> > =C2=A0}
-> >=20
-> > =C2=A0addtask unpack after do_fetch
-> > -do_unpack[dirs] =3D "${UNPACKDIR}"
-> > -
-> > -do_unpack[cleandirs] =3D "${@d.getVar('S') if os.path.normpath(d.getVa=
-r('S')) !=3D os.path.normpath(d.getVar('WORKDIR')) else os.path.join('${S}'=
-, 'patches')}"
-> > +do_unpack[cleandirs] =3D "${UNPACKDIR}"
-> >=20
-> > =C2=A0python base_do_unpack() {
-> > +=C2=A0=C2=A0=C2=A0 import shutil
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0 src_uri =3D (d.getVar('SRC_URI') or "").split(=
-)
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if not src_uri:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return
-> >=20
-> > +=C2=A0=C2=A0=C2=A0 sourcedir =3D d.getVar('S')
-> > +=C2=A0=C2=A0=C2=A0 basedir =3D None
-> > +=C2=A0=C2=A0=C2=A0 workdir =3D d.getVar('WORKDIR')
-> > +=C2=A0=C2=A0=C2=A0 unpackdir =3D d.getVar('UNPACKDIR')
-> > +=C2=A0=C2=A0=C2=A0 if sourcedir.startswith(workdir) and not sourcedir.=
-startswith(unpackdir):
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 basedir =3D sourcedir.repla=
-ce(workdir, '').strip("/").split('/')[0]
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.utils.remove(sourcedir, =
-True)
->=20
-> This remove() seems wrong and should not be needed. There are two=20
-> cases here:
->=20
-> 1) either ${S} =3D=3D ${WORKDIR}, in which case the above will remove=20
-> =C2=A0=C2=A0 ${WORKDIR}, which is sure to lead to problems, or
+> > diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/stan=
+dard.py
+> > index bd009f44b1..05161942b7 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -904,7 +904,10 @@ def modify(args, config, basepath, workspace):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 (stdout, _) =3D bb.process.run('git rev-list --=
+reverse %s..HEAD' % initial_revs["."], cwd=3Dsrctree)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 commits["."] =3D stdout.split()
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 check_commits =3D True
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 (stdout, _) =3D bb.process.run('git submodule --quiet=
+ foreach --recursive=C2=A0 \'echo `git rev-parse devtool-base` $PWD\'', cwd=
+=3Dsrctree)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 try:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (stdout, _) =3D bb.process.ru=
+n('git submodule --quiet foreach --recursive=C2=A0 \'echo `git rev-parse de=
+vtool-base` $PWD\'', cwd=3Dsrctree)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 except bb.process.ExecutionError:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 stdout =3D ""
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 for line in stdout.splitlines():
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (rev, submodule_path) =
+=3D line.split()
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 submodule =3D os.path.r=
+elpath(submodule_path, srctree)
 
-Which is why S =3D WORKDIR has to become a hard error. We have to drop
-support for it.
+FWIW I was in two minds whether to merge this. Making things silently
+ignore failures is bad and by merging it I've removed any leverage I
+had on trying to get this fixed properly. There is also no test case.
 
-> 2) ${S} =3D=3D ${WORKDIR}/foo[/...], in which case the removal of=20
-> =C2=A0=C2=A0 workdir + '/' + basedir below will also remove ${S} as=20
-> =C2=A0=C2=A0 basedir =3D=3D "foo".
-
-You're right. This code did go through several iterations as I found
-all the weird corner cases this needs to support. Ultimately, I suspect
-it should probably unconditionally remove ${S}. I'd need yet another
-test run to try and identify if that causes any new weird issues
-though.
-
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if basedir:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.=
-utils.remove(workdir + '/' + basedir, True)
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fetcher =3D bb.fetch2.=
-Fetch(src_uri, d)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fetcher.unpack(d.getVa=
-r('UNPACKDIR'))
-> > =C2=A0=C2=A0=C2=A0=C2=A0 except bb.fetch2.BBFetchException as e:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Bitbake Fetc=
-her Error: " + repr(e))
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if basedir and os.path.exists(unpackdir + '/' + bas=
-edir):
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Compatibility magic to en=
-sure ${WORKDIR}/git and ${WORKDIR}/${BP}
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # as often used in S work a=
-s expected.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shutil.move(unpackdir + '/'=
- + basedir, workdir + '/' + basedir)
-> > =C2=A0}
-> >=20
-> > =C2=A0SSTATETASKS +=3D "do_deploy_source_date_epoch"
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index b2c500d8739..75c850760f6 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -405,7 +405,7 @@ STAMP =3D
-> > "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
-> > =C2=A0STAMPCLEAN =3D "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
-> > =C2=A0BASE_WORKDIR ?=3D "${TMPDIR}/work"
-> > =C2=A0WORKDIR =3D "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
-> > -UNPACKDIR ??=3D "${WORKDIR}"
-> > +UNPACKDIR ??=3D "${WORKDIR}/sources-unpack"
->=20
-> "sources-unpack" does not exactly fall off the tongue.
-> Would "unpack" or "unpacked" be alternatives?
-
-I don't feel they're as clear...
+I only merged it as I can't face yet another discussion/argument about
+why we should try and do things properly. Nobody else appears to want
+to do this kind of review or push for that kind of quality and I'm
+growing weary of trying :(
 
 Cheers,
 
 Richard
+
+
+
+
+
 
