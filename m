@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6423EC3065D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAF0C3065E
 	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:24 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1281.1715794338438560651
+ by mx.groups.io with SMTP id smtpd.web10.1249.1715794338266273834
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EzGRShMx;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FwSSv2DV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018f7d4fe074-919c6ea6-b322-4c73-b43e-752260ea7985-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Z+OT3wx5;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XPuQOyXf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018f7d4fdf51-44e634d8-ed3a-4c78-92a1-1989985f5511-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794338;
+	t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jZyMc9WYJti3J+9DY1uA8F2XsZuo+u0oV7lBm5I/u84=;
-	b=EzGRShMxH0JlKUFKNijJrmHCnddVBlnk/7nYxR+5vdhYLBLbG5myVTVLP8EvcuG1
-	tUbvh/t3wMR3dGC00XW5mhDcrymq/EuX3y9o6ixfzcRDOB3ygdKi1onGmR88wPDm7F8
-	oRO2pBtWtgaSujtpxzPVd8Wl0zf2mW6WuGwNOq/0=
+	bh=GLCCuEpQGrA962EKYjrZ55rPJfyp3x8HB78Obho4WAE=;
+	b=Z+OT3wx5z+0LoQ7rSYjnjVz7qeil8Wy6N0pNgwLuzcDfMTFyUlxezJ33vcho8XYD
+	IsQ+kLj50L6h3Iy4VM1kbBa5AYFevpqLkTxE0mCbcPq7BB4UkUhtpLv+sNp4h8SIGyO
+	SsYPs8Wd5BTlf+rLYkAYsYXDDcSFQCfQhEqxWeUk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794338;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jZyMc9WYJti3J+9DY1uA8F2XsZuo+u0oV7lBm5I/u84=;
-	b=FwSSv2DVnboDnPiKPWoOgoZJBayVISSRQiiHHvSmH/JjKMSOKaIJlQf9SoiF1zno
-	60wUTTpAi6ly0s74V4tF+tCku2F63pVrVbmuGqku/j4iVRZUL+S9ChB+smptrQb5s72
-	TFBMkNuSFakG6QXOOrysZ/eU4zqtRXV0zrNrBJe0=
-Content-Type: multipart/mixed; boundary="===============6356054545297996907=="
+	bh=GLCCuEpQGrA962EKYjrZ55rPJfyp3x8HB78Obho4WAE=;
+	b=XPuQOyXfz6XNt81Wbc30p/N99j0iR0GpXk7aN87LYwJVGrbA9n5laaMyd/xnPSwB
+	C+DWfmUeZapiZ+CR9ooudCWKE5Rg6e2LPJmh0xommpgWw3flSUBUtydjr9qiIXJD8Fr
+	Awqe0OkD2A5zrxzw+XCINj+6Ra0A11gzS/l5UyqI=
+Content-Type: multipart/mixed; boundary="===============6711593200632415727=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-meson-python: upgrading to 0.16.0 FAILED
-Message-ID: <0101018f7d4fe074-919c6ea6-b322-4c73-b43e-752260ea7985-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-lxml: upgrading to 5.2.2 SUCCEEDED
+Message-ID: <0101018f7d4fdf51-44e634d8-ed3a-4c78-92a1-1989985f5511-000000@us-west-2.amazonses.com>
 Date: Wed, 15 May 2024 17:32:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.05.15-54.240.27.29
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199335
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199333
 
---===============6356054545297996907==
+--===============6711593200632415727==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,82 +51,124 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-meson-python* to *0.16.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-lxml* to *5.2.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-lxml-upgrade-5.2.1-5.2.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-meson-python -V 0.16.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-8293c88c58b7415ad3b5272c9cf1105f559b33fc"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8293c88c58b7415ad3b5272c9cf1105f559b33fc"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (920 cached, 2 parsed). 1880 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-8293c88c58b7415ad3b5272c9cf1105f559b33fc"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8293c88c58b7415ad3b5272c9cf1105f559b33fc"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.16.0.tar.gz;downloadfilename=meson_python-0.16.0.tar.gz...
-ERROR: Execution of 'git add -f -A ".readthedocs.yaml" "tests/packages/complex/complex/more/baz.pyx" "tests/packages/complex/complex/more/meson.build" "tests/packages/complex/foo.py" "tests/packages/complex/move.py" "tests/packages/custom-target-dir/codegen.py" "tests/packages/custom-target-dir/meson.build" "tests/packages/custom-target-dir/pyproject.toml" "tests/packages/encoding/meson.build" "tests/packages/encoding/pyproject.toml" ""tests/packages/encoding/\343\203\206\343\202\271\343\203\210.py"" ".cirrus.yml" ".github/workflows/docs.yml" ".github/workflows/tests.yml" ".pre-commit-config.yaml" ".readthedocs.yml" "CHANGELOG.rst" "PKG-INFO" "README.rst" "ci/alpine-3.docker" "ci/debian-11.docker" "ci/debian-12.docker" "ci/fedora-37.docker" "ci/miniconda.docker" "docs/changelog.rst" "docs/conf.py" "docs/contributing/commit-format.rst" "docs/contributing/documentation.rst" "docs/contributing/getting-started.rst" "docs/contributing/index.rst" "docs/contributing/release-process.rst" "do
- cs/contributing/test-suite.rst" "docs/explanations/design.rst" "docs/explanations/editable-installs.rst" "docs/explanations/internal-dependencies.rst" "docs/how-to-guides/build-directory.rst" "docs/how-to-guides/config-settings.rst" "docs/how-to-guides/first-project.rst" "docs/index.rst" "docs/projects-using-meson-python.rst" "docs/reference/environment-variables.rst" "docs/reference/meson-compatibility.rst" "docs/reference/pyproject-settings.rst" "docs/reference/quirks.rst" "docs/tutorials/entrypoints.rst" "docs/tutorials/executable.rst" "docs/tutorials/introduction.rst" "meson.build" "mesonpy/__init__.py" "mesonpy/_editable.py" "mesonpy/_tags.py" "mesonpy/_util.py" "pyproject.toml" "tests/packages/complex/meson.build" "tests/packages/imports-itself-during-build/meson.build" "tests/test_editable.py" "tests/test_output.py" "tests/test_project.py" "tests/test_tags.py" "tests/test_wheel.py"' failed with exit code 128:
-fatal: pathspec 'tests/packages/encoding/343203206343202271343203210.py' did not match any files
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6356054545297996907==--
+
+-- >8 --
+From dc4b308bdf19b5fe78a944097351ccaf9c8e7098 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 May 2024 09:51:02 +0000
+Subject: [PATCH] python3-lxml: upgrade 5.2.1 -> 5.2.2
+
+---
+ .../python/{python3-lxml_5.2.1.bb => python3-lxml_5.2.2.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-lxml_5.2.1.bb => python3-lxml_5.2.2.bb} (95%)
+
+diff --git a/meta/recipes-devtools/python/python3-lxml_5.2.1.bb b/meta/recipes-devtools/python/python3-lxml_5.2.2.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-lxml_5.2.1.bb
+rename to meta/recipes-devtools/python/python3-lxml_5.2.2.bb
+index 44a10505f3..e5a22e7090 100644
+--- a/meta/recipes-devtools/python/python3-lxml_5.2.1.bb
++++ b/meta/recipes-devtools/python/python3-lxml_5.2.2.bb
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+ 
+ DEPENDS += "libxml2 libxslt"
+ 
+-SRC_URI[sha256sum] = "3f7765e69bbce0906a7c74d5fe46d2c7a7596147318dbc08e4a2431f3060e306"
++SRC_URI[sha256sum] = "bb2dc4898180bea79863d5487e5f9c7c34297414bad54bcd0f0852aee9cfdb87"
+ 
+ SRC_URI += "${PYPI_SRC_URI}"
+ inherit pkgconfig pypi setuptools3
+-- 
+2.44.0
+
+
+--===============6711593200632415727==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-lxml: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.2.1.tar.gz;downloadfilename=lxml-5.2.1.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.2.1.tar.gz;downloadfilename=lxml-5.2.1.tar.gz" to "https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.2.2.tar.gz;downloadfilename=lxml-5.2.2.tar.gz https://files.pythonhosted.org/packages/source/l/lxml/lxml-5.2.2.tar.gz;downloadfilename=lxml-5.2.2.tar.gz"
+packages/core2-64-poky-linux/python3-lxml: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-dbg: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-dbg: PKGSIZE changed from 17343496 to 17345072 (+0%)
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-dbg: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-dev: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-dev: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-doc: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-doc: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-locale: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-locale: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-src: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-src: PKGSIZE changed from 18493597 to 18497924 (+0%)
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-src: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-staticdev: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml-staticdev: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+packages/core2-64-poky-linux/python3-lxml/python3-lxml: PV changed from "5.2.1" to "5.2.2"
+packages/core2-64-poky-linux/python3-lxml/python3-lxml: PKGSIZE changed from 5001287 to 5001953 (+0%)
+packages/core2-64-poky-linux/python3-lxml/python3-lxml: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
+Changes to packages/core2-64-poky-linux/python3-lxml (sysroot):
+  /usr/lib/python3.12/site-packages/lxml-5.2.1.dist-info moved to /usr/lib/python3.12/site-packages/lxml-5.2.2.dist-info
+
+--===============6711593200632415727==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-lxml (sysroot):
+  /usr/lib/python3.12/site-packages/lxml-5.2.1.dist-info moved to /usr/lib/python3.12/site-packages/lxml-5.2.2.dist-info
+
+--===============6711593200632415727==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-lxml-upgrade-5.2.1-5.2.2.patch"
+
+RnJvbSBkYzRiMzA4YmRmMTliNWZlNzhhOTQ0MDk3MzUxY2NhZjljOGU3MDk4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDk6NTE6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWx4bWw6IHVwZ3JhZGUgNS4yLjEgLT4gNS4yLjIKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy1seG1sXzUuMi4xLmJiID0+IHB5dGhvbjMtbHhtbF81LjIuMi5iYn0gICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1seG1sXzUuMi4xLmJiID0+IHB5dGhv
+bjMtbHhtbF81LjIuMi5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtbHhtbF81LjIuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1seG1sXzUuMi4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1seG1sXzUuMi4xLmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF81LjIuMi5i
+YgppbmRleCA0NGExMDUwNWYzLi5lNWEyMmU3MDkwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF81LjIuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbHhtbF81LjIuMi5iYgpAQCAtMTgsNyArMTgsNyBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFUy50eHQ7bWQ1PWU0YzA0NWViYWQ5NThl
+YWQ0YjQ4MDA4ZjcwODM4NDAzIFwKIAogREVQRU5EUyArPSAibGlieG1sMiBsaWJ4c2x0IgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiM2Y3NzY1ZTY5YmJjZTA5MDZhN2M3NGQ1ZmU0NmQyYzdhNzU5
+NjE0NzMxOGRiYzA4ZTRhMjQzMWYzMDYwZTMwNiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiYjJk
+YzQ4OTgxODBiZWE3OTg2M2Q1NDg3ZTVmOWM3YzM0Mjk3NDE0YmFkNTRiY2QwZjA4NTJhZWU5Y2Zk
+Yjg3IgogCiBTUkNfVVJJICs9ICIke1BZUElfU1JDX1VSSX0iCiBpbmhlcml0IHBrZ2NvbmZpZyBw
+eXBpIHNldHVwdG9vbHMzCi0tIAoyLjQ0LjAKCg==
+
+--===============6711593200632415727==--
 
