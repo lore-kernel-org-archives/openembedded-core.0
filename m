@@ -1,148 +1,120 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86783C04FFE
-	for <webhook@archiver.kernel.org>; Tue, 14 May 2024 20:38:28 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.4528.1715719087274516915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEA2C25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 04:06:09 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.6608.1715745968473943271
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 May 2024 13:38:07 -0700
+ Tue, 14 May 2024 21:06:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YHuZ001I;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 13E31E0002;
-	Tue, 14 May 2024 20:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1715719085;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8tjR0d+8kY9irMfu0S5WhRFFkUcjuTv79ccmzyTumIg=;
-	b=YHuZ001ImV2EtiVYvlS/rZrbFosdQLRzSLJQxTdSCI8zW2moxg5Gxwvumy79R4PjpVmDyF
-	rc8dc7Mf9T+b3HZ5+P8g//kPPcpB5x/gWMNy7FxoWmTra87566gDEddJlm6lSSoEikT60Y
-	Hp6NaOa8hbSQmReG5Nu7pVpa6kqKgBZvQUbZN8pEME8E0g96iqum2gY30WWzgEimtZr2Aq
-	A3+LPFFljNPP6N8REvNCDS4vLRQJSfdcmpIyqON8PuKRYDlwV/CJlKee8ujMYs9muSRADn
-	qLKG/HhVcCXowbEc60tYK76Mp7p/eXgxxSjtrgKv102GeSGgT9vMqI7MZrIH+w==
-Date: Tue, 14 May 2024 22:38:04 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Seungkyun Kim <seungkyun.kim@lge.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] ipk/rootfs: run sanity test of multilib in
- parallel
-Message-ID: <2024051420380480df3fef@mail.local>
-References: <20240513133752.3818796-1-seungkyun.kim@lge.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5865270e69=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44F1MPiV023423
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 04:06:07 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3y1yc4bq04-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 04:06:07 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 14 May 2024 21:06:04 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] libarchive: fix CVE-2024-26256
+Date: Wed, 15 May 2024 04:05:47 +0000
+Message-ID: <20240515040547.3693075-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240513133752.3818796-1-seungkyun.kim@lge.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: _rc2N3eRgeCizAEFLCcP4eRofMTXyE1Q
+X-Proofpoint-ORIG-GUID: _rc2N3eRgeCizAEFLCcP4eRofMTXyE1Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-14_16,2024-05-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=915
+ priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 mlxscore=0 clxscore=1011 impostorscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405150027
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 May 2024 20:38:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199268
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 04:06:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199269
 
-Hello,
+From: Yogita Urade <yogita.urade@windriver.com>
 
-This reliably fails on the autobuilders:
+libarchive Remote Code Execution Vulnerability
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/9008/steps/20/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/9012/steps/20/logs/stdio
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-26256
+https://bugzilla.suse.com/show_bug.cgi?id=CVE-2024-26256
 
-On 13/05/2024 13:37:52+0000, Seungkyun Kim wrote:
-> From: "seungkyun.kim" <seungkyun.kim@lge.com>
-> 
-> For multilib type packages, there is an additional temporary
-> installation before the actual installation. It makes almost doubles
-> the do_rootfs time if having many multilib type packages.
-> To avoid this overhead, run sanity test in parallel.
-> Installing package groups through opkg takes much more time than
-> copying directory.
-> 
-> Signed-off-by: seungkyun.kim <seungkyun.kim@lge.com>
-> ---
->  meta/lib/oe/package_manager/ipk/rootfs.py | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-> index ba93eb62ea..db1cc1650e 100644
-> --- a/meta/lib/oe/package_manager/ipk/rootfs.py
-> +++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-> @@ -6,6 +6,7 @@
->  
->  import re
->  import filecmp
-> +import multiprocessing
->  import shutil
->  from oe.rootfs import Rootfs
->  from oe.manifest import Manifest
-> @@ -198,10 +199,16 @@ class PkgRootfs(DpkgOpkgRootfs):
->  
->      def _multilib_test_install(self, pkgs):
->          ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
-> +        rootfs_temp = os.path.join(ml_temp, "rootfs")
->          bb.utils.mkdirhier(ml_temp)
->  
-> -        dirs = [self.image_rootfs]
-> +        bb.utils.remove(rootfs_temp, True)
-> +        shutil.copytree(self.image_rootfs, rootfs_temp)
-> +        dirs = [rootfs_temp]
-> +        return multiprocessing.Process(target=self._multilib_test_pkg_install, \
-> +                                       args=(pkgs, ml_temp, dirs, False))
->  
-> +    def _multilib_test_pkg_install(self, pkgs, ml_temp, dirs):
->          for variant in self.d.getVar("MULTILIB_VARIANTS").split():
->              ml_target_rootfs = os.path.join(ml_temp, variant)
->  
-> @@ -218,6 +225,8 @@ class PkgRootfs(DpkgOpkgRootfs):
->              dirs.append(ml_target_rootfs)
->  
->          self._multilib_sanity_test(dirs)
-> +        rootfs_temp = os.path.join(ml_temp, "rootfs")
-> +        bb.utils.remove(rootfs_temp)
->  
->      '''
->      While ipk incremental image generation is enabled, it will remove the
-> @@ -300,15 +309,20 @@ class PkgRootfs(DpkgOpkgRootfs):
->  
->          for pkg_type in self.install_order:
->              if pkg_type in pkgs_to_install:
-> +                sanity_test = None
->                  # For multilib, we perform a sanity test before final install
->                  # If sanity test fails, it will automatically do a bb.fatal()
->                  # and the installation will stop
->                  if pkg_type == Manifest.PKG_TYPE_MULTILIB:
-> -                    self._multilib_test_install(pkgs_to_install[pkg_type])
-> +                    sanity_test= self._multilib_test_install(pkgs_to_install[pkg_type])
-> +                    sanity_test.start()
->  
->                  self.pm.install(pkgs_to_install[pkg_type],
->                                  [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->  
-> +                if sanity_test is not None:
-> +                    sanity_test.join()
-> +
->          if self.progress_reporter:
->              self.progress_reporter.next_stage()
->  
-> -- 
-> 2.43.0
-> 
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../libarchive/CVE-2024-26256.patch           | 29 +++++++++++++++++++
+ .../libarchive/libarchive_3.6.2.bb            |  4 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199239): https://lists.openembedded.org/g/openembedded-core/message/199239
-> Mute This Topic: https://lists.openembedded.org/mt/106072581/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+new file mode 100644
+index 0000000000..717a31f0e1
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+@@ -0,0 +1,29 @@
++From eb7939b24a681a04648a59cdebd386b1e9dc9237 Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Tue, 14 May 2024 08:50:44 +0000
++Subject: [PATCH] fix: OOB in rar e8 filter (#2135) This patch fixes an
++ out-of-bound error in rar e8 filter.
++
++CVE: CVE-2024-26256
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eb7939b24a681a04648a59cdebd386b1e9dc9237]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ libarchive/archive_read_support_format_rar.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 793e8e9..b8397d0 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3624,7 +3624,7 @@ execute_filter_e8(struct rar_filter *filter, struct rar_virtual_machine *vm, siz
++   uint32_t filesize = 0x1000000;
++   uint32_t i;
++
++-  if (length > PROGRAM_WORK_SIZE || length < 4)
+++  if (length > PROGRAM_WORK_SIZE || length <= 4)
++     return 0;
++
++   for (i = 0; i <= length - 5; i++)
++--
++2.40.0
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index 0219ffa720..e091646e16 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -28,7 +28,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ 
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
++           file://CVE-2024-26256.patch \
++           "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.40.0
+
 
