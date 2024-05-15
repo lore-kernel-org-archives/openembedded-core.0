@@ -2,53 +2,53 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0B3C25B75
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:42:14 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.52])
- by mx.groups.io with SMTP id smtpd.web10.94.1715794927966288311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A15E5C25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:55:24 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.70])
+ by mx.groups.io with SMTP id smtpd.web11.532.1715795720558504443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:42:08 -0700
+ Wed, 15 May 2024 10:55:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=R9thqM7p;
- spf=pass (domain: axis.com, ip: 40.107.247.52, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=WUKJaD2q;
+ spf=pass (domain: axis.com, ip: 40.107.105.70, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ey0WgT9oNedLlHJw0NegZXgfsfRm2rxyjvfaVL49OPFuCSvaab6IEQB0FFIlB1ESSthk5WPpRx7vCRM70idMMBO1++w+V0PKy7dPbRSNnovHgcYNYeBQou0LjI50ME9j86Jwvi9lP4C9PQvfRHyp0C0b06EUKApHAPz+NwUWVmqv75tjkTyc2IN6P9ck8KAE67C2n+BOkMo8sE5dHRCH+4Dw2qUGXpn/qyCB/fae+Dt0JM5bJEUrndQv7+X0EdpvB6aiLc2ErJgRtSFG0/4SAZ2/NthmnI9UNtCcHD0gR83WNX/7hk7if/ZeuZ4tvADeh0ZmopImx+WvasfTMfA+Gg==
+ b=J/nMmPqg4Wlrndx1U4sffhHmxVvlciYCyXwmuD9/zG4tQ2PgOh2Rp3WjB3NZW54MAvqlAiVWOxV7KxFpSHCDJlQKaztKfSQ4vWgkr10S3LAWnKlQxkZ76kSfb9qWlsivhsiAkvQnnvTsL59v42L9Zs+PQAeXJ17iCuo5f1+OWjH4CRGS0o7CEI90xedDTWAbcSt30Nda8D+UlrRmbIlM2zEYqfNpvluZeRBTFra4Xej8VSIQ1ayunKJFisRj7plsuYp246Khi2xunjWJ7ymf3ZUbPEZO3gMy5QUgpyCWYd9pojKTwVu699W0DxQ263SaaT2OJjW8Ixp8ddLYR2MCvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVrpOHVgKHVgHmSROkVV3dChcbX12adov/EfETPHzJ0=;
- b=Iv/T+ztX9cia0lmZmQNBH0UcTtHbn4x+H5VEYSLdpb2LDolpxP9UFGILNy19BSPrBj7rVMQMc/3dXohhSNJ7jzAFlgx1hr5OlKE5Qi/3QofKtor4ZYfkEEUUs5nV4z8sMBbDoduFgEoObltbBTWBAtHlI7ElcQyZZckbjJULEUHW1r2JESkuOxKVCPwgvPuKe2uMqeSEjrYR+L75rcufNQmRGZi3ErwW0NO2G1/g0dZI5OUv9pECTist/sw98am7vLZrGbACY0SjtnuU/cB3VNCihfurVL6k8gVfHMqL9NfWuieyr2z+KzXE1KSqMsuoGQQ3tNyL/00/oPhnWUAFjg==
+ bh=2Qzsg9RjtkBUN+7aQUZXTfcKsQUOLErpfU/1KhI0uHE=;
+ b=C4tRh7NkJtCdPMHzkTkQNyeIPLE0fTXsbaRJiJjLosQMUujQzHuYmr151Hv566FvV+wK+sKhD9tRWWmzSP1ZxFlnUDbZEfjkzGzbA312C2Xb7f5s3lDy/ZC4o1cHSA24WHTgCjF3c0zkV6fQvJEFOtMY0gSsXTLem+qREoiIyusHJe3+fFJS42ivzCwlYvQQq/l3yi7v1e9ipF2OAFWXyMHvAmwkOB5Lxd3aKhka9bDEv6d6poBD2vjaUcPrz5O1KaSu4Y2wekTIGjnMDeneAq671aoDQLmVEYgFd78d8VGuxAie1J5bvUHtF2CGvCUCoS8OvhOeBjk5KGShtsjiJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
  dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVrpOHVgKHVgHmSROkVV3dChcbX12adov/EfETPHzJ0=;
- b=R9thqM7pMt3QPVbd4dcs+eVT1KthLf3zJrV27afzuB4jZUOfDJ/hHTpw6YLWPs+fALIZZ/T+gJvInZHxWGaHbpv6C3k4EIVKwkUYLdR0uAbfUdX9aVgzJOTLM8lokFRkPJc2P0CqLrXglqgLtDAMQ6HvvSv9El+LXy1XsEyWrA4=
+ bh=2Qzsg9RjtkBUN+7aQUZXTfcKsQUOLErpfU/1KhI0uHE=;
+ b=WUKJaD2q/K/g1D2EoSFuAhHkHVH33sfF/HeJKBBKsHpCq9L5refp8IwUHmKMf810rma2FvUzAzGS+FTCDiFyaNH3OIizOUajcJnov4EIAnLukp0Z9LMl/1ide6qaL4uXB7Fkbb7/NI3hpNGdkEK8PTJY4zZ5uvwbBJ1AMiA3NDM=
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB4PR02MB8535.eurprd02.prod.outlook.com (2603:10a6:10:389::9) with
+ by DB9PR02MB9780.eurprd02.prod.outlook.com (2603:10a6:10:451::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.49; Wed, 15 May
- 2024 17:42:04 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.26; Wed, 15 May
+ 2024 17:55:17 +0000
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::6ec:207d:1515:2996]) by DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::6ec:207d:1515:2996%3]) with mapi id 15.20.7587.026; Wed, 15 May 2024
- 17:42:02 +0000
+ 17:55:17 +0000
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of
- WORKDIR
-Thread-Topic: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of
- WORKDIR
-Thread-Index: AQHapr7/rIDlw8w8v0WcXcIb8vZp7rGYc8Zw
-Date: Wed, 15 May 2024 17:42:02 +0000
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Ola x Nilsson
+	<Ola.x.Nilsson@axis.com>
+Subject: RE: [OE-core] [PATCH] devtool: modify: Catch git submodule error for
+ go code
+Thread-Topic: [OE-core] [PATCH] devtool: modify: Catch git submodule error for
+ go code
+Thread-Index: AQHapeT0Vh+M0VqAsE+kc04qn5ig3bGYlXew
+Date: Wed, 15 May 2024 17:55:17 +0000
 Message-ID: 
- <DB5PR02MB10213711E57BF5F07C4259761EFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
- <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
+ <DB5PR02MB1021322BDD00EAF753CAE684DEFEC2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20240514095623.3951836-1-olani@axis.com>
+In-Reply-To: <20240514095623.3951836-1-olani@axis.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -56,210 +56,144 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=axis.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB4PR02MB8535:EE_
-x-ms-office365-filtering-correlation-id: b0d76bdd-4488-47c5-bd95-08dc75065418
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB9780:EE_
+x-ms-office365-filtering-correlation-id: fe8bfaee-c2e0-4ed3-a633-08dc75082dfb
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|1800799015|376005|38070700009;
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|38070700009;
 x-microsoft-antispam-message-info: 
- =?us-ascii?Q?mdcRy1Js0e/ElSNWELV89VBiE90eLJeBwfSlxtjkgkQrrcOl+5N0RW7iXDQf?=
- =?us-ascii?Q?1CsFRgE+uGMn8y5FNxTUKQPVK/bvSFiEbCET3APLSji8nIUSzVFYWnoFHzZZ?=
- =?us-ascii?Q?aWKWkfgGakGTa0PI/TGqyh1fmHADMUw//5smPH0l1C5ex6tB0x/43A0r4cVw?=
- =?us-ascii?Q?ve/4k1GwZdAK/86u8MN5ToHMC45NAbvTcgXpLz/dxCDoZd52fat3zacrm84F?=
- =?us-ascii?Q?DA51FvMuvAZwEBheRNYVv1KttWUY98lh1rOYAsvM2NpxQzMr7+9Ze0S51Mvt?=
- =?us-ascii?Q?cHAfNqgDDxf2jtc4aEcjfuM+4Tq4nGVimnv+Ue/japwSfTg5TVBbvqxFpqKt?=
- =?us-ascii?Q?SvhmOMrnHp1AekwMQoD+1e8RrhxPqcyjX4Ug+CbKLNYrXyTqMGTJZ6IebDPK?=
- =?us-ascii?Q?ycSY6HJdU07ksVH/j7O7VdCEWxqyIiZHOhsD/ZwoydQ1Pn4P3hTckaqxWWtD?=
- =?us-ascii?Q?IpZ5qQMcwdxPltPaE9nEvlO4c95cjE0q1h4P+jNmpqJKVH2PL9pH5qvrwadA?=
- =?us-ascii?Q?/3PqTCV6jnf5/c2uth/zsWtuDxAbwozNJOZmCjRTgUr01MSredsoueowM43R?=
- =?us-ascii?Q?n7E+tJry7gYuJ0lmcR6V72PeZj8ZodSl75RVyTWziv4klyfEOscXzzTLCAPW?=
- =?us-ascii?Q?9BJPgH9HSqXhIx1GAXm83FU4clPEMrxfSaH/nyuwbML8vpD0mBnUL4FlQNpE?=
- =?us-ascii?Q?/U4ALZZROMnbzGzZR3pJlyT669RI+0MWnr0TiBPDco4hM5p5DaGEy+wqFBG+?=
- =?us-ascii?Q?Z/t7+4VIcz9FkJTCNpbdfeLbIiER9HqDzwrnwF4WgwLQp+hShsbfAU+q9+2K?=
- =?us-ascii?Q?5M3WsBG6+zcCsv8v5iDl9cirASNk1MHAm0mUfIOhpDvST/ZiUj0ECems1fan?=
- =?us-ascii?Q?Fi/v2XUirmYIN9S8PPRpCpFP2bUuO3lpv3W8v1a7FauGzNi85IZgSapnLG7N?=
- =?us-ascii?Q?KHksPr/+586cqS/b0BpAtU+Bc7oVbPxqOGuQhiXa26JHNFczncqjTpZV/o4i?=
- =?us-ascii?Q?58x6od9L42/IBZNHTBQyyf+mbxgTA3S5OF15r/Jqo7jbBb/FGyKZl+3W2JWS?=
- =?us-ascii?Q?zSUsBlrloFFn2JDzyQLP9wW8U9ZY+JTALJGddfQt79XJr5Sg+NPZMMzSctM1?=
- =?us-ascii?Q?sRuvrPuK1a9klEKTuHmHaC63NVCFRmBFkxwV1eFwdQ+pljDVWxl46fbimUL2?=
- =?us-ascii?Q?2LE9MOokw73MXtDdbTltWglRw6XHScjTSKXQizaYfxEjR7aAFiXeFbTHx4Xt?=
- =?us-ascii?Q?Jb5GxtDOpBzzrOEn7ghJuEScgMFecBQWgONK7tl9mmDEQQVPPoXnZ6HBxV6/?=
- =?us-ascii?Q?NF+gcUWiJnuuWYFIz1AzpEPdZYYx+AKZFJdLz5A48hJ/AA=3D=3D?=
+ =?us-ascii?Q?y0tSCCXIzrl6kEAxqd013gfBhnpsc+tmA2aOAoBm2KTXdxKm6OqqQQ7/+Ylt?=
+ =?us-ascii?Q?BbmmY902fci4Lxwv77T54yXiraKYwQJUoZk6RaE3Yb7OfOXimyJF+TjCFjDx?=
+ =?us-ascii?Q?bQH8lfjS+hwsa5E3sK+sRhyFhRlaBBbCW76BMKtWNXZz1xBftkFry1JCyTQr?=
+ =?us-ascii?Q?9mUrbx/YhQaSNSRRReXbhZW4JRPscUQUYUAbpgnSAgWK3lQHMLhuG9EFH0Tw?=
+ =?us-ascii?Q?YWQ9zcnQjFiJW0P+k02vBAj/rTJ5Jsj/gsHFWsiM3fz5R1jjW5o+6IWxTrtX?=
+ =?us-ascii?Q?ytp+WO7KLNaqS4fwaR1J7rPApk8f3tPhSGNOENKn79F6oq+d1OWpTfMlBaa5?=
+ =?us-ascii?Q?XX5nIYxuVeX+VJthu9Y5cDo3RLyYoR8ZgNmeLtG94C0UmPLuIu4C6V+f0XS3?=
+ =?us-ascii?Q?RFezlIxQ+GfP06+jK7kC9n3/IB29VN+evu0H63IFqijYoKzFz+KOBz5lYw6Q?=
+ =?us-ascii?Q?HGvb7kUalVtp7jra0boCKODFW4bcmlxGbfnOXqGGoCia5fQ4gpRdMau4j2YC?=
+ =?us-ascii?Q?RnnvLyizxIQZH3iHFMqpugbyCdMIntc5rpsXvbVzGcw29Vcoj4Ek6wCsoE3r?=
+ =?us-ascii?Q?EnfJcLD0p3cy2DU3tHyhCOoXR8ZCmX1t8c4EWPb6OfZgpVVvBudvNPLo9q6h?=
+ =?us-ascii?Q?vxfsU/i6jw5gTw9fzwBg78vh38A6DZIHzySkngMMUJBtzI2UYfE8b0lSNBzN?=
+ =?us-ascii?Q?TldmO9lO6XXUxOyUCxh1XRvMEZHP8GZdhj/XXhF1XfhOCu77tuQG5EjOmtyA?=
+ =?us-ascii?Q?M/9zxvQNqXKy5eTiEPahLV6evaxx1XNQFDHYQeOT90mdCzxDDSSVKZENlBBh?=
+ =?us-ascii?Q?PUr2TbQfXRqZW1MZJXPIc/caYJfd9ANGW754JnQjEH4jeH7taCk0YVcdmlPP?=
+ =?us-ascii?Q?SaQBvqisgOVS9qlbofZIB7x4uVR98AVN5S9+AjnjqzuA5bSqcin5LA0rAZAj?=
+ =?us-ascii?Q?baQYQXhKrGZdF725FP+3m/nMWDyqajQ1AAmjXo36q+1M1PhgQ+AkfJwfj2Bx?=
+ =?us-ascii?Q?9ehkyO1rEd4A9u1xCSeEoi0SZFi867zvpis0Z4Ie9i93knQub9+vPgMveqec?=
+ =?us-ascii?Q?Kids8hjS/him8mwtEypyvOVPaeNNN9FJcZP8wLDZ6vWg22HpMLONjGLXPqcm?=
+ =?us-ascii?Q?XzCQmF0VkwXzFXMDbPOUyJAVwcNp0zfxPJdtlW3/7ev6enEU9VdYnJhU7a/K?=
+ =?us-ascii?Q?BTmdbsWSZy+DIVDgOxbUeuaF+IY5TK8a/eVjimuDyAUBDdVSpvqcxrZ40bp/?=
+ =?us-ascii?Q?UU2UkA7OvtbmyMuYPvAWOc8641eR5NZ+cMksZFCWc2lmucp5D13NcAQSQF9U?=
+ =?us-ascii?Q?2HdeXUb+4vQ9VrZud0kUBrg3RnXsAggJ7uRrGdDhiz2zxA=3D=3D?=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?1BB57SPOCA71o7t8or+yQ2jNEzqtNigXWxaZd7LxfLU9iKDiJFA5coNrvpef?=
- =?us-ascii?Q?5vMFEKqctZ9Xfexny/D94AXE8uQSqVVlyYSaXjFo7T8HpKdW0uBD2wMsecEq?=
- =?us-ascii?Q?qK2i5PgrBwtfAhWfd5r1z5FYH18nDwDGxN2O+qnautnLlPdXnzPhUn1SZdq9?=
- =?us-ascii?Q?UnboqN/ZSlHzynjh5Xg22D+AFN1PfsD3wl8z71sGc4+6cx96WaQevdl4v2Kd?=
- =?us-ascii?Q?6LfohPwJ24IdFLWmh6Vd0KVYAmCcuhYOpEbtX9fUso+YOh341gcM8VlHY7A5?=
- =?us-ascii?Q?lMoKZBlPnIVjl+z1WP+WJWmjvD7xszafK2XWaVqVU4ZecW/UTJWbcW6aweEH?=
- =?us-ascii?Q?z2QSM6T10pWG/PUSstM2GlGi3yUGu79P4+/mVvHDC2LAawSxiGmB4ZOR/1tz?=
- =?us-ascii?Q?1GV9FzNoKqFzuPD8JtWvw6toU9TkId+g83l/QSbv0w+q7tUNcuYCcRGP4kdN?=
- =?us-ascii?Q?abBNY3TW2415tDXHyyjWh6QMO1ITZdOhna4gNnaxI9kJ6oWTJXIB/+bYIkmx?=
- =?us-ascii?Q?Zo15O1h+1sELhljHc0IcddR+sYppP6w20J3MF679SygED0iqs3GQ+A+MYhu2?=
- =?us-ascii?Q?TSGb/05xZ5gsJI5k+/67ztKbHa5/Qwr/CHk+euaMAjpGj8hMaKinLDEV3cyD?=
- =?us-ascii?Q?X6d1oHa5O7N49VP7V0UAcOr7AxxW0RtbyYgKRVBnvYgCZxtroYxW4cUI2yJ8?=
- =?us-ascii?Q?F5G8P5E1mxCAbHNq35xfD27+dfs9NkwSFQWsOM4xpdqRZh0+02w02fgJ58gN?=
- =?us-ascii?Q?56co9KsSA4qPoWMEnlKC9GfV25EBcn7FQ5hEfwLN4NBsF2vdxQ9IP0xcLnVd?=
- =?us-ascii?Q?xAMOT5pnMDQp5yzNAJbaCl3T5qbvu+vp71mCUWhYxoJnKXrmpZMHPhvQkqOg?=
- =?us-ascii?Q?skSbSndntDJWkoYBuZbP91/8UXz1lIS4BUcOrcEj3AAItpxXZAJfnrzVqFYO?=
- =?us-ascii?Q?yjKXuXE2jqgquOMTfvSh0f0/8D6nUhxU59+BPOnb1WadbjJ4VCO/4y7L1ldW?=
- =?us-ascii?Q?dDsHYwhaszSeLTQtmsVv9lfG8ChlObMghLe83V+41N1NmWYo0VPMvtpe272F?=
- =?us-ascii?Q?RjgFzQrfMFI+lAQeGLyVVq47IAo8CURjDcgJxuQqneuOiCojQEAKM5WxtHim?=
- =?us-ascii?Q?cUBSq8DllSvFJAQDRET/VHnsbdEBiGZJYHT7L1DeFNwUW6frMD4eBGpOyQSw?=
- =?us-ascii?Q?mvSWNNpM5EVzaj0VIRnMd+z5HAakqdNZlnutqhngvDMU77+AMqgn7EKjzm5o?=
- =?us-ascii?Q?r0D4JqHmsUh+kti42M22+MXMQKAiNmbiCvOp6XwrRZsJZmfHxMwlpvBRpv+h?=
- =?us-ascii?Q?TB9YJjbX4Lmo/36lOdnrLcGriGVZNR2uSufP3MIoMP72xACOCYhW9WIxkQ5z?=
- =?us-ascii?Q?F9y9bfHPtQtYBQ1Daz2LmKdwK4cObI5aYFl9W6QIcsgUdKtoqKXWIhi2Z7t9?=
- =?us-ascii?Q?8MQsIcdby9p6esjBDVtypvh8Fm6Zk8y0zaHu8E/TaKpXXAkrcbrSTgXmtl2Z?=
- =?us-ascii?Q?N0p+CVLiPUZEwYZOaXJH84xD1CPoXbm+6GONKnUZWMTGy9MPJVpQh/jBYhxm?=
- =?us-ascii?Q?UR2CSvZ0e3k3xLxokOs=3D?=
+ =?us-ascii?Q?8N64DpVJ9aZ82nCdAKpFmb/U6n/vs5YtNa+s/FDsKlhGNoeV1Ou+ZqVg9fB0?=
+ =?us-ascii?Q?23lEU4c63pgNaPAkKEeeqAT1O6XKfj4XFxc/UQBaamB1EERYiOJi8TawOD7j?=
+ =?us-ascii?Q?PED1psi3VwDSIJA3yRsuPkI6LXOQ5hnnqL9AjAvMflSzx6Tx4WfNjjyhYZC2?=
+ =?us-ascii?Q?sWNxLjYGZCKFhC5sLPM8Ebf2EpWBXuD5R0km8JY3R+l+IRm9QYpwpXJCoqBS?=
+ =?us-ascii?Q?jYtC4nerXRX9DjD4ieWC03uB3ytlz8n0BhERbX2LKcqO8+Y84wVBxmFsH8kO?=
+ =?us-ascii?Q?eRuJsgLDLqMfQGmvVOKz2rW2i9DkEfr/MJ9gpV3eAPZadlBeGxqwcvT9Y5I8?=
+ =?us-ascii?Q?17g3IcGTrtOij7XTWN89EbXyx+g/6CnJOhRHBtE84kbp5dplJH1qw5N6howY?=
+ =?us-ascii?Q?AfWyyfvRuaV6bYq22nQvBiqJfb3tBTELJ/gy3aM8lSJ3E5EIyD3O2aswgpNE?=
+ =?us-ascii?Q?YeKgDpFwZtnPykdw4nuKUapVsf8Bh/leEAvMJ+djY82gr6PtaBTusCvZCW27?=
+ =?us-ascii?Q?E75/civsFWPYpzgH/eyR4bgMMB1BBoXaCToXnb13MO4plczPF4LShXC0Nc85?=
+ =?us-ascii?Q?wpDOzhJLLpg3+xWI9Px9dX8XGrBYGnm+80k1sNZ8RMKH2nzqTlpPfx+nMatc?=
+ =?us-ascii?Q?fg+3ctDkTRzXqdONTPMu9YD7cSYf3aQIWO2vKgJ61uqd85Lf2ZK7gfzQ2lA/?=
+ =?us-ascii?Q?TI35dIbCBwY10qNKrFooGcrfrLCnW328Q4eH8TiKs/KHv3GziBrLx5VIpW24?=
+ =?us-ascii?Q?Hu725Oqn14XwrRRAvmxM7s4dBoZ9dUQR6vkhBM3W6cMcdvcI7lv/rMeOatXJ?=
+ =?us-ascii?Q?uP6cj0KeUwxz24QBg3oKb2Z0hdGNC20zTUM/GUQdRm2drM1eV6053bkg/5+L?=
+ =?us-ascii?Q?5GldsQN5VM0pcaVmF3M2LB9BdkWmHk88vXLXik3TrTvLg0sV3dfi+3nhfZkL?=
+ =?us-ascii?Q?V5oWYnBaxSGq5U7cu0+koKYJuWrQxRV4JPqZuNP/7lDUZ6js2ZVpZrzx/HeM?=
+ =?us-ascii?Q?TAeM3c6ZlLK0RNNTEbDvwhuK4IVfel8I7/q06UhDEW1eC4AzCjU8J/Rqqu/1?=
+ =?us-ascii?Q?dY1BpRdvFxS3fv2PM2cd9ZQVnW4M9pwo25UTpCCiiuySQ4xks1hit0DUpm+9?=
+ =?us-ascii?Q?ReWWSCYhjJJVAmPRAxSENexGxwTlkpdsyCOrSOLAnRl0pm/FrEhmktlYa6rE?=
+ =?us-ascii?Q?+HfHy2USspBkzApuH5e+OHfSLDtH+q7usFG3NVD6+qAFmnefB76uyEyUBqiQ?=
+ =?us-ascii?Q?pLflN6eR+HLx+Y0PKGUWXcousRyOpb0jFMIpyVK7wYSa8S9AmfpZqcxJrLI4?=
+ =?us-ascii?Q?IQCbm/h2AuS0zrDM6RnKUXlDyigl62dBfxWxh5KH+QUCVG8hXB34imEfjCU5?=
+ =?us-ascii?Q?sHt8O1bryHUK22Z9VO4hRF5QtwPCI+UoZHfONcv8RdWPTMl1cnpdm3dCVYRU?=
+ =?us-ascii?Q?ZOm6VOMVHIlo+iErbgrrq8Z20TVUGGttdqIEy0Hvo6uAY/M59LHGx798BxQe?=
+ =?us-ascii?Q?0gtwXiaO1TC5Gg2iDlqouzjP//pwWEPxdt97OX1U4qiJdY2NRv8+pPWCyRHY?=
+ =?us-ascii?Q?VWq8wKC6h1Nm+3ailUE=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: axis.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0d76bdd-4488-47c5-bd95-08dc75065418
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2024 17:42:02.0425
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe8bfaee-c2e0-4ed3-a633-08dc75082dfb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2024 17:55:17.1232
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HW4I5d03AcKMZY9kjt1kwTJF5c04FqyW7Cc2cwAMB8B9tw2USybzsqDsUvqsA1GU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB8535
+X-MS-Exchange-CrossTenant-userprincipalname: 7CLylZY3/ouJEjWo9b1cPaxf6F1gu7xwsThG3FVsOSmzaEWU0iaFdlVLHkQAURAw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB9780
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199422
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:55:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199423
+
+Steve, please cherry-pick this to Scarthgap.
+
+//Peter
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Richard Purdie
-> Sent: den 15 maj 2024 13:56
+penembedded.org> On Behalf Of Ola x Nilsson
+> Sent: den 14 maj 2024 11:56
 > To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of WO=
-RKDIR
+> Cc: Ola x Nilsson <Ola.x.Nilsson@axis.com>
+> Subject: [OE-core] [PATCH] devtool: modify: Catch git submodule error for=
+ go code
 >=20
-> Change do_unpack to unpack files to a subdirectory of WORKDIR instead of =
-WORKDIR
-> itself. There are several good reasons for this but it is mainly about be=
-ing able
-> to isolate the output of the unpack task and tell the files apart from ot=
-her things
-> which are created in workdir (logs, sysroots, temp dirs and more).
+> From: Anton Almqvist <antonal@axis.com>
 >=20
-> This means that when the do_unpack task reruns, we can clean UNPACKDIR an=
-d know
-> we have a standard point to start builds from.
+> One of the git submodule commands failed for source extracted for
+> recipes using go.bbclass.  The root cause is probably the path set up
+> by go_do_unpack which makes S and gitroot not match.
 >=20
-> It also makes code in tools like devtool and recipetool easier.
+> This patch does not fix the root problem, but at least it is no worse
+> than before the git submodule support.
 >=20
-> To reduce the impact to users, if a subdirectory under UNPACKDIR matches
-> the first subdirectory under WORKDIR of S, that directory is moved into p=
-osition
-> inside WORKDIR. This preserves the behaviour of S =3D "${WORKDIR}/git",
-> S =3D "${WORKDIR}/${BPN}" and other commonly used source directory setups=
-.
+> The extracted source will still have two .git folders, one in S
+> created by devtool and one in the go path which will contain the tru
+> git history.
 >=20
-> The directory is moved since sadly many autotools based projects can't co=
-pe with
-> symlinks in their paths.
-
-Would it be an option to create a symbolic link by default, and instead=20
-let the autotools bbclass replace it with a moved directory? If it is=20
-in fact only autotools based projects that have this problem.
-
+> [ YOCTO #15483 ]
 >=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Anton Almqvist <antonal@axis.com>
+> Signed-off-by: Ola x Nilsson <olani@axis.com>
 > ---
->  meta/classes-global/base.bbclass | 21 ++++++++++++++++++---
->  meta/conf/bitbake.conf           |  2 +-
->  2 files changed, 19 insertions(+), 4 deletions(-)
+>  scripts/lib/devtool/standard.py | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/meta/classes-global/base.bbclass b/meta/classes-
-> global/base.bbclass
-> index 066f3848f7c..cdce0538273 100644
-> --- a/meta/classes-global/base.bbclass
-> +++ b/meta/classes-global/base.bbclass
-> @@ -153,20 +153,35 @@ python base_do_fetch() {
->  }
->=20
->  addtask unpack after do_fetch
-> -do_unpack[dirs] =3D "${UNPACKDIR}"
-> -
-> -do_unpack[cleandirs] =3D "${@d.getVar('S') if os.path.normpath(d.getVar(=
-'S')) !=3D os.path.normpath(d.getVar('WORKDIR')) else os.path.join('${S}', =
-'patches')}"
-> +do_unpack[cleandirs] =3D "${UNPACKDIR}"
->=20
->  python base_do_unpack() {
-> +    import shutil
-> +
->      src_uri =3D (d.getVar('SRC_URI') or "").split()
->      if not src_uri:
->          return
->=20
-> +    sourcedir =3D d.getVar('S')
-> +    basedir =3D None
-> +    workdir =3D d.getVar('WORKDIR')
-> +    unpackdir =3D d.getVar('UNPACKDIR')
-> +    if sourcedir.startswith(workdir) and not sourcedir.startswith(unpack=
-dir):
-> +        basedir =3D sourcedir.replace(workdir, '').strip("/").split('/')=
-[0]
-> +        bb.utils.remove(sourcedir, True)
-
-This remove() seems wrong and should not be needed. There are two=20
-cases here:
-
-1) either ${S} =3D=3D ${WORKDIR}, in which case the above will remove=20
-   ${WORKDIR}, which is sure to lead to problems, or
-2) ${S} =3D=3D ${WORKDIR}/foo[/...], in which case the removal of=20
-   workdir + '/' + basedir below will also remove ${S} as=20
-   basedir =3D=3D "foo".
-
-> +        if basedir:
-> +            bb.utils.remove(workdir + '/' + basedir, True)
-> +
->      try:
->          fetcher =3D bb.fetch2.Fetch(src_uri, d)
->          fetcher.unpack(d.getVar('UNPACKDIR'))
->      except bb.fetch2.BBFetchException as e:
->          bb.fatal("Bitbake Fetcher Error: " + repr(e))
-> +
-> +    if basedir and os.path.exists(unpackdir + '/' + basedir):
-> +        # Compatibility magic to ensure ${WORKDIR}/git and ${WORKDIR}/${=
-BP}
-> +        # as often used in S work as expected.
-> +        shutil.move(unpackdir + '/' + basedir, workdir + '/' + basedir)
->  }
->=20
->  SSTATETASKS +=3D "do_deploy_source_date_epoch"
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b2c500d8739..75c850760f6 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -405,7 +405,7 @@ STAMP =3D
-> "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
->  STAMPCLEAN =3D "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
->  BASE_WORKDIR ?=3D "${TMPDIR}/work"
->  WORKDIR =3D "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
-> -UNPACKDIR ??=3D "${WORKDIR}"
-> +UNPACKDIR ??=3D "${WORKDIR}/sources-unpack"
-
-"sources-unpack" does not exactly fall off the tongue.
-Would "unpack" or "unpacked" be alternatives?
-
->  T =3D "${WORKDIR}/temp"
->  D =3D "${WORKDIR}/image"
->  S =3D "${WORKDIR}/${BP}"
+> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
+rd.py
+> index bd009f44b1..05161942b7 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -904,7 +904,10 @@ def modify(args, config, basepath, workspace):
+>                  (stdout, _) =3D bb.process.run('git rev-list --reverse %=
+s..HEAD' % initial_revs["."], cwd=3Dsrctree)
+>                  commits["."] =3D stdout.split()
+>                  check_commits =3D True
+> -                (stdout, _) =3D bb.process.run('git submodule --quiet fo=
+reach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=3Dsrctr=
+ee)
+> +                try:
+> +                    (stdout, _) =3D bb.process.run('git submodule --quie=
+t foreach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=3Ds=
+rctree)
+> +                except bb.process.ExecutionError:
+> +                    stdout =3D ""
+>                  for line in stdout.splitlines():
+>                      (rev, submodule_path) =3D line.split()
+>                      submodule =3D os.path.relpath(submodule_path, srctre=
+e)
 > --
-> 2.40.1
-
-//Peter
+> 2.39.2
 
 
