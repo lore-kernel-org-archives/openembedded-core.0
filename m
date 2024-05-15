@@ -1,78 +1,145 @@
-Return-Path: <naveen.kumar.saini@intel.com>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B15C25B75
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 06:00:00 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by mx.groups.io with SMTP id smtpd.web11.7758.1715752795600241773
- for <openembedded-core@lists.openembedded.org>;
- Tue, 14 May 2024 22:59:55 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=BCIp9E3Z;
- spf=pass (domain: intel.com, ip: 192.198.163.19, mailfrom: naveen.kumar.saini@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715752796; x=1747288796;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nC5PrJ5yRI8jHBSUqa9ssldk9JEZMAgYvi2X9qfzacw=;
-  b=BCIp9E3ZCH9ixVIiBhOcdbMGfpLVB4nF2fW/NQUf6KxXUKFjfrfyH0OJ
-   QMCLA3nMUMBkgCR23OasdDsimCN4m3gruTwvEvR8AMuLPEhVBCsM4Q5ea
-   EcRhK9MjCElzNtxsmyoYy30mH7xtsO3ycLZZAWTWMU2Jo9b+/T+H720Ic
-   ssLsDi6Oeb1XlWPCpIlTUk0ZIV4hGtBNdWdwHSYtfBToq2qyXQgOevOFl
-   XXkrhHtPF7OAi6xGIaXjTso2ID6sxT/9xxlXskzwmVyTagfDLIxUFup+v
-   XnmluDJkjcd29uCFW/D3vpWa8FrRzvy4Jx5cp0D+stzVYh84iD95NO1r4
-   Q==;
-X-CSE-ConnectionGUID: kxxOQUy6QGiTbUqv84kzYQ==
-X-CSE-MsgGUID: z1aZ67c4Tf2XWkgF8VryVw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11636041"
-X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
-   d="scan'208";a="11636041"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 22:59:56 -0700
-X-CSE-ConnectionGUID: yP1N2pPFQcyYZ5N0Id5oew==
-X-CSE-MsgGUID: bXcjwooPSG6R+v08drgWDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
-   d="scan'208";a="62111544"
-Received: from andromeda02.png.intel.com (HELO andromeda02..) ([10.107.234.73])
-  by fmviesa001.fm.intel.com with ESMTP; 14 May 2024 22:59:54 -0700
-From: Naveen Saini <naveen.kumar.saini@intel.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D04C25B78
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 09:36:41 +0000 (UTC)
+Subject: Re: [PATCH] buildhistory: Fix do_package race issues
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gstreamer1.0-plugins-bad: rename onevpl-intel-gpu -> vpl-gpu-rt
-Date: Wed, 15 May 2024 13:22:58 +0800
-Message-Id: <20240515052258.2237250-1-naveen.kumar.saini@intel.com>
-X-Mailer: git-send-email 2.37.3
+From: pmi183@gmail.com
+X-Originating-Location: Vila Nova de Foz Coa, Guarda, PT (213.205.68.220)
+X-Originating-Platform: Windows Chrome 124
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Wed, 15 May 2024 02:36:34 -0700
+References: <CANNYZj-uDz_gCpvkb5F9R6NkkQVGn768=mHXyvZJPHfKyZ-t2g@mail.gmail.com>
+In-Reply-To: <CANNYZj-uDz_gCpvkb5F9R6NkkQVGn768=mHXyvZJPHfKyZ-t2g@mail.gmail.com>
+Message-ID: <22166.1715765794274311096@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="p8TM0rV07Oeo5blRp3hS"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 06:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199271
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 09:36:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199272
 
-Upstream has been renamed to vpl-gpu-rt.
+--p8TM0rV07Oeo5blRp3hS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
----
- .../gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Alex,
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb
-index 523ee7a5ae..49a3a79b2d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb
-@@ -60,7 +60,7 @@ PACKAGECONFIG[libde265]        = "-Dlibde265=enabled,-Dlibde265=disabled,libde26
- PACKAGECONFIG[libssh2]         = "-Dcurl-ssh2=enabled,-Dcurl-ssh2=disabled,libssh2"
- PACKAGECONFIG[lcms2]           = "-Dcolormanagement=enabled,-Dcolormanagement=disabled,lcms"
- PACKAGECONFIG[modplug]         = "-Dmodplug=enabled,-Dmodplug=disabled,libmodplug"
--PACKAGECONFIG[msdk]            = "-Dmsdk=enabled -Dmfx_api=oneVPL,-Dmsdk=disabled,onevpl-intel-gpu"
-+PACKAGECONFIG[msdk]            = "-Dmsdk=enabled -Dmfx_api=oneVPL,-Dmsdk=disabled,vpl-gpu-rt"
- PACKAGECONFIG[neon]            = "-Dneon=enabled,-Dneon=disabled,neon"
- PACKAGECONFIG[openal]          = "-Dopenal=enabled,-Dopenal=disabled,openal-soft"
- PACKAGECONFIG[opencv]          = "-Dopencv=enabled,-Dopencv=disabled,opencv"
--- 
-2.37.3
+I did some investigation on this topic,
 
+- why is it not a hard error?
+
+That is because find command in `buildhistory_list_pkg_files` is tested ins=
+ide the loop for, hiding this issue and for loop is always returning 0 even=
+ if `find` fails.
+
+>=20
+> .....
+> buildhistory_list_pkg_files() {
+> # Create individual files-in-package for each recipe's package
+> pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
+>=20
+> for pkgdir in pkgdirlist; do
+> .....
+>=20
+
+- why is it unable to find anything in packages-split/, if it executes afte=
+r populate_packages which places things there?
+
+As far as i could understand, there is some concurrency issue between packa=
+ge.bbclass and buildhistory.bbclass. Taking in consideration that `buildhis=
+tory_list_pkg_files` is triggered by checking if `BB_CURRENTTASK` is `packa=
+ge` and at the same time `PACKAGESPLITFUNCS` is triggered on `do_package`, =
+this leads to the issue with missing files since buildhistory bbclass might=
+ be looking into something that wasnt yet created. In my findings, `buildhi=
+story_list_pkg_files` should be called in the end of `do_package` execution=
+ where `packages-split` directory is created and populated.
+
+Is there any clear reason why we cant move `buildhistory_list_pkg_files` to=
+ `packagedata` task since its the next task to be executed?
+
+Any suggestion or any idea how can i, from buildhistory.bbclass, determine =
+if `PACKAGESPLITFUNCS` was already executed?
+
+Thank you
+
+--p8TM0rV07Oeo5blRp3hS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alex,<br /><br />I did some investigation on this topic,<br /><span styl=
+e=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica=
+ Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16=
+px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: =
+normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: s=
+tart; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px;=
+ -webkit-text-stroke-width: 0px; white-space: pre-wrap; background-color: #=
+ffffff; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial; display: inline !important; float: none;">=
+<br />- why is it not a hard error?<br /></span><br style=3D"box-sizing: bo=
+rder-box; overflow-wrap: break-word !important; color: #333333; font-family=
+: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation=
+ Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI=
+ Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-var=
+iant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter=
+-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tra=
+nsform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;=
+ white-space: pre-wrap; background-color: #ffffff; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+" />That is because find command in `buildhistory_list_pkg_files` is tested=
+ inside the loop for, hiding this issue and for loop is always returning 0 =
+even if `find` fails.<br /><br /><br />
+<blockquote>
+<div>.....</div>
+<div>buildhistory_list_pkg_files() {</div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span># Create individual files-in-package for each recipe's package</sp=
+an></div>
+<div>&nbsp;pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)</div>
+<div>&nbsp;</div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>for pkgdir in pkgdirlist; do</span></div>
+<div>.....</div>
+</blockquote>
+<div>&nbsp;</div>
+<div><span style=3D"background-color: var(--light-mode-body-color);"></span=
+><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto,=
+ 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Appl=
+e Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; fo=
+nt-size: 16px; font-style: normal; font-variant-ligatures: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; te=
+xt-align: start; text-indent: 0px; text-transform: none; widows: 2; word-sp=
+acing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgrou=
+nd-color: #ffffff; text-decoration-thickness: initial; text-decoration-styl=
+e: initial; text-decoration-color: initial; display: inline !important; flo=
+at: none;">- why is it unable to find anything in packages-split/, if it ex=
+ecutes <span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', R=
+oboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,=
+ 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoj=
+i'; font-size: 16px; font-style: normal; font-variant-ligatures: normal; fo=
+nt-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans:=
+ 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; w=
+ord-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; ba=
+ckground-color: #ffffff; text-decoration-thickness: initial; text-decoratio=
+n-style: initial; text-decoration-color: initial; display: inline !importan=
+t; float: none;">after populate_packages which places things there?<br /><b=
+r /></span></span></div>
+As far as i could understand, there is some concurrency issue between packa=
+ge.bbclass and buildhistory.bbclass. Taking in consideration that `buildhis=
+tory_list_pkg_files` is triggered by checking if `BB_CURRENTTASK` is `packa=
+ge` and at the same time `PACKAGESPLITFUNCS` is triggered on `do_package`, =
+this leads to the issue with missing files since buildhistory bbclass might=
+ be looking into something that wasnt yet created. In my findings, `buildhi=
+story_list_pkg_files` should be called in the end of `do_package` execution=
+ where `packages-split` directory is created and populated.<br /><br />Is t=
+here any clear reason why we cant move `buildhistory_list_pkg_files` to `pa=
+ckagedata` task since its the next task to be executed?<br /><br />Any sugg=
+estion or any idea how can i, from buildhistory.bbclass, determine if `PACK=
+AGESPLITFUNCS` was already executed?<br /><br />Thank you
+
+--p8TM0rV07Oeo5blRp3hS--
 
