@@ -2,36 +2,36 @@ Return-Path: <seungkyun.kim@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4761C25B7A
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 13:02:22 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.web11.14456.1715778137239483900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F90C25B79
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 13:59:53 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
+ by mx.groups.io with SMTP id smtpd.web11.16263.1715781582337684198
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 06:02:17 -0700
+ Wed, 15 May 2024 06:59:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: seungkyun.kim@lge.com)
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: seungkyun.kim@lge.com)
 Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.53 with ESMTP; 15 May 2024 22:02:15 +0900
+	by 156.147.23.52 with ESMTP; 15 May 2024 22:59:40 +0900
 X-Original-SENDERIP: 156.147.1.121
 X-Original-MAILFROM: seungkyun.kim@lge.com
 Received: from unknown (HELO SK-linux.seoul) (10.178.97.151)
-	by 156.147.1.121 with ESMTP; 15 May 2024 22:02:15 +0900
+	by 156.147.1.121 with ESMTP; 15 May 2024 22:59:40 +0900
 X-Original-SENDERIP: 10.178.97.151
 X-Original-MAILFROM: seungkyun.kim@lge.com
 From: seungkyun.kim@lge.com
 To: openembedded-core@lists.openembedded.org
 Cc: "seungkyun.kim" <seungkyun.kim@lge.com>
-Subject: [PATCH v2] ipk/rootfs: run sanity test of multilib in parallel
-Date: Wed, 15 May 2024 13:02:05 +0000
-Message-Id: <20240515130205.1547168-1-seungkyun.kim@lge.com>
+Subject: [PATCH v3] ipk/rootfs: run sanity test of multilib in parallel
+Date: Wed, 15 May 2024 13:59:38 +0000
+Message-Id: <20240515135938.1547467-1-seungkyun.kim@lge.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 13:02:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199289
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 13:59:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199290
 
 From: "seungkyun.kim" <seungkyun.kim@lge.com>
 
@@ -44,14 +44,16 @@ copying directory.
 
 - Changes in V2:
     Fix FileNotFoundError exception when copying rootfs
+- Changes in V3:
+    Removed unnecessary test call
 
 Signed-off-by: seungkyun.kim <seungkyun.kim@lge.com>
 ---
- meta/lib/oe/package_manager/ipk/rootfs.py | 38 +++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ meta/lib/oe/package_manager/ipk/rootfs.py | 36 +++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index ba93eb62ea..530de740d1 100644
+index ba93eb62ea..fa34dc56a2 100644
 --- a/meta/lib/oe/package_manager/ipk/rootfs.py
 +++ b/meta/lib/oe/package_manager/ipk/rootfs.py
 @@ -6,7 +6,9 @@
@@ -109,7 +111,7 @@ index ba93eb62ea..530de740d1 100644
  
      '''
      While ipk incremental image generation is enabled, it will remove the
-@@ -300,15 +327,22 @@ class PkgRootfs(DpkgOpkgRootfs):
+@@ -300,15 +327,20 @@ class PkgRootfs(DpkgOpkgRootfs):
  
          for pkg_type in self.install_order:
              if pkg_type in pkgs_to_install:
@@ -125,8 +127,6 @@ index ba93eb62ea..530de740d1 100644
                  self.pm.install(pkgs_to_install[pkg_type],
                                  [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
  
-+                self._multilib_test_install(pkgs_to_install[pkg_type])
-+
 +                if sanity_test is not None:
 +                    sanity_test.join()
 +
