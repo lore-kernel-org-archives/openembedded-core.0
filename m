@@ -1,141 +1,139 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <seungkyun.kim@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3AFFC25B79
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 12:57:32 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.14331.1715777851591737655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4761C25B7A
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 13:02:22 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.web11.14456.1715778137239483900
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 05:57:31 -0700
+ Wed, 15 May 2024 06:02:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FN/NCNo1;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so79458661fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 05:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715777850; x=1716382650; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ncctibj638IPZUjYgz0vO7J/lMz6SXGjCgWycz/U/B4=;
-        b=FN/NCNo12Cyu6XUQB3bjpQSEDm7RdpWumsObbszJ1vdlMT1D/avj1wGrMQWMkAWj73
-         YgWwFljER+Cv+3uSkNv7GtizLPvWM+rQdKh24IjcrkPaF/DkE+TGHQ1WNFLAgv9zbL/G
-         HaqNPn7tZp/tdIygPBQgQEn3Qo4re49grAFizTZvF0+2wbYrJkU7XEV8yQf3c9ubQpAs
-         uTtYBXzVZOjxyizWwkQPxK69Ee6jZB4ymcnyHpg6TxHB5N44luV3FGe37he2wOhjcSRz
-         vTrJhLtZBDIZ6MsznNBYESqQHlGnza6QeaTvNE/7Ee+lc3PvRAdJRV6gq0Ar1d4lwfR3
-         AKNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715777850; x=1716382650;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ncctibj638IPZUjYgz0vO7J/lMz6SXGjCgWycz/U/B4=;
-        b=CF23po2QqGWyk3l2V9SAEC3UWkK32VHnFIqGmLtf78kGHNmvOVxw0CSTXwFOCkFJzQ
-         2B+15sIFNUOKYgcFsq6UIsYzKxPihCZlICFZaOzSDjHVoIwrKT10rL+5aCOMh0PN+mL8
-         x/qnvLxV2v5LLeZI9Ti2Vy3ItupQdVkHy6E9TN09LEPjIBPnPrGLNUBG1KShFF1l0Tkf
-         TmrBsbH9pnU40v1y5f7PTfHKqwPGFz4xk2dcqjs/+4brYJnSXPO/whyvD9FC4R9Z3vXA
-         mVS8Buz2VDBLj6iVM7K2hAYgzfDO/xIhF/slve0ErDqOFG4T+nDfUB6TFMbxeWS5JFWl
-         jNnQ==
-X-Gm-Message-State: AOJu0YzjnQbPyZq3pvtoFg/rY3Myq72/6THDhdIYpXFhUimysGV6pqH2
-	VFYs9IhJGp0KU8F6ZUGL9UF16taiKRt5tsYWDWmXCZL4gzOTzsdpE1u3MX48zn9DZR0S0sjZHLU
-	/6QsBjQuH29T4Ju6hm9Cf+BB9WMyojQ==
-X-Google-Smtp-Source: AGHT+IERxAve/uI54bmUlRLLJxOZP08EZdzyu7ydicag4sBzX4wAEmGWMTLd64wQiNTP6l6YJuQrg1rS1lwDiOQ507c=
-X-Received: by 2002:a2e:a411:0:b0:2e5:6833:7c3f with SMTP id
- 38308e7fff4ca-2e568337c5bmr85916951fa.12.1715777849505; Wed, 15 May 2024
- 05:57:29 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: seungkyun.kim@lge.com)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+	by 156.147.23.53 with ESMTP; 15 May 2024 22:02:15 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: seungkyun.kim@lge.com
+Received: from unknown (HELO SK-linux.seoul) (10.178.97.151)
+	by 156.147.1.121 with ESMTP; 15 May 2024 22:02:15 +0900
+X-Original-SENDERIP: 10.178.97.151
+X-Original-MAILFROM: seungkyun.kim@lge.com
+From: seungkyun.kim@lge.com
+To: openembedded-core@lists.openembedded.org
+Cc: "seungkyun.kim" <seungkyun.kim@lge.com>
+Subject: [PATCH v2] ipk/rootfs: run sanity test of multilib in parallel
+Date: Wed, 15 May 2024 13:02:05 +0000
+Message-Id: <20240515130205.1547168-1-seungkyun.kim@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CANNYZj-i90gLUfdk51Now0HY+=RCNkg8ugr2qcK65xXS+AypZg@mail.gmail.com>
- <a325fd9d7b923e76e0cba8786c9a4dcda81fd52f.camel@linuxfoundation.org>
- <a84b5ef9-2314-4ba7-99d0-b5292298f736@windriver.com> <835b59367fd827253789514b77e042fc99b55593.camel@linuxfoundation.org>
- <17CF26B1EA08DEA4.31802@lists.openembedded.org>
-In-Reply-To: <17CF26B1EA08DEA4.31802@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 May 2024 14:57:17 +0200
-Message-ID: <CANNYZj_95+h=7FfRAy2s0r0yMf19VndFSKETWs77toKoZ4HB5g@mail.gmail.com>
-Subject: Re: [OE-core] build host architecture leaking into target artefacts -
- new twist on reproducibility
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>, 
-	Randy MacLeod <randy.macleod@windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"Shinde, Yash" <Yash.Shinde@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 12:57:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199288
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 13:02:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199289
 
-On Mon, 13 May 2024 at 22:35, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> The incomplete patch for this issue is here on top:
-> https://git.yoctoproject.org/poky-contrib/log/?h=akanavin/package-version-updates
->
-> Unfortunately, that is not all, as file names and file sizes are now
-> the same in libstd-rs, but content still isn't for some of them
-> (different hashes reported by sha256sum). And in target rust both
-> names and content differs.
->
-> I'm out of time today to look further into it, but you are welcome to
-> pick it up.
+From: "seungkyun.kim" <seungkyun.kim@lge.com>
 
-This is the worst rabbit hole of this year so far, made worse by
-having to confirm every point with a 30 minute build or test
-execution.
+For multilib type packages, there is an additional temporary
+installation before the actual installation. It makes almost doubles
+the do_rootfs time if having many multilib type packages.
+To avoid this overhead, run sanity test in parallel.
+Installing package groups through opkg takes much more time than
+copying directory.
 
-The good news is I have a fix. The bad news is that the fix breaks
-rust selftest, and fixing the rust selftest breaks rust
-reproducibility.
+- Changes in V2:
+    Fix FileNotFoundError exception when copying rootfs
 
-Let's review:
+Signed-off-by: seungkyun.kim <seungkyun.kim@lge.com>
+---
+ meta/lib/oe/package_manager/ipk/rootfs.py | 38 +++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-- pre-built cargo from upstream snapshots writes output of 'rust -vV'
-into hashes used to form filenames of build artefacts, and that output
-includes the build host architecture.
+diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
+index ba93eb62ea..530de740d1 100644
+--- a/meta/lib/oe/package_manager/ipk/rootfs.py
++++ b/meta/lib/oe/package_manager/ipk/rootfs.py
+@@ -6,7 +6,9 @@
+ 
+ import re
+ import filecmp
++import multiprocessing
+ import shutil
++import stat
+ from oe.rootfs import Rootfs
+ from oe.manifest import Manifest
+ from oe.utils import execute_pre_post_process
+@@ -197,11 +199,34 @@ class PkgRootfs(DpkgOpkgRootfs):
+                         files[key] = item
+ 
+     def _multilib_test_install(self, pkgs):
++        def _copy_rootfs(src, dst):
++            if os.path.islink(src):
++                linkto = os.readlink(src)
++                if os.path.isabs(linkto):
++                    linkto = os.path.normpath(os.path.join(os.path.dirname(dst),
++                                                           os.path.relpath(linkto, src)))
++                os.symlink(linkto, dst)
++            elif os.path.isfile(src):
++                shutil.copy2(src, dst)
++            elif stat.S_ISFIFO(os.stat(src).st_mode):
++                os.mkfifo(dst)
++            else:
++                bb.warn("Skip unsupported file type: %s" % src)
++
+         ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
++        rootfs_temp = os.path.join(ml_temp, "rootfs")
+         bb.utils.mkdirhier(ml_temp)
++        bb.utils.remove(rootfs_temp, True)
+ 
+-        dirs = [self.image_rootfs]
++        if os.path.exists(self.image_rootfs):
++            shutil.copytree(self.image_rootfs, rootfs_temp, copy_function=_copy_rootfs)
++        else:
++            bb.utils.mkdirhier(rootfs_temp)
++        dirs = [rootfs_temp]
++        return multiprocessing.Process(target=self._multilib_test_pkg_install,
++                                       args=(pkgs, ml_temp, dirs, False))
+ 
++    def _multilib_test_pkg_install(self, pkgs, ml_temp, dirs):
+         for variant in self.d.getVar("MULTILIB_VARIANTS").split():
+             ml_target_rootfs = os.path.join(ml_temp, variant)
+ 
+@@ -218,6 +243,8 @@ class PkgRootfs(DpkgOpkgRootfs):
+             dirs.append(ml_target_rootfs)
+ 
+         self._multilib_sanity_test(dirs)
++        rootfs_temp = os.path.join(ml_temp, "rootfs")
++        bb.utils.remove(rootfs_temp)
+ 
+     '''
+     While ipk incremental image generation is enabled, it will remove the
+@@ -300,15 +327,22 @@ class PkgRootfs(DpkgOpkgRootfs):
+ 
+         for pkg_type in self.install_order:
+             if pkg_type in pkgs_to_install:
++                sanity_test = None
+                 # For multilib, we perform a sanity test before final install
+                 # If sanity test fails, it will automatically do a bb.fatal()
+                 # and the installation will stop
+                 if pkg_type == Manifest.PKG_TYPE_MULTILIB:
+-                    self._multilib_test_install(pkgs_to_install[pkg_type])
++                    sanity_test= self._multilib_test_install(pkgs_to_install[pkg_type])
++                    sanity_test.start()
+ 
+                 self.pm.install(pkgs_to_install[pkg_type],
+                                 [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+ 
++                self._multilib_test_install(pkgs_to_install[pkg_type])
++
++                if sanity_test is not None:
++                    sanity_test.join()
++
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
+-- 
+2.34.1
 
-- we can patch this out in cargo-native and I have the patch.
-
-- to use cargo-native we need to tweak rust's build config so that it
-uses that and not cargo from upstream binary snapshot for
-bootstrapping. At the same time we need to tweak location of rustc in
-the same config, as they would otherwise mismatch and build will
-break. I have the patch for that too, and I confirmed the target
-filenames start to match with it.
-
-- this breaks the rust selftest, as it is now looking into native
-sysroot instead of rust-snapshot/ and can no longer find rustdoc there
-that it needs for the tests
-
-- rustdoc is present in binary rust snapshots but not in rust-native
-installations. Why? Because it used to cause reproducibility problems
-(and still does), and the purported reproducibility fix simply
-prevented rustdoc from being installed:
-https://git.yoctoproject.org/poky/commit/?id=321aebfa281bd28e368c684ece57867f6bd0cbe7
-(the culprit is the rust-demangler line which replaces rust's default
-installation set (that includes rustdoc) with just that utility:
-https://github.com/rust-lang/rust/blob/master/config.example.toml#L320
-)
-
-- I don't know if pgo tweak in the above indeed makes rustdoc
-reproducible, as that tweak was later reverted due to causing issues
-with chromium:
-https://git.yoctoproject.org/poky/commit/?id=694b85a217209787fe8c503a4b697dc6c2bfbe84
-
-I would strongly suggest that fixing random autobuilder breakage is
-far more important than having a passing test suite for a specific
-component or having that component pass reproducibility, so the
-proposal is:
-
-- merge my fixes
-- disable rust selftest
-- re-enable rustdoc installation, as that is the default and is
-expected in typical rust setups
-- put rust back into reproducibility exclusion due to rustdoc
-- update rust to latest upstream release (we're now three releases behind)
-- and only then look again, properly, into re-enabling both
-reproducibility and selftests, keeping all of the above in mind
-
-Cheers,
-Alex
 
