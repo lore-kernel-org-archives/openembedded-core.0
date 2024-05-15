@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45CAFC3DA4C
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B5DC3065F
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:24 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.1287.1715794338800980420
+ by mx.groups.io with SMTP id smtpd.web11.1268.1715794337174362206
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:32:20 -0700
+ Wed, 15 May 2024 10:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jVE1aWpj;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FiUWO0dA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018f7d4fe7d4-17783b71-e12b-4ef1-b8e2-553bfb02e599-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HbiSp2n3;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=l/9ynRjC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018f7d4fe15d-b40cc482-674a-49ee-9f9c-52e03da83c1f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794339;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=X7W6Ah77bJoD2Fn8TpBVLeOM2ezksIwSzb0k0NGUv/Y=;
-	b=jVE1aWpj3W60ZoSddarNMsnYZdSHLiOKE5zsr7FFuvK39qX/65Ckue4UI9zvDjdh
-	gEg88eZ9qEhciGEilc94cWnDSfAwNyi8fnhdT9fblzoXaho5y/5wCb9F82uYQipR5Dx
-	HaLGEho9keQ+rpCIK1XXZnbcrVJMTkeU7bWM4TI0=
+	t=1715794338;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=pSQ3XjKIy7hTYj9gZAUV7WW5YAvGRG2KiZGSK4A8/us=;
+	b=HbiSp2n314lLQQHfu78c1OtZRDoRUlyLqIZk7NiWDiO0j1mp6/FJIOXkvhXf0q7C
+	LAdaDsRlFmdYUg2MBcaECwMDAVk4d9JEFjtORBYmBvsRI7VvhfE3/Fo/an5ZOaU2nh8
+	6LxJ9ImjOWSLa54H1LLZBUaNj7YJ+3CCCbk4vlek=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=X7W6Ah77bJoD2Fn8TpBVLeOM2ezksIwSzb0k0NGUv/Y=;
-	b=FiUWO0dAGHG8IkUZ5afXNnWk5crL5gbRyJJuc6jkI+zkL33PLZv83uzsz4JGylUq
-	wt4nQGR6BEM1YkYL8hkv2fybwvFSqPhx0I5Dkmf/Y3DTx4q/al0ua1/FOubuEbKPVZm
-	Ur3fROR+FK52Qgn4tZvxNFKjP5mAEgYSusDrPpAg=
-Content-Type: multipart/mixed; boundary="===============1370002471270231104=="
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794338;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=pSQ3XjKIy7hTYj9gZAUV7WW5YAvGRG2KiZGSK4A8/us=;
+	b=l/9ynRjCu3Pjkp2KiuiELca3/SGbC7NCpDJFm3bulqdGgVcYjLyY/Coxbl96kkFf
+	2ycU8Z7BIb0QsbGHQkLuqdk7wCO7cMBhMjlYyvzsmEfQitC+m+QBghuUFaCScvTH5nb
+	HDPhMw4O74VRyKYkMPWDEknbgoZlQbn3Lu2IjmgQ=
+Content-Type: multipart/mixed; boundary="===============3133467792438424271=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] pinentry: upgrading to 1.3.0 FAILED
-Message-ID: <0101018f7d4fe7d4-17783b71-e12b-4ef1-b8e2-553bfb02e599-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:19 +0000
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] strace: upgrading to 6.9 SUCCEEDED
+Message-ID: <0101018f7d4fe15d-b40cc482-674a-49ee-9f9c-52e03da83c1f-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.05.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199406
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199351
 
---===============1370002471270231104==
+--===============3133467792438424271==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,90 +51,855 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pinentry* to *1.3.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *strace* to *6.9* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-strace-upgrade-6.8-6.9.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe pinentry failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-3634c465f574530966349dd8449df6f9b89cb282"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:3634c465f574530966349dd8449df6f9b89cb282"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (920 cached, 2 parsed). 1880 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-3634c465f574530966349dd8449df6f9b89cb282"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:3634c465f574530966349dd8449df6f9b89cb282"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.3.0.tar.bz2...
-INFO: Rebasing devtool onto 86967123aa0504c52880dfb56c91e810973819df
-WARNING: Command 'git rebase 86967123aa0504c52880dfb56c91e810973819df' failed:
-Auto-merging configure.ac
-Auto-merging m4/libassuan.m4
-CONFLICT (content): Merge conflict in m4/libassuan.m4
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/pinentry
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/pinentry/pinentry_1.3.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1370002471270231104==--
+
+-- >8 --
+From 457477b4679b8dc60d575cad4ddeb3b40737897d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 May 2024 11:42:31 +0000
+Subject: [PATCH] strace: upgrade 6.8 -> 6.9
+
+---
+ ...toconf-macro-to-detect-largefile-sup.patch |  6 +-
+ ...001-strace-fix-reproducibilty-issues.patch |  9 +--
+ ...002-tests-Replace-off64_t-with-off_t.patch | 35 ++++++----
+ .../strace/strace/Makefile-ptest.patch        |  9 ++-
+ .../strace/strace/ptest-spacesave.patch       |  7 +-
+ .../strace/strace/skip-load.patch             |  9 +--
+ .../strace/strace/update-gawk-paths.patch     | 70 ++++++++++---------
+ .../strace/{strace_6.8.bb => strace_6.9.bb}   |  2 +-
+ 8 files changed, 76 insertions(+), 71 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_6.8.bb => strace_6.9.bb} (96%)
+
+diff --git a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+index 76ca7a76a8..86dcd97713 100644
+--- a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
++++ b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+@@ -1,4 +1,4 @@
+-From 470399f3636c412b74f9daf6ae430b13c3126f02 Mon Sep 17 00:00:00 2001
++From ec543417b8e1df7c71dfc4728313849d9ab669a6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 15:54:27 -0800
+ Subject: [PATCH] configure: Use autoconf macro to detect largefile support
+@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4797b42dd..7d57fb254 100644
++index 36fff90..9e40ab5 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -43,6 +43,8 @@ AC_PROG_INSTALL
++@@ -42,6 +42,8 @@ AC_PROG_INSTALL
+  AC_PROG_RANLIB
+  AC_PROG_LN_S
+  
+diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+index c4c176e6bc..9cdb7c6134 100644
+--- a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
++++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+@@ -1,4 +1,4 @@
+-From 6309792c49ca900cec6a7f1dc5b51bf75b629e11 Mon Sep 17 00:00:00 2001
++From d5f681c2de834110de260f4d071c7bc1fb0d7564 Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Wed, 11 Mar 2020 19:56:55 +0000
+ Subject: [PATCH] strace: fix reproducibilty issues
+@@ -13,7 +13,7 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
+-index 5e1e7c9..1e65eac 100755
++index 8f47651..65267db 100755
+ --- a/tests/gen_tests.sh
+ +++ b/tests/gen_tests.sh
+ @@ -46,7 +46,7 @@ while read -r name arg0 args; do {
+@@ -25,7 +25,7 @@ index 5e1e7c9..1e65eac 100755
+  
+  	case "$arg0" in
+  		+*)
+-@@ -80,7 +80,7 @@ while read -r name arg0 args; do {
++@@ -91,7 +91,7 @@ while read -r name arg0 args; do {
+  
+  if [ -n "$names" ]; then
+  	{
+@@ -34,6 +34,3 @@ index 5e1e7c9..1e65eac 100755
+  		printf 'GEN_TESTS ='
+  		printf ' %s.gen.test' $names
+  		echo
+--- 
+-2.24.1
+-
+diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+index 0cabdfe99f..fc6ed7ac4d 100644
+--- a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
++++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+@@ -1,4 +1,4 @@
+-From 579b2ebe52d4b97f954e6188df2d07e137820075 Mon Sep 17 00:00:00 2001
++From 1891db87da3b204c512f47155aaa4e692008f1bf Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 15:56:13 -0800
+ Subject: [PATCH] tests: Replace off64_t with off_t
+@@ -10,9 +10,12 @@ Upstream-Status: Submitted [https://github.com/strace/strace/pull/230]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  tests/readahead.c        | 2 +-
++ tests/sync_file_range.c  | 4 ++--
+  tests/sync_file_range2.c | 4 ++--
+- 2 files changed, 3 insertions(+), 3 deletions(-)
++ 3 files changed, 5 insertions(+), 5 deletions(-)
+ 
++diff --git a/tests/readahead.c b/tests/readahead.c
++index 1072378..b9597e6 100644
+ --- a/tests/readahead.c
+ +++ b/tests/readahead.c
+ @@ -42,7 +42,7 @@ static const int fds[] = {
+@@ -24,29 +27,33 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  	-0x8000000000000000LL,
+  	-0x5060708090a0b0c0LL,
+  	-1LL,
+---- a/tests/sync_file_range2.c
+-+++ b/tests/sync_file_range2.c
++diff --git a/tests/sync_file_range.c b/tests/sync_file_range.c
++index e93ab6c..dc76865 100644
++--- a/tests/sync_file_range.c
+++++ b/tests/sync_file_range.c
+ @@ -20,8 +20,8 @@ int
+  main(void)
+  {
+  	const int fd = -1;
+--	const off64_t offset = 0xdeadbeefbadc0ded;
+--	const off64_t nbytes = 0xfacefeedcafef00d;
+-+	const off_t offset = 0xdeadbeefbadc0ded;
+-+	const off_t nbytes = 0xfacefeedcafef00d;
++-	const off64_t offset = 0xdeadbeefbadc0dedULL;
++-	const off64_t nbytes = 0xfacefeedcafef00dULL;
+++	const off_t offset = 0xdeadbeefbadc0dedULL;
+++	const off_t nbytes = 0xfacefeedcafef00dULL;
+  	const unsigned int flags = -1;
+  
+  	int rc = sync_file_range(fd, offset, nbytes, flags);
+---- a/tests/sync_file_range.c
+-+++ b/tests/sync_file_range.c
++diff --git a/tests/sync_file_range2.c b/tests/sync_file_range2.c
++index b8dc712..e4b003c 100644
++--- a/tests/sync_file_range2.c
+++++ b/tests/sync_file_range2.c
+ @@ -20,8 +20,8 @@ int
+  main(void)
+  {
+  	const int fd = -1;
+--	const off64_t offset = 0xdeadbeefbadc0dedULL;
+--	const off64_t nbytes = 0xfacefeedcafef00dULL;
+-+	const off_t offset = 0xdeadbeefbadc0dedULL;
+-+	const off_t nbytes = 0xfacefeedcafef00dULL;
++-	const off64_t offset = 0xdeadbeefbadc0ded;
++-	const off64_t nbytes = 0xfacefeedcafef00d;
+++	const off_t offset = 0xdeadbeefbadc0ded;
+++	const off_t nbytes = 0xfacefeedcafef00d;
+  	const unsigned int flags = -1;
+  
+  	int rc = sync_file_range(fd, offset, nbytes, flags);
+diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+index 9af7737662..3e50bf40f0 100644
+--- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
++++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+@@ -1,4 +1,4 @@
+-From 1f50e0a09d828be8f5b1f28db9af0b12492a1553 Mon Sep 17 00:00:00 2001
++From 245f6322cf64e562d3227dfac26ce93c905b0380 Mon Sep 17 00:00:00 2001
+ From: Gabriel Barbu <gabriel.barbu@enea.com>
+ Date: Thu, 25 Jul 2013 15:28:33 +0200
+ Subject: [PATCH] strace: Add ptest
+@@ -8,16 +8,15 @@ Upstream-Status: Inappropriate
+ Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
+ Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-
+ ---
+  tests/Makefile.am | 20 ++++++++++++++++++++
+  1 file changed, 20 insertions(+)
+ 
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 55566ee..a7ae6f9 100644
++index ef68898..735b73d 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -16,6 +16,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
++@@ -18,6 +18,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
+  MPERS_NAME =
+  MPERS_CC_FLAGS =
+  ARCH_MFLAGS =
+@@ -25,7 +24,7 @@ index 55566ee..a7ae6f9 100644
+  AM_CFLAGS = $(WARN_CFLAGS)
+  bundled_CPPFLAGS =
+  if USE_BUNDLED_HEADERS
+-@@ -703,3 +704,22 @@ BUILT_SOURCES = ksysent.h
++@@ -889,3 +890,22 @@ BUILT_SOURCES = ksysent.h
+  CLEANFILES = ksysent.h
+  
+  include ../src/scno.am
+diff --git a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+index 4e86ccadc5..14ea469c59 100644
+--- a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
++++ b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+@@ -1,4 +1,4 @@
+-From 3fad4821d90cd264d1b94253b9cf4fdf5d4034b8 Mon Sep 17 00:00:00 2001
++From cf77d301faf96cc892c6df0e19fccbf5853f249d Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 29 May 2019 00:10:32 +0100
+ Subject: [PATCH] strace: Tweak ptest disk space management
+@@ -9,16 +9,15 @@ using around 600MB of disk space and running our ptest images out of space.
+ RP 2019/5/29
+ 
+ Upstream-Status: Inappropriate [specific to OE image space issues]
+-
+ ---
+  tests/gen_tests.sh | 1 +
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
+-index 3540204..5e1e7c9 100755
++index ce1467e..8f47651 100755
+ --- a/tests/gen_tests.sh
+ +++ b/tests/gen_tests.sh
+-@@ -62,6 +62,7 @@ while read -r name arg0 args; do {
++@@ -73,6 +73,7 @@ while read -r name arg0 args; do {
+  		$hdr
+  		. "\${srcdir=.}/init.sh"
+  		run_strace_match_diff $arg0 $args
+diff --git a/meta/recipes-devtools/strace/strace/skip-load.patch b/meta/recipes-devtools/strace/strace/skip-load.patch
+index b1acfda5d8..fe737d8f9a 100644
+--- a/meta/recipes-devtools/strace/strace/skip-load.patch
++++ b/meta/recipes-devtools/strace/strace/skip-load.patch
+@@ -1,9 +1,13 @@
++From 3af7272a3435fc79e5da729155480a346ccf2d44 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Mon, 31 Jan 2022 17:40:13 +0000
++Subject: [PATCH] strace: skip a number of load-sensitive tests
++
+ Skip tests which are known to be unreliable under load, typically because they
+ care about timing.
+ 
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+ ---
+  tests/clock_nanosleep.gen.test | 1 +
+  tests/delay.test               | 1 +
+@@ -44,6 +48,3 @@ index 8299737..d89c7df 100755
+  
+  r_opt="${1:--r}"
+  
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+index a16ede95c2..429588d218 100644
+--- a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
++++ b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+@@ -1,4 +1,4 @@
+-From 4cd26cfaec255ec87f22abe886e0be89312a9671 Mon Sep 17 00:00:00 2001
++From 920ff2e0e838fae4fe49bf8e8fa093d5b2485677 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Mon, 18 Jan 2016 11:01:00 -0800
+ Subject: [PATCH] update gawk paths, /bin/gawk -> /usr/bin/gawk
+@@ -11,22 +11,24 @@ from #!/bin/gawk to #!/usr/bin/gawk. Fixes missing RDPENDS QA tests:
+ Upstream-Status: Inappropriate [configuration]
+ 
+ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+-
+ ---
+  src/mpers.awk               | 2 +-
++ tests-m32/caps-abbrev.awk   | 2 +-
+  tests-m32/caps.awk          | 2 +-
+  tests-m32/match.awk         | 2 +-
+  tests-m32/rt_sigaction.awk  | 2 +-
++ tests-mx32/caps-abbrev.awk  | 2 +-
+  tests-mx32/caps.awk         | 2 +-
+  tests-mx32/match.awk        | 2 +-
+  tests-mx32/rt_sigaction.awk | 2 +-
++ tests/caps-abbrev.awk       | 2 +-
+  tests/caps.awk              | 2 +-
+  tests/match.awk             | 2 +-
+  tests/rt_sigaction.awk      | 2 +-
+- 10 files changed, 10 insertions(+), 10 deletions(-)
++ 13 files changed, 13 insertions(+), 13 deletions(-)
+ 
+ diff --git a/src/mpers.awk b/src/mpers.awk
+-index 25a212f..b2ff53f 100644
++index 425ab65..33ece5c 100644
+ --- a/src/mpers.awk
+ +++ b/src/mpers.awk
+ @@ -1,4 +1,4 @@
+@@ -35,6 +37,16 @@ index 25a212f..b2ff53f 100644
+  #
+  # Copyright (c) 2015 Elvira Khabirova <lineprinter0@gmail.com>
+  # Copyright (c) 2015-2016 Dmitry V. Levin <ldv@strace.io>
++diff --git a/tests-m32/caps-abbrev.awk b/tests-m32/caps-abbrev.awk
++index e8393fd..76c4e51 100644
++--- a/tests-m32/caps-abbrev.awk
+++++ b/tests-m32/caps-abbrev.awk
++@@ -1,4 +1,4 @@
++-#!/bin/gawk
+++#!/usr/bin/gawk
++ #
++ # This file is part of caps strace test.
++ #
+ diff --git a/tests-m32/caps.awk b/tests-m32/caps.awk
+ index 69500ec..e5dfd87 100644
+ --- a/tests-m32/caps.awk
+@@ -65,6 +77,16 @@ index dce78f5..573d9ea 100644
+  #
+  # Copyright (c) 2014-2015 Dmitry V. Levin <ldv@strace.io>
+  # Copyright (c) 2016 Elvira Khabirova <lineprinter0@gmail.com>
++diff --git a/tests-mx32/caps-abbrev.awk b/tests-mx32/caps-abbrev.awk
++index e8393fd..76c4e51 100644
++--- a/tests-mx32/caps-abbrev.awk
+++++ b/tests-mx32/caps-abbrev.awk
++@@ -1,4 +1,4 @@
++-#!/bin/gawk
+++#!/usr/bin/gawk
++ #
++ # This file is part of caps strace test.
++ #
+ diff --git a/tests-mx32/caps.awk b/tests-mx32/caps.awk
+ index 69500ec..e5dfd87 100644
+ --- a/tests-mx32/caps.awk
+@@ -95,6 +117,16 @@ index dce78f5..573d9ea 100644
+  #
+  # Copyright (c) 2014-2015 Dmitry V. Levin <ldv@strace.io>
+  # Copyright (c) 2016 Elvira Khabirova <lineprinter0@gmail.com>
++diff --git a/tests/caps-abbrev.awk b/tests/caps-abbrev.awk
++index e8393fd..76c4e51 100644
++--- a/tests/caps-abbrev.awk
+++++ b/tests/caps-abbrev.awk
++@@ -1,4 +1,4 @@
++-#!/bin/gawk
+++#!/usr/bin/gawk
++ #
++ # This file is part of caps strace test.
++ #
+ diff --git a/tests/caps.awk b/tests/caps.awk
+ index 69500ec..e5dfd87 100644
+ --- a/tests/caps.awk
+@@ -125,33 +157,3 @@ index dce78f5..573d9ea 100644
+  #
+  # Copyright (c) 2014-2015 Dmitry V. Levin <ldv@strace.io>
+  # Copyright (c) 2016 Elvira Khabirova <lineprinter0@gmail.com>
+-diff --git a/tests-m32/caps-abbrev.awk b/tests-m32/caps-abbrev.awk
+-index c00023b..a56cd56 100644
+---- a/tests-m32/caps-abbrev.awk
+-+++ b/tests-m32/caps-abbrev.awk
+-@@ -1,4 +1,4 @@
+--#!/bin/gawk
+-+#!/usr/bin/gawk
+- #
+- # This file is part of caps strace test.
+- #
+-diff --git a/tests-mx32/caps-abbrev.awk b/tests-mx32/caps-abbrev.awk
+-index c00023b..a56cd56 100644
+---- a/tests-mx32/caps-abbrev.awk
+-+++ b/tests-mx32/caps-abbrev.awk
+-@@ -1,4 +1,4 @@
+--#!/bin/gawk
+-+#!/usr/bin/gawk
+- #
+- # This file is part of caps strace test.
+- #
+-diff --git a/tests/caps-abbrev.awk b/tests/caps-abbrev.awk
+-index c00023b..a56cd56 100644
+---- a/tests/caps-abbrev.awk
+-+++ b/tests/caps-abbrev.awk
+-@@ -1,4 +1,4 @@
+--#!/bin/gawk
+-+#!/usr/bin/gawk
+- #
+- # This file is part of caps strace test.
+- #
+diff --git a/meta/recipes-devtools/strace/strace_6.8.bb b/meta/recipes-devtools/strace/strace_6.9.bb
+similarity index 96%
+rename from meta/recipes-devtools/strace/strace_6.8.bb
+rename to meta/recipes-devtools/strace/strace_6.9.bb
+index e1cc65e053..bb9f8e42ba 100644
+--- a/meta/recipes-devtools/strace/strace_6.8.bb
++++ b/meta/recipes-devtools/strace/strace_6.9.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+            "
+-SRC_URI[sha256sum] = "ba6950a96824cdf93a584fa04f0a733896d2a6bc5f0ad9ffe505d9b41e970149"
++SRC_URI[sha256sum] = "da189e990a82e3ca3a5a4631012f7ecfd489dab459854d82d8caf6a865c1356a"
+ 
+ inherit autotools ptest
+ 
+-- 
+2.44.0
+
+
+--===============3133467792438424271==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/strace: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace: SRC_URI changed from "https://strace.io/files/6.8/strace-6.8.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch" to "https://strace.io/files/6.9/strace-6.9.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch"
+packages/core2-64-poky-linux/strace: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-dbg: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-dbg: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-dbg: FILELIST: added "/usr/lib/strace/ptest/tests/.debug/strace--always-show-pid"
+packages/core2-64-poky-linux/strace/strace-dbg: PKGSIZE changed from 58356136 to 58517120 (+0%)
+packages/core2-64-poky-linux/strace/strace-dev: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-dev: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-doc: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-doc: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-doc: PKGSIZE changed from 58275 to 58663 (+1%)
+packages/core2-64-poky-linux/strace/strace-locale: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-locale: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-ptest: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-ptest: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/strace--always-show-pid /usr/lib/strace/ptest/tests/strace--always-show-pid.gen.test"
+packages/core2-64-poky-linux/strace/strace-ptest: PKGSIZE changed from 32100671 to 32166624 (+0%)
+packages/core2-64-poky-linux/strace/strace-src: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-src: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace-src: FILELIST: directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/linux/netfilter -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/linux/netfilter, directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/linux -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/linux, directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/rdma -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/rdma, directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/linux/netfilter/ipset -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/linux/netfilter/ipset, directory renamed /usr/src/debug/strace/6.8/src -> /usr/src/debug/strace/6.9/src, directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/mtd -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/mtd, directory renamed /usr/src/debug/strace/6.8/src/linux/i386 -> /usr/src/debug/strace/6.9/src/linux/i386, director
+ y renamed /usr/src/debug/strace/6.8/src/linux/x86_64 -> /usr/src/debug/strace/6.9/src/linux/x86_64, directory renamed /usr/src/debug/strace/6.8/src/gen -> /usr/src/debug/strace/6.9/src/gen, directory renamed /usr/src/debug/strace/6.8/bundled/linux/include/uapi/asm -> /usr/src/debug/strace/6.9/bundled/linux/include/uapi/asm, directory renamed /usr/src/debug/strace/6.8/src/linux/generic -> /usr/src/debug/strace/6.9/src/linux/generic, removed "/usr/src/debug/strace/6.8/tests/prctl-mce-kill.c /usr/src/debug/strace/6.8/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.8/src/xlat/f_seals.h /usr/src/debug/strace/6.8/src/xlat/scmvals.h /usr/src/debug/strace/6.8/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.8/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.8/tests/net-yy-unix.c /usr/src/debug/strace/6.8/tests/getrandom.c /usr/src/debug/strace/6.8/src/xlat/futexwakeops.h /usr/src/debug/strace/6.8/src/xlat/rtc_features.h /usr/src/debug/strace/6.8/src/xlat/sock_rxrpc_options.h /usr/
+ src/debug/strace/6.8/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.8/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.8/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.8/src/xlat/v4l2_input_capabilities_flags.h /usr/src/debug/strace/6.8/tests/unlinkat.c /usr/src/debug/strace/6.8/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/6.8/tests/ioctl_winsize.c /usr/src/debug/strace/6.8/tests/sched_xetattr.c /usr/src/debug/strace/6.8/tests/set_ptracer_any.c /usr/src/debug/strace/6.8/tests/nlattr_cachereport.c /usr/src/debug/strace/6.8/tests/futimesat.c /usr/src/debug/strace/6.8/src/xlat/clone_flags.h /usr/src/debug/strace/6.8/src/xlat/mbind_flags.h /usr/src/debug/strace/6.8/src/xlat/mlock_flags.h /usr/src/debug/strace/6.8/src/xlat/modem_flags.h /usr/src/debug/strace/6.8/src/xlat/mount_flags.h /usr/src/debug/strace/6.8/src/xlat/sched_flags.h /usr/src/debug/strace/6.8/src/xlat/semop_flags.h /usr/src/debug/strace/6.8/tests/seccomp_get_notif_sizes.c /usr/src
+ /debug/strace/6.8/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.8/src/xlat/vsock_flags.h /usr/src/debug/strace/6.8/tests/hexdump_strdup.c /usr/src/debug/strace/6.8/tests/poke-sendfile.c /usr/src/debug/strace/6.8/tests/inet-cmsg.c /usr/src/debug/strace/6.8/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.8/src/xlat/futexbitset.h /usr/src/debug/strace/6.8/tests/ioctl_block.c /usr/src/debug/strace/6.8/tests/poke.c /usr/src/debug/strace/6.8/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.8/src/xlat/ipc_private.h /usr/src/debug/strace/6.8/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/6.8/tests/init_module.c /usr/src/debug/strace/6.8/tests/getpeername.c /usr/src/debug/strace/6.8/tests/getsockname.c /usr/src/debug/strace/6.8/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.8/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.8/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.8/tests/pkey_mprotect.c /usr/src/debug/s
+ trace/6.8/tests/setdomainname.c /usr/src/debug/strace/6.8/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.8/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.8/tests/madvise.c /usr/src/debug/strace/6.8/tests/execve--secontext.c /usr/src/debug/strace/6.8/tests/truncate.c /usr/src/debug/strace/6.8/tests/umovestr-illptr.c /usr/src/debug/strace/6.8/tests/signal_receive.c /usr/src/debug/strace/6.8/src/xlat/bpf_rval.h /usr/src/debug/strace/6.8/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.8/tests/printstr.c /usr/src/debug/strace/6.8/tests/nlattr.c /usr/src/debug/strace/6.8/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.8/tests/userfaultfd.c /usr/src/debug/strace/6.8/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.8/tests/ioctl_random.c /usr/src/debug/strace/6.8/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.8/tests/sleep.c /usr/src/debug/strace/6.8/tests/count-f.c /usr/src/debug/strace/6.8/src/xlat/btrfs_bal
+ ance_args.h /usr/src/debug/strace/6.8/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.8/tests/hexquote_strndup.c /usr/src/debug/strace/6.8/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.8/tests/utimensat.c /usr/src/debug/strace/6.8/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.8/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.8/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/6.8/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.8/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.8/src/xlat/fan_classes.h /usr/src/debug/strace/6.8/tests/seccomp-filter.c /usr/src/debug/strace/6.8/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.8/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/6.8/src/xlat/lirc_modes.h /usr/src/debug/strace/6.8/src/xlat/mpol_modes.h /usr/src/debug/strace/6.8/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.8/tests/access--secontext.c /usr/src/debug/strace/6.8/src/xlat/mount_attr_propagation.h /usr/src/debug/strace
+ /6.8/tests/status-detached-threads.c /usr/src/debug/strace/6.8/tests/kernel_version.c /usr/src/debug/strace/6.8/src/xlat/clone3_flags.h /usr/src/debug/strace/6.8/src/xlat/irda_protocols.h /usr/src/debug/strace/6.8/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.8/src/xlat/ax25_protocols.h /usr/src/debug/strace/6.8/src/xlat/caif_protocols.h /usr/src/debug/strace/6.8/src/xlat/inet_protocols.h /usr/src/debug/strace/6.8/tests/execveat.c /usr/src/debug/strace/6.8/src/xlat/tun_device_types.h /usr/src/debug/strace/6.8/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.8/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.8/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.8/tests/linkat--secontext.c /usr/src/debug/strace/6.8/tests/setrlimit.c /usr/src/debug/strace/6.8/tests/secontext.h /usr/src/debug/strace/6.8/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/6.8/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/6.8/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/st
+ race/6.8/tests/iopl.c /usr/src/debug/strace/6.8/tests/create_tmpfile.c /usr/src/debug/strace/6.8/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.8/tests/dev-pty-yy.c /usr/src/debug/strace/6.8/tests/strace--syscall-limit.c /usr/src/debug/strace/6.8/tests/uname.c /usr/src/debug/strace/6.8/tests/nfnetlink_osf.c /usr/src/debug/strace/6.8/tests/remap_file_pages.c /usr/src/debug/strace/6.8/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.8/tests/alarm.c /usr/src/debug/strace/6.8/tests/redirect-fds.c /usr/src/debug/strace/6.8/tests/strace-n.c /usr/src/debug/strace/6.8/tests/strace-x.c /usr/src/debug/strace/6.8/tests/statfs64.c /usr/src/debug/strace/6.8/tests/getuid.c /usr/src/debug/strace/6.8/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.8/tests/aio.c /usr/src/debug/strace/6.8/tests/sigpending.c /usr/src/debug/strace/6.8/tests/memfd_secret.c /usr/src/debug/strace/6.8/tests/filter-unavailable.c /usr/src/debug/strace/6.8/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace
+ /6.8/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.8/tests/ioctl_termios.c /usr/src/debug/strace/6.8/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.8/tests/pidfd_open.c /usr/src/debug/strace/6.8/tests/ioctl_dm.c /usr/src/debug/strace/6.8/tests/ioctl_kd.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.8/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/6.8/tests/epoll_pwait.c /usr/src/debug/strace/6.8/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.8/tests/ifindex.c /usr/src/debug/strace/6.8/tests/mknodat.c /usr/src/debug/strace/6.8/tests/lchown32.c /usr/src/debug/strace/6.8/tests/lookup_dcookie.c /usr/src/debug/strace/6.8/tests/tcp_ao.c /usr/src/debug/strace/6.8/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/6.8/tests/netlink_xfrm.c /usr/src/debug/strace/6.8/tests/prctl-securebits.c /usr/src/debug/strace/6.8/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.8/tes
+ ts/fchmodat2.c /usr/src/debug/strace/6.8/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/6.8/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.8/tests/signal.c /usr/src/debug/strace/6.8/tests/syslog.c /usr/src/debug/strace/6.8/tests/socketcall.c /usr/src/debug/strace/6.8/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.8/src/xlat/key_spec.h /usr/src/debug/strace/6.8/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.8/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.8/tests/clock_adjtime-common.c /usr/src/debug/strace/6.8/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.8/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/6.8/src/xlat/v4l2_input_status_flags.h /usr/src/debug/strace/6.8/tests/so_error.c /usr/src/debug/strace/6.8/tests/sockname.c /usr/src/debug/strace/6.8/src/xlat/futex2_flags.h /usr/src/debug/strace/6.8/src/xlat/futex2_sizes.h /usr/src/debug/strace/6.8/tests/stack-fcall-1.c /usr/src/debug/strace/6.8/tests/fsync.c /usr/src/debug/strace/6.8/tes
+ ts/execve.c /usr/src/debug/strace/6.8/tests/net-tpacket_stats.c /usr/src/debug/strace/6.8/tests/aio_pgetevents.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.8/tests/get_sigset_size.c /usr/src/debug/strace/6.8/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.8/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.8/tests/getrusage.c /usr/src/debug/strace/6.8/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.8/tests/munlockall.c /usr/src/debug/strace/6.8/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.8/src/xlat/setns_types.h /usr/src/debug/strace/6.8/src/xlat/fdflags.h /usr/src/debug/strace/6.8/tests/block_reset_raise_run.c /usr/src/debug/strace/6.8/tests/membarrier.c /usr/src/debug/strace/6.8/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.8/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.8/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/6.8/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.8/src/xlat/open_
+ mode_flags.h /usr/src/debug/strace/6.8/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.8/src/xlat/uring_ops.h /usr/src/debug/strace/6.8/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/6.8/tests/ipc_msgbuf.c /usr/src/debug/strace/6.8/tests/nsyscalls.c /usr/src/debug/strace/6.8/tests/netlink_inet_diag.c /usr/src/debug/strace/6.8/tests/status.c /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.8/tests/map_shadow_stack.c /usr/src/debug/strace/6.8/src/xlat/dirent_types.h /usr/src/debug/strace/6.8/src/xlat/sigact_flags.h /usr/src/debug/strace/6.8/src/xlat/umount_flags.h /usr/src/debug/strace/6.8/tests/ioctl_inotify.c /usr/src/debug/strace/6.8/tests/xetpgid.c /usr/src/debug/strace/6.8/tests/tgkill.c /usr/src/debug/strace/6.8/tests/netlink_generic.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.8/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.8/src/xlat/f_owner_types.h /usr/src/debug/strace/6.8/tests/n
+ lattr_ifla_port.c /usr/src/debug/strace/6.8/tests/pselect6_time64.c /usr/src/debug/strace/6.8/tests/oldselect.c /usr/src/debug/strace/6.8/tests/ip_local_port_range.c /usr/src/debug/strace/6.8/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.8/tests/test_printpath.c /usr/src/debug/strace/6.8/tests/file_handle--secontext.c /usr/src/debug/strace/6.8/tests/set_sigblock.c /usr/src/debug/strace/6.8/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.8/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/6.8/tests/ip_mreq.c /usr/src/debug/strace/6.8/tests/ipc_msg.c /usr/src/debug/strace/6.8/tests/ipc_sem.c /usr/src/debug/strace/6.8/tests/ipc_shm.c /usr/src/debug/strace/6.8/src/xlat/bpf_mode.h /usr/src/debug/strace/6.8/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.8/tests/getcwd.c /usr/src/debug/strace/6.8/tests/gettid.c /usr/src/debug/strace/6.8/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.8/tests/ioctl_tee.c /usr/src/debug/strace/6.8/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.8/
+ tests/prctl-unalign.c /usr/src/debug/strace/6.8/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.8/tests/sync_file_range.c /usr/src/debug/strace/6.8/tests/futex_requeue.c /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_root_attrs.h /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/6.8/tests/mq_sendrecv.c /usr/src/debug/strace/6.8/src/xlat/fchmodat_flags.h /usr/src/debug/strace/6.8/src/xlat/routing_scopes.h /usr/src/debug/strace/6.8/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.8/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.8/tests/futex_waitv.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.8/tests/pkey_alloc.c /usr/src/debug/strace/6.8/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.8/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.8/tests/setgroups32.c /usr/src/debug/strace/6.8/tests/sched_xetscheduler.c /usr/src/debug/strace/6.8/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.8/tests/epoll_cre
+ ate1.c /usr/src/debug/strace/6.8/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.8/src/xlat/term_lflags.h /usr/src/debug/strace/6.8/tests/fork--pidns-translation.c /usr/src/debug/strace/6.8/tests/xattr.c /usr/src/debug/strace/6.8/tests/print_ppid_tracerpid.c /usr/src/debug/strace/6.8/tests/pread64-pwrite64.c /usr/src/debug/strace/6.8/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.8/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.8/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.8/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/6.8/tests/status-successful-threads.c /usr/src/debug/strace/6.8/tests/fcntl-common.c /usr/src/debug/strace/6.8/src/xlat/socketcalls.h /usr/src/debug/strace/6.8/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.8/tests/readlink.c /usr/src/debug/strace/6.8/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.8/tests/recvfrom.c /usr/src/debug/strace/6.8/tests/renameat.c /usr/src/debug/strace/6.8/tests/symlinkat.c /usr/src/debug/strace/6.8/src/xl
+ at/uring_files_update_fds.h /usr/src/debug/strace/6.8/tests/getresugid.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.8/src/xlat/pr_mce_kill.h /usr/src/debug/strace/6.8/src/xlat/term_iflags.h /usr/src/debug/strace/6.8/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.8/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.8/src/xlat/rename_flags.h /usr/src/debug/strace/6.8/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.8/src/xlat/splice_flags.h /usr/src/debug/strace/6.8/src/xlat/whence_codes.h /usr/src/debug/strace/6.8/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.8/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.8/tests/ip_protocol.c /usr/src/debug/strace/6.8/tests/ipc.c /usr/src/debug/strace/6.8/tests/inotify_init1.c /usr/src/debug/strace/6.8/tests/getegid.c /usr/src/debug/strace/6.8/tests/geteuid.c /usr/src/debug/strace/6.8/tests/getpgrp.c /usr/src/debug/strace/6.8/tests/getppid.c /usr/src/debug/strace/6.8/tests/getxgid.c /usr/s
+ rc/debug/strace/6.8/tests/getxpid.c /usr/src/debug/strace/6.8/tests/getxuid.c /usr/src/debug/strace/6.8/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.8/tests/futex.c /usr/src/debug/strace/6.8/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.8/tests/msg_name.c /usr/src/debug/strace/6.8/src/xlat/btrfs_key_types.h /usr/src/debug/strace/6.8/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.8/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/6.8/tests/epoll_pwait2.c /usr/src/debug/strace/6.8/tests/sprintrc.c /usr/src/debug/strace/6.8/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.8/tests/faccessat--secontext.c /usr/src/debug/strace/6.8/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.8/src/xlat/advise.h /usr/src/debug/strace/6.8/src/xlat/quota_formats.h /usr/src/debug/strace/6.8/tests/clone3.c /usr/src/debug/strace/6.8/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.8/tests/nlattr_ifla_linkinfo.c /usr/src/de
+ bug/strace/6.8/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.8/tests/kill_child.c /usr/src/debug/strace/6.8/src/xlat/fspick_flags.h /usr/src/debug/strace/6.8/src/xlat/pr_pac_keys.h /usr/src/debug/strace/6.8/tests/setgroups.c /usr/src/debug/strace/6.8/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.8/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.8/src/xlat/uffd_writeprotect_mode_flags.h /usr/src/debug/strace/6.8/tests/create_nl_socket.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/6.8/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/6.8/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.8/tests/libmmsg.c /usr/src/debug/strace/6.8/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.8/tests/umode_t.c /usr/src/debug/strace/6.8/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.8/src/xlat
+ /kd_key_lock_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.8/tests/umount2.c /usr/src/debug/strace/6.8/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.8/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.8/tests/ioctl_scsi.c /usr/src/debug/strace/6.8/tests/ksysent.c /usr/src/debug/strace/6.8/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.8/tests/sched_xetparam.c /usr/src/debug/strace/6.8/tests/delete_module.c /usr/src/debug/strace/6.8/tests/getgid.c /usr/src/debug/strace/6.8/tests/setresugid.c /usr/src/debug/strace/6.8/tests/reboot.c /usr/src/debug/strace/6.8/tests/semop.c /usr/src/debug/strace/6.8/tests/ioctl_counter.c /usr/src/debug/strace/6.8/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.8/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.8/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.8/src/xlat/counter_ioctl_component_types.h /usr/src/debug/st
+ race/6.8/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.8/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.8/tests/acct.c /usr/src/debug/strace/6.8/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.8/src/xlat/sock_irda_options.h /usr/src/debug/strace/6.8/tests/status-none.c /usr/src/debug/strace/6.8/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.8/src/xlat/netlink_get_flags.h /usr/src/debug/strace/6.8/src/xlat/netlink_new_flags.h /usr/src/debug/strace/6.8/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.8/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.8/tests/fstatat64.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/6.8/tests/fstatfs64.c /usr/src/debug/strace/6.8/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.8/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.8/src/xlat/kvm_cap.h /usr/src/debug/strace/6.8/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.8/tests/ioctl_evdev-
+ success.c /usr/src/debug/strace/6.8/tests/ioctl_gpio.c /usr/src/debug/strace/6.8/tests/ioctl_hdio.c /usr/src/debug/strace/6.8/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.8/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.8/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.8/src/xlat/madvise_hppa_generic_cmds.h /usr/src/debug/strace/6.8/tests/printsignal.c /usr/src/debug/strace/6.8/tests/ioctl_mtd.c /usr/src/debug/strace/6.8/tests/ioctl_nbd.c /usr/src/debug/strace/6.8/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.8/tests/caps.c /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.8/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.8/src/xlat/ebpf_size.h /usr/src/debug/strace/6.8/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.8/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.8/tests/umovestr3.c /usr/sr
+ c/debug/strace/6.8/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.8/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/6.8/tests/printxval.c /usr/src/debug/strace/6.8/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.8/tests/xattr-strings.c /usr/src/debug/strace/6.8/tests/statmount.c /usr/src/debug/strace/6.8/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.8/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.8/src/xlat/shm_resource_flags.h /usr/src/debug/strace/6.8/tests/netlink_crypto.c /usr/src/debug/strace/6.8/tests/move_mount.c /usr/src/debug/strace/6.8/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.8/tests/status-unfinished.c /usr/src/debug/strace/6.8/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.8/tests/kill.c /usr/src/debug/strace/6.8/tests/sendfile64.c /usr/src/debug/strace/6.8/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.8/tests/_newselect.c /usr/src/debug/strace/6.8/src/xlat/net
+ link_flags.h /usr/src/debug/strace/6.8/src/xlat/netlink_types.h /usr/src/debug/strace/6.8/src/xlat/netlink_states.h /usr/src/debug/strace/6.8/tests/move_pages.c /usr/src/debug/strace/6.8/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.8/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/6.8/tests/clone_ptrace.c /usr/src/debug/strace/6.8/tests/segv_accerr.c /usr/src/debug/strace/6.8/tests/segv_pkuerr.c /usr/src/debug/strace/6.8/tests/nfnetlink_acct.c /usr/src/debug/strace/6.8/tests/semtimedop-syscall.c /usr/src/debug/strace/6.8/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.8/tests/splice.c /usr/src/debug/strace/6.8/tests/clock_adjtime64.c /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/6.8/tests/xetitimer.c /usr/src/debug/strace/6.8/tests/chmod--secontext.c /usr/src/debug/strace/6.8/tests/attach-p-cmd.h /usr/src/debug/strace/6.8/src/xlat/uffd_poison_mode_flags.h /usr/src/debug/strace/6.8/tests/getdents64.c /usr/src/debug/strace/6.8/
+ tests/kern_features.c /usr/src/debug/strace/6.8/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.8/tests/sched_xetaffinity.c /usr/src/debug/strace/6.8/tests/getsid.c /usr/src/debug/strace/6.8/tests/chdir.c /usr/src/debug/strace/6.8/src/xlat/mctp_nets.h /usr/src/debug/strace/6.8/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/6.8/src/xlat/statmount_mask.h /usr/src/debug/strace/6.8/tests/prctl-capbset.c /usr/src/debug/strace/6.8/tests/readdir.c /usr/src/debug/strace/6.8/tests/recvmsg.c /usr/src/debug/strace/6.8/tests/vfork-f.c /usr/src/debug/strace/6.8/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/6.8/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.8/tests/pidns.c /usr/src/debug/strace/6.8/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/6.8/tests/libsocketcall.c /usr/src/debug/strace/6.8/tests/set_mempolicy.c /usr/src/debug/strace/6.8/tests/pidns.h /usr/src/debug/strace/6.8/tests/statx.c /usr/src/debug/strace/6.8/tests/xet_thread_area_x86.c /usr/src/deb
+ ug/strace/6.8/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.8/src/xlat/epollctls.h /usr/src/debug/strace/6.8/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.8/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.8/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.8/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.8/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.8/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.8/src/xlat/semctl_flags.h /usr/src/debug/strace/6.8/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.8/src/xlat/sigill_codes.h /usr/src/debug/strace/6.8/src/xlat/skf_ad.h /usr/src/debug/strace/6.8/tests/status-none-f.c /usr/src/debug/strace/6.8/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.8/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.8/src/xlat/evdev_ff_types.h /usr/src/debug/strace/6.8/tests/io_uring_setup.c /usr/src/debug/strace/6.8/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/6.8/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.8/tests/netlink_a
+ udit.c /usr/src/debug/strace/6.8/src/xlat/sock_raw_options.h /usr/src/debug/strace/6.8/tests/xselect.c /usr/src/debug/strace/6.8/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.8/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/6.8/tests/threads-execve.c /usr/src/debug/strace/6.8/tests/ioctl_v4l2.c /usr/src/debug/strace/6.8/src/xlat/tcp_ao_keyf_flags.h /usr/src/debug/strace/6.8/tests/fsmount.c /usr/src/debug/strace/6.8/tests/fstat64.c /usr/src/debug/strace/6.8/tests/fsync-y.c /usr/src/debug/strace/6.8/tests/getcpu.c /usr/src/debug/strace/6.8/tests/process_madvise.c /usr/src/debug/strace/6.8/tests/landlock_restrict_self.c /usr/src/debug/strace/6.8/tests/waitid.c /usr/src/debug/strace/6.8/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.8/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.8/src/xlat/term_oflags_nldly.h /usr/src/debug/strace/6.8/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.8/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strac
+ e/6.8/tests/rt_sigpending.c /usr/src/debug/strace/6.8/tests/timer_create.c /usr/src/debug/strace/6.8/tests/timer_xettime.c /usr/src/debug/strace/6.8/tests/lsm_list_modules.c /usr/src/debug/strace/6.8/src/xlat/inotify_flags.h /usr/src/debug/strace/6.8/tests/setfsugid.c /usr/src/debug/strace/6.8/tests/setreugid.c /usr/src/debug/strace/6.8/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.8/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.8/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.8/tests/semtimedop-ipc.c /usr/src/debug/strace/6.8/tests/fchmodat.c /usr/src/debug/strace/6.8/tests/fchown32.c /usr/src/debug/strace/6.8/tests/fchownat.c /usr/src/debug/strace/6.8/tests/attach-p-cmd-p.c /usr/src/debug/strace/6.8/tests/time_enjoyment.h /usr/src/debug/strace/6.8/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.8/tests/linkat.c /usr/src/debug/strace/6.8/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.8/src/xlat/packet_diag_info_flags.h /usr/src/debug/str
+ ace/6.8/src/xlat/bpf_stats_type.h /usr/src/debug/strace/6.8/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.8/tests/ioctl_tiocm.c /usr/src/debug/strace/6.8/tests/fcntl.c /usr/src/debug/strace/6.8/tests/status-successful.c /usr/src/debug/strace/6.8/tests/setugid.c /usr/src/debug/strace/6.8/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.8/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.8/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/6.8/tests/overflowuid.c /usr/src/debug/strace/6.8/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.8/tests/int_0x80.c /usr/src/debug/strace/6.8/tests/signalfd4.c /usr/src/debug/strace/6.8/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.8/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.8/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.8/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.8/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.8/tests/wait4.c /usr/src/debug/strace/6.8/tests/ioctl_ptp.c /usr/src/d
+ ebug/strace/6.8/src/xlat/arp_hardware_types.h /usr/src/debug/strace/6.8/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6.8/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.8/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/6.8/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.8/tests/clock_xettime-common.c /usr/src/debug/strace/6.8/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.8/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.8/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.8/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.8/tests/prctl-sched-core.c /usr/src/debug/strace/6.8/tests/unshare.c /usr/src/debug/strace/6.8/tests/semtimedop-common.c /usr/src/debug/strace/6.8/tests/xetpriority.c /usr/src/debug/strace/6.8/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/6.8/tests/copy_file_range.c /usr/src/debug/strace/6.8/tests/stat64.c /usr/src/debug/strace/6.8/tests/pwritev.c /usr/src/debug/strace/6.8/tests/filter_seccomp-perf.c /usr/
+ src/debug/strace/6.8/tests/times.c /usr/src/debug/strace/6.8/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.8/src/xlat/resource_flags.h /usr/src/debug/strace/6.8/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.8/tests/ioctl_loop.c /usr/src/debug/strace/6.8/tests/faccessat.c /usr/src/debug/strace/6.8/tests/osf_utimes.c /usr/src/debug/strace/6.8/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.8/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.8/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.8/tests/signal2name.c /usr/src/debug/strace/6.8/tests/prctl-set_vma.c /usr/src/debug/strace/6.8/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/6.8/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/6.8/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.8/tests/renameat2.c /usr/src/debug/strace/6.8/tests/tkill.c /usr/src/debug/strace/6.8/src/xlat/routing_protocols.h /usr/src/debug/strace/6.8/tests/getdents.c /usr/sr
+ c/debug/strace/6.8/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.8/tests/getgid32.c /usr/src/debug/strace/6.8/tests/getuid32.c /usr/src/debug/strace/6.8/tests/btrfs.c /usr/src/debug/strace/6.8/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.8/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.8/tests/close_range.c /usr/src/debug/strace/6.8/tests/dup3.c /usr/src/debug/strace/6.8/src/xlat/nl_route_types.h /usr/src/debug/strace/6.8/src/xlat/termios_cc.h /usr/src/debug/strace/6.8/tests/mmsg-silent.c /usr/src/debug/strace/6.8/tests/xettimeofday.c /usr/src/debug/strace/6.8/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.8/tests/inotify_init.c /usr/src/debug/strace/6.8/tests/xgetrlimit.c /usr/src/debug/strace/6.8/tests/dirfd.c /usr/src/debug/strace/6.8/src/xlat/routing_flags.h /usr/src/debug/strace/6.8/src/xlat/routing_types.h /usr/src/debug/strace/6.8/src/xlat/rxrpc_services.h /usr/src/debug/strace/6.8/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.8/src/xlat
+ /setsock_ip_options.h /usr/src/debug/strace/6.8/tests/umovestr.c /usr/src/debug/strace/6.8/tests/ioctl_ubi.c /usr/src/debug/strace/6.8/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.8/tests/adjtimex.c /usr/src/debug/strace/6.8/src/xlat/sock_xdp_options.h /usr/src/debug/strace/6.8/tests/ioctl_rtc.c /usr/src/debug/strace/6.8/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.8/tests/sendfile.c /usr/src/debug/strace/6.8/tests/setgid32.c /usr/src/debug/strace/6.8/tests/looping_threads.c /usr/src/debug/strace/6.8/tests/setuid32.c /usr/src/debug/strace/6.8/tests/net-tpacket_req.c /usr/src/debug/strace/6.8/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.8/tests/mlock2.c /usr/src/debug/strace/6.8/src/xlat/mdb_states.h /usr/src/debug/strace/6.8/src/xlat/smc_states.h /usr/src/debug/strace/6.8/src/xlat/tcp_states.h /usr/src/debug/strace/6.8/src/xlat/move_pages_flags.h /usr/src/debug/strace/6.8/tests/inode_of_sockfd.c
+  /usr/src/debug/strace/6.8/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.8/src/xlat/membarrier_cmds.h /usr/src/debug/strace/6.8/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.8/tests/fanotify_mark--secontext.c /usr/src/debug/strace/6.8/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.8/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.8/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.8/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.8/tests/time.c /usr/src/debug/strace/6.8/tests/getsockname--secontext.c /usr/src/debug/strace/6.8/tests/test_printstrn.c /usr/src/debug/strace/6.8/tests/fork-f.c /usr/src/debug/strace/6.8/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.8/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.8/src/xlat/ioprio_who.h /usr/src/debug/strace/6.8/tests/fadvise64.c /usr/src/debug/strace/6.8/tests/sched_yield.c /usr/src/debug/strace/6.8/tests/strace-p1-Y
+ -p.c /usr/src/debug/strace/6.8/src/xlat/lsm_ids.h /usr/src/debug/strace/6.8/tests/block_reset_run.c /usr/src/debug/strace/6.8/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.8/tests/ioctl_perf.c /usr/src/debug/strace/6.8/src/xlat/landlock_rule_types.h /usr/src/debug/strace/6.8/src/xlat/timerfdflags.h /usr/src/debug/strace/6.8/tests/sxetmask.c /usr/src/debug/strace/6.8/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.8/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.8/tests/ftruncate64.c /usr/src/debug/strace/6.8/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.8/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.8/src/xlat/notifyflags.h /usr/src/debug/strace/6.8/src/xlat/evdev_ev.h /usr/src/debug/strace/6.8/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.8/tests/sigprocmask.c /usr/src/debug/strace/6.8/tests/fill_memory.c /usr/src/debug/strace/6.8/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.8/tests/bpf.c /usr/src/debug/strace/6.8/
+ src/xlat/cap_mask0.h /usr/src/debug/strace/6.8/src/xlat/bt_protocols.h /usr/src/debug/strace/6.8/src/xlat/resources.h /usr/src/debug/strace/6.8/tests/stack-fcall-2.c /usr/src/debug/strace/6.8/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/6.8/src/xlat/bootflags1.h /usr/src/debug/strace/6.8/src/xlat/sigev_value.h /usr/src/debug/strace/6.8/tests/setfsgid32.c /usr/src/debug/strace/6.8/tests/setfsuid32.c /usr/src/debug/strace/6.8/tests/setregid32.c /usr/src/debug/strace/6.8/tests/setreuid32.c /usr/src/debug/strace/6.8/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.8/src/xlat/madvise_cmds.h /usr/src/debug/strace/6.8/src/xlat/hci_channels.h /usr/src/debug/strace/6.8/src/xlat/pr_tsc.h /usr/src/debug/strace/6.8/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.8/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.8/src/xlat/mtd_flags_options.h /usr/src/debug/strace/6.8/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.8/src/xlat/kd_key_types.h /usr/src/debug/strace/6.8/t
+ ests/check_sigblock.c /usr/src/debug/strace/6.8/tests/futex_wait.c /usr/src/debug/strace/6.8/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/6.8/src/xlat/socketlayers.h /usr/src/debug/strace/6.8/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.8/src/xlat/bootflags3.h /usr/src/debug/strace/6.8/tests/pidns-cache.c /usr/src/debug/strace/6.8/tests/oldstat.c /usr/src/debug/strace/6.8/tests/sync.c /usr/src/debug/strace/6.8/src/xlat/mdb_flags.h /usr/src/debug/strace/6.8/src/xlat/statx_attrs.h /usr/src/debug/strace/6.8/src/xlat/msg_flags.h /usr/src/debug/strace/6.8/src/xlat/pollflags.h /usr/src/debug/strace/6.8/src/xlat/rwf_flags.h /usr/src/debug/strace/6.8/tests/xstatx.c /usr/src/debug/strace/6.8/tests/init_delete_module.h /usr/src/debug/strace/6.8/tests/pidfd_getfd.c /usr/src/debug/strace/6.8/tests/times-fail.c /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.8/tests/symlink.c /usr/src/debug/strace/6.8/tests/sysinfo.c /usr/src/debug/strace/6.8/sr
+ c/xlat/smc_diag_mode.h /usr/src/debug/strace/6.8/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.8/src/xlat/term_oflags.h /usr/src/debug/strace/6.8/src/xlat/ioprio_class.h /usr/src/debug/strace/6.8/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/6.8/tests/ustat.c /usr/src/debug/strace/6.8/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.8/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/6.8/tests/net-sockaddr.c /usr/src/debug/strace/6.8/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.8/src/xlat/v4l2_std_ids.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.8/tests/xstatfsx.c /usr/src/debug/strace/6.8/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.8/tests/net-yy-netlink.c /usr/src/debug/strace/6.8/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.8/src/xlat/flockcmds.h /usr/src/debug/strace/6.8/src/xlat/lockfcmds.h /usr/src/debug/strace/6.8/src/xlat/quotacmds.h /usr/src/debug/strace/6.8/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/s
+ trace/6.8/tests/nfnetlink_cthelper.c /usr/src/debug/strace/6.8/tests/status-none-threads.c /usr/src/debug/strace/6.8/tests/dup2.c /usr/src/debug/strace/6.8/tests/unblock_reset_raise.c /usr/src/debug/strace/6.8/tests/nlattr_tc_stats.c /usr/src/debug/strace/6.8/tests/localtime.c /usr/src/debug/strace/6.8/tests/lock_file.c /usr/src/debug/strace/6.8/src/xlat/at_flags.h /usr/src/debug/strace/6.8/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/6.8/tests/semop-common.c /usr/src/debug/strace/6.8/src/xlat/dm_flags.h /usr/src/debug/strace/6.8/src/xlat/iffflags.h /usr/src/debug/strace/6.8/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.8/src/xlat/uffd_continue_mode_flags.h /usr/src/debug/strace/6.8/tests/fadvise.h /usr/src/debug/strace/6.8/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.8/src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.8/tests/sockopt-timestamp.c /usr/src/debug/strace/6.8/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.8/src/xlat/delete_module_f
+ lags.h /usr/src/debug/strace/6.8/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.8/tests/fchmodat--secontext.c /usr/src/debug/strace/6.8/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/6.8/tests/fchownat--secontext.c /usr/src/debug/strace/6.8/src/xlat/sigprof_codes.h /usr/src/debug/strace/6.8/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.8/src/xlat/key_perms.h /usr/src/debug/strace/6.8/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.8/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.8/tests/epoll_wait.c /usr/src/debug/strace/6.8/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/6.8/tests/shmxt.c /usr/src/debug/strace/6.8/tests/prctl-tid_address.c /usr/src/debug/strace/6.8/src/xlat/module_init_flags.h /usr/src/debug/strace/6.8/src/xlat/access_modes.h /usr/src/debug/strace/6.8/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.8/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.8/src/xlat/statfs_flags.h /usr/src/debug/strace/
+ 6.8/tests/list_sigaction_signum.c /usr/src/debug/strace/6.8/src/xlat/vsock_ports.h /usr/src/debug/strace/6.8/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.8/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.8/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.8/src/xlat/futexops.h /usr/src/debug/strace/6.8/tests/scm_pidfd.c /usr/src/debug/strace/6.8/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.8/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.8/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/6.8/tests/netlink_netfilter.c /usr/src/debug/strace/6.8/tests/finit_module.c /usr/src/debug/strace/6.8/src/xlat/mq_attr_flags.h /usr/src/debug/strace/6.8/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.8/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.8/tests/tee.c /usr/src/debug/strace/6.8/tests/setresgid32.c /usr/src/debug/strace/6.8/tests/setresuid32.c /usr/src/debug/strace/6.8/tests/print_user_desc.c /usr/src/debug/strace/6.8/src/xlat/mem
+ fd_secret_flags.h /usr/src/debug/strace/6.8/tests/futex2_flags.h /usr/src/debug/strace/6.8/src/xlat/ptrace_events.h /usr/src/debug/strace/6.8/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.8/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.8/tests/readlinkat.c /usr/src/debug/strace/6.8/tests/clock_nanosleep.c /usr/src/debug/strace/6.8/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.8/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.8/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.8/tests/chroot.c /usr/src/debug/strace/6.8/tests/semop-indirect.c /usr/src/debug/strace/6.8/src/xlat/schedulers.h /usr/src/debug/strace/6.8/src/xlat/term_line_discs.h /usr/src/debug/strace/6.8/tests/pc.c /usr/src/debug/strace/6.8/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.8/tests/clock_xettime64.c /usr/src/debug/strace/6.8/tests/net-packet_mreq.c /usr/src/debug/strace/6.8/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.8/tests/arch_prctl.c /usr/src/debug/strace/6.8/src/xla
+ t/can_protocols.h /usr/src/debug/strace/6.8/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.8/src/xlat/nfc_protocols.h /usr/src/debug/strace/6.8/src/xlat/smc_protocols.h /usr/src/debug/strace/6.8/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.8/src/xlat/evdev_abs.h /usr/src/debug/strace/6.8/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.8/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.8/src/xlat/personality_flags.h /usr/src/debug/strace/6.8/src/xlat/bpf_query_flags.h /usr/src/debug/strace/6.8/tests/print_maxfd.c /usr/src/debug/strace/6.8/src/xlat/cap_mask1.h /usr/src/debug/strace/6.8/tests/sigaltstack.c /usr/src/debug/strace/6.8/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.8/tests/mmap.c /usr/src/debug/strace/6.8/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.8/tests/pselect6-common.c /usr/src/debug/strace/6.8/src/xlat/bpf_size.h /usr/src/debug/strace/6.8/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.8/src/xlat/gpio_handle_flags.h /usr/src/
+ debug/strace/6.8/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.8/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.8/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.8/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/6.8/src/xlat/audit_arch.h /usr/src/debug/strace/6.8/src/xlat/kd_modes.h /usr/src/debug/strace/6.8/tests/fchdir.c /usr/src/debug/strace/6.8/tests/execveat--secontext.c /usr/src/debug/strace/6.8/tests/ftruncate.c /usr/src/debug/strace/6.8/tests/ioctl_lirc.c /usr/src/debug/strace/6.8/tests/restart_syscall.c /usr/src/debug/strace/6.8/tests/tests.h /usr/src/debug/strace/6.8/tests/flock.c /usr/src/debug/strace/6.8/tests/cachestat.c /usr/src/debug/strace/6.8/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.8/src/xlat/itimer_which.h /usr/src/debug/strace/6.8/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.8/src/xlat/bpf_class.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.8/tests/errno2name.c /usr/src/debug/stra
+ ce/6.8/tests/rmdir.c /usr/src/debug/strace/6.8/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.8/tests/trie_test.c /usr/src/debug/strace/6.8/tests/netlink_sock_diag.c /usr/src/debug/strace/6.8/tests/uio.c /usr/src/debug/strace/6.8/src/xlat/rtc_params.h /usr/src/debug/strace/6.8/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.8/src/xlat/pr_dumpable.h /usr/src/debug/strace/6.8/src/xlat/bpf_file_flags.h /usr/src/debug/strace/6.8/tests/netlink_route.c /usr/src/debug/strace/6.8/tests/brk.c /usr/src/debug/strace/6.8/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.8/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_shutdown_flags.h /usr/src/debug/strace/6.8/tests/unix-pair-send-recv.c /usr/src/debug/strace/6.8/tests/prctl_marker.c /usr/src/debug/strace/6.8/tests/mount.c /usr/src/debug/strace/6.8/tests/mount_setattr.c /usr/src/debug/strace/6.8/tests/msg_control.c /usr/src/debug/strace/6.8/tests/openat2.c /usr/src/debug/strace/6.8/tests/printpath-
+ umovestr.c /usr/src/debug/strace/6.8/tests/mknod.c /usr/src/debug/strace/6.8/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.8/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.8/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.8/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/6.8/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/6.8/src/xlat/evdev_misc.h /usr/src/debug/strace/6.8/tests/oldselect-efault.c /usr/src/debug/strace/6.8/tests/preadv-pwritev.c /usr/src/debug/strace/6.8/tests/file_handle.c /usr/src/debug/strace/6.8/tests/umount.c /usr/src/debug/strace/6.8/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.8/tests/epoll_create.c /usr/src/debug/strace/6.8/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.8/src/xlat/aio_cmds.h /usr/src/debug/strace/6.8/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.8/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.8/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.8/tests/landlock_add_rule.c /usr/src/debug/strace/6.8/t
+ ests/vhangup.c /usr/src/debug/strace/6.8/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.8/tests/printstrn-umoven.c /usr/src/debug/strace/6.8/tests/umask.c /usr/src/debug/strace/6.8/tests/ioctl_nsfs.c /usr/src/debug/strace/6.8/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.8/tests/prctl-fp-mode.c /usr/src/debug/strace/6.8/tests/prctl-sme.c /usr/src/debug/strace/6.8/tests/prctl-sve.c /usr/src/debug/strace/6.8/tests/inject-nf.c /usr/src/debug/strace/6.8/tests/setns.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.8/tests/rt_sigprocmask.c /usr/src/debug/strace/6.8/tests/scm_rights.c /usr/src/debug/strace/6.8/tests/ioctl_fs_f.c /usr/src/debug/strace/6.8/tests/ioctl_uffdio.c /usr/src/debug/strace/6.8/tests/netlink_unix_diag.c /usr/src/debug/strace/6.8/tests/test_ucopy.h /usr/src/debug/strace/6.8/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.8/tests/test_ucopy.c /usr/src/debu
+ g/strace/6.8/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.8/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/6.8/tests/nlattr_ifstats.c /usr/src/debug/strace/6.8/tests/tprintf.c /usr/src/debug/strace/6.8/tests/get_mempolicy.c /usr/src/debug/strace/6.8/src/xlat/af_packet_types.h /usr/src/debug/strace/6.8/src/xlat/evdev_switch.h /usr/src/debug/strace/6.8/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.8/tests/xutimes.c /usr/src/debug/strace/6.8/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.8/src/xlat/archvals.h /usr/src/debug/strace/6.8/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.8/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/6.8/tests/getegid32.c /usr/src/debug/strace/6.8/tests/geteuid32.c /usr/src/debug/strace/6.8/src/xlat/faccessat_flags.h /usr/src/debug/strace/6.8/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.8/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.8/tests/timerfd_xettime.c
+  /usr/src/debug/strace/6.8/tests/getpid.c /usr/src/debug/strace/6.8/tests/access.c /usr/src/debug/strace/6.8/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.8/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.8/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.8/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.8/tests/prctl-mdwe.c /usr/src/debug/strace/6.8/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.8/src/xlat/bpf_attach_type.h /usr/src/debug/strace/6.8/tests/sync_file_range2.c /usr/src/debug/strace/6.8/src/xlat/epollevents.h /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.8/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.8/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.8/tests/rt_sigaction.c /usr/src/debug/strace/6.8/src/xlat/falloc_flags.h /usr/src/debug/strace/6.8/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.8/tests/unlink.c /usr/src/debug/strace/6.8/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/6.8/src
+ /xlat/fib_rule_flags.h /usr/src/debug/strace/6.8/tests/clone-flags.c /usr/src/debug/strace/6.8/tests/mq.c /usr/src/debug/strace/6.8/src/xlat/ubi_volume_props.h /usr/src/debug/strace/6.8/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.8/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.8/tests/ioctl_evdev.c /usr/src/debug/strace/6.8/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/6.8/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.8/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/6.8/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.8/tests/getgroups32.c /usr/src/debug/strace/6.8/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.8/tests/kernel_old_timex.h /usr/src/debug/strace/6.8/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.8/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.8/src/xlat/mctl_sync.h /usr/src/debug/strace/6.8/tests/openat.c /usr/src/debug/strace/6.8/tests/read-write.c /usr/src/debug/strace/6.8/tests/request_key.c
+  /usr/src/debug/strace/6.8/tests/perf_event_open.c /usr/src/debug/strace/6.8/tests/truncate64.c /usr/src/debug/strace/6.8/tests/mlockall.c /usr/src/debug/strace/6.8/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.8/tests/ppoll.c /usr/src/debug/strace/6.8/tests/net-icmp_filter.c /usr/src/debug/strace/6.8/tests/net-yy-inet.c /usr/src/debug/strace/6.8/tests/mbind.c /usr/src/debug/strace/6.8/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.8/tests/ioperm.c /usr/src/debug/strace/6.8/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.8/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.8/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.8/src/xlat/bpf_commands.h /usr/src/debug/strace/6.8/src/xlat/dcb_commands.h /usr/src/debug/strace/6.8/tests/fflush.c /usr/src/debug/strace/6.8/tests/kcmp.c /usr/src/debug/strace/6.8/tests/prctl-name.c /usr/src/debug/strace/6.8/tests/old_mmap.c /usr/src/debug/strace
+ /6.8/tests/oldfstat.c /usr/src/debug/strace/6.8/tests/oldlstat.c /usr/src/debug/strace/6.8/tests/print_time.c /usr/src/debug/strace/6.8/tests/swap.c /usr/src/debug/strace/6.8/tests/clone_parent.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.8/tests/kernel_old_timespec.h /usr/src/debug/strace/6.8/tests/tampering-notes.c /usr/src/debug/strace/6.8/tests/prlimit64.c /usr/src/debug/strace/6.8/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.8/tests/fchmod.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.8/src/xlat/sfd_flags.h /usr/src/debug/strace/6.8/src/xlat/shm_flags.h /usr/src/debug/strace/6.8/tests/sigsuspend.c /usr/src/debug/strace/6.8/src/xlat/xdp_flags.h /usr/src/debug/strace/6.8/src/xlat/bsg_flags.h /usr/src/debug/strace/6.8/src/xlat/efd_flags.h /usr/src/debug/strace/6.8/src/xlat/fs_xflags.h /usr/src/debug/strace/6.8/src/xlat/lsm_flags.h /usr/src/debug/strace/6.8/src/xlat/nfc_sockaddr_protocols.h /us
+ r/src/debug/strace/6.8/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.8/src/xlat/nl_crypto_types.h /usr/src/debug/strace/6.8/tests/pipe.c /usr/src/debug/strace/6.8/tests/tail_alloc.c /usr/src/debug/strace/6.8/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/6.8/tests/set_sigign.c /usr/src/debug/strace/6.8/tests/status-failed.c /usr/src/debug/strace/6.8/tests/quotactl_fd.c /usr/src/debug/strace/6.8/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.8/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.8/src/xlat/perf_type_id.h /usr/src/debug/strace/6.8/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.8/tests/net-accept-connect.c /usr/src/debug/strace/6.8/src/xlat/bpf_map_flags.h /usr/src/debug/strace/6.8/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.8/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.8/tests/s390_sthyi.c /usr/src/debug/strace/6.8/tests/quotactl-xfs.c /usr/src/debug/strace/6.8/tests/memfd_create.c /usr/
+ src/debug/strace/6.8/src/xlat/addrfams.h /usr/src/debug/strace/6.8/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.8/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.8/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.8/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/6.8/tests/ptrace.c /usr/src/debug/strace/6.8/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.8/tests/answer.c /usr/src/debug/strace/6.8/tests/add_key.c /usr/src/debug/strace/6.8/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.8/tests/nanosleep.c /usr/src/debug/strace/6.8/tests/erestartsys.c /usr/src/debug/strace/6.8/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.8/src/xlat/statmount_sb_flags.h /usr/src/debug/strace/6.8/src/xlat/seccomp_ioctl_notif_flags.h /usr/src/debug/strace/6.8/tests/sigaction.c /usr/src/debug/strace/6.8/tests/sigreturn.c /usr/src/debug/strace/6.8/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.8/tests/pipe_maxfd.c /usr/src/debug/strace/6.8/tests/xgetdents.c /us
+ r/src/debug/strace/6.8/tests/chmod.c /usr/src/debug/strace/6.8/tests/is_linux_mips_n64.c /usr/src/debug/strace/6.8/tests/stack-fcall-0.c /usr/src/debug/strace/6.8/tests/listmount.c /usr/src/debug/strace/6.8/src/xlat/close_range_flags.h /usr/src/debug/strace/6.8/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.8/src/xlat/landlock_ruleset_access_net.h /usr/src/debug/strace/6.8/tests/attach-f-p.c /usr/src/debug/strace/6.8/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.8/tests/rename.c /usr/src/debug/strace/6.8/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/6.8/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.8/tests/s390_guarded_storage.c /usr/src/debug/strace/6.8/tests/fanotify_init.c /usr/src/debug/strace/6.8/tests/qual_inject-retval.c /usr/src/debug/strace/6.8/tests/qual_inject-signal.c /usr/src/debug/strace/6.8/src/xlat/pkey_access.h /usr/src/debug/strace/6.8/src/xlat/adjtimex_state.h /usr/src/debug/strace/6.8/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace
+ /6.8/tests/readahead.c /usr/src/debug/strace/6.8/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/6.8/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/6.8/src/xlat/bpf_src.h /usr/src/debug/strace/6.8/src/xlat/prctl_options.h /usr/src/debug/strace/6.8/src/xlat/wait4_options.h /usr/src/debug/strace/6.8/src/xlat/secbits.h /usr/src/debug/strace/6.8/src/xlat/numa_node.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.8/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/6.8/tests/fanotify_mark.c /usr/src/debug/strace/6.8/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/6.8/src/xlat/cap_version.h /usr/src/debug/strace/6.8/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.8/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.8/tests/rt_sigsuspend.c /usr/src/debug/strace/6.8/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.8/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.8/src/xlat
+ /kd_led_flags.h /usr/src/debug/strace/6.8/src/xlat/waitid_types.h /usr/src/debug/strace/6.8/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.8/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.8/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.8/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.8/tests/ioctl_perf-success.c /usr/src/debug/strace/6.8/tests/getgroups.c /usr/src/debug/strace/6.8/tests/ugetrlimit.c /usr/src/debug/strace/6.8/tests/kexec_file_load.c /usr/src/debug/strace/6.8/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.8/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.8/src/xlat/listmount_mnt_id.h /usr/src/debug/strace/6.8/tests/lsm_get_self_attr.c /usr/src/debug/strace/6.8/tests/lsm_set_self_attr.c /usr/src/debug/strace/6.8/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.8/tests/filter_seccomp-flag.c /usr/src/debug/strace/6.8/src/xlat/rtnl_tca_root_flags.h /usr/src/debug/s
+ trace/6.8/tests/subdir.c /usr/src/debug/strace/6.8/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.8/tests/keyctl.c /usr/src/debug/strace/6.8/tests/setpgrp-exec.c /usr/src/debug/strace/6.8/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.8/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.8/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.8/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.8/tests/sethostname.c /usr/src/debug/strace/6.8/tests/nfnetlink_ipset.c /usr/src/debug/strace/6.8/tests/nfnetlink_queue.c /usr/src/debug/strace/6.8/tests/sockaddr_xlat.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.8/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.8/tests/futex_wake.c /usr/src/debug/strace/6.8/tests/delay.c /usr/src/debug/strace/6.8/src/xlat/cap.h /usr/src/debug/strace/6.8/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/6.8/tests/semtimedop_time64.c /usr/src/debug/strace/6.8/tests/qual_signal.c /usr/src/debug
+ /strace/6.8/tests/netlink_protocol.c /usr/src/debug/strace/6.8/tests/zeroargc.c /usr/src/debug/strace/6.8/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.8/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.8/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/6.8/tests/readv.c /usr/src/debug/strace/6.8/tests/utime.c /usr/src/debug/strace/6.8/src/xlat/term_cflags.h /usr/src/debug/strace/6.8/src/xlat/open_access_modes.h /usr/src/debug/strace/6.8/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/6.8/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.8/tests/mincore.c /usr/src/debug/strace/6.8/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/6.8/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.8/src/xlat/ptrace_cmds.h /usr/src/debug/strace/6.8/tests/pkey_free.c /usr/src/debug/strace/6.8/tests/lstat64.c /usr/src/debug/strace/6.8/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.8/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.8/tests/llseek.c /usr/src/debug/strace/6.8/src/xl
+ at/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/6.8/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.8/tests/io_uring_register.c /usr/src/debug/strace/6.8/src/xlat/term_cflags_csize.h /usr/src/debug/strace/6.8/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.8/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/6.8/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.8/src/xlat/evdev_mtslots.h /usr/src/debug/strace/6.8/tests/get_page_size.c /usr/src/debug/strace/6.8/tests/print_quoted_string.c /usr/src/debug/strace/6.8/tests/vmsplice.c /usr/src/debug/strace/6.8/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.8/tests/check_sigign.c /usr/src/debug/strace/6.8/tests/test_nlattr.h /usr/src/debug/strace/6.8/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.8/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.8/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/6.8/tests/orphaned_process_group.c /usr/src/debug/strace/6.8/tests/run_expect_termsig.c /usr/
+ src/debug/strace/6.8/tests/xet_robust_list.c /usr/src/debug/strace/6.8/src/xlat/uring_setup_features.h /usr/src/debug/strace/6.8/tests/rt_sigreturn.c /usr/src/debug/strace/6.8/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.8/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.8/src/xlat/shadow_stack_flags.h /usr/src/debug/strace/6.8/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.8/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.8/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.8/tests/ioctl_sock.c /usr/src/debug/strace/6.8/tests/scm_credentials.c /usr/src/debug/strace/6.8/src/xlat/nfc_saps.h /usr/src/debug/strace/6.8/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.8/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/6.8/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.8/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.8/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.8/tests/seccomp-filter-v.c /usr/src/debug/strace/6.8/src/xlat/sock
+ _netlink_options.h /usr/src/debug/strace/6.8/src/xlat/getsock_options.h /usr/src/debug/strace/6.8/src/xlat/setsock_options.h /usr/src/debug/strace/6.8/tests/status-all.c /usr/src/debug/strace/6.8/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.8/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.8/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.8/tests/xchownx.c /usr/src/debug/strace/6.8/tests/dev-yy.c /usr/src/debug/strace/6.8/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.8/tests/io_uring_enter.c /usr/src/debug/strace/6.8/tests/process_mrelease.c /usr/src/debug/strace/6.8/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.8/tests/fcntl64.c /usr/src/debug/strace/6.8/tests/pause.c /usr/src/debug/strace/6.8/tests/fadvise64_64.c /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.8/src/xlat/gpio_v2_line_attr_ids.h
+  /usr/src/debug/strace/6.8/src/xlat/baud_options.h /usr/src/debug/strace/6.8/src/xlat/sock_options.h /usr/src/debug/strace/6.8/tests/fdatasync.c /usr/src/debug/strace/6.8/tests/inotify.c /usr/src/debug/strace/6.8/src/xlat/smc_decl_codes.h /usr/src/debug/strace/6.8/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.8/src/xlat/mmap_prot.h /usr/src/debug/strace/6.8/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.8/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.8/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.8/tests/prctl-no-args.c /usr/src/debug/strace/6.8/tests/open--secontext.c /usr/src/debug/strace/6.8/tests/umovestr_cached.c /usr/src/debug/strace/6.8/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.8/tests/pidfd_send_signal.c /usr/src/debug/strace/6.8/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/6.8/src/xlat/perf_sw_ids.h /usr/src/debug/strace/6.8/tests/skip_un
+ available.c /usr/src/debug/strace/6.8/src/xlat/evdev_leds.h /usr/src/debug/strace/6.8/tests/poll.c /usr/src/debug/strace/6.8/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.8/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.8/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.8/tests/pipe2.c /usr/src/debug/strace/6.8/tests/fsconfig.c /usr/src/debug/strace/6.8/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.8/tests/lseek.c /usr/src/debug/strace/6.8/tests/getresgid32.c /usr/src/debug/strace/6.8/tests/getresuid32.c /usr/src/debug/strace/6.8/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.8/tests/scm_pidfd-success.c /usr/src/debug/strace/6.8/tests/qual_fault.c /usr/src/debug/strace/6.8/tests/stack-fcall-3.c /usr/src/debug/strace/6.8/tests/fchmod--secontext.c /usr/src/debug/strace/6.8/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.8/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.8/src/xlat/bootflags2.h /usr/src/debug/strace/6.8/tests/printflags.c /usr/
+ src/debug/strace/6.8/tests/sysctl.c /usr/src/debug/strace/6.8/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/6.8/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.8/src/xlat/priorities.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.8/src/xlat/evdev_prop.h /usr/src/debug/strace/6.8/tests/mmsg.c /usr/src/debug/strace/6.8/tests/fallocate.c /usr/src/debug/strace/6.8/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/6.8/src/xlat/evdev_snd.h /usr/src/debug/strace/6.8/src/xlat/fan_event_flags.h /usr/src/debug/strace/6.8/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.8/tests/eventfd.c /usr/src/debug/strace/6.8/tests/netlink_selinux.c /usr/src/debug/strace/6.8/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.8/tests/modify_ldt.c /usr/src/debug/strace/6.8/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.8/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.8/tests/get_process_reaper.c /usr/src/debug/strace/6.8/tests/nla
+ ttr_unix_diag_msg.c /usr/src/debug/strace/6.8/tests/prctl-tsc.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/6.8/src/xlat/unshare_flags.h /usr/src/debug/strace/6.8/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/6.8/src/xlat/ipccalls.h /usr/src/debug/strace/6.8/src/xlat/usagewho.h /usr/src/debug/strace/6.8/src/xlat/v4l2_input_types.h /usr/src/debug/strace/6.8/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.8/tests/stack-fcall.h /usr/src/debug/strace/6.8/src/xlat/clocknames.h /usr/src/debug/strace/6.8/tests/stack-fcall.c /usr/src/debug/strace/6.8/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.8/tests/so_linger.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.8/tests/umovestr2.c /usr/src/debug/strace/6.8/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.8/tests/personality.c /usr/src/debug/strace/6.8/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/6.8/src/xlat/pr_unalign_
+ flags.h /usr/src/debug/strace/6.8/tests/clock_t_str.c /usr/src/debug/strace/6.8/tests/ioprio.c /usr/src/debug/strace/6.8/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/6.8/tests/s390_runtime_instr.c /usr/src/debug/strace/6.8/tests/nlattr_ifla.h /usr/src/debug/strace/6.8/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.8/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.8/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.8/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.8/tests/ioctl_fs_x.c /usr/src/debug/strace/6.8/src/xlat/modetypes.h /usr/src/debug/strace/6.8/src/xlat/socktypes.h /usr/src/debug/strace/6.8/tests/fsopen.c /usr/src/debug/strace/6.8/src/xlat/sg_io_info.h /usr/src/debug/strace/6.8/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.8/tests/seccomp-strict.c /usr/src/debug/strace/6.8/tests/dup.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.8/src/xlat/nt_
+ descriptor_types.h /usr/src/debug/strace/6.8/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.8/tests/ioctl_seccomp.c /usr/src/debug/strace/6.8/tests/error_msg.c /usr/src/debug/strace/6.8/src/xlat/personality_types.h /usr/src/debug/strace/6.8/tests/open.c /usr/src/debug/strace/6.8/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.8/tests/net-y-unix.c /usr/src/debug/strace/6.8/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/6.8/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.8/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.8/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.8/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.8/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.8/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.8/tests/kexec_load.c /usr/src/debug/strace/6.8/tests/mmsg_name.c /usr/src/debug/strace/6.8/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.8/tests/ioctl_fiemap.c /usr/src
+ /debug/strace/6.8/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.8/tests/prctl-spec-inject.c /usr/src/debug/strace/6.8/tests/accept.c /usr/src/debug/strace/6.8/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.8/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.8/tests/preadv.c /usr/src/debug/strace/6.8/tests/quotactl.c /usr/src/debug/strace/6.8/tests/quotactl.h /usr/src/debug/strace/6.8/tests/link.c /usr/src/debug/strace/6.8/tests/so_peerpidfd.c /usr/src/debug/strace/6.8/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.8/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.8/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.8/src/xlat/vsock_cids.h /usr/src/debug/strace/6.8/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.8/tests/open_tree.c /usr/src/debug/strace/6.8/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/6.8/src/xlat/rtnl_family.h /usr/src/debug/strace/6.8/tests/riscv_flush_icach
+ e.c /usr/src/debug/strace/6.8/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/6.8/tests/prctl-dumpable.c /usr/src/debug/strace/6.8/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.8/tests/faccessat2.c /usr/src/debug/strace/6.8/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.8/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/6.8/tests/ioctl.c /usr/src/debug/strace/6.8/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.8/src/xlat/xattrflags.h /usr/src/debug/strace/6.8/src/xlat/clockflags.h /usr/src/debug/strace/6.8/src/xlat/epollflags.h /usr/src/debug/strace/6.8/src/xlat/mmap_flags.h /usr/src/debug/strace/6.8/src/xlat/swap_flags.h /usr/src/debug/strace/6.8/src/xlat/uffd_flags.h /usr/src/debug/strace/6.8/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.8/tests/sched_get_priority_mxx.c /usr/src/debug/strace/6.8/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.8/src/xlat/fsmagic.h /usr/src/debug/strace/6.8/src/xlat/inet_diag_req_attrs.h /usr/src/debug/s
+ trace/6.8/tests/so_peercred.c /usr/src/debug/strace/6.8/tests/chown32.c /usr/src/debug/strace/6.8/src/xlat/sock_vsock_options.h /usr/src/debug/strace/6.8/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.8/src/xlat/ebpf_class.h /usr/src/debug/strace/6.8/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.8/tests/migrate_pages.c /usr/src/debug/strace/6.8/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.8/tests/detach-vfork.c /usr/src/debug/strace/6.8/tests/mlock.c /usr/src/debug/strace/6.8/tests/fchmodat2--secontext.c /usr/src/debug/strace/6.8/tests/status-unfinished-threads.c /usr/src/debug/strace/6.8/tests/shutdown.c /usr/src/debug/strace/6.8/src/xlat/sigchld_codes.h /usr/src/debug/strace/6.8/tests/waitpid.c /usr/src/debug/strace/6.8/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/6.8/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.8/tests/openat--secontext.c /usr/src/debug/strace/6.8/tests/printstrn-umoven-peek
+ data.c /usr/src/debug/strace/6.8/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.8/src/xlat/kcmp_types.h /usr/src/debug/strace/6.8/src/xlat/quotatypes.h /usr/src/debug/strace/6.8/tests/ioctl_watchdog.c /usr/src/debug/strace/6.8/tests/epoll_ctl.c /usr/src/debug/strace/6.8/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.8/tests/umoven-illptr.c /usr/src/debug/strace/6.8/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.8/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.8/tests/fspick.c /usr/src/debug/strace/6.8/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.8/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/6.8/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.8/src/xlat/lirc_features.h /usr/src/debug/strace/6.8/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.8/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.8/src/xlat/lsm_attrs.h /usr/src/debug/strace/6.8/src/xlat/statmount_mnt_propagation.h /usr/src/debug/strace/6.8/src/xlat/fan_init
+ _flags.h /usr/src/debug/strace/6.8/src/xlat/term_cmds_overlapping.h /usr/src/debug/strace/6.8/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.8/src/xlat/mremap_flags.h /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.8/src/xlat/statx_masks.h /usr/src/debug/strace/6.8/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.8/tests/siginfo.c /usr/src/debug/strace/6.8/tests/sock_filter-v.c /usr/src/debug/strace/6.8/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.8/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.8/tests/group_req.c /usr/src/debug/strace/6.8/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.8/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.8/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.8/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.8/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.8/tests/nlattr_netlink_diag_msg.c", added "/usr/src/debug/strace/6.9/tests/umount.c /usr/src/
+ debug/strace/6.9/tests/sockopt-timestamp.c /usr/src/debug/strace/6.9/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.9/tests/unlinkat.c /usr/src/debug/strace/6.9/tests/restart_syscall.c /usr/src/debug/strace/6.9/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.9/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.9/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.9/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/6.9/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.9/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.9/src/xlat/term_cflags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_root_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/6.9/tests/trie_test.c /usr/src/debug/strace/6.9/tests/ifindex.c /usr/src/debug/strace/6.9/src/xlat/scmvals.h /usr/src/debug/strace/6.9/src/xlat/f_seals.h /usr/src/debug/strace/6.9/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/6.9/src/xlat/sock_xdp_options.h /usr/src/debug
+ /strace/6.9/tests/quotactl-xfs.c /usr/src/debug/strace/6.9/tests/file_handle.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.9/tests/check_sigign.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.9/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.9/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.9/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.9/tests/munlockall.c /usr/src/debug/strace/6.9/src/xlat/bootflags2.h /usr/src/debug/strace/6.9/tests/unix-pair-send-recv.c /usr/src/debug/strace/6.9/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/6.9/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.9/src/xlat/fan_classes.h /usr/src/debug/strace/6.9/src/xlat/shm_flags.h /usr/src/debug/strace/6.9/src/xlat/xdp_flags.h /usr/src/debug/strace/6.9/src/xlat/msg_flags.h /usr/src/debug/
+ strace/6.9/src/xlat/bsg_flags.h /usr/src/debug/strace/6.9/src/xlat/efd_flags.h /usr/src/debug/strace/6.9/src/xlat/fs_xflags.h /usr/src/debug/strace/6.9/src/xlat/lsm_flags.h /usr/src/debug/strace/6.9/src/xlat/mdb_flags.h /usr/src/debug/strace/6.9/src/xlat/pollflags.h /usr/src/debug/strace/6.9/src/xlat/rwf_flags.h /usr/src/debug/strace/6.9/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/6.9/tests/iopl.c /usr/src/debug/strace/6.9/src/xlat/unshare_flags.h /usr/src/debug/strace/6.9/tests/qual_fault.c /usr/src/debug/strace/6.9/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.9/tests/waitpid.c /usr/src/debug/strace/6.9/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/6.9/src/xlat/mremap_flags.h /usr/src/debug/strace/6.9/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.9/tests/so_peerpidfd.c /usr/src/debug/strace/6.9/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.9/src/xlat/socketcalls.h /usr/src/debug/strace/6.9/src/xlat/term_oflags_nldly.h /usr/src/debug/stra
+ ce/6.9/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.9/tests/hexdump_strdup.c /usr/src/debug/strace/6.9/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.9/tests/uname.c /usr/src/debug/strace/6.9/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.9/src/xlat/bpf_rval.h /usr/src/debug/strace/6.9/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.9/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.9/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.9/tests/status.c /usr/src/debug/strace/6.9/src/xlat/term_iflags.h /usr/src/debug/strace/6.9/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/6.9/tests/xstatx.c /usr/src/debug/strace/6.9/tests/pwritev.c /usr/src/debug/strace/6.9/tests/fchdir.c /usr/src/debug/strace/6.9/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.9/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.9/tests/ioctl_evdev-success.c /usr/src/debug/strace/6.9/tests/rt_sigreturn.c /usr/src/
+ debug/strace/6.9/src/xlat/sock_raw_options.h /usr/src/debug/strace/6.9/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.9/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/6.9/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/6.9/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.9/tests/ioctl_seccomp.c /usr/src/debug/strace/6.9/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.9/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.9/tests/tkill.c /usr/src/debug/strace/6.9/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.9/src/xlat/statmount_sb_flags.h /usr/src/debug/strace/6.9/tests/netlink_crypto.c /usr/src/debug/strace/6.9/tests/clone_ptrace.c /usr/src/debug/strace/6.9/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.9/tests/fsopen.c /usr/src/debug/strace/6.9/tests/setugid.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.9/src/xlat/evdev_mtslots.h /usr/src/debug/st
+ race/6.9/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.9/tests/nlattr_cachereport.c /usr/src/debug/strace/6.9/src/xlat/bpf_stats_type.h /usr/src/debug/strace/6.9/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.9/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.9/tests/open--secontext.c /usr/src/debug/strace/6.9/tests/shutdown.c /usr/src/debug/strace/6.9/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/6.9/tests/ioperm.c /usr/src/debug/strace/6.9/tests/clock_t_str.c /usr/src/debug/strace/6.9/tests/netlink_sock_diag.c /usr/src/debug/strace/6.9/tests/sleep.c /usr/src/debug/strace/6.9/tests/stack-fcall-3.c /usr/src/debug/strace/6.9/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/6.9/tests/signal.c /usr/src/debug/strace/6.9/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.9/tests/status-failed.c /usr/src/debug/strace/6.9/tests/cachestat.c /usr/src/debug/strace/6.9/tests/stack-fcall-1.c /usr/src/debug/strace/6.9/tests/test_nlattr.h /usr/src/debug/strace/6.9/src/xl
+ at/tls_info_ciphers.h /usr/src/debug/strace/6.9/tests/init_delete_module.h /usr/src/debug/strace/6.9/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.9/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.9/src/xlat/sock_netlink_options.h /usr/src/debug/strace/6.9/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/6.9/tests/nsyscalls.c /usr/src/debug/strace/6.9/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.9/tests/uio.c /usr/src/debug/strace/6.9/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.9/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.9/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.9/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/6.9/src/xlat/ioprio_class.h /usr/src/debug/strace/6.9/tests/socketcall.c /usr/src/debug/strace/6.9/tests/fchmod--secontext.c /usr/src/debug/strace/6.9/tests/scm_pidfd-success.c /usr/src/debug/strace/6.9/tests/xgetrlimit.c /usr/src/debug/strace/6.9/src/xlat/ioprio_who.h /usr/src/debug/strace/6.9/tests/fchm
+ od.c /usr/src/debug/strace/6.9/src/xlat/term_lflags.h /usr/src/debug/strace/6.9/tests/int_0x80.c /usr/src/debug/strace/6.9/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.9/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.9/tests/ipc_msgbuf.c /usr/src/debug/strace/6.9/tests/so_error.c /usr/src/debug/strace/6.9/tests/sockname.c /usr/src/debug/strace/6.9/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.9/src/xlat/ipc_private.h /usr/src/debug/strace/6.9/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.9/tests/s390_guarded_storage.c /usr/src/debug/strace/6.9/src/xlat/numa_node.h /usr/src/debug/strace/6.9/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.9/tests/execve--secontext.c /usr/src/debug/strace/6.9/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/6.9/src/xlat/advise.h /usr/src/debug/strace/6.9/tests/process_madvise.c /usr/src/debug/strace/6.9/tests/ioctl_counter.c /usr/src/debug/strace/6.9/src/xlat/pr_tsc.h /usr/src/debug/strace/6.9/src/xlat/v4l2_streaming_capab
+ ilities.h /usr/src/debug/strace/6.9/tests/sched_xetaffinity.c /usr/src/debug/strace/6.9/tests/net-sockaddr.c /usr/src/debug/strace/6.9/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.9/tests/pkey_alloc.c /usr/src/debug/strace/6.9/tests/chroot.c /usr/src/debug/strace/6.9/tests/attach-p-cmd-p.c /usr/src/debug/strace/6.9/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.9/src/xlat/nl_crypto_types.h /usr/src/debug/strace/6.9/tests/ioctl_fiemap.c /usr/src/debug/strace/6.9/src/xlat/notifyflags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/6.9/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/6.9/src/xlat/pr_pac_keys.h /usr/src/debug/strace/6.9/tests/attach-f-p.c /usr/src/debug/strace/6.9/src/xlat/fdflags.h /usr/src/debug/strace/6.9/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.9/src/xlat/itimer_which.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.9/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.9/src/
+ xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.9/src/xlat/aio_cmds.h /usr/src/debug/strace/6.9/tests/redirect-fds.c /usr/src/debug/strace/6.9/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.9/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.9/tests/futex.c /usr/src/debug/strace/6.9/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/6.9/tests/filter_seccomp-perf.c /usr/src/debug/strace/6.9/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.9/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/6.9/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.9/tests/ppoll.c /usr/src/debug/strace/6.9/tests/btrfs.c /usr/src/debug/strace/6.9/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.9/src/xlat/pr_dumpable.h /usr/src/debug/strace/6.9/tests/kernel_version.c /usr/src/debug/strace/6.9/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.9/src/xlat/statmount_mnt_propagation.h /usr/src/debug/strace/6.9/tests/u
+ moven-illptr.c /usr/src/debug/strace/6.9/tests/prctl-tid_address.c /usr/src/debug/strace/6.9/tests/inject-nf.c /usr/src/debug/strace/6.9/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.9/tests/list_sigaction_signum.c /usr/src/debug/strace/6.9/tests/xattr-strings.c /usr/src/debug/strace/6.9/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.9/tests/prctl-mdwe.c /usr/src/debug/strace/6.9/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_family.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_root_flags.h /usr/src/debug/strace/6.9/tests/ioctl_perf.c /usr/src/debug/strace/6.9/tests/utime.c /usr/src/debug/strace/6.9/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.9/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.9/tests/zeroargc.c /usr/src/debug/strace/6.9/tests/sched_yield.c /usr/src/debug/strace/6.9/tests/fspick.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_shutdown_flags.h /usr/src/debug/strace/6.9/src/xlat/sock_rxrpc_options.h /usr/src/debug/
+ strace/6.9/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.9/tests/tail_alloc.c /usr/src/debug/strace/6.9/tests/net-packet_mreq.c /usr/src/debug/strace/6.9/tests/keyctl.c /usr/src/debug/strace/6.9/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.9/src/xlat/statmount_mask.h /usr/src/debug/strace/6.9/tests/nfnetlink_cthelper.c /usr/src/debug/strace/6.9/tests/ioctl_winsize.c /usr/src/debug/strace/6.9/src/xlat/key_perms.h /usr/src/debug/strace/6.9/tests/memfd_secret.c /usr/src/debug/strace/6.9/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.9/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.9/tests/sysctl.c /usr/src/debug/strace/6.9/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.9/tests/libsocketcall.c /usr/src/debug/strace/6.9/tests/prctl-tsc.c /usr/src/debug/strace/6.9/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.9/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.
+ 9/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.9/tests/set_sigign.c /usr/src/debug/strace/6.9/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/6.9/src/xlat/v4l2_input_types.h /usr/src/debug/strace/6.9/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/6.9/src/xlat/f_owner_types.h /usr/src/debug/strace/6.9/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.9/tests/flock.c /usr/src/debug/strace/6.9/src/xlat/pidfd_send_signal_flags.h /usr/src/debug/strace/6.9/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.9/tests/futex2_flags.h /usr/src/debug/strace/6.9/tests/ksysent.c /usr/src/debug/strace/6.9/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.9/tests/openat2.c /usr/src/debug/strace/6.9/tests/mlock.c /usr/src/debug/strace/6.9/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.9/tests/setfsugid.c /usr/src/debug/strace/6.9/tests/setreugid.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.9/src/xlat/sfd_flags.h /usr/src/debug/strace
+ /6.9/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.9/tests/epoll_create1.c /usr/src/debug/strace/6.9/src/xlat/access_modes.h /usr/src/debug/strace/6.9/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.9/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.9/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.9/src/xlat/statfs_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.9/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.9/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.9/tests/create_nl_socket.c /usr/src/debug/strace/6.9/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.9/src/xlat/bt_protocols.h /usr/src/debug/strace/6.9/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/6.9/tests/fork-f.c /usr/src/debug/strace/6.9/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.9/tests/attach-p-cmd.h /usr/src/debug/strace/6.9/tests/test_printstrn.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ip6mra_creport_attr.h /usr/s
+ rc/debug/strace/6.9/tests/pidns.c /usr/src/debug/strace/6.9/tests/pidns.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.9/tests/sigaction.c /usr/src/debug/strace/6.9/tests/sigreturn.c /usr/src/debug/strace/6.9/tests/status-none.c /usr/src/debug/strace/6.9/src/xlat/usagewho.h /usr/src/debug/strace/6.9/src/xlat/timerfdflags.h /usr/src/debug/strace/6.9/src/xlat/mq_attr_flags.h /usr/src/debug/strace/6.9/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.9/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.9/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.9/tests/renameat2.c /usr/src/debug/strace/6.9/src/xlat/madvise_hppa_generic_cmds.h /usr/src/debug/strace/6.9/src/xlat/futexbitset.h /usr/src/debug/strace/6.9/tests/openat.c /usr/src/debug/strace/6.9/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.9/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/6.9/tests/faccessat2.c /usr/src/debug/strace/6.9/src/xlat/uring_async_cancel_flags.h /usr/src/debug/strace/6
+ .9/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.9/tests/fadvise.h /usr/src/debug/strace/6.9/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.9/tests/access.c /usr/src/debug/strace/6.9/src/xlat/membarrier_cmds.h /usr/src/debug/strace/6.9/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.9/src/xlat/vsock_cids.h /usr/src/debug/strace/6.9/tests/net-yy-unix.c /usr/src/debug/strace/6.9/src/xlat/ptrace_events.h /usr/src/debug/strace/6.9/tests/fadvise64_64.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.9/tests/ioctl_loop.c /usr/src/debug/strace/6.9/tests/pipe2.c /usr/src/debug/strace/6.9/src/xlat/ubi_volume_props.h /usr/src/debug/strace/6.9/tests/dup2.c /usr/src/debug/strace/6.9/src/xlat/bpf_class.h /usr/src/debug/strace/6.9/tests/xselect.c /usr/src/debug/strace/6.9/src/xlat/fib_rule_flags.h /usr/src/debug/strace/6.9/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.9/tests/ioctl_nbd.c /usr/src/debug/strace/6.9/tests/ioctl
+ _mtd.c /usr/src/debug/strace/6.9/src/xlat/delete_module_flags.h /usr/src/debug/strace/6.9/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.9/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.9/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.9/tests/mmap.c /usr/src/debug/strace/6.9/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.9/src/xlat/kcmp_types.h /usr/src/debug/strace/6.9/src/xlat/quotatypes.h /usr/src/debug/strace/6.9/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.9/src/xlat/term_cmds_overlapping.h /usr/src/debug/strace/6.9/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.9/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.9/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.9/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.9/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.9/tests/lseek.c /usr/src/debug/strace/6.9/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.9/
+ tests/pselect6-common.c /usr/src/debug/strace/6.9/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/6.9/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.9/tests/semtimedop-syscall.c /usr/src/debug/strace/6.9/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/6.9/tests/seccomp-strict.c /usr/src/debug/strace/6.9/src/xlat/fan_init_flags.h /usr/src/debug/strace/6.9/tests/threads-execve.c /usr/src/debug/strace/6.9/tests/process_mrelease.c /usr/src/debug/strace/6.9/tests/pidns-cache.c /usr/src/debug/strace/6.9/tests/count-f.c /usr/src/debug/strace/6.9/tests/readdir.c /usr/src/debug/strace/6.9/tests/recvmsg.c /usr/src/debug/strace/6.9/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.9/src/xlat/close_range_flags.h /usr/src/debug/strace/6.9/tests/status-none-f.c /usr/src/debug/strace/6.9/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.9/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.9/tests/ioctl_lirc.c /usr/src/debug/strace/6.9/src/xlat/fspick_flags.h /usr/src/debug/strace/6.9/s
+ rc/xlat/madvise_cmds.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.9/tests/ustat.c /usr/src/debug/strace/6.9/tests/inotify_init.c /usr/src/debug/strace/6.9/tests/setdomainname.c /usr/src/debug/strace/6.9/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.9/tests/xet_thread_area_x86.c /usr/src/debug/strace/6.9/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.9/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.9/tests/orphaned_process_group.c /usr/src/debug/strace/6.9/tests/clock_xettime-common.c /usr/src/debug/strace/6.9/tests/inotify.c /usr/src/debug/strace/6.9/tests/mknodat.c /usr/src/debug/strace/6.9/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.9/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/6.9/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.9/tests/s390_sthyi.c /usr/src/debug/strace/6.9/tests/epoll_wait.c /usr/src/debug/strace/6.9/src/xlat/
+ smc_diag_mode.h /usr/src/debug/strace/6.9/src/xlat/move_pages_flags.h /usr/src/debug/strace/6.9/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.9/src/xlat/sg_io_info.h /usr/src/debug/strace/6.9/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/6.9/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.9/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.9/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.9/tests/inet-cmsg.c /usr/src/debug/strace/6.9/src/xlat/v4l2_input_status_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.9/tests/prctl-capbset.c /usr/src/debug/strace/6.9/src/xlat/hci_channels.h /usr/src/debug/strace/6.9/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.9/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.9/tests/fstatat64.c /usr/src/debug/strace/6.9/tests/fstatfs64.c /usr/src/debug/strace/6.9/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/6.9/tests/symlinkat.c /usr/src/debug/strace/6.9/tests/filter_secc
+ omp-flag.c /usr/src/debug/strace/6.9/tests/getcpu.c /usr/src/debug/strace/6.9/src/xlat/evdev_prop.h /usr/src/debug/strace/6.9/tests/umovestr.c /usr/src/debug/strace/6.9/src/xlat/mctp_nets.h /usr/src/debug/strace/6.9/tests/printxval.c /usr/src/debug/strace/6.9/tests/fsync.c /usr/src/debug/strace/6.9/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.9/tests/getgroups32.c /usr/src/debug/strace/6.9/src/xlat/cap_mask1.h /usr/src/debug/strace/6.9/tests/quotactl.c /usr/src/debug/strace/6.9/tests/dup.c /usr/src/debug/strace/6.9/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.9/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/6.9/tests/quotactl.h /usr/src/debug/strace/6.9/tests/lsm_get_self_attr.c /usr/src/debug/strace/6.9/tests/lsm_set_self_attr.c /usr/src/debug/strace/6.9/tests/status-detached-threads.c /usr/src/debug/strace/6.9/src/xlat/mdb_states.h /usr/src/debug/strace/6.9/src/xlat/smc_states.h /usr/src/debug/strace/6.9/src/xlat/tcp_states.h /usr/src/debug/strace/6.9/tests/fanoti
+ fy_mark--secontext.c /usr/src/debug/strace/6.9/src/xlat/schedulers.h /usr/src/debug/strace/6.9/tests/xet_robust_list.c /usr/src/debug/strace/6.9/tests/fflush.c /usr/src/debug/strace/6.9/tests/setgroups.c /usr/src/debug/strace/6.9/tests/setns.c /usr/src/debug/strace/6.9/tests/brk.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.9/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.9/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.9/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.9/src/xlat/perf_type_id.h /usr/src/debug/strace/6.9/tests/ioctl_gpio.c /usr/src/debug/strace/6.9/tests/ioctl_hdio.c /usr/src/debug/strace/6.9/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.9/tests/netlink_xfrm.c /usr/src/debug/strace/6.9/tests/oldstat.c /usr/src/debug/strace/6.9/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.9/tests/vhangup.c /usr/src/debug/strace/6.9/tests/acct.c /usr/src/debug/strace/6.9/src/xlat/smc_decl_codes.h /usr/src/d
+ ebug/strace/6.9/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.9/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.9/tests/time_enjoyment.h /usr/src/debug/strace/6.9/tests/prctl-sme.c /usr/src/debug/strace/6.9/tests/prctl-sve.c /usr/src/debug/strace/6.9/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.9/tests/status-none-threads.c /usr/src/debug/strace/6.9/tests/fsconfig.c /usr/src/debug/strace/6.9/src/xlat/baud_options.h /usr/src/debug/strace/6.9/src/xlat/sock_options.h /usr/src/debug/strace/6.9/src/xlat/tun_device_types.h /usr/src/debug/strace/6.9/src/xlat/mmap_prot.h /usr/src/debug/strace/6.9/tests/ioctl_rtc.c /usr/src/debug/strace/6.9/tests/nlattr_ifla.h /usr/src/debug/strace/6.9/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.9/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.9/tests/dup3.c /usr/src/debug/strace/6.9/tests/madvise.c /usr/src/debug/strace/6.9/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.9/tests/printsignal.c /usr/src/debug
+ /strace/6.9/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.9/tests/fallocate.c /usr/src/debug/strace/6.9/src/xlat/modetypes.h /usr/src/debug/strace/6.9/src/xlat/socktypes.h /usr/src/debug/strace/6.9/tests/finit_module.c /usr/src/debug/strace/6.9/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.9/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.9/tests/execve.c /usr/src/debug/strace/6.9/tests/rename.c /usr/src/debug/strace/6.9/tests/xetitimer.c /usr/src/debug/strace/6.9/tests/ptrace.c /usr/src/debug/strace/6.9/tests/modify_ldt.c /usr/src/debug/strace/6.9/tests/answer.c /usr/src/debug/strace/6.9/src/xlat/af_packet_types.h /usr/src/debug/strace/6.9/src/xlat/can_protocols.h /usr/src/debug/strace/6.9/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.9/src/xlat/nfc_protocols.h /usr/src/debug/strace/6.9/src/xlat/smc_protocols.h /usr/src/debug/strace/6.9/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.9/tests/net-tpacket_req.c /usr/src/debug/strace/6.9/src/xlat/smc_link_group_rol
+ es.h /usr/src/debug/strace/6.9/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.9/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/6.9/tests/printflags.c /usr/src/debug/strace/6.9/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/6.9/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.9/tests/ioprio.c /usr/src/debug/strace/6.9/tests/sock_filter-v.c /usr/src/debug/strace/6.9/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.9/tests/getuid.c /usr/src/debug/strace/6.9/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.9/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.9/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.9/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.9/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/6.9/tests/truncate.c /usr/src/debug/strace/6.9/tests/signal_receive.c /usr/src/debug/strace/6.9/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.9/tests/fanotify_mark.c /usr/src/debug/
+ strace/6.9/tests/move_mount.c /usr/src/debug/strace/6.9/tests/check_sigblock.c /usr/src/debug/strace/6.9/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/6.9/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.9/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.9/src/xlat/resource_flags.h /usr/src/debug/strace/6.9/tests/copy_file_range.c /usr/src/debug/strace/6.9/tests/pselect6_time64.c /usr/src/debug/strace/6.9/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.9/tests/swap.c /usr/src/debug/strace/6.9/tests/nanosleep.c /usr/src/debug/strace/6.9/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/6.9/src/xlat/faccessat_flags.h /usr/src/debug/strace/6.9/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.9/tests/setresgid32.c /usr/src/debug/strace/6.9/tests/setresuid32.c /usr/src/debug/strace/6.9/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.9/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.9/tests/setpgrp-exec.c /usr/src/debug/strace/6.9/tests/
+ close_range.c /usr/src/debug/strace/6.9/src/xlat/evdev_ev.h /usr/src/debug/strace/6.9/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/6.9/tests/netlink_audit.c /usr/src/debug/strace/6.9/src/xlat/landlock_ruleset_access_net.h /usr/src/debug/strace/6.9/tests/quotactl_fd.c /usr/src/debug/strace/6.9/tests/get_process_reaper.c /usr/src/debug/strace/6.9/src/xlat/nfc_saps.h /usr/src/debug/strace/6.9/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/6.9/src/xlat/personality_types.h /usr/src/debug/strace/6.9/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/6.9/tests/fcntl.c /usr/src/debug/strace/6.9/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.9/tests/clone-flags.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.9/src/xlat/lirc_modes.h /usr/s
+ rc/debug/strace/6.9/src/xlat/mpol_modes.h /usr/src/debug/strace/6.9/tests/ioctl_inotify.c /usr/src/debug/strace/6.9/tests/preadv-pwritev.c /usr/src/debug/strace/6.9/tests/fsmount.c /usr/src/debug/strace/6.9/tests/fstat64.c /usr/src/debug/strace/6.9/tests/fsync-y.c /usr/src/debug/strace/6.9/tests/waitid.c /usr/src/debug/strace/6.9/tests/prctl_marker.c /usr/src/debug/strace/6.9/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.9/tests/fanotify_init.c /usr/src/debug/strace/6.9/tests/getpid.c /usr/src/debug/strace/6.9/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.9/tests/osf_utimes.c /usr/src/debug/strace/6.9/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.9/tests/readlink.c /usr/src/debug/strace/6.9/tests/recvfrom.c /usr/src/debug/strace/6.9/tests/renameat.c /usr/src/debug/strace/6.9/tests/tee.c /usr/src/debug/strace/6.9/src/xlat/uffd_poison_mode_flags.h /usr/src/debug/strace/6.9/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.9/tests/setrlimit.c /usr/src/debug/st
+ race/6.9/tests/xetpgid.c /usr/src/debug/strace/6.9/tests/secontext.h /usr/src/debug/strace/6.9/tests/set_sigblock.c /usr/src/debug/strace/6.9/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.9/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.9/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.9/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.9/tests/setresugid.c /usr/src/debug/strace/6.9/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.9/src/xlat/uffd_writeprotect_mode_flags.h /usr/src/debug/strace/6.9/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.9/tests/skip_unavailable.c /usr/src/debug/strace/6.9/tests/xgetdents.c /usr/src/debug/strace/6.9/tests/clock_adjtime64.c /usr/src/debug/strace/6.9/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.9/src/xlat/uring_setup_features.h /usr/src/debug/strace/6.9/tests/xstatfsx.c /usr/src/debug/strace/6.9/tests/dev-pty-yy.c /usr/src/debug/strace/6.9/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.9/test
+ s/ftruncate.c /usr/src/debug/strace/6.9/src/xlat/netlink_states.h /usr/src/debug/strace/6.9/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.9/src/xlat/inotify_flags.h /usr/src/debug/strace/6.9/tests/migrate_pages.c /usr/src/debug/strace/6.9/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.9/src/xlat/semctl_flags.h /usr/src/debug/strace/6.9/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.9/src/xlat/sigill_codes.h /usr/src/debug/strace/6.9/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.9/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.9/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.9/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.9/tests/msg_control.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.9/tests/mmsg-silent.c /usr/src/debug/strace/6.9/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.9/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.9/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_af_spec_bri
+ dge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.9/tests/bpf.c /usr/src/debug/strace/6.9/tests/print_maxfd.c /usr/src/debug/strace/6.9/tests/signal2name.c /usr/src/debug/strace/6.9/tests/aio.c /usr/src/debug/strace/6.9/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/6.9/src/xlat/tcp_ao_keyf_flags.h /usr/src/debug/strace/6.9/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/6.9/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/6.9/tests/symlink.c /usr/src/debug/strace/6.9/tests/sysinfo.c /usr/src/debug/strace/6.9/tests/net-yy-netlink.c /usr/src/debug/strace/6.9/src/xlat/listmount_mnt_id.h /usr/src/debug/strace/6.9/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.9/tests/ip_mreq.c /usr/src/debug/strace/6.9/tests/ipc_msg.c /usr/src/debug/strace/6.9/tests/ipc_sem.c /usr/src/debug/strace/6.9/tests/ipc_shm.c /usr/src/debug/strace/6.9/tests/execveat--secontext.c /usr/src/debug/strace/6.9/tests/ioctl_ptp.c /usr/src/debug/strace/6.9/tests/ip_protocol.c /usr/src/deb
+ ug/strace/6.9/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.9/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.9/tests/ioctl_sock.c /usr/src/debug/strace/6.9/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.9/src/xlat/secbits.h /usr/src/debug/strace/6.9/tests/poll.c /usr/src/debug/strace/6.9/tests/strace--syscall-limit.c /usr/src/debug/strace/6.9/tests/lsm_list_modules.c /usr/src/debug/strace/6.9/tests/rt_sigprocmask.c /usr/src/debug/strace/6.9/tests/open_tree.c /usr/src/debug/strace/6.9/src/xlat/cap.h /usr/src/debug/strace/6.9/tests/llseek.c /usr/src/debug/strace/6.9/tests/netlink_unix_diag.c /usr/src/debug/strace/6.9/tests/semop.c /usr/src/debug/strace/6.9/tests/seccomp-filter.c /usr/src/debug/strace/6.9/tests/net-tpacket_stats.c /usr/src/debug/strace/6.9/tests/get_mempolicy.c /usr/src/debug/strace/6.9/tests/sched_xetparam.c /usr/src/debug/strace/6.9/src/xlat/nl_route_types.h /usr/src/debug/strace/6.9/tests/pkey_free.c /usr/src/debug/strace/6.9/tests/prctl-dumpable
+ .c /usr/src/debug/strace/6.9/src/xlat/rxrpc_services.h /usr/src/debug/strace/6.9/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.9/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/6.9/tests/kill_child.c /usr/src/debug/strace/6.9/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.9/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.9/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.9/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.9/tests/sched_get_priority_mxx.c /usr/src/debug/strace/6.9/tests/truncate64.c /usr/src/debug/strace/6.9/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.9/src/xlat/key_spec.h /usr/src/debug/strace/6.9/src/xlat/priorities.h /usr/src/debug/strace/6.9/tests/net-accept-connect.c /usr/src/debug/strace/6.9/tests/pipe.c /usr/src/debug/strace/6.9/tests/chmod.c /usr/src/debug/strace/6.9/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.9/tests/pc.c /usr/src/debug/strace/6.9/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/str
+ ace/6.9/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.9/tests/membarrier.c /usr/src/debug/strace/6.9/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/6.9/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.9/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/6.9/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.9/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.9/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.9/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.9/tests/landlock_restrict_self.c /usr/src/debug/strace/6.9/src/xlat/uffd_continue_mode_flags.h /usr/src/debug/strace/6.9/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.9/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.9/tests/xettimeofday.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/6.9/src/xlat/sigchld_codes.h /usr/src/debug/strace/6.9/tests/statmount.c /usr/src/debug/strace/6.9/tests/so_linger.c /usr/src/de
+ bug/strace/6.9/tests/getdents.c /usr/src/debug/strace/6.9/tests/getgid32.c /usr/src/debug/strace/6.9/tests/getuid32.c /usr/src/debug/strace/6.9/tests/fcntl-common.c /usr/src/debug/strace/6.9/tests/detach-vfork.c /usr/src/debug/strace/6.9/tests/nlattr_ifstats.c /usr/src/debug/strace/6.9/tests/ip_local_port_range.c /usr/src/debug/strace/6.9/tests/semtimedop-ipc.c /usr/src/debug/strace/6.9/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.9/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.9/src/xlat/mctl_sync.h /usr/src/debug/strace/6.9/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.9/tests/ioctl_perf-success.c /usr/src/debug/strace/6.9/tests/semop-indirect.c /usr/src/debug/strace/6.9/tests/umovestr_cached.c /usr/src/debug/strace/6.9/tests/clock_adjtime-common.c /usr/src/debug/strace/6.9/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.9/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6.9/tests/unlink.c /usr/src/debug/strace/6.9/tests/status-unfinished-threads.
+ c /usr/src/debug/strace/6.9/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.9/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.9/tests/epoll_ctl.c /usr/src/debug/strace/6.9/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.9/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.9/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.9/tests/chown32.c /usr/src/debug/strace/6.9/tests/getppid.c /usr/src/debug/strace/6.9/tests/getxgid.c /usr/src/debug/strace/6.9/tests/getxpid.c /usr/src/debug/strace/6.9/tests/getxuid.c /usr/src/debug/strace/6.9/tests/getegid.c /usr/src/debug/strace/6.9/tests/geteuid.c /usr/src/debug/strace/6.9/tests/getpgrp.c /usr/src/debug/strace/6.9/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.9/tests/ipc.c /usr/src/debug/strace/6.9/tests/net-icmp_filter.c /usr/src/debug/strace/6.9/src/xlat/kd_key_types.h /usr/src/debug/strace/6.9/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.9/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/6.9/src/xlat/v4l2_framein
+ terval_types.h /usr/src/debug/strace/6.9/tests/faccessat.c /usr/src/debug/strace/6.9/tests/netlink_inet_diag.c /usr/src/debug/strace/6.9/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.9/tests/create_tmpfile.c /usr/src/debug/strace/6.9/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.9/tests/lookup_dcookie.c /usr/src/debug/strace/6.9/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/6.9/tests/status-unfinished.c /usr/src/debug/strace/6.9/tests/getcwd.c /usr/src/debug/strace/6.9/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.9/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.9/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.9/tests/old_mmap.c /usr/src/debug/strace/6.9/tests/oldfstat.c /usr/src/debug/strace/6.9/tests/oldlstat.c /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.9/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.9/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.9/src/xlat/v4l2_control_flags.h /usr/src/de
+ bug/strace/6.9/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.9/tests/clock_nanosleep.c /usr/src/debug/strace/6.9/tests/kernel_old_timespec.h /usr/src/debug/strace/6.9/tests/ioctl_evdev.c /usr/src/debug/strace/6.9/src/xlat/routing_scopes.h /usr/src/debug/strace/6.9/src/xlat/rename_flags.h /usr/src/debug/strace/6.9/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.9/src/xlat/splice_flags.h /usr/src/debug/strace/6.9/src/xlat/whence_codes.h /usr/src/debug/strace/6.9/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.9/tests/statx.c /usr/src/debug/strace/6.9/tests/mlockall.c /usr/src/debug/strace/6.9/src/xlat/personality_flags.h /usr/src/debug/strace/6.9/tests/fchmodat2.c /usr/src/debug/strace/6.9/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.9/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.9/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.9/src/xlat/term_cflags_csize.h /usr/src/debug/strace/6.9/tests/faccessat--secontext.c /usr/src/debug/str
+ ace/6.9/tests/pause.c /usr/src/debug/strace/6.9/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.9/tests/pipe_maxfd.c /usr/src/debug/strace/6.9/tests/rt_sigpending.c /usr/src/debug/strace/6.9/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.9/src/xlat/getsock_options.h /usr/src/debug/strace/6.9/src/xlat/setsock_options.h /usr/src/debug/strace/6.9/tests/_newselect.c /usr/src/debug/strace/6.9/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.9/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.9/tests/sethostname.c /usr/src/debug/strace/6.9/tests/setgroups32.c /usr/src/debug/strace/6.9/tests/tcp_ao.c /usr/src/debug/strace/6.9/src/xlat/v4l2_input_capabilities_flags.h /usr/src/debug/strace/6.9/tests/ioctl_scsi.c /usr/src/debug/strace/6.9/tests/clock_xettime64.c /usr/src/debug/strace/6.9/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.9/tests/lchown32.c /usr/src/debug/strace/6.9/src/xlat/ptrace_cmds.h /usr/src/debug/str
+ ace/6.9/tests/sigsuspend.c /usr/src/debug/strace/6.9/tests/lstat64.c /usr/src/debug/strace/6.9/tests/move_pages.c /usr/src/debug/strace/6.9/tests/semtimedop_time64.c /usr/src/debug/strace/6.9/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/6.9/tests/sync_file_range.c /usr/src/debug/strace/6.9/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.9/tests/sxetmask.c /usr/src/debug/strace/6.9/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.9/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.9/tests/error_msg.c /usr/src/debug/strace/6.9/tests/mincore.c /usr/src/debug/strace/6.9/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.9/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.9/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.9/tests/fork--pidns-translation.c /usr/src/debug/strace/6.9/tests/set_mempolicy.c /usr/src/debug/strace/6.9/tests/fadvise64.c /usr/src/debug/strace/6.9/tests/ioctl_sock_gifconf.c /usr/src
+ /debug/strace/6.9/src/xlat/ebpf_class.h /usr/src/debug/strace/6.9/tests/times-fail.c /usr/src/debug/strace/6.9/tests/s390_runtime_instr.c /usr/src/debug/strace/6.9/src/xlat/term_oflags.h /usr/src/debug/strace/6.9/tests/ioctl_watchdog.c /usr/src/debug/strace/6.9/tests/so_peercred.c /usr/src/debug/strace/6.9/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.9/tests/test_ucopy.h /usr/src/debug/strace/6.9/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/6.9/tests/futex_wait.c /usr/src/debug/strace/6.9/tests/test_ucopy.c /usr/src/debug/strace/6.9/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.9/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.9/tests/getresugid.c /usr/src/debug/strace/6.9/tests/caps.c /usr/src/debug/strace/6.9/tests/ioctl_v4l2.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.9/tests/openat--secontext.c /usr/src/debug/strace/6.9/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.9/tests/sockaddr_xlat.c /usr/src/debug/strace/6.
+ 9/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/6.9/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.9/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.9/src/xlat/futexops.h /usr/src/debug/strace/6.9/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.9/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.9/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.9/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/6.9/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/6.9/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/6.9/src/xlat/evdev_switch.h /usr/src/debug/strace/6.9/src/xlat/ebpf_size.h /usr/src/debug/strace/6.9/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.9/tests/epoll_pwait.c /usr/src/debug/strace/6.9/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.9/tests/rmdir.c /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.9/src/xlat/perf_event_open_flags.h 
+ /usr/src/debug/strace/6.9/src/xlat/routing_flags.h /usr/src/debug/strace/6.9/src/xlat/routing_types.h /usr/src/debug/strace/6.9/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.9/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.9/tests/memfd_create.c /usr/src/debug/strace/6.9/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.9/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.9/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.9/tests/printstr.c /usr/src/debug/strace/6.9/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.9/tests/ioctl_block.c /usr/src/debug/strace/6.9/tests/listmount.c /usr/src/debug/strace/6.9/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.9/tests/vfork-f.c /usr/src/debug/strace/6.9/tests/ioctl_tiocm.c /usr/src/debug/strace/6.9/src/xlat/open_access_modes.h /usr/src/debug/strace/6.9/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/6.9/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.9/src/xlat/evdev_ff_types.h /usr/src/debug/
+ strace/6.9/tests/getrandom.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.9/tests/libmmsg.c /usr/src/debug/strace/6.9/src/xlat/prctl_options.h /usr/src/debug/strace/6.9/src/xlat/wait4_options.h /usr/src/debug/strace/6.9/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.9/tests/getsockname--secontext.c /usr/src/debug/strace/6.9/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.9/tests/getrusage.c /usr/src/debug/strace/6.9/tests/net-yy-inet.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.9/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.9/tests/gettid.c /usr/src/debug/strace/6.9/tests/link.c /usr/src/debug/strace/6.9/tests/request_key.c /usr/src/debug/strace/6.9/tests/run_expect_termsig.c /usr/src/debug/strace/6.9/src/xlat/at_flags.h /usr/src/debug/strace/6.9/src/xlat/dm_flags.h /usr/src/debug/strace
+ /6.9/src/xlat/iffflags.h /usr/src/debug/strace/6.9/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/6.9/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.9/tests/print_quoted_string.c /usr/src/debug/strace/6.9/tests/get_page_size.c /usr/src/debug/strace/6.9/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.9/src/xlat/evdev_misc.h /usr/src/debug/strace/6.9/tests/clone3.c /usr/src/debug/strace/6.9/tests/umask.c /usr/src/debug/strace/6.9/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.9/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.9/tests/semtimedop-common.c /usr/src/debug/strace/6.9/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.9/tests/futex_requeue.c /usr/src/debug/strace/6.9/src/xlat/rtc_params.h /usr/src/debug/strace/6.9/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.9/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.9/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.9/src/xlat/uring_ops.h /usr/src/debug/strace/6.9/s
+ rc/xlat/sigev_value.h /usr/src/debug/strace/6.9/src/xlat/epollevents.h /usr/src/debug/strace/6.9/tests/mq_sendrecv.c /usr/src/debug/strace/6.9/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/6.9/tests/sync.c /usr/src/debug/strace/6.9/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/6.9/src/xlat/futex2_flags.h /usr/src/debug/strace/6.9/src/xlat/futex2_sizes.h /usr/src/debug/strace/6.9/tests/prctl-set_vma.c /usr/src/debug/strace/6.9/tests/scm_rights.c /usr/src/debug/strace/6.9/tests/kernel_old_timex.h /usr/src/debug/strace/6.9/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.9/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.9/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/6.9/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/6.9/tests/access--secontext.c /usr/src/debug/strace/6.9/tests/wait4.c /usr/src/debug/strace/6.9/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.9/tests/ioctl_tee.c /usr/src/debug/strace/6.9/src/xlat/ax25_protocols.h /usr/src/debug/strace/6
+ .9/src/xlat/caif_protocols.h /usr/src/debug/strace/6.9/src/xlat/inet_protocols.h /usr/src/debug/strace/6.9/src/xlat/irda_protocols.h /usr/src/debug/strace/6.9/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.9/tests/timer_create.c /usr/src/debug/strace/6.9/tests/strace-p1-Y-p.c /usr/src/debug/strace/6.9/tests/tprintf.c /usr/src/debug/strace/6.9/tests/pidfd_open.c /usr/src/debug/strace/6.9/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.9/tests/fchmodat--secontext.c /usr/src/debug/strace/6.9/tests/fchownat--secontext.c /usr/src/debug/strace/6.9/tests/delay.c /usr/src/debug/strace/6.9/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.9/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.9/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.9/tests/status-successful-threads.c /usr/src/debug/strace/6.9/tests/execveat.c /usr/src/debug/strace/6.9/tests/getpeername.c /usr/src/debug/strace/6.9/tests/getsockname.c /usr/src/debug/stra
+ ce/6.9/tests/chdir.c /usr/src/debug/strace/6.9/tests/ioctl_ubi.c /usr/src/debug/strace/6.9/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.9/tests/timerfd_xettime.c /usr/src/debug/strace/6.9/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.9/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.9/src/xlat/audit_arch.h /usr/src/debug/strace/6.9/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.9/tests/xattr.c /usr/src/debug/strace/6.9/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.9/tests/semop-common.c /usr/src/debug/strace/6.9/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.9/tests/nfnetlink_acct.c /usr/src/debug/strace/6.9/tests/umovestr2.c /usr/src/debug/strace/6.9/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.9/tests/status-all.c /usr/src/debug/strace/6.9/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.9/tests/getdents64.c /usr/src/debug/strace/6.9/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.9/tests/nlattr_inet_diag_req_compat.c 
+ /usr/src/debug/strace/6.9/tests/prctl-fp-mode.c /usr/src/debug/strace/6.9/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.9/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.9/src/xlat/bpf_mode.h /usr/src/debug/strace/6.9/src/xlat/fan_event_flags.h /usr/src/debug/strace/6.9/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.9/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/6.9/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.9/tests/prlimit64.c /usr/src/debug/strace/6.9/src/xlat/xattrflags.h /usr/src/debug/strace/6.9/src/xlat/clockflags.h /usr/src/debug/strace/6.9/tests/read-write.c /usr/src/debug/strace/6.9/tests/qual_signal.c /usr/src/debug/strace/6.9/src/xlat/epollflags.h /usr/src/debug/strace/6.9/src/xlat/mmap_flags.h /usr/src/debug/strace/6.9/src/xlat/swap_flags.h /usr/src/debug/strace/6.9/src/xlat/uffd_flags.h /usr/src/debug/strace/6.9/tests/kcmp.c /usr/src/debug/strace/6.9/tests/unblock_reset_raise.c /usr/src/debug/strace/6.9/tests/get_sigset_si
+ ze.c /usr/src/debug/strace/6.9/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.9/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.9/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.9/src/xlat/bpf_file_flags.h /usr/src/debug/strace/6.9/src/xlat/epollctls.h /usr/src/debug/strace/6.9/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.9/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.9/src/xlat/socketlayers.h /usr/src/debug/strace/6.9/tests/status-successful.c /usr/src/debug/strace/6.9/src/xlat/clone3_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.9/tests/mbind.c /usr/src/debug/strace/6.9/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/6.9/tests/xchownx.c /usr/src/debug/strace/6.9/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.9/tests/block_reset_raise_run.c /usr/src/debug/strace/6.9/tests/linkat--secontext.c /usr/src/debug/strace/6.9/src/xlat/futexwakeops.h /usr/src/debug/strace/6.9/tests/io_uring_register.c /usr/src/debug/stra
+ ce/6.9/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.9/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.9/src/xlat/mtd_flags_options.h /usr/src/debug/strace/6.9/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/6.9/tests/getsid.c /usr/src/debug/strace/6.9/tests/pkey_mprotect.c /usr/src/debug/strace/6.9/src/xlat/statx_attrs.h /usr/src/debug/strace/6.9/src/xlat/cap_version.h /usr/src/debug/strace/6.9/src/xlat/quota_formats.h /usr/src/debug/strace/6.9/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.9/tests/syslog.c /usr/src/debug/strace/6.9/tests/getegid32.c /usr/src/debug/strace/6.9/tests/geteuid32.c /usr/src/debug/strace/6.9/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.9/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.9/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/6.9/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.9/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.9/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.9/src/xlat/kd_key_dead_keys.h
+  /usr/src/debug/strace/6.9/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/6.9/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.9/tests/pread64-pwrite64.c /usr/src/debug/strace/6.9/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.9/tests/tampering-notes.c /usr/src/debug/strace/6.9/tests/oldselect.c /usr/src/debug/strace/6.9/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/6.9/tests/futex_wake.c /usr/src/debug/strace/6.9/tests/strace--always-show-pid.c /usr/src/debug/strace/6.9/tests/chmod--secontext.c /usr/src/debug/strace/6.9/tests/remap_file_pages.c /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.9/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.9/src/xlat/uring_register_opcode_flags.h /usr/src/debug/strace/6.9/src/xlat/rtc_features.h /usr/src/debug/strace/6.9/tests/ioctl_termios.c /usr/src/debug/strace/6.9/src/xlat/netlink_flags.h /usr/src/debug/strace/6.9/src/xlat/netlink_types.h /usr/src/debug/strace/6.9/src/xlat/btrfs_dev_rep
+ lace_results.h /usr/src/debug/strace/6.9/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.9/tests/netlink_generic.c /usr/src/debug/strace/6.9/tests/is_linux_mips_n64.c /usr/src/debug/strace/6.9/tests/getresgid32.c /usr/src/debug/strace/6.9/tests/getresuid32.c /usr/src/debug/strace/6.9/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.9/src/xlat/bpf_src.h /usr/src/debug/strace/6.9/tests/readlinkat.c /usr/src/debug/strace/6.9/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.9/tests/alarm.c /usr/src/debug/strace/6.9/tests/block_reset_run.c /usr/src/debug/strace/6.9/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.9/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.9/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/6.9/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/6.9/tests/perf_event_open.c /usr/src/debug/strace/6.9/src/xlat/bpf_
+ map_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.9/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.9/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/6.9/src/xlat/kvm_cap.h /usr/src/debug/strace/6.9/tests/prctl-name.c /usr/src/debug/strace/6.9/tests/print_time.c /usr/src/debug/strace/6.9/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.9/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.9/tests/preadv.c /usr/src/debug/strace/6.9/src/xlat/arp_hardware_types.h /usr/src/debug/strace/6.9/tests/add_key.c /usr/src/debug/strace/6.9/tests/mmsg.c /usr/src/debug/strace/6.9/tests/timer_xettime.c /usr/src/debug/strace/6.9/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.9/tests/riscv_flush_icache.c /usr/src/debug/strace/6.9/tests/looping_threads.c /usr/src/debug/strace/6.9/tests/readahead.c /usr/src/debug/strace/6.9/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.9/src/xlat/btrfs
+ _dev_stats_flags.h /usr/src/debug/strace/6.9/tests/arch_prctl.c /usr/src/debug/strace/6.9/tests/open.c /usr/src/debug/strace/6.9/tests/fill_memory.c /usr/src/debug/strace/6.9/tests/mlock2.c /usr/src/debug/strace/6.9/tests/prctl-spec-inject.c /usr/src/debug/strace/6.9/tests/umode_t.c /usr/src/debug/strace/6.9/tests/umount2.c /usr/src/debug/strace/6.9/tests/dirfd.c /usr/src/debug/strace/6.9/src/xlat/statx_masks.h /usr/src/debug/strace/6.9/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.9/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.9/tests/ioctl_uffdio.c /usr/src/debug/strace/6.9/tests/reboot.c /usr/src/debug/strace/6.9/tests/clone_parent.c /usr/src/debug/strace/6.9/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.9/tests/net-y-unix.c /usr/src/debug/strace/6.9/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/6.9/tests/io_uring_enter.c /usr/src/debug/strace/6.9/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.9/src/xlat/nl_xfrm_types.h /usr/src/debug/stra
+ ce/6.9/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.9/tests/adjtimex.c /usr/src/debug/strace/6.9/tests/stat64.c /usr/src/debug/strace/6.9/tests/localtime.c /usr/src/debug/strace/6.9/tests/lock_file.c /usr/src/debug/strace/6.9/tests/netlink_selinux.c /usr/src/debug/strace/6.9/tests/sigpending.c /usr/src/debug/strace/6.9/tests/kern_features.c /usr/src/debug/strace/6.9/src/xlat/termios_cc.h /usr/src/debug/strace/6.9/tests/ioctl_fs_x.c /usr/src/debug/strace/6.9/tests/eventfd.c /usr/src/debug/strace/6.9/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.9/tests/sendfile.c /usr/src/debug/strace/6.9/tests/setgid32.c /usr/src/debug/strace/6.9/tests/setuid32.c /usr/src/debug/strace/6.9/tests/delete_module.c /usr/src/debug/strace/6.9/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.9/src/xlat/setsock_ip_options.h /usr/src/debug/strace/6.9/tests/sigaltstack.c /usr/src/debug/strace/6.9/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.9/src/xlat/sigprocmaskcmds.h /usr/src/d
+ ebug/strace/6.9/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.9/src/xlat/archvals.h /usr/src/debug/strace/6.9/src/xlat/lirc_features.h /usr/src/debug/strace/6.9/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.9/tests/sched_xetattr.c /usr/src/debug/strace/6.9/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.9/tests/poke.c /usr/src/debug/strace/6.9/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.9/tests/netlink_protocol.c /usr/src/debug/strace/6.9/src/xlat/evdev_abs.h /usr/src/debug/strace/6.9/tests/set_ptracer_any.c /usr/src/debug/strace/6.9/tests/readv.c /usr/src/debug/strace/6.9/tests/netlink_netfilter.c /usr/src/debug/strace/6.9/tests/getgid.c /usr/src/debug/strace/6.9/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.9/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.9/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.9/tests/overflowuid.c /usr/src/debug/strace/6.9/tests/ftruncate64.c /usr/src/debug/strace/6.9/tests/pidfd_send_signal.c /usr
+ /src/debug/strace/6.9/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/6.9/tests/prctl-no-args.c /usr/src/debug/strace/6.9/tests/printstrn-umoven.c /usr/src/debug/strace/6.9/src/xlat/falloc_flags.h /usr/src/debug/strace/6.9/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.9/tests/fchmodat.c /usr/src/debug/strace/6.9/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/6.9/tests/fchown32.c /usr/src/debug/strace/6.9/tests/fchownat.c /usr/src/debug/strace/6.9/tests/prctl-mce-kill.c /usr/src/debug/strace/6.9/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.9/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.9/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.9/src/xlat/seccomp_ioctl_notif_flags.h /usr/src/debug/strace/6.9/tests/tests.h /usr/src/debug/strace/6.9/tests/prctl-unalign.c /usr/src/debug/strace/6.9/tests/umovestr-illptr.c /usr/src/debug/strace/6.9/src/xlat/btrfs_key_types.h /usr/src/debug/strace/6.9/tests/ioctl_dm.c /usr/src/debug/strace/6.9/tests/ioctl
+ _kd.c /usr/src/debug/strace/6.9/tests/map_shadow_stack.c /usr/src/debug/strace/6.9/tests/fchmodat2--secontext.c /usr/src/debug/strace/6.9/tests/sprintrc.c /usr/src/debug/strace/6.9/src/xlat/fsmagic.h /usr/src/debug/strace/6.9/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.9/tests/oldselect-efault.c /usr/src/debug/strace/6.9/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.9/tests/prctl-sched-core.c /usr/src/debug/strace/6.9/tests/sigprocmask.c /usr/src/debug/strace/6.9/tests/erestartsys.c /usr/src/debug/strace/6.9/src/xlat/setns_types.h /usr/src/debug/strace/6.9/tests/splice.c /usr/src/debug/strace/6.9/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/6.9/tests/landlock_add_rule.c /usr/src/debug/strace/6.9/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.9/tests/signalfd4.c /usr/src/debug/strace/6.9/tests/ioctl_random.c /usr/src/debug/strace/6.9/src/xlat/kd_modes.h /usr/src/debug/strace/6.9/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.9/src/xlat/
+ shm_resource_flags.h /usr/src/debug/strace/6.9/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.9/src/xlat/bpf_size.h /usr/src/debug/strace/6.9/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.9/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.9/src/xlat/sock_vsock_options.h /usr/src/debug/strace/6.9/tests/epoll_pwait2.c /usr/src/debug/strace/6.9/tests/netlink_route.c /usr/src/debug/strace/6.9/tests/setfsgid32.c /usr/src/debug/strace/6.9/tests/setfsuid32.c /usr/src/debug/strace/6.9/tests/rt_sigaction.c /usr/src/debug/strace/6.9/src/xlat/vsock_ports.h /usr/src/debug/strace/6.9/tests/setregid32.c /usr/src/debug/strace/6.9/tests/setreuid32.c /usr/src/debug/strace/6.9/tests/seccomp-filter-v.c /usr/src/debug/strace/6.9/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.9/tests/utimensat.c /usr/src/debug/strace/6.9/tests/shmxt.c /usr/src/debug/strace/6.9/tests/epoll_create.c /usr/src/debug/strace/6.9/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.9/tests/sendfile64.
+ c /usr/src/debug/strace/6.9/tests/stack-fcall.h /usr/src/debug/strace/6.9/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.9/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/6.9/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.9/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.9/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.9/tests/stack-fcall.c /usr/src/debug/strace/6.9/src/xlat/term_line_discs.h /usr/src/debug/strace/6.9/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.9/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.9/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.9/src/xlat/lsm_ids.h /usr/src/debug/strace/6.9/tests/qual_inject-retval.c /usr/src/debug/strace/6.9/tests/qual_inject-signal.c /usr/src/debug/strace/6.9/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.9/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.9/src/xlat/netlink_get_flags.h /usr/src/debug/strace/6.9/src/xlat/netlink_new_flags.h /usr/src/debug/strace/6.9/
+ src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.9/src/xlat/dirent_types.h /usr/src/debug/strace/6.9/src/xlat/sigact_flags.h /usr/src/debug/strace/6.9/src/xlat/umount_flags.h /usr/src/debug/strace/6.9/tests/aio_pgetevents.c /usr/src/debug/strace/6.9/tests/pidfd_getfd.c /usr/src/debug/strace/6.9/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.9/tests/mknod.c /usr/src/debug/strace/6.9/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.9/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.9/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.9/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.9/tests/nlattr.c /usr/src/debug/strace/6.9/src/xlat/lsm_attrs.h /usr/src/debug/strace/6.9/src/xlat/pr_mce_kill.h /usr/src/debug/strace/6.9/src/xlat/skf_ad.h /usr/src/debug/strace/6.9/tests/ioctl.c /usr/src/debug/strace/6.9/tests/kexec_file_load.c /usr/src
+ /debug/strace/6.9/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.9/tests/sync_file_range2.c /usr/src/debug/strace/6.9/tests/file_handle--secontext.c /usr/src/debug/strace/6.9/tests/getgroups.c /usr/src/debug/strace/6.9/tests/io_uring_setup.c /usr/src/debug/strace/6.9/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.9/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.9/src/xlat/bpf_attach_type.h /usr/src/debug/strace/6.9/src/xlat/gpio_handle_flags.h /usr/src/debug/strace/6.9/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.9/tests/vmsplice.c /usr/src/debug/strace/6.9/tests/fcntl64.c /usr/src/debug/strace/6.9/tests/hexquote_strndup.c /usr/src/debug/strace/6.9/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.9/tests/filter-unavailable.c /usr/src/debug/strace/6.9/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/6.9/tests/time.c /usr/src/debug/strace/6.9/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.9/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.9/src/xlat/
+ landlock_rule_types.h /usr/src/debug/strace/6.9/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.9/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.9/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.9/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.9/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.9/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/6.9/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.9/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.9/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.9/tests/print_user_desc.c /usr/src/debug/strace/6.9/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.9/tests/xutimes.c /usr/src/debug/strace/6.9/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.9/tests/futimesat.c /usr/src/debug/strace/6.9/tests/inode_of_sockfd.c /usr/src/debug/strace/6.9/src/xlat/v4l2_std_ids.h /usr/src/debug/strace/6.9/src/xlat/v4l2_c
+ ontrol_classes.h /usr/src/debug/strace/6.9/src/xlat/bpf_commands.h /usr/src/debug/strace/6.9/src/xlat/dcb_commands.h /usr/src/debug/strace/6.9/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.9/src/xlat/vsock_flags.h /usr/src/debug/strace/6.9/src/xlat/modem_flags.h /usr/src/debug/strace/6.9/src/xlat/mount_flags.h /usr/src/debug/strace/6.9/src/xlat/clone_flags.h /usr/src/debug/strace/6.9/src/xlat/cap_mask0.h /usr/src/debug/strace/6.9/src/xlat/mbind_flags.h /usr/src/debug/strace/6.9/src/xlat/mlock_flags.h /usr/src/debug/strace/6.9/src/xlat/sched_flags.h /usr/src/debug/strace/6.9/src/xlat/semop_flags.h /usr/src/debug/strace/6.9/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.9/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/6.9/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.9/tests/scm_credentials.c /usr/src/debug/strace/6.9/tests/xetpriority.c /usr/src/debug/strace/6.9/src/xlat/bootflags3.h /usr/src/debug/strace/6.9/tests/print_ppid_tracerpid.c /usr/src/debug/strace
+ /6.9/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.9/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.9/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.9/src/xlat/bootflags1.h /usr/src/debug/strace/6.9/tests/group_req.c /usr/src/debug/strace/6.9/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/6.9/src/xlat/addrfams.h /usr/src/debug/strace/6.9/tests/tgkill.c /usr/src/debug/strace/6.9/tests/printpath-umovestr.c /usr/src/debug/strace/6.9/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.9/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.9/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.9/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.9/tests/umovestr3.c /usr/src/debug/strace/6.9/tests/mount_setattr.c /usr/src/debug/strace/6.9/src/xlat/perf_sw_ids.h /usr/src/debug/strace/6.9/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/6.9/tests/fdatasync.c /usr/src/debug/strace/6.9/tests/unshare.c /usr/src/debug/strace/6.9/src/xlat/adjtimex_state.h /u
+ sr/src/debug/strace/6.9/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.9/tests/nlattr_tc_stats.c /usr/src/debug/strace/6.9/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.9/tests/ioctl_nsfs.c /usr/src/debug/strace/6.9/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.9/tests/inotify_init1.c /usr/src/debug/strace/6.9/src/xlat/ipccalls.h /usr/src/debug/strace/6.9/tests/mount.c /usr/src/debug/strace/6.9/src/xlat/module_init_flags.h /usr/src/debug/strace/6.9/tests/nlattr_ifla_port.c /usr/src/debug/strace/6.9/src/xlat/sigprof_codes.h /usr/src/debug/strace/6.9/tests/test_printpath.c /usr/src/debug/strace/6.9/tests/dev-yy.c /usr/src/debug/strace/6.9/tests/subdir.c /usr/src/debug/strace/6.9/src/xlat/evdev_snd.h /usr/src/debug/strace/6.9/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.9/src/xlat/flockcmds.h /usr/src/debug/strace/6.9/src/xlat/lockfcmds.h /usr/src/debug/strace/6.9/src/xlat/quotacmds.h /usr/src/debug/strace/6.9/tests/siginfo.c /usr/src/debug/strace/6.9/tests/nfnetlink_i
+ pset.c /usr/src/debug/strace/6.9/tests/nfnetlink_queue.c /usr/src/debug/strace/6.9/tests/sched_xetscheduler.c /usr/src/debug/strace/6.9/src/xlat/shadow_stack_flags.h /usr/src/debug/strace/6.9/tests/ioctl_fs_f.c /usr/src/debug/strace/6.9/tests/rt_sigsuspend.c /usr/src/debug/strace/6.9/src/xlat/evdev_leds.h /usr/src/debug/strace/6.9/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.9/tests/statfs64.c /usr/src/debug/strace/6.9/tests/strace-n.c /usr/src/debug/strace/6.9/tests/strace-x.c /usr/src/debug/strace/6.9/tests/prctl-securebits.c /usr/src/debug/strace/6.9/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.9/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.9/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.9/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.9/tests/mq.c /usr/src/debug/strace/6.9/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.9/src/xlat/fchmodat_flags.h /usr/src/debug/strace/6.9/tests/mmsg_name.c /usr/src/debug/strace/6.9/tests/ki
+ ll.c /usr/src/debug/strace/6.9/tests/msg_name.c /usr/src/debug/strace/6.9/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/6.9/tests/accept.c /usr/src/debug/strace/6.9/src/xlat/pkey_access.h /usr/src/debug/strace/6.9/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.9/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.9/src/xlat/open_mode_flags.h /usr/src/debug/strace/6.9/src/xlat/resources.h /usr/src/debug/strace/6.9/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.9/tests/init_module.c /usr/src/debug/strace/6.9/tests/nfnetlink_osf.c /usr/src/debug/strace/6.9/tests/linkat.c /usr/src/debug/strace/6.9/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/6.9/tests/segv_accerr.c /usr/src/debug/strace/6.9/tests/segv_pkuerr.c /usr/src/debug/strace/6.9/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/6.9/src/xlat/sock_irda_options.h /usr/src/debug/strace/6.9/tests/stack-fcall-2.c /usr/src/debug/strace/6.9/src/xlat/clocknames.h /usr/src/debug/strace/6.9/tests/stack-fcall-0
+ .c /usr/src/debug/strace/6.9/tests/futex_waitv.c /usr/src/debug/strace/6.9/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.9/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.9/tests/userfaultfd.c /usr/src/debug/strace/6.9/tests/ugetrlimit.c /usr/src/debug/strace/6.9/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/6.9/tests/poke-sendfile.c /usr/src/debug/strace/6.9/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.9/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.9/src/xlat/routing_protocols.h /usr/src/debug/strace/6.9/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.9/tests/kexec_load.c /usr/src/debug/strace/6.9/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.9/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.9/tests/personality.c /usr/src/debug/strace/6.9/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.9/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.9/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.9/src/xlat/ifstats
+ _xstats_bond_attrs.h /usr/src/debug/strace/6.9/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.9/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.9/tests/errno2name.c /usr/src/debug/strace/6.9/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.9/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/6.9/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.9/src/xlat/kd_led_flags.h /usr/src/debug/strace/6.9/src/xlat/bpf_query_flags.h /usr/src/debug/strace/6.9/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.9/src/xlat/waitid_types.h /usr/src/debug/strace/6.9/tests/times.c /usr/src/debug/strace/6.9/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.9/tests/scm_pidfd.c"
+packages/core2-64-poky-linux/strace/strace-src: PKGSIZE changed from 10427307 to 10471053 (+0%)
+packages/core2-64-poky-linux/strace/strace-staticdev: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace-staticdev: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace: PV changed from "6.8" to "6.9"
+packages/core2-64-poky-linux/strace/strace: PKGV changed from 6.8 [default] to 6.9 [default]
+packages/core2-64-poky-linux/strace/strace: PKGSIZE changed from 1831109 to 1839301 (+0%)
+
+--===============3133467792438424271==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/strace--always-show-pid /usr/lib/strace/ptest/tests/strace--always-show-pid.gen.test"
+
+--===============3133467792438424271==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-strace-upgrade-6.8-6.9.patch"
+
+RnJvbSA0NTc0NzdiNDY3OWI4ZGM2MGQ1NzVjYWQ0ZGRlYjNiNDA3Mzc4OTdkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTE6NDI6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+dHJhY2U6IHVwZ3JhZGUgNi44IC0+IDYuOQoKLS0tCiAuLi50b2NvbmYtbWFjcm8tdG8tZGV0ZWN0
+LWxhcmdlZmlsZS1zdXAucGF0Y2ggfCAgNiArLQogLi4uMDAxLXN0cmFjZS1maXgtcmVwcm9kdWNp
+YmlsdHktaXNzdWVzLnBhdGNoIHwgIDkgKy0tCiAuLi4wMDItdGVzdHMtUmVwbGFjZS1vZmY2NF90
+LXdpdGgtb2ZmX3QucGF0Y2ggfCAzNSArKysrKystLS0tCiAuLi4vc3RyYWNlL3N0cmFjZS9NYWtl
+ZmlsZS1wdGVzdC5wYXRjaCAgICAgICAgfCAgOSArKy0KIC4uLi9zdHJhY2Uvc3RyYWNlL3B0ZXN0
+LXNwYWNlc2F2ZS5wYXRjaCAgICAgICB8ICA3ICstCiAuLi4vc3RyYWNlL3N0cmFjZS9za2lwLWxv
+YWQucGF0Y2ggICAgICAgICAgICAgfCAgOSArLS0KIC4uLi9zdHJhY2Uvc3RyYWNlL3VwZGF0ZS1n
+YXdrLXBhdGhzLnBhdGNoICAgICB8IDcwICsrKysrKysrKystLS0tLS0tLS0KIC4uLi9zdHJhY2Uv
+e3N0cmFjZV82LjguYmIgPT4gc3RyYWNlXzYuOS5iYn0gICB8ICAyICstCiA4IGZpbGVzIGNoYW5n
+ZWQsIDc2IGluc2VydGlvbnMoKyksIDcxIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9zdHJhY2Uve3N0cmFjZV82LjguYmIgPT4gc3RyYWNlXzYuOS5iYn0gKDk2JSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLWNv
+bmZpZ3VyZS1Vc2UtYXV0b2NvbmYtbWFjcm8tdG8tZGV0ZWN0LWxhcmdlZmlsZS1zdXAucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLWNvbmZpZ3VyZS1Vc2Ut
+YXV0b2NvbmYtbWFjcm8tdG8tZGV0ZWN0LWxhcmdlZmlsZS1zdXAucGF0Y2gKaW5kZXggNzZjYTdh
+NzZhOC4uODZkY2Q5NzcxMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFj
+ZS9zdHJhY2UvMDAwMS1jb25maWd1cmUtVXNlLWF1dG9jb25mLW1hY3JvLXRvLWRldGVjdC1sYXJn
+ZWZpbGUtc3VwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNl
+LzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29uZi1tYWNyby10by1kZXRlY3QtbGFyZ2VmaWxlLXN1
+cC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDcwMzk5ZjM2MzZjNDEyYjc0ZjlkYWY2YWU0
+MzBiMTNjMzEyNmYwMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZWM1NDM0MTdiOGUx
+ZGY3YzcxZGZjNDcyODMxMzg0OWQ5YWI2NjlhNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDE1IERlYyAyMDIy
+IDE1OjU0OjI3IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZ3VyZTogVXNlIGF1dG9jb25m
+IG1hY3JvIHRvIGRldGVjdCBsYXJnZWZpbGUgc3VwcG9ydApAQCAtMTMsMTAgKzEzLDEwIEBAIFNp
+Z25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmln
+dXJlLmFjCi1pbmRleCA0Nzk3YjQyZGQuLjdkNTdmYjI1NCAxMDA2NDQKK2luZGV4IDM2ZmZmOTAu
+LjllNDBhYjUgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwot
+QEAgLTQzLDYgKzQzLDggQEAgQUNfUFJPR19JTlNUQUxMCitAQCAtNDIsNiArNDIsOCBAQCBBQ19Q
+Uk9HX0lOU1RBTEwKICBBQ19QUk9HX1JBTkxJQgogIEFDX1BST0dfTE5fUwogIApkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1zdHJhY2UtZml4LXJl
+cHJvZHVjaWJpbHR5LWlzc3Vlcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uv
+c3RyYWNlLzAwMDEtc3RyYWNlLWZpeC1yZXByb2R1Y2liaWx0eS1pc3N1ZXMucGF0Y2gKaW5kZXgg
+YzRjMTc2ZTZiYy4uOWNkYjdjNjEzNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2UvMDAwMS1zdHJhY2UtZml4LXJlcHJvZHVjaWJpbHR5LWlzc3Vlcy5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLXN0cmFjZS1m
+aXgtcmVwcm9kdWNpYmlsdHktaXNzdWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2MzA5
+NzkyYzQ5Y2E5MDBjZWM2YTdmMWRjNWI1MWJmNzViNjI5ZTExIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSBkNWY2ODFjMmRlODM0MTEwZGUyNjBmNGQwNzFjN2JjMWZiMGQ3NTY0IE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSmVyZW15IFB1aGxtYW4gPGpwdWhsbWFuQG12aXN0
+YS5jb20+CiBEYXRlOiBXZWQsIDExIE1hciAyMDIwIDE5OjU2OjU1ICswMDAwCiBTdWJqZWN0OiBb
+UEFUQ0hdIHN0cmFjZTogZml4IHJlcHJvZHVjaWJpbHR5IGlzc3VlcwpAQCAtMTMsNyArMTMsNyBA
+QCBTaWduZWQtb2ZmLWJ5OiBKZXJlbXkgUHVobG1hbiA8anB1aGxtYW5AbXZpc3RhLmNvbT4KICAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
+Z2l0IGEvdGVzdHMvZ2VuX3Rlc3RzLnNoIGIvdGVzdHMvZ2VuX3Rlc3RzLnNoCi1pbmRleCA1ZTFl
+N2M5Li4xZTY1ZWFjIDEwMDc1NQoraW5kZXggOGY0NzY1MS4uNjUyNjdkYiAxMDA3NTUKIC0tLSBh
+L3Rlc3RzL2dlbl90ZXN0cy5zaAogKysrIGIvdGVzdHMvZ2VuX3Rlc3RzLnNoCiBAQCAtNDYsNyAr
+NDYsNyBAQCB3aGlsZSByZWFkIC1yIG5hbWUgYXJnMCBhcmdzOyBkbyB7CkBAIC0yNSw3ICsyNSw3
+IEBAIGluZGV4IDVlMWU3YzkuLjFlNjVlYWMgMTAwNzU1CiAgCiAgCWNhc2UgIiRhcmcwIiBpbgog
+IAkJKyopCi1AQCAtODAsNyArODAsNyBAQCB3aGlsZSByZWFkIC1yIG5hbWUgYXJnMCBhcmdzOyBk
+byB7CitAQCAtOTEsNyArOTEsNyBAQCB3aGlsZSByZWFkIC1yIG5hbWUgYXJnMCBhcmdzOyBkbyB7
+CiAgCiAgaWYgWyAtbiAiJG5hbWVzIiBdOyB0aGVuCiAgCXsKQEAgLTM0LDYgKzM0LDMgQEAgaW5k
+ZXggNWUxZTdjOS4uMWU2NWVhYyAxMDA3NTUKICAJCXByaW50ZiAnR0VOX1RFU1RTID0nCiAgCQlw
+cmludGYgJyAlcy5nZW4udGVzdCcgJG5hbWVzCiAgCQllY2hvCi0tLSAKLTIuMjQuMQotCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAyLXRlc3RzLVJl
+cGxhY2Utb2ZmNjRfdC13aXRoLW9mZl90LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0
+cmFjZS9zdHJhY2UvMDAwMi10ZXN0cy1SZXBsYWNlLW9mZjY0X3Qtd2l0aC1vZmZfdC5wYXRjaApp
+bmRleCAwY2FiZGZlOTlmLi5mYzZlZDdhYzRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRoLW9mZl90
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDItdGVz
+dHMtUmVwbGFjZS1vZmY2NF90LXdpdGgtb2ZmX3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
+IDU3OWIyZWJlNTJkNGI5N2Y5NTRlNjE4OGRmMmQwN2UxMzc4MjAwNzUgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDE4OTFkYjg3ZGEzYjIwNGM1MTJmNDcxNTVhYWE0ZTY5MjAwOGYxYmYg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
+Y29tPgogRGF0ZTogVGh1LCAxNSBEZWMgMjAyMiAxNTo1NjoxMyAtMDgwMAogU3ViamVjdDogW1BB
+VENIXSB0ZXN0czogUmVwbGFjZSBvZmY2NF90IHdpdGggb2ZmX3QKQEAgLTEwLDkgKzEwLDEyIEBA
+IFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vc3RyYWNlL3N0
+cmFjZS9wdWxsLzIzMF0KIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
+b20+CiAtLS0KICB0ZXN0cy9yZWFkYWhlYWQuYyAgICAgICAgfCAyICstCisgdGVzdHMvc3luY19m
+aWxlX3JhbmdlLmMgIHwgNCArKy0tCiAgdGVzdHMvc3luY19maWxlX3JhbmdlMi5jIHwgNCArKy0t
+Ci0gMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCisgMyBm
+aWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiAKK2RpZmYgLS1n
+aXQgYS90ZXN0cy9yZWFkYWhlYWQuYyBiL3Rlc3RzL3JlYWRhaGVhZC5jCitpbmRleCAxMDcyMzc4
+Li5iOTU5N2U2IDEwMDY0NAogLS0tIGEvdGVzdHMvcmVhZGFoZWFkLmMKICsrKyBiL3Rlc3RzL3Jl
+YWRhaGVhZC5jCiBAQCAtNDIsNyArNDIsNyBAQCBzdGF0aWMgY29uc3QgaW50IGZkc1tdID0gewpA
+QCAtMjQsMjkgKzI3LDMzIEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgCS0weDgwMDAwMDAwMDAwMDAwMDBMTCwKICAJLTB4NTA2MDcwODA5MGEwYjBjMExM
+LAogIAktMUxMLAotLS0tIGEvdGVzdHMvc3luY19maWxlX3JhbmdlMi5jCi0rKysgYi90ZXN0cy9z
+eW5jX2ZpbGVfcmFuZ2UyLmMKK2RpZmYgLS1naXQgYS90ZXN0cy9zeW5jX2ZpbGVfcmFuZ2UuYyBi
+L3Rlc3RzL3N5bmNfZmlsZV9yYW5nZS5jCitpbmRleCBlOTNhYjZjLi5kYzc2ODY1IDEwMDY0NAor
+LS0tIGEvdGVzdHMvc3luY19maWxlX3JhbmdlLmMKKysrKyBiL3Rlc3RzL3N5bmNfZmlsZV9yYW5n
+ZS5jCiBAQCAtMjAsOCArMjAsOCBAQCBpbnQKICBtYWluKHZvaWQpCiAgewogIAljb25zdCBpbnQg
+ZmQgPSAtMTsKLS0JY29uc3Qgb2ZmNjRfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBkZWQ7Ci0t
+CWNvbnN0IG9mZjY0X3QgbmJ5dGVzID0gMHhmYWNlZmVlZGNhZmVmMDBkOwotKwljb25zdCBvZmZf
+dCBvZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBkZWQ7Ci0rCWNvbnN0IG9mZl90IG5ieXRlcyA9IDB4
+ZmFjZWZlZWRjYWZlZjAwZDsKKy0JY29uc3Qgb2ZmNjRfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFk
+YzBkZWRVTEw7CistCWNvbnN0IG9mZjY0X3QgbmJ5dGVzID0gMHhmYWNlZmVlZGNhZmVmMDBkVUxM
+OworKwljb25zdCBvZmZfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBkZWRVTEw7CisrCWNvbnN0
+IG9mZl90IG5ieXRlcyA9IDB4ZmFjZWZlZWRjYWZlZjAwZFVMTDsKICAJY29uc3QgdW5zaWduZWQg
+aW50IGZsYWdzID0gLTE7CiAgCiAgCWludCByYyA9IHN5bmNfZmlsZV9yYW5nZShmZCwgb2Zmc2V0
+LCBuYnl0ZXMsIGZsYWdzKTsKLS0tLSBhL3Rlc3RzL3N5bmNfZmlsZV9yYW5nZS5jCi0rKysgYi90
+ZXN0cy9zeW5jX2ZpbGVfcmFuZ2UuYworZGlmZiAtLWdpdCBhL3Rlc3RzL3N5bmNfZmlsZV9yYW5n
+ZTIuYyBiL3Rlc3RzL3N5bmNfZmlsZV9yYW5nZTIuYworaW5kZXggYjhkYzcxMi4uZTRiMDAzYyAx
+MDA2NDQKKy0tLSBhL3Rlc3RzL3N5bmNfZmlsZV9yYW5nZTIuYworKysrIGIvdGVzdHMvc3luY19m
+aWxlX3JhbmdlMi5jCiBAQCAtMjAsOCArMjAsOCBAQCBpbnQKICBtYWluKHZvaWQpCiAgewogIAlj
+b25zdCBpbnQgZmQgPSAtMTsKLS0JY29uc3Qgb2ZmNjRfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFk
+YzBkZWRVTEw7Ci0tCWNvbnN0IG9mZjY0X3QgbmJ5dGVzID0gMHhmYWNlZmVlZGNhZmVmMDBkVUxM
+OwotKwljb25zdCBvZmZfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBkZWRVTEw7Ci0rCWNvbnN0
+IG9mZl90IG5ieXRlcyA9IDB4ZmFjZWZlZWRjYWZlZjAwZFVMTDsKKy0JY29uc3Qgb2ZmNjRfdCBv
+ZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBkZWQ7CistCWNvbnN0IG9mZjY0X3QgbmJ5dGVzID0gMHhm
+YWNlZmVlZGNhZmVmMDBkOworKwljb25zdCBvZmZfdCBvZmZzZXQgPSAweGRlYWRiZWVmYmFkYzBk
+ZWQ7CisrCWNvbnN0IG9mZl90IG5ieXRlcyA9IDB4ZmFjZWZlZWRjYWZlZjAwZDsKICAJY29uc3Qg
+dW5zaWduZWQgaW50IGZsYWdzID0gLTE7CiAgCiAgCWludCByYyA9IHN5bmNfZmlsZV9yYW5nZShm
+ZCwgb2Zmc2V0LCBuYnl0ZXMsIGZsYWdzKTsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9zdHJhY2Uvc3RyYWNlL01ha2VmaWxlLXB0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3N0cmFjZS9zdHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKaW5kZXggOWFmNzczNzY2
+Mi4uM2U1MGJmNDBmMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9z
+dHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0
+cmFjZS9zdHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDFm
+NTBlMGEwOWQ4MjhiZThmNWIxZjI4ZGI5YWYwYjEyNDkyYTE1NTMgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIDI0NWY2MzIyY2Y2NGU1NjJkMzIyN2RmYWMyNmNlOTNjOTA1YjAzODAgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBHYWJyaWVsIEJhcmJ1IDxnYWJyaWVsLmJhcmJ1
+QGVuZWEuY29tPgogRGF0ZTogVGh1LCAyNSBKdWwgMjAxMyAxNToyODozMyArMDIwMAogU3ViamVj
+dDogW1BBVENIXSBzdHJhY2U6IEFkZCBwdGVzdApAQCAtOCwxNiArOCwxNSBAQCBVcHN0cmVhbS1T
+dGF0dXM6IEluYXBwcm9wcmlhdGUKIFNpZ25lZC1vZmYtYnk6IEdhYnJpZWwgQmFyYnUgPGdhYnJp
+ZWwuYmFyYnVAZW5lYS5jb20+CiBTaWduZWQtb2ZmLWJ5OiBDaG9uZyBMdSA8Q2hvbmcuTHVAd2lu
+ZHJpdmVyLmNvbT4KIFNpZ25lZC1vZmYtYnk6IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
+bC5jb20+Ci0KIC0tLQogIHRlc3RzL01ha2VmaWxlLmFtIHwgMjAgKysrKysrKysrKysrKysrKysr
+KysKICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvdGVz
+dHMvTWFrZWZpbGUuYW0gYi90ZXN0cy9NYWtlZmlsZS5hbQotaW5kZXggNTU1NjZlZS4uYTdhZTZm
+OSAxMDA2NDQKK2luZGV4IGVmNjg4OTguLjczNWI3M2QgMTAwNjQ0CiAtLS0gYS90ZXN0cy9NYWtl
+ZmlsZS5hbQogKysrIGIvdGVzdHMvTWFrZWZpbGUuYW0KLUBAIC0xNiw2ICsxNiw3IEBAIFNJWkVP
+Rl9MT05HID0gQFNJWkVPRl9MT05HQAorQEAgLTE4LDYgKzE4LDcgQEAgU0laRU9GX0xPTkcgPSBA
+U0laRU9GX0xPTkdACiAgTVBFUlNfTkFNRSA9CiAgTVBFUlNfQ0NfRkxBR1MgPQogIEFSQ0hfTUZM
+QUdTID0KQEAgLTI1LDcgKzI0LDcgQEAgaW5kZXggNTU1NjZlZS4uYTdhZTZmOSAxMDA2NDQKICBB
+TV9DRkxBR1MgPSAkKFdBUk5fQ0ZMQUdTKQogIGJ1bmRsZWRfQ1BQRkxBR1MgPQogIGlmIFVTRV9C
+VU5ETEVEX0hFQURFUlMKLUBAIC03MDMsMyArNzA0LDIyIEBAIEJVSUxUX1NPVVJDRVMgPSBrc3lz
+ZW50LmgKK0BAIC04ODksMyArODkwLDIyIEBAIEJVSUxUX1NPVVJDRVMgPSBrc3lzZW50LmgKICBD
+TEVBTkZJTEVTID0ga3N5c2VudC5oCiAgCiAgaW5jbHVkZSAuLi9zcmMvc2Nuby5hbQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvcHRlc3Qtc3BhY2VzYXZl
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvcHRlc3Qtc3BhY2Vz
+YXZlLnBhdGNoCmluZGV4IDRlODZjY2FkYzUuLjE0ZWE0NjljNTkgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3B0ZXN0LXNwYWNlc2F2ZS5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS9wdGVzdC1zcGFjZXNhdmUucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNmYWQ0ODIxZDkwY2QyNjRkMWI5NDI1M2I5Y2Y0ZmRm
+NWQ0MDM0YjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGNmNzdkMzAxZmFmOTZjYzg5
+MmM2ZGYwZTE5ZmNjYmY1ODUzZjI0OWQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6
+IFdlZCwgMjkgTWF5IDIwMTkgMDA6MTA6MzIgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gc3RyYWNl
+OiBUd2VhayBwdGVzdCBkaXNrIHNwYWNlIG1hbmFnZW1lbnQKQEAgLTksMTYgKzksMTUgQEAgdXNp
+bmcgYXJvdW5kIDYwME1CIG9mIGRpc2sgc3BhY2UgYW5kIHJ1bm5pbmcgb3VyIHB0ZXN0IGltYWdl
+cyBvdXQgb2Ygc3BhY2UuCiBSUCAyMDE5LzUvMjkKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
+cHJpYXRlIFtzcGVjaWZpYyB0byBPRSBpbWFnZSBzcGFjZSBpc3N1ZXNdCi0KIC0tLQogIHRlc3Rz
+L2dlbl90ZXN0cy5zaCB8IDEgKwogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQogCiBk
+aWZmIC0tZ2l0IGEvdGVzdHMvZ2VuX3Rlc3RzLnNoIGIvdGVzdHMvZ2VuX3Rlc3RzLnNoCi1pbmRl
+eCAzNTQwMjA0Li41ZTFlN2M5IDEwMDc1NQoraW5kZXggY2UxNDY3ZS4uOGY0NzY1MSAxMDA3NTUK
+IC0tLSBhL3Rlc3RzL2dlbl90ZXN0cy5zaAogKysrIGIvdGVzdHMvZ2VuX3Rlc3RzLnNoCi1AQCAt
+NjIsNiArNjIsNyBAQCB3aGlsZSByZWFkIC1yIG5hbWUgYXJnMCBhcmdzOyBkbyB7CitAQCAtNzMs
+NiArNzMsNyBAQCB3aGlsZSByZWFkIC1yIG5hbWUgYXJnMCBhcmdzOyBkbyB7CiAgCQkkaGRyCiAg
+CQkuICJcJHtzcmNkaXI9Ln0vaW5pdC5zaCIKICAJCXJ1bl9zdHJhY2VfbWF0Y2hfZGlmZiAkYXJn
+MCAkYXJncwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2Uv
+c2tpcC1sb2FkLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2Uvc2tp
+cC1sb2FkLnBhdGNoCmluZGV4IGIxYWNmZGE1ZDguLmZlNzM3ZDhmOWEgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3NraXAtbG9hZC5wYXRjaAorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS9za2lwLWxvYWQucGF0Y2gKQEAgLTEs
+OSArMSwxMyBAQAorRnJvbSAzYWY3MjcyYTM0MzVmYzc5ZTVkYTcyOTE1NTQ4MGEzNDZjY2YyZDQ0
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9u
+QGFybS5jb20+CitEYXRlOiBNb24sIDMxIEphbiAyMDIyIDE3OjQwOjEzICswMDAwCitTdWJqZWN0
+OiBbUEFUQ0hdIHN0cmFjZTogc2tpcCBhIG51bWJlciBvZiBsb2FkLXNlbnNpdGl2ZSB0ZXN0cwor
+CiBTa2lwIHRlc3RzIHdoaWNoIGFyZSBrbm93biB0byBiZSB1bnJlbGlhYmxlIHVuZGVyIGxvYWQs
+IHR5cGljYWxseSBiZWNhdXNlIHRoZXkKIGNhcmUgYWJvdXQgdGltaW5nLgogCiBVcHN0cmVhbS1T
+dGF0dXM6IEluYXBwcm9wcmlhdGUKIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1
+cnRvbkBhcm0uY29tPgotCiAtLS0KICB0ZXN0cy9jbG9ja19uYW5vc2xlZXAuZ2VuLnRlc3QgfCAx
+ICsKICB0ZXN0cy9kZWxheS50ZXN0ICAgICAgICAgICAgICAgfCAxICsKQEAgLTQ0LDYgKzQ4LDMg
+QEAgaW5kZXggODI5OTczNy4uZDg5YzdkZiAxMDA3NTUKICAKICByX29wdD0iJHsxOi0tcn0iCiAg
+Ci0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNl
+L3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9z
+dHJhY2Uvc3RyYWNlL3VwZGF0ZS1nYXdrLXBhdGhzLnBhdGNoCmluZGV4IGExNmVkZTk1YzIuLjQy
+OTU4OGQyMTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNl
+L3VwZGF0ZS1nYXdrLXBhdGhzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJh
+Y2Uvc3RyYWNlL3VwZGF0ZS1nYXdrLXBhdGhzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0
+Y2QyNmNmYWVjMjU1ZWM4N2YyMmFiZTg4NmUwYmU4OTMxMmE5NjcxIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSA5MjBmZjJlMGU4MzhmYWU0ZmU0OWJmOGU4ZmEwOTNkNWIyNDg1Njc3IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQW5kcmUgTWNDdXJkeSA8YXJtY2N1cmR5QGdt
+YWlsLmNvbT4KIERhdGU6IE1vbiwgMTggSmFuIDIwMTYgMTE6MDE6MDAgLTA4MDAKIFN1YmplY3Q6
+IFtQQVRDSF0gdXBkYXRlIGdhd2sgcGF0aHMsIC9iaW4vZ2F3ayAtPiAvdXNyL2Jpbi9nYXdrCkBA
+IC0xMSwyMiArMTEsMjQgQEAgZnJvbSAjIS9iaW4vZ2F3ayB0byAjIS91c3IvYmluL2dhd2suIEZp
+eGVzIG1pc3NpbmcgUkRQRU5EUyBRQSB0ZXN0czoKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3By
+aWF0ZSBbY29uZmlndXJhdGlvbl0KIAogU2lnbmVkLW9mZi1ieTogQW5kcmUgTWNDdXJkeSA8YXJt
+Y2N1cmR5QGdtYWlsLmNvbT4KLQogLS0tCiAgc3JjL21wZXJzLmF3ayAgICAgICAgICAgICAgIHwg
+MiArLQorIHRlc3RzLW0zMi9jYXBzLWFiYnJldi5hd2sgICB8IDIgKy0KICB0ZXN0cy1tMzIvY2Fw
+cy5hd2sgICAgICAgICAgfCAyICstCiAgdGVzdHMtbTMyL21hdGNoLmF3ayAgICAgICAgIHwgMiAr
+LQogIHRlc3RzLW0zMi9ydF9zaWdhY3Rpb24uYXdrICB8IDIgKy0KKyB0ZXN0cy1teDMyL2NhcHMt
+YWJicmV2LmF3ayAgfCAyICstCiAgdGVzdHMtbXgzMi9jYXBzLmF3ayAgICAgICAgIHwgMiArLQog
+IHRlc3RzLW14MzIvbWF0Y2guYXdrICAgICAgICB8IDIgKy0KICB0ZXN0cy1teDMyL3J0X3NpZ2Fj
+dGlvbi5hd2sgfCAyICstCisgdGVzdHMvY2Fwcy1hYmJyZXYuYXdrICAgICAgIHwgMiArLQogIHRl
+c3RzL2NhcHMuYXdrICAgICAgICAgICAgICB8IDIgKy0KICB0ZXN0cy9tYXRjaC5hd2sgICAgICAg
+ICAgICAgfCAyICstCiAgdGVzdHMvcnRfc2lnYWN0aW9uLmF3ayAgICAgIHwgMiArLQotIDEwIGZp
+bGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQorIDEzIGZpbGVz
+IGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
+IGEvc3JjL21wZXJzLmF3ayBiL3NyYy9tcGVycy5hd2sKLWluZGV4IDI1YTIxMmYuLmIyZmY1M2Yg
+MTAwNjQ0CitpbmRleCA0MjVhYjY1Li4zM2VjZTVjIDEwMDY0NAogLS0tIGEvc3JjL21wZXJzLmF3
+awogKysrIGIvc3JjL21wZXJzLmF3awogQEAgLTEsNCArMSw0IEBACkBAIC0zNSw2ICszNywxNiBA
+QCBpbmRleCAyNWEyMTJmLi5iMmZmNTNmIDEwMDY0NAogICMKICAjIENvcHlyaWdodCAoYykgMjAx
+NSBFbHZpcmEgS2hhYmlyb3ZhIDxsaW5lcHJpbnRlcjBAZ21haWwuY29tPgogICMgQ29weXJpZ2h0
+IChjKSAyMDE1LTIwMTYgRG1pdHJ5IFYuIExldmluIDxsZHZAc3RyYWNlLmlvPgorZGlmZiAtLWdp
+dCBhL3Rlc3RzLW0zMi9jYXBzLWFiYnJldi5hd2sgYi90ZXN0cy1tMzIvY2Fwcy1hYmJyZXYuYXdr
+CitpbmRleCBlODM5M2ZkLi43NmM0ZTUxIDEwMDY0NAorLS0tIGEvdGVzdHMtbTMyL2NhcHMtYWJi
+cmV2LmF3aworKysrIGIvdGVzdHMtbTMyL2NhcHMtYWJicmV2LmF3aworQEAgLTEsNCArMSw0IEBA
+CistIyEvYmluL2dhd2sKKysjIS91c3IvYmluL2dhd2sKKyAjCisgIyBUaGlzIGZpbGUgaXMgcGFy
+dCBvZiBjYXBzIHN0cmFjZSB0ZXN0LgorICMKIGRpZmYgLS1naXQgYS90ZXN0cy1tMzIvY2Fwcy5h
+d2sgYi90ZXN0cy1tMzIvY2Fwcy5hd2sKIGluZGV4IDY5NTAwZWMuLmU1ZGZkODcgMTAwNjQ0CiAt
+LS0gYS90ZXN0cy1tMzIvY2Fwcy5hd2sKQEAgLTY1LDYgKzc3LDE2IEBAIGluZGV4IGRjZTc4ZjUu
+LjU3M2Q5ZWEgMTAwNjQ0CiAgIwogICMgQ29weXJpZ2h0IChjKSAyMDE0LTIwMTUgRG1pdHJ5IFYu
+IExldmluIDxsZHZAc3RyYWNlLmlvPgogICMgQ29weXJpZ2h0IChjKSAyMDE2IEVsdmlyYSBLaGFi
+aXJvdmEgPGxpbmVwcmludGVyMEBnbWFpbC5jb20+CitkaWZmIC0tZ2l0IGEvdGVzdHMtbXgzMi9j
+YXBzLWFiYnJldi5hd2sgYi90ZXN0cy1teDMyL2NhcHMtYWJicmV2LmF3aworaW5kZXggZTgzOTNm
+ZC4uNzZjNGU1MSAxMDA2NDQKKy0tLSBhL3Rlc3RzLW14MzIvY2Fwcy1hYmJyZXYuYXdrCisrKysg
+Yi90ZXN0cy1teDMyL2NhcHMtYWJicmV2LmF3aworQEAgLTEsNCArMSw0IEBACistIyEvYmluL2dh
+d2sKKysjIS91c3IvYmluL2dhd2sKKyAjCisgIyBUaGlzIGZpbGUgaXMgcGFydCBvZiBjYXBzIHN0
+cmFjZSB0ZXN0LgorICMKIGRpZmYgLS1naXQgYS90ZXN0cy1teDMyL2NhcHMuYXdrIGIvdGVzdHMt
+bXgzMi9jYXBzLmF3awogaW5kZXggNjk1MDBlYy4uZTVkZmQ4NyAxMDA2NDQKIC0tLSBhL3Rlc3Rz
+LW14MzIvY2Fwcy5hd2sKQEAgLTk1LDYgKzExNywxNiBAQCBpbmRleCBkY2U3OGY1Li41NzNkOWVh
+IDEwMDY0NAogICMKICAjIENvcHlyaWdodCAoYykgMjAxNC0yMDE1IERtaXRyeSBWLiBMZXZpbiA8
+bGR2QHN0cmFjZS5pbz4KICAjIENvcHlyaWdodCAoYykgMjAxNiBFbHZpcmEgS2hhYmlyb3ZhIDxs
+aW5lcHJpbnRlcjBAZ21haWwuY29tPgorZGlmZiAtLWdpdCBhL3Rlc3RzL2NhcHMtYWJicmV2LmF3
+ayBiL3Rlc3RzL2NhcHMtYWJicmV2LmF3aworaW5kZXggZTgzOTNmZC4uNzZjNGU1MSAxMDA2NDQK
+Ky0tLSBhL3Rlc3RzL2NhcHMtYWJicmV2LmF3aworKysrIGIvdGVzdHMvY2Fwcy1hYmJyZXYuYXdr
+CitAQCAtMSw0ICsxLDQgQEAKKy0jIS9iaW4vZ2F3aworKyMhL3Vzci9iaW4vZ2F3aworICMKKyAj
+IFRoaXMgZmlsZSBpcyBwYXJ0IG9mIGNhcHMgc3RyYWNlIHRlc3QuCisgIwogZGlmZiAtLWdpdCBh
+L3Rlc3RzL2NhcHMuYXdrIGIvdGVzdHMvY2Fwcy5hd2sKIGluZGV4IDY5NTAwZWMuLmU1ZGZkODcg
+MTAwNjQ0CiAtLS0gYS90ZXN0cy9jYXBzLmF3awpAQCAtMTI1LDMzICsxNTcsMyBAQCBpbmRleCBk
+Y2U3OGY1Li41NzNkOWVhIDEwMDY0NAogICMKICAjIENvcHlyaWdodCAoYykgMjAxNC0yMDE1IERt
+aXRyeSBWLiBMZXZpbiA8bGR2QHN0cmFjZS5pbz4KICAjIENvcHlyaWdodCAoYykgMjAxNiBFbHZp
+cmEgS2hhYmlyb3ZhIDxsaW5lcHJpbnRlcjBAZ21haWwuY29tPgotZGlmZiAtLWdpdCBhL3Rlc3Rz
+LW0zMi9jYXBzLWFiYnJldi5hd2sgYi90ZXN0cy1tMzIvY2Fwcy1hYmJyZXYuYXdrCi1pbmRleCBj
+MDAwMjNiLi5hNTZjZDU2IDEwMDY0NAotLS0tIGEvdGVzdHMtbTMyL2NhcHMtYWJicmV2LmF3awot
+KysrIGIvdGVzdHMtbTMyL2NhcHMtYWJicmV2LmF3awotQEAgLTEsNCArMSw0IEBACi0tIyEvYmlu
+L2dhd2sKLSsjIS91c3IvYmluL2dhd2sKLSAjCi0gIyBUaGlzIGZpbGUgaXMgcGFydCBvZiBjYXBz
+IHN0cmFjZSB0ZXN0LgotICMKLWRpZmYgLS1naXQgYS90ZXN0cy1teDMyL2NhcHMtYWJicmV2LmF3
+ayBiL3Rlc3RzLW14MzIvY2Fwcy1hYmJyZXYuYXdrCi1pbmRleCBjMDAwMjNiLi5hNTZjZDU2IDEw
+MDY0NAotLS0tIGEvdGVzdHMtbXgzMi9jYXBzLWFiYnJldi5hd2sKLSsrKyBiL3Rlc3RzLW14MzIv
+Y2Fwcy1hYmJyZXYuYXdrCi1AQCAtMSw0ICsxLDQgQEAKLS0jIS9iaW4vZ2F3awotKyMhL3Vzci9i
+aW4vZ2F3awotICMKLSAjIFRoaXMgZmlsZSBpcyBwYXJ0IG9mIGNhcHMgc3RyYWNlIHRlc3QuCi0g
+IwotZGlmZiAtLWdpdCBhL3Rlc3RzL2NhcHMtYWJicmV2LmF3ayBiL3Rlc3RzL2NhcHMtYWJicmV2
+LmF3awotaW5kZXggYzAwMDIzYi4uYTU2Y2Q1NiAxMDA2NDQKLS0tLSBhL3Rlc3RzL2NhcHMtYWJi
+cmV2LmF3awotKysrIGIvdGVzdHMvY2Fwcy1hYmJyZXYuYXdrCi1AQCAtMSw0ICsxLDQgQEAKLS0j
+IS9iaW4vZ2F3awotKyMhL3Vzci9iaW4vZ2F3awotICMKLSAjIFRoaXMgZmlsZSBpcyBwYXJ0IG9m
+IGNhcHMgc3RyYWNlIHRlc3QuCi0gIwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2VfNi44LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJh
+Y2VfNi45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzYuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3N0cmFjZS9zdHJhY2VfNi45LmJiCmluZGV4IGUxY2M2NWUwNTMuLmJiOWY4ZTQyYmEgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzYuOC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZV82LjkuYmIKQEAgLTE1LDcgKzE1
+LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL3N0cmFjZS5pby9maWxlcy8ke1BWfS9zdHJhY2UtJHtQ
+Vn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29u
+Zi1tYWNyby10by1kZXRlY3QtbGFyZ2VmaWxlLXN1cC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6
+Ly8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRoLW9mZl90LnBhdGNoIFwKICAgICAgICAg
+ICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJhNjk1MGE5NjgyNGNkZjkzYTU4NGZhMDRmMGE3
+MzM4OTZkMmE2YmM1ZjBhZDlmZmU1MDVkOWI0MWU5NzAxNDkiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiZGExODllOTkwYTgyZTNjYTNhNWE0NjMxMDEyZjdlY2ZkNDg5ZGFiNDU5ODU0ZDgyZDhjYWY2
+YTg2NWMxMzU2YSIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcHRlc3QKIAotLSAKMi40NC4wCgo=
+
+--===============3133467792438424271==--
 
