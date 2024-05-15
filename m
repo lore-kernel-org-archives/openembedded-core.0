@@ -2,358 +2,178 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E997AC25B79
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:25 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1231.1715794337130697224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FFAC3271F
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:26 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1244.1715794338013170150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:32:17 -0700
+ Wed, 15 May 2024 10:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SNVen/ZJ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=En5r8tra;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018f7d4fdea7-a1cea0db-511d-48fb-882f-28c2eec9bfdc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S7Fj7xlZ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=1cOd5S+J;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f7d4fdec1-9b3ecfb6-dd3a-432d-948b-bf88e8ee04df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wbIQKFfunE98wQhDuCTf0Z+TqPGuLYJo5d0V2M6Omtc=;
-	b=SNVen/ZJEJYLV6VChDJ5PYhon2M7PrIoQKVm0VL+AmlFXeaACtza0SHvLyP2GuQd
-	6cjIPT2emMfDTHZWE7Oib7LWf1rQTWRt297XSkZpT8c45LBPJi5y4Pdm/obp4/JBeHq
-	2zVAG338vxBcrTczSYr8WTqoVRrOOGIxN+907Pvs=
+	bh=NAlapbe3OeBcTanqmxaxILAoSbygOeseowQAPkaVghM=;
+	b=S7Fj7xlZcIT7wZge7DZzOjTklqQjTtF9v/7ZIC6yIgGPumCTmZrV6jfkkzS5QcL+
+	bXUqqHwQRHm8M0BUMR+tjDj4rKnFt/Cm/KbKaks+YLLBVNtMpyHiB7Fdg2I013pJSLX
+	a4vB3hmU1YYj0eMPMbot8yoa2gnJUcxPeikrkSI8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wbIQKFfunE98wQhDuCTf0Z+TqPGuLYJo5d0V2M6Omtc=;
-	b=En5r8tra5roVZmD/IK+4tZNEvVyOqQEb71o4hQxULZKWJxoX36oy4+jbuH5UBLpj
-	4UpSThQXMGpJgR6oAcfamMKqIMc72lUnfxZBbYhP+VM9pwJ7Mkj0DXyqKEEjB0lOZni
-	L1mMwDRKffsdwRDIP/lB8dn+nVa7J4DRQLiliyO0=
-Content-Type: multipart/mixed; boundary="===============2870886356030247144=="
+	bh=NAlapbe3OeBcTanqmxaxILAoSbygOeseowQAPkaVghM=;
+	b=1cOd5S+JoLcgz4dbhbqEevQmeWN95VenOOZiFt579Jwtk/gH/7c9Lk+CWOL6OVkL
+	RygdOp/5BWoLAgVsyKAXhxpFcrqUtXSjRvMdUtN1L6Hlr0bdpQlosVf/Q9VuM/IFdcQ
+	uxNQmlzvr5PMUGFQDq8rgnVF/y7nOwZt/istef3Y=
+Content-Type: multipart/mixed; boundary="===============8943566434868604183=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] librepo: upgrading to 1.17.1 SUCCEEDED
-Message-ID: <0101018f7d4fdea7-a1cea0db-511d-48fb-882f-28c2eec9bfdc-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hatchling: upgrading to 1.24.2 SUCCEEDED
+Message-ID: <0101018f7d4fdec1-9b3ecfb6-dd3a-432d-948b-bf88e8ee04df-000000@us-west-2.amazonses.com>
 Date: Wed, 15 May 2024 17:32:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.192
+X-SES-Outgoing: 2024.05.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199322
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199325
 
---===============2870886356030247144==
-Content-Type: text/plain; charset="utf-8"
+--===============8943566434868604183==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *python3-hatchling* to *1.24.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-hatchling-upgrade-1.24.1-1.24.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 0c305919eae860f35d7f33151b1f896ad61b81fc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 May 2024 09:30:23 +0000
+Subject: [PATCH] python3-hatchling: upgrade 1.24.1 -> 1.24.2
+
+---
+ ...{python3-hatchling_1.24.1.bb => python3-hatchling_1.24.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hatchling_1.24.1.bb => python3-hatchling_1.24.2.bb} (85%)
+
+diff --git a/meta/recipes-devtools/python/python3-hatchling_1.24.1.bb b/meta/recipes-devtools/python/python3-hatchling_1.24.2.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-hatchling_1.24.1.bb
+rename to meta/recipes-devtools/python/python3-hatchling_1.24.2.bb
+index fc8d953281..0ad545f448 100644
+--- a/meta/recipes-devtools/python/python3-hatchling_1.24.1.bb
++++ b/meta/recipes-devtools/python/python3-hatchling_1.24.2.bb
+@@ -8,7 +8,7 @@ inherit pypi python_hatchling
+ DEPENDS += "python3-pluggy-native python3-pathspec-native python3-packaging-native python3-editables-native python3-trove-classifiers-native"
+ DEPENDS:remove:class-native = "python3-hatchling-native"
+ 
+-SRC_URI[sha256sum] = "51f861891e98c4044eb455163a737e5d2328d7aa74890b182db2d80fee22a497"
++SRC_URI[sha256sum] = "41ddc27cdb25db9ef7b68bef075f829c84cb349aa1bff8240797d012510547b0"
+ 
+ do_compile:prepend() {
+     export PYTHONPATH=src
+-- 
+2.44.0
+
+
+--===============8943566434868604183==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hatchling-upgrade-1.24.1-1.24.2.patch"
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICpsaWJyZXBvKiB0byAqMS4xNy4xKiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVwczoKICAgIC0g
-YXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1saWJyZXBvLXVwZ3JhZGUtMS4xNy4wLTEuMTcu
-MS5wYXRjaAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBz
-dW1tYXJpemUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1h
-Z2UgdGhhdCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2Fu
-aXR5IHRlc3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21t
-aXQgLXMgLS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3By
-aWF0ZSBtYWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNp
-cGUgc2hvdWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJ
-UEVfTk9fVVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0
-b21hdGljIHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2
-aWV3IHRoZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQv
-dXBkYXRlIGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczov
-L2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRl
-ZCUyMFVwZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjgg
-LS0KRnJvbSA1NTg5ZTYyNmFhNWY1YTdmNmUyMmM5YzJhODM1ZGQyYjBjZTBkMTYwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5v
-cmc+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDg6NTk6MjQgKzAwMDAKU3ViamVjdDogW1BBVENI
-XSBsaWJyZXBvOiB1cGdyYWRlIDEuMTcuMCAtPiAxLjE3LjEKCi0tLQogLi4ubWUuYy1maXgtYnVp
-bGQtZXJyb3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoIHwgMzYgLS0tLS0tLS0tLS0tLS0tLS0tLQog
-Li4udGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoIHwgIDIgKy0KIC4u
-Lmxlcy13aXRoLXBrZy1jb25maWctbm90LXdpdGgtY21ha2UtbS5wYXRjaCB8ICA0ICstLQogLi4u
-L3tsaWJyZXBvXzEuMTcuMC5iYiA9PiBsaWJyZXBvXzEuMTcuMS5iYn0gIHwgIDMgKy0KIDQgZmls
-ZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
-IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvLzAwMDEtZ3BnX2dw
-Z21lLmMtZml4LWJ1aWxkLWVycm9ycy13aXRoLW9sZGVyLWdjYy5wYXRjaAogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL3tsaWJyZXBvXzEuMTcuMC5iYiA9PiBsaWJyZXBvXzEu
-MTcuMS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVw
-by9saWJyZXBvLzAwMDEtZ3BnX2dwZ21lLmMtZml4LWJ1aWxkLWVycm9ycy13aXRoLW9sZGVyLWdj
-Yy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMS1ncGdf
-Z3BnbWUuYy1maXgtYnVpbGQtZXJyb3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoCmRlbGV0ZWQgZmls
-ZSBtb2RlIDEwMDY0NAppbmRleCA4NzI3YjE4MWIzLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMS1ncGdfZ3BnbWUuYy1maXgtYnVpbGQt
-ZXJyb3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzYgKzAsMCBA
-QAotRnJvbSBiNTI1Y2RlYzMwNTFkMWM2ZmYwYzNjZDM4YmYzMDcwYjE4ZDZmYjUwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQotRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25p
-eC5kZT4KLURhdGU6IFdlZCwgNiBNYXIgMjAyNCAxMDoxMzozOCArMDEwMAotU3ViamVjdDogW1BB
-VENIXSBncGdfZ3BnbWUuYzogZml4IGJ1aWxkIGVycm9ycyB3aXRoIG9sZGVyIGdjYwotTUlNRS1W
-ZXJzaW9uOiAxLjAKLUNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOAotQ29u
-dGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAotCi1XaGVuIHNlbGludXggaXMgbm90IGVuYWJs
-ZWQsIG9sZGVyIGdjYyB2ZXJzaW9ucyBlcnJvciBvdXQgdGhpcyB3YXk6Ci0KLXwgL2hvbWUvcG9r
-eWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5
-Mzg4NDUvdG1wLW1jLXRpbnkvaG9zdHRvb2xzL2djYyAtREdfTE9HX0RPTUFJTj1cImxpYnJlcG9c
-IiAtRF9GSUxFX09GRlNFVF9CSVRTPTY0IC1EX0xBUkdFRklMRTY0X1NPVVJDRSAtRF9MQVJHRUZJ
-TEVfU09VUkNFIC1EbGlicmVwb19FWFBPUlRTIC1JL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
-ci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkv
-d29yay9hYXJjaDY0LWxpbnV4L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9naXQgLUkvaG9tZS9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkz
-ODg0NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4w
-L3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZpZy8uLi8uLi8uLi91c3IvaW5j
-bHVkZS9saWJtb3VudCAtSS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3Qt
-YXJtaG9zdC9idWlsZC9idWlsZC1zdC0xOTM4ODQ1L3RtcC1tYy10aW55L3dvcmsvYWFyY2g2NC1s
-aW51eC9saWJyZXBvLW5hdGl2ZS8xLjE3LjAvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9saWIv
-cGtnY29uZmlnLy4uLy4uLy4uL3Vzci9pbmNsdWRlL2Jsa2lkIC1JL2hvbWUvcG9reWJ1aWxkL3lv
-Y3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1w
-LW1jLXRpbnkvd29yay9hYXJjaDY0LWxpbnV4L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9yZWNpcGUt
-c3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9wa2djb25maWcvLi4vLi4vLi4vdXNyL2luY2x1ZGUvZ2xp
-Yi0yLjAgLUkvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3Qv
-YnVpbGQvYnVpbGQtc3QtMTkzODg0NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGli
-cmVwby1uYXRpdmUvMS4xNy4wL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZp
-Zy8uLi8uLi8uLi91c3IvbGliL2dsaWItMi4wL2luY2x1ZGUgLUkvaG9tZS9wb2t5YnVpbGQveW9j
-dG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkzODg0NS90bXAt
-bWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4wL3JlY2lwZS1z
-eXNyb290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZpZy8uLi8uLi8uLi91c3IvaW5jbHVkZS9saWJ4
-bWwyIC1pc3lzdGVtL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1o
-b3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkvd29yay9hYXJjaDY0LWxpbnV4
-L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2luY2x1ZGUg
-LU8yIC1waXBlIC1zdGQ9Yzk5IC1XYWxsIC1mUElDIC1NRCAtTVQgbGlicmVwby9DTWFrZUZpbGVz
-L2xpYnJlcG8uZGlyL2dwZ19ncGdtZS5jLm8gLU1GIGxpYnJlcG8vQ01ha2VGaWxlcy9saWJyZXBv
-LmRpci9ncGdfZ3BnbWUuYy5vLmQgLW8gbGlicmVwby9DTWFrZUZpbGVzL2xpYnJlcG8uZGlyL2dw
-Z19ncGdtZS5jLm8gLWMgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1h
-cm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkvd29yay9hYXJjaDY0LWxp
-bnV4L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9naXQvbGlicmVwby9ncGdfZ3BnbWUuYwotfCAvaG9t
-ZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQt
-c3QtMTkzODg0NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUv
-MS4xNy4wL2dpdC9saWJyZXBvL2dwZ19ncGdtZS5jOiBJbiBmdW5jdGlvbiDigJhscl9ncGdfZW5z
-dXJlX3NvY2tldF9kaXJfZXhpc3Rz4oCZOgotfCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkzODg0NS90bXAtbWMtdGlueS93
-b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4wL2dpdC9saWJyZXBvL2dwZ19n
-cGdtZS5jOjEzNToxOiBlcnJvcjogbGFiZWwgYXQgZW5kIG9mIGNvbXBvdW5kIHN0YXRlbWVudAot
-fCAgIDEzNSB8IGV4aXQ6Ci18ICAgICAgIHwgXn5+fgotCi1FbnN1cmluZyB0aGUgZXhpdDogYmxv
-Y2sgaXMgbm90IGVtcHR5IGZpeGVzIHRoZSBpc3N1ZS4KLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJt
-aXR0ZWQgW2h0dHBzOi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9saWJyZXBv
-L3B1bGwvMzAwXQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRy
-b25peC5kZT4KLS0tLQotIGxpYnJlcG8vZ3BnX2dwZ21lLmMgfCAxICsKLSAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKykKLQotZGlmZiAtLWdpdCBhL2xpYnJlcG8vZ3BnX2dwZ21lLmMgYi9s
-aWJyZXBvL2dwZ19ncGdtZS5jCi1pbmRleCBjNGFkZGIyLi40N2MzMTUzIDEwMDY0NAotLS0tIGEv
-bGlicmVwby9ncGdfZ3BnbWUuYwotKysrIGIvbGlicmVwby9ncGdfZ3BnbWUuYwotQEAgLTE0NCw2
-ICsxNDQsNyBAQCBleGl0OgotICAgICB9Ci0gICAgIGZyZWVjb24ob2xkX2RlZmF1bHRfY29udGV4
-dCk7Ci0gI2VuZGlmCi0rICAgIHJldHVybjsKLSB9Ci0gCi0gc3RhdGljIGdwZ21lX2N0eF90CmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvLzAwMDItRG8t
-bm90LXRyeS10by1vYnRhaW4tUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcC5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRv
-LW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoCmluZGV4IDRhODUx
-YWQxZTIuLmYzNmEzNDhiYjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJy
-ZXBvL2xpYnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVIt
-YnktcnVubmluZy1wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xp
-YnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVu
-bmluZy1wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3NjA1MmFhNDBjNjE1ODA4Njk0NzJm
-ZDNmMDA5YTRhYjE2MjBiOTk4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkYzBlODY4
-MjUwMzE5NTJkN2EyYWNiN2Y3ZWQwMmU1YWFkNGVmM2Q4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRl
-OiBGcmksIDMwIERlYyAyMDE2IDE4OjA1OjM2ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5v
-dCB0cnkgdG8gb2J0YWluIFBZVEhPTl9JTlNUQUxMX0RJUiBieSBydW5uaW5nIHB5dGhvbi4KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwNC1TZXQt
-Z3BnbWUtdmFyaWFibGVzLXdpdGgtcGtnLWNvbmZpZy1ub3Qtd2l0aC1jbWFrZS1tLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDA0LVNldC1ncGdtZS12YXJp
-YWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNtYWtlLW0ucGF0Y2gKaW5kZXggZmQxZGY5
-NTQ3My4uNGRhMDMzZjdlMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJl
-cG8vbGlicmVwby8wMDA0LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13
-aXRoLWNtYWtlLW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGli
-cmVwby8wMDA0LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNt
-YWtlLW0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI1OTE4ZjA2ZDc5MGRjMzQ2ZDQxZGU0
-YjNhM2VjMDFmMjkwYzFkMjUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk1Mzg1ODli
-OTZmNzg1NWFlM2UzMmVmMGQzODFiMGNjNTM3NGJmMzggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6
-IEZyaSwgMzAgRGVjIDIwMTYgMTg6MjM6MjcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gU2V0IGdw
-Z21lIHZhcmlhYmxlcyB3aXRoIHBrZy1jb25maWcsIG5vdCB3aXRoIGNtYWtlIG1vZHVsZQpAQCAt
-MTEsNyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0
-aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1p
-bmRleCA2YzAwMDI0Li5hMmY1N2FmIDEwMDY0NAoraW5kZXggZDAzOTZmMS4uNGUxYzJlZSAxMDA2
-NDQKIC0tLSBhL0NNYWtlTGlzdHMudHh0CiArKysgYi9DTWFrZUxpc3RzLnR4dAogQEAgLTM3LDcg
-KzM3LDggQEAgUEtHX0NIRUNLX01PRFVMRVMoTElCWE1MMiBsaWJ4bWwtMi4wIFJFUVVJUkVEKQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvXzEuMTcuMS5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVw
-by9saWJyZXBvXzEuMTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJl
-cG8vbGlicmVwb18xLjE3LjEuYmIKaW5kZXggODEwMTkxNDU5ZC4uYmViOGJhZjhkNiAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjEuYmIKQEAgLTgs
-MTAgKzgsOSBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT00ZmJkNjUz
-ODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9y
-cG0tc29mdHdhcmUtbWFuYWdlbWVudC9saWJyZXBvLmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29s
-PWh0dHBzIFwKICAgICAgICAgICAgZmlsZTovLzAwMDItRG8tbm90LXRyeS10by1vYnRhaW4tUFlU
-SE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8w
-MDA0LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNtYWtlLW0u
-cGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1ncGdfZ3BnbWUuYy1maXgtYnVpbGQtZXJy
-b3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiYWU3
-MjdkOTkwODZmNzBmMzlmYmE1Njk1YWY1NDYwZTFkYTkwOGMxYiIKK1NSQ1JFViA9ICI0ZmYxMWQ4
-NWNiMDYwMjY5NDNmMjk3YmMzZTA2ZjA0N2RkNzNiZjBiIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0
-IgogCi0tIAoyLjQ0LjAKCg==
+RnJvbSAwYzMwNTkxOWVhZTg2MGYzNWQ3ZjMzMTUxYjFmODk2YWQ2MWI4MWZjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDk6MzA6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWhhdGNobGluZzogdXBncmFkZSAxLjI0LjEgLT4gMS4yNC4yCgotLS0KIC4uLntweXRo
+b24zLWhhdGNobGluZ18xLjI0LjEuYmIgPT4gcHl0aG9uMy1oYXRjaGxpbmdfMS4yNC4yLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjQu
+MS5iYiA9PiBweXRob24zLWhhdGNobGluZ18xLjI0LjIuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjI0LjEuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjQuMi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjI0LjIuYmIKaW5kZXggZmM4ZDk1
+MzI4MS4uMGFkNTQ1ZjQ0OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWhhdGNobGluZ18xLjI0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjI0LjIuYmIKQEAgLTgsNyArOCw3IEBAIGluaGVy
+aXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiBERVBFTkRTICs9ICJweXRob24zLXBsdWdneS1uYXRp
+dmUgcHl0aG9uMy1wYXRoc3BlYy1uYXRpdmUgcHl0aG9uMy1wYWNrYWdpbmctbmF0aXZlIHB5dGhv
+bjMtZWRpdGFibGVzLW5hdGl2ZSBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzLW5hdGl2ZSIKIERF
+UEVORFM6cmVtb3ZlOmNsYXNzLW5hdGl2ZSA9ICJweXRob24zLWhhdGNobGluZy1uYXRpdmUiCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1MWY4NjE4OTFlOThjNDA0NGViNDU1MTYzYTczN2U1ZDIz
+MjhkN2FhNzQ4OTBiMTgyZGIyZDgwZmVlMjJhNDk3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQx
+ZGRjMjdjZGIyNWRiOWVmN2I2OGJlZjA3NWY4MjljODRjYjM0OWFhMWJmZjgyNDA3OTdkMDEyNTEw
+NTQ3YjAiCiAKIGRvX2NvbXBpbGU6cHJlcGVuZCgpIHsKICAgICBleHBvcnQgUFlUSE9OUEFUSD1z
+cmMKLS0gCjIuNDQuMAoK
 
---===============2870886356030247144==
+--===============8943566434868604183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/librepo: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo: SRC_URI changed from "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch file://0001-gpg_gpgme.c-fix-build-errors-with-older-gcc.patch" to "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch"
-packages/core2-64-poky-linux/librepo: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-dbg: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-dbg: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-dbg: PKGSIZE changed from 823608 to 823592 (-0%)
-packages/core2-64-poky-linux/librepo/librepo-dev: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-dev: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-dev: PKGSIZE changed from 127824 to 127717 (-0%)
-packages/core2-64-poky-linux/librepo/librepo-doc: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-doc: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-locale: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-locale: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-src: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-src: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo-src: PKGSIZE changed from 727402 to 727337 (-0%)
-packages/core2-64-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo-staticdev: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/librepo/librepo: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/librepo/librepo: PV changed from "1.17.0" to "1.17.1"
+packages/core2-64-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.24.1.tar.gz;downloadfilename=hatchling-1.24.1.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.24.2.tar.gz;downloadfilename=hatchling-1.24.2.tar.gz"
+packages/core2-64-poky-linux/python3-hatchling: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.24.1" to "1.24.2"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 715154 to 715588 (+0%)
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.24.1 [default] to 1.24.2 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.24.1" to "1.24.2"
+Changes to packages/core2-64-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.12/site-packages/hatchling-1.24.1.dist-info moved to /usr/lib/python3.12/site-packages/hatchling-1.24.2.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.12/site-packages/hatchling-1.24.1.dist-info moved to /usr/lib/python3.12/site-packages/hatchling-1.24.2.dist-info
 
---===============2870886356030247144==
-Content-Type: application/octet-stream
+--===============8943566434868604183==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-librepo-upgrade-1.17.0-1.17.1.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSA1NTg5ZTYyNmFhNWY1YTdmNmUyMmM5YzJhODM1ZGQyYjBjZTBkMTYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDg6NTk6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJyZXBvOiB1cGdyYWRlIDEuMTcuMCAtPiAxLjE3LjEKCi0tLQogLi4ubWUuYy1maXgtYnVpbGQt
-ZXJyb3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoIHwgMzYgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
-dGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoIHwgIDIgKy0KIC4uLmxl
-cy13aXRoLXBrZy1jb25maWctbm90LXdpdGgtY21ha2UtbS5wYXRjaCB8ICA0ICstLQogLi4uL3ts
-aWJyZXBvXzEuMTcuMC5iYiA9PiBsaWJyZXBvXzEuMTcuMS5iYn0gIHwgIDMgKy0KIDQgZmlsZXMg
-Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvLzAwMDEtZ3BnX2dwZ21l
-LmMtZml4LWJ1aWxkLWVycm9ycy13aXRoLW9sZGVyLWdjYy5wYXRjaAogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9saWJyZXBvL3tsaWJyZXBvXzEuMTcuMC5iYiA9PiBsaWJyZXBvXzEuMTcu
-MS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9s
-aWJyZXBvLzAwMDEtZ3BnX2dwZ21lLmMtZml4LWJ1aWxkLWVycm9ycy13aXRoLW9sZGVyLWdjYy5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMS1ncGdfZ3Bn
-bWUuYy1maXgtYnVpbGQtZXJyb3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoCmRlbGV0ZWQgZmlsZSBt
-b2RlIDEwMDY0NAppbmRleCA4NzI3YjE4MWIzLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMS1ncGdfZ3BnbWUuYy1maXgtYnVpbGQtZXJy
-b3JzLXdpdGgtb2xkZXItZ2NjLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzYgKzAsMCBAQAot
-RnJvbSBiNTI1Y2RlYzMwNTFkMWM2ZmYwYzNjZDM4YmYzMDcwYjE4ZDZmYjUwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQotRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5k
-ZT4KLURhdGU6IFdlZCwgNiBNYXIgMjAyNCAxMDoxMzozOCArMDEwMAotU3ViamVjdDogW1BBVENI
-XSBncGdfZ3BnbWUuYzogZml4IGJ1aWxkIGVycm9ycyB3aXRoIG9sZGVyIGdjYwotTUlNRS1WZXJz
-aW9uOiAxLjAKLUNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOAotQ29udGVu
-dC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAotCi1XaGVuIHNlbGludXggaXMgbm90IGVuYWJsZWQs
-IG9sZGVyIGdjYyB2ZXJzaW9ucyBlcnJvciBvdXQgdGhpcyB3YXk6Ci0KLXwgL2hvbWUvcG9reWJ1
-aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4
-NDUvdG1wLW1jLXRpbnkvaG9zdHRvb2xzL2djYyAtREdfTE9HX0RPTUFJTj1cImxpYnJlcG9cIiAt
-RF9GSUxFX09GRlNFVF9CSVRTPTY0IC1EX0xBUkdFRklMRTY0X1NPVVJDRSAtRF9MQVJHRUZJTEVf
-U09VUkNFIC1EbGlicmVwb19FWFBPUlRTIC1JL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9v
-ZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkvd29y
-ay9hYXJjaDY0LWxpbnV4L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9naXQgLUkvaG9tZS9wb2t5YnVp
-bGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkzODg0
-NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4wL3Jl
-Y2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZpZy8uLi8uLi8uLi91c3IvaW5jbHVk
-ZS9saWJtb3VudCAtSS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtYXJt
-aG9zdC9idWlsZC9idWlsZC1zdC0xOTM4ODQ1L3RtcC1tYy10aW55L3dvcmsvYWFyY2g2NC1saW51
-eC9saWJyZXBvLW5hdGl2ZS8xLjE3LjAvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9saWIvcGtn
-Y29uZmlnLy4uLy4uLy4uL3Vzci9pbmNsdWRlL2Jsa2lkIC1JL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1j
-LXRpbnkvd29yay9hYXJjaDY0LWxpbnV4L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9yZWNpcGUtc3lz
-cm9vdC1uYXRpdmUvdXNyL2xpYi9wa2djb25maWcvLi4vLi4vLi4vdXNyL2luY2x1ZGUvZ2xpYi0y
-LjAgLUkvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVp
-bGQvYnVpbGQtc3QtMTkzODg0NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVw
-by1uYXRpdmUvMS4xNy4wL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZpZy8u
-Li8uLi8uLi91c3IvbGliL2dsaWItMi4wL2luY2x1ZGUgLUkvaG9tZS9wb2t5YnVpbGQveW9jdG8t
-d29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkzODg0NS90bXAtbWMt
-dGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4wL3JlY2lwZS1zeXNy
-b290LW5hdGl2ZS91c3IvbGliL3BrZ2NvbmZpZy8uLi8uLi8uLi91c3IvaW5jbHVkZS9saWJ4bWwy
-IC1pc3lzdGVtL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0
-L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkvd29yay9hYXJjaDY0LWxpbnV4L2xp
-YnJlcG8tbmF0aXZlLzEuMTcuMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2luY2x1ZGUgLU8y
-IC1waXBlIC1zdGQ9Yzk5IC1XYWxsIC1mUElDIC1NRCAtTVQgbGlicmVwby9DTWFrZUZpbGVzL2xp
-YnJlcG8uZGlyL2dwZ19ncGdtZS5jLm8gLU1GIGxpYnJlcG8vQ01ha2VGaWxlcy9saWJyZXBvLmRp
-ci9ncGdfZ3BnbWUuYy5vLmQgLW8gbGlicmVwby9DTWFrZUZpbGVzL2xpYnJlcG8uZGlyL2dwZ19n
-cGdtZS5jLm8gLWMgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1o
-b3N0L2J1aWxkL2J1aWxkLXN0LTE5Mzg4NDUvdG1wLW1jLXRpbnkvd29yay9hYXJjaDY0LWxpbnV4
-L2xpYnJlcG8tbmF0aXZlLzEuMTcuMC9naXQvbGlicmVwby9ncGdfZ3BnbWUuYwotfCAvaG9tZS9w
-b2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3Qt
-MTkzODg0NS90bXAtbWMtdGlueS93b3JrL2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4x
-Ny4wL2dpdC9saWJyZXBvL2dwZ19ncGdtZS5jOiBJbiBmdW5jdGlvbiDigJhscl9ncGdfZW5zdXJl
-X3NvY2tldF9kaXJfZXhpc3Rz4oCZOgotfCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL29l
-LXNlbGZ0ZXN0LWFybWhvc3QvYnVpbGQvYnVpbGQtc3QtMTkzODg0NS90bXAtbWMtdGlueS93b3Jr
-L2FhcmNoNjQtbGludXgvbGlicmVwby1uYXRpdmUvMS4xNy4wL2dpdC9saWJyZXBvL2dwZ19ncGdt
-ZS5jOjEzNToxOiBlcnJvcjogbGFiZWwgYXQgZW5kIG9mIGNvbXBvdW5kIHN0YXRlbWVudAotfCAg
-IDEzNSB8IGV4aXQ6Ci18ICAgICAgIHwgXn5+fgotCi1FbnN1cmluZyB0aGUgZXhpdDogYmxvY2sg
-aXMgbm90IGVtcHR5IGZpeGVzIHRoZSBpc3N1ZS4KLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0
-ZWQgW2h0dHBzOi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9saWJyZXBvL3B1
-bGwvMzAwXQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25p
-eC5kZT4KLS0tLQotIGxpYnJlcG8vZ3BnX2dwZ21lLmMgfCAxICsKLSAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKLQotZGlmZiAtLWdpdCBhL2xpYnJlcG8vZ3BnX2dwZ21lLmMgYi9saWJy
-ZXBvL2dwZ19ncGdtZS5jCi1pbmRleCBjNGFkZGIyLi40N2MzMTUzIDEwMDY0NAotLS0tIGEvbGli
-cmVwby9ncGdfZ3BnbWUuYwotKysrIGIvbGlicmVwby9ncGdfZ3BnbWUuYwotQEAgLTE0NCw2ICsx
-NDQsNyBAQCBleGl0OgotICAgICB9Ci0gICAgIGZyZWVjb24ob2xkX2RlZmF1bHRfY29udGV4dCk7
-Ci0gI2VuZGlmCi0rICAgIHJldHVybjsKLSB9Ci0gCi0gc3RhdGljIGdwZ21lX2N0eF90CmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvLzAwMDItRG8tbm90
-LXRyeS10by1vYnRhaW4tUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcC5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9i
-dGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoCmluZGV4IDRhODUxYWQx
-ZTIuLmYzNmEzNDhiYjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBv
-L2xpYnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnkt
-cnVubmluZy1wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJl
-cG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmlu
-Zy1wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3NjA1MmFhNDBjNjE1ODA4Njk0NzJmZDNm
-MDA5YTRhYjE2MjBiOTk4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkYzBlODY4MjUw
-MzE5NTJkN2EyYWNiN2Y3ZWQwMmU1YWFkNGVmM2Q4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBG
-cmksIDMwIERlYyAyMDE2IDE4OjA1OjM2ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCB0
-cnkgdG8gb2J0YWluIFBZVEhPTl9JTlNUQUxMX0RJUiBieSBydW5uaW5nIHB5dGhvbi4KZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwNC1TZXQtZ3Bn
-bWUtdmFyaWFibGVzLXdpdGgtcGtnLWNvbmZpZy1ub3Qtd2l0aC1jbWFrZS1tLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDA0LVNldC1ncGdtZS12YXJpYWJs
-ZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNtYWtlLW0ucGF0Y2gKaW5kZXggZmQxZGY5NTQ3
-My4uNGRhMDMzZjdlMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8v
-bGlicmVwby8wMDA0LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRo
-LWNtYWtlLW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVw
-by8wMDA0LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNtYWtl
-LW0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI1OTE4ZjA2ZDc5MGRjMzQ2ZDQxZGU0YjNh
-M2VjMDFmMjkwYzFkMjUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk1Mzg1ODliOTZm
-Nzg1NWFlM2UzMmVmMGQzODFiMGNjNTM3NGJmMzggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IEZy
-aSwgMzAgRGVjIDIwMTYgMTg6MjM6MjcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gU2V0IGdwZ21l
-IHZhcmlhYmxlcyB3aXRoIHBrZy1jb25maWcsIG5vdCB3aXRoIGNtYWtlIG1vZHVsZQpAQCAtMTEs
-NyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1pbmRl
-eCA2YzAwMDI0Li5hMmY1N2FmIDEwMDY0NAoraW5kZXggZDAzOTZmMS4uNGUxYzJlZSAxMDA2NDQK
-IC0tLSBhL0NNYWtlTGlzdHMudHh0CiArKysgYi9DTWFrZUxpc3RzLnR4dAogQEAgLTM3LDcgKzM3
-LDggQEAgUEtHX0NIRUNLX01PRFVMRVMoTElCWE1MMiBsaWJ4bWwtMi4wIFJFUVVJUkVEKQpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjAuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvXzEuMTcuMS5iYgpzaW1pbGFy
-aXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9s
-aWJyZXBvXzEuMTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8v
-bGlicmVwb18xLjE3LjEuYmIKaW5kZXggODEwMTkxNDU5ZC4uYmViOGJhZjhkNiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjAuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjE3LjEuYmIKQEAgLTgsMTAg
-KzgsOSBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT00ZmJkNjUzODBj
-ZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0t
-c29mdHdhcmUtbWFuYWdlbWVudC9saWJyZXBvLmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0
-dHBzIFwKICAgICAgICAgICAgZmlsZTovLzAwMDItRG8tbm90LXRyeS10by1vYnRhaW4tUFlUSE9O
-X0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0
-LVNldC1ncGdtZS12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLW5vdC13aXRoLWNtYWtlLW0ucGF0
-Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1ncGdfZ3BnbWUuYy1maXgtYnVpbGQtZXJyb3Jz
-LXdpdGgtb2xkZXItZ2NjLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiYWU3Mjdk
-OTkwODZmNzBmMzlmYmE1Njk1YWY1NDYwZTFkYTkwOGMxYiIKK1NSQ1JFViA9ICI0ZmYxMWQ4NWNi
-MDYwMjY5NDNmMjk3YmMzZTA2ZjA0N2RkNzNiZjBiIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0Igog
-Ci0tIAoyLjQ0LjAKCg==
+Changes to packages/core2-64-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.12/site-packages/hatchling-1.24.1.dist-info moved to /usr/lib/python3.12/site-packages/hatchling-1.24.2.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.12/site-packages/hatchling-1.24.1.dist-info moved to /usr/lib/python3.12/site-packages/hatchling-1.24.2.dist-info
 
---===============2870886356030247144==--
+--===============8943566434868604183==--
 
