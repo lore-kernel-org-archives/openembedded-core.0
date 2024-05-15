@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00900C3DA41
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:27 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1269.1715794340329237015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EACEC3DA4B
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:28 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1265.1715794339953771460
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=A63i98Bk;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2A81GXWB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018f7d4fe76e-4ba5b7ab-9e8e-4822-87b0-2001146b39ba-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S2GlwEjp;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=O5mzzZSt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f7d4fe41e-140569b2-4cae-43d9-b183-e08541b9e02d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ptayd4tYT2/quq3m6IcuNKPRNmYX6ZqrZpWLGzyxvh8=;
-	b=A63i98BkNwLVioIcuZDVm+5wGpMMXlLyxvXpWEljd3+87g9XTBYK3dVaKSaOPUwm
-	91Uv8mW7/pFuoGcurrmr9MWuPLAppmP9QTCT/VyizMhIxYORXaeDGpH84h4vKlMyoNY
-	swViFGbk7tpdUJ0WGwlMwaGbmjtsy2dCnCncPfjU=
+	bh=iyhC269c/Kni5xvneScZWJoHMl0lwVYScqsigBtczYs=;
+	b=S2GlwEjppMSay0sYSw79cAPVGxJoiUL5+Etc+01sV2zZCOTuL2gUbuo5MLAX6Dgn
+	IDQ4t12A0T3DYNUUjatPTAmgtpP8bfoDZishLstaWBeGQ62MxKIjYNRXqc8gqNU5TNQ
+	vvXKlnP3cGNtNz9gC8KikTHjzGFBZqXkkZSyhdqg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ptayd4tYT2/quq3m6IcuNKPRNmYX6ZqrZpWLGzyxvh8=;
-	b=2A81GXWB+6AQljrD9U7x51d1zPmUVF1cTkD5UipEZipcdnchswmg3AKSMky+x7eT
-	oCgKXE41lirBjx4n3q10p3Wtq6vrHeqQwrGUOK3pBzd1wA/D2wASJ6u05GOi/TQB/pR
-	t+qOgYm3LZID+HaNGdpmQextwZeLLzvWYuskopjk=
-Content-Type: multipart/mixed; boundary="===============6258925004076684830=="
+	bh=iyhC269c/Kni5xvneScZWJoHMl0lwVYScqsigBtczYs=;
+	b=O5mzzZSteBf4yrbN/esNvsstP9axvagju1u0K/3b0yR1loIThXTEP7tNrzQkG9iF
+	XjFdXgZcLTu2ezMB7XCIAijn5OaLAIGZ+kEsxK7oNlRuUleOnahevI1FrzkVzhmEOwl
+	jQ997jU2/rp5WxPJgficqRT5u7D7+eqQOM0uhbfg=
+Content-Type: multipart/mixed; boundary="===============2016176102773590035=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] fribidi: upgrading to 1.0.14 SUCCEEDED
-Message-ID: <0101018f7d4fe76e-4ba5b7ab-9e8e-4822-87b0-2001146b39ba-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:19 +0000
+Subject: [AUH] spirv-headers: upgrading to 1.3.283.0 SUCCEEDED
+Message-ID: <0101018f7d4fe41e-140569b2-4cae-43d9-b183-e08541b9e02d-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.33
+X-SES-Outgoing: 2024.05.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199418
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199407
 
---===============6258925004076684830==
+--===============2016176102773590035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *fribidi* to *1.0.14* has Succeeded.
+that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.283.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-fribidi-upgrade-1.0.13-1.0.14.patch
+    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.280.0-1.3.283.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,64 +72,90 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5360e50655f12f20362bdc14b750655d15f28832 Mon Sep 17 00:00:00 2001
+From 68cd868bbf3c147f24d34fbd2e6dce08d320d238 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 16:30:31 +0000
-Subject: [PATCH] fribidi: upgrade 1.0.13 -> 1.0.14
+Date: Wed, 15 May 2024 14:00:59 +0000
+Subject: [PATCH] spirv-headers: upgrade 1.3.280.0 -> 1.3.283.0
 
 ---
- .../fribidi/{fribidi_1.0.13.bb => fribidi_1.0.14.bb}            | 2 +-
+ .../{spirv-headers_1.3.280.0.bb => spirv-headers_1.3.283.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/fribidi/{fribidi_1.0.13.bb => fribidi_1.0.14.bb} (89%)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.280.0.bb => spirv-headers_1.3.283.0.bb} (93%)
 
-diff --git a/meta/recipes-support/fribidi/fribidi_1.0.13.bb b/meta/recipes-support/fribidi/fribidi_1.0.14.bb
-similarity index 89%
-rename from meta/recipes-support/fribidi/fribidi_1.0.13.bb
-rename to meta/recipes-support/fribidi/fribidi_1.0.14.bb
-index 5d0476a375..51752096de 100644
---- a/meta/recipes-support/fribidi/fribidi_1.0.13.bb
-+++ b/meta/recipes-support/fribidi/fribidi_1.0.14.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
+index 26bfd9c4fa..efa3e94048 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.280.0.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.3.283.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d14ee3b13f42e9c9674acc5925c3d741"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.xz \
-            "
--SRC_URI[sha256sum] = "7fa16c80c81bd622f7b198d31356da139cc318a63fc7761217af4130903f54a2"
-+SRC_URI[sha256sum] = "76ae204a7027652ac3981b9fa5817c083ba23114340284c58e756b259cd2259a"
- 
- inherit meson lib_package pkgconfig github-releases
- 
+-SRCREV = "8b246ff75c6615ba4532fe4fde20f1be090c3764"
++SRCREV = "4f7b471f1a66b6d06462cd4ba57628cc0cd087d7"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 -- 
 2.44.0
 
 
---===============6258925004076684830==
+--===============2016176102773590035==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-spirv-headers-upgrade-1.3.280.0-1.3.283.0.patch"
+
+RnJvbSA2OGNkODY4YmJmM2MxNDdmMjRkMzRmYmQyZTZkY2UwOGQzMjBkMjM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTQ6MDA6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yODAuMCAtPiAxLjMuMjgzLjAKCi0tLQogLi4uL3tz
+cGlydi1oZWFkZXJzXzEuMy4yODAuMC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuMy4yODMuMC5iYn0g
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWhlYWRlcnNfMS4zLjI4MC4w
+LmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI4My4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI4MC4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjgzLjAuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3Bp
+cnYtaGVhZGVyc18xLjMuMjgwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9z
+cGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI4My4wLmJiCmluZGV4IDI2YmZkOWM0ZmEuLmVmYTNlOTQw
+NDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNf
+MS4zLjI4MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRl
+cnNfMS4zLjI4My4wLmJiCkBAIC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL3d3dy5r
+aHJvbm9zLm9yZy9yZWdpc3RyeS9zcGlyLXYiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWQxNGVlM2IxM2Y0MmU5Yzk2NzRhY2M1OTI1YzNk
+NzQxIgogCi1TUkNSRVYgPSAiOGIyNDZmZjc1YzY2MTViYTQ1MzJmZTRmZGUyMGYxYmUwOTBjMzc2
+NCIKK1NSQ1JFViA9ICI0ZjdiNDcxZjFhNjZiNmQwNjQ2MmNkNGJhNTc2MjhjYzBjZDA4N2Q3Igog
+U1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9TUElSVi1IZWFkZXJzO3By
+b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogUEUgPSAiMSIKICMgVGhlc2UgcmVjaXBlcyBuZWVk
+IHRvIGJlIHVwZGF0ZWQgaW4gbG9ja3N0ZXAgd2l0aCBlYWNoIG90aGVyOgotLSAKMi40NC4wCgo=
+
+--===============2016176102773590035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/fribidi/fribidi-bin: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-bin: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-dbg: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-dbg: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-dev: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-dev: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-doc: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-doc: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-doc: PKGSIZE changed from 67661 to 67665 (+0%)
-packages/core2-64-poky-linux/fribidi/fribidi-locale: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-locale: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-src: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-src: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi-src: PKGSIZE changed from 818692 to 800921 (-2%)
-packages/core2-64-poky-linux/fribidi/fribidi-staticdev: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi-staticdev: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi/fribidi: PV changed from "1.0.13" to "1.0.14"
-packages/core2-64-poky-linux/fribidi/fribidi: PKGSIZE changed from 125003 to 120907 (-3%)
-packages/core2-64-poky-linux/fribidi: PKGV changed from 1.0.13 [default] to 1.0.14 [default]
-packages/core2-64-poky-linux/fribidi: SRC_URI changed from "https://github.com/fribidi/fribidi/releases//download/v1.0.13/fribidi-1.0.13.tar.xz" to "https://github.com/fribidi/fribidi/releases//download/v1.0.14/fribidi-1.0.14.tar.xz"
-packages/core2-64-poky-linux/fribidi: PV changed from "1.0.13" to "1.0.14"
+packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 2942796 to 2943154 (+0%)
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.280.0" to "1.3.283.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1769,37 +1795,7 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6258925004076684830==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-fribidi-upgrade-1.0.13-1.0.14.patch"
-
-RnJvbSA1MzYwZTUwNjU1ZjEyZjIwMzYyYmRjMTRiNzUwNjU1ZDE1ZjI4ODMyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTY6MzA6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-cmliaWRpOiB1cGdyYWRlIDEuMC4xMyAtPiAxLjAuMTQKCi0tLQogLi4uL2ZyaWJpZGkve2ZyaWJp
-ZGlfMS4wLjEzLmJiID0+IGZyaWJpZGlfMS4wLjE0LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZnJpYmlkaS97ZnJpYmlkaV8xLjAuMTMuYmIgPT4gZnJpYmlkaV8xLjAu
-MTQuYmJ9ICg4OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZnJpYmlkaS9m
-cmliaWRpXzEuMC4xMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ZyaWJpZGkvZnJpYmlkaV8x
-LjAuMTQuYmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZnJpYmlkaS9mcmliaWRpXzEuMC4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZnJpYmlkaS9mcmliaWRpXzEuMC4xNC5iYgppbmRleCA1ZDA0NzZhMzc1Li41MTc1MjA5
-NmRlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9mcmliaWRpL2ZyaWJpZGlfMS4w
-LjEzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ZyaWJpZGkvZnJpYmlkaV8xLjAuMTQu
-YmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
-ZDU9YTkxNjQ2N2I5MTA3NmU2MzFkZDhlZGI3NDI0NzY5YzciCiAKIFNSQ19VUkkgPSAiJHtHSVRI
-VUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICAi
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiN2ZhMTZjODBjODFiZDYyMmY3YjE5OGQzMTM1NmRhMTM5
-Y2MzMThhNjNmYzc3NjEyMTdhZjQxMzA5MDNmNTRhMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3
-NmFlMjA0YTcwMjc2NTJhYzM5ODFiOWZhNTgxN2MwODNiYTIzMTE0MzQwMjg0YzU4ZTc1NmIyNTlj
-ZDIyNTlhIgogCiBpbmhlcml0IG1lc29uIGxpYl9wYWNrYWdlIHBrZ2NvbmZpZyBnaXRodWItcmVs
-ZWFzZXMKIAotLSAKMi40NC4wCgo=
-
---===============6258925004076684830==
+--===============2016176102773590035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3444,5 +3440,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6258925004076684830==--
+--===============2016176102773590035==--
 
