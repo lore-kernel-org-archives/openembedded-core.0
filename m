@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34E20C32718
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0AB7C31D97
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:24 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.1277.1715794337871194204
+ by mx.groups.io with SMTP id smtpd.web11.1273.1715794337765295571
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fXgwA+d8;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3WYhTc5x;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018f7d4fdff4-e392072f-f162-44e8-9215-bb815e7146e8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DPHYQB77;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GIhdFgD/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018f7d4fe0a5-7feb20a4-cac2-4147-8d0a-fc12037cbf74-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794337;
+	t=1715794338;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HiSytkgLeEjvB8LBWSWQ6xFZfptO9ugDwF3PD2pZP5g=;
-	b=fXgwA+d8ICtJ1KfovzBRMkmk9WQSZ2Uam16ExFggGH/E9LRWqweRCQqCSrEI5MmD
-	DvzEvtGGXVD4jC8us/flOk+dhW63HrU24J3jm8/wGLMPQzscBXZHtCtKSsRh3Y4a9KC
-	TRP8h1rnPZWhKDTDP4FIU2Bv7/7G/jJ4RabXbX68=
+	bh=cTcdIPK0tZgbBA9yIFq5oOEE2jJ0L6mNoyqCpoMusn8=;
+	b=DPHYQB77LzZtBjZI/0QGW9kQWM5K15wDcQeoYzCQ6Vk7Qq2kKtww1UKY36nHSBnA
+	SsOgGPxsGhCzZT9rRh9DV0Bo5kWHbwbdbI9ENgmX/ZoFItKgo8dj+StwALsDZti3noD
+	2mIIbP2HVZrZJP5moEbe4zvwoMrybWPvMp1qe+wo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794337;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794338;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HiSytkgLeEjvB8LBWSWQ6xFZfptO9ugDwF3PD2pZP5g=;
-	b=3WYhTc5xeWPEqaGkYxcmf4w20QschAk13jHpG8uwNqb7qPoYcM9ZmqyQKmIBlM5L
-	Asy2flIbnYI1e8eXxuggaprgj2ukyKy3ggGBmHqEJ+ekd+xn3OH/iOgRWVc8q7mcyzp
-	uVh8JJ5IlsarYYEH8kEBEsgFmuIrs34fSlFn8EoI=
-Content-Type: multipart/mixed; boundary="===============8792541460349274697=="
+	bh=cTcdIPK0tZgbBA9yIFq5oOEE2jJ0L6mNoyqCpoMusn8=;
+	b=GIhdFgD/L7WhxJXjLuY1NeVNHs4r+cFWh8tNGw3Pdqg4OZzeMbNf/mfWOKZiopWC
+	GAgDwvS9V/MbRJTuPlp79wGmwerFVF/T5n195iBjouRYMEKyyNU6Wc0zRAO46kuP3SL
+	5plrspoJ1i6RHft0bA6H5FxT11DNDBsZAP6/Nv1A=
+Content-Type: multipart/mixed; boundary="===============5446859961088589992=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyproject-metadata: upgrading to 0.8.0 FAILED
-Message-ID: <0101018f7d4fdff4-e392072f-f162-44e8-9215-bb815e7146e8-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-referencing: upgrading to 0.35.1 SUCCEEDED
+Message-ID: <0101018f7d4fe0a5-7feb20a4-cac2-4147-8d0a-fc12037cbf74-000000@us-west-2.amazonses.com>
 Date: Wed, 15 May 2024 17:32:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199329
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199331
 
---===============8792541460349274697==
+--===============5446859961088589992==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,87 +51,123 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyproject-metadata* to *0.8.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-referencing* to *0.35.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-referencing-upgrade-0.34.0-0.35.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-pyproject-metadata -V 0.8.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-b3e1284f77bbeffe62badc80d80f60c14786909d"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b3e1284f77bbeffe62badc80d80f60c14786909d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (920 cached, 2 parsed). 1880 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-b3e1284f77bbeffe62badc80d80f60c14786909d"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b3e1284f77bbeffe62badc80d80f60c14786909d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject-metadata-0.8.0.tar.gz;downloadfilename=pyproject-metadata-0.8.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515100336.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515100336.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject-metadata-0.8.0.tar.gz;downloadfilename=pyproject-metadata-0.8.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipe
- tool-cavxg4tk/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/autobuilder/autobuilder.yocto.io/current_sources/pyproject-metadata-0.8.0.tar.gz.tmp -P /srv/autobuilder/autobuilder.yocto.io/current_sources 'https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject-metadata-0.8.0.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject-metadata-0.8.0.tar.gz;downloadfilename=pyproject-metadata-0.8.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-cavxg4tk/work/temp/log.do_fetch.1188378
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject-metadata-0.8.0.tar.gz;downloadfilename=pyproject-metadata-0.8.0.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8792541460349274697==--
+
+-- >8 --
+From 853d1b7eaa4c8815fbfb9601b698547701580c07 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 May 2024 10:07:02 +0000
+Subject: [PATCH] python3-referencing: upgrade 0.34.0 -> 0.35.1
+
+---
+ ...hon3-referencing_0.34.0.bb => python3-referencing_0.35.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-referencing_0.34.0.bb => python3-referencing_0.35.1.bb} (81%)
+
+diff --git a/meta/recipes-devtools/python/python3-referencing_0.34.0.bb b/meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-referencing_0.34.0.bb
+rename to meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+index 6fbd10d9cf..3e2a380607 100644
+--- a/meta/recipes-devtools/python/python3-referencing_0.34.0.bb
++++ b/meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/python-jsonschema/referencing"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=93eb9740964b59e9ba30281255b044e2"
+ 
+-SRC_URI[sha256sum] = "5773bd84ef41799a5a8ca72dc34590c041eb01bf9aa02632b4a973fb0181a844"
++SRC_URI[sha256sum] = "25b42124a6c8b632a425174f24087783efb348a6f1e0008e63cd4466fedf703c"
+ 
+ inherit pypi python_hatchling
+ 
+-- 
+2.44.0
+
+
+--===============5446859961088589992==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-referencing-upgrade-0.34.0-0.35.1.patch"
+
+RnJvbSA4NTNkMWI3ZWFhNGM4ODE1ZmJmYjk2MDFiNjk4NTQ3NzAxNTgwYzA3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTA6MDc6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXJlZmVyZW5jaW5nOiB1cGdyYWRlIDAuMzQuMCAtPiAwLjM1LjEKCi0tLQogLi4uaG9u
+My1yZWZlcmVuY2luZ18wLjM0LjAuYmIgPT4gcHl0aG9uMy1yZWZlcmVuY2luZ18wLjM1LjEuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1yZWZlcmVuY2luZ18w
+LjM0LjAuYmIgPT4gcHl0aG9uMy1yZWZlcmVuY2luZ18wLjM1LjEuYmJ9ICg4MSUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlZmVyZW5jaW5nXzAu
+MzQuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1yZWZlcmVuY2lu
+Z18wLjM1LjEuYmIKc2ltaWxhcml0eSBpbmRleCA4MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlZmVyZW5jaW5nXzAuMzQuMC5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlZmVyZW5jaW5nXzAuMzUuMS5i
+YgppbmRleCA2ZmJkMTBkOWNmLi4zZTJhMzgwNjA3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcmVmZXJlbmNpbmdfMC4zNC4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1yZWZlcmVuY2luZ18wLjM1LjEuYmIKQEAg
+LTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9weXRob24tanNvbnNj
+aGVtYS9yZWZlcmVuY2luZyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9OTNlYjk3NDA5NjRiNTllOWJhMzAyODEyNTViMDQ0ZTIiCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICI1NzczYmQ4NGVmNDE3OTlhNWE4Y2E3MmRjMzQ1OTBjMDQxZWIw
+MWJmOWFhMDI2MzJiNGE5NzNmYjAxODFhODQ0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI1YjQy
+MTI0YTZjOGI2MzJhNDI1MTc0ZjI0MDg3NzgzZWZiMzQ4YTZmMWUwMDA4ZTYzY2Q0NDY2ZmVkZjcw
+M2MiCiAKIGluaGVyaXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiAKLS0gCjIuNDQuMAoK
+
+--===============5446859961088589992==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-referencing: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/referencing/referencing-0.34.0.tar.gz;downloadfilename=referencing-0.34.0.tar.gz" to "https://files.pythonhosted.org/packages/source/r/referencing/referencing-0.35.1.tar.gz;downloadfilename=referencing-0.35.1.tar.gz"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-dbg: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-dbg: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-dev: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-dev: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-doc: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-doc: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-locale: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-locale: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-src: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-src: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-staticdev: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing-staticdev: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing: PKGV changed from 0.34.0 [default] to 0.35.1 [default]
+packages/core2-64-poky-linux/python3-referencing/python3-referencing: PV changed from "0.34.0" to "0.35.1"
+packages/core2-64-poky-linux/python3-referencing/python3-referencing: PKGSIZE changed from 263024 to 264402 (+1%)
+Changes to packages/core2-64-poky-linux/python3-referencing (sysroot):
+  /usr/lib/python3.12/site-packages/referencing-0.34.0.dist-info moved to /usr/lib/python3.12/site-packages/referencing-0.35.1.dist-info
+
+--===============5446859961088589992==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-referencing (sysroot):
+  /usr/lib/python3.12/site-packages/referencing-0.34.0.dist-info moved to /usr/lib/python3.12/site-packages/referencing-0.35.1.dist-info
+
+--===============5446859961088589992==--
 
