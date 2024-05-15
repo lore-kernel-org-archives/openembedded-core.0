@@ -1,106 +1,88 @@
-Return-Path: <ranjitsinhrathod1991@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 294D4C25B78
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 09:46:01 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.10685.1715766338659352524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 562DDC25B7A
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 10:08:01 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.11093.1715767680038889170
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 02:45:38 -0700
+ Wed, 15 May 2024 03:08:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L3d1i99R;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ranjitsinhrathod1991@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ec41d82b8bso62803785ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 02:45:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hk9SQtL7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e538a264e0so72199171fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 03:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715766338; x=1716371138; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpVi8no80bFoAWvzF9/EbjP81Y51XwabzMiJ09wifsg=;
-        b=L3d1i99RpIdZaYO2Znksl/qZ0hVlgwiMIf8ddzqoPiJM5CRjqM+60LnkmyygvsNtEM
-         GDUneNhP8iVxRe61Ty+45kymwTIq6YgC+Px0B3Pac+7Dl/SS45D+ybBX1duPJfiWPl+j
-         fwVIkavyuw9iWCmbNUm3YYw0H15avXS72nfgZVS7eNeNDSjjf6tyxmw1qlRpq6adnTWm
-         zlP/d6MpPCLJhvyKqwicAoyalsFLv89KIOTTfJUcNFQOWR+r6hgHc+1aSNwUUt3H37lw
-         WrujUsc6mTiyZaMfccjwnKxW8iJHzFC1PGMIVjkArtyhonRAISrETJYP3LhP2SKnnkfk
-         plEw==
+        d=gmail.com; s=20230601; t=1715767678; x=1716372478; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7tZg0aL+TAdGSidIJBCFKZhYiZFQy1+oO6Gtim2464U=;
+        b=hk9SQtL7Jb409qG75nnMa+x0iwacsNzgK6dB5qAVPF6yK8zGdioMTegwivL0cX1GYc
+         hEc3lkLtqFYHj/6IqPipYw9cg3Wc0VrWLGh9pGlaMb67mIVytNHPdsuVJhPwM1OeQIOy
+         f3tWiOG+8m6+jHTdX0q3Kfy8sZ81w1bJpuICGQ0wVdnrTZCXwlSDiA+xJv3nhZDXpPyO
+         5zgQEkVI8Cf62GmWr1suzJ4ApJP2d2+8cP7YhEcc3/bALcwYbYmZFFF+AhDhtfwEpcTR
+         AQXEg0/G0kHHpraaS0rfoM1XfQZyhANjm2Eq/l01NXoWnukYlaBqlO1QUMRPoV+G5act
+         vvNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715766338; x=1716371138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dpVi8no80bFoAWvzF9/EbjP81Y51XwabzMiJ09wifsg=;
-        b=nEkjaNfGsf/iXiUbcX7GtVELG7UYb7vGZV0HcVZRKGnkgNaqvLj5I+H4lBjGDxzlYS
-         rTTkKXyj3+i3YJtYzHmSNkSCxYNvjGBwssp7o/mUr4EGsAftAYdXKTyrsJdx2r1+GJ5n
-         CC5R4F9fktGfpokGeHHtO3vrpLoquwA0e6AWqxuC5buLkDn7u9CPS0c6Vojj1Dbf9PNu
-         pm+tsQcoxBCWethuq1zppfqcqNADIWvxrAtV0Shvazy6HHJ2jmYLESI+GpALpUX1dNi3
-         3t0FEXUgeyR/5UCEH5wV2nyGWP48VJsnmsA8mV3YFr+qe8OM7/LzJq5NvtaZYcB7iJui
-         IBEA==
-X-Gm-Message-State: AOJu0Ywk3BiKLE4V44Qa9QrJNc7P5zchtQxlT/9mVVgsI1Aw/uHxqDjC
-	LGIyj8kr6ASUi5FSkQIQefBL9RbJ8pSj3c464yHGQ2U3XnT41c6jAAwwFUj8
-X-Google-Smtp-Source: AGHT+IFJK4TXr8LXl12Xmm3TNgOzBhAZTkGZ/yD1Jm8pe3Lel0ZHGXX/4E/BJDrKUVajfhWY9qzpgw==
-X-Received: by 2002:a17:902:eccf:b0:1eb:f263:d2fc with SMTP id d9443c01a7336-1ef43f51b80mr190085735ad.54.1715766337609;
-        Wed, 15 May 2024 02:45:37 -0700 (PDT)
-Received: from LL-2917.kpit.com ([103.85.11.91])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0b9d177asm113660885ad.23.2024.05.15.02.45.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 02:45:37 -0700 (PDT)
-From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Subject: [OE-Core][master][scarthgap][kirkstone][PATCH] systemd-systemctl: Add extra log for easy of debugging
-Date: Wed, 15 May 2024 15:15:23 +0530
-Message-Id: <20240515094523.93410-1-ranjitsinhrathod1991@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1715767678; x=1716372478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7tZg0aL+TAdGSidIJBCFKZhYiZFQy1+oO6Gtim2464U=;
+        b=mhqXPbd4PkYcXdhlZSqVXEsKQa1mJCCJJq+RaBTiYIdLbtPkyrKXS0qGbFYXQACtqU
+         j7e8fViYOREcxCvIusd34tDET2hWGt/V2UNjR2V8r6YK5pmC9mMW5fAG1MgxWOWKkhhq
+         jINZ6bhpW7x7TRn6Rv32OtleqKCrNlyo8MnqPpj/YVfifrwZg1ZyTvctK7RjzxA6PgaW
+         9oaTBFn6cx122BA5pnQXYYGJklLpeXMXCpxrNhMZeGeMb8btoYjHU0z/3V+W/GJ2lhu2
+         sjpnwpAWH7hDaplNVUjA+4NB8ZsUpUIOExU7spf5gtlpnVaBFcqycE4ZD1MG+3OKBf01
+         gYmA==
+X-Gm-Message-State: AOJu0Yy4rUR3TUujHmbOYFtK2JUYSbtaS9sEIRHiRecfYXZhIY8vJlHP
+	EU2GDyJ2nmuQ/wyEbkz2w2KBqElTFv08Jj+QkiTOQcqGme93rIRIx+zHCcasprvl+QOAoWkn9mZ
+	LZMJrzGt/VEzx6al//r/NVySSquM=
+X-Google-Smtp-Source: AGHT+IEbivXq1AYmZ+VK/K6idc/qCK7gH/UcXYQc8Q36URc83hD5aMJMoRhlbj6lKUrRZOv7wAe6OZFcoZAt4Z1aIDQ=
+X-Received: by 2002:a2e:3218:0:b0:2e1:61de:9d03 with SMTP id
+ 38308e7fff4ca-2e51fe537f8mr139269831fa.18.1715767677973; Wed, 15 May 2024
+ 03:07:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj-uDz_gCpvkb5F9R6NkkQVGn768=mHXyvZJPHfKyZ-t2g@mail.gmail.com>
+ <22166.1715765794274311096@lists.openembedded.org>
+In-Reply-To: <22166.1715765794274311096@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 May 2024 12:07:45 +0200
+Message-ID: <CANNYZj941KS_ULo9iwpyYCKmvpHRur-4djy0AD=bjUvjnwW1XA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] buildhistory: Fix do_package race issues
+To: pmi183@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 09:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199274
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 10:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199275
 
-From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+On Wed, 15 May 2024 at 11:36, pmi183 via lists.openembedded.org
+<pmi183=3Dgmail.com@lists.openembedded.org> wrote:
+> - why is it unable to find anything in packages-split/, if it executes af=
+ter populate_packages which places things there?
+>
+> As far as i could understand, there is some concurrency issue between pac=
+kage.bbclass and buildhistory.bbclass. Taking in consideration that `buildh=
+istory_list_pkg_files` is triggered by checking if `BB_CURRENTTASK` is `pac=
+kage` and at the same time `PACKAGESPLITFUNCS` is triggered on `do_package`=
+, this leads to the issue with missing files since buildhistory bbclass mig=
+ht be looking into something that wasnt yet created. In my findings, `build=
+history_list_pkg_files` should be called in the end of `do_package` executi=
+on where `packages-split` directory is created and populated.
+>
+> Is there any clear reason why we cant move `buildhistory_list_pkg_files` =
+to `packagedata` task since its the next task to be executed?
 
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
----
- meta/recipes-core/systemd/systemd-systemctl/systemctl | 7 +++++++
- 1 file changed, 7 insertions(+)
+The reason is that the issue is not fully understood, and this move
+might be working around the real issue. The logs I saw indicate that
+package_split completes before buildhistory_list_pkg_files starts.
+This needs to be looked into further.
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index 2229bc7b6d..4389556910 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -31,6 +31,7 @@ class SystemdFile():
- 
-     def __init__(self, root, path, instance_unit_name):
-         self.sections = dict()
-+        print(f"Parsing unit: {path}", file=sys.stderr)
-         self._parse(root, path)
-         dirname = os.path.basename(path.name) + ".d"
-         for location in locations:
-@@ -39,6 +40,7 @@ class SystemdFile():
-                 inst_dirname = instance_unit_name + ".d"
-                 files = chain(files, (root / location / "system" / inst_dirname).glob("*.conf"))
-             for path2 in sorted(files):
-+                print(f"Parsing unit's override: {path2}", file=sys.stderr)
-                 self._parse(root, path2)
- 
-     def _parse(self, root, path):
-@@ -88,6 +90,11 @@ class SystemdFile():
-                 # forget all preceding assignments. This works because we are
-                 # processing files in correct parse order.
-                 if k in self._clearable_keys and not v:
-+                    print(
-+                        f"The directive '{k}' is empty, therefore the values '{section[k]}' "
-+                        "are going to be discarded",
-+                        file=sys.stderr,
-+                    )
-                     del section[k]
-                     continue
- 
--- 
-2.25.1
-
+Alex
 
