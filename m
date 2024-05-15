@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81243C3DA44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FEFC3DA45
 	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:27 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.1301.1715794340183339731
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.1229.1715794336639946274
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BEqMknai;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vOfj24Ob;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018f7d4fe6f4-36ccea97-22e7-45d5-be81-74fb60db61bc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TuQIoStR;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=fDw7fGwp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018f7d4fe439-7cc9f189-ffef-4e4e-98c4-b3c49af6c898-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zBsE1E00hVh82CUwNVAuJWv+Zx42n/rktRo4vsxpE4I=;
-	b=BEqMknaiTnYrmfC/+4xP1BcGnuTwRP8V4W84mU/FCvpRYFAAZYP07ovJQD2YjaZt
-	QRrNQ1elBOdZ67zMUoclZLT0T/xJwJ0We49cLqfateNk3dqokJ0iBojtDvpe6mj9iYT
-	8zq9gogvfdZE0FyNbkrGqWNzYv7PVPaSGIx3M0iw=
+	bh=J2DMMGNn4y08dgjvwy8qe4FaDTGpCyvT6DtS7UA4J38=;
+	b=TuQIoStRMv+9n6Rj6lq2h7FUlhFBJ+B/+sgGjwJ65YB1goGeseFTSgprtWFzdybv
+	nx5TLdD4b45r7568o5JM5BVp1PNHn4yohDvSNttxeFD6bjlpXds6B/KWe/nDxCRHfHt
+	oAndInydlmNYpomZJt3QTVVkZmPEG63H+qWWb5IY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zBsE1E00hVh82CUwNVAuJWv+Zx42n/rktRo4vsxpE4I=;
-	b=vOfj24Ob+xus8+ZXWvAZdahGVi5BMvB3/P4nFxB0t+bT6IbgDoZpIz1YmgEEbghC
-	WPUHpmzpBaozP7ZEBngN8Tq85BZGT+/igtdnitPaaIe7BUqXVN3n7UjPM6H0iJM6oQy
-	iUiXFP8T9jc9Xv6WSWtpSSVajRtbGA7fPOr2hnvM=
-Content-Type: multipart/mixed; boundary="===============4637627659429633559=="
+	bh=J2DMMGNn4y08dgjvwy8qe4FaDTGpCyvT6DtS7UA4J38=;
+	b=fDw7fGwpLfMc1/K8Vrg37XimlPiA7xQ3CmLX20bmnxAYb+w578JXJmW18m8TmnYZ
+	niWWwuMQIr0OBp1m/rbGwdkjqMPO7jMuJMgTihHVBRQNn8NemnbccC9cZrleWt9gL9D
+	DyAEaNxnrmfwdS2PiS1DkLMDc1hKW5aTZgoYOakc=
+Content-Type: multipart/mixed; boundary="===============4424915178902051420=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bash-completion: upgrading to 2.14.0 SUCCEEDED
-Message-ID: <0101018f7d4fe6f4-36ccea97-22e7-45d5-be81-74fb60db61bc-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:19 +0000
+Subject: [AUH] vulkan-headers: upgrading to 1.3.283.0 SUCCEEDED
+Message-ID: <0101018f7d4fe439-7cc9f189-ffef-4e4e-98c4-b3c49af6c898-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.45
+X-SES-Outgoing: 2024.05.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199413
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199376
 
---===============4637627659429633559==
+--===============4424915178902051420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bash-completion* to *2.14.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-headers* to *1.3.283.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-bash-completion-upgrade-2.13.0-2.14.0.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.280.0-1.3.283.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,96 +72,500 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7cdccc420970f094d5863433ea480f292093acd1 Mon Sep 17 00:00:00 2001
+From 7dc3c594ed05e601161871f91b6c9662f24af134 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 16:11:52 +0000
-Subject: [PATCH] bash-completion: upgrade 2.13.0 -> 2.14.0
+Date: Wed, 15 May 2024 14:13:16 +0000
+Subject: [PATCH] vulkan-headers: upgrade 1.3.280.0 -> 1.3.283.0
 
 ---
- .../{bash-completion_2.13.0.bb => bash-completion_2.14.0.bb}    | 2 +-
+ ...{vulkan-headers_1.3.280.0.bb => vulkan-headers_1.3.283.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/bash-completion/{bash-completion_2.13.0.bb => bash-completion_2.14.0.bb} (92%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.280.0.bb => vulkan-headers_1.3.283.0.bb} (95%)
 
-diff --git a/meta/recipes-support/bash-completion/bash-completion_2.13.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
-similarity index 92%
-rename from meta/recipes-support/bash-completion/bash-completion_2.13.0.bb
-rename to meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
-index f75d61e219..06c81beaa0 100644
---- a/meta/recipes-support/bash-completion/bash-completion_2.13.0.bb
-+++ b/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb
-@@ -14,7 +14,7 @@ SECTION = "console/utils"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb
+index 371cc7304d..8db1eee203 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.280.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb
+@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRCREV = "577baa05033cf1d9236b3d078ca4b3269ed87a2b"
++SRCREV = "eaa319dade959cb61ed2229c8ea42e307cc8f8b3"
  
--SRC_URI[sha256sum] = "c5f99a39e40f0d154c03ff15438e87ece1f5ac666336a4459899e2ff4bedf3d1"
-+SRC_URI[sha256sum] = "5c7494f968280832d6adb5aa19f745a56f1a79df311e59338c5efa6f7285e168"
- GITHUB_BASE_URI = "https://github.com/scop/bash-completion/releases"
+ S = "${WORKDIR}/git"
  
- PARALLEL_MAKE = ""
 -- 
 2.44.0
 
 
---===============4637627659429633559==
+--===============4424915178902051420==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (0 cached, 921 parsed). 1880 targets, 46 skipped, 0 masked, 0 errors.
+Removing 6 recipes from the core2-64 sysroot...done.
+Removing 55 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-983a45ef90049c2cb77b40f33ab07141dfb66fb4"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:983a45ef90049c2cb77b40f33ab07141dfb66fb4"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 424 Local 409 Mirrors 0 Missed 15 Current 197 (96% match, 97% complete)
+Removing 5 stale sstate objects for arch x86_64...done.
+Removing 2 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 201 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 202 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 203 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 207 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_create_spdx_setscene)
+NOTE: Running task 646 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_recipe_qa)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 295 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 732 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_fetch)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_fetch: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 297 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 298 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 299 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 300 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 302 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 303 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
+NOTE: Running setscene task 304 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 305 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 306 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 307 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: Running setscene task 308 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_fetch: Succeeded
+NOTE: Running task 733 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_unpack)
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 312 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_unpack: Started
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 319 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 320 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 324 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.0.bb:do_packagedata_setscene)
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.15.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 346 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_packagedata_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 354 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 356 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 877 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: Running setscene task 368 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 370 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 372 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 376 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 378 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 380 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 388 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_unpack: Succeeded
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 391 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 393 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: Running setscene task 395 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 399 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 401 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 403 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 405 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_packagedata_setscene)
+NOTE: Running task 898 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_patch)
+NOTE: Running task 899 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_patch: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 408 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 418 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: Running task 915 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 946 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_patch: Succeeded
+NOTE: Running task 967 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 968 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_generate_toolchain_file)
+NOTE: Running task 969 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_populate_lic)
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libarchive/3.7.3/temp/log.do_packagedata_setscene.2375779
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 448 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 460 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 462 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 464 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 466 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb:do_packagedata_setscene)
+NOTE: Running task 991 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_populate_lic unihash changed to 7645c83a2f70060811e8c2f0e48f5f7f739bfef8e1478345328b586679557d15
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe curl-8.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 474 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 479 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 483 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 486 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 490 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb:do_packagedata_setscene)
+NOTE: Running setscene task 492 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 494 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
+NOTE: Running task 1012 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_package_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.48-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1013 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 497 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 508 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.48-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 521 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 523 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 526 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 527 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 529 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 531 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libarchive-3.7.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1099 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 549 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 555 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 560 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 568 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 581 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 582 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 584 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 586 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 587 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 589 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 590 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 592 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 594 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 595 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 596 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1164 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 597 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 598 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 600 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 608 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 610 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 611 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 046af30f485647cdc4daf97991a290103f143d7d3bc201e5aa9bffcd6d2b5b32
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 614 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 616 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 619 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 621 of 621 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1580 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1666 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.3.bb:do_packagedata)
+NOTE: Running task 1709 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libarchive-3.7.3-r0: task do_packagedata: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1734 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_configure)
+NOTE: recipe libarchive-3.7.3-r0: task do_packagedata: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_configure: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_configure: Succeeded
+NOTE: Running task 1742 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_compile)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_compile: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_compile: Succeeded
+NOTE: Running task 1743 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_install)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_install: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_install: Succeeded
+NOTE: Running task 1744 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_package)
+NOTE: Running task 1745 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_populate_sysroot)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package: Succeeded
+NOTE: Running task 1746 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_packagedata)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1747 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_create_spdx)
+NOTE: Running task 1748 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_package_write_ipk)
+NOTE: Running task 1749 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_package_write_deb)
+NOTE: Running task 1750 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_package_write_rpm)
+NOTE: Running task 1751 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_package_qa)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_ipk: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_deb: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_qa: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1752 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe vulkan-headers-1.3.283.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1753 of 1753 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.283.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1753 tasks of which 1721 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There were 10 ERROR messages, returning a non-zero exit code.
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-src went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-dbg went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package bsdcpio went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package bsdtar went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-staticdev went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-dev went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-doc went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive-locale went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: QA Issue: Package version for package libarchive went backwards which would break package feeds (from 0:3.7.4-r0 to 0:3.7.3-r0) [version-going-backwards]
+ERROR: libarchive-3.7.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4424915178902051420==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-bash-completion-upgrade-2.13.0-2.14.0.patch"
+ filename="0001-vulkan-headers-upgrade-1.3.280.0-1.3.283.0.patch"
 
-RnJvbSA3Y2RjY2M0MjA5NzBmMDk0ZDU4NjM0MzNlYTQ4MGYyOTIwOTNhY2QxIE1vbiBTZXAgMTcg
+RnJvbSA3ZGMzYzU5NGVkMDVlNjAxMTYxODcxZjkxYjZjOTY2MmYyNGFmMTM0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTY6MTE6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-YXNoLWNvbXBsZXRpb246IHVwZ3JhZGUgMi4xMy4wIC0+IDIuMTQuMAoKLS0tCiAuLi4ve2Jhc2gt
-Y29tcGxldGlvbl8yLjEzLjAuYmIgPT4gYmFzaC1jb21wbGV0aW9uXzIuMTQuMC5iYn0gICAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24ve2Jhc2gtY29tcGxldGlvbl8y
-LjEzLjAuYmIgPT4gYmFzaC1jb21wbGV0aW9uXzIuMTQuMC5iYn0gKDkyJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIu
-MTMuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBs
-ZXRpb25fMi4xNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2Jhc2gtY29tcGxldGlvbi9iYXNoLWNvbXBsZXRpb25fMi4xMy4wLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0
-aW9uXzIuMTQuMC5iYgppbmRleCBmNzVkNjFlMjE5Li4wNmM4MWJlYWEwIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTMu
-MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21w
-bGV0aW9uXzIuMTQuMC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTRUNUSU9OID0gImNvbnNvbGUvdXRp
-bHMiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9LyR7QlBO
-fS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjNWY5OWEzOWU0MGYwZDE1
-NGMwM2ZmMTU0MzhlODdlY2UxZjVhYzY2NjMzNmE0NDU5ODk5ZTJmZjRiZWRmM2QxIgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjVjNzQ5NGY5NjgyODA4MzJkNmFkYjVhYTE5Zjc0NWE1NmYxYTc5ZGYz
-MTFlNTkzMzhjNWVmYTZmNzI4NWUxNjgiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRo
-dWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL3JlbGVhc2VzIgogCiBQQVJBTExFTF9NQUtFID0g
-IiIKLS0gCjIuNDQuMAoK
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTQ6MTM6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4taGVhZGVyczogdXBncmFkZSAxLjMuMjgwLjAgLT4gMS4zLjI4My4wCgotLS0KIC4uLnt2
+dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmIgPT4gdnVsa2FuLWhlYWRlcnNfMS4zLjI4My4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1oZWFkZXJzXzEuMy4y
+ODAuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjgzLjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgwLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yODMu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yODAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgzLjAuYmIKaW5kZXggMzcx
+Y2M3MzA0ZC4uOGRiMWVlZTIwMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjgzLjAuYmIKQEAgLTExLDcgKzExLDcgQEAg
+TElDRU5TRSA9ICJBcGFjaGUtMi4wICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+TElDRU5TRS5tZDttZDU9MWJjMzU1ZDhjNDE5NmY3NzRjOGI4N2VkMWE4ZGQ2MjUiCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1IZWFkZXJzLmdpdDticmFu
+Y2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAotU1JDUkVWID0gIjU3N2JhYTA1MDMzY2YxZDkyMzZi
+M2QwNzhjYTRiMzI2OWVkODdhMmIiCitTUkNSRVYgPSAiZWFhMzE5ZGFkZTk1OWNiNjFlZDIyMjlj
+OGVhNDJlMzA3Y2M4ZjhiMyIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40NC4wCgo=
 
---===============4637627659429633559==
+--===============4424915178902051420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-dbg: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-dev: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-doc: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_bao /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/_zarf"
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 877240 to 884853 (+1%)
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-locale: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-src: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-src: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion-staticdev: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 140974 to 140997 (+0%)
-packages/core2-64-poky-linux/bash-completion/bash-completion: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion/bash-completion: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/bash-completion: SRC_URI changed from "https://github.com/scop/bash-completion/releases/download/2.13.0/bash-completion-2.13.0.tar.xz" to "https://github.com/scop/bash-completion/releases/download/2.14.0/bash-completion-2.14.0.tar.xz"
-packages/core2-64-poky-linux/bash-completion: PV changed from "2.13.0" to "2.14.0"
-packages/core2-64-poky-linux/bash-completion: PKGV changed from 2.13.0 [default] to 2.14.0 [default]
+packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 14852697 to 14904783 (+0%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.280.0" to "1.3.283.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 12344715 to 12408381 (+1%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.280.0 [default] to 1.3.283.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.280.0" to "1.3.283.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1801,13 +2205,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4637627659429633559==
+--===============4424915178902051420==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/bash-completion/bash-completion-extra: FILELIST: added "/usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_bao"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3447,5 +3850,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4637627659429633559==--
+--===============4424915178902051420==--
 
