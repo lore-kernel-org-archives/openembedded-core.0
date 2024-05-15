@@ -2,1251 +2,837 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D86C41513
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 11:56:32 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.12948.1715774185794769555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A8AC25B75
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 11:56:31 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.12947.1715774184842544966
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 04:56:26 -0700
+ Wed, 15 May 2024 04:56:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Di7NUPZT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-420157ee56cso25102075e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 04:56:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E7bQ15rB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4200ee47de7so29608645e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 04:56:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715774184; x=1716378984; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=we27HosSCXwEhg/ZxnaN5Svs7jxsAzde+yIZJjmwEpo=;
-        b=Di7NUPZTk7rR3eX4nWuzGqmoiLGU7lP7atce+fCuCY9dTElPoIAGwWuBoRJL70CyWf
-         RpYryJujhErMrNDnPxcIxPun3C/UtbTVOtMNsCqrmQ9M+d97ESGe1mQ2swbG4PmjGj1K
-         WM0MTNGKBekhZjeW0M9fsxVaB3q/0eeX+UEVA=
+        d=linuxfoundation.org; s=google; t=1715774183; x=1716378983; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP8ez5MoQANd1qSbOvXq0OcBffD1oKaPQo8HXPrapG0=;
+        b=E7bQ15rBRfPvi0K9ILEaYuvLcVn0ohDpKEq7c8zmenqYrf+grMqNgmu0JUgIzcPJQx
+         hvgk5K3zuA9KN1u1dMakI97wO7emfHzzX6czWOuPxx80KOoXdSbs7Mlobyl/5KNDRpfz
+         DdvRmW/KEgh+47H/Um5KEoHqkZ4CFk8+tZPb0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715774184; x=1716378984;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=we27HosSCXwEhg/ZxnaN5Svs7jxsAzde+yIZJjmwEpo=;
-        b=tXsNRH7UusbYsXUUpyBW4H0jdj6+lot7n2Y6vuvyxWdPg2KtMiechv9eHNRMqmp5RB
-         KSO9a+SaX//pcvdivLXwQmV9Ul5UB16gFqbeNlGW43ReeA1objXbBYJ8S2R1f8hgJXSu
-         MzpDMDb7Jy3JOOjo3SrmR8rja/x4HGfppc0bHg1M0cF0ykuoKq8ORmB3KaXFGWuEfrR7
-         hCQH9EYHwZLvpqY6IoCdLZsiAcajIUQHfwzOOObyDfgn5s+U92dJFGJz5bhxsCKFvmvM
-         NhRqSAGFCo5PR3z2hwMAcvyPu+as+atxOX3F/kKTMitqe+P4beuS/d7covOouQx0rdV5
-         BYKA==
-X-Gm-Message-State: AOJu0Yy++orn5waLvFOz9UlExY+rhDZPXMY1uuu8AZUeUhimXMPRrMK5
-	Xkr/FVXPQusonTG9UgK1p0+cd4zGooYEcFerQ6rgrwmVVd+FgBQLrusH6+TzyW2wAWBrKDbDjel
-	ls6A=
-X-Google-Smtp-Source: AGHT+IHUVZBVfylUTatpPYqwDihNTUM0rY+IcEkA0JIgE6gTlrGWBCQJcvSZKdVqBAYRdtRhRsUY2w==
-X-Received: by 2002:a05:600c:444e:b0:418:9d5a:f680 with SMTP id 5b1f17b1804b1-41feac56006mr115032015e9.25.1715774183198;
-        Wed, 15 May 2024 04:56:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715774183; x=1716378983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP8ez5MoQANd1qSbOvXq0OcBffD1oKaPQo8HXPrapG0=;
+        b=Xvypc15mfiqkKz8Ykr2cpiNryhcPpAnNGtHIWKLQJUddTjvwd1TkVSJhLJjJLh4Vse
+         tUuLaNkAbCGE3hNPmpxERN5I+r3peSoR6PScTO5SYG5AVrnp6kh8PJnm3s+NOKem4q2c
+         LbNfSFmPPCTBzUjPtOVwmtP7sJVhlzn/rS/Tyv0YbiwFB+xHsq+0JCDpz9Qu6zLhZexb
+         az6iu14BEFsWj1KaKQGbDKR1SgemnqpsssUePQoW22TxRI8o2Zztv6OKNlEy/nObBkdt
+         tOz3oi3U265AlwJlY1qTA3Tec7KSNldG+dU2Ao2h0hn+tmW+NRuu2M9dw342B+ZUFzAw
+         NJZw==
+X-Gm-Message-State: AOJu0Yxm7Kf0WCAGWcVOFIxlYiXYjYATU2Owtt2dCrQPdCTm9PoeR+e0
+	BNzbjRzvOmpAqs01N5jiSnUsxaMJl4/Fu0MeuO5YeIQpUhCupo0Dm4ryUUn8O+vRn9pheHF5lzR
+	65qA=
+X-Google-Smtp-Source: AGHT+IHoOmquui771wPcIYUUfKOrO4fu8Cz9prAwDtE2TyuPRK/hvzNuyuQzF9/pcbO0Cwl5Y+v4Lg==
+X-Received: by 2002:a05:600c:5008:b0:41b:dca6:a3fa with SMTP id 5b1f17b1804b1-41fead6dc7amr114115715e9.39.1715774182343;
+        Wed, 15 May 2024 04:56:22 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce2449sm232555825e9.16.2024.05.15.04.56.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce2449sm232555825e9.16.2024.05.15.04.56.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 04:56:22 -0700 (PDT)
+        Wed, 15 May 2024 04:56:21 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/10] recipes: Switch away from S = WORKDIR
-Date: Wed, 15 May 2024 12:56:12 +0100
-Message-Id: <20240515115620.420558-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 01/10] recipes: Start WORKDIR -> UNPACKDIR transition
+Date: Wed, 15 May 2024 12:56:11 +0100
+Message-Id: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
-References: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 11:56:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199278
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 11:56:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199277
 
-Where recipes use S = ${WORKDIR}, change them to set UNPACKDIR to
-a subdir of WORKDIR and make S point at this instead.
-
-I've chosen not to force S into any standard UNPACKDIR we may pick in
-future just so the S = UNPACKDIR case is clearly visible by the
-directory naming under WORKDIR as that should aid usability.
+Replace references of WORKDIR with UNPACKDIR where it makes sense to do
+so in preparation for changing the default value of UNPACKDIR.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-selftest/recipes-test/cpp/cpp-example.inc           | 3 ++-
- .../recipes-test/selftest-chown/selftest-chown.bb        | 3 ++-
- .../recipes-test/selftest-hardlink/selftest-hardlink.bb  | 3 ++-
- .../recipes-test/selftest-hello/selftest-hello_1.0.bb    | 5 +++--
- .../recipes-test/selftest-users/acreategroup.bb          | 3 ++-
- .../recipes-test/selftest-users/bcreategroup.bb          | 3 ++-
- .../recipes-test/selftest-users/ccreategroup.bb          | 3 ++-
- .../recipes-test/selftest-users/creategroup1.bb          | 3 ++-
- .../recipes-test/selftest-users/creategroup2.bb          | 3 ++-
- .../recipes-test/selftest-users/dcreategroup.bb          | 3 ++-
- .../recipes-test/selftest-users/useraddbadtask.bb        | 3 ++-
- meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb  | 3 ++-
- meta-skeleton/recipes-skeleton/service/service_0.1.bb    | 9 +++++----
- meta/recipes-bsp/alsa-state/alsa-state.bb                | 3 ++-
- meta/recipes-bsp/formfactor/formfactor_0.0.bb            | 4 +++-
- meta/recipes-bsp/grub/grub-bootconf_1.00.bb              | 3 ++-
- meta/recipes-bsp/keymaps/keymaps_1.0.bb                  | 3 ++-
- meta/recipes-bsp/usbinit/usbinit.bb                      | 4 +++-
- meta/recipes-connectivity/connman/connman-conf.bb        | 3 ++-
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb   | 3 ++-
- meta/recipes-core/base-files/base-files_3.0.14.bb        | 3 ++-
- meta/recipes-core/busybox/busybox-inittab_1.36.1.bb      | 3 ++-
- meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb     | 3 ++-
- meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb    | 4 ++--
- .../initrdscripts/initramfs-framework_1.0.bb             | 3 ++-
- .../initrdscripts/initramfs-live-boot-tiny_1.0.bb        | 4 ++--
- .../initrdscripts/initramfs-live-boot_1.0.bb             | 4 ++--
- .../initramfs-live-install-efi-testfs_1.0.bb             | 3 ++-
- .../initrdscripts/initramfs-live-install-efi_1.0.bb      | 4 ++--
- .../initrdscripts/initramfs-live-install-testfs_1.0.bb   | 3 ++-
- .../initrdscripts/initramfs-live-install_1.0.bb          | 4 ++--
- .../initrdscripts/initramfs-module-install-efi_1.0.bb    | 3 ++-
- .../initrdscripts/initramfs-module-install_1.0.bb        | 3 ++-
- .../initrdscripts/initramfs-module-setup-live_1.0.bb     | 3 ++-
- meta/recipes-core/initscripts/initscripts_1.0.bb         | 3 ++-
- meta/recipes-core/musl/bsd-headers.bb                    | 3 ++-
- meta/recipes-core/musl/libssp-nonshared.bb               | 3 ++-
- meta/recipes-core/musl/musl-legacy-error.bb              | 3 ++-
- meta/recipes-core/systemd/systemd-bootconf_1.00.bb       | 3 ++-
- meta/recipes-core/systemd/systemd-compat-units.bb        | 3 ++-
- meta/recipes-core/systemd/systemd-serialgetty.bb         | 3 ++-
- meta/recipes-core/systemd/systemd-systemctl-native.bb    | 3 ++-
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb   | 3 ++-
- meta/recipes-core/udev/udev-extraconf_1.1.bb             | 3 ++-
- meta/recipes-core/volatile-binds/volatile-binds.bb       | 5 ++---
- meta/recipes-devtools/devel-config/distcc-config.bb      | 3 ++-
- meta/recipes-devtools/devel-config/nfs-export-root.bb    | 4 ++--
- .../recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb | 3 ++-
- .../icecc-create-env/icecc-create-env_0.1.bb             | 3 ++-
- meta/recipes-devtools/makedevs/makedevs_1.0.1.bb         | 3 ++-
- meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb       | 3 ++-
- meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb  | 3 ++-
- meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb     | 3 ++-
- meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb      | 3 ++-
- meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb | 3 ++-
- meta/recipes-devtools/rust/rust-cross-canadian.inc       | 3 ++-
- meta/recipes-extended/shadow/shadow-securetty_4.6.bb     | 3 ++-
- meta/recipes-extended/shadow/shadow-sysroot_4.6.bb       | 3 ++-
- .../texinfo-dummy-native/texinfo-dummy-native.bb         | 3 ++-
- meta/recipes-graphics/builder/builder_0.1.bb             | 3 ++-
- .../matchbox-session/matchbox-session_0.1.bb             | 4 +++-
- .../mini-x-session/mini-x-session_0.1.bb                 | 4 +++-
- meta/recipes-graphics/pong-clock/pong-clock_1.0.bb       | 3 ++-
- meta/recipes-graphics/wayland/weston-init.bb             | 3 ++-
- .../recipes-graphics/x11-common/xserver-nodm-init_3.0.bb | 3 ++-
- .../xinput-calibrator/pointercal-xinput_0.0.bb           | 4 +++-
- .../xorg-xserver/xserver-xf86-config_0.1.bb              | 3 ++-
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb      | 3 ++-
- meta/recipes-kernel/linux/linux-dummy.bb                 | 4 +++-
- .../make-mod-scripts/make-mod-scripts_1.0.bb             | 3 ++-
- .../modutils-initscripts/modutils-initscripts.bb         | 4 ++--
- .../matchbox-sato/matchbox-session-sato_0.1.bb           | 4 +++-
- .../pulseaudio-sato/pulseaudio-client-conf-sato_1.bb     | 4 +++-
- meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb   | 3 ++-
- 74 files changed, 160 insertions(+), 87 deletions(-)
+ .../recipeutils/recipeutils-test_1.2.bb       |  2 +-
+ meta/classes-recipe/cargo_common.bbclass      |  4 ++--
+ meta/classes-recipe/kernel-yocto.bbclass      | 10 ++++----
+ meta/classes-recipe/ptest-perl.bbclass        |  2 +-
+ meta/lib/oe/recipeutils.py                    |  2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |  6 ++---
+ meta/lib/oeqa/selftest/cases/layerappend.py   |  2 +-
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 20 ++++++++--------
+ meta/recipes-bsp/grub/grub-efi_2.12.bb        |  2 +-
+ meta/recipes-bsp/u-boot/u-boot.inc            |  4 ++--
+ .../openssh/openssh_9.7p1.bb                  | 16 ++++++-------
+ .../gettext/gettext-minimal-native_0.22.5.bb  |  2 +-
+ .../glibc/glibc-testsuite_2.39.bb             |  4 ++--
+ .../images/build-appliance-image_15.0.0.bb    | 12 +++++-----
+ meta/recipes-core/musl/libc-test_git.bb       |  2 +-
+ meta/recipes-core/psplash/psplash_git.bb      |  6 ++---
+ meta/recipes-devtools/apt/apt_2.6.1.bb        |  2 +-
+ .../cdrtools/cdrtools-native_3.01.bb          |  2 +-
+ meta/recipes-devtools/lua/lua_5.4.6.bb        |  2 +-
+ .../perl-cross/perlcross_1.5.2.bb             |  2 +-
+ meta/recipes-devtools/perl/perl_5.38.2.bb     |  2 +-
+ .../python/python3-cryptography_42.0.5.bb     |  2 +-
+ .../python/python3-hypothesis_6.100.1.bb      |  4 ++--
+ .../python/python3-pyyaml_6.0.1.bb            |  2 +-
+ meta/recipes-devtools/quilt/quilt.inc         |  2 +-
+ meta/recipes-devtools/rust/cargo_1.75.0.bb    |  2 +-
+ meta/recipes-devtools/rust/rust_1.75.0.bb     |  2 +-
+ .../valgrind/valgrind_3.23.0.bb               |  6 ++---
+ meta/recipes-extended/bash/bash.inc           |  2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    | 24 +++++++++----------
+ meta/recipes-extended/cpio/cpio_2.15.bb       |  2 +-
+ .../net-tools/net-tools_2.10.bb               |  4 ++--
+ meta/recipes-rt/rt-tests/rt-tests_git.bb      |  2 +-
+ meta/recipes-support/curl/curl_8.7.1.bb       |  2 +-
+ meta/recipes-support/libpcre/libpcre_8.45.bb  |  2 +-
+ meta/recipes-support/lzop/lzop_1.04.bb        |  2 +-
+ meta/recipes-support/numactl/numactl_git.bb   |  2 +-
+ 37 files changed, 84 insertions(+), 84 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
-index ad374be9d08..41aaa7219a1 100644
---- a/meta-selftest/recipes-test/cpp/cpp-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
-@@ -19,6 +19,7 @@ SRC_URI = "\
-     file://run-ptest \
- "
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+index ad9f475d151..c64c4693964 100644
+--- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+@@ -3,7 +3,7 @@ SUMMARY = "Test recipe for recipeutils.patch_recipe()"
+ require recipeutils-test.inc
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ LICENSE = "HPND"
+-LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
++LIC_FILES_CHKSUM = "file://${UNPACKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
+ DEPENDS += "zlib"
  
- inherit ptest
-diff --git a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-index aa6ce0c2a02..a0eeb4f2231 100644
---- a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-+++ b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index 0fb443edbdd..78440c810b3 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -18,7 +18,7 @@
+ inherit rust-common
  
- DEPENDS += "coreutils-native"
+ # Where we download our registry and dependencies to
+-export CARGO_HOME = "${WORKDIR}/cargo_home"
++export CARGO_HOME = "${UNPACKDIR}/cargo_home"
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ # The pkg-config-rs library used by cargo build scripts disables itself when
+ # cross compiling unless this is defined. We set up pkg-config appropriately
+@@ -138,7 +138,7 @@ python cargo_common_do_patch_paths() {
+         return
  
- inherit useradd allarch
+     patches = dict()
+-    workdir = d.getVar('WORKDIR')
++    workdir = d.getVar('UNPACKDIR')
+     fetcher = bb.fetch2.Fetch(src_uri, d)
+     for url in fetcher.urls:
+         ud = fetcher.ud[url]
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 6468e8aa903..c4ed3f1ca2e 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -379,19 +379,19 @@ do_kernel_checkout() {
+ 	set +e
  
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index 49c3fe827a5..5632bdac7a7 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -6,7 +6,8 @@ SRC_URI = "file://hello.c \
-            file://gdb.sh \
- "
+ 	source_dir=`echo ${S} | sed 's%/$%%'`
+-	source_workdir="${WORKDIR}/git"
+-	if [ -d "${WORKDIR}/git/" ]; then
++	source_workdir="${UNPACKDIR}/git"
++	if [ -d "${UNPACKDIR}/git/" ]; then
+ 		# case: git repository
+ 		# if S is WORKDIR/git, then we shouldn't be moving or deleting the tree.
+ 		if [ "${source_dir}" != "${source_workdir}" ]; then
+ 			if [ -d "${source_workdir}/.git" ]; then
+ 				# regular git repository with .git
+ 				rm -rf ${S}
+-				mv ${WORKDIR}/git ${S}
++				mv ${UNPACKDIR}/git ${S}
+ 			else
+ 				# create source for bare cloned git repository
+ 				git clone ${WORKDIR}/git ${S}
+-				rm -rf ${WORKDIR}/git
++				rm -rf ${UNPACKDIR}/git
+ 			fi
+ 		fi
+ 		cd ${S}
+@@ -434,7 +434,7 @@ do_kernel_checkout() {
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ 	set -e
+ }
+-do_kernel_checkout[dirs] = "${S} ${WORKDIR}"
++do_kernel_checkout[dirs] = "${S} ${UNPACKDIR}"
  
- do_compile () {
- 	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
-diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-index 547587bef4a..2dc352d479e 100644
---- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+ addtask kernel_checkout before do_kernel_metadata after do_symlink_kernsrc
+ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
+diff --git a/meta/classes-recipe/ptest-perl.bbclass b/meta/classes-recipe/ptest-perl.bbclass
+index c283fdd1fc4..a4a9d40d52d 100644
+--- a/meta/classes-recipe/ptest-perl.bbclass
++++ b/meta/classes-recipe/ptest-perl.bbclass
+@@ -13,7 +13,7 @@ SRC_URI += "file://ptest-perl/run-ptest"
+ do_install_ptest_perl() {
+ 	install -d ${D}${PTEST_PATH}
+ 	if [ ! -f ${D}${PTEST_PATH}/run-ptest ]; then
+-		install -m 0755 ${WORKDIR}/ptest-perl/run-ptest ${D}${PTEST_PATH}
++		install -m 0755 ${UNPACKDIR}/ptest-perl/run-ptest ${D}${PTEST_PATH}
+ 	fi
+ 	cp -r ${B}/t ${D}${PTEST_PATH}
+ 	chown -R root:root ${D}${PTEST_PATH}
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index de1fbdd3a8c..2d69a331132 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -818,7 +818,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
+                     instdirline = 'install -d ${D}%s' % os.path.dirname(instdestpath)
+                     if not instdirline in instfunclines:
+                         instfunclines.append(instdirline)
+-                    instfunclines.append('install -m %s ${WORKDIR}/%s ${D}%s' % (perms, os.path.basename(srcfile), instdestpath))
++                    instfunclines.append('install -m %s ${UNPACKDIR}/%s ${D}%s' % (perms, os.path.basename(srcfile), instdestpath))
+         if instfunclines:
+             bbappendlines.append(('do_install:append%s()' % appendoverride, '', instfunclines))
  
- SRC_URI = "file://helloworld.c"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 882225dde34..8ce1c65a388 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -956,9 +956,9 @@ class DevtoolModifyTests(DevtoolBase):
+         #    others git:// in SRC_URI
+         #    cointains a patch
+         testrecipe = 'hello-rs'
+-        bb_vars = get_bb_vars(['SRC_URI', 'FILE', 'WORKDIR', 'CARGO_HOME'], testrecipe)
++        bb_vars = get_bb_vars(['SRC_URI', 'FILE', 'UNPACKDIR', 'CARGO_HOME'], testrecipe)
+         recipefile = bb_vars['FILE']
+-        workdir = bb_vars['WORKDIR']
++        unpackdir = bb_vars['UNPACKDIR']
+         cargo_home = bb_vars['CARGO_HOME']
+         src_uri = bb_vars['SRC_URI'].split()
+         self.assertTrue(src_uri[0].startswith('git://'),
+@@ -1029,7 +1029,7 @@ class DevtoolModifyTests(DevtoolBase):
+             self.assertEqual(parms['type'], 'git-dependency', 'git dependencies uri should have "type=git-dependency"')
+             raw_url = raw_url.replace("git://", '%s://' % parms['protocol'])
+             patch_line = '[patch."%s"]' % raw_url
+-            path_patched = os.path.join(workdir, parms['destsuffix'])
++            path_patched = os.path.join(unpackdir, parms['destsuffix'])
+             path_override_line = '%s = { path = "%s" }' % (parms['name'], path_patched)
+             # Would have been better to use tomllib to read this file :/
+             self.assertIn(patch_line, cargo_config_contents)
+diff --git a/meta/lib/oeqa/selftest/cases/layerappend.py b/meta/lib/oeqa/selftest/cases/layerappend.py
+index 379ed589ad9..64b17117cc2 100644
+--- a/meta/lib/oeqa/selftest/cases/layerappend.py
++++ b/meta/lib/oeqa/selftest/cases/layerappend.py
+@@ -37,7 +37,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+ SRC_URI:append = " file://appendtest.txt"
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_compile() {
- 	${CC} ${CFLAGS} ${LDFLAGS} helloworld.c -o helloworld
-@@ -16,4 +17,4 @@ do_install() {
- 	install -m 0755 helloworld ${D}${bindir}
+ sysroot_stage_all:append() {
+-	install -m 644 ${WORKDIR}/appendtest.txt ${SYSROOT_DESTDIR}/
++	install -m 644 ${UNPACKDIR}/appendtest.txt ${SYSROOT_DESTDIR}/
  }
  
--BBCLASSEXTEND = "native nativesdk"
-\ No newline at end of file
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta-selftest/recipes-test/selftest-users/acreategroup.bb b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-index 66ed5695a26..7805182d482 100644
---- a/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-@@ -3,7 +3,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+ """
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 126906df502..42202b78312 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -138,7 +138,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${%s}\n' % dirname,
+-                         '    install -m 0755 ${WORKDIR}/%s ${D}${%s}/ls\n' % (testfile2name, dirname),
++                         '    install -m 0755 ${UNPACKDIR}/%s ${D}${%s}/ls\n' % (testfile2name, dirname),
+                          '}\n']
+         self._try_recipetool_appendfile('coreutils', lspath, testfile2, '-r coreutils', expectedlines, [testfile2name])
+         # Now try bbappending the same file again, contents should not change
+@@ -164,7 +164,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/something\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/something\n',
+                          '}\n']
+         self._try_recipetool_appendfile('netbase', '/usr/share/something', self.testfile, '-r netbase', expectedlines, ['testfile'])
+         # Try adding another file, this time where the source file is executable
+@@ -179,8 +179,8 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/something\n',
+-                         '    install -m 0755 ${WORKDIR}/%s ${D}${datadir}/scriptname\n' % testfile2name,
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/something\n',
++                         '    install -m 0755 ${UNPACKDIR}/%s ${D}${datadir}/scriptname\n' % testfile2name,
+                          '}\n']
+         self._try_recipetool_appendfile('netbase', '/usr/share/scriptname', testfile2, '-r netbase', expectedlines, ['testfile', testfile2name])
  
- LICENSE = "MIT"
+@@ -192,7 +192,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${bindir}\n',
+-                         '    install -m 0755 ${WORKDIR}/testfile ${D}${bindir}/selftest-recipetool-testbin\n',
++                         '    install -m 0755 ${UNPACKDIR}/testfile ${D}${bindir}/selftest-recipetool-testbin\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('netbase', '/usr/bin/selftest-recipetool-testbin', self.testfile, '-r netbase', expectedlines, ['testfile'])
+         self.assertNotIn('WARNING: ', output)
+@@ -207,7 +207,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append:mymachine() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/something\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/something\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('netbase', '/usr/share/something', self.testfile, '-r netbase -m mymachine', expectedlines, ['mymachine/testfile'])
+         self.assertNotIn('WARNING: ', output)
+@@ -241,7 +241,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/selftest-replaceme-subdir\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/selftest-replaceme-subdir\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('selftest-recipetool-appendfile', '/usr/share/selftest-replaceme-subdir', self.testfile, '', expectedlines, ['testfile'])
+         self.assertNotIn('WARNING: ', output)
+@@ -268,7 +268,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${sysconfdir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${sysconfdir}/selftest-replaceme-patched\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${sysconfdir}/selftest-replaceme-patched\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('selftest-recipetool-appendfile', '/etc/selftest-replaceme-patched', self.testfile, '', expectedlines, ['testfile'])
+         for line in output.splitlines():
+@@ -286,7 +286,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/selftest-replaceme-scripted\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/selftest-replaceme-scripted\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('selftest-recipetool-appendfile', '/usr/share/selftest-replaceme-scripted', self.testfile, '', expectedlines, ['testfile'])
+         self.assertNotIn('WARNING: ', output)
+@@ -309,7 +309,7 @@ class RecipetoolAppendTests(RecipetoolBase):
+                          '\n',
+                          'do_install:append() {\n',
+                          '    install -d ${D}${datadir}\n',
+-                         '    install -m 0644 ${WORKDIR}/testfile ${D}${datadir}/selftest-replaceme-postinst\n',
++                         '    install -m 0644 ${UNPACKDIR}/testfile ${D}${datadir}/selftest-replaceme-postinst\n',
+                          '}\n']
+         _, output = self._try_recipetool_appendfile('selftest-recipetool-appendfile', '/usr/share/selftest-replaceme-postinst', self.testfile, '-r selftest-recipetool-appendfile', expectedlines, ['testfile'])
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.12.bb b/meta/recipes-bsp/grub/grub-efi_2.12.bb
+index 9857e8e036d..7df77deca36 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.12.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.12.bb
+@@ -58,7 +58,7 @@ do_mkimage() {
  
- EXCLUDE_FROM_WORLD="1"
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/bcreategroup.bb b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-index c4844dd0da0..b15c07d7b25 100644
---- a/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-@@ -7,7 +7,8 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "acreategroup ccreategroup"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- EXCLUDE_FROM_WORLD="1"
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/ccreategroup.bb b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-index 021b1ebbf77..ff2da1c0394 100644
---- a/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "acreategroup"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- EXCLUDE_FROM_WORLD="1"
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/creategroup1.bb b/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-index afd23ed1eea..4ab278f5895 100644
---- a/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-+++ b/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-@@ -3,7 +3,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- LICENSE = "MIT"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/creategroup2.bb b/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-index f776f43aedf..179aba9bfcc 100644
---- a/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-+++ b/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "creategroup1"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/dcreategroup.bb b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-index b96ca92a160..ab0a5296692 100644
---- a/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "bcreategroup"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- EXCLUDE_FROM_WORLD="1"
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb b/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-index 99e04a80b34..2863541010c 100644
---- a/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-+++ b/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- 
- DEPENDS:append = "coreutils-native"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-index a2fb212a688..79f2e8a0923 100644
---- a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-+++ b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-@@ -10,7 +10,8 @@ SRC_URI = "file://Makefile \
-            file://COPYING \
-           "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- # The inherit of module.bbclass will automatically name module packages with
- # "kernel-module-" prefix as required by the oe-core build environment.
-diff --git a/meta-skeleton/recipes-skeleton/service/service_0.1.bb b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-index 912f6b0f611..d958bac9547 100644
---- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-+++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-@@ -2,14 +2,15 @@ SUMMARY = "The canonical example of init scripts"
- SECTION = "base"
- DESCRIPTION = "This recipe is a canonical example of init scripts"
- LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYRIGHT;md5=349c872e0066155e1818b786938876a4"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=349c872e0066155e1818b786938876a4"
- 
- SRC_URI = "file://skeleton \
- 	   file://skeleton_test.c \
- 	   file://COPYRIGHT \
- 	   "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
-@@ -17,7 +18,7 @@ do_compile () {
- 
- do_install () {
- 	install -d ${D}${sysconfdir}/init.d
--	cat ${WORKDIR}/skeleton | \
-+	cat ${S}/skeleton | \
- 	  sed -e 's,/etc,${sysconfdir},g' \
- 	      -e 's,/usr/sbin,${sbindir},g' \
- 	      -e 's,/var,${localstatedir},g' \
-@@ -26,7 +27,7 @@ do_install () {
- 	chmod a+x ${D}${sysconfdir}/init.d/skeleton
- 
- 	install -d ${D}${sbindir}
--	install -m 0755 ${WORKDIR}/skeleton-test ${D}${sbindir}/
-+	install -m 0755 ${S}/skeleton-test ${D}${sbindir}/
+ 	# Search for the grub.cfg on the local boot media by using the
+ 	# built in cfg file provided via this recipe
+-	grub-mkimage -v -c ../cfg -p ${EFIDIR} -d ./grub-core/ \
++	grub-mkimage -v -c ${UNPACKDIR}/cfg -p ${EFIDIR} -d ./grub-core/ \
+ 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
+ 	               ${GRUB_MKIMAGE_MODULES}
  }
- 
- RDEPENDS:${PN} = "initscripts"
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 83384f2daf5..099fbd3b9d8 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -21,7 +21,8 @@ SRC_URI = "\
-   file://alsa-state-init \
- "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- # As the recipe doesn't inherit systemd.bbclass, we need to set this variable
- # manually to avoid unnecessary postinst/preinst generated.
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index 1eaf30746b0..4714bb2e5e2 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -7,7 +7,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- SRC_URI = "file://config file://machconfig"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- INHIBIT_DEFAULT_DEPS = "1"
-diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-index 783e30bf387..fed3c7e9a3c 100644
---- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-+++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-@@ -11,7 +11,8 @@ inherit grub-efi-cfg
- 
- require conf/image-uefi.conf
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- GRUB_CFG = "${S}/grub-bootconf"
- LABELS = "boot"
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index e30dd9dca26..0425197c981 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -24,7 +24,8 @@ SRC_URI = "file://keymap.sh"
- INITSCRIPT_NAME = "keymap.sh"
- INITSCRIPT_PARAMS = "start 01 S ."
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install () {
-     # Only install the script if 'sysvinit' is in DISTRO_FEATURES
-diff --git a/meta/recipes-bsp/usbinit/usbinit.bb b/meta/recipes-bsp/usbinit/usbinit.bb
-index b80191bddc4..091aa73bb52 100644
---- a/meta/recipes-bsp/usbinit/usbinit.bb
-+++ b/meta/recipes-bsp/usbinit/usbinit.bb
-@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://${S}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe
- 
- SRC_URI = "file://usb-gether \
-            file://COPYING.GPL"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}${sysconfdir}
-diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
-index a1a0e08faae..73c54cddae8 100644
---- a/meta/recipes-connectivity/connman/connman-conf.bb
-+++ b/meta/recipes-connectivity/connman/connman-conf.bb
-@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- SRC_URI = "file://main.conf \
-           "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index 0c3085d3a8c..0ee47d47c2b 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -11,7 +11,8 @@ SRC_URI = "file://host-peer \
- 
- inherit allarch useradd
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -d ${D}${sysconfdir}/ppp/peers
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 42a8026e639..1b6e9671e45 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -25,7 +25,8 @@ SRC_URI = "file://rotation \
-            "
- SRC_URI:append:libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd systemd-resolved', ' file://0001-add-nss-resolve-to-nsswitch.patch', '', d)}"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb b/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
-index 1f179d85608..4ffc44c808a 100644
---- a/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
-@@ -4,7 +4,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- 
- SRC_URI = "file://inittab"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-index 49c7fd71b1b..ddf9d1b3112 100644
---- a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-@@ -15,7 +15,8 @@ SRC_URI = "file://copyright \
-            file://interfaces \
-            file://nfsroot"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install () {
- 	install -d ${D}${sysconfdir}/init.d \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-index 01d2771e3fd..ec3544c67a9 100644
---- a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-@@ -3,8 +3,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-boot.sh"
- 
--
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-boot.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 4dbb56a42dd..bb4984366d1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -20,7 +20,8 @@ SRC_URI = "file://init \
-            file://overlayroot \
-           "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-index a06e7902eec..40046f30a76 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-@@ -5,8 +5,8 @@ DEPENDS = "virtual/kernel"
- RDEPENDS:${PN} = "busybox-mdev"
- SRC_URI = "file://init-live.sh"
- 
--
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-live.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index e1bf15d2933..7851cc9605a 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -5,8 +5,8 @@ DEPENDS = "virtual/kernel"
- RDEPENDS:${PN} = "udev udev-extraconf"
- SRC_URI = "file://init-live.sh"
- 
--
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-live.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-index 1225ce4df9e..31291bcdf2c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-@@ -5,7 +5,8 @@ SRC_URI = "file://init-install-efi-testfs.sh"
- 
- RDEPENDS:${PN} = "parted e2fsprogs-mke2fs dosfstools"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-efi-testfs.sh ${D}/install-efi.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-index ae7d5beb2f9..ff3b5622db7 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-@@ -3,11 +3,11 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-install-efi.sh"
- 
--
- RDEPENDS:${PN} = "parted e2fsprogs-mke2fs dosfstools util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-efi.sh ${D}/install-efi.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-index 018911f5d12..19f05f9fecd 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-@@ -5,7 +5,8 @@ SRC_URI = "file://init-install-testfs.sh"
- 
- RDEPENDS:${PN} = "grub parted e2fsprogs-mke2fs"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-testfs.sh ${D}/install.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-index 12b28203183..1d489e2b649 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-@@ -3,8 +3,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-install.sh"
- 
--
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- RDEPENDS:${PN} = "grub parted e2fsprogs-mke2fs util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index adea2330ae5..bb3f275f266 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -7,7 +7,8 @@ RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
- 
- SRC_URI = "file://init-install-efi.sh"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-index e4ae466d7c3..b87e59f3475 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -12,7 +12,8 @@ COMPATIBLE_HOST:armv7ve = 'null'
- 
- SRC_URI = "file://init-install.sh"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-index 4d2c11f4526..4d9ef79a634 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -9,7 +9,8 @@ inherit allarch
- FILESEXTRAPATHS:prepend := "${THISDIR}/initramfs-framework:"
- SRC_URI = "file://setup-live"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 68eeb5e1171..65f97a0af29 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -35,7 +35,8 @@ SRC_URI = "file://functions \
-            ${@bb.utils.contains('DISTRO_FEATURES','selinux','file://sushell','',d)} \
- "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- SRC_URI:append:arm = " file://alignment.sh"
- SRC_URI:append:armeb = " file://alignment.sh"
-diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-core/musl/bsd-headers.bb
-index 887a8160313..7d0bdee8704 100644
---- a/meta/recipes-core/musl/bsd-headers.bb
-+++ b/meta/recipes-core/musl/bsd-headers.bb
-@@ -15,7 +15,8 @@ do_compile[noexec] = "1"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -Dm 0644 ${S}/sys-queue.h ${D}${includedir}/sys/queue.h
-diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
-index 3faf8f00c3c..e9f652fc3ea 100644
---- a/meta/recipes-core/musl/libssp-nonshared.bb
-+++ b/meta/recipes-core/musl/libssp-nonshared.bb
-@@ -17,7 +17,8 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
- 
- do_configure[noexec] = "1"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_compile() {
- 	${CC} ${CPPFLAGS} ${CFLAGS} -fPIE -c stack_chk.c -o stack_chk.o
-diff --git a/meta/recipes-core/musl/musl-legacy-error.bb b/meta/recipes-core/musl/musl-legacy-error.bb
-index 5ce5a233ab1..11a838a6e8a 100644
---- a/meta/recipes-core/musl/musl-legacy-error.bb
-+++ b/meta/recipes-core/musl/musl-legacy-error.bb
-@@ -13,7 +13,8 @@ do_compile[noexec] = "1"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -Dm 0644 ${S}/error.h -t ${D}${includedir}
-diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-index 19637546a99..0ec49365d02 100644
---- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-+++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-@@ -7,7 +7,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit systemd-boot-cfg
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- LABELS = "boot"
- 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index c03d97f9c93..b9295458237 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -5,7 +5,8 @@ LICENSE = "MIT"
- 
- PACKAGE_WRITE_DEPS += "systemd-systemctl-native"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit features_check
- 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 987a8bf89de..9035b8c335a 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -9,7 +9,8 @@ SERIAL_TERM ?= "linux"
- 
- SRC_URI = "file://serial-getty@.service"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- # As this package is tied to systemd, only build it when we're also building systemd.
- inherit features_check
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native.bb b/meta/recipes-core/systemd/systemd-systemctl-native.bb
-index 0036e4dd8be..ffa024caef3 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native.bb
-@@ -8,7 +8,8 @@ inherit native
- 
- SRC_URI = "file://systemctl"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -d ${D}${bindir}
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 17a01e86400..6ff2ca1bf43 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- SRC_URI = "file://inittab \
-            file://start_getty"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index a3e5d12b818..0e2abcd4243 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -13,7 +13,8 @@ SRC_URI = " \
-        file://localextra.rules \
- "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- MOUNT_BASE = "/run/media"
- 
-diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-index cca8a65fb48..3597ec73561 100644
---- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-+++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-@@ -9,7 +9,8 @@ SRC_URI = "\
-     file://volatile-binds.service.in \
- "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit allarch systemd features_check
- 
-@@ -64,7 +65,6 @@ END
-                "$var_lib_servicefile"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 3a7afb81c85..45d700fbdd4 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -259,8 +259,8 @@ do_deploy () {
+         fi
      fi
+ 
+-    if [ -e ${WORKDIR}/fw_env.config ] ; then
+-        install -D -m 644 ${WORKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${PV}-${PR}
++    if [ -e ${UNPACKDIR}/fw_env.config ] ; then
++        install -D -m 644 ${UNPACKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${PV}-${PR}
+         cd ${DEPLOYDIR}
+         ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config-${MACHINE}
+         ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+index 36ffa493983..82da92f63fc 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+@@ -112,7 +112,7 @@ do_compile_ptest() {
+ 
+ do_install:append () {
+ 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+-		install -D -m 0644 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++		install -D -m 0644 ${UNPACKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+ 		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config
+ 	fi
+ 
+@@ -121,11 +121,11 @@ do_install:append () {
+ 	fi
+ 
+ 	install -d ${D}${sysconfdir}/init.d
+-	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
++	install -m 0755 ${UNPACKDIR}/init ${D}${sysconfdir}/init.d/sshd
+ 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
+ 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
+ 	install -d ${D}/${sysconfdir}/default/volatiles
+-	install -m 644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
++	install -m 644 ${UNPACKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
+ 	install -m 0755 ${S}/contrib/ssh-copy-id ${D}${bindir}
+ 
+ 	# Create config files for read-only rootfs
+@@ -138,8 +138,8 @@ do_install:append () {
+ 
+ 	install -d ${D}${systemd_system_unitdir}
+ 	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
+-	    install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
+-	    install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
++	    install -c -m 0644 ${UNPACKDIR}/sshd.socket ${D}${systemd_system_unitdir}
++	    install -c -m 0644 ${UNPACKDIR}/sshd@.service ${D}${systemd_system_unitdir}
+ 	    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+ 		    -e 's,@SBINDIR@,${sbindir},g' \
+ 		    -e 's,@BINDIR@,${bindir},g' \
+@@ -147,9 +147,9 @@ do_install:append () {
+             ${D}${systemd_system_unitdir}/sshd.socket
+ 	fi
+ 	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','true','false',d)}; then
+-	    install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
++	    install -c -m 0644 ${UNPACKDIR}/sshd.service ${D}${systemd_system_unitdir}
+ 	fi
+-	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
++	install -c -m 0644 ${UNPACKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
+ 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+ 		-e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@BINDIR@,${bindir},g' \
+@@ -159,7 +159,7 @@ do_install:append () {
+ 	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+ 		${D}${sysconfdir}/init.d/sshd
+ 
+-	install -D -m 0755 ${WORKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_check_keys
++	install -D -m 0755 ${UNPACKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_check_keys
  }
--do_compile[dirs] = "${WORKDIR}"
  
- do_install () {
-     install -d ${D}${base_sbindir}
-@@ -82,4 +82,3 @@ do_install () {
-     ln -s /dev/null ${D}${sysconfdir}/tmpfiles.d/etc.conf
-     ln -s /dev/null ${D}${sysconfdir}/tmpfiles.d/home.conf
- }
--do_install[dirs] = "${WORKDIR}"
-diff --git a/meta/recipes-devtools/devel-config/distcc-config.bb b/meta/recipes-devtools/devel-config/distcc-config.bb
-index 698fd3585af..2c30488b820 100644
---- a/meta/recipes-devtools/devel-config/distcc-config.bb
-+++ b/meta/recipes-devtools/devel-config/distcc-config.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ do_install_ptest () {
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb
+index db1bbb7e687..96acf9bb9fc 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.22.5.bb
+@@ -13,7 +13,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ INHIBIT_AUTOTOOLS_DEPS = "1"
  
- SRC_URI = "file://distcc.sh"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- # Default to the host machine for a running qemu session
- DISTCC_HOSTS ?= "192.168.7.1"
-diff --git a/meta/recipes-devtools/devel-config/nfs-export-root.bb b/meta/recipes-devtools/devel-config/nfs-export-root.bb
-index 5e69962d7c7..ad5486aa87f 100644
---- a/meta/recipes-devtools/devel-config/nfs-export-root.bb
-+++ b/meta/recipes-devtools/devel-config/nfs-export-root.bb
-@@ -3,10 +3,10 @@ DESCRIPTION = "Enables NFS access from any host to the entire filesystem (for de
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--
- SRC_URI = "file://exports"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -d ${D}${sysconfdir}
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-index bbd574e2872..5229a0366c2 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-@@ -41,7 +41,8 @@ SRC_URI[payloadPV.sha256sum] = "4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd791
- 
- UPSTREAM_CHECK_REGEX = "docbook-xml-(?P<pver>4(\.\d+)).zip"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_configure (){
-     :
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-index 56a9321fb91..dd1b257b10a 100644
---- a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-@@ -26,7 +26,8 @@ ICECC_DISABLED = "1"
- PATCHTOOL = "patch"
- SRC_URI = "file://icecc-create-env"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     install -d ${D}/${bindir}
-diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-index 0d6c7a01ebf..7b11093364a 100644
---- a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-+++ b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://makedevs.c;beginline=2;endline=2;md5=c3817b10013a3007
- SECTION = "base"
- SRC_URI = "file://makedevs.c"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- FILES:${PN}:append:class-nativesdk = " ${datadir}"
- 
-diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-index 726a259a8c4..4db35c1092e 100644
---- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-@@ -3,7 +3,8 @@ HOMEPAGE = "https://git.yoctoproject.org/opkg/"
- LICENSE = "MIT"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_compile() {
- 	mkdir -p ${S}/${sysconfdir}/opkg/
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index 997f72e6e77..90bba84b03c 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -18,7 +18,8 @@ SRC_URI = "file://${COREBASE}/scripts/runqemu \
-            file://${COREBASE}/scripts/runqemu-export-rootfs \
-           "
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit nativesdk
- 
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-index 8bb6ef0995b..28a3b95c4ea 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${S}/qemu-oe-bridge-helper.c;endline=4;md5=ae00a3bab8
- 
- SRC_URI = "file://qemu-oe-bridge-helper.c"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ LICENSE = "FSF-Unlimited"
+-LIC_FILES_CHKSUM = "file://../COPYING;md5=4bd090a20bfcd1a18f1f79837b5e3e91"
++LIC_FILES_CHKSUM = "file://${UNPACKDIR}/COPYING;md5=4bd090a20bfcd1a18f1f79837b5e3e91"
  
  inherit native
  
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index 97b44ad2e57..6d0e7883ad9 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -2,7 +2,8 @@ SUMMARY = "QEMU wrapper script"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "MIT"
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb b/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
+index 2e076f4b0f4..3a2764e40b0 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
+@@ -18,7 +18,7 @@ TOOLCHAIN_TEST_HOST_PORT ??= "2222"
+ do_check[nostamp] = "1"
+ do_check[network] = "1"
+ do_check:append () {
+-    chmod 0755 ${WORKDIR}/check-test-wrapper
++    chmod 0755 ${UNPACKDIR}/check-test-wrapper
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+     oe_runmake -i \
+         QEMU_SYSROOT="${RECIPE_SYSROOT}" \
+@@ -26,7 +26,7 @@ do_check:append () {
+         SSH_HOST="${TOOLCHAIN_TEST_HOST}" \
+         SSH_HOST_USER="${TOOLCHAIN_TEST_HOST_USER}" \
+         SSH_HOST_PORT="${TOOLCHAIN_TEST_HOST_PORT}" \
+-        test-wrapper="${WORKDIR}/check-test-wrapper ${TOOLCHAIN_TEST_TARGET}" \
++        test-wrapper="${UNPACKDIR}/check-test-wrapper ${TOOLCHAIN_TEST_TARGET}" \
+         check
+ }
  
- DEPENDS += "qemu-native"
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 4cf55519ccc..dbb257eda1b 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -44,10 +44,10 @@ IMAGE_CMD:ext4:append () {
+ fakeroot do_populate_poky_src () {
+ 	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
+ 	# will become invalid in the target.
+-	rm -rf ${WORKDIR}/git/.git
+-	rm -f ${WORKDIR}/git/.gitignore
++	rm -rf ${UNPACKDIR}/git/.git
++	rm -f ${UNPACKDIR}/git/.gitignore
  
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-index e3d63df852d..f571e619218 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-@@ -8,7 +8,8 @@ SRC_URI = "file://run-postinsts \
-            file://run-postinsts.init \
-            file://run-postinsts.service"
+-	cp -R ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
++	cp -R ${UNPACKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ 	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+ 	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
+@@ -58,10 +58,10 @@ fakeroot do_populate_poky_src () {
+ 	fi
  
- inherit allarch systemd update-rc.d
+ 	# Place the README_VirtualBox_Guest_Additions file in builders home folder.
+-	cp ${WORKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
++	cp ${UNPACKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
  
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index f59fee7cddc..f962437d6b4 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -12,7 +12,8 @@ DEPENDS += "virtual/${SDK_PREFIX}gcc virtual/nativesdk-libc virtual/nativesdk-${
+ 	# Place the README_VirtualBox_Toaster file in builders home folder.
+-	cp ${WORKDIR}/README_VirtualBox_Toaster.txt ${IMAGE_ROOTFS}/home/builder/
++	cp ${UNPACKDIR}/README_VirtualBox_Toaster.txt ${IMAGE_ROOTFS}/home/builder/
  
- SRC_URI += "file://target-rust-ccld.c"
- LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+ 	echo "export LC_ALL=en_US.utf8" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+@@ -132,7 +132,7 @@ python () {
+ create_bundle_files () {
+ 	cd ${WORKDIR}
+ 	mkdir -p Yocto_Build_Appliance
+-	cp *.vmx* Yocto_Build_Appliance
++	cp ${UNPACKDIR}/*.vmx* Yocto_Build_Appliance
+ 	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+ 	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vhdx Yocto_Build_Appliance/Yocto_Build_Appliance.vhdx
+ 	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vhd Yocto_Build_Appliance/Yocto_Build_Appliance.vhd
+diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
+index 619a959fd29..f55a125a89a 100644
+--- a/meta/recipes-core/musl/libc-test_git.bb
++++ b/meta/recipes-core/musl/libc-test_git.bb
+@@ -50,7 +50,7 @@ do_install () {
+ }
  
- # Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.6.bb b/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-index 85c04b6af11..913c159c818 100644
---- a/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-@@ -8,7 +8,8 @@ INHIBIT_DEFAULT_DEPS = "1"
+ do_install_ptest_base:append() {
+-    install -Dm 0755 ${WORKDIR}/run-libc-ptests ${D}${PTEST_PATH}/run-libc-ptests
++    install -Dm 0755 ${UNPACKDIR}/run-libc-ptests ${D}${PTEST_PATH}/run-libc-ptests
+ }
  
- SRC_URI = "file://securetty"
+ COMPATIBLE_HOST = "null"
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index c7b96bc6a7b..30cf61a2cb5 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -103,7 +103,7 @@ python do_compile () {
+ do_install:append() {
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+ 		install -d ${D}${sysconfdir}/init.d/
+-		install -m 0755 ${WORKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
++		install -m 0755 ${UNPACKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ 		# make fifo for psplash
+ 		install -d ${D}/mnt
+@@ -112,8 +112,8 @@ do_install:append() {
  
- # Since SERIAL_CONSOLES is likely to be set from the machine configuration
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-index 00ab58b38cf..13cfab6aabb 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-@@ -13,7 +13,8 @@ DEPENDS = "base-passwd"
- # can add custom users/groups for recipes that use inherit useradd.
- SRC_URI = "file://login.defs_shadow-sysroot"
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+ 		install -d ${D}${systemd_system_unitdir}
+-		install -m 644 ${WORKDIR}/psplash-start.service ${D}/${systemd_system_unitdir}
+-		install -m 644 ${WORKDIR}/psplash-systemd.service ${D}/${systemd_system_unitdir}
++		install -m 644 ${UNPACKDIR}/psplash-start.service ${D}/${systemd_system_unitdir}
++		install -m 644 ${UNPACKDIR}/psplash-systemd.service ${D}/${systemd_system_unitdir}
+ 	fi
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ 	install -d ${D}${bindir}
+diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_2.6.1.bb
+index fb4ff899d20..68bd7c54076 100644
+--- a/meta/recipes-devtools/apt/apt_2.6.1.bb
++++ b/meta/recipes-devtools/apt/apt_2.6.1.bb
+@@ -49,7 +49,7 @@ DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
+ 
+ EXTRA_OECMAKE:append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
+     -DDPKG_DATADIR=${datadir}/dpkg \
+-    -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
++    -DTRIEHASH_EXECUTABLE=${UNPACKDIR}/triehash \
+     -DCMAKE_DISABLE_FIND_PACKAGE_ZSTD=True \
+     -DCMAKE_DISABLE_FIND_PACKAGE_SECCOMP=True \
+     -DWITH_TESTS=False \
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+index bf8be1ad0c0..98308e5d376 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+@@ -29,7 +29,7 @@ inherit native
+ do_configure() {
+         install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/autoconf
+         install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}/autoconf
+-        install -m 0644 ${WORKDIR}/riscv64-linux-gcc.rul ${S}/RULES/
++        install -m 0644 ${UNPACKDIR}/riscv64-linux-gcc.rul ${S}/RULES/
+ }
  
  do_install() {
- 	install -d ${D}${sysconfdir}
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-index a942ac2991e..51d9c927661 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -8,7 +8,8 @@ PV = "1.0"
+diff --git a/meta/recipes-devtools/lua/lua_5.4.6.bb b/meta/recipes-devtools/lua/lua_5.4.6.bb
+index 65f19ae2479..17dc8fb17df 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.6.bb
++++ b/meta/recipes-devtools/lua/lua_5.4.6.bb
+@@ -51,7 +51,7 @@ do_install () {
+ }
  
- SRC_URI = "file://template.py file://COPYING"
+ do_install_ptest () {
+-        cp -R --no-dereference --preserve=mode,links -v ${WORKDIR}/lua-${PV_testsuites}-tests ${D}${PTEST_PATH}/test
++        cp -R --no-dereference --preserve=mode,links -v ${UNPACKDIR}/lua-${PV_testsuites}-tests ${D}${PTEST_PATH}/test
+ }
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ do_install_ptest:append:libc-musl () {
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
+index b41c182fad2..48bda7e4b6f 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
+@@ -6,7 +6,7 @@ SECTION = "devel"
+ LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
+ # README.md is taken from https://github.com/arsv/perl-cross/blob/master/README.md
+ # but is not provided inside the release tarballs
+-LIC_FILES_CHKSUM = "file://${WORKDIR}/README.md;md5=252fcce2026b765fee1ad74d2fb07a3b"
++LIC_FILES_CHKSUM = "file://${UNPACKDIR}/README.md;md5=252fcce2026b765fee1ad74d2fb07a3b"
  
- inherit native
+ inherit allarch github-releases
  
-diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-index 52c9351f93f..7719b783c26 100644
---- a/meta/recipes-graphics/builder/builder_0.1.bb
-+++ b/meta/recipes-graphics/builder/builder_0.1.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://builder_session.sh;endline=5;md5=84796c3c41785d86100f
- SRC_URI = "file://builder_session.sh \
-           "
+diff --git a/meta/recipes-devtools/perl/perl_5.38.2.bb b/meta/recipes-devtools/perl/perl_5.38.2.bb
+index b6c9cda7aea..63909c242d4 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.2.bb
+@@ -331,7 +331,7 @@ python split_perl_packages () {
+     d.setVar(d.expand("RDEPENDS:${PN}-modules"), ' '.join(packages))
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+     # Read the pre-generated dependency file, and use it to set module dependecies
+-    for line in open(d.expand("${WORKDIR}") + '/perl-rdepends.txt').readlines():
++    for line in open(d.getVar("UNPACKDIR") + '/perl-rdepends.txt').readlines():
+         splitline = line.split()
+         # Filter empty lines and comments
+         if len(splitline) == 0 or splitline[0].startswith("#"):
+diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+index 732f925d926..0300330c603 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+@@ -49,7 +49,7 @@ RDEPENDS:${PN}-ptest += " \
+ inherit ptest
  
- RDEPENDS:${PN} = "mini-x-session"
+ do_install_ptest() {
+-    install -D ${WORKDIR}/check-memfree.py ${D}${PTEST_PATH}/
++    install -D ${UNPACKDIR}/check-memfree.py ${D}${PTEST_PATH}/
+     install -d ${D}${PTEST_PATH}/tests
+     cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+     # remove test_x509.py as it needs benchmark and we don't
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb
+index af7facfe7e0..a689be9a1aa 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb
+@@ -32,8 +32,8 @@ RDEPENDS:${PN}-ptest += " \
  
-diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-index d1f0a67d841..8a4cfef6315 100644
---- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-+++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-@@ -10,7 +10,9 @@ SECTION = "x11"
- RCONFLICTS:${PN} = "matchbox-common"
+ do_install_ptest() {
+     install -d ${D}${PTEST_PATH}/examples
+-    install -m 0755 ${WORKDIR}/test_binary_search.py ${D}${PTEST_PATH}/examples/
+-    install -m 0755 ${WORKDIR}/test_rle.py ${D}${PTEST_PATH}/examples/
++    install -m 0755 ${UNPACKDIR}/test_binary_search.py ${D}${PTEST_PATH}/examples/
++    install -m 0755 ${UNPACKDIR}/test_rle.py ${D}${PTEST_PATH}/examples/
+ }
  
- SRC_URI = "file://matchbox-session"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-pyyaml_6.0.1.bb b/meta/recipes-devtools/python/python3-pyyaml_6.0.1.bb
+index 33883125570..6e2022719c1 100644
+--- a/meta/recipes-devtools/python/python3-pyyaml_6.0.1.bb
++++ b/meta/recipes-devtools/python/python3-pyyaml_6.0.1.bb
+@@ -34,7 +34,7 @@ RDEPENDS:${PN}-ptest += " \
  
+ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/tests
+-	cp -rf ${WORKDIR}/test_dump_load.py ${D}${PTEST_PATH}/tests/
++	cp -rf ${UNPACKDIR}/test_dump_load.py ${D}${PTEST_PATH}/tests/
+ }
  
- inherit update-alternatives
-diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-index ba81d0b17ab..48d50c8f66d 100644
---- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-+++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-@@ -11,7 +11,9 @@ SECTION = "x11"
- RCONFLICTS:${PN} = "matchbox-common"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 3374f4dfbf3..1d90d3d84d7 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -67,7 +67,7 @@ DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptes
+ PACKAGE_WRITE_DEPS += "ptest-runner"
  
- SRC_URI = "file://mini-x-session"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ do_install_ptest() {
+-	install ${WORKDIR}/test.sh ${D}${PTEST_PATH}
++	install ${UNPACKDIR}/test.sh ${D}${PTEST_PATH}
+     mkdir ${D}${PTEST_PATH}/test
+     install ${S}/test/* ${D}${PTEST_PATH}/test
+     # mail needs a MTA, and the patch-wrapper is disabled
+diff --git a/meta/recipes-devtools/rust/cargo_1.75.0.bb b/meta/recipes-devtools/rust/cargo_1.75.0.bb
+index 50b7e7c7b49..123032cdf7f 100644
+--- a/meta/recipes-devtools/rust/cargo_1.75.0.bb
++++ b/meta/recipes-devtools/rust/cargo_1.75.0.bb
+@@ -22,7 +22,7 @@ inherit cargo pkgconfig
+ DEBUG_PREFIX_MAP += "-fdebug-prefix-map=${RUSTSRC}/vendor=${TARGET_DBGSRC_DIR}"
  
- RDEPENDS:${PN} = "sudo"
+ do_cargo_setup_snapshot () {
+-	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
++	${UNPACKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
+ 	# Need to use uninative's loader if enabled/present since the library paths
+ 	# are used internally by rust and result in symbol mismatches if we don't
+ 	if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
+diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
+index 76e1fe2d84a..662117c92c3 100644
+--- a/meta/recipes-devtools/rust/rust_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+@@ -48,7 +48,7 @@ setup_cargo_environment () {
+ inherit rust-target-config
  
-diff --git a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-index d0794f8ee62..ee5173dc83d 100644
---- a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-+++ b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-@@ -10,7 +10,8 @@ SRC_URI = "file://pong-clock-no-flicker.c"
+ do_rust_setup_snapshot () {
+-    for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
++    for installer in "${UNPACKDIR}/rust-snapshot-components/"*"/install.sh"; do
+         "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
+     done
  
- LIC_FILES_CHKSUM = "file://pong-clock-no-flicker.c;beginline=1;endline=23;md5=dd248d50f73f746d1ee78586b0b2ebd3"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.23.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.23.0.bb
+index 46719bf8a1a..ad9e26cb6ba 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.23.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.23.0.bb
+@@ -194,9 +194,9 @@ do_install_ptest() {
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+     # The scripts reference config.h so add it to the top ptest dir.
+     cp ${B}/config.h ${D}${PTEST_PATH}
+-    install -D ${WORKDIR}/remove-for-aarch64 ${D}${PTEST_PATH}
+-    install -D ${WORKDIR}/remove-for-all ${D}${PTEST_PATH}
+-    install -D ${WORKDIR}/taskset_nondeterministic_tests ${D}${PTEST_PATH}
++    install -D ${UNPACKDIR}/remove-for-aarch64 ${D}${PTEST_PATH}
++    install -D ${UNPACKDIR}/remove-for-all ${D}${PTEST_PATH}
++    install -D ${UNPACKDIR}/taskset_nondeterministic_tests ${D}${PTEST_PATH}
  
- do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} -o pong-clock pong-clock-no-flicker.c `pkg-config --cflags --libs x11 xau xdmcp`
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index ca3d1478dc8..83f0cea49cb 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -13,7 +13,8 @@ SRC_URI = "file://init \
-            file://weston-autologin \
-            file://weston-start"
+     # Add an executable need by none/tests/bigcode
+     mkdir ${D}${PTEST_PATH}/perf
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index e541161c757..66058feff38 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -108,7 +108,7 @@ do_install_ptest () {
+ 	cp ${B}/config.h ${D}${PTEST_PATH}
+ 	cp ${B}/version.h ${D}${PTEST_PATH}
+ 	cp ${S}/y.tab.[ch] ${D}${PTEST_PATH}
+-	install -D ${WORKDIR}/run-bash-ptests ${D}${PTEST_PATH}/run-bash-ptests
++	install -D ${UNPACKDIR}/run-bash-ptests ${D}${PTEST_PATH}/run-bash-ptests
+         sed -i -e 's/^Makefile/_Makefile/' -e "s,--sysroot=${STAGING_DIR_TARGET},,g" \
+ 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+ 	    -e 's|${BUILD_LDFLAGS}||g' \
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 4e3a06f2408..7d7ab3856b4 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -14,11 +14,11 @@ LICENSE:libbz2 = "bzip2-1.0.6"
+ LICENSE:${PN}-ptest = "bzip2-1.0.6 & GPL-3.0-or-later & Apache-2.0 & MS-PL & BSD-3-Clause & Zlib"
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xwayland', '', d)}"
- PACKAGECONFIG:append:qemuriscv64 = " use-pixman"
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index 4e38b4da343..cd4acf81551 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -12,7 +12,8 @@ SRC_URI = "file://xserver-nodm \
-            file://capability.conf \
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
+-                    file://${WORKDIR}/git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
+-                    file://${WORKDIR}/git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
+-                    file://${WORKDIR}/git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
+-                    file://${WORKDIR}/git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
+-                    file://${WORKDIR}/git/lbzip2/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://${UNPACKDIR}/git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
++                    file://${UNPACKDIR}/git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
++                    file://${UNPACKDIR}/git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
++                    file://${UNPACKDIR}/git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
++                    file://${UNPACKDIR}/git/lbzip2/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
  "
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+@@ -52,13 +52,13 @@ do_configure:prepend () {
  
- # Since we refer to ROOTLESS_X which is normally enabled per-machine
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-index 5c9742fb205..f4516e69750 100644
---- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ do_install_ptest () {
+ 	install -d ${D}${PTEST_PATH}/bzip2-tests
+-	cp -r ${WORKDIR}/git/commons-compress ${D}${PTEST_PATH}/bzip2-tests/commons-compress
+-	cp -r ${WORKDIR}/git/dotnetzip ${D}${PTEST_PATH}/bzip2-tests/dotnetzip
+-	cp -r ${WORKDIR}/git/go ${D}${PTEST_PATH}/bzip2-tests/go
+-	cp -r ${WORKDIR}/git/lbzip2 ${D}${PTEST_PATH}/bzip2-tests/lbzip2
+-	cp -r ${WORKDIR}/git/pyflate ${D}${PTEST_PATH}/bzip2-tests/pyflate
+-	cp ${WORKDIR}/git/README ${D}${PTEST_PATH}/bzip2-tests/
+-	cp ${WORKDIR}/git/run-tests.sh ${D}${PTEST_PATH}/bzip2-tests/
++	cp -r ${UNPACKDIR}/git/commons-compress ${D}${PTEST_PATH}/bzip2-tests/commons-compress
++	cp -r ${UNPACKDIR}/git/dotnetzip ${D}${PTEST_PATH}/bzip2-tests/dotnetzip
++	cp -r ${UNPACKDIR}/git/go ${D}${PTEST_PATH}/bzip2-tests/go
++	cp -r ${UNPACKDIR}/git/lbzip2 ${D}${PTEST_PATH}/bzip2-tests/lbzip2
++	cp -r ${UNPACKDIR}/git/pyflate ${D}${PTEST_PATH}/bzip2-tests/pyflate
++	cp ${UNPACKDIR}/git/README ${D}${PTEST_PATH}/bzip2-tests/
++	cp ${UNPACKDIR}/git/run-tests.sh ${D}${PTEST_PATH}/bzip2-tests/
+ 	sed -i -e "s|^Makefile:|_Makefile:|" ${D}${PTEST_PATH}/Makefile
+ }
  
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
+index 95f82cdf3ab..bfaf5c31c37 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -51,7 +51,7 @@ do_install_ptest() {
+     install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
+     install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
+     install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
+-    install --mode=755 ${WORKDIR}/test.sh ${D}${PTEST_PATH}/test.sh
++    install --mode=755 ${UNPACKDIR}/test.sh ${D}${PTEST_PATH}/test.sh
+     sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/test.sh
+ }
  
- SRC_URI = "file://pointercal.xinput"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
-     # Only install file if it has a contents
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index a3a47337850..0972a5dd784 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- SRC_URI = "file://xorg.conf"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- CONFFILES:${PN} = "${sysconfdir}/X11/xorg.conf"
- 
-diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-index 6c0739d64fc..29f34d7f36b 100644
---- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-+++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-@@ -1,7 +1,8 @@
- SUMMARY = "Wrapper script for the Linux kernel module dependency indexer"
- LICENSE = "MIT"
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- # The kernel and the staging dir for it is machine specific
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 2396f46202b..3e9a563cad8 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -30,7 +30,9 @@ COMPATIBLE_HOST = ".*-linux"
- 
- 
- SRC_URI = "file://COPYING.GPL"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
+diff --git a/meta/recipes-extended/net-tools/net-tools_2.10.bb b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+index 33304297ec4..7facc0cc8da 100644
+--- a/meta/recipes-extended/net-tools/net-tools_2.10.bb
++++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+@@ -31,8 +31,8 @@ PACKAGECONFIG[plipconfig] = ""
  do_configure() {
- 	:
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index a91680d4977..581e90e9b47 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -8,7 +8,8 @@ inherit pkgconfig
+ 	# net-tools has its own config mechanism requiring "make config"
+ 	# we pre-generate desired options and copy to source directory instead
+-	cp ${WORKDIR}/net-tools-config.h    ${S}/config.h
+-	cp ${WORKDIR}/net-tools-config.make ${S}/config.make
++	cp ${UNPACKDIR}/net-tools-config.h    ${S}/config.h
++	cp ${UNPACKDIR}/net-tools-config.make ${S}/config.make
  
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 	if [ "${USE_NLS}" = "no" ]; then
+ 		sed -i -e 's/^I18N=1/# I18N=1/' ${S}/config.make
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_git.bb b/meta/recipes-rt/rt-tests/rt-tests_git.bb
+index ef082131e20..1f48e143d47 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_git.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_git.bb
+@@ -27,7 +27,7 @@ do_install() {
+ }
  
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ do_install_ptest() {
+-        cp ${WORKDIR}/rt_bmark.py ${D}${PTEST_PATH}
++        cp ${UNPACKDIR}/rt_bmark.py ${D}${PTEST_PATH}
+ }
  
- do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
-diff --git a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-index 0a057704080..49268445a88 100644
---- a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-+++ b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-@@ -4,8 +4,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://modutils.sh;beginline=3;endline=3;md5=b2dccaa94b3629a08bfb4f983cad6f89"
- SRC_URI = "file://modutils.sh"
+ RDEPENDS:${PN}-ptest += " stress-ng python3 python3-multiprocessing python3-datetime python3-misc"
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 3fdad6a4cf8..23b7c50a86a 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -103,7 +103,7 @@ do_compile_ptest() {
+ }
  
--
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ do_install_ptest() {
+-	cat  ${WORKDIR}/disable-tests >> ${S}/tests/data/DISABLED
++	cat  ${UNPACKDIR}/disable-tests >> ${S}/tests/data/DISABLED
+ 	rm -f ${B}/tests/configurehelp.pm
+ 	cp -rf ${B}/tests ${D}${PTEST_PATH}
+         rm -f ${D}${PTEST_PATH}/tests/libtest/.libs/libhostname.la
+diff --git a/meta/recipes-support/libpcre/libpcre_8.45.bb b/meta/recipes-support/libpcre/libpcre_8.45.bb
+index 46fedbae489..17fb6846a52 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.45.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.45.bb
+@@ -56,7 +56,7 @@ BBCLASSEXTEND = "native nativesdk"
  
- INITSCRIPT_NAME = "modutils.sh"
- INITSCRIPT_PARAMS = "start 06 S ."
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index 90734b6bd09..bb7ddbc7f42 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -19,7 +19,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ do_install_ptest() {
+ 	t=${D}${PTEST_PATH}
+-	cp ${WORKDIR}/Makefile $t
++	cp ${UNPACKDIR}/Makefile $t
+ 	cp -r ${S}/testdata $t
+ 	for i in pcre_stringpiece_unittest pcregrep pcretest; \
+ 	  do cp ${B}/.libs/$i $t; \
+diff --git a/meta/recipes-support/lzop/lzop_1.04.bb b/meta/recipes-support/lzop/lzop_1.04.bb
+index d9b3524b678..2b83aa06d9d 100644
+--- a/meta/recipes-support/lzop/lzop_1.04.bb
++++ b/meta/recipes-support/lzop/lzop_1.04.bb
+@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "7e72b62a8a60aff5200a047eea0773a8fb205caf7acbe1774d95147f30
+ inherit autotools
  
- SRC_URI = "file://session \
-            file://index.theme"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
+ do_configure:prepend () {
+-    install -Dm 0644 ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
++    install -Dm 0644 ${UNPACKDIR}/acinclude.m4 ${S}/acinclude.m4
+ }
  
- FILES:${PN} += "${datadir}/themes/Sato/index.theme"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
+index bd16df91ecb..6c853f1966e 100644
+--- a/meta/recipes-support/numactl/numactl_git.bb
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -52,7 +52,7 @@ do_install_ptest() {
+         install -m 0755 ${B}/test/$i ${D}${PTEST_PATH}/test
+     done
  
-diff --git a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-index ec187ed9bd4..20368703c4d 100644
---- a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-+++ b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-@@ -4,7 +4,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-    install -m 0755 ${WORKDIR}/Makefile ${D}${PTEST_PATH}/
++    install -m 0755 ${UNPACKDIR}/Makefile ${D}${PTEST_PATH}/
+     install -m 0755 ${B}/.libs/numactl ${D}${PTEST_PATH}/
+ }
  
- SRC_URI = "file://50-sato.conf"
--S = "${WORKDIR}"
-+
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- inherit allarch
- 
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-index 766f574b259..8c6c0edf107 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- SRC_URI = "file://shutdown.desktop"
- 
- 
--S = "${WORKDIR}"
-+S = "${WORKDIR}/sources"
-+UNPACKDIR = "${S}"
- 
- do_install() {
- 	install -d ${D}${datadir}/applications
 -- 
 2.40.1
 
