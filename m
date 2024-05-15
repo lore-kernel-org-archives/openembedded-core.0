@@ -2,109 +2,135 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A699C25B75
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 15:36:13 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.19761.1715787368510996747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA37AC25B77
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 15:56:33 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.20386.1715788589564908545
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 08:36:08 -0700
+ Wed, 15 May 2024 08:56:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Lwv5RpTy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-420180b5838so23371465e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 08:36:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T7rgPzSV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41fd5dc0480so44225905e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 08:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715787367; x=1716392167; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0cn6mAukc0mpkVh3poQQbGK7yLIJ+7RdT/53kewP4qU=;
-        b=Lwv5RpTyH8hiLoV0KADNd+lBGTJA/kLENqrjnUFrSHSnKkccDLPWoSyzk2EFZdNTNR
-         GHyf+KoraAkXnCTEDKUgd0lILktmlJxnIP/cDfiM99YvTHPg9/g9UStaE7KTdNbKq3f7
-         JZEsujdr3b9zNfUZXu8nE3ta2wenzlYoEhC4I=
+        d=linuxfoundation.org; s=google; t=1715788587; x=1716393387; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jGNlqshq2H61FQAp97h29UJDpDrglTfbf22+1+ub4HA=;
+        b=T7rgPzSVJZpzrEyAot0YIMbgVB0+fG2QnpgRAt+uoASGZU5SIQDU7uHS6Au+JATkCf
+         B9RQpmjXLYXDp4S01ACAXUvWFJ9bgU1enih+kQwwoXTuzPj7dxk8+JTk9olETCWroU48
+         0d1hgw6DdeldncBQGsm4W1UgsvmqKZLfgpxPo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715787367; x=1716392167;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0cn6mAukc0mpkVh3poQQbGK7yLIJ+7RdT/53kewP4qU=;
-        b=IIQvqGYqMbxv5evgdq2++Ths57L9uc20vPgF0yORR9JVhUojddtCY287vTt+0q5Dfd
-         IeeNA8iiieOiMXApJ1PCpEp85BKhxYlKt1kQnYVCDqkLKCqt4I1k90OHepeI5quCmuJi
-         sq0WFeHBuY2tkpYwJ0NGGQcDZPd+CpNYSgjdVhVK5Iq3Gq+hXnzCiU+acbkIn9NDz+/o
-         MojJvhTXkwTwelVbrnC/gqa9/GXlmFcXl+y/OCSVg3Z40rL5ZcX/G19lQLoYvWOe8ahw
-         vywPqdexMXjDIqR5GHjY6unQ6FDgrRk6+HTwnAL++LPnna2w9dMF0wi+U2X2LRI+o3wj
-         bMTw==
-X-Gm-Message-State: AOJu0YwWuO6VEtx0T0JEkHVs4jGLx7Um91pIrN+iu6k1KNWucn6A44O5
-	oEyjpYhL8TUTwVW6j/I3UIhy/mNbtLplvriKHmzEOJuXVzFtY67S5f9m9Due65+SyrUZgxerXPR
-	lh+8=
-X-Google-Smtp-Source: AGHT+IGjoAJGPt5rrm0NJEk/s10g5bM7t8ZWEPKrnuZalQvp5dtzENBWjZFb5I4+pnmRk31vdArC9g==
-X-Received: by 2002:a7b:ce0e:0:b0:41f:bcd7:303f with SMTP id 5b1f17b1804b1-41feaa38a8emr172903105e9.16.1715787366418;
-        Wed, 15 May 2024 08:36:06 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4201da9895csm79076265e9.44.2024.05.15.08.36.05
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1715788587; x=1716393387;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jGNlqshq2H61FQAp97h29UJDpDrglTfbf22+1+ub4HA=;
+        b=f46wP2ywBq2t3wyoWMaR1W1c7HxMQnJdE2dFGirg2mXZoghbRBoBrmfK11lSdHCoaj
+         VOEvmE/Kq/inEORqSLqc6Sz/odVYrMj6UNQGewG1FHRtF5FCzh1ee1QXiV3TW0nou7bg
+         8MaIz3b9s1AfRr80A7lCb2FzhgE9pmu6RVjHR5Kb1OraCIlM8aeY+hWfk24SCamG0kU6
+         P9j3BCFDIzlG4MAyX8IV48GlG9TXV8X/sAZUOBMQZufVROrkh9K6mquMQ8p4c1ekh+HL
+         RYbDeppQePhyIgt9sp7jHxaG17gGy5ZaHBmNUnLiWfr8cTa5ToKmA2asLBX/rahb29K5
+         C6lw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwSr6th9qKmsRcW9ST0aKoeTHMVfovExrMoh9IL5bbaSvQjGhsx0w6lEbMvxdWjwSqx8vSzgGolxtqV8SP8O6/RYJn09Ya250mKEcrG83wY3nliKZfLnjl
+X-Gm-Message-State: AOJu0Yw3hBfEVIS2E6sf5zZw7WNqIWnLGNgBVV8tswizpK6QCuukQCyj
+	jkTT/jaI6v0IUxPL083EqIw7cacGIUTfaKnPrsLUmaHpU5DKlpPrsX9F9vKuThY=
+X-Google-Smtp-Source: AGHT+IHKDQAUf5KAKmciiGpknJq8moK3cYr1rnT6+Vus1ayBuPYFeN7EviGkOCrHOnRlmWC1g1T+TA==
+X-Received: by 2002:a05:600c:3411:b0:41c:290e:7e6b with SMTP id 5b1f17b1804b1-41feaa39450mr122056345e9.13.1715788587634;
+        Wed, 15 May 2024 08:56:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915? ([2001:8b0:aba:5f3c:13b6:dedd:c8fc:b915])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b896a50sm16690183f8f.30.2024.05.15.08.56.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 08:36:05 -0700 (PDT)
+        Wed, 15 May 2024 08:56:27 -0700 (PDT)
+Message-ID: <dc7f3dc71d643c5491172b9fa9c761400b9d0499.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/5] oe-build-perf-report: Add apache echarts to make
+ report interactive
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lib/oe/reproducible: Update for WORKDIR -> UNPACKDIR
-Date: Wed, 15 May 2024 16:36:05 +0100
-Message-Id: <20240515153605.461248-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+To: engineering@neighbourhood.ie, openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, Ninette Adhikari
+	 <13760198+ninetteadhikari@users.noreply.github.com>
+Date: Wed, 15 May 2024 16:56:25 +0100
+In-Reply-To: <20240503144340.27385-2-ninette@thehoodiefirm.com>
+References: 
+	<5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
+	 <20240503144340.27385-1-ninette@thehoodiefirm.com>
+	 <20240503144340.27385-2-ninette@thehoodiefirm.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 15:36:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199292
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 15:56:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199293
 
-We need to search UNPACKDIR instead of WORKDIR for git repos for
-SOURCE_DATE_EPOCH.
+On Fri, 2024-05-03 at 16:43 +0200, Ninette Adhikari wrote:
+> From: Ninette Adhikari <13760198+ninetteadhikari@users.noreply.github.com=
+>
+>=20
+> - Add Apache echarts (https://echarts.apache.org/en/index.html) library t=
+o create build performance charts.
+> - Restructure data to time and value array format so that it can be used =
+by echarts.
+> - This commit also converts test duration to minutes to map against the v=
+alues axis.
+> - Zoom is added to the line charts.
+> ---
+> =C2=A0.../build_perf/html/measurement_chart.html=C2=A0=C2=A0=C2=A0 | 116 =
++++++++++++-------
+> =C2=A0scripts/lib/build_perf/html/report.html=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 6 +-
+> =C2=A02 files changed, 72 insertions(+), 50 deletions(-)
 
-Drop the exclusions list as these would no longer exist under UNPACKDIR.
+Thanks, I was able to test these:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/reproducible.py | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+https://autobuilder.yocto.io/pub/non-release/20240514-17/testresults/buildp=
+erf-alma8/perf-alma8_master-next_20240514121350_a8f48d1cb1.html
+https://autobuilder.yocto.io/pub/non-release/20240514-16/testresults/buildp=
+erf-debian11/perf-debian11_master-next_20240514051235_a8f48d1cb1.html
 
-diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
-index a9f717159e3..e57c83b92b8 100644
---- a/meta/lib/oe/reproducible.py
-+++ b/meta/lib/oe/reproducible.py
-@@ -75,10 +75,10 @@ def get_source_date_epoch_from_known_files(d, sourcedir):
-     return source_date_epoch
- 
- def find_git_folder(d, sourcedir):
--    # First guess: WORKDIR/git
-+    # First guess: UNPACKDIR/git
-     # This is the default git fetcher unpack path
--    workdir = d.getVar('WORKDIR')
--    gitpath = os.path.join(workdir, "git/.git")
-+    unpackdir = d.getVar('UNPACKDIR')
-+    gitpath = os.path.join(unpackdir, "git/.git")
-     if os.path.isdir(gitpath):
-         return gitpath
- 
-@@ -88,15 +88,12 @@ def find_git_folder(d, sourcedir):
-         return gitpath
- 
-     # Perhaps there was a subpath or destsuffix specified.
--    # Go looking in the WORKDIR
--    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
--                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
--    for root, dirs, files in os.walk(workdir, topdown=True):
--        dirs[:] = [d for d in dirs if d not in exclude]
-+    # Go looking in the UNPACKDIR
-+    for root, dirs, files in os.walk(unpackdir, topdown=True):
-         if '.git' in dirs:
-             return os.path.join(root, ".git")
- 
--    bb.warn("Failed to find a git repository in WORKDIR: %s" % workdir)
-+    bb.warn("Failed to find a git repository in UNPACKDIR: %s" % unpackdir)
-     return None
- 
- def get_source_date_epoch_from_git(d, sourcedir):
--- 
-2.40.1
+and they are definitely a huge improvement on what we had.
+
+I've merged them since I think at this point they're definitely better,
+thanks for making the tweaks others asked about.
+
+As Ross mentioned, the preview doesn't always quite match the chart
+itself.
+
+The other question we'd wondered about is whether we can show the
+commit hash as well as the commit number?
+
+The tricky part is that ideally we'd be able to copy/paste the hash or
+even make it a clickable link to the poky repository
+(e.g.https://git.yoctoproject.org/poky/commit/?id=3D6582436a1d1af7775a6bb65=
+1aff47a9db773e32b
+) but I'm not sure how possible that is?
+
+The use case here is where for example there are the step changes in
+things like disk usage, or the kernel build time, we'd like to know
+which changes happened around that time. The commit number is good, and
+you can resolve it with a command like:
+
+git rev-list --reverse HEAD | nl -n ln | grep ^69808
+
+but a direct link to the revision would be ideal if possible.
+
+Regardless, this looks very very much improved on where it was, thanks!
+
+Cheers,
+
+Richard
+
 
 
