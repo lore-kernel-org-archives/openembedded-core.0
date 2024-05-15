@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE0AEC3DA63
-	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCABC3DA70
+	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:32 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1258.1715794339495347832
+ by mx.groups.io with SMTP id smtpd.web11.1285.1715794338690374338
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 10:32:19 -0700
+ Wed, 15 May 2024 10:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aK/0fv/M;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=b+rZb3yX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018f7d4fe45f-ad76189e-2939-4201-bb38-601ca359984d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i0sFgDdM;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AR3ttRiE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018f7d4fe781-29ccd872-3e53-4d8b-931f-1a59f18114b4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nuJyxEQQPyc9h4IHycdWaBQ8aho6huu76QRHJPc1+FM=;
-	b=aK/0fv/Msr4/Axdmlf4BIYeCMuEoDRyy7GpcU6l2/Fvub2oUSXE7sJgG6uAZ0zpP
-	wXCVkpBe2iLbVEsi0terQ8QDz9dAcMAP7vu3dEcU4DmvSxE2o+J/OUI5xF5dpk5Ymnd
-	W0sP8dydTtGNQ0N68VlSv2kHwUj68S1mDRXh13p8=
+	bh=kRkDXKuOAB0+q7WZ5ZKmaxLxsfF90+ydU9I+n3Ugyio=;
+	b=i0sFgDdMH5T3LNaDYsMFT2aqL6925SXD4irsAZsiMzQSs+Rxtmh98pAzrFCBAW4+
+	6G2B1xMldkPXmZSUWn3tsq/wNACkDBV5qMvi3C+DDViV3MFIRtryFwswJFJvtwdvaUz
+	arnvbkVaAoRe/xQPV0TnPQNk2XX9yr8GVt9oTN7k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794339;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nuJyxEQQPyc9h4IHycdWaBQ8aho6huu76QRHJPc1+FM=;
-	b=b+rZb3yX/EWAzLU9zr/HBq8GiXhZae8/GsAa+bSaKBUdjNI/GXwxVQQ6dXeAz/6c
-	GrG3S0hoxMhiC3+uO+KCqu8JQFVG+56HSvHAygFqe5eL3axKISnuPls0cJeannNp7/E
-	CPRuPQ0vzOW+WUZjIsOYYKNdbaFqINxA+YeoksPg=
-Content-Type: multipart/mixed; boundary="===============4029761291948597729=="
+	bh=kRkDXKuOAB0+q7WZ5ZKmaxLxsfF90+ydU9I+n3Ugyio=;
+	b=AR3ttRiEPL80cy1Qej6Td3mIzzN/EN5X0CKwUHeiYo17cIXWnnX7gIuJelx+SpG0
+	ly2mYpvNQU8Na15OP9KtcwZm4HM3D1eQi4f4++ek+bHAKrt9+cqtpT+DCBDoNoXWBiD
+	ICnxrlCh4tzqfIFiok7hO7GQRlPMpLT0qlKuXdSU=
+Content-Type: multipart/mixed; boundary="===============3999023061502824502=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-tools: upgrading to 1.3.283.0 FAILED
-Message-ID: <0101018f7d4fe45f-ad76189e-2939-4201-bb38-601ca359984d-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:18 +0000
+Subject: [AUH] libcap-ng: upgrading to 0.8.5 SUCCEEDED
+Message-ID: <0101018f7d4fe781-29ccd872-3e53-4d8b-931f-1a59f18114b4-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199387
+ <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199375
 
---===============4029761291948597729==
+--===============3999023061502824502==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-tools* to *1.3.283.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libcap-ng* to *0.8.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-tools-upgrade-1.3.280.0-1.3.283.0.patch
+    - apply the patch: git am 0001-libcap-ng-upgrade-0.8.4-0.8.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,182 +72,175 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 971db5e593929f03dfea23e23bc77cd5d01b8fa0 Mon Sep 17 00:00:00 2001
+From 5c91f34d311c45557b4fa61e0abea447ec26695e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 14:25:33 +0000
-Subject: [PATCH] vulkan-tools: upgrade 1.3.280.0 -> 1.3.283.0
+Date: Wed, 15 May 2024 16:46:33 +0000
+Subject: [PATCH] libcap-ng: upgrade 0.8.4 -> 0.8.5
 
 ---
- .../{vulkan-tools_1.3.280.0.bb => vulkan-tools_1.3.283.0.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/vulkan/{vulkan-tools_1.3.280.0.bb => vulkan-tools_1.3.283.0.bb} (94%)
+ .../files/fix-issues-with-swig-4-2.patch      | 32 -------------------
+ meta/recipes-support/libcap-ng/libcap-ng.inc  |  6 ++--
+ ...{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} |  0
+ 3 files changed, 2 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+ rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} (100%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.280.0.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/vulkan/vulkan-tools_1.3.280.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb
-index a7e4a67aaa..e5ff9cd6b4 100644
---- a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.280.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb
-@@ -6,8 +6,8 @@ SECTION = "libs"
+diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
+deleted file mode 100644
+index fb424fe725..0000000000
+--- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
+-From: Steve Grubb <ausearch.1@gmail.com>
+-Date: Thu, 4 Jan 2024 15:06:29 -0500
+-Subject: [PATCH] Remove python global exception handler since its deprecated
+-
+-Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- bindings/src/capng_swig.i | 7 -------
+- 1 file changed, 7 deletions(-)
+-
+-diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
+-index fcdaf18..fa85e13 100644
+---- a/bindings/src/capng_swig.i
+-+++ b/bindings/src/capng_swig.i
+-@@ -30,13 +30,6 @@
+- 
+- %varargs(16, signed capability = 0) capng_updatev;
+- 
+--%except(python) {
+--  $action
+--  if (result < 0) {
+--    PyErr_SetFromErrno(PyExc_OSError);
+--    return NULL;
+--  }
+--}
+- #endif
+- 
+- %define __signed__
+--- 
+-2.43.2
+-
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 845b7c2f0a..875337b954 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -7,11 +7,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=vulkan-sdk-1.3.280;protocol=https"
--SRCREV = "136976082d0b14dad8b9687982b2a80cc6e6a633"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=vulkan-sdk-1.3.283;protocol=https"
-+SRCREV = "38321da9031f5909f1ca2dbafac8840ef6b2c144"
+-SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+-           file://fix-issues-with-swig-4-2.patch \
+-           "
++SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
++SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
  
+ EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+ EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
 -- 
 2.44.0
 
 
---===============4029761291948597729==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (920 cached, 1 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-95d13be355049e35a604a7c09c52cdff052fad0f"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:95d13be355049e35a604a7c09c52cdff052fad0f"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 204 Local 192 Mirrors 0 Missed 12 Current 365 (94% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1452 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_recipe_qa)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_recipe_qa: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1584 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_fetch)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_fetch: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1585 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_unpack)
-NOTE: Running task 1586 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_unpack: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1587 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_patch)
-NOTE: Running task 1588 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_collect_spdx_deps)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_patch: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_patch: Succeeded
-NOTE: Running task 1589 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1590 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_generate_toolchain_file)
-NOTE: Running task 1591 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_populate_lic)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_populate_lic: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_populate_lic: Succeeded
-NOTE: Running task 1592 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_configure)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_configure: Started
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_configure: Succeeded
-NOTE: Running task 1593 of 1604 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_compile)
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build --target all --
-| Change Dir: '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build'
-| 
-| Run Build Command(s): ninja -v -j 16 all
-| [1/4] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/generated -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-pre
- fix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-
- poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot-native=  -fvisibility-inlines-hidden -std=c++17 -fPIE -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/vulkaninfo.cpp
-| FAILED: vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_NO_PROTOTYPES -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/generated -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-ma
- p  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-l
- inux/vulkan-tools/1.3.283.0/recipe-sysroot-native=  -fvisibility-inlines-hidden -std=c++17 -fPIE -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -MD -MT vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -MF vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o.d -o vulkaninfo/CMakeFiles/vulkaninfo.dir/vulkaninfo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/vulkaninfo.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/vulkaninfo.cpp:34:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/generated/vulkaninfo.hpp: In function 'std::string VkFormatString(VkFormat)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/vulkaninfo/generated/vulkaninfo.hpp:361:15: error: 'VK_FORMAT_R16G16_SFIXED5_NV' was not declared in this scope; did you mean 'VK_FORMAT_R16G16_S10_5_NV'?
-|   361 |         case (VK_FORMAT_R16G16_SFIXED5_NV): return "FORMAT_R16G16_SFIXED5_NV";
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |               VK_FORMAT_R16G16_S10_5_NV
-| [2/4] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot -DGIT_BRANCH_NAME=\"vulkan-sdk-1.3.283\" -DGIT_TAG_INFO=\"vulkan-sdk-1.3.283.0\" -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_WAYLAND_KHX -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XCB_KHX -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_KHX -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -DVkICD_mock_icd_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/icd/generated -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/icd/. -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/
- pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git=/usr/src/debug/vulkan-tools/1.3.283.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build=/usr/src/debug/vulkan-tools/1.3.283.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/b
- uild/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/recipe-sysroot-native=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-stringop-truncation -Wpointer-arith -Wno-unused-function -Wno-sign-compare -MD -MT icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -MF icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o.d -o icd/CMakeFiles/VkICD_mock_icd.dir/mock_icd.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/git/icd/mock_icd.cpp
-| ninja: build stopped: subcommand failed.
-| 
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550, line 153
-| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550, line 147
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550, line 142
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550, line 166
-NOTE: recipe vulkan-tools-1.3.283.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1593 tasks of which 1582 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515142456.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240515142456.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_compile
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: vulkan-tools-1.3.283.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/run.do_compile.2421550', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-tools/1.3.283.0/temp/log.do_compile.2421550
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-tools_1.3.283.0.bb:do_compile) failed with exit code '1'
-
---===============4029761291948597729==
+--===============3999023061502824502==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-tools-upgrade-1.3.280.0-1.3.283.0.patch"
+ filename="0001-libcap-ng-upgrade-0.8.4-0.8.5.patch"
 
-RnJvbSA5NzFkYjVlNTkzOTI5ZjAzZGZlYTIzZTIzYmM3N2NkNWQwMWI4ZmEwIE1vbiBTZXAgMTcg
+RnJvbSA1YzkxZjM0ZDMxMWM0NTU1N2I0ZmE2MWUwYWJlYTQ0N2VjMjY2OTVlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTQ6MjU6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4tdG9vbHM6IHVwZ3JhZGUgMS4zLjI4MC4wIC0+IDEuMy4yODMuMAoKLS0tCiAuLi4ve3Z1
-bGthbi10b29sc18xLjMuMjgwLjAuYmIgPT4gdnVsa2FuLXRvb2xzXzEuMy4yODMuMC5iYn0gIHwg
-NCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi10b29sc18xLjMuMjgw
-LjAuYmIgPT4gdnVsa2FuLXRvb2xzXzEuMy4yODMuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjgwLjAuYmIgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjgzLjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
-bi92dWxrYW4tdG9vbHNfMS4zLjI4MC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjgzLjAuYmIKaW5kZXggYTdlNGE2N2FhYS4uZTVm
-ZjljZDZiNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4t
-dG9vbHNfMS4zLjI4MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVs
-a2FuLXRvb2xzXzEuMy4yODMuMC5iYgpAQCAtNiw4ICs2LDggQEAgU0VDVElPTiA9ICJsaWJzIgog
-CiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
-TlNFLnR4dDttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNjNmJkNTciCi1TUkNfVVJJID0g
-ImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Ub29scy5naXQ7YnJhbmNoPXZ1
-bGthbi1zZGstMS4zLjI4MDtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICIxMzY5NzYwODJkMGIx
-NGRhZDhiOTY4Nzk4MmIyYTgwY2M2ZTZhNjMzIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
-L0tocm9ub3NHcm91cC9WdWxrYW4tVG9vbHMuZ2l0O2JyYW5jaD12dWxrYW4tc2RrLTEuMy4yODM7
-cHJvdG9jb2w9aHR0cHMiCitTUkNSRVYgPSAiMzgzMjFkYTkwMzFmNTkwOWYxY2EyZGJhZmFjODg0
-MGVmNmIyYzE0NCIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40NC4wCgo=
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTY6NDY6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJjYXAtbmc6IHVwZ3JhZGUgMC44LjQgLT4gMC44LjUKCi0tLQogLi4uL2ZpbGVzL2ZpeC1pc3N1
+ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaCAgICAgIHwgMzIgLS0tLS0tLS0tLS0tLS0tLS0tLQogbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5pbmMgIHwgIDYgKystLQogLi4u
+e2xpYmNhcC1uZ18wLjguNC5iYiA9PiBsaWJjYXAtbmdfMC44LjUuYmJ9IHwgIDAKIDMgZmlsZXMg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEw
+MDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRo
+LXN3aWctNC0yLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL3ts
+aWJjYXAtbmdfMC44LjQuYmIgPT4gbGliY2FwLW5nXzAuOC41LmJifSAoMTAwJSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRo
+LXN3aWctNC0yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2ZpbGVzL2Zp
+eC1pc3N1ZXMtd2l0aC1zd2lnLTQtMi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggZmI0MjRmZTcyNS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJj
+YXAtbmcvZmlsZXMvZml4LWlzc3Vlcy13aXRoLXN3aWctNC0yLnBhdGNoCisrKyAvZGV2L251bGwK
+QEAgLTEsMzIgKzAsMCBAQAotRnJvbSAzNTVlYWRhMmQyMDg4NjI4N2NmZmMxNmUzMDQwODdkZDZm
+NjZhZTM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogU3RldmUgR3J1YmIgPGF1c2Vh
+cmNoLjFAZ21haWwuY29tPgotRGF0ZTogVGh1LCA0IEphbiAyMDI0IDE1OjA2OjI5IC0wNTAwCi1T
+dWJqZWN0OiBbUEFUQ0hdIFJlbW92ZSBweXRob24gZ2xvYmFsIGV4Y2VwdGlvbiBoYW5kbGVyIHNp
+bmNlIGl0cyBkZXByZWNhdGVkCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8v
+Z2l0aHViLmNvbS9zdGV2ZWdydWJiL2xpYmNhcC1uZy9jb21taXQvMzA0NTNiNjU1Mzk0OGNkMDVj
+NDM4ZjlmNTA5MDEzZTNiYjg0ZjI1Yl0KLVNpZ25lZC1vZmYtYnk6IEFudWogTWl0dGFsIDxhbnVq
+Lm1pdHRhbEBpbnRlbC5jb20+Ci0tLS0KLSBiaW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pIHwgNyAt
+LS0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDcgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9i
+aW5kaW5ncy9zcmMvY2Fwbmdfc3dpZy5pIGIvYmluZGluZ3Mvc3JjL2NhcG5nX3N3aWcuaQotaW5k
+ZXggZmNkYWYxOC4uZmE4NWUxMyAxMDA2NDQKLS0tLSBhL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2ln
+LmkKLSsrKyBiL2JpbmRpbmdzL3NyYy9jYXBuZ19zd2lnLmkKLUBAIC0zMCwxMyArMzAsNiBAQAot
+IAotICV2YXJhcmdzKDE2LCBzaWduZWQgY2FwYWJpbGl0eSA9IDApIGNhcG5nX3VwZGF0ZXY7Ci0g
+Ci0tJWV4Y2VwdChweXRob24pIHsKLS0gICRhY3Rpb24KLS0gIGlmIChyZXN1bHQgPCAwKSB7Ci0t
+ICAgIFB5RXJyX1NldEZyb21FcnJubyhQeUV4Y19PU0Vycm9yKTsKLS0gICAgcmV0dXJuIE5VTEw7
+Ci0tICB9Ci0tfQotICNlbmRpZgotIAotICVkZWZpbmUgX19zaWduZWRfXwotLS0gCi0yLjQzLjIK
+LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZy5p
+bmMgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAtbmcvbGliY2FwLW5nLmluYwppbmRleCA4
+NDViN2MyZjBhLi44NzUzMzdiOTU0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJjYXAtbmcvbGliY2FwLW5nLmluYworKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAt
+bmcvbGliY2FwLW5nLmluYwpAQCAtNywxMSArNyw5IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vci1s
+YXRlciAmIExHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9OTRkNTVkNTEyYTliYTM2Y2FhOWI3ZGYwNzliYWUxOWYgXAogCQkgICAgZmlsZTov
+L0NPUFlJTkcuTElCO21kNT1lM2VkYTAxZDk4MTVmOGQyNGFhZTJkYmQ4OWI2OGIwNiIKIAotU1JD
+X1VSSSA9ICJodHRwczovL3Blb3BsZS5yZWRoYXQuY29tL3NncnViYi9saWJjYXAtbmcvbGliY2Fw
+LW5nLSR7UFZ9LnRhci5neiBcCi0gICAgICAgICAgIGZpbGU6Ly9maXgtaXNzdWVzLXdpdGgtc3dp
+Zy00LTIucGF0Y2ggXAotICAgICAgICAgICAiCitTUkNfVVJJID0gImh0dHBzOi8vcGVvcGxlLnJl
+ZGhhdC5jb20vc2dydWJiL2xpYmNhcC1uZy9saWJjYXAtbmctJHtQVn0udGFyLmd6IgogCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiNjg1ODFkM2IzOGU3NTUzY2I2ZjZkZGY3ODEzYjFmYzk5ZTUyODU2
+ZjIxNDIxZjdiNDc3Y2U1YWJkMjYwNWE4YSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzYmE1Mjk0
+ZDFjYmRmYTk4YWZhYWNmYmMwMGI2YWY5ZWQyYjgzZThhMjE4MTcxODVkZmQ4NDRjYzhjN2FjNmZm
+IgogCiBFWFRSQV9PRUNPTkY6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICIgLS13aXRoLWNhcGFiaWxp
+dHlfaGVhZGVyPSR7U1RBR0lOR19JTkNESVJ9L2xpbnV4L2NhcGFiaWxpdHkuaCIKIEVYVFJBX09F
+Q09ORjphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiAtLXdpdGgtY2FwYWJpbGl0eV9oZWFkZXI9
+JHtTVEFHSU5HX0lOQ0RJUn0vbGludXgvY2FwYWJpbGl0eS5oIgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGliY2FwLW5nL2xpYmNhcC1uZ18wLjguNC5iYiBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdfMC44LjUuYmIKc2ltaWxhcml0eSBpbmRleCAx
+MDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAtbmdf
+MC44LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC1uZy9saWJjYXAt
+bmdfMC44LjUuYmIKLS0gCjIuNDQuMAoK
 
---===============4029761291948597729==--
+--===============3999023061502824502==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libcap-ng: SRC_URI changed from "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.4.tar.gz file://fix-issues-with-swig-4-2.patch" to "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.5.tar.gz"
+packages/core2-64-poky-linux/libcap-ng: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-bin: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGSIZE changed from 166944 to 167440 (+0%)
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dbg: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGSIZE changed from 5249 to 5214 (-1%)
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-dev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-doc: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-locale: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGSIZE changed from 80819 to 81067 (+0%)
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-src: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng-staticdev: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+packages/core2-64-poky-linux/libcap-ng/libcap-ng: PV changed from "0.8.4" to "0.8.5"
+packages/core2-64-poky-linux/libcap-ng/libcap-ng: PKGV changed from 0.8.4 [default] to 0.8.5 [default]
+
+--===============3999023061502824502==--
 
