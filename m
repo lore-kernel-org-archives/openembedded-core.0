@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29236C2BA18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F020C2BA1A
 	for <webhook@archiver.kernel.org>; Wed, 15 May 2024 17:32:22 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1280.1715794338388356313
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.1273.1715794337765295571
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 May 2024 10:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=F0aDaVGW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=c4xtg9MD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018f7d4fdf0d-d3b48a4f-b610-467b-b719-fcc6a9582d59-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GwJZNOiJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HAhF4yN2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018f7d4fe203-dcb9458c-d271-4baf-b8e6-2561d6254022-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1715794337;
+	t=1715794338;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=04L/oGNEouslWkI9RG8nSVeJQoetZTF510jgyf/2aOw=;
-	b=F0aDaVGW+ZNl5pNWiTQcMK8fjeZzjhFmvVbv25o8nmjXaJCR1ZGWEc04xTN1M+qL
-	7BY84orN9PfvLJ4tNEA7XYfZEA0SV+/oRpljdT6bka+h1AjE3+0Y6ePdiqG35Y1VyFN
-	Wq5ZUsHDGnR0bEZOOjxbPAUffZsfD85gp17h3PJg=
+	bh=j0IO3wAQoIcgZ2TFOTn5U4mdAk+4/dHD30ZlahhWxJU=;
+	b=GwJZNOiJ0iBXX06MNOQRfB+47bZwVprXA7R0JTmYgFy2298LZBNOLIdx1+uLJwG5
+	HxR7WJwBn5fWxTPdyWeVGCudNse9QkFT99w5uX13ttZwdZQ9OsnVkJVAi3zG5+8YYLt
+	Oc1TG7F1jD8/qQMpyJ88zoM6gZGtbj1Oon8Yi9tI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794337;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1715794338;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=04L/oGNEouslWkI9RG8nSVeJQoetZTF510jgyf/2aOw=;
-	b=c4xtg9MDNCo/eNywOnJrOecqOKEq/F6jHbiILlC0OSGManaBdEa/3610WbSrIWSj
-	Xpwj4u/07j8Cc8TQ8bYqkg10WHR+AWP8AjWNFNw8ETsDoUvZqy4oEJ5ehNdUNphranY
-	SVXUNBm73xMnkgvvwTtRWxJKqeYNndObrUL8kk9A=
-Content-Type: multipart/mixed; boundary="===============3014038287994495718=="
+	bh=j0IO3wAQoIcgZ2TFOTn5U4mdAk+4/dHD30ZlahhWxJU=;
+	b=HAhF4yN2E4eZDgenfKnNH9fcIXiTWN8E8BVCXx2CpUOrsaADX3glJuV0QseJFJFT
+	ypp7JpE5PsQmLToh1mPi/L/27SBFlfUP1CQKMCtU8M+eHxQQw3aUru6Eaf+evcSO8wR
+	NfYfJrsYfnCXK6xkcdK9iojkBP2HSBmXAuEc2ugQ=
+Content-Type: multipart/mixed; boundary="===============6408545235329354334=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.102.4 SUCCEEDED
-Message-ID: <0101018f7d4fdf0d-d3b48a4f-b610-467b-b719-fcc6a9582d59-000000@us-west-2.amazonses.com>
-Date: Wed, 15 May 2024 17:32:17 +0000
+Subject: [AUH] libarchive: upgrading to 3.7.4 SUCCEEDED
+Message-ID: <0101018f7d4fe203-dcb9458c-d271-4baf-b8e6-2561d6254022-000000@us-west-2.amazonses.com>
+Date: Wed, 15 May 2024 17:32:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.15-54.240.27.193
+X-SES-Outgoing: 2024.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 17:32:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199339
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199356
 
---===============3014038287994495718==
+--===============6408545235329354334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.102.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *libarchive* to *3.7.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.100.1-6.102.4.patch
+    - apply the patch: git am 0001-libarchive-upgrade-3.7.3-3.7.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,94 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 04326a2d1ea4bc816a0ebaf098ae71f864af1cbf Mon Sep 17 00:00:00 2001
+From 047bfe664b16feda285234c176a6c644b7ef2137 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 May 2024 09:33:51 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.100.1 -> 6.102.4
+Date: Wed, 15 May 2024 12:17:02 +0000
+Subject: [PATCH] libarchive: upgrade 3.7.3 -> 3.7.4
 
 ---
- ...hon3-hypothesis_6.100.1.bb => python3-hypothesis_6.102.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.100.1.bb => python3-hypothesis_6.102.4.bb} (91%)
+ .../libarchive/libarchive/configurehack.patch         | 11 ++++++-----
+ .../{libarchive_3.7.3.bb => libarchive_3.7.4.bb}      |  2 +-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.7.3.bb => libarchive_3.7.4.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.102.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.102.4.bb
-index af7facfe7e..e24907bd7f 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.100.1.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.102.4.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-extended/libarchive/libarchive/configurehack.patch b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+index 45fddd9147..53ef0d4b05 100644
+--- a/meta/recipes-extended/libarchive/libarchive/configurehack.patch
++++ b/meta/recipes-extended/libarchive/libarchive/configurehack.patch
+@@ -1,4 +1,8 @@
+-To work with autoconf 2.73, tweak the macro ordering in configure.in.
++From f2127c8fe1d177d26faadf9b7e6a367b480521f2 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 27 Jul 2023 20:47:55 -0700
++Subject: [PATCH] To work with autoconf 2.73, tweak the macro ordering in
++ configure.in.
  
--SRC_URI[sha256sum] = "ebff09d7fa4f1fb6a855a812baf17e578b4481b7b70ec6d96496210d1a4c6c35"
-+SRC_URI[sha256sum] = "59b4d144346d5cffb482cc1bafbd21b13ff31608e8c4b3e4630339aee3e87763"
+ Upstream-Status: Pending
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+@@ -7,7 +11,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  1 file changed, 13 insertions(+), 13 deletions(-)
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ diff --git a/configure.ac b/configure.ac
+-index 503bb75..e3101da 100644
++index 5668d41..7e65e49 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -414,6 +414,19 @@ if test "x$with_bz2lib" != "xno"; then
+@@ -50,6 +54,3 @@ index 503bb75..e3101da 100644
+  # Check for tm_gmtoff in struct tm
+  AC_CHECK_MEMBERS([struct tm.tm_gmtoff, struct tm.__tm_gmtoff],,,
+  [
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.3.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+similarity index 96%
+rename from meta/recipes-extended/libarchive/libarchive_3.7.3.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+index bea91b6e97..da85764116 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.3.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+@@ -33,7 +33,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ SRC_URI += "file://configurehack.patch"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+-SRC_URI[sha256sum] = "f27a97bc22ceb996e72502df47dc19f99f9a0f09181ae909f09f3c9eb17b67e2"
++SRC_URI[sha256sum] = "7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8"
+ 
+ CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
+ 
 -- 
 2.44.0
 
 
---===============3014038287994495718==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.100.1-6.102.4.patch"
-
-RnJvbSAwNDMyNmEyZDFlYTRiYzgxNmEwZWJhZjA5OGFlNzFmODY0YWYxY2JmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMDk6MzM6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMDAuMSAtPiA2LjEwMi40CgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjEwMC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEwMi40LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjEwMC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEwMi40LmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTAwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjEwMi40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTAwLjEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTAyLjQu
-YmIKaW5kZXggYWY3ZmFjZmU3ZS4uZTI0OTA3YmQ3ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMDAuMS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEwMi40LmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlYmZmMDlkN2ZhNGYxZmI2YTg1NWE4MTJi
-YWYxN2U1NzhiNDQ4MWI3YjcwZWM2ZDk2NDk2MjEwZDFhNGM2YzM1IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjU5YjRkMTQ0MzQ2ZDVjZmZiNDgyY2MxYmFmYmQyMWIxM2ZmMzE2MDhlOGM0YjNlNDYz
-MDMzOWFlZTNlODc3NjMiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40NC4wCgo=
-
---===============3014038287994495718==
+--===============6408545235329354334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.100.1.tar.gz;downloadfilename=hypothesis-6.100.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.102.4.tar.gz;downloadfilename=hypothesis-6.102.4.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.100.1" to "6.102.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3044486 to 3080721 (+1%)
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.100.1 [default] to 6.102.4 [default]
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.100.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.102.4.dist-info
+packages/core2-64-poky-linux/libarchive/bsdcpio: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/bsdcpio: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/bsdtar: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/bsdtar: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive: SRC_URI changed from "http://libarchive.org/downloads/libarchive-3.7.3.tar.gz file://configurehack.patch" to "http://libarchive.org/downloads/libarchive-3.7.4.tar.gz file://configurehack.patch"
+packages/core2-64-poky-linux/libarchive: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PKGSIZE changed from 2939096 to 2945352 (+0%)
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: FILELIST: removed "/usr/lib/.debug/libarchive.so.13.7.3", added "/usr/lib/.debug/libarchive.so.13.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-dev: PKGSIZE changed from 88167 to 88168 (+0%)
+packages/core2-64-poky-linux/libarchive/libarchive-dev: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-dev: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PKGSIZE changed from 378174 to 378155 (-0%)
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-locale: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-locale: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-src: PKGSIZE changed from 3568419 to 3570462 (+0%)
+packages/core2-64-poky-linux/libarchive/libarchive-src: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-src: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-staticdev: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive-staticdev: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive: PV changed from "3.7.3" to "3.7.4"
+packages/core2-64-poky-linux/libarchive/libarchive: PKGV changed from 3.7.3 [default] to 3.7.4 [default]
+packages/core2-64-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.3", added "/usr/lib/libarchive.so.13.7.4"
+Changes to packages/core2-64-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so.13.7.3 moved to /usr/lib/libarchive.so.13.7.4
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1798,15 +1808,22 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so.13.7.3 moved to /usr/lib/libarchive.so.13.7.4
 
---===============3014038287994495718==
+--===============6408545235329354334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.100.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.102.4.dist-info
+packages/core2-64-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.3", added "/usr/lib/libarchive.so.13.7.4"
+Changes to packages/core2-64-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so.13.7.3 moved to /usr/lib/libarchive.so.13.7.4
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3445,6 +3462,65 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.3 to libarchive.so.13.7.4
+  /usr/lib/libarchive.so.13.7.3 moved to /usr/lib/libarchive.so.13.7.4
 
---===============3014038287994495718==--
+--===============6408545235329354334==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libarchive-upgrade-3.7.3-3.7.4.patch"
+
+RnJvbSAwNDdiZmU2NjRiMTZmZWRhMjg1MjM0YzE3NmE2YzY0NGI3ZWYyMTM3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTWF5IDIwMjQgMTI6MTc6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhcmNoaXZlOiB1cGdyYWRlIDMuNy4zIC0+IDMuNy40CgotLS0KIC4uLi9saWJhcmNoaXZlL2xp
+YmFyY2hpdmUvY29uZmlndXJlaGFjay5wYXRjaCAgICAgICAgIHwgMTEgKysrKysrLS0tLS0KIC4u
+Li97bGliYXJjaGl2ZV8zLjcuMy5iYiA9PiBsaWJhcmNoaXZlXzMuNy40LmJifSAgICAgIHwgIDIg
+Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL3tsaWJhcmNoaXZlXzMuNy4zLmJi
+ID0+IGxpYmFyY2hpdmVfMy43LjQuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZS9jb25maWd1cmVoYWNrLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZS9jb25maWd1cmVoYWNrLnBh
+dGNoCmluZGV4IDQ1ZmRkZDkxNDcuLjUzZWYwZDRiMDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1leHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmUvY29uZmlndXJlaGFjay5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliYXJjaGl2ZS9saWJhcmNoaXZlL2NvbmZpZ3VyZWhh
+Y2sucGF0Y2gKQEAgLTEsNCArMSw4IEBACi1UbyB3b3JrIHdpdGggYXV0b2NvbmYgMi43MywgdHdl
+YWsgdGhlIG1hY3JvIG9yZGVyaW5nIGluIGNvbmZpZ3VyZS5pbi4KK0Zyb20gZjIxMjdjOGZlMWQx
+NzdkMjZmYWFkZjliN2U2YTM2N2I0ODA1MjFmMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgor
+RGF0ZTogVGh1LCAyNyBKdWwgMjAyMyAyMDo0Nzo1NSAtMDcwMAorU3ViamVjdDogW1BBVENIXSBU
+byB3b3JrIHdpdGggYXV0b2NvbmYgMi43MywgdHdlYWsgdGhlIG1hY3JvIG9yZGVyaW5nIGluCisg
+Y29uZmlndXJlLmluLgogCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIFNpZ25lZC1vZmYtYnk6
+IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgpAQCAt
+Nyw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRp
+ZUBsaW51eGZvdW5kYXRpb24ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCsp
+LCAxMyBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3Vy
+ZS5hYwotaW5kZXggNTAzYmI3NS4uZTMxMDFkYSAxMDA2NDQKK2luZGV4IDU2NjhkNDEuLjdlNjVl
+NDkgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwogQEAgLTQx
+NCw2ICs0MTQsMTkgQEAgaWYgdGVzdCAieCR3aXRoX2J6MmxpYiIgIT0gInhubyI7IHRoZW4KQEAg
+LTUwLDYgKzU0LDMgQEAgaW5kZXggNTAzYmI3NS4uZTMxMDFkYSAxMDA2NDQKICAjIENoZWNrIGZv
+ciB0bV9nbXRvZmYgaW4gc3RydWN0IHRtCiAgQUNfQ0hFQ0tfTUVNQkVSUyhbc3RydWN0IHRtLnRt
+X2dtdG9mZiwgc3RydWN0IHRtLl9fdG1fZ210b2ZmXSwsLAogIFsKLS0tIAotMi4zNC4xCi0KZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43
+LjMuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliYXJjaGl2ZS9saWJhcmNoaXZlXzMuNy40
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjQuYmIKaW5kZXggYmVhOTFiNmU5Ny4u
+ZGE4NTc2NDExNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUv
+bGliYXJjaGl2ZV8zLjcuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliYXJjaGl2
+ZS9saWJhcmNoaXZlXzMuNy40LmJiCkBAIC0zMyw3ICszMyw3IEBAIFNSQ19VUkkgPSAiaHR0cDov
+L2xpYmFyY2hpdmUub3JnL2Rvd25sb2Fkcy9saWJhcmNoaXZlLSR7UFZ9LnRhci5neiIKIFNSQ19V
+UkkgKz0gImZpbGU6Ly9jb25maWd1cmVoYWNrLnBhdGNoIgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
+Imh0dHA6Ly9saWJhcmNoaXZlLm9yZy8iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMjdhOTdi
+YzIyY2ViOTk2ZTcyNTAyZGY0N2RjMTlmOTlmOWEwZjA5MTgxYWU5MDlmMDlmM2M5ZWIxN2I2N2Uy
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc4NzVkNDk1OTYyODYwNTViNTI0MzllZDQyZjA0NGJk
+OGFkNDI2YWE0Y2M1YWFiZDk2YmZlN2FiYjk3MWQ1ZTgiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMjMt
+MzA1NzFdID0gInVwc3RyZWFtLXdvbnRmaXg6IHVwc3RyZWFtIGhhcyBkb2N1bWVudGVkIHRoYXQg
+cmVwb3J0ZWQgZnVuY3Rpb24gaXMgbm90IHRocmVhZC1zYWZlIgogCi0tIAoyLjQ0LjAKCg==
+
+--===============6408545235329354334==--
 
