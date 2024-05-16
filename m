@@ -1,145 +1,130 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 404F4C25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 04:36:45 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.5626.1715834196571528989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767F4C25B74
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 05:29:55 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.5980.1715837387627208537
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 21:36:36 -0700
+ Wed, 15 May 2024 22:29:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I8db+9x7;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2b387e2e355so5684985a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 21:36:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hqgiltz7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2df83058d48so3919411fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 22:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715834195; x=1716438995; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUtOEjd3gIC8ARANVjwa0BcyYyCVvFmRpj/V2LmkZWU=;
-        b=I8db+9x7OWokPVvaJRrVZ9wl4RubSFQJRCtqz0COwGn+fWV/1cTtm2LP3Wzf4cj0dw
-         JElABXTCGCNfgVBh8sAwSm3mrZkaukKCTxCBW32sB60OgHQ+1weMl0eJJmw3ghvvrz8i
-         4kWGXZF9fvTCFY1K1x/U3T5D3LhCyVfgryl65RV0Xh044ghc4Uqp3CN/v5nQ60kG8yYQ
-         kYBNRL1p5MnSfCduZlnlgjrsH54ox4+RgsK4h6d0pd47Z33aSr6gJRF9RvNotLF06hgl
-         E0DpR24BpBKsgtKIthSbXaDsgkOlxpwyi+GpVygMAOTqbhuCGunDzDVF00idjqC3FoDt
-         WdOw==
+        d=gmail.com; s=20230601; t=1715837385; x=1716442185; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5YdFXnIGmRLRVPEvO8GV0BepTlDMEgJMpGkZFQ7L1Gg=;
+        b=Hqgiltz7i0iCzfn2v5ZQlDG/Pu3jtUm4zsFiQ/MX49XN30CzTfKQRg3E6SYbc/Jnyh
+         nU81yNWKwyxfhQxzl9DIeyEr2kvb/IH8ocmFZoNnITYjCgjH8IocaQVLWoFDeXIsFp2w
+         EjDK0t/vxoykwHxyDj9udIRFu55cWmXG63J7uLTSASz/CHkhIQlLmV2Gbf1Mq8l9bHBe
+         +nFsjcQVfk9VlsPSHgs+AozZZPKAXJyjXvgWzQa6sOOYVJNexwApoCzlUjYD1vdpfvvm
+         q9wOA2AoiI7K88xvcH2Z7+ZQgXWK6PGyVawwCrZD4sJlTg3/RJXeEve1q5YOLDnDlxaD
+         XvFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715834195; x=1716438995;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hUtOEjd3gIC8ARANVjwa0BcyYyCVvFmRpj/V2LmkZWU=;
-        b=WASn0RjOIdGpWQ4qCZAtHBgfs1pBue7mAk1LSFwd/yNcC8veUvpQN2NZNsqNPCcCIH
-         i3KVeIIKzenpEGKziOR4HlPftwJWblCK3TNuw17R1bQ1qjE2i1prxBl5TPtu+Nqdd5jJ
-         +xAqhSlbYRhEnATZ10rj0hbkXeANx8y4L1r6TLRnvyiTtZgYU/9FcycepgqIHb6c1Kx3
-         A2VHEYv6xoX8DXNPQaopKieHq9mhiKUtsCdDuEYvNohkaitmEhgXNX+78nxgPOBwp79a
-         Etu/pCbs4JfQ0IoNu5WAVHtxAhJEJlAGkCm43Hnh49ZNT5zG7qyb54YTIQn+Ffchc5n9
-         xixw==
-X-Gm-Message-State: AOJu0YyjN2HXRLKhuvraB2HMRN3ZYGohCkfZSsb13mw3eevonwNr6CZd
-	bvdhKTQ6oYvN8alPJ7wWsV1auSkk6NCgYP2Cpgm9Mb7XPU0/rycuMFBQXFSnHPc=
-X-Google-Smtp-Source: AGHT+IFOF7QcR11Stf+cPFwIWdB5zadLpsjZRcBDwV/regokTgqV4wLMUhSprYuHZLVs5/yEJ/bfcw==
-X-Received: by 2002:a17:90a:b38e:b0:2b1:82f5:278c with SMTP id 98e67ed59e1d1-2b6cc4502f4mr20712993a91.8.1715834195409;
-        Wed, 15 May 2024 21:36:35 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::6fff])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b628ea6ab8sm14545884a91.55.2024.05.15.21.36.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 21:36:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] kexec-tools: Fix build with GCC-14 on musl
-Date: Wed, 15 May 2024 21:36:32 -0700
-Message-ID: <20240516043632.4049196-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.1
+        d=1e100.net; s=20230601; t=1715837385; x=1716442185;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5YdFXnIGmRLRVPEvO8GV0BepTlDMEgJMpGkZFQ7L1Gg=;
+        b=F/J79fLZiVzkS80jynGx7M1br5OeCcWtHsPU1HjQzKgZ+Y8Ls47e6OxpeEReRRuRRv
+         NAx3Qb7chdBl4qxIeHO16xV2kThagM7YeKEuJAFoHNyc2aXURtHOXSmd2HoCnSAo70g3
+         f7FBlb+J+l3G9eCBahPNK4u+fOAHcGFIo/ZcBQz3c5EXZgESwBMBAL7qWbd6JJyzVT/g
+         c5zHCDvel0A6Dd4TEFK9LdFd/4xJbJExG+gEnXGg4Uec/zudXDUA/y7zgXmMjrbPz93B
+         FwDv4ZZx5kUQR4EBZZ13RNSmy2RSvMLOZnjuDFa+2obw6d54gV2M/r2mQ80+XTCA9PYl
+         Ti5g==
+X-Gm-Message-State: AOJu0Yzm3JTKAUvQnN1VNwls/qsgCBdfXSVsQAmIu4basN8ExjMrz1uP
+	oQXB3OIHPy46BNItlo4edfdj3XBtn8MOXvOwspeaohf2bhxpa6CCqp49TPCuX0PejOw6O1As8FC
+	fA0cFpqOoG6KUoiBXH4242oWLl/I=
+X-Google-Smtp-Source: AGHT+IHwNNKS0FzvmV+YSwTeX6KUa9cIWOJDKfwVAYsJ+Cgw2MtSb+WurzFlijOu7fOhnkYuOty+uHIaMJ4XpV5m5Os=
+X-Received: by 2002:a2e:9093:0:b0:2df:edd9:d005 with SMTP id
+ 38308e7fff4ca-2e51fd45434mr112787891fa.14.1715837385322; Wed, 15 May 2024
+ 22:29:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240506074548.16296-1-peter.marko@siemens.com>
+In-Reply-To: <20240506074548.16296-1-peter.marko@siemens.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 16 May 2024 07:29:31 +0200
+Message-ID: <CA+chaQdY=sq6egqkXewCq0BQutX4Z7r+coWG+3Vz0SJihJFWjg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2] glibc: correct license
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 04:36:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199436
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 05:29:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199437
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...linux-setup.c-Use-POSIX-basename-API.patch | 54 +++++++++++++++++++
- .../kexec/kexec-tools_2.0.28.bb               |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-x86-linux-setup.c-Use-POSIX-basename-API.patch
+Hi Peter,
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-x86-linux-setup.c-Use-POSIX-basename-API.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-x86-linux-setup.c-Use-POSIX-basename-API.patch
-new file mode 100644
-index 00000000000..e223f45998c
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-x86-linux-setup.c-Use-POSIX-basename-API.patch
-@@ -0,0 +1,54 @@
-+From 32c8ffa7ace6f1b7e63f9ddffab00b00c36a7b57 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 15 May 2024 21:18:08 -0700
-+Subject: [PATCH] x86-linux-setup.c: Use POSIX basename API
-+
-+Musl C library only supports POSIX basename function. while glibc has
-+both GNU extention as well as POSIX basename implemented. Switch to
-+using posix version, so it can work across musl and glibc
-+
-+basename prototype has been removed from string.h from latest musl [1]
-+compilers e.g. clang-18/GCC-14 flags the absense of prototype as error.
-+therefore include libgen.h for providing it.
-+
-+[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
-+
-+Upstream-Status: Submitted [https://lists.infradead.org/pipermail/kexec/2024-May/030034.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ kexec/arch/i386/x86-linux-setup.c | 9 ++++++---
-+ 1 file changed, 6 insertions(+), 3 deletions(-)
-+
-+diff --git a/kexec/arch/i386/x86-linux-setup.c b/kexec/arch/i386/x86-linux-setup.c
-+index 9a281dc..73251b9 100644
-+--- a/kexec/arch/i386/x86-linux-setup.c
-++++ b/kexec/arch/i386/x86-linux-setup.c
-+@@ -14,6 +14,7 @@
-+  *
-+  */
-+ #define _GNU_SOURCE
-++#include <libgen.h>
-+ #include <stdint.h>
-+ #include <stdio.h>
-+ #include <string.h>
-+@@ -329,12 +330,14 @@ static int add_edd_entry(struct x86_linux_param_header *real_mode,
-+ 	memset(edd_info, 0, sizeof(struct edd_info));
-+ 
-+ 	/* extract the device number */
-+-	if (sscanf(basename(sysfs_name), "int13_dev%hhx", &devnum) != 1) {
-++	char* sysfs_name_copy = strdup(sysfs_name);
-++	if (sscanf(basename(sysfs_name_copy), "int13_dev%hhx", &devnum) != 1) {
-+ 		fprintf(stderr, "Invalid format of int13_dev dir "
-+-				"entry: %s\n", basename(sysfs_name));
-++				"entry: %s\n", basename(sysfs_name_copy));
-++		free(sysfs_name_copy);
-+ 		return -1;
-+ 	}
-+-
-++	free(sysfs_name_copy);
-+ 	/* if there's a MBR signature, then add it */
-+ 	if (file_scanf(sysfs_name, "mbr_signature", "0x%x", &mbr_sig) == 1) {
-+ 		real_mode->edd_mbr_sig_buffer[*current_mbr] = mbr_sig;
-+-- 
-+2.45.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-index c39fff834d0..b60c51df4a1 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0005-Disable-PIE-during-link.patch \
-            file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch \
-            file://Fix-building-on-x86_64-with-binutils-2.41.patch \
-+           file://0001-x86-linux-setup.c-Use-POSIX-basename-API.patch \
-            "
- 
- SRC_URI[sha256sum] = "f33d2660b3e38d25a127e87097978e0f7a9a73ab5151a29eb80974d169ff6a29"
--- 
-2.45.1
+what about BSD-4-Clause-UC, BSD-3-Clause, ISC licenses included in glibc.
 
+I've suggested to add them long time ago in:
+https://lists.openembedded.org/g/openembedded-core/topic/91285771#msg166005
+which resulted in:
+https://sourceware.org/bugzilla/show_bug.cgi?id=3D28007
+https://sourceware.org/pipermail/libc-alpha/2022-May/139167.html
+but the discussion upstream stopped shortly after and the oe-core
+change was never merged because of that. Maybe it's time to re-check
+and ping upstream again after 2 years.
+
+Cheers,
+
+On Mon, May 6, 2024 at 9:46=E2=80=AFAM Peter Marko via lists.openembedded.o=
+rg
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> The license per [1] is LGPL-2.1-or-later and
+> [2] converted last LGPL-2.1-only references.
+>
+> License-Update: corrected from LGPL-2.1-only to LGPL-2.1-or-later based o=
+n [1] and [2]
+>
+> [1] https://www.gnu.org/software/libc/
+> [2] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D273a835f=
+e7c685cc54266bb8b502787bad5e9bae
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  meta/recipes-core/glibc/glibc-common.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core=
+/glibc/glibc-common.inc
+> index b9516e77f0..91a3f5bcd5 100644
+> --- a/meta/recipes-core/glibc/glibc-common.inc
+> +++ b/meta/recipes-core/glibc/glibc-common.inc
+> @@ -2,7 +2,7 @@ SUMMARY =3D "GLIBC (GNU C Library)"
+>  DESCRIPTION =3D "The GNU C Library is used as the system C library in mo=
+st systems with the Linux kernel."
+>  HOMEPAGE =3D "http://www.gnu.org/software/libc/libc.html"
+>  SECTION =3D "libs"
+> -LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
+> +LICENSE =3D "GPL-2.0-only & LGPL-2.1-or-later"
+>
+>  LIC_FILES_CHKSUM ?=3D "file://LICENSES;md5=3Df77e878d320e99e94ae9a4aea7f=
+491d1 \
+>        file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> --
+> 2.30.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199036): https://lists.openembedded.org/g/openembedde=
+d-core/message/199036
+> Mute This Topic: https://lists.openembedded.org/mt/105935723/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
