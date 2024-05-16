@@ -1,192 +1,235 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFCCC25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 09:20:16 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.9136.1715851207119306751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92DAC25B7A
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 10:08:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by mx.groups.io with SMTP id smtpd.web10.9749.1715854079232522379
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 02:20:07 -0700
+ Thu, 16 May 2024 03:07:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ffoKL4y3;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52192578b95so633242e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 02:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715851205; x=1716456005; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h5Ytn4GmLtqWWHlDVYUOyWKLdpLyoudPVpQ1e+0+CL0=;
-        b=ffoKL4y3M34ecX2yriBW1lZJHmZrSklChb/pSlWQNs1YfACfrpPjUbOU0Db8GTXMWo
-         f0KatvWMVoVw+c/PnjpdZjtMUOAgEYRjs/Lr+bSI7slgjFqJSLwQSFXZJJWf5zk50in3
-         LcfeTV+5FyZCQoI8Sh7AhgPSx7FRbRqfC5HTI4oIlOQZKOmjrJ8M4DHmj4d26pEZYlOr
-         nFQaDDZwflt7m0TiRnrXfeIjuEil1b36NQofbLoO2y9P/cZseQ/1FjU+9hK5uZ518FYp
-         PZ9uHBWLJaHbewVgMGO7iA/stbVewX1x0M2J8Nkmyssoa9/Mc0bFETarolx74I4twnTt
-         bPeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715851205; x=1716456005;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h5Ytn4GmLtqWWHlDVYUOyWKLdpLyoudPVpQ1e+0+CL0=;
-        b=MiW5IHNIQWj6qinOf+tuDEe2Ju62jxyNtsvHvdCQJOJiPZlkQuVv6OYQogY2zzeciR
-         34LH/jdAYFVr0q3CIDf0XJ8dladfgUn7D33ccJtJZqjAXByu9v2XBFooG9jUX9RAZxgw
-         ziCCNGTYUbNq+Z379qmRTQnxWTO91DFlRqoHPPH2MrBPqD4JkGi20fAsfweBQt6QBDLd
-         okOfJ3L/AE19Ifuvn1q2rRh9yybyodDbhp9ih+hy77jSzflLgCKiPP/aJX6BDxickA8j
-         vVR2JZvygKfed97uNIYKrJB7zrQsvC05C18fzWEDKzVWewWeEcyQ6HgFLe3gh3b/m2FN
-         s2wA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzEqTtKeuP4mDZiVsyk2hquAEJgaI4lAMNvoj/X2u/dGZpqbJ2jdlo9mjSozZxdjO91pbxAzaktinmWjdwHrXOMOPKZoPR4LS6a8HMwegFBKrLksFm/7+Z
-X-Gm-Message-State: AOJu0YxEfkyxig+BC73bXEqeb8n67ddRKBQUyz9Fp1LmW9vht1N4E/Dx
-	f3CbOzCBJxyTgO41lOjDIZPN1uLFMGYDPG44Jo3RzHpop7zcgG0HLpBG6sRoBrveB+n/u88OLKB
-	q5k01Vg+8K6GW5OqDM4kchq21lvA=
-X-Google-Smtp-Source: AGHT+IHgSW+vzR0+DdDyGP7EhBEm5r1rxe8oS4gYGTB+OGsbHGSC5kt/JIQM2DJRc/wPUVez/AIbLlyTaOfUAV0eLI8=
-X-Received: by 2002:a05:6512:ac9:b0:51d:a78e:9036 with SMTP id
- 2adb3069b0e04-522100691e3mr13591376e87.69.1715851204899; Thu, 16 May 2024
- 02:20:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAO5Uq5Q4f4Q+3yR6JZcxhXOP_mpmyzJ0yYtO5SO1_6ZOwdHEzw@mail.gmail.com>
- <6447.1712221622103634934@lists.openembedded.org> <CAO5Uq5Qd63-mJWhQpdP28kXVtHWjk-607c_RK8xm2dshyfHWJw@mail.gmail.com>
- <a5b121fb-b530-4242-a786-1e7b54655ba9@windriver.com>
-In-Reply-To: <a5b121fb-b530-4242-a786-1e7b54655ba9@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 16 May 2024 11:19:53 +0200
-Message-ID: <CANNYZj_gjybr8x2zxN5zSWQjoXRxHv43-vZW6ME_E7hhkqJVcg@mail.gmail.com>
-Subject: Re: [OE-core] Debugging rust oe-selftest failures
-To: randy.macleod@windriver.com
-Cc: alex.kiernan@gmail.com, Yash.Shinde@windriver.com, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@intel.com header.s=Intel header.b=ltJAVZuz;
+ spf=pass (domain: intel.com, ip: 192.198.163.9, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715854079; x=1747390079;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=TpADesC6WdjQ4SbN20TSBpdbJ+27qBpzzNtToGW8xOY=;
+  b=ltJAVZuzMp8a4lfju79IeOdJodsHyThUipkqjpvk0vwWHLPe60DcBvMh
+   2vBEH1SfzgDZXZzRSA90lqq6qPtzU2YgCuaqB5XmQwU1dr7LJ+08Np3Im
+   SAVItfKceL7sLrGVL7t6taexvZTkL35MUNNWVvaoD1vRnc88YEhZ2Wtah
+   ySiEi5Eb5DSetk6Lp9b9IwI8dEh7QrWfVRYkVxEJLDhxK0APgQ1o3L+D9
+   Mzmf/yxwN9vGxfx1agVH1NqkGV9/k7Fps8OmX7h8xG22JgS/CDvKehF8Q
+   Yqic78WqpTLccEnfaSSNCS+bwnUryJ+C0vmLh7AWtiRMtM1vpk8d3TMKL
+   w==;
+X-CSE-ConnectionGUID: Fb6xrj8fRsyV7cnSEEFi8A==
+X-CSE-MsgGUID: d/vmJgsPRnKziNeEVlsMCA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22627622"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="22627622"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 03:07:59 -0700
+X-CSE-ConnectionGUID: a8xpneGuQAe8TXGF5W4TAA==
+X-CSE-MsgGUID: 2Wdx0FYbTjSbfqmzUSIU+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="31418628"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 May 2024 03:07:59 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 16 May 2024 03:07:58 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 16 May 2024 03:07:58 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 16 May 2024 03:07:58 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 16 May 2024 03:07:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NuMVtocNrfh9kIGUm2K14R0sB7/ncreONE8E/PsE1TVqv1puoH7Xqt1JZSd2x8hanIp34t40oK3eBb88cdQZCl17KzlhXf0frtgy0J6n/uKzlC7d4eKyCwt+ySPhvba+mvOnCrNuQ7vQbQQO2pXCBVucZrlofYCjgly8LYNg4cqbTK5yB4RR9vDiz7O7es9PjDWQtaLmaKefjrdLoLwEB0GvgRLfbKxwb8vfPn409P5IqYyaJJ9RtXwtT+JaGB87ewr1RRZJWoIL8OICwnU6H7fK7Wc0JncegYQVRoS7S/7S+hcv87Pwqy0x4vV0lSnNxRfvwKCidSzJ2GvDiHhJWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h+gPdkpnYWWLxcykKX2TEDkbFBf7I9f29u3WXd4KzoA=;
+ b=iO+aWuwldtbxPWWU363NSa3hVpv2wzfm1CAZY8fE1H+2up4BdN09rzrYNi1DgD4DA3Ry7xapsTHsjlbURN/pSikIq8hTUb6FNz/nhimlOrSK743PJLPSw64pg8PeOIC4hMHIX378LPOVAb3RSwMQAC093rkozNU70wb6IL77feTJlTxfADerWbjbGTVNjBcQz6aywyTOqqlXPoE7mT+CuJ9XljKFSA5LNOgCe6FBClmycCCaIad5OnjAGmyFTYNeaSfR3qIU2q/vEasQIQc/n0yfdYtvKhkEK950PPLmDdyhG4Xk5G2y6DqsccDRHTxvrRG3NA11FlSQDedLgD9FKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by CY8PR11MB7732.namprd11.prod.outlook.com (2603:10b6:930:71::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.27; Thu, 16 May
+ 2024 10:07:56 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%7]) with mapi id 15.20.7544.052; Thu, 16 May 2024
+ 10:07:56 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [yocto] QA notification for completed autobuilder build
+ (yocto-5.0.1.rc2)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-5.0.1.rc2)
+Thread-Index: AQHaop1Pix/295Wjtk6ipYHm2vHlBrGZrClQ
+Date: Thu, 16 May 2024 10:07:56 +0000
+Message-ID: <DM4PR11MB776099D14CDE99A5A47A0665A1ED2@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <0101018f6108f259-da34e71e-edda-4ce5-ae8f-f9a0bfda30fc-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101018f6108f259-da34e71e-edda-4ce5-ae8f-f9a0bfda30fc-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|CY8PR11MB7732:EE_
+x-ms-office365-filtering-correlation-id: 19566f1b-50a5-4ff0-3fc0-08dc75900ebd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|376005|366007|38070700009;
+x-microsoft-antispam-message-info: =?us-ascii?Q?F6KiTbD+Ytn6fQNRPD1zLbFaUhF3/mU7znZ0E+Ks/LsxM1WB2sqocrLO9opn?=
+ =?us-ascii?Q?rRdyKx5bMXM0ELXhLgx47L0pMnPGnTflbniO9Uja6a/kY/BjXjr0cY24d/bw?=
+ =?us-ascii?Q?tha7Z/xMzv1XNcAVB1MxiGtJGzmmCCDKbSkxP5D0YcBCMCYte/FmzXAl160N?=
+ =?us-ascii?Q?5U7kUE67cEBNLmecgNryG3cScvqjBkuQ5Cd0jEd7ylKII2YsMHjWzaGpStHe?=
+ =?us-ascii?Q?JcjZ/bAV2v2PwfpuTqvl64H088KVjaZNXzoimr4IacNuN23pyT7chpIf7mCM?=
+ =?us-ascii?Q?fCIpbtYiXR/osbyrnzsw+BkTd1a67p3EYBmtWSEnaugy4v3UfBMsvRktPUHN?=
+ =?us-ascii?Q?dgrlqY6NY8zIgLHXRCMlIINIC+9EoCESEEn9lqtdf58bS4+n0/OCEzQ8Vx4c?=
+ =?us-ascii?Q?kA0l2AY0Xffrasg3OrBX0RCIqpydPGmVMsE/JjEtTXcVtzItm5ka6MCi8okg?=
+ =?us-ascii?Q?BdB+UjDipXxdtNlFJwb6MFItuwT+HXDNVJcrb9ZVjocmEu70a2TJ9cXIoZIF?=
+ =?us-ascii?Q?2wAKQRmm832cIXOydW5toIs9qjYS1F3k2Kp672J+y0l/ozkcWmHjMU/rK6sK?=
+ =?us-ascii?Q?fZnJlckO4d27awwv8ZSWsAxA71j2bzjhE2Fd66P38RuAtxaIcHi9x/PF6Dpb?=
+ =?us-ascii?Q?PBpBgwZad82g2YBCahoAqOpz0UYbt/6X3R+An0nHCpS+NRP2Hsczas46pNgQ?=
+ =?us-ascii?Q?Y5p8YpRJmBNzfAjA4MYGX1fCzGL1FaZFoh0g4F4SeZzG5IaXTHtlzEQewYwD?=
+ =?us-ascii?Q?u66oxLCf+CU1vZ30iaFtmOSSI+uDdVReu9CIgkRYdmjFN8+5tTxDkFpOA/xR?=
+ =?us-ascii?Q?PZNXO2U504MWPX9f9r4X3HXd73eVFBAU+hxMfc2qAifYJyV8H6E4a2/p8SqW?=
+ =?us-ascii?Q?Ua507K2WACSgUhAHve8ZJo3ws0ApIOWuVWWVqjwgTkKViIQ+WEd9llx+z7Ou?=
+ =?us-ascii?Q?NtXcYoJaXI8KwUb7ONXqmea44u8+Pj7uP38hKbGbok5g6AOgwc72T8mL+C2+?=
+ =?us-ascii?Q?raxMTBGWMVx98ZXq3aCit8ks3f98IC2t64LDYePIFOK/0kFJt4wi0jey4EmK?=
+ =?us-ascii?Q?YSOIhSAtc/DUASNHgkbGXA6nfAV+0Ve+DfVjpOcAkyRiGnKSJ38NB5E07p0+?=
+ =?us-ascii?Q?D2lmeUVl5Sf5uauTU958Fs7iQKVsiu5s/X0CBeNQv9sY6G2JCdvk2qlYi21R?=
+ =?us-ascii?Q?ox2w3CNvvDNpeiCygF6cXIubNnLMnyEkj1jUoaWCgvzyYN5HHh3QblZZtA1P?=
+ =?us-ascii?Q?RQ0qST/EW0x2St23a7EU6YmDPoJdOYsdjyw9NO2hDBi5iS32mLuO0JqBoPJW?=
+ =?us-ascii?Q?n6M=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?psikzf1nW+I9j2iOsZh96o44K+3Kyo3yNx2WB3pAMs99JCDNVagZ3QjUQTlq?=
+ =?us-ascii?Q?4B1t+y1hF+nLpS4ioglypV6aD+7MuON5KJjEiWEC9NFSAiOsJJ2WJHEuIS74?=
+ =?us-ascii?Q?6Ze6RyRY01wbcWqExJApMELfSa8oVhI9SgYhut+TaxMySqFPQ6WYgwTrKGRc?=
+ =?us-ascii?Q?bhcWoTzPrUMAVMJ/lY8yJv0TRqG2tQUy7+JJe+P11YMDGdNQEDaUCzD/wJe/?=
+ =?us-ascii?Q?N1LF7j+0zp3XiO5yiOtLomQec+c+X2xpUGZ9Dars1q8BPuJ9t6U4tkTxatzf?=
+ =?us-ascii?Q?Y8r8HBKaW/ulUY/CMKb4j/XzBOdgSQYdh5drwdfr7Km2Xd5gMYfyD7TcwfHo?=
+ =?us-ascii?Q?BGI5P5i+5uvoi37Jj4DUdpLLbhzeRFIi0tqMPYlCRfz8TsGQ+diaFziSiJpu?=
+ =?us-ascii?Q?MoT1raiMnIYvvGlC0uJVcTNioGL2Dm4QeK3S8REjxcvaZdCmv106YU8jUpe9?=
+ =?us-ascii?Q?/7TGvBikBcJA+nJJJ7huRDqY+Pg5Mqe3uWN3rs9ytgLCpvXWUqbSrrf4fqmy?=
+ =?us-ascii?Q?fl5UIcc4wrrqRCYBOvrPOIhHSRjI+PJD26nqsbdfhz8H+332ucEL64RCYAfk?=
+ =?us-ascii?Q?2byyBz+S7iHp19D+/xT5+VSUkyROjiX2I4AwYywKtiBtLkjftR5Nm67jnpKD?=
+ =?us-ascii?Q?AYbIDxMKzZFWCoRjcPEw2h0vhMh+vEYpIk2I0g9PiFGcCddaCLaWXWaabsKH?=
+ =?us-ascii?Q?3A7uvCCSuKj8TxvapCkFqldrik8YjFm9FjkNny3qop+I1CskvBxO19nYfpmf?=
+ =?us-ascii?Q?lSjrmpyd/6eTthCH3mfpVjnwYinxCwcteQFI9LXOo0Zb2GgxEZ8o25teo/f1?=
+ =?us-ascii?Q?FaL676q/m26pPv48B5BwKXQ+WwvrhEl8pK3bXwmNS5IdxkVIyS0OObAyjj0D?=
+ =?us-ascii?Q?x7tgmhubR6YSSw/ciKdtRNKdKBiDMqgVOP2AyDl0rPW34scY8N7D8GTr4/UI?=
+ =?us-ascii?Q?TWdSArQSK+1qESTAYZxby4/RE3h/WBFcyFhiXgcyvvSqCH91F7i5r1KQ8kA9?=
+ =?us-ascii?Q?fFJQHui4phDk/RpUIU6lLoVfjSM0K0mJibs0MBlzxK6PUX1byuwkpDsaKN1M?=
+ =?us-ascii?Q?blAdxI479+8Nhzx1eGI6rBJforGvjPJkEXe0mrjsJSPCVFsjA652pUs+HlYE?=
+ =?us-ascii?Q?bJpEv9nA0xt26qMk8wedIw+uyf7Jmx0Ndl2yBZ4KvmagTatVsRzSvh/vCkXL?=
+ =?us-ascii?Q?LriPmfG7rIMtU6gm5DXP96+L50Ibp6odbo0DuTff8UxddARjSITSUEMaXcmW?=
+ =?us-ascii?Q?7vLLQv0WLG/TCKbl+U7AnLWCJSvVkoXC+pUYITaHZX6sLyPUFKjTPeQ2kkMT?=
+ =?us-ascii?Q?+FoltxqxoyARUFWCHxEG8RpUmjtjsLKcY0AM0bLWBXrLYRWxj30/XSBq/n/H?=
+ =?us-ascii?Q?oBS7pp9kO9lvevRbBTDmJSMFslahxACq6fVPirPT/oEwz0hQqhDMPoqGevg5?=
+ =?us-ascii?Q?56QmK8Lsn/2C5sMmOZCvCuYg7thlxNjw7D7Kg2/68Zq8ycyu5P1uvB/oKZsa?=
+ =?us-ascii?Q?S5A5F98tWkTm4TGI8jQ1zgyiEZydWL72DHgCV4r25Q757r5eqkiJb2DxasfW?=
+ =?us-ascii?Q?5c6vB67vw8U10NGgn3gNv1gMJtCp/R9vKRaoTJ7l?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19566f1b-50a5-4ff0-3fc0-08dc75900ebd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2024 10:07:56.2264
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S0rYvXuIu6998DWC8jmVLoA+tbCRl9H7EbJy8dzd9aT3oIIUkci5qCHvaLuYYLxSqTRBH/tQBpqg3pyZnIgLMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7732
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 09:20:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199447
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 10:08:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199448
 
-As explained elsewhere, rust selftest is going to be disabled to
-resolve sporadic autobuilder failures. This also gives everyone a
-chance to update rust to latest upstream release without having to
-fight with the selftest.
-
-Before selftest is re-enabled, I would ask for the following improvements:
-
-- when it fails, the output is huge, and easily exceeds the terminal
-buffer. It's difficult to look through it for possible failures, and
-impossible to tell if some failures have scrolled off the buffer. Is
-it written to a file somewhere? How do the fails look like? The test
-should make both of these points clear. Can we reduce verbosity by
-default? No one needs to see a complete list of everything that passed
-when just a few items fail.
-
-- the test takes 20 minutes to execute. When debugging it you can't
-possibly ask for that much time for developers for every test
-execution. There should be a way to re-run just the item that failed
-from command line in a preserved build-st directory, and that should
-be documented and printed on failure.
-
+Hi All,
+=20
+QA for yocto-5.0.1.rc2 is completed. This is the full report for this relea=
+se: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
 Thanks,
-Alex
+Jing Hui
 
-On Tue, 14 May 2024 at 17:52, Randy MacLeod via lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2024-04-05 7:28 a.m., Alex Kiernan via lists.openembedded.org wrote:
->
-> On Thu, Apr 4, 2024 at 10:07=E2=80=AFAM Yash Shinde via lists.openembedde=
-d.org
-> <Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On Wed, Apr 3, 2024 at 05:51 PM, Alex Kiernan wrote:
->
-> Hi Sundeep (or anyone else with insight on this!)
->
-> How do you go about debugging rust oe-selftest failures? I've bumped
-> everything up to 1.77 (https://github.com/akiernan/poky) but
-> oe-selftest fails for reasons that aren't immediately obvious to me...
->
-> https://gist.github.com/akiernan/6cc6131c1ec3af866098a9318679cf1b
->
-> Any clues?
->
-> --
-> Alex Kiernan
->
->
->
->
-> Hi Alex,
->
-> I faced the same errors when I was working on to upgrade rust from 1.75 t=
-o 1.76. I discussed it with rust upstream here, https://github.com/rust-lan=
-g/rust/issues/122075 and the following change solves those failures,
->
-> https://github.com/rust-lang/rust/issues/122075#issuecomment-1985153524
->
-> PR- https://github.com/rust-lang/rust/pull/122205/commits/5aece7fad06baaa=
-745784d118db862b3e3ccf7f8
->
->
->
->
->
-> After this change was backported to poky, the rust build was successful b=
-ut it was seen that not all the tests are executed.
->
-> While discussing upstream, it was known that removing the --doc option fr=
-om python3 src/bootstrap/bootstrap.py test --exclude<some excluded test cas=
-es list> --doc --no-fail-fast --bless --target x86_64-poky-linux-gnu  cmd i=
-n oeqa/selftest/cases/rust.py file execute the other tests also.
->
->
->
->
->
-> But, while doing so another set of failures are observed as mentioned in =
-https://github.com/rust-lang/rust/issues/122285
->
-> Complete log using --doc option-  https://gist.github.com/Yashinde145/7db=
-6bd4a064021bf756b0c0dd6c8777c
->
-> Complete log without using --doc option-  https://gist.github.com/Yashind=
-e145/036a934f0523307859f7c855b83ecfd6 (this file is truncated in gist due t=
-o large size, please see Complete raw file)
->
-> I am not very familiar to these failures but  trying to understand them.
->
-> Feels like you're way ahead of me. I'll have a bit more of a poke at
-> it when I've some time, but it feels like we may be mostly waiting on
-> upstream (and a big +1 for getting them engaged!)
->
-> FYI,
->
-> Sundeep and Yashe have Rust 1.77 (8?) compiling reproducibly.
-> They found some problems with the rust test suite and
-> are working on fixing or avoiding those errors before submitting a patch.
->
->
-> ../Randy
->
->
->
->
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199262): https://lists.openembedded.org/g/openembedde=
-d-core/message/199262
-> Mute This Topic: https://lists.openembedded.org/mt/105307188/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
+lf
+> Of Pokybuild User
+> Sent: Friday, May 10, 2024 1:45 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 5.0.1.rc2)
+>=20
+>=20
+>     A build flagged for QA (yocto-5.0.1.rc2) was completed on the autobui=
+lder
+> and is available at:
+>=20
+>=20
+>         https://autobuilder.yocto.io/pub/releases/yocto-5.0.1.rc2
+>=20
+>=20
+>     Build URL:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6892
+>=20
+>     Build hash information:
+>=20
+>     bitbake: 8f90d10f9efc9a32e13f6bd031992aece79fe7cc
+> meta-agl: 73b088ccfa385f91b8aa56c1d2fbf78d97447dfa
+> meta-arm: 6d6fa14744b4e453eedb2c37891259b55557dcbf
+> meta-aws: 3265343c2f2b22bd0a2a9a688fd20e6540d0d746
+> meta-clang: e7dceb1c92caf7f21ef1d7b49c85328c30cffd90
+> meta-intel: 52f5037453e797eca8784a410f7a2a55f40aef57
+> meta-mingw: acbba477893ef87388effc4679b7f40ee49fc852
+> meta-openembedded: 5778e32eae201072c5dc37c9db67dc1848ffb9de
+> meta-virtualization: e9bb0a338fdf637f7929e19b21857d4c1d532ce6
+> oecore: 294a7dbe44f6b7c8d3a1de8c2cc182af37c4f916
+> poky: 4b07a5316ed4b858863dfdb7cab63859d46d1810
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
 
