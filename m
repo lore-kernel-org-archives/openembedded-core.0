@@ -1,88 +1,84 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <philip.lorenz@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DC7C25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 07:19:05 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.7597.1715843941064341174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 018A4C25B74
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 07:30:45 +0000 (UTC)
+Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
+ by mx.groups.io with SMTP id smtpd.web10.7530.1715844632664882372
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 00:19:02 -0700
+ Thu, 16 May 2024 00:30:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=JK6aMPRO;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=Rx3LxKpRTp3vbpXBvcTJfPVAWlGHmLSAGLdkp41rNtI=; b=JK6aMPROi5u9PkaNh8c+PsJ+Jr
-	8Ct8t8fBkUpW7FgmH01GGdQSxHMiSqWPzzTKpLmJl7e61PUiOTorXlpkBFqx1ATlrRWj5MCVvu3X9
-	stUbVvvk7maGewsIJz57C2J7Jd3AAQfSEbuSyue2miuDM/tbAxVdduBceRYl24RTCNPVLsvsELM9D
-	6bKmUcsHWKEmYHOQZF49G1QKgpo56eli2cGIBqAm+bsvnFrY8XsTyu5EPbJzLfdkfxQz6Im3UlOmS
-	SzzmPWzyIi/AccRwopNPnxJyn1ZdCEA4aBTkx3wMdKYEFesmWItQvcFuKLV9GG3SQKHlPQFmRDQ3w
-	Fjz5QQiQ==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <martin@geanix.com>)
-	id 1s7VOE-000BU6-UI; Thu, 16 May 2024 09:18:58 +0200
-Received: from [185.17.218.86] (helo=[192.168.64.76])
-	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <martin@geanix.com>)
-	id 1s7VOE-000EeV-1g;
-	Thu, 16 May 2024 09:18:58 +0200
-Message-ID: <b086b556700672d356ce463c99aa351881997c3a.camel@geanix.com>
-Subject: Re: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of
- WORKDIR
-From: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2024 09:18:58 +0200
-In-Reply-To: <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
-References: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
-	 <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Gw+szgnb;
+ spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=859c909c3=philip.lorenz@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1715844632; x=1747380632;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8KlgjrsRQ4OclFJMPFKoq7WczPdQlUmhlgd1nfyzy90=;
+  b=Gw+szgnbvuhMM64thaSryzsacTQjYQ09o9zoKn5whlwwx2yBApn3tXPw
+   /OSd77duqXFo2pi35EM3fqCKhU/erbqg4lyueNzxMwoLMRrwOVWLdO96c
+   /QJlV2+bG51YcBobBJpkRCJG5qB6V5UTu2JIhCOt0AbpnPa0ataLja5xN
+   w=;
+X-CSE-ConnectionGUID: NDfHLSr1QRahCdEtVoMR4Q==
+X-CSE-MsgGUID: XjisLGRgTSC7kQfBucrvjA==
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa2.hc324-48.eu.iphmx.com with ESMTP/TLS; 16 May 2024 09:30:25 +0200
+Received: from esabb5.muc ([160.50.100.47])  by esagw3.muc with ESMTP/TLS;
+ 16 May 2024 09:26:25 +0200
+Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
+ by esabb5.muc with ESMTP/TLS; 16 May 2024 09:26:26 +0200
+Received: from localhost.localdomain (10.30.85.215) by SMUCMP10E.europe.bmw.corp
+ (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
+ Thu, 16 May 2024 09:26:25 +0200
+From: Philip Lorenz <philip.lorenz@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Philip Lorenz <philip.lorenz@bmw.de>
+Subject: [PATCH 0/3] package_manager: Clean up shared deb / ipk helpers
+Date: Thu, 16 May 2024 09:24:36 +0200
+Message-ID: <20240516072439.2998567-1-philip.lorenz@bmw.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-X-Authenticated-Sender: martin@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27276/Wed May 15 10:26:29 2024)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SMUCMP12F.europe.bmw.corp (2a03:1e80:a15:58f::1:2b0) To
+ SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 07:19:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199439
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 07:30:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199440
 
-On Wed, 2024-05-15 at 12:56 +0100, Richard Purdie wrote:
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b2c500d8739..75c850760f6 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -405,7 +405,7 @@ STAMP =3D
-> "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
-> =C2=A0STAMPCLEAN =3D "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
-> =C2=A0BASE_WORKDIR ?=3D "${TMPDIR}/work"
-> =C2=A0WORKDIR =3D "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
-> -UNPACKDIR ??=3D "${WORKDIR}"
-> +UNPACKDIR ??=3D "${WORKDIR}/sources-unpack"
-> =C2=A0T =3D "${WORKDIR}/temp"
-> =C2=A0D =3D "${WORKDIR}/image"
-> =C2=A0S =3D "${WORKDIR}/${BP}"
+This patch series fixes one issue which I missed in
+"lib/package_manager/ipk: Do not hardcode payload compression algorithm"
+(2ad05635a6da403b4fadcc126fe7734067c12c73). Default configurations using
+zstd are not affected but I'd still like to make sure that things are
+cleaned up.
 
-Why not use
+Additionally, this series cleans up some deb / ipk related code by
+moving their common base class to a shared location. This originally
+used to be the case, but as part of a larger refactoring, the class was
+duplicated into the individual packages. If there was some kind of
+rationale for doing this (I couldn't think of one and couldn't figure
+this out based on the commit history), please let me know.
 
-  UNPACKDIR ??=3D "${WORKDIR}/sources"
+As part of this clean up, the `extract` method is moved into the common
+base class to ensure that future adaptations apply to both
+specializations.
 
-like it's done in the individual recipes?
+Philip Lorenz (3):
+  ipk: Fix clean up of extracted IPK payload
+  package_manager: Move OpkgDpkgPM into common module
+  package_manager: Share more common DEB / IPK code
 
+ meta/lib/oe/package_manager/common_deb_ipk.py | 97 +++++++++++++++++++
+ meta/lib/oe/package_manager/deb/__init__.py   | 85 +---------------
+ meta/lib/oe/package_manager/ipk/__init__.py   | 95 +-----------------
+ 3 files changed, 101 insertions(+), 176 deletions(-)
+ create mode 100644 meta/lib/oe/package_manager/common_deb_ipk.py
 
-And shouldn't we do=C2=A0
+-- 
+2.44.0
 
-  S =3D ?? "${UNPACKDIR}/${BP}"
-
-also?
-
-// Martin
 
