@@ -2,182 +2,191 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70153C25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 08:52:06 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.8518.1715849522117285417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFCCC25B74
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 09:20:16 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.9136.1715851207119306751
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 01:52:02 -0700
+ Thu, 16 May 2024 02:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PTJ7tUto;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f72a29f13so607124e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 01:52:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ffoKL4y3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52192578b95so633242e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 02:20:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715849520; x=1716454320; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9iCbzB1mNp/0nMMhNtp+Ihg0KhC/ZaY/gPDLdErEAjA=;
-        b=PTJ7tUto4TLQCqWBsDqNkV0lVERmtXVDRhgMbcUDWPzDrhEmCTI11uQutYIM/mfIRm
-         z2jrQOG/fBBH3uZC3vyfgr4pmxFZla2m99xC8wqV5S7LQSv14eY+dtiLW8C2iW/smb+R
-         Zqyb44moJQZ5nbtQzm3bFDlCX802ohJS2Ktv7N0CyXz89regfaJkPKzkdzFBw74e7Itn
-         3RS7txwLow5mBORCzMzHbzdCix1plwsyxMD/ySNN9JP2VwfdzVa02YTHpyxCL6063VAL
-         2qbuHnXqfg6bYsMxDGmIIHugHuo/VWjIdRx0IdkPic1RDhB2KiJh0/JrXz7EWbnMUaQh
-         1E+A==
+        d=gmail.com; s=20230601; t=1715851205; x=1716456005; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h5Ytn4GmLtqWWHlDVYUOyWKLdpLyoudPVpQ1e+0+CL0=;
+        b=ffoKL4y3M34ecX2yriBW1lZJHmZrSklChb/pSlWQNs1YfACfrpPjUbOU0Db8GTXMWo
+         f0KatvWMVoVw+c/PnjpdZjtMUOAgEYRjs/Lr+bSI7slgjFqJSLwQSFXZJJWf5zk50in3
+         LcfeTV+5FyZCQoI8Sh7AhgPSx7FRbRqfC5HTI4oIlOQZKOmjrJ8M4DHmj4d26pEZYlOr
+         nFQaDDZwflt7m0TiRnrXfeIjuEil1b36NQofbLoO2y9P/cZseQ/1FjU+9hK5uZ518FYp
+         PZ9uHBWLJaHbewVgMGO7iA/stbVewX1x0M2J8Nkmyssoa9/Mc0bFETarolx74I4twnTt
+         bPeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715849520; x=1716454320;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9iCbzB1mNp/0nMMhNtp+Ihg0KhC/ZaY/gPDLdErEAjA=;
-        b=k8EHKBpkYlYhwIImh3qmhkRor0icLXOsQZTkFe6TQ/n9R5W5DMIisFdzBwGZN5OpXR
-         Sz3z5nMqLxUzOoKKX+GHod1Hzm6Pbvi7Heo9/LXzt6/uxVSPwzlCYVCPTNCUZAcx9sVe
-         TGVMKcJA68yPpmWxaqcfAptCn17ZaU6YUZ5ivJklguLHagFIunu8FNfMlSDnHg0yt2zV
-         e08+rN3A3bqdDryooEI+dh9a3pZdFZbcwAoML7JTudULVGOeXISl/rtlPeA2vqPeahLa
-         x9zsoFLskupMf+Bx3F4asabNvt+aGwyOF8cDmCoUes94PZmBqsKsoH7vUsVVVoVMB63T
-         GGgw==
-X-Gm-Message-State: AOJu0Yynz0UdxRZoOE1bD5Q02TRbeBED9AoFUmEzsFg+XJ01cEksTSYe
-	FWzYBaVbjNzTaJ3fc7kWv/QFJ8huETnkd+sjNP2/PMisPZxioKmHxFcp3C9YZndgUZcCn8WjUwU
-	8oxyJaqRjTJLU8CxZTzH3mmOGBA82usQZ
-X-Google-Smtp-Source: AGHT+IHgdN6TwmR6DVZyFfagq7GA79EdHgjoRXoFRbcb4kxy9yLu34VtkwPRBKe2sorjptbCHVp6rTaKauGnvCfGx2w=
-X-Received: by 2002:ac2:4e0f:0:b0:51d:a1ca:5f26 with SMTP id
- 2adb3069b0e04-5221006f7b4mr13090146e87.20.1715849519939; Thu, 16 May 2024
- 01:51:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715851205; x=1716456005;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h5Ytn4GmLtqWWHlDVYUOyWKLdpLyoudPVpQ1e+0+CL0=;
+        b=MiW5IHNIQWj6qinOf+tuDEe2Ju62jxyNtsvHvdCQJOJiPZlkQuVv6OYQogY2zzeciR
+         34LH/jdAYFVr0q3CIDf0XJ8dladfgUn7D33ccJtJZqjAXByu9v2XBFooG9jUX9RAZxgw
+         ziCCNGTYUbNq+Z379qmRTQnxWTO91DFlRqoHPPH2MrBPqD4JkGi20fAsfweBQt6QBDLd
+         okOfJ3L/AE19Ifuvn1q2rRh9yybyodDbhp9ih+hy77jSzflLgCKiPP/aJX6BDxickA8j
+         vVR2JZvygKfed97uNIYKrJB7zrQsvC05C18fzWEDKzVWewWeEcyQ6HgFLe3gh3b/m2FN
+         s2wA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzEqTtKeuP4mDZiVsyk2hquAEJgaI4lAMNvoj/X2u/dGZpqbJ2jdlo9mjSozZxdjO91pbxAzaktinmWjdwHrXOMOPKZoPR4LS6a8HMwegFBKrLksFm/7+Z
+X-Gm-Message-State: AOJu0YxEfkyxig+BC73bXEqeb8n67ddRKBQUyz9Fp1LmW9vht1N4E/Dx
+	f3CbOzCBJxyTgO41lOjDIZPN1uLFMGYDPG44Jo3RzHpop7zcgG0HLpBG6sRoBrveB+n/u88OLKB
+	q5k01Vg+8K6GW5OqDM4kchq21lvA=
+X-Google-Smtp-Source: AGHT+IHgSW+vzR0+DdDyGP7EhBEm5r1rxe8oS4gYGTB+OGsbHGSC5kt/JIQM2DJRc/wPUVez/AIbLlyTaOfUAV0eLI8=
+X-Received: by 2002:a05:6512:ac9:b0:51d:a78e:9036 with SMTP id
+ 2adb3069b0e04-522100691e3mr13591376e87.69.1715851204899; Thu, 16 May 2024
+ 02:20:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240516001212.1607584-1-seungkyun.kim@lge.com>
-In-Reply-To: <20240516001212.1607584-1-seungkyun.kim@lge.com>
+References: <CAO5Uq5Q4f4Q+3yR6JZcxhXOP_mpmyzJ0yYtO5SO1_6ZOwdHEzw@mail.gmail.com>
+ <6447.1712221622103634934@lists.openembedded.org> <CAO5Uq5Qd63-mJWhQpdP28kXVtHWjk-607c_RK8xm2dshyfHWJw@mail.gmail.com>
+ <a5b121fb-b530-4242-a786-1e7b54655ba9@windriver.com>
+In-Reply-To: <a5b121fb-b530-4242-a786-1e7b54655ba9@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 16 May 2024 10:51:47 +0200
-Message-ID: <CANNYZj-AoZ-ketLiSJtTknE1ATaYV=uF643dGaQoToW_r=3VPw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] ipk/rootfs: run sanity test of multilib in parallel
-To: seungkyun.kim@lge.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2024 11:19:53 +0200
+Message-ID: <CANNYZj_gjybr8x2zxN5zSWQjoXRxHv43-vZW6ME_E7hhkqJVcg@mail.gmail.com>
+Subject: Re: [OE-core] Debugging rust oe-selftest failures
+To: randy.macleod@windriver.com
+Cc: alex.kiernan@gmail.com, Yash.Shinde@windriver.com, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 08:52:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199446
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 09:20:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199447
 
-The code adds significant complexity, and the patch is difficult to
-understand. The commit message should explain what the temporary
-installation does, and why is needed. What does 'sanity test' do, and
-how is it parallelized? Is it a part of that 'temporary installation'?
-How is 'Installing package groups through opkg takes much more time
-than copying directory.' relevant to all of that?
+As explained elsewhere, rust selftest is going to be disabled to
+resolve sporadic autobuilder failures. This also gives everyone a
+chance to update rust to latest upstream release without having to
+fight with the selftest.
 
-Also, if it does improve performance, can you please provide some
-numbers for that, based on poky?
+Before selftest is re-enabled, I would ask for the following improvements:
 
+- when it fails, the output is huge, and easily exceeds the terminal
+buffer. It's difficult to look through it for possible failures, and
+impossible to tell if some failures have scrolled off the buffer. Is
+it written to a file somewhere? How do the fails look like? The test
+should make both of these points clear. Can we reduce verbosity by
+default? No one needs to see a complete list of everything that passed
+when just a few items fail.
+
+- the test takes 20 minutes to execute. When debugging it you can't
+possibly ask for that much time for developers for every test
+execution. There should be a way to re-run just the item that failed
+from command line in a preserved build-st directory, and that should
+be documented and printed on failure.
+
+Thanks,
 Alex
 
-On Thu, 16 May 2024 at 02:12, Seungkyun Kim via lists.openembedded.org
-<seungkyun.kim=lge.com@lists.openembedded.org> wrote:
+On Tue, 14 May 2024 at 17:52, Randy MacLeod via lists.openembedded.org
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> From: "seungkyun.kim" <seungkyun.kim@lge.com>
+> On 2024-04-05 7:28 a.m., Alex Kiernan via lists.openembedded.org wrote:
 >
-> For multilib type packages, there is an additional temporary
-> installation before the actual installation. It makes almost doubles
-> the do_rootfs time if having many multilib type packages.
-> To avoid this overhead, run sanity test in parallel.
-> Installing package groups through opkg takes much more time than
-> copying directory.
+> On Thu, Apr 4, 2024 at 10:07=E2=80=AFAM Yash Shinde via lists.openembedde=
+d.org
+> <Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> - Changes in V2:
->     Fix FileNotFoundError exception when copying rootfs
-> - Changes in V3:
->     Removed unnecessary test call
-> - Changes in V4:
->     Fix invalid argument when create Process
->     Keep the temporary rootfs directory after sanity check
+> On Wed, Apr 3, 2024 at 05:51 PM, Alex Kiernan wrote:
 >
-> Signed-off-by: seungkyun.kim <seungkyun.kim@lge.com>
-> ---
->  meta/lib/oe/package_manager/ipk/rootfs.py | 34 +++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
+> Hi Sundeep (or anyone else with insight on this!)
 >
-> diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-> index ba93eb62ea..a3842a6264 100644
-> --- a/meta/lib/oe/package_manager/ipk/rootfs.py
-> +++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-> @@ -6,7 +6,9 @@
+> How do you go about debugging rust oe-selftest failures? I've bumped
+> everything up to 1.77 (https://github.com/akiernan/poky) but
+> oe-selftest fails for reasons that aren't immediately obvious to me...
 >
->  import re
->  import filecmp
-> +import multiprocessing
->  import shutil
-> +import stat
->  from oe.rootfs import Rootfs
->  from oe.manifest import Manifest
->  from oe.utils import execute_pre_post_process
-> @@ -197,11 +199,34 @@ class PkgRootfs(DpkgOpkgRootfs):
->                          files[key] = item
+> https://gist.github.com/akiernan/6cc6131c1ec3af866098a9318679cf1b
 >
->      def _multilib_test_install(self, pkgs):
-> +        def _copy_rootfs(src, dst):
-> +            if os.path.islink(src):
-> +                linkto = os.readlink(src)
-> +                if os.path.isabs(linkto):
-> +                    linkto = os.path.normpath(os.path.join(os.path.dirname(dst),
-> +                                                           os.path.relpath(linkto, src)))
-> +                os.symlink(linkto, dst)
-> +            elif os.path.isfile(src):
-> +                shutil.copy2(src, dst)
-> +            elif stat.S_ISFIFO(os.stat(src).st_mode):
-> +                os.mkfifo(dst)
-> +            else:
-> +                bb.warn("Skip unsupported file type: %s" % src)
-> +
->          ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
-> +        rootfs_temp = os.path.join(ml_temp, "rootfs")
->          bb.utils.mkdirhier(ml_temp)
-> +        bb.utils.remove(rootfs_temp, True)
->
-> -        dirs = [self.image_rootfs]
-> +        if os.path.exists(self.image_rootfs):
-> +            shutil.copytree(self.image_rootfs, rootfs_temp, copy_function=_copy_rootfs)
-> +        else:
-> +            bb.utils.mkdirhier(rootfs_temp)
-> +        dirs = [rootfs_temp]
-> +        return multiprocessing.Process(target=self._multilib_test_pkg_install,
-> +                                       args=(pkgs, ml_temp, dirs,))
->
-> +    def _multilib_test_pkg_install(self, pkgs, ml_temp, dirs):
->          for variant in self.d.getVar("MULTILIB_VARIANTS").split():
->              ml_target_rootfs = os.path.join(ml_temp, variant)
->
-> @@ -300,15 +325,20 @@ class PkgRootfs(DpkgOpkgRootfs):
->
->          for pkg_type in self.install_order:
->              if pkg_type in pkgs_to_install:
-> +                sanity_test = None
->                  # For multilib, we perform a sanity test before final install
->                  # If sanity test fails, it will automatically do a bb.fatal()
->                  # and the installation will stop
->                  if pkg_type == Manifest.PKG_TYPE_MULTILIB:
-> -                    self._multilib_test_install(pkgs_to_install[pkg_type])
-> +                    sanity_test= self._multilib_test_install(pkgs_to_install[pkg_type])
-> +                    sanity_test.start()
->
->                  self.pm.install(pkgs_to_install[pkg_type],
->                                  [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->
-> +                if sanity_test is not None:
-> +                    sanity_test.join()
-> +
->          if self.progress_reporter:
->              self.progress_reporter.next_stage()
+> Any clues?
 >
 > --
-> 2.34.1
+> Alex Kiernan
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+> Hi Alex,
+>
+> I faced the same errors when I was working on to upgrade rust from 1.75 t=
+o 1.76. I discussed it with rust upstream here, https://github.com/rust-lan=
+g/rust/issues/122075 and the following change solves those failures,
+>
+> https://github.com/rust-lang/rust/issues/122075#issuecomment-1985153524
+>
+> PR- https://github.com/rust-lang/rust/pull/122205/commits/5aece7fad06baaa=
+745784d118db862b3e3ccf7f8
+>
+>
+>
+>
+>
+> After this change was backported to poky, the rust build was successful b=
+ut it was seen that not all the tests are executed.
+>
+> While discussing upstream, it was known that removing the --doc option fr=
+om python3 src/bootstrap/bootstrap.py test --exclude<some excluded test cas=
+es list> --doc --no-fail-fast --bless --target x86_64-poky-linux-gnu  cmd i=
+n oeqa/selftest/cases/rust.py file execute the other tests also.
+>
+>
+>
+>
+>
+> But, while doing so another set of failures are observed as mentioned in =
+https://github.com/rust-lang/rust/issues/122285
+>
+> Complete log using --doc option-  https://gist.github.com/Yashinde145/7db=
+6bd4a064021bf756b0c0dd6c8777c
+>
+> Complete log without using --doc option-  https://gist.github.com/Yashind=
+e145/036a934f0523307859f7c855b83ecfd6 (this file is truncated in gist due t=
+o large size, please see Complete raw file)
+>
+> I am not very familiar to these failures but  trying to understand them.
+>
+> Feels like you're way ahead of me. I'll have a bit more of a poke at
+> it when I've some time, but it feels like we may be mostly waiting on
+> upstream (and a big +1 for getting them engaged!)
+>
+> FYI,
+>
+> Sundeep and Yashe have Rust 1.77 (8?) compiling reproducibly.
+> They found some problems with the rust test suite and
+> are working on fixing or avoiding those errors before submitting a patch.
+>
+>
+> ../Randy
+>
+>
+>
+>
+>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#199435): https://lists.openembedded.org/g/openembedded-core/message/199435
-> Mute This Topic: https://lists.openembedded.org/mt/106125799/1686489
+> View/Reply Online (#199262): https://lists.openembedded.org/g/openembedde=
+d-core/message/199262
+> Mute This Topic: https://lists.openembedded.org/mt/105307188/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
