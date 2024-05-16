@@ -1,298 +1,334 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F2BC25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 13:26:58 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.44])
- by mx.groups.io with SMTP id smtpd.web11.13762.1715866009321377135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89314C25B77
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 13:29:18 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.13820.1715866157109291107
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 06:26:49 -0700
+ Thu, 16 May 2024 06:29:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=z3ZtNWsI;
- spf=pass (domain: siemens.com, ip: 40.107.13.44, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D2ffBDfpmWz5fxgnpQQEggadw2911AlEa7bZiIz/MyPHmMpxugwdJHFoXUMq6aAWzKEs7VOaz2tLysxZ2j+ZJ/oKR2bhEjPlUMC/HcSNTsQgESD3kC7qUyv5a+zV8ZxVY7VbYvXd9oro87ypVHidlzEhiCfsVd0RnjIxF6leDeFcEIcJoSF7+Endv+oAKib+BzqgzBJRuBbNuDlD5zNXaS6SLLCCOM+AZWJ1uU2g5bt5nsnDORKyRgPdPr2k/OmdUbJ8fnmtCicTdBbjhFk5ieSoMS3Hn/KCqeIATLEsMlH+xhxYQ8Ecjz3od6qRBmP7K7cy0RvC2Lbe6FJLfGWm1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LBa7wwAbzOShjqvssNUQXiodmphrJQhCzqh/YJM0/yE=;
- b=D8bUz9agaworndrgxLyHu3qNOB3HXvRXkjH0XBQua0fNmNTd3PVKL7PFnIdIXc5GW4faDVGEKYtSGGtbbV8KCu/3antbG3Y9tkNfesdAI5/z7RIgj0aLH1QQOVy2i5atpWED+RBugirE0gkVmh8dQcE4B+oi17RjgRybvLCoa7nuFXkfHxvIMf6NlHUyfEOY+91Pr972KpRBRr7jRPbg5wKHayggqLNfjqLufllRhBPgmfKpPirRArR0xl7sx/E4C1YFJ/LcT8ZtVOOnnQ83K5ij/rCLTOD8OKB4w+AKtuw44K7yGmJBREK6RomrEr6FyUjhOrlYnXIEUK8yB+VPag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LBa7wwAbzOShjqvssNUQXiodmphrJQhCzqh/YJM0/yE=;
- b=z3ZtNWsIO0tqBSIaMNNT5HOvgh+mfJo+N7WFfj0vCOU2siQrkMC+0eyEv1uSvcQWk5XAj6gIfQ85DPfFKFtN2Ap/l+YpKfdUreqpGrxtQjwAG2T4d1XbxPicGtaGZ85qY1CCuC4+vIV0pZJzM81Ys2SQJu/2yDc6Ig8/3TAz5GPZ1iD749nBs1+pmOFFrFSOi+I5DBsHwd6V7FOwMcl0me+fQ3pZ5qUu+SEzqK9BT+RFfzmZxpDoEmCXNYVzQE4eEHRjctEZW5v2Us4RCecKGZqse00e/Lp60JoIt69i2tsXjQr5qkq7Wx7n1zX9E9MjJ4m8/tPUQhCrwn0BoAk6Aw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PAVPR10MB7401.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:31d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Thu, 16 May
- 2024 13:26:45 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7587.026; Thu, 16 May 2024
- 13:26:45 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "rybczynska@gmail.com" <rybczynska@gmail.com>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman
-	<steve@sakoman.com>, "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>,
-	"wangmy@fujitsu.com" <wangmy@fujitsu.com>, Khem Raj <raj.khem@gmail.com>
-Subject: RE: [yocto-security] CVE status for scathgap on 2024-05-16 and ask
- for help
-Thread-Topic: [yocto-security] CVE status for scathgap on 2024-05-16 and ask
- for help
-Thread-Index: AQHap5PhOxiu8H4Z6EKjHzh0bTmR8rGZ2SZA
-Date: Thu, 16 May 2024 13:26:45 +0000
-Message-ID: 
- <AS1PR10MB56970C6C0F897879109E49D2FDED2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <CAApg2=SACqdG_g=2LUj1=-ECJY20p=r8RoPTag-if-kpo0ozQg@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=SACqdG_g=2LUj1=-ECJY20p=r8RoPTag-if-kpo0ozQg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b166c8bf-60cf-4ac0-9cde-cc84add48d27;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-05-16T13:22:51Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAVPR10MB7401:EE_
-x-ms-office365-filtering-correlation-id: 8fb93ab7-191d-4563-0cc8-08dc75abd51c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|1800799015|376005|38070700009;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?QjA5ZzZqT1lvcWlGc3gxOHhxVUxJaGtPS3dhcmhXbU1XcUVoK1pnZ2RLT1dC?=
- =?utf-8?B?YnlZUmJoVUttSjdhS1VXUDdwc3dxZ1FTbFRvUWVvYTc2M0EyUlgvMThybHZF?=
- =?utf-8?B?YktZVDh2MXRteWtMNkVlQ3JRblRBM25Cd09ieGZhRDI3TjM5eHFGbzdHUFZ4?=
- =?utf-8?B?L09NR1lXK2hHT2pJMUswdXpIcHZYeUtFc3lpOHlZNk5jemRWaFltMlRLTEtn?=
- =?utf-8?B?QWhBRm5BM3IwdjZIQ3lZWUVUR2dmNmJkVnpOVis3ekhEM2NsMWNheTVsYnh3?=
- =?utf-8?B?VEJrdXEvc2VpQ1ZNdEI4cFVsd3pzd3BRemI4VTNMTWZCOFRTT3pYWFl5RjJD?=
- =?utf-8?B?R1Z3RFVZaFUzYWhrN0xXVFpNYmhhQXhVa0FxV240OGkwTXJmYU9ReVI4bGhM?=
- =?utf-8?B?d3l3K2dlalJ6V2JieFJkeDNuQmVqUjlHL054SURYOFhxNlYrc0RNZDRNNkFO?=
- =?utf-8?B?ZURIeTZLWkhUbWI3WmhDWjRObHkrbUwyMndZUkFuMVU4bnBBUE9QN0ZXOWth?=
- =?utf-8?B?Um9qeld2NU1YK2VteHlZUFlVZG01bHpmZnZ4WUdFOGlBend1T1BBNXVvM3VE?=
- =?utf-8?B?dVVPUkNRNlBOZ1ZyQWRFaHdhb0pqbGdlWk4zSGp5T3h6OVB4RUNBSjMwVEFy?=
- =?utf-8?B?Z0xoUFN0MXUzRWROaUpTVmhVNnBqak1qWjA4Q0c0THdLSHBxNHJpWGVMb1E3?=
- =?utf-8?B?cnRqSUplbmFLKzVBN1lNdldyU0VWcityWmpZTEZlT0FNSjVSRE1qTFFkSUlW?=
- =?utf-8?B?WHpRZlpLaVNISXRPa2diYWc3aFp2bTNrYWZqWXpZeHFJc3IvaW5zWFdyVlR5?=
- =?utf-8?B?ZTFlSzZpZGhsZTExNnZ6ZFFjR0V6eEMxdXgxT3VZcnp4U05rTHRsbzdCTUNV?=
- =?utf-8?B?R0ozK1NzKyt6S0I4UnFYL1JTY2RBYzR5TlhmVGQvNkg0SFpXeE1LdFRSRnZO?=
- =?utf-8?B?QU90YTBnSmlISDdhNUF2VHpYYzFFYVpVb3YvbnJkUTZEc3VvSUV3aldBV3pW?=
- =?utf-8?B?Mm5rNTdUQ2RGUjU2UjB1cXcvdWI2MFcrTjFlYmNmWlA2dGF0aVZIRXhxRDVO?=
- =?utf-8?B?dmg4Z3l0YzlNMjdneXBRa3NLODQzSGNZR09rc2U2YnNpNEFSemlxMk9oc3Jl?=
- =?utf-8?B?cXhGeHlRajFaY3J6cXlCSGRXZmdQN2JQQVVsbGkyNmJyVG1KSkFUL3E2L0o5?=
- =?utf-8?B?cDdlMW5zV2J4MDQveFRpYlNaYkd1b2F4Zzc5OEtieER2MWlrV1RzaGIrTXlY?=
- =?utf-8?B?T2x1K0tMa1Q3L2VPVldCbXVXKzdIREJmMng4TFlRRDllbXVzWFZuT2c0SFZn?=
- =?utf-8?B?VGFTNm5TZCs4eWI4YVpIOGdjci9Ba1JYUy90TjZ6ZFNEL0xSRzVISFh6Qkgx?=
- =?utf-8?B?TFN6OXNEazl4UkpDZlFLMFBRRWtTVDl2dmJWdmhZODAzRGl6RkNONHBIdFR2?=
- =?utf-8?B?ZUl1QVBGRlJvalJiVmFNTWFQQlk1Vk5XMXhobDdqRXBpVmVISHJ6ZnNBZXJJ?=
- =?utf-8?B?OWFGcThuTUl1T1RGbDV6aGdWazdyYTAxZ2dsN25QK1ZuSmVtMHMrUDdIbFBS?=
- =?utf-8?B?K0RCZlcvS2JlRlIwMGx4TWZ0TEJVNlh0aFJ0UEFQNmZmd0ZhRlFFVnZFWWVL?=
- =?utf-8?B?ZmdBRUxOL1p5cGEyRWZkSTB5aGtXaGorZy9NSkRoWVNaYXliUjhIRGxpUTVs?=
- =?utf-8?B?dURsK2pXS0RpM2YyVHI5S3NQVGVsTVF2OEtIYmZqSExkTllDendmR2VnPT0=?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cTA1TUNTclJIS00rWmlBYVdoWFZGV1JOOFlHMjg2MGpYTDVPUndnSmZ3Nlda?=
- =?utf-8?B?aW94V2YwSnBsa2p5TmVNRTdUVHNoWUo1NGw3Y0RRak5UWUZMekF3NFFhYlZn?=
- =?utf-8?B?bU9jRmxXWFNoYXlJZnM5MEdvTnBWYUVRZUtjUGxjV1lRTm82aU5ZZHB3L2Zv?=
- =?utf-8?B?NExKbEovL2ZXZjJ1Um1HRUY3b3k1T1lXVDlGa3hsSWtzajJCK0JQVHVjZEN6?=
- =?utf-8?B?V1pOdFZMSWhuU0hienkvNThXYmFzcDZ0R2hvcTVFNmE5RWtkVGpLSnRSOGw2?=
- =?utf-8?B?K2doMmRaZVlUSFF0YldoL2RNY3gxcVUycDErUndZZkdMMzV5eTJ2ZDJnRkFj?=
- =?utf-8?B?Y3hOZlBLTGhVY21TL05oTmg0UmdhUXBFSUV3MmEvYkxmL1JDVGQ5S1ZodkQv?=
- =?utf-8?B?RXAzakdmT2JuY0VwZWYyMkFPalVtNVVYakxTOVpiMHRYSUZhNWhBbjdZRFlp?=
- =?utf-8?B?UVJ4NDJTZnMxNjdpdy9xcVpHYkVvVk9aWVFaUlluYjhjbXhyZ1B1UzZnZUNX?=
- =?utf-8?B?ZUNtcUIvZDRGdTRSUDQ1eGR4dUZkWDl6cmtzV3ZHTy9KVTYrQk1aeDNVUUNv?=
- =?utf-8?B?NnFPdkJVMmY3Ykd3U2RiMllpYU1SQ2lWZDM5T3UxN1M4UnpoRTBzbFkzQ2VW?=
- =?utf-8?B?aDNkNnpLTEpMRlAycHpiSEF3UG9JWmVLV3pFeHN2ZG5kRXZ5ZXZWaitTOG5o?=
- =?utf-8?B?NlZtMm9DRkxDS016RHhZdURvRHBoWDRSK0Zud0RNdERXblhralJjSEVXaURk?=
- =?utf-8?B?NzNpdkVucUdOQU91WDdGQnhIYkkwaU1neCtQQVBIazk4UnI1S2Myd29qZ1Nt?=
- =?utf-8?B?RW93aDkyYmxuNGhrbjZhK24zOFNnWWZjbHFVcEppcVpqRDVTOGtZVW5NejVv?=
- =?utf-8?B?L3Z5eG9ZaFBDa2NyU0xFUWVTYlNaVGZGZm5wLzJxdm1EZGcrK2hGWWtVbkhY?=
- =?utf-8?B?NnBWS3p0ajJFTjRLNkNBWEUzRVpucXUwaWVLTXFnSG1uc3BLVFFJSzl5SW1u?=
- =?utf-8?B?aTlhbllabUg5R3pKVWhFK2tvdE9nYVBRWFFzN01sNFFKZWd3MHErM3dFVmZT?=
- =?utf-8?B?bDIxWmVZdjJqNGZLU3grcEV5RlBVQWJpQWQyZEtubDVzZEkwa1RlT2Y4d3gw?=
- =?utf-8?B?MlRkbXVmUHlqQ0VPTVlmcWhuTklsUU8rcUt5dm5QQTBZdWFjOGJWdzYwWnBp?=
- =?utf-8?B?b1NTM1owQVhDcktNNnllMG5Oa0hVME83UndFQWJPRnpEaTdNL0RCNEtpa0V3?=
- =?utf-8?B?Nm1yRXBiUUpiSzRTQ3VQR3o1SzdERTI3bnpMdHcrQ0lVN01VOWlzak1PdlhF?=
- =?utf-8?B?ZjRPTVYwU1Nrb0ZNa2tTdWZHQy9QQnJiSHFaeCs5a3o5cFcvaTFKL1M0VGF5?=
- =?utf-8?B?djY2YXpoRmlDY0VSc0cvOXRHb0VGREo4bUtQOGhKRitPZ05UWjJjb2o4RExW?=
- =?utf-8?B?aFVIUDNsTVlXakJ6eW9aMjlxbDNEcGtxRmdCQ1c2SldnZ2d6YWw0N1RLbjRU?=
- =?utf-8?B?ZkNZcnNNYStEZXBkNk5VMEcwTFhkbHE3elY1M1c4YU4wYzgzUzVqQ1Azam9Y?=
- =?utf-8?B?RnZsS2c0T05PQnJBRm1PRzRCeDZ6NkZCZ1hnK0hlaG53VEt3L1h2VzNCMmxZ?=
- =?utf-8?B?TEh5OUJmSENzdnNtK1RWVXFJQTZyWkkwbTBpdE9Td2hsb2lXUThCeVc2Rm0x?=
- =?utf-8?B?YWplK0hSQjQ2TXQ4djV3T2lsYUpqSkJteVBPbW8xNit1VkRnR0J0dituUWMv?=
- =?utf-8?B?cHBOWnIybzB2ME1mWndLWnlUMmc4eHM2djJ3eFQrclF4WlJXbnpkUlhPUkho?=
- =?utf-8?B?YVU2bGFMNzRQTkFiay84ZExKZUNmaDZSVEliN2YyQ25Ddmc5MVZtbytCM1RY?=
- =?utf-8?B?UEpBWThIUTN0U256Q2V1ZXhWUWNYOUpDWkE1UkRUZXVpUHlEYWNWQVNPWGRR?=
- =?utf-8?B?TjNpOTR1eDFQZDRsMFplUG1wV2ZIMUtZZjc0TFJ4Qy8yVlBYM0RkcDlnZWxi?=
- =?utf-8?B?dFpMem43ZWRpWWdYRW85RkhJaUYrMzk4WGhLTlN3QnN2NW84OFYwR2pjck5Y?=
- =?utf-8?B?ZUExQzIrWm5MZ1JIaVk3UGlNcWpuRWVoZVg1ak14ZFJxb01OQkduSkl1aU83?=
- =?utf-8?Q?7fCxPUP1ppWlkGAMCSp8hAELc?=
-Content-Type: multipart/alternative;
-	boundary="_000_AS1PR10MB56970C6C0F897879109E49D2FDED2AS1PR10MB5697EURP_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ivvjuLGU;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: rybczynska@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2b3646494a8so164620a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 06:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715866156; x=1716470956; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=X+Ru3sE3jb0Bc6RpDgwTjG5oQr4U7GPPPdGV12R9VW8=;
+        b=ivvjuLGUTBvvqZw82nYg9YBA7TsKYCW1c+fqrxQQljKGsnkAGoQ8gh9Kgu9CuxXBt1
+         raZZYKssdEUjM6afobs574YAbe3QFiMleUVyC4VjvEie5XwcDMzwKHp0sd7wuUUpxFGK
+         hb8bWD6sQvau+5XXcFHtlJSWNxMWiHCIGC+HzFYQs3lggDgqj7wwrfY7uUBIsYh071sZ
+         n2J6FbttZT0aMufHhCFY1wtBVrUsZLbopE2LsmE3kl2Zqq6thhwTnFeRW4Zn76NtEjcY
+         uLV5HH9jG7h1meJQkahbllMrRBucBq8MUH5PN2bG/EZcRvouaBmeth0kX4d7hTJFvHb7
+         xF6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715866156; x=1716470956;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X+Ru3sE3jb0Bc6RpDgwTjG5oQr4U7GPPPdGV12R9VW8=;
+        b=ts/LjGHAtvYkfKHZTYiublQUfyjz7o1T+X7xqxFP8T3wKbZ9bIBoK2W/X895iqDabD
+         fqR/i6gCQmNSzRIBAFoFZyERsrDzclVrLkyfXHXABY7W/z9PKkoSBuY5LzAZEDqvpBhv
+         Awe9QZrC77Lpp9+eEmG9BoclmLIsbNpn8JcP6QmDKzQSQKhA2hJF6miFM6mU9bicUj/v
+         ZSlygcxzcczH/KNp9BJSmmiNCPfUzoQRSxMWLlQF/F/nCgFkRhsMWFWVXnBu4BjD+FKM
+         Zcqth9N3TGl5H822V/SYs1mT8dtVZpXcFx0bcTxZ7FiMeOVvS7H1efr+P7JR021jx0xR
+         JSXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSrm+e6mxPdOP+J89I+g0Abqq8lR+IkAGylJlJvY9JZUKPe5GDiGzG3QBkRxhBTIXj0dlkFechxhS6KjRd6uKYPV//5hlCLJp7hCtbrGoHdJoSZdKjfAiV
+X-Gm-Message-State: AOJu0YywKU391ml6zCEjsQ1xq1uIeJCzkEpriL6mdmjgDmC0JqZs4+Md
+	IZYJ/BrQFjLGlu8yIDwNwuvpar85Jb+W+T4uM8LkIzXgvCnDfnUEP7y4f2hCuC8VqHTrbcD54Dv
+	CK6b4ph9a1xTizpu5mGUMHFNkuJSCBOvzGaE=
+X-Google-Smtp-Source: AGHT+IGmigUyxsVMK6GzUqfQbt6MYEinVZ1bvjKcCAdDncoLN1rd5qHu3YTRjc+7d2SRI+HrkulQ7PLGYactFpDzWGA=
+X-Received: by 2002:a17:90a:5901:b0:2b3:28be:dd6e with SMTP id
+ 98e67ed59e1d1-2b6ccd6baedmr16578041a91.33.1715866156471; Thu, 16 May 2024
+ 06:29:16 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fb93ab7-191d-4563-0cc8-08dc75abd51c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2024 13:26:45.4523
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BbTou0DSg8fMXxfRWUY0ZXlnWWbKTMvGZe6eqisGPDrkhroLAjXVx0iPbv/v9ZaMFPVKd+gme+d0Tb9CvF0pzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7401
+References: <CAApg2=SACqdG_g=2LUj1=-ECJY20p=r8RoPTag-if-kpo0ozQg@mail.gmail.com>
+ <AS1PR10MB56970C6C0F897879109E49D2FDED2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB56970C6C0F897879109E49D2FDED2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 16 May 2024 15:29:04 +0200
+Message-ID: <CAApg2=TEATp-LeJ5=2gJ7rQSrambtSnPjNzuzbZOeWqbvGu67Q@mail.gmail.com>
+Subject: Re: [yocto-security] CVE status for scathgap on 2024-05-16 and ask
+ for help
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	"liezhi.yang@windriver.com" <liezhi.yang@windriver.com>, "wangmy@fujitsu.com" <wangmy@fujitsu.com>, 
+	Khem Raj <raj.khem@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bd241d0618923804"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 13:26:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199487
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 13:29:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199488
 
---_000_AS1PR10MB56970C6C0F897879109E49D2FDED2AS1PR10MB5697EURP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000bd241d0618923804
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGVsbG8gTWFydGEsDQoNCkdsaWJjIGZpeGVzIGFyZSBhbHJlYWR5IHN0YWdlZCBpbiBzY2FydGhn
-YXAtbnV0Lg0KSW50ZXJlc3Rpbmcgd291bGQgYmUgdG8gY2hlY2sgd2h5IHRoZSBwcm90b3R5cGUg
-ZG9lcyBub3QgbGlzdCBnbGliLTIuMCBDVkUtMjAyNC0zNDM5NyB3aGljaCBpcyBzdGFnZWQgdGhl
-cmUsIHRvby4NCg0KUGV0ZXINCg0KRnJvbTogeW9jdG8tc2VjdXJpdHlAbGlzdHMueW9jdG9wcm9q
-ZWN0Lm9yZyA8eW9jdG8tc2VjdXJpdHlAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gT24gQmVoYWxm
-IE9mIE1hcnRhIFJ5YmN6eW5za2EgdmlhIGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNClNlbnQ6IFRo
-dXJzZGF5LCBNYXkgMTYsIDIwMjQgMTU6MjENClRvOiB5b2N0by1zZWN1cml0eUBsaXN0cy55b2N0
-b3Byb2plY3Qub3JnOyBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPg0KQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnPjsgU3RldmUgU2Frb21hbiA8c3RldmVAc2Frb21hbi5jb20+OyBsaWV6aGkueWFuZ0B3
-aW5kcml2ZXIuY29tOyB3YW5nbXlAZnVqaXRzdS5jb207IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+DQpTdWJqZWN0OiBbeW9jdG8tc2VjdXJpdHldIENWRSBzdGF0dXMgZm9yIHNjYXRoZ2Fw
-IG9uIDIwMjQtMDUtMTYgYW5kIGFzayBmb3IgaGVscA0KDQo+IEhlbGxvIGFsbCwNCj4gVGhlIHBy
-b3RvdHlwZSBDVkUgY2hlY2sgdmlhIHRoZSBNSVRSRSBkYXRhYmFzZSBpcyBnaXZpbmcgdGhlIGZv
-bGxvd2luZyBmb3Igc2NhdGhnYXAgdG9kYXkgKGFkZGluZyBtYWludGFpbmVycyBvZiBhZmZlY3Rl
-ZCBwYWNrYWdlcyBpbiBjb3B5KToNCj4NCj4gQ1ZFLTIwMjQtMzIwMDIuanNvbjogYWZmZWN0ZWQ6
-IGdpdCAyLjQ0LjANCj4gQ1ZFLTIwMjQtMzIwMDQuanNvbjogYWZmZWN0ZWQ6IGdpdCAyLjQ0LjAN
-Cj4gQ1ZFLTIwMjQtMzIwMjAuanNvbjogYWZmZWN0ZWQ6IGdpdCAyLjQ0LjANCj4gQ1ZFLTIwMjQt
-MzIwMjEuanNvbjogYWZmZWN0ZWQ6IGdpdCAyLjQ0LjANCj4gQ1ZFLTIwMjQtMzIwNS5qc29uOiBh
-ZmZlY3RlZDogbGlieWFtbCAwLjIuNQ0KPiBDVkUtMjAyNC0zMjQ2NS5qc29uOiBhZmZlY3RlZDog
-Z2l0IDIuNDQuMA0KPiBDVkUtMjAyNC0zMzU5OS5qc29uOiBhZmZlY3RlZCBnbGliYyAyLjM5DQo+
-IENWRS0yMDI0LTMzNjAwLmpzb246IGFmZmVjdGVkOiBnbGliYyAyLjM5DQo+IENWRS0yMDI0LTMz
-NjAxLmpzb246IGFmZmVjdGVkOiBnbGliYyAyLjM5DQo+IENWRS0yMDI0LTMzNjAyLmpzb246IGFm
-ZmVjdGVkOiBnbGliYyAyLjM5DQo+DQo+IEkgd291bGQgYWxzbyBsaWtlIHRvIGFzayBmb3Igdm9s
-dW50ZWVycyB0byBoZWxwIHdpdGggbG9va2luZyB1cCB0aGUgZm9sbG93aW5nIENWRXMgYW5kIHN1
-Ym1pdHRpbmcgZml4ZXMgdG8gaHR0cHM6Ly9naXRodWIuY29tL21yeWJjenluL2N2ZWxpc3RWNS1v
-dmVycmlkZXMvdHJlZS9vdmVycmlkZXMgaWYgdGhleSBhcmUgbWFsZm9ybWVkOg0KPiBnbzogQ1ZF
-LTIwMjQtMjQ3ODgsIENWRT0yMDI0LTI0Nzg3DQo+IGFpb2h0dHA6IENWRS0yMDI0LTMwMjUxDQo+
-IHggc2VydmVyOiBDVkUtMjAyNC0zMTA1MywgQ1ZFLTIwMjQtMzEwODINCj4gYmx1ZXo6IENWRS0y
-MDIzLTI3MzQ5LCBDVkUtMjAyMy01MDIyOSwgQ1ZFLTIwMjMtNTAyMzANCj4gZ3N0cmVhbWVyOiBD
-VkUtMjAyMy01MDE4NiwgQ1ZFLTIwMjMtNDQ0NDYNCj4gbGVzczogQ1ZFLTIwMjQtMzI0MDcNCj4g
-bmN1cnNlczogQ1ZFLTIwMjMtNDU5ODgNCj4gb2Zvbm86IENWRS0yMDIzLTQyMzQsIENWRS0yMDIz
-LTQyMzMNCj4NCj4gSWYgeW91IGhhdmUgYW55IHF1ZXN0aW9uIG9uIGhvdyB0byBkbyB0aGF0LCBh
-c2sgbWUuDQo+DQo+IEtpbmQgcmVnYXJkcywNCj4gTWFydGENCg==
+Thank you Marko for the feedback! For CVE-2024-34397 the reason is simple:
 
---_000_AS1PR10MB56970C6C0F897879109E49D2FDED2AS1PR10MB5697EURP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+"affected": [
+                {
+                    "vendor": "n/a",
+                    "product": "n/a",
+                    "versions": [
+                        {
+                            "version": "n/a",
+                            "status": "affected"
+                        }
+                    ]
+                }
+            ],
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLm5nDQoJe21zby1zdHlsZS1uYW1lOm5nO30NCnNwYW4uRW1haWxT
-dHlsZTE5DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJD
-YWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQN
-Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3Np
-emU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYu
-V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBn
-dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIx
-MDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
-aGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
-Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxh
-bmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJy
-ZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPkhlbGxvIE1hcnRhLDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
-cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5HbGliYyBmaXhlcyBhcmUg
-YWxyZWFkeSBzdGFnZWQgaW4gc2NhcnRoZ2FwLW51dC48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPkludGVyZXN0aW5nIHdvdWxkIGJlIHRvIGNoZWNrIHdoeSB0aGUgcHJvdG90
-eXBlIGRvZXMgbm90IGxpc3QgZ2xpYi0yLjAgQ1ZFLTIwMjQtMzQzOTcgd2hpY2ggaXMgc3RhZ2Vk
-IHRoZXJlLCB0b28uPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlBldGVyPG86cD48L286cD48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9
-ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0
-IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiB5b2N0by1z
-ZWN1cml0eUBsaXN0cy55b2N0b3Byb2plY3Qub3JnICZsdDt5b2N0by1zZWN1cml0eUBsaXN0cy55
-b2N0b3Byb2plY3Qub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5NYXJ0YSBSeWJjenluc2th
-IHZpYSBsaXN0cy55b2N0b3Byb2plY3Qub3JnPGJyPg0KPGI+U2VudDo8L2I+IFRodXJzZGF5LCBN
-YXkgMTYsIDIwMjQgMTU6MjE8YnI+DQo8Yj5Ubzo8L2I+IHlvY3RvLXNlY3VyaXR5QGxpc3RzLnlv
-Y3RvcHJvamVjdC5vcmc7IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBSaWNoYXJkIFB1cmRpZSAmbHQ7cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyZndDs7IFN0ZXZlIFNha29tYW4gJmx0O3N0ZXZl
-QHNha29tYW4uY29tJmd0OzsgbGllemhpLnlhbmdAd2luZHJpdmVyLmNvbTsgd2FuZ215QGZ1aml0
-c3UuY29tOyBLaGVtIFJhaiAmbHQ7cmFqLmtoZW1AZ21haWwuY29tJmd0Ozxicj4NCjxiPlN1Ympl
-Y3Q6PC9iPiBbeW9jdG8tc2VjdXJpdHldIENWRSBzdGF0dXMgZm9yIHNjYXRoZ2FwIG9uIDIwMjQt
-MDUtMTYgYW5kIGFzayBmb3IgaGVscDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+Jmd0OyBIZWxsbyBhbGwsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IFRoZSBwcm90b3R5cGUgQ1ZFIGNoZWNrIHZpYSB0
-aGUgTUlUUkUgZGF0YWJhc2UgaXMgZ2l2aW5nIHRoZSBmb2xsb3dpbmcgZm9yIHNjYXRoZ2FwIHRv
-ZGF5IChhZGRpbmcgbWFpbnRhaW5lcnMgb2YgYWZmZWN0ZWQgcGFja2FnZXMgaW4gY29weSk6PG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7PG86
-cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4m
-Z3Q7IENWRS0yMDI0LTMyMDAyLmpzb246IGFmZmVjdGVkOiBnaXQgMi40NC4wPGJyPg0KJmd0OyBD
-VkUtMjAyNC0zMjAwNC5qc29uOiBhZmZlY3RlZDogZ2l0IDIuNDQuMDxicj4NCiZndDsgQ1ZFLTIw
-MjQtMzIwMjAuanNvbjogYWZmZWN0ZWQ6IGdpdCAyLjQ0LjA8YnI+DQomZ3Q7IENWRS0yMDI0LTMy
-MDIxLmpzb246IGFmZmVjdGVkOiBnaXQgMi40NC4wPGJyPg0KJmd0OyBDVkUtMjAyNC0zMjA1Lmpz
-b246IGFmZmVjdGVkOiBsaWJ5YW1sIDAuMi41PGJyPg0KJmd0OyBDVkUtMjAyNC0zMjQ2NS5qc29u
-OiBhZmZlY3RlZDogZ2l0IDIuNDQuMDxicj4NCiZndDsgQ1ZFLTIwMjQtMzM1OTkuanNvbjogYWZm
-ZWN0ZWQgZ2xpYmMgMi4zOTxicj4NCiZndDsgQ1ZFLTIwMjQtMzM2MDAuanNvbjogYWZmZWN0ZWQ6
-IGdsaWJjIDIuMzk8YnI+DQomZ3Q7IENWRS0yMDI0LTMzNjAxLmpzb246IGFmZmVjdGVkOiBnbGli
-YyAyLjM5PGJyPg0KJmd0OyBDVkUtMjAyNC0zMzYwMi5qc29uOiBhZmZlY3RlZDogZ2xpYmMgMi4z
-OTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0
-OzxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+Jmd0OyBJIHdvdWxkIGFsc28gbGlrZSB0byBhc2sgZm9yIHZvbHVudGVlcnMgdG8gaGVscCB3
-aXRoIGxvb2tpbmcgdXAgdGhlIGZvbGxvd2luZyBDVkVzIGFuZCBzdWJtaXR0aW5nIGZpeGVzIHRv
-DQo8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vbXJ5YmN6eW4vY3ZlbGlzdFY1LW92ZXJyaWRl
-cy90cmVlL292ZXJyaWRlcyI+aHR0cHM6Ly9naXRodWIuY29tL21yeWJjenluL2N2ZWxpc3RWNS1v
-dmVycmlkZXMvdHJlZS9vdmVycmlkZXM8L2E+IGlmIHRoZXkgYXJlIG1hbGZvcm1lZDo8bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZndDsgZ286IENW
-RS0yMDI0LTI0Nzg4LCBDVkU9MjAyNC0yNDc4NzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0OyBhaW9odHRwOiBDVkUtMjAyNC0zMDI1MTxvOnA+
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0OyB4IHNl
-cnZlcjogQ1ZFLTIwMjQtMzEwNTMsIENWRS0yMDI0LTMxMDgyPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IGJsdWV6OiBDVkUtMjAyMy0yNzM0
-OSwgQ1ZFLTIwMjMtNTAyMjksIENWRS0yMDIzLTUwMjMwPG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IGdzdHJlYW1lcjogQ1ZFLTIwMjMtNTAx
-ODYsIENWRS0yMDIzLTQ0NDQ2PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj4mZ3Q7IGxlc3M6IENWRS0yMDI0LTMyNDA3PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IG5jdXJzZXM6IENWRS0yMDIz
-LTQ1OTg4PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij4mZ3Q7IG9mb25vOiBDVkUtMjAyMy00MjM0LCBDVkUtMjAyMy00MjMzPG86cD48L286cD48L3A+
-DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IElmIHlvdSBo
-YXZlIGFueSA8c3BhbiBjbGFzcz0ibmciPnF1ZXN0aW9uPC9zcGFuPiBvbiBob3cgdG8gZG8gdGhh
-dCwgYXNrIG1lLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+Jmd0OyBLaW5kIHJlZ2FyZHMsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IE1hcnRhPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+I'm fixing this... Strange that this one was assigned by MITRE itself...
 
---_000_AS1PR10MB56970C6C0F897879109E49D2FDED2AS1PR10MB5697EURP_--
+Regards,
+Marta
+
+On Thu, May 16, 2024 at 3:26=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
+om>
+wrote:
+
+> Hello Marta,
+>
+>
+>
+> Glibc fixes are already staged in scarthgap-nut.
+>
+> Interesting would be to check why the prototype does not list glib-2.0
+> CVE-2024-34397 which is staged there, too.
+>
+>
+>
+> Peter
+>
+>
+>
+> *From:* yocto-security@lists.yoctoproject.org <
+> yocto-security@lists.yoctoproject.org> *On Behalf Of *Marta Rybczynska
+> via lists.yoctoproject.org
+> *Sent:* Thursday, May 16, 2024 15:21
+> *To:* yocto-security@lists.yoctoproject.org; OE-core <
+> openembedded-core@lists.openembedded.org>
+> *Cc:* Richard Purdie <richard.purdie@linuxfoundation.org>; Steve Sakoman =
+<
+> steve@sakoman.com>; liezhi.yang@windriver.com; wangmy@fujitsu.com; Khem
+> Raj <raj.khem@gmail.com>
+> *Subject:* [yocto-security] CVE status for scathgap on 2024-05-16 and ask
+> for help
+>
+>
+>
+> > Hello all,
+>
+> > The prototype CVE check via the MITRE database is giving the following
+> for scathgap today (adding maintainers of affected packages in copy):
+>
+> >
+>
+> > CVE-2024-32002.json: affected: git 2.44.0
+> > CVE-2024-32004.json: affected: git 2.44.0
+> > CVE-2024-32020.json: affected: git 2.44.0
+> > CVE-2024-32021.json: affected: git 2.44.0
+> > CVE-2024-3205.json: affected: libyaml 0.2.5
+> > CVE-2024-32465.json: affected: git 2.44.0
+> > CVE-2024-33599.json: affected glibc 2.39
+> > CVE-2024-33600.json: affected: glibc 2.39
+> > CVE-2024-33601.json: affected: glibc 2.39
+> > CVE-2024-33602.json: affected: glibc 2.39
+>
+> >
+>
+> > I would also like to ask for volunteers to help with looking up the
+> following CVEs and submitting fixes to
+> https://github.com/mrybczyn/cvelistV5-overrides/tree/overrides if they
+> are malformed:
+>
+> > go: CVE-2024-24788, CVE=3D2024-24787
+>
+> > aiohttp: CVE-2024-30251
+>
+> > x server: CVE-2024-31053, CVE-2024-31082
+>
+> > bluez: CVE-2023-27349, CVE-2023-50229, CVE-2023-50230
+>
+> > gstreamer: CVE-2023-50186, CVE-2023-44446
+>
+> > less: CVE-2024-32407
+>
+> > ncurses: CVE-2023-45988
+>
+> > ofono: CVE-2023-4234, CVE-2023-4233
+>
+> >
+>
+> > If you have any question on how to do that, ask me.
+>
+> >
+>
+> > Kind regards,
+>
+> > Marta
+>
+
+--000000000000bd241d0618923804
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thank you Marko for the feedback! For CVE-2024-34397 =
+the reason is simple:</div><div><br></div><div>&quot;affected&quot;: [<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;vendor&quot;:=
+ &quot;n/a&quot;,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;product&quot;: &quot;n/a&quot;,<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;versions&quot=
+;: [<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;version&quot;: &quot;n/=
+a&quot;,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;status&quot;: &quot;affected&quot;=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 ]<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+}<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],</div><div><br></div><div>=
+I&#39;m fixing this... Strange that this one was assigned by MITRE itself..=
+.</div><div><br></div><div>Regards,</div><div>Marta<br></div></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 16=
+, 2024 at 3:26=E2=80=AFPM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@si=
+emens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div class=3D"msg-8372015783517696480">
+
+
+
+
+
+<div style=3D"overflow-wrap: break-word;" lang=3D"EN-US">
+<div class=3D"m_-8372015783517696480WordSection1">
+<p class=3D"MsoNormal">Hello Marta,<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Glibc fixes are already staged in scarthgap-nut.<u><=
+/u><u></u></p>
+<p class=3D"MsoNormal">Interesting would be to check why the prototype does=
+ not list glib-2.0 CVE-2024-34397 which is staged there, too.<u></u><u></u>=
+</p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Peter<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;borde=
+r-style:solid none none;border-width:1pt medium medium;padding:3pt 0in 0in"=
+>
+<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:yocto-security@lists.=
+yoctoproject.org" target=3D"_blank">yocto-security@lists.yoctoproject.org</=
+a> &lt;<a href=3D"mailto:yocto-security@lists.yoctoproject.org" target=3D"_=
+blank">yocto-security@lists.yoctoproject.org</a>&gt;
+<b>On Behalf Of </b>Marta Rybczynska via <a href=3D"http://lists.yoctoproje=
+ct.org" target=3D"_blank">lists.yoctoproject.org</a><br>
+<b>Sent:</b> Thursday, May 16, 2024 15:21<br>
+<b>To:</b> <a href=3D"mailto:yocto-security@lists.yoctoproject.org" target=
+=3D"_blank">yocto-security@lists.yoctoproject.org</a>; OE-core &lt;<a href=
+=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">open=
+embedded-core@lists.openembedded.org</a>&gt;<br>
+<b>Cc:</b> Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundat=
+ion.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;; Stev=
+e Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" target=3D"_blank">steve@=
+sakoman.com</a>&gt;; <a href=3D"mailto:liezhi.yang@windriver.com" target=3D=
+"_blank">liezhi.yang@windriver.com</a>; <a href=3D"mailto:wangmy@fujitsu.co=
+m" target=3D"_blank">wangmy@fujitsu.com</a>; Khem Raj &lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+<b>Subject:</b> [yocto-security] CVE status for scathgap on 2024-05-16 and =
+ask for help<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">&gt; Hello all,<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; The prototype CVE check via the MITRE database =
+is giving the following for scathgap today (adding maintainers of affected =
+packages in copy):<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt;<u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; CVE-2024-32002.json: affected: git 2.44.0<br>
+&gt; CVE-2024-32004.json: affected: git 2.44.0<br>
+&gt; CVE-2024-32020.json: affected: git 2.44.0<br>
+&gt; CVE-2024-32021.json: affected: git 2.44.0<br>
+&gt; CVE-2024-3205.json: affected: libyaml 0.2.5<br>
+&gt; CVE-2024-32465.json: affected: git 2.44.0<br>
+&gt; CVE-2024-33599.json: affected glibc 2.39<br>
+&gt; CVE-2024-33600.json: affected: glibc 2.39<br>
+&gt; CVE-2024-33601.json: affected: glibc 2.39<br>
+&gt; CVE-2024-33602.json: affected: glibc 2.39<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt;<u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; I would also like to ask for volunteers to help=
+ with looking up the following CVEs and submitting fixes to
+<a href=3D"https://github.com/mrybczyn/cvelistV5-overrides/tree/overrides" =
+target=3D"_blank">https://github.com/mrybczyn/cvelistV5-overrides/tree/over=
+rides</a> if they are malformed:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; go: CVE-2024-24788, CVE=3D2024-24787<u></u><u><=
+/u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; aiohttp: CVE-2024-30251<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; x server: CVE-2024-31053, CVE-2024-31082<u></u>=
+<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; bluez: CVE-2023-27349, CVE-2023-50229, CVE-2023=
+-50230<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; gstreamer: CVE-2023-50186, CVE-2023-44446<u></u=
+><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; less: CVE-2024-32407<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; ncurses: CVE-2023-45988<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; ofono: CVE-2023-4234, CVE-2023-4233<u></u><u></=
+u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt;<u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; If you have any <span class=3D"m_-8372015783517=
+696480ng">question</span> on how to do that, ask me.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt;<u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; Kind regards,<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&gt; Marta<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div>
+
+--000000000000bd241d0618923804--
 
