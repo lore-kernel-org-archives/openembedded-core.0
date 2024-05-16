@@ -1,182 +1,119 @@
-Return-Path: <philip.lorenz@bmw.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0420C25B7A
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 07:32:45 +0000 (UTC)
-Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
- by mx.groups.io with SMTP id smtpd.web10.7552.1715844758175707766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F16C25B74
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 07:54:46 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.7791.1715846084009647512
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 00:32:40 -0700
+ Thu, 16 May 2024 00:54:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=HU1lYJxt;
- spf=pass (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=859c909c3=philip.lorenz@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RAvGixRm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41f9ce16ed8so76973335e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 00:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1715844760; x=1747380760;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LrRrI+ekLfh1NTXJD6nFBtw5vdsVnXhT2PxTuBf/pPg=;
-  b=HU1lYJxtclD3ln3ZjSIUCqguGEseNH33A6M+QMmUi9FJrmo/vl4IYwEz
-   pX2cd+E8ziWoPkeLvD15+nFRHJcDjqJ9t6Ev3tVFNpiz4vFWE9dOIWkjv
-   HBX5no9RZSBCdccOmUD/uFfqgcXz5odRM0RFvbNgXsA50yB0DVDg3QbDd
-   k=;
-X-CSE-ConnectionGUID: RLorJRt9SqmNCs6ZanQjDg==
-X-CSE-MsgGUID: 9yAACkOGR+CZ2U3wcgIPfg==
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 16 May 2024 09:32:40 +0200
-Received: from esabb6.muc ([160.50.100.50])  by esagw4.muc with ESMTP/TLS;
- 16 May 2024 09:26:31 +0200
-Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
- by esabb6.muc with ESMTP/TLS; 16 May 2024 09:26:31 +0200
-Received: from localhost.localdomain (10.30.85.215) by SMUCMP10E.europe.bmw.corp
- (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
- Thu, 16 May 2024 09:26:31 +0200
-From: Philip Lorenz <philip.lorenz@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Philip Lorenz <philip.lorenz@bmw.de>
-Subject: [PATCH 3/3] package_manager: Share more common DEB / IPK code
-Date: Thu, 16 May 2024 09:24:39 +0200
-Message-ID: <20240516072439.2998567-4-philip.lorenz@bmw.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240516072439.2998567-1-philip.lorenz@bmw.de>
-References: <20240516072439.2998567-1-philip.lorenz@bmw.de>
+        d=linuxfoundation.org; s=google; t=1715846082; x=1716450882; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cf94TZ/+Et08WrGDPoMnouGvOZ3RP2bP3My2DSnyD54=;
+        b=RAvGixRmjC9SiC37BlIxXDsY9MgUDag9FOmzwSkPFd283daKnqLq5a8W7zRo5CI9KR
+         4UQilAq3zOzuAKjjffH/F6C1dxFgBF80XSUhRZ4KgOC+b1Uh9zqY7xlP9wF24HmFV43l
+         xKhR7zMRlI6hirBn3UR56eYkg+lyGMCuZ7Wl0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715846082; x=1716450882;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cf94TZ/+Et08WrGDPoMnouGvOZ3RP2bP3My2DSnyD54=;
+        b=soqiHKQ2Ok1hyutUH/tGxLtw0+GUJWZU9U1+Tq9L/eJFD8IbeQ8IWVXE4BJ8ltR972
+         oaQR66Jy2hDFEtF0umqqGCneI48KR04ZGFGgGASKeCLY/LaKCH5O8AvJCNyK6yviMrzv
+         vLlHYecWlPsUey9rW6/KOoEqORxQR43/3xblkcWna0YKC+PLoYeiqu+ZSv5i9cTKu5Fx
+         OS/nOZ2favaUZZPmhjev8p2s6RdTITn/wXug9tu1kYsE7oV/m6WwQBv3ptiEzT/rOH71
+         BKFh0pO7rWwemZFUgZ2F2A4HGqaUWaG8KNWd8E14L8Kqf/tHKSRFRU/W1D/J1XYch0rd
+         PAGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUncrUt7okAXrmOSsDKx3wAudvgFaqVgKpK7/NYdAiYgdJRH+g71nBgLk/HFc5VuYK7fWxqiWdtwtvm6Nm2ui7UMf7k2oR9sHJ1BkoiH7WUBsVnf9KqaGja
+X-Gm-Message-State: AOJu0YyIDCNrvrMHdYBgULbb0TuDM2c2eR3RsoWKpee5E0OCxGk9x+oI
+	hjdnIjs6xfaJGBN9h4iSMGh8qVoP7cRzgRrGuIYkZrEdyXSRoGhfLUcP0sxNXcA=
+X-Google-Smtp-Source: AGHT+IFOQYwNV9Kkm1g8gAULCEeOCzA9pHI41plCiAMT5f1JfYpWf1d8ClkEkUEiMtNyYFSmV9WCWw==
+X-Received: by 2002:a05:600c:26cc:b0:418:4aac:a576 with SMTP id 5b1f17b1804b1-41fead64fdemr169227505e9.39.1715846082352;
+        Thu, 16 May 2024 00:54:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:27f7:a21e:9b36:73bf? ([2001:8b0:aba:5f3c:27f7:a21e:9b36:73bf])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacf47sm18292846f8f.78.2024.05.16.00.54.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 May 2024 00:54:41 -0700 (PDT)
+Message-ID: <ae1690238ab756158f27127768c7d5c91194e027.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/10] base: Switch UNPACKDIR to a subdir of
+ WORKDIR
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2024 08:54:38 +0100
+In-Reply-To: <b086b556700672d356ce463c99aa351881997c3a.camel@geanix.com>
+References: <20240515115620.420558-1-richard.purdie@linuxfoundation.org>
+	 <20240515115620.420558-5-richard.purdie@linuxfoundation.org>
+	 <b086b556700672d356ce463c99aa351881997c3a.camel@geanix.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SMUCMP12F.europe.bmw.corp (2a03:1e80:a15:58f::1:2b0) To
- SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 07:32:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199443
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 07:54:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199444
 
-Avoid code duplication by making `extract` a shared method (and
-retrieving the package manager specific input via an abstract method).
-Additionally, follow Python conventions and prefix class internal
-methods with "_" to indicate that they shouldn't be called externally.
+On Thu, 2024-05-16 at 09:18 +0200, Martin Hundeb=C3=B8ll wrote:
+> On Wed, 2024-05-15 at 12:56 +0100, Richard Purdie wrote:
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index b2c500d8739..75c850760f6 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -405,7 +405,7 @@ STAMP =3D
+> > "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+> > =C2=A0STAMPCLEAN =3D "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
+> > =C2=A0BASE_WORKDIR ?=3D "${TMPDIR}/work"
+> > =C2=A0WORKDIR =3D "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+> > -UNPACKDIR ??=3D "${WORKDIR}"
+> > +UNPACKDIR ??=3D "${WORKDIR}/sources-unpack"
+> > =C2=A0T =3D "${WORKDIR}/temp"
+> > =C2=A0D =3D "${WORKDIR}/image"
+> > =C2=A0S =3D "${WORKDIR}/${BP}"
+>=20
+> Why not use
+>=20
+> =C2=A0 UNPACKDIR ??=3D "${WORKDIR}/sources"
+>=20
+> like it's done in the individual recipes?
 
-Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
----
- meta/lib/oe/package_manager/common_deb_ipk.py | 16 ++++++++++++----
- meta/lib/oe/package_manager/deb/__init__.py   | 19 ++-----------------
- meta/lib/oe/package_manager/ipk/__init__.py   | 15 +--------------
- 3 files changed, 15 insertions(+), 35 deletions(-)
+I think it is helpful for users to be able to tell the difference
+between a recipe where S is a subdirectory of this and when there is no
+subdirectory. I therefore left them visually different.
 
-diff --git a/meta/lib/oe/package_manager/common_deb_ipk.py b/meta/lib/oe/package_manager/common_deb_ipk.py
-index c91a4b45650..6a1e28ee6f9 100644
---- a/meta/lib/oe/package_manager/common_deb_ipk.py
-+++ b/meta/lib/oe/package_manager/common_deb_ipk.py
-@@ -20,9 +20,15 @@ class OpkgDpkgPM(PackageManager):
-         """
-         super(OpkgDpkgPM, self).__init__(d, target_rootfs)
- 
--    def package_info(self, pkg, cmd):
-+    def package_info(self, pkg):
-         """
-         Returns a dictionary with the package info.
-+        """
-+        raise NotImplementedError
-+
-+    def _common_package_info(self, cmd):
-+        """
-+       "Returns a dictionary with the package info.
- 
-         This method extracts the common parts for Opkg and Dpkg
-         """
-@@ -36,14 +42,16 @@ class OpkgDpkgPM(PackageManager):
- 
-         return opkg_query(proc.stdout)
- 
--    def extract(self, pkg, pkg_info):
-+    def extract(self, pkg):
-         """
-         Returns the path to a tmpdir where resides the contents of a package.
- 
-         Deleting the tmpdir is responsability of the caller.
--
--        This method extracts the common parts for Opkg and Dpkg
-         """
-+        pkg_info = self.package_info(pkg)
-+        if not pkg_info:
-+            bb.fatal("Unable to get information for package '%s' while "
-+                     "trying to extract the package."  % pkg)
- 
-         ar_cmd = bb.utils.which(os.getenv("PATH"), "ar")
-         tar_cmd = bb.utils.which(os.getenv("PATH"), "tar")
-diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
-index a96e56b2ada..e09e81e4901 100644
---- a/meta/lib/oe/package_manager/deb/__init__.py
-+++ b/meta/lib/oe/package_manager/deb/__init__.py
-@@ -7,7 +7,7 @@
- import re
- import subprocess
- from oe.package_manager import *
--from oe.package_manager import OpkgDpkgPM
-+from oe.package_manager.common_deb_ipk import OpkgDpkgPM
- 
- class DpkgIndexer(Indexer):
-     def _create_configs(self):
-@@ -431,7 +431,7 @@ class DpkgPM(OpkgDpkgPM):
-         Returns a dictionary with the package info.
-         """
-         cmd = "%s show %s" % (self.apt_cache_cmd, pkg)
--        pkg_info = super(DpkgPM, self).package_info(pkg, cmd)
-+        pkg_info = self._common_package_info(cmd)
- 
-         pkg_arch = pkg_info[pkg]["pkgarch"]
-         pkg_filename = pkg_info[pkg]["filename"]
-@@ -439,18 +439,3 @@ class DpkgPM(OpkgDpkgPM):
-                 os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
- 
-         return pkg_info
--
--    def extract(self, pkg):
--        """
--        Returns the path to a tmpdir where resides the contents of a package.
--
--        Deleting the tmpdir is responsability of the caller.
--        """
--        pkg_info = self.package_info(pkg)
--        if not pkg_info:
--            bb.fatal("Unable to get information for package '%s' while "
--                     "trying to extract the package."  % pkg)
--
--        tmp_dir = super(DpkgPM, self).extract(pkg, pkg_info)
--
--        return tmp_dir
-diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-index 23536294b0b..3d998e52ff1 100644
---- a/meta/lib/oe/package_manager/ipk/__init__.py
-+++ b/meta/lib/oe/package_manager/ipk/__init__.py
-@@ -416,7 +416,7 @@ class OpkgPM(OpkgDpkgPM):
-         Returns a dictionary with the package info.
-         """
-         cmd = "%s %s info %s" % (self.opkg_cmd, self.opkg_args, pkg)
--        pkg_info = super(OpkgPM, self).package_info(pkg, cmd)
-+        pkg_info = self._common_package_info(cmd)
- 
-         pkg_arch = pkg_info[pkg]["arch"]
-         pkg_filename = pkg_info[pkg]["filename"]
-@@ -424,16 +424,3 @@ class OpkgPM(OpkgDpkgPM):
-                 os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
- 
-         return pkg_info
--
--    def extract(self, pkg):
--        """
--        Returns the path to a tmpdir where resides the contents of a package.
--
--        Deleting the tmpdir is responsability of the caller.
--        """
--        pkg_info = self.package_info(pkg)
--        if not pkg_info:
--            bb.fatal("Unable to get information for package '%s' while "
--                     "trying to extract the package."  % pkg)
--
--        return super(OpkgPM, self).extract(pkg, pkg_info)
--- 
-2.44.0
+> And shouldn't we do=C2=A0
+>=20
+> =C2=A0 S =3D ?? "${UNPACKDIR}/${BP}"
+>=20
+> also?
+
+See my other emails. I'm torn on changing this. I've been hoping we
+could avoid extra directory levels, the extra pain of changing S
+everywhere and there is also some benefit to keeping extra unpacked
+files clearly separate from the other sources. We may end up doing it,
+I don't know.
+
+Cheers,
+
+Richard
 
 
