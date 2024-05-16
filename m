@@ -1,130 +1,153 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <mark.jonas@de.bosch.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767F4C25B74
-	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 05:29:55 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web10.5980.1715837387627208537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9803C25B74
+	for <webhook@archiver.kernel.org>; Thu, 16 May 2024 06:54:05 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.77])
+ by mx.groups.io with SMTP id smtpd.web10.7028.1715842444488077396
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 May 2024 22:29:47 -0700
+ Wed, 15 May 2024 23:54:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hqgiltz7;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2df83058d48so3919411fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 May 2024 22:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715837385; x=1716442185; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5YdFXnIGmRLRVPEvO8GV0BepTlDMEgJMpGkZFQ7L1Gg=;
-        b=Hqgiltz7i0iCzfn2v5ZQlDG/Pu3jtUm4zsFiQ/MX49XN30CzTfKQRg3E6SYbc/Jnyh
-         nU81yNWKwyxfhQxzl9DIeyEr2kvb/IH8ocmFZoNnITYjCgjH8IocaQVLWoFDeXIsFp2w
-         EjDK0t/vxoykwHxyDj9udIRFu55cWmXG63J7uLTSASz/CHkhIQlLmV2Gbf1Mq8l9bHBe
-         +nFsjcQVfk9VlsPSHgs+AozZZPKAXJyjXvgWzQa6sOOYVJNexwApoCzlUjYD1vdpfvvm
-         q9wOA2AoiI7K88xvcH2Z7+ZQgXWK6PGyVawwCrZD4sJlTg3/RJXeEve1q5YOLDnDlxaD
-         XvFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715837385; x=1716442185;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5YdFXnIGmRLRVPEvO8GV0BepTlDMEgJMpGkZFQ7L1Gg=;
-        b=F/J79fLZiVzkS80jynGx7M1br5OeCcWtHsPU1HjQzKgZ+Y8Ls47e6OxpeEReRRuRRv
-         NAx3Qb7chdBl4qxIeHO16xV2kThagM7YeKEuJAFoHNyc2aXURtHOXSmd2HoCnSAo70g3
-         f7FBlb+J+l3G9eCBahPNK4u+fOAHcGFIo/ZcBQz3c5EXZgESwBMBAL7qWbd6JJyzVT/g
-         c5zHCDvel0A6Dd4TEFK9LdFd/4xJbJExG+gEnXGg4Uec/zudXDUA/y7zgXmMjrbPz93B
-         FwDv4ZZx5kUQR4EBZZ13RNSmy2RSvMLOZnjuDFa+2obw6d54gV2M/r2mQ80+XTCA9PYl
-         Ti5g==
-X-Gm-Message-State: AOJu0Yzm3JTKAUvQnN1VNwls/qsgCBdfXSVsQAmIu4basN8ExjMrz1uP
-	oQXB3OIHPy46BNItlo4edfdj3XBtn8MOXvOwspeaohf2bhxpa6CCqp49TPCuX0PejOw6O1As8FC
-	fA0cFpqOoG6KUoiBXH4242oWLl/I=
-X-Google-Smtp-Source: AGHT+IHwNNKS0FzvmV+YSwTeX6KUa9cIWOJDKfwVAYsJ+Cgw2MtSb+WurzFlijOu7fOhnkYuOty+uHIaMJ4XpV5m5Os=
-X-Received: by 2002:a2e:9093:0:b0:2df:edd9:d005 with SMTP id
- 38308e7fff4ca-2e51fd45434mr112787891fa.14.1715837385322; Wed, 15 May 2024
- 22:29:45 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@de.bosch.com header.s=selector2 header.b=FBkhPJ4I;
+ spf=pass (domain: de.bosch.com, ip: 40.107.7.77, mailfrom: mark.jonas@de.bosch.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fMRB1/vr0gsXXevBRiNXvG5w6Qxy0lMY2lXSbVLKZ+zhSf0sDARRxo8Xtz6rqMnGsUg8EPwmW4iDlXrYzV8fW3vYyaMzbMi8Qc88/NDVZgeOtbrTOuwuT/FUCni0RXXRqFwMGopLO0GXhR7Rc1l3AewM0WhLoukWVO7bI0riTFdqXVpopWys6KaPlFiXk+w8TPu7YMojpIxbRj3V57W1Pq3mllC4Ryx4cdMYlaPYPAPlNgx6yhLsjDLgyhUbKamnkmjxbDZVWvfTbG8TCMZX23sYqelPEbIZPqsMaFSPAJxvuzOBF/dWGyqSr1de6Q7w0atXp01nOgd6JGP/r54IjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ej54q/DNF2xWfHMPEyabxTDMzDYkazyQmmRkj8/GFLU=;
+ b=oTooJfB67cWKcuwjVCmvoVqTytZltdDrakfCPgpzeEBS9JtGbY9Wt2lmyfgJ6ogDWg++k84fbCTbEU6m/EjIq0d51a08ybhHM1oCgRNftGzRxkYYp/zOPLz6d4Tgse3UHUOm+ZxTUNXixPQfHPj5N4EwQEMYRIoaC4Jb0w20/fQWMQAsbMm1KpznCwyr6nb/juEzn7iqFdrlb1xZEYYe+jmqtI6aNFxLuZPGhS1Gb/Fiw/vnnv/rdVseonmJiA/Iju9a741WEAoTJJIrS/Y6l3h3f1J2CytZ9q4KuwXf7RK/qdFm8+TAyDyONguzmTHykKOv9Ot5uNMNPN1baOo30A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.205) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=de.bosch.com; dmarc=pass (p=reject sp=none pct=100) action=none
+ header.from=de.bosch.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ej54q/DNF2xWfHMPEyabxTDMzDYkazyQmmRkj8/GFLU=;
+ b=FBkhPJ4INxSHavVmyKXZpi3g4wgtn6ydoq+Otm+JAeKZnJ86jeNFGkGyrAfL++/0mo3CU6WMGwAx7saJyeDQzEJoiENm6LxIw3bCJdcSM1vRZCg4EPgFuvc4sfhYC/vQVrc8sVhgQnfItwJtY8fUFVhJvGJrkXwliB19TusneJ7+s61XX/zUkkqtnfzI8qUg4adCU5oVWmLUaNTQUiXzRdAvHdOL9B3OjEqvCNR2E3e3TNFGxJc2P8igoUwzi3qnHgKupmmiIWQ84Pj5DIGhkTBaXWHXnqkB3irBhkqRDBsQNj2jnlhEM/WpF58XskOrCfsOIoWvJmjW1VT31k1eGg==
+Received: from AM0PR02CA0134.eurprd02.prod.outlook.com (2603:10a6:20b:28c::31)
+ by PA4PR10MB5755.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:268::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Thu, 16 May
+ 2024 06:54:01 +0000
+Received: from AM3PEPF0000A794.eurprd04.prod.outlook.com
+ (2603:10a6:20b:28c:cafe::1e) by AM0PR02CA0134.outlook.office365.com
+ (2603:10a6:20b:28c::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.27 via Frontend
+ Transport; Thu, 16 May 2024 06:54:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.205)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.205 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.205; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.205) by
+ AM3PEPF0000A794.mail.protection.outlook.com (10.167.16.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7587.21 via Frontend Transport; Thu, 16 May 2024 06:54:00 +0000
+Received: from FE-EXCAS2001.de.bosch.com (10.139.217.200) by eop.bosch-org.com
+ (139.15.153.205) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 16 May
+ 2024 08:53:53 +0200
+Received: from GRB-C-0009M.ot.de.bosch.com (10.139.217.196) by
+ FE-EXCAS2001.de.bosch.com (10.139.217.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 16 May 2024 08:53:53 +0200
+From: <mark.jonas@de.bosch.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>, <anuj.mittal@intel.com>, <festevam@denx.de>,
+	<alex.kanavin@gmail.com>, Ricardo Simoes <ricardo.simoes@pt.bosch.com>, "Mark
+ Jonas" <mark.jonas@de.bosch.com>
+Subject: [PATCH] libusb1: Set CVE_PRODUCT
+Date: Thu, 16 May 2024 08:53:26 +0200
+Message-ID: <20240516065326.4389-1-mark.jonas@de.bosch.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240506074548.16296-1-peter.marko@siemens.com>
-In-Reply-To: <20240506074548.16296-1-peter.marko@siemens.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 16 May 2024 07:29:31 +0200
-Message-ID: <CA+chaQdY=sq6egqkXewCq0BQutX4Z7r+coWG+3Vz0SJihJFWjg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] glibc: correct license
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.139.217.196]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A794:EE_|PA4PR10MB5755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 485d89e2-3b2a-43a5-f119-08dc7574f78d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|36860700004|1800799015|376005|82310400017;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?cmG74TtiN2uqV6N6AmkGhbAd6lhuWBBF6zRZP1uab31t7WNstMQ0IE3rpdZF?=
+ =?us-ascii?Q?UZRF62oiZoe58IHk2RFF3kV19f1g6Ll7hMM28MoxH6Y/57BJmaI2+KXGlLSq?=
+ =?us-ascii?Q?lPINUrglVcEEXlwJtc6ImfTvN99g8dB8bjAP5IhFeyoiP5LeTV0EuWHub1Ep?=
+ =?us-ascii?Q?iwc8YjrB49Nn2yuKQ8p2RWsuhTcyfPEpmQsajFspw6qxPd1MfrY5GUWRWi8d?=
+ =?us-ascii?Q?f/OctPMkmk49G+/c7HbLKT6/Jp7L6N9KvnbU3mbpq/aSG7MYN148zDYWo3Il?=
+ =?us-ascii?Q?vsN0zQZDKRNaCLuXX6hRotaW2sKCRW7BIiX/XkB17R2tXem9FQoPOER62GK3?=
+ =?us-ascii?Q?9x1AFrXJ9+/aloWA9bHegrakUlcdgJlfDRoIMoq8kOftyzJlE9ai3bfodO3H?=
+ =?us-ascii?Q?XOzRlriw0EC3znosIrlVUQehtQlsuNaYRWOS4hjQ1VhlcDho3BdWZs4HKNf/?=
+ =?us-ascii?Q?SFYGaF4ZceSgMC4Hf/bHFZkHRCBxbM1BmxHSJFdZec2HNAwgP2bh3gQWHEJH?=
+ =?us-ascii?Q?x0jlbWgNGc8uCpWe016+v8RtclDPBQLi/2AH66xjxq1mIxGtrxxF0qWvpMXM?=
+ =?us-ascii?Q?SDA0vhd5BC/15ECTbz7IcsHObInbX0Swots2SS5RfEhJcjJQbZ8LsVYvBnVZ?=
+ =?us-ascii?Q?EgsZz+07Y5piANJSPxlsyXF6nz6438PA5fXzve2PmZrM3l8Y6WKuEFb7gV0t?=
+ =?us-ascii?Q?U47nF4YWrlextxA0aFY7OULYoXZyc7RCXdusND9a+/aaag57KZPx6wsx9HXR?=
+ =?us-ascii?Q?uIwSJ7vSAen2oPlPKmobPaBjE4ierdz0PmDpl/4pGYLvuLh0IOFwvvdE8vOB?=
+ =?us-ascii?Q?AeU5PJRowfHgF3pyx5KJW/B10HgoAEdTFx1ZG+C3rVWPoQPfAFFm3riK0ceb?=
+ =?us-ascii?Q?AYtYoQOwij8udvyQGgO40SXp/HLGn742OFBkWfEFXXOGVP3gGrkowfU906Ml?=
+ =?us-ascii?Q?74qkW+Y1fsnj7PwPSb3VPmJpM1XfCddvCY3NqkXwJmLXUE9olzN2j8dTQ0D9?=
+ =?us-ascii?Q?4Ugh03hdFo3d8CnOc25C1nCYdZ179bmxHqIqVrHiQkoh6zPjCqqQHyjWK4rZ?=
+ =?us-ascii?Q?wjUKNa2pm3o1k1UMpWI7xa7hmyCFprc0v3X6TMKKgZqzByl/jkXQMpQV77Ha?=
+ =?us-ascii?Q?HJIx45PmLwaVm8aAJqG8/MbZ1TPbDU3ACkZDdrsyBPR0tQBUZxlyc3E3Bvrk?=
+ =?us-ascii?Q?QmFwDrugxxFGulR91WQEjBmhFU2WE6R7awqccTUTaXFWpTafu3mxHbne8xnn?=
+ =?us-ascii?Q?4V1jNRG0hsGknfqd+tRDZZquB+rKHWBnh1LBx968rS6yRLflQE8fxltyCWTZ?=
+ =?us-ascii?Q?97JsasN8yQX77PGsy8ImLAze?=
+X-Forefront-Antispam-Report: 
+	CIP:139.15.153.205;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(376005)(82310400017);DIR:OUT;SFP:1101;
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2024 06:54:00.9073
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 485d89e2-3b2a-43a5-f119-08dc7574f78d
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.205];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM3PEPF0000A794.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB5755
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 05:29:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199437
+ <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 06:54:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199438
 
-Hi Peter,
+From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
 
-what about BSD-4-Clause-UC, BSD-3-Clause, ISC licenses included in glibc.
+This commit sets the CVE_PRODUCT variable to "libusb" to match the
+product name used in the NIST CPE database [1].
 
-I've suggested to add them long time ago in:
-https://lists.openembedded.org/g/openembedded-core/topic/91285771#msg166005
-which resulted in:
-https://sourceware.org/bugzilla/show_bug.cgi?id=3D28007
-https://sourceware.org/pipermail/libc-alpha/2022-May/139167.html
-but the discussion upstream stopped shortly after and the oe-core
-change was never merged because of that. Maybe it's time to re-check
-and ping upstream again after 2 years.
+[1]: https://nvd.nist.gov/products/cpe/search
 
-Cheers,
+Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+---
+ meta/recipes-support/libusb/libusb1_1.0.27.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, May 6, 2024 at 9:46=E2=80=AFAM Peter Marko via lists.openembedded.o=
-rg
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> From: Peter Marko <peter.marko@siemens.com>
->
-> The license per [1] is LGPL-2.1-or-later and
-> [2] converted last LGPL-2.1-only references.
->
-> License-Update: corrected from LGPL-2.1-only to LGPL-2.1-or-later based o=
-n [1] and [2]
->
-> [1] https://www.gnu.org/software/libc/
-> [2] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D273a835f=
-e7c685cc54266bb8b502787bad5e9bae
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-core/glibc/glibc-common.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core=
-/glibc/glibc-common.inc
-> index b9516e77f0..91a3f5bcd5 100644
-> --- a/meta/recipes-core/glibc/glibc-common.inc
-> +++ b/meta/recipes-core/glibc/glibc-common.inc
-> @@ -2,7 +2,7 @@ SUMMARY =3D "GLIBC (GNU C Library)"
->  DESCRIPTION =3D "The GNU C Library is used as the system C library in mo=
-st systems with the Linux kernel."
->  HOMEPAGE =3D "http://www.gnu.org/software/libc/libc.html"
->  SECTION =3D "libs"
-> -LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
-> +LICENSE =3D "GPL-2.0-only & LGPL-2.1-or-later"
->
->  LIC_FILES_CHKSUM ?=3D "file://LICENSES;md5=3Df77e878d320e99e94ae9a4aea7f=
-491d1 \
->        file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199036): https://lists.openembedded.org/g/openembedde=
-d-core/message/199036
-> Mute This Topic: https://lists.openembedded.org/mt/105935723/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.27.bb b/meta/recipes-s=
+upport/libusb/libusb1_1.0.27.bb
+index f2431d75c8..5bf854f95d 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.27.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+@@ -8,6 +8,8 @@ SECTION =3D "libs"
+ LICENSE =3D "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfbc093901857fcd118f065f900982c2=
+4"
+=20
++CVE_PRODUCT =3D "libusb"
++
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
+--=20
+2.34.1
+
 
