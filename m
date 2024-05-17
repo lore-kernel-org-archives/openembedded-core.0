@@ -1,84 +1,83 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A0DC04FFE
-	for <webhook@archiver.kernel.org>; Fri, 17 May 2024 06:43:43 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.34623.1715928213357090175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 872F7C04FFE
+	for <webhook@archiver.kernel.org>; Fri, 17 May 2024 07:56:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.35372.1715932570211877305
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 May 2024 23:43:34 -0700
+ Fri, 17 May 2024 00:56:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SN5e6e1a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4202c1d19d5so10448295e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 May 2024 23:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715928211; x=1716533011; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMppiIEJDW3esIPUUq+/2hYM0NsFD5cS/19UTSaZCuE=;
-        b=SN5e6e1abOWqwEQIR2Nn6yBVTrSHK9jaSqRScnyVuj1oq5L2YByfwcz/HGzr0EgxDR
-         Jp4Zu1VF8Yc+pPdPB6JwnKdlYbqypRzJzFi/ZvFoc4i9ECBimMhYy4Rcl1nXZKnztRmj
-         mn8i/LCjB5jAtEj2tWWMIY9AL52ZnWE9ukwlo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715928211; x=1716533011;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMppiIEJDW3esIPUUq+/2hYM0NsFD5cS/19UTSaZCuE=;
-        b=C/a5WrFMj03pDLi9TwLqFqr3JOXsv79/6yzArFijpmHZLcKB7fkVL7DLQZ4Rplu9m1
-         4XTtxu24RIpcVOeT9JpCMlCBzmfwRUCBstXljg+9lc5bg0NGwTjH2sWJGwEhdcqPbExf
-         RVr6oZKrwdfisCUZPZQKnxKhOpL3Z0biYC0wgHfzBtYHJbHUBRF7mh0hoQJtjbAxUS13
-         21Nl1xnmGG44g0AW1e+zYzfij47NSwsgD+PeZ7DdSNd1PaBA9qs49g2HWMCbFUYNA1QQ
-         bxixf8aO4yqHpkGtRg/Bf+HMyJWX1IbTN1EfAeuqaurb3fQ3Sw9kRHN5CDid2AeSdsHH
-         d3tA==
-X-Gm-Message-State: AOJu0YywYDWrP48cnTbkteZ5T5LJz6Sa4rQl0T3+Rc8gmHaoxqC0QLGF
-	cIuPXWq80DIhrQ7ZgI35oYJf0q7CYK1VI3pOw1fAtCF0xBqSo7+zpMKARW69BKnLu5ziCXXQ1NF
-	GJGc=
-X-Google-Smtp-Source: AGHT+IET9W6Pz4QTVbrW1ACAsy/hlulyMVGS/7FZaU0zg9zvexar0RLCwfHskSpqnwl3RWVc6ZIgBA==
-X-Received: by 2002:a05:600c:1f83:b0:41c:190:2ba9 with SMTP id 5b1f17b1804b1-41feac55162mr189784355e9.31.1715928210976;
-        Thu, 16 May 2024 23:43:30 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ec9d:c0cc:86e8:686a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fdd402518sm279224735e9.27.2024.05.16.23.43.30
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 23:43:30 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/cases/runtime_test: Exclude centos-9 from virgl tests
-Date: Fri, 17 May 2024 07:43:29 +0100
-Message-Id: <20240517064329.796326-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5867cc905d=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44H5LBW2001279
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 May 2024 07:56:09 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3y1yc4e59s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 May 2024 07:56:09 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 17 May 2024 00:56:06 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][master][scarthgap][PATCH 1/1] git: upgrade 2.44.0 -> 2.44.1
+Date: Fri, 17 May 2024 07:55:50 +0000
+Message-ID: <20240517075550.3178706-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: L2GGB25Xy6r3PKkTaZuQRE17iWNjy8Bd
+X-Proofpoint-ORIG-GUID: L2GGB25Xy6r3PKkTaZuQRE17iWNjy8Bd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-16_07,2024-05-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=962
+ priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 mlxscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405170062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 May 2024 06:43:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199505
+ <openembedded-core@lists.openembedded.org>; Fri, 17 May 2024 07:56:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199506
 
-Similarly to centos 8, centos 9 doesn't support the render device we need
-for this test.
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Addresses the security issues - CVE-2024-32002, CVE-2024-32004,
+CVE-2024-32020,CVE-2024-32021 and CVE-2024-32465
+
+Changelog:
+==========
+https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/2.44.1.txt
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
+ meta/recipes-devtools/git/{git_2.44.0.bb => git_2.44.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/git/{git_2.44.0.bb => git_2.44.1.bb} (98%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 12000aac16e..13aa5f16c9b 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -273,7 +273,7 @@ TEST_RUNQEMUPARAMS += " slirp"
-         import subprocess, os
+diff --git a/meta/recipes-devtools/git/git_2.44.0.bb b/meta/recipes-devtools/git/git_2.44.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.44.0.bb
+rename to meta/recipes-devtools/git/git_2.44.1.bb
+index 90e555eba7..438295c13e 100644
+--- a/meta/recipes-devtools/git/git_2.44.0.bb
++++ b/meta/recipes-devtools/git/git_2.44.1.bb
+@@ -163,4 +163,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
-         distro = oe.lsb.distro_identifier()
--        if distro and (distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04'] or
-+        if distro and (distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'centos-9', 'ubuntu-16.04', 'ubuntu-18.04'] or
-             distro.startswith('almalinux') or distro.startswith('rocky')):
-             self.skipTest('virgl headless cannot be tested with %s' %(distro))
- 
+-SRC_URI[tarball.sha256sum] = "f9e36f085458fe9688fbbe7846b8c4770b13d161fcd8953655f36b2b85f06b76"
++SRC_URI[tarball.sha256sum] = "118214bb8d7ba971a62741416e757562b8f5451cefc087a407e91857897c92cc"
 -- 
-2.40.1
+2.40.0
 
 
