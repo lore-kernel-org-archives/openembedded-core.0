@@ -1,251 +1,161 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF45C25B74
-	for <webhook@archiver.kernel.org>; Sat, 18 May 2024 10:44:50 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.16666.1716029085477408801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A16C25B79
+	for <webhook@archiver.kernel.org>; Sat, 18 May 2024 10:49:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.16469.1716029353064838786
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 May 2024 03:44:45 -0700
+ Sat, 18 May 2024 03:49:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=QvvLnB8x;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202405181044439d907d2efaa9d07ac7-j8fr7w@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202405181044439d907d2efaa9d07ac7
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 18 May 2024 12:44:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=GTzc5uboLjold/RanxXoDrN4CJx6andFiuchsSsuJZM=;
- b=QvvLnB8xaj97TjEu/GPxHkjOtZEWMIwSzLSKWOQuDVgP9PGkTl0c/w+eMTUjyqSzHzAUdV
- vSQgBwzk4MNpt3H6En0YdbYVlNN9J2O+TNSTX8wIErA+8Vis7R5ZzTZuHNKbnMDT+o6OdIBI
- tMD9CQISZz8oBwhBGOz2VwmK9mpVo=;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=58680a6e36=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44IAYlQZ018525
+	for <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 03:49:12 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3y6rbk82aj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 03:49:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TSbMi8jm8grbYV4OHdMqd1n3Y6cnoSrLQek1guZ3kBxDLLY1FFs4zLYKU9MTyXH4alktQo7lSufNZXyxXo5hQBuNw8XdVIV176DE530c/VJlQF+VK5dJyCVf/MWd4XosEj+Y5cYMXI/zfhuAAvWmrvQU7N3oZNrHQwOUCx+CPFExhyh0I5WEJQ5CpaEEpguTCRZJlcieCvh35bRgbBf4Hgzmoy08VG/S01fvrSO+J7x6kfmUDdedMdZMbXAfWQIILOhpgXfmgXhk9Vgk+7qkgOoWL/NOzKxhnYE6Zxjqs4Tl+ig4tjjbXtEULkqo6FC0i9bhJg+SO5wSzFBaCyQtCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uAS5VhWCbYZXwe0FzM2zi6aHfpguiTeDjFTImFM3mFM=;
+ b=bryQuejhbTIZZkJPVgabHaGDnTSxEEEr8BrhfyAWr+IrYCZDCkRBBD406V2QM6M/h5k2gp/Yg29mszv3PC36/KqtsXMYzeXlONhldM0j8NGfRey4Xl+/De4rs4DTlNCSmQ8SGWwQqrIaIDCrbCq3L78Yy8m5F9q6dpH3pO7xDyDc/dE8DQOM76/BCJsEoiO9AqhRACBWX01Yqb6pJYqLdblHzNy+AbAz1T5+diqcTMOnC3BAZfzkjdb8Gu5YxgJO899wKhKbP3TnA6mLZqFF2wBkF5MaYeRfpBU1UYziKpZV2/yLQM7tIRGq4zdp/pZgBnUxxA1Lgc9hGLK+ces+Nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN7PR11MB7489.namprd11.prod.outlook.com (2603:10b6:806:342::14)
+ by PH7PR11MB6746.namprd11.prod.outlook.com (2603:10b6:510:1b4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Sat, 18 May
+ 2024 10:49:10 +0000
+Received: from SN7PR11MB7489.namprd11.prod.outlook.com
+ ([fe80::7a00:833c:79b:5e48]) by SN7PR11MB7489.namprd11.prod.outlook.com
+ ([fe80::7a00:833c:79b:5e48%5]) with mapi id 15.20.7587.028; Sat, 18 May 2024
+ 10:49:10 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] openssl: patch CVE-2024-4603
-Date: Sat, 18 May 2024 12:43:56 +0200
-Message-Id: <20240518104356.3899784-1-peter.marko@siemens.com>
-MIME-Version: 1.0
+Subject: [PATCH 2/2] libcap-ng-python: upgrade 0.8.4 -> 0.8.5
+Date: Sat, 18 May 2024 18:48:54 +0800
+Message-Id: <20240518104854.2524611-2-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240518104854.2524611-1-yi.zhao@windriver.com>
+References: <20240518104854.2524611-1-yi.zhao@windriver.com>
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain
+X-ClientProxiedBy: TYXPR01CA0045.jpnprd01.prod.outlook.com
+ (2603:1096:403:a::15) To DS0PR11MB7484.namprd11.prod.outlook.com
+ (2603:10b6:8:14c::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7489:EE_|PH7PR11MB6746:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bd6ade5-d5d8-47f8-06fc-08dc77282646
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|376005|52116005|366007|1800799015|38350700005;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?J58bhaYSEg7eTcG70ziBOrpnc+8u0OZOdFVb2eyAa9xE8C/9Byf/sXsladc5?=
+ =?us-ascii?Q?DEI38FnNAEVDw+qGnjQ8QOLb/b7plpbsSntS9U1bDTzF4ML4dl9YQ98A2d64?=
+ =?us-ascii?Q?sVMU8bpfRNjrtzEfd2ECoAKkQebQ/0n+vl5RcWuwg9RxsQledET0fF764psm?=
+ =?us-ascii?Q?/koWfbvq8Mw0quqx3GpiMjOdAWPlJU820fQxQ2DK+JjfJuXuVEo2BLkEziGL?=
+ =?us-ascii?Q?cIDeu2fWE/pNNEbDncHt8ZIORrZMblqkA52MF3CuF0577UchmIUlSH+HTb8W?=
+ =?us-ascii?Q?fMyBXIvxnViDtRBE7gslY4bGr6vszQfyWPa4DJ/zWNR3VxR6XxKidDfeTFL+?=
+ =?us-ascii?Q?xVFdzYg3iKH2knxbhB6RpyRXIfIcHI+oJjLVaFrn2PP4x32W5DXmGhBUifsd?=
+ =?us-ascii?Q?UjmjblwbJyvENB45MeP3FsLvpPHRuB9IPH1WeONZpwJpy6CLA26HiZtTL5+T?=
+ =?us-ascii?Q?2FGtCSEfMC5oBzE5SqgYUlSRwhKy6PPsblO5aqm6hPXKcVBvotVaKQX/xf40?=
+ =?us-ascii?Q?Mra94GULUAYlMubCWh25hQSbO9AXLhfSVoKyMCvO7oOXFJz+QSWkcITaLX7L?=
+ =?us-ascii?Q?DTXyqrvcdJiHss1jAoN18dno3a/QDK0OnRQtwSy6dtf2DLNZ+7j70yBiJvAZ?=
+ =?us-ascii?Q?oXBad7NYFVR8hHrjagAn8WW/JEStbutfxzo7eY0qrCedvQp11HyGOd2/IWwU?=
+ =?us-ascii?Q?G4q4OLBlU4MP5wUSAqncJVcGGl5ccpE4UU0mxAYwADhI1LWFhHH3vMFiQg+S?=
+ =?us-ascii?Q?aIf7Qs2VR+rZV2izK3qUa3JOLDo7pbKxedSih/lMl6SMZAe9vGE895G+DmZ2?=
+ =?us-ascii?Q?zRSLBIK7xe5M5jztLxo/a/0oTZrnStWCOtSgO2JtX3t4LOqIhYN0JXEboxIk?=
+ =?us-ascii?Q?rjya0oXXpvfWOBr3niJb3Nu63jIYv7Dj56ZbxFtTtZqGvOjiuTfnd7baYzlg?=
+ =?us-ascii?Q?MakCEz4pyMQmEIeuhlpDISB3ztnQSiskjoRzaT+HR0iFbCxrlDAyWm1tREp0?=
+ =?us-ascii?Q?utWCxggaF/BXYwbB95ou/XUzSnIevX+kBDgkAZBh6w/+1R57Z5lUnbtqb9ag?=
+ =?us-ascii?Q?MObQ6CML8WvFm37a9P6Jmw0J1CMsJUFe+cjaQjKhWBZdGiHdNQjHQj00qEer?=
+ =?us-ascii?Q?GsEVd5bd0G4KnaX2absJco/TRWCbs8+PMskhuKMFb0wM7KX4O0FNOxVzuDHM?=
+ =?us-ascii?Q?K200+zaIBtob5Zw96YoCc7DIlaYcG/n1C/ZoNf+ezBhnJnIz5sm7Jgc3/oKI?=
+ =?us-ascii?Q?nwjxBEkw2edzGsUNlyprmPGyAwzXiaiW2CHahwYLKg=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7489.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(52116005)(366007)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?0leggCxkGY7Uc3Cz4o/Ummp/PhpZoa57v7E6SeZR6fbYhl8W73ljZuk4GhL9?=
+ =?us-ascii?Q?clwHyTk/qMmXn41ZGPJBxpjfsdHhdKVfniUFJCnB0sAk2mDCq/VNWqgF9hYi?=
+ =?us-ascii?Q?0VbVDkvaNi33A+BpdGOqhUgEnV58hV13gYiX1vrcPKLi7uN7rQ1VG7WOK/rB?=
+ =?us-ascii?Q?GyPlcbc6qjP4Jl/Xf88llM9w1Q1+l07B3XHSiR5UuqQJ5v3hDpJO+uW0/hs7?=
+ =?us-ascii?Q?pP/U41wTgFNJPz2L44XHnUC5E9AmZzxDd/0O9UlHbLNa+/XmU0x774+coCUW?=
+ =?us-ascii?Q?SgSzHu3uXr5OergraW261qU5jfI40JWJHP03TCQ3l8MncZ6uo3QK/6zQm5k0?=
+ =?us-ascii?Q?FMNSFMaV8TaGT7AGr0e166HPURri0wI1QYkbKWqalVUP7T/J9h7g3TxQeDAm?=
+ =?us-ascii?Q?RttyOOrhd/Y8knDLdr4eCk4EBIRUTbM2ValbSwkCq1GA0vOAgkgWOOimNkSk?=
+ =?us-ascii?Q?w77Bz2M/l0rvx+MN4X4Gcda665PeS1B86hfjn1oC9rWgQKQqncA/z2NPnTh2?=
+ =?us-ascii?Q?eFwXjPlNGQms8LB0myNU3DkzEDDX3srrwBn0uXouNhpCYU6Svhz14LeAIxg6?=
+ =?us-ascii?Q?BmA999M5ILvnRkyr1jISkGZE05aV2KILKAtbA0P8ycVX2CGkFjJ2fzpkZUo7?=
+ =?us-ascii?Q?pM1hVNEIPLa/9T8jqVK7Ro/i7d7K1DZjUeJymzJUlPBnwpkalVTyU2rt31UT?=
+ =?us-ascii?Q?TpuUS6TLizSVlEWzRmehBnQAO2WvIwmHbz9rIleHP2FK74YbNN3zaR9svGpI?=
+ =?us-ascii?Q?DIOdtPi2QsbjvniJHRyxL3esGsmwztITgyhHd576yWVrHT0OcKlmU5uusHuk?=
+ =?us-ascii?Q?o/lpxkY6C1VfT4osA7GNcv55BPkV2t10JsSo23jfZZxNDZwnB/OdbwEjWQWv?=
+ =?us-ascii?Q?7iVgxOYxKxfAMd6UsQBRaz1eGkTVwJ05ldf0lVQ7vA5vqbnOX0dNsrwqLRQI?=
+ =?us-ascii?Q?y2eV4atYu5l2LvCHNt9+2hV9PfsVbo20eGChKtiU728KrFtP+tKabZgzVefB?=
+ =?us-ascii?Q?ZzGWDnTJH0n5xEgD9ht6rrAFmGSlWVoEXVSfhF8+KkKE1fE0FSAHU0i/SOqk?=
+ =?us-ascii?Q?XnHJwg2dMhOmdrSK6RxnmIK5wGv4nN95JP3y3d7B5q7xmXsfQYNKcPj32tcE?=
+ =?us-ascii?Q?sBgeJxo/WQOT+oyYbxoDFzvxslQzYuEl7OYcToHFmevWIDoW+LuIMmZpHDFl?=
+ =?us-ascii?Q?dPuOZp2A/XM1alZrA8GIElLUOEDjBIeu9rpgGxtSo/9nBtUIxWNRQc4/HPMV?=
+ =?us-ascii?Q?4Vf1BCnV5ZA4sknPHv2jiMPURyFKRe17acSFpFTxjThRF5I6bsrlDNip4Xk9?=
+ =?us-ascii?Q?rSfeajul6nbapowjtBRzPxUVzhS60tg2Jb3v6eXORontsb4t/yh77rR79iGM?=
+ =?us-ascii?Q?OpNCFlimg+X1b5Ch4jsllCKyVV+caSvFbhoTHYKe/wjJOjtkTn6UjjquafQb?=
+ =?us-ascii?Q?myUDC6hExw2xZ6xcV82jzCnJeRTC++rnqV48qf8gcA46/YywnfR/Msh2y9ON?=
+ =?us-ascii?Q?z7UuLH2qyDFBGDT+G0Pz07d7xqWN+B7UMQe6SnJfwi+MlNExUVUJEpJ3B/25?=
+ =?us-ascii?Q?DAb7B+Pyk9ehJZ7JmI5dj35GnXUaSCGFmB/3WrR0?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bd6ade5-d5d8-47f8-06fc-08dc77282646
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7484.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2024 10:49:10.9015
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h352kt/IVFTs6J4oiMN5YMCl4xF9duGcz2JuIgw3t6ciUiDZsMUgG8mC98E9L+BIkH5gYD+RI/As5bvv15ZQ/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6746
+X-Proofpoint-GUID: BTgpSzUWbGBOp-BRgU2aaDQC-lFRHsJb
+X-Proofpoint-ORIG-GUID: BTgpSzUWbGBOp-BRgU2aaDQC-lFRHsJb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-18_05,2024-05-17_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
+ definitions=main-2405180080
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 10:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199534
+ <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 10:49:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199536
 
-From: Peter Marko <peter.marko@siemens.com>
+Changelog:
+https://people.redhat.com/sgrubb/libcap-ng/ChangeLog
 
-Advisory: https://github.com/advisories/GHSA-85xr-ghj6-6m46
+ - Remove python global exception handler since it's deprecated
+ - Make the utilities link against just built libraries
+ - Remove unused macro in cap-ng.h
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../openssl/openssl/CVE-2024-4603.patch       | 179 ++++++++++++++++++
- .../openssl/openssl_3.2.1.bb                  |   1 +
- 2 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+ .../{libcap-ng-python_0.8.4.bb => libcap-ng-python_0.8.5.bb}      | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.8.4.bb => libcap-ng-python_0.8.5.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
-new file mode 100644
-index 0000000000..50fb969c03
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
-@@ -0,0 +1,179 @@
-+From da343d0605c826ef197aceedc67e8e04f065f740 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tomas@openssl.org>
-+Date: Wed, 8 May 2024 15:23:45 +0200
-+Subject: [PATCH] Check DSA parameters for excessive sizes before validating
-+
-+This avoids overly long computation of various validation
-+checks.
-+
-+Fixes CVE-2024-4603
-+
-+Reviewed-by: Paul Dale <ppzgs1@gmail.com>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Neil Horman <nhorman@openssl.org>
-+Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
-+(Merged from https://github.com/openssl/openssl/pull/24346)
-+
-+(cherry picked from commit 85ccbab216da245cf9a6503dd327072f21950d9b)
-+
-+<dropped CHANGES.md modifications as it would need backport of all previous changes>
-+
-+CVE: CVE-2024-4603
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/da343d0605c826ef197aceedc67e8e04f065f740]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
-+ .../invalid/p10240_q256_too_big.pem           | 57 +++++++++++++++++++
-+ 2 files changed, 97 insertions(+), 4 deletions(-)
-+
-+diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
-+index fb0e9129a2..122449a7bf 100644
-+--- a/crypto/dsa/dsa_check.c
-++++ b/crypto/dsa/dsa_check.c
-+@@ -19,8 +19,34 @@
-+ #include "dsa_local.h"
-+ #include "crypto/dsa.h"
-+ 
-++static int dsa_precheck_params(const DSA *dsa, int *ret)
-++{
-++    if (dsa->params.p == NULL || dsa->params.q == NULL) {
-++        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_FFC_PARAMETERS);
-++        *ret = FFC_CHECK_INVALID_PQ;
-++        return 0;
-++    }
-++
-++    if (BN_num_bits(dsa->params.p) > OPENSSL_DSA_MAX_MODULUS_BITS) {
-++        ERR_raise(ERR_LIB_DSA, DSA_R_MODULUS_TOO_LARGE);
-++        *ret = FFC_CHECK_INVALID_PQ;
-++        return 0;
-++    }
-++
-++    if (BN_num_bits(dsa->params.q) >= BN_num_bits(dsa->params.p)) {
-++        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_Q_VALUE);
-++        *ret = FFC_CHECK_INVALID_PQ;
-++        return 0;
-++    }
-++
-++    return 1;
-++}
-++
-+ int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
-+ {
-++    if (!dsa_precheck_params(dsa, ret))
-++        return 0;
-++
-+     if (checktype == OSSL_KEYMGMT_VALIDATE_QUICK_CHECK)
-+         return ossl_ffc_params_simple_validate(dsa->libctx, &dsa->params,
-+                                                FFC_PARAM_TYPE_DSA, ret);
-+@@ -39,6 +65,9 @@ int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
-+  */
-+ int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
-+ {
-++    if (!dsa_precheck_params(dsa, ret))
-++        return 0;
-++
-+     return ossl_ffc_validate_public_key(&dsa->params, pub_key, ret)
-+            && *ret == 0;
-+ }
-+@@ -50,6 +79,9 @@ int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
-+  */
-+ int ossl_dsa_check_pub_key_partial(const DSA *dsa, const BIGNUM *pub_key, int *ret)
-+ {
-++    if (!dsa_precheck_params(dsa, ret))
-++        return 0;
-++
-+     return ossl_ffc_validate_public_key_partial(&dsa->params, pub_key, ret)
-+            && *ret == 0;
-+ }
-+@@ -58,8 +90,10 @@ int ossl_dsa_check_priv_key(const DSA *dsa, const BIGNUM *priv_key, int *ret)
-+ {
-+     *ret = 0;
-+ 
-+-    return (dsa->params.q != NULL
-+-            && ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret));
-++    if (!dsa_precheck_params(dsa, ret))
-++        return 0;
-++
-++    return ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret);
-+ }
-+ 
-+ /*
-+@@ -72,8 +106,10 @@ int ossl_dsa_check_pairwise(const DSA *dsa)
-+     BN_CTX *ctx = NULL;
-+     BIGNUM *pub_key = NULL;
-+ 
-+-    if (dsa->params.p == NULL
-+-        || dsa->params.g == NULL
-++    if (!dsa_precheck_params(dsa, &ret))
-++        return 0;
-++
-++    if (dsa->params.g == NULL
-+         || dsa->priv_key == NULL
-+         || dsa->pub_key == NULL)
-+         return 0;
-+diff --git a/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
-+new file mode 100644
-+index 0000000000..e85e2953b7
-+--- /dev/null
-++++ b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
-+@@ -0,0 +1,57 @@
-++-----BEGIN DSA PARAMETERS-----
-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
-++vKuje86bePD6kD/LH3wmkA==
-++-----END DSA PARAMETERS-----
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-index d37b68abbb..9bdf7e1ec6 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
-            file://bti.patch \
-            file://CVE-2024-2511.patch \
-+           file://CVE-2024-4603.patch \
-            "
- 
- SRC_URI:append:class-nativesdk = " \
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.8.4.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
 -- 
-2.30.2
+2.25.1
 
 
