@@ -2,31 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF8FC25B74
-	for <webhook@archiver.kernel.org>; Sat, 18 May 2024 10:44:10 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.16660.1716029041066140965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF45C25B74
+	for <webhook@archiver.kernel.org>; Sat, 18 May 2024 10:44:50 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.16666.1716029085477408801
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 May 2024 03:44:02 -0700
+ Sat, 18 May 2024 03:44:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZD8mzrK5;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20240518104357ec9d9574647a6a450a-0hhugx@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20240518104357ec9d9574647a6a450a
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=QvvLnB8x;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202405181044439d907d2efaa9d07ac7-j8fr7w@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202405181044439d907d2efaa9d07ac7
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 18 May 2024 12:43:58 +0200
+        Sat, 18 May 2024 12:44:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=6o1w5n4bgs1N0KRCaot0JW6Cooxf+H95W0UhSYyXUFw=;
- b=ZD8mzrK5r8xosVa/FgBe1Idcj+cYIz9K83M6pVhloggw40KdEN0fH/Oa56Hl370xC36OUo
- 31TnB4oH8RQ+GFJfDsskfakRpX/nitePtcmXLu2Amq0CaG2jWl0pUUcUOqertEcm5kquo+G5
- EZVK0Lu3QXrsWLB3KgdU3gsb3hmEE=;
+ bh=GTzc5uboLjold/RanxXoDrN4CJx6andFiuchsSsuJZM=;
+ b=QvvLnB8xaj97TjEu/GPxHkjOtZEWMIwSzLSKWOQuDVgP9PGkTl0c/w+eMTUjyqSzHzAUdV
+ vSQgBwzk4MNpt3H6En0YdbYVlNN9J2O+TNSTX8wIErA+8Vis7R5ZzTZuHNKbnMDT+o6OdIBI
+ tMD9CQISZz8oBwhBGOz2VwmK9mpVo=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: patch CVE-2024-4603
-Date: Sat, 18 May 2024 12:43:06 +0200
-Message-Id: <20240518104306.3899726-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] openssl: patch CVE-2024-4603
+Date: Sat, 18 May 2024 12:43:56 +0200
+Message-Id: <20240518104356.3899784-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -34,8 +34,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 10:44:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199533
+ <openembedded-core@lists.openembedded.org>; Sat, 18 May 2024 10:44:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199534
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -43,18 +43,18 @@ Advisory: https://github.com/advisories/GHSA-85xr-ghj6-6m46
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../openssl/openssl/CVE-2024-4603.patch       | 180 ++++++++++++++++++
- .../openssl/openssl_3.0.13.bb                 |   1 +
- 2 files changed, 181 insertions(+)
+ .../openssl/openssl/CVE-2024-4603.patch       | 179 ++++++++++++++++++
+ .../openssl/openssl_3.2.1.bb                  |   1 +
+ 2 files changed, 180 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
 new file mode 100644
-index 0000000000..b8e0b9fb7d
+index 0000000000..50fb969c03
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
-@@ -0,0 +1,180 @@
-+From 3559e868e58005d15c6013a0c1fd832e51c73397 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,179 @@
++From da343d0605c826ef197aceedc67e8e04f065f740 Mon Sep 17 00:00:00 2001
 +From: Tomas Mraz <tomas@openssl.org>
 +Date: Wed, 8 May 2024 15:23:45 +0200
 +Subject: [PATCH] Check DSA parameters for excessive sizes before validating
@@ -75,13 +75,12 @@ index 0000000000..b8e0b9fb7d
 +<dropped CHANGES.md modifications as it would need backport of all previous changes>
 +
 +CVE: CVE-2024-4603
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/3559e868e58005d15c6013a0c1fd832e51c73397]
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/da343d0605c826ef197aceedc67e8e04f065f740]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
 + crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
 + .../invalid/p10240_q256_too_big.pem           | 57 +++++++++++++++++++
 + 2 files changed, 97 insertions(+), 4 deletions(-)
-+ create mode 100644 test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
 +
 +diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
 +index fb0e9129a2..122449a7bf 100644
@@ -234,13 +233,13 @@ index 0000000000..b8e0b9fb7d
 +-- 
 +2.30.2
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-index 3b253ddde0..87ab4047d9 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+index d37b68abbb..9bdf7e1ec6 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+@@ -14,6 +14,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
+            file://bti.patch \
             file://CVE-2024-2511.patch \
 +           file://CVE-2024-4603.patch \
             "
