@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C68C25B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F6FC25B78
 	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:34:06 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.61061.1716212041083107691
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.61066.1716212044553558316
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 06:34:01 -0700
+ Mon, 20 May 2024 06:34:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u7tf0w8p;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1ee954e0aa6so42631955ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TB6gMh4R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-662aeb8d157so136108a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212040; x=1716816840; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212044; x=1716816844; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MNGaTG3nk1BYo16nsp/zbtrOZXBF3+o/hhMX5XVeBKM=;
-        b=u7tf0w8p5zIUiG0i6L4thVCZmgpTL6jFo1/knYBg7bZXtGqGe3kmQkQc7mMkKbjrRE
-         ivwfu+mRwG9BsHVi2obKv5o6nfseE5t0MNdi9fcPNnpD5YDH039l/5ancNsQGbDaLt9v
-         7rfTXKlMVhhgxkiOuXcckijSRo00+nA26mU2AJP2pnFxZee9Vua0cRVjvwBig4KNMlHs
-         No5YhHWCEoazbhc7bwGgbj1IO1biYgMGsaWMcKYD7UveV+m3P2nBJ6H78GArZx/WvWpX
-         pnfgttf9Mnb33D8HXZOej+stsR7zdh0Dt8yH2XRfOSlne1Ft/o/YdvaEfFCuWPoCeWSH
-         t5ew==
+        bh=cQsibIfkcT/QkyTSSZ+KUAZc9mzQIsZybvaAtPfP+Rc=;
+        b=TB6gMh4RF0lY8GHjV90h2wcQKO1eLPxQgh8Mdbz+PbIdWO1sxd3dzlIymmxnG2Yvwn
+         yrj+GR0uOey+BzsJGFl2/LVtN34sZrHsBhmwdXIocS0Wgr7pq01gL8hbdbWpxsKjVr9I
+         rP/tHJrRbHpJR5/4mFCewyxx9Z/MSuv1Iu8q9dWhq/4NJhOc1OsBcQxwRNQGyNXZ/vei
+         F11t6e4Tdgd96YUNAOpysJo2wGosG6bwZ88jcgo1nH0PyuY79qnM0btJ3YsiOoGzJb2o
+         0R5Hdwi71o4BpbvCu/zIMklMme7i/TlRQKzYmhLNzIscX7wLbR0srP8vS2T4ZcOufigH
+         d6VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716212040; x=1716816840;
+        d=1e100.net; s=20230601; t=1716212044; x=1716816844;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MNGaTG3nk1BYo16nsp/zbtrOZXBF3+o/hhMX5XVeBKM=;
-        b=EyfPvtdNr0h3hFis94t0MH24Tdb3Yiz8oKOcNTNpqWsE7ik6BAM1hC9XsB1eShNVmu
-         YpTu+eQxXNAdTIhk7t0Z8F2pMUwa0plwu6h+bKghS+Jm9EiLi271KShsswZhSMNpze5w
-         gYgARWM+R8xXaGO6z7wiBNINRH2kTnC2RFsC88Pk3hLyWG6lxDHeI0Mc3P/pB9ponBnU
-         WmCqTKIDTgz8QzF3QJe+Q6Vz0BUP7H6iTlz/nijLl2X8zx2NJ8eRlouewZ6clxLrjDde
-         DL8kazWuQe3jc/kJJg4C/cyEojrAwQdgOBv2jf0SwedxQ3aYFLi9uXH93o4sXgHjUN8Z
-         AjFw==
-X-Gm-Message-State: AOJu0YykiZkP2D2zPLdQSFh0UK2Xl8gY/z0abRwECLZSHnh5pGxYg2z4
-	7hU9iLBKeQaC+wQi0hN6PdjFcTJkSfE/Q/D7oecQTwS+i3pNXuuwCr0YPqh9WtT/uTGjq9xyJcQ
-	b
-X-Google-Smtp-Source: AGHT+IHIgbF2u9IfasVbnIndgsVevoQjFC63hJY48JXNesZ9GyQt8fdD97PZsb5mfLWfoRsKoiTbAA==
-X-Received: by 2002:a05:6a21:9188:b0:1af:f89d:831d with SMTP id adf61e73a8af0-1aff89d8473mr21571039637.24.1716212040255;
-        Mon, 20 May 2024 06:34:00 -0700 (PDT)
+        bh=cQsibIfkcT/QkyTSSZ+KUAZc9mzQIsZybvaAtPfP+Rc=;
+        b=nU1TntEByCqZ1nnz4jB7C7445PREwlUfArCGiR6qH3yCjiTLxGVeAheSNunHrH0Vxg
+         ykntV75AZlJsntCKPiLQuiNvWU68a84vGIaIZlkNp8GOc5KkqWpbRqlUIIGyQHgJ8dWt
+         QbFZX4Ux7qJLKDh2/Fi6ppPDb7cbGh2Pv/5SZSuF9WCL5QA1anFKEWCPRLP0+B3GDwRo
+         Ld+XVD7TqBYcNScY0xyIfoeVsoQrWUttAH39crctQdQ6tgujSqn6qMyG6B/HVvyQKchW
+         iO/jB3iDxFi/K8aATTN7kTDrh3uKPm2ad7wI4qighonDxXHWMbJtTwPHQU/MGCozChPN
+         B5vQ==
+X-Gm-Message-State: AOJu0YxXE+5qjS9VVmklVllx62e8fHiX3KJGbrhmr2S2iAaYeUotAJML
+	P+GL3B/BRn3vmnQpzjmdEu8EfsshxbfzbL+pVZ75PtbhEUHFn0GLQltYOcu5DytfNh25m+JFJKM
+	S
+X-Google-Smtp-Source: AGHT+IEZE0QWk4REZNYRndFuNyZM4S7pHtUM1lcKzGhAzOmmgrFm1CR9BOU8KbEKA+xNZZRgfZ5vDw==
+X-Received: by 2002:a05:6a00:2d05:b0:6ed:cd4c:cc11 with SMTP id d2e1a72fcca58-6f4e0348519mr34133968b3a.25.1716212043763;
+        Mon, 20 May 2024 06:34:03 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.33.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 06:33:59 -0700 (PDT)
+        Mon, 20 May 2024 06:34:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/21] patchtest: test_metadata: fix invalid escape sequences
-Date: Mon, 20 May 2024 06:33:26 -0700
-Message-Id: <b5406d3691341c050a62fc9a32dc5573fd0c484f.1716211838.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 17/21] recipetool: Handle unclean response in go resolver
+Date: Mon, 20 May 2024 06:33:28 -0700
+Message-Id: <d61934122cdc9f2d68f99e5e3363c3f1808e7782.1716211838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716211838.git.steve@sakoman.com>
 References: <cover.1716211838.git.steve@sakoman.com>
@@ -62,44 +62,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199586
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199588
 
-From: Trevor Gamblin <tgamblin@baylibre.com>
+From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 
-Clear up the following warnings seen during patchtest runs:
+It appears that some go modules repond with a 404 error when trying to
+resolve them dynamically. The response body may still contain the
+go-import meta tag. An example for such behaviour is gonum.org/v1/gonum.
 
-|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:21: SyntaxWarning: invalid escape sequence '\+'
-|  add_mark = pyparsing.Regex('\+ ')
-|/workspace/yocto/poky/meta/lib/patchtest/tests/test_metadata.py:26: SyntaxWarning: invalid escape sequence '\:'
-|  git_regex = pyparsing.Regex('^git\:\/\/.*')
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 2d64317835a768898aac592b24fcbdfaf6c8357a)
+(cherry picked from commit 8f2e14ab6562a9a68819a960c66a258ea9dbe246)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/patchtest/tests/test_metadata.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/recipetool/create_go.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
-index be609dbd04..f5dbcf01ed 100644
---- a/meta/lib/patchtest/tests/test_metadata.py
-+++ b/meta/lib/patchtest/tests/test_metadata.py
-@@ -18,12 +18,12 @@ class TestMetadata(base.Metadata):
-     lictag_re  = pyparsing.AtLineStart("License-Update:")
-     lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
-     lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
--    add_mark = pyparsing.Regex('\+ ')
-+    add_mark = pyparsing.Regex('\\+ ')
-     max_length = 200
-     metadata_src_uri  = 'SRC_URI'
-     md5sum    = 'md5sum'
-     sha256sum = 'sha256sum'
--    git_regex = pyparsing.Regex('^git\:\/\/.*')
-+    git_regex = pyparsing.Regex('^git\\:\\/\\/.*')
-     metadata_summary = 'SUMMARY'
-     cve_check_ignore_var = 'CVE_CHECK_IGNORE'
-     cve_status_var = 'CVE_STATUS'
+diff --git a/scripts/lib/recipetool/create_go.py b/scripts/lib/recipetool/create_go.py
+index c560831442..0fb7115e26 100644
+--- a/scripts/lib/recipetool/create_go.py
++++ b/scripts/lib/recipetool/create_go.py
+@@ -16,7 +16,7 @@ from html.parser import HTMLParser
+ from recipetool.create import RecipeHandler, handle_license_vars
+ from recipetool.create import guess_license, tidy_licenses, fixup_license
+ from recipetool.create import determine_from_url
+-from urllib.error import URLError
++from urllib.error import URLError, HTTPError
+ 
+ import bb.utils
+ import json
+@@ -251,15 +251,18 @@ class GoRecipeHandler(RecipeHandler):
+         req = urllib.request.Request(url)
+ 
+         try:
+-            resp = urllib.request.urlopen(req)
+-
++            body = urllib.request.urlopen(req).read()
++        except HTTPError as http_err:
++            logger.warning(
++                "Unclean status when fetching page from [%s]: %s", url, str(http_err))
++            body = http_err.fp.read()
+         except URLError as url_err:
+             logger.warning(
+                 "Failed to fetch page from [%s]: %s", url, str(url_err))
+             return None
+ 
+         parser = GoImportHTMLParser()
+-        parser.feed(resp.read().decode('utf-8'))
++        parser.feed(body.decode('utf-8'))
+         parser.close()
+ 
+         return GoImport(parser.import_prefix, parser.vcs, parser.repourl, None)
 -- 
 2.34.1
 
