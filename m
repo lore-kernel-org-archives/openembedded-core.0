@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A642DC25B7B
-	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:34:06 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.61063.1716212042913808665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D44EC04FFE
+	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:34:16 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.61068.1716212047620827421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 06:34:02 -0700
+ Mon, 20 May 2024 06:34:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mQW8dKvj;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f457853950so1507412b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=abfkhUd6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f490b5c23bso101692b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212042; x=1716816842; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212047; x=1716816847; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IPtaApX9FqqXi7sg2xlqMy8rIYMMhmO/RFQ8WgwhEx4=;
-        b=mQW8dKvjWFmoDKV0LDF3Qx1VyhRuWUsR0tZSSLRMzjyGrRUkcPvB5vvFVAdWgJCdP+
-         txYn71/NHodp8UPN7gUzZIr592l7YMQzFpywqXF4Mng7cfTX1aeNHg3xsLde/A/XHmRj
-         GnAHr2ycGq9nMj0DXh0SC2jm2U+k7rdvQ15SDr/o4wusbbT6I/4bkV88PHRxNyHZ64jl
-         Id5WCiFjSrxT/Eg9S0JcK6WLG8V+KKIxcthrrLyNwS5FCcOnHhPJR9YtcFiNLbF2HImA
-         6jyVN2KidgknrWb2CDLxhShBKA7kwwHj1EIKbC2Ep+pXZBl9eAZuzVCKOYsTmpd6z1g/
-         ve7Q==
+        bh=V2HyNiVHbQA2VvL/+FnwoZp7nUow8kWeUUCbrjyiP0M=;
+        b=abfkhUd61qexHq/IPMyj0CK39qoQvL3brJi3nyWDfq54udUU/4BxGhpT4r8K2KMh4S
+         FZQdWq195nns7w5n4lJguo6L1/chpjkvKCKOakKvN7DAxcCPF6z65vwNci1Wt05tSU0G
+         bFw5L7DdhKqVMHSGgAXMZp+QUpjcssGcCA9QwFBNLIEV72g+/0trn94pbQWapQF1/E/3
+         BxXjz3z1La0kQbjyDykWb46aUKUB8A4B6ZVsMluRBDHd5tSf72euODCbRKwy96KTOrKi
+         ozK2sm+A3iGTRY0rNPqjEk2LV1XOCrYBrTILPyPXT220l+mc5tpTVhHRSCuHPVCxHQm5
+         PN2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716212042; x=1716816842;
+        d=1e100.net; s=20230601; t=1716212047; x=1716816847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IPtaApX9FqqXi7sg2xlqMy8rIYMMhmO/RFQ8WgwhEx4=;
-        b=lEgHgWXyAA9rmZ2490YWh2kDWEoS/fQG4XaYyynznqySK+R5l/mrAw6xjk8th5A07m
-         c7PwQZL1sbciidpbqn9iRRDf6HCWosb1luQKYWQYGY7KeRH+jNWhjfKR2C1cp2UtR+av
-         MH9jX2jkZ7dkLweQ27UhBGekIOaf2fW0cCvRPVmO7jjLap6JEHCYudqUqScKRWWXqzIh
-         DaUCLN2wiwkDr6A5y6TtNIjQATytlJtdg/iWseEWmWnxPq0cRB9hSdNfqsndTGRbocNY
-         aaSujYVPZe1phG1SD93NMhEbKn+dRfVlViNKurXwi+Dp/CLT2a0iZSCGf29MBcPzyym3
-         4gpg==
-X-Gm-Message-State: AOJu0YyTAR1OyXI0iMKULpyP+/cSVcfg+563R7tm40rSEn0tdm2msInj
-	xGfhEsLeeGHr/CJoRG+uQepdX0Np5iw2hB/HFM4HUrordpz8txAk9WY2jzpjsAf7uny8SJHjDjn
-	L
-X-Google-Smtp-Source: AGHT+IGxczfYisSmrLdr0CBhhDz9svIwgBE23hAVwHrrrAuH/HSaiOQ/59HfMmsuZ0BHuptHFpmIJg==
-X-Received: by 2002:a05:6a00:23c5:b0:6ea:c7bd:90e3 with SMTP id d2e1a72fcca58-6f69fc2fbf7mr8267304b3a.14.1716212041839;
-        Mon, 20 May 2024 06:34:01 -0700 (PDT)
+        bh=V2HyNiVHbQA2VvL/+FnwoZp7nUow8kWeUUCbrjyiP0M=;
+        b=UoYYUp4o88waQ1IJm0lQ3Asuum32jiq0sBgoYdg5/0YPnlJx3LvoCURhVs6AiIwoqf
+         EfjtwsNLfvBO78j6XeHfVp6xiuvyBUlUMbBKm+FNOD3tl074SgdI4QboQYUZ4vqAEpwm
+         DRyAZgRnkDGqZ9e/BQHp0SmaBu/nLRvFV8cCxg8Y912Sb1SMeuH6cDbAvojpf56oUxey
+         BXOTofRfkFMFm46MdZBig1BA2967poFBcQ0FDIb6gyvUQj/q5gwusXq2vEWliO/yhZ4F
+         unPxmb3EduX+wHU1Pbzf4Pmljq8+3lCN+RnMVpaqzIuw8ijIs3eUXigppndGQZ3+1/WY
+         3nvQ==
+X-Gm-Message-State: AOJu0Yy1hAQONnSH4X5LL5nZi1bDEQsF4e4eUHz1Ol4eTUnI0RnECx3n
+	fV0vu+wCIvLDhlp+w1OVk4CRYlxe6UbbHJDwV+Rs7ADNaSpJ5fv2lNh48h8rsgGe/dauBX6iRcV
+	1
+X-Google-Smtp-Source: AGHT+IFRfgsVGobohDQEZ2u9IUWj5hdesdEBK/Gw0LkOWpN6B0fAKjd2r/P86qFhiELg0Y5Stj1ECA==
+X-Received: by 2002:a05:6a00:188d:b0:6ea:afd2:b1dc with SMTP id d2e1a72fcca58-6f4e037e8acmr27978159b3a.29.1716212046762;
+        Mon, 20 May 2024 06:34:06 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 06:34:01 -0700 (PDT)
+        Mon, 20 May 2024 06:34:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/21] bash: Fix file-substitution error-handling bug
-Date: Mon, 20 May 2024 06:33:27 -0700
-Message-Id: <6a81ccc68f8389ca1c9c8eed009388045beea9e4.1716211838.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 19/21] lib/oe/package-manager: allow including self in create_packages_dir
+Date: Mon, 20 May 2024 06:33:30 -0700
+Message-Id: <20a6f55328733ad6f0c05b1353e8d525019aeea7.1716211838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716211838.git.steve@sakoman.com>
 References: <cover.1716211838.git.steve@sakoman.com>
@@ -61,78 +61,59 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199587
+ <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:34:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199590
 
-From: Zev Weiss <zev@bewilderbeest.net>
+From: Ross Burton <ross.burton@arm.com>
 
-This is part of a patch that's been upstream for a while but hasn't yet
-been released.  The bug is causing some downstream difficulties, so a
-local patch to tide us over until the next release makes things a bit
-easier.
+This function is typically used to construct a limited feed for image
+creation, but there are other cases when you might want a limited feed
+and include the current recipe's packages in it.
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit bf384d6618780dea2df24adac88ba4364cb65b9b)
+To ensure that existing behaviour is preserved, add a boolean to control
+this behaviour and default it to False.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit aada7fda2b118152d82b1ab295d92b8251afe4ac)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bash/bash/fix-filesubst-errexit.patch     | 34 +++++++++++++++++++
- meta/recipes-extended/bash/bash_5.2.21.bb     |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+ meta/lib/oe/package_manager/__init__.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-new file mode 100644
-index 0000000000..60f1852316
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-@@ -0,0 +1,34 @@
-+From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
-+From: Chet Ramey <chet.ramey@case.edu>
-+Date: Fri, 7 Apr 2023 00:28:46 -0700
-+Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
-+ enabled
-+
-+This is a trimmed-down version of a commit in the bash 'devel' branch
-+[1] that contains this fix as well as other unrelated ones.
-+
-+[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=ec9447ce9392a0f93d96789c3741285fede8a150
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-+---
-+ builtins/evalstring.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/builtins/evalstring.c b/builtins/evalstring.c
-+index df3dd68e2a7e..6612081cd646 100644
-+--- a/builtins/evalstring.c
-++++ b/builtins/evalstring.c
-+@@ -753,7 +753,7 @@ open_redir_file (r, fnp)
-+   fd = open(fn, O_RDONLY);
-+   if (fd < 0)
-+     {
-+-      file_error (fn);
-++      internal_error ("%s: %s", fn, strerror (errno));
-+       free (fn);
-+       if (fnp)
-+ 	*fnp = 0;
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.21.bb
-index 46d921bbe6..532adf4c1a 100644
---- a/meta/recipes-extended/bash/bash_5.2.21.bb
-+++ b/meta/recipes-extended/bash/bash_5.2.21.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://fix-run-builtins.patch \
-            file://use_aclocal.patch \
-            file://0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch \
-+           file://fix-filesubst-errexit.patch \
-            "
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 6774cdb794..d3b2317894 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -449,7 +449,7 @@ class PackageManager(object, metaclass=ABCMeta):
+             return res
+         return _append(uris, base_paths)
  
- SRC_URI[tarball.sha256sum] = "c8e31bdc59b69aaffc5b36509905ba3e5cbb12747091d27b4b977f078560d5b8"
+-def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies):
++def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies, include_self=False):
+     """
+     Go through our do_package_write_X dependencies and hardlink the packages we depend
+     upon into the repo directory. This prevents us seeing other packages that may
+@@ -486,14 +486,17 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+     pkgdeps = set()
+     start = [start]
+-    seen = set(start)
++    if include_self:
++        seen = set()
++    else:
++        seen = set(start)
+     # Support direct dependencies (do_rootfs -> do_package_write_X)
+     # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs -> do_package_write_X)
+     while start:
+         next = []
+         for dep2 in start:
+             for dep in taskdepdata[dep2][3]:
+-                if taskdepdata[dep][0] != pn:
++                if include_self or taskdepdata[dep][0] != pn:
+                     if "do_" + taskname in dep:
+                         pkgdeps.add(dep)
+                 elif dep not in seen:
 -- 
 2.34.1
 
