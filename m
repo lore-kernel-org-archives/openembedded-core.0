@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F6FC25B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A642DC25B7B
 	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:34:06 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.61066.1716212044553558316
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.61063.1716212042913808665
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 06:34:04 -0700
+ Mon, 20 May 2024 06:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TB6gMh4R;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-662aeb8d157so136108a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mQW8dKvj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f457853950so1507412b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212044; x=1716816844; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212042; x=1716816842; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cQsibIfkcT/QkyTSSZ+KUAZc9mzQIsZybvaAtPfP+Rc=;
-        b=TB6gMh4RF0lY8GHjV90h2wcQKO1eLPxQgh8Mdbz+PbIdWO1sxd3dzlIymmxnG2Yvwn
-         yrj+GR0uOey+BzsJGFl2/LVtN34sZrHsBhmwdXIocS0Wgr7pq01gL8hbdbWpxsKjVr9I
-         rP/tHJrRbHpJR5/4mFCewyxx9Z/MSuv1Iu8q9dWhq/4NJhOc1OsBcQxwRNQGyNXZ/vei
-         F11t6e4Tdgd96YUNAOpysJo2wGosG6bwZ88jcgo1nH0PyuY79qnM0btJ3YsiOoGzJb2o
-         0R5Hdwi71o4BpbvCu/zIMklMme7i/TlRQKzYmhLNzIscX7wLbR0srP8vS2T4ZcOufigH
-         d6VA==
+        bh=IPtaApX9FqqXi7sg2xlqMy8rIYMMhmO/RFQ8WgwhEx4=;
+        b=mQW8dKvjWFmoDKV0LDF3Qx1VyhRuWUsR0tZSSLRMzjyGrRUkcPvB5vvFVAdWgJCdP+
+         txYn71/NHodp8UPN7gUzZIr592l7YMQzFpywqXF4Mng7cfTX1aeNHg3xsLde/A/XHmRj
+         GnAHr2ycGq9nMj0DXh0SC2jm2U+k7rdvQ15SDr/o4wusbbT6I/4bkV88PHRxNyHZ64jl
+         Id5WCiFjSrxT/Eg9S0JcK6WLG8V+KKIxcthrrLyNwS5FCcOnHhPJR9YtcFiNLbF2HImA
+         6jyVN2KidgknrWb2CDLxhShBKA7kwwHj1EIKbC2Ep+pXZBl9eAZuzVCKOYsTmpd6z1g/
+         ve7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716212044; x=1716816844;
+        d=1e100.net; s=20230601; t=1716212042; x=1716816842;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cQsibIfkcT/QkyTSSZ+KUAZc9mzQIsZybvaAtPfP+Rc=;
-        b=nU1TntEByCqZ1nnz4jB7C7445PREwlUfArCGiR6qH3yCjiTLxGVeAheSNunHrH0Vxg
-         ykntV75AZlJsntCKPiLQuiNvWU68a84vGIaIZlkNp8GOc5KkqWpbRqlUIIGyQHgJ8dWt
-         QbFZX4Ux7qJLKDh2/Fi6ppPDb7cbGh2Pv/5SZSuF9WCL5QA1anFKEWCPRLP0+B3GDwRo
-         Ld+XVD7TqBYcNScY0xyIfoeVsoQrWUttAH39crctQdQ6tgujSqn6qMyG6B/HVvyQKchW
-         iO/jB3iDxFi/K8aATTN7kTDrh3uKPm2ad7wI4qighonDxXHWMbJtTwPHQU/MGCozChPN
-         B5vQ==
-X-Gm-Message-State: AOJu0YxXE+5qjS9VVmklVllx62e8fHiX3KJGbrhmr2S2iAaYeUotAJML
-	P+GL3B/BRn3vmnQpzjmdEu8EfsshxbfzbL+pVZ75PtbhEUHFn0GLQltYOcu5DytfNh25m+JFJKM
-	S
-X-Google-Smtp-Source: AGHT+IEZE0QWk4REZNYRndFuNyZM4S7pHtUM1lcKzGhAzOmmgrFm1CR9BOU8KbEKA+xNZZRgfZ5vDw==
-X-Received: by 2002:a05:6a00:2d05:b0:6ed:cd4c:cc11 with SMTP id d2e1a72fcca58-6f4e0348519mr34133968b3a.25.1716212043763;
-        Mon, 20 May 2024 06:34:03 -0700 (PDT)
+        bh=IPtaApX9FqqXi7sg2xlqMy8rIYMMhmO/RFQ8WgwhEx4=;
+        b=lEgHgWXyAA9rmZ2490YWh2kDWEoS/fQG4XaYyynznqySK+R5l/mrAw6xjk8th5A07m
+         c7PwQZL1sbciidpbqn9iRRDf6HCWosb1luQKYWQYGY7KeRH+jNWhjfKR2C1cp2UtR+av
+         MH9jX2jkZ7dkLweQ27UhBGekIOaf2fW0cCvRPVmO7jjLap6JEHCYudqUqScKRWWXqzIh
+         DaUCLN2wiwkDr6A5y6TtNIjQATytlJtdg/iWseEWmWnxPq0cRB9hSdNfqsndTGRbocNY
+         aaSujYVPZe1phG1SD93NMhEbKn+dRfVlViNKurXwi+Dp/CLT2a0iZSCGf29MBcPzyym3
+         4gpg==
+X-Gm-Message-State: AOJu0YyTAR1OyXI0iMKULpyP+/cSVcfg+563R7tm40rSEn0tdm2msInj
+	xGfhEsLeeGHr/CJoRG+uQepdX0Np5iw2hB/HFM4HUrordpz8txAk9WY2jzpjsAf7uny8SJHjDjn
+	L
+X-Google-Smtp-Source: AGHT+IGxczfYisSmrLdr0CBhhDz9svIwgBE23hAVwHrrrAuH/HSaiOQ/59HfMmsuZ0BHuptHFpmIJg==
+X-Received: by 2002:a05:6a00:23c5:b0:6ea:c7bd:90e3 with SMTP id d2e1a72fcca58-6f69fc2fbf7mr8267304b3a.14.1716212041839;
+        Mon, 20 May 2024 06:34:01 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 06:34:03 -0700 (PDT)
+        Mon, 20 May 2024 06:34:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/21] recipetool: Handle unclean response in go resolver
-Date: Mon, 20 May 2024 06:33:28 -0700
-Message-Id: <d61934122cdc9f2d68f99e5e3363c3f1808e7782.1716211838.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 16/21] bash: Fix file-substitution error-handling bug
+Date: Mon, 20 May 2024 06:33:27 -0700
+Message-Id: <6a81ccc68f8389ca1c9c8eed009388045beea9e4.1716211838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716211838.git.steve@sakoman.com>
 References: <cover.1716211838.git.steve@sakoman.com>
@@ -62,57 +62,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199588
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199587
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+From: Zev Weiss <zev@bewilderbeest.net>
 
-It appears that some go modules repond with a 404 error when trying to
-resolve them dynamically. The response body may still contain the
-go-import meta tag. An example for such behaviour is gonum.org/v1/gonum.
+This is part of a patch that's been upstream for a while but hasn't yet
+been released.  The bug is causing some downstream difficulties, so a
+local patch to tide us over until the next release makes things a bit
+easier.
 
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 8f2e14ab6562a9a68819a960c66a258ea9dbe246)
+(cherry picked from commit bf384d6618780dea2df24adac88ba4364cb65b9b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/recipetool/create_go.py | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ .../bash/bash/fix-filesubst-errexit.patch     | 34 +++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.2.21.bb     |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
 
-diff --git a/scripts/lib/recipetool/create_go.py b/scripts/lib/recipetool/create_go.py
-index c560831442..0fb7115e26 100644
---- a/scripts/lib/recipetool/create_go.py
-+++ b/scripts/lib/recipetool/create_go.py
-@@ -16,7 +16,7 @@ from html.parser import HTMLParser
- from recipetool.create import RecipeHandler, handle_license_vars
- from recipetool.create import guess_license, tidy_licenses, fixup_license
- from recipetool.create import determine_from_url
--from urllib.error import URLError
-+from urllib.error import URLError, HTTPError
+diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+new file mode 100644
+index 0000000000..60f1852316
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+@@ -0,0 +1,34 @@
++From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Fri, 7 Apr 2023 00:28:46 -0700
++Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
++ enabled
++
++This is a trimmed-down version of a commit in the bash 'devel' branch
++[1] that contains this fix as well as other unrelated ones.
++
++[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=ec9447ce9392a0f93d96789c3741285fede8a150
++
++Upstream-Status: Backport
++
++Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
++---
++ builtins/evalstring.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/builtins/evalstring.c b/builtins/evalstring.c
++index df3dd68e2a7e..6612081cd646 100644
++--- a/builtins/evalstring.c
+++++ b/builtins/evalstring.c
++@@ -753,7 +753,7 @@ open_redir_file (r, fnp)
++   fd = open(fn, O_RDONLY);
++   if (fd < 0)
++     {
++-      file_error (fn);
+++      internal_error ("%s: %s", fn, strerror (errno));
++       free (fn);
++       if (fnp)
++ 	*fnp = 0;
++-- 
++2.40.0
++
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.21.bb
+index 46d921bbe6..532adf4c1a 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.21.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://fix-run-builtins.patch \
+            file://use_aclocal.patch \
+            file://0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch \
++           file://fix-filesubst-errexit.patch \
+            "
  
- import bb.utils
- import json
-@@ -251,15 +251,18 @@ class GoRecipeHandler(RecipeHandler):
-         req = urllib.request.Request(url)
- 
-         try:
--            resp = urllib.request.urlopen(req)
--
-+            body = urllib.request.urlopen(req).read()
-+        except HTTPError as http_err:
-+            logger.warning(
-+                "Unclean status when fetching page from [%s]: %s", url, str(http_err))
-+            body = http_err.fp.read()
-         except URLError as url_err:
-             logger.warning(
-                 "Failed to fetch page from [%s]: %s", url, str(url_err))
-             return None
- 
-         parser = GoImportHTMLParser()
--        parser.feed(resp.read().decode('utf-8'))
-+        parser.feed(body.decode('utf-8'))
-         parser.close()
- 
-         return GoImport(parser.import_prefix, parser.vcs, parser.repourl, None)
+ SRC_URI[tarball.sha256sum] = "c8e31bdc59b69aaffc5b36509905ba3e5cbb12747091d27b4b977f078560d5b8"
 -- 
 2.34.1
 
