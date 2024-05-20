@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B17C04FFE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9113FC25B7A
 	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:34:06 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.60352.1716212046035654129
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.60348.1716212039102432283
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 06:34:06 -0700
+ Mon, 20 May 2024 06:33:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mo6RBjjo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ecd3867556so76890855ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:34:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mekCIq3q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f2ecea41deso66248335ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212045; x=1716816845; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212038; x=1716816838; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YyM8Tc2QOmyjHx6yEFfVZstVtp1j2S4wttcJGZ44Fso=;
-        b=mo6RBjjoj3vRowprEqXLPpP+hsKCWFZDzbwBYIaYBdd7iAcRVgioqYrrqB+4SYv9M8
-         +ZC7MN8b8RmL7qQiTcvrdqtd6IEio6cEoeSuknY56xkyb4GYEXmJHxk8VZQoiWm6QI/E
-         uoWQM0VXQ2BOzLfPImxixWPt+4hmjvu2xYktYcbN/lmGZXrh2DjPkQRGs+MFUedReyD6
-         MKov350zfzXFvONlhaL9fniVB7wajMro2z33Wl4V50HD899Of38XIVpZaduUGsfp0oc2
-         wrG+uBqo1IN6FJPHEmu/skwnyHzc7gm4uAS3Q5rrONysa5VZG95sh6CkuQ1kgDGwQ3mq
-         9hYA==
+        bh=A4+bi9Np6KOgwEwbkTuBHdqoIlxj+6S/e6P1SVF46hU=;
+        b=mekCIq3qA+jbunnyG+yJZeu2ZVgdjxMd8A4RFHB2URh72qEQTzM8LoCIa8V8Lim/qj
+         3ufIvNThtWmhRJmX1g7RtPoqGZCKsmmz9X72VPQd+n3YZW1uOBK1/l8k9suqQ0z+gH6u
+         nwLPaOmRMHISLTknWhj2kAxnycS9/mpkxfv0VaDJYFGO3tiKcvJdyN5JqX0663YF5pi0
+         uUWX/zWUy7zDawLYPaAFkvXc6FUJZEaLaBI7e32aurYWanli1U0PMR0YPq9DeO1brgmE
+         /ZuBOqNNbqsi4QuIOn7Qxsj/26aIKB2Qa6hcxOWwGVU5sJMvLKzWsm+2mNz4u7Auzbi4
+         0x9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716212045; x=1716816845;
+        d=1e100.net; s=20230601; t=1716212038; x=1716816838;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YyM8Tc2QOmyjHx6yEFfVZstVtp1j2S4wttcJGZ44Fso=;
-        b=elTrMzP7IbZXaO4dmGRR4hjw0bLcqWs4L6g+75rZu1Pxd/WhvrLigDPwED/QEUNO8C
-         9HWoPUpRoOPV8w6PyxPY90ngD81kJEMNSQYblH1okOIlUgrdOqyX0yw+IkO4q5ybclwL
-         1O+jq529isofqdd5pFYvPE6loAmbqOMvAKkXi76phDI5sV1Iykbf4bUPq+MulOpBMB5z
-         z1lubloxTqmHBZM6BMV0AYRupKH/ge45cAkNxPl3A1+r9bNsWTudCOiq0S5fkCLvuB/5
-         m1hmir2JpKfCq9//LvFvPx24zpt3np3FTWfZYfqKzS8A3kdBU97eEwntB8fw9IhD6F+i
-         ULaA==
-X-Gm-Message-State: AOJu0Yy/XKUuIz8ln6cePgEbEzM+ostrgXYRL+y5lDY0XN43xrD0/412
-	J04Ng4GctcS4DSOMA5MDxjV3WcZlYmy5TebLvwxw5eaNRR/rT2p1z9J1tkQuWweyLnrjyocYlgw
-	d
-X-Google-Smtp-Source: AGHT+IEoo3FbYXN7Np1ICk2lPQYXFEzq1c0UJp0bHhJWmKTjeKtfnzUXr50WYHUhawZ6EmlM+KNgGw==
-X-Received: by 2002:a05:6a21:3949:b0:1b1:d519:6cce with SMTP id adf61e73a8af0-1b1d5196dc6mr3733811637.57.1716212045364;
-        Mon, 20 May 2024 06:34:05 -0700 (PDT)
+        bh=A4+bi9Np6KOgwEwbkTuBHdqoIlxj+6S/e6P1SVF46hU=;
+        b=GpuRk1PyTjw9bDkiNNpVqB/hyrdpUAZ+zgot15A3QXxfJME/KNdJO9bgXFiT6Hs3sd
+         MAg62HE+R8Ln3W7/3aDawfD82pWA43mUd8qgl3w6h8nrnUKNqgGf2c+r+n2jT1VBjovg
+         jzRmqDg6DvB6QSDOfXLi92IyJsqkiopXg85nzeCJduQ/HyyjvzhjxnqiAehUp6gn1DMb
+         I8A3HAJFtoqpjKT58t1UuIaa1QIALlsv2fltY0j+Sh6ISXCnj8lAkOEfaSRx8UZyDLcM
+         3fUaSkgIKNlvanJHdi2SGJ+o9W2D8gjrmEGfq5gi91QLZIq6ZHwsEx+BgHiha9iH2r1i
+         jkgQ==
+X-Gm-Message-State: AOJu0Yx+1BZnCziMnXMiZa1NB0N5CeAUipE2KTPNDsXoyQOqK7R61enr
+	4/Cy5l2yI/wf2DDXohUpTm9pl4s2EESYiOv+qzqToJOpAt/vszTZBnNztdrwnzh2q+WRX3UYDlC
+	e
+X-Google-Smtp-Source: AGHT+IFOn1/GTpv6OnAkLiIY5a5FLj/jLK9QrltwapzcrEv7dnn8JIKPKl6B7ceAdbbI+kV0DmN5pg==
+X-Received: by 2002:a05:6a20:7350:b0:1af:a72e:8b7e with SMTP id adf61e73a8af0-1afde1b6f32mr34067669637.50.1716212038383;
+        Mon, 20 May 2024 06:33:58 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.34.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.33.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 06:34:04 -0700 (PDT)
+        Mon, 20 May 2024 06:33:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/21] recipetool: Handle several go-import tags in go resolver
-Date: Mon, 20 May 2024 06:33:29 -0700
-Message-Id: <b198617a988d6eeef09b84e1009c0dc8fb55a9c5.1716211838.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 14/21] libcgroup_3.1.0: fix build on non-systemd systems
+Date: Mon, 20 May 2024 06:33:25 -0700
+Message-Id: <c0708adce620bcce5e503851fa6598bd941276eb.1716211838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716211838.git.steve@sakoman.com>
 References: <cover.1716211838.git.steve@sakoman.com>
@@ -62,79 +62,76 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199589
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199585
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+From: Adriaan Schmidt <adriaan.schmidt@siemens.com>
 
-When dynamically resolving go modules, the HTML page may contain several
-go-import meta tags. We must handle all and pick the correct one based
-on the module name. An example for such a behaviour is
-gonum.org/v1/gonum:
+backport upstream commit 592dcdcf243576bd2517d3da9bc18990de08e37e
+to fix packaging when building with --enable-systemd=no
 
-<meta name="go-import" content="gonum.org/v1/exp git https://github.com/gonum/exp">
-<meta name="go-import" content="gonum.org/v1/gonum git https://github.com/gonum/gonum">
-<meta name="go-import" content="gonum.org/v1/hdf5 git https://github.com/gonum/hdf5">
-<meta name="go-import" content="gonum.org/v1/netlib git https://github.com/gonum/netlib">
-<meta name="go-import" content="gonum.org/v1/plot git https://github.com/gonum/plot">
-<meta name="go-import" content="gonum.org/v1/tools git https://github.com/gonum/tools">
-
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 9c36a61e29359067165bddc7f2accdf2c4c8a761)
+Signed-off-by: Adriaan Schmidt <adriaan.schmidt@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/recipetool/create_go.py | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ ...akefile-install-systemd.h-by-default.patch | 37 +++++++++++++++++++
+ .../recipes-core/libcgroup/libcgroup_3.1.0.bb |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/libcgroup/libcgroup/0001-include-Makefile-install-systemd.h-by-default.patch
 
-diff --git a/scripts/lib/recipetool/create_go.py b/scripts/lib/recipetool/create_go.py
-index 0fb7115e26..a85a2f2786 100644
---- a/scripts/lib/recipetool/create_go.py
-+++ b/scripts/lib/recipetool/create_go.py
-@@ -225,7 +225,7 @@ class GoRecipeHandler(RecipeHandler):
+diff --git a/meta/recipes-core/libcgroup/libcgroup/0001-include-Makefile-install-systemd.h-by-default.patch b/meta/recipes-core/libcgroup/libcgroup/0001-include-Makefile-install-systemd.h-by-default.patch
+new file mode 100644
+index 0000000000..4b743f9b33
+--- /dev/null
++++ b/meta/recipes-core/libcgroup/libcgroup/0001-include-Makefile-install-systemd.h-by-default.patch
+@@ -0,0 +1,37 @@
++From 592dcdcf243576bd2517d3da9bc18990de08e37e Mon Sep 17 00:00:00 2001
++From: Kamalesh Babulal <kamalesh.babulal@oracle.com>
++Date: Mon, 27 Nov 2023 20:07:33 +0530
++Subject: [PATCH 1/1] include/Makefile: install systemd.h by default
++
++Install systemd.h header file by default, as we have stub and defined
++versions of the systemd functions for both non-systemd and systemd
++enabled configurations.  This will help packagers to ship package
++without systemd support (--enable-systemd=no).
++
++Signed-off-by: Kamalesh Babulal <kamalesh.babulal@oracle.com>
++Signed-off-by: Tom Hromatka <tom.hromatka@oracle.com>
++
++Upstream-Status: Backport [https://github.com/libcgroup/libcgroup/commit/592dcdcf243576bd2517d3da9bc18990de08e37e]
++
++Signed-off-by: Adriaan Schmidt <adriaan.schmidt@siemens.com>
++---
++ include/Makefile.am | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
++
++diff --git a/include/Makefile.am b/include/Makefile.am
++index 23cebaac..4cb05529 100644
++--- a/include/Makefile.am
+++++ b/include/Makefile.am
++@@ -2,8 +2,4 @@
++ nobase_include_HEADERS = libcgroup.h libcgroup/error.h libcgroup/init.h \
++ 			 libcgroup/groups.h libcgroup/tasks.h \
++ 			 libcgroup/iterators.h libcgroup/config.h \
++-			 libcgroup/log.h libcgroup/tools.h
++-
++-if WITH_SYSTEMD
++-nobase_include_HEADERS += libcgroup/systemd.h
++-endif
+++			 libcgroup/log.h libcgroup/tools.h libcgroup/systemd.h
++-- 
++2.39.2
++
+diff --git a/meta/recipes-core/libcgroup/libcgroup_3.1.0.bb b/meta/recipes-core/libcgroup/libcgroup_3.1.0.bb
+index 4b4f19e36f..a1d27c7e7f 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_3.1.0.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_3.1.0.bb
+@@ -13,6 +13,7 @@ DEPENDS = "bison-native flex-native"
+ DEPENDS:append:libc-musl = " fts"
  
-             def __init__(self):
-                 super().__init__()
--                self.__srv = []
-+                self.__srv = {}
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
++           file://0001-include-Makefile-install-systemd.h-by-default.patch \
+ "
+ UPSTREAM_CHECK_URI = "https://github.com/libcgroup/libcgroup/tags"
  
-             def handle_starttag(self, tag, attrs):
-                 if tag == 'meta' and list(
-@@ -233,19 +233,14 @@ class GoRecipeHandler(RecipeHandler):
-                     content = list(
-                         filter(lambda a: (a[0] == 'content'), attrs))
-                     if content:
--                        self.__srv = content[0][1].split()
-+                        srv = content[0][1].split()
-+                        self.__srv[srv[0]] = srv
- 
--            @property
--            def import_prefix(self):
--                return self.__srv[0] if len(self.__srv) else None
--
--            @property
--            def vcs(self):
--                return self.__srv[1] if len(self.__srv) else None
--
--            @property
--            def repourl(self):
--                return self.__srv[2] if len(self.__srv) else None
-+            def go_import(self, modulepath):
-+                if modulepath in self.__srv:
-+                    srv = self.__srv[modulepath]
-+                    return GoImport(srv[0], srv[1], srv[2], None)
-+                return None
- 
-         url = url.geturl() + "?go-get=1"
-         req = urllib.request.Request(url)
-@@ -265,7 +260,7 @@ class GoRecipeHandler(RecipeHandler):
-         parser.feed(body.decode('utf-8'))
-         parser.close()
- 
--        return GoImport(parser.import_prefix, parser.vcs, parser.repourl, None)
-+        return parser.go_import(modulepath)
- 
-     def __resolve_from_golang_proxy(self, modulepath, version):
-         """
 -- 
 2.34.1
 
