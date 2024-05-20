@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 389E2C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 465FFC25B78
 	for <webhook@archiver.kernel.org>; Mon, 20 May 2024 13:33:56 +0000 (UTC)
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.60345.1716212035779753775
+ by mx.groups.io with SMTP id smtpd.web11.61057.1716212034182707528
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 06:33:55 -0700
+ Mon, 20 May 2024 06:33:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hJZZQ/t4;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0czjCuYI;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ee954e0aa6so42629235ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:33:55 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so76875615ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 06:33:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212035; x=1716816835; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716212033; x=1716816833; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=17SMrBBb8pHkvS9XpyI3j8pil586E99gVxjn/foBUVY=;
-        b=hJZZQ/t4NkDams201O3ZZDyeFtsjqf6/T+M4dswcrwEdzIIYxVhqQIckD8uc+EnhWN
-         Juw5d/sQ0RQqBraA8fotYBIJEseu804XJq7mFAGHp1M7Zi7MQ+KjQxidzVyds4/0PvRk
-         T6BDnHZCveQBRLLwrNF5L4TgRge1/SgBxmpJEtNDd/j9WcIZkok4zGVMIskYzyncUTQm
-         G0C6HsDOYL/jPlRk6Iq1z1zKFNMHAsOxtHJnv9BgilUuxthbh1VKU4Bqz0LrrIGs9Zp6
-         s0o6UJBh9cX2KmlCgcYwHKD5Qn7kg5iReEBTLMRcmpjeUY6nSRdCTELURtuTGzQIdbLs
-         Ey0g==
+        bh=Un06W+P6q0q/EWD8nzbpt/TVBNssld/q56Ltc0iPjEw=;
+        b=0czjCuYIVr80ecSjOLKcuzur+/1Uh8OWP5JYorJnOxg2IkXB/SJ/c48DATqqCV3y1p
+         SSSrwnOHegsT21X8irt60F6O9TJOqgzo4bhB2YuZJvEWCi+hQ1519ntV62dvRuRrJPUp
+         LAxS57zelu/vJWlwLCMqEFOn2cLBfSkR5K9ToeJ8oPf2Xa91J93GnmWG/6HeE0xhDNpl
+         ibTAksTYez7M2f/NC1CH4ZE4MLb+IHF6punXbSq5GaMfmf9Pj3YblkM+PvqdtpAaXzMn
+         9/AHaIrblcSlE3V7YfcISqdDfPIHC0kKx4+wmVpJv90bqks4FHdbhNi/QtSJNVD6YDzE
+         hKaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716212035; x=1716816835;
+        d=1e100.net; s=20230601; t=1716212033; x=1716816833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=17SMrBBb8pHkvS9XpyI3j8pil586E99gVxjn/foBUVY=;
-        b=Sx3K9yhXsrwwRdIVYj8YjYwoy7EtLYqPTJBEOIXUnbbH+7xJvhFqRXHTMp2BQNqHo+
-         FEYdrnTP9fl3H+g0q/Yvvs+YW5sKfIfY/4GP13yS4BzcpS8BZPNWr6wLJfTg2P3oAMsV
-         PEg57NwXC7BzfAqKOXmi0D4xrd8i7FYGWNh7BsNCAigNcH0e6GVIPiiy6ZjnWyfgZkBh
-         oGymd8wYNlv2s6RfckVbJrXIT65fxjynWlW2KzoDtCJjc5cOaiSR+uIxUkru4WQTgeyE
-         p5eQLGbPfvmfQryeD9ITintffWMAJG94Wl1eCS/dO6pyl1Xg/smxRjvNJbEPO+MmMG4G
-         IlJg==
-X-Gm-Message-State: AOJu0Yxl8AwwZTFZ9jf+2JuJVChMg17VDO3Z+SgoROQV/qNR/IIVG5tR
-	L6nWYNIb5G14LwE1KHXrjIxBbBlLSSAp7+FZmY4FGSR0SxT/R9buLqegr1nRlIwvURrLSR0Ehk5
-	x
-X-Google-Smtp-Source: AGHT+IGVItV41oBsj5Pg94bkM6ieEbPQ29WvPPyeTVb19WitO3/JSCtrhNfveQzvGyRKuMOJm5H7uw==
-X-Received: by 2002:a05:6a21:3a82:b0:1b0:119c:7587 with SMTP id adf61e73a8af0-1b0119c783bmr19170701637.51.1716212035048;
-        Mon, 20 May 2024 06:33:55 -0700 (PDT)
+        bh=Un06W+P6q0q/EWD8nzbpt/TVBNssld/q56Ltc0iPjEw=;
+        b=cioQ2g3mbPH5D2d5rR3lWkL28+/NkfklLtG3u5s+GAhtKNuXfx8lLv8sO/Z6h8uIVJ
+         0NyUPsf2ZnyLcYfamShUvYQ5uhw/xkkrcdF3r80uMX5CPxUlWEJ+q3x/YDwvTTtSwG8e
+         RK3zqKw0tdFGXqWf2tnVL5nE4+lmnc/91/EVhqX+Nyd7pM0vP9kRMR7Js/6b2efyBk6N
+         ONma/+5hJ6Um10bQkKoCHFCfoNpWfImOKpQnVXXRTqLYUyIN8n4qUpWGc/D7+u8UDv1L
+         4aeihzVDUWyMSSSNnUaOh767rdUjB52tPROdD9+5GGixfv568F7w0lJ8+2BJ5R5dw2oH
+         RjtQ==
+X-Gm-Message-State: AOJu0YxUKBIUutxMVp45G6FNyydfIsHsR/b6+aiqbIIOFButK7zWLZ1l
+	Xo5foogTrY6dT6e8tTn0KhNCwFvAhP+M2zJVgZyNdHsYFbqeTjiULUU02sRO3qW4mabEuuZ58F+
+	G
+X-Google-Smtp-Source: AGHT+IH5muBqfe5lqgex1ClXPGpH3x/e/sYqCkCVUF/OPZBDIbUV7do5D22EvjCWk8owabvLzsjHiA==
+X-Received: by 2002:a05:6a21:1518:b0:1b0:9b7:bbe3 with SMTP id adf61e73a8af0-1b009b7c0d3mr20612135637.0.1716212033499;
+        Mon, 20 May 2024 06:33:53 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.33.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66621sm19671465b3a.13.2024.05.20.06.33.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 06:33:54 -0700 (PDT)
+        Mon, 20 May 2024 06:33:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/21] Revert "goarch: disable dynamic linking globally"
-Date: Mon, 20 May 2024 06:33:23 -0700
-Message-Id: <137bb70ddf9dce30374cbb366196da0d8cc94205.1716211838.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/21] go: Drop the linkmode completely
+Date: Mon, 20 May 2024 06:33:22 -0700
+Message-Id: <941c8535eaaca5790c9bc2b3d21d8ce402dbb431.1716211838.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716211838.git.steve@sakoman.com>
 References: <cover.1716211838.git.steve@sakoman.com>
@@ -62,48 +62,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 13:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199583
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199582
 
 From: Jose Quaresma <quaresma.jose@gmail.com>
 
-This reverts commit 827c60b79e7fcafd14e68870f6b69dcc48ac9c39.
-
-Fixed with the drop of the linkmode
+This will make possible to restore the default dynamic linking globally
+which is what we had before the 1.20.X release.
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8f46f60a703defc3e74adad382320c129cef0b06)
+(cherry picked from commit 6ad90fc2fc49c4199a59dfb1c1d81a7ba184a522)
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/goarch.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/classes-recipe/go.bbclass          | 2 --
+ meta/recipes-devtools/go/go-runtime.inc | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/goarch.bbclass b/meta/classes-recipe/goarch.bbclass
-index 6899ec28e4..1ebe03864f 100644
---- a/meta/classes-recipe/goarch.bbclass
-+++ b/meta/classes-recipe/goarch.bbclass
-@@ -38,13 +38,13 @@ BASE_GOARM:armv5 = '5'
- # Go supports dynamic linking on a limited set of architectures.
- # See the supportsDynlink function in go/src/cmd/compile/internal/gc/main.go
- GO_DYNLINK = ""
--GO_DYNLINK:arm = ""
--GO_DYNLINK:aarch64 = ""
--GO_DYNLINK:x86 = ""
--GO_DYNLINK:x86-64 = ""
--GO_DYNLINK:powerpc64 = ""
--GO_DYNLINK:powerpc64le = ""
--GO_DYNLINK:class-native = ""
-+GO_DYNLINK:arm ?= "1"
-+GO_DYNLINK:aarch64 ?= "1"
-+GO_DYNLINK:x86 ?= "1"
-+GO_DYNLINK:x86-64 ?= "1"
-+GO_DYNLINK:powerpc64 ?= "1"
-+GO_DYNLINK:powerpc64le ?= "1"
-+GO_DYNLINK:class-native ?= ""
- GO_DYNLINK:class-nativesdk = ""
+diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.bbclass
+index cc3564c36a..d32509aa6d 100644
+--- a/meta/classes-recipe/go.bbclass
++++ b/meta/classes-recipe/go.bbclass
+@@ -48,8 +48,6 @@ GO_RPATH:class-native = "${@'-r ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE
+ GO_RPATH_LINK:class-native = "${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
+ GO_LINKMODE ?= ""
+-GO_LINKMODE:class-nativesdk = "--linkmode=external"
+-GO_LINKMODE:class-native = "--linkmode=external"
+ GO_EXTRA_LDFLAGS ?= ""
+ GO_LINUXLOADER ?= "-I ${@get_linuxloader(d)}"
+ # Use system loader. If uninative is used, the uninative loader will be patched automatically
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index 3f1e795dd9..413cf6d33f 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -15,7 +15,7 @@ export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-pr
+ export GOCACHE = "${B}/.cache"
  
- # define here because everybody inherits this class
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
+-GO_SHLIB_LDFLAGS ?= '-ldflags="--linkmode=external -extldflags '${GO_EXTLDFLAGS}'"'
++GO_SHLIB_LDFLAGS ?= '-ldflags="-extldflags '${GO_EXTLDFLAGS}'"'
+ 
+ do_configure() {
+ 	:
 -- 
 2.34.1
 
