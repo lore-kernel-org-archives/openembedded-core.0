@@ -1,91 +1,129 @@
-Return-Path: <marex@denx.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD15C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 11:45:44 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web10.17659.1716291936262083105
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D121C41513
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 12:50:55 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.18801.1716295849509947103
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 04:45:36 -0700
+ Tue, 21 May 2024 05:50:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=fWez4/aT;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id DA0EE87E0D;
-	Tue, 21 May 2024 13:45:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1716291934;
-	bh=xEPdOtMmKQ8znahVb8Y0WXKR4KUH1rjujXct1PDv6Ts=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fWez4/aTN4tEkqfiqeRtDvBgCvZWoJS3zjXkxch+nG/BeasIS5+hT6a+sps9KMy6F
-	 yNTvj19TdDoeJcprCoYoZS22L8axq/bdwQqK/bBm3v/7ZJL/Mcfs1h5rX5al5/M1uC
-	 Q+h/hlcHRbHoGFo5iP/0/yqmxhoxhmxNuapTrGzIgJ4YUTSSYp6fyXBSza3BfBSgG1
-	 yvsdMul4eOU3ycOHgKRP7CRflcCY28XZ8c40h16SUNXLTG9cO6t609Pglnhf+3G/+y
-	 aqA8p0oIAqJa03B0jLKLcK28wAz22i+QZE/yT9aGKD/aSu75BqDgRzaAMA2g5iPTEq
-	 U01VKkQxgFHAg==
-From: Marek Vasut <marex@denx.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kbfg83w4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a59b49162aeso827173466b.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 05:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716295848; x=1716900648; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jPNcM1xdWejvI+BC1btAiA9YQq7o6vAKPdbz5T/xGJw=;
+        b=Kbfg83w4vpVRIbN+B/7hfLuoZ4t3HZdQlgxt4aHArJ0ch2s8HWNhWwL0OvcHg5Q1j4
+         BJ+WW3Z6cLrblA+EHhOGDSbnbNhKnd1+ceR/tHN/2KxLn++q8a8qOiC1z6t7de/Yvjei
+         gmf5j0uZlaKqdbJ76Dr3PaAIVnFyqeeRjwYn6colxdl8bTa/xjUDt0GwEbGGHZJ++YN0
+         WPcI9W+awdV1o1dj8/IpbWaY6eZ4RvaPxhgHeqFc2rirKzO4BtvOcxuqYErYtm3CdYOn
+         FDHM89xnPtZ9N2WxgVnb++f83Mvn7yeFVhR05UxcOODEMEH5nNVRrfVlAA7vZw22tD7u
+         kfkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716295848; x=1716900648;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jPNcM1xdWejvI+BC1btAiA9YQq7o6vAKPdbz5T/xGJw=;
+        b=rcS/31YCX0Djg3UzdCVLwHuTfTawTs6WxgchASsVs2e7r1EYamQJAVnX1o5U1f8St2
+         MyjSb3TDJLH6pJG2SHPBKlL+Z6wuYsFOmlNdb+mLqq4LIiClxIxt8OzLiUFRA+8D7hmX
+         7T1UCqTTKhjw812wO5ex0wL6U7jL4f7qwUGYywnqIL39tAKB1AN6uKy/4rvMa8KClHHk
+         KezvvkL/704f/haT4kc+PW5LEuDqsok5SvbZ+RfMcRW3g9BqbfrTqbk3Rd0k8Muvhg0o
+         KwE4znbR8olJykKIKBCB1T9z8v9HXBFY/h0vgaamzBrmI7d3lzCQYu1Uqm0oc7bOo1Cy
+         UBKA==
+X-Gm-Message-State: AOJu0Yzj6VZTjmxgyZhXb2f6wXPFOhc+kzgdZrox7VYnUbcWtHUUd1r/
+	R4oknS9yGsvS0Wb3VNJmiFHdhVDGX8ZdeZYKG1QV3ZNLg5We3eOMMOlymg==
+X-Google-Smtp-Source: AGHT+IFSTErMR5DQmr9I3vbmR65hlcVudh8D3ApYXpTXs4Ruyay0Oh7M/htAKtVVvdjvqyhTRTgUxg==
+X-Received: by 2002:a17:906:305a:b0:a59:db0f:6be4 with SMTP id a640c23a62f3a-a5a2d534ec4mr2049361166b.5.1716295847626;
+        Tue, 21 May 2024 05:50:47 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d294sm1595584166b.28.2024.05.21.05.50.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 May 2024 05:50:47 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Marek Vasut <marex@denx.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] gstreamer1.0-plugins-good: Include qttools-native during the build with qt5 PACKAGECONFIG
-Date: Tue, 21 May 2024 13:44:48 +0200
-Message-ID: <20240521114523.13147-1-marex@denx.de>
-X-Mailer: git-send-email 2.43.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v2 3/5] rust: use rust-snapshot binaries only in rust-native
+Date: Tue, 21 May 2024 14:50:39 +0200
+Message-Id: <20240521125041.3611820-3-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240521125041.3611820-1-alex.kanavin@gmail.com>
+References: <20240521125041.3611820-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 11:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199631
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 12:50:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199634
 
-The qttools provide 'lrelease' tool, which is checked by recent
-versions of meson build system. Unless the qttools are available
-in sysroot, meson will fail to detect qt5 installation at build
-time and the gstreamer build will fail. Fix this by including
-the qttools-native.
+From: Alexander Kanavin <alex@linutronix.de>
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ae2ca4af54695003638da38f8548aa8573d18201)
+Otherwise, use rust-native and cargo-native binaries as that allows
+our native tweaks in them to be used for target/nativesdk rust -
+same as for everything else written in rust.
+
+In particular, this allows building target rust with
+cargo-native that includes important reproducibility tweaks.
+
+Unfortunately, this also breaks rust selftest, and that
+is partially addressed by the following commit.
+
+[YOCTO #15185]
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../gstreamer/gstreamer1.0-plugins-good_1.22.11.bb              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/rust/rust_1.75.0.bb | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_=
-1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_=
-1.22.11.bb
-index edd8609b7c..85143aa1b9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11=
-.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11=
-.bb
-@@ -52,7 +52,7 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denabled,-Dpng=3D=
-disabled,libpng"
- PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3D=
-disabled,v4l-utils"
- PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=3Ddisabled,mp=
-g123"
- PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddisabled,puls=
-eaudio"
--PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase q=
-tdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
-+PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase q=
-tdeclarative qtbase-native qttools-native ${QT5WAYLANDDEPENDS}"
- PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4,,,soup3"
- PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,soup2"
- PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Ddisabled,spee=
-x"
---=20
-2.43.0
+diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
+index 8ef838ee90c..e82a7395e44 100644
+--- a/meta/recipes-devtools/rust/rust_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+@@ -11,6 +11,11 @@ DEPENDS += "file-native python3-native"
+ DEPENDS:append:class-native = " rust-llvm-native"
+ DEPENDS:append:class-nativesdk = " nativesdk-rust-llvm"
+ 
++# native rust uses cargo/rustc from binary snapshots to bootstrap
++# but everything else should use our native builds
++DEPENDS:append:class-target = " cargo-native rust-native"
++DEPENDS:append:class-nativesdk = " cargo-native rust-native"
++
+ DEPENDS += "rust-llvm (=${PV})"
+ 
+ RDEPENDS:${PN}:append:class-target = " gcc g++ binutils"
+@@ -68,6 +73,11 @@ addtask do_test_compile after do_configure do_rust_gen_targets
+ do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
+ do_rust_setup_snapshot[vardepsexclude] += "UNINATIVE_LOADER"
+ 
++RUSTC_BOOTSTRAP = "${STAGING_BINDIR_NATIVE}/rustc"
++CARGO_BOOTSTRAP = "${STAGING_BINDIR_NATIVE}/cargo"
++RUSTC_BOOTSTRAP:class-native = "${WORKDIR}/rust-snapshot/bin/rustc"
++CARGO_BOOTSTRAP:class-native = "${WORKDIR}/rust-snapshot/bin/cargo"
++
+ python do_configure() {
+     import json
+     import configparser
+@@ -141,10 +151,10 @@ python do_configure() {
+     config.set("build", "docs", e(False))
+     config.set("build", "tools", ["rust-demangler",])
+ 
+-    rustc = d.expand("${WORKDIR}/rust-snapshot/bin/rustc")
++    rustc = d.getVar('RUSTC_BOOTSTRAP')
+     config.set("build", "rustc", e(rustc))
+ 
+-    cargo = d.expand("${WORKDIR}/rust-snapshot/bin/cargo")
++    cargo = d.getVar('CARGO_BOOTSTRAP')
+     config.set("build", "cargo", e(cargo))
+ 
+     config.set("build", "vendor", e(True))
+-- 
+2.39.2
 
 
