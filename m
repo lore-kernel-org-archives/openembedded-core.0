@@ -1,108 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1857C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 14:51:15 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.21677.1716303065653876243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0925EC41513
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 15:12:26 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.22267.1716304344820586171
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 07:51:06 -0700
+ Tue, 21 May 2024 08:12:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WHZDkV0w;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34e0d47bd98so2079485f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 07:51:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KtWGFw0F;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f43ee95078so1654711b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 08:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1716303064; x=1716907864; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I1gvRWuClOi/8UkKouBoAg+Ysf/zalLshR2x1vBPuxI=;
-        b=WHZDkV0wiRXp4S7qmbgJGuK9XM1e4NkC9BCh8g/2Go0cGUOqLJFz4DSCtpT3RB4Yz/
-         J9CyqdmoxaLF5BDVmJmSsnUPNQWPoj8fJTba/S1wU2UniMgZzP7mpP7qrYyTs2D0zML0
-         YoKKC/FRd1bh49S7wOsyEfpXNYrG+TjIDqMXg=
+        d=gmail.com; s=20230601; t=1716304344; x=1716909144; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CB82LKV8fZe5wOdh0wge7rgb75YS2HNJosRNfBcImsY=;
+        b=KtWGFw0F2cOLdSXKasIoHAMYe4LefYXPv99w852ffIW2CedoNZ3CL8KXSfzIvzQGjQ
+         ge1vGCG+uN+tVaMQVxoYK53UoYF7Se+KWZYgzI9Ee512ml06FCcl/sqhBFYoyd5Brwv1
+         KbCFh6g3Y2lfvEfkmit0LloLsTtRS1cpvTZl47fGDjyfcLoD8T1ExInDF0wFP860wGjz
+         46Xtks7nkBOFnKFBV30jEk3gkN3/Z7apgCbCg9wJpb1HYH/XsWBT5UUozB4vb3Ar673S
+         9+3sH0S1HsnFIi28gIRAQOu2B2M+09zec/BzaFoSd5XN3jutCzBxt0WFO/v/QkHZkBhs
+         yisQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716303064; x=1716907864;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I1gvRWuClOi/8UkKouBoAg+Ysf/zalLshR2x1vBPuxI=;
-        b=D5kaRpadEQ/Odk6o84STV03MOh13jtKmeWk8RQMkGpEV770M9+j4zS9347mhE75NNV
-         PRfXZH7l451PLfL1plJ1Xppxkr/LmKogcSkpRRp4TnO/Vi2PGpzFYoKOeJ8kM0qzbx14
-         XvOK2dLjzmYm8g0oh30JoZDzTwTyhWWbEv036Ljz41kIAozLFr02cLPscjuxlUcF1ItE
-         wfArJTu3m0lE3xglbggTYLtFqsAmtexENMcDLEx32A17mciyD4O+Kb0MgQprMugoE4RA
-         IRZz/tqlJ5olNPM85ZRZEtqZ5DOkxIlNUacPJQ8bUT8Nrfejd1JtbMPicOYE/ZvYRjle
-         p0Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCVmuHhpBM5INMI9xOkiGmHRuTruOH5nQ7+pZoMGBb6oBx4Z/IEmPtOdnJcFQ2o2rxnZCW+0wpSIGOBmT/6GU1Vo7iz96rOvLk8xeY1XDc/F8bxzcRdT3yc3
-X-Gm-Message-State: AOJu0Yzu4J/tlQ/PIGhfxxMorXF5A4JRjNdUwtg3GcH521Ao9YC1GWF9
-	kXTSUAyQLpNaPsbHLAQc7guzCwww1QU8VOl8unx9amY1C8svjX4Yn00YSv2a39k=
-X-Google-Smtp-Source: AGHT+IGLkTmHYImwYapLr5ZjED1a4kDZXawYAywYF85X9jBBe3jU40pme/rR5RG76OiEBPuCjaLslw==
-X-Received: by 2002:a05:6000:246:b0:351:d2e3:68e9 with SMTP id ffacd0b85a97d-354b8de7ee5mr7596742f8f.1.1716303064041;
-        Tue, 21 May 2024 07:51:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1738:232d:aeeb:3bb7? ([2001:8b0:aba:5f3c:1738:232d:aeeb:3bb7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4202de3a79bsm204933365e9.6.2024.05.21.07.51.03
+        d=1e100.net; s=20230601; t=1716304344; x=1716909144;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CB82LKV8fZe5wOdh0wge7rgb75YS2HNJosRNfBcImsY=;
+        b=TKBeN6K/Z7IR5ENEmXw7z0aLq4KI/qi46v5wg/hYrpnN2zbKRpahhWbm0QiD0srFZN
+         HQQxOYWy9BqXZ1CgxFwDrmQLbM3XKmBTSDbvbyLZ+ycINdM6LNj1n4hPsdZb5NFvwF8M
+         p6Kq/vU84cQPU142i/bRXeIhztA/B0fRamzUXw8qaKwiqC4g8lf0GkQugWoIH3sbDbI/
+         7jvCuaZO5bUFwkwzU+M+eCj4tsIjWaQEnSaH0MvsZHqzdNLRcE20VMD6GOsBk+kUWxm2
+         tDiotkfTrPw61+HTS/lTzfDq6ryT0J6+RXC0L+miUXVsUxKLtE7YzExqoWjDcgWZlolh
+         7TFQ==
+X-Gm-Message-State: AOJu0YwLCWRgKj6QJFrUGM8pzZiAs+qF2sGoHRfwToeo3Bx17F0toSTw
+	2Hno+t0y/GQnXXhg0UNf/xzM1bov89AbfEdfDz/IH2xKL/zGKtOfQmF9YXOHUyQ=
+X-Google-Smtp-Source: AGHT+IGW+sKgSBlfViSV1tJptzjOaPu1XVfenSaOnAIqeENgdfgNS4K5Eyxtc9tLreD1EGWh7wkmUw==
+X-Received: by 2002:a17:902:e743:b0:1f2:ffcc:8a0b with SMTP id d9443c01a7336-1f2ffcc8cccmr68122645ad.24.1716304343902;
+        Tue, 21 May 2024 08:12:23 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::e8eb])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2aa01dasm21441031b3a.92.2024.05.21.08.12.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 07:51:03 -0700 (PDT)
-Message-ID: <5340825db3c98197e448c58b88381562edbed66f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] meta: uboot-config: Fix broken menuconfig for
- "fitImage" kernel
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mike.looijmans@topic.nl, openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2024 15:51:02 +0100
-In-Reply-To: <20240521135705.444470-1-mike.looijmans@topic.nl>
-References: 
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.cc544a93-e646-4932-8496-82717a21cde8@emailsignatures365.codetwo.com>
-	 <20240521135705.444470-1-mike.looijmans@topic.nl>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Tue, 21 May 2024 08:12:22 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] systemd-bootchart: Fix build on musl
+Date: Tue, 21 May 2024 08:12:19 -0700
+Message-ID: <20240521151219.3169986-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240521151219.3169986-1-raj.khem@gmail.com>
+References: <20240521151219.3169986-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 14:51:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199645
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 15:12:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199647
 
-On Tue, 2024-05-21 at 15:57 +0200, Mike Looijmans via lists.openembedded.or=
-g wrote:
-> kernel-fitimage inherited uboot-config, which resulted in failure to
-> run "menuconfig" on a system that has both multiple u-boot configs and
-> wants a fitImage kernel.
->=20
-> Fix the issue by splitting up uboot-config into uboot-config-vars that
-> only contains the "harmless" variable settings, and inherit that in a
-> new uboot-config class which contains the Python code to do the U-boot
-> specific settings. Inherit only uboot-config-vars in kernel-fitimage
-> so that it has what it needs but doesn't break.
->=20
-> Fixes: f9e834e31788 "meta: introduce KCONFIG_CONFIG_ENABLE_MENUCONFIG"
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
-> =C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=C2=A0 |=C2=A0 2 +=
--
-> =C2=A0meta/classes-recipe/uboot-config-vars.bbclass | 95 ++++++++++++++++=
-+++
-> =C2=A0meta/classes-recipe/uboot-config.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 80 +---------------
-> =C2=A03 files changed, 97 insertions(+), 80 deletions(-)
-> =C2=A0create mode 100644 meta/classes-recipe/uboot-config-vars.bbclass
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...01-Define-portable-basename-function.patch | 59 +++++++++++++++++++
+ .../systemd-bootchart_235.bb                  |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-Define-portable-basename-function.patch
 
-This looks like it might be a good candidate to move to a file in
-meta/conf rather than a new class file?
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-Define-portable-basename-function.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-Define-portable-basename-function.patch
+new file mode 100644
+index 00000000000..dc4c44c6af3
+--- /dev/null
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-Define-portable-basename-function.patch
+@@ -0,0 +1,59 @@
++From 4b19c32791fb8a8663b3335f8a3675a2bbabe688 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 20 May 2024 18:40:36 -0700
++Subject: [PATCH] Define portable basename function
++
++Newer version of musl have removed prototype for basename in string.h [1]
++which now makes it fail to compile with GCC14+ compiler therefore
++define local basename utility function.
++
++[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
++
++Upstream-Status: Submitted [https://github.com/systemd/systemd-bootchart/pull/53]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/conf-files.c | 14 ++++++++++++--
++ 1 file changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/src/conf-files.c b/src/conf-files.c
++index 5dd2d7d..b932bb2 100644
++--- a/src/conf-files.c
+++++ b/src/conf-files.c
++@@ -35,6 +35,16 @@
++ #include "strv.h"
++ #include "util.h"
++ 
+++/***
+++ * basename is implemented differently across different C libraries. This
+++ * implementation matches the one provided by the GNU libc, and does not
+++ * modify its input parameter.
+++***/
+++static const char *sbc_basename(const char *path) {
+++        const char *base = strrchr(path, '/');
+++        return base ? base + 1 : path;
+++}
+++
++ static int files_add(Hashmap *h, const char *root, const char *path, const char *suffix) {
++         _cleanup_closedir_ DIR *dir = NULL;
++         const char *dirpath;
++@@ -63,7 +73,7 @@ static int files_add(Hashmap *h, const char *root, const char *path, const char
++                 if (!p)
++                         return -ENOMEM;
++ 
++-                r = hashmap_put(h, basename(p), p);
+++                r = hashmap_put(h, sbc_basename(p), p);
++                 if (r == -EEXIST) {
++                         log_debug("Skipping overridden file: %s.", p);
++                         free(p);
++@@ -84,7 +94,7 @@ static int base_cmp(const void *a, const void *b) {
++ 
++         s1 = *(char * const *)a;
++         s2 = *(char * const *)b;
++-        return strcmp(basename(s1), basename(s2));
+++        return strcmp(sbc_basename(s1), sbc_basename(s2));
++ }
++ 
++ static int conf_files_list_strv_internal(char ***strv, const char *suffix, const char *root, char **dirs) {
++-- 
++2.45.1
++
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
+index 25544029d5c..3c3c84ff4a4 100644
+--- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
+@@ -17,6 +17,7 @@ SRC_URI:append:libc-musl = " \
+     file://0001-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch \
+     file://0002-musl-does-not-provide-printf-h.patch \
+     file://0003-musl-does-not-provide-canonicalize_file_name.patch \
++    file://0001-Define-portable-basename-function.patch \
+     "
+ 
+ 
+-- 
+2.45.1
 
-We could add any functions needed to lib/oe/ if they can be made
-suitably generic.
-
-Cheers,
-
-Richard
 
