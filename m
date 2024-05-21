@@ -1,113 +1,408 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6D93C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 06:36:02 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web11.13487.1716273362371202403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA9BAC25B75
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 09:32:33 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.15528.1716283952748035669
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 May 2024 23:36:02 -0700
+ Tue, 21 May 2024 02:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W771Fquj;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-574f7c0bab4so10610068a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 May 2024 23:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716273361; x=1716878161; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WZSZ0rvRIFtGs2YQDdcH9fDoEy2APPMu65DJjHEcP+I=;
-        b=W771Fquj7dhrwROPkJLhroYcssmxEq5FqTnHikwyoJtuO5b8Ri1io7LD8WF1S4NnQt
-         iL80BiZmtKMQp74rmm5KMXk+dMzl5m2mItq/NaG5r7HoptKolXfClaWGfWyITjqN/ZHk
-         5yl48tEYllUmA3UHdMAcm6rLVPjlxKLU2LyN0DVkmER10aUF4XgTAOytd3f375ceqrx9
-         SoeRavgRbj6OyNuBGUJ2MWm1ztrwUBFNLaGtv7Mrpa/4aEtsEor0BmEEdjyvh4tFs+TG
-         CIAG9xkFKIrsM0arFiibkO/JrJarAeI68zKvC38wrSNJXjjryJZpqvP1gZXiEayC3PEq
-         cLzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716273361; x=1716878161;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WZSZ0rvRIFtGs2YQDdcH9fDoEy2APPMu65DJjHEcP+I=;
-        b=Q5Sp/X/GwBodO4p7/ihGoijnax7CQ80JqcX31OBJWpUJdZWYcfWDe4xtLwh/EdXB1/
-         8/RusTMvvPnWmXK0bkfg4w7t/oCGP8eddh4WY36ZwfxWv+3JIQPZFzpZpAi7fEbxLIze
-         bIq2R/Z9bAEk1o8YzrgTzTh2LNKX5XHadoirwM/QjFhoi3G+iVORKL+CKVeM5cQgiHBF
-         fJcaJpJoDRXsO1zf7zaqdLRs1nFbAX3uqjp6sh9qBZs3DmVw9q+xRiyL908SeSEA5OwM
-         0Zet3WEDnrzR0gF05tptKrE6hZRXorxZe4BTlPZMSyAXqglj5gk0gIip7NwGgGZVpUUM
-         DCTA==
-X-Gm-Message-State: AOJu0Yx1u4aDwR3KIdCVGz8dp7oEEa+orTYUiow4LS6um2siuU2fJKWS
-	MueFQsUo/KZFikN3cK9E3XRFkQay94LLgXa+tMR6sCE6eJzzm0PvOGgpuw==
-X-Google-Smtp-Source: AGHT+IGs7Ul0HeMesnwbdHbKpFwG9eJpDTRWFitoI74Y5Xvwx8kIz1frl3MXT/XAHMy1ytUhfAn2sw==
-X-Received: by 2002:a17:907:868e:b0:a59:cf0d:d7c8 with SMTP id a640c23a62f3a-a5d59fa1367mr795561966b.15.1716273360511;
-        Mon, 20 May 2024 23:36:00 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d787sm1591061966b.11.2024.05.20.23.36.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 23:36:00 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH v2] cdrtools-native: fix build with gcc-14
-Date: Tue, 21 May 2024 08:35:57 +0200
-Message-ID: <20240521063557.202491-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.45.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ilb8KPNh;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F1863E0013;
+	Tue, 21 May 2024 09:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1716283950;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WOy1//ecCkaN6xq4z8OLBlhEBwmoxn5+XuJWNhrZfCo=;
+	b=Ilb8KPNhV7nUDcNjODqgzj7uxmNJiMGnm0ILAA5M9xsbN/s4+95axEuQo5T45j3FLsVcQv
+	w83BIo68HITorW3taFMtdlJvcuQimktYV2ghwuBNsUuEwnJJA6VrLEFKkUQerMbPGN19wd
+	/lHJUcqkoNtAAeDjp0jVoUaBFc8C71RVEifz64/FPejvJpsmBCPFPKgjazgDZvvAV2p+xv
+	tCL9Xv1vgfgowkA2XE5LnILW9fRw7sBKqBibsHHwdxDu7XJFeA5WUS7vTVc/tjTRaspYjo
+	UTZuKlM8ocbC+yADvoG7jLYdfEKSRn020odj8gW1sJLi8LLzAlub4E2r//WdSw==
+Date: Tue, 21 May 2024 11:32:29 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Qi.Chen@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 2/6] util-linux/util-linux-libuuid: upgrade from
+ 2.39.3 to 2.40.1
+Message-ID: <20240521093229dcd3708b@mail.local>
+References: <20240520081040.2380736-1-Qi.Chen@windriver.com>
+ <20240520081040.2380736-2-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240520081040.2380736-2-Qi.Chen@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 06:36:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199603
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 09:32:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199604
 
-Fixes:
-http://errors.yoctoproject.org/Errors/Details/770525/
-| checking whether the C compiler (gcc  -isystem/OE/build/oe-core/tmp-glibc/work/x86_64-linux/cdrtools-native/3.01/recipe-sysroot-native/usr/include -O2 -pipe ) works... no
-| configure: error: installation or configuration problem: C compiler cannot create executables.
-| RULES/rules.cnf:70: incs/amd-ryzen-threadripper-3970x-32-core-processor-linux-cc/rules.cnf: No such file or directory
-| make: *** [RULES/rules.cnf:59: incs/amd-ryzen-threadripper-3970x-32-core-processor-linux-cc/rules.cnf] Error 1
-| make: *** Waiting for unfinished jobs....
+This fails on the autobuilders:
 
-where config.log show it's caused by gcc-14:
+ERROR: util-linux-2.40.1-r0 do_package: QA Issue: util-linux: Files/directories were installed but not shipped in any package:
+  /lib/security/pam_lastlog2.so
 
-configure:1189: checking whether the C compiler (gcc  -isystem/OE/build/oe-core/tmp-glibc/work/x86_64-linux/cdrtools-native/3.01/recipe-sysroot-native/usr/include -O2 -pipe ) works
-configure:1211: gcc  -o conftest -isystem/OE/build/oe-core/tmp-glibc/work/x86_64-linux/cdrtools-native/3.01/recipe-sysroot-native/usr/include -O2 -pipe  -D_GNU_SOURCE  conftest.c   1>&5
-configure:1208:1: error: return type defaults to 'int' [-Wimplicit-int]
-configure: failed program was:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/9011/steps/15/logs/stdio
 
-main(){return(0);}
+On 20/05/2024 16:10:36+0800, Chen Qi via lists.openembedded.org wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> License-Update:
+> ===============
+> GPL-2.0 is changed to GPL-2.0-only in README.licensing.
+> 
+> The following two patches are removed as they've been there in new release:
+> 
+>   0001-login-utils-include-libgen.h-for-basename-API.patch
+>   mit-license.patch
+> 
+> Other existing patches are refreshed to avoid patch-fuzz error.
+> 
+> A new PACKAGECONFIG, lastlog2, is added, which serves as a switch to build Y2038
+> safe lastlog pam module. This is a new functionality added in 2.40.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  ...2.39.3.bb => util-linux-libuuid_2.40.1.bb} |  0
+>  meta/recipes-core/util-linux/util-linux.inc   |  8 +--
+>  ...ls-include-libgen.h-for-basename-API.patch | 60 -------------------
+>  .../util-linux/avoid_parallel_tests.patch     |  5 +-
+>  .../util-linux/configure-sbindir.patch        |  7 +--
+>  .../display_testname_for_subtest.patch        |  7 +--
+>  .../util-linux/util-linux/mit-license.patch   | 45 --------------
+>  .../util-linux/util-linux/ptest.patch         | 11 ++--
+>  ...l-linux_2.39.3.bb => util-linux_2.40.1.bb} |  3 +-
+>  9 files changed, 18 insertions(+), 128 deletions(-)
+>  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.39.3.bb => util-linux-libuuid_2.40.1.bb} (100%)
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/mit-license.patch
+>  rename meta/recipes-core/util-linux/{util-linux_2.39.3.bb => util-linux_2.40.1.bb} (99%)
+> 
+> diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb
+> similarity index 100%
+> rename from meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
+> rename to meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index d506783f9a..0f5f838e84 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -6,7 +6,7 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+>  
+>  SECTION = "base"
+>  
+> -LICENSE = "GPL-1.0-or-later & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT"
+> +LICENSE = "GPL-1.0-or-later & GPL-2.0-only & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT"
+>  LICENSE:${PN}-fcntl-lock = "MIT"
+>  LICENSE:${PN}-fdisk = "GPL-1.0-or-later"
+>  LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
+> @@ -14,7 +14,7 @@ LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
+>  LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
+>  LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
+>  
+> -LIC_FILES_CHKSUM = "file://README.licensing;md5=cc80239f106687ab39ef0271ff5cf4ba \
+> +LIC_FILES_CHKSUM = "file://README.licensing;md5=ddd58b6c94da86ff4f03e91208eb9cfc \
+>                      file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                      file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                      file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+> @@ -30,7 +30,6 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=cc80239f106687ab39ef0271ff5cf4ba
+>  FILESEXTRAPATHS:prepend := "${THISDIR}/util-linux:"
+>  MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+>  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+> -           file://mit-license.patch \
+>             file://configure-sbindir.patch \
+>             file://runuser.pamd \
+>             file://runuser-l.pamd \
+> @@ -38,8 +37,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+>             file://run-ptest \
+>             file://display_testname_for_subtest.patch \
+>             file://avoid_parallel_tests.patch \
+> -           file://0001-login-utils-include-libgen.h-for-basename-API.patch \
+>             file://fcntl-lock.c \
+>             "
+>  
+> -SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+> +SRC_URI[sha256sum] = "59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f"
+> diff --git a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+> deleted file mode 100644
+> index 6258710e1e..0000000000
+> --- a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+> +++ /dev/null
+> @@ -1,60 +0,0 @@
+> -From d44e3ad1f6f8b5c1b3098bb7d537943a4c21d22f Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Sun, 3 Dec 2023 19:59:46 -0800
+> -Subject: [PATCH] login-utils: include libgen.h for basename API
+> -
+> -musl has removed the non-prototype declaration of basename from string.h [1] which now results in build errors with clang-17+ compiler
+> -
+> -include libgen.h for using the posix declaration of the funciton.
+> -
+> -Fixes
+> -
+> -../util-linux-2.39.2/login-utils/su-common.c:847:20: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> -  847 |                 shell_basename = basename(shell);
+> -      |                                  ^
+> -
+> -[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+> -
+> -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2615]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> ----
+> - login-utils/su-common.c | 10 +++++++---
+> - 1 file changed, 7 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/login-utils/su-common.c b/login-utils/su-common.c
+> -index b674920..3297c78 100644
+> ---- a/login-utils/su-common.c
+> -+++ b/login-utils/su-common.c
+> -@@ -26,6 +26,7 @@
+> - #include <sys/types.h>
+> - #include <pwd.h>
+> - #include <grp.h>
+> -+#include <libgen.h>
+> - #include <security/pam_appl.h>
+> - #ifdef HAVE_SECURITY_PAM_MISC_H
+> - # include <security/pam_misc.h>
+> -@@ -840,17 +841,20 @@ static void run_shell(
+> - 				su->simulate_login ? " login" : "",
+> - 				su->fast_startup ? " fast-start" : ""));
+> - 
+> -+  char* tmp = xstrdup(shell);
+> - 	if (su->simulate_login) {
+> - 		char *arg0;
+> - 		char *shell_basename;
+> - 
+> --		shell_basename = basename(shell);
+> -+		shell_basename = basename(tmp);
+> - 		arg0 = xmalloc(strlen(shell_basename) + 2);
+> - 		arg0[0] = '-';
+> - 		strcpy(arg0 + 1, shell_basename);
+> - 		args[0] = arg0;
+> --	} else
+> --		args[0] = basename(shell);
+> -+	} else {
+> -+    args[0] = basename(tmp);
+> -+  }
+> -+  free(tmp);
+> - 
+> - 	if (su->fast_startup)
+> - 		args[argno++] = "-f";
+> diff --git a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+> index 85ad7a5575..8ea00dbb95 100644
+> --- a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+> +++ b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+> @@ -1,4 +1,4 @@
+> -From 0b05e4695a0616badef71dfa459a00ef6ff1b521 Mon Sep 17 00:00:00 2001
+> +From da58b4150f6932de36c962ea657713bcf4ea44be Mon Sep 17 00:00:00 2001
+>  From: Tudor Florea <tudor.florea@enea.com>
+>  Date: Mon, 14 Jun 2021 14:00:31 +0200
+>  Subject: [PATCH] util-linux: Add ptest
+> @@ -9,13 +9,12 @@ Revert run.sh script accordingly to serialize running tests
+>  
+>  Signed-off-by: Tudor Florea  <tudor.florea@enea.com>
+>  Upstream-Status: Inappropriate
+> -
+>  ---
+>   configure.ac | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>  
+>  diff --git a/configure.ac b/configure.ac
+> -index 890212f..870e817 100644
+> +index 651ef2b..2a8012e 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+>  @@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
+> diff --git a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+> index 75adeca188..74abdc2038 100644
+> --- a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+> +++ b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+> @@ -1,4 +1,4 @@
+> -From c79222a9a5e3425c55e150edc0b7ac59c573aa2f Mon Sep 17 00:00:00 2001
+> +From 0387d71516c978899cfd556ca512f530a212b4a9 Mon Sep 17 00:00:00 2001
+>  From: Phil Blundell <pb@pbcl.net>
+>  Date: Mon, 24 Sep 2012 07:24:51 +0100
+>  Subject: [PATCH] util-linux: Ensure that ${sbindir} is respected
+> @@ -9,16 +9,15 @@ fix the test, the [ ] syntax was getting eaten by autoconf
+>  Signed-off-by: Phil Blundell <pb@pbcl.net>
+>  Signed-off-by: Saul Wold <sgw@linux.intel.com
+>  Upstream-Status: Inappropriate [configuration]
+> -
+>  ---
+>   configure.ac | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>  
+>  diff --git a/configure.ac b/configure.ac
+> -index 36c24b4..890212f 100644
+> +index 23594ff..651ef2b 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+> -@@ -102,7 +102,10 @@ AC_SUBST([runstatedir])
+> +@@ -110,7 +110,10 @@ AC_SUBST([runstatedir])
+>   usrbin_execdir='${exec_prefix}/bin'
+>   AC_SUBST([usrbin_execdir])
+>   
+> diff --git a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+> index 815ae9c915..871b0b2d30 100644
+> --- a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+> +++ b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+> @@ -1,20 +1,19 @@
+> -From fc5de1de898fd1a372a2fd2fa493dc57323a029d Mon Sep 17 00:00:00 2001
+> +From 45450d0339cd7ee27f53c0f2fac1cc74ed9bbfb8 Mon Sep 17 00:00:00 2001
+>  From: Tudor Florea <tudor.florea@enea.com>
+>  Date: Thu, 3 Dec 2015 04:08:00 +0100
+>  Subject: [PATCH] Display testname for subtest
+>  
+>  Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+>  Upstream-Status: Pending
+> -
+>  ---
+>   tests/functions.sh | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>  
+>  diff --git a/tests/functions.sh b/tests/functions.sh
+> -index 5a562a3..098145e 100644
+> +index 5fe5ba0..a6c703e 100644
+>  --- a/tests/functions.sh
+>  +++ b/tests/functions.sh
+> -@@ -437,7 +437,7 @@ function ts_init_subtest {
+> +@@ -450,7 +450,7 @@ function ts_init_subtest {
+>   
+>   	if [ "$TS_PARSABLE" != "yes" ]; then
+>   		[ $TS_NSUBTESTS -eq 1 ] && echo
+> diff --git a/meta/recipes-core/util-linux/util-linux/mit-license.patch b/meta/recipes-core/util-linux/util-linux/mit-license.patch
+> deleted file mode 100644
+> index afbec98f18..0000000000
+> --- a/meta/recipes-core/util-linux/util-linux/mit-license.patch
+> +++ /dev/null
+> @@ -1,45 +0,0 @@
+> -From 5b8fab1584017d9d9be008c23b90128bba41a7b5 Mon Sep 17 00:00:00 2001
+> -From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> -Date: Thu, 28 Mar 2024 12:16:57 +0000
+> -Subject: [PATCH] README.licensing/flock: Add MIT license mention
+> -
+> -Looking at the license text, flock.c is under the MIT license (see
+> -https://spdx.org/licenses/MIT).
+> -
+> -Add an SPDX license identifier header and add to the list of licenses the
+> -source so everything is correctly listed/identified.
+> -
+> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> -
+> -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2870]
+> -
+> ----
+> - README.licensing  | 2 ++
+> - sys-utils/flock.c | 4 +++-
+> - 2 files changed, 5 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/README.licensing b/README.licensing
+> -index 4454f8392a..535ad34813 100644
+> ---- a/README.licensing
+> -+++ b/README.licensing
+> -@@ -12,6 +12,8 @@ There is code under:
+> - 
+> -    * LGPL-2.1-or-later  - GNU Lesser General Public License 2.1 or any later version
+> - 
+> -+   * MIT                - MIT License
+> -+
+> -    * BSD-2-Clause       - Simplified BSD License
+> - 
+> -    * BSD-3-Clause       - BSD 3-Clause "New" or "Revised" License
+> -diff --git a/sys-utils/flock.c b/sys-utils/flock.c
+> -index fed29d7270..7d878ff810 100644
+> ---- a/sys-utils/flock.c
+> -+++ b/sys-utils/flock.c
+> -@@ -1,4 +1,6 @@
+> --/*   Copyright 2003-2005 H. Peter Anvin - All Rights Reserved
+> -+/*   SPDX-License-Identifier: MIT
+> -+ *
+> -+ *   Copyright 2003-2005 H. Peter Anvin - All Rights Reserved
+> -  *
+> -  *   Permission is hereby granted, free of charge, to any person
+> -  *   obtaining a copy of this software and associated documentation
+> diff --git a/meta/recipes-core/util-linux/util-linux/ptest.patch b/meta/recipes-core/util-linux/util-linux/ptest.patch
+> index 6221de7182..7345926b88 100644
+> --- a/meta/recipes-core/util-linux/util-linux/ptest.patch
+> +++ b/meta/recipes-core/util-linux/util-linux/ptest.patch
+> @@ -1,24 +1,23 @@
+> -From d0a69ce80c579cbb7627a2f20e8b92e006a8d8ad Mon Sep 17 00:00:00 2001
+> +From f9be73c3e2b0a4f0923950dcb058be85d3ee8ed7 Mon Sep 17 00:00:00 2001
+>  From: Tudor Florea <tudor.florea@enea.com>
+>  Date: Thu, 3 Dec 2015 04:08:00 +0100
+>  Subject: [PATCH] Define TESTS variable
+>  
+>  Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+>  Upstream-Status: Pending
+> -
+>  ---
+>   Makefile.am | 1 +
+>   1 file changed, 1 insertion(+)
+>  
+>  diff --git a/Makefile.am b/Makefile.am
+> -index effbb02..7d2bd1e 100644
+> +index 50ab8d0..7e2340d 100644
+>  --- a/Makefile.am
+>  +++ b/Makefile.am
+> -@@ -57,6 +57,7 @@ systemdsystemunit_DATA =
+> +@@ -64,6 +64,7 @@ tmpfiles_DATA =
+>   dist_bashcompletion_DATA =
+>   check_PROGRAMS =
+>   dist_check_SCRIPTS =
+>  +TESTS = $(check_PROGRAMS)
+>   
+> - PATHFILES =
+> - ADOCFILES_COMMON =
+> + BUILT_SOURCES =
+> + 
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
+> similarity index 99%
+> rename from meta/recipes-core/util-linux/util-linux_2.39.3.bb
+> rename to meta/recipes-core/util-linux/util-linux_2.40.1.bb
+> index 2cd7750afc..eceb0495a7 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
+> @@ -90,7 +90,7 @@ EXTRA_OECONF:append = " --disable-hwclock-gplv3"
+>  # build host versions during development
+>  #
+>  PACKAGECONFIG ?= "pcre2"
+> -PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)}"
+> +PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam lastlog2', '', d)}"
+>  # inherit manpages requires this to be present, however util-linux does not have
+>  # configuration options, and installs manpages always
+>  PACKAGECONFIG[manpages] = ""
+> @@ -106,6 +106,7 @@ PACKAGECONFIG[pcre2] = ",,libpcre2"
+>  PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
+>  PACKAGECONFIG[chfn-chsh] = "--enable-chfn-chsh,--disable-chfn-chsh,"
+>  PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
+> +PACKAGECONFIG[lastlog2] = "--enable-liblastlog2,--disable-liblastlog2,sqlite3"
+>  
+>  EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+>  
+> -- 
+> 2.34.1
+> 
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
-v2: drop last minute change from make to oe_runmake in do_install which caused INS_BASE=${prefix} not to be respected
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199557): https://lists.openembedded.org/g/openembedded-core/message/199557
+> Mute This Topic: https://lists.openembedded.org/mt/106199572/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
- meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-index bf8be1ad0c..0fe661ae6a 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-@@ -19,13 +19,17 @@ SRC_URI = " \
- SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
- SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5f5860f"
- 
--EXTRA_OEMAKE = "-e MAKEFLAGS="
-+EXTRA_OEMAKE = "-e MAKEFLAGS= CPPOPTX='${CPPFLAGS}' COPTX='${CFLAGS}' C++OPTX='${CXXFLAGS}' LDOPTX='${LDFLAGS}' GMAKE_NOWARN='true'"
- 
- # Stop failures when 'cc' can't be found
- export ac_cv_prog_CC = "${CC}"
- 
- inherit native
- 
-+# Use -std=gnu89 to build with gcc-14 (https://bugs.gentoo.org/903876)
-+# this needs to be after native inherit (which sets CFLAGS to BUILD_CFLAGS)
-+CFLAGS += "-std=gnu89"
-+
- do_configure() {
-         install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/autoconf
-         install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}/autoconf
 -- 
-2.45.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
