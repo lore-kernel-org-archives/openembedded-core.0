@@ -2,57 +2,57 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A9F8C27C41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D82C27C43
 	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 17:04:57 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.1225.1716311091765636585
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.1250.1716311090809207732
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 10:04:51 -0700
+ Tue, 21 May 2024 10:04:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=N4sAiUh0;
- spf=pass (domain: baylibre.com, ip: 209.85.222.179, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-794977cbcc3so11228185a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:04:51 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=nKAhCXlb;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-792ce7a1fa8so369845285a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716311090; x=1716915890; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DXYiCUgdKrBcRj+A8eNMnxZZfYGxWLNqYwRW5ihjEvY=;
-        b=N4sAiUh0S4Toy1Hk+HT8Elx6M0wpAsVIeSc5NFAOGfd8erFbxUE/ahAtPu2sbnf5s1
-         tEHYGPOmhfQw1iQ2F9cJtQhk1z9cQVpFEEFbggIS6r2ae3VhvruloNSScrC0532NXfgI
-         JD8uhzQgUv+5iyS3MTxf+g4a2HmUUPKTqzpYdWGaQAASEULcWhnvoBCVzEwPP08mmrj5
-         dHehBCnmacurLBFjBy4sYjo2RkDwvS8ZO0WiH+KSxkPKEce3nTpevIamuAfaH4vzNEe8
-         pnN98jpj9yl4AtV7H5fLqL5iFmNX3w3jvFtAJPQ0nsYCa+6qJAO/dkwDag8iDQm25FWe
-         iyEg==
+        bh=H1H6G5Gy5RcnJRQzs/FqJr/kAO51hvKQkVelp9DiQsg=;
+        b=nKAhCXlbMK1ywgTxRsVmCMi7U+QnUMtwvlv9NxUQe60BHv/JvSubPfQ+eQQCMEJSOC
+         IwMOsqmmizSS+4r527xHUWxdRmg0EPuTXzsMjsrGJ9RACzCBKixh1pizPFpTnjVeXUXx
+         MwhvS+NX6mRJpfH+6of+kBlLNRCj0RyMVlHu+OjGhD+4HZy1Ax+CB2TLdNV75rVGZC4q
+         yFdDYGvy0YwG3+mDNEVMMXBU5oMj8vGOFhmzDvFRrIWiGgzJDBoVKr4w77Qpz85Dte7s
+         xbuR6pmdBCB8myg5kOZ3R+fys65ETm0Wkwf0hyIXw0D1Jo2ah74A0xs5bjHxeJ+IRgrZ
+         0Bog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1716311090; x=1716915890;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DXYiCUgdKrBcRj+A8eNMnxZZfYGxWLNqYwRW5ihjEvY=;
-        b=ZsFAVDKSopi9m9kHbAG0K2Io0TqHF7wA0zGiEorfoMvxrVdl3arK3GwTMO306HlvAQ
-         elEc5lDfYW9SUbmWvNA7EkS6Rr9vxe8i1FL2Nezd1Vc7dEX1mu7eTO/T1EnVcx1PFcg5
-         CoXkLcReT/UE1xwx1Ffo6Py4XDQPPm8xbcoX5tFYm+DK4VfuHFsrOfq9KtgvNhtB9QmD
-         r2jenrzHEqYiZOLJU0DHkanRC5d30KnFknOtr5E48r7AgE46WMM+1cqtS5IcQNped7q5
-         B4QPK9oE0i1QA+YbX3765HUHX+9o6AAiytfu6aO0JMxNlHil8muIi908V/tOU9i4yNLx
-         3Nhg==
-X-Gm-Message-State: AOJu0YwBCn+oJNkYJo2Bb7C5X97h/QNKR3zplaRzFIQwoYdfb5In8Ew9
-	w4eMSSyXV5yG/dOLKlrHiTDToLxIDBm1nmKH8ykTcrjkYvfP0NTJU7OoHvJymKyD+TJCZEQdFee
-	R
-X-Google-Smtp-Source: AGHT+IFQg9tMAOCO0vApCsiFkKqkvyDBkHTYpw4f3LJcHADX6zy3b2U+kjgQMatDDC7U79WkRzev4g==
-X-Received: by 2002:a05:620a:815:b0:790:bddd:dd6d with SMTP id af79cd13be357-792c7576934mr3306976085a.14.1716311090379;
-        Tue, 21 May 2024 10:04:50 -0700 (PDT)
+        bh=H1H6G5Gy5RcnJRQzs/FqJr/kAO51hvKQkVelp9DiQsg=;
+        b=Z2v9BlXtVGRnyQMQ/Af2SSulJxOv0+azHVWcvtpUbFMeHE2+TWIwpGTfe3y7bVSTnO
+         5D8/ShnwEL5qpUCbqfYPgKI32eYMmdAlZtVArJVCTl+oy9ziu159HN7k2zXQaLuNqUeK
+         iTK1U1UULOb8ohQc1XvPnpXDhdR25/N/OnuWlbBtL5fSKmo2eLTDVONrZx//2c2qms0W
+         AemkHtHPpg1Zyrbc6t7lTTBSzOVW5frpq/6sjibZ1zfPlqUFL6S3Jx7+SlMcnwctTA25
+         NM+LRlN6EjKk/the6xsnaLMShhbz/ngvKLSuEixZNkD6O9bvp/GqXckogXiX7264v0tH
+         iDEw==
+X-Gm-Message-State: AOJu0Yy2OFgjXx1C4iRrVRgpVhuLeerjFu7YCeYW/7OPLiQuoBVJ+6X0
+	ls23a3Qnsnp2hVDAUvCY3/EGIZAWFquj7C/37siQ0rnKgfGZ6R5aL+n6yNEIzxmClrcvyDLVMnT
+	y
+X-Google-Smtp-Source: AGHT+IEMZMxbBb+fvxeOc/Jb95HveXy+6Xs44kRiSD8IeVE5Gn3Ux0lgQ56hOqiVyeiDjYXY2+ayBw==
+X-Received: by 2002:a05:620a:3b8d:b0:792:bc0b:e269 with SMTP id af79cd13be357-792c75ef7d3mr3363543185a.52.1716311089745;
+        Tue, 21 May 2024 10:04:49 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
         by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf2972cdsm1292833685a.54.2024.05.21.10.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 10:04:50 -0700 (PDT)
+        Tue, 21 May 2024 10:04:49 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: tim.orling@konsulko.com
-Subject: [OE-core][PATCH 05/10] python3-requests: upgrade 2.31.0 -> 2.32.1
-Date: Tue, 21 May 2024 13:04:40 -0400
-Message-ID: <20240521170445.1892398-5-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 04/10] python3-referencing: upgrade 0.34.0 -> 0.35.1
+Date: Tue, 21 May 2024 13:04:39 -0400
+Message-ID: <20240521170445.1892398-4-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240521170445.1892398-1-tgamblin@baylibre.com>
 References: <20240521170445.1892398-1-tgamblin@baylibre.com>
@@ -62,37 +62,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 17:04:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199660
 
-Also transition to using python_setuptools_build_meta.
+Changelog: https://referencing.readthedocs.io/en/stable/changes/#v0-35-1
 
-Changelog: https://requests.readthedocs.io/en/latest/community/updates/#release-history
+- Ensure that Registry.contents() also raises NoSuchResource exceptions
+  for nonexistent resources, not KeyError (which is an implementation
+  detail).
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...{python3-requests_2.31.0.bb => python3-requests_2.32.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-requests_2.31.0.bb => python3-requests_2.32.1.bb} (79%)
+ ...hon3-referencing_0.34.0.bb => python3-referencing_0.35.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-referencing_0.34.0.bb => python3-referencing_0.35.1.bb} (81%)
 
-diff --git a/meta/recipes-devtools/python/python3-requests_2.31.0.bb b/meta/recipes-devtools/python/python3-requests_2.32.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-requests_2.31.0.bb
-rename to meta/recipes-devtools/python/python3-requests_2.32.1.bb
-index df48cd54c3d..e0295313ee6 100644
---- a/meta/recipes-devtools/python/python3-requests_2.31.0.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.32.1.bb
-@@ -3,9 +3,9 @@ HOMEPAGE = "http://python-requests.org"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+diff --git a/meta/recipes-devtools/python/python3-referencing_0.34.0.bb b/meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-referencing_0.34.0.bb
+rename to meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+index 6fbd10d9cf8..3e2a3806071 100644
+--- a/meta/recipes-devtools/python/python3-referencing_0.34.0.bb
++++ b/meta/recipes-devtools/python/python3-referencing_0.35.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/python-jsonschema/referencing"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=93eb9740964b59e9ba30281255b044e2"
  
--SRC_URI[sha256sum] = "942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"
-+SRC_URI[sha256sum] = "eb97e87e64c79e64e5b8ac75cee9dd1f97f49e289b083ee6be96268930725685"
+-SRC_URI[sha256sum] = "5773bd84ef41799a5a8ca72dc34590c041eb01bf9aa02632b4a973fb0181a844"
++SRC_URI[sha256sum] = "25b42124a6c8b632a425174f24087783efb348a6f1e0008e63cd4466fedf703c"
  
--inherit pypi setuptools3
-+inherit pypi python_setuptools_build_meta
+ inherit pypi python_hatchling
  
- RDEPENDS:${PN} += " \
-     python3-email \
 -- 
 2.45.1
 
