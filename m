@@ -2,111 +2,97 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C250C27C44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A9F8C27C41
 	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 17:04:57 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.1249.1716311090554686572
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.1225.1716311091765636585
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 10:04:50 -0700
+ Tue, 21 May 2024 10:04:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=W7J+hZRT;
- spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-792b94301eeso36678285a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:04:50 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=N4sAiUh0;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.179, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-794977cbcc3so11228185a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716311089; x=1716915889; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716311090; x=1716915890; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bEik38ZsGMsle1m9GK4RgAxAQit17Fok6jLTBr/2VZE=;
-        b=W7J+hZRTBYxyFFGJYtxxC+jF8b7dbHLRThDA0WftXtaSETr4l6iX5NWFmA0pNkRtvN
-         wtd/eEyqqnrrQR8OK7irsfe6CePRqgCm1sRkttgT7zf1JSq7BjeNgK0EaGK6wpafKBGH
-         6wewkUe4mqtby8ygXWRS1mgG3Nsdd7a7rIWIVtzOJ7NcJEvtvco7nUWofiXVf0YtyKL/
-         dwa9x4FLNG5bVh4uDjyV5Ple6E7nhpsdqeTFO+yIjFbVO+cyGZiPHKFEd30W5svVUXKE
-         dia/hkI51uqQeNv/uDxcS5jRgcu51vlbhcbqRab9PHZVkEzDVPvksMufjS0ND17x6Pql
-         hjIg==
+        bh=DXYiCUgdKrBcRj+A8eNMnxZZfYGxWLNqYwRW5ihjEvY=;
+        b=N4sAiUh0S4Toy1Hk+HT8Elx6M0wpAsVIeSc5NFAOGfd8erFbxUE/ahAtPu2sbnf5s1
+         tEHYGPOmhfQw1iQ2F9cJtQhk1z9cQVpFEEFbggIS6r2ae3VhvruloNSScrC0532NXfgI
+         JD8uhzQgUv+5iyS3MTxf+g4a2HmUUPKTqzpYdWGaQAASEULcWhnvoBCVzEwPP08mmrj5
+         dHehBCnmacurLBFjBy4sYjo2RkDwvS8ZO0WiH+KSxkPKEce3nTpevIamuAfaH4vzNEe8
+         pnN98jpj9yl4AtV7H5fLqL5iFmNX3w3jvFtAJPQ0nsYCa+6qJAO/dkwDag8iDQm25FWe
+         iyEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716311089; x=1716915889;
+        d=1e100.net; s=20230601; t=1716311090; x=1716915890;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bEik38ZsGMsle1m9GK4RgAxAQit17Fok6jLTBr/2VZE=;
-        b=lmr0MSuTHpI5/mJeBwHI6aAvcHUeof0Ulzw+BT1qZ4BGqhCk250FD4QZ8zenqOxBD0
-         JctAOLnBSGJ2CbbKHaNnQLNtcCpecmdu0ok6HCVAQ2nOgPEdDWhMWBL6v95/5SJnSaUT
-         QjIuB3w1Tc+kz61HcMEaZEygFaDWwUOF3sCCEhkXAK6iaY5exfthPjYNZR6fXeLpdoit
-         7xRLmy9HiY2BFxeeGXgxs1GSLj/kf/PDVRasYNBsa013UnuUXlKNmvVlSCisHU9U9Gwq
-         RZKrgHUyUkKMHQhwJ/VKRu/ATr0n+3rtUXZ9aSj5B7col3UOygayD5kQ9zbXhvDrMZvN
-         6H1g==
-X-Gm-Message-State: AOJu0Yw/20T99z6Lp3ynglXE2eDHyJNeb3x5FjNo1avnphVV2fsrkdw7
-	q3u1ROo9P2ggW5nloiGT89fXs3oIm1GbfvQ/E+bsVEv3FVPiJ2TMemkBggLbJ0sZEVAUtHIhWGR
-	q
-X-Google-Smtp-Source: AGHT+IH+LMnR6/sT4zJkVPWG3dPBXJzMS401OCih0VClb3qMM4kNuFPbTK3g9qo4XzAWF+tRD5Bs5w==
-X-Received: by 2002:a05:620a:570f:b0:792:c2e7:6b41 with SMTP id af79cd13be357-792c759ade5mr3447562485a.22.1716311089089;
-        Tue, 21 May 2024 10:04:49 -0700 (PDT)
+        bh=DXYiCUgdKrBcRj+A8eNMnxZZfYGxWLNqYwRW5ihjEvY=;
+        b=ZsFAVDKSopi9m9kHbAG0K2Io0TqHF7wA0zGiEorfoMvxrVdl3arK3GwTMO306HlvAQ
+         elEc5lDfYW9SUbmWvNA7EkS6Rr9vxe8i1FL2Nezd1Vc7dEX1mu7eTO/T1EnVcx1PFcg5
+         CoXkLcReT/UE1xwx1Ffo6Py4XDQPPm8xbcoX5tFYm+DK4VfuHFsrOfq9KtgvNhtB9QmD
+         r2jenrzHEqYiZOLJU0DHkanRC5d30KnFknOtr5E48r7AgE46WMM+1cqtS5IcQNped7q5
+         B4QPK9oE0i1QA+YbX3765HUHX+9o6AAiytfu6aO0JMxNlHil8muIi908V/tOU9i4yNLx
+         3Nhg==
+X-Gm-Message-State: AOJu0YwBCn+oJNkYJo2Bb7C5X97h/QNKR3zplaRzFIQwoYdfb5In8Ew9
+	w4eMSSyXV5yG/dOLKlrHiTDToLxIDBm1nmKH8ykTcrjkYvfP0NTJU7OoHvJymKyD+TJCZEQdFee
+	R
+X-Google-Smtp-Source: AGHT+IFQg9tMAOCO0vApCsiFkKqkvyDBkHTYpw4f3LJcHADX6zy3b2U+kjgQMatDDC7U79WkRzev4g==
+X-Received: by 2002:a05:620a:815:b0:790:bddd:dd6d with SMTP id af79cd13be357-792c7576934mr3306976085a.14.1716311090379;
+        Tue, 21 May 2024 10:04:50 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf2972cdsm1292833685a.54.2024.05.21.10.04.48
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf2972cdsm1292833685a.54.2024.05.21.10.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 10:04:48 -0700 (PDT)
+        Tue, 21 May 2024 10:04:50 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: tim.orling@konsulko.com
-Subject: [OE-core][PATCH 03/10] python3-pytest: upgrade 8.2.0 -> 8.2.1
-Date: Tue, 21 May 2024 13:04:38 -0400
-Message-ID: <20240521170445.1892398-3-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 05/10] python3-requests: upgrade 2.31.0 -> 2.32.1
+Date: Tue, 21 May 2024 13:04:40 -0400
+Message-ID: <20240521170445.1892398-5-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240521170445.1892398-1-tgamblin@baylibre.com>
 References: <20240521170445.1892398-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 17:04:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199659
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199661
 
-Changelog: https://docs.pytest.org/en/stable/changelog.html#pytest-8-2-1-2024-05-19
+Also transition to using python_setuptools_build_meta.
 
-- Improvements
-    #12334: Support for Python 3.13 (beta1 at the time of writing).
-- Bug Fixes
-    #12120: Fix PermissionError crashes arising from directories which are not
-            selected on the command-line.
-    #12191: Keyboard interrupts and system exits are now properly handled during
-            the test collection.
-    #12300: Fixed handling of ‘Function not implemented’ error under squashfuse_ll,
-            which is a different way to say that the mountpoint is read-only.
-    #12308: Fix a regression in pytest 8.2.0 where the permissions of
-            automatically-created .pytest_cache directories became rwx------ instead
-	    of the expected rwxr-xr-x.
-- Trivial/Internal Changes
-    #12333: pytest releases are now attested using the recent Artifact Attestation
-	    <https://github.blog/2024-05-02-introducing-artifact-attestations-now-in-public-beta/>
-	    support from GitHub, allowing users to verify the provenance of pytest’s
-	    sdist and wheel artifacts.
+Changelog: https://requests.readthedocs.io/en/latest/community/updates/#release-history
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../python/{python3-pytest_8.2.0.bb => python3-pytest_8.2.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest_8.2.0.bb => python3-pytest_8.2.1.bb} (92%)
+ ...{python3-requests_2.31.0.bb => python3-requests_2.32.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-requests_2.31.0.bb => python3-requests_2.32.1.bb} (79%)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_8.2.0.bb b/meta/recipes-devtools/python/python3-pytest_8.2.1.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-pytest_8.2.0.bb
-rename to meta/recipes-devtools/python/python3-pytest_8.2.1.bb
-index 1e6674079ff..28dbe786f80 100644
---- a/meta/recipes-devtools/python/python3-pytest_8.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_8.2.1.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+diff --git a/meta/recipes-devtools/python/python3-requests_2.31.0.bb b/meta/recipes-devtools/python/python3-requests_2.32.1.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-requests_2.31.0.bb
+rename to meta/recipes-devtools/python/python3-requests_2.32.1.bb
+index df48cd54c3d..e0295313ee6 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.31.0.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.32.1.bb
+@@ -3,9 +3,9 @@ HOMEPAGE = "http://python-requests.org"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
  
--SRC_URI[sha256sum] = "d507d4482197eac0ba2bae2e9babf0672eb333017bcedaa5fb1a3d42c1174b3f"
-+SRC_URI[sha256sum] = "5046e5b46d8e4cac199c373041f26be56fdb81eb4e67dc11d4e10811fc3408fd"
+-SRC_URI[sha256sum] = "942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"
++SRC_URI[sha256sum] = "eb97e87e64c79e64e5b8ac75cee9dd1f97f49e289b083ee6be96268930725685"
  
- DEPENDS += "python3-setuptools-scm-native"
+-inherit pypi setuptools3
++inherit pypi python_setuptools_build_meta
  
+ RDEPENDS:${PN} += " \
+     python3-email \
 -- 
 2.45.1
 
