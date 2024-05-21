@@ -1,99 +1,296 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1455DC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26723C25B7C
 	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 15:20:56 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.22491.1716304850509739246
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.22489.1716304854846590952
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 08:20:50 -0700
+ Tue, 21 May 2024 08:20:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BJ8GU5/d;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Zp7X1Wzt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018f9bbdab0d-36950e55-f593-4819-a152-8df4980bea9f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1716304849; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=7w2NiBUPougmX4IsSnieoQmqO0wU+sB2AJWRMgZc660=;
-	b=BJ8GU5/dXVwGwbZkVFL2Jm+HNTBGV5TTA6UM05RK7Ckqy+hIptMQiRykKNpmcu5m
-	9X/MS8/AJa/bbAG+wR4qpcuLN/tPRM78jvMm9ekldqeWrItUtaucr8PoD5vDoNVaXLH
-	uMpph9NknBPN9HfRsRQhgm075gSDEBUWSb+JV5GE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1716304849;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=7w2NiBUPougmX4IsSnieoQmqO0wU+sB2AJWRMgZc660=;
-	b=Zp7X1WztHvGzvoYs8E3fzAg+yc2TyjJyrsiT/YHA16FxqnKz8SZyy+TGMyYvagwO
-	UpkYpfTc0Tor6ovYdRNjVrP//b1MgbMQJf/Mo/CSQ3rMhO8dECVwQ40MO75YgovJv0e
-	1zl6xen9ZOQvs9+0bKJ7yE8bFl+qsdVhtLDMYFJA=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] kexec-tools: Fix build with GCC-14 on musl
-In-Reply-To: <20240521151219.3169986-1-raj.khem@gmail.com>
-References: <20240521151219.3169986-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018f9bbdab0d-36950e55-f593-4819-a152-8df4980bea9f-000000@us-west-2.amazonses.com>
-Date: Tue, 21 May 2024 15:20:49 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.21-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cfqgPg/7;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51f1bf83f06so6746818e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 08:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716304853; x=1716909653; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ptrQaaleGaL5agDIYaYyUtotaKs21fPOiu/gybLjPw=;
+        b=cfqgPg/76TjrMoQzwDXtN6YmOcLu7fvtNkXKxFZpsm5lCpSWNIcogRf8IMKQjLukMo
+         kWzHzpusdS0skMeo9QQuxlLrVr/5GQQXn2BBFlmGQbjLxJCOy1G9u5m+/ChdrjWqYPwW
+         NO0xzefPe5r9WpiOOvGNw16PvipQr3ZxjNUzT/znS5VoIQ79n/ObFfbPItOqDCkEUvEp
+         WYguw/KyYtc4NDtJilE+AOBBNPyW1Sz3jHJvAoQklQMxSDvluTSd0Ord1oRUHQjOJXYq
+         f3rPyQ9zhuP5rOpwMjpSlt8xWoO6fI6T9F3ozDs4mdebhs7m3QNfXzZVXWrLkcw+I4kd
+         FFzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716304853; x=1716909653;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0ptrQaaleGaL5agDIYaYyUtotaKs21fPOiu/gybLjPw=;
+        b=AONBUOo43Vq7SHYRcdgSNEaonoPFMuM0JIWA0AolzEnWXq6C0cFNyJHZfqNaVpFhZ/
+         5ZTinUfmfuqbI9pVl9OU5tWeYiFl1KBXmBAcpmhnKb3f/mM50RI9CL5uwNiLkIcVLFG1
+         6QQ81S3+QiwrcfjIgO8KMwFiJydYiFmdnDPg+21iEgk2ostJOWaWdS7qJwuD3sPMrTy4
+         JXgy2pmmAvzGfbFZYdMCec87Be8oUB9DEn3P0mhSkQfcDqOQKyRE7f8A4dsiiZvZ05w6
+         qvy4xW1hKoSbnLR5ibcKFRCB4nwR/feaIPlLV8LL/UhXWg51QYxVxicn0UrOEXR0RY8r
+         SrUQ==
+X-Gm-Message-State: AOJu0YweE/8IIud3s/jfbNxNgZSaQm7VEoISnPNNafA9Nyid/HK3Y17k
+	Mcv/YmPzOmwbJ9rbWrTjaZgQmXFLsOrtV4t/tUCW5EWP0OOPKOfq0M0TVX3Fkz8hMiYnvTr+Gnh
+	A0kuuZX4SQINPznhriDCc/wvYhFdMKA==
+X-Google-Smtp-Source: AGHT+IHzN1aDxmpnX6yAD71t9PXuOigOXoVSNSvMKt3ZeiQUJoIhTGeDK/wqkaFDafA9vgXq6toKJOjuOMN6qKyWI5Q=
+X-Received: by 2002:a05:6512:31ce:b0:523:af41:ad45 with SMTP id
+ 2adb3069b0e04-523af41b0b9mr13045284e87.54.1716304852728; Tue, 21 May 2024
+ 08:20:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240521151739.591124-1-ross.burton@arm.com>
+In-Reply-To: <20240521151739.591124-1-ross.burton@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 21 May 2024 17:20:41 +0200
+Message-ID: <CANNYZj8=LLz0syzkuSAO5mnBpMkt2wmtsFDBMX2MtRqnoVn1Rg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gawk: fix readline detection
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000012c3390618f85d53"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 15:20:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199649
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199651
 
---NextPart
-Content-Type: text/plain
+--00000000000012c3390618f85d53
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Please include a link to the submission.
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-kexec-tools-Fix-build-with-GCC-14-on-musl.patch
+Alex
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+On Tue 21. May 2024 at 17.17, Ross Burton via lists.openembedded.org
+<ross.burton=arm.com@lists.openembedded.org> wrote:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+> The code fragment used to detect readline in cross builds doesn't compile
+> cleanly with GCC 14.1, so readline is never enabled.
+>
+> Add missing includes so the test works, and readline can be enabled.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  ...001-m4-readline-add-missing-includes.patch | 38 +++++++++++++++++++
+>  meta/recipes-extended/gawk/gawk_5.3.0.bb      |  1 +
+>  2 files changed, 39 insertions(+)
+>  create mode 100644
+> meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+>
+> diff --git
+> a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+> b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+> new file mode 100644
+> index 00000000000..97edf1ccf8c
+> --- /dev/null
+> +++
+> b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+> @@ -0,0 +1,38 @@
+> +From 4f4e84f139e2a8682f1374a592f2636c43ad857b Mon Sep 17 00:00:00 2001
+> +From: Ross Burton <ross.burton@arm.com>
+> +Date: Tue, 21 May 2024 15:10:11 +0000
+> +Subject: [PATCH] m4/readline: add missing includes
+> +
+> +The cross-specific code fragment only includes stdio.h, where the native
+> +fragment also includes fcntl.h and unistd.h.  This is important because
+> +GCC 14.1 has made the implicit definitions an error:
+> +
+> +conftest.c: In function 'main':
+> +conftest.c:144:9: error: implicit declaration of function 'close'; did
+> you mean 'pclose'? [-Wimplicit-function-declaration]
+> +conftest.c:146:14: error: implicit declaration of function 'open'; did
+> you mean 'popen'? [-Wimplicit-function-declaration]
+> +
+> +Add the missing includes so that the check doesn't always fail due to
+> +these errors.
+> +
+> +Upstream-Status: Submitted
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +---
+> + m4/readline.m4 | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/m4/readline.m4 b/m4/readline.m4
+> +index 38f96326..efd52d4e 100644
+> +--- a/m4/readline.m4
+> ++++ b/m4/readline.m4
+> +@@ -66,6 +66,8 @@ dnl action if false:
+> + dnl action if cross compiling:
+> +               [AC_LINK_IFELSE(
+> +                       [AC_LANG_PROGRAM([[#include <stdio.h>
+> ++#include <fcntl.h>
+> ++#include <unistd.h>
+> + #include <readline/readline.h>
+> + #include <readline/history.h>]],              dnl includes
+> +                       dnl function body
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> index d7a0fc616d3..e94cf19db48 100644
+> --- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> +++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> @@ -16,6 +16,7 @@ PACKAGECONFIG[readline] =
+> "--with-readline,--without-readline,readline"
+>  PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+>
+>  SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+> +           file://0001-m4-readline-add-missing-includes.patch \
+>             file://run-ptest \
+>             "
+>
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199648):
+> https://lists.openembedded.org/g/openembedded-core/message/199648
+> Mute This Topic: https://lists.openembedded.org/mt/106225075/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+--00000000000012c3390618f85d53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
----
+<div dir=3D"auto">Please include a link to the submission.</div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue 21. May 2024 at 17.17, R=
+oss Burton via <a href=3D"http://lists.openembedded.org">lists.openembedded=
+.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.openembedded.org=
+">arm.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">=
+The code fragment used to detect readline in cross builds doesn&#39;t compi=
+le<br>
+cleanly with GCC 14.1, so readline is never enabled.<br>
+<br>
+Add missing includes so the test works, and readline can be enabled.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0...001-m4-readline-add-missing-includes.patch | 38 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">gawk_5.3.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1=
+ +<br>
+=C2=A02 files changed, 39 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-extended/gawk/gawk/0001-m4-readline-a=
+dd-missing-includes.patch<br>
+<br>
+diff --git a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-i=
+ncludes.patch b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missin=
+g-includes.patch<br>
+new file mode 100644<br>
+index 00000000000..97edf1ccf8c<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes=
+.patch<br>
+@@ -0,0 +1,38 @@<br>
++From 4f4e84f139e2a8682f1374a592f2636c43ad857b Mon Sep 17 00:00:00 2001<br>
++From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bl=
+ank">ross.burton@arm.com</a>&gt;<br>
++Date: Tue, 21 May 2024 15:10:11 +0000<br>
++Subject: [PATCH] m4/readline: add missing includes<br>
++<br>
++The cross-specific code fragment only includes stdio.h, where the native<b=
+r>
++fragment also includes fcntl.h and unistd.h.=C2=A0 This is important becau=
+se<br>
++GCC 14.1 has made the implicit definitions an error:<br>
++<br>
++conftest.c: In function &#39;main&#39;:<br>
++conftest.c:144:9: error: implicit declaration of function &#39;close&#39;;=
+ did you mean &#39;pclose&#39;? [-Wimplicit-function-declaration]<br>
++conftest.c:146:14: error: implicit declaration of function &#39;open&#39;;=
+ did you mean &#39;popen&#39;? [-Wimplicit-function-declaration]<br>
++<br>
++Add the missing includes so that the check doesn&#39;t always fail due to<=
+br>
++these errors.<br>
++<br>
++Upstream-Status: Submitted<br>
++Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
+et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
++---<br>
++ m4/readline.m4 | 2 ++<br>
++ 1 file changed, 2 insertions(+)<br>
++<br>
++diff --git a/m4/readline.m4 b/m4/readline.m4<br>
++index 38f96326..efd52d4e 100644<br>
++--- a/m4/readline.m4<br>
+++++ b/m4/readline.m4<br>
++@@ -66,6 +66,8 @@ dnl action if false:<br>
++ dnl action if cross compiling:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[AC_LINK_IFELSE(<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0[AC_LANG_PROGRAM([[#include &lt;stdio.h&gt;<br>
+++#include &lt;fcntl.h&gt;<br>
+++#include &lt;unistd.h&gt;<br>
++ #include &lt;readline/readline.h&gt;<br>
++ #include &lt;readline/history.h&gt;]],=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 dnl includes<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dnl function body<br>
++-- <br>
++2.34.1<br>
++<br>
+diff --git a/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">gawk_5.3.0.bb</a> b/meta/recipes-extende=
+d/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=3D"noreferrer" target=3D"_blank=
+">gawk_5.3.0.bb</a><br>
+index d7a0fc616d3..e94cf19db48 100644<br>
+--- a/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">gawk_5.3.0.bb</a><br>
++++ b/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">gawk_5.3.0.bb</a><br>
+@@ -16,6 +16,7 @@ PACKAGECONFIG[readline] =3D &quot;--with-readline,--witho=
+ut-readline,readline&quot;<br>
+=C2=A0PACKAGECONFIG[mpfr] =3D &quot;--with-mpfr,--without-mpfr, mpfr&quot;<=
+br>
+<br>
+=C2=A0SRC_URI =3D &quot;${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-m4-readline-add-missi=
+ng-includes.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#199648): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/199648" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/199648</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106225075/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/106225075/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--00000000000012c3390618f85d53--
 
