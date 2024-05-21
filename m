@@ -1,106 +1,233 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alejandro@enedino.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D400C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 22:26:22 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.1516.1716330375670346396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F84DC25B74
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 22:45:02 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.1866.1716331497708632318
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 15:26:16 -0700
+ Tue, 21 May 2024 15:44:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HBw2MCCv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4200ee78f35so26810505e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 15:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1716330374; x=1716935174; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yE4RjnUND1ALmm+DIiaVq1O3aOMBywL0VkYvgfEvjHs=;
-        b=HBw2MCCvc5ApRqFxwGs2I3K9bo9wSqNbSzhe6aXoG54sU4rRcns2yrWXxYlpxiIk2E
-         hY15XJHzV/t0KWN93I/k9F2rgHVUgAlcRuJifQjpcmINGZroUczqANWpr0mbgh2IrJi5
-         Uqu2VIhZLc5f6Y0gbMmSr26oM7jDMSuC245Hg=
+ dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: aehs29@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5238b5c07efso5034512e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 15:44:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716330374; x=1716935174;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yE4RjnUND1ALmm+DIiaVq1O3aOMBywL0VkYvgfEvjHs=;
-        b=uqT4rVTrO683F7Igi1sFTiPJo1KjyWOXXcRSR8Wh392jI/6lPS960cPgxp/3H48MBc
-         JCdR1bK5gGHU+NmX88yXpZDLe4OcBHap8BLDZkXdNvpiLzWrU1U3Cm5OUq5++4xr3gn0
-         cx04qTyAkbgUjFfsEaZsy56O+v1HuYEP9IbQJSD3L+/VP3D7P2TjVpv2h7jO3ZIrUhm4
-         +WZRLRrEaFq7HnEIeogDx94IocxKLFeb6j5cZ/dqqDiyBBHLz5JayY11iPh3DMrRVv0m
-         BUAOe1mU7pcRANd6hfDX5dJop861vJiP92/R1ErGobShHfSNkdmVrNTCp5/nndX2NNIa
-         U9lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMDL6DyPkGqDGrbpzQUO1bUCIzlL7DKkXhPL5SEMU6gWSZKPAURsA73FsD9ZwyU9F5q1KO9nw5bTs+9P/50vsJQjAqjw1xB+mQ4ytx6e4bhi2QXjMuAuQR
-X-Gm-Message-State: AOJu0YzVx5y25MsNdeneYjKYTALrb5ZclXMc9a5a7ucV+uGuJ0Efd1cg
-	oTX+z9XiFSbDBM805cFCIkidToEM3vyzM28ASRYzC4hN/f5sRqes4DtCATGhm2k=
-X-Google-Smtp-Source: AGHT+IElLQJ/SDdjcQ60YlBCYLwaJlAYAlazso6ZZI3RSWhv5tMcbprwxGHMn+8vBKW2tnyFM2j+/g==
-X-Received: by 2002:a05:600c:4fc2:b0:420:e454:1599 with SMTP id 5b1f17b1804b1-420fd2ffc97mr1531665e9.15.1716330373964;
-        Tue, 21 May 2024 15:26:13 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ef1c:155d:9d8e:11ce? ([2001:8b0:aba:5f3c:ef1c:155d:9d8e:11ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502bbbc955sm32752863f8f.111.2024.05.21.15.26.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 15:26:13 -0700 (PDT)
-Message-ID: <075105cafcddc506ff77f43791e330d1ae12485f.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 6/6] kmod: upgrade from 31 to 32
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Date: Tue, 21 May 2024 23:26:09 +0100
-In-Reply-To: <20240520081040.2380736-6-Qi.Chen@windriver.com>
-References: <20240520081040.2380736-1-Qi.Chen@windriver.com>
-	 <20240520081040.2380736-6-Qi.Chen@windriver.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
- xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
- NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
- KjTi3em7xDpqA1Rxd/rV4z9VQJrbpL/oiPCnTW/iCx+eMH70dRk+gHxSU8FWVf+CucFZprvO9UMi tGHLvfpBxfnGDT2EOqOoFOYgYHq7MfSDZT+zM/gBWfHXbyz6W9RYqycwWCIhG5jhMhT2sEWr4FlwmXfogvSqxvKondwPfXsgNT1MdBqa0Hhm0pIJYs4ovKWnvymTraziqSWI2C9X5lPmf6ugNiuzJt5BqlilNHxsej9OC53HfBbkgDONdcJbduW9nrJlIl9OLanB4/fvuqG1ZIS/eFFAkb2YnBBuS2TNz3aPd7vFkOoMU7VegDic/sH23eZPGQm3XWcTYwIY2djBU8Jzyy4mRIOQZMGXb/ygrGXAuIxL2R2O1uFYEY3VB1RIIKoZIzj0DAQcCAwQzkAYGjbS/m2SeumSYfDZKeazIkOpwUxpTQ7kPxz0ijiquKSsEZzlPMFzhA+iBJh2jdCyabi5K+8+v3VZZglbWAwEIB4kCNgQYAQoAIBYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUHVAhsMAAoJEJpQxjUYvLKAr6UQAMyaDatvvCkxvOyFgO6jxLLzbkwl40hTNB/TsG5RdwL6FXnBMzkIa5lEfgV1u2zwu0p7SKWH9J3DSNqYKjUCAfwDEv6aDKrFYqGQZMuke1ZAfKqmWTIYOKYG4vRgvvF1u0aCOrRJiipjEPnrw1LC6eaqpnI3WGJyy8Wgr8aO0RBUO93ax/+Mpw3QG+jQqZjuomBWGvUwsjRtzE9j2QUcGxjyTrocVsR2qjK0boE4jLGJWNreSIgs5Nllww++3l0pabmXhyXqDdoYE1U0WkI/yemsc8ydDtjpeG4uzv9rfd5VUqHoZpuYZ1sc4DTGFrEAoght/9FXWsOFOtX8vZprLFFi7iFNSDChIFEsyuizHOW5wl/PYkGCCMZvwPK61IvCARKwevdnSrle9omYEqjnU/HjVZ/kvtKxn1VN15j1NNF
- 0zgmm+/RfbZFHbeuea/lVInXpNBMDj+pl3VyygUae65DMFWgYVSLtXPTRLVMb2mIxiNpk3T2UcuVW 1XC9LWup6h8jHEJ0zBCPjPyd1tFQ9hHVOJnwRthV+VG3zuBf8sri1TPnz5XjNpu3Q3r/6turvh+Khal2itb980tITH5fDbLUewPiA2jCAgZCkVMQcvYTS4rZCC+hpHSMte4m1n7AcmF9ohhw6tt41AEhwbMh+nRkyjDkY+k/vivg0obC2JpruDMEY3VCGBYJKwYBBAHaRw8BAQdArl5/9Fe2aA9JEc+HRm2rnCl6NMb7DZJLnM0xmQg1ouyJAq0EGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCGAIbAgCBCRCaUMY1GLyygHYgBBkWCAAdFiEEHKt8QO5c0zRDdmiGodJewzbIKeYFAmN1QhgACgkQodJewzbIKeawUgEAzEwjSYf8lXVNcZVYL/4SLX9FEop83Q8+WmwT2rGhA+MBAKga5Fl8afYVHuPlPOxB/M7aQdP8vfYEx/cWmHmQEUICQxQQAJd85C4//BU0FOUPlEQ1vofZGNC1wTzVA7cQtYlIRrgQOmjR4tOFTxEzusA8QvXxOYkMkDlaa/Ai4/nicMqadnWPQ37BmTAW3/O5PVA22mWaC/ZVeG6DGBGVWb/OAwZe9KMxOR6say+bEIM6B6iDgc3V/HNsLWYYPHaj5HebHOKAJ7dqGGUlFV02OrVW5yAaOUEI61cKw0QuwoN1fZgih94EvFicNaLnDVDV64cbOnNyxGlJhbv4WMErtU4RVD3tT1soESmDB4jS2v49reBpsVVXg2G/M1xFO3sUcczHeo5LRaKtXpkXNh4WO3HDT/eb/IWP8Me2YKpwa5dzlrUz0AYi2s+h+LGclOP0Mls0tgS8sQSVdTj/feLk1FSSQGhSKdHMMGTlSsqj7XjToTAnIheq+5sdaY8UCEYu4s6jDiKu6G02HlF
- WpERQ9FmtGo2PVqnMaZy2w9lkNNn8ccyMWpP2EwGuCxONQrc22a7WnCYLTpOukLUSD7ApH7M2Jk8on
- kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1716331495; x=1716936295;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gWCwDz01D7yQPY5ABoE48TyV0O0Gr4N4rMbYRq0TMfE=;
+        b=hPjVcuTtZXM13XigJiVf/mhca6fy97qE571/htvtodqW4IBtUWn0W9KrNHX5nEtAmL
+         6G3lt7jJw8Ccd97M1zu7QRwGFWkupTso7kZnXOiT+6xVtvszAEn8cemZHW5Qb2lNmjRx
+         U2NpTiHgOJXP3yU8yFzrNxo1TJFzcifAnhB0RcM5uthEDNxGq/Uh0ffarfJFpThpkXJQ
+         ds/zyRAKi7q9WmctOSunqoiVhybJC6RWWAkM4ff4E3JqJTNbPFW/m2TRZSN7lfmySlTL
+         go4cz/JRf6zpaGtpL/Nd79N8uBACyK8n/EveRfLrmzNZD4SX/5uCswhuaPxnKpnBrwvX
+         TqhA==
+X-Gm-Message-State: AOJu0YwYDUf19OvecvoE3lmb/niB/ZFdn6gvT8QMpjac9i7KhStoyd7d
+	8NOWVYhUQZRCnkcX9Rd8Gx4ZwmFECUPbDbuOZy6qACuku9wjOap6mUmr+SL0WPM=
+X-Google-Smtp-Source: AGHT+IG4H5rZOtkSR19K9lj9NW8AjJG4KhEIpYainPWYTaIs7FRctZxEbhPPoCNLAZZ253iQjHF/yQ==
+X-Received: by 2002:ac2:4294:0:b0:51d:96be:b50 with SMTP id 2adb3069b0e04-526bf82cb18mr59065e87.31.1716331494310;
+        Tue, 21 May 2024 15:44:54 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f39d2bb6sm4841798e87.249.2024.05.21.15.44.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 May 2024 15:44:54 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2e1fa824504so54285131fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 15:44:54 -0700 (PDT)
+X-Received: by 2002:a2e:9b54:0:b0:2de:d48a:953b with SMTP id
+ 38308e7fff4ca-2e9494942f0mr588481fa.23.1716331493887; Tue, 21 May 2024
+ 15:44:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240519055050.2331637-1-alejandro@enedino.org>
+ <20240519055050.2331637-4-alejandro@enedino.org> <9eaa082f9c71b013beac154498c89162696a11a3.camel@linuxfoundation.org>
+In-Reply-To: <9eaa082f9c71b013beac154498c89162696a11a3.camel@linuxfoundation.org>
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Date: Tue, 21 May 2024 16:44:39 -0600
+X-Gmail-Original-Message-ID: <CAHMutrZMwE_qQ71dJC_S7O2+41NKzvE8Gyk6z8nWSFiVTp=NJA@mail.gmail.com>
+Message-ID: <CAHMutrZMwE_qQ71dJC_S7O2+41NKzvE8Gyk6z8nWSFiVTp=NJA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] tclibc-picolibc: Adds a new TCLIBC variant
+ to build with picolibc as C library
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000002a1310618fe911b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 22:26:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199677
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 22:45:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199678
 
-On Mon, 2024-05-20 at 16:10 +0800, Chen Qi via lists.openembedded.org wrote=
-:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> kmod now installs symlinks in 'make install'.
-> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/commit/?
-> id=3De98cef6f3f8cd6f8bfb26d147b2c209297453cca
->=20
-> With this change, we no longer need to deal with the symlinks in
-> do_install. Besides, as upstream chooses 'bin' instead of 'sbin'
-> to hold the tools, we'd better sync with it. That's the reason for
-> the sbindir -> bindir changes.
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
-> =C2=A0.../kmod/{kmod_31.bb =3D> kmod_32.bb}=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 24 +++++++------------
-> =C2=A01 file changed, 8 insertions(+), 16 deletions(-)
-> =C2=A0rename meta/recipes-kernel/kmod/{kmod_31.bb =3D> kmod_32.bb} (78%)
+--00000000000002a1310618fe911b
+Content-Type: text/plain; charset="UTF-8"
 
-I think this is causing libnl ptest failures:
+On Tue, 21 May 2024 at 13:32, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6437/step=
-s/12/logs/stdio
-
-https://autobuilder.yocto.io/pub/non-release/20240521-26/testresults/qemuar=
-m64-ptest/libnl.log
-
+> On Sat, 2024-05-18 at 23:50 -0600, Alejandro Hernandez Samaniego via
+> lists.openembedded.org wrote:
+> > Enables usage of TCLIBC=picolibc extending OE functionality to build and
+> use
+> > picolibc based toolchains to build baremetal applications.
+> >
+> > Picolibc is a set of standard C libraries, both libc and libm, designed
+> for
+> > smaller embedded systems with limited ROM and RAM. Picolibc includes code
+> > from Newlib and AVR Libc, but adresses some of newlibs concerns, it
+> retains
+> > newlibs directory structure, math, string and locale implementations, but
+> > removed the GPL bits used to build the library, swiches old C style code
+> for
+> > C18 and replaces autotools with meson.
+> >
+> > This patch adds a picolibc recipe for the C library, a
+> picolibc-helloworld
+> > recipe that contains an example application and a testcase that builds
+> it.
+> >
+> > Picolibc can be built for ARM and RISCV architectures, its been tested
+> both
+> > for 32 and 64 bits, the provided example recipe produces the following
+> output:
+> >
+> > hello, world
+> >
+> > Runqemu does not automatically show any output since it hides QEMU
+> stderr which
+> > is where the QEMU monitors output is directed to when using semihosting,
+> but,
+> > manually running the same QEMU command does work properly.
+> >
+> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <
+> alejandro@enedino.org>
+>
+> Had two issues in selftest:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6778/steps/14/logs/stdio
+>
+> distrodata.Distrodata.test_maintainers:
+>
+> AssertionError:
+> Unable to find recipes for the following entries in maintainers.inc:
+> picolibc
+>
+>
+> picolibc.PicolibcTest.test_picolibc:
+>
+>
+> Removing 1 recipes from the qemux86_64 sysroot...done.
+> ERROR: Nothing PROVIDES 'picolibc-helloworld'
+> picolibc-helloworld was skipped: incompatible with machine qemux86-64
+> (not in COMPATIBLE_MACHINE)
+> Summary: There was 1 ERROR message, returning a non-zero exit code.
+>
+>
+> Cheers,
+>
+> Richard
+>
+>
+> It seems that picolibc recipe is being skipped in the first instance,
+since a different TCLIBC is set whilst running oe-selftest, tinfoil simply
+skips it, I see now why there is an exception for newlib too, For the
+second case I'll figure out what needs to be done so the test isn't run for
+incompatible machines and I will send a v2.
 
 Cheers,
+Alejandro
 
-Richard
+--00000000000002a1310618fe911b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 21 May 2024 =
+at 13:32, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
+on.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">On Sat, 2024-05-18 at 23:50 -0600=
+, Alejandro Hernandez Samaniego via <a href=3D"http://lists.openembedded.or=
+g" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<b=
+r>
+&gt; Enables usage of TCLIBC=3Dpicolibc extending OE functionality to build=
+ and use<br>
+&gt; picolibc based toolchains to build baremetal applications.<br>
+&gt; <br>
+&gt; Picolibc is a set of standard C libraries, both libc and libm, designe=
+d for<br>
+&gt; smaller embedded systems with limited ROM and RAM. Picolibc includes c=
+ode<br>
+&gt; from Newlib and AVR Libc, but adresses some of newlibs concerns, it re=
+tains<br>
+&gt; newlibs directory structure, math, string and locale implementations, =
+but<br>
+&gt; removed the GPL bits used to build the library, swiches old C style co=
+de for<br>
+&gt; C18 and replaces autotools with meson.<br>
+&gt; <br>
+&gt; This patch adds a picolibc recipe for the C library, a picolibc-hellow=
+orld<br>
+&gt; recipe that contains an example application and a testcase that builds=
+ it.<br>
+&gt; <br>
+&gt; Picolibc can be built for ARM and RISCV architectures, its been tested=
+ both<br>
+&gt; for 32 and 64 bits, the provided example recipe produces the following=
+ output:<br>
+&gt; <br>
+&gt; hello, world<br>
+&gt; <br>
+&gt; Runqemu does not automatically show any output since it hides QEMU std=
+err which<br>
+&gt; is where the QEMU monitors output is directed to when using semihostin=
+g, but,<br>
+&gt; manually running the same QEMU command does work properly.<br>
+&gt; <br>
+&gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego &lt;<a href=3D"ma=
+ilto:alejandro@enedino.org" target=3D"_blank">alejandro@enedino.org</a>&gt;=
+<br>
+<br>
+Had two issues in selftest:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/87/build=
+s/6778/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6778/steps/14/logs/=
+stdio</a><br>
+<br>
+distrodata.Distrodata.test_maintainers:<br>
+<br>
+AssertionError: <br>
+Unable to find recipes for the following entries in maintainers.inc:<br>
+picolibc<br>
+<br>
+<br>
+picolibc.PicolibcTest.test_picolibc:<br>
+<br>
+<br>
+Removing 1 recipes from the qemux86_64 sysroot...done.<br>
+ERROR: Nothing PROVIDES &#39;picolibc-helloworld&#39;<br>
+picolibc-helloworld was skipped: incompatible with machine qemux86-64<br>
+(not in COMPATIBLE_MACHINE)<br>
+Summary: There was 1 ERROR message, returning a non-zero exit code.<br>
+<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br></blockquote><div><div class=3D"gmail_default" style=3D"font-family:ari=
+al,sans-serif;font-size:small">It seems that picolibc recipe is being skipp=
+ed in the first instance, since a different TCLIBC is set whilst running oe=
+-selftest, tinfoil simply skips it, I see now why there is an exception for=
+ newlib too, For the second case I&#39;ll figure out what needs to be done =
+so the test isn&#39;t run for incompatible machines and I will send a v2.</=
+div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-family:ar=
+ial,sans-serif;font-size:small">Cheers,</div><div class=3D"gmail_default" s=
+tyle=3D"font-family:arial,sans-serif;font-size:small">Alejandro</div><br></=
+div><div><br></div><div>=C2=A0</div></div></div>
+
+--00000000000002a1310618fe911b--
 
