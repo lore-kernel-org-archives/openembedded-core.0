@@ -1,138 +1,182 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94058C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 19:32:49 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.5247.1716319964760526351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B20C25B74
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 20:27:46 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.45])
+ by mx.groups.io with SMTP id smtpd.web10.611.1716323261811509986
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 12:32:45 -0700
+ Tue, 21 May 2024 13:27:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P0ltD604;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-350513d2c6aso3164868f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 12:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1716319963; x=1716924763; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVm/xM0jbPvrZVIypZgCphtoq6UgrZpEd/mYeVlpNww=;
-        b=P0ltD6049bgmaJTL1pe9gBWSchFYrX0mVdQBa45Xa0yAxWU0oEbdLOjmo2F4tyMBp1
-         1Aa/i1VV0GYp46OQLsiw+IZcp8DS6F0qWkewNy2psEjZo9ANH79R2ZWP0v7rWf0Dcp9n
-         /cvRyaNOD6Oq22icdyzDsg71hoyi+8huu3fag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716319963; x=1716924763;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVm/xM0jbPvrZVIypZgCphtoq6UgrZpEd/mYeVlpNww=;
-        b=CQJjSnFnd/cN0X0zo8P8DfMB7X4JSBJE23wSGG7HrHlf5QSL3pnXKXFKpZv4KE25oq
-         JkGIoiC1FRXFtjHGSIEDpve/l6MJ482r/MO1eIoNeYZDuQ8MXjH8Glqc2OfItTpbjZJU
-         9wxuVulGXUtB0SX6pWTXfWVqpszgoS82JSBS8XpwCVxVg0Kgk9VqiYi+hWG1HC8Oh1/m
-         /lPXuUFzcTp5GSTzyRTdcqqMkvmTesZ1yQriuk6Z0rZtBbSoxERmhN9PAWYFZD91s7Z5
-         V2NeT0oTptBuWLfIiEs6fEZhQiS1XH0h2E/6dklmf+/BDoGvFDMLXoGmqct6ykBA2PQH
-         NLZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbkVuR5uAJfTAG6ExqgG1be8oEMPa5hEP39yK0NgNVBtI0GaL1eM8JzF3RfyuW3OCrSNBCuLqI1NhlzQvFwx1evCy7pNNONRF1YAiQurO2SexRBjuJXSoL
-X-Gm-Message-State: AOJu0Yx7QHI5hkpyHiQ0bWWDHU+xSrobEjx8K7kGnd9OvOA+jNcp8RmL
-	VLa4dcQWUTIqnV8vn+HZAS3LIWKA7XVgzzw5q6Zm/OABRa3gSCQbTUjWwZQprdw=
-X-Google-Smtp-Source: AGHT+IGKi6tKKVMbYa5HejbBrjzeV+f8tnaDJ2az86brQ6S9LtvaaS2GKtRu0wEloJCJWFnKppDDSg==
-X-Received: by 2002:a05:6000:a88:b0:34a:e884:fd71 with SMTP id ffacd0b85a97d-3504a7371camr22277089f8f.29.1716319962933;
-        Tue, 21 May 2024 12:32:42 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ef1c:155d:9d8e:11ce? ([2001:8b0:aba:5f3c:ef1c:155d:9d8e:11ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3504660753esm31059901f8f.8.2024.05.21.12.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 12:32:42 -0700 (PDT)
-Message-ID: <9eaa082f9c71b013beac154498c89162696a11a3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] tclibc-picolibc: Adds a new TCLIBC
- variant to build with picolibc as C library
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alejandro@enedino.org, openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2024 20:32:40 +0100
-In-Reply-To: <20240519055050.2331637-4-alejandro@enedino.org>
-References: <20240519055050.2331637-1-alejandro@enedino.org>
-	 <20240519055050.2331637-4-alejandro@enedino.org>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=UzBk5JsD;
+ spf=pass (domain: siemens.com, ip: 40.107.8.45, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KvtZdrsmpihO4TY6OO57mcDbzD7o5rjIhYfPv6dok92+LX3KT+l5qavQgciNEi203xPxwhRQObVI4uY9JWBUg/ooG1z9NWfDrUBADBcSSmNq83CFgI65irFDONBHFbjjkVHVq+RJAkW0QwdZ0uGilhfUmBVzfGlZm7AVmJRW76g5yjhDSGiZn7iHR6UeucGDXYoxICDTOU4Qw/pcqsUtH9UJos889qQt0zMGgaFTf5QkTuEws9L7S6kqPE5k7ti9xCb+X8XFA4nSfo6OLeSQEEebpYrF4gaTvIdqui43dQyZlWTwGy4h66N7s1QOtczOZriIBU2fxIGohjKhuRyHfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8B1TDyvKhzI3yenYQ80GklwhYSCpePSiFda2WFzU48w=;
+ b=YTk/YkZRUS8P+kQnS5LY/P1NC9et+Xz+L6QNQfvDkS/TLIrf4I6iMwAN67I19Kl5/sm4Z4Fp85PCHles1/i9R78+1XbqxUzFihGk8v8JY8qjUv7CjJSzB4aspuasll36ip5z0UseuHERPZzenGGtuPz94FlM34o3dJg6OxY3x92knsNjyfsYkBvfo/MkSRNRAYcTsaeeQl+AhqoRwyy8mkShy+jMTy8HntXGWvRmW/Fvs0nCCB7izo6y3n/aygC0BrOvAhDPcxW1aiHB2wVzaXslLRTWTztRW096SN6dPix/kcVt0Wp6KC3KbzDewfae3bLwg9ipaT2wldIPv8Quxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8B1TDyvKhzI3yenYQ80GklwhYSCpePSiFda2WFzU48w=;
+ b=UzBk5JsDrmMi7YL5b+ZaFnnGw4iF4CfFRTCqu0HEB9ExaK8DH/skdw0A63fAGJR0KDn1xDCaP2KHaDE09jDuq4aw3euHsNJPrJUvCj1SJP7ILaD3oa/e/vmx0YbGsb9haOioVN0l9k4mqS/q02uIhgp99sumJc1qGRPoolm77QjBUHpl5l/a2fTyHd5iCF6i1ACensiScp2iTTxf2cO6MGcDIuDtxwySC6HPFECvgA70z+LPYtbKBhA9oROVrPS7H64783WzhfIhZQ9yl+uPdocqCsRF04V/46WD/9t0ZVoZcvgDu/+r8UqRZnB+/8BOxlTED+8DJB63ol+BA+X6mA==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV2PR10MB6573.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:be::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
+ 2024 20:27:38 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7587.035; Tue, 21 May 2024
+ 20:27:38 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH 1/2] ncurses: switch to new mirror
+Thread-Topic: [OE-core][PATCH 1/2] ncurses: switch to new mirror
+Thread-Index: AQHaqWqnM5JSS6yj202DJz6gAqY4P7GhfTEAgACSfICAAAhmgIAADswg
+Date: Tue, 21 May 2024 20:27:38 +0000
+Message-ID: 
+ <AS1PR10MB569740EE17E630660EB69AF1FDEA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240518212954.788524-1-peter.marko@siemens.com>
+ <CANNYZj9H16P4fPcphNiXV_8Wx3eapUeCQu+f5uL+4HGKRGrzBw@mail.gmail.com>
+ <AS1PR10MB5697E1CD2E2A7DD06150D96BFDEA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <CANNYZj-OYGdScmGziYkH=QrCu0sCVkE4K1dv6fQy-mgPpuLk6g@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-OYGdScmGziYkH=QrCu0sCVkE4K1dv6fQy-mgPpuLk6g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d460aa88-393b-4070-97e1-fe2648d178d3;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-05-21T20:24:17Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV2PR10MB6573:EE_
+x-ms-office365-filtering-correlation-id: 9f18a530-2357-4c4b-c25f-08dc79d474e3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?RlhjYjZPckQ0S3orcXJEV2N2SXd5M1F0L25xSGU1ZU8vR084YnpWVmJPbUFi?=
+ =?utf-8?B?U3VCZWxya3VCUWlnZVVjelV6R3F5clEyV1kveVNCRjd2ckhxTUpCR3hDU2hB?=
+ =?utf-8?B?dlFGNnIvR20yQUlSdTFLMnlwUWxlcjFaOUJBS2tGN0RRLyszM1FpWUF3WWRi?=
+ =?utf-8?B?NHdyejdmZFROb3RrRVdHMzFVenNrYlhpMzlKR0VkME9MdGV0blIyWHdMYXRV?=
+ =?utf-8?B?NkJqWVc1SnRvaGRWd1RtMWpCa0d1UVNSTUVMUjk0Wjcvb2dnUDRhUWI0a0Yw?=
+ =?utf-8?B?Z0FwQkNCeEFUU2I3T0VkUDdtTHN6VkJNMm8zNkpUclQ2OUUvbFFJZWdxWU9R?=
+ =?utf-8?B?b2JRclF2MXgyczlmaGE4LzRZRnYwS0U5T2pXVVhPVCtVOVBCcFpMSjA0RTA0?=
+ =?utf-8?B?ZkNpU2NQd0U0TC9TUm5HU0VkY000QUJ5UmUyQ3c1RHRnSURJZ0p5bitsMXRq?=
+ =?utf-8?B?TWc3VFl6bVRXK04yTkJaZ3NaaHVWSDVteldNdWRtYXJaT0F5Z1l0SWNpWjJB?=
+ =?utf-8?B?RHdiZ3ZUM0lPdXhzb3dmTjRsWkpCSFRob1J2amd1RXZGNEc1aVltN0hhWld6?=
+ =?utf-8?B?QTBvYVB0VEJtRFZ6VlJTK2VxYmpHeURPMHA1NExBVkc5eFlsRG5KakNWcG41?=
+ =?utf-8?B?RzVaZnNqU1RCejhyMVJTRmVnSG5KdE1WTGcwV1pOd3JEbERiOFJZTkpra2xY?=
+ =?utf-8?B?RzdoWWhUMVJpZkRNWFdvTGJCQ1BxQ2xWOTFQSStVaW43akdtYnI2a1JNL3hN?=
+ =?utf-8?B?ZzFuUDFlSEFoczI4MERYMmlkNUJ3SllBVEhUU1JJdXd3SDdTSmpsajg0TDFB?=
+ =?utf-8?B?WEw1MUJZWUpCc05jbmxxZitnbmc1aHBET3lPVjUyYjNBSWU2UG9FVXZCbExr?=
+ =?utf-8?B?TzM3Y3dHTkpyTnhPNWNvZENiODZKOE9kQ2lmSTJxVlpaa0d3RGpZb3RIU2o4?=
+ =?utf-8?B?SEdiOExzdzhUWmtUM0FkcEdhWWpySzU1aUxDNzE4Z2RJWllwQjZTTGNNNUFS?=
+ =?utf-8?B?L3h0UVZ4THZnckhoMTNjWmpKV3psdVA5S1VoZndTVzZiVlAyVlIremcrMjRN?=
+ =?utf-8?B?TWliYnJNQ3RnSU5pTUJvcHgrL3kyT1lxZjlQNGdNblBsQ0NWQmVjTS9wUDdO?=
+ =?utf-8?B?bnpRby9qSDlwN3ROTGIrZnRJZGxkZ1ZNVDYzaHVEcGt1Tk5tcW9sTFdLSDlM?=
+ =?utf-8?B?ZmlIa2ZKZ1lwMUVwenRhcmtGY0s1N0cyQW9RdzdicWNZYU1SV21ncGFJdkFS?=
+ =?utf-8?B?d1FBQ012QzJzdFkwNmVxV2JubHBXV09VK245dVJORUlPY3JGenNzRkhEUGw1?=
+ =?utf-8?B?YTE4MGdlZ3V6Z1FTN3FwbU55SmhyNmQxVW1yT2pGTGt4WDFaWWhvUm5wcHl6?=
+ =?utf-8?B?em1Hb1ljMXAvbTJFdTN3K3Fyc2lNTHRBVWZGTU9qVkdodkg2d0Y2OGtoVUZk?=
+ =?utf-8?B?LzRHS2Z3Q3pjVjRGMzBqVlRwUUxlREg5cEgxeFpEUEJFenBueDJ6VFh0U1VJ?=
+ =?utf-8?B?UTNlcU56MHFvQ1FzT25hQUFSdkk5eHgxL3VOTHU2UkxXazk2cTIxbW1abHN0?=
+ =?utf-8?B?djRsSGhURi9sUWQ3NzdydVYwMkNsV2FNNkFtd0tiMEVIK0JBREtPZkhpUmdT?=
+ =?utf-8?B?QlFCMFpKSWtQdVdGeTBsdjc0dkJuNGtLRTc0Um5XV0pmTGRpQ1o2bUJ4eUlV?=
+ =?utf-8?B?aDljZ3BGNVRUbGJ1TWhzWUNLYVJ4ak1sTUl4bTdyM3BEdUxGSDBVR2RnPT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?TjY5enYyN29ua2VnZjRPNitUa05XdmNFaW9MSEV4L0lhVFh6UzlxRjFISjFq?=
+ =?utf-8?B?ZllFN2w4bGp4K3pKeTNCN2ZkVUtzV0lJQzdrc2R4eXIxN0NqSW1TVE1xeW53?=
+ =?utf-8?B?YU0yVHo1UDRPYXZET2FYYm1uWmJDRXdWZnZXTEZRVFZJdU5tZGZlOU5jdy9z?=
+ =?utf-8?B?TXN0UkNhS3dzbGJ6Ym1DaGUyWkg4a21udS96Tml5a205VlluK0szekFSaGY5?=
+ =?utf-8?B?YURkM3VJWTlYKzdEcVVCcmdNcHhFb3V4NWRWZXhKZExENnJPdlYrRmNWMmRX?=
+ =?utf-8?B?UVlERXNRck5FYXhRWlc3SHNOYUprVWd2T1ExMVNKRE1ST1BJbG9mODF4MWlN?=
+ =?utf-8?B?Tm5EVWFCMUdDc2J2ZFpLaGV0bm5laUh4UmQ4M28xRS9CTjV2QTI2VVFaaTJj?=
+ =?utf-8?B?WGtRSm96QktZSFJRejhVT0I4U041VEZCWFdqeUE1WXRFcEdpU1pVYlE3ZkJq?=
+ =?utf-8?B?c0dET3BWSkhFZmcyaTdyTkN2N3JudUdNT29LWCtuR2pGNmNhQWg4ZmlodTZD?=
+ =?utf-8?B?aWVxOU50dlZSSGJ4UW5yNXRyNndwL0p3UFNZZGNjbm5NVnVhVzZ6S0hFN0Yz?=
+ =?utf-8?B?YUJHS2JwN0pBa2VqZ1hnOXJmZlhBVlU0MUQ3T0NXMnZIRFNtTnNQR3Bpakxp?=
+ =?utf-8?B?SDkwaXQ2RzcwUEQ4S0w4ZDBQMFRUazFDOUkzckMxb1E0LzMyQ1kvQTRUeU1R?=
+ =?utf-8?B?dWxhMHMyU3NreHRzUW4xQlBsQVlBbS9yejFrMTRNUkh0S0hQcDh5NEx4NVVR?=
+ =?utf-8?B?eVlrbExka0Q4RzA5VzRKMjVlRUZ3Uld2Y1VQSFFHZGpmVmNBRE8zZktvVXhm?=
+ =?utf-8?B?NHlZdnl4cFc3UEd4TjRqMnVQMWdXcXRPcnVNM1lDQ3hRYWsrVForWkhTWlRr?=
+ =?utf-8?B?dlUrWWFqTHY2QmhydzlHVHFJQUlZS2RTek9NOWgyY1FHNERUVWdPNENHekl5?=
+ =?utf-8?B?NDJCQ3hJQ2Rab1NFQ0lGV2pISmZrNHM5K0k1aVp4UDJ2dnhkb0dVa203Vmw4?=
+ =?utf-8?B?ZzU1VmFpR1h2L3JHLzJ6dVZ6ZHBNdVZMRy9jTFRKaGh0T1h4NUU1b3d2UDZt?=
+ =?utf-8?B?bnlNQVJ5dExoME5hVGl2dU90dmxKZkFnOWNIanBNakgvRldvODZNcU0vMnpo?=
+ =?utf-8?B?QU9nNmo1aG1obzZ2eENDL25OdEhYU3k5eDN4d0pORGZWMXExSGttendDTVo1?=
+ =?utf-8?B?SUFTV1lqSFBJYVlraWVteXY5OVVid2pHdTE4K3k2OHJaUTdBRDJpNitHU0ky?=
+ =?utf-8?B?VytRdDV6TndLN2MvYVpqMkl0YVFrNmpnY2IrTkpnVUVOQTlvUW5hTDhUOTR4?=
+ =?utf-8?B?SCsxMTM0ZFF0enRnV0RXT3NNY0J4aFFzSjhrYVhLRXhkeFBVNUZ1amxpSGtI?=
+ =?utf-8?B?aDdVQ0JXVmJVS0pDWFd2ZDhjSHJFNjIzcmhkaUVhR3lUWXZETy9aVmF1RXlG?=
+ =?utf-8?B?NjBvN21ERkcybXVTMDNxZEVJWU15NnhtWjNiRCtxRnlFUkxtNG9TR1hqZjls?=
+ =?utf-8?B?Z3IvZ1UyYlNIR0xDcDVDVDRQVGxqUTZMRjFKc1ZQaWRsSUhadmx3cjRGL04r?=
+ =?utf-8?B?UisvVFgxWG5tTXB2ZGluaDE3bW1zRitwVVJVQXhORVRsamNmbVBGdVpxSGRZ?=
+ =?utf-8?B?dkhMaU5GUHM2QlhwdFYrRDdTNHFNTnd2ZFVlaWZ1TDFlaXc1eDgxakJha0VR?=
+ =?utf-8?B?NENPNVhXTVQvUjRLODc5RUVIMWYyUXpDcnN5RmE1ckJlaytvM21WZEEwYnRU?=
+ =?utf-8?B?bkRrK1hRSWhSVXArNUlrbFRqUGp6bmpKZFRmcDJFeHNNUE1YQ29ubVlqWWp5?=
+ =?utf-8?B?S05LSFlQMklKR01QS28wQzFZYmtLbWNkWld1c0xzeFY4QVBLdVJ3MHV5Qmxz?=
+ =?utf-8?B?SjducUtBeHdzbm1ncXdBc1FESFdHMTdWVStveUplcVhOYmh1ZU9SREZMSFhC?=
+ =?utf-8?B?Tk1qdjA5OHpncXUxQ1FSb3V5ZEQxVWt0ZDlPbkRPQ0lTM2xlcW8rSXVGYllN?=
+ =?utf-8?B?VmV3WGxGenFuM3M3djRsZlViWTdnT1RpU3NWR0JaTkFvUTIzY29qWllTU1hL?=
+ =?utf-8?B?Z3N5SVQxNFNFOXE2OHVJelA2anNTUURZaFpTNG9IVDRwTTlYM01qbDliMlAw?=
+ =?utf-8?Q?Le66Y6B9kWVFIhjYY77M8KgPX?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f18a530-2357-4c4b-c25f-08dc79d474e3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2024 20:27:38.0608
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fVZdyfMnlysqy5uMSA5R0OCj+nyTYGNiiguMyT8gzBzWGjiE897Im21b7QJAOMMAHpJQCux/OlHTbGWK+IslJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB6573
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 19:32:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199673
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 20:27:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199674
 
-On Sat, 2024-05-18 at 23:50 -0600, Alejandro Hernandez Samaniego via lists.=
-openembedded.org wrote:
-> Enables usage of TCLIBC=3Dpicolibc extending OE functionality to build an=
-d use
-> picolibc based toolchains to build baremetal applications.
->=20
-> Picolibc is a set of standard C libraries, both libc and libm, designed f=
-or
-> smaller embedded systems with limited ROM and RAM. Picolibc includes code
-> from Newlib and AVR Libc, but adresses some of newlibs concerns, it retai=
-ns
-> newlibs directory structure, math, string and locale implementations, but
-> removed the GPL bits used to build the library, swiches old C style code =
-for
-> C18 and replaces autotools with meson.
->=20
-> This patch adds a picolibc recipe for the C library, a picolibc-helloworl=
-d
-> recipe that contains an example application and a testcase that builds it=
-.
->=20
-> Picolibc can be built for ARM and RISCV architectures, its been tested bo=
-th
-> for 32 and 64 bits, the provided example recipe produces the following ou=
-tput:
->=20
-> hello, world
->=20
-> Runqemu does not automatically show any output since it hides QEMU stderr=
- which
-> is where the QEMU monitors output is directed to when using semihosting, =
-but,
-> manually running the same QEMU command does work properly.
->=20
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
-
-Had two issues in selftest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6778/step=
-s/14/logs/stdio
-
-distrodata.Distrodata.test_maintainers:
-
-AssertionError:=20
-Unable to find recipes for the following entries in maintainers.inc:
-picolibc
-
-
-picolibc.PicolibcTest.test_picolibc:
-
-
-Removing 1 recipes from the qemux86_64 sysroot...done.
-ERROR: Nothing PROVIDES 'picolibc-helloworld'
-picolibc-helloworld was skipped: incompatible with machine qemux86-64
-(not in COMPATIBLE_MACHINE)
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-
-
-Cheers,
-
-Richard
-
-
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPiANClNlbnQ6IFR1ZXNkYXksIE1heSAyMSwgMjAyNCAyMTozMQ0K
+VG86IE1hcmtvLCBQZXRlciAoQURWIEQgRVUgU0sgQkZTMSkgPFBldGVyLk1hcmtvQHNpZW1lbnMu
+Y29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0ggMS8yXSBuY3Vyc2VzOiBzd2l0Y2ggdG8gbmV3IG1pcnJv
+cg0KDQo+IE9uIFR1ZSwgMjEgTWF5IDIwMjQgYXQgMjE6MTcsIE1hcmtvLCBQZXRlciA8UGV0ZXIu
+TWFya29Ac2llbWVucy5jb20+IHdyb3RlOg0KPiA+IEkgYWxyZWFkeSB0aG91Z2h0IGFib3V0IHRo
+ZSB4eiBzaXR1YXRpb24gYmVmb3JlIHN1Ym1pdHRpbmcgbXkgcGF0Y2guDQo+ID4gT25lIG9mIHRo
+ZSByZWFzb25zIHdoeSBJIGRpZCBub3QgZ28gYmFjayB0byB0YXJiYWxsIHdhcyB0aGF0IEkgZGlk
+bid0IGtub3cgaG93IHRvIGNvbmZpZ3VyZSBBVUggcmVnZXguDQo+ID4gSWYgeW91IGtub3cgaG93
+IHRvIGRvIHRoYXQsIHN3aXRjaGluZyB0byBpdCBtYXkgYmUgYW4gb3B0aW9uIGV2ZW4gaWYgdGhh
+dCB3b3VsZCBtZWFuIGhhdmluZyB0byBjaGFuZ2UgdGhlIFVSTCBvbiBsdHMgYnJhbmNoZXMgZnJv
+bSB0aW1lIHRvIHRpbWUuLi4NCj4NCj4gQ2FuIHlvdSB0ZWxsIG1lIHdoZXJlIHRoZSB0YXJiYWxs
+cyBhcmU/IFRoZW4gSSBjYW4gY2hlY2sgaWYgdGhlIHJlZ2V4IGlzIGV2ZW4gbmVlZGVkLCBhbmQg
+d2hhdCBpdCBzaG91bGQgYmUgaWYgc28uDQo+DQo+IEFuZCwgdGhpcyBpcyBraW5kYSBvYnZpb3Vz
+LCBidXQgbWF5YmUgeW91IGNvdWxkIGVtYWlsIHRoZSBtYWludGFpbmVyIGFuZCBhc2sgaWYgdGhl
+IG5ldyBnaXRodWIgVVJJIGlzIHJlYWxseSB0aGVtPw0KPg0KPiBBbGV4DQoNCkkgaGF2ZSB0byBj
+b3JyZWN0IG15c2VsZi4gSSdtIG5vdCBzbyBmYW1pbGlhciB3aXRoIGhvdyBnaXRodWIgcHJlc2Vu
+dHMgdGhpbmdzOyB0aGUgdHdvIG1pcnJvcnMgYXJlIG1hbmFnZWQgYnkgZGlmZmVyZW50IGFjY291
+bnRzLg0KDQpIb3dldmVyIEkgZmluYWxseSBmb3VuZCByZWZlcmVuY2UgdGhhdCB0aGlzIGlzIHRo
+ZSByaWdodCBtaXJyb3IuDQpodHRwczovL2ludmlzaWJsZS1pc2xhbmQubmV0LyNmdHAgKEFyY2hp
+dmVzKSBsaXN0cyBodHRwczovL2dpdGh1Yi5jb20vVGhvbWFzRGlja2V5IChvbiBnaXRodWIpIGFz
+IG9mZmljaWFsIHBsYWNlIGZvciBzbmFwc2hvdCBtaXJyb3JzIGZvciBpbnZpc2libGUtaXNsYW5k
+IGFyY2hpdmVzLg0KDQpQZXRlcg0KDQo=
 
