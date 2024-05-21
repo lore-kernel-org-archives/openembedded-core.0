@@ -1,327 +1,190 @@
-Return-Path: <victor.kamensky7@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E1CC25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 19:08:49 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.4732.1716318521275276271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9B8C25B74
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 19:17:49 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.53])
+ by mx.groups.io with SMTP id smtpd.web11.4981.1716319061674928468
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 12:08:41 -0700
+ Tue, 21 May 2024 12:17:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Iau0NOxX;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: victor.kamensky7@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5cdbc4334edso489007a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 12:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716318520; x=1716923320; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BdjxxHBz17ayuhxCon/Wr050/QGW/aa6LH4SfV3y/yg=;
-        b=Iau0NOxXYyQAzX6rGr9aAZPkItD/tQGmaqgXe5CHO3yYUJs6uap2JZQQyIzf/w41VJ
-         LvNXXkF/Dm4xKIg+VzgC1IiQy2sqUNPmdCzSgBAdiilG7kU6lB+RfnQl8mXf9TVo31UM
-         BWq7qcVNRAB4VDUMDrqgFPbhZxPVFJW425H/L1Jd0dpBpX29JFjD4d9XJ/XTXu+jyfTm
-         rbEe+0+r/PV2bwOGEq17CSBfaP51CTVQ6zndqUheTQ3iQtX2Vw1RVMoXUq3++XC4v2pl
-         TaK5me3QlJamTooeJ+IJJBrlLMoCtNuV+RrbrF512TBswLT9cB5yjc8M3Oz+Py6EFd4u
-         Demw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716318520; x=1716923320;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BdjxxHBz17ayuhxCon/Wr050/QGW/aa6LH4SfV3y/yg=;
-        b=J8hvElXbXcL1jykg2TbVy0taXrO3Ib2IQYriTYzsh4s6tuIsJJsmkoW/yLVoB6OUws
-         6xtrOHPGRR8o1cQoYY62ywZtvtLh0dx8msABMXilOhaIGvtcQu+rW+teu4g63h10S1iw
-         UX0WRwhH0Ya4IEtEwOL6eJ/+0By9WgGLCTR4nIGntS3ttU3wAK9ueBZyFgdnEgzWBG9+
-         h/GbCZR2qstI84fi0HCrSPeT+70uGox3xfzFFElUFg9txSPgPUljgWGSt19YDuoWipVd
-         /fg03VYO8vtYwVRVI0lznRJNQL1SFvIYHdbQ7VQRzhs2YF36pi2kmh/1HeFT61fX4aDE
-         P3VA==
-X-Gm-Message-State: AOJu0Yy8W6KWLe93E1GFRy8x36tsu6JVoTtB7gKT0HJDaTuuenxseSUr
-	0k3lbwxC50pB2mSEAM1iOxMS3EuzV/p/UkXdygORB9GR+DfNiWycyBKgTg==
-X-Google-Smtp-Source: AGHT+IGpajC1IMTMp7FlEwrruYVx0Xhy9YwSzEGh+aech3n3vCF22cwnZMtLcwGsmeVowQESNMUM1w==
-X-Received: by 2002:a17:90b:370a:b0:2b2:ae4b:9e54 with SMTP id 98e67ed59e1d1-2bd9f45059amr38559a91.11.1716318520073;
-        Tue, 21 May 2024 12:08:40 -0700 (PDT)
-Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::24])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bd93ee6f92sm1555691a91.32.2024.05.21.12.08.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 12:08:39 -0700 (PDT)
-From: Victor Kamensky <victor.kamensky7@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Victor Kamensky <victor.kamensky7@gmail.com>
-Subject: [PATCH] systemtap: upgrade 5.0 -> 5.1
-Date: Tue, 21 May 2024 12:08:12 -0700
-Message-Id: <20240521190812.5403-1-victor.kamensky7@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=Z790NIzK;
+ spf=pass (domain: siemens.com, ip: 40.107.249.53, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TZ62VRAPWbqCkiy1hdunyLrSkU72bL+TaxN74VF5rhSpaellAWKTlw3w3G4meHhq4IAgYOIYFpANKgl15YGhJnlUHR9h57vFqo8XSYQFNnFpzcTq9SEBnN6t/meK5FqcEjzakGyB3l9zeJ2uGwgw8+3+dtCL4qUfJlgiViqF7KJwldt+IoYNYJ+9RvhjUr6R8NnrAqyx4g/NGPP4pqsMZkn0kx/nZPgrGUBEzDqM95FKIhCZMSoaVWkaRZjKZpebHnVoq5WHON3+XmRr+3ne3+kPDWeBN7IhxPpD0TeFo3zJfPeDWo4Nf7rrnhGgzk2KSVxCjKblFNgDQjd5wXKqLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ufWOB22iCZzz1KlWmYUbp6hifVnzKugk/N9wrdvRiFA=;
+ b=eYFJzYqPcWBeIVH4x+JuKg3JU5BVfyzdewSjwKxzthdtOCMqFqYQa1HM/2onX7BW3MRnUJ3n00BGLTeaRWctuW5jTjC/Lm+AvcAfOiuJplWn1P0zzS85zvxTuBo46VkkJUC2MpLtlQ2Pct47T1DfNA2K+j6bUoMJvdD84cEjZXgMA8/bay4rg3lnyIxWOyWUhWKol8VFVdb33wE77OEu6tZJN6M0rgW3gw/XcIsmnIXXNFVjNC0DIunCDkPqvmQkRACKBP4HU5C0bs49Eas4IFmXVWr9GgzlPcxVaWE9UVu23p7mLoa4J65STGQDvg+RVxn63vMxBQ/UpBRHZ7bTrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ufWOB22iCZzz1KlWmYUbp6hifVnzKugk/N9wrdvRiFA=;
+ b=Z790NIzK5IenxCqMqVl60MtZh8v0gFU+utI0S/Ho1lDHXYSh8jeeMDKME+9v09Mwt8W7tDN4d2j1hmBOq71vohGytOe0MGSlc18XDIblAvFssQR5IqbZxqoKmlyWAMyvzCYunuzJyzxcL8hhWa/uBCPD8nZm5pQ8TTkbt2K0C/j9Ag/s4ERJsJO5vemydOxLjElQrZ7pOpUvhyBsMziHUA/jU7bfpjgSxPtA4mpaS0yffKK5nH887jdx9VYydDQ7C0eM35cJRUPJSrVHAYnuCH6DhCFEl+PJGngzzWSCD8S2ldZYqLz/tcCtoTEZP8TwA+P9dQV19ATkRZ9W4/Sdhw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DU0PR10MB7165.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:44f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
+ 2024 19:17:38 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7587.035; Tue, 21 May 2024
+ 19:17:38 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH 1/2] ncurses: switch to new mirror
+Thread-Topic: [OE-core][PATCH 1/2] ncurses: switch to new mirror
+Thread-Index: AQHaqWqnM5JSS6yj202DJz6gAqY4P7GhfTEAgACSfIA=
+Date: Tue, 21 May 2024 19:17:38 +0000
+Message-ID: 
+ <AS1PR10MB5697E1CD2E2A7DD06150D96BFDEA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240518212954.788524-1-peter.marko@siemens.com>
+ <CANNYZj9H16P4fPcphNiXV_8Wx3eapUeCQu+f5uL+4HGKRGrzBw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9H16P4fPcphNiXV_8Wx3eapUeCQu+f5uL+4HGKRGrzBw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=5bc779f7-b111-40e6-bdbf-c1ff3e2ff32c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-05-21T19:01:15Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB7165:EE_
+x-ms-office365-filtering-correlation-id: dffe20ba-238b-466e-42f8-08dc79caadc2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?aTBDT2lKMnV1WnpHa3ZXMG9jZkErWEFXRUlvOXJ6ZHpnWDRkT0t5YzRFRFRp?=
+ =?utf-8?B?b29GMmZOSU1BZCs4UTIvZFFXQVJIYkVtdmRKQVh3WDNLOVkxajFrSHlDWHZh?=
+ =?utf-8?B?UUpLWlpISVhTcVFreHhJTVNVdDRINDd6bXJqUmdZcEc2Vy81YklPN0JBQUhO?=
+ =?utf-8?B?aWhqbE1nT0w2Ym5oVXRkQnhGK1htZnk5MmFqZ3RUVjhwbUhXaHk4a1lvcG4y?=
+ =?utf-8?B?WDlXT0NPVXE2UjNuUFR5QnpMNW5wWWxwS2MwUXNKSlZOdDNURUhGcnRETXE4?=
+ =?utf-8?B?K0JEa0JsNDJrZ0FsZEEzTWxrV2RRdVg1R3Y1dlZZaE5Sd0dmWkozeUtLSGFC?=
+ =?utf-8?B?d2VCTzdFejQvM2hlNTJWTFpnMlhSc1N2TXd5MklvRTFtUVU5VFBGNFN4SUY5?=
+ =?utf-8?B?aDdodVBlMEVFeStudVpZK1ZZOTB5ZTNwN0NvM3ByVmR5Nm0rTnhUV21LL1l3?=
+ =?utf-8?B?TEcwT29udERycG02Qmx1cUFIeGgxNTRIclg0ellya1l3c3MzbFd6cVZ4NUdk?=
+ =?utf-8?B?QnUxbk9rNVBIK3ZHYnZrakJ6N1BSeGJ5V2JTeG5GcGc5ZW1FSXBPQVVHR0dL?=
+ =?utf-8?B?aVJ0WHdCUEdxMm9Namk5cTNqUVFtYkxVQWZzWi9nbk95M2d3Y2JsTytLTXht?=
+ =?utf-8?B?V1JSZ3VGY3VCcHU0cnc4QXBTNjd1Mjh4cDRPYXkxekZRYXEwN3NtdnBHcmN6?=
+ =?utf-8?B?blFKaEdudVpzdFVVMXRWdUZsdnYrTXlGUGVuVXZ4UXQ3dWJYNGV0QWhiOTVV?=
+ =?utf-8?B?VkZtOHo2Z0xVZGUzRWN0L1Z2aFdtR05QS2ZXcTFvbG5Fb0haRmR0QUViY1VW?=
+ =?utf-8?B?czVlOHBtTjYzblNVQXkvOVAvR3ZBalA0RHlJMCsrcmdEa3dCdDQ0T2RHSll2?=
+ =?utf-8?B?bEEwQUs1SU1KNWV0aXB0VXdad05Ib3hZZW1SQXZKYS9FbHV3RGp4WVF2SXpx?=
+ =?utf-8?B?UnBlRFJ1cFpCdjJqcVBLUUNHOUFvNEwycllUVjVBWUlsclNvRHM1a2JaQ2Fy?=
+ =?utf-8?B?K3luZkhtMWJXVzQyY2srOWZLUjNjZGJidGRFdmFOY0NDMzdQRi9oOXNrd21V?=
+ =?utf-8?B?L29FWmErekVFdS91TXdHdzRFRk9IT2k1aHhwQ0NYdlRscUhTbDAvZE5VR3hL?=
+ =?utf-8?B?c2N3MzhVZDFtR25CV04vYWVyblRJOWhXZkFWaDFjN0g5aFVHMGgxbFBrWEda?=
+ =?utf-8?B?ejZBUDlvcFE2cjdVVEdxQ0xod2YvVG41aXFkcEtidWdCU3pkNUdlUGtKSXV4?=
+ =?utf-8?B?WTc4QysxTWRtaXV0LzkzRFBFVzJteG9KMHNhZ2diNVpRUmNnczloWDVkbTV0?=
+ =?utf-8?B?dWZxUzhBUHpPU1gxTi9JL3VOUlg1OG0wQkdDSjNzVVVDd21Bcy9FdlBFeG9Q?=
+ =?utf-8?B?RUNVSHNvRWkyaENOZk1SaXY5MWh5Q1VJeHFDTFJEZEF4RlBWZk4xRVcrNWY3?=
+ =?utf-8?B?c0NINnV3MGUxZWxQajJVOWVyTU9SWjJWZVJFL01pNFllTVBEdktya29hNEd2?=
+ =?utf-8?B?Rk9jV1ByTVdsU3BEZHB0T3JJRFVLTWtaQk9Dc1kvaTRMZlJvNm5ZNmJJZlVV?=
+ =?utf-8?B?YWdBVUtDWFkyQjk0TTQ4NitIei9aMmwzaGJkUzd0UVA4SUtUTERhdmU0dkNi?=
+ =?utf-8?B?MFY5Q1NYS2liT0FnbTRwZExrWkpXT1BFV2EzVXJvZmhoYjRpZTNXSjBOZ2Rt?=
+ =?utf-8?B?Z3hpTzE3OHlmZW9SR2x0eE5iOExBREhUNEN1WHRZZllHUGliWG1vcUt3PT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?dFhEdWg0T0kvNEw5cXhRenhqSzF6cUlnRnJIUmFXNkFCM2VSNDVRY0NqZEZv?=
+ =?utf-8?B?Vms0eHQ5WjJMNVorWVlMWlcrUXNkR0xEU1hBMGRHTkQ0NmczSmxCVHhpSTEz?=
+ =?utf-8?B?Ti8zUHdEVkR4ZmJQU1JNcmtaM0tHdlB1eWoxUHpTVGJiOEVuWE1DdU8rdUhl?=
+ =?utf-8?B?Q1BlMnp0KzZXTDVtaUhRUEZZeWRXWFlMRDdvVnZRYU5Gb2x1bUZaTDMwL3NC?=
+ =?utf-8?B?R2drRDBGUjF1RFM4ZlJuKzJZbThEQnNodXlFSGtVMU10MXBFcmV0dlZiYVFv?=
+ =?utf-8?B?TWdrV3lUT3RaQzg2dlg3dU9FVnNqTlNKaHZqM2pFcHNPLzlBOCtuTWdVSXdZ?=
+ =?utf-8?B?UGt4ejFSeDlIV2JVZXFRTzdrWGR3bE1aZmZMM1BsemlIaVNHdjhtMzhHMzRP?=
+ =?utf-8?B?WjlSSXJzVS9lTHYza3BESXQ0ZWpZb2NrYVh3ZU85MEViUURoa0VqalJBTitS?=
+ =?utf-8?B?cWJ3WThhNHNMcGM5ZVFLMURtMVBWS1lucmt1RmpiTXQ0WGdCSTJCL1dPUDZ3?=
+ =?utf-8?B?RFN0ckRtKzc2dWZNTGVHSFVJUmZGWDhtUWY5WDhNMlk0V25Fb0pueXBCeUFG?=
+ =?utf-8?B?N1YrNjBhbHVEbG56dUNlcWRhZWk2VERRRnZjWkhtSmZOcTJOSG13K1BIMTl5?=
+ =?utf-8?B?VEhZU1Q0QWtGN2s5djUwZjBIOHpOQ1Vod291d2RyR2dBNUplSUNjRmJnK2xy?=
+ =?utf-8?B?NlVyNGJxa0V6N2pwSWE2MkpDVkJYRGFPWjdmUGJTaFRrYlF3SE5lNHZZNDhV?=
+ =?utf-8?B?Q3FxVWN4YWlzU05zZWkyUWZOSjdiU1ArcFpXa3RXS2hJM3hhd0VVVDhxUWlw?=
+ =?utf-8?B?dHluWlBGemJXVlN1TkVmZXprRDdTL0xxekg2dm1RNnkwZnV4S3Zrc0lab1hO?=
+ =?utf-8?B?a21OWTBmZGoxa2twYlVhS2ttbGxpd3JoRzJ1TmRPcGdWaWQ0ekkzWU1BNi9G?=
+ =?utf-8?B?RGNHbDNtOW9jaThyYlUvS2xqOFJuaHRoNWM1ejNmMktPZHRVdXg4bVc4cEFW?=
+ =?utf-8?B?bDJCSE1VUjArRVIwOHgvV0djWlU1N2k4UVRDampRVFBNcUFqdWhna3hIQWIv?=
+ =?utf-8?B?TmNaSWZOanNMOWdTS3NvYU16eUtkN1g2dWY1N1hTTTlnRDR0QkdpL04rM1RW?=
+ =?utf-8?B?enJ6b0ZaRGFJeVRrSTU3aS8rVXZWVFR1WEpYRkVISURFNjh5dTg4UmdaanpX?=
+ =?utf-8?B?cDZCMWJlYm52WEpEZmhjb2I2NVQxVU1MMkpjT3pIMmZSQ2dTaVppMFgvL3Zw?=
+ =?utf-8?B?cGJlUFlHK3hMRGxEK0YxUkxxa0V2MFNXeC9MMUhCSHluelB5UWRMV2d4bnA5?=
+ =?utf-8?B?ZGh3cTd0WDRKbDdUYnpCN2hKS2I4THdXQm5sMG90TDZ1NmxEb1UwWE4zdGp5?=
+ =?utf-8?B?aDdpUnFsaHdnVE0ybWlQRWxvK09tMFFEMzU3K09KQ1M3Tlpud01XTHo4V3Rl?=
+ =?utf-8?B?OHdVazZnTUd1Vm5LbXFVVFBzNkxpb1dPTkFTZThXSUtNR2dSSVpaYktnVTR0?=
+ =?utf-8?B?UHlwRUJHd0h5NjhheEJzWGFHd2FaczhmanRBNmIzMGRWSFpHNHAvOXJYYXlj?=
+ =?utf-8?B?L1V6RHErNGZzNklUNGYxajlSM1ZvTWJWUXJraHNhaytlM1NDYncxTjZFcHRS?=
+ =?utf-8?B?KzQxQk91Mnp0cXBjczh5OVYweDBrd0syK1V1a2psTVJBQ2JzVWs1RHg1QVRF?=
+ =?utf-8?B?WGlMekdSSnplTzhkbkM3TVVWeTREb2l2ck1VQ2lmeFdzaFQ0TEFSS0NUNmFy?=
+ =?utf-8?B?aE5RMmlSOSsyUmJwNjNMeUM3RW5NcHoyRTkxZTVNamxSc3kyaE9sWE1Tci91?=
+ =?utf-8?B?SVZwT2wxZFd4ZXdqakppcDF1dXJNV2t6cWZHcmdjaGFhTzVtaFIzNkVHZ1VX?=
+ =?utf-8?B?ZUpjWGxNeFozR0lWbUIxd1FPWWxTTzk5bWdoM2cyNjNmSVFlMnBOWkRiVHRt?=
+ =?utf-8?B?S01XZ2tkNVEzTllXbGgvQSt1dGJ0a2g1cWdjZk5JcTM1cmpsWDgxdjlBYVBN?=
+ =?utf-8?B?S2VtWFRlVnBiK3Z6cFplTm5JT283dEw2UEZ3SDdrc2lLZ3JvYW1jd08yVXk0?=
+ =?utf-8?B?bHlnUHlrckUvTmhqWlVWdmZudzFCNWJjYUliV2N1d2ZKQ1pIU0ZJdm81djdl?=
+ =?utf-8?Q?cTs7D31V0zdoGEVTOJQsIoKpm?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: dffe20ba-238b-466e-42f8-08dc79caadc2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2024 19:17:38.5292
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HCHspga9VhOgyco8X1eqrP0Q6jtTaUBN+VmdFSDw6FLOzfNgr1w1eEAVzaALj6of4duV5ByUk2rNqo2XzIUx/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7165
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 19:08:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199670
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 19:17:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199671
 
-removed all backported patches
-
-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
----
- ...ve-runtime-linux-uprobes-and-runtime.patch | 40 ---------------
- ...x-fix-build-against-upcoming-gcc-14-.patch | 40 ---------------
- ...-broken-libdebuginfod-library-auto-d.patch | 51 -------------------
- .../0001-prerelease-datestamp-fixes.patch     | 23 ---------
- ...d-against-upcoming-gcc-14-Werror-cal.patch | 36 -------------
- .../systemtap/systemtap_git.inc               |  9 +---
- 6 files changed, 2 insertions(+), 197 deletions(-)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
-
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
-deleted file mode 100644
-index 2d46a3962d..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 5a01e28bd806326b2143e3e6bb28d4780c5d879d Mon Sep 17 00:00:00 2001
--From: Victor Kamensky <victor.kamensky7@gmail.com>
--Date: Sun, 3 Dec 2023 18:40:05 -0800
--Subject: [PATCH] Makefile.am: remove runtime/linux/uprobes and
-- runtime/linux/uprobes2 install
--
--"PR30434 continuation:  Removed old uprobes, uprobes2 implementation,
--uprobes-inc.h & any mentions of CONFIG_UTRACE." commit removed uprobes,
--and uprobes2 sources and directories, but Makefile.am still tries to
--install them. In fact after failing to 'cd' into runtime/linux/uprobes
--directory it copies top level *.[ch] files into
--${prefix}/share/systemtap/runtime/linux/uprobes directory.
--
--The issue was caught by OpenEmbedded project do_package_qa checks.
--
--Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
--
--Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027880.html] 
-----
-- Makefile.am | 4 ----
-- 1 file changed, 4 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index 5737c6b20..2ba896088 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -277,10 +277,6 @@ endif
-- 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/softfloat/$$f; done)
-- 	(cd $(srcdir)/runtime/linux; for f in *.[ch]; \
-- 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/$$f; done)
---	(cd $(srcdir)/runtime/linux/uprobes; for f in Makefile *.[ch]; \
---		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes/$$f; done)
---	(cd $(srcdir)/runtime/linux/uprobes2; for f in *.[ch]; \
---		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes2/$$f; done)
-- 	(cd $(srcdir)/tapset; find . \( -name '*.stp' -o -name '*.stpm' -o -name README \) -print \
-- 		| while read f; do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/tapset/$$f; done)
-- 	(cd $(srcdir)/testsuite/systemtap.examples; find . -type f -print \
---- 
--2.31.1
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
-deleted file mode 100644
-index e3d94d9312..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From d42139cf9cd26d0c0363fcfe007716baeb8de517 Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyich@gmail.com>
--Date: Fri, 22 Dec 2023 19:42:38 +0000
--Subject: [PATCH] bpf-translate.cxx: fix build against upcoming `gcc-14`
-- (`-Werror=calloc-transposed-args`)
--
--`gcc-14` added a new `-Wcalloc-transposed-args` warning recently. It
--detected minor infelicity in `calloc()` API usage in `systemtap`:
--
--    bpf-translate.cxx: In function 'bpf::BPF_Section* bpf::output_probe(BPF_Output&, program&, const std::string&, unsigned int)':
--    bpf-translate.cxx:5044:39: error: 'void* calloc(size_t, size_t)' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
--     5044 |   bpf_insn *buf = (bpf_insn*) calloc (sizeof(bpf_insn), ninsns);
--          |                                       ^~~~~~~~~~~~~~~~
--    bpf-translate.cxx:5044:39: note: earlier argument should specify number of elements, later size of each element
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=d42139cf9cd26d0c0363fcfe007716baeb8de517]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- bpf-translate.cxx | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/bpf-translate.cxx b/bpf-translate.cxx
--index 1a9302463..aa8ef65ce 100644
----- a/bpf-translate.cxx
--+++ b/bpf-translate.cxx
--@@ -5041,9 +5041,9 @@ output_probe(BPF_Output &eo, program &prog,
-- 	}
--     }
-- 
---  bpf_insn *buf = (bpf_insn*) calloc (sizeof(bpf_insn), ninsns);
--+  bpf_insn *buf = (bpf_insn*) calloc (ninsns, sizeof(bpf_insn));
--   assert (buf);
---  Elf64_Rel *rel = (Elf64_Rel*) calloc (sizeof(Elf64_Rel), nreloc);
--+  Elf64_Rel *rel = (Elf64_Rel*) calloc (nreloc, sizeof(Elf64_Rel));
--   assert (rel);
-- 
--   unsigned i = 0, r = 0;
---- 
--2.43.0
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch b/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
-deleted file mode 100644
-index 98641826f6..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 3913ad3e28a19811e1b52338112344a487057e4f Mon Sep 17 00:00:00 2001
--From: Victor Kamensky <victor.kamensky7@gmail.com>
--Date: Mon, 18 Dec 2023 03:13:38 +0000
--Subject: [PATCH 1/2] configure.ac: fix broken libdebuginfod library auto
-- detection
--
--After 2e67b053e3796ee7cf29a39f9698729b52078406 "configury: rework debuginfod searches"
--commit, libdebuginfod.so library auto detection is broken. It was reported by Martin Jansa
--on openembedded-core mailing list [1].
--
--Currently configure.ac does "AC_DEFINE([HAVE_LIBDEBUGINFOD], [1] ..." as long as
--no --without-debuginfod option is passed, regardless PKG_CHECK_MODULES check result.
--It seems to be bad copy/paste. Address the issue by moving the AC_DEFINE back to
--PKG_CHECK_MODULES action-if-found block.
--
--To reproduce the issue on FC system, one can do the following
--"sudo dnf remove elfutils-debuginfod-client-devel" and then try to build SystemTap
--util.cxx will fail to compile because of missing elfutils/debuginfod.h because
--config.h will have "#define HAVE_LIBDEBUGINFOD 1", while config.log and configure
--output indicates that check for libdebuginfod library failed.
--
--[1] https://lists.openembedded.org/g/openembedded-core/message/192109?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2Csystemtap%2C20%2C2%2C0%2C102987514
--
--Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027914.html]
--Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
-----
-- configure.ac | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index d9559c5c3..18cd7f84a 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -219,12 +219,11 @@ dnl take the user at his or her word
-- elif test "x$with_debuginfod" != xno; then
-- dnl check in the system pkgconfig
--   PKG_CHECK_MODULES([debuginfod], [libdebuginfod >= 0.179],
---    [have_debuginfod=1],
--+    [have_debuginfod=1
--+     AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])],
--     [if test "x$with_debuginfod" = xyes; then
--        AC_MSG_ERROR(["--with-debuginfod was given, but libdebuginfod is missing or unusable."])
--      fi])
---  AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])
---  AC_MSG_RESULT([yes])  
-- else
--   AC_MSG_RESULT([no])
-- fi
---- 
--2.31.1
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch b/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
-deleted file mode 100644
-index afdc10a3fe..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--From cfc2c1d53924face11e3fab78ded61c359778eb9 Mon Sep 17 00:00:00 2001
--From: "Frank Ch. Eigler" <fche@redhat.com>
--Date: Sat, 4 Nov 2023 12:19:59 -0400
--Subject: [PATCH] prerelease datestamp fixes
--
--Upstream-Status: Backport
-----
-- NEWS | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/NEWS b/NEWS
--index c7f31e8b7..f0f9056c4 100644
----- a/NEWS
--+++ b/NEWS
--@@ -1,4 +1,4 @@
---* What's new in version 5.0, 2023-11-03
--+* What's new in version 5.0, 2023-11-04
-- 
-- - Performance improvements in uprobe registration and module startup.
-- 
---- 
--2.31.1
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
-deleted file mode 100644
-index 22578fb3f6..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 52596f023652114642faba5726c99488529029ce Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyich@gmail.com>
--Date: Thu, 21 Dec 2023 10:00:06 +0000
--Subject: [PATCH] staprun: fix build against upcoming `gcc-14`
-- (`-Werror=calloc-transposed-args`)
--
--`gcc-14` added a new `-Wcalloc-transposed-args` warning recently. It
--detected minor infelicity in `calloc()` API usage in `systemtap`:
--
--    staprun.c: In function 'main':
--    staprun.c:550:50: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
--      550 |                 char ** new_argv = calloc(sizeof(char *),argc+2);
--          |                                                  ^~~~
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=52596f023652114642faba5726c99488529029ce]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- staprun/staprun.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/staprun/staprun.c b/staprun/staprun.c
--index 8437f3af6..d1b0b221b 100644
----- a/staprun/staprun.c
--+++ b/staprun/staprun.c
--@@ -547,7 +547,7 @@ int main(int argc, char **argv)
--            us to extend argv[], with all the C fun that entails. */
-- #ifdef HAVE_OPENAT
--         if (relay_basedir_fd >= 0) {
---                char ** new_argv = calloc(sizeof(char *),argc+2);
--+                char ** new_argv = calloc(argc+2, sizeof(char *));
--                 const int new_Foption_size = 10; /* -FNNNNN */
--                 char * new_Foption = malloc(new_Foption_size);
--                 int i;
---- 
--2.43.0
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index c574bcb2ba..cc9fc81430 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,17 +1,12 @@
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "e72dc118e563c645d93a1a2d771e8d90e8fec1ae"
--PV = "5.0"
-+SRCREV = "3a0c9c15163520dd0d9ab07177da62ce9cc2332f"
-+PV = "5.1"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
--           file://0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch \
--           file://0001-prerelease-datestamp-fixes.patch \
--           file://0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch \
--           file://0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch \
--           file://0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch \
-            "
- 
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
--- 
-2.45.1
-
+DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
+ZXgua2FuYXZpbkBnbWFpbC5jb20+IA0KU2VudDogVHVlc2RheSwgTWF5IDIxLCAyMDI0IDEyOjE3
+DQpUbzogTWFya28sIFBldGVyIChBRFYgRCBFVSBTSyBCRlMxKSA8UGV0ZXIuTWFya29Ac2llbWVu
+cy5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXVtQQVRDSCAxLzJdIG5jdXJzZXM6IHN3aXRjaCB0byBuZXcgbWly
+cm9yDQoNCj4gT24gU2F0LCAxOCBNYXkgMjAyNCBhdCAyMzozMCwgUGV0ZXIgTWFya28gdmlhIGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcgPHBldGVyLm1hcmtvPXNpZW1lbnMuY29tQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+ICAjIFVwc3RyZWFtIGhhcyB1c2VmdWwgcGF0Y2hlcyBh
+dCB0aW1lcyBhdCANCj4gPiBmdHA6Ly9pbnZpc2libGUtaXNsYW5kLm5ldC9uY3Vyc2VzLw0KPiA+
+IC1TUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vbWlycm9yL25jdXJzZXMuZ2l0O3Byb3RvY29s
+PWh0dHBzO2JyYW5jaD1tYXN0ZXIiDQo+ID4gK1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9U
+aG9tYXNEaWNrZXkvbmN1cnNlcy1zbmFwc2hvdHMuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1t
+YXN0ZXIiDQo+DQo+IEFmdGVyIHRoZSB4eiBiYWNrZG9vciBJJ20gbmVydm91cyBhYm91dCBzd2l0
+Y2hpbmcgdXBzdHJlYW0gc291cmNlcyB3aXRoIG5vIHZlcmlmaWNhdGlvbiBvZiB0aGVpciBhdXRo
+ZW50aWNpdHkuIElzIHRoaXMgcmVmZXJlbmNlZCBhbnl3aGVyZSBmcm9tIG5jdXJzZXMgaG9tZXBh
+Z2Ugb3IgbmN1cnNlcyB0YXJiYWxsIGRvd25sb2FkPyBTaG91bGQgd2UgdGFrZSB0aGF0IHRhcmJh
+bGwgcmF0aGVyPw0KPg0KPiBBbGV4DQoNClRoZSAibmV3IiBtaXJyb3IgaXMgbWFpbnRhaW5lZCBi
+eSB0aGUgc2FtZSBnaXRodWIgYWNjb3VudCBhcyB0aGUgb2xkIG1pcnJvci4NClNvIHRoZSB0cnVz
+dCBzaG91bGQgYmUgdGhlIHNhbWUgYW5kIHRoaXMgcGF0Y2ggc2hvdWxkIG5vdCBkZWNyZWFzZSB0
+aGUgc2VjdXJpdHkuDQpJIGhhdmUgYWxzbyB2ZXJpZmllZCB0aGF0IGJvdGggb2xkIGFuZCBuZXcg
+dmVyc2lvbiBtYXRjaGVzIHRoZSBzb3VyY2UgdGFyYmFsbHMgKGFzIHN0YXRlZCBpbiBteSBjb21t
+aXQgbWVzc2FnZSkuDQpCdXQgeW91J3JlIHJpZ2h0IHRoYXQgaXQncyBub3QgcmVmZXJlbmNlZCBv
+biBob21lcGFnZSwgYXQgbGVhc3QgbXkgZ29vZ2xlIHF1ZXJpZXMgeWllbGRlZCAwIHJlbGV2YW50
+IGhpdHMuDQoNCkxvb2tpbmcgYXQgdGhlIHJlY2lwZSBoaXN0b3J5LCByZWFzb24gZm9yIHN3aXRj
+aGluZyB0byBtaXJyb3JzIGlzIGluc3RhYmlsaXR5IG9mIHRoZSB1cHN0cmVhbSBob21lcGFnZSBw
+YXRocy4NCmh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29t
+bWl0Lz9pZD00ZDNmODRmODQxNDcxNDVjZmQ3ODYzNjJkOWNkNzU0YmJiOTM4NzNlDQpOb3Qgc3Vy
+ZSBpZiB3ZSB3YW50IHRvIHJldHVybiB0byB0aGF0IHNpdHVhdGlvbi4NCg0KSSBhbHJlYWR5IHRo
+b3VnaHQgYWJvdXQgdGhlIHh6IHNpdHVhdGlvbiBiZWZvcmUgc3VibWl0dGluZyBteSBwYXRjaC4N
+Ck9uZSBvZiB0aGUgcmVhc29ucyB3aHkgSSBkaWQgbm90IGdvIGJhY2sgdG8gdGFyYmFsbCB3YXMg
+dGhhdCBJIGRpZG4ndCBrbm93IGhvdyB0byBjb25maWd1cmUgQVVIIHJlZ2V4Lg0KSWYgeW91IGtu
+b3cgaG93IHRvIGRvIHRoYXQsIHN3aXRjaGluZyB0byBpdCBtYXkgYmUgYW4gb3B0aW9uIGV2ZW4g
+aWYgdGhhdCB3b3VsZCBtZWFuIGhhdmluZyB0byBjaGFuZ2UgdGhlIFVSTCBvbiBsdHMgYnJhbmNo
+ZXMgZnJvbSB0aW1lIHRvIHRpbWUuLi4NCg0KUGV0ZXINCg0KDQo=
 
