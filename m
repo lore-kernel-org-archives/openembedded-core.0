@@ -1,171 +1,327 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <victor.kamensky7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7BCC25B78
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 18:55:59 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.4168.1716317756084797987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E1CC25B74
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 19:08:49 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.4732.1716318521275276271
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 11:55:56 -0700
+ Tue, 21 May 2024 12:08:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: aehs29@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e564cad1f1so59555231fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 11:55:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Iau0NOxX;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: victor.kamensky7@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5cdbc4334edso489007a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 12:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716318520; x=1716923320; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BdjxxHBz17ayuhxCon/Wr050/QGW/aa6LH4SfV3y/yg=;
+        b=Iau0NOxXYyQAzX6rGr9aAZPkItD/tQGmaqgXe5CHO3yYUJs6uap2JZQQyIzf/w41VJ
+         LvNXXkF/Dm4xKIg+VzgC1IiQy2sqUNPmdCzSgBAdiilG7kU6lB+RfnQl8mXf9TVo31UM
+         BWq7qcVNRAB4VDUMDrqgFPbhZxPVFJW425H/L1Jd0dpBpX29JFjD4d9XJ/XTXu+jyfTm
+         rbEe+0+r/PV2bwOGEq17CSBfaP51CTVQ6zndqUheTQ3iQtX2Vw1RVMoXUq3++XC4v2pl
+         TaK5me3QlJamTooeJ+IJJBrlLMoCtNuV+RrbrF512TBswLT9cB5yjc8M3Oz+Py6EFd4u
+         Demw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716317753; x=1716922553;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1716318520; x=1716923320;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1EvBYdBTAF2QeBCIpCZcXuW7CSPRQygH82NjDvkc/Bc=;
-        b=pB43lshBFFBUYJHagwamtOsmTmssi8qtnKmybHRqOdgaZ9BBpwnUn38rs9BO6DqzjU
-         8/eRsqjQTupJEmFh1L5colzp8qJ8yoMUMX67tTik/seqcAlc1pkyLk2Aw0h0PYF/dPv7
-         qvTJN8TubohukUi5S2M6Kblog5Yv6qklBb/ciOquMZdzL1Zgpg2iwnj2yNvEqWp3ct8a
-         nnobc8d/jCFBkP6ZlFWb4WYIfH1gObS1F8hqBJEn2acWzlmUtqKgO6wkxKha7g0lDd8p
-         JFgOEC1ze4qAcrseGf0rxHBnR98IeX9eES4dNTif561he18HIjkjGFl5HC/WD2UF4saO
-         Wj/w==
-X-Gm-Message-State: AOJu0YwDtxE2uvyFi8Gb4f1qgipokfJw81p2Nss92K55wGh332syBkHB
-	t4ryrw1g06irp9rG0wSa253oKDAh1s0D/SoaUGHwqJ8hogE0fKO3/7AcWbWwwYI=
-X-Google-Smtp-Source: AGHT+IEs3L+cNItjKNRzTHc2LBit3TTe29VIJr7lIN9J43QUMyGwGM4IIRaCBkmmwKm6c+xYdA2EFw==
-X-Received: by 2002:a2e:be13:0:b0:2de:25e2:6187 with SMTP id 38308e7fff4ca-2e51fe57b06mr234892651fa.23.1716317753098;
-        Tue, 21 May 2024 11:55:53 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e93d1f13f7sm344861fa.85.2024.05.21.11.55.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 May 2024 11:55:52 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e564cad1f1so59554711fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 11:55:52 -0700 (PDT)
-X-Received: by 2002:a2e:8896:0:b0:2e5:46c:7233 with SMTP id
- 38308e7fff4ca-2e52028b244mr209828901fa.40.1716317752243; Tue, 21 May 2024
- 11:55:52 -0700 (PDT)
+        bh=BdjxxHBz17ayuhxCon/Wr050/QGW/aa6LH4SfV3y/yg=;
+        b=J8hvElXbXcL1jykg2TbVy0taXrO3Ib2IQYriTYzsh4s6tuIsJJsmkoW/yLVoB6OUws
+         6xtrOHPGRR8o1cQoYY62ywZtvtLh0dx8msABMXilOhaIGvtcQu+rW+teu4g63h10S1iw
+         UX0WRwhH0Ya4IEtEwOL6eJ/+0By9WgGLCTR4nIGntS3ttU3wAK9ueBZyFgdnEgzWBG9+
+         h/GbCZR2qstI84fi0HCrSPeT+70uGox3xfzFFElUFg9txSPgPUljgWGSt19YDuoWipVd
+         /fg03VYO8vtYwVRVI0lznRJNQL1SFvIYHdbQ7VQRzhs2YF36pi2kmh/1HeFT61fX4aDE
+         P3VA==
+X-Gm-Message-State: AOJu0Yy8W6KWLe93E1GFRy8x36tsu6JVoTtB7gKT0HJDaTuuenxseSUr
+	0k3lbwxC50pB2mSEAM1iOxMS3EuzV/p/UkXdygORB9GR+DfNiWycyBKgTg==
+X-Google-Smtp-Source: AGHT+IGpajC1IMTMp7FlEwrruYVx0Xhy9YwSzEGh+aech3n3vCF22cwnZMtLcwGsmeVowQESNMUM1w==
+X-Received: by 2002:a17:90b:370a:b0:2b2:ae4b:9e54 with SMTP id 98e67ed59e1d1-2bd9f45059amr38559a91.11.1716318520073;
+        Tue, 21 May 2024 12:08:40 -0700 (PDT)
+Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::24])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bd93ee6f92sm1555691a91.32.2024.05.21.12.08.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 May 2024 12:08:39 -0700 (PDT)
+From: Victor Kamensky <victor.kamensky7@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Victor Kamensky <victor.kamensky7@gmail.com>
+Subject: [PATCH] systemtap: upgrade 5.0 -> 5.1
+Date: Tue, 21 May 2024 12:08:12 -0700
+Message-Id: <20240521190812.5403-1-victor.kamensky7@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20240519055050.2331637-1-alejandro@enedino.org>
- <20240519055050.2331637-4-alejandro@enedino.org> <C23A42BD-03CC-45C7-9221-196D21A31787@arm.com>
-In-Reply-To: <C23A42BD-03CC-45C7-9221-196D21A31787@arm.com>
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Date: Tue, 21 May 2024 12:55:38 -0600
-X-Gmail-Original-Message-ID: <CAHMutrYhV8u0xD40C52HXmnRjNv82QzCmYqLmWT=PXj9MjeKzg@mail.gmail.com>
-Message-ID: <CAHMutrYhV8u0xD40C52HXmnRjNv82QzCmYqLmWT=PXj9MjeKzg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] tclibc-picolibc: Adds a new TCLIBC variant
- to build with picolibc as C library
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f1c6cc0618fb5d46"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 18:55:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199669
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 19:08:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199670
 
---000000000000f1c6cc0618fb5d46
-Content-Type: text/plain; charset="UTF-8"
+removed all backported patches
 
-On Tue, 21 May 2024 at 05:38, Ross Burton <Ross.Burton@arm.com> wrote:
+Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+---
+ ...ve-runtime-linux-uprobes-and-runtime.patch | 40 ---------------
+ ...x-fix-build-against-upcoming-gcc-14-.patch | 40 ---------------
+ ...-broken-libdebuginfod-library-auto-d.patch | 51 -------------------
+ .../0001-prerelease-datestamp-fixes.patch     | 23 ---------
+ ...d-against-upcoming-gcc-14-Werror-cal.patch | 36 -------------
+ .../systemtap/systemtap_git.inc               |  9 +---
+ 6 files changed, 2 insertions(+), 197 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
 
->
->
-> > On 19 May 2024, at 06:50, Alejandro Hernandez Samaniego via
-> lists.openembedded.org <alejandro=enedino.org@lists.openembedded.org>
-> wrote:
-> > +# Use the same method that picolibc uses to bypass early compiler tests
-> on meson,
-> > +# otherwise meson will try to compile AND run test applications, avoids:
-> > +# ../git/meson.build:35:0: ERROR: Executables created by c compiler are
-> not runnable...
-> > +EXEWRAPPER_EXE ?= "exe_wrapper = ['sh', '-c', 'test -z
-> \"$PICOLIBC_TEST\" || ${WORKDIR}/meson-qemuwrapper \"$@\"',
-> '${WORKDIR}/meson-qemuwrapper']"
->
-> From picolibc (
-> https://github.com/picolibc/picolibc/blob/main/meson.build#L1562),
-> talking about this workaround:
->
-> # This was fixed in meson version 0.54.2, so this can be removed from
-> # here and the sample cross scripts once picolibc requires a version
-> # of meson newer than that.
->
-> We have meson 1.3.1, so this (and the corresponding meson.bbclass change)
-> is redundant, right?
->
-> Ross
->
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
+deleted file mode 100644
+index 2d46a3962d..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 5a01e28bd806326b2143e3e6bb28d4780c5d879d Mon Sep 17 00:00:00 2001
+-From: Victor Kamensky <victor.kamensky7@gmail.com>
+-Date: Sun, 3 Dec 2023 18:40:05 -0800
+-Subject: [PATCH] Makefile.am: remove runtime/linux/uprobes and
+- runtime/linux/uprobes2 install
+-
+-"PR30434 continuation:  Removed old uprobes, uprobes2 implementation,
+-uprobes-inc.h & any mentions of CONFIG_UTRACE." commit removed uprobes,
+-and uprobes2 sources and directories, but Makefile.am still tries to
+-install them. In fact after failing to 'cd' into runtime/linux/uprobes
+-directory it copies top level *.[ch] files into
+-${prefix}/share/systemtap/runtime/linux/uprobes directory.
+-
+-The issue was caught by OpenEmbedded project do_package_qa checks.
+-
+-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+-
+-Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027880.html] 
+----
+- Makefile.am | 4 ----
+- 1 file changed, 4 deletions(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 5737c6b20..2ba896088 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -277,10 +277,6 @@ endif
+- 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/softfloat/$$f; done)
+- 	(cd $(srcdir)/runtime/linux; for f in *.[ch]; \
+- 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/$$f; done)
+--	(cd $(srcdir)/runtime/linux/uprobes; for f in Makefile *.[ch]; \
+--		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes/$$f; done)
+--	(cd $(srcdir)/runtime/linux/uprobes2; for f in *.[ch]; \
+--		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes2/$$f; done)
+- 	(cd $(srcdir)/tapset; find . \( -name '*.stp' -o -name '*.stpm' -o -name README \) -print \
+- 		| while read f; do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/tapset/$$f; done)
+- 	(cd $(srcdir)/testsuite/systemtap.examples; find . -type f -print \
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
+deleted file mode 100644
+index e3d94d9312..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From d42139cf9cd26d0c0363fcfe007716baeb8de517 Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyich@gmail.com>
+-Date: Fri, 22 Dec 2023 19:42:38 +0000
+-Subject: [PATCH] bpf-translate.cxx: fix build against upcoming `gcc-14`
+- (`-Werror=calloc-transposed-args`)
+-
+-`gcc-14` added a new `-Wcalloc-transposed-args` warning recently. It
+-detected minor infelicity in `calloc()` API usage in `systemtap`:
+-
+-    bpf-translate.cxx: In function 'bpf::BPF_Section* bpf::output_probe(BPF_Output&, program&, const std::string&, unsigned int)':
+-    bpf-translate.cxx:5044:39: error: 'void* calloc(size_t, size_t)' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
+-     5044 |   bpf_insn *buf = (bpf_insn*) calloc (sizeof(bpf_insn), ninsns);
+-          |                                       ^~~~~~~~~~~~~~~~
+-    bpf-translate.cxx:5044:39: note: earlier argument should specify number of elements, later size of each element
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=d42139cf9cd26d0c0363fcfe007716baeb8de517]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- bpf-translate.cxx | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/bpf-translate.cxx b/bpf-translate.cxx
+-index 1a9302463..aa8ef65ce 100644
+---- a/bpf-translate.cxx
+-+++ b/bpf-translate.cxx
+-@@ -5041,9 +5041,9 @@ output_probe(BPF_Output &eo, program &prog,
+- 	}
+-     }
+- 
+--  bpf_insn *buf = (bpf_insn*) calloc (sizeof(bpf_insn), ninsns);
+-+  bpf_insn *buf = (bpf_insn*) calloc (ninsns, sizeof(bpf_insn));
+-   assert (buf);
+--  Elf64_Rel *rel = (Elf64_Rel*) calloc (sizeof(Elf64_Rel), nreloc);
+-+  Elf64_Rel *rel = (Elf64_Rel*) calloc (nreloc, sizeof(Elf64_Rel));
+-   assert (rel);
+- 
+-   unsigned i = 0, r = 0;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch b/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
+deleted file mode 100644
+index 98641826f6..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 3913ad3e28a19811e1b52338112344a487057e4f Mon Sep 17 00:00:00 2001
+-From: Victor Kamensky <victor.kamensky7@gmail.com>
+-Date: Mon, 18 Dec 2023 03:13:38 +0000
+-Subject: [PATCH 1/2] configure.ac: fix broken libdebuginfod library auto
+- detection
+-
+-After 2e67b053e3796ee7cf29a39f9698729b52078406 "configury: rework debuginfod searches"
+-commit, libdebuginfod.so library auto detection is broken. It was reported by Martin Jansa
+-on openembedded-core mailing list [1].
+-
+-Currently configure.ac does "AC_DEFINE([HAVE_LIBDEBUGINFOD], [1] ..." as long as
+-no --without-debuginfod option is passed, regardless PKG_CHECK_MODULES check result.
+-It seems to be bad copy/paste. Address the issue by moving the AC_DEFINE back to
+-PKG_CHECK_MODULES action-if-found block.
+-
+-To reproduce the issue on FC system, one can do the following
+-"sudo dnf remove elfutils-debuginfod-client-devel" and then try to build SystemTap
+-util.cxx will fail to compile because of missing elfutils/debuginfod.h because
+-config.h will have "#define HAVE_LIBDEBUGINFOD 1", while config.log and configure
+-output indicates that check for libdebuginfod library failed.
+-
+-[1] https://lists.openembedded.org/g/openembedded-core/message/192109?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2Csystemtap%2C20%2C2%2C0%2C102987514
+-
+-Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027914.html]
+-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+----
+- configure.ac | 5 ++---
+- 1 file changed, 2 insertions(+), 3 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index d9559c5c3..18cd7f84a 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -219,12 +219,11 @@ dnl take the user at his or her word
+- elif test "x$with_debuginfod" != xno; then
+- dnl check in the system pkgconfig
+-   PKG_CHECK_MODULES([debuginfod], [libdebuginfod >= 0.179],
+--    [have_debuginfod=1],
+-+    [have_debuginfod=1
+-+     AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])],
+-     [if test "x$with_debuginfod" = xyes; then
+-        AC_MSG_ERROR(["--with-debuginfod was given, but libdebuginfod is missing or unusable."])
+-      fi])
+--  AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])
+--  AC_MSG_RESULT([yes])  
+- else
+-   AC_MSG_RESULT([no])
+- fi
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch b/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
+deleted file mode 100644
+index afdc10a3fe..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datestamp-fixes.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-From cfc2c1d53924face11e3fab78ded61c359778eb9 Mon Sep 17 00:00:00 2001
+-From: "Frank Ch. Eigler" <fche@redhat.com>
+-Date: Sat, 4 Nov 2023 12:19:59 -0400
+-Subject: [PATCH] prerelease datestamp fixes
+-
+-Upstream-Status: Backport
+----
+- NEWS | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/NEWS b/NEWS
+-index c7f31e8b7..f0f9056c4 100644
+---- a/NEWS
+-+++ b/NEWS
+-@@ -1,4 +1,4 @@
+--* What's new in version 5.0, 2023-11-03
+-+* What's new in version 5.0, 2023-11-04
+- 
+- - Performance improvements in uprobe registration and module startup.
+- 
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
+deleted file mode 100644
+index 22578fb3f6..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 52596f023652114642faba5726c99488529029ce Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyich@gmail.com>
+-Date: Thu, 21 Dec 2023 10:00:06 +0000
+-Subject: [PATCH] staprun: fix build against upcoming `gcc-14`
+- (`-Werror=calloc-transposed-args`)
+-
+-`gcc-14` added a new `-Wcalloc-transposed-args` warning recently. It
+-detected minor infelicity in `calloc()` API usage in `systemtap`:
+-
+-    staprun.c: In function 'main':
+-    staprun.c:550:50: error: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
+-      550 |                 char ** new_argv = calloc(sizeof(char *),argc+2);
+-          |                                                  ^~~~
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=52596f023652114642faba5726c99488529029ce]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- staprun/staprun.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/staprun/staprun.c b/staprun/staprun.c
+-index 8437f3af6..d1b0b221b 100644
+---- a/staprun/staprun.c
+-+++ b/staprun/staprun.c
+-@@ -547,7 +547,7 @@ int main(int argc, char **argv)
+-            us to extend argv[], with all the C fun that entails. */
+- #ifdef HAVE_OPENAT
+-         if (relay_basedir_fd >= 0) {
+--                char ** new_argv = calloc(sizeof(char *),argc+2);
+-+                char ** new_argv = calloc(argc+2, sizeof(char *));
+-                 const int new_Foption_size = 10; /* -FNNNNN */
+-                 char * new_Foption = malloc(new_Foption_size);
+-                 int i;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index c574bcb2ba..cc9fc81430 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,17 +1,12 @@
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "e72dc118e563c645d93a1a2d771e8d90e8fec1ae"
+-PV = "5.0"
++SRCREV = "3a0c9c15163520dd0d9ab07177da62ce9cc2332f"
++PV = "5.1"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch \
+-           file://0001-prerelease-datestamp-fixes.patch \
+-           file://0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch \
+-           file://0001-bpf-translate.cxx-fix-build-against-upcoming-gcc-14-.patch \
+-           file://0001-staprun-fix-build-against-upcoming-gcc-14-Werror-cal.patch \
+            "
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
+-- 
+2.45.1
 
-Hi Ross,
-
-I did see that comment when I was trying to debug the issue with the early
-compiler tests, however, I couldn't find an easy way to inject
-skip_sanity_check=true into the [properties] field in meson.cross and since
-exe_wrapper was still there I thought I'd just override it.
-
-Do you think it'd be better to modify the meson class, add a
-MESON_SANITY_CHECK ?= "" thats is written to the cross file all the time?,
-that way I can just override it on the recipe with
-MESON_SANITY_CHECK="skip_sanity_check=true" or something similar?
-
-Or do you have any other suggestions?
-
-Alejandro
-
---000000000000f1c6cc0618fb5d46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 21 May 2024 =
-at 05:38, Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burto=
-n@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-<br>
-&gt; On 19 May 2024, at 06:50, Alejandro Hernandez Samaniego via <a href=3D=
-"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.=
-openembedded.org</a> &lt;alejandro=3D<a href=3D"mailto:enedino.org@lists.op=
-enembedded.org" target=3D"_blank">enedino.org@lists.openembedded.org</a>&gt=
-; wrote:<br>
-&gt; +# Use the same method that picolibc uses to bypass early compiler tes=
-ts on meson,<br>
-&gt; +# otherwise meson will try to compile AND run test applications, avoi=
-ds:<br>
-&gt; +# ../git/meson.build:35:0: ERROR: Executables created by c compiler a=
-re not runnable...<br>
-&gt; +EXEWRAPPER_EXE ?=3D &quot;exe_wrapper =3D [&#39;sh&#39;, &#39;-c&#39;=
-, &#39;test -z \&quot;$PICOLIBC_TEST\&quot; || ${WORKDIR}/meson-qemuwrapper=
- \&quot;$@\&quot;&#39;, &#39;${WORKDIR}/meson-qemuwrapper&#39;]&quot;<br>
-<br>
-From picolibc (<a href=3D"https://github.com/picolibc/picolibc/blob/main/me=
-son.build#L1562" rel=3D"noreferrer" target=3D"_blank">https://github.com/pi=
-colibc/picolibc/blob/main/meson.build#L1562</a>), talking about this workar=
-ound:<br>
-<br>
-# This was fixed in meson version 0.54.2, so this can be removed from<br>
-# here and the sample cross scripts once picolibc requires a version<br>
-# of meson newer than that.<br>
-<br>
-We have meson 1.3.1, so this (and the corresponding meson.bbclass change) i=
-s redundant, right?<br>
-<br>
-Ross<br></blockquote><div><br></div><div class=3D"gmail_default" style=3D"f=
-ont-family:arial,sans-serif;font-size:small">Hi Ross,</div><div class=3D"gm=
-ail_default" style=3D"font-family:arial,sans-serif;font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-=
-size:small">I did see that comment when I was trying to debug the issue wit=
-h the early compiler tests, however, I couldn&#39;t find an easy way to inj=
-ect skip_sanity_check=3Dtrue into the [properties] field in meson.cross and=
- since exe_wrapper was still there I thought I&#39;d just override it.</div=
-><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-family:arial=
-,sans-serif;font-size:small">Do you think it&#39;d be better to modify the =
-meson class, add a MESON_SANITY_CHECK ?=3D &quot;&quot; thats is written to=
- the cross file all the time?, that way I can just override it on the recip=
-e with MESON_SANITY_CHECK=3D&quot;skip_sanity_check=3Dtrue&quot; or somethi=
-ng similar?</div><div class=3D"gmail_default" style=3D"font-family:arial,sa=
-ns-serif;font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-family:arial,sans-serif;font-size:small">Or do you have any other sugge=
-stions?</div><div class=3D"gmail_default" style=3D"font-family:arial,sans-s=
-erif;font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
-family:arial,sans-serif;font-size:small">Alejandro</div></div></div>
-
---000000000000f1c6cc0618fb5d46--
 
