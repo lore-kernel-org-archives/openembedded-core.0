@@ -1,178 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3105C25B74
-	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 10:24:33 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.16375.1716287071548354794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3252C41513
+	for <webhook@archiver.kernel.org>; Tue, 21 May 2024 10:36:43 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.16576.1716287794870228833
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 03:24:31 -0700
+ Tue, 21 May 2024 03:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g0GDFzaR;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52388d9ca98so7130167e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 03:24:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=emNtBDx4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-420180b5838so21756715e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 03:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716287070; x=1716891870; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zVtdabEUjEFDwIwQp6o9eADjpth9sgfymeRI5mFuLOI=;
-        b=g0GDFzaRz85xZ/qIaFHybaxSCcxNd7oDxsjjrpmeeneG63VKXYzz1jPwcS7a/9G4/b
-         +NLgl5vHz61QMDspKUtmJFWwPI4S1chAGsAkq3bq6cfcY3c+lYTkjbHjk+YQwI4O96c1
-         WoXLBHo1AdAsWC9BZKW97zDhGqTXx99VY2L0G0ZM42MUEB/g/+94ZrBdz+vmBbF7WRhs
-         im9itMNfsKgI+L4xaYe0hObzshB6ck+q4tKOwrbdpCsW4EdHNmUyeGYQuFuzqB9JnWih
-         TedIQYe1tFPGoRSoKSFKxsuwupGvel/X59j+DnRNs1DDeRYw6+FZCd6Re+FGCk6B2dCe
-         QKhw==
+        d=linuxfoundation.org; s=google; t=1716287793; x=1716892593; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7okfzB76WjxIbLyXSkNOfdv3154Qhlyiow5JH0VGi6I=;
+        b=emNtBDx4pIfz5WJujYFAbwvhTXyf59bQ2j2bbUqXIsCjsd9aJfNrEzebFGTGvbW2OY
+         VDizldodYyIa0ud9UdJ8UeZFz5sqHo9hX083AW0xmLT2zdLIixOZ5W6ov8jD9oAms/AX
+         31t9ZEL9i/8TVRKyY/OxzbF8SCKEiu65ZHfMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716287070; x=1716891870;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zVtdabEUjEFDwIwQp6o9eADjpth9sgfymeRI5mFuLOI=;
-        b=VZPIdCg/nFBcEusj0vo/NMN2W7mnymy6o5M1DVitLZn4Grq0nmubyPI3bPJNpFXShe
-         fexghpyBgHWQY2E1OijeuNosfKBeD7CijX5vVKfxVb0y8bKEEDTUIgt/3G6BLDjQaKb+
-         3GrkmX35FJG3LlKgR0axa6FR11rHMz7vRpT8TyI99U6Iz4eo/VZzVVych/DeAwmdLwTB
-         MkRwvflxtwnUP3rQrh/bEvEpxHj5RBN8z0GVszTEk+oCm+AedeZ2sHR1ZnBNVyqKdOQ8
-         FgjubpaDrufrV3IDGh6Jbgt+7TtyyKDvQuLSyspP1ljKDo9BeOuIVWHQJ6GOo4WbNr9Q
-         mYug==
-X-Gm-Message-State: AOJu0Yw2ueL3qgR2H43mUk/I0XJiJdI1MdA7mShcfj1JJsee6DbI4x7c
-	7Wvs1RE+5LMVIvVr4rfFrK3JlTljDakkfP9lPk0QcRwd18/3Gqa4mGPvxs2MK3joNNG4l7fPxr8
-	kv2OupV/nwbdnNALqb21I7qQuITteRg==
-X-Google-Smtp-Source: AGHT+IEKv6/JRHH1pC2MNaHJfEG5EywmAWOTCUBPsjZhHGNzWQXhyRD+tmdVd+mMQZxwgyGQfzIX2J2Z5zryo8FoO4A=
-X-Received: by 2002:a05:6512:3995:b0:521:cc8a:46dd with SMTP id
- 2adb3069b0e04-5220fc7cb3cmr32430564e87.11.1716287069331; Tue, 21 May 2024
- 03:24:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716287793; x=1716892593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7okfzB76WjxIbLyXSkNOfdv3154Qhlyiow5JH0VGi6I=;
+        b=oWofymjL8jazTXAS4xrZ5hDNZITE0XOY4RhGmpGkGHkqVhCyupEnGxI1O9i8x833q6
+         zCPtabxLqIdbHXij0DK3dXkdNFCoMxf7bM1kh+hWKas7nkghHpqgo11K4Jxrh3Uyovpu
+         6s0fG6rNDhJl7E4wF1+xSEKb8DY+nn6T2P0EVLfEuGuD5O4jVrjJTuYVQSy3qtM06Uvg
+         ElwbgGbt+fiWYJ+eqjKJN7FbOoY7uUMU8zqRYaUbBCY/EO8dbk15qv2//QjdvdWQ0bD1
+         3uZH/JLIprCwoDHZlGCXcHxtFXQQYG/hjVkSLRJehKvlhCYJCcDkefltXMNLuRWmpo9x
+         3PQA==
+X-Gm-Message-State: AOJu0YzfXdXSo6JmjrPGOCwG4e2ldVg20Hb+VwPbqF1XimR2dX6opi4i
+	FYPX/4WtjjcVkmnOzrbvuJZ6pU0ILZVI+M2ZVBD9ZC7OgfDmowalEGev5bVS06Z4/i+YaZW9Wlz
+	JvUc=
+X-Google-Smtp-Source: AGHT+IGMOGyKd4KPRYRpwJtvyn7Sdk204GGn8AOm2oH3265Z8T91G5gf/NxgkwGekh9m6fWyzJ9Zag==
+X-Received: by 2002:a05:600c:4f50:b0:420:34a0:bb51 with SMTP id 5b1f17b1804b1-42034a0bbbemr118310175e9.18.1716287792641;
+        Tue, 21 May 2024 03:36:32 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1738:232d:aeeb:3bb7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f88111033sm495465355e9.34.2024.05.21.03.36.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 May 2024 03:36:32 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] linux-yocto: Avoid QA check
+Date: Tue, 21 May 2024 11:36:29 +0100
+Message-Id: <20240521103631.1122991-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <CANNYZj941KS_ULo9iwpyYCKmvpHRur-4djy0AD=bjUvjnwW1XA@mail.gmail.com>
- <17234.1716192619114804009@lists.openembedded.org>
-In-Reply-To: <17234.1716192619114804009@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 21 May 2024 12:24:17 +0200
-Message-ID: <CANNYZj-d-SSYPv-wZF8kfnSvt7i-cG3ec3wotSNETD6-OttyKQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] buildhistory: Fix do_package race issues
-To: pmi183@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:24:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199612
+ <openembedded-core@lists.openembedded.org>; Tue, 21 May 2024 10:36:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199613
 
-This does not seem to address the question I asked. Please do not send
-more code that moves things around, but diagnose the original issue
-properly.
+The kernel has special handling of ${S} and it is therefore expected to be empty
+at do_unpack time. For now, ignore this QA check until the kernel unpack process
+can be more standardised.
 
-Alex
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/kernel-yocto.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On Mon, 20 May 2024 at 10:10, pmi183 via lists.openembedded.org
-<pmi183=gmail.com@lists.openembedded.org> wrote:
->
-> Hi Alex,
->
-> I made some debug in the flow and i saw a timing issue and since there's no reason to generate files-in-package.txt before sstate-cache operations i moved the call to the postfunc of sstate:
->
-> ---
->  meta/classes-global/sstate.bbclass |  5 +++++
->  meta/classes/buildhistory.bbclass  | 18 +++++++++++++++---
->  meta/lib/oe/packagedata.py         |  2 +-
->  3 files changed, 21 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-> index 76a7b59636..7e3c3e3c4f 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -104,6 +104,7 @@ SSTATEPOSTCREATEFUNCS = ""
->  SSTATEPREINSTFUNCS = ""
->  SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
->  SSTATEPOSTINSTFUNCS = ""
-> +SSTATEPOSTFUNCS = ""
->  EXTRA_STAGING_FIXMES ?= "HOSTTOOLS_DIR"
->
->  # Check whether sstate exists for tasks that support sstate and are in the
-> @@ -805,6 +806,10 @@ python sstate_task_postfunc () {
->      sstate_installpkgdir(shared_state, d)
->
->      bb.utils.remove(d.getVar("SSTATE_BUILDDIR"), recurse=True)
-> +
-> +    for postfunc in (d.getVar('SSTATEPOSTFUNCS') or '').split():
-> +        # All hooks should run in the SSTATE_INSTDIR
-> +        bb.build.exec_func(postfunc, d, (sstateinst,))
->  }
->  sstate_task_postfunc[dirs] = "${WORKDIR}"
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index fd53e92402..054c213bf5 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -58,6 +58,9 @@ SSTATEPOSTUNPACKFUNCS:append = " buildhistory_emit_outputsigs"
->  sstate_installpkgdir[vardepsexclude] += "buildhistory_emit_outputsigs"
->  SSTATEPOSTUNPACKFUNCS[vardepvalueexclude] .= "| buildhistory_emit_outputsigs"
->
-> +SSTATEPOSTFUNCS:append = " buildhistory_emit_filesinpackage"
-> +SSTATEPOSTFUNCS[vardepvalueexclude] .= "| buildhistory_emit_filesinpackage"
-> +
->  # All items excepts those listed here will be removed from a recipe's
->  # build history directory by buildhistory_emit_pkghistory(). This is
->  # necessary because some of these items (package directories, files that
-> @@ -87,6 +90,16 @@ buildhistory_emit_sysroot() {
->         buildhistory_list_files_no_owners $BASE ${BUILDHISTORY_DIR_PACKAGE}/sysroot
->  }
->
-> +#
-> +# Write out files-in-package for this package
-> +#
-> +python buildhistory_emit_filesinpackage() {
-> +    if d.getVar('BB_CURRENTTASK') in ['package', 'package_setscene']:
-> +        # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
-> +        bb.build.exec_func("buildhistory_list_pkg_files", d)
-> +        return 0
-> +}
-> +
->  #
->  # Write out metadata about this package for comparison when writing future packages
->  #
-> @@ -99,8 +112,6 @@ python buildhistory_emit_pkghistory() {
->          return 0
->
->      if d.getVar('BB_CURRENTTASK') in ['package', 'package_setscene']:
-> -        # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
-> -        bb.build.exec_func("buildhistory_list_pkg_files", d)
->          return 0
->
->      if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
-> @@ -599,7 +610,8 @@ buildhistory_list_files_no_owners() {
->
->  buildhistory_list_pkg_files() {
->         # Create individual files-in-package for each recipe's package
-> -       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
-> +    pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
-> +       for pkgdir in ${pkgdirlist}; do
->                 pkgname=$(basename $pkgdir)
->                 outfolder="${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
->                 outfile="$outfolder/files-in-package.txt"
-> diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-> index 2d1d6ddeb7..e8c503b43b 100644
-> --- a/meta/lib/oe/packagedata.py
-> +++ b/meta/lib/oe/packagedata.py
-> @@ -309,7 +309,7 @@ fi
->          subdata_file = pkgdatadir + "/runtime/%s" % pkg
->          with open(subdata_file, 'w') as sf:
->              for var in (d.getVar('PKGDATA_VARS') or "").split():
-> -                val = write_if_exists(sf, pkg, var)
-> +                write_if_exists(sf, pkg, var)
->
->              write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
->              for dfile in sorted((d.getVar('FILERPROVIDESFLIST:' + pkg) or "").split()):
-> --
-> 2.34.1
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199555): https://lists.openembedded.org/g/openembedded-core/message/199555
-> Mute This Topic: https://lists.openembedded.org/mt/87258776/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index e8ff7311c32..f741a342d40 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -440,6 +440,11 @@ do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
+ do_kernel_metadata[file-checksums] = " ${@get_dirs_with_fragments(d)}"
+ do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ 
++# ${S} doesn't exist for us at unpack
++do_qa_unpack() {
++    return
++}
++
+ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
+ do_kernel_configme[depends] += "bc-native:do_populate_sysroot bison-native:do_populate_sysroot"
+-- 
+2.40.1
+
 
