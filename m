@@ -2,140 +2,231 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F9BC25B78
-	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 19:57:46 +0000 (UTC)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
- by mx.groups.io with SMTP id smtpd.web10.223.1716407864005696745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA78C25B78
+	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 20:00:46 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web10.297.1716408036142722072
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 May 2024 12:57:44 -0700
+ Wed, 22 May 2024 13:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l9IYuiqd;
- spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-23d38cd0df6so3479074fac.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 12:57:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q+JDLiz0;
+ spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2454156db8bso2687977fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 13:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716407863; x=1717012663; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1716408035; x=1717012835; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=REe9oBHiGGzOU8LwteSy/wgcmZFcgLJj7AUX7+V34PI=;
-        b=l9IYuiqdU4To4eqciupb19KkUvAg42G2h19OWKbc6kbI28JaYDnPOnG0vVR+T99A4B
-         WTCGHI2oUfSkagaPVCJQW9dnXUTifOTeDGgeKv0Ns0JtWlwdguGG4yMzomshbQ0o709w
-         Zn5PvieXj6cloLQiNi5HfbsvLk6qXsV4iB4bsvz8DRPMGyiOMkfi+zcU6Q8UHy/3uRoM
-         vDJfnUOIzEyIYbNI4pUph0Xg/W6vxXgo9vZUOTnwlGVthj0FwycOz1ztnRzV6b0EuG5H
-         BU9VmN4ZAedZgpPw9zXDgx9n8l/eNHFU69ejTciWnZWIxXnzACQBTCxDHjP0ayPdRcsz
-         IRXg==
+        bh=GK96bTcySBXJWrl0b4BEgVMpbpkk8ZeD8W1lF+BLqPI=;
+        b=Q+JDLiz0L8gOeS8Xgueqhpi+ioAKkowSCuQ44LgBwP06mb7ko37KUhPCi+klUle1Ep
+         PBzYcCmUC6njQocEvUC5H4PqM8eVoJmPZO43E8u79jctUUGIPY6djNi2LXEoYYF1DNgK
+         rQ0e/LKWbwVObYrjkoJyVxlCHIrDETlmpyydBtxheR/ySNQ3GvrqfJdbE9e/GWZxEfKa
+         S/BNEVCAl7tJO3hIwM4gUmjXgb4ENDXw5lOYcUMrYoIAM5ya0IfD3ZlRgga6B7+48kS0
+         GqnZMkNPlApCNUkoAn5cvAByFHhh+YPpqX/mf20NJG1qGaspMWSBLRgHlboOhtr/01Tx
+         Uoqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716407863; x=1717012663;
+        d=1e100.net; s=20230601; t=1716408035; x=1717012835;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=REe9oBHiGGzOU8LwteSy/wgcmZFcgLJj7AUX7+V34PI=;
-        b=tJmxLwtAZxLts4NK5IHCSCYAZjuDZcVXwIscHQdSlyke2ybHkurUMZ03xHasqxJLAZ
-         SsXLeLSVTTBC028OgcQA1ZFcWMrWz++qaFwoh7GvGLdsFKLJ3BsT778z2+dbwlZkK2EM
-         MuVOYeSazqSKl79QtbZYHPCPZ2a4fquKMbfkv+/Q9gR+83NLtlYAFRTb6eKXYJFjvNPp
-         0TqXDepZHQAd2XJUoKGvJhWG6yUU6G2UE+OeCgufh3I0UGxhXrIKJRitvEFQ0XuDNYuy
-         +YbYryESXLWzjEXs1AAVkNF+yjRqEtX4bj2qKw8Td7w7tjIJUvoD2MrdrIaD0A19d1D5
-         JEOw==
-X-Gm-Message-State: AOJu0Yxh5CGOZMsIOylFVRFNBwjK+VMAUQ2u68xBmjC9hVwAZdhl5jom
-	6IvowxWe0iwN5fhihA7z1TWZfVFYbuI2hcXfdRc8sGi+9dTbbfL7ysxzkRVqSNMagnZd0Yo/Nke
-	xYKA9dXz9i2kMnRqi8q1i7gwFWLA=
-X-Google-Smtp-Source: AGHT+IHJ8QczfpK76TrD/Mtf4AkdflulMPhyH/Aq6T1mbM+JKrjQf2gzQgMDcoaBU/rTPE6oxm0DTmeUlImln6y0WmU=
-X-Received: by 2002:a05:6870:9627:b0:23c:1f34:730 with SMTP id
- 586e51a60fabf-24c690dcbeamr3329736fac.49.1716407863193; Wed, 22 May 2024
- 12:57:43 -0700 (PDT)
+        bh=GK96bTcySBXJWrl0b4BEgVMpbpkk8ZeD8W1lF+BLqPI=;
+        b=smsJ8jmlupx7UqvTai5HrCJY9kTdiOdysRFt3JFZnrPk8wPvRCmbzjdeoQwOQu4lGS
+         eSy9ISR1EprXIvilcOKWagpNaPTci48m1n7xVy5pbBC0QETNhpMcc6eaKzNobeAbdZYF
+         irB/fKUtxg//QwYJDcg+jGK2xnl16F/C54+dHM9kTiisBk02Xgeoe2pbsUcvoC0yOX6u
+         2EfgQ94QZCkS373IxZBLhpwM0WzG9Lvc2Y2lYCtRkMV5Da9j4nPCFa3LuxDtdXTLtwsj
+         md2PKoaznNvIFsyt74oiWWfyD1t6MCDIJ1sPrjtu60LfNKHJSieOYowtF5L5pl1aT0bZ
+         FpEQ==
+X-Gm-Message-State: AOJu0Yzb1sCtZ3raRwiYtnfEXIDSanxc9miPHjLgI8qEm7cxaTCDOggN
+	y3RroZ6bD6/xl2/6b6v4j6PGMXoTNWd0rT0QlZF5S/6N0KgziQLsJVbNwsK9CkQEPIdSLCn9PWO
+	gKMuJeXtZXgn+ljtuYwIP81bdxR4t/RlSUsQ=
+X-Google-Smtp-Source: AGHT+IGqlPmBYGwgBtzK2bYMCn4U11RMrTD3T/hvXo1GINxzMQ80T8DQ7IzjcwmCVUaYXUt9TcHpAReNqHy4gYf7I14=
+X-Received: by 2002:a05:6870:8a29:b0:24c:6861:2224 with SMTP id
+ 586e51a60fabf-24c68d6dff0mr3474415fac.15.1716408035255; Wed, 22 May 2024
+ 13:00:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com> <1716369289-22526-24-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1716369289-22526-24-git-send-email-wangmy@fujitsu.com>
+References: <20240522090350.2513076-1-martin@geanix.com> <20240522090350.2513076-2-martin@geanix.com>
+In-Reply-To: <20240522090350.2513076-2-martin@geanix.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2024 12:57:16 -0700
-Message-ID: <CAMKF1sp6VmOvP08EjjdHq4ABHNq7pSHVeC4J1tESbbkinvrVJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 24/42] llvm: upgrade 18.1.5 -> 18.1.6
-To: wangmy@fujitsu.com
+Date: Wed, 22 May 2024 13:00:09 -0700
+Message-ID: <CAMKF1sqRHr44cQmZrt4O6qgThu6QmYz1acnLj1nXZ8Da=vOp8Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] ofono: upgrade 2.4 -> 2.7
+To: martin@geanix.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 19:57:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199765
+ <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 20:00:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199766
 
-On Wed, May 22, 2024 at 2:15=E2=80=AFAM wangmy via lists.openembedded.org
-<wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
->
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Changelog:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - Fixes issues where LLVM is either generating the incorrect thunk for a
->   function with aligned parameters or didn't correctly pass through the
->   return value when StructRet was used.
-> - -Xclang -target-feature -Xclang +unaligned-scalar-mem can be used to en=
-able
->   unaligned scalar memory accesses for CPUs that do not support unaligned
->   vector accesses. -mno-strict-align will enable unaligned scalar and vec=
-tor
->   memory accesses.
-> - Don't replace an aliasee with an alias that has weak linkage. This avoi=
-ds
->   incorrect linkage that can lead to using the wrong symbols during linki=
-ng time.
-> - This patch fixes build failures when compiling AVX512 code using
->   -march=3Dnative on machines without AVX512.
-> - Fixes crash in AArch64 backend when having true or false as operand for=
- a
->   fcmp instruction on IR level.
-> - Fixes compiler crash when user specifies -mno-evex512 with AVX512 featu=
-res
->   but no AVX512VL.
-> - Fixes a bug that tries to do VBROADCAST_LOAD for f16 without AVX2.
->
+lgtm
 
-I submitted this already via
-https://lore.kernel.org/openembedded-core/20240521153514.271976-1-raj.khem@=
-gmail.com/T/#u
-but I like your commit message more. So perhaps this patch should be picked=
- too
-atleast the commit part
-
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+On Wed, May 22, 2024 at 2:04=E2=80=AFAM Martin Hundeb?ll via
+lists.openembedded.org <martin=3Dgeanix.com@lists.openembedded.org>
+wrote:
+>
+> Remove 0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch as
+> TEMP_FAILURE_RETRY usage has been removed in upstream commit 765c6655
+> ("treewide: Use L_TFR macro").
+>
+> Remove 0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch
+> as likely()/unlikely() has been removed in upstream commit dbbbebf9
+> ("mbimmodem: Remove usage of likely and unlikely").
+>
+> Remove the do_configure:prepend() that purges the bundled ell directory,
+> as it isn't needed when passing --enable-external-ell in EXTRA_OECONF.
+>
+> Signed-off-by: Martin Hundeb=C3=B8ll <martin@geanix.com>
 > ---
->  meta/recipes-devtools/llvm/{llvm_18.1.5.bb =3D> llvm_18.1.6.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/llvm/{llvm_18.1.5.bb =3D> llvm_18.1.6.bb} (=
-98%)
+>  ...tional-TEMP_FAILURE_RETRY-macro-copy.patch | 36 -------------------
+>  ...ith-ell-0.39-by-restoring-unlikely-m.patch | 28 ---------------
+>  .../ofono/{ofono_2.4.bb =3D> ofono_2.7.bb}      |  9 +----
+>  3 files changed, 1 insertion(+), 72 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono/0001-mbim-add-a=
+n-optional-TEMP_FAILURE_RETRY-macro-copy.patch
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-b=
+uild-with-ell-0.39-by-restoring-unlikely-m.patch
+>  rename meta/recipes-connectivity/ofono/{ofono_2.4.bb =3D> ofono_2.7.bb} =
+(82%)
 >
-> diff --git a/meta/recipes-devtools/llvm/llvm_18.1.5.bb b/meta/recipes-dev=
-tools/llvm/llvm_18.1.6.bb
-> similarity index 98%
-> rename from meta/recipes-devtools/llvm/llvm_18.1.5.bb
-> rename to meta/recipes-devtools/llvm/llvm_18.1.6.bb
-> index 9c80b46b60..189f5b1146 100644
-> --- a/meta/recipes-devtools/llvm/llvm_18.1.5.bb
-> +++ b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
-> @@ -27,7 +27,7 @@ SRC_URI =3D "https://github.com/llvm/llvm-project/relea=
-ses/download/llvmorg-${PV}/
->             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as=
--we.patch;striplevel=3D2 \
->             file://llvm-config \
->             "
-> -SRC_URI[sha256sum] =3D "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d0=
-19b67a57edd7de56"
-> +SRC_URI[sha256sum] =3D "bd4b4cb6374bcd5fc5a3ba60cb80425d29da34f316b8821a=
-bc12c0db225cf6b4"
+> diff --git a/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optio=
+nal-TEMP_FAILURE_RETRY-macro-copy.patch b/meta/recipes-connectivity/ofono/o=
+fono/0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch
+> deleted file mode 100644
+> index 8a5a300adc..0000000000
+> --- a/meta/recipes-connectivity/ofono/ofono/0001-mbim-add-an-optional-TEM=
+P_FAILURE_RETRY-macro-copy.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -From 22b52db4842611ac31a356f023fc09595384e2ad Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Thu, 23 May 2019 18:11:22 -0700
+> -Subject: [PATCH] mbim: add an optional TEMP_FAILURE_RETRY macro copy
+> -
+> -Fixes build on musl which does not provide this macro
+> -
+> -Upstream-Status: Submitted [https://lists.ofono.org/pipermail/ofono/2019=
+-May/019370.html]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - drivers/mbimmodem/mbim-private.h | 9 +++++++++
+> - 1 file changed, 9 insertions(+)
+> -
+> -diff --git a/drivers/mbimmodem/mbim-private.h b/drivers/mbimmodem/mbim-p=
+rivate.h
+> -index e159235..51693ea 100644
+> ---- a/drivers/mbimmodem/mbim-private.h
+> -+++ b/drivers/mbimmodem/mbim-private.h
+> -@@ -21,6 +21,15 @@
+> -
+> - #define align_len(len, boundary) (((len)+(boundary)-1) & ~((boundary)-1=
+))
+> -
+> -+#ifndef TEMP_FAILURE_RETRY
+> -+#define TEMP_FAILURE_RETRY(expression) ({     \
+> -+  __typeof(expression) __result;              \
+> -+  do {                                        \
+> -+    __result =3D (expression);                  \
+> -+  } while (__result =3D=3D -1 && errno =3D=3D EINTR); \
+> -+  __result; })
+> -+#endif
+> -+
+> - enum mbim_control_message {
+> -       MBIM_OPEN_MSG =3D 0x1,
+> -       MBIM_CLOSE_MSG =3D 0x2,
+> ---
+> -2.21.0
+> -
+> diff --git a/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-wi=
+th-ell-0.39-by-restoring-unlikely-m.patch b/meta/recipes-connectivity/ofono=
+/ofono/0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch
+> deleted file mode 100644
+> index 3655b3fd66..0000000000
+> --- a/meta/recipes-connectivity/ofono/ofono/0002-mbim-Fix-build-with-ell-=
+0.39-by-restoring-unlikely-m.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 76e4054801350ebd4a44057379431a33d460ad0f Mon Sep 17 00:00:00 2001
+> -From: Martin Jansa <Martin.Jansa@gmail.com>
+> -Date: Wed, 21 Apr 2021 11:01:34 +0000
+> -Subject: [PATCH] mbim: Fix build with ell-0.39 by restoring unlikely mac=
+ro
+> - from ell/util.h
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - drivers/mbimmodem/mbim-private.h | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/drivers/mbimmodem/mbim-private.h b/drivers/mbimmodem/mbim-p=
+rivate.h
+> -index 51693eae..d917312c 100644
+> ---- a/drivers/mbimmodem/mbim-private.h
+> -+++ b/drivers/mbimmodem/mbim-private.h
+> -@@ -30,6 +30,10 @@
+> -   __result; })
+> - #endif
+> -
+> -+/* used to be part of ell/util.h before 0.39:
+> -+   https://git.kernel.org/pub/scm/libs/ell/ell.git/commit/?id=3D2a68242=
+1b06e41c45098217a686157f576847021 */
+> -+#define unlikely(x) __builtin_expect(!!(x), 0)
+> -+
+> - enum mbim_control_message {
+> -       MBIM_OPEN_MSG =3D 0x1,
+> -       MBIM_CLOSE_MSG =3D 0x2,
+> diff --git a/meta/recipes-connectivity/ofono/ofono_2.4.bb b/meta/recipes-=
+connectivity/ofono/ofono_2.7.bb
+> similarity index 82%
+> rename from meta/recipes-connectivity/ofono/ofono_2.4.bb
+> rename to meta/recipes-connectivity/ofono/ofono_2.7.bb
+> index 5e1e5f3b6a..bc1f3efd04 100644
+> --- a/meta/recipes-connectivity/ofono/ofono_2.4.bb
+> +++ b/meta/recipes-connectivity/ofono/ofono_2.7.bb
+> @@ -10,10 +10,8 @@ DEPENDS =3D "dbus glib-2.0 udev mobile-broadband-provi=
+der-info ell"
+>  SRC_URI =3D "\
+>      ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>      file://ofono \
+> -    file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch=
+ \
+> -    file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.pat=
+ch \
+>  "
+> -SRC_URI[sha256sum] =3D "93580adc1afd1890dc516efb069de0c5cdfef014415256dd=
+fb28ab172df2d11d"
+> +SRC_URI[sha256sum] =3D "dabf6ef06b94beaad65253200abe3887046a4e722f4fe373=
+c4264f357ae47ad3"
 >
->  UPSTREAM_CHECK_URI =3D "https://github.com/llvm/llvm-project"
->  UPSTREAM_CHECK_REGEX =3D "llvmorg-(?P<pver>\d+(\.\d+)+)"
+>  inherit autotools pkgconfig update-rc.d systemd gobject-introspection-da=
+ta
+>
+> @@ -30,11 +28,6 @@ PACKAGECONFIG[bluez] =3D "--enable-bluetooth, --disabl=
+e-bluetooth, bluez5"
+>
+>  EXTRA_OECONF +=3D "--enable-test --enable-external-ell"
+>
+> -do_configure:prepend() {
+> -    bbnote "Removing bundled ell from ${S}/ell to prevent including it"
+> -    rm -rf ${S}/ell
+> -}
+> -
+>  do_install:append() {
+>      install -d ${D}${sysconfdir}/init.d/
+>      install -m 0755 ${UNPACKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
 > --
-> 2.34.1
+> 2.44.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#199722): https://lists.openembedded.org/g/openembedde=
-d-core/message/199722
-> Mute This Topic: https://lists.openembedded.org/mt/106239638/1997914
+> View/Reply Online (#199693): https://lists.openembedded.org/g/openembedde=
+d-core/message/199693
+> Mute This Topic: https://lists.openembedded.org/mt/106239535/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
