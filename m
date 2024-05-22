@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E99C25B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 563ABC25B7E
 	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 09:15:19 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web11.5660.1716369316183619180
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.5633.1716369314070705257
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 May 2024 02:15:16 -0700
+ Wed, 22 May 2024 02:15:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=nBC8XKkj;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=L/5qw88/;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1716369317; x=1747905317;
+  t=1716369313; x=1747905313;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=JFSkN5qV1W/18dZGYukMkyqXrAzansz+RpqzEtZ+lyg=;
-  b=nBC8XKkjqfLiJD7n/c1olMEW40g+F6CPlBRZgFEZgD/NF5bm817jCzp1
-   8QV7VRqrJclZqtIxpJ+2mMg0FYnJzbDZ2COP5G3mLXey+JULpddELgfII
-   G8m3Xy0vMOwt14NPKrHyrqkOiLs2TF8V376VArmTatPgfp0JRfYlgxtQ+
-   83BZDMuW88t8C9B5BHBd2KrhDUotAclMVYSAjAkVbHkeNFM3KwbhfcZ7S
-   cAd52cOA5N0b8lwhApy8c5bRfore6sPOTuQUJKVcruqrAvlcK4pup+JXf
-   MnSalj+hvF6qctgqOP1HTw3QG2QmRFbgcLoPJ+NxECEIwdbM/TTOhvnCJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="161119177"
+  bh=lPfbFyongdeklSg8wJ/GNHx6Zcl6l0SEptLIKkEXKrA=;
+  b=L/5qw88/BOImhCTrptp9yEh5WQrmkQOIi7x8lOjvWKceGgrtmzPz9g00
+   HCFDE0Z2b1Gs5x9OWnWnF6VATozujij4nqe/DEGRpCddchruY+2QedgFJ
+   Y4di+39bwvTRgUlBp+fC2uGQihCI51eEwAh0RVLXdjKZXUyINm/j/+Egq
+   tbzB7SH8klxJem4rMpUmSH+3oDB2fKoz81o40C3ss8Q7CHvvhaf2bTb27
+   6AG540Y+WCJHJXKfqLeqhqiarE4f1BH1DnMZvfytV3obeTBx5Mej47Eea
+   dHNQVCRnNoeQWp7Yw2Eedvpr7eBod5UoE/A2jYoPBIvYniCxIwOx3qGhU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="159133724"
 X-IronPort-AV: E=Sophos;i="6.08,179,1712588400"; 
-   d="scan'208";a="161119177"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:15:14 +0900
+   d="scan'208";a="159133724"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:15:11 +0900
 Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 092C1D800A
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:12 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3A714BDCA2
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:11 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id C250821D01D
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 081EDCC145
 	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:10 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3D77CBDCA7
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:09 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id C9D7720097E68
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:08 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 6EF7F1A000B;
-	Wed, 22 May 2024 17:15:10 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 75DE21A000C;
+	Wed, 22 May 2024 17:15:08 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 07/42] dmidecode: upgrade 3.5 -> 3.6
-Date: Wed, 22 May 2024 17:14:14 +0800
-Message-Id: <1716369289-22526-7-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 06/42] diffoscope: upgrade 265 -> 267
+Date: Wed, 22 May 2024 17:14:13 +0800
+Message-Id: <1716369289-22526-6-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com>
 References: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com>
@@ -54,61 +54,59 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28402.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28402.006
-X-TMASE-Result: 10-0.556200-10.000000
-X-TMASE-MatchedRID: EzAtoNUuirijz0nOeth/yUIIxwDaU5mrGBULflUTtXR3de2OoBqgwqoH
-	YSP2RcO05dRKIQyvabb4Orn4AH8dYqT4BhrRHlF4KsurITpSv+NZ+CK+BxQ9k9cUntbeUinj9A/
-	sZzrdRIUVs8VjfLJUux9K6LGpAwss7VrXqiqnwHX8dMpK2wMYwkc1DwKoQo7YwLkNMQzGl5AE59
-	pk4kcc5bF9uGobEuT7gDLqnrRlXrZ8nn9tnqel2MZW5ai5WKly4nlz7wBuwnLSrj+m/9lGsF7MR
-	1cKiFsaZD+2TaAfB5dYU1Wcz6b8u7qX2un75HB8E/H1272tOpWkSaRliqF0avSKNqx0K9Xt/r/b
-	+dmSKFo6AH9/PcRd1xUpPR4VGZ8OzhiFp8LOC6Mh1j2M6LiVMg==
+X-TMASE-Result: 10-0.373200-10.000000
+X-TMASE-MatchedRID: n7p0zKhDeQSjz0nOeth/yUIIxwDaU5mr2FA7wK9mP9dJrVu3Tf6nFyto
+	LhrEPTMhepwUk+Mcqyw2FOu8TRgi0nhUwQ4fZ/BMqhcdnP91eXHWN3XQ/7wsT6vWBS71/UX/03c
+	D0WOiAZngK2NiZClvaQXURz+hQhGVWkIi5GvRHEpO5y1KmK5bJZjm/42WWfFCgW6bY8SOq3WjxY
+	yRBa/qJcFwgTvxipFajoczmuoPCq1K7g/Z97wyTWZ+RUbWOfJKi6DfMqUDzfdVJ20Ca0uIgd7kI
+	LEh6BasVPQoaVNe77Mhzar1B3cQDnVkS1AfHPyRw2ZsNFs90NEdJuEZuYbKVcUkrvIudlEZl07d
+	DrsiYvyCLhFTP3QRDAbYwClu/qh3
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 09:15:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199702
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199701
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-============
-- Use -DALIGNMENT_WORKAROUND on arm.
-- Read SMBIOS entry point via kenv on DragonFly BSD.
-- Support for SMBIOS 3.6.0. This includes new memory device types, new
-  processor upgrades, and Loongarch support.
-- Support for SMBIOS 3.7.0. This includes new port types, new processor
-  upgrades, new slot characteristics and new fields for memory modules.
-- Add bash completion.
-- Decode HPE OEM records 197, 239 and 245.
-- Implement options --list-strings and --list-types.
-- Update HPE OEM records 203, 212, 216, 221, 233, 236, 237, 238 and 242.
-- Update Redfish support.
-- Bug fixes:
-  Fix option --from-dump for user root
-  Fix enabled slot characteristics not being printed
-- Minor improvements:
-  Print slot width on its own line
-  Use standard strings for slot width
+===========
+* Use "xz --list" to supplement the output when comparing .xz archives;
+  essential when some underlying metadata differs.
+* Actually append the xz --list after the container differences, as it
+  simplifies tests and the output.
+* Add 7zip to <!nocheck> Build-Depends in debian/control.
+* Update copyright years.
+* Maintain an in-header boolean state to determine whether to drop
+  from-file/to-file lines. This fixes an issue where HTML differences were
+  being inadvertendly neglected.
+* Include "xz --verbose --verbose" (ie. double --verbose) output, not just
+  the single --verbose.
+* Only include "xz --list" output if the xz has no other differences.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../dmidecode/{dmidecode_3.5.bb => dmidecode_3.6.bb}            | 2 +-
+ .../diffoscope/{diffoscope_265.bb => diffoscope_267.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/dmidecode/{dmidecode_3.5.bb => dmidecode_3.6.bb} (89%)
+ rename meta/recipes-support/diffoscope/{diffoscope_265.bb => diffoscope_267.bb} (93%)
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.5.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.6.bb
-similarity index 89%
-rename from meta/recipes-devtools/dmidecode/dmidecode_3.5.bb
-rename to meta/recipes-devtools/dmidecode/dmidecode_3.6.bb
-index 3e2bb6e30b..e5b4e27687 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.5.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.6.bb
-@@ -18,4 +18,4 @@ do_install() {
-         install
- }
+diff --git a/meta/recipes-support/diffoscope/diffoscope_265.bb b/meta/recipes-support/diffoscope/diffoscope_267.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_265.bb
+rename to meta/recipes-support/diffoscope/diffoscope_267.bb
+index 6af5abc974..69bad508cd 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_265.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_267.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRC_URI[sha256sum] = "79d76735ee8e25196e2a722964cf9683f5a09581503537884b256b01389cc073"
-+SRC_URI[sha256sum] = "e40c65f3ec3dafe31ad8349a4ef1a97122d38f65004ed66575e1a8d575dd8bae"
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "7bdcbd7fc5bc4c821bf6ab5ffbbeb265103b04e6908ea4bb12144d7e5ca002ff"
++SRC_URI[sha256sum] = "c0a807aa66e18eae88c1adca28988675c9749d3ad1a8db3d2eb7e2afb8763568"
+ 
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.34.1
 
