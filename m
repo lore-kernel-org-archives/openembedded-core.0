@@ -2,270 +2,427 @@ Return-Path: <mike.looijmans@topic.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 924A5C25B77
-	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 06:43:18 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.120])
- by mx.groups.io with SMTP id smtpd.web10.3645.1716360192974690848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D647C25B77
+	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 06:53:18 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.93])
+ by mx.groups.io with SMTP id smtpd.web10.3732.1716360788012022000
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 23:43:14 -0700
+ Tue, 21 May 2024 23:53:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topic.nl header.s=selector2 header.b=vDua/EOa;
- dkim=fail reason="dkim: body hash did not verify" header.i=@topic.nl header.s=selector2 header.b=JYS2zMGd;
- spf=pass (domain: topic.nl, ip: 40.107.21.120, mailfrom: mike.looijmans@topic.nl)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=fail;
- b=VlsS5TxZuC0ENvGFQdi4700KVdiwGicehSyr7uySrCRPT8HeGYUHNdkdTtNssphOUTezZ0L8Oj/ddKi7GbAeu2T2nyfTPDNsM+ihz5DuwNDgpyW41FYlfGTuygPlwORwSbou5jy16y61mZpY6tstpJ5qVll3+IKJAxdLKIIihiTUae6byyyw5iWdvFGvuG6NvUVZ/Xi4wB3J7LVpVedmsgqzjAqLCezcISSNS9Ex0w1XQ1lu+X9mF1cmlNfBiPVT36ZcNGyBS7UrCn/d2jfqoV0ODpjeMuDykjc12DLkrjQMcoKNEyJor6ANz+QpBiTL3ERotWgvqvOQaU6k9qF3uQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ dkim=pass header.i=@topic.nl header.s=selector2 header.b=b6Vt6PiO;
+ spf=pass (domain: topic.nl, ip: 40.107.8.93, mailfrom: mike.looijmans@topic.nl)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HEDmMODcgcRgvmhhqVFxFEnYRWswWrHlGO6RVidFkJZhB2gG3dSJXSDWddrOATPLJL7pxK11D3bLnV0NU0CByLFrEpgWac6Sh57xGEahwDKSgUNGS1H0rHpkJOZuH66l7uzriqDnft9L7g1afn2OYH8r920aizCzXITo43NHi2RDYJOYkekWo1Kr0wji03iB7xeeg3JNTBW00W/GtfD4CEhy9Jvck0z3gV2sxFxmsxlNQJAGHKwGkd+AObAcshS1/VNqZOZDtqyqNSToaQml1nVuMnbvC4eaBaiQq0wuLr+h7m+nEL11Zu9GdEICBnzG+oRHO4M3XrgvR8T8Ixmonw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b+cDKM1Dmfzy6APQPFY3E3MTjRWURdTYngjsEgIf5vA=;
- b=Q0n6EFq0MEXxWv0LPTDUJGvF+ief5xTSe0wqZosz2m3mGRWu+SjHZnaEUYZvVGDl8JCxN3LWDeREpmkZMlt8dQyuOzeCV+cDY6KTDoHvZlD5NjA5Klq5tToEvLxaJ9P9Fi0IFvsskfDzrF0KneKvfjfzXAYXbQ33COJ3RuV+lgPz2k882Z95JXRA+SRPMSlIHWxXMxJLIOyibq8MuWYPKd+DPsEm7alN/O+OU+4gDgERWTGroIV7Tq3+LLX0fx9qR157ONprbYDiMgOvFkPG39E52X76uW5JBGb4qdKeSNe/rEcBd58iDal8U4OYxTndC5npjGG1ZiS14dIIIf6sUw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=topic.nl;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=topic.nl;
- dkim=fail (signature did not verify) header.d=topic.nl; arc=fail (47)
+ bh=235mPPQBQw13Ee+INPj8vj2h3zIwr0Q84qvp86btgUU=;
+ b=GuJUD3us++kV3lq2ZvO454pITz/VEKmRkai1uXxwOVjr4PykKPwiBb1FYDRjK6vc4C9TScN/5/KjPBizHxGmXKdz7Nr0VcLSqtS5wRuE/2Hyrxt1ScOp9bxHhVPZAVdDe/2kx0sRv4t8nmnp87Q28qVgq/Kp4ryJhQYeYbvRpsNHCbVfB9aOxw5Wm3+MhsJFp4aRi9OshEaTwjrH4h2h3IDV+4CAw7qatINn45m4wkL03lAxqeWQoly9PCp/jhG8qtvifSJWvC7BduCgff+y22EgG70Ezlejn1gP91REYj+z4FPE5YSPs3oGg/Ok9XWssLZAyvTxjmVEmaWJtSJINA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.93.157.195) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=topic.nl; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=topic.nl; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b+cDKM1Dmfzy6APQPFY3E3MTjRWURdTYngjsEgIf5vA=;
- b=vDua/EOaPD+WKaXqgazIKwFW7GAUHXyi0po6ykpnrngQFsayJXV2SZx4NK4anuU+8F3zQfDWYm7iZvZLMFK2EIWdWe8s3mSzgT8iswoyxzMvJhlL2egxHOvwho6p7lVEadYxtrpH1R3xwX22GdlVXpSRDbyOAgC+8USInEkt0vxTPNOqG4htb9zKMHg13kGtrqUuD8N0qaPVzpEtdxFfOw4VWi03P0dxTkqy+xxjVaH2zmWI1KCgPZIhW/cAMy/7Dpbvq1/xVGt/CecQq6MN9LGVbakpLivrDwXmjBKkU4++afX/t/poRuPgvR9oOWbMCXGXCWpE0NVSlKaU9mTuJA==
-Received: from DB8PR06CA0010.eurprd06.prod.outlook.com (2603:10a6:10:100::23)
- by AM8PR04MB7441.eurprd04.prod.outlook.com (2603:10a6:20b:1c4::7) with
+ bh=235mPPQBQw13Ee+INPj8vj2h3zIwr0Q84qvp86btgUU=;
+ b=b6Vt6PiOh/dWy3mBVdEtxX5QdcCh0QMWjyMZFmLUBrE8Gh5o32LZXUv+sCqyOCof/FD7Qir3WdRYianRjrxdSFszWpSPGBp7hfZ3E6EnkDYeFAXINzkUpeeJ7o3gBgsHfkimGr9pwAX04jiuORXVBJREaA/+dzrNPIpHjDdhXePT+ZqWiow4/dx/+On82hxdHezYti7xZsbUw80urZQ9H2f0R3Jnq+1ivZNNNZnMXAtA4zXPwpBvCx4RUOaiCrow7cFNGg6zdXIiXXS76v/cmfWcFirqtld2Xtjj0OCMDht/nrHv0/N0YWD7cYeoYc2G+lcuTJJjHMWCKM+TGmAcHA==
+Received: from AS9PR05CA0211.eurprd05.prod.outlook.com (2603:10a6:20b:494::13)
+ by AS8PR04MB9143.eurprd04.prod.outlook.com (2603:10a6:20b:44a::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19; Wed, 22 May
- 2024 06:43:09 +0000
-Received: from DB1PEPF000509F8.eurprd02.prod.outlook.com
- (2603:10a6:10:100:cafe::e3) by DB8PR06CA0010.outlook.office365.com
- (2603:10a6:10:100::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19 via Frontend
- Transport; Wed, 22 May 2024 06:43:09 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Wed, 22 May
+ 2024 06:53:03 +0000
+Received: from AMS0EPF000001A0.eurprd05.prod.outlook.com
+ (2603:10a6:20b:494:cafe::cc) by AS9PR05CA0211.outlook.office365.com
+ (2603:10a6:20b:494::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36 via Frontend
+ Transport; Wed, 22 May 2024 06:53:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topic.nl; dkim=fail (signature did not verify)
- header.d=topic.nl;dmarc=pass action=none header.from=topic.nl;
+ smtp.mailfrom=topic.nl; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=topic.nl;
 Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
  20.93.157.195 as permitted sender) receiver=protection.outlook.com;
  client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
  pr=C
 Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- DB1PEPF000509F8.mail.protection.outlook.com (10.167.242.154) with Microsoft
+ AMS0EPF000001A0.mail.protection.outlook.com (10.167.16.230) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7611.14 via Frontend Transport; Wed, 22 May 2024 06:43:08 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (104.47.18.104) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Wed, 22 May 2024 06:43:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cw1VACWXbA9sfNTibsz7iA416v9+AFKaa+Qqi8p5iqfzUgsFZ4eCWfd+w4rS9y4ZCMVN9s8karUZtEgxx/qQiWymVg6nKmetG5mVi5hURwsWkZM7tq0SPTxTvhKn0B9iafGy9DJc+iEDzAjap6m7ltArATHmIeSm5JS+nOSakhWdVw4L0Y350SkWAqvCvzzVicvlWB6gu1H/+jKkIOu0CIyq++895zJ6vYyl/Sv0VcRorSPZiZZLhTbUKkQcO3619eAvt9xTGkGAPDZ3pguBSdsRCzxfRIA8XxuazH8KDyczdkze2qI6dvG28j95GWYXnt6vL3/ux739jz28nG5Pew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hc8j5u/hx6ZQltSRCZ/dBQa5/hL4409erqDbj949Zo8=;
- b=UcY81+N0JTogHkKaT/wWLJ6jye87VVMVckPLLsgxrnSWEx3/0t8S8cF1JCsjGVwVvuzyF+WFvj4iwVjzQ7A/2Jvr3xJg2ZWRqIoM770hFWQssU8p2GHD7JxfZLbof0rLvLCJUkMNdUd1lTvB9fyFFr9TDlWBjxT+mVeWm0hZbzSh38m5Bww7rXEVDNrzlU5JOaWQaSI3Ix2URJzlXrmt5I3AbQNloVs7yoqJP0FgvkVOJYxTRLxvvxDG4ErNYSoZvhLFypa2ZiQuC3cbByqk/5Ro6ENz3CDVAIOU2ogMCQpCUJZTnXof7+/znw1Or2kPiheOIFuaMARIsFp+L1N1bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=topic.nl; dmarc=pass action=none header.from=topic.nl;
- dkim=pass header.d=topic.nl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hc8j5u/hx6ZQltSRCZ/dBQa5/hL4409erqDbj949Zo8=;
- b=JYS2zMGdQyrRVGdHAQCxY7aT90lg0yKMB6aIqXKh8A0GXw30je9iy3bP5un5HfylWyGsmWzRyo010CbauhH5L8XbWR2YRltzDADHthK0UorVB7V/+bin0mg1AK69Z0W7Mdfu4zOXNrgR+oz2YmO/YQH1BStwxVDhgWNXWB9VaNXDAL0Pesq8UnBIAsRHb2qKkqit10TFzItrKpB+MAiKz65Ab6piJCXPwwVEAgjWv4ril4fbUZI70P4tKcxYY+mHFXiYBrZ5tF5ObDFNuph32z/C6xRLIxBdu8YguN8b14l8UZjTkpaBWRB0m+IhJD9P3CarIFoQHxPgn9zKO3JcNA==
+ 15.20.7611.14 via Frontend Transport; Wed, 22 May 2024 06:53:02 +0000
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (104.47.11.40) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Wed, 22 May 2024 06:53:02 +0000
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=topic.nl;
 Received: from AS8PR04MB8644.eurprd04.prod.outlook.com (2603:10a6:20b:42b::12)
- by AS8PR04MB8994.eurprd04.prod.outlook.com (2603:10a6:20b:42d::16) with
+ by PA2PR04MB10214.eurprd04.prod.outlook.com (2603:10a6:102:404::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Wed, 22 May
- 2024 06:43:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19; Wed, 22 May
+ 2024 06:52:59 +0000
 Received: from AS8PR04MB8644.eurprd04.prod.outlook.com
  ([fe80::e86d:f110:534e:480a]) by AS8PR04MB8644.eurprd04.prod.outlook.com
  ([fe80::e86d:f110:534e:480a%4]) with mapi id 15.20.7587.035; Wed, 22 May 2024
- 06:43:05 +0000
-Message-ID: <802ee008-2325-42a0-be6d-a2d0ebbea050@topic.nl>
-Date: Wed, 22 May 2024 08:43:03 +0200
-User-Agent: Mozilla Thunderbird
-From: <mike.looijmans@topic.nl>
-Subject: Re: [OE-core] [PATCH] meta: uboot-config: Fix broken menuconfig for
- "fitImage" kernel
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.cc544a93-e646-4932-8496-82717a21cde8@emailsignatures365.codetwo.com>
- <20240521135705.444470-1-mike.looijmans@topic.nl>
- <5340825db3c98197e448c58b88381562edbed66f.camel@linuxfoundation.org>
- <023cbca2-b5e4-420c-b109-445d7d8480a4@topic.nl>
- <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
-Content-Language: nl
-Organization: TOPIC
-In-Reply-To: <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ 06:52:58 +0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+CC: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH v2] meta: uboot-config: Fix broken menuconfig for "fitImage" kernel
+Date: Wed, 22 May 2024 08:52:22 +0200
+Message-ID: <20240522065222.1479499-1-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS4P195CA0051.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:65a::17) To AS8PR04MB8644.eurprd04.prod.outlook.com
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR01CA0153.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:aa::22) To AS8PR04MB8644.eurprd04.prod.outlook.com
  (2603:10a6:20b:42b::12)
 MIME-Version: 1.0
 X-MS-TrafficTypeDiagnostic: 
-	AS8PR04MB8644:EE_|AS8PR04MB8994:EE_|DB1PEPF000509F8:EE_|AM8PR04MB7441:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ea4a663-3ab1-456c-05ab-08dc7a2a7159
+	AS8PR04MB8644:EE_|PA2PR04MB10214:EE_|AMS0EPF000001A0:EE_|AS8PR04MB9143:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb20a655-bff2-4eb4-ab18-08dc7a2bd384
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230031|366007|376005|52116005|1800799015|38350700005;
 X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?TExKODVHNFBSSXZDbUY3dFIwTFp2UnhGRmdWVllrSHpQZ2VmMTE1c0RFTUw1?=
- =?utf-8?B?ZzIraElFazZtN1U5dFNoVFc0MXBieHlVM1VOZ1h4OENWNTRxUDVHZnJzdHRD?=
- =?utf-8?B?L3pENnFwaFBnWXluZkhMOUUxRW5jVjRxaHcvVnBYVFZaUEZLTFVNWU1JWkJm?=
- =?utf-8?B?WnlsY0lDLzRkZ0ZBSlB5RVVBUzBpeWVwdDRmUmlOOG9OQ015SnZkTitUMVlL?=
- =?utf-8?B?YVZtSTl6SlFyQjNLcGZZZWFNMzltZE5LZ3BxS2F5QXhDbnVWTStxYnhMSnRq?=
- =?utf-8?B?WDFwVTh4OW1mdWxid3NHaFJ4ZXBZVjVDZDNyTEpKd1B3N2xaVTRkKzZmMy8x?=
- =?utf-8?B?TnV5Um9zTERWeXpPYXpuQVBHelJGSG52NVNBdnBRV2VHZDNkU0dPNDdOYVNN?=
- =?utf-8?B?Mkt4MmNHUWFTWENudUVncEw3QXUzTXg4Q1lFa0FFU2hlT1Z0QVJVWFdtblNZ?=
- =?utf-8?B?Wk5JUTBpYWREbHpqT0x4MVRaWnpzcU5MNytWMDVvRTJsd1BKekY5Y253clNO?=
- =?utf-8?B?cThQazg4blV2WTZOZWFxbzQ3VUc1RFRvWFFCQkVIeHU5S1c4ZUUveDNOSy9i?=
- =?utf-8?B?b0pVbXFnckgxbloyZy82SU85M08vY21TUG84WTJuRWhjUTlFQTk5RkRjckxU?=
- =?utf-8?B?ZURlazIyVFhqZllyNnlUYUR1ZlI2TEIrNjdIQ2t1SG81SDFhanV2ODVyKzZB?=
- =?utf-8?B?NzMvdElMUmVNNGo3TUtDWnZIRjhQcGZJRmIwZExMNmNJSEcvUGFXa2p3Vk4r?=
- =?utf-8?B?Y2swaFVkMmxZSzBHb2dpQkp6aE1hd3hiYjRLdE9YYkoxd2krSzZlekZrYVN4?=
- =?utf-8?B?Zjc4UExMaHRPVTlyQTFtWTZta2FzVUk2YlI4MjZIbTJNZFNnc2tzRUlFNHNs?=
- =?utf-8?B?a3hEVzlwR3pvK1l5Z1IwcytHUVVjTFpzTS9XVlczUFFqOFhUdUZ3T2NVZFo2?=
- =?utf-8?B?VHRyUExFZUtRZi84cSs4b2dqbEZ3cWdDZktMWHRSZ1Z3RlJNbEFNRHFNd1NQ?=
- =?utf-8?B?NTUvWUZFNlN2c2RXOXkxZ0YwNzgzRzAvVDRtcXV0aE85clZTSkZoaXZyN0tv?=
- =?utf-8?B?MS9JdzZYa050aXZSempCZjZmQmg3Zk9scVJtdTVVanhRcUdKVHI3TTFWTndP?=
- =?utf-8?B?OFdZOHpzVkFlRzlaelBscTlKMDlTZHBxUjdSb2hlU0ZjWTRGemgxekhXWDha?=
- =?utf-8?B?ZHRvOUxIbWR1dnRCL2tUQXg2Y3lWTDVheWRYaXRNeVk4R2NXOUxEVitISWlC?=
- =?utf-8?B?Qk41ZlRKWTQwNkg0cTErUWNNUWhuR0hLTGNsS1FIVGtlVm16d0YwLzBZWFNv?=
- =?utf-8?B?NEV4bm5WY1Y3ZUdSaGRRbGE4QW5FMkRETU9WaWFac05MWUNURFoxK0FKOU1o?=
- =?utf-8?B?Q2o0b0hscHQzWVZUMXIyME53L0pYbFROZUo4cHdpWmNrWnY0M255RE5ZQ1RI?=
- =?utf-8?B?c0RIeVg2YVdqa2plMXVGZ3RKcVhCVDFyZnpWNjRseWh4REZMNFh3VVAxZm1y?=
- =?utf-8?B?QzlvcEdpeXBNOFA5Um0rNWFSVTRnT3daakJxQ1VhYVNabnRKeW5NTTcydGlw?=
- =?utf-8?B?a2tyZStPM09leCsrTWJvZmxWTXo0ZTJ2ZFM5Y0w3dCtDOFhSQ0tSZzQydUUx?=
- =?utf-8?B?bk1kQlVzTWV0bmk3NWFRUzBKWkp5azZHYTZWdDhZVkFqeTl6M09CdmhPS2Ns?=
- =?utf-8?B?eFNRUUgvUWxMdm1zTEdMdnF2dW9NbE1HMy9KeGxaWGs4clBzNHJ2bGdBPT0=?=
+ =?us-ascii?Q?zdf6UGO+RpQlmHufDiljN9zXfuHdwW40KBRNQL3arLclRe1FCF/VdcKakNUN?=
+ =?us-ascii?Q?FJgw2GdroFDW8+zPrifDy2en9GY8AqhBtaqlUq79La+/crsje6uBgqhQJmRr?=
+ =?us-ascii?Q?ZjVqn7bZ07NeHXRXMIM7b+uZU9AH5GWE8v6e5VmL6liuWLK7oieMNObPxv5l?=
+ =?us-ascii?Q?vcVMNGHDCJDuYcRn9GTsd3jIpvxMhMpbipRePLIeTs2lIsGzjhkOnWqh2Pn5?=
+ =?us-ascii?Q?4veO2Up61Lw8bsmn4Gmt71f2Vm4qTEqAVQItZfnQI09XYGn6TNu0P7A1ydKm?=
+ =?us-ascii?Q?Mc6xNRenE736ZSSmkdpq9plmJ1y3/l8fJGgbc84OqV9cibqXib4bFBjcIDeK?=
+ =?us-ascii?Q?4B94wVzX0XlikObwkO6LG0b6pv89C02UnEcSvFIt24lYTSuxtXRl4FfQHTTg?=
+ =?us-ascii?Q?Vl7hWcj/cuw9iq1uAkEzMQ0lrwuZEX+H3rMRQfjcYEbx8Hm+ruzPCebn17IE?=
+ =?us-ascii?Q?Q3+lFETdMYNaXIi30GfsnUown97Ja7t26NEdZz3fdNJw0IS13EJ9KnF8jRkU?=
+ =?us-ascii?Q?vJX9txci6lwK87VO3i92yvjn840+YbCKeuUU2SdfyUK9VqM9OSsYG5WLeayT?=
+ =?us-ascii?Q?OTeHkSR8WwZXXTvbKulBrCoA+PkWNJ2cEoWHKQTSMUv1+rscXhcKb7k86Oi5?=
+ =?us-ascii?Q?a3P7bduHrljDdVAacfiObJA0zmHnTVDqSJC0ImaRz9kfjJguWeAOmlSIsDAy?=
+ =?us-ascii?Q?QV/5tqjTa5OHBzSG001prdZLhCOKCyA3Ddtxdj3Kkm5DpeBIQIRNJeTM4rgy?=
+ =?us-ascii?Q?YS35hgwLI64bey9GIWcHIT0EEIkUjgBwVx/G/Z2yl65bPFO5AtZtHZQD8zPs?=
+ =?us-ascii?Q?Y/I+PKBTmylir3Dq5ISgA9v1ByW8RrCMWb2WqgHcxS38PZd5FqGLU/gWYseK?=
+ =?us-ascii?Q?JColc0BXgpWm5HkGsCl2r26ZhY7S86geNZJk7ExlQkSEN0yt9TokfYQAeBlJ?=
+ =?us-ascii?Q?JOrPhyE3rgokViN+gKR8autNreCTaa6cHXHb5/T+SK2swenrF1ELlhbqVxcB?=
+ =?us-ascii?Q?E4jBjkd36thT1UyEIRCU3n/xoK+q4T0fS9Ce9DXryJyDDq2ly2KdkquOj8Yf?=
+ =?us-ascii?Q?48hGAzzQOZyrsNjeDnImWtqxUJQX11E/YmJzQj/Pz9C8xw3qIK5UVxVKvQuJ?=
+ =?us-ascii?Q?krWu2XOUayPXDy2KgCFzUtC+pBINN8LHuMR8TAu6MuQwpmkpOI6dk/jk+Zeo?=
+ =?us-ascii?Q?uYonWnH139+xcFrY4ozKU5G2QDkTsGcHUgN8AJnb6zh+c8iWaX+G8CI2KKXD?=
+ =?us-ascii?Q?cmMLMPE4B+EPlsm/NQ1IOKhhSImeYANdslPZXgkJMmSwug5vaNhEU3ML+HTk?=
+ =?us-ascii?Q?LrKbrnyeUqAo1IrBsg+gxZif0ec9Ben4a8GjAOFaU2j8jg=3D=3D?=
 X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8644.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8994
-X-CodeTwo-MessageID: 99fe27c9-6e39-4630-b215-5fd57865741a.20240522064307@westeu11-emailsignatures-cloud.codetwo.com
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8644.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10214
+X-CodeTwo-MessageID: ed567337-9527-4ccd-ab30-25acc538a1d1.20240522065301@westeu11-emailsignatures-cloud.codetwo.com
 X-CodeTwoProcessed: true
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.1a7bc4dc-70e3-4a7f-b2b4-84e6b0130c4c@emailsignatures365.codetwo.com>
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB1PEPF000509F8.eurprd02.prod.outlook.com
+ AMS0EPF000001A0.eurprd05.prod.outlook.com
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	32985704-3632-46ad-96a3-08dc7a2a6ef3
+	84719e3e-6b52-4e09-99b8-08dc7a2bd100
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|1800799015|35042699013|82310400017|376005|36860700004;
+	BCL:0;ARA:13230031|82310400017|36860700004|1800799015|376005|35042699013;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RUN6bkIzL2J6ekZ0VjFlQko2NzlmaFp3Z1BOK29teTVmOEIxMmY4MmxpczBw?=
- =?utf-8?B?L2dyWExYbDlYei9WWHZPNjM1VnBMVFpNOTd6ci9KRG5TN2w0c0xrNGNFQUtL?=
- =?utf-8?B?UUY3TkttdmZRK3JDcS9palVtdzc0bjRTekM2bXZCMmtaa3BvYVJScTg4dGlJ?=
- =?utf-8?B?NUM1VjdTeFNHRzNmMWkwVDE2ZzBaK2pqbmV6Z0J1VGxyTHozaUJHWldVMDg3?=
- =?utf-8?B?REZVbEk2T2pmc285bG9RWW8xeUZkVVFDLzJ0RmNPYjdDMDUrSEhYaDB4cmtY?=
- =?utf-8?B?RlU4SEdGQk1UMHpKZXV5dWwvUlFMRjNMaVpCVHViQ3BuUTA1cW5Oa0RSYWp3?=
- =?utf-8?B?WktqalRXVzVYdXlBVHBnaCtXQ05rSEFyVjRvYk9SRlVLY3FsV3BDZ2JwVDAr?=
- =?utf-8?B?WktPVnNxQzV3UmJwVThwWHYya013bnYrbEdKMGZZVVREdzRwSUpWQ0FuZzlR?=
- =?utf-8?B?OUZlTnVnNlJvcDZKNktXL29UMXJsOG1lTnc3OTlVTmh0UEFwQTJ6T05XZWQ3?=
- =?utf-8?B?NlZjUEo5cDc4TzVmTTh4VS9IT3hwSkordHJrMUxsYzZDMHVWbFMweUNnTEts?=
- =?utf-8?B?NWpTQnFkckNTK2tKYUU0dGtVcVVvaWNVcmFXblpoM1VSSzEzSjB3NmJ3dUZK?=
- =?utf-8?B?d3dSbjNsUlpmcnBuQWh5MDNVbDRCbVpEbWpYekluVWZzWXVUMk0wWlRGTnVm?=
- =?utf-8?B?VE9QMi84QUVPcDN5bFplZ09QalpCclBuTjM3WWlUWmNzN3NJQTIwRlpTbVpw?=
- =?utf-8?B?T2FjOTJDbldWamUxUmlvZzBUVDlUVHErckgvMklZVy90TXQ3Mml5L09XaThM?=
- =?utf-8?B?amxTbFd5ZmYrdmdSQ0JwOHBSVmF5eGloNmJmMVhVM2h5dmg1SXA4RzlKM2RC?=
- =?utf-8?B?M2dlTWp2bmhMb2lRaTYweHFPTU1EeEZjWGxBY2trcWR0WkVwdXRnMTFXamxK?=
- =?utf-8?B?KytMdGZVTFlFOFFZNjFVMnpTUGFDS0tVNm9nMXljOWova3NJYzdzdWpHU3hp?=
- =?utf-8?B?OTMwMGxyM08ySmQxaUU2UWx5ZjZMWElvTVBXcHd5L0FEYm0xSTByd1MxTVRP?=
- =?utf-8?B?b3BoRGd0ZGhuNDZ3K0xncDFNa2NaS1dPRDZKYWk3cG0wQjJsSWNzdXZrNEs4?=
- =?utf-8?B?aHNwdU1DWUF6Yklrak9kVWZIc01JaWhNTVc5N2tvY250eC9CcWNxdHV6UXFD?=
- =?utf-8?B?SFM1WWRGQW5yVjZtQXMyMVBOMllUSmxOMTVROUpYRTBWYlhpSC9seVB2S0FK?=
- =?utf-8?B?VDV2ZkRvajFhOWRPbmllVzdXck5FeVRKVGwvZWw3QnRIS3lOR1I1SXZ3dzdQ?=
- =?utf-8?B?MkR1Rm1YSUVIWCs4cElrcVd3SFJsanpqOWJ0dnRkbDRheW5jRlVCM3JQdFJy?=
- =?utf-8?B?bXZHMThGOGJ5WGpSSGg5K0tCQ0Y0ZjhSWnRjYnhMVEhsUnFndDk1alRUL1pp?=
- =?utf-8?B?NisvZE1rQnVQTXUvUGZ6a3czdEJYTVY5enhIdzJCSklXUm1TcWswS0RVTTNq?=
- =?utf-8?B?NnFPOVEvbXJmWU1vTUpPZ0VIeUdyVzR0UkFOcS9xYWJmd2taSnNLQThoNi83?=
- =?utf-8?B?MHppN3k3a2dLck9DaGJrbzVzS1dpTkFJOXhLOTNXSUphK2lEejVXdXpWdzVE?=
- =?utf-8?B?bFJPZUlwSmhwdUJ3MlFjbjB0SE4rNHdPcjIzVktGVVdFRlp2bVExZE9yZTdz?=
- =?utf-8?B?QjZMK1hqR3F6dTdoanBUOGxyZGhMRWZFdUpONlB1TzF4UlJRbGhpUW5PMmho?=
- =?utf-8?B?VElQaTNxdnh4ZXl1N0xUelBYVDhvakc3Wis5cjl2V2tFc25NOG83clkrdlh1?=
- =?utf-8?B?WjBYUlNpVE5zWnFqbStuaW54dFZrNHF3Lzl4ei84VVBHZXRZSnNoSFd1Wmh2?=
- =?utf-8?Q?CPrvTl8hCCWTL?=
+	=?us-ascii?Q?vRtDJ6WpC0YsaRwH8n6YejC3LIiWuoWtMBLnmGVPcFaH+60rfADMZ1TbuVYS?=
+ =?us-ascii?Q?L00sXhxfGsgq9Mpgd8mGQe7M9ThoA3seEfbkR240arH9RLNeiT9ultcoQZU6?=
+ =?us-ascii?Q?spAHBBJORm5YR71VUUX7uajCtZqV/nbNU1q8/h1VeCdRHHbhjslTds4f0V3B?=
+ =?us-ascii?Q?B+D4X9vyUFcF5jaeT0hl42INYQXVvRTsgIeZgFVp+myyTKZcyq8r/JHUs5IW?=
+ =?us-ascii?Q?JldwH2ZZNwwnteY7ZlsQI3C32pxYD5ZGKBt4oO4T88vsMph491VsYLqTUXQc?=
+ =?us-ascii?Q?8DFLu+zRKMJauJ0YfEwTYyw1EruDh0EOy1H/YmKgSyv/XlLP2fPCtAnnbGij?=
+ =?us-ascii?Q?ow2rlv+b4nvDnNyj1rK0/q258d9BkvGKgRx69e1KwP9Pp+BJEyDBde9cfZGg?=
+ =?us-ascii?Q?MvMjiLIEuNXJle2aLsSad1J6spuDMtb7QCzuKIqXPCQ1ivwdFICKsXc9ccQ1?=
+ =?us-ascii?Q?IqfNcs12vxByLS29NA52NVY7niGyqnCGZgYHjr6GyrRAzKSWwo3orDyIwzwD?=
+ =?us-ascii?Q?hyMyLzurrXFyYsEQ4DgCRNFaiP9ViKdRw7vNYcutR5S2h5NwaEQwg79IN1Uo?=
+ =?us-ascii?Q?0zzA5peL46xQvq0/ETlX1foo7vRUMz96lkrorpJWD6+h6xYDnvkJ7WqQMHGq?=
+ =?us-ascii?Q?FANP4FYn5eD64aTIrTxmqFd75ciNNMS2lCZOopiGZxBkCDEh1lhVBE+v1uVJ?=
+ =?us-ascii?Q?6Wc2EsW3qLQ5as6QwxTkfNM/GJOJIWDWX8ohNzDfL2yZgllCtj9yW90zpq/T?=
+ =?us-ascii?Q?3bVyD/EqMb/IixdFJ7+9jiBLRZUhxbC4ICtatE6wNDtNkHQ0ye+rzohyShUF?=
+ =?us-ascii?Q?zKOHGEGX8zjFUrOS/jof3TyhGDyFV8xOsKSe2YiH4ON1sd+iKGJYkFujcBZX?=
+ =?us-ascii?Q?jtj7FI2Gatr8j+T9EvP8g+R13c+SwToCVwsvqH4h9X7rMcNH6sptEdXGUmdA?=
+ =?us-ascii?Q?0oeVGJVoq9FSsRAlu+sRSHozam17O2RYD9DghDeG+M9lNGLW63DJZaP+vN7e?=
+ =?us-ascii?Q?4SJoVAIZtn+OSNmYL3ysaLgi3k/BtYI5FZ0DKG4ung8jh8B7mPcBzFNibEni?=
+ =?us-ascii?Q?T0qcv7IkELsdw9dShsHhH01v4hmPpvx5mVAfDyPOJcrZRaRKzzat9XUvhsQ0?=
+ =?us-ascii?Q?SkRyFfpqQtJsoA/QBAUw93bUAny8GQ5rWQFAeOlZqa6vfIcXhCAAiewoENp6?=
+ =?us-ascii?Q?JY1fF2xgu/uyx4TyJMp8dsxDdGMo8gdXQgagNzcQc+iRgvhdocQUStxsOKdb?=
+ =?us-ascii?Q?idLejk+IUNb47UNgJK7suaU1vqU+Ec0GENnSfl33LmMbajQ+YmdkLGWTzj87?=
+ =?us-ascii?Q?Kq4xjUW62b2buT/pMc0/s52A?=
 X-Forefront-Antispam-Report: 
-	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230031)(1800799015)(35042699013)(82310400017)(376005)(36860700004);DIR:OUT;SFP:1102;
+	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230031)(82310400017)(36860700004)(1800799015)(376005)(35042699013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2024 06:43:08.8017
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2024 06:53:02.9387
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea4a663-3ab1-456c-05ab-08dc7a2a7159
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb20a655-bff2-4eb4-ab18-08dc7a2bd384
 X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509F8.eurprd02.prod.outlook.com
+	AMS0EPF000001A0.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7441
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9143
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 06:43:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199688
+ <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 06:53:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199689
 
-On 22-05-2024 07:39, Richard Purdie wrote:
-> On Wed, 2024-05-22 at 07:28 +0200, mike.looijmans@topic.nl wrote:
->> On 21-05-2024 16:51, Richard Purdie wrote:
->>> On Tue, 2024-05-21 at 15:57 +0200, Mike Looijmans via
->>> lists.openembedded.org wrote:
->>>> kernel-fitimage inherited uboot-config, which resulted in failure
->>>> to
->>>> run "menuconfig" on a system that has both multiple u-boot
->>>> configs and
->>>> wants a fitImage kernel.
->>>>
->>>> Fix the issue by splitting up uboot-config into uboot-config-vars
->>>> that
->>>> only contains the "harmless" variable settings, and inherit that
->>>> in a
->>>> new uboot-config class which contains the Python code to do the
->>>> U-boot
->>>> specific settings. Inherit only uboot-config-vars in kernel-
->>>> fitimage
->>>> so that it has what it needs but doesn't break.
->>>>
->>>> Fixes: f9e834e31788 "meta: introduce
->>>> KCONFIG_CONFIG_ENABLE_MENUCONFIG"
->>>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
->>>> ---
->>>>  =C2=A0=C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=C2=A0 |=
-=C2=A0 2 +-
->>>>  =C2=A0=C2=A0meta/classes-recipe/uboot-config-vars.bbclass | 95
->>>> +++++++++++++++++++
->>>>  =C2=A0=C2=A0meta/classes-recipe/uboot-config.bbclass=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 80 +-----------
->>>> ----
->>>>  =C2=A0=C2=A03 files changed, 97 insertions(+), 80 deletions(-)
->>>>  =C2=A0=C2=A0create mode 100644 meta/classes-recipe/uboot-config-
->>>> vars.bbclass
->>>
->>> This looks like it might be a good candidate to move to a file in
->>> meta/conf rather than a new class file?
->>
->> What does "this" refer to exactly?
->=20
-> The variable definitions you're placing into a separate class file. I'm
-> saying they look more suited to a shared conf file, which is a
-> direction I think the project needs to move in generally.
+kernel-fitimage inherited uboot-config, which resulted in failure to
+run "menuconfig" on a system that has both multiple u-boot configs and
+wants a fitImage kernel.
 
-a "uboot.conf" then, okay.
+Fix the issue by splitting up uboot-config into conf/uboot.conf that
+only contains the "harmless" variable settings, and require that in a
+new uboot-config class which contains the Python code to do the U-boot
+specific settings. Require only conf/uboot.conf in kernel-fitimage so
+that it has what it needs but doesn't break.
 
->=20
->> Note that this patch just moves code, it doesn't introduce anything
->> new.
->>
->>> We could add any functions needed to lib/oe/ if they can be made
->>> suitably generic.
->>
->> What "functions" would that be?
->=20
-> removesuffix is the one I saw that was needed in the new class file and
-> wouldn't work in a conf file.
+Fixes: f9e834e31788 "meta: introduce KCONFIG_CONFIG_ENABLE_MENUCONFIG"
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/classes-recipe/kernel-fitimage.bbclass |  3 +-
+ meta/classes-recipe/uboot-config.bbclass    | 80 +------------------
+ meta/conf/uboot.conf                        | 88 +++++++++++++++++++++
+ 3 files changed, 91 insertions(+), 80 deletions(-)
+ create mode 100644 meta/conf/uboot.conf
 
-Interestingly, "removesuffix" is a built-in Python function since 3.8:
-
- >>> 'hello.all'.removesuffix('.all')
-'hello'
-
-And 3.8 is the minimum required version for Yocto anyway.
-
-
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-rec=
+ipe/kernel-fitimage.bbclass
+index 4b74ddc201..b941609cc5 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -4,7 +4,8 @@
+ # SPDX-License-Identifier: MIT
+ #
+=20
+-inherit kernel-uboot kernel-artifact-names uboot-config
++inherit kernel-uboot kernel-artifact-names
++require conf/uboot.conf
+=20
+ def get_fit_replacement_type(d):
+     kerneltypes =3D d.getVar('KERNEL_IMAGETYPES') or ""
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
+/uboot-config.bbclass
+index e55fc38b7c..bfa9af7f49 100644
+--- a/meta/classes-recipe/uboot-config.bbclass
++++ b/meta/classes-recipe/uboot-config.bbclass
+@@ -13,85 +13,7 @@
+ #
+ # SPDX-License-Identifier: MIT
+=20
+-
+-def removesuffix(s, suffix):
+-    if suffix and s.endswith(suffix):
+-        return s[:-len(suffix)]
+-    return s
+-
+-UBOOT_ENTRYPOINT ?=3D "20008000"
+-UBOOT_LOADADDRESS ?=3D "${UBOOT_ENTRYPOINT}"
+-
+-# Some versions of u-boot use .bin and others use .img.  By default use .b=
+in
+-# but enable individual recipes to change this value.
+-UBOOT_SUFFIX ??=3D "bin"
+-UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
+-UBOOT_BINARYNAME ?=3D "${@os.path.splitext(d.getVar("UBOOT_BINARY"))[0]}"
+-UBOOT_IMAGE ?=3D "${UBOOT_BINARYNAME}-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFI=
+X}"
+-UBOOT_SYMLINK ?=3D "${UBOOT_BINARYNAME}-${MACHINE}.${UBOOT_SUFFIX}"
+-UBOOT_MAKE_TARGET ?=3D "all"
+-
+-# Output the ELF generated. Some platforms can use the ELF file and direct=
+ly
+-# load it (JTAG booting, QEMU) additionally the ELF can be used for debugg=
+ing
+-# purposes.
+-UBOOT_ELF ?=3D ""
+-UBOOT_ELF_SUFFIX ?=3D "elf"
+-UBOOT_ELF_IMAGE ?=3D "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}"
+-UBOOT_ELF_BINARY ?=3D "u-boot.${UBOOT_ELF_SUFFIX}"
+-UBOOT_ELF_SYMLINK ?=3D "u-boot-${MACHINE}.${UBOOT_ELF_SUFFIX}"
+-
+-# Some versions of u-boot build an SPL (Second Program Loader) image that
+-# should be packaged along with the u-boot binary as well as placed in the
+-# deploy directory.  For those versions they can set the following variabl=
+es
+-# to allow packaging the SPL.
+-SPL_SUFFIX ?=3D ""
+-SPL_BINARY ?=3D ""
+-SPL_DELIMITER  ?=3D "${@'.' if d.getVar("SPL_SUFFIX") else ''}"
+-SPL_BINARYFILE ?=3D "${@os.path.basename(d.getVar("SPL_BINARY"))}"
+-SPL_BINARYNAME ?=3D "${@removesuffix(d.getVar("SPL_BINARYFILE"), "." + d.g=
+etVar("SPL_SUFFIX"))}"
+-SPL_IMAGE ?=3D "${SPL_BINARYNAME}-${MACHINE}-${PV}-${PR}${SPL_DELIMITER}${=
+SPL_SUFFIX}"
+-SPL_SYMLINK ?=3D "${SPL_BINARYNAME}-${MACHINE}${SPL_DELIMITER}${SPL_SUFFIX=
+}"
+-
+-# Additional environment variables or a script can be installed alongside
+-# u-boot to be used automatically on boot.  This file, typically 'uEnv.txt=
+'
+-# or 'boot.scr', should be packaged along with u-boot as well as placed in=
+ the
+-# deploy directory.  Machine configurations needing one of these files sho=
+uld
+-# include it in the SRC_URI and set the UBOOT_ENV parameter.
+-UBOOT_ENV_SUFFIX ?=3D "txt"
+-UBOOT_ENV ?=3D ""
+-UBOOT_ENV_SRC_SUFFIX ?=3D "cmd"
+-UBOOT_ENV_SRC ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SRC_SUFFIX}"
+-UBOOT_ENV_BINARY ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+-UBOOT_ENV_IMAGE ?=3D "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFF=
+IX}"
+-UBOOT_ENV_SYMLINK ?=3D "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+-
+-# U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.c=
+onf
+-# to find EXTLINUX conf file.
+-UBOOT_EXTLINUX_INSTALL_DIR ?=3D "/boot/extlinux"
+-UBOOT_EXTLINUX_CONF_NAME ?=3D "extlinux.conf"
+-UBOOT_EXTLINUX_SYMLINK ?=3D "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
+-
+-# Options for the device tree compiler passed to mkimage '-D' feature:
+-UBOOT_MKIMAGE_DTCOPTS ??=3D ""
+-SPL_MKIMAGE_DTCOPTS ??=3D ""
+-
+-# mkimage command
+-UBOOT_MKIMAGE ?=3D "uboot-mkimage"
+-UBOOT_MKIMAGE_SIGN ?=3D "${UBOOT_MKIMAGE}"
+-
+-# Signature activation - this requires KERNEL_IMAGETYPE =3D "fitImage"
+-UBOOT_SIGN_ENABLE ?=3D "0"
+-
+-# Arguments passed to mkimage for signing
+-UBOOT_MKIMAGE_SIGN_ARGS ?=3D ""
+-SPL_MKIMAGE_SIGN_ARGS ?=3D ""
+-
+-# Options to deploy the u-boot device tree
+-UBOOT_DTB ?=3D ""
+-UBOOT_DTB_BINARY ??=3D ""
+-
+-# uboot-fit_check_sign command
+-UBOOT_FIT_CHECK_SIGN ?=3D "uboot-fit_check_sign"
++require conf/uboot.conf
+=20
+ python () {
+     ubootmachine =3D d.getVar("UBOOT_MACHINE")
+diff --git a/meta/conf/uboot.conf b/meta/conf/uboot.conf
+new file mode 100644
+index 0000000000..7e17d49d20
+--- /dev/null
++++ b/meta/conf/uboot.conf
+@@ -0,0 +1,88 @@
++# Handle U-Boot config for a machine
++#
++# The format to specify it, in the machine, is:
++#
++# UBOOT_CONFIG ??=3D <default>
++# UBOOT_CONFIG[foo] =3D "config,images,binary"
++#
++# or
++#
++# UBOOT_MACHINE =3D "config"
++#
++# Copyright 2013, 2014 (C) O.S. Systems Software LTDA.
++#
++# SPDX-License-Identifier: MIT
++
++UBOOT_ENTRYPOINT ?=3D "20008000"
++UBOOT_LOADADDRESS ?=3D "${UBOOT_ENTRYPOINT}"
++
++# Some versions of u-boot use .bin and others use .img.  By default use .b=
+in
++# but enable individual recipes to change this value.
++UBOOT_SUFFIX ??=3D "bin"
++UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
++UBOOT_BINARYNAME ?=3D "${@os.path.splitext(d.getVar("UBOOT_BINARY"))[0]}"
++UBOOT_IMAGE ?=3D "${UBOOT_BINARYNAME}-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFI=
+X}"
++UBOOT_SYMLINK ?=3D "${UBOOT_BINARYNAME}-${MACHINE}.${UBOOT_SUFFIX}"
++UBOOT_MAKE_TARGET ?=3D "all"
++
++# Output the ELF generated. Some platforms can use the ELF file and direct=
+ly
++# load it (JTAG booting, QEMU) additionally the ELF can be used for debugg=
+ing
++# purposes.
++UBOOT_ELF ?=3D ""
++UBOOT_ELF_SUFFIX ?=3D "elf"
++UBOOT_ELF_IMAGE ?=3D "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}"
++UBOOT_ELF_BINARY ?=3D "u-boot.${UBOOT_ELF_SUFFIX}"
++UBOOT_ELF_SYMLINK ?=3D "u-boot-${MACHINE}.${UBOOT_ELF_SUFFIX}"
++
++# Some versions of u-boot build an SPL (Second Program Loader) image that
++# should be packaged along with the u-boot binary as well as placed in the
++# deploy directory.  For those versions they can set the following variabl=
+es
++# to allow packaging the SPL.
++SPL_SUFFIX ?=3D ""
++SPL_BINARY ?=3D ""
++SPL_DELIMITER  ?=3D "${@'.' if d.getVar("SPL_SUFFIX") else ''}"
++SPL_BINARYFILE ?=3D "${@os.path.basename(d.getVar("SPL_BINARY"))}"
++SPL_BINARYNAME ?=3D "${@d.getVar("SPL_BINARYFILE").removesuffix("." + d.ge=
+tVar("SPL_SUFFIX"))}"
++SPL_IMAGE ?=3D "${SPL_BINARYNAME}-${MACHINE}-${PV}-${PR}${SPL_DELIMITER}${=
+SPL_SUFFIX}"
++SPL_SYMLINK ?=3D "${SPL_BINARYNAME}-${MACHINE}${SPL_DELIMITER}${SPL_SUFFIX=
+}"
++
++# Additional environment variables or a script can be installed alongside
++# u-boot to be used automatically on boot.  This file, typically 'uEnv.txt=
+'
++# or 'boot.scr', should be packaged along with u-boot as well as placed in=
+ the
++# deploy directory.  Machine configurations needing one of these files sho=
+uld
++# include it in the SRC_URI and set the UBOOT_ENV parameter.
++UBOOT_ENV_SUFFIX ?=3D "txt"
++UBOOT_ENV ?=3D ""
++UBOOT_ENV_SRC_SUFFIX ?=3D "cmd"
++UBOOT_ENV_SRC ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SRC_SUFFIX}"
++UBOOT_ENV_BINARY ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
++UBOOT_ENV_IMAGE ?=3D "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFF=
+IX}"
++UBOOT_ENV_SYMLINK ?=3D "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
++
++# U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.c=
+onf
++# to find EXTLINUX conf file.
++UBOOT_EXTLINUX_INSTALL_DIR ?=3D "/boot/extlinux"
++UBOOT_EXTLINUX_CONF_NAME ?=3D "extlinux.conf"
++UBOOT_EXTLINUX_SYMLINK ?=3D "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
++
++# Options for the device tree compiler passed to mkimage '-D' feature:
++UBOOT_MKIMAGE_DTCOPTS ??=3D ""
++SPL_MKIMAGE_DTCOPTS ??=3D ""
++
++# mkimage command
++UBOOT_MKIMAGE ?=3D "uboot-mkimage"
++UBOOT_MKIMAGE_SIGN ?=3D "${UBOOT_MKIMAGE}"
++
++# Signature activation - this requires KERNEL_IMAGETYPE =3D "fitImage"
++UBOOT_SIGN_ENABLE ?=3D "0"
++
++# Arguments passed to mkimage for signing
++UBOOT_MKIMAGE_SIGN_ARGS ?=3D ""
++SPL_MKIMAGE_SIGN_ARGS ?=3D ""
++
++# Options to deploy the u-boot device tree
++UBOOT_DTB ?=3D ""
++UBOOT_DTB_BINARY ??=3D ""
++
++# uboot-fit_check_sign command
++UBOOT_FIT_CHECK_SIGN ?=3D "uboot-fit_check_sign"
 --=20
-Mike Looijmans
+2.34.1
 
 
+Met vriendelijke groet / kind regards,=0A=
+=0A=
+Mike Looijmans=0A=
+System Expert=0A=
+=0A=
+=0A=
+TOPIC Embedded Products B.V.=0A=
+Materiaalweg 4, 5681 RJ Best=0A=
+The Netherlands=0A=
+=0A=
+T: +31 (0) 499 33 69 69=0A=
+E: mike.looijmans@topic.nl=0A=
+W: www.topic.nl=0A=
+=0A=
+Please consider the environment before printing this e-mail=0A=
 
