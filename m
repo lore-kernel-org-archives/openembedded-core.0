@@ -1,141 +1,144 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A741C25B78
-	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 19:15:57 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web11.3281.1716405352027479732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F9BC25B78
+	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 19:57:46 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.223.1716407864005696745
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 May 2024 12:15:52 -0700
+ Wed, 22 May 2024 12:57:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: aehs29@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3c9cc681e4fso2695319b6e.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 12:15:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l9IYuiqd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-23d38cd0df6so3479074fac.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 12:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716407863; x=1717012663; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=REe9oBHiGGzOU8LwteSy/wgcmZFcgLJj7AUX7+V34PI=;
+        b=l9IYuiqdU4To4eqciupb19KkUvAg42G2h19OWKbc6kbI28JaYDnPOnG0vVR+T99A4B
+         WTCGHI2oUfSkagaPVCJQW9dnXUTifOTeDGgeKv0Ns0JtWlwdguGG4yMzomshbQ0o709w
+         Zn5PvieXj6cloLQiNi5HfbsvLk6qXsV4iB4bsvz8DRPMGyiOMkfi+zcU6Q8UHy/3uRoM
+         vDJfnUOIzEyIYbNI4pUph0Xg/W6vxXgo9vZUOTnwlGVthj0FwycOz1ztnRzV6b0EuG5H
+         BU9VmN4ZAedZgpPw9zXDgx9n8l/eNHFU69ejTciWnZWIxXnzACQBTCxDHjP0ayPdRcsz
+         IRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716405351; x=1717010151;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y3EvBBJd7JHVW67Plg+YzvBzE0f0LzHOrqdo/m9yoZk=;
-        b=EVXvfJkZuE/DAPDcgpt13o/LeHzLuBR2YEXjqTjjEL6f6H+iEbtYgSvq8/7LNu9Jme
-         s/WLqlpyCx4ZIVTWHlB5ItQVxnTUoBzhapZBt4yN72gcpXX4g8N0h8bCAideafI3uYcJ
-         jTHKsL9y0ORKgt1aS54/pz0BEdYWQVWuRgC/tu1twS88ljt70VVLc85l6RqQU3g9R1ru
-         PRzqZ+D/eo1V9Qys7O/KeIpiGRAtEjGWK6U6uQOk8e6ubfIXP0ysHhW23ZhyY8gpSxzx
-         55h8yc18xrfL/gIhPZRs3PD++OpKm9vWSsSGsaKiFPOjj4rG3liFI5vUp+xZ/u0GwRpf
-         yY7A==
-X-Gm-Message-State: AOJu0YxEHpATzsCVC/OgA1scTASkb7t+p1S3T2mu6ZyTqWSt97sNX/Nn
-	3PmvAZ7EBB9eN2mb5qGT4f0AzVq499/h2n8gfSX9aGeK6j6foKrjaYfU7r5NHFE=
-X-Google-Smtp-Source: AGHT+IG0Krp4wmIqPmej7fdWmN6F+dkJXVxiTyTcske2wzpgeHOP7sBnsYtlHLYKBYRnA6qJ8F2XHQ==
-X-Received: by 2002:a05:6808:1806:b0:3c8:3490:4a05 with SMTP id 5614622812f47-3cdbb05c409mr4570806b6e.50.1716405350981;
-        Wed, 22 May 2024 12:15:50 -0700 (PDT)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com. [209.85.161.54])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3c9a48dfa7bsm3855616b6e.31.2024.05.22.12.15.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 12:15:50 -0700 (PDT)
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5b2cc8c4b8aso3713948eaf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 12:15:50 -0700 (PDT)
-X-Received: by 2002:a05:6820:160d:b0:5b2:bc0:f38b with SMTP id
- 006d021491bc7-5b6a32ec15fmr3920770eaf.5.1716405350257; Wed, 22 May 2024
- 12:15:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716407863; x=1717012663;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=REe9oBHiGGzOU8LwteSy/wgcmZFcgLJj7AUX7+V34PI=;
+        b=tJmxLwtAZxLts4NK5IHCSCYAZjuDZcVXwIscHQdSlyke2ybHkurUMZ03xHasqxJLAZ
+         SsXLeLSVTTBC028OgcQA1ZFcWMrWz++qaFwoh7GvGLdsFKLJ3BsT778z2+dbwlZkK2EM
+         MuVOYeSazqSKl79QtbZYHPCPZ2a4fquKMbfkv+/Q9gR+83NLtlYAFRTb6eKXYJFjvNPp
+         0TqXDepZHQAd2XJUoKGvJhWG6yUU6G2UE+OeCgufh3I0UGxhXrIKJRitvEFQ0XuDNYuy
+         +YbYryESXLWzjEXs1AAVkNF+yjRqEtX4bj2qKw8Td7w7tjIJUvoD2MrdrIaD0A19d1D5
+         JEOw==
+X-Gm-Message-State: AOJu0Yxh5CGOZMsIOylFVRFNBwjK+VMAUQ2u68xBmjC9hVwAZdhl5jom
+	6IvowxWe0iwN5fhihA7z1TWZfVFYbuI2hcXfdRc8sGi+9dTbbfL7ysxzkRVqSNMagnZd0Yo/Nke
+	xYKA9dXz9i2kMnRqi8q1i7gwFWLA=
+X-Google-Smtp-Source: AGHT+IHJ8QczfpK76TrD/Mtf4AkdflulMPhyH/Aq6T1mbM+JKrjQf2gzQgMDcoaBU/rTPE6oxm0DTmeUlImln6y0WmU=
+X-Received: by 2002:a05:6870:9627:b0:23c:1f34:730 with SMTP id
+ 586e51a60fabf-24c690dcbeamr3329736fac.49.1716407863193; Wed, 22 May 2024
+ 12:57:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240519055050.2331637-1-alejandro@enedino.org>
- <20240519055050.2331637-4-alejandro@enedino.org> <C23A42BD-03CC-45C7-9221-196D21A31787@arm.com>
- <CAHMutrYhV8u0xD40C52HXmnRjNv82QzCmYqLmWT=PXj9MjeKzg@mail.gmail.com> <AEDD581A-9F6F-4A5A-B46A-42343F0E2DE1@arm.com>
-In-Reply-To: <AEDD581A-9F6F-4A5A-B46A-42343F0E2DE1@arm.com>
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Date: Wed, 22 May 2024 13:15:37 -0600
-X-Gmail-Original-Message-ID: <CAHMutrbsM_2dWPAQ9uUFxuqQkg+78LJEdxfEFTyv0J4P1ADSTQ@mail.gmail.com>
-Message-ID: <CAHMutrbsM_2dWPAQ9uUFxuqQkg+78LJEdxfEFTyv0J4P1ADSTQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] tclibc-picolibc: Adds a new TCLIBC variant
- to build with picolibc as C library
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000031709206190fc344"
+References: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com> <1716369289-22526-24-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1716369289-22526-24-git-send-email-wangmy@fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 May 2024 12:57:16 -0700
+Message-ID: <CAMKF1sp6VmOvP08EjjdHq4ABHNq7pSHVeC4J1tESbbkinvrVJw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 24/42] llvm: upgrade 18.1.5 -> 18.1.6
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 19:15:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199764
+ <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 19:57:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199765
 
---00000000000031709206190fc344
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 22 May 2024 at 04:30, Ross Burton <Ross.Burton@arm.com> wrote:
-
-> On 21 May 2024, at 19:55, Alejandro Enedino Hernandez Samaniego <
-> alejandro@enedino.org> wrote:
-> > I did see that comment when I was trying to debug the issue with the
-> early compiler tests, however, I couldn't find an easy way to inject
-> skip_sanity_check=3Dtrue into the [properties] field in meson.cross and s=
-ince
-> exe_wrapper was still there I thought I'd just override it.
-> >
-> > Do you think it'd be better to modify the meson class, add a
-> MESON_SANITY_CHECK ?=3D "" thats is written to the cross file all the tim=
-e?,
-> that way I can just override it on the recipe with
-> MESON_SANITY_CHECK=3D"skip_sanity_check=3Dtrue" or something similar?
+On Wed, May 22, 2024 at 2:15=E2=80=AFAM wangmy via lists.openembedded.org
+<wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
 >
-> I believe you can put eg no-checks.cross in SRC_URI that contains just:
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> [properties]
-> skip_sanity_check=3Dtrue
+> Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - Fixes issues where LLVM is either generating the incorrect thunk for a
+>   function with aligned parameters or didn't correctly pass through the
+>   return value when StructRet was used.
+> - -Xclang -target-feature -Xclang +unaligned-scalar-mem can be used to en=
+able
+>   unaligned scalar memory accesses for CPUs that do not support unaligned
+>   vector accesses. -mno-strict-align will enable unaligned scalar and vec=
+tor
+>   memory accesses.
+> - Don't replace an aliasee with an alias that has weak linkage. This avoi=
+ds
+>   incorrect linkage that can lead to using the wrong symbols during linki=
+ng time.
+> - This patch fixes build failures when compiling AVX512 code using
+>   -march=3Dnative on machines without AVX512.
+> - Fixes crash in AArch64 backend when having true or false as operand for=
+ a
+>   fcmp instruction on IR level.
+> - Fixes compiler crash when user specifies -mno-evex512 with AVX512 featu=
+res
+>   but no AVX512VL.
+> - Fixes a bug that tries to do VBROADCAST_LOAD for f16 without AVX2.
 >
-> and pass that with =E2=80=94cross-file=3Dno-checks.cross.
 
+I submitted this already via
+https://lore.kernel.org/openembedded-core/20240521153514.271976-1-raj.khem@=
+gmail.com/T/#u
+but I like your commit message more. So perhaps this patch should be picked=
+ too
+atleast the commit part
 
-> Ross
-
-I wasn't aware this was possible, thanks for the pointers!, sending v3
-
-Cheers,
-
-Alejandro
-
---00000000000031709206190fc344
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 22 May 2024 =
-at 04:30, Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burto=
-n@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On 21 May 2024, at 19:55, Alejandro Enedino Hernandez Samaniego =
-&lt;<a href=3D"mailto:alejandro@enedino.org" target=3D"_blank">alejandro@en=
-edino.org</a>&gt; wrote:<br>
-&gt; I did see that comment when I was trying to debug the issue with the e=
-arly compiler tests, however, I couldn&#39;t find an easy way to inject ski=
-p_sanity_check=3Dtrue into the [properties] field in meson.cross and since =
-exe_wrapper was still there I thought I&#39;d just override it.<br>
-&gt; <br>
-&gt; Do you think it&#39;d be better to modify the meson class, add a MESON=
-_SANITY_CHECK ?=3D &quot;&quot; thats is written to the cross file all the =
-time?, that way I can just override it on the recipe with MESON_SANITY_CHEC=
-K=3D&quot;skip_sanity_check=3Dtrue&quot; or something similar?<br>
-<br>
-I believe you can put eg no-checks.cross in SRC_URI that contains just:<br>
-<br>
-[properties]<br>
-skip_sanity_check=3Dtrue<br>
-<br>
-and pass that with =E2=80=94cross-file=3Dno-checks.cross.=C2=A0</blockquote=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Ross</blockquote><div><div class=3D"gmail_default" style=3D"font-family:ari=
-al,sans-serif;font-size:small">I wasn&#39;t aware this was possible, thanks=
- for the pointers!, sending v3</div><div class=3D"gmail_default" style=3D"f=
-ont-family:arial,sans-serif;font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-family:arial,sans-serif;font-size:small">Cheers,</di=
-v><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-s=
-ize:small"><br></div><div class=3D"gmail_default" style=3D"font-family:aria=
-l,sans-serif;font-size:small">Alejandro</div><br></div><div>=C2=A0</div></d=
-iv></div>
-
---00000000000031709206190fc344--
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-devtools/llvm/{llvm_18.1.5.bb =3D> llvm_18.1.6.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/llvm/{llvm_18.1.5.bb =3D> llvm_18.1.6.bb} (=
+98%)
+>
+> diff --git a/meta/recipes-devtools/llvm/llvm_18.1.5.bb b/meta/recipes-dev=
+tools/llvm/llvm_18.1.6.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/llvm/llvm_18.1.5.bb
+> rename to meta/recipes-devtools/llvm/llvm_18.1.6.bb
+> index 9c80b46b60..189f5b1146 100644
+> --- a/meta/recipes-devtools/llvm/llvm_18.1.5.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
+> @@ -27,7 +27,7 @@ SRC_URI =3D "https://github.com/llvm/llvm-project/relea=
+ses/download/llvmorg-${PV}/
+>             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as=
+-we.patch;striplevel=3D2 \
+>             file://llvm-config \
+>             "
+> -SRC_URI[sha256sum] =3D "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d0=
+19b67a57edd7de56"
+> +SRC_URI[sha256sum] =3D "bd4b4cb6374bcd5fc5a3ba60cb80425d29da34f316b8821a=
+bc12c0db225cf6b4"
+>
+>  UPSTREAM_CHECK_URI =3D "https://github.com/llvm/llvm-project"
+>  UPSTREAM_CHECK_REGEX =3D "llvmorg-(?P<pver>\d+(\.\d+)+)"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199722): https://lists.openembedded.org/g/openembedde=
+d-core/message/199722
+> Mute This Topic: https://lists.openembedded.org/mt/106239638/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
