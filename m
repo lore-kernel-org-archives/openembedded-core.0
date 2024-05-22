@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E788C25B7A
-	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 09:15:09 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.5631.1716369307721400700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF98C25B77
+	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 09:15:19 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web10.5632.1716369310412529408
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 May 2024 02:15:08 -0700
+ Wed, 22 May 2024 02:15:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=WQTzCovb;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=slaqIacA;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1716369308; x=1747905308;
+  t=1716369310; x=1747905310;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=QDr7NzAscInLmgIsRCs4+KPE7gbmPQDi9UWnN2Yuxvc=;
-  b=WQTzCovbxMBNdwyLyMN5xVjS65dbd1axGrNEYribpaC1u/b2RMnzqghZ
-   FGEBHI4/9ZaktBF9NMgWl49Oz8lPDTFyOoZ1kiOoBK5RUqk0nCauBhGgt
-   4CFcD+kiD85JJIixgA7ruEbgEPv24dp0M++3IfcdznLBGZDbfFZMO8qym
-   6r8BPoiK4Tx0eJ5EeadglIP2ui78hK/pKDM1lskB06hM+CXbej+8QVqPk
-   2Wlm4KlC3bCNHKlUmAfnXmIfCzWv97AN+Fy3T5reYqpUqEdB/Lju+R+2/
-   VQbfloMxmJx7nzfXkJe1QUpoGV8QP4cy3O3bVKEw9XQR9tITdCxJfHZhE
+  bh=yrInMa8u0GwXJl7DmkPG4YeUHlB6rMkz5P2kW3vCFwM=;
+  b=slaqIacA37By0BkhgFMTsrEk/5vqVDhOLCJaNXH3uF+YemJZ+IjodsWM
+   fNyZufVyRV0KIB+Z7m8CQ9Jm+c4YSJSaCfqHw8QU7P61jRgS/2v9QhvwR
+   vGaxoIQwHiobrXsDJbCsKMULxTNU2zFoktGwTGAP7X3YTHd7PEkvQX6Ca
+   t0KnDtVZCzBAaVF/zsEJ/NWmYNOw2uY7bL5IGz9uNATSi5IRQg/DzIn7a
+   yrZ1lkFRCQ8mRdZuZCFGQ6xnExvuJIkV0PU5n33E74cCZdO2LHHRJssOi
+   3q7ZSOpTbRcFGmsb4g5jAHfeeFmTJqc6uUP1aNzbzV+SOAig6/9Od459f
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="158981264"
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="159376718"
 X-IronPort-AV: E=Sophos;i="6.08,179,1712588400"; 
-   d="scan'208";a="158981264"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:15:06 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 1D230DBD9C
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:03 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5BB25D16FC
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:02 +0900 (JST)
+   d="scan'208";a="159376718"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 18:15:07 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id C715BCD7E5
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:05 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 0E26F31B07
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:05 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id DB6DA21CB3A
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:01 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id A029820097E68
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 18:15:04 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 854541A000B;
-	Wed, 22 May 2024 17:15:01 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4C1E41A000B;
+	Wed, 22 May 2024 17:15:04 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 03/42] bind: upgrade 9.18.26 -> 9.18.27
-Date: Wed, 22 May 2024 17:14:10 +0800
-Message-Id: <1716369289-22526-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 04/42] btrfs-tools: upgrade 6.8 -> 6.8.1
+Date: Wed, 22 May 2024 17:14:11 +0800
+Message-Id: <1716369289-22526-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com>
 References: <1716369289-22526-1-git-send-email-wangmy@fujitsu.com>
@@ -54,50 +54,62 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28402.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28402.006
-X-TMASE-Result: 10--1.040600-10.000000
-X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/yUIIxwDaU5mrqJNAg+VJy+te/1kW39cvjL6p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74D4qCLIu0mtII5V1ACIyZtnHqx
-	sBjV0bTYPTJ94iLTbSs6gK9/y/z7S1pVckLHgk0KeAiCmPx4NwGmRqNBHmBveVDC1CbuJXmMqtq
-	5d3cxkNc4FzPgxXCdirH7keQGrFdRfPRCbpnJcZiGfgf6MMHbz1MKjEB98rNW+roB713T2pFc2A
-	BYAN1LahdZlndmk6r7uT0bpe0m4OlLvHqPi046FU8mdcvbI1h2S6jzjuXTm0MTMzICazP4UehYt
-	aVdyxm8=
+X-TMASE-Result: 10--3.276400-10.000000
+X-TMASE-MatchedRID: 6IstDyeExSCjz0nOeth/yUIIxwDaU5mrTfK5j0EZbyvTL2GRHAc9cZKy
+	Pf1j7t43BEleHrOyiTdiabBZEvOqkibFpXq4ZRfVv5rsfD7H2pkxXH/dlhvLvy99T+uJIleRwov
+	TjpKK9edcxuOgnUtRUNQeKSe3B8we/ayzaxBypN4gFhzkd+/gE2HWZvjZxlUHlPH7Ysio2a3TI4
+	8G/UH1dggvGgJhnjupVdNPsIcMVUMv+0FNnM7lDazGfgakLdjaguwtqyXlE6HozDhGeQC9EirJt
+	dE04QwiF9I3HgybRyEyh2C7EeKtCx8TzIzimOwPur1QVFMnSQrEQdG7H66TyHEqm8QYBtMOh8pI
+	IoglfOYiHmU4hy3RCubY2a7CYvswQAbkJxVewehEhOGoljm7Jn7mkRuW+IRhtXWDG7XtxUDeXzS
+	T21d5p46Ludyj0cYBgr6lqxbIXlHC3tMwY3ma2xUDj+dgUQVyTE7Co9fKv3w=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 09:15:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199698
+ <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 09:15:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199699
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-=========
-* Skip to next RRSIG if signature has expired or is in
-  the future rather than failing immediately.
-* Implement signature jitter for dnssec-policy.
+===========
+* mkfs: fix writing on zoned device when block-group-tree is selected
+* tune: fix writing on zoned device with option --convert-to-block-group-tree
+* check:
+   * more progress and error messages
+   * unify handling of unknown command line options with other commands
+* subvolume delete: remove options --delete-qgroup and --no-delete-qgroup
+  (added in 6.6.3), qgroup deletion does not always work due to delayed
+  background processing of subvolume or set value in
+  sysfs:ggroup/drop_subtree_threshold
+* other:
+   * misc refactoring
+   * error handling fixes reported by gcc -fanalyzer
+   * documentation updates
+   * new and updated tests
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../bind/{bind_9.18.26.bb => bind_9.18.27.bb}                   | 2 +-
+ .../btrfs-tools/{btrfs-tools_6.8.bb => btrfs-tools_6.8.1.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.26.bb => bind_9.18.27.bb} (97%)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.8.bb => btrfs-tools_6.8.1.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.26.bb b/meta/recipes-connectivity/bind/bind_9.18.27.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.26.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.27.bb
-index b99f92537c..98b8bb5513 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.26.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.27.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
+index 15cc7ac244..fac9f8f7ef 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
             "
+-SRCREV = "3793e987d2b4e878410da16f33d963043d137d48"
++SRCREV = "5d97c32d6f94cf6f473a5f82964e3edaeb1b146e"
+ S = "${WORKDIR}/git"
  
--SRC_URI[sha256sum] = "75ffee52731e9604c849b658df29e927f1c4f01d5a71ea3ebcbeb63702cb6651"
-+SRC_URI[sha256sum] = "ea3f3d8cfa2f6ae78c8722751d008f54bc17a3aed2be3f7399eb7bf5f4cda8f1"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ PACKAGECONFIG ??= " \
 -- 
 2.34.1
 
