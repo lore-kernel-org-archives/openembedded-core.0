@@ -1,636 +1,271 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <mike.looijmans@topic.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6466DC25B77
-	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 06:07:38 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.3302.1716358052640485518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 924A5C25B77
+	for <webhook@archiver.kernel.org>; Wed, 22 May 2024 06:43:18 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.120])
+ by mx.groups.io with SMTP id smtpd.web10.3645.1716360192974690848
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 May 2024 23:07:32 -0700
+ Tue, 21 May 2024 23:43:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
-Received: from localhost.localdomain (unknown [37.19.221.174])
-	by linux.microsoft.com (Postfix) with ESMTPSA id AE4D820B915A;
-	Tue, 21 May 2024 23:07:31 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AE4D820B915A
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [PATCH 4/4 v2] tclibc-picolibc: Adds a new TCLIBC variant to build with picolibc as C library
-Date: Wed, 22 May 2024 00:10:29 -0600
-Message-ID: <20240522061029.1763811-1-alejandro@enedino.org>
-X-Mailer: git-send-email 2.45.1
-MIME-Version: 1.0
+ dkim=pass header.i=@topic.nl header.s=selector2 header.b=vDua/EOa;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@topic.nl header.s=selector2 header.b=JYS2zMGd;
+ spf=pass (domain: topic.nl, ip: 40.107.21.120, mailfrom: mike.looijmans@topic.nl)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=fail;
+ b=VlsS5TxZuC0ENvGFQdi4700KVdiwGicehSyr7uySrCRPT8HeGYUHNdkdTtNssphOUTezZ0L8Oj/ddKi7GbAeu2T2nyfTPDNsM+ihz5DuwNDgpyW41FYlfGTuygPlwORwSbou5jy16y61mZpY6tstpJ5qVll3+IKJAxdLKIIihiTUae6byyyw5iWdvFGvuG6NvUVZ/Xi4wB3J7LVpVedmsgqzjAqLCezcISSNS9Ex0w1XQ1lu+X9mF1cmlNfBiPVT36ZcNGyBS7UrCn/d2jfqoV0ODpjeMuDykjc12DLkrjQMcoKNEyJor6ANz+QpBiTL3ERotWgvqvOQaU6k9qF3uQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b+cDKM1Dmfzy6APQPFY3E3MTjRWURdTYngjsEgIf5vA=;
+ b=Q0n6EFq0MEXxWv0LPTDUJGvF+ief5xTSe0wqZosz2m3mGRWu+SjHZnaEUYZvVGDl8JCxN3LWDeREpmkZMlt8dQyuOzeCV+cDY6KTDoHvZlD5NjA5Klq5tToEvLxaJ9P9Fi0IFvsskfDzrF0KneKvfjfzXAYXbQ33COJ3RuV+lgPz2k882Z95JXRA+SRPMSlIHWxXMxJLIOyibq8MuWYPKd+DPsEm7alN/O+OU+4gDgERWTGroIV7Tq3+LLX0fx9qR157ONprbYDiMgOvFkPG39E52X76uW5JBGb4qdKeSNe/rEcBd58iDal8U4OYxTndC5npjGG1ZiS14dIIIf6sUw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.93.157.195) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=topic.nl;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=topic.nl;
+ dkim=fail (signature did not verify) header.d=topic.nl; arc=fail (47)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b+cDKM1Dmfzy6APQPFY3E3MTjRWURdTYngjsEgIf5vA=;
+ b=vDua/EOaPD+WKaXqgazIKwFW7GAUHXyi0po6ykpnrngQFsayJXV2SZx4NK4anuU+8F3zQfDWYm7iZvZLMFK2EIWdWe8s3mSzgT8iswoyxzMvJhlL2egxHOvwho6p7lVEadYxtrpH1R3xwX22GdlVXpSRDbyOAgC+8USInEkt0vxTPNOqG4htb9zKMHg13kGtrqUuD8N0qaPVzpEtdxFfOw4VWi03P0dxTkqy+xxjVaH2zmWI1KCgPZIhW/cAMy/7Dpbvq1/xVGt/CecQq6MN9LGVbakpLivrDwXmjBKkU4++afX/t/poRuPgvR9oOWbMCXGXCWpE0NVSlKaU9mTuJA==
+Received: from DB8PR06CA0010.eurprd06.prod.outlook.com (2603:10a6:10:100::23)
+ by AM8PR04MB7441.eurprd04.prod.outlook.com (2603:10a6:20b:1c4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19; Wed, 22 May
+ 2024 06:43:09 +0000
+Received: from DB1PEPF000509F8.eurprd02.prod.outlook.com
+ (2603:10a6:10:100:cafe::e3) by DB8PR06CA0010.outlook.office365.com
+ (2603:10a6:10:100::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19 via Frontend
+ Transport; Wed, 22 May 2024 06:43:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
+ smtp.mailfrom=topic.nl; dkim=fail (signature did not verify)
+ header.d=topic.nl;dmarc=pass action=none header.from=topic.nl;
+Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
+ 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
+ pr=C
+Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
+ DB1PEPF000509F8.mail.protection.outlook.com (10.167.242.154) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7611.14 via Frontend Transport; Wed, 22 May 2024 06:43:08 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (104.47.18.104) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Wed, 22 May 2024 06:43:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cw1VACWXbA9sfNTibsz7iA416v9+AFKaa+Qqi8p5iqfzUgsFZ4eCWfd+w4rS9y4ZCMVN9s8karUZtEgxx/qQiWymVg6nKmetG5mVi5hURwsWkZM7tq0SPTxTvhKn0B9iafGy9DJc+iEDzAjap6m7ltArATHmIeSm5JS+nOSakhWdVw4L0Y350SkWAqvCvzzVicvlWB6gu1H/+jKkIOu0CIyq++895zJ6vYyl/Sv0VcRorSPZiZZLhTbUKkQcO3619eAvt9xTGkGAPDZ3pguBSdsRCzxfRIA8XxuazH8KDyczdkze2qI6dvG28j95GWYXnt6vL3/ux739jz28nG5Pew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hc8j5u/hx6ZQltSRCZ/dBQa5/hL4409erqDbj949Zo8=;
+ b=UcY81+N0JTogHkKaT/wWLJ6jye87VVMVckPLLsgxrnSWEx3/0t8S8cF1JCsjGVwVvuzyF+WFvj4iwVjzQ7A/2Jvr3xJg2ZWRqIoM770hFWQssU8p2GHD7JxfZLbof0rLvLCJUkMNdUd1lTvB9fyFFr9TDlWBjxT+mVeWm0hZbzSh38m5Bww7rXEVDNrzlU5JOaWQaSI3Ix2URJzlXrmt5I3AbQNloVs7yoqJP0FgvkVOJYxTRLxvvxDG4ErNYSoZvhLFypa2ZiQuC3cbByqk/5Ro6ENz3CDVAIOU2ogMCQpCUJZTnXof7+/znw1Or2kPiheOIFuaMARIsFp+L1N1bA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=topic.nl; dmarc=pass action=none header.from=topic.nl;
+ dkim=pass header.d=topic.nl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hc8j5u/hx6ZQltSRCZ/dBQa5/hL4409erqDbj949Zo8=;
+ b=JYS2zMGdQyrRVGdHAQCxY7aT90lg0yKMB6aIqXKh8A0GXw30je9iy3bP5un5HfylWyGsmWzRyo010CbauhH5L8XbWR2YRltzDADHthK0UorVB7V/+bin0mg1AK69Z0W7Mdfu4zOXNrgR+oz2YmO/YQH1BStwxVDhgWNXWB9VaNXDAL0Pesq8UnBIAsRHb2qKkqit10TFzItrKpB+MAiKz65Ab6piJCXPwwVEAgjWv4ril4fbUZI70P4tKcxYY+mHFXiYBrZ5tF5ObDFNuph32z/C6xRLIxBdu8YguN8b14l8UZjTkpaBWRB0m+IhJD9P3CarIFoQHxPgn9zKO3JcNA==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=topic.nl;
+Received: from AS8PR04MB8644.eurprd04.prod.outlook.com (2603:10a6:20b:42b::12)
+ by AS8PR04MB8994.eurprd04.prod.outlook.com (2603:10a6:20b:42d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Wed, 22 May
+ 2024 06:43:05 +0000
+Received: from AS8PR04MB8644.eurprd04.prod.outlook.com
+ ([fe80::e86d:f110:534e:480a]) by AS8PR04MB8644.eurprd04.prod.outlook.com
+ ([fe80::e86d:f110:534e:480a%4]) with mapi id 15.20.7587.035; Wed, 22 May 2024
+ 06:43:05 +0000
+Message-ID: <802ee008-2325-42a0-be6d-a2d0ebbea050@topic.nl>
+Date: Wed, 22 May 2024 08:43:03 +0200
+User-Agent: Mozilla Thunderbird
+From: <mike.looijmans@topic.nl>
+Subject: Re: [OE-core] [PATCH] meta: uboot-config: Fix broken menuconfig for
+ "fitImage" kernel
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.cc544a93-e646-4932-8496-82717a21cde8@emailsignatures365.codetwo.com>
+ <20240521135705.444470-1-mike.looijmans@topic.nl>
+ <5340825db3c98197e448c58b88381562edbed66f.camel@linuxfoundation.org>
+ <023cbca2-b5e4-420c-b109-445d7d8480a4@topic.nl>
+ <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
+Content-Language: nl
+Organization: TOPIC
+In-Reply-To: <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: AS4P195CA0051.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:65a::17) To AS8PR04MB8644.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42b::12)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: 
+	AS8PR04MB8644:EE_|AS8PR04MB8994:EE_|DB1PEPF000509F8:EE_|AM8PR04MB7441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ea4a663-3ab1-456c-05ab-08dc7a2a7159
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?TExKODVHNFBSSXZDbUY3dFIwTFp2UnhGRmdWVllrSHpQZ2VmMTE1c0RFTUw1?=
+ =?utf-8?B?ZzIraElFazZtN1U5dFNoVFc0MXBieHlVM1VOZ1h4OENWNTRxUDVHZnJzdHRD?=
+ =?utf-8?B?L3pENnFwaFBnWXluZkhMOUUxRW5jVjRxaHcvVnBYVFZaUEZLTFVNWU1JWkJm?=
+ =?utf-8?B?WnlsY0lDLzRkZ0ZBSlB5RVVBUzBpeWVwdDRmUmlOOG9OQ015SnZkTitUMVlL?=
+ =?utf-8?B?YVZtSTl6SlFyQjNLcGZZZWFNMzltZE5LZ3BxS2F5QXhDbnVWTStxYnhMSnRq?=
+ =?utf-8?B?WDFwVTh4OW1mdWxid3NHaFJ4ZXBZVjVDZDNyTEpKd1B3N2xaVTRkKzZmMy8x?=
+ =?utf-8?B?TnV5Um9zTERWeXpPYXpuQVBHelJGSG52NVNBdnBRV2VHZDNkU0dPNDdOYVNN?=
+ =?utf-8?B?Mkt4MmNHUWFTWENudUVncEw3QXUzTXg4Q1lFa0FFU2hlT1Z0QVJVWFdtblNZ?=
+ =?utf-8?B?Wk5JUTBpYWREbHpqT0x4MVRaWnpzcU5MNytWMDVvRTJsd1BKekY5Y253clNO?=
+ =?utf-8?B?cThQazg4blV2WTZOZWFxbzQ3VUc1RFRvWFFCQkVIeHU5S1c4ZUUveDNOSy9i?=
+ =?utf-8?B?b0pVbXFnckgxbloyZy82SU85M08vY21TUG84WTJuRWhjUTlFQTk5RkRjckxU?=
+ =?utf-8?B?ZURlazIyVFhqZllyNnlUYUR1ZlI2TEIrNjdIQ2t1SG81SDFhanV2ODVyKzZB?=
+ =?utf-8?B?NzMvdElMUmVNNGo3TUtDWnZIRjhQcGZJRmIwZExMNmNJSEcvUGFXa2p3Vk4r?=
+ =?utf-8?B?Y2swaFVkMmxZSzBHb2dpQkp6aE1hd3hiYjRLdE9YYkoxd2krSzZlekZrYVN4?=
+ =?utf-8?B?Zjc4UExMaHRPVTlyQTFtWTZta2FzVUk2YlI4MjZIbTJNZFNnc2tzRUlFNHNs?=
+ =?utf-8?B?a3hEVzlwR3pvK1l5Z1IwcytHUVVjTFpzTS9XVlczUFFqOFhUdUZ3T2NVZFo2?=
+ =?utf-8?B?VHRyUExFZUtRZi84cSs4b2dqbEZ3cWdDZktMWHRSZ1Z3RlJNbEFNRHFNd1NQ?=
+ =?utf-8?B?NTUvWUZFNlN2c2RXOXkxZ0YwNzgzRzAvVDRtcXV0aE85clZTSkZoaXZyN0tv?=
+ =?utf-8?B?MS9JdzZYa050aXZSempCZjZmQmg3Zk9scVJtdTVVanhRcUdKVHI3TTFWTndP?=
+ =?utf-8?B?OFdZOHpzVkFlRzlaelBscTlKMDlTZHBxUjdSb2hlU0ZjWTRGemgxekhXWDha?=
+ =?utf-8?B?ZHRvOUxIbWR1dnRCL2tUQXg2Y3lWTDVheWRYaXRNeVk4R2NXOUxEVitISWlC?=
+ =?utf-8?B?Qk41ZlRKWTQwNkg0cTErUWNNUWhuR0hLTGNsS1FIVGtlVm16d0YwLzBZWFNv?=
+ =?utf-8?B?NEV4bm5WY1Y3ZUdSaGRRbGE4QW5FMkRETU9WaWFac05MWUNURFoxK0FKOU1o?=
+ =?utf-8?B?Q2o0b0hscHQzWVZUMXIyME53L0pYbFROZUo4cHdpWmNrWnY0M255RE5ZQ1RI?=
+ =?utf-8?B?c0RIeVg2YVdqa2plMXVGZ3RKcVhCVDFyZnpWNjRseWh4REZMNFh3VVAxZm1y?=
+ =?utf-8?B?QzlvcEdpeXBNOFA5Um0rNWFSVTRnT3daakJxQ1VhYVNabnRKeW5NTTcydGlw?=
+ =?utf-8?B?a2tyZStPM09leCsrTWJvZmxWTXo0ZTJ2ZFM5Y0w3dCtDOFhSQ0tSZzQydUUx?=
+ =?utf-8?B?bk1kQlVzTWV0bmk3NWFRUzBKWkp5azZHYTZWdDhZVkFqeTl6M09CdmhPS2Ns?=
+ =?utf-8?B?eFNRUUgvUWxMdm1zTEdMdnF2dW9NbE1HMy9KeGxaWGs4clBzNHJ2bGdBPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8644.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8994
+X-CodeTwo-MessageID: 99fe27c9-6e39-4630-b215-5fd57865741a.20240522064307@westeu11-emailsignatures-cloud.codetwo.com
+X-CodeTwoProcessed: true
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509F8.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	32985704-3632-46ad-96a3-08dc7a2a6ef3
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|1800799015|35042699013|82310400017|376005|36860700004;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RUN6bkIzL2J6ekZ0VjFlQko2NzlmaFp3Z1BOK29teTVmOEIxMmY4MmxpczBw?=
+ =?utf-8?B?L2dyWExYbDlYei9WWHZPNjM1VnBMVFpNOTd6ci9KRG5TN2w0c0xrNGNFQUtL?=
+ =?utf-8?B?UUY3TkttdmZRK3JDcS9palVtdzc0bjRTekM2bXZCMmtaa3BvYVJScTg4dGlJ?=
+ =?utf-8?B?NUM1VjdTeFNHRzNmMWkwVDE2ZzBaK2pqbmV6Z0J1VGxyTHozaUJHWldVMDg3?=
+ =?utf-8?B?REZVbEk2T2pmc285bG9RWW8xeUZkVVFDLzJ0RmNPYjdDMDUrSEhYaDB4cmtY?=
+ =?utf-8?B?RlU4SEdGQk1UMHpKZXV5dWwvUlFMRjNMaVpCVHViQ3BuUTA1cW5Oa0RSYWp3?=
+ =?utf-8?B?WktqalRXVzVYdXlBVHBnaCtXQ05rSEFyVjRvYk9SRlVLY3FsV3BDZ2JwVDAr?=
+ =?utf-8?B?WktPVnNxQzV3UmJwVThwWHYya013bnYrbEdKMGZZVVREdzRwSUpWQ0FuZzlR?=
+ =?utf-8?B?OUZlTnVnNlJvcDZKNktXL29UMXJsOG1lTnc3OTlVTmh0UEFwQTJ6T05XZWQ3?=
+ =?utf-8?B?NlZjUEo5cDc4TzVmTTh4VS9IT3hwSkordHJrMUxsYzZDMHVWbFMweUNnTEts?=
+ =?utf-8?B?NWpTQnFkckNTK2tKYUU0dGtVcVVvaWNVcmFXblpoM1VSSzEzSjB3NmJ3dUZK?=
+ =?utf-8?B?d3dSbjNsUlpmcnBuQWh5MDNVbDRCbVpEbWpYekluVWZzWXVUMk0wWlRGTnVm?=
+ =?utf-8?B?VE9QMi84QUVPcDN5bFplZ09QalpCclBuTjM3WWlUWmNzN3NJQTIwRlpTbVpw?=
+ =?utf-8?B?T2FjOTJDbldWamUxUmlvZzBUVDlUVHErckgvMklZVy90TXQ3Mml5L09XaThM?=
+ =?utf-8?B?amxTbFd5ZmYrdmdSQ0JwOHBSVmF5eGloNmJmMVhVM2h5dmg1SXA4RzlKM2RC?=
+ =?utf-8?B?M2dlTWp2bmhMb2lRaTYweHFPTU1EeEZjWGxBY2trcWR0WkVwdXRnMTFXamxK?=
+ =?utf-8?B?KytMdGZVTFlFOFFZNjFVMnpTUGFDS0tVNm9nMXljOWova3NJYzdzdWpHU3hp?=
+ =?utf-8?B?OTMwMGxyM08ySmQxaUU2UWx5ZjZMWElvTVBXcHd5L0FEYm0xSTByd1MxTVRP?=
+ =?utf-8?B?b3BoRGd0ZGhuNDZ3K0xncDFNa2NaS1dPRDZKYWk3cG0wQjJsSWNzdXZrNEs4?=
+ =?utf-8?B?aHNwdU1DWUF6Yklrak9kVWZIc01JaWhNTVc5N2tvY250eC9CcWNxdHV6UXFD?=
+ =?utf-8?B?SFM1WWRGQW5yVjZtQXMyMVBOMllUSmxOMTVROUpYRTBWYlhpSC9seVB2S0FK?=
+ =?utf-8?B?VDV2ZkRvajFhOWRPbmllVzdXck5FeVRKVGwvZWw3QnRIS3lOR1I1SXZ3dzdQ?=
+ =?utf-8?B?MkR1Rm1YSUVIWCs4cElrcVd3SFJsanpqOWJ0dnRkbDRheW5jRlVCM3JQdFJy?=
+ =?utf-8?B?bXZHMThGOGJ5WGpSSGg5K0tCQ0Y0ZjhSWnRjYnhMVEhsUnFndDk1alRUL1pp?=
+ =?utf-8?B?NisvZE1rQnVQTXUvUGZ6a3czdEJYTVY5enhIdzJCSklXUm1TcWswS0RVTTNq?=
+ =?utf-8?B?NnFPOVEvbXJmWU1vTUpPZ0VIeUdyVzR0UkFOcS9xYWJmd2taSnNLQThoNi83?=
+ =?utf-8?B?MHppN3k3a2dLck9DaGJrbzVzS1dpTkFJOXhLOTNXSUphK2lEejVXdXpWdzVE?=
+ =?utf-8?B?bFJPZUlwSmhwdUJ3MlFjbjB0SE4rNHdPcjIzVktGVVdFRlp2bVExZE9yZTdz?=
+ =?utf-8?B?QjZMK1hqR3F6dTdoanBUOGxyZGhMRWZFdUpONlB1TzF4UlJRbGhpUW5PMmho?=
+ =?utf-8?B?VElQaTNxdnh4ZXl1N0xUelBYVDhvakc3Wis5cjl2V2tFc25NOG83clkrdlh1?=
+ =?utf-8?B?WjBYUlNpVE5zWnFqbStuaW54dFZrNHF3Lzl4ei84VVBHZXRZSnNoSFd1Wmh2?=
+ =?utf-8?Q?CPrvTl8hCCWTL?=
+X-Forefront-Antispam-Report: 
+	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230031)(1800799015)(35042699013)(82310400017)(376005)(36860700004);DIR:OUT;SFP:1102;
+X-OriginatorOrg: topic.nl
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2024 06:43:08.8017
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea4a663-3ab1-456c-05ab-08dc7a2a7159
+X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509F8.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7441
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 06:07:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199687
+ <openembedded-core@lists.openembedded.org>; Wed, 22 May 2024 06:43:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199688
 
-Enables usage of TCLIBC=3Dpicolibc extending OE functionality to build an=
-d use
-picolibc based toolchains to build baremetal applications.
+On 22-05-2024 07:39, Richard Purdie wrote:
+> On Wed, 2024-05-22 at 07:28 +0200, mike.looijmans@topic.nl wrote:
+>> On 21-05-2024 16:51, Richard Purdie wrote:
+>>> On Tue, 2024-05-21 at 15:57 +0200, Mike Looijmans via
+>>> lists.openembedded.org wrote:
+>>>> kernel-fitimage inherited uboot-config, which resulted in failure
+>>>> to
+>>>> run "menuconfig" on a system that has both multiple u-boot
+>>>> configs and
+>>>> wants a fitImage kernel.
+>>>>
+>>>> Fix the issue by splitting up uboot-config into uboot-config-vars
+>>>> that
+>>>> only contains the "harmless" variable settings, and inherit that
+>>>> in a
+>>>> new uboot-config class which contains the Python code to do the
+>>>> U-boot
+>>>> specific settings. Inherit only uboot-config-vars in kernel-
+>>>> fitimage
+>>>> so that it has what it needs but doesn't break.
+>>>>
+>>>> Fixes: f9e834e31788 "meta: introduce
+>>>> KCONFIG_CONFIG_ENABLE_MENUCONFIG"
+>>>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+>>>> ---
+>>>>  =C2=A0=C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=C2=A0 |=
+=C2=A0 2 +-
+>>>>  =C2=A0=C2=A0meta/classes-recipe/uboot-config-vars.bbclass | 95
+>>>> +++++++++++++++++++
+>>>>  =C2=A0=C2=A0meta/classes-recipe/uboot-config.bbclass=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 80 +-----------
+>>>> ----
+>>>>  =C2=A0=C2=A03 files changed, 97 insertions(+), 80 deletions(-)
+>>>>  =C2=A0=C2=A0create mode 100644 meta/classes-recipe/uboot-config-
+>>>> vars.bbclass
+>>>
+>>> This looks like it might be a good candidate to move to a file in
+>>> meta/conf rather than a new class file?
+>>
+>> What does "this" refer to exactly?
+>=20
+> The variable definitions you're placing into a separate class file. I'm
+> saying they look more suited to a shared conf file, which is a
+> direction I think the project needs to move in generally.
 
-Picolibc is a set of standard C libraries, both libc and libm, designed f=
-or
-smaller embedded systems with limited ROM and RAM. Picolibc includes code
-from Newlib and AVR Libc, but adresses some of newlibs concerns, it retai=
-ns
-newlibs directory structure, math, string and locale implementations, but
-removed the GPL bits used to build the library, swiches old C style code =
-for
-C18 and replaces autotools with meson.
+a "uboot.conf" then, okay.
 
-This patch adds a picolibc recipe for the C library, a picolibc-helloworl=
-d
-recipe that contains an example application and a testcase that builds it=
-.
+>=20
+>> Note that this patch just moves code, it doesn't introduce anything
+>> new.
+>>
+>>> We could add any functions needed to lib/oe/ if they can be made
+>>> suitably generic.
+>>
+>> What "functions" would that be?
+>=20
+> removesuffix is the one I saw that was needed in the new class file and
+> wouldn't work in a conf file.
 
-Picolibc can be built for ARM and RISCV architectures, its been tested bo=
-th
-for 32 and 64 bits, the provided example recipe produces the following ou=
-tput:
+Interestingly, "removesuffix" is a built-in Python function since 3.8:
 
-hello, world
+ >>> 'hello.all'.removesuffix('.all')
+'hello'
 
-Runqemu does not automatically show any output since it hides QEMU stderr=
- which
-is where the QEMU monitors output is directed to when using semihosting, =
-but,
-manually running the same QEMU command does work properly.
+And 3.8 is the minimum required version for Yocto anyway.
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
----
- meta/classes-recipe/baremetal-image.bbclass   |   4 +-
- meta/classes-recipe/cross-canadian.bbclass    |   2 +-
- meta/conf/distro/include/maintainers.inc      |   2 +
- meta/conf/distro/include/tclibc-picolibc.inc  |  40 ++++++
- meta/conf/documentation.conf                  |   2 +-
- .../conf/machine/include/riscv/arch-riscv.inc |   1 +
- meta/lib/oeqa/selftest/cases/distrodata.py    |   2 +-
- meta/lib/oeqa/selftest/cases/picolibc.py      |  18 +++
- .../picolibc/picolibc-helloworld_git.bb       |  40 ++++++
- meta/recipes-core/picolibc/picolibc.inc       |  21 ++++
- .../avoid_polluting_cross_directories.patch   | 119 ++++++++++++++++++
- meta/recipes-core/picolibc/picolibc_git.bb    |  37 ++++++
- meta/recipes-devtools/gcc/gcc-cross.inc       |   1 +
- meta/recipes-devtools/gcc/gcc-runtime.inc     |   3 +
- meta/recipes-devtools/gcc/libgcc-common.inc   |   5 +
- 15 files changed, 292 insertions(+), 5 deletions(-)
- create mode 100644 meta/conf/distro/include/tclibc-picolibc.inc
- create mode 100644 meta/lib/oeqa/selftest/cases/picolibc.py
- create mode 100644 meta/recipes-core/picolibc/picolibc-helloworld_git.bb
- create mode 100644 meta/recipes-core/picolibc/picolibc.inc
- create mode 100644 meta/recipes-core/picolibc/picolibc/avoid_polluting_c=
-ross_directories.patch
- create mode 100644 meta/recipes-core/picolibc/picolibc_git.bb
 
-diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-r=
-ecipe/baremetal-image.bbclass
-index 4e7d413626..27f2d2d10a 100644
---- a/meta/classes-recipe/baremetal-image.bbclass
-+++ b/meta/classes-recipe/baremetal-image.bbclass
-@@ -16,8 +16,8 @@
- # See meta-skeleton for a working example.
-=20
-=20
--# Toolchain should be baremetal or newlib based.
--# TCLIBC=3D"baremetal" or TCLIBC=3D"newlib"
-+# Toolchain should be baremetal or newlib/picolibc based.
-+# TCLIBC=3D"baremetal" or TCLIBC=3D"newlib" or TCLIBC=3D"picolibc"
- COMPATIBLE_HOST:libc-musl:class-target =3D "null"
- COMPATIBLE_HOST:libc-glibc:class-target =3D "null"
-=20
-diff --git a/meta/classes-recipe/cross-canadian.bbclass b/meta/classes-re=
-cipe/cross-canadian.bbclass
-index 1670217d69..059d9aa95f 100644
---- a/meta/classes-recipe/cross-canadian.bbclass
-+++ b/meta/classes-recipe/cross-canadian.bbclass
-@@ -36,7 +36,7 @@ python () {
-     if d.getVar("MODIFYTOS") !=3D "1":
-         return
-=20
--    if d.getVar("TCLIBC") in [ 'baremetal', 'newlib' ]:
-+    if d.getVar("TCLIBC") in [ 'baremetal', 'newlib', 'picolibc' ]:
-         return
-=20
-     tos =3D d.getVar("TARGET_OS")
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 014cf32e40..bb75d147fe 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -579,6 +579,8 @@ RECIPE_MAINTAINER:pn-pcmanfm =3D "Alexander Kanavin <=
-alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-perf =3D "Bruce Ashfield <bruce.ashfield@gmail.com>=
-"
- RECIPE_MAINTAINER:pn-perl =3D "Alexander Kanavin <alex.kanavin@gmail.com=
->"
- RECIPE_MAINTAINER:pn-perlcross =3D "Alexander Kanavin <alex.kanavin@gmai=
-l.com>"
-+RECIPE_MAINTAINER:pn-picolibc =3D "Alejandro Hernandez <alejandro@enedin=
-o.org>"
-+RECIPE_MAINTAINER:pn-picolibc-helloworld =3D "Alejandro Hernandez <aleja=
-ndro@enedino.org>"
- RECIPE_MAINTAINER:pn-piglit =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-pigz =3D "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-pinentry =3D "Unassigned <unassigned@yoctoproject.o=
-rg>"
-diff --git a/meta/conf/distro/include/tclibc-picolibc.inc b/meta/conf/dis=
-tro/include/tclibc-picolibc.inc
-new file mode 100644
-index 0000000000..203765dfcb
---- /dev/null
-+++ b/meta/conf/distro/include/tclibc-picolibc.inc
-@@ -0,0 +1,40 @@
-+#
-+# Picolibc configuration
-+#
-+
-+LIBCEXTENSION =3D "-picolibc"
-+LIBCOVERRIDE =3D ":libc-picolibc"
-+
-+PREFERRED_PROVIDER_virtual/libc ?=3D "picolibc"
-+PREFERRED_PROVIDER_virtual/libiconv ?=3D "picolibc"
-+PREFERRED_PROVIDER_virtual/libintl ?=3D "picolibc"
-+PREFERRED_PROVIDER_virtual/nativesdk-libintl ?=3D "nativesdk-glibc"
-+PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=3D "nativesdk-glibc"
-+
-+DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "ldconfig"
-+
-+IMAGE_LINGUAS =3D ""
-+
-+LIBC_DEPENDENCIES =3D " \
-+    picolibc-dbg \
-+    picolibc-dev \
-+    libgcc-dev \
-+    libgcc-dbg \
-+    libstdc++-dev  \
-+    libstdc++-staticdev \
-+"
-+
-+ASSUME_PROVIDED +=3D "virtual/crypt"
-+
-+TARGET_OS =3D "elf"
-+TARGET_OS:arm =3D "eabi"
-+
-+TOOLCHAIN_HOST_TASK ?=3D "packagegroup-cross-canadian-${MACHINE} natives=
-dk-qemu nativesdk-sdk-provides-dummy"
-+TOOLCHAIN_TARGET_TASK ?=3D "${LIBC_DEPENDENCIES}"
-+TOOLCHAIN_NEED_CONFIGSITE_CACHE:remove =3D "zlib ncurses"
-+
-+# RISCV linker doesnt support PIE
-+SECURITY_CFLAGS:libc-picolibc:qemuriscv32 =3D "${SECURITY_NOPIE_CFLAGS}"
-+SECURITY_CFLAGS:libc-picolibc:qemuriscv64 =3D "${SECURITY_NOPIE_CFLAGS}"
-+
-+
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index b0591881ba..ad89142934 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -421,7 +421,7 @@ TARGET_FPU[doc] =3D "Specifies the method for handlin=
-g FPU code. For FPU-less targ
- TARGET_OS[doc] =3D "Specifies the target's operating system."
- TARGET_PREFIX[doc] =3D "The prefix for the cross-compile toolchain (e.g.=
- arm-linux-)."
- TARGET_SYS[doc] =3D "The target system is comprised of TARGET_ARCH,TARGE=
-T_VENDOR and TARGET_OS."
--TCLIBC[doc] =3D "Specifies C library (libc) variant to use during the bu=
-ild process. You can select 'baremetal', 'glibc', 'musl' or 'newlib'."
-+TCLIBC[doc] =3D "Specifies C library (libc) variant to use during the bu=
-ild process. You can select 'baremetal', 'glibc', 'musl', 'newlib', or 'p=
-icolibc'."
- TCMODE[doc] =3D "Enables an external toolchain (where provided by an add=
-itional layer) if set to a value other than 'default'."
- TESTIMAGE_AUTO[doc] =3D "Enables test booting of virtual machine images =
-under the QEMU emulator after any root filesystems are created and runs t=
-ests against those images each time an image is built."
- TEST_QEMUBOOT_TIMEOUT[doc] =3D "The time in seconds allowed for an image=
- to boot before automated runtime tests begin to run against an image."
-diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/m=
-achine/include/riscv/arch-riscv.inc
-index 230a266563..b34064e78f 100644
---- a/meta/conf/machine/include/riscv/arch-riscv.inc
-+++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -11,5 +11,6 @@ TUNE_CCARGS:append =3D "${@bb.utils.contains('TUNE_FEAT=
-URES', 'riscv64nc', ' -marc
-=20
- # Fix: ld: unrecognized option '--hash-style=3Dsysv'
- LINKER_HASH_STYLE:libc-newlib =3D ""
-+LINKER_HASH_STYLE:libc-picolibc =3D ""
- # Fix: ld: unrecognized option '--hash-style=3Dgnu'
- LINKER_HASH_STYLE:libc-baremetal =3D ""
-diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/s=
-elftest/cases/distrodata.py
-index ad952c004b..043953757f 100644
---- a/meta/lib/oeqa/selftest/cases/distrodata.py
-+++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-@@ -55,7 +55,7 @@ but their recipes claim otherwise by setting UPSTREAM_V=
-ERSION_UNKNOWN. Please re
-             return False
-=20
-         def is_maintainer_exception(entry):
--            exceptions =3D ["musl", "newlib", "linux-yocto", "linux-dumm=
-y", "mesa-gl", "libgfortran", "libx11-compose-data",
-+            exceptions =3D ["musl", "newlib", "picolibc", "linux-yocto",=
- "linux-dummy", "mesa-gl", "libgfortran", "libx11-compose-data",
-                           "cve-update-nvd2-native",]
-             for i in exceptions:
-                  if i in entry:
-diff --git a/meta/lib/oeqa/selftest/cases/picolibc.py b/meta/lib/oeqa/sel=
-ftest/cases/picolibc.py
-new file mode 100644
-index 0000000000..e40b4fc3d3
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/picolibc.py
-@@ -0,0 +1,18 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_var
-+
-+class PicolibcTest(OESelftestTestCase):
-+
-+    def test_picolibc(self):
-+        compatible_machines =3D ['qemuarm', 'qemuarm64', 'qemuriscv32', =
-'qemuriscv64']
-+        machine =3D get_bb_var('MACHINE')
-+        if machine not in compatible_machines:
-+            self.skipTest('This test only works with machines : %s' % ' =
-'.join(compatible_machines))
-+        self.write_config('TCLIBC =3D "picolibc"')
-+        bitbake("picolibc-helloworld")
-diff --git a/meta/recipes-core/picolibc/picolibc-helloworld_git.bb b/meta=
-/recipes-core/picolibc/picolibc-helloworld_git.bb
-new file mode 100644
-index 0000000000..573a571c24
---- /dev/null
-+++ b/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
-@@ -0,0 +1,40 @@
-+require picolibc.inc
-+
-+# baremetal-image overrides
-+BAREMETAL_BINNAME ?=3D "hello_picolibc_${MACHINE}"
-+IMAGE_LINK_NAME ?=3D "baremetal-picolibc-image-${MACHINE}"
-+IMAGE_NAME_SUFFIX ?=3D ""
-+QB_DEFAULT_KERNEL ?=3D "${IMAGE_LINK_NAME}.elf"
-+
-+inherit baremetal-image
-+
-+COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemuriscv32|qemuriscv64"
-+
-+# Use semihosting to test via QEMU
-+QB_OPT_APPEND:append =3D " -semihosting-config enable=3Don"
-+
-+# picolibc comes with a set of linker scripts, set the file
-+# according to the architecture being built.
-+PICOLIBC_LINKERSCRIPT:qemuarm64 =3D "aarch64.ld"
-+PICOLIBC_LINKERSCRIPT:qemuarm =3D "arm.ld"
-+PICOLIBC_LINKERSCRIPT:qemuriscv32 =3D "riscv.ld"
-+PICOLIBC_LINKERSCRIPT:qemuriscv64 =3D "riscv.ld"
-+
-+# Simple compile function that manually exemplifies usage; as noted,
-+# use a custom linker script, the GCC specs provided by picolibc
-+# and semihost to be able to test via QEMU's monitor
-+do_compile(){
-+    ${CC} ${CFLAGS} ${LDFLAGS} --verbose -T${S}/hello-world/${PICOLIBC_L=
-INKERSCRIPT} -specs=3Dpicolibc.specs --oslib=3Dsemihost -o ${BAREMETAL_BI=
-NNAME}.elf ${S}/hello-world/hello-world.c
-+    ${OBJCOPY} -O binary ${BAREMETAL_BINNAME}.elf ${BAREMETAL_BINNAME}.b=
-in
-+}
-+
-+do_install(){
-+    install -d ${D}/${base_libdir}/firmware
-+    install -m 755 ${B}/${BAREMETAL_BINNAME}.elf ${D}/${base_libdir}/fir=
-mware/${BAREMETAL_BINNAME}.elf
-+    install -m 755 ${B}/${BAREMETAL_BINNAME}.bin ${D}/${base_libdir}/fir=
-mware/${BAREMETAL_BINNAME}.bin
-+}
-+
-+FILES:${PN} +=3D " \
-+    ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
-+    ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
-+"
-diff --git a/meta/recipes-core/picolibc/picolibc.inc b/meta/recipes-core/=
-picolibc/picolibc.inc
-new file mode 100644
-index 0000000000..3b380fe7af
---- /dev/null
-+++ b/meta/recipes-core/picolibc/picolibc.inc
-@@ -0,0 +1,21 @@
-+SUMMARY =3D "C Libraries for Smaller Embedded Systems"
-+HOMEPAGE =3D "https://keithp.com/picolibc"
-+DESCRIPTION =3D "Picolibc is a set of standard C libraries, both libc an=
-d libm, designed for smaller embedded systems with limited ROM and RAM. P=
-icolibc includes code from Newlib and AVR Libc."
-+SECTION =3D "libs"
-+
-+# Newlib based code but GPL related bits removed, test/printf-tests.c an=
-d test/testcases.c
-+# are GPLv2 and GeneratePicolibcCrossFile.sh is AGPL3 but not part of th=
-e artifacts.
-+LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
-+LIC_FILES_CHKSUM =3D " \
-+		file://COPYING.GPL2;md5=3D59530bdf33659b29e73d4adb9f9f6552 \
-+		file://COPYING.NEWLIB;md5=3D08ae03456feb75b81cfdb359e0f1ef85 \
-+		file://COPYING.picolibc;md5=3De50fa9458a40929689861ed472d46bc7 \
-+		"
-+
-+BASEVER =3D "1.8.6"
-+PV =3D "${BASEVER}+git"
-+SRC_URI =3D "git://github.com/picolibc/picolibc.git;protocol=3Dhttps;bra=
-nch=3Dmain"
-+SRCREV=3D"764ef4e401a8f4c6a86ab723533841f072885a5b"
-+
-+S =3D "${WORKDIR}/git"
-+B =3D "${WORKDIR}/build"
-diff --git a/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_di=
-rectories.patch b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cro=
-ss_directories.patch
-new file mode 100644
-index 0000000000..da6460c95c
---- /dev/null
-+++ b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directori=
-es.patch
-@@ -0,0 +1,119 @@
-+Upstream-Status: Pending
-+
-+Picolibc uses its own specs file: picolibc.specs to facilitate compilati=
-on, this
-+needs to be passed down to GCC via the -specs argument.
-+
-+Using this specs file overrides some of the default options our toolchai=
-n was
-+built with, in this case, they modify the include_dir and lib_dir paths =
-used for
-+compilation, their intention was to add support for -picolibc-prefix and
-+-picolibc-buildtype arguments via the C preprocessor.
-+
-+-isystem %{-picolibc-prefix=3D*:%*/include/; -picolibc-buildtype=3D*:/us=
-r/include/%*; :/usr/include} %(picolibc_cpp)
-+
-+This had the unwanted effect of defaulting to /usr/include for include_d=
-ir if
-+those arguments are not being passed, this works fine for their flow but=
- for us
-+it pollutes the include directories with paths from the host. The same e=
-ffect is
-+applicable for lib_dir and for the c runtime file.
-+
-+Our toolchain relies on --sysroot to avoid using any paths from the host=
-, here we
-+manually add support for a third possible argument: -sysroot , if this i=
-s passed
-+then the paths used by the compiler will be relative to the path passed =
-by the
-+--sysroot=3D cmdline argument, setting back the behavior that we intende=
-d in the
-+first place.
-+
-+
-+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.=
-org>
-+
-+Index: git/meson.build
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- git.orig/meson.build
-++++ git/meson.build
-+@@ -622,12 +622,13 @@ else
-+ #
-+ picolibc_prefix_format =3D '-picolibc-prefix=3D*:@0@'
-+ picolibc_buildtype_format =3D '-picolibc-buildtype=3D*:@0@'
-++sysroot_format =3D '-sysroot=3D*:@0@'
-+ gen_format =3D '@0@'
-+=20
-+ #
-+ # How to glue the three options together
-+ #
-+-specs_option_format =3D '%{@0@; @1@; :@2@}'
-++specs_option_format =3D '%{@0@; @1@; @2@; :@3@}'
-+=20
-+ #
-+ # Build the -isystem value
-+@@ -639,10 +640,13 @@ isystem_prefix =3D picolibc_prefix_format.
-+ buildtype_include_dir =3D specs_prefix_format.format(get_option('includ=
-edir') / '%*')
-+ isystem_buildtype =3D picolibc_buildtype_format.format(buildtype_includ=
-e_dir)
-+=20
-++sysroot_include_dir =3D '%*'
-++isystem_sysroot =3D sysroot_format.format(sysroot_include_dir)
-++
-+ gen_include_dir =3D specs_prefix_format.format(get_option('includedir')=
-)
-+ isystem_gen =3D gen_format.format(gen_include_dir)
-+=20
-+-specs_isystem =3D '-isystem ' + specs_option_format.format(isystem_pref=
-ix, isystem_buildtype, isystem_gen)
-++specs_isystem =3D '-isystem ' + specs_option_format.format(isystem_pref=
-ix, isystem_buildtype, isystem_sysroot, isystem_gen)
-+=20
-+ #
-+ # Build the non-multilib -L value
-+@@ -654,10 +658,13 @@ lib_prefix =3D picolibc_prefix_format.form
-+ buildtype_lib_dir =3D specs_prefix_format.format(get_option('libdir') /=
- '%*')
-+ lib_buildtype =3D picolibc_buildtype_format.format(buildtype_lib_dir)
-+=20
-++sysroot_lib_dir =3D '%*'
-++lib_sysroot =3D sysroot_format.format(sysroot_lib_dir)
-++
-+ gen_lib_dir =3D specs_prefix_format.format(get_option('libdir'))
-+ lib_gen =3D gen_format.format(gen_lib_dir)
-+=20
-+-specs_libpath =3D '-L' + specs_option_format.format(lib_prefix, lib_bui=
-ldtype, lib_gen)
-++specs_libpath =3D '-L' + specs_option_format.format(lib_prefix, lib_bui=
-ldtype, lib_sysroot, lib_gen)
-+=20
-+ #
-+ # Build the non-multilib *startfile options
-+@@ -669,6 +676,9 @@ crt0_prefix =3D picolibc_prefix_format.for
-+ buildtype_crt0_path =3D specs_prefix_format.format(get_option('libdir')=
- / '%*' / crt0_expr)
-+ crt0_buildtype =3D picolibc_buildtype_format.format(buildtype_crt0_path=
-)
-+=20
-++sysroot_crt0_path =3D '%*' + '/' + get_option('libdir') + '/' + '%*' + =
-'/' + crt0_expr
-++crt0_sysroot =3D picolibc_buildtype_format.format(sysroot_crt0_path)
-++
-+ gen_crt0_path =3D specs_prefix_format.format(get_option('libdir') / crt=
-0_expr)
-+ crt0_gen =3D gen_format.format(gen_crt0_path)
-+=20
-+@@ -686,10 +696,13 @@ if enable_multilib
-+   buildtype_multilib_dir =3D specs_prefix_format.format(get_option('lib=
-dir') / '%*/%M')
-+   multilib_buildtype =3D picolibc_buildtype_format.format(buildtype_mul=
-tilib_dir)
-+=20
-++  sysroot_multilib_dir =3D '%*' + '/' + get_option('libdir') + '/' + '%=
-*/%M'
-++  multilib_sysroot =3D sysroot_format.format(sysroot_multilib_dir)
-++ =20
-+   gen_multilib_dir =3D specs_prefix_format.format(get_option('libdir') =
-/ '%M')
-+   multilib_gen =3D gen_format.format(gen_multilib_dir)
-+=20
-+-  specs_multilibpath =3D '-L' + specs_option_format.format(multilib_pre=
-fix, multilib_buildtype, multilib_gen)
-++  specs_multilibpath =3D '-L' + specs_option_format.format(multilib_pre=
-fix, multilib_buildtype, multilib_sysroot, multilib_gen)
-+=20
-+   #
-+   # Prepend the multilib -L option to the non-multilib option
-+@@ -705,6 +718,9 @@ if enable_multilib
-+   buildtype_multilib_crt0_path =3D specs_prefix_format.format(get_optio=
-n('libdir') / '%*/%M' / crt0_expr)
-+   crt0_buildtype =3D picolibc_buildtype_format.format(buildtype_multili=
-b_crt0_path)
-+=20
-++  sysroot_multilib_crt0_path =3D '%*' + prefix + '/' + get_option('libd=
-ir') + '/' + '/%M' + '/' + crt0_expr
-++  crt0_sysroot =3D sysroot_format.format(sysroot_multilib_crt0_path)
-++ =20
-+   gen_multilib_crt0_path =3D specs_prefix_format.format(get_option('lib=
-dir') / '%M' / crt0_expr)
-+   crt0_gen =3D gen_format.format(gen_multilib_crt0_path)
-+ endif
-+@@ -714,7 +730,7 @@ endif
-+ # above. As there's only one value, it's either the
-+ # multilib path or the non-multilib path
-+ #
-+-specs_startfile =3D specs_option_format.format(crt0_prefix, crt0_buildt=
-ype, crt0_gen)
-++specs_startfile =3D specs_option_format.format(crt0_prefix, crt0_buildt=
-ype, crt0_sysroot, crt0_gen)
-+ endif
-+=20
-+ specs_data =3D configuration_data()
-diff --git a/meta/recipes-core/picolibc/picolibc_git.bb b/meta/recipes-co=
-re/picolibc/picolibc_git.bb
-new file mode 100644
-index 0000000000..43d2664c5f
---- /dev/null
-+++ b/meta/recipes-core/picolibc/picolibc_git.bb
-@@ -0,0 +1,37 @@
-+require picolibc.inc
-+
-+INHIBIT_DEFAULT_DEPS =3D "1"
-+DEPENDS =3D "virtual/${TARGET_PREFIX}gcc"
-+
-+PROVIDES +=3D "virtual/libc virtual/libiconv virtual/libintl"
-+
-+COMPATIBLE_HOST:libc-musl:class-target =3D "null"
-+COMPATIBLE_HOST:libc-glibc:class-target =3D "null"
-+COMPATIBLE_MACHINE =3D "qemuarm|qemuarm64|qemuriscv32|qemuriscv64"
-+
-+SRC_URI:append =3D " file://avoid_polluting_cross_directories.patch"
-+
-+# This is being added by picolibc meson files as well to avoid
-+# early compiler tests from failing, cant remember why I added it
-+# to the newlib recipe but I would assume it was for the same reason
-+TARGET_CC_ARCH:append =3D " -nostdlib"
-+
-+# When using RISCV64 use medany for both C library and application recip=
-es
-+TARGET_CFLAGS:append:qemuriscv64 =3D " -mcmodel=3Dmedany"
-+
-+# We need to explicitly bypass mesons sanity check to avoid early compil=
-er errors
-+# otherwise meson will try to compile AND run test applications:
-+# ../git/meson.build:35:0: ERROR: Executables created by c compiler are =
-not runnable...
-+MESON_SKIP_SANITY_CHECK ?=3D "1"
-+
-+inherit meson
-+
-+PACKAGECONFIG ??=3D " specsdir"
-+# Install GCC specs on libdir
-+PACKAGECONFIG[specsdir] =3D "-Dspecsdir=3D${libdir},-Dspecsdir=3Dnone"
-+
-+
-+FILES:${PN}-dev:append =3D " ${libdir}/*.specs ${libdir}/*.ld"
-+
-+# No rpm package is actually created but -dev depends on it, avoid dnf e=
-rror
-+DEV_PKG_DEPENDENCY:libc-picolibc =3D ""
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-index a540fb2434..e492dea1b8 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -34,6 +34,7 @@ EXTRA_OECONF +=3D "\
- EXTRA_OECONF:append:libc-baremetal =3D " --without-headers"
- EXTRA_OECONF:remove:libc-baremetal =3D "--enable-threads=3Dposix"
- EXTRA_OECONF:remove:libc-newlib =3D "--enable-threads=3Dposix"
-+EXTRA_OECONF:remove:libc-picolibc =3D "--enable-threads=3Dposix"
-=20
- EXTRA_OECONF_PATHS =3D "\
-     --with-gxx-include-dir=3D/not/exist${target_includedir}/c++/${BINV} =
-\
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-dev=
-tools/gcc/gcc-runtime.inc
-index dbc9141000..7885eb40dd 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -17,6 +17,7 @@ EXTRA_OECONF_PATHS =3D "\
- EXTRA_OECONF:append:linuxstdbase =3D " --enable-clocale=3Dgnu"
- EXTRA_OECONF:append =3D " --cache-file=3D${B}/config.cache"
- EXTRA_OECONF:append:libc-newlib =3D " --with-newlib --with-target-subdir=
-"
-+EXTRA_OECONF:append:libc-picolibc =3D " --with-newlib --with-target-subd=
-ir"
- EXTRA_OECONF:append:libc-baremetal =3D " --with-target-subdir"
-=20
- # Disable ifuncs for libatomic on arm conflicts -march/-mcpu
-@@ -27,6 +28,7 @@ DISABLE_STATIC:class-nativesdk ?=3D ""
-=20
- # Newlib does not support symbol versioning on libsdtcc++
- SYMVERS_CONF:libc-newlib =3D ""
-+SYMVERS_CONF:libc-picolibc =3D ""
-=20
- # Building with thumb enabled on armv6t fails
- ARM_INSTRUCTION_SET:armv6 =3D "arm"
-@@ -47,6 +49,7 @@ RUNTIMETARGET =3D "${RUNTIMELIBSSP} libstdc++-v3 libgom=
-p libatomic ${RUNTIMELIBITM
- "
- # Only build libstdc++ for newlib
- RUNTIMETARGET:libc-newlib =3D "libstdc++-v3"
-+RUNTIMETARGET:libc-picolibc =3D "libstdc++-v3"
-=20
- # libiberty
- # libgfortran needs separate recipe due to libquadmath dependency
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-d=
-evtools/gcc/libgcc-common.inc
-index d9084af51a..e3db17d700 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -53,6 +53,11 @@ do_install:append:libc-newlib () {
- 		rmdir ${D}${base_libdir}
- 	fi
- }
-+do_install:append:libc-picolibc () {
-+	if [ "${base_libdir}" !=3D "${libdir}" ]; then
-+		rmdir ${D}${base_libdir}
-+	fi
-+}
-=20
- # No rpm package is actually created but -dev depends on it, avoid dnf e=
-rror
- DEV_PKG_DEPENDENCY:libc-baremetal =3D ""
 --=20
-2.45.1
+Mike Looijmans
+
 
 
