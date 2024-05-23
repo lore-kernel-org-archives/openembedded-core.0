@@ -2,275 +2,218 @@ Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 499E0C25B75
-	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 13:26:51 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.115])
- by mx.groups.io with SMTP id smtpd.web10.15402.1716470802775411011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C32C41513
+	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 13:33:11 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.130])
+ by mx.groups.io with SMTP id smtpd.web11.17022.1716471186244832549
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 May 2024 06:26:43 -0700
+ Thu, 23 May 2024 06:33:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=AlzdaB8X;
- spf=pass (domain: cherry.de, ip: 40.107.104.115, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=jHBBmYhD;
+ spf=pass (domain: cherry.de, ip: 40.107.20.130, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PbuR9mUKFFhYOUtr4EbB/s73ZcMnKXzfGbgu8B3PZcDLkITRSEkZZKoJNskTAC/QBnXyH+pHf9a5a8EvQUueAyAiOPa9wytKKSCdpheH+ZAfZ54WFc7NXm508pk8fgSgc95gBS7CLuvBqgdKFXx7fX7q3vwKBlr6X/uL+op9lA2uLtG6VDtN0gTNzMz7zj9PDMQBb5o6RvWj87lcaMMFTa2nQQb/AuX8MDs75UptTbLB8l5jL03HLLvu0MghmRmxM34TbxHKMVGgpmYiur5+Queyq3UnKaOo9BJTaAJxXnoS27mtg77Bc+u4nDZ2BdqSXgz4mxKKooLHm7OR9O3kGA==
+ b=gVfyYWdHiW172OdR1dOy3WXh4TJ0MPGSLSuqu8KqWdUiUul5CC1nDtSFXTZjqviIjAg5pMCImyUfklqgBQbRjKqPU4uxT9fPLiIT+7zhv5kM1+QvlZV9gY+1YR/7JnkT3JQdrv4S5dpbGlj3+AzVng/peE2IM9ol3coVe297hcS30EE6m2if68rXrgJPyAiN71hZHmtZSGDWVWb2qHxif/NSjEtBkjpJWubGuqnI3xNhBkk664JnVpueT6sq8wO/i3ulNuVwUSkrYOEEUzlh8Z55R9UJh8JB5EyByCya5z0RdYcuOyjina0IHrKM2JJOLKoCFLcoxJf2V/R7CRIenQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MLVDeHW+jnOgcnP9FDcPCM9DOV+Ha+Yq0RPg2iFV7zg=;
- b=IsYAk3nF4KD9KEfbh4Cb4O13e6pjt+JBQcxSVxlhMuY2x0c8yI3tMqrH1dDOB2c+w+yqCSxMD08TwRHLufP6+TO1rcQjjjtOQsvBNO60wCZ0m2WXVzC4b1c7MP7RprQzOk0pPVlHKAuwPgcf6prHwdPkJYBlJKUZn0/MQocpbc8/PoWOx4PVlqBl2Js6tXE6I+nOplTNFpWrbbUGfl9MKtquHTIMPxeTyZrf/3726fMuYw3B9tEgDHx0vmrSQxnYv+NlZQ7L1IOKoNODV4FIDGqXz9jjuLgFZjMJqAxS1aPJMvcqjc+XPeDyIgoA3skjp67dbEtHOp+9k3IyjEiypQ==
+ bh=rszf7UDDsm8QfSE744I6qxQEgeQpO9glLYYGquw0Ntg=;
+ b=BtopBmmUBn/r8lSrW9tVJn6oZ21mHlgVRRov5wCRXZwyziBG5zZQ0kKlMTgeP8gga/5FsyOxy4HEPdo93qngxAhNUUBPPyVvvpKsrSLF1dEJTQJjpAAED9hF8Qx7EaqryCyLoprMYU1/GsIpB9DQk4Wt/sdxAyvh0d4cvq6iebQr/ftvbwwWey1arrdD3pydnhiKcGNYHXfVWDrgvc2ktOqM81Foc0GL+N/VY1Zx+A7pXAZdszyrqPcOhPW6qjuCUs5ChJ+Na8+DuGw+0qZBGYwned5FPdrJmEQ1Z4igYz3sXpxMp+rkcwpE49ANlS/6eRm2cmrCI5SDXJ2XfsTKHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
  dkim=pass header.d=cherry.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MLVDeHW+jnOgcnP9FDcPCM9DOV+Ha+Yq0RPg2iFV7zg=;
- b=AlzdaB8XGVKYCHCE/dEyb+XNnDwyBhU5Ss+QO8wXvZ8RWhTN8TS5rX4oHiilesnk03bxfM1KHxmbao66H+lrygw1H99nT63VKvKk6H38O/AiByJ/K/WVwpYCsctwJyDo/figFDHhukVitBA4sgMdc6QnTyiimeQx/9tmNWYsEJ0=
+ bh=rszf7UDDsm8QfSE744I6qxQEgeQpO9glLYYGquw0Ntg=;
+ b=jHBBmYhDv8UW+KA7ftilbc9ys8gMGajDVNQFCiAYwoTz/211ijrwOaspKpcOL1SLaAgw/tWVUoB9mrY1cBZJXRNRWwouhYpXWO6wjmDMNuwbvEP28oU0j83bZ0szaPmUmOhJotIhbSAWTtPICHCAAMvyDw0FAad7jk1zWBGDmd8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cherry.de;
 Received: from AM0PR04MB6578.eurprd04.prod.outlook.com (2603:10a6:208:16e::11)
- by DUZPR04MB9968.eurprd04.prod.outlook.com (2603:10a6:10:4d8::22) with
+ by DUZPR04MB10037.eurprd04.prod.outlook.com (2603:10a6:10:4d8::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Thu, 23 May
- 2024 13:26:39 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Thu, 23 May
+ 2024 13:33:02 +0000
 Received: from AM0PR04MB6578.eurprd04.prod.outlook.com
  ([fe80::b0f9:e7f8:2613:eefd]) by AM0PR04MB6578.eurprd04.prod.outlook.com
  ([fe80::b0f9:e7f8:2613:eefd%3]) with mapi id 15.20.7587.035; Thu, 23 May 2024
- 13:26:39 +0000
-Message-ID: <66c6fe23-dbdf-40a5-ad5b-393b4d1239f9@cherry.de>
-Date: Thu, 23 May 2024 15:26:36 +0200
+ 13:33:02 +0000
+Message-ID: <76a18407-d650-47a2-b8c8-f639350c3630@cherry.de>
+Date: Thu, 23 May 2024 15:33:00 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] image-bootfiles.bbclass: new class, copy
- boot files to /boot on rfs
+Subject: Re: [OE-core] [PATCH 2/2] ref-manual: classes: add new
+ image-bootfiles class
 To: marcus.folkesson@gmail.com, openembedded-core@lists.openembedded.org,
  docs@lists.yoctoproject.org
 References: <20240521173343.2954628-1-marcus.folkesson@gmail.com>
+ <20240521173343.2954628-2-marcus.folkesson@gmail.com>
 Content-Language: en-US
 From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20240521173343.2954628-1-marcus.folkesson@gmail.com>
+In-Reply-To: <20240521173343.2954628-2-marcus.folkesson@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA1P291CA0013.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:19::16) To AM0PR04MB6578.eurprd04.prod.outlook.com
+X-ClientProxiedBy: WA1P291CA0007.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::11) To AM0PR04MB6578.eurprd04.prod.outlook.com
  (2603:10a6:208:16e::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6578:EE_|DUZPR04MB9968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39434bf1-fc7a-4197-1004-08dc7b2bfa17
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6578:EE_|DUZPR04MB10037:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f835abe-ebf0-48f1-7669-08dc7b2cdebb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?MkFoN2p4UDVhZGJqT0ovSHJFZklDWUNtcVkrdjV5OVlidjE0T1pHOXhKTC9Z?=
- =?utf-8?B?WWN1RkYweDI3S25RcE15S2pyc1ZQU2FObWZjbkhhRUs2OGxXSlgwTUtMWi9a?=
- =?utf-8?B?d2ZvQXg5ZDdRb1dDd1l3STVYMStJb2U3SUIwOThnelBUajBDOTZ6OVRDajhV?=
- =?utf-8?B?cTR4RUhOVUw0M3czMHBLRVE0azMrU1dUdWkrWncxd2NpNC9YSWUwRlpyNjdU?=
- =?utf-8?B?d1BTMFY5b3lVZWlPZVlYK0VnMHcraDlqRVZtdnpTRnpRZlIvRkNlcW1ybTln?=
- =?utf-8?B?ZTZwaHdIakVQSFVxV2IxaldFSXJNM1ZGSHI1S2QzR21xVDJPRGdiMXlPZzZW?=
- =?utf-8?B?cURmdUJUTjZuT0ZzSG5rdXBrM0FLMWo1ZTRQSEdCalp1a2Z1anBPSVMzRVMw?=
- =?utf-8?B?b3BoYjd4MTNhaGlyVjBqTjUvMExNZWJaclhSSTJ5VG82d2FYZnVTNDJGckxv?=
- =?utf-8?B?Q3RGcTZNb2RKSkpZd2Y3UllvTVE5MXJWZS9LU0xYRENlRU8wR3hFWnI1elRa?=
- =?utf-8?B?RHE3U1dyYTZvVzNNVXFsaGxBRWtveEtNWU5TSVhHZjIzSUpTVkJ5WGFveS9i?=
- =?utf-8?B?RnBPd2F0aUxXUDIrdUQxYWhrTU5YNG95dkZZQ3JsRjY3ODlsQzNtaUZTYllC?=
- =?utf-8?B?ZGgrdlVmbEVBOTVMblJTbGgvT0lTSDNxZ1h3b2NsbU5ocUcvR0JzbFFIT3Vm?=
- =?utf-8?B?YXB5MExCclp5a09Od24rTEF4SWo5aUdoUFJ6SmlYTVBrSjl1WkNJTjBXRTJl?=
- =?utf-8?B?S1ZOSDQ5elJBN2xtMzFndURtditHQ1YrTE1WbmE5M2N2M3BlRkdnODdVMHl5?=
- =?utf-8?B?WXFHVU9RcmovbjNSM0swbGRrOVJvL3dBZkI1ejlSazlvalRLMjlJUEN0YkJN?=
- =?utf-8?B?UWdEQkpMRXRzckNNRHdnMmY4YzVMbTFhUllLT05pTGhsYzNMMno5YW1OaUNt?=
- =?utf-8?B?QnJaQ1dBcUZmQmo1TXF5ZmZueldmaGJEYUc0RzNGTURRRFhreS84QWhQSmw2?=
- =?utf-8?B?NmI0YitORWVVWGhXOXViRGgwMHpjTE9EVDhRenZxcXovU1dGeDViZzFNY0Vy?=
- =?utf-8?B?WFlRSWQ4TFhCOFViL0I4UzFvOWZYWG01OVI0V0tONHlNbVVzdGZ0MllPWTFr?=
- =?utf-8?B?ZDVvQno0aGZUUHc1cXdadFY4bFA4RE1nN203QmtZaVZlRFBoSWlkSktCNlZn?=
- =?utf-8?B?c1hBMkJpaE9KWW1KQnovVDRjRERLbEdNV0RrbjdpZ2dqMjdMdU1NQXJKNnAy?=
- =?utf-8?B?aWJCdWRjSjBwMTF4V2FhQVNxOFQ5dVMxQ3BpQTNrQ1ZDR2dFcVFUVTM1K20y?=
- =?utf-8?B?SldzWkpvWERGZUJrY2hraEtnb3l5azN6N2JuYzJGdVAycWQ1eUVaVEZ5WlJq?=
- =?utf-8?B?dWdLcEE3ekJZTzJCSTN0Wjdjb0R6SWlIa3F0ckFRaGNpdlpiY2hIdzJJRkFF?=
- =?utf-8?B?Ymo1Rm5FTElFRHdnTTlMZUpvRHdINTd6LzdPUndtbmE3cWhjSEZQVlYrVDdI?=
- =?utf-8?B?Vko5YmhFNjhzV1g1WjI0YVV0VFJsWFNWYWpvUmdsNzl2dVFXRWJOMTJvM09Z?=
- =?utf-8?B?bmtzZXM5aW45SWRWRW1JbEVmaTE3VWN6MXJRa2pBalo1UjdtSDNWbzVxWnA5?=
- =?utf-8?B?VUloQ3A0WFdMR3p2NHRUcjUzeXlEZWpNQTF1RzVPcW1Wa0lHbkptREw1RFgw?=
- =?utf-8?B?Sm96S0VMVzh0L21YWXJEeHdibnBKdXowUDc4aVRrVmNoZnpmcU9PSFZBPT0=?=
+	=?utf-8?B?Mkp6N09Yb2RGODlFUlJCUUUrYVg2UDVWQnRDdlFTTWROZjBNd1U4L2hibkYw?=
+ =?utf-8?B?SzlocXlEdVlMbHRvRVlud2VwWW1XckxHTE1uVzBBaEtRZHhtdDZYcmVXb3ZN?=
+ =?utf-8?B?c2tjN0xpZXhnSVVQRFRQVE82RUozMDdVOGpMTmNPclBuaXpPK1Z3Q3JTY0JJ?=
+ =?utf-8?B?ZVlJalN1RWJ4RzJSQnpkUTVDaytzTlBmVWVkR29Yb3BmaERwK3J1WFpJcTJR?=
+ =?utf-8?B?bjZoai9YQVNuYW55OWVDYkFubVJXanRja1RzcHVHdzBCTWJwbXdtc2lmeDBK?=
+ =?utf-8?B?TmJmVEVZZWFMWGpVY2E3ckp3YjdZQXpWbXBkQnZYOVJoaWdsZVh5akNxS2xU?=
+ =?utf-8?B?Z0pOblBRQUtOTTAwY2RrTzI4Yk9yTisxR3hEU0IyZW8vQllVMW14WE8xamRJ?=
+ =?utf-8?B?MitxelVueWlYUzVMZE1wY05GYkZZa0ZJNEgzNDFzQ2gvbmFPS1ZuYVhkNTdY?=
+ =?utf-8?B?K1Axcm5hczVvOCtqT1J1a2ZsbFFuNGZ6QXZ6ZUxhV09kMDE2MUgreURabTEw?=
+ =?utf-8?B?eEk4K3JKeXR6R3plaldkRFZYdjlQZWwwK1VBQUdEaklTSkptUHVkV0hJN0NE?=
+ =?utf-8?B?U3YrQmtGSDZnU1J0dVNxTGdTVXhLZGx5WnJMM29lOUxpL1hRRGJoZmJLT1Rk?=
+ =?utf-8?B?Z2U3YWlsdFJ1U1hNcDhFcms5dkJrMDVvZlJMamg2bDVCQnQxNjJXVFVZNmdj?=
+ =?utf-8?B?SUxHZVZTZTRxblV2aGtmTVUwRmFnMGFweCt0UUJGY3lVZU9NR2p3cVhSd3Qr?=
+ =?utf-8?B?eHZtQWhyVTFLTWVacTU0V0NnVzc2dlRPOG1icVdKOVgvS21zZUdtcDdFVDc0?=
+ =?utf-8?B?YVRWUWtwMnoyUUFGVXpPZjdiMXlHVkhnS1Z3cmUzWUJEdWxtdzE5QXJzSzdk?=
+ =?utf-8?B?TjdQMjlpZmt6TGZaQWdvVzFnSHF6WStTWlJQWGpkVDNkQ1NEa0ZjcXlGQ3du?=
+ =?utf-8?B?dklma0RweDNRSkVyZHd5M3ZPNDRBQ3ZNUnFaSWFXbkhHNDVoZS8rQ0U0UVRL?=
+ =?utf-8?B?SDB2WExMMGVVYzlLSGtQdnFDVjZQZ3J2ZW5pbU9hTjVOak9wNE1BM09WQkNo?=
+ =?utf-8?B?Wlp1NGFmTUY4QkxyajVTcHNPLzBsamxUQlhqQlUzaVNxNmV2SFdOUjE1bGdr?=
+ =?utf-8?B?czAvR2tFZWh5VG8vUmtsUElFbjZZODlHL1F1NFdHVDh4cUZ2SHlQeWxFQ0hX?=
+ =?utf-8?B?d1JlNm5xMWFCU2t2bk5MbVpKZ1RvTUJFSThsUEFMWXVHZU9RWlZEZG94ZVZ1?=
+ =?utf-8?B?N2RMaFFIQithUkNZRXI1TTBXUXBaUUpBQUVwR0k5MElGV0IwSUlQWEZBaHF5?=
+ =?utf-8?B?V0pkUVpyK3B0NnAzMUFzdzRUK210MEd0MUV5dENXT2p3akNIR04xZVYrQ0pw?=
+ =?utf-8?B?YThBaGRraVhHeloxcHJlcEJYakg0bTcrYVVzQW1JM0NUT2QxdXd0V1RicGJV?=
+ =?utf-8?B?eFhYaTVyNkpnZlUzcFhVMTF2V0p3MkpTSzZKdjBlODRoNERnL2g2NmVJdFMy?=
+ =?utf-8?B?Wnp6c1RsNnBudEJQenZ2VWRGWEZGaDk0WkN4QTF6bzVuaGtuRFN6eHNzK1NB?=
+ =?utf-8?B?c25pWlBhL1ZEcXV5ZENOUXd6VjdDQzN6L2Q3NUI5SHZVd3J1bEFpMnh6NEpa?=
+ =?utf-8?B?MUpPdUVlUlk0ZzNOdS8ra0J0YlYvaEdwQ2x1RDVienBYdnN2c0tEZkdVMTZj?=
+ =?utf-8?B?dWNvaHMzZ0twZE10VXdNL3FxOHpFU3NPcThqMHJ1YU1CdlZ6OHQyOEt3PT0=?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6578.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6578.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?azM3VzF5UXNocDRtenBld2xBcjlpdkIxeTltZW8zVW1BY1hPUUFIR0FYOVl2?=
- =?utf-8?B?YWFORVQ4Y0FBVHZ4QzNMdHNMTlFCUCtLZmdFS3RPcmR2eldaelRueExINTMx?=
- =?utf-8?B?dWFSN3FHYWRzdThENmRIUGxuRUhTZjZ1c2dXQkJTWTUxWTlGZTNVVVlBdm92?=
- =?utf-8?B?c0hTWW1ZTHpGaU9jenNCa3ZjV25PU0hLcUdlb3BUdHMrSXpTV0lyUHlzUVR2?=
- =?utf-8?B?aFNJL0c0MHFkZkM2Mk9HMU51KzNNQjFxM0RHVU5EUExsaDJmVnlOcURobUlX?=
- =?utf-8?B?R0RHNDJ2b0JJNUhwd3VHM3hORk5pcUVHbGRqUlNPQXRDRU1QTXJ3R1dGNEor?=
- =?utf-8?B?dVAwWmtoTFRzVlA2RjFwUXYvekxWeG83NUxMcm5VRWdDbE04L0pGWTNIK2Vs?=
- =?utf-8?B?REw2Wm5oRktuR1padnlweDBnZDk0U0dETmc5WmRIcWFCMzFmZFRTaUJncHV1?=
- =?utf-8?B?eGtRWVhCZVZmRUkxWS8vc2lBNGZMQms3azFPWTJsYVc1d1lmV2FiSmtuaTRP?=
- =?utf-8?B?Q2d1enU0WWFuNFJVZ1F6RWlkd3ZBeHBEMWxiaUhtYW1qajB3MlM4V0dxNm41?=
- =?utf-8?B?WEZDSDhLekMrOTYrRC9raVEzOE9ZeUxPa3lxVFgvRWlCaHNXanhEdXl1MXZu?=
- =?utf-8?B?WXpaZytrWk1RY3RleFM2NWNTajBncnRGNEx5OElOeWl1K1h2NUc4eDVPUVMr?=
- =?utf-8?B?WWM5blI5eFlhUnpjWThtY3VHVmR2dS9UdmliSTF2dE9rWVUyb2YzV2VFWDU0?=
- =?utf-8?B?MGdTd3ZtV0cxSnFPdy85aVVmaDdaT3g2amVIYTFDemFDdmFhYzZhNEdhVkVV?=
- =?utf-8?B?UlRqT0JhYTM0dU5LRzJYZ0NqOGtLWUs1dlJIK21FZWZaV3dSOUJzMGJyVUVh?=
- =?utf-8?B?RnVZbHlZYzJYMzk4em1IdTJnaTlNSnlQNFg2aEg2N3JDd2tJeTFQaExPVHFC?=
- =?utf-8?B?VklWb1B3ZHoySFMxZi9RcDNnSnUrSmNoUmtMejF2QUdJTWdjSVp6WjFLRXdt?=
- =?utf-8?B?Y2RXWWJSSXRFV0FoQ1ZNWUxhdlJDbDNZL1RjRzA5blppK1B0Y0NlUGxZenVT?=
- =?utf-8?B?Um9jQ016WU1HQ2l6UzViZU5Id3lpSW4wek5Gd3RCbmRmZlFHd3UzZFdKVXF6?=
- =?utf-8?B?TDJGbEpZZXd0emhUZE45UW5UcHJyMm1NeEsyUHo0cUN1NGpMR2QyQXppdnR4?=
- =?utf-8?B?ektMU0JUaEM5ZG9GV3NFcFlwOGMwbHVVaVIrdzZ4RmtXT2diNTNxVDZhYVRY?=
- =?utf-8?B?SXowTm41OU5hYXRaZEtpL1FOclVUVFFYTVNEVE42bkJ6dEttQ3cya0Q2T00w?=
- =?utf-8?B?d1VIWGRzbElmckdycGtZNnpVbVBSVVFjNUJnUk5HSTZxTDBLTmMxZ1REZVNL?=
- =?utf-8?B?QnpoN2lRMmFOOFZQdkRJUTkzeERudUVSb2UrSHhFSzlpbmRLckQ3MzlQaGxG?=
- =?utf-8?B?VG5iaFVzVmJTYTZiQXhVaURDZ0JHdnJHTnZJVVUvbGtHTmx4MC9lRUI1eDk4?=
- =?utf-8?B?RlIyU0lwcEpJQVN4RzJKKzA0aW9JbFdIRDJWZDZTbzJ3TnlJZEp1M2ZVeWpS?=
- =?utf-8?B?RXdyS1RKZllFdG5nY0VPZ1ZCTmNTWkxJM1BkZVpXM0tpUmpkclhQd3NUc2lt?=
- =?utf-8?B?QUhxT0hIWVJ6WEdDYlNWYldtb1ZFU0NGVlZFaEdpRS9FK01lTXRvL21ZVFM0?=
- =?utf-8?B?Yzdza3JjZ0F5TnV6RzBlSWNKQVRjd3RzMW1ORkp4Qk01dVB6SXpXZUVvcVQ1?=
- =?utf-8?B?dWVKTVRZeFRRSVFzQ1RHSFJVM1RyK3VyN2NpZ3AvUlhJTlE0cEY0S292cUEw?=
- =?utf-8?B?N3E3U1VITEdubTd1ZVpqUlhpcmhkcXhBbVhhcVJVMmJ4NlZBKzFmSjlIZ0Z4?=
- =?utf-8?B?ek43VzlyZy9QNDlOOG14OFRsU29xMXhqVTZiZ0FYRUJyMHNyeUlScDBFQjZ0?=
- =?utf-8?B?S0VkcXo0eFpveUZlL1ByZ095SlpWaGEvb1h4TCtIblEvRE8rWlJWWFFEYXMy?=
- =?utf-8?B?RFBHdHhRbGRkZHVXcFVQRmJCMzdrRDdBRFVINHJYWHlxb0hvSVJnemVJUy92?=
- =?utf-8?B?TFY5WFJiSmNPU0RlS2RzaHlhdHlDakRBeWhaVHhjUnBVS0VGT1pVaE9CaHB5?=
- =?utf-8?B?MUoveFVZcGwvR1FOQ2U1N0ZTUEFBQVMvWFE5Yis2QVdIWEZnNEp4ekUyS3dY?=
- =?utf-8?Q?m9RdQDwwHGnpvBwDzNBdKYM=3D?=
+	=?utf-8?B?SXJ4YVJRajNGNFRGQ2hIamM2SU5QSUZrOTRCM0Y5WHJmaVBKY0JkbGtrQUYx?=
+ =?utf-8?B?WEFockJrRXVPK09jaUpNV3RFR2IyY2R6dlZDWGtVVUdLRnJEdFRhQUNvenpF?=
+ =?utf-8?B?Rm9DQm5YdGxmNldZNkJUVzIzcXh4eEFqNzcyb1FVSk5xeFczeU9oSzVuWGo4?=
+ =?utf-8?B?NjIyYmR2OU5MRmpnTGFhNmh6ZUt3OTVvVTBQWFcyUHNJSU9EWlBid3o4bm14?=
+ =?utf-8?B?NUdNZzhidU55QVBwamlrVkZhU0hZUkJWMVl0Wm9IOXM2YzE1QTFwcHhBRWNo?=
+ =?utf-8?B?TnYrajVERE9HeEFlYzMvcFliOFIzMHFoRWxVR0lEY0NWM2cxZ1lhSHBUVUNh?=
+ =?utf-8?B?QjNOVDUyZmRBd1RxSzYvcnVON3JuMExUODBFVlN3aTRLZkZ5OGRGaEd0NU04?=
+ =?utf-8?B?VHY2eVcrbEJQeDNEWVB0eDB4YUZ2b0o1TlE4WDNvQkJwMHBVWStoZ05iZFVy?=
+ =?utf-8?B?Um13aktrTWpsZWRrZkpiazgxcHB0OVNBb05pTGxEYllZZ1BqUU4zRks3RmZD?=
+ =?utf-8?B?YTcySVBBWWhqWUgvTldBQTYyVHN2WXlQdlN6WHpUQXpJbVc2ZTF1K1pOOFNn?=
+ =?utf-8?B?NUFuaVpkeEVFdkJpak5abUMyZFNVbG8zelBJa1AvZDJjTVRuVjdtL3FPdE00?=
+ =?utf-8?B?OHVDMERkekx6YXh1eXVvclFvcCtQYzZhSFNMMkpGSkRjVXlWeDdsaWlIV3NK?=
+ =?utf-8?B?dTlrNjMrb0tnUEFJUHJabC80YnhFZ3FlV21oYUhMSVJ0YSt5d0kxeTA3S0JN?=
+ =?utf-8?B?MkRPV29wRnpUeXZQTGJuVEFBa2tZcGMyWGNmSjRjK1V6a0Y5SlhnSzBaUk55?=
+ =?utf-8?B?c3F2amQrMUJNZ1A4SGpaUUo2RHlKWktYVVczUnNXMGJPUWRnMjFXTWdwS0ZF?=
+ =?utf-8?B?RUxOcTI1YUR2Yzl0aHlUV2QxSUhSMm5TNExFOUdSeS9PQmE4emVHeVQ5dWdw?=
+ =?utf-8?B?S3VEWTlId28xUTBOZW12cmlOQmJlYldHcHRpR0t0TTVtSEJ6bkVBa0xDRW1E?=
+ =?utf-8?B?bEpYRjBJcWZDN3pqZTZjOVVBZWFKN0puQngrMnBqTDh2T2ZDbElnOE9seS93?=
+ =?utf-8?B?U2luVTl5bFVZem81ekZFOWlzVDdtZWtJVmJhbnB2SmdFVUh5SThTUFYvS3BL?=
+ =?utf-8?B?cnY0OTBwMDR3QkRjWVQreXBXQjhFelRXYURSRFhTNXM0dEdhdFRzTDVsYXpB?=
+ =?utf-8?B?SFJ1QjlXdXZ3eHRSaDZqUVkreXNiczVjcjVSWHdxV0dLM1ArWHhsMklOVFVT?=
+ =?utf-8?B?d0VvSEFVL2JmTjFVSktPS2ZZd0t4TEhWQUVwbGxnUlR0dWpUalo3STl3UGVM?=
+ =?utf-8?B?QzFYTVZBN3VhWUs4YjNrcWRpOFRVTWJtaWk4SDRpbjU0em8wclEreDRQVjdK?=
+ =?utf-8?B?a1hyVWMvUFJBLys4SWlOWFpoYTdUbHJRVU40UVVDS1R0NlB6Y1NyeHF1NkRD?=
+ =?utf-8?B?bWVyTlNxUkZWc2xCWDhMNVljeXdTYkY1Tnhic1B3bTVtOVB5TXYxak5vQk84?=
+ =?utf-8?B?d3c1V2wvVUt4cjJ5WThoVEhtZWdtQmNEWktobzJMUFp1YWxuOGpkdVFFWkJ3?=
+ =?utf-8?B?ajkxN3FMRE80N20wRUIyZ05sYVdnekZxOC8zbngyNHlYL29oMmQwY2JJdWht?=
+ =?utf-8?B?YnN2SlExZStEaXVLK1ptc1dwbjZLT0ZMTUJZQkhRTVBCY2d4VWNVbzd4eDhX?=
+ =?utf-8?B?S1ozOXlxR2pNemFzcTZGa0pxMEk2d2xqSTNodlBQWXJLMGJTalh1dG92QWw1?=
+ =?utf-8?B?Rk9IVUV1RTloNUcweXBYQXR3L0Z6dkpadWJLaW1Bd3BZellmRjlWN2FvT3oy?=
+ =?utf-8?B?VmovdE5JdkRVam15NmVJajNXdE9YM0FjZVNrV3lNZmtaMzJsMFN2eTFMT1l6?=
+ =?utf-8?B?QlNXUzBaUEk0NGczdi84Mkw5SHFrcVlsazg4a2xlS2Zzdno1WnVhOHJjYmsw?=
+ =?utf-8?B?b29oUG4wZWdBNTl3NDl1UHF4d1FRdUg1MENOWit2R0dxdGt1VTI4S2d6T0tQ?=
+ =?utf-8?B?czNGNVZPRW8xSmI2dXhSbG1mSWwvTGlyM0hnY2NOTGdlb09YU0JGUlRqTUp6?=
+ =?utf-8?B?VjBlbzFmRk9MblVZVVAwbjhOWEYvY2d6SkZYK1h6VnNMMnRoQ2U5Sno2eTZs?=
+ =?utf-8?B?ZDB0RTdDa3ZrYVVqK3E5cFBtTTFZRnJENE5STTNFSWNaNlNwczk5NHRuL3pB?=
+ =?utf-8?Q?/01orK7Aj9c+/ZNJGbp5ttM=3D?=
 X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39434bf1-fc7a-4197-1004-08dc7b2bfa17
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f835abe-ebf0-48f1-7669-08dc7b2cdebb
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6578.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 13:26:39.0392
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 13:33:02.8434
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0vgf34ZfpuY9bNqnqeR5f9mrfwjryDkdy6kJJf1tZ77DJzeVakru/6zj3I2owN+/wixuRvU10eMrpxsPhB0ufCX+/GBm1yUIyQG+0WKDxJc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9968
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ky23GEbsj89tWwC6sFbZBp728Xd6upMG3LpE4NQs+8eivrcXvHq8ny3zZ4bkJmcRajTXyrK+amto7vEzy3rlLJJaceL1ot4cCv1NAsPEMis=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB10037
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 13:26:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199793
+ <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 13:33:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199794
 
 Hi Markus,
 
 On 5/21/24 7:33 PM, Marcus Folkesson via lists.openembedded.org wrote:
 > [You don't often get email from marcus.folkesson=gmail.com@lists.openembedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> image-bootfiles class copy files listed IMAGE_BOOT_FILES
-> to the /boot directory of the root filesystem.
-> 
-> This is useful when there is no explicit boot partition but all boot
-> files should instead reside inside the root filesystem.
+> Describe the newly introduced image-bootfiles class.
 > 
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 > ---
->   meta/classes/image-bootfiles.bbclass | 69 ++++++++++++++++++++++++++++
->   1 file changed, 69 insertions(+)
->   create mode 100644 meta/classes/image-bootfiles.bbclass
+>   documentation/ref-manual/classes.rst | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 > 
-> diff --git a/meta/classes/image-bootfiles.bbclass b/meta/classes/image-bootfiles.bbclass
-> new file mode 100644
-> index 0000000000..850e14e4bb
-> --- /dev/null
-> +++ b/meta/classes/image-bootfiles.bbclass
-> @@ -0,0 +1,69 @@
-> +#
-> +# Writes IMAGE_BOOT_FILES to the /boot directory
-> +#
-> +# Copyright (C) 2024 Marcus Folkesson
-> +# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
-> +#
-> +# Licensed under the MIT license, see COPYING.MIT for details
-> +# Inspired of bootimg-partition.py
-> +#
-> +# Usage: add INHERIT += "image-bootfiles" to your conf file
-> +#
+> diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-manual/classes.rst
+> index 9520d0bf7c..53b3697bee 100644
+> --- a/documentation/ref-manual/classes.rst
+> +++ b/documentation/ref-manual/classes.rst
+> @@ -1169,6 +1169,20 @@ Yocto Project Overview and Concepts Manual.
+> 
+>   .. _ref-classes-image-buildinfo:
+> 
 
-Since it's in meta/classes, I assume we can also inherit image-bootfiles 
-in an image recipe?
+This isn't the appropriate name for the reflink, we should ave
 
-> +
-> +def bootfiles_populate(d):
-> +    import re
-> +    from glob import glob
-> +    import shutil
-> +
-> +    boot_files = d.getVar("IMAGE_BOOT_FILES")
-> +    deploy_image_dir = d.getVar("DEPLOY_DIR_IMAGE")
-> +    boot_dir = d.getVar("IMAGE_ROOTFS") + "/boot"
-> +    install_files = []
-> +
-> +    if boot_files is None:
-> +        return
-> +
-> +    # list of tuples (src_name, dst_name)
-> +    deploy_files = []
-> +    for src_entry in re.findall(r'[\w;\-\./\*]+', boot_files):
+.. _ref-classes-image-bootfiles:
 
-Isn't this a more complex boot_files.split()? What do we gain from using 
-this regex? If we have malformed IMAGE_BOOT_FILES, this would actually 
-introduce some logic error:
+instead, to match the actual name of the class.
 
- >>> s="plop\\plip;plep plop;plap"
- >>> re.findall(r'[\w;\-\./\*]+', s)
-['plop', 'plip;plep', 'plop;plap']
+> +``image-bootfiles``
+> +===================
+> +
+> +The :ref:`ref-classes-image-buildinfo` class copies over files listed
 
-I'm pretty sure we don't want that. Instead, I would suggest to use 
-split() and iterate over that, split(';'), check for each if there's 1 
-or 2 entries, add one if it's one.
+That's not the appropriate name, it should be 
+ref-classes-image-bootfiles (it currently renders properly because the 
+reflink is incorrect).
 
-> +        if ';' in src_entry:
-> +            dst_entry = tuple(src_entry.split(';'))
-> +            if not dst_entry[0] or not dst_entry[1]:
-> +                raise bb.parse.SkipRecipe('Malformed boot file entry: %s' % src_entry)
-> +        else:
-> +            dst_entry = (src_entry, src_entry)
-> +
-> +        deploy_files.append(dst_entry)
-> +
-> +    for deploy_entry in deploy_files:
-> +        src, dst = deploy_entry
-> +        if '*' in src:
-> +            # by default install files under their basename
-> +            entry_name_fn = os.path.basename
-> +            if dst != src:
-> +                # unless a target name was given, then treat name
-> +                # as a directory and append a basename
-> +                entry_name_fn = lambda name: \
-> +                                os.path.join(dst,
-> +                                             os.path.basename(name))
-> +
-> +
-> +                srcs = glob(os.path.join(deploy_image_dir, src))
-> +                for entry in srcs:
-> +                    src = os.path.relpath(entry, deploy_mage_dir)
-> +                    entry_dst_name = entry_name_fn(entry)
-> +                    install_files.append((src, entry_dst_name))
-> +            else:
-> +                install_files.append((src, dst))
-> +
-> +    for entry in install_files:
-> +        src, dst = entry
-> +        image_src = os.path.join(deploy_image_dir, src)
-> +        image_dst = os.path.join(boot_dir, dst)
-> +        shutil.copyfile(image_src, image_dst)
+> +in :ref:`IMAGE_BOOT_FILES` to the /boot directory of the root filesystem.
 > +
 
-We literally iterate three times over the same files, I don't see a 
-reason for not merging those three for loops into one?
+Tick quote /boot:
+`/boot`
+it;'s not meant to be understood as an English word.
 
-Also, I now realize that this was heavily inspired from what's in 
-scripts/lib/wic/plugins/source/bootimg-partition.py, would have been 
-nice to say so ;)
+> +This can be useful if no separate boot partition is used but all boot files
 
-> +python bootfiles () {
-> +   bootfiles_populate(d),
+Replace "all" with "some", it depends on the content of 
+IMAGE_BOOT_FILES, so we cannot say "all" here, it is misleading.
 
-Not entirely convinced we should have a comma after bootfiles_populate here?
+> +should be included into the rootfs image.
+> +
+> +:ref:`IMAGE_BOOT_FILES` is the same space-separated list of files used
+> +by the ``bootimg-partition`` source plugin to populate the boot partition.
+> +
 
-More general question:
-1) how does this work if one has a boot partition created by wic (via 
-the plugin bootimg-partition?
-2) shouldn't we factor out this code here and bootimg-partition's? or 
-make bootimg-partition somehow call bootfiles IMAGE_PREPROCESS_COMMAND 
-to avoid code duplication?
+I would not mention this here, rather edit the variables glossary entry 
+for IMAGE_BOOT_FILES to mention that this is also used by image-bootfiles.
+Also, it seems bootimg-efi plugin uses it, according to the glossary entry.
+
+> +.. _ref-classes-image_types:
+
+This isn't the appropriate name for the reflink, we should have
+
+.. _ref-classes-image-buildinfo:
+
+instead.
 
 Cheers,
 Quentin
