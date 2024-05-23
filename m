@@ -1,87 +1,99 @@
-Return-Path: <pmi183@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B50C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70301C25B75
 	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 15:24:57 +0000 (UTC)
-Subject: Re: [PATCH] buildhistory: Fix do_package race issues
-To: openembedded-core@lists.openembedded.org
-From: pmi183@gmail.com
-X-Originating-Location: Rinchoa, Lisbon, PT (78.137.195.161)
-X-Originating-Platform: Windows Chrome 124
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Thu, 23 May 2024 08:24:48 -0700
-References: <CANNYZj-d-SSYPv-wZF8kfnSvt7i-cG3ec3wotSNETD6-OttyKQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-d-SSYPv-wZF8kfnSvt7i-cG3ec3wotSNETD6-OttyKQ@mail.gmail.com>
-Message-ID: <30216.1716477852755796076@lists.openembedded.org>
-X-Old-Date: Thu, 23 May 2024 08:24:12 -0700
-Content-Type: multipart/alternative; boundary="akxMZs7ncGoLsDUxtlEW"
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1458.1716477894051202950
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 23 May 2024 08:24:54 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=V6Fzl9dS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uMPYfEVg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018fa60e1aa8-a8f19003-12c0-4bea-94ab-628ca2a5642c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1716477893; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=iwiWgbuf9uWEe7kGr7H1+vVH7dVKiJ+8fy1aj0BTTj8=;
+	b=V6Fzl9dSPdnCIxbjpHxgDosKEZcUOphBLydc543cUa5b2J5I86UqZKb0D8sqOtaR
+	WvmoWbYkVuwZcky+8+5yKvBuUCBHxJ7my4Nk2HiQuexWF6x8uRQXlD6K0Y7DYqnuUWa
+	aBTxGsDFdsBsSIw0GsyEMqZmxyvGXVB9zjQMQGOI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1716477893;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=iwiWgbuf9uWEe7kGr7H1+vVH7dVKiJ+8fy1aj0BTTj8=;
+	b=uMPYfEVg6ajPKJX+NBxNS3e2iCVvxsF/xiAD65eZcdryX5RovGuA4ncj+pEYEAwu
+	/tp6PivTqMuUA2IjQUhuP3TlTyHj9r3Nsx+ueTGc3/z3cETdbzuj88beQChioXwM6oK
+	TedMfutFqzb9BVdAaBUDtrcFsclWni5lN2pVuyFQ=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] systemd-bootchart: Fix build on musl
+In-Reply-To: <20240523145918.3026627-2-raj.khem@gmail.com>
+References: <20240523145918.3026627-2-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fa60e1aa8-a8f19003-12c0-4bea-94ab-628ca2a5642c-000000@us-west-2.amazonses.com>
+Date: Thu, 23 May 2024 15:24:53 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.05.23-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 15:24:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199810
-Message-ID: <20240523152448.0FqOIhKPFeJiAsZrNh-DbxB7XnXyXr2eUQK9qKe1YqM@z>
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199811
 
---akxMZs7ncGoLsDUxtlEW
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-Hi Alex,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-So problem starts at sstate.bbclass:406 (sstate_install(ss, d)), this shoul=
-d be running after the next for loop (for plain in ss['plaindirs']:).
+---
+Testing patch /home/patchtest/share/mboxes/2-2-systemd-bootchart-Fix-build-on-musl.patch
 
-Having this fixed, jumping to the buildhistory.bbclass:602, find should be =
-out of the loop to give a hard error if it misses.
-Then inside the for loop, while checking if output folder exists (buildhist=
-ory.bbclass:607), this doesnt make sense to me the way it is running:
-- the comment refers "Make sure the output folder exists...", but we are no=
-t creating it if we need, just skipping if doesnt exists.
-- this folder is being created on do_packagedata (buildhistory.bbclass:396)=
- to write down latest file.
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-So before spending more time on this topic i have a few questions to unders=
-tand a little bit of what should be the strategy to fix this:
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 
-- If we want to keep files-in-package.txt being created on do_package, shou=
-ldnt `buildhistory_list_pkg_files()` (buildhistory.bbclass:600) be responsi=
-ble to create the folder on buildhistory side?
-- If we keep `buildhistory_list_pkg_files` being triggered by do_package is=
- there any case of do_package_setscene trigger this? I couldnt find any cas=
-e to support this option (buildhistory.bbclass:101).
-- If not we dont need in fact to create files-in-package.txt on do_package,=
- should files-in-package.txt creation be moved to do_packagedata?
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-Thanks,
+---
 
-Pedro
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
---akxMZs7ncGoLsDUxtlEW
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--NextPart
 
-Hi Alex,<br /><br />So problem starts at sstate.bbclass:406 (sstate_install=
-(ss, d)), this should be running after the next for loop (for plain in ss['=
-plaindirs']:).<br /><br />Having this fixed, jumping to the buildhistory.bb=
-class:602, find should be out of the loop to give a hard error if it misses=
-.<br />Then inside the for loop, while checking if output folder exists (bu=
-ildhistory.bbclass:607), this doesnt make sense to me the way it is running=
-:<br />&nbsp;- the comment refers "Make sure the output folder exists...", =
-but we are not creating it if we need, just skipping if doesnt exists.<br /=
->&nbsp;- this folder is being created on do_packagedata (buildhistory.bbcla=
-ss:396) to write down latest file.<br />&nbsp;<br />So before spending more=
- time on this topic i have a few questions to understand a little bit of wh=
-at should be the strategy to fix this:<br /><br />- If we want to keep file=
-s-in-package.txt being created on do_package, shouldnt `buildhistory_list_p=
-kg_files()` (buildhistory.bbclass:600) be responsible to create the folder =
-on buildhistory side?<br />- If we keep `buildhistory_list_pkg_files` being=
- triggered by do_package is there any case of do_package_setscene trigger t=
-his? I couldnt find any case to support this option (buildhistory.bbclass:1=
-01).<br />- If not we dont need in fact to create files-in-package.txt on d=
-o_package, should files-in-package.txt creation be moved to do_packagedata?=
-<br /><br />Thanks,<br /><br />Pedro
 
---akxMZs7ncGoLsDUxtlEW--
+--NextPart--
 
