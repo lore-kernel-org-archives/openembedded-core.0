@@ -1,94 +1,85 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ACE3C25B7C
-	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 15:13:47 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.1113.1716477222540298638
- for <openembedded-core@lists.openembedded.org>;
- Thu, 23 May 2024 08:13:42 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GG+GAnHx;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-657a07878easo2202514a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 08:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716477222; x=1717082022; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PeQQFu41cjN7bm8AwYQqGVnRbm/gQ5ryCA1WWAtwtfk=;
-        b=GG+GAnHxdUhGxGINSfI5D/4nzSIbK+0WojbXwoil2QGGCNKxBS5M0b9SIOwNyyZ8g8
-         qntKF1Kqmo5N3++1YgiY11q13zBs6rcg9jPcwqzfNosZ7/U4DHElE0qcuaI4gA7qCjv5
-         LhKzwfXnTvqF3CK8HkJxbQSVzid1EH+kBdiLcu4txuXG4cE5GUAiNtqcm+39ruvramr7
-         2j0fTZ63BNrsdt/108yEOYt85hXHHuw5XWzxjRkvN2PQlBVXeo+YX6UXGm7FOF2RTbtE
-         OS/qcRoZjXFniGs4hsisiF98ysognS25BhUO3NeVrnl/NZnQmSrzlVxRyshRjJ+5MmZq
-         e6zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716477222; x=1717082022;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PeQQFu41cjN7bm8AwYQqGVnRbm/gQ5ryCA1WWAtwtfk=;
-        b=IANgAZApO41K6qmp5sIzGmebXFsSsTYXdfbb+iltWfJP9xyPlw9jutxAz499f7Kg0t
-         47Rnvr6tUmnTKCrU7G7CTVicUGTY1U4I7o9wb6VfyjGe6wSwyypVvIDrxSQZFBCrDG5m
-         E2BhXn9dtfpO2tiS1FZpRHnDSHJzUPtfFwy6+ZxyEFzj3blQ+Jn72Orkg2PYuQG3CzKn
-         U1NJtw4aGuqhI1Lwfj86wxNhleZJVOJlo49VW5B0tGpxJR8Kvj69KUbCL1p7KzpEEmN4
-         YkSJReuQh+3waAek8F9qVG196yIgRpsS5o4Cz8loXaUPFLvkjhjxVQe44B1gEXn/r+WA
-         KlEw==
-X-Gm-Message-State: AOJu0Yy+AnrTzPKIHcUpd7T7gwd5rOxGV3M2FZnQYPeKugch35xZHlm0
-	o5o4ZB5oJIR5YSVRtpT9xFhyje4S7By0T1YQbad8UMcLSpG2OXMXkgjcYdkNnh8=
-X-Google-Smtp-Source: AGHT+IHE/JbOqr8bwM5WSv0eQgNFdDdq2yPKoxcQ3lFXJvtHxWBZYwBQE60s0+XabtL3nM8jOp+sfg==
-X-Received: by 2002:a17:90a:de91:b0:2bf:4c7a:e47a with SMTP id 98e67ed59e1d1-2bf4cd672eamr239232a91.42.1716477221583;
-        Thu, 23 May 2024 08:13:41 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::e8eb])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bddbff4e9asm1661950a91.28.2024.05.23.08.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 08:13:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DE0C25B75
+	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 15:24:17 +0000 (UTC)
+Subject: Re: [PATCH] buildhistory: Fix do_package race issues
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] systemd.bbclass: Clarify error message
-Date: Thu, 23 May 2024 08:13:39 -0700
-Message-ID: <20240523151339.3204194-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.1
+From: pmi183@gmail.com
+X-Originating-Location: Rinchoa, Lisbon, PT (78.137.195.161)
+X-Originating-Platform: Windows Chrome 124
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Thu, 23 May 2024 08:24:12 -0700
+References: <CANNYZj-d-SSYPv-wZF8kfnSvt7i-cG3ec3wotSNETD6-OttyKQ@mail.gmail.com>
+In-Reply-To: <CANNYZj-d-SSYPv-wZF8kfnSvt7i-cG3ec3wotSNETD6-OttyKQ@mail.gmail.com>
+Message-ID: <30216.1716477852755796076@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="akxMZs7ncGoLsDUxtlEW"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 15:13:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199809
+ <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 15:24:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199810
 
-When this error is triggered, its a bit vague in specifying where the
-issue is e.g.
+--akxMZs7ncGoLsDUxtlEW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: nbd-3.26.1-r0 do_package: nbd does not appear in package list, please add it
+Hi Alex,
 
-Some packages may intentionally remove PN from packages and find it
-confusing as to why the system is still asking this to be in PACKAGES
+So problem starts at sstate.bbclass:406 (sstate_install(ss, d)), this shoul=
+d be running after the next for loop (for plain in ss['plaindirs']:).
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Improve a bit more
+Having this fixed, jumping to the buildhistory.bbclass:602, find should be =
+out of the loop to give an hard error if it misses.
+Then inside the for loop, while checking if output folder exists (buildhist=
+ory.bbclass:607), this doesnt make sense to me the way it is running:
+- the comment refers "Make sure the output folder exists...", but we are no=
+t creating it if we need, just skipping if doesnt exists.
+- this folder is being created on do_packagedata (buildhistory.bbclass:396)=
+ to write down latest file.
 
- meta/classes-recipe/systemd.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So before spending more time on this topic i have a few questions to unders=
+tand a little bit of what should be the strategy to fix this:
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 48b364c1d4d..0f7e3b5a081 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -85,7 +85,7 @@ python systemd_populate_packages() {
-     def systemd_check_package(pkg_systemd):
-         packages = d.getVar('PACKAGES')
-         if not pkg_systemd in packages.split():
--            bb.error('%s does not appear in package list, please add it' % pkg_systemd)
-+            bb.error('%s is marked for packaging systemd scripts, but it does not appear in package list, please add it to PACKAGES or adjust SYSTEMD_PACKAGES accordingly' % pkg_systemd)
- 
- 
-     def systemd_generate_package_scripts(pkg):
--- 
-2.45.1
+- If we want to keep files-in-package.txt being created on do_package, shou=
+ldnt `buildhistory_list_pkg_files()` (buildhistory.bbclass:600) be responsi=
+ble to create the folder on buildhistory side?
+- If we keep `buildhistory_list_pkg_files` being triggered by do_package is=
+ there any case of do_package_setscene trigger this? I couldnt find any cas=
+e to support this option (buildhistory.bbclass:101).
+- If not we dont need in fact to create files-in-package.txt on do_package,=
+ should files-in-package.txt creation be moved to do_packagedata?
 
+Thanks,
+
+Pedro
+
+--akxMZs7ncGoLsDUxtlEW
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alex,<br /><br />So problem starts at sstate.bbclass:406 (sstate_install=
+(ss, d)), this should be running after the next for loop (for plain in ss['=
+plaindirs']:).<br /><br />Having this fixed, jumping to the buildhistory.bb=
+class:602, find should be out of the loop to give an hard error if it misse=
+s.<br />Then inside the for loop, while checking if output folder exists (b=
+uildhistory.bbclass:607), this doesnt make sense to me the way it is runnin=
+g:<br />&nbsp;- the comment refers "Make sure the output folder exists...",=
+ but we are not creating it if we need, just skipping if doesnt exists.<br =
+/>&nbsp;- this folder is being created on do_packagedata (buildhistory.bbcl=
+ass:396) to write down latest file.<br />&nbsp;<br />So before spending mor=
+e time on this topic i have a few questions to understand a little bit of w=
+hat should be the strategy to fix this:<br /><br />- If we want to keep fil=
+es-in-package.txt being created on do_package, shouldnt `buildhistory_list_=
+pkg_files()` (buildhistory.bbclass:600) be responsible to create the folder=
+ on buildhistory side?<br />- If we keep `buildhistory_list_pkg_files` bein=
+g triggered by do_package is there any case of do_package_setscene trigger =
+this? I couldnt find any case to support this option (buildhistory.bbclass:=
+101).<br />- If not we dont need in fact to create files-in-package.txt on =
+do_package, should files-in-package.txt creation be moved to do_packagedata=
+?<br /><br />Thanks,<br /><br />Pedro
+
+--akxMZs7ncGoLsDUxtlEW--
 
