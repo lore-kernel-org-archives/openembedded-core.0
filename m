@@ -2,238 +2,173 @@ Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CFBC25B75
-	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 13:43:51 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.93])
- by mx.groups.io with SMTP id smtpd.web11.17322.1716471828909703941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C08CC25B75
+	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 13:46:11 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.97])
+ by mx.groups.io with SMTP id smtpd.web10.15906.1716471961975462302
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 May 2024 06:43:49 -0700
+ Thu, 23 May 2024 06:46:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=dLN0GYur;
- spf=pass (domain: cherry.de, ip: 40.107.6.93, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=ClVG6kK/;
+ spf=pass (domain: cherry.de, ip: 40.107.13.97, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CJgGNudtCFbqFPnswHCBXEJbi3WX5srKawqYR6mX1lHQxVRkP2Y/yCPcdNP2y9Wkburjf400V6g1OadxLrp8Tp03l2PICPF78JAOcNw2DSgKqNvnj3YA5/8V38dQKdkhtqcf3v8gNecIm+rgJ0/38ZOTYYQsVPPMrFRl9NH1A+cA5/OUpw1Md024TFtgGsidyUHSpNGBiWDz/5GhqkS6hY0zERZahl7TlAo00ADHYLp+cwCxMz2ck14i6mDqhsUgo4tkQs8v+3jnSOP2pogM/w6DyWwbX/sQOx+0H3vYoefBJO5mmEOcxbADFUJUrSphZNNbiniYoFIZ7j7wE0CjVg==
+ b=D1HcfPYGI7JHT2r1WWjWL+usRoS6afBRwVJj4nwdZxFWUuYX7Fv0EP8SVscXXMK2B7UFGJjHVV1DddykevrHilHWB/9JQFHZ9S5py33UQGoVLvShkt835iBR9ej6ztUNXMPbFVcM39onU46aaoxsQ4TneunSPUKbHqufeTEjuA73M51yfCq+qEB2j1zmp4oiA4cF2axiFveO0hf1EvyAblR4GbQOVegBfC7TOA6FJN7ujs4Jh/Gwa3ZJmpgD0p+wkEHt5yUNYlkTPDl+cTvKPJrQH8i0Am6Hg8aK0eYHgpL86DYAX4wDH3yhEaM22NMw0Sl3Y4Dr5dmXrrDnuwYphA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E4cB8+XRwy9zQZgAZZ+9sIFhK+RqfVncJtIkyNkaF10=;
- b=Bc63uL9ARu1GIoTHy/tx7ZwoS3RKChS8hrRv6BYTtXjhJy8/t3YOeVlJDA8W9nFN/HOwK4EJqnJUp/bDwfeYLcz7nMoGRkIS7IMq2tKQgxVihFqeT6v7MCzvCd9oHGQEUpwJvu9+TeOHJnzBiJBR3j9X3azcijqLcybw3IxUWuC8TjDjGNJjNdumef08q0sCzLlOA+eSnO6EquUoF4//ouUU8SaJokK8BDpbCN5p4Tr3jhheEFBVpnCbyvGPpdeZb9UvOgG1Xi7lHRLL045CASeacqo7k3jtIUlqDA2yi/DXsGtBQDITRPIBl2qfnoyO8IOd4czyJR5AHzoSKutjhw==
+ bh=yc+Wl92CHFTU6IUN+zcSD7r8V0gHAgFQRxHPKS1s8og=;
+ b=d5l/YsaRCB5UtomjU+Tl2JpbwFtQRc8Zck4eHvCYkwEPHoMGAf0M8oM37B81TJCYIRyaDDnAfEVTt+A+oFy/eUsxeTu2lfuuFei43C/idz7+NW9y8sLswDO/mS+tBJKmQhs9O6q01q6NVwBrnRHnetW/uU78KBtkIcTJb4XajiPGiVaIkJrTXcqQdAZy2GcTCjYZUtPrrGj2wgCker8r2kx4tfextzm6TQquHahEU/zB6ZH/G9y1qQ64bLpvwxByAjq3J8M792+/6jDhsu5ZMa/ocrDJLb7MTQt01PtrV9H0BGyqZrpoI2r4NKEMjjd0b+1Va3t1Aj7EuVSx/2uY5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
  dkim=pass header.d=cherry.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E4cB8+XRwy9zQZgAZZ+9sIFhK+RqfVncJtIkyNkaF10=;
- b=dLN0GYurG4HWRO9996qqZREeI9eMPyDFHGCeie93rtEzXC+xmApSfMNJZOq/fahmTJMo8LXzrqUMp4AdhsuUxYp0Ny/herd1MajGiCDMDX/TZuCS6leEIb32+59hj3cMXQhSeG4HM08zMU7/RlnWRzzTm4olrvibn6jsC7JI1C0=
+ bh=yc+Wl92CHFTU6IUN+zcSD7r8V0gHAgFQRxHPKS1s8og=;
+ b=ClVG6kK/es2L0ETySJ87xOBFDvvNKorC04lyuXiklsZRxW9FaXAtsKr0mc0zcDReUL5sZq6B6IcjoO776JkMTASxxmsfa+G+sd99NqPk3C/bzqs1xQ9ClI9+sRakIHZLDSHX+FwXnNFCrsf26gF47L/JNshryhVLsRikJ9iDU/c=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cherry.de;
 Received: from AM0PR04MB6578.eurprd04.prod.outlook.com (2603:10a6:208:16e::11)
- by AM8PR04MB7395.eurprd04.prod.outlook.com (2603:10a6:20b:1c4::15) with
+ by PAXPR04MB9350.eurprd04.prod.outlook.com (2603:10a6:102:2b7::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Thu, 23 May
- 2024 13:43:45 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Thu, 23 May
+ 2024 13:45:57 +0000
 Received: from AM0PR04MB6578.eurprd04.prod.outlook.com
  ([fe80::b0f9:e7f8:2613:eefd]) by AM0PR04MB6578.eurprd04.prod.outlook.com
  ([fe80::b0f9:e7f8:2613:eefd%3]) with mapi id 15.20.7587.035; Thu, 23 May 2024
- 13:43:45 +0000
-Message-ID: <da23b251-8a2e-4bf1-8c96-812593f52d96@cherry.de>
-Date: Thu, 23 May 2024 15:43:43 +0200
+ 13:45:57 +0000
+Message-ID: <f0452dbd-636d-474d-b87d-caf6c0680843@cherry.de>
+Date: Thu, 23 May 2024 15:45:55 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] meta: uboot-config: Fix broken menuconfig for
- "fitImage" kernel
-To: mike.looijmans@topic.nl,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.cc544a93-e646-4932-8496-82717a21cde8@emailsignatures365.codetwo.com>
- <20240521135705.444470-1-mike.looijmans@topic.nl>
- <5340825db3c98197e448c58b88381562edbed66f.camel@linuxfoundation.org>
- <023cbca2-b5e4-420c-b109-445d7d8480a4@topic.nl>
- <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
- <802ee008-2325-42a0-be6d-a2d0ebbea050@topic.nl>
+Subject: Re: [OE-core] scarthgap backports
+To: peter.marko@siemens.com,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <AS1PR10MB5697A571F24C68195FB82070FDEB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Language: en-US
 From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <802ee008-2325-42a0-be6d-a2d0ebbea050@topic.nl>
+In-Reply-To: <AS1PR10MB5697A571F24C68195FB82070FDEB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: WA1P291CA0013.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:19::16) To AM0PR04MB6578.eurprd04.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA1P291CA0014.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::22) To AM0PR04MB6578.eurprd04.prod.outlook.com
  (2603:10a6:208:16e::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6578:EE_|AM8PR04MB7395:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cbab7f8-75a3-4cb0-c263-08dc7b2e5de0
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6578:EE_|PAXPR04MB9350:EE_
+X-MS-Office365-Filtering-Correlation-Id: 376dcf4a-6453-4344-4353-08dc7b2eac8b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?tvxdygA+83QHp4eUam1DmsXkImH/vEBinruwsyweZd6+pMZ1qYbCBXSdN9/6?=
- =?us-ascii?Q?e74sKmRIc+P1ALeA2F+p0usgS/6dy0Gd+z1hDJtZFWNyinEwBYcq7G+hz4sP?=
- =?us-ascii?Q?oBobnfiS3HtqjEoaLDQLWd/qwdwWwaleLvUMIBuBWEi0PdV4dxGNdnDoMB2D?=
- =?us-ascii?Q?7aXyy9VQK3bhgYVJJDWiHAYZv/5RuCqczeiTlRmg1qEp3d0Kw2ZtGmf7JdwJ?=
- =?us-ascii?Q?8U7ofr7YxRMlKAZl2bCy5tVjScXHtqguVUk9zFVXg7XMHodNa8iRplo+UYW9?=
- =?us-ascii?Q?l2/1jNFCqm81ayhCXwlLLm+WKm+d8iP5XG53+KouszLOkdnNvWpbQIFhXh0W?=
- =?us-ascii?Q?psfx+oqqgs8t3CeZYI6XLITAYZyPcI4Fo99DwwbTRQI3AOeDY+ciPMN2xHPC?=
- =?us-ascii?Q?GxxFaxeZXb8bpgdKh58Xql+Hvq8P0twVr8eMocDhxnLmXoB8ZJNPtMsDpcOy?=
- =?us-ascii?Q?Zi95InpNQmeS9Rfd/133YPGbaipXaS0YohkNAmbYvh8aEnVlUus7XWLrrnII?=
- =?us-ascii?Q?t5eIdbXnKLvauE9j1ecMzGbCnKc9Ys3wNU1dGmN4SoTTy9FqSthCAQ60ed8O?=
- =?us-ascii?Q?dNFpwJCl9GZGpHlQvJWp2aqjPWsDyk52DgatG7K9i3UgFJ5W2y6Bd9LXQYCP?=
- =?us-ascii?Q?7US8TvI4rH6FHsChHs2BGVGhRAKUaY9e8KwI2/FaPnfRYO1ardlQJV62wp08?=
- =?us-ascii?Q?NifpeVhKZurCrNwqMRmt1qgeymSOH1gADZ/d0izK9Ll9OyjPNSTolLdob+Tq?=
- =?us-ascii?Q?VT6XJZfQi3QzBvGRX5FrgGtS/tXWKu5rDSTd+eVOIIJ28damgWIV0POwqTei?=
- =?us-ascii?Q?Igmd9bCwwf18vNIcDOe/GUq+UwDa5EbxyViiTSoWmsjz4NcNGIaJg5/ZQ/yn?=
- =?us-ascii?Q?fRVzF1UPU26i5Twgu5Es51i25gZY4KBtsnaS5q4fVEU8O4Z7BX025zLgaSqf?=
- =?us-ascii?Q?BuoON+Ze8tTz9h/9sV+xMVf0pLfuJ2lEfuE/YALRACI0oCpcdV3FNLyeud3k?=
- =?us-ascii?Q?m6R9grR/2ECz1rh+6qBRj7bNXx3dv7PWaqk8GCDLzVjOdC5SYIubUb5G6C3F?=
- =?us-ascii?Q?VpUIDQ5+ILt2TAWMkQLLOJaklf0xsHECibAp7FrQEOsNRp9MJsqeSXS2cuyM?=
- =?us-ascii?Q?2LGed95UwVkrHqSuKd9wx1q6lPO29h2BoJbZ725ek5uGCNtMVsxhw4Uu7Uqo?=
- =?us-ascii?Q?S0TKlc3DMYo38Jx87ZGK5kYcIYPRuLYBrHKef32iymrYSw2kyOSu2q9hmd79?=
- =?us-ascii?Q?Teayu85pzrw90Bo7+ww4eeAHQDEN5+cfuskbi934Xg=3D=3D?=
+	=?utf-8?B?RVdoODFQcUwwMzVvWjRvZk0zQjVsejdHT0QrTU9PMzhIVzZKV2VkN2pydDVt?=
+ =?utf-8?B?eUxoUzc0Rml1NUlydWZBT0IyVFRVQ2l1TzdZbHFzR1RhWjhqMk01WnlwT25Q?=
+ =?utf-8?B?Q0lrbVcxVEJxK2ZiSEZ0Y2xMZktlOFFEd1NkeGVVYnRZK1VHbGRObGl3VEZi?=
+ =?utf-8?B?WElaQ1lhZEVZcmFFSURHZzNKRkJZYkNwSmZUd2FPa3ZubDNoRnhwdllTazd0?=
+ =?utf-8?B?bXpWVWxjQXpuclFadFhLbWF1L2dSSWhLMHRxQW80Mys5MEhnV1dlSWJHUDRS?=
+ =?utf-8?B?aXdtTU5kdFJReHhlMHNVMHJiTlhQQWlPU28xc09kVndnbEQxSit4ZUxCVWU4?=
+ =?utf-8?B?WnI2QVk1YjdBTUMvNzNid2RHS0JmRzArZWxRUHRPS1hob1IrRmxpNzkyL2kw?=
+ =?utf-8?B?N0lkZ090UkhpaVhnblNlOHdNSWpRT2x1cFF1MFdLMG9TNUxUK0x5a2JvNzhx?=
+ =?utf-8?B?cm4rUjBnMlpRQ3VOMVdlTnI3YndXUURKZVhZNjhFQXhxcVdycForR20yQ1Jw?=
+ =?utf-8?B?Wk1MT2xtSDdzME9wWGplalZHME83ay9NUmwyNjBIWmpZRHJCa3NGNjNRa2hz?=
+ =?utf-8?B?bURlZzVBdFk3OXJyOVp2dzNpQjMvTlNHNElvSVZDUnFLd1YrV25paG12YVZZ?=
+ =?utf-8?B?VUk5RTdpMERRRDJ1c3lEZkRobEVCdDVTUjRwUCtHRzQycGtlK3pxdzhqMENO?=
+ =?utf-8?B?d2hxWk9ZTmNNcVVJSnFROWovQ1l3T3NUWUFsc0ZnWnBlcGpjTHA3cnJGSWwz?=
+ =?utf-8?B?MGkrdDFWa0l1UncxNGNhQ1ZDa3ZyQ21xS1VlU213YlcvRjFISmo0NlVuRzlX?=
+ =?utf-8?B?MlZqZ281ZnNvZ2JHNGFSNVRqYjRUY1ZtMC9xVHk0VDRvT0lJa3NkdDViNFVM?=
+ =?utf-8?B?OVRYMzFEcDdWbzdCRnlNZVF2T0NUWVBEWGN5VThLL1l1Mi81blEwSHgxVnVZ?=
+ =?utf-8?B?VEFHTllINnpGQ0tvMlFZQ3FNaE9Ec3NJcklOT2NGRGJNNXdMbDY0VDZHMVRu?=
+ =?utf-8?B?WThWTlRZUWtPSHFMN0FGbHMzdUhvcUQ0blloR0QreG9TbnN3RkpUdW9UMDBu?=
+ =?utf-8?B?V3JZTlpnQnhYSDhpdmNlZnJHUm5jOG5SQmk4eTBKdzQ4WkVvR1lORjBvUFR6?=
+ =?utf-8?B?NkRKMEMvVnN2a0Vtb0VHenBMZGxHQmtaR2hBWEVkS3lZampzalZVaUZQczNG?=
+ =?utf-8?B?RWRocWFKVlJpKzI3MGY2S0lLT3pwNVhid1pIc0RrQjkxNnowMTl1cjU0Tk9G?=
+ =?utf-8?B?TXUyNTloZDdCR0FhTFlWeGZidWhNS2paNXhTdkl1SzVQK29XRmt1dUt6eUNW?=
+ =?utf-8?B?Ukp6RDN4OE81RDNnTlIvOVVwR3lJa1QrUE16M1lZMkVmUmxSRVRwMjA0elF1?=
+ =?utf-8?B?L0dGbUFYUEo3Y2dNYS9BTXlFemJoN3NMZktsbjRWUmRkTW1OM1BtdGcvV1VN?=
+ =?utf-8?B?ZUxub1VkTVo3MlJMbThiaHhYclJrVDd4L2ZSR0ZRaWtNYXNRb3FucjRveVgz?=
+ =?utf-8?B?cVVkTlNGTlYvOG1oUHUwZW1zQ2ZDSGQ0dE5IWVFHVHlBZVRNZzFpYVFEejdh?=
+ =?utf-8?B?OVZLL25mMUhickV1cWJ4VmJwWGo3V3FpWGJLSXBtK2UrYmVTb3FGRU1aa1VH?=
+ =?utf-8?B?N21pMTVSUVdCb2FtTzEvbEs5TjNVNmplYkppTS94TWJ6SWtiWFhtWnJUUUlH?=
+ =?utf-8?B?cVowMis5dG1hREVXS0MxTzhVRytQeXRJUmdIVUg0MUFURWYyZldkTlRBPT0=?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6578.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6578.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Ln3KBSdViuajDNHBUv3OIx2GeMeq2cerfUn4RvSxXHk8PzmHV4G5df5QkQZ3?=
- =?us-ascii?Q?RxHIwm+2ekgvW64zF/v2pfOz5vqn9IFL++3HxGRMAGS4gevKNZ1PPM7fK4er?=
- =?us-ascii?Q?eUwO5DymVvRXrXXWiyzTBfaguQsdSKeuMSGciMg9nV1iHpAHPPeTy6gmelvv?=
- =?us-ascii?Q?hBaDPsBjFqERlEflLN3sB4F3tVvxnXc+BEn/Vucjm4dpUpO5Xwj268n2mRvS?=
- =?us-ascii?Q?t9qUVQBebcy405Hq9B5qRPJfEEMzsLvd/LggRySRfX+4tApdwbHBdoRyhm15?=
- =?us-ascii?Q?xOnLM5yg6h8S+8CSKR4ry1xjvr9Uc2YmyxZA3FbjuDnuR6/ryPFy3VHD1imJ?=
- =?us-ascii?Q?kWsDokoNwSXjNFurUVg8zj49FQTFGMGlGS0dZ9NjN44HExEph3B2RevF9Nh5?=
- =?us-ascii?Q?EEnhhFF9YYp5Q/zd8f+uWD3rXnN/qIDFgTmsZUXIm2Z8pCsTqcYRef3CRwby?=
- =?us-ascii?Q?qw/CJdSjjek7q/OtWhPIQTQtHKRYc1RR6GQWAym02+RVUwUQ6U8gUCqBWtsH?=
- =?us-ascii?Q?ku5+6sLYppusCTdR7GmBwwvESGNzQhFo3PbR1MZJ1t4kfpYPFKFME+HJJlUl?=
- =?us-ascii?Q?MrXa3UvTqnhIpmMvXUny+M+tYtaUvMDqsqOCboA7DSlWtfaycnqRzggmykya?=
- =?us-ascii?Q?IcAzVdiTo3YTMtcYL98wjV3k/SbJH9DnSFStKCbWDf1hW5oqAt/K8xvKcCAS?=
- =?us-ascii?Q?PODfC3k0qpkghz48fc+COGl1WPaEgZphIs5gEDt8JEuuyuNBiB4ei4oVRGh4?=
- =?us-ascii?Q?Gm6+Chm+lWbwRfdmbtoAx6lwO1hOH8+9fve2l65U1G/2srWFuhd4hwH2Fe42?=
- =?us-ascii?Q?MBLux332+jBMDVjvOzyKsShMtEgva2jzKxrk9RpbLUwRsH2sb7XVn2OdfeBu?=
- =?us-ascii?Q?4ud98XdyL9dhnaaQ/f7lyhoeA020I8Qh467H8jmIpRCRw6eYdbttT75MirRD?=
- =?us-ascii?Q?0t588JHR/zjSW/3PQNbEi1+cGccQ2PZJSqy6ntEzFeC2tPsDlbltviOfc4qS?=
- =?us-ascii?Q?j4uB+aso72/zNN2tsElDIr6eOxPWcELVKtiXkja3OBr+uZpXhnz5NRSiMrlJ?=
- =?us-ascii?Q?qYW2l1Rn0RNWyYdE4YEwGI1rGPCZYHLks1MGy64pGU+fVUIkQ1CAMeB5/zVM?=
- =?us-ascii?Q?DFNm1CV8eHbyDy/JKy4/YOnrQ37yK1FcjrPKcoWR16ebFjbdgBqkEo3q7CwR?=
- =?us-ascii?Q?opj1SpOwbnD+jEwifFd/uSTmDQK9BchXBDBeuc+IfpDZjLXAusKt/eeNb+VI?=
- =?us-ascii?Q?rNlY1eb+PUh7rS2ggCcuBnCiEnblqQHKPeX9x2Qq2hxH2L3R3lmLF5cKGGsP?=
- =?us-ascii?Q?I7f9huNgvG6vMbRRNCfPb9pWoLWNgPavArCsADgDcKgXrsRU/7+oYBfHGcKI?=
- =?us-ascii?Q?VhuC2VvolgyAXEcl3QYFaLKOtDd7OJOrKdUYaN7hjdExthAGSa8ypjg5mZ6v?=
- =?us-ascii?Q?FMCI5pAmmJmc6OhwprI3Kww4p/LCETkTXnqKVRI05xv/Y1n8jBHkeP3avmYO?=
- =?us-ascii?Q?/BvQaKfmUomQPHaTXXFJ0uPURiGy8KF9LkVpQ1/kPRUhsgJCNO1UhgFAA2iX?=
- =?us-ascii?Q?aeJvyQJLgHnSaK/eCfhh5wUJTf2ZkI4yuS+2e4QDoxm3W29cEQat7+kvFAPv?=
- =?us-ascii?Q?DfC7uA7ndCz5risZrojxiM0=3D?=
+	=?utf-8?B?TGxpRnhNZ3ltN3g1VlNNK1hRMEdjRXpqYWRrd0Y0SG9ReTVXTkhoYWluWVFF?=
+ =?utf-8?B?YzFjdG1lOFFXdjg2YmhXUXBvOUdiZ2dNaXF3ZFNhK21JV05PckZBT2JrMWlL?=
+ =?utf-8?B?UDdRcnozZXk3MGxrS2lRM2dkdCtIZXFkejVJV2I3d09pQWdWcjZ6T1dCcVVO?=
+ =?utf-8?B?T3VMRXB5bExBeE1wV2pUUHR1WVpXWFUxbkFKbHJMcXhpZmhSTkZDeTlXRFlZ?=
+ =?utf-8?B?SEw1NXNiMnlUYzM3cEo1YVg5SjJzL1M1VXQ0dS9xVzM2ZjZmNmU2b2xDRkFw?=
+ =?utf-8?B?VTFGMkUwSDhuamg3RFFhaERjYWVQS3Z6Zm9mS29HYjJNUG5TWDczMHdMQzk0?=
+ =?utf-8?B?aVpseWk5T1Jla25oa3BEb1haNVkyM1FtVUZEZDhPbVExZkxVU3pvZzNLMVRs?=
+ =?utf-8?B?RUltQUF3QVM3Q3dqNWpZbkRsRUhOMHNKL0lDcEZEN3BJNGFtcHYwYUlyODFp?=
+ =?utf-8?B?QUNoT1V6Q2hmYW90cFlXNDduZ0JaRURTK0RrQTVVaURxTWhxWlpEa2E5V0Uv?=
+ =?utf-8?B?VGEwMWczUVZwdk1nOWVRZTZIenFaL0k1R0JmZ1poYkcrV0p2Yk45SjFvaktM?=
+ =?utf-8?B?MUVibzlmNEp3OHY0QjBlU0EvTlBlUEdmaWRUQTJKeFg2dmpGVldzeWhBUmxz?=
+ =?utf-8?B?RVNqNStKeklXUGFvWUFpdGxBWjBZVDVWY3FqbGsvaEJiS2dxZ0NTdTRKOXJK?=
+ =?utf-8?B?VURYc1ljdk5ucUR6LzkwdENlZ0VYbVVCSHZqSmdoWSs2NmJLd3NOKzZVR1dM?=
+ =?utf-8?B?SUZZVFJhcHFIUFdFRllUZjBLclVYTktOWjVrK1ZsZWRMYmVxcytpaU5jb2Js?=
+ =?utf-8?B?M1Y2TmNoRFRYQXF4eHlwVWhXVU01a2FOTld2N21VS3N1cnhpcEl3QVNBWlFU?=
+ =?utf-8?B?M2xVT0NWT0VLOFF2STdwVG9RNDNjckwrcGc1dDBaekh6V2d0Y1JGaE1kRmoz?=
+ =?utf-8?B?S2FaZDdQYnlLMkxWc25pM0hWRVQ1amtlWmpzYzdWczIrQlhsWWt2Wks2S3Ay?=
+ =?utf-8?B?R3dKTDlPQ3V3VThQY25veEZIemFrWElwMlFZKzhRUkNHODA0TGRCNFRna1NF?=
+ =?utf-8?B?bWY2c0VCMHFrZ2Y4b3BYZEZEbC9zTnNQZzAySnpIRkF5Nkxic1dJNjB2YmtF?=
+ =?utf-8?B?UDdwbWJ6YW5ReTIxSXRXQldTSGhjVUFSYkJMVGQ5czFpM2hRQ0pMRjY1OXg0?=
+ =?utf-8?B?ek80TTNvLzNOUGg4cTdscGMrMVZtWHQ4WStMSTJLMEZYUTVBVDExSk4rYTRQ?=
+ =?utf-8?B?aU5BZVF2eVdmR2krRmIzU1hSN3VEQVZZdFJqbjlLSFhYM3VNdTRPMFpPTnZS?=
+ =?utf-8?B?WnRvVHZ6d1dQeGVKZEdpRUVCNzlWaU96MzZnVnJZalZpdStJVWNZQXlOUm9h?=
+ =?utf-8?B?NVpqVGNlSUlma2dTWjRUNFZsSUdWYzl5ZFhhTlRHMnR3eGpodE5WZlo4SEFC?=
+ =?utf-8?B?NE0xK3hkZjJRVEJpRUZtWDJPbjMxS2ZNMkJrclZheStDRi9UVkFWRjVCamJL?=
+ =?utf-8?B?OEFjcVdDb3lzekUwVnRKanZ3TVEvRCtSQmJlQTcvajdaWWdTU2NXSlV1NE9r?=
+ =?utf-8?B?Z3F6UVVlQmhuaHZ0Vm9aamQxTDA4cnlPY3dPUnE0L0l5MzJxd011ZjBTRUZT?=
+ =?utf-8?B?MmpJeUluRnlBVUFNMmszNE5nVGxONmUvd3VNS1ZEQ2Q1eXBxdzRmNXkzaUdk?=
+ =?utf-8?B?RmgzSTUyQU81bitKbCtvRk9PVnd6UTF4NkgzMGlTTTVudHRwa1RPRWJ4SkFR?=
+ =?utf-8?B?aU92TmdyN3BvWndTak9QaHFkbHFNZkZLMkNwaTNUMUVWSTc0MDJDTjJNeHBz?=
+ =?utf-8?B?UVZZL3QvT0F1LzBXTUpWVzJjRDVtb1FoVDh3NWowQko3M1pINDVoUmQ1aHlD?=
+ =?utf-8?B?QkRPY1lWeUJ0VGFkTWJCN0dyWXY4RS9jM1c4Q3BJY2FaWWp0VHNudjlYRUQz?=
+ =?utf-8?B?cXdOOGdJOWIxYUZRR3ZjUm51ZzRIY0ZzbHRyMWFoZEtZSDdlNGp2NHJjTkh1?=
+ =?utf-8?B?cUczbDRIUW9VL21kYW0vSHhMTTJoUFJKR08vSlZ4VXFIQ3ppRWhRdHhYcG5o?=
+ =?utf-8?B?c1h3VWhqVDJ6eWpXV05mUDl3Y2xSU2w5amdkV1FsWFl5TXZiMFB2MFlOK2pK?=
+ =?utf-8?B?c29CTlQwRXZvZ3lCcEphRW1ZeDRFeVpNYnc2R0Z3RUFqMU5vQmp0aVlUVDF4?=
+ =?utf-8?Q?LddUw86mNJf18ZtZkDP5/T0=3D?=
 X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cbab7f8-75a3-4cb0-c263-08dc7b2e5de0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 376dcf4a-6453-4344-4353-08dc7b2eac8b
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6578.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 13:43:45.3989
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 13:45:57.5205
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l2tB5GXCADA7bAPtY6OhggetgUFVXlyUtCos0CAkZBjMnsFD/HNQ6DLOOuoHVv49ITYP3mKw6Jzv7iuAakRyyLMqV8ov2Svh5hEtNm//Oyg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7395
+X-MS-Exchange-CrossTenant-UserPrincipalName: XaZ6LJLmeYrY3bMGGGMx1hbplplmR3BjcSIHos739G9We7QKLXINkg5/kYuUKoZD9yklmTkhutdPaMS04R2/zS1TkxwM86nBarz8xc5yd+g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9350
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 13:43:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199798
+ <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 13:46:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199799
 
-Hi Mike,
+Hi Peter,
 
-On 5/22/24 8:43 AM, Mike Looijmans via lists.openembedded.org wrote:
-> On 22-05-2024 07:39, Richard Purdie wrote:
->> On Wed, 2024-05-22 at 07:28 +0200, mike.looijmans@topic.nl wrote:
->>> On 21-05-2024 16:51, Richard Purdie wrote:
->>>> On Tue, 2024-05-21 at 15:57 +0200, Mike Looijmans via
->>>> lists.openembedded.org wrote:
->>>>> kernel-fitimage inherited uboot-config, which resulted in failure
->>>>> to
->>>>> run "menuconfig" on a system that has both multiple u-boot
->>>>> configs and
->>>>> wants a fitImage kernel.
->>>>>
->>>>> Fix the issue by splitting up uboot-config into uboot-config-vars
->>>>> that
->>>>> only contains the "harmless" variable settings, and inherit that
->>>>> in a
->>>>> new uboot-config class which contains the Python code to do the
->>>>> U-boot
->>>>> specific settings. Inherit only uboot-config-vars in kernel-
->>>>> fitimage
->>>>> so that it has what it needs but doesn't break.
->>>>>
->>>>> Fixes: f9e834e31788 "meta: introduce
->>>>> KCONFIG_CONFIG_ENABLE_MENUCONFIG"
->>>>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
->>>>> ---
->>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=
-=C2=A0 |=C2=A0 2 +-
->>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/uboot-config-vars.bbclass | 95
->>>>> +++++++++++++++++++
->>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/uboot-config.bbclass=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 80 +-----------
->>>>> ----
->>>>> =C2=A0=C2=A0=C2=A03 files changed, 97 insertions(+), 80 deletions(-)
->>>>> =C2=A0=C2=A0=C2=A0create mode 100644 meta/classes-recipe/uboot-config=
--
->>>>> vars.bbclass
->>>>
->>>> This looks like it might be a good candidate to move to a file in
->>>> meta/conf rather than a new class file?
->>>
->>> What does "this" refer to exactly?
->>
->> The variable definitions you're placing into a separate class file. I'm
->> saying they look more suited to a shared conf file, which is a
->> direction I think the project needs to move in generally.
->=20
-> a "uboot.conf" then, okay.
->=20
+On 5/22/24 11:10 PM, Peter Marko via lists.openembedded.org wrote:
+> Hello,
+> 
+> I'd like to request following backports from master to scarthgap
+> 
+> To match versions in scarthgap branches between oe-core and meta-clang:
+> adc2651a8e902af24fee6ff30a72f4b7c63bef6f llvm: Upgrade to 18.1.4
+> 02df2fc6241ac8fb0e78f2fdff97a04e5c561d54 llvm: Upgrade to 18.1.5
+> 
+> Fix CVEs:
+> bdf7b7460a4816e3d447264730a2814209667fb0 ncurses: Fix CVE-2023-50495
+> 6573995adf4cfd48b036f8463b39f3864fcfd85b ncurses: Fix CVE-2023-45918
+> 
+> Version correction:
+> c94e46019a7d443ccc4763ba16d87e7e97abe977 update-rc.d: add +git to PV
+> 
 
-I was about to comment on the v2 that this should rather be a class :)=20
-Do we have some information on how/why this is the direction the project=20
-should move towards? What are the pitfalls we're trying to avoid, or=20
-benefits we want to gain? Or is this just some better/best practice we=20
-want to go for?
-
-On a slightly different topic, I've been bothered by KERNEL_DEVICETREE=20
-being defined both in machine conf files and kernel recipes (in my own=20
-BSP layer, I'm not saying I'm doing things right :) ). I did this=20
-because I wanted to make a switch between kernel recipes as easy as=20
-possible while having some kind of common DTB in the machine conf file=20
-(e.g. upstream doesn't have all our Device Trees/Device Tree Overlays=20
-yet, sometimes the names slightly change between recipes...). If=20
-everything was in machine conf file,=20
-PREFERRED_PROVIDER_virtual/kernel/PREFERRED_VERSION_virtual/kernel would=20
-be only a part of the switch). Also, I use KERNEL_DEVICETREE in the=20
-machine conf file because I need to extract the default device tree to=20
-do some logic on it (namely, modify U-Boot at build time so those half=20
-broken ancient vendor U-Boot could boot my image). Not sure this is=20
-relevant, but had it in my mind so just putting it out there.
-
->>
->>> Note that this patch just moves code, it doesn't introduce anything
->>> new.
->>>
->>>> We could add any functions needed to lib/oe/ if they can be made
->>>> suitably generic.
->>>
->>> What "functions" would that be?
->>
->> removesuffix is the one I saw that was needed in the new class file and
->> wouldn't work in a conf file.
->=20
-> Interestingly, "removesuffix" is a built-in Python function since 3.8:
->=20
->  >>> 'hello.all'.removesuffix('.all')
-> 'hello'
->=20
-> And 3.8 is the minimum required version for Yocto anyway.
->=20
-
-If we need to backport this to earlier releases, 3.8 might not be the=20
-minimum supported version of Python anymore, making this harder to backport=
-.
+I think the most efficient way may be to send patches with [scarthgap] 
+in the mail subject (see --prefix) to the ML :)
 
 Cheers,
 Quentin
