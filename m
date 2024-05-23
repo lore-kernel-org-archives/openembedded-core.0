@@ -1,110 +1,88 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A94A2C25B75
-	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 17:13:56 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.376.1716484427303912553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E85C25B75
+	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 18:19:10 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.1078.1716488343282091020
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 May 2024 10:13:47 -0700
+ Thu, 23 May 2024 11:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bvUi5v43;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a5d67064885so736498366b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 10:13:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ljimwsvI;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-24c9fb22c09so38156fac.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 11:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716484426; x=1717089226; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=sRxqCX9Aj5ERPXLa2VMW8i9OJ0fKkRw1sTHT2b81f1E=;
-        b=bvUi5v43TVIdmVUnopKeHRUVKcDXeaWIoUS8xQ1z5EMPmTxfphdvEy1Z0jt+QuGHr1
-         SalT16W4+D0Z+liqOISOqWd/CldrnxyLYgxIV8iyzvhcOmv2jHpyQinCAZbu10L0LZT6
-         YFIz5MNa4yXLCRs7DYGhTE+RwWgY300gp1xS1c6U34G81v0m4K6hgcF6NSu9nnUIvmJ1
-         c7LxbHSpjW+SdrpTzg9JwvOT2aqEy4hggXhULCBamjHoYtP1N6GaE/0rNcTBcmJc2jqW
-         2yQ80LRzax42oknN6xxK9pp15Y1/QH86BlXDTZCWsuV8SK6V1TCMJSj1xQ4I/nuHRFsh
-         YSKg==
+        d=gmail.com; s=20230601; t=1716488342; x=1717093142; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6ORSu2QnmsYZYDczocKE9jLtZkNLGZGl2FmoG8O8IQ=;
+        b=ljimwsvIygt7zB4JB0dqe4ILTERvFM/RPZ4RGaiwhWY+8ighZl68/fGStjBbqpnU8Z
+         jX4e0vg2tDU6GQRjxrzvNyAiAiQrFSnvPkClsxLINe+JKsXR4h0wUQJSjDFFUNOc9bHP
+         xu+ebRaE1cvrPrua3TxRv/kxBxg8+EjEOQdD+hw/I1rvwyyvELJA5ZbuWGtm4cyNHkMi
+         Wxoehuh1/GXfx2aa3GEFuSLx8G0JWhSaJH9fViKHtiWjUG7aER+048TMayHNrpO6EF3s
+         M+aSn8moz4GfU9loYRkeO40PGy2+FrhrSZ7e2hB2AUF9Cpyel7w7LnDZOK7RYYOP9pBO
+         vjgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716484426; x=1717089226;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sRxqCX9Aj5ERPXLa2VMW8i9OJ0fKkRw1sTHT2b81f1E=;
-        b=DrkwZ8Al425J7MoeMuWzpQiFNbLbCfZo+J5K2TSKOnhdiQeuC54IwYXC4CDbFHW1Lw
-         1OKCaSnG0e6UNrXNvbAuBAbrbsMIoSPKcXDzlxvShWy7WyxDoLuoLU26S4Q48rbRYd+C
-         srtJirK4xQWsA/Y1luaPabdtLFhCkP2DkjCulz/inCXI6qVHgmHGVsYb4qn7lae3Dcz1
-         yPo0kAQLIH5GmVvU+JDM+MBCt3JHOh0DNsqUD6BUNx5/3xCszCpqTczRhWjGeBmE8iCk
-         HEa8BENSkYlFJnaKVSngvu+54qoCqs4ReDBJ8JMRdfeoznSvjn6CzjLAXr/D8kKiiWww
-         aowA==
-X-Gm-Message-State: AOJu0YxG0rhSjvWLu0oDY6ZpSWOZp7FkbCIKbdhXWuXbRrsvIvpN9tWP
-	o4kuL7AnlyiME8UtXjRN7UbRmvynbXcYeuiaH3bG0pPNQCXLOHVM
-X-Google-Smtp-Source: AGHT+IF1f7A3dd4ys4p7NQ0K7P9woGjCkBrWw3pSckrAuwvE4ed/LSg9HpyLmgYRP+ylqm/szjlxVQ==
-X-Received: by 2002:a17:906:ad86:b0:a59:c0a6:25cd with SMTP id a640c23a62f3a-a62280b0a05mr524541266b.5.1716484425535;
-        Thu, 23 May 2024 10:13:45 -0700 (PDT)
-Received: from [192.168.0.7] ([194.191.226.159])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a5a179c7e02sm1963999866b.105.2024.05.23.10.13.44
+        d=1e100.net; s=20230601; t=1716488342; x=1717093142;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a6ORSu2QnmsYZYDczocKE9jLtZkNLGZGl2FmoG8O8IQ=;
+        b=Kjwddulkrg+DiIxwpzpQTPpwmLSqmAu/gVsrkfgkPd/nxxH5D+DGiPjxTyRx3T5ygR
+         m9EWA2VsxWWHhj5sDanpBtMa4TrV0sJUcvZMuWoq4rBm+UnNeZKMRN8b/Xd7scMwnQAI
+         pN6BdIacQokSFmAPk0iQzy7mylxgatXkpPW70yYAx5L2icv3z4KalKvuUpCB1bxmKH3Z
+         4wqRUOiMgjyP9NwcQA3w4fshlFX+ZBWafM/aW4T3Gpm/MBQ1Mfv+Ze7QXDKAT2s9wfZf
+         tWGBkXXLwMKfcxacrL/H0skdyrGcCPvBwiu29dm0RLFixeeDaf0Cy8j2fpU0ycV7L84n
+         Aaog==
+X-Gm-Message-State: AOJu0YzQkqBBbA1q1uNulr8HPYr3dUptHOTR+h3clw7OmPF4YivGzpn5
+	9OeV9JjLGf8NJXunYMP9TLN4WgUAFyDOUixyXjtSfeiZ2HKfdeZdyOg7jw==
+X-Google-Smtp-Source: AGHT+IEmMpJ1Iju0VK/YlrT+/YKovJMA+Cl1DMMlpWR2n9g90+Dmu0v5CCAxXz7wRk41mppvZH7SWA==
+X-Received: by 2002:a05:6870:1492:b0:23f:a83b:29c with SMTP id 586e51a60fabf-24ca11dca1bmr51587fac.11.1716488341914;
+        Thu, 23 May 2024 11:19:01 -0700 (PDT)
+Received: from localhost.localdomain ([204.77.163.55])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-6f0fc46b829sm4672209a34.49.2024.05.23.11.19.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 10:13:45 -0700 (PDT)
-Message-ID: <96674a6743679539da9ca805adaf66150540d92c.camel@gmail.com>
-Subject: Re: [OE-core] About an issue of run-postinsts.service
-From: Max <max.oss.09@gmail.com>
-To: alex.kanavin@gmail.com, leimaohui@fujitsu.com
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, Max Krummenacher
-	 <max.krummenacher@toradex.com>, stefan.agner@toradex.com
-Date: Thu, 23 May 2024 19:13:44 +0200
-In-Reply-To: <CANNYZj9UpUdJ2G5ng2Evipz4MeqbK_SuQuuQDpamnnuAxY8-Pw@mail.gmail.com>
-References: 
-	<TY3PR01MB1105631CC9A9A05E506C8D948A0F42@TY3PR01MB11056.jpnprd01.prod.outlook.com>
-	 <CANNYZj9UpUdJ2G5ng2Evipz4MeqbK_SuQuuQDpamnnuAxY8-Pw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+        Thu, 23 May 2024 11:19:01 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] packagedata: Include package name in extended data
+Date: Thu, 23 May 2024 12:18:58 -0600
+Message-ID: <20240523181858.2253063-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 17:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199813
+ <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 18:19:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199814
 
-Hi
+Include the PKG name of the package in the extended data
 
-Am Donnerstag, dem 23.05.2024 um 08:23 +0200 schrieb Alexander Kanavin via lists.openembedded.org:
-> On Thu, 23 May 2024 at 05:00, leimaohui via lists.openembedded.org
-> <leimaohui=fujitsu.com@lists.openembedded.org> wrote:
-> 
-> > And I tested by qemu and on PC, there is no issue that mentioned in the patch(fd266b1b66844d660ebd8e33fe22c08c8ddaccbf) which added "--no-reload " in run-postinsts.service.
-> > So, can I submit a patch to delete the "--no-reload " from run-postinsts.service?
-> 
-> I think yes you should. The original change feels like a hack around
-> bugs in systemd, those bugs may have been solved long time ago, and if
-> they have not, we need a better way to handle this (that does not
-> result in systemd warnings).
-> 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/packagedata.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-We since removed any pkg_postinstall_ontarget from our images built with OE master.
-
-I now build an image with a dummy postinstall added to see if the behavior can still be reproduced.
-That simple test on an i.MX6 based SoM no longer shows the issue, so likely it was fixed in systemd
-/ OE / wherever.
-
-I'm fine with the change to remove "--no-reload " in the run-postinsts.service.
-
-Thanks for pinging us Alex.
-
-Regards
-Max
-
-> 
-> Alex
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199778): https://lists.openembedded.org/g/openembedded-core/message/199778
-> Mute This Topic: https://lists.openembedded.org/mt/106256417/3617484
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [max.oss.09@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index 2d1d6ddeb75..6e7cfb56beb 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -276,7 +276,8 @@ fi
+             d.setVar('PKG:%s' % pkg, pkg)
+ 
+         extended_data = {
+-            "files_info": {}
++            "name": pkgval,
++            "files_info": {},
+         }
+ 
+         pkgdestpkg = os.path.join(pkgdest, pkg)
+-- 
+2.43.2
 
 
