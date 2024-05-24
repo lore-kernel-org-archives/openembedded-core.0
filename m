@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11226C25B74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 299C3C25B7A
 	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 12:14:51 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.14256.1716552881573603528
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.14314.1716552886185298628
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 05:14:41 -0700
+ Fri, 24 May 2024 05:14:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CiV1r4OW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f34b5f1964so12404855ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=q0DG2S8H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f05b669b6cso28305415ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552881; x=1717157681; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552885; x=1717157685; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zoqpsjNqlM44F+/PKaI3j5G6wDcMgV3sfGmEDLQNFf8=;
-        b=CiV1r4OWugu2BzTT6MdCzXgbAfBv5y0EoZl0NzjW0u4ZDT798DN9UFDFA+kjM0MJfl
-         4A6oOTzAcfQgLVr927IzXCGlx7x2fGnFwWGSMREBd9MKAqNB2ukHxnZ/HiHFh6YxVlSU
-         t3/mMdh2ZyRTYhAs55vOap7swg3QKs6oKMUQHy5ttXbXt6HKkCsseTeX9uKBnRLU6lCm
-         xsw5ru6G1gksFf3u53X8LNxW229RExugTk4wF3Exq2tcwYKnr6lr8xZhcSAuN93w4Jsv
-         cgIELwWj35kulpqHJLOawO1OUIe9pYuwZS4jyUNmpipmKx3nbDigpmpsBVY8lcYfme7L
-         GbXQ==
+        bh=agVonJemaQkKIEHyBcp5LBjh+Cu+JBvNqj3tnJa8qHE=;
+        b=q0DG2S8HAhEhSdaBgTLupsO23f9IDxJXy6VRt/+0tMh+edS46BjprHOh4Lt7OLtUwh
+         CwQAVDeyJ61+O4F79p7cu+s3Xz+uzQJWNXzx9Yl0vDTVFZJk59CuJzoCm6VrVG2Lb1bo
+         ADqMhyALDLbPblPj8J7idw0HcU/I7N85l0leKRwgt25ZByZcbz0vtHEYICtyLhslVamo
+         MS6bWk6ku22a4OU6eX7fS2FI8mC6GpYTYu92xfo4uNCX2aFTbHqTRj/Gsd41uMMKhM0r
+         UGNt0a5PrRjLRE30I7hjtP2hr5qLapnfVXKNNuIFM4ahPbA1shN3epAKMZdUqluknd8F
+         jvgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716552881; x=1717157681;
+        d=1e100.net; s=20230601; t=1716552885; x=1717157685;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zoqpsjNqlM44F+/PKaI3j5G6wDcMgV3sfGmEDLQNFf8=;
-        b=oqNe7Mamd/cVqrT/lNHCrdHjmkgu2n5MCLGhaSLZYMeVLREsEI2zRcsr6gM2bFWFW3
-         q+OujrtGye8kl3Gq75pHYxzLDUKkNDdjkcPJEaSrW2dyuyB7o8VUPaQ9gyxecm9YQRie
-         mVjlw4lQc1AwcxaNNhRZyl+jg2r/qUpn9DHgssUIhuBcpzoC9JFNiZxLN6zQAm6P3pYL
-         LOV741d5IOgUhoP7dWTDo/TXFUdaRSBjLEe1f8Ln5ZrdkwED+/QJfPubS2U4pHlswqF1
-         WoLbEoi0sQPhTSBUabJdTm68ebtn/PIiiVb6Z2f5UucxcBkBTSpBSv2NDGcGwyILXRgy
-         MVLQ==
-X-Gm-Message-State: AOJu0YyXJ8pFhHeUgnW0j1glljX67PsPS5/xPxpnjJfAwUSVRNMqzO5o
-	xPQhcgvbbMAmZr7CbhAmQ5R0eU6/0gvwCPoneXItqSdLWzVkEDEZW9HGbV0bAfwOmtxQ7zcAd/+
-	2
-X-Google-Smtp-Source: AGHT+IEWWefrif93XYcKGgMFLxuyxwWq8NsNZqyYce5hRHGR8A7VIXP9DXB2vQ3H8DsSxYP0yOInfg==
-X-Received: by 2002:a17:902:da8d:b0:1f3:35d9:432b with SMTP id d9443c01a7336-1f4486bd0f3mr21556555ad.10.1716552880822;
-        Fri, 24 May 2024 05:14:40 -0700 (PDT)
+        bh=agVonJemaQkKIEHyBcp5LBjh+Cu+JBvNqj3tnJa8qHE=;
+        b=rEopvcJydrj+ZbkMzzFjZn/A/RRkP+dvHCv29r0cZgmhI9nIwjPerxM843TOcXaouV
+         dbEyfJrkGW/cLJGmsswteB/hmIbkchU8uqRac54Ntms1QUpoZOrKubLY4/Ic3upB7J9j
+         REyl6P+OLXNDqp8bBl3dJEJb9E0WzOH3mUaPm1tYe4Io51ZbazsdtPqe8NPDjgrzf8Fa
+         30lGOVprZoooqyNuEZIGmSlyog1MLKOBuSWYiMWH0j+Dr/wfjPohq2wMm/rZmDdnQm9v
+         Lv1H9P8PW0dEp2C/L+YoEbEFZIEWbxEz/aTcRPpnEOuSqPs/ekEqmi+55LNKa5JVbLcq
+         7qKg==
+X-Gm-Message-State: AOJu0YzhEraHNctCvV68qjxOomxgJxpzXIx8tc/rukKXGft73ezc4EKX
+	HRyZrpwRuvX2j2fOtGpo5L+gLOO8pcYihBdhE0SQhsbmu3KY3FLkbb9UHnG6M5i00bq90jP3O4b
+	h
+X-Google-Smtp-Source: AGHT+IGnLKqLWnlkA9R8Xj2G/NpZMA1/sfAHgnB/oEUXkXnEgYZIcVflnk53biBDAwy8ivVKJsn5Kg==
+X-Received: by 2002:a17:903:41ce:b0:1e2:4c85:82ea with SMTP id d9443c01a7336-1f4486f23c2mr25984395ad.24.1716552885435;
+        Fri, 24 May 2024 05:14:45 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 05:14:40 -0700 (PDT)
+        Fri, 24 May 2024 05:14:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/8] go.bbclass: fix path to linker in native Go builds
-Date: Fri, 24 May 2024 05:14:21 -0700
-Message-Id: <b611c77e4883ad81a8f40cbee3fea006500735ed.1716552687.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 8/8] initscripts: Add custom mount args for /var/lib
+Date: Fri, 24 May 2024 05:14:24 -0700
+Message-Id: <e0a1ed7aa1f2b12d985414db9a75d6e151ae8d21.1716552687.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1716552687.git.steve@sakoman.com>
 References: <cover.1716552687.git.steve@sakoman.com>
@@ -62,69 +62,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 12:14:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199847
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199850
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Colin McAllister <colin.mcallister@garmin.com>
 
-Building native Go tools results in the tool pointing to the wrong
-location of dynamic linker (see below). The linker is looked up in the
-temporary dir, which can be removed if rm_work is inherited. This
-results in being unable to execute the program with the 'No such file or
-directory' error. Override linker specificiation for native recipes (and
-let Go build environment to pick up a correct one on it's own).
+Adds bitbake variable to set additional mount flags for the /var/lib
+overlayfs or bind mount when using a read-only root filesystem. This
+can be used to set additional options like "-o nodev".
 
-The error is observed in case the distro doesn't use uninative.bbclass.
+(From OE-Core rev: c3109e40e2c2c881996dd3fcc95fca74f098646d)
 
-If uninative.bbclass is used, the binary will be patched automatically
-to use the uninative loader instead of the system one.
-
-Without this patch:
-
-$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
-	linux-vdso.so.1 (0x00007ffe945ec000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3a7490e000)
-	/home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/x86_64-linux/go-md2man-native/1.0.10+gitAUTOINC+f79a8a8ca6-r0/recipe-sysroot-native/usr/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f3a74d13000)
-$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
--bash: tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man: No such file or directory
-
-With the patch
-
-$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
-	linux-vdso.so.1 (0x00007ffd19dbf000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2d44181000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f2d44586000)
-$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
-Usage of tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man:
-  -in string
-	Path to file to be processed (default: stdin)
-  -out string
-	Path to output processed file (default: stdout)
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Colin McAllister <colin.mcallister@garmin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 44b397daa68b4d0a461225fe9ff7db8b5fcfdb7b)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/go.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../initscripts/initscripts-1.0/read-only-rootfs-hook.sh      | 4 ++--
+ meta/recipes-core/initscripts/initscripts_1.0.bb              | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 55f9d8f230..97366779e3 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -45,7 +45,10 @@ GO_LINKMODE ?= ""
- GO_LINKMODE:class-nativesdk = "--linkmode=external"
- GO_LINKMODE:class-native = "--linkmode=external"
- GO_EXTRA_LDFLAGS ?= ""
--GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -I ${@get_linuxloader(d)} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
-+GO_LINUXLOADER ?= "-I ${@get_linuxloader(d)}"
-+# Use system loader. If uninative is used, the uninative loader will be patched automatically
-+GO_LINUXLOADER:class-native = ""
-+GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
- export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
- export GOPATH_OMIT_IN_ACTIONID ?= "1"
- export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index 6706a117f7..a29773647f 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -37,9 +37,9 @@ if [ "$1" = "start" ] ; then
+ 		mkdir -p /var/volatile/.lib-work
+ 		# Try to mount using overlay, which is much faster than copying
+ 		# files. If that fails, fallback to the slower copy
+-		if ! mount -t overlay overlay -olowerdir=/var/lib,upperdir=/var/volatile/lib,workdir=/var/volatile/.lib-work /var/lib > /dev/null 2>&1; then
++		if ! mount -t overlay overlay SED_VARLIBMOUNTARGS -olowerdir=/var/lib,upperdir=/var/volatile/lib,workdir=/var/volatile/.lib-work /var/lib > /dev/null 2>&1; then
+ 			cp -a /var/lib/* /var/volatile/lib
+-			mount --bind /var/volatile/lib /var/lib
++			mount SED_VARLIBMOUNTARGS --bind /var/volatile/lib /var/lib
+ 		fi
+ 	fi
+ fi
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 7c9d9ca4f1..e28d8c6b72 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -59,10 +59,12 @@ FILES:${PN}-functions = "${sysconfdir}/init.d/functions*"
+ FILES:${PN}-sushell = "${base_sbindir}/sushell"
+ 
+ HALTARGS ?= "-d -f"
++VARLIBMOUNTARGS ?= ""
+ 
+ do_configure() {
+ 	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/halt
+ 	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/reboot
++	sed -i -e "s:SED_VARLIBMOUNTARGS:${VARLIBMOUNTARGS}:g" ${WORKDIR}/read-only-rootfs-hook.sh
+ }
+ 
+ do_install () {
 -- 
 2.34.1
 
