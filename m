@@ -1,204 +1,332 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <mike.looijmans@topic.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889D4C25B74
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 08:47:09 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.120])
- by mx.groups.io with SMTP id smtpd.web11.11435.1716540428492870709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 022E1C25B74
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 10:03:30 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.129])
+ by mx.groups.io with SMTP id smtpd.web11.12360.1716545002741011012
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 01:47:08 -0700
+ Fri, 24 May 2024 03:03:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=I1qyFg+7;
- spf=pass (domain: cherry.de, ip: 40.107.22.120, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@topic.nl header.s=selector2 header.b=NbxhN5SN;
+ spf=pass (domain: topic.nl, ip: 40.107.20.129, mailfrom: mike.looijmans@topic.nl)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bY78hMOXpBPppC2y/PhxyWPyqM9mPu5A9oZECADOivkcHOKRo/OH8o15bSPVXGz8kMkQMgzklUYFYxPIKW8NwrPYmvOfPBsg7sMrqMPWnN1KFae/GDpipougc2Cuc/t8RbMc/L3ijD4HVfVOuvzdYcKQXITNRawl1LxF5vEspNJCwH1w/i7HRvznlQ60vXXFj5X9xpV/LhRJT6XEWBLzyAWgE8ZebBQDRft9PHNTk3XkE+QQ0I8VxBWADAOIkq+h3BhfnFQGwFA2CXREUI6BJtR6Auh9DRGNRwSwJWk+Gkz5ZffugbAmOZpCHn16BdEBhkKe7v6ZiJKhOBMAT47z6g==
+ b=i/MZU2QZWd/6NFAW/FKJyzgWOWNNJ0tltGWBzfBomhnM1/iSjhiMxvjfiz1ErYm2SB1ElocZcZ02RrXJsdTMYsO4byQbthZfjKJxeXM94zlTH433PsXfK3k5lJroob7a4qNrMSeu1tqjPIxEedGD4jDkcs8wNNzfHUM3oVh2LHVB8npIvyHMhil7rXb7kAhwWG65wgBnd+pfUM9K+ywot3AxnDs0DF9ClKg8KBctMEEE3C98qSU0EzNOnuG6iq4kQDUlUM67iMdIUCtKYiWLnY7cLJ8qSCPWjj4OmrUvsFA0ORGqP1ukxrPvVxXz6Cb845xGcc80ZHSRj+xr09Zn1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v2yaS3q/Pl3nnFk1kgnmzZdpSTfNnu+QpaO78kzj8ng=;
- b=Quxz7NJGHRF1OSb+HRMhfejHSIODj0WcBIuxVsQNK1GK4LV1SItssXJwAy3sARxRzQXMLKIms1ikAkZZgjalwpG8ZaKWPWVwv9rWvXRHMx4wzTytQpFAOYs8rvVGiajTK2gOmK8lQVYmrNZeVC69KeAHGegcNCL+Sc5KwnocjWZhukQDDgUZ1NlUw+djSO+P+oKhUA5TSgFlbGSYI44loyemEDUSIxjFoEnzpDRasVlTbAoC5s9uF3NHwoU89gBYKqzIAj4E3+2DxOF5YE7XQ9jQeA0TukgkLiTqi4FSm2hvlr/e3MuKoQDofot9snrx/xMIU+mc/f1rBE+FBw1DFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ bh=MYti5OVUT8GPvF6CbmehoagfNlOwULv5L4/gH+8yuik=;
+ b=SnDYZ5XqVXMF+zcNB0N8rkTb3GlqkSCHdvZToJA4RtfzXMP+HfSZ7nc6O45cRb5wifotdwCw6whogPk2V9VRlsef6pDtQL8e0+Ljk5FY/ficpwh7g108Wi9UbijfUTb8WXWV01aNY8WBlai9Y1YIJDW5OU++jDPkQHV+Jn657DlzBWHXsuTvEDUe0Yhq/ZVw9+ipt6iWWLq/wpRzjnp53fkMK6iuTEeIeFbrhIkHySlOBGUejA/O2+lRAjpRAHWd1iveRVzOdUTcJDwXsUtxJ1Upj4/npWPLAoIxOpnsnl4IvKQBzfvS+1X4dszGTKvp4f9aIN1u++rEVOEv2cgnlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.93.157.195) smtp.rcpttodomain=cherry.de smtp.mailfrom=topic.nl; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=topic.nl; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v2yaS3q/Pl3nnFk1kgnmzZdpSTfNnu+QpaO78kzj8ng=;
- b=I1qyFg+7eoQvCfM+ddMVf03rFmXUqWZnV2k4wtlvIyzK/je9lkYPC5YxR35LyPLWZV5A+2dAhiezokueMsttm1X1TQ/fs/RaK5L97zKaTm2hcKxK0D86BF/RCd/IaDm5KQlpJ0G5ddbDus/tWr3fXr4pipE5frcjto8Nifutn74=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from VE1PR04MB6589.eurprd04.prod.outlook.com (2603:10a6:803:128::25)
- by PR3PR04MB7419.eurprd04.prod.outlook.com (2603:10a6:102:80::15) with
+ bh=MYti5OVUT8GPvF6CbmehoagfNlOwULv5L4/gH+8yuik=;
+ b=NbxhN5SNIhsbPGnQvcA06d2LSZvIaGLTWzeHf8lq7VUb4RFWuY5JcuqV3n2UbZxLagxmguBND0aM1g8RTMjfF4SVWgoQdI9SwJ2DEnOlMtPBDyR+husHHNN+2QV6Am5NAulDYKhOOlobcPbliT07HFb0r2e3vxNXeWymy9zyftBWhE4eADJ85+rJdaGBhg4vuMbniismAD2G3eIG9eShJSamPdX7XO9iLI6LCCucE1ti4mqyE6OKhiMSbB7ht62cqhIOE781kM449C0ECt5mwVnlQMivnq1RDwuP0fOx4xnm03GrVsJHd+oy9p509V1CNZF5ajvv6J26Gvi69Af7Jg==
+Received: from DU2PR04CA0307.eurprd04.prod.outlook.com (2603:10a6:10:2b5::12)
+ by AS8PR04MB8996.eurprd04.prod.outlook.com (2603:10a6:20b:42f::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Fri, 24 May
- 2024 08:47:04 +0000
-Received: from VE1PR04MB6589.eurprd04.prod.outlook.com
- ([fe80::8476:1b2f:f236:db31]) by VE1PR04MB6589.eurprd04.prod.outlook.com
- ([fe80::8476:1b2f:f236:db31%6]) with mapi id 15.20.7611.016; Fri, 24 May 2024
- 08:47:04 +0000
-Message-ID: <594fc714-ed7e-46c9-8740-908c2df5e2d7@cherry.de>
-Date: Fri, 24 May 2024 10:47:02 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Fri, 24 May
+ 2024 10:03:18 +0000
+Received: from DU2PEPF00028D01.eurprd03.prod.outlook.com
+ (2603:10a6:10:2b5:cafe::93) by DU2PR04CA0307.outlook.office365.com
+ (2603:10a6:10:2b5::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22 via Frontend
+ Transport; Fri, 24 May 2024 10:03:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
+ smtp.mailfrom=topic.nl; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=topic.nl;
+Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
+ 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
+ pr=C
+Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
+ DU2PEPF00028D01.mail.protection.outlook.com (10.167.242.185) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7611.14 via Frontend Transport; Fri, 24 May 2024 10:03:16 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (104.47.17.168) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Fri, 24 May 2024 10:03:16 +0000
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=topic.nl;
+Received: from AS8PR04MB8644.eurprd04.prod.outlook.com (2603:10a6:20b:42b::12)
+ by AM8PR04MB7410.eurprd04.prod.outlook.com (2603:10a6:20b:1d5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19; Fri, 24 May
+ 2024 10:03:12 +0000
+Received: from AS8PR04MB8644.eurprd04.prod.outlook.com
+ ([fe80::e86d:f110:534e:480a]) by AS8PR04MB8644.eurprd04.prod.outlook.com
+ ([fe80::e86d:f110:534e:480a%6]) with mapi id 15.20.7611.016; Fri, 24 May 2024
+ 10:03:11 +0000
+Message-ID: <b9f98c63-e363-4f67-a7a0-448342a23466@topic.nl>
+Date: Fri, 24 May 2024 12:03:09 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] scarthgap backports
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
- Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <AS1PR10MB5697A571F24C68195FB82070FDEB2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <f0452dbd-636d-474d-b87d-caf6c0680843@cherry.de>
- <CAOSpxdbW=mH6Uy_hGOiG6N2ioDhjJJNPsh_MirkkYWhfoUuGCg@mail.gmail.com>
- <AS1PR10MB569731BB547B9ABA28D2122DFDF42@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <AS1PR10MB569731BB547B9ABA28D2122DFDF42@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: <mike.looijmans@topic.nl>
+Subject: Re: [OE-core] [PATCH] meta: uboot-config: Fix broken menuconfig for
+ "fitImage" kernel
+To: Quentin Schulz <quentin.schulz@cherry.de>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.cc544a93-e646-4932-8496-82717a21cde8@emailsignatures365.codetwo.com>
+ <20240521135705.444470-1-mike.looijmans@topic.nl>
+ <5340825db3c98197e448c58b88381562edbed66f.camel@linuxfoundation.org>
+ <023cbca2-b5e4-420c-b109-445d7d8480a4@topic.nl>
+ <5354eeca5b37a4fd3de0f9afec23ccc834f993a8.camel@linuxfoundation.org>
+ <802ee008-2325-42a0-be6d-a2d0ebbea050@topic.nl>
+ <da23b251-8a2e-4bf1-8c96-812593f52d96@cherry.de>
+Content-Language: nl, en-US
+Organization: TOPIC
+In-Reply-To: <da23b251-8a2e-4bf1-8c96-812593f52d96@cherry.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: VE1PR08CA0007.eurprd08.prod.outlook.com
- (2603:10a6:803:104::20) To VE1PR04MB6589.eurprd04.prod.outlook.com
- (2603:10a6:803:128::25)
+X-ClientProxiedBy: AS4P191CA0021.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d9::6) To AS8PR04MB8644.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42b::12)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6589:EE_|PR3PR04MB7419:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a811580-d928-4139-5e41-08dc7bce15f5
+X-MS-TrafficTypeDiagnostic: 
+	AS8PR04MB8644:EE_|AM8PR04MB7410:EE_|DU2PEPF00028D01:EE_|AS8PR04MB8996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 915218b6-6279-41c5-4dbf-08dc7bd8bba0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230031|366007|1800799015|376005;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?Y0tEalFBTEdQKzc2WExsVERhNFNPdjVZQldEYVowQ3BjbVpoSXBFY0Y3bHJp?=
+ =?utf-8?B?aENkcStmRTM0YXVKblRiQnJWc3pYR3JTSHVqZkRxMDF6QlV2R3JPNktxUHRM?=
+ =?utf-8?B?ekdxZTYyVTJwNHJCcEhZV01YWFZ4b3J0WmxiSUVRd2hJZ0dCQXM3UmphZDJ4?=
+ =?utf-8?B?VGtYZWxoUjhjK0NRdWRSUW12Y2tIb2M4M01pRWh3Q2hWUjlnZFA4MWpkaTN6?=
+ =?utf-8?B?dExhaElNS0FLQ3J1ZitQQmRvWkRQNkFNWEpzUnZOOUUwT09qa3dibng4T1VU?=
+ =?utf-8?B?N3FSUm4xT2RQcGIyMUM4c3dycFVVQ1dFREYxM3FibjV2K2hWaXFZL1R3em9Y?=
+ =?utf-8?B?Um9uaHBraTFYdFMxdlNjSHpsTVJDQkpTaUl6K09FUkJoS2JzY0lmSTRUaXVF?=
+ =?utf-8?B?bVRxM3dZclZPZTE0QWozRzQ3QTVyQUJZc1puS0hWRTNkR0hYMGs4Tmlvb3hH?=
+ =?utf-8?B?WnM2SEdVRjE4aEJoN2pNOG14VGhDMzdIQzNESlpSSmF6ODRlb0lwQzlQd0ZC?=
+ =?utf-8?B?S25XeERObmd5alRFWDVwTW04SUZ2OTAxcCtESVBFVURERHNPckU4RUpCWWll?=
+ =?utf-8?B?M1FNRkhTVjlaU1RzR1p3S0wrMGJkWm00ZDRkcGE4a0sxRFdKdTRrVks4OTlh?=
+ =?utf-8?B?NGd6VDVCeklQdkI4NHZnZFEwMWZWbGxZemY2aHk1MndMZGx3YzJUZVp0cXQ1?=
+ =?utf-8?B?OTliWkdnSnNMbFJ2bHFjUEZ1QzMxOEJ3dUswN0haZ0ZScFFnOTNPK3hMZUR1?=
+ =?utf-8?B?WlFoNHNDNHI2S0dua1Q2eXpsNEFETnQzZzNOa1FUbkI3L3UrWjNGQVR6QVNY?=
+ =?utf-8?B?VkhrcmNXUzNkVGdUcFRDWUxxZFcrR3FTM1lMYjcxY2RpSGlqemxBWlgzUHhx?=
+ =?utf-8?B?bTBNWGZTTTVJNjBpU3pZUytzUmxZTVpSbkc3VjdrbVdrVGx3R2VmbmwvUlFq?=
+ =?utf-8?B?bzJwcy9aZGRySkx6eTRwa3VVS3pienV5RnFkc0dKbE54eG1uTGp4OFVtNTIx?=
+ =?utf-8?B?YjFDeHRnajRaZGRIYkovQlljSFNJZTRvcm1Pd1JOWERFU0JtV2x6cHhTYU9J?=
+ =?utf-8?B?OFQvMkJxTmRydW80ODE0ZVlNK013TVVOZ2U5WGJCUHJEMk1aS1ExZkxHK1J4?=
+ =?utf-8?B?WkdnaFgrNFNDUTJVSWdqZmpBd3NRSkY3UkhoMU5DcHFxMmd0ZzlickRrYkpR?=
+ =?utf-8?B?MVlUN2JsYm9IN3M4N1lEV3lNcFJjQ3RseEoxa2FIanByZTIzNDczaUR0WFZV?=
+ =?utf-8?B?TVJzVWVPTW1wcWlvcnNZQllIWE9hNjhzMXBQN3ZsamhLcGRDYU1ibEtpaGs0?=
+ =?utf-8?B?d2JPU2VveXczN2FhRTdJbzNNc0VKY2drMmxIWFNjOXVYUTkyK2ZJOGxwUzB1?=
+ =?utf-8?B?WTZCaUZiN3lpWlRKVi9MK0tjcGFYVTN2Um5ONDg2d1NUU01mVG1OSWVsK3Q0?=
+ =?utf-8?B?UUlXeE5tNTZudlgvSUNGS0dPTWhySjNGWkorSzd5TE1DWG1kd3JHc1A5QUgz?=
+ =?utf-8?B?N1RBSE1zdXhaZG1Bdk4zUXZ0SzhxOWFUZzJaR1h1NUtIeEp6Y3g3TUUxVjNK?=
+ =?utf-8?B?UGRFUk5jTUVjSTEwblZ6bkNDeWdQRFBOR1NiR2ZVRVJRTjc5Vm96ZmFEYm1n?=
+ =?utf-8?B?MzYyOWhvLzVHV0Y0UDhORFR2a0xwbnhLZWNrVlRTT1BQVXdKeE9uVmhrbFZl?=
+ =?utf-8?B?dUI1emNNU0JFK3hQV2FlckRicEpKaW5iT0l2UER0NW1XLzRRalJlTC9nPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8644.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7410
+X-CodeTwo-MessageID: 030137d4-9f43-40d3-9bdb-5e0edacb4d00.20240524100316@westeu11-emailsignatures-cloud.codetwo.com
+X-CodeTwoProcessed: true
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU2PEPF00028D01.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	914c9035-bed5-4896-f802-08dc7bd8b7d8
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|36860700004|1800799015|376005|35042699013|82310400017;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?KrerTkjYHv/EHxOPFH061omd/eMNYLQX223XkC3Q16tBMQHWlj/X7GVd9Wac?=
- =?us-ascii?Q?jtIIxP4BiOtjGf4KHHxB33wV/wp8Fm+TXJoh0M9aTaNR2l7teGsAdMFM9w5A?=
- =?us-ascii?Q?RMGSXcR6whJmdnZNtNzBVmkrosO6tNI9TW+qjUVGMo5sCKoD0BSIt0ekpO1i?=
- =?us-ascii?Q?VI5s2KwUxptgSgMjb6NxBxWvUd3u/dZ85Qa2Uh90nIcgBNEuF41DafKK6IGG?=
- =?us-ascii?Q?92u94u7XDg0w/rPTgSt22mxS3D41yAsR+KSkxMHj2XhcIVQTIOAnnQ1YDwL9?=
- =?us-ascii?Q?VjpuVsUBNHfSY1z8qAqobIZcLPlEui8e56ecLHQb3079nynL5NF2h0l14UdJ?=
- =?us-ascii?Q?f4qLHmcDYJ72bqn2GVihijDnhmWlLKk6KaWShrwF6LAFqCQKtTQExpmM0LBQ?=
- =?us-ascii?Q?jcQ3ujeYxCjOE7ReuiZaR3IkbhqG7YPv9w/pIcA/IFcMFvlnYQtVnepipsts?=
- =?us-ascii?Q?umjHLjS84hsH9F1NSTKD927hiqsE1Zk6L1g6zIYCZgCg/hOOEbzN6K4gOXY+?=
- =?us-ascii?Q?uOApIOMww3/ttQHZyLeQJ87jXPUnhTNxt96NcfsImF5W8S8dA6ijs64kivmZ?=
- =?us-ascii?Q?xyMjGSjI4rIbkBz6lBWVDhvgC/j0MxYJtyb5CKXIteeUdev7EemMitMuGK22?=
- =?us-ascii?Q?WhpusYlAg4+8MfioGmgoHst9SW1Li3e0AR5xSkRdc7jNLGiaISSMv0ZBurim?=
- =?us-ascii?Q?4rLAUPPccPSExK7DqMnzoDfL6g55mhUEAS0BvY1yn0U1gfy39EwnOBOOGAwD?=
- =?us-ascii?Q?7U8FSCk23EG0pc68gHxRjhhhkEiUtB0Q9UPnEpPDFjv3fZSzTIDlJmxC06vG?=
- =?us-ascii?Q?zYTWUduTkBUqoDwuLEDQ5kjjE0+Fu3lvN/47tZrpOpn1FFCazV1mqcFRWjLI?=
- =?us-ascii?Q?mo3yih89NvCa/6fm/VEN/5wrUeLTu4Z4j12T8Cr3eDDg/3rZkxNnG8HL1llr?=
- =?us-ascii?Q?Ds4uvGItvSQjjOGHP669OfIPpP7JARC2PY610g01kIEyS6SyoSr3OJSkl9ZA?=
- =?us-ascii?Q?c7CbjFuhC7B2uA7LT0nsn7NJrY4sP2ptOIQXIOSE286RmohsobN9qyDwpTrR?=
- =?us-ascii?Q?h1+yKwJLTcxtFWjSzO3a+IjP3/fB4Gy9dZR23sqMKXjNn9msEAbiFScKvepn?=
- =?us-ascii?Q?dJhJ5E0xMfBh9661m5D6zITB1KWl8/YRqUiLB2YXH1364EeA2hq66Tn2H1Ju?=
- =?us-ascii?Q?51LWX/JPmwdH8uPLe//OTsj3edO4xcfsGro/3m75nF15N4+f8a1b31e+BHKE?=
- =?us-ascii?Q?MtcGMVJwgU7oDtOHC2q63d1ARSw4DiSxtKU2KLeUMA=3D=3D?=
+	=?utf-8?B?Vmpod2pDd1B0ZmlzNmJGMFBVN3hjYTc3cWowdE96MlhKR29Qb0thNUswOFI5?=
+ =?utf-8?B?am13OWZiZ3lHdWZLUlptSVkrcnRvTlZ5Qys1dEk2MU1mSVpMaVpqRHBaQmQ4?=
+ =?utf-8?B?ZzU0M2l1K0ZZd1RLbTVrZ1Z0cm9aaythZThkWHNabXA2eCtFSFpBM1NlM0VN?=
+ =?utf-8?B?YldFZWQvYUttSUhhREg2TzFuT00vd3IxV2Vjbzg1WE9icHErR0ZSYUpLNEd3?=
+ =?utf-8?B?K2JkRE5qMGlMNkgreHVrNUk2VllOQWRERzFnaG5qN1hEZFh6VlFrRml0bGt3?=
+ =?utf-8?B?dHQ4anVMWmU2NSthRERqNDJHR0dxbzlzK2RFdEVnSU1vODJnUXJrZmc2U1c3?=
+ =?utf-8?B?aWt6ekRXbUtsbVdDMXNnUzZGZThEeEhyRm5vMTNxanFHWnFELzZuWXF4b0wv?=
+ =?utf-8?B?QzdEZkgzM2ZXODFOREVENTR0QitEMy9MSXZ4TTRjRVp0OHVwaFoydVlwbFls?=
+ =?utf-8?B?RkNPZWNBODlWTHh4dFBhbGFFSlZZRDVGQldYMUJ2OXl3SjgyUGRHSmZzVHg4?=
+ =?utf-8?B?SjU1cVZhL2k4bkxYYVdIL3FTVlR0M2VOSXZ4RCs3NDRuQjFjYlEzS2pmTXFQ?=
+ =?utf-8?B?RXVFMXRVNlJUSExpcUltNk5sZHRrYm9sdEhicld4ejVxVGhHbkRpbGw1ditq?=
+ =?utf-8?B?VUEvekk0YlFnMjlId0RGSXFuYlBMTGFiK2ZacWZWTTFLTUE0aTU1RG9QV2F2?=
+ =?utf-8?B?Q0ozUDFGUVNMTGZOQ2RuT1lQZnM1S0l1dWhlS0pEU2lxMHA1TEc1SDNpZEhJ?=
+ =?utf-8?B?NlQrdmo5YVVjS29RWnE5Z1ZWaWZtSFpMeHVzRzNFOVgzSHZNQXRyRWlpdXh5?=
+ =?utf-8?B?RFg5YXZiSWkrdkswS1NxUGVHblZrdCtoUFpOWjl1NjE4dmphazJOK0pFSGI1?=
+ =?utf-8?B?dmpNM2ptR2pZSTZlMjN3Q2wwS3gwSVgzT0YycUIvL2x4QktwdHhwaGtIcWo0?=
+ =?utf-8?B?cnZHckxsQStiUThybk84VGxTRkRRYnA1UU9OSnIxVGpCenBBTXhLRm9vR3RG?=
+ =?utf-8?B?RHFDTStqWkJxcFVjYVdST1BJU0dxbXdsQll2MjdiTVptN0FPS3dYSDlvejJi?=
+ =?utf-8?B?NEhSaGxYUXQ5YjdjTHJzeG5scHkzb0gzRzdrMG4xc1ZGTHpya1p6eE9YZmk0?=
+ =?utf-8?B?aGpVaFJvZmVEMkVxWEZMVE01NDE5Z3BtaURTcXlPK0p4dHpDUXpMWHZOVmx5?=
+ =?utf-8?B?aEhQM1BjT09kRkk2dVY5TWJXWEdLTGFvNk1icXc0NGc4dUE5T2RSTHFKRTdE?=
+ =?utf-8?B?ZGJnZzV0Nmt2R2pBZkp0bW9hSnduNUdud05wcmJSVmNBZ2I2Y2ZvWS84NTZC?=
+ =?utf-8?B?R1dMVTdEbXc2bFE4bzY3YUNReU1ObnVJbU5XcTlEdC9jZTU5VWxsZmxQSUYw?=
+ =?utf-8?B?WCthVW9BbHphQlBFaTRkQTg2NTJLNkdlMHg0Vy9KYU50bjhjME5TdjdBay9T?=
+ =?utf-8?B?b0RZeG5nWCtyYVpHY0I4SSsxN1JpWVhNeEwrYkE1K3JiUWV6VHZ0anV6dW1r?=
+ =?utf-8?B?bnoyVlo5QW5CVXJHQW1YRHdtbGZGYmVPbVZra204aTdZMElBZmg5cXpQTXk4?=
+ =?utf-8?B?bUp0b293Yndab1hPK1k1dytyaWZlREFvWjZmQ2JVN1Vyc210aG5WTit3RC9a?=
+ =?utf-8?B?ZUxnTUl3c1VzR01QUzVjQkhCWUwzZ0FtM1dUTjdqSFMyNXZqTW01YUp2cyto?=
+ =?utf-8?B?akhFcU1zaVQ2VDZVVi9zSGFBcTl0TUJUcDNrMVZIeXd6R0c3RnBYUTBnbnV1?=
+ =?utf-8?Q?Q2+jcUqEhtKJ1O2WYGF/dFfaGRvMBhZm8gz28SY?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6589.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XQs0VUPMQ1CIA/8aV2TFNgFr5VpUS0wJFMEVNZ3+vReaZ01hjMHy846D4/m9?=
- =?us-ascii?Q?VZ4jQqW14ULe/z9ThyfC0I+NgodDzKyZyOkZPAy8BDNQwMXEt2MhshIN+oRh?=
- =?us-ascii?Q?FsgduEg3wisk9vAHtmnPxFngH8cyT4pkGpqZKh/Zx19XFIwoVkafgvgqmfpT?=
- =?us-ascii?Q?a2jIAz9p6ZrOI/2X5cHo5a4Q9JK/YisYzRJfosy6RSExc4GK3XA4EU59zwDe?=
- =?us-ascii?Q?kIjY94XCDscabj3bSV93dfSGT0mqNfBDWG+MnXORFKUaYC4Q1kXx/iFulM0Q?=
- =?us-ascii?Q?VDcNwgEyBm+mRlpfGVk8k9SXF1AhSbzaxNosBRDC0bukSzZy6zmJ43KpDWGI?=
- =?us-ascii?Q?NoZZwrHZqIm882LKMWR6/4qMZ9dfMDUtIxJuIN28QdfBYPT2Ho1iMOqME6PP?=
- =?us-ascii?Q?GRaDxVPAgvjaTYgEoBi5rn9uDwnFPm4Q/E1DTDUJKYchOR9uL5jWWdzNJa3T?=
- =?us-ascii?Q?nNkhnKr9cUkJy8HqMTcO/L6DNHQFlGw5AnnyxTkXzrilpZYpq9DE60sQNQD0?=
- =?us-ascii?Q?2GsYnwtQt+D2l/Nq9xdC0OZWcHwB4TcMZzM5Jhur63Y2UPddi/38pHRoRAMD?=
- =?us-ascii?Q?uptD7vwGxOuRB6ZSjiKTUF5H7Qq67LxyQ5lsx8OsW90bmSG7QqMnmzuYENa4?=
- =?us-ascii?Q?l96Vr/nemHcYK5cstJw0l0+hSjx2//csFFimd+n49msDka7AsyDZqTS+5hop?=
- =?us-ascii?Q?Y3F1XKFbjNSF6OsADbjcMpd/ew6XslQVW+OXUJp3uvE0Q3QYDZoD6o4uERbv?=
- =?us-ascii?Q?V1C1HYS+C8E2wOAsQ2I2TS6jEgDjm/rILZpF7T1yn1mcbn2jvX8Hi6ll8W4A?=
- =?us-ascii?Q?nhbsU54bggLMuiZinJ8OabXVwGgl0fNVn/dnDuJUDzanuwFhKpnLU1VnvZsK?=
- =?us-ascii?Q?oiuI4SuC7CDDXX5pvY7jjBDb0fyxT/g2opbfZorgq+f7oXY5p29DylfJx0yL?=
- =?us-ascii?Q?4mybI/4MyaeDYCK47tUpZv/DpH2O3yl5REWtJ9t4AI5lZm4H3s0D7Cc5prVb?=
- =?us-ascii?Q?vC9nonRT+P+Eu+g7UKImc7bs5xtKZTJQNdivB6nqW4HjutYH4viXL5hP7nh3?=
- =?us-ascii?Q?OviukXNDdJXVjimmrMiuGtIxbNvzgRx/p5g+vKtoWe8p7vC45tVOWZaESHjz?=
- =?us-ascii?Q?zj3rzOEBp8ye/YNbIezLZPHkLbjdfLh+FM2Gv5SoPZlKxU5Sp3Jvp3LHdODE?=
- =?us-ascii?Q?vH3SgfSAYn927DSUbIAzZwrzThFQ1gGSR5ydiJ4HqLD51OaWyUhxY/Vv05WC?=
- =?us-ascii?Q?8PnWAkCo8PFXD/oyUxhY6+EoMZ23yILF+NezEJyCbEpTKPK9SGlWWMx3Tune?=
- =?us-ascii?Q?3IgU4Y785mQHyF+tSYiLepPS4c6NvG9u7L4Ctqc4ahXw6tfPg3qbep6Pl1C4?=
- =?us-ascii?Q?HJztWRjdIvwvk6uhEoje6Q56Yfy7fdfLRkcgPOI406qLl0EMzX/E1+oWRCxI?=
- =?us-ascii?Q?NJQTsFZAfdT7H1VOvBQ+smRnghrdL1n9WK1w6nPYHCj6VHRu+u6xSpcE37Rj?=
- =?us-ascii?Q?lifv1SQSzh7k/eFBLCVGhkZkVkWGd+m1hqUQ+LEA78dK9rICd9tzLyrM3p0u?=
- =?us-ascii?Q?ShW5Vc8l/kk2tkN87IcgP6X/jwpQzbDldOw3+tgPSHgUfB0WpaB9kONlZsjB?=
- =?us-ascii?Q?JA=3D=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a811580-d928-4139-5e41-08dc7bce15f5
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6589.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2024 08:47:04.5029
+	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(376005)(35042699013)(82310400017);DIR:OUT;SFP:1102;
+X-OriginatorOrg: topic.nl
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2024 10:03:16.9827
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KxLN2wumxJnaIEWm6nAPGBUB5oF403gyxQcwJIOmS4Uzp4VhZqDwR9dwmszL8KUy/HYHdgLYqEY/2S9PzuEALFKHE+G+ntQFDFOKvUSV0BI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7419
+X-MS-Exchange-CrossTenant-Network-Message-Id: 915218b6-6279-41c5-4dbf-08dc7bd8bba0
+X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU2PEPF00028D01.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8996
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 08:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199834
+ <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 10:03:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199835
 
-Hi Peter,
 
-On 5/23/24 11:33 PM, Marko, Peter wrote:
-> -----Original Message-----
-> From: Steve Sakoman <steve@sakoman.com>
-> Sent: Thursday, May 23, 2024 15:59
-> To: quentin.schulz@cherry.de
-> Cc: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>; openembedd=
-ed-core@lists.openembedded.org
-> Subject: Re: [OE-core] scarthgap backports
+Met vriendelijke groet / kind regards,=0A=
+=0A=
+Mike Looijmans=0A=
+System Expert=0A=
+=0A=
+=0A=
+TOPIC Embedded Products B.V.=0A=
+Materiaalweg 4, 5681 RJ Best=0A=
+The Netherlands=0A=
+=0A=
+T: +31 (0) 499 33 69 69=0A=
+E: mike.looijmans@topic.nl=0A=
+W: www.topic.nl=0A=
+=0A=
+Please consider the environment before printing this e-mail=0A=
+On 23-05-2024 15:43, Quentin Schulz wrote:
+> Hi Mike,
 >=20
->> On Thu, May 23, 2024 at 6:46=E2=80=AFAM Quentin Schulz via lists.openemb=
-edded.org <quentin.schulz=3Dcherry.de@lists.openembedded.org> wrote:
+> On 5/22/24 8:43 AM, Mike Looijmans via lists.openembedded.org wrote:
+>> On 22-05-2024 07:39, Richard Purdie wrote:
+>>> On Wed, 2024-05-22 at 07:28 +0200, mike.looijmans@topic.nl wrote:
+>>>> On 21-05-2024 16:51, Richard Purdie wrote:
+>>>>> On Tue, 2024-05-21 at 15:57 +0200, Mike Looijmans via
+>>>>> lists.openembedded.org wrote:
+>>>>>> kernel-fitimage inherited uboot-config, which resulted in failure
+>>>>>> to
+>>>>>> run "menuconfig" on a system that has both multiple u-boot
+>>>>>> configs and
+>>>>>> wants a fitImage kernel.
+>>>>>>
+>>>>>> Fix the issue by splitting up uboot-config into uboot-config-vars
+>>>>>> that
+>>>>>> only contains the "harmless" variable settings, and inherit that
+>>>>>> in a
+>>>>>> new uboot-config class which contains the Python code to do the
+>>>>>> U-boot
+>>>>>> specific settings. Inherit only uboot-config-vars in kernel-
+>>>>>> fitimage
+>>>>>> so that it has what it needs but doesn't break.
+>>>>>>
+>>>>>> Fixes: f9e834e31788 "meta: introduce
+>>>>>> KCONFIG_CONFIG_ENABLE_MENUCONFIG"
+>>>>>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+>>>>>> ---
+>>>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/kernel-fitimage.bbclass=C2=A0=
+=C2=A0 |=C2=A0 2 +-
+>>>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/uboot-config-vars.bbclass | 95
+>>>>>> +++++++++++++++++++
+>>>>>> =C2=A0=C2=A0=C2=A0meta/classes-recipe/uboot-config.bbclass=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 80 +-----------
+>>>>>> ----
+>>>>>> =C2=A0=C2=A0=C2=A03 files changed, 97 insertions(+), 80 deletions(-)
+>>>>>> =C2=A0=C2=A0=C2=A0create mode 100644 meta/classes-recipe/uboot-confi=
+g-
+>>>>>> vars.bbclass
+>>>>>
+>>>>> This looks like it might be a good candidate to move to a file in
+>>>>> meta/conf rather than a new class file?
+>>>>
+>>>> What does "this" refer to exactly?
 >>>
->>> Hi Peter,
->>>
->>> On 5/22/24 11:10 PM, Peter Marko via lists.openembedded.org wrote:
->>>> Hello,
->>>>
->>>> I'd like to request following backports from master to scarthgap
->>>>
->>>> To match versions in scarthgap branches between oe-core and meta-clang=
-:
->>>> adc2651a8e902af24fee6ff30a72f4b7c63bef6f llvm: Upgrade to 18.1.4
->>>> 02df2fc6241ac8fb0e78f2fdff97a04e5c561d54 llvm: Upgrade to 18.1.5
->>>>
->>>> Fix CVEs:
->>>> bdf7b7460a4816e3d447264730a2814209667fb0 ncurses: Fix CVE-2023-50495
->>>> 6573995adf4cfd48b036f8463b39f3864fcfd85b ncurses: Fix CVE-2023-45918
->>>>
->>>> Version correction:
->>>> c94e46019a7d443ccc4763ba16d87e7e97abe977 update-rc.d: add +git to PV
->>>>
->>>
->>> I think the most efficient way may be to send patches with [scarthgap]
->>> in the mail subject (see --prefix) to the ML :)
+>>> The variable definitions you're placing into a separate class file. I'm
+>>> saying they look more suited to a shared conf file, which is a
+>>> direction I think the project needs to move in generally.
 >>
->> Yes, please! I use patchworks to keep track of things, so patches sent t=
-o the list are much less likely to get lost than an email request.
+>> a "uboot.conf" then, okay.
 >>
->> It also gives the community an opportunity to comment.
->>
->> Thanks!
->>
->> Steve
 >=20
-> OK, I'll do that during weekend, although it feels like sending patches o=
-n behalf of someone else.
+> I was about to comment on the v2 that this should rather be a class :) Do=
+ we=20
+> have some information on how/why this is the direction the project should=
+ move=20
+> towards? What are the pitfalls we're trying to avoid, or benefits we want=
+ to=20
+> gain? Or is this just some better/best practice we want to go for?
+
+I'm neutral in this - all I really care about is solving the underlying iss=
+ue=20
+of not being able to run menuconfig for my board.
+
 >=20
+> On a slightly different topic, I've been bothered by KERNEL_DEVICETREE be=
+ing=20
+> defined both in machine conf files and kernel recipes (in my own BSP laye=
+r,=20
+> I'm not saying I'm doing things right :) ). I did this because I wanted t=
+o=20
+> make a switch between kernel recipes as easy as possible while having som=
+e=20
+> kind of common DTB in the machine conf file (e.g. upstream doesn't have a=
+ll=20
+> our Device Trees/Device Tree Overlays yet, sometimes the names slightly c=
+hange=20
+> between recipes...). If everything was in machine conf file,=20
+> PREFERRED_PROVIDER_virtual/kernel/PREFERRED_VERSION_virtual/kernel would =
+be=20
+> only a part of the switch). Also, I use KERNEL_DEVICETREE in the machine =
+conf=20
+> file because I need to extract the default device tree to do some logic o=
+n it=20
+> (namely, modify U-Boot at build time so those half broken ancient vendor=
+=20
+> U-Boot could boot my image). Not sure this is relevant, but had it in my =
+mind=20
+> so just putting it out there.
 
-Which is what every maintainer is doing :) The backports are still going=20
-through the mailing list, even if it's done by the maintainer(s), nobody=20
-has a work-around this, all public :)
+Rather unrelated yeah. To me "KERNEL_DEVICETREE" has always meant "please a=
+lso=20
+compile this dts from the kernel sources" and nothing more than that.
 
-What's going to happen is that you'll be the sender of the mail, but the=20
-commit will have the authorship of the original author (git send-email=20
-does that automagically already, it'll add a From: at the top of the=20
-mail). You usually need to add your Signed-off-by to the commit as well=20
-and provide information of the commit hash from master you backported,=20
-but not sure we enforce this in Yocto/OE/Bitbake somehow.
+The devicetree that ends up on my boards is often something else entirely, =
+and=20
+often u-boot and kernel don't get the same devicetree anyway.
 
-Looking forward to your patches, thanks!
 
-Cheers,
-Quentin
+>=20
+>>>
+>>>> Note that this patch just moves code, it doesn't introduce anything
+>>>> new.
+>>>>
+>>>>> We could add any functions needed to lib/oe/ if they can be made
+>>>>> suitably generic.
+>>>>
+>>>> What "functions" would that be?
+>>>
+>>> removesuffix is the one I saw that was needed in the new class file and
+>>> wouldn't work in a conf file.
+>>
+>> Interestingly, "removesuffix" is a built-in Python function since 3.8:
+>>
+>> =C2=A0>>> 'hello.all'.removesuffix('.all')
+>> 'hello'
+>>
+>> And 3.8 is the minimum required version for Yocto anyway.
+>>
+>=20
+> If we need to backport this to earlier releases, 3.8 might not be the min=
+imum=20
+> supported version of Python anymore, making this harder to backport.
+
+It won't be backported far as the commit that broke it is also pretty recen=
+t,=20
+it think it's in nanbield.
+
+
 
