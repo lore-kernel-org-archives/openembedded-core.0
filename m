@@ -2,120 +2,118 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9623C25B74
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 12:14:40 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.14308.1716552872532042770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20BBAC25B7D
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 12:14:41 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.14252.1716552878218746899
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 05:14:32 -0700
+ Fri, 24 May 2024 05:14:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZSc7Ccvn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f44b42d1caso5169945ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yThMVOJl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6f8ecafd661so739046b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552872; x=1717157672; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=heFHDS5oPYqpCZlhS7XP4M2Th/Uwdi3lxIP7a3S5t3k=;
-        b=ZSc7CcvnnvhbgK9aHyE3rkb0gBXJVqCzcKF7L5wzk+/Ot8/x5OQwIvHGYTGaXB0jpf
-         9ibBp5aivWAtK4hV0DQc7QSfJ+veu8U0jhtZzB8CepvkwPHs4LVGmgVtKvpaHFebPR9A
-         AqK5V/6qxlDKguNzCtsSqAlyibLHdXWCdBUgkQ9KNKyNq9h2QJzXhvfIgC9fzTIpYsVH
-         ichnXjkzxdme3IpgCWbXUNvYF0nLngiJ6INML/og1wuNOTU5v4Va771TQlCRwMF8L4fk
-         m4zIKuhfmSn2XnMw/vQD6nZQHviG9hyQRAB+TcdPc1+CiMySxQt1uCpsKr3VLLlytM/+
-         ZWpg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552877; x=1717157677; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1F/JBzWNYkJtO560N4Ama8VTv2jmvpxRMRBWqXqT3jw=;
+        b=yThMVOJlYt5ptYcOtbnFCgx/HvrY000xViYSxQ1cZPqvkAnS8PrpZc5DQ3lGhIGq9O
+         oc3NTgrkDosFUOH/U50PYwTuRc54xe6cLe+Ib6HCTbZStrcDeFH/HiV6uJ2oxFxAn4By
+         FeOMGJJmEcUzPqANbUdK5sIVdslYCPyQJNe76N1Uo5eFKnVAAhuJ1suhnSyrBGmaS3wx
+         4/ZIQ403ayqatKNvDwFT3e+pyLNBv3UAsKIqYfJAMLeEw5eu6/90Y+77fUYksgxlGzuV
+         qGTDLjeXHUw/xeAo0qZMiftYHpM9bquTy4XAYeHd+RyMvfgXk9o3Hfr5oRpbq4EnBncQ
+         4WZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716552872; x=1717157672;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=heFHDS5oPYqpCZlhS7XP4M2Th/Uwdi3lxIP7a3S5t3k=;
-        b=oqbc5YXKUfyGTwHWUOA+pF21Skf8BPa0zR4San13LU2PvkYx/6bEqAirAoP+Tvy7xO
-         tbyivhIGnLbfCLfrVtqtBnXfaznbO7+6JdlmdpL2ZlAxV1U0FeozRy6I62uQLosWsLF6
-         dorQx7WG9Ik0oeI8zKxExsg6+Hb1iWCMBuzHAaDplPTdvGq1Qcjajr+hwttPktgNwJpJ
-         0StWvpNJW9B413Vs7MnmhKkq0gr5545uDNGY1LLMWzu4jvnzGRvtmsWDHzG8C+gHhW/k
-         RAkrrlDHWA60cdMC8PtNir1Yd9oAc+hTKbtpYM2spt8PnghYGh1o8BPXCwS3lWYtQqM0
-         5Ekw==
-X-Gm-Message-State: AOJu0YzuzeTP5zQxQa9ekj5guXjkn+t36t6zaRqIV08xGvNXZFN6LRzD
-	+fAmUoy/m+StQu8N3kTCH6ahZWQsfQvHf4EVSA8d0JunnTMHAMqnxxBG0RUIoP0l8zUbRxBn943
-	1
-X-Google-Smtp-Source: AGHT+IEPm4+Jn7VA8Zs8cQJpyFEWPHsMafRdXxkIwQaA4ssoJ02oD/GYhLtJ+Pz4XPOvqfJ7r3N0Bw==
-X-Received: by 2002:a17:903:32d2:b0:1f0:6f32:e13d with SMTP id d9443c01a7336-1f44873dd66mr26409255ad.21.1716552871307;
-        Fri, 24 May 2024 05:14:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716552877; x=1717157677;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1F/JBzWNYkJtO560N4Ama8VTv2jmvpxRMRBWqXqT3jw=;
+        b=fU7FflnVirnyRV5ddr1TdMlrVijvhNMSRrHX7mEXYRo57EPjTpFCt20xL2MUpViM5Y
+         57s1IFhPYzcY9nesKUDJevf5gpELMPLFjdQlV2DVM/MYgbiZoX3J7gJCQ4IzLzhO6pxx
+         COuGFzmQxkfskjMHozp8Uhu8iMYvf0Tf/soGA2jabuIUc5rZErN+ub6Z7noI3eTFU/20
+         Z1l+Q4GTplwiUiSvyw3cq7/SW/6xL+cUlKpu889FXIB+UOdWvHeZLzIYTtdGan9zKGe7
+         ovGVyiNM47fLN9x2KqZBGnGV0AZbJ9axgTMnv7pCI3YtUTgxBoseXGahdyAcBslnozJD
+         MCDQ==
+X-Gm-Message-State: AOJu0Yw69NavVmR8XmjUwCa7B/J207yVmqn/qg5tdoVf7FlVgOPtvZSb
+	1Ruldnh2HgVBOLCThH7sMyt9ZoA5CdkawQNDGrgmEu+grTRgnc8q3WUAX8E7yuv1B2Usi1MAPXE
+	3
+X-Google-Smtp-Source: AGHT+IG34Sco5QpOMoZmLfdMGldZqb9NJpQ9jA6F9glqP34weyPO3SG7sFelg8FaETYiYbfUC3yr4A==
+X-Received: by 2002:a05:6a20:1002:b0:1af:9a04:24bf with SMTP id adf61e73a8af0-1b212d461b1mr1963752637.34.1716552877494;
+        Fri, 24 May 2024 05:14:37 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 05:14:30 -0700 (PDT)
+        Fri, 24 May 2024 05:14:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/8] Patch review
-Date: Fri, 24 May 2024 05:14:16 -0700
-Message-Id: <cover.1716552687.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/8] binutils: Rename CVE-2022-38126 patch to CVE-2022-35205
+Date: Fri, 24 May 2024 05:14:19 -0700
+Message-Id: <d91af23e4fef0f1999c18fc3a43085b70e98dfd5.1716552687.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1716552687.git.steve@sakoman.com>
+References: <cover.1716552687.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 12:14:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199842
+ <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 12:14:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199845
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Tuesday, May 28
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+CVE-2022-38126 has been marked "REJECT" in the CVE List by NVD.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6956
+Reference: https://nvd.nist.gov/vuln/detail/CVE-2022-38126
 
-The following changes since commit f85d5dfc91d536a00669ca3148d8c3b2727b183d:
+As commit changes in 0016-CVE-2022-38126.patch fixes CVE-2022-35205.
+Hence renamed the patch.
 
-  libpciaccess: Remove duplicated license entry (2024-05-10 05:05:54 -0700)
+Link: https://ubuntu.com/security/CVE-2022-35205
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Bob Henz (1):
-  systemd-systemctl: Fix WantedBy processing
-
-Colin McAllister (1):
-  initscripts: Add custom mount args for /var/lib
-
-Dmitry Baryshkov (1):
-  go.bbclass: fix path to linker in native Go builds
-
-Joerg Vehlow (1):
-  go: Always pass interpreter to linker
-
-Peter Marko (1):
-  openssl: patch CVE-2024-4603
-
-Stefan Herbrechtsmeier (1):
-  classes: go-mod: do not pack go mod cache
-
-Vijay Anusuri (1):
-  binutils: Rename CVE-2022-38126 patch to CVE-2022-35205
-
-Yogita Urade (1):
-  libarchive: fix CVE-2024-26256
-
- meta/classes/go-mod.bbclass                   |   4 +
- meta/classes/go.bbclass                       |   6 +-
- .../openssl/openssl/CVE-2024-4603.patch       | 180 ++++++++++++++++++
- .../openssl/openssl_3.0.13.bb                 |   1 +
- .../initscripts-1.0/read-only-rootfs-hook.sh  |   4 +-
- .../initscripts/initscripts_1.0.bb            |   2 +
- .../systemd/systemd-systemctl/systemctl       |  11 ++
- .../binutils/binutils-2.38.inc                |   2 +-
- ...-38126.patch => 0016-CVE-2022-35205.patch} |   3 +-
- .../libarchive/CVE-2024-26256.patch           |  29 +++
- .../libarchive/libarchive_3.6.2.bb            |   5 +-
- 11 files changed, 240 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.38.inc               | 2 +-
+ .../{0016-CVE-2022-38126.patch => 0016-CVE-2022-35205.patch}   | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
  rename meta/recipes-devtools/binutils/binutils/{0016-CVE-2022-38126.patch => 0016-CVE-2022-35205.patch} (94%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index bbe7bb57b2..4a8831b534 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -34,7 +34,7 @@ SRC_URI = "\
+      file://0013-Avoid-as-info-race-condition.patch \
+      file://0014-CVE-2019-1010204.patch \
+      file://0015-CVE-2022-38533.patch \
+-     file://0016-CVE-2022-38126.patch \
++     file://0016-CVE-2022-35205.patch \
+      file://0017-CVE-2022-38127-1.patch \
+      file://0017-CVE-2022-38127-2.patch \
+      file://0017-CVE-2022-38127-3.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-35205.patch
+similarity index 94%
+rename from meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch
+rename to meta/recipes-devtools/binutils/binutils/0016-CVE-2022-35205.patch
+index 8200e28a81..a582df4466 100644
+--- a/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-38126.patch
++++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2022-35205.patch
+@@ -9,8 +9,9 @@ Subject: [PATCH] Replace a run-time assertion failure with a warning message
+ 	message.
+ 
+ Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e3e5ae049371a27fd1737aba946fe26d06e029b5]
+-
++CVE: CVE-2022-35205
+ Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+ ---
+  binutils/dwarf.c   | 7 ++++++-
+ 
 -- 
 2.34.1
 
