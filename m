@@ -2,109 +2,120 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA657C25B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9623C25B74
 	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 12:14:40 +0000 (UTC)
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.14255.1716552879810624796
+ by mx.groups.io with SMTP id smtpd.web11.14308.1716552872532042770
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 05:14:39 -0700
+ Fri, 24 May 2024 05:14:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SUrtqf27;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZSc7Ccvn;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f3310a21d8so19959405ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:39 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f44b42d1caso5169945ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 05:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552879; x=1717157679; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KOiQp1PGE/5hCXs+J4IwXp2IbxpcdWerOCReSzrqNaM=;
-        b=SUrtqf27sRiAvGn2ynwJbHt088QMjmhCnsepCgb+meAG7KDksnfbNMdBrEmPC846zj
-         dmbuZ9ieO8aNhBzh2oQuDOJvNBr/KyCKAdmY9uyPGBH+7LLZGbW6OPS9qyk4s/or+pga
-         YqIl6OcD9DGSYBHlfHPTBmaX+vAeOppBX2Mi43pPGc1+fRmxPr2Q3GayLytX1frt2mm/
-         l1o4T9yBrmHcAP6NIYSTEL9BfPcMuHGrW0+2YdKRpL7SC+LRm3xWWT4zojmJlo/lZbhx
-         2VoFwVXJXS8oIF3SRYNEJ/Nrq/OrPyiovVeRamJJjrCNW301NpHZNr1DqQzk84tGzEmU
-         0P+A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716552872; x=1717157672; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=heFHDS5oPYqpCZlhS7XP4M2Th/Uwdi3lxIP7a3S5t3k=;
+        b=ZSc7CcvnnvhbgK9aHyE3rkb0gBXJVqCzcKF7L5wzk+/Ot8/x5OQwIvHGYTGaXB0jpf
+         9ibBp5aivWAtK4hV0DQc7QSfJ+veu8U0jhtZzB8CepvkwPHs4LVGmgVtKvpaHFebPR9A
+         AqK5V/6qxlDKguNzCtsSqAlyibLHdXWCdBUgkQ9KNKyNq9h2QJzXhvfIgC9fzTIpYsVH
+         ichnXjkzxdme3IpgCWbXUNvYF0nLngiJ6INML/og1wuNOTU5v4Va771TQlCRwMF8L4fk
+         m4zIKuhfmSn2XnMw/vQD6nZQHviG9hyQRAB+TcdPc1+CiMySxQt1uCpsKr3VLLlytM/+
+         ZWpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716552879; x=1717157679;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KOiQp1PGE/5hCXs+J4IwXp2IbxpcdWerOCReSzrqNaM=;
-        b=RmU12FYGScdD5Coo/nX5Ms1BXlcXCdJBmQd1s+e2OBQvIYiuWUOpPeLb8yBmCFkQ+V
-         UkLsVWHWVrzmCgEklYY4qzkGIAmWgXhV0pzwiZR9GVw8MCmW8DL501RfrZNxGBg8JDmu
-         HA0svAMp/vNrYMywz/948BRxLSlK7Fz01L5JcTqgAI8HB/Pomtls5JcpsDBwSudEN2TO
-         HnfgLDW20k0+mapOFOBydXYtvLlbUl/53itIyxbF0OphM45IHk1npeZC95h306XmdPSP
-         z83vgHYq7ihL5LJspXk/wN4dvRj/iDm9yv2QRIgDj1eXYrCKv3sVL5H0gBaoFbdgRTxP
-         UJDA==
-X-Gm-Message-State: AOJu0YwccRU1SpCH6nCvYZM4lbxzA8/RxBFAhVNQ76kM2XcJCi/r0N57
-	BTKN0V463qxvl/U+LsMjO5qkJnEea7IfTFo8+HfTnPVd+zfck+1bv1Z8KQ1LXY+zDyo7KLBqPHU
-	Z
-X-Google-Smtp-Source: AGHT+IEjqee+zM+1JwUSTsT9CneB5X3DHS7PiVzcXEShJWWRaOzCLoaNnB9ZOa1jiVzFYeKqZk0FtA==
-X-Received: by 2002:a17:902:d4c8:b0:1f3:4bd3:4443 with SMTP id d9443c01a7336-1f4483f046amr23281385ad.0.1716552878997;
-        Fri, 24 May 2024 05:14:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716552872; x=1717157672;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=heFHDS5oPYqpCZlhS7XP4M2Th/Uwdi3lxIP7a3S5t3k=;
+        b=oqbc5YXKUfyGTwHWUOA+pF21Skf8BPa0zR4San13LU2PvkYx/6bEqAirAoP+Tvy7xO
+         tbyivhIGnLbfCLfrVtqtBnXfaznbO7+6JdlmdpL2ZlAxV1U0FeozRy6I62uQLosWsLF6
+         dorQx7WG9Ik0oeI8zKxExsg6+Hb1iWCMBuzHAaDplPTdvGq1Qcjajr+hwttPktgNwJpJ
+         0StWvpNJW9B413Vs7MnmhKkq0gr5545uDNGY1LLMWzu4jvnzGRvtmsWDHzG8C+gHhW/k
+         RAkrrlDHWA60cdMC8PtNir1Yd9oAc+hTKbtpYM2spt8PnghYGh1o8BPXCwS3lWYtQqM0
+         5Ekw==
+X-Gm-Message-State: AOJu0YzuzeTP5zQxQa9ekj5guXjkn+t36t6zaRqIV08xGvNXZFN6LRzD
+	+fAmUoy/m+StQu8N3kTCH6ahZWQsfQvHf4EVSA8d0JunnTMHAMqnxxBG0RUIoP0l8zUbRxBn943
+	1
+X-Google-Smtp-Source: AGHT+IEPm4+Jn7VA8Zs8cQJpyFEWPHsMafRdXxkIwQaA4ssoJ02oD/GYhLtJ+Pz4XPOvqfJ7r3N0Bw==
+X-Received: by 2002:a17:903:32d2:b0:1f0:6f32:e13d with SMTP id d9443c01a7336-1f44873dd66mr26409255ad.21.1716552871307;
+        Fri, 24 May 2024 05:14:31 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9a5388sm12592845ad.220.2024.05.24.05.14.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 05:14:38 -0700 (PDT)
+        Fri, 24 May 2024 05:14:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/8] go: Always pass interpreter to linker
-Date: Fri, 24 May 2024 05:14:20 -0700
-Message-Id: <69128ca66991b13358f2552fcd5a7cfa6dda4952.1716552687.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 0/8] Patch review
+Date: Fri, 24 May 2024 05:14:16 -0700
+Message-Id: <cover.1716552687.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1716552687.git.steve@sakoman.com>
-References: <cover.1716552687.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 12:14:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199846
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199842
 
-From: Joerg Vehlow <joerg.vehlow@aox.de>
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, May 28
 
-When gos internal linker is used, it uses hardcoded paths to the
-interpreter (dynamic linker). For x86_64 this hardcoded path is
-/lib64/ld-linux-x86-64.so.2, but yocto's default dynamic linker path
-is /lib64/ld-linux-x86-64.so.2.
-Most of the time, the internal linker is not used and binutils linker
-sets the correct path, but sometimes the internal linker is used and
-the resulting binary will not work on x86_64.
+Passed a-full on autobuilder:
 
-To ensure the path is always correct, pass  it to the linker.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6956
 
-Signed-off-by: Joerg Vehlow <joerg.vehlow@aox.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b54215074d7f3dbba07f096f16b9c0acf51527c)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/go.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following changes since commit f85d5dfc91d536a00669ca3148d8c3b2727b183d:
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index d944722309..55f9d8f230 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -1,4 +1,5 @@
- inherit goarch
-+inherit linuxloader
- 
- GO_PARALLEL_BUILD ?= "${@oe.utils.parallel_make_argument(d, '-p %d')}"
- 
-@@ -44,7 +45,7 @@ GO_LINKMODE ?= ""
- GO_LINKMODE:class-nativesdk = "--linkmode=external"
- GO_LINKMODE:class-native = "--linkmode=external"
- GO_EXTRA_LDFLAGS ?= ""
--GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
-+GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -I ${@get_linuxloader(d)} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
- export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
- export GOPATH_OMIT_IN_ACTIONID ?= "1"
- export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+  libpciaccess: Remove duplicated license entry (2024-05-10 05:05:54 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Bob Henz (1):
+  systemd-systemctl: Fix WantedBy processing
+
+Colin McAllister (1):
+  initscripts: Add custom mount args for /var/lib
+
+Dmitry Baryshkov (1):
+  go.bbclass: fix path to linker in native Go builds
+
+Joerg Vehlow (1):
+  go: Always pass interpreter to linker
+
+Peter Marko (1):
+  openssl: patch CVE-2024-4603
+
+Stefan Herbrechtsmeier (1):
+  classes: go-mod: do not pack go mod cache
+
+Vijay Anusuri (1):
+  binutils: Rename CVE-2022-38126 patch to CVE-2022-35205
+
+Yogita Urade (1):
+  libarchive: fix CVE-2024-26256
+
+ meta/classes/go-mod.bbclass                   |   4 +
+ meta/classes/go.bbclass                       |   6 +-
+ .../openssl/openssl/CVE-2024-4603.patch       | 180 ++++++++++++++++++
+ .../openssl/openssl_3.0.13.bb                 |   1 +
+ .../initscripts-1.0/read-only-rootfs-hook.sh  |   4 +-
+ .../initscripts/initscripts_1.0.bb            |   2 +
+ .../systemd/systemd-systemctl/systemctl       |  11 ++
+ .../binutils/binutils-2.38.inc                |   2 +-
+ ...-38126.patch => 0016-CVE-2022-35205.patch} |   3 +-
+ .../libarchive/CVE-2024-26256.patch           |  29 +++
+ .../libarchive/libarchive_3.6.2.bb            |   5 +-
+ 11 files changed, 240 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+ rename meta/recipes-devtools/binutils/binutils/{0016-CVE-2022-38126.patch => 0016-CVE-2022-35205.patch} (94%)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+
 -- 
 2.34.1
 
