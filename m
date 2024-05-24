@@ -2,81 +2,136 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211BAC25B74
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 07:49:39 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.10831.1716536978401972544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AD5C25B79
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 08:13:59 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.11043.1716538413876533982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 00:49:38 -0700
+ Fri, 24 May 2024 01:13:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ge1wxeQS;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5295a576702so636141e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 00:49:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UyWJm686;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e716e302bdso66877511fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 01:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716536976; x=1717141776; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1716538412; x=1717143212; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G5a59tPzuoA19CGkQWHsU74f6xpvRKQJ+PNZcKwgwKk=;
-        b=ge1wxeQSqK+DvMHIEyyqM5GfDmVSKjH4rYIbL2bEf3Z9viDbm0m1q5F2TDi2MMNUqJ
-         yJ8K403fm5Xlr4t95c16OnyBbSnKSJCI0yeGCHQ5rra53DthJ4jtqd2yZ94KBothDFGc
-         yHTvtM/x7I7XLH4WxYGGs4eM9ukQWmR47FfzgR6WZSTNYyZq81Yy+5b1Q+sDB0hP3V4X
-         zo5xMKx8tRZ7RADf88ptyY+rII2ImTRUf+iY7lLDy9D4patAUrk6Lkk0wRULsdYKy1aw
-         cFS6OZ3AzjJP/9yPG2vWep2LyuSIFL6x/puJyT4a5VPoqdD6vEVyWkiRcNu4IOofRbIm
-         H1Jw==
+        bh=//b5KILcAsck+FszHaB9b/dYVvxOm8fex2Pk79AJGSg=;
+        b=UyWJm686Nws8Lee75bMK166MBtU/0yF66Do9V6uf5LMUm15s1k5q+OhTAPCrLffLma
+         Uq5zh+1b9Nh6GMNqNYJBa2ZCZl+nMhS7Mm84sMbDYsACzO2/52hSjB922Gt+ZNBzyaFb
+         Po+wwiEI33vqpEiZRgwO97s3pHPCtkSy7stX/RSD+TE+3BItX1VUiXU5mzn158H/86RT
+         5XrU/keBL75Cvvi5ckgY8Anp1yI0gs93Dg/zt/PTu+PhMYIyc19XOSeCByeDDscN1CJx
+         8/V9fsgx5+jWMct+kj4gBS/k94977RgP/qxJX0XHkc1u8mlhd5lbrZg46uXqkEfkb3lM
+         IPqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716536976; x=1717141776;
+        d=1e100.net; s=20230601; t=1716538412; x=1717143212;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=G5a59tPzuoA19CGkQWHsU74f6xpvRKQJ+PNZcKwgwKk=;
-        b=Xl3EkDX9Phs/5dO1MK4SVdUZ5dKC+0eMZggwN/8L3HjUcO+cMe8P7hL8q352jiPKho
-         oix6l9vSwXjgxacNhEy1snYrCCLfiALDc49JSe+sancBL7JdqW2Tzi3dYLUQj4ybQFJ+
-         a/64q04eM5jsb16pr8sLthSmyvqUCz5LWXi0y/3STm1XWwwtSBsdZsF6PxQaImTR3hmA
-         s9Er/K8FRaOdck10HGsLG/FEKAZxFR28kfmJDq7p8myZwOu2tmbsI/p1Twkk6s+fRz1l
-         6mlUEv84qkYZT3tyw4uz/gsZ/zhCVqzIJUnt4FatYGqlTFD2zyksO/lJGWH2O+PpMyHU
-         4dFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWJQ+3rQJsl0HKHzfGhQHzmP18xq6kuz8TvUdb+acI+jGXgWrS5ZFE8Medz6PcgB0Ow1iLATfpbI7o0QkMIcHoDuRMa4AQFoo9HNlyCRORav1TYOeidG4pv
-X-Gm-Message-State: AOJu0Yw/Ad8fMVzcgw+MYh5u5kNOl/bK9C/c2eGkhYP8d1DKTsLAPjs8
-	2H0zEirHA2+xUJI9ewUbPSE9XSrkYZKVzycQotIrMWdOqr2sXsGlgTUGW1h/TIgJkoratyaqrKs
-	zcvcsbDnWF4P3ERs+uB/3OxzdeU4xTg==
-X-Google-Smtp-Source: AGHT+IGuy2UGAbPuPboZzOhVNNOR3bDHE3rryPRdSbydY/190+imVrx3uPRXj1rJUQfzCEqK8nR2HN/IkZOGxdfzHRA=
-X-Received: by 2002:a19:ca01:0:b0:523:99a4:a187 with SMTP id
- 2adb3069b0e04-529645e356amr756571e87.26.1716536976369; Fri, 24 May 2024
- 00:49:36 -0700 (PDT)
+        bh=//b5KILcAsck+FszHaB9b/dYVvxOm8fex2Pk79AJGSg=;
+        b=mcZoX60ACTwLJ+Sw0YenJ536c0T4FsWRaVAsP90wzRGFGw5L+et2h++QXiQ6xacLDs
+         qRN1W6H35GCkj5+EPTv04e9KD5v2RaPZagm1Pi3VHVl3iJUlnJlqnv9CBROfX65dp9ol
+         bpUbw80qGVB5GC2tiwAEUYZ0BdyZxtE1LbY5AwZSHmrPBAfraXDM2Bshy3M8/zUu2gOo
+         7KLz+xBuRVqMkPwy+q/tfBXGKWXMiSm7/m3Q/U3v1uT7YfSOiv2Elw9HnztSnA941MWR
+         rJC/WT8ceM7vY0+AZNkbhZyDOlXQU8ycYenQxbmpzRUUCq+XJtYbQb8WHwpI3pvQNTz0
+         s22w==
+X-Gm-Message-State: AOJu0YwhOZ8UGKEevlynvFDV+RpB+W/dax09Npkb31PGAzZfbk/5I9tb
+	ctSR+rh+N4RbJaVUDz6EndPMaoeb9GQfn4rn52HD4pe/apwdLHG68Mxoj7rc37c327IQFK5gBEB
+	SeZT2VCH4K8M516WGuq6ahokGLwI=
+X-Google-Smtp-Source: AGHT+IFQw1rNuanFc5ORy+T7HxqwaZStdgCK/JRmghuov0QWqFD52VTq99RijyDioci7h8+2MTLbO0no89cndEFXFLc=
+X-Received: by 2002:a2e:3519:0:b0:2e6:f5f5:f6e with SMTP id
+ 38308e7fff4ca-2e95b04164emr8434431fa.9.1716538411800; Fri, 24 May 2024
+ 01:13:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240523125441.45922-1-emil.kronborg@protonmail.com>
- <a1e40553b608081c1f251c1ac61310f2583ee015.camel@linuxfoundation.org> <7ubt3kdspc5rp6ab4k6qip2gakgh7wf77oj2llf677gkach6xe@fsqhtqt4eeed>
-In-Reply-To: <7ubt3kdspc5rp6ab4k6qip2gakgh7wf77oj2llf677gkach6xe@fsqhtqt4eeed>
+References: <30216.1716477852755796076@lists.openembedded.org> <Groupsio.1.30216.1716477852755796076@lists.openembedded.org>
+In-Reply-To: <Groupsio.1.30216.1716477852755796076@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 May 2024 09:49:24 +0200
-Message-ID: <CANNYZj_FkqJzCW_dkFr8=Dnu86UUuzjLE74KfSnrAvoASZxUfQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] insane.bbclass: use HOST_ARCH to check for
- 32-bit symbols
-To: emil.kronborg@protonmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, rasmus.villemoes@prevas.dk
+Date: Fri, 24 May 2024 10:13:19 +0200
+Message-ID: <CANNYZj-LvZ6akEmDgfGGLCf6xdy_0k1rb=Z428gJVr35Xg6u+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] buildhistory: Fix do_package race issues
+To: pmi183@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 07:49:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199832
+ <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 08:13:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199833
 
-On Fri, 24 May 2024 at 09:47, Emil Kronborg via lists.openembedded.org
-<emil.kronborg=protonmail.com@lists.openembedded.org> wrote:
-> There is obviously a problem when building binaries for an SDK and using
-> OVERRIDES for the check. To me, HOST_ARCH looks most correct, but if it
-> misses some cases, it should not be used as a one-to-one replacement for
-> OVERRIDES. Is there some proper way in BitBake to catch all 32-bit
-> architectures? If not, would adding i686, and potentially other missing
-> names, to the list of 32-bit time architectures, i.e
-> thirtytwo_bit_time_archs, be feasible?
+Hello Pedro,
 
-I vaguely remember that at some point I ran 'bitbake -e recipe'
-against qemux86 machine to study that question, and looked through all
-related variables, and couldn't find anything better. But you're
-welcome to try that as well.
+is it possible to separate all needed changes into a set of nice,
+small, simple, easy to review commits? That would go a long way
+towards fixing all issues. I don't have a hard opinion on the best way
+to fix this, I just want to ensure there are no mysteries in what is
+happening, and the fixing isn't in the form of gigantic, invasive,
+single commit. If you need to move code *and* change what it does,
+move in one commit, change in another, for example.
+
+buildhistory is an old class, has been worked on by many people over
+the years, and the original author (Paul Eggleton) isn't involved in
+yocto any longer unfortunately. So the fixes may have been done to
+resolve 'pressing problems' rather than with long term quality of the
+code in mind.
+
+Also note there are selftests for it:
+alex@Zen2:/srv/storage/alex/yocto/build-64-alt$ oe-selftest -l|grep -i
+buildhistory
+2024-05-24 10:06:56,818 - oe-selftest - INFO -
+buildoptions.BuildhistoryTests.test_buildhistory_basic
+2024-05-24 10:06:56,818 - oe-selftest - INFO -
+buildoptions.BuildhistoryTests.test_buildhistory_buildtime_pr_backwards
+2024-05-24 10:06:56,818 - oe-selftest - INFO -
+buildoptions.BuildhistoryTests.test_fileinfo
+2024-05-24 10:06:56,830 - oe-selftest - INFO -
+oelib.buildhistory.TestBlobParsing.test_blob_to_dict
+2024-05-24 10:06:56,830 - oe-selftest - INFO -
+oelib.buildhistory.TestBlobParsing.test_compare_dict_blobs
+2024-05-24 10:06:56,830 - oe-selftest - INFO -
+oelib.buildhistory.TestBlobParsing.test_compare_dict_blobs_default
+2024-05-24 10:06:56,831 - oe-selftest - INFO -
+oelib.buildhistory.TestFileListCompare.test_compare_file_lists
+2024-05-24 10:06:56,832 - oe-selftest - INFO -
+oescripts.BuildhistoryDiffTests.test_buildhistory_diff
+
+So if you make sure they continue to pass, that'd be good. If you can
+add to them, that's better.
+
 
 Alex
+
+
+
+On Thu, 23 May 2024 at 17:24, pmi183 via lists.openembedded.org
+<pmi183=gmail.com@lists.openembedded.org> wrote:
+>
+> [Edited Message Follows]
+>
+> Hi Alex,
+>
+> So problem starts at sstate.bbclass:406 (sstate_install(ss, d)), this should be running after the next for loop (for plain in ss['plaindirs']:).
+>
+> Having this fixed, jumping to the buildhistory.bbclass:602, find should be out of the loop to give a hard error if it misses.
+> Then inside the for loop, while checking if output folder exists (buildhistory.bbclass:607), this doesnt make sense to me the way it is running:
+>  - the comment refers "Make sure the output folder exists...", but we are not creating it if we need, just skipping if doesnt exists.
+>  - this folder is being created on do_packagedata (buildhistory.bbclass:396) to write down latest file.
+>
+> So before spending more time on this topic i have a few questions to understand a little bit of what should be the strategy to fix this:
+>
+> - If we want to keep files-in-package.txt being created on do_package, shouldnt `buildhistory_list_pkg_files()` (buildhistory.bbclass:600) be responsible to create the folder on buildhistory side?
+> - If we keep `buildhistory_list_pkg_files` being triggered by do_package is there any case of do_package_setscene trigger this? I couldnt find any case to support this option (buildhistory.bbclass:101).
+> - If not we dont need in fact to create files-in-package.txt on do_package, should files-in-package.txt creation be moved to do_packagedata?
+>
+> Thanks,
+>
+> Pedro
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199810): https://lists.openembedded.org/g/openembedded-core/message/199810
+> Mute This Topic: https://lists.openembedded.org/mt/87258776/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
