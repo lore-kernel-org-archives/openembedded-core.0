@@ -1,134 +1,95 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFECCC25B7C
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 02:52:27 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.7427.1716519137711477939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29242C25B74
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 04:20:08 +0000 (UTC)
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.web10.8381.1716524406696854682
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 May 2024 19:52:17 -0700
+ Thu, 23 May 2024 21:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=RYh3zeEj;
- spf=pass (domain: konsulko.com, ip: 209.85.214.169, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f304533064so19479805ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 May 2024 19:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1716519136; x=1717123936; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zQY3azn5yJ/85H+wJFzUWSWAF6jiAgGrIlGAVf4hYHQ=;
-        b=RYh3zeEjD5XHHQ9PU2yTuVxd2aXE1bn8HpNdKxu1B+gIUHjw+4b3X2quHAVljy5qd2
-         ASu2uZVHwCmxYXAAaBWMpMlGZlnpJo28D6pXX1LTo3iO56BmoW5xQVWQYOFxdgR2bOrt
-         cu05V2giK7tXOFmT7opGj4bHAEyuEP56bA4lw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716519136; x=1717123936;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zQY3azn5yJ/85H+wJFzUWSWAF6jiAgGrIlGAVf4hYHQ=;
-        b=ECab8HHYQK7MtNcOIG5v3EnvTUY1yh/dx5hxc1FxL+cJVeHdV3VB8BRNWyfmDZZCMy
-         iHFznxgiM9k0KQpEGhnBKR/b/n4dVJeLwR72zn0R2H86E/wf99NBVRVFjGN+wNJpD6+p
-         VwlpJkigtfviR+jQu56aBJEKts1pgOpGqqb0VX08gotX8MydG28MHpQCaPtDhhx6xVGV
-         IF4oeflA6+YByB15ongrBmWPKfoY41VUvuN7sQWujtWdC7/84K+xOcQaua7Ijt7h+21b
-         lnLkljWYpPvhZtPDXA+sE2MyajTvqar413BI9CAXo1E5FKL4zR6bLgOe4RQdhkAAD8R4
-         wC0Q==
-X-Gm-Message-State: AOJu0YxHnXdgmz2NXmM3nCdqaizOrMVGtrnRn5+bYCJfcLfhTX9ghEns
-	yDX72wywdzSGfeQsD0nwh7xies3MBkN+d+fV6n12CQurNkLAAQUgK9E3NSipodPWuNGffNLG9PO
-	jPwU=
-X-Google-Smtp-Source: AGHT+IEhQ4Q5MczUJ/K9qRBOV71yjg9yKyA6dkpvZ8bR5p6wlUwfg5Svhnm+AZxrHxrCN+dnnKKkeg==
-X-Received: by 2002:a17:902:d4c5:b0:1f2:ff65:d2d8 with SMTP id d9443c01a7336-1f448205c0emr14663215ad.27.1716519136368;
-        Thu, 23 May 2024 19:52:16 -0700 (PDT)
-Received: from localhost ([2601:1c0:ca00:bd60:d675:a2eb:1b98:4f95])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9903b5sm2910815ad.189.2024.05.23.19.52.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 19:52:15 -0700 (PDT)
-From: tim.orling@konsulko.com
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=jSe4Ylzi;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1716524406; x=1748060406;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=P/HroGS1fzGbR8x5MGEnUb5RvTsuoW19m9jwLcxd+q8=;
+  b=jSe4YlzilwM5evXZ/QOlVxnPNUCBhVNU/yvS3Cdps6gzoUHPOvdkIZ+Q
+   p+EW6BS8DF1czl7Vq9OZxcAiHG3xmwW1Uf+HWxf1L3W+pPGteUvqnLyur
+   FhM9aC9Wdl3Cjldluwn6y6LGziXl7VKVrEsP9Irsnv3PBCnkGY3nFA+/J
+   2HV+78MleCOIH3L+DHgUF/KnbnJdqZhWpEeW6x+FCcQz7wYdSilmuG3qn
+   q+2VFLHvW9qEMR1xlC/BVTDmFfnJNbGK6dOFQFggRcQnDtjqdBCjkzJB3
+   WH/qsWictCOfb1Ps0O/LfYGUNPVLMCn6cV2Cjja0DDgeWDRXZJrOW5CEP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="147452108"
+X-IronPort-AV: E=Sophos;i="6.08,184,1712588400"; 
+   d="scan'208";a="147452108"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 13:20:04 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2421FE8521
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 13:20:02 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 53D73CFF81
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 13:20:01 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id C36D36BE6B
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 13:20:00 +0900 (JST)
+Received: from ubuntu20.04 (unknown [10.193.130.22])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 402E51A000A;
+	Fri, 24 May 2024 12:20:00 +0800 (CST)
+From: leimaohui@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] pythonn3-rpds-py: enable ptest
-Date: Thu, 23 May 2024 19:51:40 -0700
-Message-ID: <20240524025137.1601126-5-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240524025137.1601126-3-tim.orling@konsulko.com>
-References: <20240524025137.1601126-3-tim.orling@konsulko.com>
+Cc: Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core][PATCH] run-postinsts.service: Removed --no-reload to fix reload warning when  users execute systemctl in the first boot.
+Date: Fri, 24 May 2024 12:19:57 +0800
+Message-Id: <20240524041957.37093-1-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28406.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28406.005
+X-TMASE-Result: 10-1.337500-10.000000
+X-TMASE-MatchedRID: /2NGPvLZz+NxWhMaDPpmye9kW9mxCQvtlDt5PQMgj03rQGUex1PL9f/q
+	b9sK3pliT0dK3a38v4Cd6Lv9qI8wHwH3QVwvWrgw/HTKStsDGMJHNQ8CqEKO2EfyM5VfgjG2ZLQ
+	YXtpV9U7i8zVgXoAltr8hWd4lAsFlC24oEZ6SpSmcfuxsiY4QFC6XCaISO9i4tyoKr/Q7lkeQDK
+	oJNVfbVktUcMjt0OS/ByGJN71wWiy1InoeYy9NghBut1Tuih+Gp9eh5tUl+4ky1/U+3Y/xrZsNE
+	GpLafrrLM/nEDLP056e+TDiyH/49wxfkLAfkNNSaAZk0sEcY14=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 02:52:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199824
+ <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 04:20:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199825
 
-From: Tim Orling <tim.orling@konsulko.com>
+From: Lei Maohui <leimaohui@fujitsu.com>
 
-* Add RDEPENDS for ptest from tests/requirements.txt
-* Tests take ~14 seconds, so add to PTEST_FAST
+This warning is because after systemd has been upgraded to 255, reloading units operation is needed even when "enable/disable" units by systemctl.
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- meta/conf/distro/include/ptest-packagelists.inc |  1 +
- .../python/python3-rpds-py/run-ptest            |  3 +++
- .../python/python3-rpds-py_0.18.1.bb            | 17 ++++++++++++++++-
- 3 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-rpds-py/run-ptest
+ .../run-postinsts/run-postinsts/run-postinsts.service           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5975db25ccc..da6fa6ee972 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -69,6 +69,7 @@ PTESTS_FAST = "\
-     python3-pyasn1 \
-     python3-pytz \
-     python3-pyyaml \
-+    python3-rpds-py \
-     python3-trove-classifiers \
-     python3-wcwidth \
-     python3-webcolors \
-diff --git a/meta/recipes-devtools/python/python3-rpds-py/run-ptest b/meta/recipes-devtools/python/python3-rpds-py/run-ptest
-new file mode 100644
-index 00000000000..8d2017d39ce
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-rpds-py/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-index c6e88d88d76..f46df1115c8 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-@@ -4,12 +4,27 @@ HOMEPAGE = "https://pypi.org/project/rpds-py/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+index b6b81d5c1a..1ce19abcaf 100644
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+@@ -7,7 +7,7 @@ Before=sysinit.target
+ [Service]
+ Type=oneshot
+ ExecStart=#SBINDIR#/run-postinsts
+-ExecStartPost=#BASE_BINDIR#/systemctl --no-reload disable run-postinsts.service
++ExecStartPost=#BASE_BINDIR#/systemctl disable run-postinsts.service
+ RemainAfterExit=yes
+ TimeoutSec=0
  
-+SRC_URI += "file://run-ptest"
-+
- SRC_URI[sha256sum] = "dc48b479d540770c811fbd1eb9ba2bb66951863e448efec2e2c102625328e92f"
- 
- require ${BPN}-crates.inc
- 
--inherit pypi cargo-update-recipe-crates python_maturin
-+inherit pypi cargo-update-recipe-crates python_maturin ptest
- 
- PYPI_PACKAGE = "rpds_py"
- 
-+RDEPENDS:${PN}-ptest += " \
-+    python3-iniconfig \
-+    python3-packaging \
-+    python3-pluggy \
-+    python3-pytest \
-+    python3-unittest-automake-output \
-+    "
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.45.1
+2.34.1
 
 
