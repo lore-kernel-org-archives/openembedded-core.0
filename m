@@ -2,60 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB82C25B74
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 16:01:22 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.19547.1716566478875266488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A38B5C25B74
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 16:03:02 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.19595.1716566573243383552
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 May 2024 09:01:19 -0700
+ Fri, 24 May 2024 09:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Mc9v9CaT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4200ee78f34so31501915e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 09:01:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SKomr3P7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-354be94c874so2443418f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 09:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1716566477; x=1717171277; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1716566572; x=1717171372; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5BxaaUhNoFEMIAvGWLbPnbiswLjkqc4nOis6Tbf5T80=;
-        b=Mc9v9CaTb/BekoShgyhRQERCeT5f7GdsxRkW8FVYvkLTtJJE1omDzENEuedlVIXzEN
-         kl3e+P03bJiWiKYLj3/5vBRkvTPMnCqedFe3jFq1lesDa6D/sVk+tnXsfINvhtHTpOBz
-         X0XN76/5MCLN9SxuF5yll4vOTmSlgKrapO0bE=
+        bh=cco2X6t7IpdnatTdtLIT+/nesYPp6UqlSbGf6wDBVKI=;
+        b=SKomr3P7lmihjGzg9IaejB8bguFtrVBq6/5BgMpXrAO+bf+LGxf6it52iTe/lZYan3
+         8rfij5h1fL8wCC4ZUcW7eNoPUpV5JKrqK76P//TRfICCKWP8UuGlLD6J0b6iTGyjY6Hy
+         UOpbCMYb/ACiPLdnNWjLaUX5Mwagj3FIZ2+5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716566477; x=1717171277;
+        d=1e100.net; s=20230601; t=1716566572; x=1717171372;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5BxaaUhNoFEMIAvGWLbPnbiswLjkqc4nOis6Tbf5T80=;
-        b=iZ6c3gOmyQP+kYd/MaCs3G8AcbdBS9QTvBgilD1qwNTFZj/rjauyjtax9YNarIXhDm
-         v4Aofn3mRexYr7UCQbejFHliZ+fIw3do9Tmldk0e5vWBBIAeXZ+jY/kpIV52rLTV3tC5
-         Ng7ZjqCAFKUSog/WrJBS1NC1snFuL2KKAvEr6iXxDSNXaAuGsDiG8+PiUfaTOlSKwDqB
-         OLpsOS2R+OY/lWfdek/KHANr/CsZxDmeHzzOm+hevhLj1QSgu6cWezHhdDdNTadbSKkS
-         4srKhSmsikTkDPhzqxivTds48fQrQsm6k8o8jwoGF/WEIMWhtJaNaRoJ38x4OtmvnV2B
-         F5KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbXSwFAKcqvWaDc/A/Y4xYttDBWZfLIvprsRCARQmxwz8+pkvaq3IJkrbqzXrAe8cZzB+kYSXDj/U7hXVSLzL4vYqUto6QWSc9NwTFezYiToQxrdHUskHE
-X-Gm-Message-State: AOJu0YyL3kznaxDaE4S8QNu2GQVmuqkptXJWxxjrVYJ/8p2fJEulwOFK
-	RRF3VfcYeEpT6PHpmrlpfN86dV8FpNL6TGMYD10Ew5XgAp040riPX+tmzGBMIYw=
-X-Google-Smtp-Source: AGHT+IH/g5hF8JpWtJ6d1aErtXbPNUsYuW8C+tuipww1IaFuC1Y814k1Cd8IvotR9z0GwE2VPu2aww==
-X-Received: by 2002:a05:600c:5103:b0:420:1a3:dd04 with SMTP id 5b1f17b1804b1-421089eeb0emr23392905e9.24.1716566476991;
-        Fri, 24 May 2024 09:01:16 -0700 (PDT)
+        bh=cco2X6t7IpdnatTdtLIT+/nesYPp6UqlSbGf6wDBVKI=;
+        b=tBtqKSY1Z/i8lQp/RYb/tSMootLRsdnuT5pjLCdrIkxD8EWGldD59f74Blq1wQOcDe
+         F31rKsD+wA6GVCVAfr7P1D9GivenDuu6g34fdEHfjF0fh27TxVBC+J3QufEFUNB/57RM
+         Kw8zQXAzvzDn1fh1hWujpVBHB/uiWWh9Aevd+EqVV3DumhsEW4Isv5twRhNeynNa0lAv
+         FKJ3M656lZe5ji4Mc42eJMySlKxJIGpkQqAHFKvmWfU0FXp6YmZ59q3VYTN+DFWclMps
+         6WW57ffFmSmcpeHZ2vF9XRlSm7ZbbMGnT7hIILp+7D/HEMXm0gFd11AvV124jp3lHvi1
+         oZYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhPpimto5DYxhvsN1vwfp6FRgSPaas0vxNASfd8gx0LlYkQr51wxPM0Zf+XfTvlw/KFknVYo8QoBdutoTjDAGsRT+x2OstKqN+3xmvzOuAaP/CFbIABYYu
+X-Gm-Message-State: AOJu0YznmfKpAsJRp8eYJ6bTUl7Gw0aIqYZNwvaAqSGMFRpcJpryCjtD
+	0QuUfeXdf7+tc6XXavTkEBb/sB/wjbvVxSSNyFr7fMiMHpl5OfiRyQZu+NViviw=
+X-Google-Smtp-Source: AGHT+IHAYR9ud3w4J4gh4r+jidyL8PSvvQ+BqdIcrfX/rUM3LpcHjdfCkGZ+IfWJmwQayuHlVg8+qw==
+X-Received: by 2002:a5d:4c4b:0:b0:349:8010:fbed with SMTP id ffacd0b85a97d-3552fdf2077mr2337642f8f.69.1716566571675;
+        Fri, 24 May 2024 09:02:51 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:9ca4:3686:8521:57da? ([2001:8b0:aba:5f3c:9ca4:3686:8521:57da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100ee806esm56575775e9.3.2024.05.24.09.01.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a08a878sm1896104f8f.43.2024.05.24.09.02.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 09:01:16 -0700 (PDT)
-Message-ID: <9b53e3aa9a23ae0962435b2a281d6786a63c53dc.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/1] oe-build-perf-report: Add commit hash link to chart
- tooltip"
+        Fri, 24 May 2024 09:02:51 -0700 (PDT)
+Message-ID: <964c5a76083cd4a464cf243250b344c078326983.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/5] oe-build-perf-report: Add apache echarts to make
+ report interactive
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: engineering@neighbourhood.ie, openembedded-core@lists.openembedded.org
-Cc: Ninette Adhikari <ninette@thehoodiefirm.com>
-Date: Fri, 24 May 2024 17:01:14 +0100
-In-Reply-To: <20240522145252.58663-2-ninette@thehoodiefirm.com>
+To: Ninette Adhikari <ninette@neighbourhood.ie>
+Cc: engineering@neighbourhood.ie, openembedded-core@lists.openembedded.org, 
+	randy.macleod@windriver.com
+Date: Fri, 24 May 2024 17:02:50 +0100
+In-Reply-To: <CAG1aeW1YUfrYqsjp3O86_ngm5P9Zk2-Okpcw7f1LG7CcPfgMhw@mail.gmail.com>
 References: 
-	<dc7f3dc71d643c5491172b9fa9c761400b9d0499.camel@linuxfoundation.org>
-	 <20240522145252.58663-1-ninette@thehoodiefirm.com>
-	 <20240522145252.58663-2-ninette@thehoodiefirm.com>
+	<5e46a5c002cc62e0da9f3053c890120eb4582820.camel@linuxfoundation.org>
+	 <20240503144340.27385-1-ninette@thehoodiefirm.com>
+	 <20240503144340.27385-2-ninette@thehoodiefirm.com>
+	 <dc7f3dc71d643c5491172b9fa9c761400b9d0499.camel@linuxfoundation.org>
+	 <CAG1aeW1YUfrYqsjp3O86_ngm5P9Zk2-Okpcw7f1LG7CcPfgMhw@mail.gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -71,26 +74,30 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 16:01:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199854
+ <openembedded-core@lists.openembedded.org>; Fri, 24 May 2024 16:03:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199855
 
-On Wed, 2024-05-22 at 16:52 +0200, Ninette Adhikari wrote:
-> Update tooltip to include the commit hash link to the poky repository
->=20
-> Signed-off-by: Ninette Adhikari <ninette@thehoodiefirm.com>
+On Wed, 2024-05-22 at 17:16 +0200, Ninette Adhikari wrote:
+> Apologies for the late response. I have made changes to the chart
+> tooltip to include link to the poky repository with the commit hash.
+> I have sent the patch files to the mailing list. Let me know if this
+> helps:)
 
-I ran a test build of this and have to say it is awesome!
+It is wonderful, thanks! Makes things so much more usable.
 
-https://autobuilder.yocto.io/pub/non-release/20240523-22/testresults/buildp=
-erf-alma8/perf-alma8_master-next_20240523112827_c0bd181fcf.html
+> With regards to the step chart preview inconsistency, I have looked
+> at the Apache echarts documentation but haven't had much luck to fix
+> this. Please let me know if it will be okay to leave it like this for
+> now. Maybe echarts will update their step charts to fix this in
+> future.
 
-This means we can much more easily narrow down the commit causing a
-problem, thanks! We've needed this for so long its wonderful to finally
-have it work properly.
+It is fine to leave it. Would it be worth filing a bug report or issue
+with the upstream so they're at least aware of it?
 
 Cheers,
 
 Richard
+
 
 
 
