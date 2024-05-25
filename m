@@ -2,34 +2,34 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FE9C25B79
-	for <webhook@archiver.kernel.org>; Sat, 25 May 2024 10:49:36 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web11.9074.1716634168803042469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24556C25B78
+	for <webhook@archiver.kernel.org>; Sat, 25 May 2024 10:49:46 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.9002.1716634168921641470
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 May 2024 03:49:30 -0700
+ Sat, 25 May 2024 03:49:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Uhp6nQ+n;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2024052510492593ba82bc3cc9a7bb1b-4fj9_k@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2024052510492593ba82bc3cc9a7bb1b
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=oIZC0Csz;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2024052510492618260d179d1ad808a1-mtjhim@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2024052510492618260d179d1ad808a1
         for <openembedded-core@lists.openembedded.org>;
         Sat, 25 May 2024 12:49:26 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=P1SAoQy8ScH/8JNInLH/IXMPgGwD216yYWe2OG4odpE=;
- b=Uhp6nQ+nv3Ggac1nunlnORib7vB2wFLSwnWanyLlrGJiDlOYzZkecQVJBCFEnMg9mDTgLH
- aVTHrWeXifiHtEDQJ1xj+f1Yj/MtqP+5X/qt3uBiKm1GmenuFlqMAxwGKAJR4qSpmvj+B6kv
- Itxv/PJLYBbJdozniJpD8nIAKq9Q8=;
+ bh=M/WzgDFcZ0U0ANdXmk+5sYDMU83ACiRS3gAt3JZXoME=;
+ b=oIZC0CszDSIi5ZS2giCDCG7Bs6aJGN7FBOSmYI/42+0r+QmZQeVXc77454SUZ/Ra8wm5++
+ 718ZnbqYSfCjyKY1pGDkA2jA5XZabvwzgvEONz1IsQy/u2NtLJhpBAt7bct152pQThUD8E5A
+ lqb/FxMxX9S5DoXbY5Z1w6whjrehc=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
+Cc: Ricardo Simoes <ricardo.simoes@pt.bosch.com>,
+	Mark Jonas <mark.jonas@de.bosch.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH 3/6] llvm: Switch to using release tarballs
-Date: Sat, 25 May 2024 12:48:35 +0200
-Message-Id: <20240525104838.619254-4-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 6/6] libusb1: Set CVE_PRODUCT
+Date: Sat, 25 May 2024 12:48:38 +0200
+Message-Id: <20240525104838.619254-7-peter.marko@siemens.com>
 In-Reply-To: <20240525104838.619254-1-peter.marko@siemens.com>
 References: <20240525104838.619254-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -39,69 +39,39 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 May 2024 10:49:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199874
+ <openembedded-core@lists.openembedded.org>; Sat, 25 May 2024 10:49:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199871
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
 
-git checkouts are in excess of 3G, which is not
-ideal for everyone to download/clone, instead switch to
-fetching release tarball which is ~126M as of 18.1.5 release
+This commit sets the CVE_PRODUCT variable to "libusb" to match the
+product name used in the NIST CPE database [1].
 
-(From OE-Core rev: 800e6576e4f3af10846af13c2f217f986c1afdb4)
+[1]: https://nvd.nist.gov/products/cpe/search
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../llvm/{llvm_git.bb => llvm_18.1.5.bb}            | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/llvm/{llvm_git.bb => llvm_18.1.5.bb} (93%)
+ meta/recipes-support/libusb/libusb1_1.0.27.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
-similarity index 93%
-rename from meta/recipes-devtools/llvm/llvm_git.bb
-rename to meta/recipes-devtools/llvm/llvm_18.1.5.bb
-index dfaa031012..4b6763e580 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
-@@ -13,27 +13,26 @@ DEPENDS = "libffi libxml2 zlib zstd libedit ninja-native llvm-native"
- RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.27.bb b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+index f2431d75c8..5bf854f95d 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.27.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+@@ -8,6 +8,8 @@ SECTION = "libs"
+ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
  
- inherit cmake pkgconfig
--
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
++CVE_PRODUCT = "libusb"
++
+ BBCLASSEXTEND = "native nativesdk"
  
--PV = "18.1.5${VER_SUFFIX}"
-+PV .= "${VER_SUFFIX}"
- 
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
- 
- LLVM_RELEASE = "${PV}"
- 
--BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "617a15a9eac96088ae5e9134248d8236e34b91b1"
--SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-+SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-            file://llvm-config \
-            "
-+SRC_URI[sha256sum] = "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d019b67a57edd7de56"
- 
--UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
-+UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
-+UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
- 
--S = "${WORKDIR}/git/llvm"
-+S = "${WORKDIR}/llvm-project-${PV}.src/llvm"
- 
- LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
- 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
 -- 
 2.30.2
 
