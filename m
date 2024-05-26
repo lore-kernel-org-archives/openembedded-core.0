@@ -2,36 +2,36 @@ Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C783C25B75
-	for <webhook@archiver.kernel.org>; Sun, 26 May 2024 15:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7818C25B75
+	for <webhook@archiver.kernel.org>; Sun, 26 May 2024 16:27:17 +0000 (UTC)
 Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
- by mx.groups.io with SMTP id smtpd.web11.9356.1716739074315086519
+ by mx.groups.io with SMTP id smtpd.web11.9832.1716740833985904903
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 May 2024 08:57:54 -0700
+ Sun, 26 May 2024 09:27:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=gzzxyRW9;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=n1p7O/eO;
  spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
 Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
-	by wilbur.contactoffice.com (Postfix) with ESMTP id 0289D4040;
-	Sun, 26 May 2024 17:57:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1716739072;
+	by wilbur.contactoffice.com (Postfix) with ESMTP id 4F5CB378E;
+	Sun, 26 May 2024 18:27:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1716740832;
 	s=20230812-3u04; d=redrectangle.org;
 	i=robert.joslyn@redrectangle.org;
 	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
-	l=5050; bh=HibLQvCd+kM5eryX2Md2tHxAkjtmz4eIoJHDF26KTM4=;
-	b=gzzxyRW9inOlnKiPD58zvjkEp7GBjndxWsptGca0CLmkzxnWIJdVhYDEI2Om2iFz
-	XimaRlF+9o1Uj1OI8U7jEEHiBBaH8WYcLeCoLijfQuwDMWH7qefj9DBWkg81ZtmDxoQ
-	R1aNEt4b+UvgpuPiiQDxDGqNtR1IFM/QCToCED7Ky/QiacQA7hafsB+dXKPVcafTnD+
-	naqxMoIqIjvjyFWER2LHIo9mqjko1wo+qtapedp/MOC3fEsTzphPVBiC9n1CpmbNzm6
-	n3S99V5wpQWadSdE9iqikLxQ9iOMj8QN7wM+HR/e3RATzZU/7OWsNTtyaH+M7Zf2SHS
-	fubi4kU1Dw==
-Received: by smtp.mailfence.com with ESMTPSA ; Sun, 26 May 2024 17:57:48 +0200 (CEST)
+	l=5138; bh=i+Pv+MSL9ENbpcBWAaVD47duIxo96Fo+8XhlzKJy5l4=;
+	b=n1p7O/eOjKZPlDiJSHTg82MAH9v10eRuwas/CMEF8SWUZm7lKwBDmlm1zW64fvFc
+	9beoRUNnNNIDvbFtWHw76VNwvM2Qk0WgGrvyFRm4bFq0tudV7ACZ9kBadBfFPqbKV3k
+	xJvyRMCe6AYA9fOQ/4xdyumozdHQDcnHAfwaT8WPgRaohrdXaeJvXxea+6ROrXmEwYp
+	43OXvgTAsXwU3mbLii5W/RJwH5+sMdO3BruKgwsKKg8k/7AxK5/OHqfMwp5rKQt91cQ
+	72p0sobLlKtFYLxc9vh4u8JIgy4LHBpjy6DizPVtAI3u7nOIbmSvRxQ5ajM1R6c7cQH
+	eqbdBjXIlQ==
+Received: by smtp.mailfence.com with ESMTPSA ; Sun, 26 May 2024 18:27:08 +0200 (CEST)
 From: robert.joslyn@redrectangle.org
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [PATCH] curl: Update to 8.8.0
-Date: Sun, 26 May 2024 08:57:33 -0700
-Message-ID: <20240526155733.2139871-1-robert.joslyn@redrectangle.org>
+Subject: [PATCH v2] curl: Update to 8.8.0
+Date: Sun, 26 May 2024 09:26:26 -0700
+Message-ID: <20240526162626.2440170-1-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
 X-ContactOffice-Account: com:454140407
@@ -39,13 +39,15 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 May 2024 15:57:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199883
+ <openembedded-core@lists.openembedded.org>; Sun, 26 May 2024 16:27:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199884
 
 From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
 Remove backported patch that is upsteam in this version. Disable test
 1481 since it requires --libcurl option that is disabled by default.
+Remove --disable-ntlm-wb option since support for ntlm_wb was removed in
+this version
 
 Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
