@@ -2,30 +2,30 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1243EC25B74
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D956C25B74
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:58:37 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.5951.1716839771684732188
+ by mx.groups.io with SMTP id smtpd.web10.5993.1716839914942723966
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 May 2024 12:56:12 -0700
+ Mon, 27 May 2024 12:58:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 44RJuAlx030852
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 14:56:11 -0500
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 44RJwY0g030884
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 14:58:34 -0500
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [master][scarthgap][] binutils: Fix aarch64 disassembly abort
-Date: Mon, 27 May 2024 14:56:10 -0500
-Message-Id: <1716839770-3603-1-git-send-email-mark.hatle@kernel.crashing.org>
+Subject: [master][scarthgap][PATCH v2 ] binutils: Fix aarch64 disassembly abort
+Date: Mon, 27 May 2024 14:58:33 -0500
+Message-Id: <1716839913-3655-1-git-send-email-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:56:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199938
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:58:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199939
 
-From: "Mark Hatle via lists.openembedded.org" <mark.hatle=amd.com@lists.openembedded.org>
+From: Mark Hatle <mark.hatle@amd.com>
 
 Code backported from binutils development tree.
 
