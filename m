@@ -1,66 +1,85 @@
-Return-Path: <emil.kronborg@protonmail.com>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62442C25B74
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 10:19:22 +0000 (UTC)
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
- by mx.groups.io with SMTP id smtpd.web11.24411.1716805161459195746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF2EC25B74
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 12:41:22 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web11.26555.1716813676920742026
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 May 2024 03:19:21 -0700
+ Mon, 27 May 2024 05:41:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@protonmail.com header.s=protonmail3 header.b=Gy3SxAUO;
- spf=pass (domain: protonmail.com, ip: 185.70.40.131, mailfrom: emil.kronborg@protonmail.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1716805159; x=1717064359;
-	bh=zr0FbXwQLCB0AsbRu8PS/RNDF2gRtwCHsuGDKLuTiRE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Gy3SxAUO0dO8GhezX/pNinifdqL0fZLbNxTur6K9hic/YATRdfvfRXGNpyc/flt4b
-	 B07J8zHbU/tfRHoEpyX+OtbmrM7jI1G05wu5DWTnftDVv3sa6CSIHFuNO+RPSxiqBV
-	 3jofHhoA37S6Ywv4IT39gbpIRNFnKgTaLN06t3GIhigJaTlbYpTs/dlCRwa9MGy/Ht
-	 gsLBP7KwzYttX0Q7fjrnrzIZjX7owQbN0Z3tUz+nVUneXeLtvLA/3gkmZHgaXqkuyo
-	 SjH6s250KH9mALLwITl2xX2ERxUj8+D/xAcDUa5WeN5A5Pdl3Fizja/wRxOwcEnGeI
-	 JOF3aCaHQBe8g==
-Date: Mon, 27 May 2024 10:19:14 +0000
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-From: Emil Kronborg <emil.kronborg@protonmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org, rasmus.villemoes@prevas.dk
-Subject: Re: [OE-core] [PATCH] insane.bbclass: use HOST_ARCH to check for 32-bit symbols
-Message-ID: <lfk3bgl455u2suh76hlmmmh6ltz6qn75z5x7gdmxckbvts44l5@di6jeoo34yu2>
-In-Reply-To: <CANNYZj_FkqJzCW_dkFr8=Dnu86UUuzjLE74KfSnrAvoASZxUfQ@mail.gmail.com>
-References: <20240523125441.45922-1-emil.kronborg@protonmail.com> <a1e40553b608081c1f251c1ac61310f2583ee015.camel@linuxfoundation.org> <7ubt3kdspc5rp6ab4k6qip2gakgh7wf77oj2llf677gkach6xe@fsqhtqt4eeed> <CANNYZj_FkqJzCW_dkFr8=Dnu86UUuzjLE74KfSnrAvoASZxUfQ@mail.gmail.com>
-Feedback-ID: 20949900:user:proton
-X-Pm-Message-ID: 3643ad5413b9da0dab990220a0ff23f278d676ef
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=VUmFvxWg;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=Mkb9ZgsKL1/BEsxmVQ1gscLT5ZLqWTd6MhA7wuyxqeQ=; b=VUmFvxWg152kGACkD0bvhgaw2W
+	jwAUtMV6Oaly7nguGdby2Mr59ij/7tuLIZltrkk8aZLdKPK8D+D8FujbK2WJYBtEr8wqC2yqARU+q
+	lC5/YizgIJFtHzbe39YBzHWDreLcKckECDVS7jYKDgH3lMkKtOKcX3FJb2WLlalFBorU8mTvPOcJE
+	eVjqUJtfYvMzmVe3mstvHE9BRwpUIbPzCLJAhJ0x173yQxWSZfdRSu/1CF6HssVB9sDmuOTfU3MBQ
+	eh0OdDg3AJAiXn2a6QRTBVH2KcQuVds1Ch7nW1Ovq8rMrmLQ2F06Wkna5eGWVCKysG8XgKUxARrIM
+	zbdD+R+g==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <martin@geanix.com>)
+	id 1sBZf8-0009ZQ-Jg; Mon, 27 May 2024 14:41:14 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <martin@geanix.com>)
+	id 1sBZf8-000ApU-2L;
+	Mon, 27 May 2024 14:41:14 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH][master][scarthgap] classes: image_types: quote variable assignment needed by dash
+Date: Mon, 27 May 2024 14:40:57 +0200
+Message-ID: <20240527124059.2978863-1-martin@geanix.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: martin@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27288/Mon May 27 10:29:01 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 10:19:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199899
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 12:41:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199900
 
-On Fri, May 24, 2024 at 09:49 GMT, Alexander Kanavin wrote:
-> I vaguely remember that at some point I ran 'bitbake -e recipe'
-> against qemux86 machine to study that question, and looked through all
-> related variables, and couldn't find anything better. But you're
-> welcome to try that as well.
+The change in commit 39fc503036
+("classes: image_types: apply EXTRA_IMAGECMD:squashfs* in oe_mksquashfs()")
+assigns $@ to a local variable without quoting it. While this works with
+bash, it fails with dash. Here, only the first token of $@ is assigned
+to the variable, and the reamining tokens are passed as arguments to the
+"local" keyword.
 
-For my specific example, I still believe it is more accurate to use
-HOST_ARCH and add "i686" to thirtytwo_bit_time_archs. This setup does
-not generate false positives and also works for qemux86. However, it
-will not necessarily work for other cases. To make it more general, I
-think some of the architectures from meta/lib/oe/elf.py can be added to
-thirtytwo_bit_time_archs. When comparing this with elf.py, I noticed
-some inconsistency. For example, both "arm" and "armb" are defined,
-while only "x86" is defined. Shouldn't the latter substituted with
-"i386", "i486", "i586" and "i686"? Also, shouldn't "mipsarcho32"
-correspond to the entries in elf.py? I'm unsure which ones exactly
-though.
+Fix it by adding the missing quotes.
 
---=20
-Emil Kronborg
+Signed-off-by: Martin Hundebøll <martin@geanix.com>
+---
+ meta/classes-recipe/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index b4a83ae284..2f948ecbf8 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -113,7 +113,7 @@ IMAGE_CMD:btrfs () {
+ 
+ oe_mksquashfs () {
+     local comp=$1; shift
+-    local extra_imagecmd=$@
++    local extra_imagecmd="$@"
+ 
+     if [ "$comp" = "zstd" ]; then
+         suffix="zst"
+-- 
+2.44.0
 
 
