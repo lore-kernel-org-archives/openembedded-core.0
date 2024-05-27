@@ -1,65 +1,81 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BBCDC25B74
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 16:43:15 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web11.1837.1716828192955675704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB82C25B74
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 16:46:25 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.1880.1716828378567880766
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 May 2024 09:43:13 -0700
+ Mon, 27 May 2024 09:46:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout01.t-online.de (Postfix) with SMTP id 33A90384A7;
-	Mon, 27 May 2024 18:43:11 +0200 (CEST)
-Received: from [192.168.178.67] ([84.163.33.219]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sBdRG-1U926C0; Mon, 27 May 2024 18:43:10 +0200
-Date: Mon, 27 May 2024 18:43:44 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH] ghostscript: update 10.03.0 -> 10.03.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <W4L5ES.ZQ2E7C318OBQ@t-online.de>
-In-Reply-To: <CANNYZj9iHD2sS7HNXrPLujxCVxe8JCygdtwpRTDUoLsWy73VmQ@mail.gmail.com>
-References: <20240527161104.2954913-1-f_l_k@t-online.de>
-	<17D364C190E1284E.7888@lists.openembedded.org>
-	<CANNYZj8q1zqypRzFMdkt8hJ9bGGWjROW51EHO1P1fG-bFvCP2w@mail.gmail.com>
-	<NNK5ES.VJH4NYNWIV9K2@t-online.de>
-	<CANNYZj9iHD2sS7HNXrPLujxCVxe8JCygdtwpRTDUoLsWy73VmQ@mail.gmail.com>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MepNV/6M;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e95a74d51fso53920261fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 09:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716828377; x=1717433177; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z2tn21PIGLHPed9UeOdxUlnvmQCZshPr5yKm8qsAwTw=;
+        b=MepNV/6MVQGudVJiPaKMC9tghGuwPs13105GwTWUkTlHuDVB2/CYjIuTt7i7jioVL6
+         cUjwR296V6yw+xUI2P4qvTcCSX7FA9O1DPkUUkRwglzAdU2LmOPnOcHSlSf2bpuJtNoI
+         NNbehGx9FYb1hxtBJaAOZut8YnfuSfswo/hHNzhDWFmnrZSWCB7Oj5imMIge9WIlFOVh
+         OM06wigR91sSBEn2l+TbpPZa5pSx5m36VqqtynNZz7lye47GWwFJTzv8Dmy+5f9KDyiA
+         o9C8iXt1iVL6M4Wm/4flWFubGypWOzhH/9yddrpj8AGOben8EpBmz9OFLlXp8RJtohP2
+         bX1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716828377; x=1717433177;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z2tn21PIGLHPed9UeOdxUlnvmQCZshPr5yKm8qsAwTw=;
+        b=bIsMbNYgPxLv7ye3IoIWSe9S8hpa5mSnnFADCfYPDxuuTU3ynT8ZOGuuJTRIJdwvJk
+         PchdxWm8Pvxw8b+HZtBHuXOR51cXmC56iO+78JtrNk4rNn6sFARQck6GGKTFCg4kav+J
+         hWs8xfiEzozjhK4QdJBsG3j87rj6pMJn9u8FcpEBATKiuCtilc6s4eUMhmhFOlDEOJi6
+         4s8HrgINekx1ensIVBjXB80DQW4+YCFQbMFYHSmSONZhWeNTDMqkFyIN9b7xpsHq8C+D
+         xdiYKSWRADRs1jSabBLdbi8cdmEcfA2Z+jK18WbFlsD2yKGhl0onHb4nLKiS2Bq1te5W
+         Rstw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZG0N9sQGQSSnDeOQ13Hl0vBmpn6bpX78wPaRWzl/B+WvhMp/9hi+wfeVloa2M9u/lHWGmkhTzu5SEk+L7wrfc1tbFDgxul5ygVuTOtvmiwUt3Ml55Zoh+
+X-Gm-Message-State: AOJu0YyCp77H75hmx6eA+PR2r2HeD6aQ6g7E+fmTbwO3SEFLceqV1qB5
+	zALY7e10jsgwkv+KD4OcbK5bxoHudLlPqlNoogK11G1rUvoA/GLDBEj/QPTbPgZMXG8ocPJQnPr
+	De/6nWL46Nsq/9ZtVpVju5KD2ydZPLA==
+X-Google-Smtp-Source: AGHT+IHRO9VcTnMeCAIZgYoLDupLq0yvOxkN7w7tlEDK5wyUx5XzD8adL2szjZmMWXU14PfaU0Wi9VoSswqomEvP0b8=
+X-Received: by 2002:a2e:9f4a:0:b0:2e7:1e4a:31e0 with SMTP id
+ 38308e7fff4ca-2e95b096f07mr89590211fa.18.1716828376580; Mon, 27 May 2024
+ 09:46:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-u78VF1cdZDWt2o1qARRR"
-X-TOI-EXPURGATEID: 150726::1716828190-C6FFAD1D-607A983A/0/0 CLEAN NORMAL
-X-TOI-MSGID: 8712a6f2-98ea-4734-b3e9-2cb5faafcc43
+References: <20240527134416.10699-1-jaekyu.lee@lge.com> <CANNYZj9yFM1zNjVum=sPaHXE4ZGbvB4ubkMnmt1gEPpHwz=X2w@mail.gmail.com>
+ <CABVd4mGAV0HHg8ky9o=S5i0AnpOGyYVCo9torP+PGDmp55w5UA@mail.gmail.com>
+In-Reply-To: <CABVd4mGAV0HHg8ky9o=S5i0AnpOGyYVCo9torP+PGDmp55w5UA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 27 May 2024 18:46:05 +0200
+Message-ID: <CANNYZj8CVupvrkzcYXxLA1N5V8ZY5HqRRt+NrLYwYJ5Hto8QqA@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core][scarthgap] rust: remove unnecessary git signature
+To: =?UTF-8?B?7J207J6s6rec?= <jkbestfamily@gmail.com>
+Cc: jaekyu.lee@lge.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 16:43:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199915
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 16:46:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199916
 
---=-u78VF1cdZDWt2o1qARRR
-Content-Type: text/plain; charset=us-ascii; format=flowed
+On Mon, 27 May 2024 at 18:41, =EC=9D=B4=EC=9E=AC=EA=B7=9C <jkbestfamily@gma=
+il.com> wrote:
+>
+> Thank you for reply.
+>
+> I don't think we need to remove it specifically for this patch.
+> If possible, I will update patch to remove it from all patches. Do you ag=
+ree that information ( git version information) is unnecessary?
 
-On Mon, May 27 2024 at 06:39:44 PM +02:00:00, Alexander Kanavin 
-<alex.kanavin@gmail.com> wrote:
-> Someone sent the same version update but without the patch, so
-> presumably it works for them? Do you have something special in your
-> setup, can you try with plain poky master without the patch?
+It might be unnecessary, but I do not think there is a need to remove
+it. If 'git format-patch' adds that when it writes a patch file to
+disk, then we shouldn't fight with that: people will keep sending
+patch files that have it.
 
-I'm additionally building with
-PACKAGECONFIG:append = " gtk libidn"
-
-I'll verify if thats the reason
-
-
---=-u78VF1cdZDWt2o1qARRR
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Mon, May 27 2024 at 06:39:44 PM +02:00:00, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Someone sent the same version update but without the patch, so
-presumably it works for them? Do you have something special in your
-setup, can you try with plain poky master without the patch?</div></blockquote><div><br></div><div>I'm additionally building with</div><div>PACKAGECONFIG:append = " gtk libidn"</div><div><br></div><div>I'll verify if thats the reason</div></div>
---=-u78VF1cdZDWt2o1qARRR--
-
+Alex
 
