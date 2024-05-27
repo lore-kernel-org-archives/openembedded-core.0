@@ -1,149 +1,576 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E854DC25B74
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:10:36 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web11.5099.1716837029523992373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B54BC25B74
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:49:47 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.5956.1716839379722811021
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 May 2024 12:10:29 -0700
+ Mon, 27 May 2024 12:49:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ihrxGST1;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3d1b806acb8so64328b6e.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 12:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716837029; x=1717441829; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AdNA8Dj/JpYihi+E9Ishgocwgu++ts2JrVde6egzGHI=;
-        b=ihrxGST1UPR7oNutb6j9k+qPMyyCiJuEeIEBQaY1iF7SsZQ+3k1w86RL/nwwqzTyNy
-         RJ47az0cV+SMIZPxmNP97yfPgW3vrStaaJ/xyvz6KTvV/0cD6fRBAmkT5g3MJ06zKkyw
-         yZntGYcpuGezRA6qLUDkKwCAFW6GnErwvTcp73AJOkTCZ6VRBPcmjFGCXJCJJNFKohGJ
-         iW+17cuILofj4SQJvnoyBYTx1srrToPmHfDI1vny12XMeNN0qDhUsbaUoe+Z0BzHLtML
-         E6kfh1hSTr+bX90sdrHgeyPnhDuMGRXjNo8B2G6at6fhFKoFd9q/LJAXu46oEre+wg1S
-         dDag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716837029; x=1717441829;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AdNA8Dj/JpYihi+E9Ishgocwgu++ts2JrVde6egzGHI=;
-        b=aJUuk0+xyZdCsrpYULxL0XdlXT+o/y00GK934wqlkHnJ8tAEBjfCbsN8qximEBFhCX
-         w4LB5G+j8Ax50werSHcM4/jykmCr03HxVxuYNwdqrLtgyOsbfDp+ibx94xPcaPz1caA3
-         W1k0XZieb3a5DMr0va69dYGDYF50nkk6im1nlBJfiuUwqkYESNiDtA56PcMq2oDKjOg4
-         AN6UnBmWpLOuk8byNB7fyiBBOunFawoev2kYfh0FNQ3OMv8SeFatN5mof7mHaedB0qEr
-         ajH1Ixm7v1CH0JcpahPCqkqcGsBvfZCvrzWEysoYcM9kHlQUcsvGfl5rdWs3Wj4bKq8h
-         HQew==
-X-Gm-Message-State: AOJu0YzwRt9SKR/eUyAtQqcSeh6ucfLjBiUx8lzRe9b5TnOxipzK+1MT
-	awzF47Wop2Lnakhw9ghdbSOFxyyB58L22Zcs3Ud3DgzOiV9BOalkh2E6+IWBjNEumIg0as1mz+u
-	814xTFF3JQjMgT4mY3Vkn+xU9Vzw=
-X-Google-Smtp-Source: AGHT+IFG5xaGeVMKEJG/lxB6+WZaUaAh/BgNivdR/GoYdh8WFTtVIVccset+pQGYTcEWVcG3dAMssHfJyJ7T+8jwc2w=
-X-Received: by 2002:a05:6808:4cf:b0:3c8:2fec:c83e with SMTP id
- 5614622812f47-3d1a7d28724mr10247942b6e.53.1716837028742; Mon, 27 May 2024
- 12:10:28 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 44RJnciR030695
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 14:49:38 -0500
+Received: from [192.168.3.156] ([192.168.3.156])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 44RJnbMJ003407
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 14:49:37 -0500
+Message-ID: <830ab6e6-7ff6-4c39-8a17-c75ae52f992f@kernel.crashing.org>
+Date: Mon, 27 May 2024 14:49:37 -0500
 MIME-Version: 1.0
-References: <20240527181214.1778037-1-alex.kanavin@gmail.com> <20240527181214.1778037-7-alex.kanavin@gmail.com>
-In-Reply-To: <20240527181214.1778037-7-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 27 May 2024 12:10:01 -0700
-Message-ID: <CAMKF1sr3rzt545xOEiukEpVPGPxyQ_VX+scB8gzySuP6tbuGMw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 07/13] icu: upgrade 74-2 -> 75-1
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [scarthgap 1/2] binutils: Fix aarch64 disassembly abort
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20240524201214.3858538-1-mark.hatle@amd.com>
+ <20240524201214.3858538-2-mark.hatle@amd.com>
+ <CAOSpxdZhcHgwvRGt4kjtUVrU0w4ZOE5LzJJga7BFtVQrKptA-Q@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <CAOSpxdZhcHgwvRGt4kjtUVrU0w4ZOE5LzJJga7BFtVQrKptA-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 44RJnciR030695
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:10:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199934
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:49:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199935
 
-On Mon, May 27, 2024 at 11:12=E2=80=AFAM Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> License-update: copyright years
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb      | 3 +++
->  meta/recipes-support/icu/{icu_74-2.bb =3D> icu_75-1.bb} | 6 +++---
->  2 files changed, 6 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/icu/{icu_74-2.bb =3D> icu_75-1.bb} (95%)
->
-> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb b/meta/reci=
-pes-graphics/harfbuzz/harfbuzz_8.5.0.bb
-> index 97efc56c646..6b0eb120461 100644
-> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
-> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
-> @@ -32,6 +32,9 @@ PACKAGES =3D+ "${PN}-icu ${PN}-icu-dev ${PN}-subset"
->
->  LEAD_SONAME =3D "libharfbuzz.so"
->
-> +# Remove when https://github.com/harfbuzz/harfbuzz/issues/4671 is resolv=
+
+
+On 5/27/24 8:50 AM, Steve Sakoman wrote:
+> This patch will need to be submitted and accepted for master before I
+> can take it for scarthgap.
+
+I didn't submit because I thought there was a new binutils version in=20
+master-next.  I guess I'm wrong.
+
+The patch should apply the same in master.
+
+--Mark
+
+> Thanks,
+>=20
+> Steve
+>=20
+> On Fri, May 24, 2024 at 1:12=E2=80=AFPM Mark Hatle via lists.openembedd=
+ed.org
+> <mark.hatle=3Damd.com@lists.openembedded.org> wrote:
+>>
+>> Code backported from binutils development tree.
+>>
+>>    aarch64: Remove asserts from operand qualifier decoders [PR31595]
+>>
+>>    Given that the disassembler should never abort when decoding
+>>    (potentially random) data, assertion statements in the
+>>    `get_*reg_qualifier_from_value' function family prove problematic.
+>>
+>>    ...
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+>> ---
+>>   .../binutils/binutils-2.42.inc                |   1 +
+>>   ...sserts-from-operand-qualifier-decode.patch | 382 ++++++++++++++++=
+++
+>>   2 files changed, 383 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/binutils/binutils/0016-aarc=
+h64-Remove-asserts-from-operand-qualifier-decode.patch
+>>
+>> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/r=
+ecipes-devtools/binutils/binutils-2.42.inc
+>> index 3b6f47d4ce..d2f49560f3 100644
+>> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
+>> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+>> @@ -36,5 +36,6 @@ SRC_URI =3D "\
+>>        file://0013-Define-alignof-using-_Alignof-when-using-C11-or-new=
+e.patch \
+>>        file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofi=
+l.patch \
+>>        file://0015-gprofng-change-use-of-bignum-to-bigint.patch \
+>> +     file://0016-aarch64-Remove-asserts-from-operand-qualifier-decode=
+.patch \
+>>   "
+>>   S  =3D "${WORKDIR}/git"
+>> diff --git a/meta/recipes-devtools/binutils/binutils/0016-aarch64-Remo=
+ve-asserts-from-operand-qualifier-decode.patch b/meta/recipes-devtools/bi=
+nutils/binutils/0016-aarch64-Remove-asserts-from-operand-qualifier-decode=
+.patch
+>> new file mode 100644
+>> index 0000000000..7b52425a38
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/binutils/binutils/0016-aarch64-Remove-asse=
+rts-from-operand-qualifier-decode.patch
+>> @@ -0,0 +1,382 @@
+>> +From 5b1c70bfe0d8f84dc28237d6150b7b9d57c791a8 Mon Sep 17 00:00:00 200=
+1
+>> +From: Victor Do Nascimento <victor.donascimento@arm.com>
+>> +Date: Tue, 16 Apr 2024 11:49:15 +0100
+>> +Subject: [PATCH] aarch64: Remove asserts from operand qualifier decod=
+ers
+>> + [PR31595]
+>> +
+>> +Given that the disassembler should never abort when decoding
+>> +(potentially random) data, assertion statements in the
+>> +`get_*reg_qualifier_from_value' function family prove problematic.
+>> +
+>> +Consider the random 32-bit word W, encoded in a data segment and
+>> +encountered on execution of `objdump -D <obj_name>'.
+>> +
+>> +If:
+>> +
+>> +  (W & ~opcode_mask) =3D=3D valid instruction
+>> +
+>> +Then before `print_insn_aarch64_word' has a chance to report the
+>> +instruction as potentially undefined, an attempt will be made to have
+>> +the qualifiers for the instruction's register operands (if any)
+>> +decoded.  If the relevant bits do not map onto a valid qualifier for
+>> +the matched instruction-like word, an abort will be triggered and the
+>> +execution of objdump aborted.
+>> +
+>> +As this scenario is perfectly feasible and, in light of the fact that
+>> +objdump must successfully decode all sections of a given object file,
+>> +it is not appropriate to assert in this family of functions.
+>> +
+>> +Therefore, we add a new pseudo-qualifier `AARCH64_OPND_QLF_ERR' for
+>> +handling invalid qualifier-associated values and re-purpose the
+>> +assertion conditions in qualifier-retrieving functions to be the
+>> +predicate guarding the returning of the calculated qualifier type.
+>> +If the predicate fails, we return this new qualifier and allow the
+>> +caller to handle the error as appropriate.
+>> +
+>> +As these functions are called either from within
+>> +`aarch64_extract_operand' or `do_special_decoding', both of which are
+>> +expected to return non-zero values, it suffices that callers return
+>> +zero upon encountering `AARCH64_OPND_QLF_ERR'.
+>> +
+>> +Ar present the error presented in the hypothetical scenario has been
+>> +encountered in `get_sreg_qualifier_from_value', but the change is mad=
+e
+>> +to the whole family to keep the interface consistent.
+>> +
+>> +Bug: https://sourceware.org/PR31595
+>> +
+>> +Upstream-Status: Backport [commit 2601b201e95ea0edab89342ee7137c74e88=
+a8a79]
+>> +
+>> +Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+>> +---
+>> + .../testsuite/binutils-all/aarch64/illegal.d  |  1 +
+>> + .../testsuite/binutils-all/aarch64/illegal.s  |  3 +
+>> + include/opcode/aarch64.h                      |  3 +
+>> + opcodes/aarch64-dis.c                         | 98 +++++++++++++++--=
+--
+>> + 4 files changed, 87 insertions(+), 18 deletions(-)
+>> +
+>> +diff --git a/binutils/testsuite/binutils-all/aarch64/illegal.d b/binu=
+tils/testsuite/binutils-all/aarch64/illegal.d
+>> +index 4b90a1d9f39..b69318aec85 100644
+>> +--- a/binutils/testsuite/binutils-all/aarch64/illegal.d
+>> ++++ b/binutils/testsuite/binutils-all/aarch64/illegal.d
+>> +@@ -8,5 +8,6 @@ Disassembly of section \.text:
+>> +
+>> + 0+000 <.*>:
+>> + [     ]+0:[   ]+68ea18cc[     ]+.inst[        ]+0x68ea18cc ; undefin=
 ed
-> +EXTRA_OEMESON +=3D "-Dcpp_std=3Dc++17"
-
-GCC 13+ and clang16+ defaults to c++17, so I wonder why it does not work he=
-re.
-
-> +
->  do_install:append() {
->      # If no tools are installed due to PACKAGECONFIG then this directory=
- might
->      # still be installed, so remove it to stop packaging warnings.
-> diff --git a/meta/recipes-support/icu/icu_74-2.bb b/meta/recipes-support/=
-icu/icu_75-1.bb
-> similarity index 95%
-> rename from meta/recipes-support/icu/icu_74-2.bb
-> rename to meta/recipes-support/icu/icu_75-1.bb
-> index 8352bf2a5b4..14fbf31de57 100644
-> --- a/meta/recipes-support/icu/icu_74-2.bb
-> +++ b/meta/recipes-support/icu/icu_75-1.bb
-> @@ -78,7 +78,7 @@ FILES:libicuio =3D "${libdir}/libicuio.so.*"
->
->  BBCLASSEXTEND =3D "native nativesdk"
->
-> -LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3D08dc3852df8fffa807301902ad=
-899ff8"
-> +LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3D9cf7c317c3f2a0962437465a90=
-22dbe9"
->
->  def icu_download_version(d):
->      pvsplit =3D d.getVar('PV').split('-')
-> @@ -111,8 +111,8 @@ SRC_URI =3D "${BASE_SRC_URI};name=3Dcode \
->  SRC_URI:append:class-target =3D "\
->             file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
->            "
-> -SRC_URI[code.sha256sum] =3D "68db082212a96d6f53e35d60f47d38b962e9f9d207a=
-74cfac78029ae8ff5e08c"
-> -SRC_URI[data.sha256sum] =3D "c28c3ca5f4ba3384781797138a294ca360988d43226=
-74ad4d51e52f5d9b0a2b6"
-> +SRC_URI[code.sha256sum] =3D "cb968df3e4d2e87e8b11c49a5d01c787bd13b954528=
-0fc6642f826527618caef"
-> +SRC_URI[data.sha256sum] =3D "a5104212dc317a64f9b035723ea706f2f4fd5a0f37b=
-7923fae7aeb9d1d0061b1"
->
->  UPSTREAM_CHECK_REGEX =3D "releases/tag/release-(?P<pver>(?!.+rc).+)"
->  GITHUB_BASE_URI =3D "https://github.com/unicode-org/icu/releases"
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199924): https://lists.openembedded.org/g/openembedde=
-d-core/message/199924
-> Mute This Topic: https://lists.openembedded.org/mt/106334732/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>> ++[     ]+4:[   ]+9dc39839[     ]+.inst[        ]+0x9dc39839 ; undefin=
+ed
+>> + #pass
+>> +
+>> +diff --git a/binutils/testsuite/binutils-all/aarch64/illegal.s b/binu=
+tils/testsuite/binutils-all/aarch64/illegal.s
+>> +index 216cbe6f265..43668c6db55 100644
+>> +--- a/binutils/testsuite/binutils-all/aarch64/illegal.s
+>> ++++ b/binutils/testsuite/binutils-all/aarch64/illegal.s
+>> +@@ -4,4 +4,7 @@
+>> +       # ldpsw   x12, x6, [x6],#-8 ; illegal because one of the dest =
+regs is also the address reg
+>> +       .inst 0x68ea18cc
+>> +
+>> ++      # illegal, resembles the opcode `ldapur' with invalid qualifie=
+r bits
+>> ++      .inst 0x9dc39839
+>> ++
+>> +       # FIXME: Add more illegal instructions here.
+>> +diff --git a/include/opcode/aarch64.h b/include/opcode/aarch64.h
+>> +index 2fca9528c20..e8fe93ef127 100644
+>> +--- a/include/opcode/aarch64.h
+>> ++++ b/include/opcode/aarch64.h
+>> +@@ -894,6 +894,9 @@ enum aarch64_opnd_qualifier
+>> +   /* Special qualifier helping retrieve qualifier information during=
+ the
+>> +      decoding time (currently not in use).  */
+>> +   AARCH64_OPND_QLF_RETRIEVE,
+>> ++
+>> ++  /* Special qualifier used for indicating error in qualifier retrie=
+val.  */
+>> ++  AARCH64_OPND_QLF_ERR,
+>> + };
+>> +
+>> + /* Instruction class.  */
+>> +diff --git a/opcodes/aarch64-dis.c b/opcodes/aarch64-dis.c
+>> +index 96f42ae862a..b70e6da9eb7 100644
+>> +--- a/opcodes/aarch64-dis.c
+>> ++++ b/opcodes/aarch64-dis.c
+>> +@@ -219,9 +219,10 @@ static inline enum aarch64_opnd_qualifier
+>> + get_greg_qualifier_from_value (aarch64_insn value)
+>> + {
+>> +   enum aarch64_opnd_qualifier qualifier =3D AARCH64_OPND_QLF_W + val=
+ue;
+>> +-  assert (value <=3D 0x1
+>> +-        && aarch64_get_qualifier_standard_value (qualifier) =3D=3D v=
+alue);
+>> +-  return qualifier;
+>> ++  if (value <=3D 0x1
+>> ++      && aarch64_get_qualifier_standard_value (qualifier) =3D=3D val=
+ue)
+>> ++    return qualifier;
+>> ++  return AARCH64_OPND_QLF_ERR;
+>> + }
+>> +
+>> + /* Given VALUE, return qualifier for a vector register.  This does n=
+ot support
+>> +@@ -237,9 +238,10 @@ get_vreg_qualifier_from_value (aarch64_insn valu=
+e)
+>> +   if (qualifier >=3D AARCH64_OPND_QLF_V_2H)
+>> +     qualifier +=3D 1;
+>> +
+>> +-  assert (value <=3D 0x8
+>> +-        && aarch64_get_qualifier_standard_value (qualifier) =3D=3D v=
+alue);
+>> +-  return qualifier;
+>> ++  if (value <=3D 0x8
+>> ++      && aarch64_get_qualifier_standard_value (qualifier) =3D=3D val=
+ue)
+>> ++    return qualifier;
+>> ++  return AARCH64_OPND_QLF_ERR;
+>> + }
+>> +
+>> + /* Given VALUE, return qualifier for an FP or AdvSIMD scalar registe=
+r.  */
+>> +@@ -248,9 +250,10 @@ get_sreg_qualifier_from_value (aarch64_insn valu=
+e)
+>> + {
+>> +   enum aarch64_opnd_qualifier qualifier =3D AARCH64_OPND_QLF_S_B + v=
+alue;
+>> +
+>> +-  assert (value <=3D 0x4
+>> +-        && aarch64_get_qualifier_standard_value (qualifier) =3D=3D v=
+alue);
+>> +-  return qualifier;
+>> ++  if (value <=3D 0x4
+>> ++      && aarch64_get_qualifier_standard_value (qualifier) =3D=3D val=
+ue)
+>> ++    return qualifier;
+>> ++  return AARCH64_OPND_QLF_ERR;
+>> + }
+>> +
+>> + /* Given the instruction in *INST which is probably half way through=
+ the
+>> +@@ -263,13 +266,17 @@ get_expected_qualifier (const aarch64_inst *ins=
+t, int i)
+>> + {
+>> +   aarch64_opnd_qualifier_seq_t qualifiers;
+>> +   /* Should not be called if the qualifier is known.  */
+>> +-  assert (inst->operands[i].qualifier =3D=3D AARCH64_OPND_QLF_NIL);
+>> +-  int invalid_count;
+>> +-  if (aarch64_find_best_match (inst, inst->opcode->qualifiers_list,
+>> +-                             i, qualifiers, &invalid_count))
+>> +-    return qualifiers[i];
+>> ++  if (inst->operands[i].qualifier =3D=3D AARCH64_OPND_QLF_NIL)
+>> ++    {
+>> ++      int invalid_count;
+>> ++      if (aarch64_find_best_match (inst, inst->opcode->qualifiers_li=
+st,
+>> ++                                 i, qualifiers, &invalid_count))
+>> ++      return qualifiers[i];
+>> ++      else
+>> ++      return AARCH64_OPND_QLF_NIL;
+>> ++    }
+>> +   else
+>> +-    return AARCH64_OPND_QLF_NIL;
+>> ++    return AARCH64_OPND_QLF_ERR;
+>> + }
+>> +
+>> + /* Operand extractors.  */
+>> +@@ -355,6 +362,8 @@ aarch64_ext_reglane (const aarch64_operand *self,=
+ aarch64_opnd_info *info,
+>> +         aarch64_insn value =3D extract_field (FLD_imm4_11, code, 0);
+>> +         /* Depend on AARCH64_OPND_Ed to determine the qualifier.  */
+>> +         info->qualifier =3D get_expected_qualifier (inst, info->idx)=
+;
+>> ++        if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++          return 0;
+>> +         shift =3D get_logsz (aarch64_get_qualifier_esize (info->qual=
+ifier));
+>> +         info->reglane.index =3D value >> shift;
+>> +       }
+>> +@@ -374,6 +383,8 @@ aarch64_ext_reglane (const aarch64_operand *self,=
+ aarch64_opnd_info *info,
+>> +         if (pos > 3)
+>> +           return false;
+>> +         info->qualifier =3D get_sreg_qualifier_from_value (pos);
+>> ++        if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++          return 0;
+>> +         info->reglane.index =3D (unsigned) (value >> 1);
+>> +       }
+>> +     }
+>> +@@ -381,6 +392,8 @@ aarch64_ext_reglane (const aarch64_operand *self,=
+ aarch64_opnd_info *info,
+>> +     {
+>> +       /* Need information in other operand(s) to help decoding.  */
+>> +       info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       switch (info->qualifier)
+>> +       {
+>> +       case AARCH64_OPND_QLF_S_4B:
+>> +@@ -405,6 +418,8 @@ aarch64_ext_reglane (const aarch64_operand *self,=
+ aarch64_opnd_info *info,
+>> +
+>> +       /* Need information in other operand(s) to help decoding.  */
+>> +       info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       switch (info->qualifier)
+>> +       {
+>> +       case AARCH64_OPND_QLF_S_H:
+>> +@@ -644,9 +659,15 @@ aarch64_ext_advsimd_imm_shift (const aarch64_ope=
+rand *self ATTRIBUTE_UNUSED,
+>> +        1xxx   1       2D  */
+>> +       info->qualifier =3D
+>> +       get_vreg_qualifier_from_value ((pos << 1) | (int) Q);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return false;
+>> +     }
+>> +   else
+>> +-    info->qualifier =3D get_sreg_qualifier_from_value (pos);
+>> ++    {
+>> ++      info->qualifier =3D get_sreg_qualifier_from_value (pos);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> ++    }
+>> +
+>> +   if (info->type =3D=3D AARCH64_OPND_IMM_VLSR)
+>> +     /* immh   <shift>
+>> +@@ -773,6 +794,8 @@ aarch64_ext_advsimd_imm_modified (const aarch64_o=
+perand *self ATTRIBUTE_UNUSED,
+>> +
+>> +   /* cmode */
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +   switch (info->qualifier)
+>> +     {
+>> +     case AARCH64_OPND_QLF_NIL:
+>> +@@ -1014,6 +1037,8 @@ aarch64_ext_ft (const aarch64_operand *self ATT=
+RIBUTE_UNUSED,
+>> +       if (value > 0x4)
+>> +       return false;
+>> +       info->qualifier =3D get_sreg_qualifier_from_value (value);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +     }
+>> +
+>> +   return true;
+>> +@@ -1086,6 +1111,8 @@ aarch64_ext_rcpc3_addr_offset (const aarch64_op=
+erand *self ATTRIBUTE_UNUSED,
+>> +                              aarch64_operand_error *errors ATTRIBUTE=
+_UNUSED)
+>> + {
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +
+>> +   /* Rn */
+>> +   info->addr.base_regno =3D extract_field (self->fields[0], code, 0)=
+;
+>> +@@ -1105,6 +1132,8 @@ aarch64_ext_addr_offset (const aarch64_operand =
+*self ATTRIBUTE_UNUSED,
+>> +                        aarch64_operand_error *errors ATTRIBUTE_UNUSE=
+D)
+>> + {
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +
+>> +   /* Rn */
+>> +   info->addr.base_regno =3D extract_field (self->fields[0], code, 0)=
+;
+>> +@@ -1154,6 +1183,8 @@ aarch64_ext_addr_regoff (const aarch64_operand =
+*self ATTRIBUTE_UNUSED,
+>> +       /* Need information in other operand(s) to help achieve the de=
+coding
+>> +        from 'S' field.  */
+>> +       info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++      if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       /* Get the size of the data element that is accessed, which ma=
+y be
+>> +        different from that of the source register size, e.g. in strb=
+/ldrb.  */
+>> +       size =3D aarch64_get_qualifier_esize (info->qualifier);
+>> +@@ -1172,6 +1203,8 @@ aarch64_ext_addr_simm (const aarch64_operand *s=
+elf, aarch64_opnd_info *info,
+>> + {
+>> +   aarch64_insn imm;
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +
+>> +   /* Rn */
+>> +   info->addr.base_regno =3D extract_field (FLD_Rn, code, 0);
+>> +@@ -1210,6 +1243,8 @@ aarch64_ext_addr_uimm12 (const aarch64_operand =
+*self, aarch64_opnd_info *info,
+>> + {
+>> +   int shift;
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +   shift =3D get_logsz (aarch64_get_qualifier_esize (info->qualifier)=
+);
+>> +   /* Rn */
+>> +   info->addr.base_regno =3D extract_field (self->fields[0], code, 0)=
+;
+>> +@@ -1228,6 +1263,8 @@ aarch64_ext_addr_simm10 (const aarch64_operand =
+*self, aarch64_opnd_info *info,
+>> +   aarch64_insn imm;
+>> +
+>> +   info->qualifier =3D get_expected_qualifier (inst, info->idx);
+>> ++  if (info->qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++    return 0;
+>> +   /* Rn */
+>> +   info->addr.base_regno =3D extract_field (self->fields[0], code, 0)=
+;
+>> +   /* simm10 */
+>> +@@ -2467,6 +2504,8 @@ decode_sizeq (aarch64_inst *inst)
+>> +   if (mask =3D=3D 0x7)
+>> +     {
+>> +       inst->operands[idx].qualifier =3D get_vreg_qualifier_from_valu=
+e (value);
+>> ++      if (inst->operands[idx].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       return 1;
+>> +     }
+>> +
+>> +@@ -2649,6 +2688,8 @@ do_special_decoding (aarch64_inst *inst)
+>> +       idx =3D select_operand_for_sf_field_coding (inst->opcode);
+>> +       value =3D extract_field (FLD_sf, inst->value, 0);
+>> +       inst->operands[idx].qualifier =3D get_greg_qualifier_from_valu=
+e (value);
+>> ++      if (inst->operands[idx].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       if ((inst->opcode->flags & F_N)
+>> +         && extract_field (FLD_N, inst->value, 0) !=3D value)
+>> +       return 0;
+>> +@@ -2659,6 +2700,8 @@ do_special_decoding (aarch64_inst *inst)
+>> +       idx =3D select_operand_for_sf_field_coding (inst->opcode);
+>> +       value =3D extract_field (FLD_lse_sz, inst->value, 0);
+>> +       inst->operands[idx].qualifier =3D get_greg_qualifier_from_valu=
+e (value);
+>> ++      if (inst->operands[idx].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +     }
+>> +   /* rcpc3 'size' field.  */
+>> +   if (inst->opcode->flags & F_RCPC3_SIZE)
+>> +@@ -2670,12 +2713,18 @@ do_special_decoding (aarch64_inst *inst)
+>> +       {
+>> +         if (aarch64_operands[inst->operands[i].type].op_class
+>> +             =3D=3D AARCH64_OPND_CLASS_INT_REG)
+>> +-          inst->operands[i].qualifier =3D get_greg_qualifier_from_va=
+lue (value & 1);
+>> ++          {
+>> ++            inst->operands[i].qualifier =3D get_greg_qualifier_from_=
+value (value & 1);
+>> ++            if (inst->operands[i].qualifier =3D=3D AARCH64_OPND_QLF_=
+ERR)
+>> ++              return 0;
+>> ++          }
+>> +         else if (aarch64_operands[inst->operands[i].type].op_class
+>> +             =3D=3D AARCH64_OPND_CLASS_FP_REG)
+>> +           {
+>> +             value +=3D (extract_field (FLD_opc1, inst->value, 0) << =
+2);
+>> +             inst->operands[i].qualifier =3D get_sreg_qualifier_from_=
+value (value);
+>> ++            if (inst->operands[i].qualifier =3D=3D AARCH64_OPND_QLF_=
+ERR)
+>> ++              return 0;
+>> +           }
+>> +       }
+>> +     }
+>> +@@ -2709,7 +2758,11 @@ do_special_decoding (aarch64_inst *inst)
+>> +       /* For most related instruciton, the 'size' field is fully ava=
+ilable for
+>> +        operand encoding.  */
+>> +       if (mask =3D=3D 0x3)
+>> +-      inst->operands[idx].qualifier =3D get_sreg_qualifier_from_valu=
+e (value);
+>> ++      {
+>> ++        inst->operands[idx].qualifier =3D get_sreg_qualifier_from_va=
+lue (value);
+>> ++        if (inst->operands[idx].qualifier =3D=3D AARCH64_OPND_QLF_ER=
+R)
+>> ++          return 0;
+>> ++      }
+>> +       else
+>> +       {
+>> +         get_operand_possible_qualifiers (idx, inst->opcode->qualifie=
+rs_list,
+>> +@@ -2744,6 +2797,9 @@ do_special_decoding (aarch64_inst *inst)
+>> +       Q =3D (unsigned) extract_field (FLD_Q, inst->value, inst->opco=
+de->mask);
+>> +       inst->operands[0].qualifier =3D
+>> +       get_vreg_qualifier_from_value ((num << 1) | Q);
+>> ++      if (inst->operands[0].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> ++
+>> +     }
+>> +
+>> +   if ((inst->opcode->flags & F_OPD_SIZE) && inst->opcode->iclass =3D=
+=3D sve2_urqvs)
+>> +@@ -2753,7 +2809,11 @@ do_special_decoding (aarch64_inst *inst)
+>> +                                      inst->opcode->mask);
+>> +       inst->operands[0].qualifier
+>> +       =3D get_vreg_qualifier_from_value (1 + (size << 1));
+>> ++      if (inst->operands[0].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +       inst->operands[2].qualifier =3D get_sreg_qualifier_from_value =
+(size);
+>> ++      if (inst->operands[2].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +     }
+>> +
+>> +   if (inst->opcode->flags & F_GPRSIZE_IN_Q)
+>> +@@ -2772,6 +2832,8 @@ do_special_decoding (aarch64_inst *inst)
+>> +       assert (idx =3D=3D 0 || idx =3D=3D 1);
+>> +       value =3D extract_field (FLD_Q, inst->value, 0);
+>> +       inst->operands[idx].qualifier =3D get_greg_qualifier_from_valu=
+e (value);
+>> ++      if (inst->operands[idx].qualifier =3D=3D AARCH64_OPND_QLF_ERR)
+>> ++      return 0;
+>> +     }
+>> +
+>> +   if (inst->opcode->flags & F_LDS_SIZE)
+>> +--
+>> +2.34.1
+>> +
+>> --
+>> 2.34.1
+>>
+>>
+>>
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#199901): https://lists.openembedded.org/g/openembe=
+dded-core/message/199901
+>> Mute This Topic: https://lists.openembedded.org/mt/106288403/3616948
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[mark.hatle@kernel.crashing.org]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
