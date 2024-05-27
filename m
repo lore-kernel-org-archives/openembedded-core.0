@@ -1,74 +1,74 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8000C25B74
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:50:36 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.5823.1716839429284426164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 164C9C25B74
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 19:56:07 +0000 (UTC)
+Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
+ by mx.groups.io with SMTP id smtpd.web10.5943.1716839760931048931
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 May 2024 12:50:29 -0700
+ Mon, 27 May 2024 12:56:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TrT69NW0;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e73359b900so504581fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 12:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716839427; x=1717444227; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wRR5VlzvAH2FfX8uszMfC4Zfm0GSSYCy890dOBLSRTw=;
-        b=TrT69NW0qiAXC85Rbfgm9GjAuJfihGHNrEgtJqg9Ty7MXJAw8GkpKC8bq1OrkOm8Tb
-         m8EP/UMedAx7kKxJdjwcn+sKKl6t1JVGVI/5yuIrSCDsVbv/gvF+F88RpxwXVmOdkwJj
-         RNB4RxpI8daAQsJu2EtybzSmDdNGvTXklvc0at8daNAVdJFxjV+iI96jHxnaVKEEIlBp
-         ty2xvDuufBwOQCUXS76e734sOM9L7djrEdNzZYbOkPZAAC1yK27oLo+p2z/hWyByWTbB
-         RpD+epU58oEge2BZDdj/vKrNO5MOuCP5mvzN2++vIQ5rQnrUWBBvObHT3QfFL30rh+mL
-         Y/kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716839427; x=1717444227;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wRR5VlzvAH2FfX8uszMfC4Zfm0GSSYCy890dOBLSRTw=;
-        b=n7G+I0K5qnHN+QKDbo9qQieRiHe7Fy32QT7tF+237CinqYVkrJhSzN1G6YAPb6FMfB
-         Di7gRxAwTOFggqFdfEg3uiCchmHh5krqR/hL0ka8qKJS9ptT5eavd9mZPByiQTW7YlzZ
-         y5fCdiwU1GLcU3IEHz36Jn1e0UKlOcMYOPWiP072stxndWgXeMpbIksQmnF9A35K3uzL
-         qf/paVyUyD4toeN4mr7luyrTQFwUzMdK3WRkGJTzRFWupRDd5nTYqnOPz4Een3Lq0Qwn
-         8FOKg7En0GjvzoNJMDer9ByF/WGsVg9K0Vwp986YymhnJQuIuf+lsUvSZ+2MqsvE+/4A
-         QoLQ==
-X-Gm-Message-State: AOJu0YwaFINBGS/i3yqV4OVIcFdYXTGdna9bzSSEdIswAamJUFBRz+jv
-	hjOgjbW+NT9mgV8R9oX1T+wMjwcZYzyDE5LsuZmpPFgAXsAZfOuRl755+6aqNQTw6Ae2/PlX9iu
-	iDwUdkrkJu1ZK2kI2xCRvVByK2EI=
-X-Google-Smtp-Source: AGHT+IHcIWUFERMxaEvz9TXnnkJ/t4qaEI+1YFtKkRgtgf27fF18BKdX+TB1sYymNi5Q+ubV14uj0ohnb7pCDjZjMyw=
-X-Received: by 2002:a2e:868f:0:b0:2e8:4c3d:c9e6 with SMTP id
- 38308e7fff4ca-2e95b2d3123mr66759761fa.48.1716839427232; Mon, 27 May 2024
- 12:50:27 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=jvz3cIkO;
+ spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+	by wilbur.contactoffice.com (Postfix) with ESMTP id D94536DCE;
+	Mon, 27 May 2024 21:55:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1716839758;
+	s=20230812-3u04; d=redrectangle.org;
+	i=robert.joslyn@redrectangle.org;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+	l=989; bh=OrKKTirJvUiF/VHBEpK9PW45ctKeTG/1qqwlNMtPKpk=;
+	b=jvz3cIkORMIxOQuz2Ft2pkKIBKddmjwhF8OphVpWQkyloAwQ3AudNOtbml7lxWZS
+	EMWGO1nH+xjpf6UUW7bADiGvl21EBhglCUjTDu0kLeqazfW/UPWhgSznZD3RwSqQiGY
+	2iV2lII8ZPdfSyQ0G5BOrflqyCQO+NXBulSfGHkZr5rPDflLVFj3LWthlUNc0oYUDeK
+	t8J/1jJ9GUlWKoVO7E0fzQC0ZGk7cxqejV58FQAaP4CLARjDtuFraltIEIcUAKhUKr8
+	hrXPRzyfX2tjVFoPJU08YevO3ziMUhtExJZkSqsvA6ojrDCHOFvHIau7qw/VZfvx2Hb
+	qXd8BsUHCA==
+Received: by smtp.mailfence.com with ESMTPSA ; Mon, 27 May 2024 21:55:55 +0200 (CEST)
+From: robert.joslyn@redrectangle.org
+To: openembedded-core@lists.openembedded.org
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [master][scarthgap][PATCH] libgloss: Do not apply non-existent patch
+Date: Mon, 27 May 2024 12:55:41 -0700
+Message-ID: <20240527195541.30167-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
-References: <20240527181214.1778037-1-alex.kanavin@gmail.com>
- <20240527181214.1778037-7-alex.kanavin@gmail.com> <CAMKF1sr3rzt545xOEiukEpVPGPxyQ_VX+scB8gzySuP6tbuGMw@mail.gmail.com>
-In-Reply-To: <CAMKF1sr3rzt545xOEiukEpVPGPxyQ_VX+scB8gzySuP6tbuGMw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 May 2024 21:50:16 +0200
-Message-ID: <CANNYZj-282UQn2iELdYkQHBunkNDn1nZq6a=EKBx-BSUTvZZ8Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 07/13] icu: upgrade 74-2 -> 75-1
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+X-ContactOffice-Account: com:454140407
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:50:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199936
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 19:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199937
 
-On Mon, 27 May 2024 at 21:10, Khem Raj <raj.khem@gmail.com> wrote:
-> > +# Remove when https://github.com/harfbuzz/harfbuzz/issues/4671 is resolved
-> > +EXTRA_OEMESON += "-Dcpp_std=c++17"
->
-> GCC 13+ and clang16+ defaults to c++17, so I wonder why it does not work here.
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-harfbuzz resets that to c++11:
-https://github.com/harfbuzz/harfbuzz/blob/main/meson.build#L7
+When newlib and libgloss were updated to 4.3.0, SRC_URI was updated to
+append a fix-rs6000-cflags.patch file when building on PowerPC, but this
+file was not added to the repo.
 
-Alex
+Remove appending the missing patch.
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ meta/recipes-core/newlib/libgloss_git.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-core/newlib/libgloss_git.bb b/meta/recipes-core=
+/newlib/libgloss_git.bb
+index 7e34e33c7a..3c97a7f296 100644
+--- a/meta/recipes-core/newlib/libgloss_git.bb
++++ b/meta/recipes-core/newlib/libgloss_git.bb
+@@ -6,7 +6,6 @@ FILESEXTRAPATHS:prepend :=3D "${THISDIR}/libgloss:"
+=20
+ SRC_URI:append =3D " file://libgloss-build-without-nostdinc.patch"
+ SRC_URI:append:powerpc =3D " file://fix-rs6000-crt0.patch"
+-SRC_URI:append:powerpc =3D " file://fix-rs6000-cflags.patch"
+=20
+ do_configure() {
+ 	${S}/libgloss/configure ${EXTRA_OECONF}
+--=20
+2.44.1
+
 
