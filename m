@@ -1,99 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 016AEC25B75
-	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 01:03:59 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.18244.1716771838213538483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01588C25B7A
+	for <webhook@archiver.kernel.org>; Mon, 27 May 2024 01:37:10 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.18708.1716773828506193483
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 May 2024 18:03:59 -0700
+ Sun, 26 May 2024 18:37:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TztU2IrU;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=a9z+zoPi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fb7935562-6b80d262-9a24-4eda-9af3-c1a79070fdf5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1716771837; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=2/LRzt6fGqv1AyBrWzx2Q1SuJgLbqn35sOSHLIZonpY=;
-	b=TztU2IrUUSvpfAr597n9XwzQL1TjsWvJPw+E/gdpYq7MkFqE6NRJZryVyw9oDy4c
-	5ehw7jYValZRzwxJWNpKltHSg32KHnVZLucLrVxCrhrZNd8sA3lZcKtRfpN8vA0mfl0
-	3O7ZFKHYvzJh5oz/Cl85PPPUP50Vtmhl6ma57JJY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1716771837;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=2/LRzt6fGqv1AyBrWzx2Q1SuJgLbqn35sOSHLIZonpY=;
-	b=a9z+zoPix/1dBzv6YvfS+eHWwr/OtxZJYEzQzrFYq7+87prj37Oavpob7dTaS6iu
-	O1K297pDPm1K0k4pAC6l5n4J/vIT658KegTCrh2XxHGNp6xP3ygFTCPQWD46Ap2DOJD
-	I75UJiMSD+vn/TiYJ1HgQ0N3NGW/aHm31V2t1OzI=
-From: patchtest@automation.yoctoproject.org
-To: jaekyu.lee@lge.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] [OE-core][scarthgap] rust: remove unnecessary git signature
-In-Reply-To: <20240527004630.6806-1-jaekyu.lee@lge.com>
-References: <20240527004630.6806-1-jaekyu.lee@lge.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018fb7935562-6b80d262-9a24-4eda-9af3-c1a79070fdf5-000000@us-west-2.amazonses.com>
-Date: Mon, 27 May 2024 01:03:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.27-54.240.27.191
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5877813c0a=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44R1Ku9L003429
+	for <openembedded-core@lists.openembedded.org>; Sun, 26 May 2024 18:37:08 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ybb909811-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 26 May 2024 18:37:07 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 26 May 2024 18:37:07 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Sun, 26 May 2024 18:37:06 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/4] libgpg-error: upgrade 1.48 -> 1.49
+Date: Mon, 27 May 2024 09:37:02 +0800
+Message-ID: <20240527013705.2781009-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: bMmUP1QRqByn7kJEvk-PxAOvfGz5W5Ht
+X-Proofpoint-GUID: bMmUP1QRqByn7kJEvk-PxAOvfGz5W5Ht
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-26_09,2024-05-24_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 clxscore=1011 impostorscore=0
+ spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405270012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 01:03:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199889
+ <openembedded-core@lists.openembedded.org>; Mon, 27 May 2024 01:37:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199890
 
---NextPart
-Content-Type: text/plain
+From: Changqing Li <changqing.li@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Noteworthy changes in version 1.49 (2024-04-25) [C36/A36/R0]
+-----------------------------------------------
 
+ * Two new functions to improve the logging interface.  The
+   gpgrt_logv_domain is currently the same as gpgrt_logv_prefix but
+   allows to pass a domain string so that in future we will be able to
+   select log output by domain.  It also provide a non yet functional
+   feature to include a hex dump.
+
+ * Add a "trunc" keyword to gpgrt_log_printhex.  [rE0a39fbefcb]
+
+ * Avoid an endless loop in the argparser due to a conf file read
+   error.  [rE2dc93cfecc]
+
+ * Interface changes relative to the 1.48 release:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ gpgrt_add_post_log_func        NEW.
+ gpgrt_logv_domain              NEW.
+
+ Release-info: https://dev.gnupg.org/T7012
+
+[1] https://github.com/gpg/libgpg-error/blob/libgpg-error-1.49/NEWS
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-rust-remove-unnecessary-git-signature.patch
+ .../libgpg-error/{libgpg-error_1.48.bb => libgpg-error_1.49.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.48.bb => libgpg-error_1.49.bb} (95%)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.49.bb
+similarity index 95%
+rename from meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
+rename to meta/recipes-support/libgpg-error/libgpg-error_1.49.bb
+index 9f2b49209d..b7d41ab489 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.49.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[sha256sum] = "89ce1ae893e122924b858de84dc4f67aae29ffa610ebf668d5aa539045663d6f"
++SRC_URI[sha256sum] = "8b79d54639dbf4abc08b5406fb2f37e669a2dec091dd024fb87dd367131c63a9"
+ 
+ BINCONFIG = "${bindir}/gpg-error-config"
+ 
+-- 
+2.25.1
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
