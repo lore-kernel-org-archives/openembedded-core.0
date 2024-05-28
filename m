@@ -1,329 +1,240 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E844DC25B78
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 07:03:10 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.16604.1716879781318581607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CB7C25B7E
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 08:45:21 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.17625.1716885914460262492
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 00:03:02 -0700
+ Tue, 28 May 2024 01:45:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FAsVS85i;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BB44240002;
-	Tue, 28 May 2024 07:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716879779;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CPnNwYrAHMJjKK7IgS39tp9ryYn2zWqx5qkFsSIe/Ck=;
-	b=FAsVS85ionPFvbNpOJjD8nurOi1pgTkGs+DxdAKEdTalGuXpvjrPY7FXRa5oCXVOta+uSb
-	vtfEJScbu+IvMKFwOHG1gXHWqprn16klycA8IrBCCXK4tEpvRaxAlW4GVaH1yi9ML9cPyI
-	NqjWcDYqzsQcR+DRk23nIKps3rWVvTnbgBRWLvxCZ5cj+e0yUhAL5DVjEt13ya/jEy2vag
-	V40s5n3VHWvqkIaQhdAUqQ59sBzegrVXnc6hdxW1hLkOkCvP5vEeo6jX5DqC7XoA6xsGHy
-	6MUIW9RShvfyPmQpeBpMiaY8yvqCxLOO+5GCsZBD0mQprRLnSTje7vJnR08ErA==
-Date: Tue, 28 May 2024 09:02:53 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 03/13] pinentry: update 1.2.1 -> 1.3.0
-Message-ID: <202405280702532ddc15a8@mail.local>
-References: <20240527181214.1778037-1-alex.kanavin@gmail.com>
- <20240527181214.1778037-3-alex.kanavin@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZLY5ZWA5;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e72224c395so4745661fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 01:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716885912; x=1717490712; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0TxV6ugigDP6D0j8af84doFiQgWuBzNf5SG6P3PQ+aE=;
+        b=ZLY5ZWA5t/JLkiWWXgAtGJ28X9yw4Vf8MqYXi85ZZ9KMq53i4QjmMtHCkdN4rSUPbw
+         xMSifNW6KAZ1c+az3H1/Zw0brfJJSPZsfwXxkHr7sEJ+JKU03oN3Rv17HGXpLDRp2YvT
+         VSohRQg9DAWX5GE4UwXUOp3ts8dvLVDaPf5yrcVUA1/gJ/CFIo1UyOp0N3Tihl/8DvVt
+         sgQ8yy4tc4iLuK1hx9qmASpKXSrgbhHJs8m3kxbffo7nQfBdnnSR5PAAY+vbZEyxRRd/
+         JsP0fmkNA1H1BxuKM31Cs6fL+bYES2LlopMoDhCbUL/xHw9M9/MgjgH6sTxQsssoE40U
+         h7lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716885912; x=1717490712;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0TxV6ugigDP6D0j8af84doFiQgWuBzNf5SG6P3PQ+aE=;
+        b=kWEGJSFpCrNUd/rto7+/qCEAok8ZBPRibCmuN5hJW7Ggt9WsjXrJdSDDzkHqsGgnBe
+         n0WtHR4DwLAxhrFHkxnTBZ6Sg8xeZHIx3BASTHWb/qInxVZXOJ+Azk1zqyhhFilPuAD+
+         dzmWIFKdiMAZc2GwM4l8INBoPTFHXT+3DPzOe1qocWDGmG8KN7IoPYVZuCvw8qtEsUiN
+         IB3RXVAQFTYLJjCA4nndZzEdCTxVEZvmE8FFh1WudXxYRIFJio8nECObut65EaHTfHlJ
+         irWF85d5/MCu8QVkrWkRea3UYcEM8pcnXp7N4YF/b5+pOanR0DXvT3KkBETwpOZyUXtc
+         f7qA==
+X-Gm-Message-State: AOJu0Yy1AJaSly3BhshHaoqMFu5WBmBzzf5NOSa8p5Jnl/7cJCnMu3gB
+	bHPTSgCWyRnFbspJH1WzRkM10bXWn2YTR2LOiluazfc85rmDU863
+X-Google-Smtp-Source: AGHT+IEhX2ZFLlNm1dBjeHla38duWBHkYktN+UL1upLDoLJBnKhZUdmKG7mAr9ZptuvDOHfdJMaD9g==
+X-Received: by 2002:a2e:9793:0:b0:2e0:9646:8512 with SMTP id 38308e7fff4ca-2e95b0c091bmr73628411fa.31.1716885911916;
+        Tue, 28 May 2024 01:45:11 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e98a3eca53sm628671fa.109.2024.05.28.01.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 01:45:11 -0700 (PDT)
+Date: Tue, 28 May 2024 10:51:24 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/2] image-bootfiles.bbclass: new class, copy boot
+ files to root filesystem
+Message-ID: <ZlWbDL4qswnioROL@gmail.com>
+References: <20240525085023.6042-1-marcus.folkesson@gmail.com>
+ <20240525085023.6042-3-marcus.folkesson@gmail.com>
+ <a18ae6ed-1ab1-4ba7-93d3-e22e00d9554e@cherry.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="nNh598CAerwXmPHv"
 Content-Disposition: inline
-In-Reply-To: <20240527181214.1778037-3-alex.kanavin@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+In-Reply-To: <a18ae6ed-1ab1-4ba7-93d3-e22e00d9554e@cherry.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 07:03:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199952
-
-I fixed it up in my branch but you forgot to update
-oescripts.OEListPackageconfigTests.test_packageconfig_flags_option_all
-Maybe it would be nice to have a comment in the recipe.
-
-On 27/05/2024 20:12:04+0200, Alexander Kanavin wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
-> 
-> License-update: formatting, FSF address
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../gpg-error_pkconf.patch                    | 56 ++++++++++++++-----
->  .../libassuan_pkgconf.patch                   | 24 ++++----
->  .../{pinentry_1.2.1.bb => pinentry_1.3.0.bb}  |  4 +-
->  3 files changed, 56 insertions(+), 28 deletions(-)
->  rename meta/recipes-support/pinentry/{pinentry-1.2.1 => pinentry-1.3.0}/gpg-error_pkconf.patch (82%)
->  rename meta/recipes-support/pinentry/{pinentry-1.2.1 => pinentry-1.3.0}/libassuan_pkgconf.patch (88%)
->  rename meta/recipes-support/pinentry/{pinentry_1.2.1.bb => pinentry_1.3.0.bb} (88%)
-> 
-> diff --git a/meta/recipes-support/pinentry/pinentry-1.2.1/gpg-error_pkconf.patch b/meta/recipes-support/pinentry/pinentry-1.3.0/gpg-error_pkconf.patch
-> similarity index 82%
-> rename from meta/recipes-support/pinentry/pinentry-1.2.1/gpg-error_pkconf.patch
-> rename to meta/recipes-support/pinentry/pinentry-1.3.0/gpg-error_pkconf.patch
-> index bb7e43b1e75..863ba9e34b4 100644
-> --- a/meta/recipes-support/pinentry/pinentry-1.2.1/gpg-error_pkconf.patch
-> +++ b/meta/recipes-support/pinentry/pinentry-1.3.0/gpg-error_pkconf.patch
-> @@ -1,4 +1,4 @@
-> -From 785777dc0bc6b69ff68c91547ec6b6634049662f Mon Sep 17 00:00:00 2001
-> +From ccc3c6a8d469bbfa6717b970cfe70816c1fd545e Mon Sep 17 00:00:00 2001
->  From: Armin Kuster <akuster@mvista.com>
->  Date: Fri, 2 Sep 2005 11:50:01 +0000
->  Subject: [PATCH] Add gtk+, avahi, dbus-0.34 (.36 coming soon) and
-> @@ -9,20 +9,20 @@ the gpg-error recipe for gpg-error.pc  generation.
->  Upstream-Status: Inappropriate [OE specific]
->  
->  Signed-off-by: Armin Kuster <akuster@mvista.com>
-> -
->  ---
-> - m4/gpg-error.m4 | 160 ++----------------------------------------------
-> - 1 file changed, 4 insertions(+), 156 deletions(-)
-> + m4/gpg-error.m4 | 184 ++----------------------------------------------
-> + 1 file changed, 5 insertions(+), 179 deletions(-)
->  
->  diff --git a/m4/gpg-error.m4 b/m4/gpg-error.m4
-> -index 4b5cd40..7dfbb83 100644
-> +index 7fa52b1..c0784ed 100644
->  --- a/m4/gpg-error.m4
->  +++ b/m4/gpg-error.m4
-> -@@ -26,160 +26,12 @@ dnl config script does not match the host specification the script
-> - dnl is added to the gpg_config_script_warn variable.
-> +@@ -15,188 +15,18 @@
-> + dnl
-> + dnl Find gpg-error-config, for backward compatibility
->   dnl
-> - AC_DEFUN([AM_PATH_GPG_ERROR],
-> --[ AC_REQUIRE([AC_CANONICAL_HOST])
-> +-dnl _AM_PATH_POSSIBLE_GPG_ERROR_CONFIG
-> +-AC_DEFUN([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG],[dnl
->  -  gpg_error_config_prefix=""
->  -  dnl --with-libgpg-error-prefix=PFX is the preferred name for this option,
->  -  dnl since that is consistent with how our three siblings use the directory/
-> @@ -58,9 +58,14 @@ index 4b5cd40..7dfbb83 100644
->  -  fi
->  -
->  -  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
-> --  min_gpg_error_version=ifelse([$1], ,1.33,$1)
-> --  ok=no
-> +-])
->  -
-> +-dnl
-> +-dnl Find gpgrt-config, which uses .pc file
-> +-dnl (minimum pkg-config functionality, supporting cross build)
-> +-dnl
-> +-dnl _AM_PATH_GPGRT_CONFIG
-> +-AC_DEFUN([_AM_PATH_GPGRT_CONFIG],[dnl
->  -  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
->  -  if test "$GPGRT_CONFIG" != "no"; then
->  -    # Determine gpgrt_libdir
-> @@ -116,8 +121,9 @@ index 4b5cd40..7dfbb83 100644
->  -        fi
->  -        if test -n "$gpgrt_libdir"; then break; fi
->  -      done
-> --    else
-> --      # When we cannot determine system libdir-format, use this:
-> +-    fi
-> +-    if test -z "$gpgrt_libdir"; then
-> +-      # No valid pkgconfig dir in any of the system directories, fallback
->  -      gpgrt_libdir=${possible_libdir1}
->  -    fi
->  -  else
-> @@ -131,12 +137,33 @@ index 4b5cd40..7dfbb83 100644
->  -      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
->  -      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
->  -    else
-> +-      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
->  -      unset GPGRT_CONFIG
->  -    fi
->  -  elif test "$GPG_ERROR_CONFIG" != "no"; then
->  -    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
->  -    unset GPGRT_CONFIG
->  -  fi
-> +-])
-> +-
-> +-dnl AM_PATH_GPG_ERROR([MINIMUM-VERSION,
-> +-dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
-> +-dnl
-> +-dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
-> +-dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
-> +-dnl used for programs requireing real multi thread support.
-> +-dnl
-> + dnl If a prefix option is not used, the config script is first
-> + dnl searched in $SYSROOT/bin and then along $PATH.  If the used
-> + dnl config script does not match the host specification the script
-> + dnl is added to the gpg_config_script_warn variable.
-> + dnl
-> +-AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
-> +-AC_REQUIRE([AC_CANONICAL_HOST])dnl
-> +-AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
-> +-AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-> +-  min_gpg_error_version=ifelse([$1], ,1.33,$1)
-> +-  ok=no
->  -  if test "$GPG_ERROR_CONFIG" != "no"; then
->  -    req_major=`echo $min_gpg_error_version | \
->  -               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
-> @@ -157,6 +184,7 @@ index 4b5cd40..7dfbb83 100644
->  -    fi
->  -  fi
->  -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
-> ++AC_DEFUN([AM_PATH_GPG_ERROR],
->  +[
->  +  min_gpg_error_version=ifelse([$1], ,0.0,$1)
->  +  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version gpg-error], [ok=yes], [ok=no])
-> @@ -183,7 +211,7 @@ index 4b5cd40..7dfbb83 100644
->       if test x"$gpg_error_config_host" != xnone ; then
->         if test x"$gpg_error_config_host" != x"$host" ; then
->     AC_MSG_WARN([[
-> -@@ -194,10 +46,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
-> +@@ -211,10 +41,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
->         fi
->       fi
->     else
-> diff --git a/meta/recipes-support/pinentry/pinentry-1.2.1/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry-1.3.0/libassuan_pkgconf.patch
-> similarity index 88%
-> rename from meta/recipes-support/pinentry/pinentry-1.2.1/libassuan_pkgconf.patch
-> rename to meta/recipes-support/pinentry/pinentry-1.3.0/libassuan_pkgconf.patch
-> index f4aec2d1c39..bee9acd081c 100644
-> --- a/meta/recipes-support/pinentry/pinentry-1.2.1/libassuan_pkgconf.patch
-> +++ b/meta/recipes-support/pinentry/pinentry-1.3.0/libassuan_pkgconf.patch
-> @@ -1,4 +1,4 @@
-> -From 26fb6c3faa27180c8ed9ada1728c3d8683a65f3a Mon Sep 17 00:00:00 2001
-> +From fb6179fabb5e793a83cbb0d0d45814d99b97807a Mon Sep 17 00:00:00 2001
->  From: Armin Kuster <akuster@mvista.com>
->  Date: Thu, 22 May 2014 10:50:00 +0100
->  Subject: [PATCH] libassuan: Improve pkgconfig support
-> @@ -9,17 +9,16 @@ the libassuan recipe for libassuan.pc generation.
->  Upstream-Status: Inappropriate [OE specific]
->  
->  Signed-off-by: Armin Kuster <akuster@mvista.com>
-> -
->  ---
->   configure.ac    |  4 +--
-> - m4/libassuan.m4 | 93 ++++---------------------------------------------
-> - 2 files changed, 9 insertions(+), 88 deletions(-)
-> + m4/libassuan.m4 | 94 ++++---------------------------------------------
-> + 2 files changed, 9 insertions(+), 89 deletions(-)
->  
->  diff --git a/configure.ac b/configure.ac
-> -index d8dcc0c..ca51766 100644
-> +index f04c00d..8e6da5c 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -267,8 +267,8 @@ if test "$have_libassuan" = "yes"; then
-> +@@ -263,8 +263,8 @@ if test "$have_libassuan" = "yes"; then
->                        [version of the libassuan library])
->   fi
->   
-> @@ -31,7 +30,7 @@ index d8dcc0c..ca51766 100644
->   
->   dnl Checks for libsecmem.
->  diff --git a/m4/libassuan.m4 b/m4/libassuan.m4
-> -index df50484..2057412 100644
-> +index a2eb5d9..897f407 100644
->  --- a/m4/libassuan.m4
->  +++ b/m4/libassuan.m4
->  @@ -15,30 +15,8 @@ dnl
-> @@ -51,7 +50,7 @@ index df50484..2057412 100644
->  -  fi
->  -
->  -  use_gpgrt_config=""
-> --  if test x"${LIBASSUAN_CONFIG}" = x -a x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
-> +-  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
->  -    if $GPGRT_CONFIG libassuan --exists; then
->  -      LIBASSUAN_CONFIG="$GPGRT_CONFIG libassuan"
->  -      AC_MSG_NOTICE([Use gpgrt-config as libassuan-config])
-> @@ -67,7 +66,7 @@ index df50484..2057412 100644
->     tmp=ifelse([$1], ,1:0.9.2,$1)
->     if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
->       req_libassuan_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
-> -@@ -48,58 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-> +@@ -48,59 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->       min_libassuan_version="$tmp"
->     fi
->   
-> @@ -112,6 +111,7 @@ index df50484..2057412 100644
->  -
->  -  if test $ok = yes; then
->  -    AC_MSG_RESULT([yes ($libassuan_config_version)])
-> +-    AC_DEFINE(LIBASSUAN_API_REQUESTED, $req_libassuan_api, Requested API version for libassuan)
->  -  else
->  -    AC_MSG_RESULT(no)
->  -  fi
-> @@ -128,7 +128,7 @@ index df50484..2057412 100644
->         if test "$tmp" -gt 0 ; then
->           AC_MSG_CHECKING([LIBASSUAN API version])
->           if test "$req_libassuan_api" -eq "$tmp" ; then
-> -@@ -114,11 +45,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-> +@@ -117,11 +47,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->   
->     if test $ok = yes; then
->       if test x"$host" != x ; then
-> @@ -141,7 +141,7 @@ index df50484..2057412 100644
->         if test x"$libassuan_config_host" != xnone ; then
->           if test x"$libassuan_config_host" != x"$host" ; then
->     AC_MSG_WARN([[
-> -@@ -141,7 +68,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
-> +@@ -144,7 +70,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
->   dnl used to test for features only available in newer versions.
->   dnl
->   AC_DEFUN([AM_CHECK_LIBASSUAN],
-> @@ -150,7 +150,7 @@ index df50484..2057412 100644
->     if test $ok = yes; then
->       ifelse([$2], , :, [$2])
->     else
-> -@@ -157,16 +84,10 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
-> +@@ -160,16 +86,10 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
->   dnl Test for libassuan and define LIBASSUAN_CFLAGS and LIBASSUAN_LIBS
->   dnl
->   AC_DEFUN([AM_PATH_LIBASSUAN],
-> diff --git a/meta/recipes-support/pinentry/pinentry_1.2.1.bb b/meta/recipes-support/pinentry/pinentry_1.3.0.bb
-> similarity index 88%
-> rename from meta/recipes-support/pinentry/pinentry_1.2.1.bb
-> rename to meta/recipes-support/pinentry/pinentry_1.3.0.bb
-> index 7daf80f36eb..6ce873871b1 100644
-> --- a/meta/recipes-support/pinentry/pinentry_1.2.1.bb
-> +++ b/meta/recipes-support/pinentry/pinentry_1.3.0.bb
-> @@ -6,7 +6,7 @@ DESCRIPTION = "\
->  
->  HOMEPAGE = "http://www.gnupg.org/related_software/pinentry/index.en.html"
->  LICENSE = "GPL-2.0-only"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  
->  DEPENDS = "gettext-native libassuan libgpg-error"
->  
-> @@ -16,7 +16,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://gpg-error_pkconf.patch \
->  "
->  
-> -SRC_URI[sha256sum] = "457a185e5a85238fb945a955dc6352ab962dc8b48720b62fc9fa48c7540a4067"
-> +SRC_URI[sha256sum] = "9b3cd5226e7597f2fded399a3bc659923351536559e9db0826981bca316494de"
->  
->  inherit autotools pkgconfig
->  
-> -- 
-> 2.39.2
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199920): https://lists.openembedded.org/g/openembedded-core/message/199920
-> Mute This Topic: https://lists.openembedded.org/mt/106334727/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+ <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 08:45:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199953
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--nNh598CAerwXmPHv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+Hi Quentin,
+
+Thank you for your in-depth review.
+It is probably obvious that Python is not my mother tounge, so all
+feedback is appreciated :-)
+
+On Mon, May 27, 2024 at 05:29:40PM +0200, Quentin Schulz wrote:
+> Hi Marcus,
+>=20
+> On 5/25/24 10:50 AM, Marcus Folkesson wrote:
+> > image-bootfiles class copy files listed in IMAGE_BOOT_FILES
+> > to the IMAGE_BOOTFILES_DIR directory of the root filesystem.
+> >=20
+> > This is useful when there is no explicit boot partition but all boot
+> > files should instead reside inside the root filesystem.
+> >=20
+> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > ---
+> >   meta/classes/image-bootfiles.bbclass | 38 ++++++++++++++++++++++++++++
+> >   1 file changed, 38 insertions(+)
+> >   create mode 100644 meta/classes/image-bootfiles.bbclass
+> >=20
+> > diff --git a/meta/classes/image-bootfiles.bbclass b/meta/classes/image-=
+bootfiles.bbclass
+> > new file mode 100644
+> > index 0000000000..29a38ac631
+> > --- /dev/null
+> > +++ b/meta/classes/image-bootfiles.bbclass
+> > @@ -0,0 +1,38 @@
+> > +#
+> > +# SPDX-License-Identifier: MIT
+> > +#
+> > +# Copyright (C) 2024 Marcus Folkesson
+> > +# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > +#
+> > +# Writes IMAGE_BOOT_FILES to the IMAGE_BOOTFILES_DIR directory
+> > +#
+> > +#
+> > +# Usage: add INHERIT +=3D "image-bootfiles" to your image
+> > +#
+>=20
+> One is supposed to use inherit image-bootfiles inside recipes. INHERIT is
+> for global inherit, from configuration files, e.g. INHERIT +=3D "rm_work".
+
+Got it, thanks.
+
+>=20
+> > +
+> > +IMAGE_BOOTFILES_DIR ?=3D "/boot"
+> > +
+>=20
+> I would really suggest to have the exact same prefix as for the
+> IMAGE_BOOT_FILES variable since they are related. I would like to avoid t=
+he
+> DEPLOYDIR, DEPLOY_DIR confusion for example :)
+
+Good point.
+
+>=20
+> > +def bootfiles_populate(d):
+> > +    import shutil
+> > +    from oe.bootfiles import get_boot_files
+> > +
+> > +    boot_files =3D d.getVar("IMAGE_BOOT_FILES")
+> > +    deploy_image_dir =3D d.getVar("DEPLOY_DIR_IMAGE")
+> > +    boot_dir =3D d.getVar("IMAGE_ROOTFS") + d.getVar("IMAGE_BOOTFILES_=
+DIR")
+> > +
+>=20
+> I would suggest to use
+> os.path.join(d.getVar("IMAGE_ROOTFS"), d.getVar("IMAGE_BOOTFILES_DIR"))
+> here to make it a tiny bit more robust to missing/redundant slashes (/) f=
+or
+> example.
+
+That is better.
+
+>=20
+> > +    install_files =3D get_boot_files(deploy_image_dir, boot_files)
+> > +    if install_files is None:
+> > +        return
+> > +
+>=20
+> I'm wondering if we shouldn't print a warning or at the very least a note=
+ if
+> boot_files is not empty but install_files is, this seems like there could=
+ be
+> an issue no?
+
+Sounds good, I will add a print.
+
+>=20
+> > +    os.makedirs(boot_dir, exist_ok=3DTrue)
+> > +    for entry in install_files:
+> > +        src, dst =3D entry
+>=20
+> Those two lines could be merged into:
+>=20
+> for src, dst in install_files:
+>=20
+> I believe.
+
+Yep, it worked.
+
+>=20
+> > +        image_src =3D os.path.join(deploy_image_dir, src)
+> > +        image_dst =3D os.path.join(boot_dir, dst)
+> > +        shutil.copyfile(image_src, image_dst)
+> > +
+> > +python bootfiles () {
+> > +   bootfiles_populate(d),
+>=20
+> I'm surprised by the comma at the end of the line, is this required someh=
+ow?
+> What does this do?
+
+No it is not. It is a remnant from my debugging. Good catch though.
+
+>=20
+> I'm also not entirely sure we need to have this additional indirection? Is
+> """
+> python bootfiles_populate() {
+>     <code from def bootfiles_populate(d):>
+> }
+> IMAGE_PREPROCESS_COMMAND +=3D "bootfiles_populate;"
+> """
+>=20
+> not working somehow (I don't know if it should, so just asking)? tinyinit=
+rd
+> in meta/recipes-core/images/core-image-tiny-initramfs.bb seems to be doing
+> it, so should/could be possible?
+
+I change it as suggested. bootfiles() did more things before I cleaned
+it up, so it is most of a remnant.
+
+>=20
+> Cheers,
+> Quentin
+
+
+Best regards,
+Marcus Folkesson
+
+--nNh598CAerwXmPHv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZVmwcACgkQiIBOb1ld
+UjJPjg//eOU0QxryM4tj/mXUpAe/KEB6Ub1gG+JKoB55gYRkPbH63ng/1yCvmodw
+FcDl6oblKVry7t989LMSVD/WyJPjz/gKYXX2L19Ol2umCoSnTYf90CJYFZp+ItAU
+7zJfQa//6UJFigCcH+/VydfHJeHrBtZhK3NvEw5Oniws7ki/NATqOyP0t+OOn40U
+BXeO+De6i3QF1jHE1v5cRLmrCyY19OIUuVorcnvX9QypHx0+TEkWOc/yNLAUZvBw
+AFGZhP0ah0Wx7s2WB9EUAZv1g94xevio/MTvZtvuaZ4B4w80Yhiwk7rinktlkgul
+Ug5PZcOgKFy+QQ4MNLXtVDK4FNuPhEySlJkOm1D8ZKwNokb09cjE4BF+9ZhlD47S
+T2mCXg/xoapLLw1nMbf8bjarRRHkfjFqH4USRa7V2X5arCfKNZrI3MzZWmtl9/Rx
+fIyi0zZX0fkZBSN/R21NLCvG/XXl9oZmmLgbd5Xap2mYdlS7RTACJbaXi72FyyA5
+wGQaFC35I9GRdUnFkkO2L8iRS8yS2eKok+ON9Mok7usyrlKbbytBn9SWyprnc1tu
+7WU6tIG2xFZx2+VFB9oGu17IPsRpNaeNece7ZEUocvxHy4vdAbQOIaAps68aR0n2
+VUbox6j/MP2i0iaX6yge2vhRnvYQ4cigRhnlCwiH5vkDTO5Qv/4=
+=9M2y
+-----END PGP SIGNATURE-----
+
+--nNh598CAerwXmPHv--
 
