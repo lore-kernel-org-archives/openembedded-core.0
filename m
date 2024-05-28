@@ -1,220 +1,493 @@
-Return-Path: <marcus.folkesson@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD83C25B7C
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 11:42:52 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.19856.1716896562676004531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E75C25B7C
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 12:30:22 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web10.20708.1716899413695134033
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 04:42:43 -0700
+ Tue, 28 May 2024 05:30:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hPGRH+9m;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5295c65d3fdso3753952e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 04:42:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CRfB1Hc9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.181, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-627f46fbe14so7758517b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 05:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716896561; x=1717501361; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IDA4/SoMZTHs6/ejCNfhgeuLynG2vX314fPDyo2cJx0=;
-        b=hPGRH+9mks7HuYhgONBOgSqXZpsQZGzaCF3HL6rMmJPccdDKqh6Jpf3fBCuIMC6RpY
-         epNougxpta6MOAWbgjtcQPOAEk/6NoTxMuE0D4+75T8zfoa8l02kaaMa7rFZtvrkoLh8
-         B5E8T7O4keuEEx1q3LEDANfUuAj9a46NNH/Rg/1wOwD9IvRFNsYdqh+uRimPWaFAxfZF
-         4tcQQu1x3ZzFzkkMdbS32sKTv6irsxgpHSrxJYWPxcK3q0auIv2wZmt45fRlBDTG8+u3
-         IROlax/kRGVQVrDIrlBzaHmlQuWBU/0zDR1IKFMsMsvklLT0hXYt1oQg2wVzB66xJPol
-         Zh0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716896561; x=1717501361;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1716899413; x=1717504213; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IDA4/SoMZTHs6/ejCNfhgeuLynG2vX314fPDyo2cJx0=;
-        b=tWwKL5ugX+X70kELHkuKW4GPpDVdwfTKG6e+02dzXdYwVGY/zDcxW8zIfgg6SOLThy
-         9GNZYpMv4f1oCJxYPQcsyTvPGnbnw+C8ErgwzHaUbHvLkdmxA66NNm58jX4nVuR5A+8r
-         Bxj8YOqdghGkXwA6SJY6lDn6oQ63HFdpX83q0uT50wmI3oyc/pC/NZ3vbb+k9m0LfRMJ
-         7b8tHaL/go8S6qPGyhabuWsewf9UdVK3Xsvj5Lcv8laXAJ6nandI6EhqtDeiO2RjNpnq
-         GojT9Qdz1P+ezdeIzfeUZYnAJicQA3bahZNEqDonNqe52Jzgq5RAhTShJflFpC3iSxzw
-         kuVg==
-X-Gm-Message-State: AOJu0YyDPZx2pkvLmtT8WCHgUmvTmq30/MkvwV7XKczOOeMUvfiBXolI
-	59oEPD+qdwosqrfckDINIS3sBwszmZ6m5vpJUDezLJWk52kAt4nnVLpMVw==
-X-Google-Smtp-Source: AGHT+IFKZlys+oNJ7RgTmvACEVWBvHI+tsN34SDhPgOwlQj2ZkT9Ooji+jJZnyr9GcMA3ZZ6yIKTaA==
-X-Received: by 2002:a05:6512:48d2:b0:522:2990:7134 with SMTP id 2adb3069b0e04-527f14d560emr4062408e87.33.1716896560357;
-        Tue, 28 May 2024 04:42:40 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529a62f2ff1sm691484e87.225.2024.05.28.04.42.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 04:42:39 -0700 (PDT)
-Date: Tue, 28 May 2024 13:48:52 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 1/2] bootimg-partition: break out code to a common
- library.
-Message-ID: <ZlXEpFcCPEymvBbl@gmail.com>
-References: <20240528090832.725884-1-marcus.folkesson@gmail.com>
- <20240528090832.725884-2-marcus.folkesson@gmail.com>
- <5dbcb41f-503f-499b-bcec-882c54008d49@cherry.de>
+        bh=U56F7G4UmLOU3k1CCwHpf5bBfpJBYEzHTCfzwIUqiCE=;
+        b=CRfB1Hc903S2v2qbp6k/lTPvA0itPxdTi9F5HwSNNsL4Em+jsynXhn/tQwLPNyFUKh
+         oSx6+VUXASOQyaLq0iezQUzTnPT0gnKJXVZLGtfaCusY+BYiR60k5CvZs/9qJ5I2QiM0
+         EX8+NKfFS45InUm40fU1NCSrBmL59LnyxIxcIcwIobww29YZY9ceNWrQEG5f0P6mEVW8
+         Y+PqGOMSOrTO5u5aL2DZjzwlLNOnVded5GiGRLfkiBRFXjRkNJS/+6PC8mEvpzpFA9dA
+         6MxVYNdNxN3A3C70G5lJMUFuhxg71KdbvQtfSnRzFj/IscPHWR4o6s6PUfDG3F4P4JXY
+         3Khg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716899413; x=1717504213;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U56F7G4UmLOU3k1CCwHpf5bBfpJBYEzHTCfzwIUqiCE=;
+        b=Qu9ibty2vbrrO7vqngTnBlVEUDbhDo3Cs7uYbY3IK4qFbezPwy0wfXOuMG0jZT6iwX
+         n3WINDp9MBJspNwL06328zqT2naLupFtvaVzG0qYuvra3PLVI5NfUxnHYepr5V9ruPRR
+         lFlwQx/6dnTCbAFwgfEt9RZn9/2FRQpF/6HEsb1IVDxM0Za5gEzmbp4We/7LiDHQxRJQ
+         u60Ios7F4/Vh7Y/oXsuRs8XAGDi5qocnMIXUPuTIsB1ITWS2GbyIseEOqw8K4SZdmtyX
+         XvaCG4BfDTURCIwTtvlVa3lRD0AWSD+W58PRoze2F6SuTAdBfKXPie7ImvFz0G6fQgVG
+         IiWA==
+X-Gm-Message-State: AOJu0Yz6K+LdEyOs26OU4J6CE9MyoJPpvXL9ZE+seqJQA0NkWrnHKwJ9
+	aNxVFH3gUEUx6fbQEpRa0uNIL7o/F9J/n3JSd6zrVqJLnN29xB3Vday9dGDO3O/IPj44f6+kxHl
+	Eq/QoNOJIcSks/mXCQo4BRgR3cnUj7lxz2PmtOQfsv9Z6pY95
+X-Google-Smtp-Source: AGHT+IEN21M9ZuxX7mpIjSE45g6ldvrC5ZQKf/cRfosimRnw+HNKbh2N/iYmBhIgZVXPohkpHPO56wlv8OHXpORZBMM=
+X-Received: by 2002:a81:6d01:0:b0:61b:1e81:4eb8 with SMTP id
+ 00721157ae682-62a08d74106mr107633117b3.9.1716899410979; Tue, 28 May 2024
+ 05:30:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="q1bsBcEBYa7dw8f+"
-Content-Disposition: inline
-In-Reply-To: <5dbcb41f-503f-499b-bcec-882c54008d49@cherry.de>
+References: <20240524201214.3858538-1-mark.hatle@amd.com> <20240524201214.3858538-3-mark.hatle@amd.com>
+ <6329d594-c463-4813-849f-1bf14c018e8e@kernel.crashing.org>
+In-Reply-To: <6329d594-c463-4813-849f-1bf14c018e8e@kernel.crashing.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 28 May 2024 05:29:59 -0700
+Message-ID: <CAOSpxdYdsFALME99_sS+HTerCpTERx0Zr1eg8brE+3cPx_n=7w@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap 2/2] gcc: Fix for CVE-2024-0151
+To: mark.hatle@kernel.crashing.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 11:42:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199971
+ <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 12:30:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199972
 
+On Mon, May 27, 2024 at 1:15=E2=80=AFPM Mark Hatle via lists.openembedded.o=
+rg
+<mark.hatle=3Dkernel.crashing.org@lists.openembedded.org> wrote:
+>
+> I just realized that somehow I entered the wrong CVE in the body of the p=
+atch
+> itself.
+>
+> This IS CVE-2024-0151, but somehow I entered CVE-2023-4039 is the patch b=
+ody.
+>
+> Steve can you fix this as part of the merge, or do you want me to send a =
+V2 or a
+> follow on to fix this?
 
---q1bsBcEBYa7dw8f+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'll fix it!
 
-Hi Quentin,
+Steve
 
-On Tue, May 28, 2024 at 01:01:29PM +0200, Quentin Schulz wrote:
-> Hi Marcus,
->=20
-> On 5/28/24 11:08 AM, Marcus Folkesson wrote:
-> > Break out the code that parse IMAGE_BOOT_FILES to a common library.
-> >=20
-> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+> --Mark
+>
+> On 5/24/24 3:12 PM, Mark Hatle via lists.openembedded.org wrote:
+> > Fix for insufficient argument checking in Secure state Entry functions
+> > in software using Cortex-M Security Extensions (CMSE), that has been
+> > compiled using toolchains that implement 'Arm v8-M Security Extensions
+> > Requirements on Development Tools' prior to version 1.4, allows an
+> > attacker to pass values to Secure state that are out of range for types
+> > smaller than 32-bits. Out of range values might lead to incorrect
+> > operations in secure state.
+> >
+> > Signed-off-by: Mark Hatle <mark.hatle@amd.com>
 > > ---
-> >=20
-> > Notes:
-> >      v3:
-> >         - Removed unnecessary "import glob"
->=20
-> Ah, there was a misunderstanding here, the "wrong" import glob got removed
-> :)
-
-Ah, of course.
-
->=20
-> >         - Explicitely tell that bootfiles_populate() returns a tuple
-> >=20
-> >   meta/lib/oe/bootfiles.py                      | 56 +++++++++++++++++++
-> >   .../wic/plugins/source/bootimg-partition.py   | 39 +------------
-> >   2 files changed, 59 insertions(+), 36 deletions(-)
-> >   create mode 100644 meta/lib/oe/bootfiles.py
-> >=20
-> > diff --git a/meta/lib/oe/bootfiles.py b/meta/lib/oe/bootfiles.py
+> >   meta/recipes-devtools/gcc/gcc-13.2.inc        |   1 +
+> >   .../gcc/gcc/CVE-2024-0151.patch               | 315 +++++++++++++++++=
++
+> >   2 files changed, 316 insertions(+)
+> >   create mode 100644 meta/recipes-devtools/gcc/gcc/CVE-2024-0151.patch
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devt=
+ools/gcc/gcc-13.2.inc
+> > index 603377a49a..abf177822b 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-13.2.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+> > @@ -68,6 +68,7 @@ SRC_URI =3D "${BASEURI} \
+> >              file://CVE-2023-4039.patch \
+> >              file://0026-aarch64-Fix-loose-ldpstp-check-PR111411.patch =
+\
+> >              file://0027-Fix-gcc-vect-module-testcases.patch \
+> > +           file://CVE-2024-0151.patch \
+> >   "
+> >   SRC_URI[sha256sum] =3D "e275e76442a6067341a27f04c5c6b83d8613144004c04=
+13528863dc6b5c743da"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc/CVE-2024-0151.patch b/meta/r=
+ecipes-devtools/gcc/gcc/CVE-2024-0151.patch
 > > new file mode 100644
-> > index 0000000000..666141df4e
+> > index 0000000000..01d55b5cdb
 > > --- /dev/null
-> > +++ b/meta/lib/oe/bootfiles.py
-> > @@ -0,0 +1,56 @@
-> > +#
-> > +# SPDX-License-Identifier: MIT
-> > +#
-> > +# Copyright (C) 2024 Marcus Folkesson
-> > +# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > +#
-> > +# Utility functions handling boot files
-> > +#
-> > +# Look into deploy_dir and search for boot_files.
-> > +# Returns a list of tuples with (original filepath relative to
-> > +# deploy_dir, desired filepath renaming)
-> > +#
-> > +# Heavily inspired of bootimg-partition.py
-> > +#
-> > +def get_boot_files(deploy_dir, boot_files):
-> > +    import re
-> > +    import os
+> > +++ b/meta/recipes-devtools/gcc/gcc/CVE-2024-0151.patch
+> > @@ -0,0 +1,315 @@
+> > +arm: Zero/Sign extends for CMSE security
 > > +
->=20
-> We need from glob import glob here........
->=20
-> > +    if boot_files is None:
-> > +        return None
+> > +This patch makes the following changes:
 > > +
-> > +    # list of tuples (src_name, dst_name)
-> > +    deploy_files =3D []
-> > +    for src_entry in re.findall(r'[\w;\-\./\*]+', boot_files):
-> > +        if ';' in src_entry:
-> > +            dst_entry =3D tuple(src_entry.split(';'))
-> > +            if not dst_entry[0] or not dst_entry[1]:
-> > +                raise ValueError('Malformed boot file entry: %s' % src=
-_entry)
-> > +        else:
-> > +            dst_entry =3D (src_entry, src_entry)
+> > +1) When calling a secure function from non-secure code then any argume=
+nts
+> > +   smaller than 32-bits that are passed in registers are zero- or sign=
+-extended.
+> > +2) After a non-secure function returns into secure code then any retur=
+n value
+> > +   smaller than 32-bits that is passed in a register is  zero- or sign=
+-extended.
 > > +
-> > +        deploy_files.append(dst_entry)
+> > +This patch addresses the following CVE-2024-0151.
 > > +
-> > +    install_files =3D []
-> > +    for deploy_entry in deploy_files:
-> > +        src, dst =3D deploy_entry
-> > +        if '*' in src:
-> > +            # by default install files under their basename
-> > +            entry_name_fn =3D os.path.basename
-> > +            if dst !=3D src:
-> > +                # unless a target name was given, then treat name
-> > +                # as a directory and append a basename
-> > +                entry_name_fn =3D lambda name: \
-> > +                                os.path.join(dst,
-> > +                                             os.path.basename(name))
+> > +gcc/ChangeLog:
+> > +        PR target/114837
+> > +        * config/arm/arm.cc (cmse_nonsecure_call_inline_register_clear=
+):
+> > +          Add zero/sign extend.
+> > +        (arm_expand_prologue): Add zero/sign extend.
 > > +
-> > +            srcs =3D glob(os.path.join(deploy_dir, src))
+> > +gcc/testsuite/ChangeLog:
 > > +
->=20
-> .... otherwise this won't work (it'll I believe but only if the python
-> module that calls it imports glob itself).
-
-Yep, it did, that was why my testing did not catch it.
-
->=20
-> > +            for entry in srcs:
-> > +                src =3D os.path.relpath(entry, deploy_dir)
-> > +                entry_dst_name =3D entry_name_fn(entry)
-> > +                install_files.append((src, entry_dst_name))
-> > +        else:
-> > +            install_files.append((src, dst))
+> > +        * gcc.target/arm/cmse/extend-param.c: New test.
+> > +        * gcc.target/arm/cmse/extend-return.c: New test.
 > > +
-> > +    return install_files
-> > diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scri=
-pts/lib/wic/plugins/source/bootimg-partition.py
-> > index 1071d1af3f..b22a448b65 100644
-> > --- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-> > +++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-> > @@ -18,6 +18,8 @@ import re
-> >   from glob import glob
->=20
-> It's this glob we don't need anymore, because it would then be imported by
-> the python lib added in this very patch.
->=20
-> Cheers,
-> Quentin
-
-
-Thanks again Quentin.
-I will delay v4 a day or two to catch more comments.
-
-
-Best regards,
-Marcus Folkesson
-
---q1bsBcEBYa7dw8f+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZVxJ8ACgkQiIBOb1ld
-UjIYcRAAwv0zLZVYtaIp8ymyWbEZ/LYjCnsYqSRMLFP43wZZ6zyrMCWn/Om61fmx
-xR/ltzeDzZHG184CfyBIMF3/0QiTBi0mByVWPqCA40XgyWLX09citQCtalZsL0E7
-89JrRk0eQ+PN+yNIEk9P0yOCdTJ/xgq8eIItOu7isyfxwwVisjpg4vMK3+bPypS5
-IyELMt9Ac/gXZxEquQsyz5SFcarW/hvGwUJjDtUrgpO+mTqsRWP2oeaY763TRoM+
-6beS6YCWMqlrRYd8Oc2A/vAaTtQcrRyxixcAdlWn+1Pra0lyalCFo2SU2HX355bw
-M5BOXZVNpgt7E407mu5Tm8IvhZWtcUwkdjQnXwJJUoFIQ1a8viyOW5gBRlyEVaD/
-BtpGhTG/UylQC5j1owYDGBia6C28SuNDIIAClQh6dCn6jOvNN3QyYoxAeeBtN57F
-uqWHT89RfIUmWIUMnpBAjuYGbb4RweKVCx+Ef0cDxJQ1BVCrk25vHEM+xjQqv8er
-ZWWzoJUIzoco0Huo8MLSHkmGGOivZ0jlI+FtMBp/G+G/Pjqr77whB/23Nb8iudn3
-n30ACWAs3MLGlWoM8XtJmXl8ieNEHz6YH4vDBPoXDiNan7epQWWClPUJCtJ6j+DC
-8mxwIuitQWhkA1pFKz843zZGycAC0Euv11NmROSSLtZbjMTbb4Y=
-=AcS3
------END PGP SIGNATURE-----
-
---q1bsBcEBYa7dw8f+--
+> > +CVE: CVE-2023-4039
+> > +Upstream-Status: Backport [https://gcc.gnu.org/pipermail/gcc-patches/2=
+024-April/649973.html]
+> > +Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+> > +
+> > +diff --git a/gcc/config/arm/arm.cc b/gcc/config/arm/arm.cc
+> > +index 0217abc218d60956ce727e6d008d46b9176dddc5..ea0c963a4d67ecd70e1571=
+624e84dfe46d757df9 100644
+> > +--- a/gcc/config/arm/arm.cc
+> > ++++ b/gcc/config/arm/arm.cc
+> > +@@ -19210,6 +19210,30 @@ cmse_nonsecure_call_inline_register_clear (vo=
+id)
+> > +       end_sequence ();
+> > +       emit_insn_before (seq, insn);
+> > +
+> > ++      /* The AAPCS requires the callee to widen integral types narrow=
+er
+> > ++         than 32 bits to the full width of the register; but when han=
+dling
+> > ++         calls to non-secure space, we cannot trust the callee to hav=
+e
+> > ++         correctly done so.  So forcibly re-widen the result here.  *=
+/
+> > ++      tree ret_type =3D TREE_TYPE (fntype);
+> > ++      if ((TREE_CODE (ret_type) =3D=3D INTEGER_TYPE
+> > ++          || TREE_CODE (ret_type) =3D=3D ENUMERAL_TYPE
+> > ++          || TREE_CODE (ret_type) =3D=3D BOOLEAN_TYPE)
+> > ++          && known_lt (GET_MODE_SIZE (TYPE_MODE (ret_type)), 4))
+> > ++        {
+> > ++          machine_mode ret_mode =3D TYPE_MODE (ret_type);
+> > ++          rtx extend;
+> > ++          if (TYPE_UNSIGNED (ret_type))
+> > ++            extend =3D gen_rtx_ZERO_EXTEND (SImode,
+> > ++                                          gen_rtx_REG (ret_mode, R0_R=
+EGNUM));
+> > ++          else
+> > ++            extend =3D gen_rtx_SIGN_EXTEND (SImode,
+> > ++                                          gen_rtx_REG (ret_mode, R0_R=
+EGNUM));
+> > ++          emit_insn_after (gen_rtx_SET (gen_rtx_REG (SImode, R0_REGNU=
+M),
+> > ++                                         extend), insn);
+> > ++
+> > ++        }
+> > ++
+> > ++
+> > +       if (TARGET_HAVE_FPCXT_CMSE)
+> > +         {
+> > +           rtx_insn *last, *pop_insn, *after =3D insn;
+> > +@@ -23652,6 +23676,51 @@ arm_expand_prologue (void)
+> > +
+> > +   ip_rtx =3D gen_rtx_REG (SImode, IP_REGNUM);
+> > +
+> > ++  /* The AAPCS requires the callee to widen integral types narrower
+> > ++     than 32 bits to the full width of the register; but when handlin=
+g
+> > ++     calls to non-secure space, we cannot trust the callee to have
+> > ++     correctly done so.  So forcibly re-widen the result here.  */
+> > ++  if (IS_CMSE_ENTRY (func_type))
+> > ++    {
+> > ++      function_args_iterator args_iter;
+> > ++      CUMULATIVE_ARGS args_so_far_v;
+> > ++      cumulative_args_t args_so_far;
+> > ++      bool first_param =3D true;
+> > ++      tree arg_type;
+> > ++      tree fndecl =3D current_function_decl;
+> > ++      tree fntype =3D TREE_TYPE (fndecl);
+> > ++      arm_init_cumulative_args (&args_so_far_v, fntype, NULL_RTX, fnd=
+ecl);
+> > ++      args_so_far =3D pack_cumulative_args (&args_so_far_v);
+> > ++      FOREACH_FUNCTION_ARGS (fntype, arg_type, args_iter)
+> > ++    {
+> > ++      rtx arg_rtx;
+> > ++
+> > ++      if (VOID_TYPE_P (arg_type))
+> > ++        break;
+> > ++
+> > ++      function_arg_info arg (arg_type, /*named=3D*/true);
+> > ++      if (!first_param)
+> > ++        /* We should advance after processing the argument and pass
+> > ++           the argument we're advancing past.  */
+> > ++        arm_function_arg_advance (args_so_far, arg);
+> > ++      first_param =3D false;
+> > ++      arg_rtx =3D arm_function_arg (args_so_far, arg);
+> > ++      gcc_assert (REG_P (arg_rtx));
+> > ++      if ((TREE_CODE (arg_type) =3D=3D INTEGER_TYPE
+> > ++          || TREE_CODE (arg_type) =3D=3D ENUMERAL_TYPE
+> > ++          || TREE_CODE (arg_type) =3D=3D BOOLEAN_TYPE)
+> > ++          && known_lt (GET_MODE_SIZE (GET_MODE (arg_rtx)), 4))
+> > ++        {
+> > ++          if (TYPE_UNSIGNED (arg_type))
+> > ++            emit_set_insn (gen_rtx_REG (SImode, REGNO (arg_rtx)),
+> > ++                           gen_rtx_ZERO_EXTEND (SImode, arg_rtx));
+> > ++          else
+> > ++            emit_set_insn (gen_rtx_REG (SImode, REGNO (arg_rtx)),
+> > ++                           gen_rtx_SIGN_EXTEND (SImode, arg_rtx));
+> > ++        }
+> > ++    }
+> > ++    }
+> > ++
+> > +   if (IS_STACKALIGN (func_type))
+> > +     {
+> > +       rtx r0, r1;
+> > +diff --git a/gcc/testsuite/gcc.target/arm/cmse/extend-param.c b/gcc/te=
+stsuite/gcc.target/arm/cmse/extend-param.c
+> > +new file mode 100644
+> > +index 0000000000000000000000000000000000000000..01fac7862385f871f3ecc2=
+46ede95eea180be025
+> > +--- /dev/null
+> > ++++ b/gcc/testsuite/gcc.target/arm/cmse/extend-param.c
+> > +@@ -0,0 +1,96 @@
+> > ++/* { dg-do compile } */
+> > ++/* { dg-options "-mcmse" } */
+> > ++/* { dg-final { check-function-bodies "**" "" "" } } */
+> > ++
+> > ++#include <arm_cmse.h>
+> > ++#include <stdbool.h>
+> > ++
+> > ++#define ARRAY_SIZE (256)
+> > ++char array[ARRAY_SIZE];
+> > ++
+> > ++enum offset
+> > ++{
+> > ++    zero =3D 0,
+> > ++    one =3D 1,
+> > ++    two =3D 2
+> > ++};
+> > ++
+> > ++/*
+> > ++**__acle_se_unsignSecureFunc:
+> > ++**  ...
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char unsignSecureFunc (unsigned=
+ char index) {
+> > ++    if (index >=3D ARRAY_SIZE)
+> > ++      return 0;
+> > ++    return array[index];
+> > ++}
+> > ++
+> > ++/*
+> > ++**__acle_se_signSecureFunc:
+> > ++**  ...
+> > ++**  sxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char signSecureFunc (signed cha=
+r index) {
+> > ++    if (index >=3D ARRAY_SIZE)
+> > ++      return 0;
+> > ++    return array[index];
+> > ++}
+> > ++
+> > ++/*
+> > ++**__acle_se_shortUnsignSecureFunc:
+> > ++**  ...
+> > ++**  uxth    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char shortUnsignSecureFunc (uns=
+igned short index) {
+> > ++    if (index >=3D ARRAY_SIZE)
+> > ++      return 0;
+> > ++    return array[index];
+> > ++}
+> > ++
+> > ++/*
+> > ++**__acle_se_shortSignSecureFunc:
+> > ++**  ...
+> > ++**  sxth    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char shortSignSecureFunc (signe=
+d short index) {
+> > ++    if (index >=3D ARRAY_SIZE)
+> > ++      return 0;
+> > ++    return array[index];
+> > ++}
+> > ++
+> > ++/*
+> > ++**__acle_se_enumSecureFunc:
+> > ++**  ...
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char enumSecureFunc (enum offse=
+t index) {
+> > ++
+> > ++  // Compiler may optimize away bounds check as value is an unsigned =
+char.
+> > ++
+> > ++  // According to AAPCS caller will zero extend to ensure value is < =
+256.
+> > ++
+> > ++  if (index >=3D ARRAY_SIZE)
+> > ++    return 0;
+> > ++  return array[index];
+> > ++
+> > ++}
+> > ++
+> > ++/*
+> > ++**__acle_se_boolSecureFunc:
+> > ++**  ...
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++__attribute__((cmse_nonsecure_entry)) char boolSecureFunc (bool index=
+) {
+> > ++
+> > ++  if (index >=3D ARRAY_SIZE)
+> > ++    return 0;
+> > ++  return array[index];
+> > ++
+> > ++}
+> > +\ No newline at end of file
+> > +diff --git a/gcc/testsuite/gcc.target/arm/cmse/extend-return.c b/gcc/t=
+estsuite/gcc.target/arm/cmse/extend-return.c
+> > +new file mode 100644
+> > +index 0000000000000000000000000000000000000000..cf731ed33df7e6dc101320=
+c1970016f01b14c59a
+> > +--- /dev/null
+> > ++++ b/gcc/testsuite/gcc.target/arm/cmse/extend-return.c
+> > +@@ -0,0 +1,92 @@
+> > ++/* { dg-do compile } */
+> > ++/* { dg-options "-mcmse" } */
+> > ++/* { dg-final { check-function-bodies "**" "" "" } } */
+> > ++
+> > ++#include <arm_cmse.h>
+> > ++#include <stdbool.h>
+> > ++
+> > ++enum offset
+> > ++{
+> > ++    zero =3D 0,
+> > ++    one =3D 1,
+> > ++    two =3D 2
+> > ++};
+> > ++
+> > ++typedef unsigned char __attribute__ ((cmse_nonsecure_call)) ns_unsign=
+_foo_t (void);
+> > ++typedef signed char __attribute__ ((cmse_nonsecure_call)) ns_sign_foo=
+_t (void);
+> > ++typedef unsigned short __attribute__ ((cmse_nonsecure_call)) ns_short=
+_unsign_foo_t (void);
+> > ++typedef signed short __attribute__ ((cmse_nonsecure_call)) ns_short_s=
+ign_foo_t (void);
+> > ++typedef enum offset __attribute__ ((cmse_nonsecure_call)) ns_enum_foo=
+_t (void);
+> > ++typedef bool __attribute__ ((cmse_nonsecure_call)) ns_bool_foo_t (voi=
+d);
+> > ++
+> > ++/*
+> > ++**unsignNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++unsigned char unsignNonsecure0 (ns_unsign_foo_t * ns_foo_p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > ++
+> > ++/*
+> > ++**signNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  sxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++signed char signNonsecure0 (ns_sign_foo_t * ns_foo_p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > ++
+> > ++/*
+> > ++**shortUnsignNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  uxth    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++unsigned short shortUnsignNonsecure0 (ns_short_unsign_foo_t * ns_foo_=
+p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > ++
+> > ++/*
+> > ++**shortSignNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  sxth    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++signed short shortSignNonsecure0 (ns_short_sign_foo_t * ns_foo_p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > ++
+> > ++/*
+> > ++**enumNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++unsigned char __attribute__((noipa)) enumNonsecure0 (ns_enum_foo_t * =
+ns_foo_p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > ++
+> > ++/*
+> > ++**boolNonsecure0:
+> > ++**  ...
+> > ++**  bl      __gnu_cmse_nonsecure_call
+> > ++**  uxtb    r0, r0
+> > ++**  ...
+> > ++*/
+> > ++unsigned char boolNonsecure0 (ns_bool_foo_t * ns_foo_p)
+> > ++{
+> > ++  return ns_foo_p ();
+> > ++}
+> > +\ No newline at end of file
+> >
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199940): https://lists.openembedded.org/g/openembedde=
+d-core/message/199940
+> Mute This Topic: https://lists.openembedded.org/mt/106288402/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
