@@ -2,239 +2,146 @@ Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CB7C25B7E
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 08:45:21 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.17625.1716885914460262492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F8AC25B78
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 08:48:11 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.17677.1716886086708525007
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 01:45:14 -0700
+ Tue, 28 May 2024 01:48:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZLY5ZWA5;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e72224c395so4745661fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 01:45:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wq8nWjg+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso5252521fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 01:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716885912; x=1717490712; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1716886085; x=1717490885; darn=lists.openembedded.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0TxV6ugigDP6D0j8af84doFiQgWuBzNf5SG6P3PQ+aE=;
-        b=ZLY5ZWA5t/JLkiWWXgAtGJ28X9yw4Vf8MqYXi85ZZ9KMq53i4QjmMtHCkdN4rSUPbw
-         xMSifNW6KAZ1c+az3H1/Zw0brfJJSPZsfwXxkHr7sEJ+JKU03oN3Rv17HGXpLDRp2YvT
-         VSohRQg9DAWX5GE4UwXUOp3ts8dvLVDaPf5yrcVUA1/gJ/CFIo1UyOp0N3Tihl/8DvVt
-         sgQ8yy4tc4iLuK1hx9qmASpKXSrgbhHJs8m3kxbffo7nQfBdnnSR5PAAY+vbZEyxRRd/
-         JsP0fmkNA1H1BxuKM31Cs6fL+bYES2LlopMoDhCbUL/xHw9M9/MgjgH6sTxQsssoE40U
-         h7lA==
+        bh=sE6C41Hkfx4NdHaDtiE+I1COguMlu6pGbqQcO96Qlv4=;
+        b=Wq8nWjg+0ehOQ9OUYBQLLPbH+pcyEmy4n7FHFV8VCo70VMd7gTeYD8//iY79X/l8mr
+         anBaPfLqRFX7AYqi5/3DAPWYbgoB+eS4AHFa4zTq2Ks7kHo7nRN2lA9l1EJd+ufT9obK
+         FWHl8hLsjc7n8kSvqjMEenTQj6hOCLvrCiiaplnQExnUrJP75ZfsCGD9FLqXBSn97YRv
+         YiNf2OA9L9sDN+lM0/swNyfEmzQmYGETT7le51NsWGu4vvJ19x6u8iLRHHWbnp6rGSGc
+         SnXN7wWTgLQx9AQlSzD9R/Kv3fxO87TLavuagc2rWn+cfLh++WTeqv1RwaT+QrM/X1MU
+         sVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716885912; x=1717490712;
+        d=1e100.net; s=20230601; t=1716886085; x=1717490885;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0TxV6ugigDP6D0j8af84doFiQgWuBzNf5SG6P3PQ+aE=;
-        b=kWEGJSFpCrNUd/rto7+/qCEAok8ZBPRibCmuN5hJW7Ggt9WsjXrJdSDDzkHqsGgnBe
-         n0WtHR4DwLAxhrFHkxnTBZ6Sg8xeZHIx3BASTHWb/qInxVZXOJ+Azk1zqyhhFilPuAD+
-         dzmWIFKdiMAZc2GwM4l8INBoPTFHXT+3DPzOe1qocWDGmG8KN7IoPYVZuCvw8qtEsUiN
-         IB3RXVAQFTYLJjCA4nndZzEdCTxVEZvmE8FFh1WudXxYRIFJio8nECObut65EaHTfHlJ
-         irWF85d5/MCu8QVkrWkRea3UYcEM8pcnXp7N4YF/b5+pOanR0DXvT3KkBETwpOZyUXtc
-         f7qA==
-X-Gm-Message-State: AOJu0Yy1AJaSly3BhshHaoqMFu5WBmBzzf5NOSa8p5Jnl/7cJCnMu3gB
-	bHPTSgCWyRnFbspJH1WzRkM10bXWn2YTR2LOiluazfc85rmDU863
-X-Google-Smtp-Source: AGHT+IEhX2ZFLlNm1dBjeHla38duWBHkYktN+UL1upLDoLJBnKhZUdmKG7mAr9ZptuvDOHfdJMaD9g==
-X-Received: by 2002:a2e:9793:0:b0:2e0:9646:8512 with SMTP id 38308e7fff4ca-2e95b0c091bmr73628411fa.31.1716885911916;
-        Tue, 28 May 2024 01:45:11 -0700 (PDT)
+        bh=sE6C41Hkfx4NdHaDtiE+I1COguMlu6pGbqQcO96Qlv4=;
+        b=a3UQtdggRU+ShrpYgQD4H/tV7J8XLnOpaUV3aRUhHCUINs7ja0iP2AeLqgw4g9fqxO
+         iDGHWez8TMNelyPmTwLDzX/91eMeN09AbKJoBn9YSsYE9P2J2ZEuN3pN3rw0gdU8CwrT
+         nq0Ee9bfeL/hptBMhADEoZpTrm70zb1LqgtDw4aP9x1zm2Y/D1yifxMUl1xfKjNpiCnG
+         VZ1A3GYEonIXLOna/ebj7XEBIPMmCKPXmM7RKtYYb3Rv3i/F7dU4mvfVJnRYiPmUKCfZ
+         ZTd1xfiryqavHGhe5TOI/Wyd6qwE8Mq56vLfIF0JJYhNmnhGyMcHZo9FwjRu0BZJjsb+
+         Z21Q==
+X-Gm-Message-State: AOJu0YwiMp9LAbYak6IF8qsxyK+9dB3OZ+lxh5YE0bHM/q5T5a/TehiI
+	HRX/25r6o0AoUYGj7BEhixeb0ZRU8noa6di6auSGJuUnkiPXm8rOSDvuZA==
+X-Google-Smtp-Source: AGHT+IEz9G9sIZALifXP5sHByB1+ROpcEKE+O+5dlr7nqoKufTR085ZlY+EBeAGZ0qhBnKtYcenr+g==
+X-Received: by 2002:a05:6512:318c:b0:529:b5cb:d64c with SMTP id 2adb3069b0e04-529b5cbd6d2mr2368435e87.7.1716886084581;
+        Tue, 28 May 2024 01:48:04 -0700 (PDT)
 Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e98a3eca53sm628671fa.109.2024.05.28.01.45.10
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5296ee4c0adsm889958e87.94.2024.05.28.01.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 01:45:11 -0700 (PDT)
-Date: Tue, 28 May 2024 10:51:24 +0200
+        Tue, 28 May 2024 01:48:04 -0700 (PDT)
+Date: Tue, 28 May 2024 10:54:17 +0200
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
 To: Quentin Schulz <quentin.schulz@cherry.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] image-bootfiles.bbclass: new class, copy boot
- files to root filesystem
-Message-ID: <ZlWbDL4qswnioROL@gmail.com>
+Subject: Re: [PATCH v2 1/2] bootimg-partition: break out code to a common
+ library.
+Message-ID: <ZlWbuZAjLfG9BAVg@gmail.com>
 References: <20240525085023.6042-1-marcus.folkesson@gmail.com>
- <20240525085023.6042-3-marcus.folkesson@gmail.com>
- <a18ae6ed-1ab1-4ba7-93d3-e22e00d9554e@cherry.de>
+ <20240525085023.6042-2-marcus.folkesson@gmail.com>
+ <913d0052-6ba8-4e30-bea8-ce910acd9e64@cherry.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nNh598CAerwXmPHv"
+	protocol="application/pgp-signature"; boundary="/I3DsUimH/IISA4t"
 Content-Disposition: inline
-In-Reply-To: <a18ae6ed-1ab1-4ba7-93d3-e22e00d9554e@cherry.de>
+In-Reply-To: <913d0052-6ba8-4e30-bea8-ce910acd9e64@cherry.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 08:45:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199953
+ <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 08:48:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199954
 
 
---nNh598CAerwXmPHv
+--/I3DsUimH/IISA4t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
 Hi Quentin,
 
-Thank you for your in-depth review.
-It is probably obvious that Python is not my mother tounge, so all
-feedback is appreciated :-)
-
-On Mon, May 27, 2024 at 05:29:40PM +0200, Quentin Schulz wrote:
+On Mon, May 27, 2024 at 05:20:53PM +0200, Quentin Schulz wrote:
 > Hi Marcus,
+
+[...]
+
 >=20
-> On 5/25/24 10:50 AM, Marcus Folkesson wrote:
-> > image-bootfiles class copy files listed in IMAGE_BOOT_FILES
-> > to the IMAGE_BOOTFILES_DIR directory of the root filesystem.
-> >=20
-> > This is useful when there is no explicit boot partition but all boot
-> > files should instead reside inside the root filesystem.
-> >=20
-> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > ---
-> >   meta/classes/image-bootfiles.bbclass | 38 ++++++++++++++++++++++++++++
-> >   1 file changed, 38 insertions(+)
-> >   create mode 100644 meta/classes/image-bootfiles.bbclass
-> >=20
-> > diff --git a/meta/classes/image-bootfiles.bbclass b/meta/classes/image-=
-bootfiles.bbclass
-> > new file mode 100644
-> > index 0000000000..29a38ac631
 > > --- /dev/null
-> > +++ b/meta/classes/image-bootfiles.bbclass
-> > @@ -0,0 +1,38 @@
+> > +++ b/meta/lib/oe/bootfiles.py
+> > @@ -0,0 +1,56 @@
 > > +#
 > > +# SPDX-License-Identifier: MIT
 > > +#
 > > +# Copyright (C) 2024 Marcus Folkesson
 > > +# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
 > > +#
-> > +# Writes IMAGE_BOOT_FILES to the IMAGE_BOOTFILES_DIR directory
+> > +# Utility functions handling boot files
+> > +
+> > +# Look into deploy_dir and search for boot_files.
+> > +# Returns a list with files to copy.
 > > +#
-> > +#
-> > +# Usage: add INHERIT +=3D "image-bootfiles" to your image
-> > +#
 >=20
-> One is supposed to use inherit image-bootfiles inside recipes. INHERIT is
-> for global inherit, from configuration files, e.g. INHERIT +=3D "rm_work".
+> It returns a list of tuples with (original filepath relative to deploy_di=
+r,
+> desired filepath renaming) if I read the code properly, I think this is
+> really important information.
 
-Got it, thanks.
+Agree. I will add that to the comment.
 
+
+[...]
+
+> >   from glob import glob
 >=20
-> > +
-> > +IMAGE_BOOTFILES_DIR ?=3D "/boot"
-> > +
->=20
-> I would really suggest to have the exact same prefix as for the
-> IMAGE_BOOT_FILES variable since they are related. I would like to avoid t=
-he
-> DEPLOYDIR, DEPLOY_DIR confusion for example :)
+> You should be able to remove this import as it was only used in the code
+> that is now moved to the lib.
 
-Good point.
+True, I will remove the import.
 
 >=20
-> > +def bootfiles_populate(d):
-> > +    import shutil
-> > +    from oe.bootfiles import get_boot_files
-> > +
-> > +    boot_files =3D d.getVar("IMAGE_BOOT_FILES")
-> > +    deploy_image_dir =3D d.getVar("DEPLOY_DIR_IMAGE")
-> > +    boot_dir =3D d.getVar("IMAGE_ROOTFS") + d.getVar("IMAGE_BOOTFILES_=
-DIR")
-> > +
+> Otherwise looks good to me, so
 >=20
-> I would suggest to use
-> os.path.join(d.getVar("IMAGE_ROOTFS"), d.getVar("IMAGE_BOOTFILES_DIR"))
-> here to make it a tiny bit more robust to missing/redundant slashes (/) f=
-or
-> example.
-
-That is better.
-
+> Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 >=20
-> > +    install_files =3D get_boot_files(deploy_image_dir, boot_files)
-> > +    if install_files is None:
-> > +        return
-> > +
->=20
-> I'm wondering if we shouldn't print a warning or at the very least a note=
- if
-> boot_files is not empty but install_files is, this seems like there could=
- be
-> an issue no?
-
-Sounds good, I will add a print.
-
->=20
-> > +    os.makedirs(boot_dir, exist_ok=3DTrue)
-> > +    for entry in install_files:
-> > +        src, dst =3D entry
->=20
-> Those two lines could be merged into:
->=20
-> for src, dst in install_files:
->=20
-> I believe.
-
-Yep, it worked.
-
->=20
-> > +        image_src =3D os.path.join(deploy_image_dir, src)
-> > +        image_dst =3D os.path.join(boot_dir, dst)
-> > +        shutil.copyfile(image_src, image_dst)
-> > +
-> > +python bootfiles () {
-> > +   bootfiles_populate(d),
->=20
-> I'm surprised by the comma at the end of the line, is this required someh=
-ow?
-> What does this do?
-
-No it is not. It is a remnant from my debugging. Good catch though.
-
->=20
-> I'm also not entirely sure we need to have this additional indirection? Is
-> """
-> python bootfiles_populate() {
->     <code from def bootfiles_populate(d):>
-> }
-> IMAGE_PREPROCESS_COMMAND +=3D "bootfiles_populate;"
-> """
->=20
-> not working somehow (I don't know if it should, so just asking)? tinyinit=
-rd
-> in meta/recipes-core/images/core-image-tiny-initramfs.bb seems to be doing
-> it, so should/could be possible?
-
-I change it as suggested. bootfiles() did more things before I cleaned
-it up, so it is most of a remnant.
-
->=20
-> Cheers,
+> Thanks,
 > Quentin
-
 
 Best regards,
 Marcus Folkesson
 
---nNh598CAerwXmPHv
+--/I3DsUimH/IISA4t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZVmwcACgkQiIBOb1ld
-UjJPjg//eOU0QxryM4tj/mXUpAe/KEB6Ub1gG+JKoB55gYRkPbH63ng/1yCvmodw
-FcDl6oblKVry7t989LMSVD/WyJPjz/gKYXX2L19Ol2umCoSnTYf90CJYFZp+ItAU
-7zJfQa//6UJFigCcH+/VydfHJeHrBtZhK3NvEw5Oniws7ki/NATqOyP0t+OOn40U
-BXeO+De6i3QF1jHE1v5cRLmrCyY19OIUuVorcnvX9QypHx0+TEkWOc/yNLAUZvBw
-AFGZhP0ah0Wx7s2WB9EUAZv1g94xevio/MTvZtvuaZ4B4w80Yhiwk7rinktlkgul
-Ug5PZcOgKFy+QQ4MNLXtVDK4FNuPhEySlJkOm1D8ZKwNokb09cjE4BF+9ZhlD47S
-T2mCXg/xoapLLw1nMbf8bjarRRHkfjFqH4USRa7V2X5arCfKNZrI3MzZWmtl9/Rx
-fIyi0zZX0fkZBSN/R21NLCvG/XXl9oZmmLgbd5Xap2mYdlS7RTACJbaXi72FyyA5
-wGQaFC35I9GRdUnFkkO2L8iRS8yS2eKok+ON9Mok7usyrlKbbytBn9SWyprnc1tu
-7WU6tIG2xFZx2+VFB9oGu17IPsRpNaeNece7ZEUocvxHy4vdAbQOIaAps68aR0n2
-VUbox6j/MP2i0iaX6yge2vhRnvYQ4cigRhnlCwiH5vkDTO5Qv/4=
-=9M2y
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZVm7QACgkQiIBOb1ld
+UjLg6hAAvlP1O/Ny9pUN0AzowOmMyQM9VIYZ3f+Ll0yr11OVqfISlVVMVEFYMvQ5
+Txx9jnDuKpLmhwLVjIp5aLX/nDi42ImymN5gmtl61k8ngC0U6Im1iilq8/YyJVGq
+C1ZEWBosYthb1MjxjGeQ8F1iq0w42Va/rzsG4lMmZq5MtOdGgbMNqb3BHWjLcz9h
+HGdHJGMLBxU4zsHjS5Stdr3qwTkeLhznADuKsNKh5BD8VSduT9U5lHYRUUx2CmGy
+O0REmQv43fcZGgz79jzbetg3bJ1eb4w8VccyYEqQz4bK/bQROTT1fesP0yUX5B5x
+DmBHkvYf8FNEHIrce1o/fESVryDI8pACebB3fht4cg+dB7qw/2tumxRcfQxJcyq0
+roWZ+1e1OcYvTuYyMjNO5gxZOyfXaSsE5ISohD7IrVt/IdqnkCBDIb8FLQiBrUQw
+1+b0C1qBW77kUf4hXmieqmkJRHI6LXEXGBDJyVsgbWLVGtwO8VMr0mpsBEHv/I8d
+cprtYlivQ/cGTrSK40UrdpHxDxgLB4pN9BR3XqniJaGYGNGSIPt1DRjvCRLqaNKR
+xTiS+GUaXAi9PcmAen5crb9Dneb99GiKBXb6V9cELrGzQ7TqRIrcY1MTHafNvqsP
+ZqUkuf0ZZUInCg/XnEw2VBD4xqcypj2AARN/IMPReZCeTVgzAk8=
+=IKp+
 -----END PGP SIGNATURE-----
 
---nNh598CAerwXmPHv--
+--/I3DsUimH/IISA4t--
 
