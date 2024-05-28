@@ -1,137 +1,91 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A962C25B78
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 09:11:21 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.17996.1716887472293633956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 875DAC25B78
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 09:12:41 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.17738.1716887560728322564
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 02:11:12 -0700
+ Tue, 28 May 2024 02:12:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5878445e50=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44S5hgXw015627
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:11:11 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yb56xat8f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:11:10 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 28 May 2024 02:11:09 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 28 May 2024 02:11:08 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gettext: fix a parallel build issue
-Date: Tue, 28 May 2024 17:11:07 +0800
-Message-ID: <20240528091107.2942760-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PTwaeExd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42108739ed8so6675225e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 02:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1716887559; x=1717492359; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kMNdbAclDWBQoPko8ND0+ckUSGUhbLpX4VWgK7teK6k=;
+        b=PTwaeExdL/2u1ShTnZXiMzokGuop2qnREFApLdLY91jNnmp9b3wlR9W1RpmBNYvuZp
+         sv/0jyTWBoJB61McR6jNI7PbpADBSljKExnhaWsY7tsMVVhM7IRhL50EV8Nce7b6/RQF
+         x8f3EyVQYXtltOICOwSC/C7YXmGYRiddP3500=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716887559; x=1717492359;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kMNdbAclDWBQoPko8ND0+ckUSGUhbLpX4VWgK7teK6k=;
+        b=hq0kVrps/ZQL7RX4Ji5SKnb7s2BbzqpPRR4hI/oHgkCGYrBG0swpBL0BnBAbsReeUT
+         LPRvczfJezPQ+3BOxy4tbKJlGlbT7JBJACaQNDfLAVuW4tlNW3tF4gL9W1I/bksv3Lrg
+         gw6E9yVtpt49/HbtfVWVyHUYOeDR8eg/dvutoBxkEu4wD5QBI/cxLx+yvRhCm36Gu9nc
+         5jxGqZDayoWT/T5eC/LyAqZBCw4dxGVvK33oetcGDJmA5u3ThskiygRuViy3O9oz1XdM
+         MgfjoclzZdI05zcKClf0TtwPh9SVZBxoj8d57mcuw3TpAQQdfa+Q62+Ja3+gXkbNMsDv
+         vUFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3gzCXUdUG1EsXgVTWOk+4TdfvX0VjBAmU1t/dd2AkxFYW05gqo1yX+VT32lteBzaSuBFsOCGOYH9Tw0HC/cW3YjzGtGrSeBppaCRonq3znrEuVVsptIgg
+X-Gm-Message-State: AOJu0Yz6EpE5Epqtz66Vaxnw6WVxe2l6CKBUTgu4r8kSsnLLL6oKWdnb
+	Px/aDKmx4wTA/KckXUvr6pWVx/L+vOtmddWqhUojgr+bReQQdgTsJAgOMo7Po/A=
+X-Google-Smtp-Source: AGHT+IEw/irQ3DO1uiUtVQrhLsRLM62e/2wPyKL8Zpve02Ujoy3+l6Anv1J81EXtiMIkBR0K9PrgdQ==
+X-Received: by 2002:a05:600c:230d:b0:420:78f:3f9b with SMTP id 5b1f17b1804b1-42108aa76ddmr111965015e9.37.1716887559024;
+        Tue, 28 May 2024 02:12:39 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c80a:eb7f:7a2b:52fb? ([2001:8b0:aba:5f3c:c80a:eb7f:7a2b:52fb])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f64f98sm164336715e9.24.2024.05.28.02.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 02:12:38 -0700 (PDT)
+Message-ID: <ce588f0bbf43dedba074729d8bf501bee74be038.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-requests: cleanup RDEPENDS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: gudni.m.g@gmail.com, openembedded-core@lists.openembedded.org
+Date: Tue, 28 May 2024 10:12:37 +0100
+In-Reply-To: <14282.1716026696060933601@lists.openembedded.org>
+References: <20240518094833.1036611-1-gudni.m.g@gmail.com>
+	 <14282.1716026696060933601@lists.openembedded.org>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: L74Nl_0klC9Plpwo8fnAlxf2eX-mvHIi
-X-Proofpoint-GUID: L74Nl_0klC9Plpwo8fnAlxf2eX-mvHIi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-28_05,2024-05-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 suspectscore=0 spamscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405280068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:11:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199962
+ <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:12:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199963
 
-From: Changqing Li <changqing.li@windriver.com>
+On Sat, 2024-05-18 at 03:04 -0700, Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org wrote:
+> To continue fixing
+> https://lists.openembedded.org/g/openembedded-core/message/199250 I'm
+> now using a personal email instead my work email=C2=A0 (I'm not being pai=
+d
+> for this anyway :) ).
+>=20
+> I suspect the problem is I was sending the patch as an attachment.
+> That should be fixed now and the patch content should be inline, at
+> least it appears that way in my own email inbox.
 
-Occasionally, gettext will build failed with error:
-In file included from ../../../gettext-0.22.5/gettext-runtime/intl/gettextP.h:71,
-                 from ../../../gettext-0.22.5/gettext-runtime/intl/log.c:24:
-./libgnuintl.h:98:1: error: unterminated comment
-   98 | /* The user can define _INTL_RE
-      | ^
-./libgnuintl.h:17: error: unterminated #ifndef
-   17 | #ifndef _LIBINTL_H
+I wanted to mention this worked much better thanks! Sorry for the
+delayed reply. The patches should have merged.
 
-In file included from ../../../gettext-0.22.5/gettext-runtime/intl/gettextP.h:71,
-                 from ../../../gettext-0.22.5/gettext-runtime/intl/langprefs.c:25:
-./libgnuintl.h:98:1: error: unterminated comment
-   98 | /* The user can define _INTL_RE
-      | ^
-./libgnuintl.h:17: error: unterminated #ifndef
-   17 | #ifndef _LIBINTL_H
+Cheers,
 
-It is a parallel build issue caused by missing dependencies, backport
-patch to fix it.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...1-intl-Fix-build-failure-with-make-j.patch | 35 +++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.22.5.bb   |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-make-j.patch
-
-diff --git a/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-make-j.patch b/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-make-j.patch
-new file mode 100644
-index 0000000000..144259dd3f
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-make-j.patch
-@@ -0,0 +1,35 @@
-+From 97a6a63ad61949663283f5fad68c9d5fb9be1f15 Mon Sep 17 00:00:00 2001
-+From: Bruno Haible <bruno@clisp.org>
-+Date: Tue, 12 Sep 2023 11:33:41 +0200
-+Subject: [PATCH] intl: Fix build failure with "make -j".
-+
-+Reported by Christian Weisgerber <naddy@mips.inka.de> at
-+<https://lists.gnu.org/archive/html/bug-gettext/2023-09/msg00005.html>.
-+
-+* gettext-runtime/intl/Makefile.am (langprefs.lo, log.lo): Depend on gettextP.h
-+and its subordinate includes.
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commit;h=97a6a63ad61949663283f5fad68c9d5fb9be1f15]
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ gettext-runtime/intl/Makefile.am | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gettext-runtime/intl/Makefile.am b/gettext-runtime/intl/Makefile.am
-+index da7abb758..9e56978bc 100644
-+--- a/gettext-runtime/intl/Makefile.am
-++++ b/gettext-runtime/intl/Makefile.am
-+@@ -387,8 +387,8 @@ dngettext.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo
-+ ngettext.lo:         ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
-+ plural.lo:           ../config.h $(srcdir)/plural-exp.h $(PLURAL_DEPS)
-+ plural-exp.lo:       ../config.h $(srcdir)/plural-exp.h
-+-langprefs.lo:        ../config.h
-+-log.lo:              ../config.h
-++langprefs.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
-++log.lo:              ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
-+ printf.lo:           ../config.h
-+ setlocale.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
-+ version.lo:          ../config.h libgnuintl.h
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/gettext/gettext_0.22.5.bb b/meta/recipes-core/gettext/gettext_0.22.5.bb
-index 1a66d37916..7eeb1a86fd 100644
---- a/meta/recipes-core/gettext/gettext_0.22.5.bb
-+++ b/meta/recipes-core/gettext/gettext_0.22.5.bb
-@@ -28,6 +28,7 @@ SRC_URI += " \
-            file://serial-tests-config.patch \
-            file://0001-tests-autopoint-3-unset-MAKEFLAGS.patch \
-            file://0001-init-env.in-do-not-add-C-CXX-parameters.patch \
-+           file://0001-intl-Fix-build-failure-with-make-j.patch \
-            "
- 
- inherit autotools texinfo pkgconfig ptest
--- 
-2.25.1
-
+Richard
 
