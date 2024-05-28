@@ -1,127 +1,102 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76560C25B78
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 09:01:41 +0000 (UTC)
-Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
- by mx.groups.io with SMTP id smtpd.web10.17612.1716886894213135980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 562EDC25B7C
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 09:02:31 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.17884.1716886942197022400
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 02:01:34 -0700
+ Tue, 28 May 2024 02:02:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
-Received: from fwd82.aul.t-online.de (fwd82.aul.t-online.de [10.223.144.108])
-	by mailout12.t-online.de (Postfix) with SMTP id 7522214E32
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 11:01:32 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.40.240]) by fwd82.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sBsi3-0vtLO50; Tue, 28 May 2024 11:01:31 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] libadwaita: update 1.5.0 -> 1.5.1
-Date: Tue, 28 May 2024 11:02:10 +0200
-Message-ID: <20240528090210.1936542-1-f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LqLaIzs0;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5238fe0cfc9so517954e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 02:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716886940; x=1717491740; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r/jJh9rOnxFrls1CVRv9gAIarWRemtMNMAeBQBNVswI=;
+        b=LqLaIzs0k/gvgleVmGS0HpaX/Pa6mqi1y6UxiAEmkkng9ZW5jv3o2RBvx2ScfEq2oz
+         prpN60DfjvlFdWj/WPsLFhnnHyMkW/pgRACRJ5xsGKtUpmNLSEeyNHSW9o6auVKKw6BA
+         ddYc37/8X4kJh1/jhhBSWc1KckeXPRV8Y1r05Jqcf2QinVu4kqprmqKnpnBt9llQTrOz
+         QZC74hMCbcxMQXLYs/KDRj5lILqctRdVgKu02Xpx3WCnm+A/OtzksqZfpR/sr+3V/RAn
+         SawWvWeBVZp+JQZfk/kS65CdMzIbgR3Q18CZEhUa0oCcJODu43LfFaVxoMsBgSfQPQRD
+         RSfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716886940; x=1717491740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r/jJh9rOnxFrls1CVRv9gAIarWRemtMNMAeBQBNVswI=;
+        b=O5+jsLMEPL+VAM4d91z5XQBlXgz8S5i9wvQQyndWMaOxXPzKAGDSZnuZgi1+cGjQxI
+         ZAAJKe9mUkovAC0qW6oSZeyWPlW1EWdHefPWa8P6Xg/btOoQjSVbA/fHnuD+//bDa5uj
+         9frfwGSy+sXd2xh2+NkdVgvsf0rvsSvSK8v7FUuy5dcp8dn4TXvj27JGNOdM5kmSVSPS
+         TUsCE0hps6MepVI+/gyrM6RHAsuzZCzTSP0P+fTAoFYDTBa2wNqHmpv68uL0Q9P81jRB
+         HMZ5nyI51rdwZp0D0yVagVbF9i3ze7lV9RwUafsioGcPDUSo25sHwb6NlGKICzekFZFb
+         xdag==
+X-Gm-Message-State: AOJu0YxWRpaK8dEU5KC6cazhQkv8n9u8yJwpcTe9uOhFV+cuBMTBpNbv
+	KukKFAB74nGjN6LZ2vrR0XClcsMZRqQKr5raiz4eGMULuJtIsFUX9l5IPQ==
+X-Google-Smtp-Source: AGHT+IGOE9bA6CiP3QFwBOiabZCUlJm3XEKCql3ReoVHZGJbNwB0/8c9JfVmGY5nvsMo7znUqvR5FA==
+X-Received: by 2002:a05:6512:488c:b0:51a:cdc4:dd48 with SMTP id 2adb3069b0e04-527eee35cd8mr4498723e87.3.1716886939524;
+        Tue, 28 May 2024 02:02:19 -0700 (PDT)
+Received: from localhost.localdomain (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52970c3327esm887095e87.196.2024.05.28.02.02.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 02:02:19 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Quentin Schulz <quentin.schulz@cherry.de>
+Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [PATCH v3 0/2] image-bootfiles: new class
+Date: Tue, 28 May 2024 11:08:30 +0200
+Message-ID: <20240528090832.725884-1-marcus.folkesson@gmail.com>
 X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1716886891-14BEE352-8F0E75BA/0/0 CLEAN NORMAL
-X-TOI-MSGID: fed63360-5078-4c67-9c8a-beb4cb631974
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:01:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199957
+ <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 09:02:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199958
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.5.1
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The image-bootfiles class is used to put all files listed in
+IMAGE_BOOT_FILES into the root filesystem.
 
-- AdwAboutDialog/Window
-  - Fix an outdated appstream reference in docs
-- AdwActionRow
-  - Mention .property in docs
-- AdwAlertDialog
-  - Fix the accessible role
-  - Fix initial focus
-- AdwAvatar
-  - Fix portrait avatars on hidpi
-- AdwBin
-  - Fix a potential focus issue
-- AdwBreakpoint
-  - Fix add_setter() annotations
-- AdwCarousel
-  - Fix a build warning
-- AdwComboRow
-  - Fix initial checkmark
-  - Handle model changes properly
-- AdwDialog
-  - Fix accessibility warnings
-  - Make shortcuts work when there are no focusable widgets
-  - Correctly restore focus when opening a dialog from a menu
-  - Fix GtkWindow:deletable=3Dfalse hiding close buttons in dialogs
-- AdwExpanderRow
-  - Fix get_title_lines() and get_subtitle_lines() return types
-  - Fix remove() docs
-- AdwOverlaySplitView
-  - Unmap sidebar when it's hidden
-- AdwPreferencesGroup
-  - Fix a potential focus issue
-  - Fix :header-group annotations and notifications
-- AdwPreferencesPage
-  - Fix a potential focus issue
-- AdwTabView
-  - Document :close-page return value
-  - Fix a leak when closing the last page
-- AdwViewStack
-  - Fix a typo in docs
-- Docs
-  - Update screenshots
-- Stylesheet
-  - Fix entry progress bars
-- Add missing return annotations
-- Translation updates
-  - Brazilian Portuguese
-  - Hindi
-  - Kabyle
-  - Portuguese
-  - Slovak
+IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
+files into a boot partition. 
+Be able to list files as "boot files" in e.g. your .conf or image files
+instead of install those in every recipe is a good thing.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../libadwaita/{libadwaita_1.5.0.bb =3D> libadwaita_1.5.1.bb}    | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.5.0.bb =3D> libadwait=
-a_1.5.1.bb} (88%)
+It is not always desired to have a separate boot partition for boot
+files. Sometimes it could be good to have them as a part of the root
+filesystem.
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.5.1.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
-index b0b1e4502a..6cb67c0db0 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
-@@ -3,7 +3,6 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libadwaita"
- LICENSE=3D"LGPL-2.1-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c"
-=20
--
- DEPENDS =3D " \
-     gtk4 \
-     appstream \
-@@ -11,7 +10,7 @@ DEPENDS =3D " \
-=20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
-=20
--SRC_URI[archive.sha256sum] =3D "fd92287df9bb95c963654fb6e70d3e082e2bcb37=
-b147e0e3c905567167993783"
-+SRC_URI[archive.sha256sum] =3D "7f144c5887d6dd2d99517c00fd42395ee20abc13=
-ce55958a4fda64e6d7e473f8"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
---=20
+For example, if a double copy strategy is used for update the system,
+then you probably want to update both the boot files and root filesystem
+at the same time as there may be dependencies.
+
+v2:
+    - Removed the documentation from the patch series (will be submitted later)
+    - Break out the parts in bootimg-partition that is used by
+      image-bootfiles to a common library
+    - Make the destination directory in root filesystem configurable
+v3:
+    - See changelog in patches
+
+Marcus Folkesson (2):
+  bootimg-partition: break out code to a common library.
+  image-bootfiles.bbclass: new class, copy boot files to root filesystem
+
+ meta/classes/image-bootfiles.bbclass          | 38 +++++++++++++
+ meta/lib/oe/bootfiles.py                      | 56 +++++++++++++++++++
+ .../wic/plugins/source/bootimg-partition.py   | 39 +------------
+ 3 files changed, 97 insertions(+), 36 deletions(-)
+ create mode 100644 meta/classes/image-bootfiles.bbclass
+ create mode 100644 meta/lib/oe/bootfiles.py
+
+-- 
 2.45.1
 
 
