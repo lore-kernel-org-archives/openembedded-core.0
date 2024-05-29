@@ -1,84 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE00AC25B75
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 10:00:08 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.10106.1716976802288005592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CB3C27C44
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 10:09:09 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.10231.1716977344416419908
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 May 2024 03:00:02 -0700
+ Wed, 29 May 2024 03:09:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IyD2rV+Q;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5295eb47b48so2347550e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 03:00:02 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=Efa/SFxX;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.41, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a61b70394c0so212772766b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 03:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716976800; x=1717581600; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J8uhZLTl1rJ822/BFB5I7ZmLK+6kVzmPohHbgZNwWHc=;
-        b=IyD2rV+Q8L/h/QV5hX1eeeS5jY3ZV3RTg8o2FgG9ymUKfi30HUlHhBFu+3+jwRravU
-         30YAjsQjUGf3pQACnKvrBIaArMQEOb+1ndMRaVTAzfFcgWsAYbEP+b3H2afoPqwA0B5k
-         RGA+ltZqa7bPpoPXAp3Bbkjt8HN1iSeAqf+MvvG/4mXO9KHWSSLQeNwECj5CPJyCEw3o
-         Rrxd2JNbE8Dvw5ImkpBuF/NLo5qI7S3KLP6mTo4beRQlG24wXx3H58l40YzyhALH/lpq
-         4pkVZRCL2j/GhWTR2bPr5kE62My5xxIpNB6gSWNY1Vb6D3rt43ioN2mWznVJx1DyDnX3
-         nvHw==
+        d=snap.com; s=google; t=1716977342; x=1717582142; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eMk3h8o3M8ZXu6i8xcvH268COrj2EMWTPnLhY2pBDJA=;
+        b=Efa/SFxXo/Vo9Ka69T4sITSdj0hTZmhqgJ4ldEQ8l7gVgX7zb6XVfZynCcgn01Ezlm
+         OvqGzsvPvKBfeQ461wJv32I+gyWGB0JoMj9k767HidHlkQ+TmWNvU9ccD1GlI6LPJJKd
+         uYZh1EL2ywwvoiSXN01jdZ/+gSSnbGNpa3hT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716976800; x=1717581600;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1716977342; x=1717582142;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J8uhZLTl1rJ822/BFB5I7ZmLK+6kVzmPohHbgZNwWHc=;
-        b=SjpPY2Yy4akvQRmBZFYnCuxZOFAyUzgFUtOzp1cobMdzORitF+tm2HqFykGnBgyi2m
-         ufPoiVTKUW41JwskdgolH1W15+1+OYrdZcsL3VlV/J2mUQZ3eE534fyusii90D0QaPHi
-         15QALPhNHtAqTIcB9qJvE6tlfb6ge8wDYaHqqYPAZ7jFJ1PAozN+M4bstVyoLn84EI3V
-         Oy4xRbSwXOujM97gU35ndBSytcSNvC3kqll7Azg4zMrQtpWvP+Bof5xfMommQqbMxfD9
-         pDm8LemEZeCPyg4tCopIdvicv+FsshmAc0klXzTJMFJDU6I4TZmyyYCJbtYWLPzQsATr
-         wWrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMaS5yA94VUd3LOECVU3GC9WZD2IADHXl6EML3AJOfhw5fU7FOOJBViatBlInXMHaYuwRMkVaMjFXKPqnmeoBidSLd1Wi+uq9pfTghWkDRfj2m0O3eBBZN
-X-Gm-Message-State: AOJu0YwiFna6QFxC+d8HHUYflLcfCH0Pv27AWvF1brjitXiNoPA8McYs
-	Hej6l3nSYTuqtQwecEqsXrpTJCSMsFXkutEvuL6j+F3elXJ99qJTBNiIy3U5P2rB7xvOjzC7c7m
-	VYSwv/a4JwUy2CkmMrTT9+qfFXsw=
-X-Google-Smtp-Source: AGHT+IGWfHFfPC+9byRUk1RJx/aaiJmk/duX6HANj0eGdGkxOZN+2kF1UgUBzAMVhxF3HeZzw8rjPMgoT+LgFOS3+bM=
-X-Received: by 2002:a2e:990a:0:b0:2da:b59c:a94b with SMTP id
- 38308e7fff4ca-2e95b1dbd90mr87935201fa.25.1716976800278; Wed, 29 May 2024
- 03:00:00 -0700 (PDT)
+        bh=eMk3h8o3M8ZXu6i8xcvH268COrj2EMWTPnLhY2pBDJA=;
+        b=urcaJlGsXGWjP9Zi+gAXr+WwX7lx6ZaMZJG505bacdOUYAIjPIFybgYIFplz1LZNyM
+         bUFlWP6PfKoBRCVWiPbRq5V+SwqcwBDVu1l/BMwb8IszdSPGZpxNGjJrqrHjg5r95d+y
+         Uvdlwo1F6R+KJbzrLZp9K6MNP2jb6hRKT2C0djEadNacjsMt4U5a+M0Ae0TnCKoN0bb/
+         ygtKDx53OodNFBJjUTU8XSz+myRWyO+PfC2wRUVasuEIdPJ9VCPQ0sG+dFx1Mp/Vc1iM
+         DvGyuMhnyBahkK1vSDmcf0447EVZ3MAUm2ply41rfPlnu8O9svaUSe+o25Jrt5c86M0E
+         ZcXg==
+X-Gm-Message-State: AOJu0YzxI6ld0JQGqPljp1J4GKNrM/RUKsre+O518YJg0TW/bR6MW5p4
+	B8mnPfa8agp5HAepFS2lPcUnPPDRkcN1Y4y0F98oCx2/zRPS0jti3wqCR2cazSKyb5i/+v3G3hx
+	OKMugxA==
+X-Google-Smtp-Source: AGHT+IE5+BrsNUrr6rzrbwea30e+2GUU2igkAN6ZrGf6ipmdx/AY/8HjTagw92xn0PEwDwXaBkQ8JA==
+X-Received: by 2002:a17:906:f993:b0:a62:6d4a:3e70 with SMTP id a640c23a62f3a-a626d4a4ae9mr903573266b.29.1716977342109;
+        Wed, 29 May 2024 03:09:02 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda8fbbsm701044166b.217.2024.05.29.03.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 03:09:01 -0700 (PDT)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] oeqa/runtime: fix regression in minidebuginfo test
+Date: Wed, 29 May 2024 12:08:53 +0200
+Message-Id: <20240529100853.1162640-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
-References: <20240525050348.2443339-1-Qi.Chen@windriver.com>
- <20240528180621277ecf41@mail.local> <c92cb41a-8d19-6d7f-bd6d-6a583096ac0d@windriver.com>
-In-Reply-To: <c92cb41a-8d19-6d7f-bd6d-6a583096ac0d@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 May 2024 11:59:49 +0200
-Message-ID: <CANNYZj8+BSsHL4A=y5JTE1OxuziwgefoEJDPEVR5BXDvbEnh7A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V2] util-linux/util-linux-libuuid: upgrade from
- 2.39.3 to 2.40.1
-To: Qi.Chen@windriver.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 10:00:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199998
+ <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 10:09:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199999
 
-On Wed, 29 May 2024 at 04:45, Chen Qi via lists.openembedded.org
-<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
-> Looking at the contents, I don't think the above fix is appropriate to
-> backport to 255. So we have two options:
->
-> 1) Modify meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt to
-> include the above error message so that the parselogs testcase does not
-> fail. We'll then remove it when we upgrade systemd to 256 in the future.
->
-> 2) Hold this util-linux upgrade until systemd 256 is released. I'll do
-> the upgrade and check this problem again at that time.
->
-> Which one do you prefer?
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Thanks for investigating. My preference is to wait for a systemd
-release that includes the fix.
-(they might still backport it to 255.x)
+The builtin command "sleep" was getting executed instead of the busybox binary.
+Hence "pidof sleep" was empty and the test was failing.
 
-Alex
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/lib/oeqa/runtime/cases/systemd.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+index 5481e1d840..a2229848e7 100644
+--- a/meta/lib/oeqa/runtime/cases/systemd.py
++++ b/meta/lib/oeqa/runtime/cases/systemd.py
+@@ -145,7 +145,7 @@ class SystemdServiceTests(SystemdTest):
+         Verify that call-stacks generated by systemd-coredump contain symbolicated call-stacks,
+         extracted from the minidebuginfo metadata (.gnu_debugdata elf section).
+         """
+-        t_thread = threading.Thread(target=self.target.run, args=("ulimit -c unlimited && sleep 1000",))
++        t_thread = threading.Thread(target=self.target.run, args=("ulimit -c unlimited && /usr/bin/sleep 1000",))
+         t_thread.start()
+         time.sleep(1)
+ 
+-- 
+2.36.1.vfs.0.0
+
 
