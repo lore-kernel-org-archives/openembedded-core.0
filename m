@@ -1,244 +1,404 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 521A0C27C43
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 10:51:09 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.10879.1716979860472315947
- for <openembedded-core@lists.openembedded.org>;
- Wed, 29 May 2024 03:51:00 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=fl7b/c+z;
- spf=pass (domain: snapchat.com, ip: 209.85.218.46, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a59a352bbd9so124991766b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 03:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1716979859; x=1717584659; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mDDhDf8OiUWkQ14UHlTjXXsIExc8vNqRk36o2xOn+vE=;
-        b=fl7b/c+zICAX+KQPsO99hKhNNAsHw9OikiU4cR18q1Xn0yIKIWCL8S5M6xIQXyzyh5
-         Tiaci3oeYQNJmoDujHnP+JgAWAy83+OlPFhrQk4RCzDzAigR7RSz1hV4WZLREHLGERkv
-         NxnN7McoXUFT7YOWuAMbuM0EuXnC/sdA/kHt4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716979859; x=1717584659;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mDDhDf8OiUWkQ14UHlTjXXsIExc8vNqRk36o2xOn+vE=;
-        b=v6GiHzLUMxXzAgdXzXE0CHNS+nw02A5hbCSl9xoXag4HZXJLOjEvjwvtvSuV5faHb4
-         3LKCPkz2FLjWnDFnWmVmN0tBATBBaYIRQdUg9JYUH+vq+FphVcODeQBAd4M1gIkS0or8
-         v4MRmIwJCnofrg8qf2jNZGftwv3Cuu9h9UNgNbPjB+ZeHulBHo7eOjzTjSbkIXktzdla
-         CuYYPvGqZ1FRWQbOCvNwMocDkbEiA2JeiutyHaocHP2kFviNpN3irSU5D/2b6KMXgpUO
-         YqBn6cQHECkXyxbB6qv5+PY0Uy+erDr2C20f5jeyxXJt2XfD1icOUu+31t0qcZoraeBW
-         NlOg==
-X-Gm-Message-State: AOJu0YxgNxQqiCH6M97FmadhwS4DBk/iZlb6C6E96s8Gvxkd1QfGdDkQ
-	RJyavenmHJu3ybIsicah5NxuHbFcbcSa0Xu1AU++t7tpc9qAJEGGMi3/nB5FYVrxLxpIy128Hf5
-	N0s1qISsDwXc/Bhlz6DoXGW/tm+QDhCoiCqnkWw==
-X-Google-Smtp-Source: AGHT+IF0axY+dYyorlcW62SH9HOMvReUVvRSVnFMhCHnS1Mz3ahg8ZM9IFKB+w1gzxptwVOaWDZGgUTsu4szrhZjOBw=
-X-Received: by 2002:a17:906:7b86:b0:a59:aa7a:3b16 with SMTP id
- a640c23a62f3a-a642d2787b8mr161900166b.4.1716979858758; Wed, 29 May 2024
- 03:50:58 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB09C25B75
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 11:57:19 +0000 (UTC)
+Subject: Re: [PATCH] buildhistory: Fix do_package race issues
+To: openembedded-core@lists.openembedded.org
+From: pmi183@gmail.com
+X-Originating-Location: Vila Nova de Foz Coa, Guarda, PT (213.205.68.220)
+X-Originating-Platform: Windows Chrome 125
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20231205133754.906479-1-ecordonnier@snap.com> <db4abfaf9dfeead32dd8fbf1f620d9ebe4e128d2.camel@linuxfoundation.org>
-In-Reply-To: <db4abfaf9dfeead32dd8fbf1f620d9ebe4e128d2.camel@linuxfoundation.org>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Wed, 29 May 2024 12:50:47 +0200
-Message-ID: <CAHUKmYZCQ+daHJ9uwV=ZN0jLW7PqniNU2XKcBBWVJ8j0=01Jmw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] gdb/systemd: enable minidebuginfo support conditionally
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000091833c061995864c"
+Date: Wed, 29 May 2024 04:57:16 -0700
+References: <CANNYZj92hE=tRTpYX9LB2FnbOZsJ6gSmtdJE3zqtop-Nhzzfrg@mail.gmail.com>
+In-Reply-To: <CANNYZj92hE=tRTpYX9LB2FnbOZsJ6gSmtdJE3zqtop-Nhzzfrg@mail.gmail.com>
+Message-ID: <26273.1716983836341504845@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="1ZWcBsmrbs9D9idSKwKa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 10:51:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200002
+ <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 11:57:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200003
 
---00000000000091833c061995864c
-Content-Type: text/plain; charset="UTF-8"
+--1ZWcBsmrbs9D9idSKwKa
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
-I had missed your reply. I have changed my email filters so hopefully this
-won't happen again (still learning how to work with mailing-lists). I sent
-another patch fixing a regression in the test:
-https://lists.openembedded.org/g/openembedded-core/message/199999
-I tested core-image-sato locally today and it is working with this
-configuration as far as I can tell:
-DISTRO=3D"poky-altcfg"
-DISTRO_FEATURES +=3D "minidebuginfo x11"
-TEST_SUITES +=3D "ping ssh systemd"
-IMAGE_CLASSES +=3D "testimage"
-MACHINE ?=3D "qemux86-64"
+Hi Alex,
 
-https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
-=3D9c069e00a0867de11a6069b99a07d2c775848c10
-is not a valid link any more, so I'm not sure which constraint you had to
-put to the test.
+Patch 1 - fixes race condition detected while executing functions registere=
+d on `SSTATEPOSTINSTFUNCS`
+---
+meta/classes-global/sstate.bbclass | 3 ++-
+1 file changed, 2 insertions(+), 1 deletion(-)
 
-=C3=89tienne
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
+e.bbclass
+index 76a7b59636..9887169e4f 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -403,7 +403,6 @@ def sstate_installpkgdir(ss, d):
+for state in ss['dirs']:
+prepdir(state[1])
+bb.utils.rename(sstateinst + state[0], state[1])
+- =C2=A0 =C2=A0sstate_install(ss, d)
 
+for plain in ss['plaindirs']:
+workdir =3D d.getVar('WORKDIR')
+@@ -416,6 +415,8 @@ def sstate_installpkgdir(ss, d):
+prepdir(dest)
+bb.utils.rename(src, dest)
 
-On Fri, Dec 8, 2023 at 12:26=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
++ =C2=A0 =C2=A0sstate_install(ss, d)
++
+return True
 
-> On Tue, 2023-12-05 at 14:37 +0100, Etienne Cordonnier via
-> lists.openembedded.org wrote:
-> > From: Etienne Cordonnier <ecordonnier@snap.com>
-> >
-> > Enabling minidebuginfo is not useful if gdb and systemd-coredump
-> > are unable to parse it.
-> >
-> > In order to parse it, gdb needs xz support. Systemd needs coredump
-> enabled, as
-> > well as elfutil enabled as well (systemd-coredump loads libdw which is
-> part of elfutils using dlopen).
-> >
-> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> > ---
-> >  meta/classes-global/package.bbclass           |  2 +-
-> >  meta/lib/oe/package.py                        |  2 +-
-> >  meta/lib/oeqa/runtime/cases/systemd.py        | 21 +++++++++++++++++++
-> >  meta/lib/oeqa/selftest/cases/minidebuginfo.py |  2 +-
-> >  meta/recipes-core/systemd/systemd_254.4.bb    |  1 +
-> >  .../elfutils/elfutils_0.189.bb                |  4 +++-
-> >  meta/recipes-devtools/gdb/gdb-common.inc      |  4 +++-
-> >  7 files changed, 31 insertions(+), 5 deletions(-)
->
-> I merged this as I think it did improve things but adding a test change
-> to poky to enable it hasn't quite worked as I hoped.
->
-> I had to put a constraint around the test to ensure it only runs on
-> systemd images:
->
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.openembedded.o=
-rg_openembedded-2Dcore_commit_-3Fh-3Dmaster-2Dnext-26id-3D9c069e00a0867de11=
-a6069b99a07d2c775848c10&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2e=
-pckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DFLdd1vErz4ATg4R=
-dnhSX_x1xlDw9KDG-Y9q-SbugHHxHuJmnUZaKuZxRFKFzAB_D&s=3DTtR0nmCl-7A-ZW0pyAbOZ=
-deTP1CvFHG88dRcF_5szJQ&e=3D
->
-> and with that applied I then had this failure:
->
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__autobuilder.yoctop=
-roject.org_typhoon_-23_builders_101_builds_7000_steps_14_logs_stdio&d=3DDwI=
-FaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj=
-9TsRih1DULJTKUkSGa66m67E&m=3DFLdd1vErz4ATg4RdnhSX_x1xlDw9KDG-Y9q-SbugHHxHuJ=
-mnUZaKuZxRFKFzAB_D&s=3Dyt0et2kFgyojvWvRCXU6ieXQ5tQNyWXUV-WEVS2rJkc&e=3D
->
-> I can queue the first patch but I'm not sure about the failure above.
-> Any ideas?
->
-> Cheers,
->
-> Richard
->
+python sstate_hardcode_path_unpack () {
+--
+2.25.1
 
---00000000000091833c061995864c
-Content-Type: text/html; charset="UTF-8"
+Patch 2 - fixes `find` usage, avoiding hiding errors on the command executi=
+on and creates buildhistory output folder if doesnt exist.
+---
+meta/classes/buildhistory.bbclass | 8 +++-----
+1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
+bbclass
+index fd53e92402..59be4516b2 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -599,15 +599,13 @@ buildhistory_list_files_no_owners() {
+
+buildhistory_list_pkg_files() {
+# Create individual files-in-package for each recipe's package
+- =C2=A0 =C2=A0 =C2=A0 for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type =
+d); do
++ =C2=A0 =C2=A0pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
++ =C2=A0 =C2=A0 =C2=A0 for pkgdir in $pkgdirlist; do
+pkgname=3D$(basename $pkgdir)
+outfolder=3D"${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
+outfile=3D"$outfolder/files-in-package.txt"
+# Make sure the output folder exists so we can create the file
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ ! -d $outfolder ] ;=
+ then
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 bbdebug 2 "Folder $outfolder does not exist, file $outfile not created"
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p $outfolder
+buildhistory_list_files $pkgdir $outfile fakeroot
+done
+}
+--
+2.25.1
+
+Patch 3 - fixes usage of 2 features combined, `BUILDHISTORY_PRESERVE` and `=
+BUILDHISTORY_RESET`, restoring files to buildhistory main folder.
+---
+meta/classes/buildhistory.bbclass | 20 ++++++++++++++++++++
+1 file changed, 20 insertions(+)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
+bbclass
+index 59be4516b2..c707f71657 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -110,6 +110,7 @@ python buildhistory_emit_pkghistory() {
+import json
+import shlex
+import errno
++ =C2=A0 =C2=A0import shutil
+
+pkghistdir =3D d.getVar('BUILDHISTORY_DIR_PACKAGE')
+oldpkghistdir =3D d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
+@@ -223,6 +224,20 @@ python buildhistory_emit_pkghistory() {
+items.sort()
+return ' '.join(items)
+
++ =C2=A0 =C2=A0def preservebuildhistoryfiles(pkg, preserve):
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists(os.path.join(oldpkghistdir, =
+pkg)):
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0listofobjs =3D os.listdir(os.pat=
+h.join(oldpkghistdir, pkg))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for obj in listofobjs:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if obj not in pres=
+erve:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cont=
+inue
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.u=
+tils.mkdirhier(os.path.join(pkghistdir, pkg))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shut=
+il.copyfile(os.path.join(oldpkghistdir, pkg, obj), os.path.join(pkghistdir,=
+ pkg, obj))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except IOError as =
+e:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.n=
+ote("Unable to copy file. %s" % e)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except Environment=
+Error as e:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.n=
+ote("Unable to copy file. %s" % e)
++
+pn =3D d.getVar('PN')
+pe =3D d.getVar('PE') or "0"
+pv =3D d.getVar('PV')
+@@ -250,6 +265,11 @@ python buildhistory_emit_pkghistory() {
+if not os.path.exists(pkghistdir):
+bb.utils.mkdirhier(pkghistdir)
+else:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0# Copy all files marked to preserve
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0if d.getVar("BUILDHISTORY_RESET"):
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for pkg in packagelist:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0preservebuildhisto=
+ryfiles(pkg, preserve)
++
+# Remove files for packages that no longer exist
+for item in os.listdir(pkghistdir):
+if item not in preserve:
+--
+2.25.1
+
+Patch 4 - adds unit tests to validate files-in-package.txt generation and f=
+eature combination from patch 3.
+---
+meta/lib/oeqa/selftest/cases/buildoptions.py | 26 ++++++++++++++++++++
+1 file changed, 26 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/s=
+elftest/cases/buildoptions.py
+index 31dafaa9c5..e05bac7c6c 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -176,6 +176,32 @@ class BuildhistoryTests(BuildhistoryBase):
+self.assertEqual(data['FILELIST'], '')
+self.assertEqual(int(data['PKGSIZE']), 0)
+
++ =C2=A0 =C2=A0def test_files_in_package_txt_creation(self):
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.config_buildhistory()
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake('xcursor-transparent-theme -c cleansst=
+ate')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake('xcursor-transparent-theme')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0history_dir =3D get_bb_var('BUILDHISTORY_DIR_P=
+ACKAGE', 'xcursor-transparent-theme')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(os.path.isdir(history_dir), 'b=
+uildhistory dir was not created.')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0subfolders =3D [ fobject.path for fobject in o=
+s.scandir(history_dir) if fobject.is_dir() ]
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(len(subfolders), "No folders i=
+nside package.")
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0for subpath in subfolders:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(os.path.isfile(o=
+s.path.join(subpath, 'files-in-package.txt')))
++
++ =C2=A0 =C2=A0def test_files_in_package_txt_reset_and_preserved(self):
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.config_buildhistory()
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.append_config("BUILDHISTORY_RESET =3D '1'=
+")
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.append_config("BUILDHISTORY_PRESERVE:appe=
+nd =3D ' files-in-package.txt'")
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake('xcursor-transparent-theme -c cleansst=
+ate')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake('xcursor-transparent-theme')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0shutil.rmtree(get_bb_var('TMPDIR'))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake('xcursor-transparent-theme')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0history_dir =3D get_bb_var('BUILDHISTORY_DIR_P=
+ACKAGE', 'xcursor-transparent-theme')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(os.path.isdir(history_dir), 'b=
+uildhistory dir was not created.')
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0subfolders =3D [ fobject.path for fobject in o=
+s.scandir(history_dir) if fobject.is_dir() ]
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(len(subfolders), "No folders i=
+nside package.")
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0for subpath in subfolders:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(os.path.isfile(o=
+s.path.join(subpath, 'files-in-package.txt')))
++
+class ArchiverTest(OESelftestTestCase):
+def test_arch_work_dir_and_export_source(self):
+"""
+--
+2.25.1
+
+--1ZWcBsmrbs9D9idSKwKa
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Richard,<br>I had missed your reply. I have changed my =
-email filters so hopefully this won&#39;t happen again (still learning how =
-to work with mailing-lists). I sent another patch fixing a regression in th=
-e test:=C2=A0<a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-message/199999">https://lists.openembedded.org/g/openembedded-core/message/=
-199999</a><br>I tested core-image-sato locally today and it is working with=
-=C2=A0this configuration as far as I can tell:<br>DISTRO=3D&quot;poky-altcf=
-g&quot;<br>DISTRO_FEATURES +=3D &quot;minidebuginfo x11&quot;<br>TEST_SUITE=
-S +=3D &quot;ping ssh systemd&quot;<br>IMAGE_CLASSES +=3D &quot;testimage&q=
-uot;<br>MACHINE ?=3D &quot;qemux86-64&quot;<br><br><a href=3D"https://git.o=
-penembedded.org/openembedded-core/commit/?h=3Dmaster-next&amp;id=3D9c069e00=
-a0867de11a6069b99a07d2c775848c10">https://git.openembedded.org/openembedded=
--core/commit/?h=3Dmaster-next&amp;id=3D9c069e00a0867de11a6069b99a07d2c77584=
-8c10</a> is not a valid link any more, so I&#39;m not sure which constraint=
- you had to put to the test.<br><br>=C3=89tienne<br><br></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 8, 2023=
- at 12:26=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@li=
-nuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2023-12-05 at =
-14:37 +0100, Etienne Cordonnier via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> wrote:<br>
-&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
-arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; <br>
-&gt; Enabling minidebuginfo is not useful if gdb and systemd-coredump<br>
-&gt; are unable to parse it.<br>
-&gt; <br>
-&gt; In order to parse it, gdb needs xz support. Systemd needs coredump ena=
-bled, as<br>
-&gt; well as elfutil enabled as well (systemd-coredump loads libdw which is=
- part of elfutils using dlopen).<br>
-&gt; <br>
-&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
-ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes-global/package.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt;=C2=A0 meta/lib/oe/package.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt;=C2=A0 meta/lib/oeqa/runtime/cases/systemd.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 21 +++++++++++++++++++<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/minidebuginfo.py |=C2=A0 2 +-<br>
-&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_254.4.bb" re=
-l=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a>=C2=A0 =C2=A0 |=C2=
-=A0 1 +<br>
-&gt;=C2=A0 .../elfutils/<a href=3D"http://elfutils_0.189.bb" rel=3D"norefer=
-rer" target=3D"_blank">elfutils_0.189.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +++-<br>
-&gt;=C2=A0 meta/recipes-devtools/gdb/gdb-common.inc=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 4 +++-<br>
-&gt;=C2=A0 7 files changed, 31 insertions(+), 5 deletions(-)<br>
-<br>
-I merged this as I think it did improve things but adding a test change<br>
-to poky to enable it hasn&#39;t quite worked as I hoped.<br>
-<br>
-I had to put a constraint around the test to ensure it only runs on<br>
-systemd images:<br>
-<br>
-<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.opene=
-mbedded.org_openembedded-2Dcore_commit_-3Fh-3Dmaster-2Dnext-26id-3D9c069e00=
-a0867de11a6069b99a07d2c775848c10&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hp=
-F_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67=
-E&amp;m=3DFLdd1vErz4ATg4RdnhSX_x1xlDw9KDG-Y9q-SbugHHxHuJmnUZaKuZxRFKFzAB_D&=
-amp;s=3DTtR0nmCl-7A-ZW0pyAbOZdeTP1CvFHG88dRcF_5szJQ&amp;e=3D" rel=3D"norefe=
-rrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
-3A__git.openembedded.org_openembedded-2Dcore_commit_-3Fh-3Dmaster-2Dnext-26=
-id-3D9c069e00a0867de11a6069b99a07d2c775848c10&amp;d=3DDwIFaQ&amp;c=3DncDTmp=
-hkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DUL=
-JTKUkSGa66m67E&amp;m=3DFLdd1vErz4ATg4RdnhSX_x1xlDw9KDG-Y9q-SbugHHxHuJmnUZaK=
-uZxRFKFzAB_D&amp;s=3DTtR0nmCl-7A-ZW0pyAbOZdeTP1CvFHG88dRcF_5szJQ&amp;e=3D</=
-a> <br>
-<br>
-and with that applied I then had this failure:<br>
-<br>
-<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__autobuild=
-er.yoctoproject.org_typhoon_-23_builders_101_builds_7000_steps_14_logs_stdi=
-o&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DFLdd1vErz4ATg4RdnhSX=
-_x1xlDw9KDG-Y9q-SbugHHxHuJmnUZaKuZxRFKFzAB_D&amp;s=3Dyt0et2kFgyojvWvRCXU6ie=
-XQ5tQNyWXUV-WEVS2rJkc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https:=
-//urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__autobuilder.yoctoproject.o=
-rg_typhoon_-23_builders_101_builds_7000_steps_14_logs_stdio&amp;d=3DDwIFaQ&=
-amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfP=
-x_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DFLdd1vErz4ATg4RdnhSX_x1xlDw9KDG-Y9q-Sb=
-ugHHxHuJmnUZaKuZxRFKFzAB_D&amp;s=3Dyt0et2kFgyojvWvRCXU6ieXQ5tQNyWXUV-WEVS2r=
-Jkc&amp;e=3D</a> <br>
-<br>
-I can queue the first patch but I&#39;m not sure about the failure above.<b=
-r>
-Any ideas?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
+Hi Alex,<br /><br />Patch 1 - fixes race condition detected while executing=
+ functions registered on `SSTATEPOSTINSTFUNCS`<br />---<br />&nbsp;meta/cla=
+sses-global/sstate.bbclass | 3 ++-<br />&nbsp;1 file changed, 2 insertions(=
++), 1 deletion(-)<br /><br />diff --git a/meta/classes-global/sstate.bbclas=
+s b/meta/classes-global/sstate.bbclass<br />index 76a7b59636..9887169e4f 10=
+0644<br />--- a/meta/classes-global/sstate.bbclass<br />+++ b/meta/classes-=
+global/sstate.bbclass<br />@@ -403,7 +403,6 @@ def sstate_installpkgdir(ss,=
+ d):<br />&nbsp; &nbsp; &nbsp;for state in ss['dirs']:<br />&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp;prepdir(state[1])<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+;bb.utils.rename(sstateinst + state[0], state[1])<br />- &nbsp; &nbsp;sstat=
+e_install(ss, d)<br /><br />&nbsp; &nbsp; &nbsp;for plain in ss['plaindirs'=
+]:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;workdir =3D d.getVar('WORKDIR')<b=
+r />@@ -416,6 +415,8 @@ def sstate_installpkgdir(ss, d):<br />&nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp;prepdir(dest)<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;b=
+b.utils.rename(src, dest)<br /><br />+ &nbsp; &nbsp;sstate_install(ss, d)<b=
+r />+<br />&nbsp; &nbsp; &nbsp;return True<br /><br />&nbsp;python sstate_h=
+ardcode_path_unpack () {<br />--<br />2.25.1<br /><br /><span style=3D"box-=
+sizing: border-box; overflow-wrap: break-word !important; color: #222222; b=
+ackground-color: #ffffff; font-style: normal; font-variant-ligatures: norma=
+l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orp=
+hans: 2; text-align: start; text-indent: 0px; text-transform: none; widows:=
+ 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal;=
+ text-decoration-thickness: initial; text-decoration-style: initial; text-d=
+ecoration-color: initial; font-family: Arial, Helvetica, sans-serif; font-s=
+ize: small;">Patch 2 - fixes `find` usage, avoiding hiding errors on the co=
+mmand execution and creates buildhistory output folder if doesnt exist.</sp=
+an><br />---<br />&nbsp;meta/classes/buildhistory.bbclass | 8 +++-----<br /=
+>&nbsp;1 file changed, 3 insertions(+), 5 deletions(-)<br /><br />diff --gi=
+t a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass<b=
+r />index fd53e92402..59be4516b2 100644<br />--- a/meta/classes/buildhistor=
+y.bbclass<br />+++ b/meta/classes/buildhistory.bbclass<br />@@ -599,15 +599=
+,13 @@ buildhistory_list_files_no_owners() {<br /><br />&nbsp;buildhistory_=
+list_pkg_files() {<br />&nbsp; &nbsp; &nbsp; &nbsp; # Create individual fil=
+es-in-package for each recipe's package<br />- &nbsp; &nbsp; &nbsp; for pkg=
+dir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do<br />+ &nbsp; &nbsp;pkg=
+dirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)<br />+ &nbsp; &nbsp; &nb=
+sp; for pkgdir in $pkgdirlist; do<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; pkgname=3D$(basename $pkgdir)<br />&nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outfolder=3D"${BUILDHISTORY_DIR_PACKAGE=
+}/$pkgname"<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ou=
+tfile=3D"$outfolder/files-in-package.txt"<br />&nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; # Make sure the output folder exists so we can =
+create the file<br />- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if =
+[ ! -d $outfolder ] ; then<br />- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bbdebug 2 "Folder $outfolder does not e=
+xist, file $outfile not created"<br />- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; continue<br />- &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; fi<br />+ &nbsp; &nbsp; &nbsp; &nbsp;mkdir =
+-p $outfolder<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+buildhistory_list_files $pkgdir $outfile fakeroot<br />&nbsp; &nbsp; &nbsp;=
+ &nbsp; done<br />&nbsp;}<br />--<br />2.25.1<br style=3D"box-sizing: borde=
+r-box; overflow-wrap: break-word !important; color: #dee2e6; font-family: s=
+ystem-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sa=
+ns', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sy=
+mbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-varian=
+t-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-sp=
+acing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transf=
+orm: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; wh=
+ite-space: normal; background-color: #242526; text-decoration-thickness: in=
+itial; text-decoration-style: initial; text-decoration-color: initial;" /><=
+br /><span style=3D"box-sizing: border-box; overflow-wrap: break-word !impo=
+rtant; color: #222222; background-color: #ffffff; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-=
+transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0=
+px; white-space: normal; text-decoration-thickness: initial; text-decoratio=
+n-style: initial; text-decoration-color: initial; font-family: Arial, Helve=
+tica, sans-serif; font-size: small;">Patch 3 - fixes usage of 2 features co=
+mbined, `BUILDHISTORY_PRESERVE` and `BUILDHISTORY_RESET`, restoring files t=
+o buildhistory main folder.</span><br />---<br />&nbsp;meta/classes/buildhi=
+story.bbclass | 20 ++++++++++++++++++++<br />&nbsp;1 file changed, 20 inser=
+tions(+)<br /><br />diff --git a/meta/classes/buildhistory.bbclass b/meta/c=
+lasses/buildhistory.bbclass<br />index 59be4516b2..c707f71657 100644<br />-=
+-- a/meta/classes/buildhistory.bbclass<br />+++ b/meta/classes/buildhistory=
+.bbclass<br />@@ -110,6 +110,7 @@ python buildhistory_emit_pkghistory() {<b=
+r />&nbsp; &nbsp; &nbsp;import json<br />&nbsp; &nbsp; &nbsp;import shlex<b=
+r />&nbsp; &nbsp; &nbsp;import errno<br />+ &nbsp; &nbsp;import shutil<br /=
+><br />&nbsp; &nbsp; &nbsp;pkghistdir =3D d.getVar('BUILDHISTORY_DIR_PACKAG=
+E')<br />&nbsp; &nbsp; &nbsp;oldpkghistdir =3D d.getVar('BUILDHISTORY_OLD_D=
+IR_PACKAGE')<br />@@ -223,6 +224,20 @@ python buildhistory_emit_pkghistory(=
+) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;items.sort()<br />&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;return ' '.join(items)<br /><br />+ &nbsp; &nbsp;def pr=
+eservebuildhistoryfiles(pkg, preserve):<br />+ &nbsp; &nbsp; &nbsp; &nbsp;i=
+f os.path.exists(os.path.join(oldpkghistdir, pkg)):<br />+ &nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp;listofobjs =3D os.listdir(os.path.join(oldpkghistd=
+ir, pkg))<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for obj in listof=
+objs:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if obj =
+not in preserve:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp;continue<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp;try:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))<br />=
++ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;shut=
+il.copyfile(os.path.join(oldpkghistdir, pkg, obj), os.path.join(pkghistdir,=
+ pkg, obj))<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;e=
+xcept IOError as e:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp;bb.note("Unable to copy file. %s" % e)<br />+ &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;except EnvironmentError as e=
+:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp;bb.note("Unable to copy file. %s" % e)<br />+<br />&nbsp; &nbsp; &nbsp;p=
+n =3D d.getVar('PN')<br />&nbsp; &nbsp; &nbsp;pe =3D d.getVar('PE') or "0"<=
+br />&nbsp; &nbsp; &nbsp;pv =3D d.getVar('PV')<br />@@ -250,6 +265,11 @@ py=
+thon buildhistory_emit_pkghistory() {<br />&nbsp; &nbsp; &nbsp;if not os.pa=
+th.exists(pkghistdir):<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.utils.mkdi=
+rhier(pkghistdir)<br />&nbsp; &nbsp; &nbsp;else:<br />+ &nbsp; &nbsp; &nbsp=
+; &nbsp;# Copy all files marked to preserve<br />+ &nbsp; &nbsp; &nbsp; &nb=
+sp;if d.getVar("BUILDHISTORY_RESET"):<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp;for pkg in packagelist:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp;preservebuildhistoryfiles(pkg, preserve)<br />+<br />=
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# Remove files for packages that no longe=
+r exist<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for item in os.listdir(pkghi=
+stdir):<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if item not in=
+ preserve:<br />--<br />2.25.1<br /><br /><span style=3D"box-sizing: border=
+-box; overflow-wrap: break-word !important; color: #222222; background-colo=
+r: #ffffff; font-style: normal; font-variant-ligatures: normal; font-varian=
+t-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-=
+align: start; text-indent: 0px; text-transform: none; widows: 2; word-spaci=
+ng: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decorati=
+on-thickness: initial; text-decoration-style: initial; text-decoration-colo=
+r: initial; font-family: Arial, Helvetica, sans-serif; font-size: small;">P=
+atch 4 - adds unit tests to validate files-in-package.txt generation and fe=
+ature combination from patch 3.</span><br style=3D"box-sizing: border-box; =
+overflow-wrap: break-word !important; color: #dee2e6; font-family: system-u=
+i, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ar=
+ial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', =
+'Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-ligat=
+ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
+ne; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-spa=
+ce: normal; background-color: #242526; text-decoration-thickness: initial; =
+text-decoration-style: initial; text-decoration-color: initial;" />---<br /=
+>&nbsp;meta/lib/oeqa/selftest/cases/buildoptions.py | 26 ++++++++++++++++++=
+++<br />&nbsp;1 file changed, 26 insertions(+)<br /><br />diff --git a/meta=
+/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/bui=
+ldoptions.py<br />index 31dafaa9c5..e05bac7c6c 100644<br />--- a/meta/lib/o=
+eqa/selftest/cases/buildoptions.py<br />+++ b/meta/lib/oeqa/selftest/cases/=
+buildoptions.py<br />@@ -176,6 +176,32 @@ class BuildhistoryTests(Buildhist=
+oryBase):<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.assertE=
+qual(data['FILELIST'], '')<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.asse=
+rtEqual(int(data['PKGSIZE']), 0)<br /><br />+ &nbsp; &nbsp;def test_files_i=
+n_package_txt_creation(self):<br />+ &nbsp; &nbsp; &nbsp; &nbsp;self.config=
+_buildhistory()<br />+ &nbsp; &nbsp; &nbsp; &nbsp;bitbake('xcursor-transpar=
+ent-theme -c cleansstate')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;bitbake('xcurs=
+or-transparent-theme')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;history_dir =3D ge=
+t_bb_var('BUILDHISTORY_DIR_PACKAGE', 'xcursor-transparent-theme')<br />+ &n=
+bsp; &nbsp; &nbsp; &nbsp;self.assertTrue(os.path.isdir(history_dir), 'build=
+history dir was not created.')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;subfolders=
+ =3D [ fobject.path for fobject in os.scandir(history_dir) if fobject.is_di=
+r() ]<br />+ &nbsp; &nbsp; &nbsp; &nbsp;self.assertTrue(len(subfolders), "N=
+o folders inside package.")<br />+ &nbsp; &nbsp; &nbsp; &nbsp;for subpath i=
+n subfolders:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.assertTr=
+ue(os.path.isfile(os.path.join(subpath, 'files-in-package.txt')))<br />+<br=
+ />+ &nbsp; &nbsp;def test_files_in_package_txt_reset_and_preserved(self):<=
+br />+ &nbsp; &nbsp; &nbsp; &nbsp;self.config_buildhistory()<br />+ &nbsp; =
+&nbsp; &nbsp; &nbsp;self.append_config("BUILDHISTORY_RESET =3D '1'")<br />+=
+ &nbsp; &nbsp; &nbsp; &nbsp;self.append_config("BUILDHISTORY_PRESERVE:appen=
+d =3D ' files-in-package.txt'")<br />+ &nbsp; &nbsp; &nbsp; &nbsp;bitbake('=
+xcursor-transparent-theme -c cleansstate')<br />+ &nbsp; &nbsp; &nbsp; &nbs=
+p;bitbake('xcursor-transparent-theme')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;sh=
+util.rmtree(get_bb_var('TMPDIR'))<br />+ &nbsp; &nbsp; &nbsp; &nbsp;bitbake=
+('xcursor-transparent-theme')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;history_dir=
+ =3D get_bb_var('BUILDHISTORY_DIR_PACKAGE', 'xcursor-transparent-theme')<br=
+ />+ &nbsp; &nbsp; &nbsp; &nbsp;self.assertTrue(os.path.isdir(history_dir),=
+ 'buildhistory dir was not created.')<br />+ &nbsp; &nbsp; &nbsp; &nbsp;sub=
+folders =3D [ fobject.path for fobject in os.scandir(history_dir) if fobjec=
+t.is_dir() ]<br />+ &nbsp; &nbsp; &nbsp; &nbsp;self.assertTrue(len(subfolde=
+rs), "No folders inside package.")<br />+ &nbsp; &nbsp; &nbsp; &nbsp;for su=
+bpath in subfolders:<br />+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.a=
+ssertTrue(os.path.isfile(os.path.join(subpath, 'files-in-package.txt')))<br=
+ />+<br />&nbsp;class ArchiverTest(OESelftestTestCase):<br />&nbsp; &nbsp; =
+&nbsp;def test_arch_work_dir_and_export_source(self):<br />&nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp;"""<br />--<br />2.25.1<br />
 
---00000000000091833c061995864c--
+--1ZWcBsmrbs9D9idSKwKa--
 
