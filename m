@@ -1,277 +1,598 @@
-Return-Path: <leimaohui@fujitsu.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 241FCC25B78
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 02:01:24 +0000 (UTC)
-Received: from esa5.fujitsucc.c3s2.iphmx.com (esa5.fujitsucc.c3s2.iphmx.com [68.232.159.76])
- by mx.groups.io with SMTP id smtpd.web10.3878.1716948076041639256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FED2C27C43
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 02:45:04 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.4596.1716950702307140459
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 May 2024 19:01:16 -0700
+ Tue, 28 May 2024 19:45:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=O4tHEyU6;
- spf=pass (domain: fujitsu.com, ip: 68.232.159.76, mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1716948076; x=1748484076;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=5YxLe14j329f5+Chdy5F8nNqNfTxYiJdbCcHqH/aUQM=;
-  b=O4tHEyU6fo/usj/Muc9pLnPF1oKISJkcTLLBRhuStXkXccOCaqOmgoiL
-   9Sf8j4ELHaCxJFEMMSwRmMZCjqPWnA/O2ifLELdScxhmLw117tCQ6x6FX
-   OrvGAc92DDZDMze3z5nF259gXTycQ8oMABb8GxIaKNhlw/M6/7LiESUas
-   Ol/gES1NsBj5cvUhhcpuW8LsG6qcz4MSPd6NLsIO5w9cd/GdnNdV0js+u
-   qBjhDfbuKFVeeL66miaeiagubqkJXzU3GzNuf1d/dOrPsbMzfRs7XUjBC
-   kaR1CMn6qTCIBQsjnSAP3o7NvYeUNS9sx1cFln91YLXopA9PEoSsxxJw6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="121061834"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712588400"; 
-   d="scan'208";a="121061834"
-Received: from mail-tycjpn01lp2169.outbound.protection.outlook.com (HELO JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.169])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 11:01:12 +0900
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6879a5a475=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44T20SKc011125
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 19:45:01 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ybb90bhcc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 May 2024 19:45:01 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 44T2j0Mn005958;
+	Tue, 28 May 2024 19:45:00 -0700
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ybb90bhca-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 May 2024 19:45:00 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lXAzb3R5PHPTVJIxiQeTWTgJvP24450cEegmZxSnV9kzq/I5um+Hek2rJfTO5s6ikVpOHxANcBp+h27hHYdhaP35B/1wUTaRX7oz7uslwpIAlqQr3vMP3LIghYvKn7APXmhm7JjVkGhYc7FJP+qmVGwHKhk7bzMxTD+D0aNZ6I44Xg7XCkqYt16K8pcZcjN609YOAr7/iEauUsDw/4hZV7TeRLBb9p00l2/+Cb3ysIikbL+U2lCqljzsFuq3iq2Fxyrn9jmNqz7kqgOjJMqYLZf5UgLbBjmzyx68vtjrYkf6BCOZe3ZGKgK1CIYuzgk4UEVoIj4fd/ItDWLe+1z+hw==
+ b=U19NFK9DzBOYphAYf7R/QyvMPMzpWt+ErfQM5YPcwF2x84hXl67iyQnMak9PWweO/xkX5j5ZhhvHBLhw+fZw3nt7HgzF5cbz2qUxMbOZ+4z2pCz53oJ9dz5DKARql7Sc8/R4x27PDgpb0fL0hw3NiN54LzdLfQmH2IkkqwbxwnM0mN6HprrOdeOBSGBZ6gVHr4ts5nus5XvYMkWj5PlvePVNtjQxXHpZuV7yzpGGCHU+FAxCpjN2b9o/ZVRmOwzpN0I/hMdqP+US62YPia6pRaEd+Dg5BkS9KGl+flOv2Ee/TdiRqrKShlwNpn/byheqoqd0y9k6nZxaEBtfiiiHkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5YxLe14j329f5+Chdy5F8nNqNfTxYiJdbCcHqH/aUQM=;
- b=RflmzC6dDSDegqbg+ZvxFzXRuIe/VgYLcYiTKeWnL3vcyeFURVyjLj7878rU7bXD0cJWYYqO42Rp+3C/tYVQrP9mKD1doRJiZj6Z0WHwEz3Bc0WKIJz+CMUyqREJ0zdXyqvackgJG6cUOYGWAIYJ41jkjADby5OkX6pQxPRsUJPhl3pcEGdRay/2MZp4WmNnuxwKzB41QE0DpDSOPSWfhSd4kMJ4+ZFwX70y+ONNw9/Bm37lUMFkP8RjsyiRJQneBzaz+JDS6Rcjp0FyWWQFFeyb/IGFu9G4y/rb2fbr3TaSNxCRtXNA6097bHy7VM/eS35UTiMXRLsoBk7Zb5Mugg==
+ bh=PygfburR6kqrzkBWyGYW4cbLN+MpkYuwXD+EY28Y6iw=;
+ b=l36zT7Q03ViaFrNpXkolnDmHXsxyDY4JP0mAs7OsYEMMs5K1NsnVsthJAmQW5M9MU9ElqIZm/JXZ2XXjeMkNwLlnQ+s9H5smTtn+DFz6zZfv+ANescM4xkSM0d3lbUfpYSkVwRdvsRGcZgWyYyLu3GLUG4gRcDBcpk1pCcEkZ5OpwBXxzBxYEC/AOd/t+0pb3RslfPyUVaLxIf3d4ln7UPR3ZGOy6uksWwsXRvdf0lpmKoiq5xj5A7EdNPjVgBVOR/Cj8VpDNDwvo8qNn9sTtjuAWzjqGEn23/Gfq6y4DgExy8I4kfR2SyVLFDxiwEHYRQmViReh8La4IrS1ii/Wdg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
- (2603:1096:400:3b4::12) by OS3PR01MB8699.jpnprd01.prod.outlook.com
- (2603:1096:604:154::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.17; Wed, 29 May
- 2024 02:01:08 +0000
-Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
- ([fe80::c451:240d:2c34:96bc]) by TY3PR01MB11056.jpnprd01.prod.outlook.com
- ([fe80::c451:240d:2c34:96bc%6]) with mapi id 15.20.7611.031; Wed, 29 May 2024
- 02:01:08 +0000
-From: "Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Alexander Kanavin (alex.kanavin@gmail.com)" <alex.kanavin@gmail.com>
-Subject: RE: [OE-core][PATCH v4][PATCH] libbsd: Fix conflict error when enable
- multilib.
-Thread-Topic: [OE-core][PATCH v4][PATCH] libbsd: Fix conflict error when
- enable multilib.
-Thread-Index: AQHamthAA1WlsJSKE0i8b52cEJCNw7GPumSggAB8LoCABC+IYIAZOzLA
-Date: Wed, 29 May 2024 02:01:08 +0000
-Message-ID: 
- <TY3PR01MB11056FAE92F3B29F3EA1C55BBA0F22@TY3PR01MB11056.jpnprd01.prod.outlook.com>
-References: <17CB016975A375B8.19032@lists.openembedded.org>
- <TYCPR01MB1105524607983912E618C3F2FA0E72@TYCPR01MB11055.jpnprd01.prod.outlook.com>
- <CANNYZj9wbPVs5=dVVRr=Hz5w7SVpPC-sZQyEa85ct5M3=z9Anw@mail.gmail.com>
- <17CEE5C1836CC254.26216@lists.openembedded.org>
-In-Reply-To: <17CEE5C1836CC254.26216@lists.openembedded.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
- =?utf-8?B?NTBfQWN0aW9uSWQ9ZTkxMzM5MzItZDlmMy00NzQ1LWFiMGQtMTQzMzEwMThh?=
- =?utf-8?B?Mjk4O01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
- =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
- =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
- =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
- =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
- =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFROKAiztNU0lQ?=
- =?utf-8?B?X0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9T?=
- =?utf-8?B?ZXREYXRlPTIwMjQtMDUtMTNUMDA6Mzg6MzhaO01TSVBfTGFiZWxfYTcyOTVj?=
- =?utf-8?B?YzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
- =?utf-8?Q?d-81e1-4858-a9d8-736e267fd4c7;?=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11056:EE_|OS3PR01MB8699:EE_
-x-ms-office365-filtering-correlation-id: 2091960d-5f60-4e92-1b9f-08dc7f833520
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230031|376005|366007|1800799015|1580799018|38070700009;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?eU9EYkZaNUhuQXh6WmVIYWIyZldUYUlOLzVSMDJUU21PNHJySzhudnV2bjVB?=
- =?utf-8?B?V3A2WjkraWZvWkVVV3VtbXRuRis2Z2Ewam9RdjFOSThSLzVIaUNidE5ETzgx?=
- =?utf-8?B?VTNpUVFNTkZwS1hmdFlub2hCUVp1VGtlOWUxaDN2WlFKQzl5Umk1SkF4SFVH?=
- =?utf-8?B?bmVxTXdseC9IeTgzRUxSWkdTS3VqcXdFckdBd2g5TitWV0tMdlNDU3I1MXlx?=
- =?utf-8?B?bzlwM2w4ZHlOWk91UE8yWVljazhmQVQxdmFGNTM4VnhtQXBkZVVqekxMN004?=
- =?utf-8?B?SVlDUHJxZFhycWVMZ3owNGg1Q3B3VkNDMUYzcEdGbmFHK082NVYxQWZzUEkx?=
- =?utf-8?B?ODlLWGlrdEdGek54QWlzejBYSU1Mc0JYUEpuWU4rNjB0WVFIakxDcFNHZzNC?=
- =?utf-8?B?a1dBcFRnRkNiQ2MwdTBjQ3dFM2RSbEkwQmZxRVR5TkxEOEthQWFRNVlsSEMy?=
- =?utf-8?B?MW1GS2Z3L2NpK1dmaVRrbUp1T1JKdEVGTklzeFIzOEczcnMvVDZKR0FPZHh2?=
- =?utf-8?B?NUQ4Z0Vuc0FKUHN6SVlEMGIxWEE2YkZVK2hLb2N1aGMxMG9jMUFTWlArZkdE?=
- =?utf-8?B?VXVOblM3ZHJ2cGVzZnhud0E4bFFJellNOXpReWxKTUtYU3pXYklnQXpoRGZQ?=
- =?utf-8?B?TnFmRFRqU2U1K1hpQUdiU1BhMldvMitPRnFnZlhxbzJweGRCTExqVEgzR09q?=
- =?utf-8?B?R2hJUnF6aHBWZk90WUpNV2JZODdqN0lxaUhjdzFzZktwY1BhaEJnZG5mSmxG?=
- =?utf-8?B?TnUxUHF1SDRZR0MzZ2RSemRiOTM2TkoweGpxY3NFSnd3UnBRSEIyblVBOUxK?=
- =?utf-8?B?bUdtZnVjcjNYdnN2NGQ4WnhXbnk2SXBoamFYQk5GTzBDQXRzMGFibi9LY0Zs?=
- =?utf-8?B?MFpQTUFjV3ZnbUIxQ1BuajV3Nk5leHRJQTI3eWZoaGcvK0lmU1I3NkVUb2kv?=
- =?utf-8?B?NXROd05YYnJHU1ltalZHVG9GSGRxeHRoNHR2L25wWnNwVWV2Y3ErMWJJQXU0?=
- =?utf-8?B?ZnBmQVllK3RBS0IxUjkydU10Wmd5alZVUkFBOTFkRkV0bnUvNzlnWElGVW1z?=
- =?utf-8?B?WjduTFJmVXJsd2ZvNjRDSkZpcWxOUDNUbEJHbDhuWGcvM1AwcmU2SncvaWxl?=
- =?utf-8?B?bGNHZC9HZFo4d0JUYzFrbzN5ajFQblFpNXFTRHFLSXZXQ2srSkIzRTZGTEt0?=
- =?utf-8?B?eDMxa0NrVEhXeXVFZ0pRb0JFODFNejV5M1Z1b3k0Mng0SHBrVExGM2lFcmF1?=
- =?utf-8?B?N3BNK1QrSzNZa29mR1Q3M3d0OXQydzBlWW5yNkZkaVEzc3g3cTFBSFR2Ujk0?=
- =?utf-8?B?L2E4bVdBVFAwL3RuNHg0UW5VYVJac3lQVHpwVTFXZ25zdXdTcmw0N2xyMUx2?=
- =?utf-8?B?QXFZUXY0NVVSUlNzclNmSzZraTA5STk3OXhrbzlMT1kzNnpMWnlaNWVUT0FY?=
- =?utf-8?B?c0gyZk4xblRhU1FzQ1JoNXJLc3dUMHBXVGtGY0RsMUNKTUhLZlVhMVhycFp4?=
- =?utf-8?B?OTNUTkY0OVFvbnlJbm5uV0hBYlV3Z0VXY1VkS2g1TFpkOTd3YTc5OWdEWnN1?=
- =?utf-8?B?amFMV0FnUGFOZlczdkwzSnVLY1pYbkp3TmpOSXlzNTRCU09ISXBwT0hLQWVR?=
- =?utf-8?B?OXJiZXFQYngxTE8vRExzcnc3M1Bua2krVlEyKzJSRzRjNmpMdHB2MU5YdkRl?=
- =?utf-8?B?eFUvalBOK2czcWdXMlZvZkFmeGpKVFhzSG43NHVObkRCWENHUm1wV3dJNHZt?=
- =?utf-8?Q?eMyQAY6fZ0SMQvnuOVjTMUTLFJcedPMoLKQ4SMS?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11056.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(1580799018)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YWxESkZqTGlzNFV6K3dzcG5hYStuZERLY2R1ZEpwZlpFelk3SFloLzVlT1Zv?=
- =?utf-8?B?Y2VyY2FEL0FiajhGQlJRVUlEMllWQUxVL1pSbnVNeXl4bUYvYllQUWhSM3du?=
- =?utf-8?B?NHBPVStpUkFYUEs0RnhCVkVsL0dFM3VGWGRLVlRKTTNlSlFvY0VrVmFZQXlU?=
- =?utf-8?B?UVpmM01sY2tkZVlTV3FEK24yZzNpcU9nUzI5YTY0bDQzWURxZlc3dTMzMm0r?=
- =?utf-8?B?ckgrbDBuaDIrZk1LMkhHS0RtUE11NU1zbWpCemZ6M2c3NXZLS014MWZHVDFU?=
- =?utf-8?B?cWNLVXlwMmUybC8xbW5OTXluSGl2Y3RsRVp4bGV5dkdZSTgwQzNEcHBMUEZG?=
- =?utf-8?B?MmsvTGQ3WUdMTGFCZVI0a1ZoTXZwQmkrK3NiQVRvaHkwUy9mcWFTS3dlQy9a?=
- =?utf-8?B?NjdTWWQyMDJXVlFpYXBHcisxWkVLK1dpd2VFdGVTODVCRFZzTWxseVNiUlFH?=
- =?utf-8?B?WmVGQXpydDJmUndHTnRiYzNnU1RldjNtd2hnby91Y0NFaWNnUHl2REtDSmtr?=
- =?utf-8?B?c0d5MHF2OTN4MWUyamxEbFcwUyt1enZKTGZPSXJsNHhsMlFQaGU1TzNDTW02?=
- =?utf-8?B?NERvYlZKTFE3V2dTbUVma1lQMUVvOXMwZStBTjNWcm4rd0VGQTRqZmRNbXc3?=
- =?utf-8?B?S0crZkw0NVRRSHdUMzQ1T1RFUFlIZUJ2MDNabjNDTm0zaWg1aWczT1Q5MzBq?=
- =?utf-8?B?dTRzYXh6L085dHVEM1oyNHo4RE1zZm9hc0VXczBEdTdMYjc0dWUwcEc1Tjg3?=
- =?utf-8?B?N0N1UnpNUWVyenNMaFB4b2hDdmcwQzBMRGFWRFpWZ3pkdlQzUWx3QWtvR242?=
- =?utf-8?B?dXlyeDlPSUlaTWlVUEtNSXoyRnBYWWFzc1A4UWVwdktnamZhcTJFUldHeGdj?=
- =?utf-8?B?MkJjRjhOSzVsclZNcGp0aDBwNjJqUXJJWXlBT0tTL0FscmVMbnlPNmFiSjR5?=
- =?utf-8?B?Vkhud2lETFBGN1laWU9BeityU3BqbHVyQnVzZWFQekxYNFhJQlVTZEIyckdk?=
- =?utf-8?B?alFBczRUM2ZBSlRRY1YybERKWnhPRWJBYWMwR2ovcDJ3YXJrdDhvTjNqUHYy?=
- =?utf-8?B?RVRQdTQwaTZvNTV5cEFVcG41OTBHL3FNZGJEaFBYaldsb3hEbG5rMjdmc0Zh?=
- =?utf-8?B?V1JxajVEcGZPSzlqMWdpU0dHd0p2Rkg0Z3NybldRZnRxbVd2M3BFckF1SkNI?=
- =?utf-8?B?OEtmN01OSzg3aXJ2a01sbUFuc09mUmhPYys5QXgwM3VRQnJpelNuWEswSzRD?=
- =?utf-8?B?Z1FJN0ovSlZyTXdVcjAvZDdHdERyeEdLRnh1M2lkOXBtdGJSLytnazFSQ1E1?=
- =?utf-8?B?MmxwRkgvamNhSmE1dm93OHBwbUJuWWYxajdNYitCNlJHcUFxZkVHTWZDYXpm?=
- =?utf-8?B?T3I4UFZ1ejVIbHljVzhtQ2U2M2tEMmRGOWxVNExIOERwVWlGTTVrOE9XVnRW?=
- =?utf-8?B?REtSMzlBbUlnM2FkUy9PeEJLWEVrWlNKRWFVUi9CbEQzNEhYTTVVMXdXbERU?=
- =?utf-8?B?cjBMYkU0WWlYK2pXR3BJYW50OXI4V0ZRWTMySWcrV1F2U01KZStYenJiZmNw?=
- =?utf-8?B?STU5TVBnaWQydERtQTRKTlBka0QrZ0IvQTlkbjNWN3VzM3F1QWtEZTB1cWZG?=
- =?utf-8?B?Q1QvY0FGUUtXUTl5VG5adXRDOVZsRnJGM25XTXFYVTB5QnVmTmtoLytiUVgv?=
- =?utf-8?B?Qmk2eEk0TkRwQUdWRTlURTNneVYwWkI4d1VBNWJ4Q0tPT0lKRG5jdjNUU3h3?=
- =?utf-8?B?b05iSGdPWTI1bGJWWjRxOFJlYncvRXkzUUpmRFAyZGJBWHkzTU90UkFEQ2VN?=
- =?utf-8?B?c2xzSDd0eHVvOVFHN0dqTG44VTdnWm0xTThveS90cFg3OWtEVXZ5V2NZYS95?=
- =?utf-8?B?V2JOVHJwbUJGU3NiMTJzUHZscDRhKzFsTXJwbm9ndGpJRExibktjUzdhVERP?=
- =?utf-8?B?MjdLeDg3dUV1VU9BRlhVOHNZTjgweWF5aGpCY3oxUDB1c010SU1HSkRvMDE1?=
- =?utf-8?B?N0pyTkVFRVBIT1ZWb05QWEpvQzBpL09CUFg3OGpITk81OUxMMzI0TXdKc0hM?=
- =?utf-8?B?YlJuY2JZcTV0cm1FZVkrb1Ewek1YejNBRUYrSm9NVXBNUzhIZGtER1lRSUUx?=
- =?utf-8?Q?ziiCqntlUDzXUUm8EXLjSGwxj?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MN6PR11MB8169.namprd11.prod.outlook.com (2603:10b6:208:47d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Wed, 29 May
+ 2024 02:44:56 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7611.030; Wed, 29 May 2024
+ 02:44:56 +0000
+Message-ID: <c92cb41a-8d19-6d7f-bd6d-6a583096ac0d@windriver.com>
+Date: Wed, 29 May 2024 10:44:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core][PATCH V2] util-linux/util-linux-libuuid: upgrade from
+ 2.39.3 to 2.40.1
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20240525050348.2443339-1-Qi.Chen@windriver.com>
+ <20240528180621277ecf41@mail.local>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <20240528180621277ecf41@mail.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0148.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::33) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	7H4eziswh5j7O2cJ30kXCHZ+1qItn2loAY2TILWrxEWJqsajMz9bN8nNlCXycH1++I1pRLlaVHuS9jvx7hGsrSmx6vxiLkXioQiKpIFov5inFbpzwJnAyKhaMm9ox4x218GFf33rfRHgRWxBM8PJr/SF0DMQlIPO4p++ah19KFahlKxNjRObvLtlZj2npsLbtKLU8V4Qu2qOTWWO1rrU+LfUJBhg9HkUX1AEL9GsaofC4ez6p+Rdqqttz30d2v4dMFsMEEFAoGl9U2AQYhukZmAn9auC0KK2F8nWBZ20ejLH+25SJYBSZZQay3YqzenDPWp1GdKJzm1z68+QrV1NamP7BC2NWkmlPEt0zAPYB0FR54L3zbNKQ7GRi2L5skcAeZnomZArDxSi6M57a9ad0qMx7JT9C1gotoJa+f/XTTlUFpIDhmaa65JuUC46pJxSeac2oPdABr64s2nG6pGwrlG385zEiyMz8Jcw4Q/a76Ve8zi5sEbVufg6uQsdWdGVsU+uDcqrJKzdjBjRqGN2+u5tnQfr8xqCqkGd5jxB5PdQjQ4npjExsZFIHxGiBsUASdRs9/idqY2VwFQeOzhnbdT56rmPrzWM8FUGfkGovE49tt6omoDU3H8FIL3T1MHu
-X-OriginatorOrg: fujitsu.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MN6PR11MB8169:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fc13597-faf9-43f2-37ce-08dc7f895315
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?V042TW5EUWZibjhjbGxBMEZkdnZ4enBiLytFd1Zad0VWdnN0TjhsMUlzUFA5?=
+ =?utf-8?B?djhqTDRlTHhVL1E0N1p2NmlnM3dEdFBlMUVycVlKT1R1M2ZmajRvVzBVY3Fy?=
+ =?utf-8?B?SU4yUnp1L2ZYNUJDdmU4YjdhSHBKVUtzQnl0djZXZGpmekxZdWRQbWh6NXFO?=
+ =?utf-8?B?dlNSMEQzWUk1enZLR2g5dFVaODJHM1ZxU2JjZGFCU0M3S1RNcjRrRUhiRG5z?=
+ =?utf-8?B?b1pidTdWZXIyd0RCYTVPTjQyK0RFK0FJd1JYbGxxM0FHbEU2ZUFFRytiSU40?=
+ =?utf-8?B?ZVg3eVJKUXM1WTR2dC8xMkEwWUZ6dGNlNzFnSGorK3ZhVGtLMjR6bkdwaU1G?=
+ =?utf-8?B?RzBOQU1tcnNTOGR4OFZoRGtUdHM3RVM0VitJbU1LYnZDTjZrNE5PZDFlOHFq?=
+ =?utf-8?B?TzBCSVdsRnBuNjFNdStUMUY4SVdiR3pzREY0ZHNFdGprM0JGRElIZExrTWxk?=
+ =?utf-8?B?YWFMTllmNjU1WHFVcE50YzhJMEpxTWVobEJZOUFXSHl5QzBNOVlLVVNYMDRF?=
+ =?utf-8?B?K2xDMVBvZTB3TW1RK1FDenNadFhZb1lOMk9aSEZxNEZYb3k5WDRGT3RKMlJ5?=
+ =?utf-8?B?TFZ4Q2hEUDhBYkxtb0l1NUpFRVVGSnFETG1UeFZTNzY0VjA4ajkzZzNFcThK?=
+ =?utf-8?B?VlNVVlI2eHBGYXRieHRMdXB3bTlrL0hXVm5NR2dFZkM5MUVHdjc4Y2t4elR2?=
+ =?utf-8?B?dDVOdVNabmRYS05COG9wNjU4cWluK0cxVTBkQTZ5Y3ZrRU5tNlhMWm1jeGdJ?=
+ =?utf-8?B?QXBJMks2cTZBbSt2cHpGT051dkl1ZkJmdnlCVzc2VU52ZWM5c1RhelZZYVFQ?=
+ =?utf-8?B?clIxaERHOHpMazd6TEdndW82UzRDRmZVY2FuNGg0cm1QT0o5THNEWkpWN2ww?=
+ =?utf-8?B?alNYNUJ6V040MkxiR0lVL0duemdyOXZ1ZFBka2srMWQ2TTRhYmJ5cnRWSFdP?=
+ =?utf-8?B?d0x2Qi9IekF2UUxzWEZOTHdWSnRlMTgxdzBsNThjQUlUYkNMVVNrcVpkTDVF?=
+ =?utf-8?B?NndKRU5IQ3NEUEJGMk1lNkY3bnNiUk1WYXRTSnpiQ3c5NzRZV01uNVBScnFE?=
+ =?utf-8?B?Z1oxQzBBSVdXQzdpT29GVllURW9DaWRHdkZnd0JXN2pwaCt4NEc1NGFNK3F3?=
+ =?utf-8?B?SWVWdldORFh4OG9obHEvZzA0UlFURGxBajNSSUhXWENKVTY5SDFHcFFRaTBB?=
+ =?utf-8?B?WTEzN0lzQ29IdzVhMGRRbWxRcGtLL2FNL28xQ2o5NVphMlo1RCtLRVZ6cUEx?=
+ =?utf-8?B?UjJSL1VwdzZFeXJxVkp3d3gybVB5Sk9QbVdmR1U3aFBUckdGYWs3QWptelJS?=
+ =?utf-8?B?NS9RRjRCQUZ0ejVubkdKVkRDSU43eFlnZnFRclhnNlN1S0J3Nk4yV0JBcUVW?=
+ =?utf-8?B?YVlXRWtFRkFOU2U0TmFGVmpvQ0dDeUVubXU5bUxzVFVrMXRjL2czekZJSzNU?=
+ =?utf-8?B?WWppa2lETzh3cTV4NDV2ZEY1TElHOTh0WnBZZVphVG5WMjk2ZDlSYk5hZExh?=
+ =?utf-8?B?NEJFY2lsUU13UkZrZkpKM1VKUnRtUFByZEZCM1djUkVGUFcvMU9RSU5UNWJw?=
+ =?utf-8?B?NjNyOEZjZHZRaEZZRGl1OGFlVFNKWTE2bmtrdkZIL0ZGRk52SHlWS3liTHFr?=
+ =?utf-8?Q?2ldsc63DMBiJImOhhMof+Ce9JQ8Y49TWSDB900JjT1k8=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VTVFaHZGaDlXeGFmakNCbHk1azF1L2FYZHpyamJ3WnBSd0N4YytObkE3QmJr?=
+ =?utf-8?B?d3JCdk13bEh1OU9HdnZNYm11MHo0enFFSkcyZGhDY0VZZ0trQ0IyMko0OUpo?=
+ =?utf-8?B?bDhYYkdranVqVDgvV2JDRGhQQTJvK25KaXVPb0tVRDJ0d1J0elZ0clZkUjla?=
+ =?utf-8?B?VFZnVVRNRWlSbkgwK0pkVFpOMTVFU1MzUjlKTEsvK0FXYzZBdjZENWFiSElC?=
+ =?utf-8?B?VGRISHhFMTZvMlYxaUVreDY3dkVOeTBwc09aRUJDeE02ZHhETzRhdDBrc3VB?=
+ =?utf-8?B?dUZOc000c3ZHU091ZjhTK2l6c2ljMlhsdTg0bXh6SW9Gb3NuM0wxVzRkZDRo?=
+ =?utf-8?B?aEM0YUlhSlM4RmpYeUV5M09ORzZ3WXNFeVo5a2Y3WFQzeGdCLzFOWkZiRTdN?=
+ =?utf-8?B?MzM5VkxpbFplMEhxaUlCTmkyS25mQ3Nibnd5dWZHTzVobm93aG9qb3RpOWZL?=
+ =?utf-8?B?YUcvdk1YbjdQeGpKSXJyMU10cU01RTVsMVd0eWhTV3hPL0RRWFVuWGh3SWgw?=
+ =?utf-8?B?TzNhVTNhUU1yMklvR1JGUmIyVCswcFZnRGdxMHRUUUN0akdaTjg0UUFMakEr?=
+ =?utf-8?B?NlA2aVRqZnVGWmNlWTdTdmRtRGR4SHFRS2VDVlNFWE1ncmVoZHBtcFZyOTFV?=
+ =?utf-8?B?eWtkeDFRZENrSDRQUVRvejlMVVRMMjBlSlpUSG1OQ2JwVTZ5NjE3dnpST01X?=
+ =?utf-8?B?Qkh1WlpGVkVzdzFaMmlVVmRHbndKL0JBa3dOUFMxNFlxWjN0eWdTaEhZdmdH?=
+ =?utf-8?B?Vis1ckpnamJFZVVSYzM3RklPNXVrWnFzVmUyN0cvTHU5SElEYjhoR1o4UE9F?=
+ =?utf-8?B?Zkl6a0hhRzl2Uk5WR1JxQTB2ekEzdmNld1Q2RzdmSDZrR0wzU1BVRkJ1QURT?=
+ =?utf-8?B?WnRFSFozOG9TUGI0bjlUM3k4TVdXR3JrTFIwNUEva2xva09HS2MwZEp2M2ZQ?=
+ =?utf-8?B?bHNJNEphSEpIRnJwK1BZRGJtTk91VGRwclJjRm5SckVaRVZsdTBWaGp0UElB?=
+ =?utf-8?B?UGR6NkxDWmhmU2pPR2U1cEIxYXdKKzVEMkxjWjIvbW1RNWo0MHViOEVvYTI3?=
+ =?utf-8?B?dzFGSWM1S1FWZElqRk1QLytOaU9LNlBtem8yVDJnMG1oYzNCRXNpVVNubUhB?=
+ =?utf-8?B?YXorSURsbTBzc3h1TlhpSnVFNDE4YUYvT0JRTE8rZ2ZFN0sveFlaSU4zUFNE?=
+ =?utf-8?B?OGpnc3Uyc2NWRGhTQ1IwaWxlallWTCt5ZGQ4MUR2YUV1NkZjcVFoVFZQKytR?=
+ =?utf-8?B?T3JVQVFKOWhzWklLUUg5V0xEVkVEMk52SDFGbGI0OTM0bi9xMDF3WStGMU9Y?=
+ =?utf-8?B?QnBUVUQyN1pab1hXaFl5RGtWMXlBbTZNS1RucnBUS3ozbFhEVjFXYXgvRGds?=
+ =?utf-8?B?eEJVM2Z2NWRJNHpuWHdkb3ZTeitzZHdXRlNzeGxlbkVISEVjV0tTZTArd2RY?=
+ =?utf-8?B?WWZ4dXNLRjlFTi9VQk4zT3YvSm8wdCtBNXd6bUFML3JiYldlSkE1cjgxazI1?=
+ =?utf-8?B?QVNjYkUrTW9sbU5NOHBwTWVMdU44MTl1bkZzQ0V6VlMvZFZxQ29LS1AyTXdj?=
+ =?utf-8?B?Y1lRSTIwR2NPQk05ZnBZRmdzdmlZSGg0c2xWZnNCNjN5NnJKOCtkM3AwQXo5?=
+ =?utf-8?B?RG1JN0F0VXVuY0Z4elh4amMvYmF6NitsTnhyYnplRGk0YmQ2dG56ZGdBcjV2?=
+ =?utf-8?B?VEhKQ1VXcFIzU3ZWcXRSMDFqMDZVYVhXQ1dmdEkwRTAzUTlSZGVJTWQxVWwx?=
+ =?utf-8?B?WGlmeW9WMWJ2aVV0RElRemhOa1UvM1dTTUpBRDJHbXBwazdocnNYM1c1UHBx?=
+ =?utf-8?B?UWZXazJDZmZDMldPU3lOMTBTR3BFbWJ5WC9ScTJvbzlRaW5hdnlYWmdSNXBx?=
+ =?utf-8?B?UjdSaEo0V1hzaWRKbWJjNjhjR0dzRHlWSFVCRVZMOVFCL0t3bHVtV1pvZ0Fp?=
+ =?utf-8?B?aGJ2Vm9MSXNrUDladXBreG5LTWcxVUJ0VGRFWUZqSGNPSUJUME9qY1pVVUI4?=
+ =?utf-8?B?cVdtWlkxSGRTTkdNVlBOT1IwQ3g2bHlKRnBQVUtidjdXbkc1VmtFMXFzYVNw?=
+ =?utf-8?B?a055bVlWWEx0T0hwcExhTXdEaS9saDEvSU1zTjRaZ3RvREQ1UHI4V1FwZjUy?=
+ =?utf-8?Q?cXFFv7E98JrU3OoFXhDYI/Msv?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fc13597-faf9-43f2-37ce-08dc7f895315
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11056.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2091960d-5f60-4e92-1b9f-08dc7f833520
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2024 02:01:08.8421
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 02:44:56.1749
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jR4aj09SFFe+9k5Ly1SsKyhGgUC5aJqCeASH+fnMvUewfGWWJ+MAbqGz0UWZ7XVgkC7ID/OAGttRemMBCQEWww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8699
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GjDTdbN7ye8kK1f1roMapRfkO9glODQFk6C0ksDbQ3Kj13GyFBtkTC5CHsrhb0ODOyoI+vPvDoy/HJxiqzzyrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8169
+X-Proofpoint-ORIG-GUID: TrASKnkMmEYSjy_FOKSGJXfIebqiGIV2
+X-Proofpoint-GUID: tmtQZa4bQNHPDtdl1-c7NyVA5Bxw4XPY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-28_14,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405290016
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 02:01:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199979
+ <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 02:45:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199980
 
-SGksIA0KDQpUaGlzIHBhdGNoIGhhcyBub3QgYmVlbiBtZXJnZWQgeWV0IGFuZCBJIGRpZG4ndCBm
-aW5kIGl0IGFueSBtb3JlLiBJcyB0aGVyZSBhbnkgaXNzdWUgd2l0aCB0aGlzIHBhdGNoPw0KDQpC
-ZXN0IHJlZ2FyZHMNCkxlaQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBsZWltYW9odWkgdmlh
-DQo+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogTW9uZGF5LCBNYXkgMTMsIDIwMjQg
-ODo0NSBBTQ0KPiBUbzogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
-DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0ggdjRdW1BBVENIXSBsaWJic2Q6IEZpeCBjb25mbGljdCBl
-cnJvciB3aGVuDQo+IGVuYWJsZSBtdWx0aWxpYi4NCj4gDQo+IEhpLCBBbGV4DQo+IA0KPiA+IEl0
-J3MgaW4gYWJlbGxvbmkvbWFzdGVyLW5leHQgb24gcG9reS1jb250cmliLiBQbGVhc2UgcmVhZCBS
-aWNoYXJkJ3MNCj4gPiBzdGF0dXMgZW1haWwgYW5kIHRyeSB0byBwYXkgYXR0ZW50aW9uIHRvIHRo
-ZW0gZ29pbmcgZm9yd2FyZDoNCj4gSSBnb3QgaXQuIFRoYW5rIHlvdSBmb3IgeW91ciByZXBseS4N
-Cj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBMZWkNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
-LS0tLS0NCj4gPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4NCj4gPiBTZW50OiBGcmlkYXksIE1heSAxMCwgMjAyNCA0OjQzIFBNDQo+ID4gVG86IExlaSwg
-TWFvaHVpIDxsZWltYW9odWlAZnVqaXRzdS5jb20+DQo+ID4gQ2M6IG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENI
-IHY0XVtQQVRDSF0gbGliYnNkOiBGaXggY29uZmxpY3QgZXJyb3INCj4gPiB3aGVuIGVuYWJsZSBt
-dWx0aWxpYi4NCj4gPg0KPiA+IEl0J3MgaW4gYWJlbGxvbmkvbWFzdGVyLW5leHQgb24gcG9reS1j
-b250cmliLiBQbGVhc2UgcmVhZCBSaWNoYXJkJ3MNCj4gPiBzdGF0dXMgZW1haWwgYW5kIHRyeSB0
-byBwYXkgYXR0ZW50aW9uIHRvIHRoZW0gZ29pbmcgZm9yd2FyZDoNCj4gPg0KPiA+DQo+IGh0dHBz
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1hcmNoaXRlY3R1cmUvbWVz
-c2FnZS8yMA0KPiA+IDAzDQo+ID4NCj4gPiBBbGV4DQo+ID4NCj4gPiBPbiBGcmksIDEwIE1heSAy
-MDI0IGF0IDAzOjE5LCBsZWltYW9odWkgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA8
-bGVpbWFvaHVpPWZ1aml0c3UuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+
-ID4NCj4gPiA+IFBpbmcNCj4gPiA+DQo+ID4gPg0KPiA+ID4NCj4gPiA+DQo+ID4gPiA+IC0tLS0t
-T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZg0KPiBsZWltYW9odWkNCj4gPiA+ID4gdmlhIGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4gU2VudDogVHVlc2RheSwgQXByaWwgMzAsIDIw
-MjQgNDoyNyBQTQ0KPiA+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiA+ID4gPiBDYzogTGVpLCBNYW9odWkgPGxlaW1hb2h1aUBmdWppdHN1LmNvbT4N
-Cj4gPiA+ID4gU3ViamVjdDogW09FLWNvcmVdW1BBVENIIHY0XVtQQVRDSF0gbGliYnNkOiBGaXgg
-Y29uZmxpY3QgZXJyb3INCj4gPiA+ID4gd2hlbiBlbmFibGUgbXVsdGlsaWIuDQo+ID4gPiA+DQo+
-ID4gPiA+IEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBmdWppdHN1LmNvbT4NCj4gPiA+ID4N
-Cj4gPiA+ID4gLSBGaXggdGhlIGNvbmZsaWN0IGVycm9yIGJ5IG9lX211bHRpbGliX2hlYWRlci4g
-VGhlIGNvbmZsaWN0IGVycm9yDQo+ID4gPiA+IGlzIGFzIHRoZQ0KPiA+ID4gPiBmb2xsb3dpbmc6
-DQo+ID4gPiA+IEVycm9yOiBUcmFuc2FjdGlvbiB0ZXN0IGVycm9yOg0KPiA+ID4gPiAgIGZpbGUg
-L3Vzci9pbmNsdWRlL2JzZC9zeXMvY2RlZnMuaCBjb25mbGljdHMgYmV0d2VlbiBhdHRlbXB0ZWQN
-Cj4gPiA+ID4gaW5zdGFsbHMgb2YNCj4gPiA+ID4gbGliYnNkLWRldi0wLjEyLjEtcjAuY29yZTJf
-NjQgYW5kDQo+ID4gPiA+IGxpYjMyLWxpYmJzZC1kZXYtMC4xMi4xLXIwLmNvcmUyXzMyDQo+ID4g
-PiA+DQo+ID4gPiA+IFRoZSBkaWZmZXJlbmNlIG9mIGJzZC9zeXMvY2RlZnMuaCBiZXR3ZWVuIGxp
-YmJzZC1kZXYgYW5kDQo+ID4gPiA+IGxpYjMyLWxpYmJzZC1kZXYgaXMgYXMgZm9sbG93aW5nOg0K
-PiA+ID4gPg0KPiA+ID4gPiAgLyogRGVmaW5lIHRoZSBBQkkgZm9yIHRoZSBjdXJyZW50IHN5c3Rl
-bS4gKi8gIC0jZGVmaW5lDQo+ID4gPiA+IExJQkJTRF9TWVNfVElNRV9CSVRTIDY0ICArI2RlZmlu
-ZSBMSUJCU0RfU1lTX1RJTUVfQklUUyAzMg0KPiAjZGVmaW5lDQo+ID4gPiA+IExJQkJTRF9TWVNf
-SEFTX1RJTUU2NCAxDQo+ID4gPiA+DQo+ID4gPiA+IC0gQWZ0ZXIgb2VfbXVsdGlsaWJfaGVhZGVy
-IG9uIGNkZWZzLmgsIHRoZSBwYXRoIG9mIGNkZWZzLTY0LmggYW5kDQo+ID4gPiA+IGNkZWZzLTMy
-LmggaW4gY2RlZnMuaCBuZWVkIHRvIGJlIGNvcnJlY3RlZCBmb3Igb3ZlcmxheS1tb2RlLg0KPiA+
-ID4gPiBQbGVhc2UgcmVmZXJlbmNlIHRvDQo+ID4gPiA+IGh0dHBzOi8vbWFuLmFyY2hsaW51eC5v
-cmcvbWFuL2xpYmJzZC43IGZvciBkZXRhaWxzLg0KPiA+ID4gPiAgIEBAIC0xMiwxOSArMTIsMTkg
-QEANCj4gPiA+ID4gICNpZmRlZiBfTUlQU19TSU0NCj4gPiA+ID4NCj4gPiA+ID4gICNpZiBfTUlQ
-U19TSU0gPT0gX0FCSU8zMg0KPiA+ID4gPiAtI2luY2x1ZGUgPGJzZC9zeXMvY2RlZnMtMzIuaD4N
-Cj4gPiA+ID4gKyNpbmNsdWRlIDxzeXMvY2RlZnMtMzIuaD4NCj4gPiA+ID4gICNlbGlmIF9NSVBT
-X1NJTSA9PSBfQUJJTjMyDQo+ID4gPiA+IC0jaW5jbHVkZSA8YnNkL3N5cy9jZGVmcy1uMzIuaD4N
-Cj4gPiA+ID4gKyNpbmNsdWRlIDxzeXMvY2RlZnMtbjMyLmg+DQo+ID4gPiA+ICAjZWxzZQ0KPiA+
-ID4gPiAgI2Vycm9yICJVbmtub3duIF9NSVBTX1NJTSINCj4gPiA+ID4gICNlbmRpZg0KPiA+ID4g
-Pg0KPiA+ID4gPiAgI2Vsc2UgLyogX01JUFNfU0lNIGlzIG5vdCBkZWZpbmVkICovIC0jaW5jbHVk
-ZQ0KPiA+ID4gPiA8YnNkL3N5cy9jZGVmcy0zMi5oPg0KPiA+ID4gPiArI2luY2x1ZGUgPHN5cy9j
-ZGVmcy0zMi5oPg0KPiA+ID4gPiAgI2VuZGlmDQo+ID4gPiA+DQo+ID4gPiA+ICAjZWxpZiBfX1dP
-UkRTSVpFID09IDY0DQo+ID4gPiA+IC0jaW5jbHVkZSA8YnNkL3N5cy9jZGVmcy02NC5oPg0KPiA+
-ID4gPiArI2luY2x1ZGUgPHN5cy9jZGVmcy02NC5oPg0KPiA+ID4gPiAgI2Vsc2UNCj4gPiA+ID4g
-ICNlcnJvciAiVW5rbm93biBfX1dPUkRTSVpFIGRldGVjdGVkIg0KPiA+ID4gPiAgI2VuZGlmIC8q
-IG1hdGNoZXMgI2lmIF9fV09SRFNJWkUgPT0gMzIgKi8NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVk
-LW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPg0KPiA+ID4gPiAtLS0N
-Cj4gPiA+ID4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMi4yLmJiIHwg
-MTAgKysrKysrKysrLQ0KPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQ0KPiA+ID4gPg0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliYnNkL2xpYmJzZF8wLjEyLjIuYmINCj4gPiA+ID4gYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJic2QvbGliYnNkXzAuMTIuMi5iYg0KPiA+ID4gPiBpbmRleCA3ZDVlODhmMjkz
-Li4xNzkxZDk3ZGZkIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJic2QvbGliYnNkXzAuMTIuMi5iYg0KPiA+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9saWJic2QvbGliYnNkXzAuMTIuMi5iYg0KPiA+ID4gPiBAQCAtNDAsOCArNDAsMTYgQEAgU1JD
-X1VSSSA9DQo+ID4gPiA+ICJodHRwczovL2xpYmJzZC5mcmVlZGVza3RvcC5vcmcvcmVsZWFzZXMv
-JHtCUE59LSR7UFZ9LnRhci54eiINCj4gPiA+ID4NCj4gPiA+ID4gIFNSQ19VUklbc2hhMjU2c3Vt
-XSA9DQo+ID4gPiA+DQo+ID4NCj4gImI4OGNjOTE2M2QwYzY1MmFhZjM5YTk5OTkxZDk3NGRkYmEx
-YzNhOTcxMWRiOGYxYjU4MzhhZjJhMTQ3MzEwDQo+ID4gPiA+IDE0Ig0KPiA+ID4gPg0KPiA+ID4g
-PiAtaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnDQo+ID4gPiA+ICtpbmhlcml0IGF1dG90b29s
-cyBwa2djb25maWcgbXVsdGlsaWJfaGVhZGVyDQo+ID4gPiA+DQo+ID4gPiA+ICBERVBFTkRTICs9
-ICJsaWJtZCINCj4gPiA+ID4NCj4gPiA+ID4gK2RvX2luc3RhbGw6YXBwZW5kICgpIHsNCj4gPiA+
-ID4gKyAgIG9lX211bHRpbGliX2hlYWRlciBic2Qvc3lzL2NkZWZzLmgNCj4gPiA+ID4gKyAgICMg
-SXQgaGFzbid0IGJlZW4gdGVzdGVkIHdoZW4gbGliYnNkIGlzIHVzZWQgaW4gJ25hbWVzcGFjZWQg
-aGVhZGVycycNCj4gPiA+ID4gbW9kZSBhY2NvcmRpbmcgdG8NCj4gPiA+ID4gKyAgICMgaHR0cHM6
-Ly9tYW4uYXJjaGxpbnV4Lm9yZy9tYW4vbGliYnNkLjcuDQo+ID4gPiA+ICsgICBzZWQgLWkgJ3M6
-I2luY2x1ZGUgPGJzZC9zeXMvY2RlZnM6I2luY2x1ZGUgPHN5cy9jZGVmczpnJw0KPiA+ID4gPiAr
-JHtEfSR7aW5jbHVkZWRpcn0vYnNkL3N5cy9jZGVmcy5oIH0NCj4gPiA+ID4gKw0KPiA+ID4gPiAr
-DQo+ID4gPiA+ICBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiDQo+ID4gPiA+IC0t
-DQo+ID4gPiA+IDIuMzQuMQ0KPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+ID4NCg==
+On 5/29/24 02:06, Alexandre Belloni wrote:
+> Hello,
+>
+> This breaks all the qemu*-alt build this way:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/7875/steps/14/logs/stdio
+
+Hi Alexandre,
+
+I checked the error. This is a problem in systemd 255 that is exposed by 
+new util-linux agetty.
+
+See https://github.com/util-linux/util-linux/issues/2896.
+
+The fix in systemd is: https://github.com/systemd/systemd/pull/31202
+
+Looking at the contents, I don't think the above fix is appropriate to 
+backport to 255. So we have two options:
+
+1) Modify meta/lib/oeqa/runtime/cases/parselogs-ignores-common.txt to 
+include the above error message so that the parselogs testcase does not 
+fail. We'll then remove it when we upgrade systemd to 256 in the future.
+
+2) Hold this util-linux upgrade until systemd 256 is released. I'll do 
+the upgrade and check this problem again at that time.
+
+Which one do you prefer?
+
+Regards,
+
+Qi
+
+
+
+>
+>
+> On 25/05/2024 13:03:48+0800, Chen Qi via lists.openembedded.org wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> License-Update:
+>> ===============
+>> GPL-2.0 is changed to GPL-2.0-only in README.licensing.
+>>
+>> The following two patches are removed as they've been there in new release:
+>>
+>>    0001-login-utils-include-libgen.h-for-basename-API.patch
+>>    mit-license.patch
+>>
+>> Other existing patches are refreshed to avoid patch-fuzz error.
+>>
+>> A new PACKAGECONFIG, lastlog2, is added, which serves as a switch to build Y2038
+>> safe lastlog pam module. This is a new functionality added in 2.40.
+>>
+>> This 2.40.1 version has the problem of unnecessary remake, causing
+>> intermmittent errors at parallel make. The do_compile:prepend is a
+>> workaround for this. Upstream issue and PR are:
+>> https://github.com/util-linux/util-linux/issues/3061
+>> https://github.com/util-linux/util-linux/pull/3064
+>>
+>> do_install is changed to do_install:append, the legacy codes are
+>> removed. They've been there since the born of oe-core. I tested
+>> with ccache, there's no error.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   ...2.39.3.bb => util-linux-libuuid_2.40.1.bb} |  0
+>>   meta/recipes-core/util-linux/util-linux.inc   |  8 +--
+>>   ...ls-include-libgen.h-for-basename-API.patch | 60 -------------------
+>>   .../util-linux/avoid_parallel_tests.patch     |  5 +-
+>>   .../util-linux/configure-sbindir.patch        |  7 +--
+>>   .../display_testname_for_subtest.patch        |  7 +--
+>>   .../util-linux/util-linux/mit-license.patch   | 45 --------------
+>>   .../util-linux/util-linux/ptest.patch         | 11 ++--
+>>   ...l-linux_2.39.3.bb => util-linux_2.40.1.bb} | 21 ++++---
+>>   9 files changed, 29 insertions(+), 135 deletions(-)
+>>   rename meta/recipes-core/util-linux/{util-linux-libuuid_2.39.3.bb => util-linux-libuuid_2.40.1.bb} (100%)
+>>   delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+>>   delete mode 100644 meta/recipes-core/util-linux/util-linux/mit-license.patch
+>>   rename meta/recipes-core/util-linux/{util-linux_2.39.3.bb => util-linux_2.40.1.bb} (95%)
+>>
+>> diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb
+>> similarity index 100%
+>> rename from meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
+>> rename to meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+>> index d506783f9a..0f5f838e84 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -6,7 +6,7 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+>>   
+>>   SECTION = "base"
+>>   
+>> -LICENSE = "GPL-1.0-or-later & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT"
+>> +LICENSE = "GPL-1.0-or-later & GPL-2.0-only & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT"
+>>   LICENSE:${PN}-fcntl-lock = "MIT"
+>>   LICENSE:${PN}-fdisk = "GPL-1.0-or-later"
+>>   LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
+>> @@ -14,7 +14,7 @@ LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
+>>   LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
+>>   LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
+>>   
+>> -LIC_FILES_CHKSUM = "file://README.licensing;md5=cc80239f106687ab39ef0271ff5cf4ba \
+>> +LIC_FILES_CHKSUM = "file://README.licensing;md5=ddd58b6c94da86ff4f03e91208eb9cfc \
+>>                       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>>                       file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>>                       file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+>> @@ -30,7 +30,6 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=cc80239f106687ab39ef0271ff5cf4ba
+>>   FILESEXTRAPATHS:prepend := "${THISDIR}/util-linux:"
+>>   MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+>>   SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+>> -           file://mit-license.patch \
+>>              file://configure-sbindir.patch \
+>>              file://runuser.pamd \
+>>              file://runuser-l.pamd \
+>> @@ -38,8 +37,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+>>              file://run-ptest \
+>>              file://display_testname_for_subtest.patch \
+>>              file://avoid_parallel_tests.patch \
+>> -           file://0001-login-utils-include-libgen.h-for-basename-API.patch \
+>>              file://fcntl-lock.c \
+>>              "
+>>   
+>> -SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+>> +SRC_URI[sha256sum] = "59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f"
+>> diff --git a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+>> deleted file mode 100644
+>> index 6258710e1e..0000000000
+>> --- a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+>> +++ /dev/null
+>> @@ -1,60 +0,0 @@
+>> -From d44e3ad1f6f8b5c1b3098bb7d537943a4c21d22f Mon Sep 17 00:00:00 2001
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Sun, 3 Dec 2023 19:59:46 -0800
+>> -Subject: [PATCH] login-utils: include libgen.h for basename API
+>> -
+>> -musl has removed the non-prototype declaration of basename from string.h [1] which now results in build errors with clang-17+ compiler
+>> -
+>> -include libgen.h for using the posix declaration of the funciton.
+>> -
+>> -Fixes
+>> -
+>> -../util-linux-2.39.2/login-utils/su-common.c:847:20: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>> -  847 |                 shell_basename = basename(shell);
+>> -      |                                  ^
+>> -
+>> -[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+>> -
+>> -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2615]
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> -
+>> ----
+>> - login-utils/su-common.c | 10 +++++++---
+>> - 1 file changed, 7 insertions(+), 3 deletions(-)
+>> -
+>> -diff --git a/login-utils/su-common.c b/login-utils/su-common.c
+>> -index b674920..3297c78 100644
+>> ---- a/login-utils/su-common.c
+>> -+++ b/login-utils/su-common.c
+>> -@@ -26,6 +26,7 @@
+>> - #include <sys/types.h>
+>> - #include <pwd.h>
+>> - #include <grp.h>
+>> -+#include <libgen.h>
+>> - #include <security/pam_appl.h>
+>> - #ifdef HAVE_SECURITY_PAM_MISC_H
+>> - # include <security/pam_misc.h>
+>> -@@ -840,17 +841,20 @@ static void run_shell(
+>> - 				su->simulate_login ? " login" : "",
+>> - 				su->fast_startup ? " fast-start" : ""));
+>> -
+>> -+  char* tmp = xstrdup(shell);
+>> - 	if (su->simulate_login) {
+>> - 		char *arg0;
+>> - 		char *shell_basename;
+>> -
+>> --		shell_basename = basename(shell);
+>> -+		shell_basename = basename(tmp);
+>> - 		arg0 = xmalloc(strlen(shell_basename) + 2);
+>> - 		arg0[0] = '-';
+>> - 		strcpy(arg0 + 1, shell_basename);
+>> - 		args[0] = arg0;
+>> --	} else
+>> --		args[0] = basename(shell);
+>> -+	} else {
+>> -+    args[0] = basename(tmp);
+>> -+  }
+>> -+  free(tmp);
+>> -
+>> - 	if (su->fast_startup)
+>> - 		args[argno++] = "-f";
+>> diff --git a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+>> index 85ad7a5575..8ea00dbb95 100644
+>> --- a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+>> +++ b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+>> @@ -1,4 +1,4 @@
+>> -From 0b05e4695a0616badef71dfa459a00ef6ff1b521 Mon Sep 17 00:00:00 2001
+>> +From da58b4150f6932de36c962ea657713bcf4ea44be Mon Sep 17 00:00:00 2001
+>>   From: Tudor Florea <tudor.florea@enea.com>
+>>   Date: Mon, 14 Jun 2021 14:00:31 +0200
+>>   Subject: [PATCH] util-linux: Add ptest
+>> @@ -9,13 +9,12 @@ Revert run.sh script accordingly to serialize running tests
+>>   
+>>   Signed-off-by: Tudor Florea  <tudor.florea@enea.com>
+>>   Upstream-Status: Inappropriate
+>> -
+>>   ---
+>>    configure.ac | 2 +-
+>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>   
+>>   diff --git a/configure.ac b/configure.ac
+>> -index 890212f..870e817 100644
+>> +index 651ef2b..2a8012e 100644
+>>   --- a/configure.ac
+>>   +++ b/configure.ac
+>>   @@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
+>> diff --git a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+>> index 75adeca188..74abdc2038 100644
+>> --- a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+>> +++ b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+>> @@ -1,4 +1,4 @@
+>> -From c79222a9a5e3425c55e150edc0b7ac59c573aa2f Mon Sep 17 00:00:00 2001
+>> +From 0387d71516c978899cfd556ca512f530a212b4a9 Mon Sep 17 00:00:00 2001
+>>   From: Phil Blundell <pb@pbcl.net>
+>>   Date: Mon, 24 Sep 2012 07:24:51 +0100
+>>   Subject: [PATCH] util-linux: Ensure that ${sbindir} is respected
+>> @@ -9,16 +9,15 @@ fix the test, the [ ] syntax was getting eaten by autoconf
+>>   Signed-off-by: Phil Blundell <pb@pbcl.net>
+>>   Signed-off-by: Saul Wold <sgw@linux.intel.com
+>>   Upstream-Status: Inappropriate [configuration]
+>> -
+>>   ---
+>>    configure.ac | 5 ++++-
+>>    1 file changed, 4 insertions(+), 1 deletion(-)
+>>   
+>>   diff --git a/configure.ac b/configure.ac
+>> -index 36c24b4..890212f 100644
+>> +index 23594ff..651ef2b 100644
+>>   --- a/configure.ac
+>>   +++ b/configure.ac
+>> -@@ -102,7 +102,10 @@ AC_SUBST([runstatedir])
+>> +@@ -110,7 +110,10 @@ AC_SUBST([runstatedir])
+>>    usrbin_execdir='${exec_prefix}/bin'
+>>    AC_SUBST([usrbin_execdir])
+>>    
+>> diff --git a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+>> index 815ae9c915..871b0b2d30 100644
+>> --- a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+>> +++ b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+>> @@ -1,20 +1,19 @@
+>> -From fc5de1de898fd1a372a2fd2fa493dc57323a029d Mon Sep 17 00:00:00 2001
+>> +From 45450d0339cd7ee27f53c0f2fac1cc74ed9bbfb8 Mon Sep 17 00:00:00 2001
+>>   From: Tudor Florea <tudor.florea@enea.com>
+>>   Date: Thu, 3 Dec 2015 04:08:00 +0100
+>>   Subject: [PATCH] Display testname for subtest
+>>   
+>>   Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+>>   Upstream-Status: Pending
+>> -
+>>   ---
+>>    tests/functions.sh | 2 +-
+>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>   
+>>   diff --git a/tests/functions.sh b/tests/functions.sh
+>> -index 5a562a3..098145e 100644
+>> +index 5fe5ba0..a6c703e 100644
+>>   --- a/tests/functions.sh
+>>   +++ b/tests/functions.sh
+>> -@@ -437,7 +437,7 @@ function ts_init_subtest {
+>> +@@ -450,7 +450,7 @@ function ts_init_subtest {
+>>    
+>>    	if [ "$TS_PARSABLE" != "yes" ]; then
+>>    		[ $TS_NSUBTESTS -eq 1 ] && echo
+>> diff --git a/meta/recipes-core/util-linux/util-linux/mit-license.patch b/meta/recipes-core/util-linux/util-linux/mit-license.patch
+>> deleted file mode 100644
+>> index afbec98f18..0000000000
+>> --- a/meta/recipes-core/util-linux/util-linux/mit-license.patch
+>> +++ /dev/null
+>> @@ -1,45 +0,0 @@
+>> -From 5b8fab1584017d9d9be008c23b90128bba41a7b5 Mon Sep 17 00:00:00 2001
+>> -From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> -Date: Thu, 28 Mar 2024 12:16:57 +0000
+>> -Subject: [PATCH] README.licensing/flock: Add MIT license mention
+>> -
+>> -Looking at the license text, flock.c is under the MIT license (see
+>> -https://spdx.org/licenses/MIT).
+>> -
+>> -Add an SPDX license identifier header and add to the list of licenses the
+>> -source so everything is correctly listed/identified.
+>> -
+>> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> -
+>> -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2870]
+>> -
+>> ----
+>> - README.licensing  | 2 ++
+>> - sys-utils/flock.c | 4 +++-
+>> - 2 files changed, 5 insertions(+), 1 deletion(-)
+>> -
+>> -diff --git a/README.licensing b/README.licensing
+>> -index 4454f8392a..535ad34813 100644
+>> ---- a/README.licensing
+>> -+++ b/README.licensing
+>> -@@ -12,6 +12,8 @@ There is code under:
+>> -
+>> -    * LGPL-2.1-or-later  - GNU Lesser General Public License 2.1 or any later version
+>> -
+>> -+   * MIT                - MIT License
+>> -+
+>> -    * BSD-2-Clause       - Simplified BSD License
+>> -
+>> -    * BSD-3-Clause       - BSD 3-Clause "New" or "Revised" License
+>> -diff --git a/sys-utils/flock.c b/sys-utils/flock.c
+>> -index fed29d7270..7d878ff810 100644
+>> ---- a/sys-utils/flock.c
+>> -+++ b/sys-utils/flock.c
+>> -@@ -1,4 +1,6 @@
+>> --/*   Copyright 2003-2005 H. Peter Anvin - All Rights Reserved
+>> -+/*   SPDX-License-Identifier: MIT
+>> -+ *
+>> -+ *   Copyright 2003-2005 H. Peter Anvin - All Rights Reserved
+>> -  *
+>> -  *   Permission is hereby granted, free of charge, to any person
+>> -  *   obtaining a copy of this software and associated documentation
+>> diff --git a/meta/recipes-core/util-linux/util-linux/ptest.patch b/meta/recipes-core/util-linux/util-linux/ptest.patch
+>> index 6221de7182..7345926b88 100644
+>> --- a/meta/recipes-core/util-linux/util-linux/ptest.patch
+>> +++ b/meta/recipes-core/util-linux/util-linux/ptest.patch
+>> @@ -1,24 +1,23 @@
+>> -From d0a69ce80c579cbb7627a2f20e8b92e006a8d8ad Mon Sep 17 00:00:00 2001
+>> +From f9be73c3e2b0a4f0923950dcb058be85d3ee8ed7 Mon Sep 17 00:00:00 2001
+>>   From: Tudor Florea <tudor.florea@enea.com>
+>>   Date: Thu, 3 Dec 2015 04:08:00 +0100
+>>   Subject: [PATCH] Define TESTS variable
+>>   
+>>   Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+>>   Upstream-Status: Pending
+>> -
+>>   ---
+>>    Makefile.am | 1 +
+>>    1 file changed, 1 insertion(+)
+>>   
+>>   diff --git a/Makefile.am b/Makefile.am
+>> -index effbb02..7d2bd1e 100644
+>> +index 50ab8d0..7e2340d 100644
+>>   --- a/Makefile.am
+>>   +++ b/Makefile.am
+>> -@@ -57,6 +57,7 @@ systemdsystemunit_DATA =
+>> +@@ -64,6 +64,7 @@ tmpfiles_DATA =
+>>    dist_bashcompletion_DATA =
+>>    check_PROGRAMS =
+>>    dist_check_SCRIPTS =
+>>   +TESTS = $(check_PROGRAMS)
+>>    
+>> - PATHFILES =
+>> - ADOCFILES_COMMON =
+>> + BUILT_SOURCES =
+>> +
+>> diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
+>> similarity index 95%
+>> rename from meta/recipes-core/util-linux/util-linux_2.39.3.bb
+>> rename to meta/recipes-core/util-linux/util-linux_2.40.1.bb
+>> index 2cd7750afc..5985ddc7dc 100644
+>> --- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
+>> +++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
+>> @@ -90,7 +90,7 @@ EXTRA_OECONF:append = " --disable-hwclock-gplv3"
+>>   # build host versions during development
+>>   #
+>>   PACKAGECONFIG ?= "pcre2"
+>> -PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)}"
+>> +PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam lastlog2', '', d)}"
+>>   # inherit manpages requires this to be present, however util-linux does not have
+>>   # configuration options, and installs manpages always
+>>   PACKAGECONFIG[manpages] = ""
+>> @@ -106,6 +106,7 @@ PACKAGECONFIG[pcre2] = ",,libpcre2"
+>>   PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
+>>   PACKAGECONFIG[chfn-chsh] = "--enable-chfn-chsh,--disable-chfn-chsh,"
+>>   PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
+>> +PACKAGECONFIG[lastlog2] = "--enable-liblastlog2,--disable-liblastlog2,sqlite3"
+>>   
+>>   EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+>>   
+>> @@ -117,6 +118,7 @@ FILES:${PN}-mount = "${sysconfdir}/default/mountall"
+>>   FILES:${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
+>>   FILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
+>>   CONFFILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
+>> +FILES:${PN}-lastlog2 += "${base_libdir}/security/pam_lastlog2.so"
+>>   FILES:${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+>>                             ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
+>>                             ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
+>> @@ -147,18 +149,21 @@ SYSTEMD_AUTO_ENABLE:${PN}-uuidd = "disable"
+>>   SYSTEMD_SERVICE:${PN}-fstrim = "fstrim.timer fstrim.service"
+>>   SYSTEMD_AUTO_ENABLE:${PN}-fstrim = "disable"
+>>   
+>> +do_compile:prepend () {
+>> +	# this is a workaround for the unnecessary remake problem. Issue and PR are as below:
+>> +	# https://github.com/util-linux/util-linux/issues/3061
+>> +	# https://github.com/util-linux/util-linux/pull/3064
+>> +	# When newly release tarball contains the above fix, the following workaround could be dropped.
+>> +	[ -e ${S}/libsmartcols/src/filter-scanner.c ] && touch ${S}/libsmartcols/src/filter-scanner.c
+>> +	[ -e ${S}/libsmartcols/src/filter-parser.c ] && touch ${S}/libsmartcols/src/filter-parser.c
+>> +}
+>> +
+>>   do_compile:append () {
+>>   	cp ${UNPACKDIR}/fcntl-lock.c ${S}/fcntl-lock.c
+>>   	${CC} ${CFLAGS} ${LDFLAGS} ${S}/fcntl-lock.c -o ${B}/fcntl-lock
+>>   }
+>>   
+>> -do_install () {
+>> -	# with ccache the timestamps on compiled files may
+>> -	# end up earlier than on their inputs, this allows
+>> -	# for the resultant compilation in the install step.
+>> -	oe_runmake 'CC=${CC}' 'LD=${LD}' \
+>> -		'LDFLAGS=${LDFLAGS}' 'DESTDIR=${D}' install
+>> -
+>> +do_install:append () {
+>>   	mkdir -p ${D}${base_bindir}
+>>   
+>>           sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
+>> -- 
+>> 2.34.1
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#199864): https://lists.openembedded.org/g/openembedded-core/message/199864
+>> Mute This Topic: https://lists.openembedded.org/mt/106294633/3617179
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>
+
 
