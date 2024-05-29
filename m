@@ -2,8 +2,8 @@ Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DB4C25B75
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 08:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FF19C25B7C
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 09:01:48 +0000 (UTC)
 Subject: Re: [PATCH] buildhistory: Fix do_package race issues
 To: openembedded-core@lists.openembedded.org
 From: pmi183@gmail.com
@@ -11,21 +11,21 @@ X-Originating-Location: Vila Nova de Foz Coa, Guarda, PT (213.205.68.220)
 X-Originating-Platform: Windows Chrome 125
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Wed, 29 May 2024 01:56:00 -0700
+Date: Wed, 29 May 2024 02:01:40 -0700
 References: <CANNYZj-LvZ6akEmDgfGGLCf6xdy_0k1rb=Z428gJVr35Xg6u+w@mail.gmail.com>
 In-Reply-To: <CANNYZj-LvZ6akEmDgfGGLCf6xdy_0k1rb=Z428gJVr35Xg6u+w@mail.gmail.com>
-Message-ID: <27121.1716972960524403831@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="ihFyFDRCs5A6EJvb6Olc"
+Message-ID: <26273.1716973300075372023@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="Vmad3X1iKuhDj37KQ2CV"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 08:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199994
+ <openembedded-core@lists.openembedded.org>; Wed, 29 May 2024 09:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/199995
 
---ihFyFDRCs5A6EJvb6Olc
-Content-Type: multipart/alternative; boundary="Z39gcFgjInT2YRZvrAbr"
+--Vmad3X1iKuhDj37KQ2CV
+Content-Type: multipart/alternative; boundary="WqGCCI5e7YLZ44LoUKvl"
 
---Z39gcFgjInT2YRZvrAbr
+--WqGCCI5e7YLZ44LoUKvl
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -49,30 +49,164 @@ eature combination from patch 3.
 
 I hope this goes towards your vision.
 
-Thanks,
-Pedro
-
---Z39gcFgjInT2YRZvrAbr
+--WqGCCI5e7YLZ44LoUKvl
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,<br /><br />As requested, i created a set of small patches with the=
- changes and unit tests to support these changes.<br />Also i tested agains=
-t the unit tests mentioned to be sure that everything keeps running fine. I=
- decided not to copy paste<br />the content of the patches here otherwise t=
-he message would get huge since we already discussed before the content.<br=
- /><br />Patch 1 - fixes race condition detected while executing functions =
-registered on `SSTATEPOSTINSTFUNCS`<br />Patch 2 - fixes `find` usage, avoi=
-ding hiding errors on the command execution and creates buildhistory output=
- folder if doesnt exist.<br />Patch 3 - fixes usage of 2 features combined,=
- `BUILDHISTORY_PRESERVE` and `BUILDHISTORY_RESET`, restoring files to build=
-history main folder.<br />Patch 4 - adds unit tests to validate files-in-pa=
-ckage.txt generation and feature combination from patch 3.<br /><br />I hop=
-e this goes towards your vision.<br /><br />Thanks,<br />Pedro
+<span style=3D"color: #222222; font-family: Arial, Helvetica, sans-serif; f=
+ont-size: small; font-style: normal; font-variant-ligatures: normal; font-v=
+ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
+spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; backgrou=
+nd-color: #ffffff; text-decoration-thickness: initial; text-decoration-styl=
+e: initial; text-decoration-color: initial; display: inline !important; flo=
+at: none;">Hi Alex,</span><br style=3D"color: #222222; font-family: Arial, =
+Helvetica, sans-serif; font-size: small; font-style: normal; font-variant-l=
+igatures: normal; font-variant-caps: normal; font-weight: 400; letter-spaci=
+ng: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform=
+: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white=
+-space: normal; background-color: #ffffff; text-decoration-thickness: initi=
+al; text-decoration-style: initial; text-decoration-color: initial;" /><br =
+style=3D"color: #222222; font-family: Arial, Helvetica, sans-serif; font-si=
+ze: small; font-style: normal; font-variant-ligatures: normal; font-variant=
+-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-a=
+lign: start; text-indent: 0px; text-transform: none; widows: 2; word-spacin=
+g: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-col=
+or: #ffffff; text-decoration-thickness: initial; text-decoration-style: ini=
+tial; text-decoration-color: initial;" /><span style=3D"color: #222222; fon=
+t-family: Arial, Helvetica, sans-serif; font-size: small; font-style: norma=
+l; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0p=
+x; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-=
+width: 0px; white-space: normal; background-color: #ffffff; text-decoration=
+-thickness: initial; text-decoration-style: initial; text-decoration-color:=
+ initial; display: inline !important; float: none;">As requested, i created=
+ a set of small patches with the changes and unit tests to support these ch=
+anges.</span><br style=3D"color: #222222; font-family: Arial, Helvetica, sa=
+ns-serif; font-size: small; font-style: normal; font-variant-ligatures: nor=
+mal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; o=
+rphans: 2; text-align: start; text-indent: 0px; text-transform: none; widow=
+s: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: norma=
+l; background-color: #ffffff; text-decoration-thickness: initial; text-deco=
+ration-style: initial; text-decoration-color: initial;" /><span style=3D"co=
+lor: #222222; font-family: Arial, Helvetica, sans-serif; font-size: small; =
+font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
+al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
+; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -we=
+bkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff=
+; text-decoration-thickness: initial; text-decoration-style: initial; text-=
+decoration-color: initial; display: inline !important; float: none;">Also i=
+ tested against the unit tests mentioned to be sure that everything keeps r=
+unning fine. I decided not to copy paste</span><br style=3D"color: #222222;=
+ font-family: Arial, Helvetica, sans-serif; font-size: small; font-style: n=
+ormal; font-variant-ligatures: normal; font-variant-caps: normal; font-weig=
+ht: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent=
+: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-str=
+oke-width: 0px; white-space: normal; background-color: #ffffff; text-decora=
+tion-thickness: initial; text-decoration-style: initial; text-decoration-co=
+lor: initial;" /><span style=3D"color: #222222; font-family: Arial, Helveti=
+ca, sans-serif; font-size: small; font-style: normal; font-variant-ligature=
+s: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: nor=
+mal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none;=
+ widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space:=
+ normal; background-color: #ffffff; text-decoration-thickness: initial; tex=
+t-decoration-style: initial; text-decoration-color: initial; display: inlin=
+e !important; float: none;">the content of the patches here otherwise the m=
+essage would get huge since we already discussed before the content.</span>=
+<br style=3D"color: #222222; font-family: Arial, Helvetica, sans-serif; fon=
+t-size: small; font-style: normal; font-variant-ligatures: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; te=
+xt-align: start; text-indent: 0px; text-transform: none; widows: 2; word-sp=
+acing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background=
+-color: #ffffff; text-decoration-thickness: initial; text-decoration-style:=
+ initial; text-decoration-color: initial;" /><br style=3D"color: #222222; f=
+ont-family: Arial, Helvetica, sans-serif; font-size: small; font-style: nor=
+mal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight=
+: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: =
+0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-strok=
+e-width: 0px; white-space: normal; background-color: #ffffff; text-decorati=
+on-thickness: initial; text-decoration-style: initial; text-decoration-colo=
+r: initial;" /><span style=3D"color: #222222; font-family: Arial, Helvetica=
+, sans-serif; font-size: small; font-style: normal; font-variant-ligatures:=
+ normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
+l; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; w=
+idows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: n=
+ormal; background-color: #ffffff; text-decoration-thickness: initial; text-=
+decoration-style: initial; text-decoration-color: initial; display: inline =
+!important; float: none;">Patch 1 - fixes race condition detected while exe=
+cuting functions registered on `SSTATEPOSTINSTFUNCS`</span><br style=3D"col=
+or: #222222; font-family: Arial, Helvetica, sans-serif; font-size: small; f=
+ont-style: normal; font-variant-ligatures: normal; font-variant-caps: norma=
+l; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start;=
+ text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -web=
+kit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff;=
+ text-decoration-thickness: initial; text-decoration-style: initial; text-d=
+ecoration-color: initial;" /><span style=3D"color: #222222; font-family: Ar=
+ial, Helvetica, sans-serif; font-size: small; font-style: normal; font-vari=
+ant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-=
+spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tran=
+sform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+white-space: normal; background-color: #ffffff; text-decoration-thickness: =
+initial; text-decoration-style: initial; text-decoration-color: initial; di=
+splay: inline !important; float: none;">Patch 2 - fixes `find` usage, avoid=
+ing hiding errors on the command execution and creates buildhistory output =
+folder if doesnt exist.</span><br style=3D"color: #222222; font-family: Ari=
+al, Helvetica, sans-serif; font-size: small; font-style: normal; font-varia=
+nt-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-s=
+pacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-trans=
+form: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; w=
+hite-space: normal; background-color: #ffffff; text-decoration-thickness: i=
+nitial; text-decoration-style: initial; text-decoration-color: initial;" />=
+<span style=3D"color: #222222; font-family: Arial, Helvetica, sans-serif; f=
+ont-size: small; font-style: normal; font-variant-ligatures: normal; font-v=
+ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
+spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; backgrou=
+nd-color: #ffffff; text-decoration-thickness: initial; text-decoration-styl=
+e: initial; text-decoration-color: initial; display: inline !important; flo=
+at: none;">Patch 3 - fixes usage of 2 features combined, `BUILDHISTORY_PRES=
+ERVE` and `BUILDHISTORY_RESET`, restoring files to buildhistory main folder=
+.</span><br style=3D"color: #222222; font-family: Arial, Helvetica, sans-se=
+rif; font-size: small; font-style: normal; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphan=
+s: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2;=
+ word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; ba=
+ckground-color: #ffffff; text-decoration-thickness: initial; text-decoratio=
+n-style: initial; text-decoration-color: initial;" /><span style=3D"color: =
+#222222; font-family: Arial, Helvetica, sans-serif; font-size: small; font-=
+style: normal; font-variant-ligatures: normal; font-variant-caps: normal; f=
+ont-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; tex=
+t-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-=
+text-stroke-width: 0px; white-space: normal; background-color: #ffffff; tex=
+t-decoration-thickness: initial; text-decoration-style: initial; text-decor=
+ation-color: initial; display: inline !important; float: none;">Patch 4 - a=
+dds unit tests to validate files-in-package.txt generation and feature comb=
+ination from patch 3.</span><br style=3D"color: #222222; font-family: Arial=
+, Helvetica, sans-serif; font-size: small; font-style: normal; font-variant=
+-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spa=
+cing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfo=
+rm: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; whi=
+te-space: normal; background-color: #ffffff; text-decoration-thickness: ini=
+tial; text-decoration-style: initial; text-decoration-color: initial;" /><b=
+r style=3D"color: #222222; font-family: Arial, Helvetica, sans-serif; font-=
+size: small; font-style: normal; font-variant-ligatures: normal; font-varia=
+nt-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text=
+-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spac=
+ing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-c=
+olor: #ffffff; text-decoration-thickness: initial; text-decoration-style: i=
+nitial; text-decoration-color: initial;" /><span style=3D"color: #222222; f=
+ont-family: Arial, Helvetica, sans-serif; font-size: small; font-style: nor=
+mal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight=
+: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: =
+0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-strok=
+e-width: 0px; white-space: normal; background-color: #ffffff; text-decorati=
+on-thickness: initial; text-decoration-style: initial; text-decoration-colo=
+r: initial; display: inline !important; float: none;">I hope this goes towa=
+rds your vision.</span>
 
---Z39gcFgjInT2YRZvrAbr--
+--WqGCCI5e7YLZ44LoUKvl--
 
---ihFyFDRCs5A6EJvb6Olc
+--Vmad3X1iKuhDj37KQ2CV
 Content-Type: application/octet-stream; name="0001-sstate-fixing-possible-race-codition.patch"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="0001-sstate-fixing-possible-race-codition.patch"
@@ -100,7 +234,7 @@ cmVuYW1lKHNyYywgZGVzdCkKIAorICAgIHNzdGF0ZV9pbnN0YWxsKHNzLCBkKQorCiAgICAgcmV0
 dXJuIFRydWUKIAogcHl0aG9uIHNzdGF0ZV9oYXJkY29kZV9wYXRoX3VucGFjayAoKSB7Ci0tIAoy
 LjI1LjEKCg==
 
---ihFyFDRCs5A6EJvb6Olc
+--Vmad3X1iKuhDj37KQ2CV
 Content-Type: application/octet-stream; name="0002-buildhistory-files-in-package.txt-missing.patch"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="0002-buildhistory-files-in-package.txt-missing.patch"
@@ -123,18 +257,17 @@ bGFzcwpAQCAtNTk5LDE1ICs1OTksMTMgQEAgYnVpbGRoaXN0b3J5X2xpc3RfZmlsZXNfbm9fb3du
 ZXJzKCkgewogCiBidWlsZGhpc3RvcnlfbGlzdF9wa2dfZmlsZXMoKSB7CiAJIyBDcmVhdGUgaW5k
 aXZpZHVhbCBmaWxlcy1pbi1wYWNrYWdlIGZvciBlYWNoIHJlY2lwZSdzIHBhY2thZ2UKLQlmb3Ig
 cGtnZGlyIGluICQoZmluZCAke1BLR0RFU1R9LyogLW1heGRlcHRoIDAgLXR5cGUgZCk7IGRvCisg
-ICAgcGtnZGlybGlzdCA9ICQoZmluZCAke1BLR0RFU1R9LyogLW1heGRlcHRoIDAgLXR5cGUgZCkK
-Kwlmb3IgcGtnZGlyIGluICRwa2dkaXJsaXN0OyBkbwogCQlwa2duYW1lPSQoYmFzZW5hbWUgJHBr
-Z2RpcikKIAkJb3V0Zm9sZGVyPSIke0JVSUxESElTVE9SWV9ESVJfUEFDS0FHRX0vJHBrZ25hbWUi
-CiAJCW91dGZpbGU9IiRvdXRmb2xkZXIvZmlsZXMtaW4tcGFja2FnZS50eHQiCiAJCSMgTWFrZSBz
-dXJlIHRoZSBvdXRwdXQgZm9sZGVyIGV4aXN0cyBzbyB3ZSBjYW4gY3JlYXRlIHRoZSBmaWxlCi0J
-CWlmIFsgISAtZCAkb3V0Zm9sZGVyIF0gOyB0aGVuCi0JCQliYmRlYnVnIDIgIkZvbGRlciAkb3V0
-Zm9sZGVyIGRvZXMgbm90IGV4aXN0LCBmaWxlICRvdXRmaWxlIG5vdCBjcmVhdGVkIgotCQkJY29u
-dGludWUKLQkJZmkKKyAgICAgICAgbWtkaXIgLXAgJG91dGZvbGRlcgogCQlidWlsZGhpc3Rvcnlf
-bGlzdF9maWxlcyAkcGtnZGlyICRvdXRmaWxlIGZha2Vyb290CiAJZG9uZQogfQotLSAKMi4yNS4x
-Cgo=
+ICAgcGtnZGlybGlzdD0kKGZpbmQgJHtQS0dERVNUfS8qIC1tYXhkZXB0aCAwIC10eXBlIGQpCisJ
+Zm9yIHBrZ2RpciBpbiAkcGtnZGlybGlzdDsgZG8KIAkJcGtnbmFtZT0kKGJhc2VuYW1lICRwa2dk
+aXIpCiAJCW91dGZvbGRlcj0iJHtCVUlMREhJU1RPUllfRElSX1BBQ0tBR0V9LyRwa2duYW1lIgog
+CQlvdXRmaWxlPSIkb3V0Zm9sZGVyL2ZpbGVzLWluLXBhY2thZ2UudHh0IgogCQkjIE1ha2Ugc3Vy
+ZSB0aGUgb3V0cHV0IGZvbGRlciBleGlzdHMgc28gd2UgY2FuIGNyZWF0ZSB0aGUgZmlsZQotCQlp
+ZiBbICEgLWQgJG91dGZvbGRlciBdIDsgdGhlbgotCQkJYmJkZWJ1ZyAyICJGb2xkZXIgJG91dGZv
+bGRlciBkb2VzIG5vdCBleGlzdCwgZmlsZSAkb3V0ZmlsZSBub3QgY3JlYXRlZCIKLQkJCWNvbnRp
+bnVlCi0JCWZpCisgICAgICAgIG1rZGlyIC1wICRvdXRmb2xkZXIKIAkJYnVpbGRoaXN0b3J5X2xp
+c3RfZmlsZXMgJHBrZ2RpciAkb3V0ZmlsZSBmYWtlcm9vdAogCWRvbmUKIH0KLS0gCjIuMjUuMQoK
 
---ihFyFDRCs5A6EJvb6Olc
+--Vmad3X1iKuhDj37KQ2CV
 Content-Type: application/octet-stream; name="0003-buildhistory-preserve-files-while-buildhitory-reset-.patch"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="0003-buildhistory-preserve-files-while-buildhitory-reset-.patch"
@@ -191,7 +324,7 @@ CiAJZm9yIHBrZ2RpciBpbiAkcGtnZGlybGlzdDsgZG8KIAkJcGtnbmFtZT0kKGJhc2VuYW1lICRw
 a2dkaXIpCiAJCW91dGZvbGRlcj0iJHtCVUlMREhJU1RPUllfRElSX1BBQ0tBR0V9LyRwa2duYW1l
 IgotLSAKMi4yNS4xCgo=
 
---ihFyFDRCs5A6EJvb6Olc
+--Vmad3X1iKuhDj37KQ2CV
 Content-Type: application/octet-stream; name="0004-buildhistory-unit-tests-for-files-in-package.txt.patch"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="0004-buildhistory-unit-tests-for-files-in-package.txt.patch"
@@ -243,5 +376,5 @@ ZmlsZXMtaW4tcGFja2FnZS50eHQnKSkpCisKIGNsYXNzIEFyY2hpdmVyVGVzdChPRVNlbGZ0ZXN0
 VGVzdENhc2UpOgogICAgIGRlZiB0ZXN0X2FyY2hfd29ya19kaXJfYW5kX2V4cG9ydF9zb3VyY2Uo
 c2VsZik6CiAgICAgICAgICIiIgotLSAKMi4yNS4xCgo=
 
---ihFyFDRCs5A6EJvb6Olc--
+--Vmad3X1iKuhDj37KQ2CV--
 
