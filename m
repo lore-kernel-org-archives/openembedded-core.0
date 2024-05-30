@@ -1,245 +1,105 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F05C25B74
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 09:02:54 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.3851.1717059766773682553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F941C25B74
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 09:47:05 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.4372.1717062420520784479
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 02:02:46 -0700
+ Thu, 30 May 2024 02:47:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=68801c3898=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44U7pi4P025159
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:02:46 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yeg6y085r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:02:45 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 30 May 2024 02:02:44 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Thu, 30 May 2024 02:02:43 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] VOLATILE_TMP_DIR: Extend to specify the persistence of /var/tmp
-Date: Thu, 30 May 2024 17:02:43 +0800
-Message-ID: <20240530090243.3927412-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aDqygJfO;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52b27afe214so545311e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 02:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717062418; x=1717667218; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1HdcUr4UceSzanYARxuXDpMTXLM/+ew4fSEYh5q1KvM=;
+        b=aDqygJfOvdxjdl5hhqm0gHL2eTzdOsWRfbuIhzxVMw770p5L8NjvEm7LXMXD+triEz
+         +YMJss/VhpgTSXNH9i+ss7ho6safn301vMKEeBi/8/XtZyMDyph2/8Rm9cr8wsltbQb9
+         WVZYO/NDKvb3ZPrn94WOAbMauuK6UYm4hDnwexuFoptYM0SjFgrSE8SSgFJNUB1V1N7n
+         W3m8V9ikGSfRtooEI9izUsSf8zjundmKt5UYzTDU9XaTKoHGfeSlUvOJjEDq858So4VT
+         krGije05tU60aXQrApKmZXiMJykMZ+gP3WKVevNKufRSkYDrWwWNdiMV3IyF76ZDFhPF
+         azXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717062418; x=1717667218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1HdcUr4UceSzanYARxuXDpMTXLM/+ew4fSEYh5q1KvM=;
+        b=moBhsGByR1np5t1+rglVuQ3AthYds+VrXzEVRwikEsP9eWZ6ZHckvUSOX3k27e84bK
+         b5traS/9gTYJPKVQGxjnbMIOsOfIyG0dsU/v7EdPqiQNNRIHGfSK4BnVauXp09g/uuRs
+         6Fg3q419+/HhuYRq5zUj8O5eXqtt8pefgEKeuE0kQOwxJa/+tUxdKyeBI4EXLvL+Bu0Z
+         mpNx5ZfrKMeNmqJFNAqKEH/GdP9q0bLVgOZtjt2+rYcfEYVKUPF9UuufxaJxCoY4Bgmh
+         n76U0CXZb10Bw7jE6M1TG2tmoZo9qNwuWKtoN2MyA42pYNFpOte2/uYHVVvoQVjK4It+
+         tV8g==
+X-Gm-Message-State: AOJu0YzL3jc1cTv+RHZbUTaCav4C+YXQMri0vuqKyfbZxLVi0cY2PRtV
+	fSiRuVtazH08NTLLoHFUzMMpRvRZlNrmRygfKBo8MLUxfnzr3PVgnO+tyg==
+X-Google-Smtp-Source: AGHT+IEqi+l5iq/pnjzLHQ0PvGVLL84n6v6gMICUVYzRAmqSoHfSDLV9s10dO5JG8kfPz/OjfxzBuQ==
+X-Received: by 2002:a19:f704:0:b0:51f:b3b:6373 with SMTP id 2adb3069b0e04-52b7e109a16mr365334e87.15.1717062417932;
+        Thu, 30 May 2024 02:46:57 -0700 (PDT)
+Received: from localhost.localdomain (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b547f82d8sm344332e87.279.2024.05.30.02.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 May 2024 02:46:57 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Quentin Schulz <quentin.schulz@cherry.de>
+Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [PATCH v4 0/2] image-bootfiles: new class
+Date: Thu, 30 May 2024 11:53:12 +0200
+Message-ID: <20240530095314.407638-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: pto-NnS68AHXRzvewBL8W0reShPSABMz
-X-Proofpoint-GUID: pto-NnS68AHXRzvewBL8W0reShPSABMz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-30_06,2024-05-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- phishscore=0 adultscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405300067
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:02:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200015
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:47:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200016
 
-From: Changqing Li <changqing.li@windriver.com>
+The image-bootfiles class is used to put all files listed in
+IMAGE_BOOT_FILES into the root filesystem.
 
-Currently, set VOLATILE_TMP_DIR to "no", only make /tmp as persistent.
-This patch extends VOLATILE_TMP_DIR to also specify the persistence of
-/var/tmp by following changes:
+IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
+files into a boot partition. 
+Be able to list files as "boot files" in e.g. your .conf or image files
+instead of install those in every recipe is a good thing.
 
-* change FILESYSTEM_PERMS_TABLES to remove symlink /var/tmp -> /var/volatile/tmp
-  for the packaging process
-* update base-files to create /var/tmp as a dir not symlink to /var/volatile/tmp
+It is not always desired to have a separate boot partition for boot
+files. Sometimes it could be good to have them as a part of the root
+filesystem.
 
-Here is an use case:
-Steps:
-1. docker import core-image-minimal-qemux86-64.tar.bz2 poky:latest
-2. docker run -it --rm poky:latest /bin/sh
-3. /var/log /var/tmp are deadlinks, and cause "No such file or directory" errors
+For example, if a double copy strategy is used for update the system,
+then you probably want to update both the boot files and root filesystem
+at the same time as there may be dependencies.
 
-Root cause:
-By default, /var/tmp links to /var/volatile/tmp, and /var/volatile/tmp
-usually created by initscript(sysV) or systemd-tmpfile.d(systemd) during
-boot up, but for container, initscript/systemd-tmpfile.d will not be
-executed, so /var/volatile/tmp is not created.
+v2:
+    - Removed the documentation from the patch series (will be submitted later)
+    - Break out the parts in bootimg-partition that is used by
+      image-bootfiles to a common library
+    - Make the destination directory in root filesystem configurable
+v3:
+    - See changelog in patches
 
-This patch provides an option for user want to use container, set
-VOLATILE_TMP_DIR to "no" can resolve above case.
+v4:
+    - See changelog in patches
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/conf/bitbake.conf                        |  5 ++-
- ...fs-perms.txt => fs-perms-volatile-log.txt} | 32 -------------------
- ...tent-log.txt => fs-perms-volatile-tmp.txt} | 27 ----------------
- meta/files/fs-perms.txt                       |  3 --
- .../base-files/base-files_3.0.14.bb           |  5 +--
- 5 files changed, 7 insertions(+), 65 deletions(-)
- copy meta/files/{fs-perms.txt => fs-perms-volatile-log.txt} (53%)
- rename meta/files/{fs-perms-persistent-log.txt => fs-perms-volatile-tmp.txt} (59%)
+Marcus Folkesson (2):
+  bootimg-partition: break out code to a common library.
+  image-bootfiles.bbclass: new class, copy boot files to root filesystem
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3ef2deb088..e6ec640809 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -384,7 +384,10 @@ FILESEXTRAPATHS ?= "__default:"
- #  base_prefix, prefix, exec_prefix, base_bindir, base_sbindir, base_libdir,
- #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
- #  mandir, docdir, bindir, sbindir, libexecdir, libdir and includedir
--FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'files/fs-perms-persistent-log.txt'}"
-+FILESYSTEM_PERMS_TABLES ?=  " files/fs-perms.txt \
-+                              ${@'files/fs-perms-volatile-log.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else ''} \
-+                              ${@'files/fs-perms-volatile-tmp.txt' if oe.types.boolean(d.getVar('VOLATILE_TMP_DIR')) else ''} \
-+                            "
- 
- ##################################################################
- # General work and output directories for the build system.
-diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms-volatile-log.txt
-similarity index 53%
-copy from meta/files/fs-perms.txt
-copy to meta/files/fs-perms-volatile-log.txt
-index 48191f504c..fc846bbdc5 100644
---- a/meta/files/fs-perms.txt
-+++ b/meta/files/fs-perms-volatile-log.txt
-@@ -28,39 +28,7 @@
- # Note: all standard config directories are automatically assigned "0755 root root false - - -"
- 
- # Documentation should always be corrected
--${mandir}		0755	root	root	true	0644	root	root
--${infodir}		0755	root	root	true	0644	root	root
--${docdir}		0755	root	root	true	0644	root	root
--${datadir}/gtk-doc	0755	root	root	true	0644	root	root
--
--# Fixup locales
--${datadir}/locale	0755	root	root	true	0644	root	root
--
--# Cleanup headers
--${includedir}		0755	root	root	true	0644	root	root
--
--# Cleanup debug src
--/usr/src/debug		0755	root	root	true	0644	root	root
- 
- # Items from base-files
- # Links
--${localstatedir}/run	link	/run
- ${localstatedir}/log	link	volatile/log
--${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
--
--/home				0755	root	root	false - - -
--/srv				0755	root	root	false - - -
--${prefix}/src			0755	root	root	false - - -
--${localstatedir}/local		0755	root	root	false - - -
--
--# Special permissions from base-files
--# Set 1777
--/tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
--
--# Set 0700
--${ROOT_HOME}			0700	root	root	false - - -
--
--# Set 2775-lsb
--${localstatedir}/mail		02775	root	mail	false - - -
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-volatile-tmp.txt
-similarity index 59%
-rename from meta/files/fs-perms-persistent-log.txt
-rename to meta/files/fs-perms-volatile-tmp.txt
-index 61f0a6e26a..26247acda8 100644
---- a/meta/files/fs-perms-persistent-log.txt
-+++ b/meta/files/fs-perms-volatile-tmp.txt
-@@ -28,38 +28,11 @@
- # Note: all standard config directories are automatically assigned "0755 root root false - - -"
- 
- # Documentation should always be corrected
--${mandir}		0755	root	root	true	0644	root	root
--${infodir}		0755	root	root	true	0644	root	root
--${docdir}		0755	root	root	true	0644	root	root
--${datadir}/gtk-doc	0755	root	root	true	0644	root	root
--
--# Fixup locales
--${datadir}/locale	0755	root	root	true	0644	root	root
--
--# Cleanup headers
--${includedir}		0755	root	root	true	0644	root	root
--
--# Cleanup debug src
--/usr/src/debug		0755	root	root	true	0644	root	root
- 
- # Items from base-files
- # Links
--${localstatedir}/run	link	/run
--${localstatedir}/lock	link	/run/lock
- ${localstatedir}/tmp	link	volatile/tmp
- 
--/home				0755	root	root	false - - -
--/srv				0755	root	root	false - - -
--${prefix}/src			0755	root	root	false - - -
--${localstatedir}/local		0755	root	root	false - - -
--
- # Special permissions from base-files
- # Set 1777
--/tmp				01777	root	root	false - - -
- ${localstatedir}/volatile/tmp	01777	root	root	false - - -
--
--# Set 0700
--${ROOT_HOME}			0700	root	root	false - - -
--
--# Set 2775-lsb
--${localstatedir}/mail		02775	root	mail	false - - -
-diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
-index 48191f504c..d2266c1b26 100644
---- a/meta/files/fs-perms.txt
-+++ b/meta/files/fs-perms.txt
-@@ -45,9 +45,7 @@ ${includedir}		0755	root	root	true	0644	root	root
- # Items from base-files
- # Links
- ${localstatedir}/run	link	/run
--${localstatedir}/log	link	volatile/log
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
- 
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -57,7 +55,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
- 
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 1b6e9671e4..256dfb214e 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -31,7 +31,7 @@ UNPACKDIR = "${S}"
- INHIBIT_DEFAULT_DEPS = "1"
- 
- docdir:append = "/${P}"
--dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
-+dirs1777 = "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_TMP_DIR}') else ''}tmp"
- dirs2775 = ""
- dirs555 = "/sys /proc"
- dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-@@ -55,7 +55,8 @@ dirs755-lsb = "/srv  \
-                ${prefix}/lib/locale"
- dirs2775-lsb = "/var/mail"
- 
--volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
-+volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} \
-+             ${@'tmp' if oe.types.boolean('${VOLATILE_TMP_DIR}') else ''}"
- conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/issue /${sysconfdir}/issue.net \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+ meta/classes/image-bootfiles.bbclass          | 38 +++++++++++++
+ meta/lib/oe/bootfiles.py                      | 57 +++++++++++++++++++
+ .../wic/plugins/source/bootimg-partition.py   | 39 +------------
+ 3 files changed, 97 insertions(+), 37 deletions(-)
+ create mode 100644 meta/classes/image-bootfiles.bbclass
+ create mode 100644 meta/lib/oe/bootfiles.py
+
 -- 
-2.25.1
+2.45.1
 
 
