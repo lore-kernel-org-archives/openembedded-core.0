@@ -1,126 +1,94 @@
-Return-Path: <marcus.folkesson@gmail.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6585FC25B7E
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 09:47:05 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.4450.1717062421935841833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB4DC25B74
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 11:15:55 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.5735.1717067745254650538
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 02:47:02 -0700
+ Thu, 30 May 2024 04:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CB3ANKJN;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52b0d25b54eso1014870e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 02:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717062420; x=1717667220; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iagNw60ayZZSHCO1r8EBN754R2NUC8esybVRE2sgaxk=;
-        b=CB3ANKJN1y4hsby4/X3iV1DdvDnr5SkH9N2M/tUTnUMtteTzeFUth9Yya3etHLU3dP
-         Rm0cD2/gZhsMbqd1MkbQu6lWoksg7IGjiV75l8hF6kf9Clyw0IL1FyIKKZXJ2lvOhdCH
-         BSLZQJw2ZEU+GX4vshBA62//NRRrskQBTzahBXYx9QyPOld8L1SShX/srUsE7iPmteRy
-         xaBaTbLk7u5zgmL3vjEqFuZdwmWCgYdD1nL1iBqBgEn0bO9g0W1XKNKF14Pds0mEkrMY
-         kp8jaMP7xOFE6/HuZmw9XLQwb/pHUE4yPWMQPBZI8MnNd8WL8Jd/hAsSMW64WlwKDIf4
-         jnpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717062420; x=1717667220;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iagNw60ayZZSHCO1r8EBN754R2NUC8esybVRE2sgaxk=;
-        b=Fwu6DziugbpewmvpXQDr2Y+5T3XSCtHcLzgxEFoyFMIz+h8pBKX6oh0HN2OY/Vj3h7
-         xd7GAdl/Dq73dBkaw2offo4PxSWyyMeRJfzorsz8Eis7MMMc80mnhwYBw9IB7uVDlbY8
-         PrJKCKKzeTmDuWLG90CqE8TMcD7MRnZGRU5YBRQGpSGaf9KbZ1JuoDMPiqloKiSXSpNH
-         2Shu+nsoIAy/yvb4Xc3SkL71C7qLNN9j4AvZr/xy4feUTH16RPPdc9njpgNRO+SNx3uT
-         l1eWHRo2ea08YCIbTsD6MuQiw7uS0xhgm8bmDHbMzMgY9xiPMpp/M1wU2o4DWhHCkAq+
-         FfkA==
-X-Gm-Message-State: AOJu0YyVqW0o85/khVVufFri7WX950yUz4sTC0zfRIveWT/KrJ5qz9GV
-	MYVd5XhzX8JZ/SfP/eLeULH9CosJx2G6AKXQSGZDySMGD7rIODPK44b1aA==
-X-Google-Smtp-Source: AGHT+IEZUA/2Q3Awnp3UE7/+9HDZejgMF8s1wc4GEC59Pm2xFWDc3viliGq2qAQWcxxbQhBoRLyHEA==
-X-Received: by 2002:ac2:5338:0:b0:525:32aa:443e with SMTP id 2adb3069b0e04-52b7d4282demr1269142e87.17.1717062419556;
-        Thu, 30 May 2024 02:46:59 -0700 (PDT)
-Received: from localhost.localdomain (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b547f82d8sm344332e87.279.2024.05.30.02.46.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 02:46:59 -0700 (PDT)
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Quentin Schulz <quentin.schulz@cherry.de>
-Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: [PATCH v4 2/2] image-bootfiles.bbclass: new class, copy boot files to root filesystem
-Date: Thu, 30 May 2024 11:53:14 +0200
-Message-ID: <20240530095314.407638-3-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240530095314.407638-1-marcus.folkesson@gmail.com>
-References: <20240530095314.407638-1-marcus.folkesson@gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=RkJXo90T;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 85D26240029
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 13:15:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1717067742; bh=TDaxN2HtXyYpkq/5Kml9cXBKMNU0YEHDTMrHQGrRVGc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=RkJXo90TRBUi/V7nWdtLsjNi7V0gZWu/nu7NVqwhPUdWKDr5Q0aJFepllPMZfBZIQ
+	 HNfO4TUdERAXrjJ75tHD6pI9cTsAni/khVHEkJsATeAn+Nn+Kb8nljD5Wj3kZIvz+E
+	 UgtMWdsg1GM2siE0H45XiKKtxKIqbayvwfUl0DQjiGB4SEVT/Ea+f3l0ptfEKHqZqq
+	 L9d3U1uI7cBLxKI7WZm0u4sVgGAsZUGy551aO+n9gB+tUUyYIC8s/4hj8RC830X+Eb
+	 9gYvehBAwYpC/Osf367RM6B5oSzhlijMdBhwwKeW1XNYHKmICMU5t7JGv5L9K5mIsI
+	 gnas6vGmZNzbw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4VqkFT51C3z6tyy;
+	Thu, 30 May 2024 13:15:41 +0200 (CEST)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] Sanity: Check if tar is gnutar
+Date: Thu, 30 May 2024 11:15:32 +0000
+Message-Id: <20240530111532.352867-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:47:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200018
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:15:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200019
 
-image-bootfiles class copy files listed in IMAGE_BOOT_FILES
-to the IMAGE_BOOT_FILES_DIR directory of the root filesystem.
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-This is useful when there is no explicit boot partition but all boot
-files should instead reside inside the root filesystem.
+In sanity.bbclass the tar version is checked as tar needs to be recent en=
+ough
+for reproducible builds. Tar could also be provided by other means then g=
+nutar,
+but we mean the version of gnutar in the check. Hence we also should ensu=
+re
+that the installed tar is gnutar.
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+[YOCTO #14205]
+
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- meta/classes/image-bootfiles.bbclass | 38 ++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 meta/classes/image-bootfiles.bbclass
+ meta/classes-global/sanity.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/image-bootfiles.bbclass b/meta/classes/image-bootfiles.bbclass
-new file mode 100644
-index 0000000000..0b95d47e06
---- /dev/null
-+++ b/meta/classes/image-bootfiles.bbclass
-@@ -0,0 +1,38 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+# Copyright (C) 2024 Marcus Folkesson
-+# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
-+#
-+# Writes IMAGE_BOOT_FILES to the IMAGE_BOOT_FILES_DIR directory.
-+#
-+# Usage: add "inherit image-bootfiles" to your image.
-+#
-+
-+IMAGE_BOOT_FILES_DIR ?= "boot"
-+
-+python bootfiles_populate() {
-+    import shutil
-+    from oe.bootfiles import get_boot_files
-+
-+    deploy_image_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+    boot_dir = os.path.join(d.getVar("IMAGE_ROOTFS"), d.getVar("IMAGE_BOOT_FILES_DIR"))
-+
-+    boot_files = d.getVar("IMAGE_BOOT_FILES")
-+    if boot_files is None:
-+        return
-+
-+    install_files = get_boot_files(deploy_image_dir, boot_files)
-+    if install_files is None:
-+        bb.warn("Could not find any boot files to install even though IMAGE_BOOT_FILES is not empty")
-+        return
-+
-+    os.makedirs(boot_dir, exist_ok=True)
-+    for src, dst  in install_files:
-+        image_src = os.path.join(deploy_image_dir, src)
-+        image_dst = os.path.join(boot_dir, dst)
-+        os.makedirs(os.path.dirname(image_dst), exist_ok=True)
-+        shutil.copyfile(image_src, image_dst)
-+}
-+
-+IMAGE_PREPROCESS_COMMAND += "bootfiles_populate;"
--- 
-2.45.1
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/san=
+ity.bbclass
+index 180c6b77d8..1d242f0f0a 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -495,12 +495,15 @@ def check_gcc_version(sanity_data):
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
+ # but earlier versions do not; this needs to work properly for sstate
+ # Version 1.28 is needed so opkg-build works correctly when reproducible=
+ builds are enabled
++# Gtar is assumed at to be used as tar in poky
+ def check_tar_version(sanity_data):
+     import subprocess
+     try:
+         result =3D subprocess.check_output(["tar", "--version"], stderr=3D=
+subprocess.STDOUT).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         return "Unable to execute tar --version, exit code %d\n%s\n" % (=
+e.returncode, e.output)
++    if not "GNU" in result:
++        return "Your version of tar is not gtar. Please install gtar (yo=
+u could use the project's buildtools-tarball from our last release or use=
+ scripts/install-buildtools).\n"
+     version =3D result.split()[3]
+     if bb.utils.vercmp_string_op(version, "1.28", "<"):
+         return "Your version of tar is older than 1.28 and does not have=
+ the support needed to enable reproducible builds. Please install a newer=
+ version of tar (you could use the project's buildtools-tarball from our =
+last release or use scripts/install-buildtools).\n"
+--=20
+2.39.2
 
 
