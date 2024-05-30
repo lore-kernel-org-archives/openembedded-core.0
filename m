@@ -2,180 +2,814 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE46C27C50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B902EC25B7E
 	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:26 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.4825.1717094300060631146
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.4946.1717094303478626371
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 11:38:20 -0700
+ Thu, 30 May 2024 11:38:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=S2BU+7i2;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f44b594deeso9170955ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ePuzJ1wC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70222db9bf1so1145426b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094299; x=1717699099; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094303; x=1717699103; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bbVdKYSF84uGAs5MvcYP0xuLW1UHX9MKy0aPio0h/j0=;
-        b=S2BU+7i2uwejX4vu5b0t6U3aAIplLlBHo0qk6JL/8U8xHqJbnMnSxjJUXGWob6hPGt
-         7lgkiE4svTD83bq7gbLGotkw1HhAbz14fqIytOeqtZYnqKgDMeaT5EYhAXx1dK5/Dz1B
-         UiV0W0xub4PtZaCYywrcm+Ts7dOP5z1ZH+JRISEewWz2YgdaM/m3h59d5aWQkP8SBSS3
-         JbHRmKUy5UvxYEgzYpfQiBEFy1NmGq5c3vNNZp4U4o0Wy57PtozjQEl51g4bE11BbArK
-         83RV4ouD6YieB+pTcIwbNXkf+4Qq1WzEIkaEr5lGCXMr6sG+qqZ8gvMT1ykJG1b2lNS3
-         tU9g==
+        bh=39rZn33fh4emgl5nR81J/qz8eVvje2OJ5+k9bsIr/lI=;
+        b=ePuzJ1wCYgnKtiLUcr6V/zau47xKpXeEuBSqs3SMFZ0bYIZN2lY9gyWQfOO5ID3GL+
+         7tazTp5wdnganh/Qr4OunCZwDWdXGfntLXCMJmpO0p7tFNWFSLghr2S22PZA3s1aMoqh
+         BVrBfjngYtm3G+fJ5Z2+bw8lYFfo6dNTiZ9eoo3ExUvB5Pd5ZCyQ7p78bm5jopupXhap
+         0PUFn8TVzcckCHkUfXAsBM/eWimdkvGP2kO7ODNedYP87SuX/RmYPkBZ5lSleU861dv/
+         Xb2T3n7G4pZqAqB3c01Hn6gGHgzrMGNY9tQhYNKozW7GYSGTYdEwFXXG2qusT2VMBv5X
+         U9Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717094299; x=1717699099;
+        d=1e100.net; s=20230601; t=1717094303; x=1717699103;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bbVdKYSF84uGAs5MvcYP0xuLW1UHX9MKy0aPio0h/j0=;
-        b=QNnVbbJuXDcAsSZ7hq84gOKnBSVS/Luu5Q8R7s3M1n7hu5gyloZzQ1kLRHx4iuAlYA
-         cde77oJTF0uI+DUAR+UgK8RnJJQw+uhmLLOVKrCZI7KrH077p1YWVGG2Ozl7636n42c7
-         Y5/ETHxZmH+zrjWS+jLXJoXpoA6WREMJIc9Twq9bGLK2JE4dSgZPfV0oyumgj92VBNqc
-         tRgwIV1OECoX05OfvUW1XnzEw4eSO5SijynKCYYiagot0uSqF5rTbzVIakkrqgf8SUsm
-         Reqs/QLeaPSVhCKedlgoj2UMk0AzjHlZTyr0oiKVw7D7FcD5BlBJFhD5BYhv4+CNet4n
-         4llg==
-X-Gm-Message-State: AOJu0Yyusb8VRnb13H6wllzQl/ReM+NmKgXPdGBGVjiGJ2jxgKIKJj01
-	E/GQuv6k+W+bWOQKuIjBM/l77K8yAJMRPk15GrcXbw3Rkh+DdOpA5THExaKmkvFe2XkV/xoc1lj
-	I
-X-Google-Smtp-Source: AGHT+IFYX9d6/ess7s1AddFGVJfLdfSP9zSUK/0fRK9gd8ZmtPi8BryW78Jk8xcD8Yz6YK8Btex7pQ==
-X-Received: by 2002:a05:6a20:9154:b0:1af:a37e:367e with SMTP id adf61e73a8af0-1b264538040mr3351973637.15.1717094299126;
-        Thu, 30 May 2024 11:38:19 -0700 (PDT)
+        bh=39rZn33fh4emgl5nR81J/qz8eVvje2OJ5+k9bsIr/lI=;
+        b=oaWRnrkUr3NXNp9cyqKLoWYZXQ8/rn+X9rqK6x1QoWfuJYQsoB6pyNOwXAnV3pN8Ct
+         xlPrLSCgMGluwFZpX75ZDbl0uzU0WW/Gp4Qx8zW+7lVcK4Mzb+mmG9QZxCRUrm7+ybKV
+         LZQp4447MSa4kQyffOOXXJyV6PbeWcRywZKPjJOHzDdw8YzOU98Q/0JfMlokYxkShbbe
+         NPmVwka6iL+6ONr2i4xrxsTnV7sLbxH2o43RXFreSQQVgj+ykWqTS2eqvlfZnga9secc
+         nNNA+PmsZniedGuqSQ1eoV/4L2zcPexBvjjwLkcddKeUzYEeqCP2q0hAXNVUtN/DOCMU
+         XVBA==
+X-Gm-Message-State: AOJu0YyIVzAfTANr2/HjAHKWAzq/B3M4IdzTOuC/aCnCTatnxfMPXT8r
+	Mhlrrnhxw26+g9eGXO4/H+SnJZ12hcgEtXWWT4QPE0Vr7NNr3wGcvf0ajY+nDjI7zHzDBuQBowq
+	6
+X-Google-Smtp-Source: AGHT+IFuf4rZlD9zA6JL4cFDj6c60t56OBvUo1gIkQFT5DwLO3qlet9u7k4Ll4nQrPOJ7TMOKeE45Q==
+X-Received: by 2002:a05:6a00:4c98:b0:6f8:beb9:c0e1 with SMTP id d2e1a72fcca58-70230fc4704mr3299345b3a.0.1717094302153;
+        Thu, 30 May 2024 11:38:22 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 11:38:18 -0700 (PDT)
+        Thu, 30 May 2024 11:38:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/7] ghostscript: fix CVE-2024-29510
-Date: Thu, 30 May 2024 11:38:03 -0700
-Message-Id: <18e03cadcad0b416ef9fe65627e2e5c2924e3f26.1717094145.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 6/7] util-linux: Fix CVE-2024-28085
+Date: Thu, 30 May 2024 11:38:05 -0700
+Message-Id: <28d9f948536dfee2330e4cfd225c932d20d688f1.1717094145.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717094145.git.steve@sakoman.com>
 References: <cover.1717094145.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200042
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200044
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+wall in util-linux through 2.40, often installed with setgid
+tty permissions, allows escape sequences to be sent to other
+users' terminals through argv. (Specifically, escape sequences
+received from stdin are blocked, but escape sequences received
+from argv are not blocked.) There may be plausible scenarios
+where this leads to account takeover.
+
+CVE-2024-28085-0005 is the CVE fix and CVE-2024-28085-0001,
+CVE-2024-28085-0002, CVE-2024-28085-0003, CVE-2024-28085-0004
+are dependent commits to fix the CVE.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-28085
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ghostscript/CVE-2024-29510.patch          | 84 +++++++++++++++++++
- .../ghostscript/ghostscript_9.55.0.bb         |  1 +
- 2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
+ meta/recipes-core/util-linux/util-linux.inc   |   5 +
+ .../util-linux/CVE-2024-28085-0001.patch      | 202 ++++++++++++++++
+ .../util-linux/CVE-2024-28085-0002.patch      | 172 ++++++++++++++
+ .../util-linux/CVE-2024-28085-0003.patch      | 223 ++++++++++++++++++
+ .../util-linux/CVE-2024-28085-0004.patch      |  36 +++
+ .../util-linux/CVE-2024-28085-0005.patch      |  34 +++
+ 6 files changed, 672 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0005.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 982ec669a2..f8841e6be0 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -35,6 +35,11 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://run-ptest \
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
++           file://CVE-2024-28085-0001.patch \
++           file://CVE-2024-28085-0002.patch \
++           file://CVE-2024-28085-0003.patch \
++           file://CVE-2024-28085-0004.patch \
++           file://CVE-2024-28085-0005.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "634e6916ad913366c3536b6468e7844769549b99a7b2bf80314de78ab5655b83"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
 new file mode 100644
-index 0000000000..0234c79c7d
+index 0000000000..7ce2d6c567
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
-@@ -0,0 +1,84 @@
-+From 3b1735085ecef20b29e8db3416ab36de93e86d1f Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <Ken.Sharp@artifex.com>
-+Date: Thu, 21 Mar 2024 09:01:15 +0000
-+Subject: [PATCH 4/5] Uniprint device - prevent string configuration changes
-+ when SAFER
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+@@ -0,0 +1,202 @@
++From 8a7b8456d1dc0e7ca557d1ac31f638986704757f Mon Sep 17 00:00:00 2001
++From: наб <nabijaczleweli@nabijaczleweli.xyz>
++Date: Wed Mar 15 16:16:31 2023 +0100
++Subject: [PATCH] write: correctly handle wide characters
 +
-+Bug #707662
++Do this by replacing fputc_careful() (notice that the description said
++it's locale-aware ‒ it very much is /not/), with a fputs_careful() which
++does the same thing, but if it were to output a byte in the \123 format,
++first it checks whether this byte starts a valid multibyte character.
 +
-+We cannot sanitise the string arguments used by the Uniprint device
-+because they can potentially include anything.
++If it does, and that character is printable, write it verbatim.
++This means that
++  echo 'foo åäö ąęćźżń bar' | write nabijaczleweli pts/4
++instead of
++  foo \303\245\303\244\303\266
++  \304\205\304\231\304\207\305\272\305\274\305\204 bar
++yields
++  foo åäö ąęćźżń bar
++or, more realistically, from a message I got earlier today,
++  Filip powiedzia\305\202 \305\274e zap\305\202aci jutro
++becomes
++  Filip powiedział że zapłaci jutro
 +
-+This commit ensures that these strings are locked and cannot be
-+changed by PostScript once SAFER is activated. Full configuration from
-+the command line is still possible (see the *.upp files in lib).
++Invalid/non-printable sequences get processed as before.
 +
-+This addresses CVE-2024-29510
++Line reading in write must become getline() to avoid dealing with
++partial characters: for example on input consisting solely of
++ąęćźżń, where every {1} is an instance, the output would be
++  {42}ąęć\305\272żń{84}ąęćź\305\274ń{84}ąęćźż\305\204{39}
++with just fixed-512 fgets()
 +
-+CVE: CVE-2024-29510
++Bug-Debian: https://bugs.debian.org/826596
 +
-+Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=3b1735085ecef20b29e]
++CVE: CVE-2024-28085
 +
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/8a7b8456d1dc0e7ca557d1ac31f638986704757f]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ devices/gdevupd.c | 31 +++++++++++++++++++++++++++++++
-+ 1 file changed, 31 insertions(+)
++ include/carefulputc.h | 62 +++++++++++++++++++++++++++++++------------
++ login-utils/last.c    |  4 +--
++ term-utils/write.c    | 25 +++++------------
++ 3 files changed, 53 insertions(+), 38 deletions(-)
 +
-+diff --git a/devices/gdevupd.c b/devices/gdevupd.c
-+index 6635984..7952165 100644
-+--- a/devices/gdevupd.c
-++++ b/devices/gdevupd.c
-+@@ -1886,6 +1886,16 @@ out on this copies.
-+       if(!upd_strings[i]) continue;
-+       UPD_PARAM_READ(param_read_string,upd_strings[i],value,udev->memory);
-+       if(0 == code) {
-++        if (gs_is_path_control_active(udev->memory)) {
-++            if (strings[i].size != value.size)
-++              error = gs_error_invalidaccess;
-++            else {
-++                if (strings[i].data && memcmp(strings[i].data, value.data, strings[i].size) != 0)
-++                    error = gs_error_invalidaccess;
-++            }
-++            if (error < 0)
-++                goto exit;
-++        }
-+          if(0 <= error) error |= UPD_PUT_STRINGS;
-+          UPD_MM_DEL_PARAM(udev->memory, strings[i]);
-+          if(!value.size) {
-+@@ -1903,6 +1913,26 @@ out on this copies.
-+       if(!upd_string_a[i]) continue;
-+       UPD_PARAM_READ(param_read_string_array,upd_string_a[i],value,udev->memory);
-+       if(0 == code) {
-++          if (gs_is_path_control_active(udev->memory)) {
-++              if (string_a[i].size != value.size)
-++                  error = gs_error_invalidaccess;
-++              else {
-++                  int loop;
-++                  for (loop = 0;loop < string_a[i].size;loop++) {
-++                      gs_param_string *tmp1 = (gs_param_string *)&(string_a[i].data[loop]);
-++                      gs_param_string *tmp2 = (gs_param_string *)&value.data[loop];
++diff --git a/include/carefulputc.h b/include/carefulputc.h
++index 66a0f15..2506614 100644
++--- a/include/carefulputc.h
+++++ b/include/carefulputc.h
++@@ -1,31 +1,59 @@
++ #ifndef UTIL_LINUX_CAREFULPUTC_H
++ #define UTIL_LINUX_CAREFULPUTC_H
++
++-/*
++- * A putc() for use in write and wall (that sometimes are sgid tty).
++- * It avoids control characters in our locale, and also ASCII control
++- * characters.   Note that the locale of the recipient is unknown.
++-*/
++ #include <stdio.h>
++ #include <string.h>
++ #include <ctype.h>
+++#ifdef HAVE_WIDECHAR
+++#include <wctype.h>
+++#endif
+++#include <stdbool.h>
++
++ #include "cctype.h"
++
++-static inline int fputc_careful(int c, FILE *fp, const char fail)
+++/*
+++ * A puts() for use in write and wall (that sometimes are sgid tty).
+++ * It avoids control and invalid characters.
+++ * The locale of the recipient is nominally unknown,
+++ * but it's a solid bet that the encoding is compatible with the author's.
+++ */
+++static inline int fputs_careful(const char * s, FILE *fp, const char ctrl, bool cr_lf)
++ {
++-	int ret;
++-
++-	if (isprint(c) || c == '\a' || c == '\t' || c == '\r' || c == '\n')
++-		ret = putc(c, fp);
++-	else if (!c_isascii(c))
++-		ret = fprintf(fp, "\\%3o", (unsigned char)c);
++-	else {
++-		ret = putc(fail, fp);
++-		if (ret != EOF)
++-			ret = putc(c ^ 0x40, fp);
+++	int ret = 0;
 ++
-++                      if (tmp1->size != tmp2->size)
-++                          error = gs_error_invalidaccess;
-++                      else {
-++                          if (tmp1->data && memcmp(tmp1->data, tmp2->data, tmp1->size) != 0)
-++                              error = gs_error_invalidaccess;
-++                      }
-++                  }
-++              }
-++            if (error < 0)
-++                goto exit;
-++          }
-+          if(0 <= error) error |= UPD_PUT_STRING_A;
-+          UPD_MM_DEL_APARAM(udev->memory, string_a[i]);
-+          if(!value.size) {
-+@@ -2097,6 +2127,7 @@ transferred into the device-structure. In the case of "uniprint", this may
-+       if(0 > code) error = code;
-+    }
+++	for (size_t slen = strlen(s); *s; ++s, --slen) {
+++		if (*s == '\n')
+++			ret = fputs(cr_lf ? "\r\n" : "\n", fp);
+++		else if (isprint(*s) || *s == '\a' || *s == '\t' || *s == '\r')
+++			ret = putc(*s, fp);
+++		else if (!c_isascii(*s)) {
+++#ifdef HAVE_WIDECHAR
+++			wchar_t w;
+++			size_t clen = mbtowc(&w, s, slen);
+++			switch(clen) {
+++				case (size_t)-2:  // incomplete
+++				case (size_t)-1:  // EILSEQ
+++					mbtowc(NULL, NULL, 0);
+++				nonprint:
+++					ret = fprintf(fp, "\\%3hho", *s);
+++					break;
+++				default:
+++					if(!iswprint(w))
+++						goto nonprint;
+++					ret = fwrite(s, 1, clen, fp);
+++					s += clen - 1;
+++					slen -= clen - 1;
+++					break;
+++			}
+++#else
+++			ret = fprintf(fp, "\\%3hho", *s);
+++#endif
+++		} else
+++			ret = fputs((char[]){ ctrl, *s ^ 0x40, '\0' }, fp);
+++		if (ret < 0)
+++			return EOF;
++	}
++-	return (ret < 0) ? EOF : 0;
+++	return 0;
++ }
 +
-++exit:
-+    if(0 < error) { /* Actually something loaded without error */
++ static inline void fputs_quoted_case(const char *data, FILE *out, int dir)
++diff --git a/login-utils/last.c b/login-utils/last.c
++index f3272ca..aacd1f6 100644
++--- a/login-utils/last.c
+++++ b/login-utils/last.c
++@@ -403,7 +403,6 @@ static int list(const struct last_control *ctl, struct utmpx *p, time_t logout_t
++	char		final[512];
++	char		utline[sizeof(p->ut_line) + 1];
++	char		domain[256];
++-	char		*s;
++	int		mins, hours, days;
++	int		r, len;
++	struct last_timefmt *fmt;
++@@ -559,8 +558,7 @@ static int list(const struct last_control *ctl, struct utmpx *p, time_t logout_t
++	/*
++	 *	Print out "final" string safely.
++	 */
++-	for (s = final; *s; s++)
++-		fputc_careful(*s, stdout, '*');
+++	fputs_careful(final, stdout, '*', false);
 +
-+       if(!(upd = udev->upd)) {
++	if (len < 0 || (size_t)len >= sizeof(final))
++		putchar('\n');
++diff --git a/term-utils/write.c b/term-utils/write.c
++index 50f18dc..710a58c 100644
++--- a/term-utils/write.c
+++++ b/term-utils/write.c
++@@ -223,21 +223,6 @@ static void signal_handler(int signo)
++	signal_received = signo;
++ }
++
++-/*
++- * write_line - like fputs(), but makes control characters visible and
++- *     turns \n into \r\n.
++- */
++-static void write_line(char *s)
++-{
++-	while (*s) {
++-		const int c = *s++;
++-
++-		if ((c == '\n' && fputc_careful('\r', stdout, '^') == EOF)
++-		    || fputc_careful(c, stdout, '^') == EOF)
++-			err(EXIT_FAILURE, _("carefulputc failed"));
++-	}
++-}
++-
++ /*
++  * do_write - actually make the connection
++  */
++@@ -247,7 +232,8 @@ static void do_write(const struct write_control *ctl)
++	struct passwd *pwd;
++	time_t now;
++	struct tm *tm;
++-	char *host, line[512];
+++	char *host, *line = NULL;
+++	size_t linelen = 0;
++	struct sigaction sigact;
++
++	/* Determine our login name(s) before the we reopen() stdout */
++@@ -286,11 +272,14 @@ static void do_write(const struct write_control *ctl)
++	free(host);
++	printf("\r\n");
++
++-	while (fgets(line, sizeof(line), stdin) != NULL) {
+++	while (getline(&line, &linelen, stdin) >= 0) {
++		if (signal_received)
++			break;
++-		write_line(line);
+++
+++		if (fputs_careful(line, stdout, '^', true) == EOF)
+++			err(EXIT_FAILURE, _("carefulputc failed"));
++	}
+++	free(line);
++	printf("EOF\r\n");
++ }
++
 +--
 +2.40.0
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 36c5aa3285..1fd08d1cfe 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -48,6 +48,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2024-33869-0002.patch \
-                 file://CVE-2024-33871-0001.patch \
-                 file://CVE-2024-33871-0002.patch \
-+                file://CVE-2024-29510.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+new file mode 100644
+index 0000000000..1fceebbdb4
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+@@ -0,0 +1,172 @@
++From 27ee6446503af7ec0c2647704ca47ac4de3852ef Mon Sep 17 00:00:00 2001
++From: наб <nabijaczleweli@nabijaczleweli.xyz>
++Date: Wed, 15 Mar 2023 16:16:43 +0100
++Subject: [PATCH] wall: convert homebrew buffering to open_memstream()
++
++The struct buffer system duplicates a plethora of standard I/O
++functions (including a fork of fputc_careful())
++and adds a lot of complexity ‒ open_memstream() is standard,
++and fits perfectly into this niche
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/27ee6446503af7ec0c2647704ca47ac4de3852ef]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ term-utils/wall.c | 95 ++++++++++-------------------------------------
++ 1 file changed, 20 insertions(+), 75 deletions(-)
++
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index c601d3e..a51a928 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -274,74 +274,22 @@ int main(int argc, char **argv)
++	exit(EXIT_SUCCESS);
++ }
++
++-struct buffer {
++-	size_t	sz;
++-	size_t	used;
++-	char	*data;
++-};
++-
++-static void buf_enlarge(struct buffer *bs, size_t len)
+++static void buf_putc_careful(FILE *fs, int c)
++ {
++-	if (bs->sz == 0 || len > bs->sz - bs->used) {
++-		bs->sz += len < 128 ? 128 : len;
++-		bs->data = xrealloc(bs->data, bs->sz);
++-	}
++-}
++-
++-static void buf_puts(struct buffer *bs, const char *s)
++-{
++-	size_t len = strlen(s);
++-
++-	buf_enlarge(bs, len + 1);
++-	memcpy(bs->data + bs->used, s, len + 1);
++-	bs->used += len;
++-}
++-
++-static void __attribute__((__format__ (__printf__, 2, 3)))
++-	buf_printf(struct buffer *bs, const char *fmt, ...)
++-{
++-	int rc;
++-	va_list ap;
++-	size_t limit;
++-
++-	buf_enlarge(bs, 0);	/* default size */
++-	limit = bs->sz - bs->used;
++-
++-	va_start(ap, fmt);
++-	rc = vsnprintf(bs->data + bs->used, limit, fmt, ap);
++-	va_end(ap);
++-
++-	if (rc >= 0 && (size_t) rc >= limit) {	/* not enough, enlarge */
++-		buf_enlarge(bs, (size_t)rc + 1);
++-		limit = bs->sz - bs->used;
++-		va_start(ap, fmt);
++-		rc = vsnprintf(bs->data  + bs->used, limit, fmt, ap);
++-		va_end(ap);
++-	}
++-
++-	if (rc > 0)
++-		bs->used += rc;
++-}
++-
++-static void buf_putc_careful(struct buffer *bs, int c)
++-{
++-	if (isprint(c) || c == '\a' || c == '\t' || c == '\r' || c == '\n') {
++-		buf_enlarge(bs, 1);
++-		bs->data[bs->used++] = c;
++-	} else if (!c_isascii(c))
++-		buf_printf(bs, "\\%3o", (unsigned char)c);
++-	else {
++-		char tmp[] = { '^', c ^ 0x40, '\0' };
++-		buf_puts(bs, tmp);
++-	}
+++	if (isprint(c) || c == '\a' || c == '\t' || c == '\r' || c == '\n')
+++		fputc(c, fs);
+++	else if (!c_isascii(c))
+++		fprintf(fs, "\\%3o", (unsigned char)c);
+++	else
+++		fputs((char[]){ '^', c ^ 0x40, '\0' }, fs);
++ }
++
++ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		     size_t *mbufsize, int print_banner)
++ {
++-	struct buffer _bs = {.used = 0}, *bs = &_bs;
++	register int ch, cnt;
++-	char *p, *lbuf;
+++	char *p, *lbuf, *retbuf;
+++	FILE * fs = open_memstream(&retbuf, mbufsize);
++	long line_max;
++
++	line_max = sysconf(_SC_LINE_MAX);
++@@ -379,15 +327,15 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		 */
++		/* snprintf is not always available, but the sprintf's here
++		   will not overflow as long as %d takes at most 100 chars */
++-		buf_printf(bs, "\r%*s\r\n", TERM_WIDTH, " ");
+++		fprintf(fs, "\r%*s\r\n", TERM_WIDTH, " ");
++
++		snprintf(lbuf, line_max,
++				_("Broadcast message from %s@%s (%s) (%s):"),
++				whom, hostname, where, date);
++-		buf_printf(bs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
+++		fprintf(fs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
++		free(hostname);
++	}
++-	buf_printf(bs, "%*s\r\n", TERM_WIDTH, " ");
+++	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
++
++	 if (mvec) {
++		/*
++@@ -396,11 +344,11 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		int i;
++
++		for (i = 0; i < mvecsz; i++) {
++-			buf_puts(bs, mvec[i]);
+++			fputs(mvec[i], fs);
++			if (i < mvecsz - 1)
++-				buf_puts(bs, " ");
+++				fputc(' ', fs);
++		}
++-		buf_puts(bs, "\r\n");
+++		fputs("\r\n", fs);
++	} else {
++		/*
++		 * read message from <file>
++@@ -428,23 +376,20 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		while (fgets(lbuf, line_max, stdin)) {
++			for (cnt = 0, p = lbuf; (ch = *p) != '\0'; ++p, ++cnt) {
++				if (cnt == TERM_WIDTH || ch == '\n') {
++-					for (; cnt < TERM_WIDTH; ++cnt)
++-						buf_puts(bs, " ");
++-					buf_puts(bs, "\r\n");
+++					fprintf(fs, "%*s\r\n", TERM_WIDTH - cnt, "");
++					cnt = 0;
++				}
++				if (ch == '\t')
++					cnt += (7 - (cnt % 8));
++				if (ch != '\n')
++-					buf_putc_careful(bs, ch);
+++					buf_putc_careful(fs, ch);
++			}
++		}
++	}
++-	buf_printf(bs, "%*s\r\n", TERM_WIDTH, " ");
+++	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
++
++	free(lbuf);
++
++-	bs->data[bs->used] = '\0';	/* be paranoid */
++-	*mbufsize = bs->used;
++-	return bs->data;
+++	fclose(fs);
+++	return retbuf;
++ }
++--
++2.40.0
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
+new file mode 100644
+index 0000000000..55eba9cc49
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
+@@ -0,0 +1,223 @@
++From aa13246a1bf1be9e4f6eb331f4d4d2dbc875e22f Mon Sep 17 00:00:00 2001
++From: наб <nabijaczleweli@nabijaczleweli.xyz>
++Date: Wed, 15 Mar 2023 16:16:48 +0100
++Subject: [PATCH] wall: use fputs_careful()
++
++LINE_MAX only applies to teletypes in canonical mode: when stdin is a
++file, it could still very much tear; start off at 512 for the sprintf(),
++then use getline() like in write.
++
++The line wrapping has one suboptimal edge-case:
++  $ wall < all
++
++  Broadcast message from nabijaczleweli@tarta (pts/4) (Tue Mar 14 22:31:25
++  2023):
++
++  ^N^O^P^Q^R^S^T^U^V^W^X^Y^Z^[^\^]^^^_
++  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJ
++  KLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~^?\200\201\202\203\204\205\206
++  \207\210\211\212\213\214\215\216\217\220\221\222\223\224\225\226\227\230\231\232
++  \233\234\235\236\237\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256
++  \257\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277\300\301\302
++  \303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326
++  \327\330\331\332\333\334\335\336\337\340\341\342\343\344\345\346\347\350\351\352
++  \353\354\355\356\357\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376
++  \377
++but that's a pathological input, and the result is still infinitely
++better than it was before, so fixing that is more trouble than it's
++worth.
++
++Bug-Debian: https://bugs.debian.org/826596
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/aa13246a1bf1be9e4f6eb331f4d4d2dbc875e22f]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ include/carefulputc.h | 42 +++++++++++++++++++++++++++++++++---------
++ login-utils/last.c    |  2 +-
++ term-utils/wall.c     | 38 ++++++--------------------------------
++ term-utils/write.c    |  2 +-
++ 4 files changed, 41 insertions(+), 43 deletions(-)
++
++diff --git a/include/carefulputc.h b/include/carefulputc.h
++index 2506614..89f8a99 100644
++--- a/include/carefulputc.h
+++++ b/include/carefulputc.h
++@@ -6,6 +6,7 @@
++ #include <ctype.h>
++ #ifdef HAVE_WIDECHAR
++ #include <wctype.h>
+++#include <wchar.h>
++ #endif
++ #include <stdbool.h>
++
++@@ -15,18 +16,35 @@
++  * A puts() for use in write and wall (that sometimes are sgid tty).
++  * It avoids control and invalid characters.
++  * The locale of the recipient is nominally unknown,
++- * but it's a solid bet that the encoding is compatible with the author's.
+++ * but it's a solid bet that it's compatible with the author's.
+++ * Use soft_width=0 to disable wrapping.
++  */
++-static inline int fputs_careful(const char * s, FILE *fp, const char ctrl, bool cr_lf)
+++static inline int fputs_careful(const char * s, FILE *fp, const char ctrl, bool cr_lf, int soft_width)
++ {
++-	int ret = 0;
+++	int ret = 0, col = 0;
++
++	for (size_t slen = strlen(s); *s; ++s, --slen) {
++-		if (*s == '\n')
+++		if (*s == '\t')
+++			col += (7 - (col % 8)) - 1;
+++		else if (*s == '\r')
+++			col = -1;
+++		else if (*s == '\a')
+++			--col;
+++
+++		if ((soft_width && col >= soft_width) || *s == '\n') {
+++			if (soft_width) {
+++				fprintf(fp, "%*s", soft_width - col, "");
+++				col = 0;
+++			}
++			ret = fputs(cr_lf ? "\r\n" : "\n", fp);
++-		else if (isprint(*s) || *s == '\a' || *s == '\t' || *s == '\r')
+++			if (*s == '\n' || ret < 0)
+++				goto wrote;
+++		}
+++
+++		if (isprint(*s) || *s == '\a' || *s == '\t' || *s == '\r') {
++			ret = putc(*s, fp);
++-		else if (!c_isascii(*s)) {
+++			++col;
+++		} else if (!c_isascii(*s)) {
++ #ifdef HAVE_WIDECHAR
++			wchar_t w;
++			size_t clen = mbtowc(&w, s, slen);
++@@ -35,21 +53,27 @@ static inline int fputs_careful(const char * s, FILE *fp, const char ctrl, bool
++				case (size_t)-1:  // EILSEQ
++					mbtowc(NULL, NULL, 0);
++				nonprint:
++-					ret = fprintf(fp, "\\%3hho", *s);
+++					col += ret = fprintf(fp, "\\%3hho", *s);
++					break;
++				default:
++					if(!iswprint(w))
++						goto nonprint;
++					ret = fwrite(s, 1, clen, fp);
+++					if (soft_width)
+++						col += wcwidth(w);
++					s += clen - 1;
++					slen -= clen - 1;
++					break;
++			}
++ #else
++-			ret = fprintf(fp, "\\%3hho", *s);
+++			col += ret = fprintf(fp, "\\%3hho", *s);
++ #endif
++-		} else
+++		} else {
++			ret = fputs((char[]){ ctrl, *s ^ 0x40, '\0' }, fp);
+++			col += 2;
+++		}
+++
+++	wrote:
++		if (ret < 0)
++			return EOF;
++	}
++diff --git a/login-utils/last.c b/login-utils/last.c
++index aacd1f6..43c5429 100644
++--- a/login-utils/last.c
+++++ b/login-utils/last.c
++@@ -558,7 +558,7 @@ static int list(const struct last_control *ctl, struct utmpx *p, time_t logout_t
++	/*
++	 *	Print out "final" string safely.
++	 */
++-	fputs_careful(final, stdout, '*', false);
+++	fputs_careful(final, stdout, '*', false, 0);
++
++	if (len < 0 || (size_t)len >= sizeof(final))
++		putchar('\n');
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index a51a928..377db45 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -274,29 +274,13 @@ int main(int argc, char **argv)
++	exit(EXIT_SUCCESS);
++ }
++
++-static void buf_putc_careful(FILE *fs, int c)
++-{
++-	if (isprint(c) || c == '\a' || c == '\t' || c == '\r' || c == '\n')
++-		fputc(c, fs);
++-	else if (!c_isascii(c))
++-		fprintf(fs, "\\%3o", (unsigned char)c);
++-	else
++-		fputs((char[]){ '^', c ^ 0x40, '\0' }, fs);
++-}
++-
++ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		     size_t *mbufsize, int print_banner)
++ {
++-	register int ch, cnt;
++-	char *p, *lbuf, *retbuf;
+++	char *lbuf, *retbuf;
++	FILE * fs = open_memstream(&retbuf, mbufsize);
++-	long line_max;
++-
++-	line_max = sysconf(_SC_LINE_MAX);
++-	if (line_max <= 0)
++-		line_max = 512;
++-
++-	lbuf = xmalloc(line_max);
+++	size_t lbuflen = 512;
+++	lbuf = xmalloc(lbuflen);
++
++	if (print_banner == TRUE) {
++		char *hostname = xgethostname();
++@@ -329,7 +313,7 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		   will not overflow as long as %d takes at most 100 chars */
++		fprintf(fs, "\r%*s\r\n", TERM_WIDTH, " ");
++
++-		snprintf(lbuf, line_max,
+++		snprintf(lbuf, lbuflen,
++				_("Broadcast message from %s@%s (%s) (%s):"),
++				whom, hostname, where, date);
++		fprintf(fs, "%-*.*s\007\007\r\n", TERM_WIDTH, TERM_WIDTH, lbuf);
++@@ -373,18 +357,8 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		/*
++		 * Read message from stdin.
++		 */
++-		while (fgets(lbuf, line_max, stdin)) {
++-			for (cnt = 0, p = lbuf; (ch = *p) != '\0'; ++p, ++cnt) {
++-				if (cnt == TERM_WIDTH || ch == '\n') {
++-					fprintf(fs, "%*s\r\n", TERM_WIDTH - cnt, "");
++-					cnt = 0;
++-				}
++-				if (ch == '\t')
++-					cnt += (7 - (cnt % 8));
++-				if (ch != '\n')
++-					buf_putc_careful(fs, ch);
++-			}
++-		}
+++		while (getline(&lbuf, &lbuflen, stdin) >= 0)
+++			fputs_careful(lbuf, fs, '^', true, TERM_WIDTH);
++	}
++	fprintf(fs, "%*s\r\n", TERM_WIDTH, " ");
++
++diff --git a/term-utils/write.c b/term-utils/write.c
++index 710a58c..1d57fce 100644
++--- a/term-utils/write.c
+++++ b/term-utils/write.c
++@@ -276,7 +276,7 @@ static void do_write(const struct write_control *ctl)
++		if (signal_received)
++			break;
++
++-		if (fputs_careful(line, stdout, '^', true) == EOF)
+++		if (fputs_careful(line, stdout, '^', true, 0) == EOF)
++			err(EXIT_FAILURE, _("carefulputc failed"));
++	}
++	free(line);
++--
++2.40.0
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
+new file mode 100644
+index 0000000000..af39931b3f
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
+@@ -0,0 +1,36 @@
++From 07f0f0f5bd1e5e2268257ae1ff6d76a9b6c6ea8b Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Wed, 17 Jan 2024 12:37:08 +0100
++Subject: [PATCH] wall: fix calloc cal [-Werror=calloc-transposed-args]
++
++term-utils/wall.c:143:37: error: xcalloc sizes specified with sizeof in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
++  143 |         buf->groups = xcalloc(sizeof(*buf->groups), buf->ngroups);
++      |                                     ^
++term-utils/wall.c:143:37: note: earlier argument should specify number of elements, later size of each element
++
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/07f0f0f5bd1e5e2268257ae1ff6d76a9b6c6ea8b]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ term-utils/wall.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index 377db45..85c006a 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -135,7 +135,7 @@ static struct group_workspace *init_group_workspace(const char *group)
++
++	buf->requested_group = get_group_gid(group);
++	buf->ngroups = sysconf(_SC_NGROUPS_MAX) + 1;  /* room for the primary gid */
++-	buf->groups = xcalloc(sizeof(*buf->groups), buf->ngroups);
+++	buf->groups = xcalloc(buf->ngroups, sizeof(*buf->groups));
++
++	return buf;
++ }
++--
++2.40.0
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0005.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0005.patch
+new file mode 100644
+index 0000000000..a2b914d580
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0005.patch
+@@ -0,0 +1,34 @@
++From 404b0781f52f7c045ca811b2dceec526408ac253 Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Thu, 21 Mar 2024 11:16:20 +0100
++Subject: [PATCH] wall: fix escape sequence Injection [CVE-2024-28085]
++
++Let's use for all cases the same output function.
++
++Reported-by: Skyler Ferrante <sjf5462@rit.edu>
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/404b0781f52f7c045ca811b2dceec526408ac253]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ term-utils/wall.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index 85c006a..0212c03 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -328,7 +328,7 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		int i;
++
++		for (i = 0; i < mvecsz; i++) {
++-			fputs(mvec[i], fs);
+++			fputs_careful(mvec[i], fs, '^', true, TERM_WIDTH);
++			if (i < mvecsz - 1)
++				fputc(' ', fs);
++		}
++--
++2.40.0
 -- 
 2.34.1
 
