@@ -1,110 +1,144 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF2AC25B7E
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 17:41:56 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web10.3251.1717090915083209652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F64C27C44
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:16 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.4937.1717094292860636602
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 10:41:55 -0700
+ Thu, 30 May 2024 11:38:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OUehuXLW;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5b96b249d56so534170eaf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 10:41:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zlvj+OPa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70231c74400so886617b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717090914; x=1717695714; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eNpiOcnOL5lwp4qnmm94zGeyCNNiUB0DgbQWaFJ+KvY=;
-        b=OUehuXLWsX3/7bgZzqCZgF3XiFdCdzYcMi3I72Uv/ZpA/xwbQ4OKhEMEvwk4kAIi2d
-         JzuYsPIKu+gHyOXFQvBbi2cMK51Qgk4OMke7Bg8EhbZNB3vw0+1HEpv5OWU/ljkg4Obl
-         eLyS7c/pE+FAftSj820By6Fg+/megHnOBXyFVJPMU5sfPnshmYboF1wWhULujb6YsCBX
-         giThQtjgGsyLriynishAIoTItoFKTaal2YBtAfAT8q6uBp+oQepuTebyzBW1ZpB4t2uM
-         v6nH6gojEJ86NqQZbG9fDjmc3/G/dGVGhX/9mVdL+S4J3BXGI1kBPbcy/4UNZfLxr8Sk
-         NAbA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094291; x=1717699091; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N13wcDnTXJ7BHG16ZSgwhLrXGVrSIVX8qhad/WdM2pk=;
+        b=zlvj+OPaWa4FtRlbLczkHRL6Sq/EUqFcJVHthNF0yAYeF2ODSZd3IM/eCt57HCBaTU
+         1/vhbHB2y/NpRR7HK949yHjAczQwt+7nhbT5pKYai5sSIx4DXwyEE8W/8LkgOgImSgE8
+         LNWvy9BGtTq66aIufWefu8ttMiNSXmq/c9JUfhZemJ7RkPMhY11aXJNjI8JrMKNNhyHs
+         ckJzQwTR8IQuPsqZvN/kUO2i010TE0+Mpy3WsYw1iofpb/rxDVueT1n25HZpNGbSRJd8
+         1O4sjlvwArbAfiwtlX1aQ5TTT+sTx1UAIKu3SlgA3wCVNi3Y/uFT2rBCAlMaxLGRuWzx
+         TYmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717090914; x=1717695714;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eNpiOcnOL5lwp4qnmm94zGeyCNNiUB0DgbQWaFJ+KvY=;
-        b=YRe+P9i+8xb0ut6aC+7bp/df8JhzV6xNna2q8kanPdvB+lO5XcquPXVl612kZqBkX6
-         HDQMLV2peOP4ohCwSJa9OkcE1Mv0Nc7rGyqRTuaO4t9wbyLKg9MocL027bdRlkgi898n
-         r1F4vapa+Klq5I/tCIG/PbI3SFq+SNEQRcJNHl9mwtnjAoGtsQc1FZK2GLaqybhoiAmp
-         Ab1f4HO/cifDDf7KWy//GqLuQb2CsPRk57N5CEoLVbQTzcTiV5gFt1h7f9pLu83325r1
-         dp4ZB+pFo0XGrj+sdqnr4eJhCWXXWc82ncSETN8ntevreeOM9RvEkSBBvcLYgPrB3Qs9
-         CpMg==
-X-Gm-Message-State: AOJu0YymcIYaYYdX5oNilqaARdYQ1GlIPvpMVvpldzfp0aPnMLgTXMex
-	DIAzYTCm62vI/4dL4fzWlokFdyeH5KS52p+pPliDgqJjfDTiPD7UbiBQeQbAqo8rTR7fg6rl1u2
-	ve/vLCABgHO+kTZ8XVTaQO6xo0/+OsMJ3NYjCVQ==
-X-Google-Smtp-Source: AGHT+IGwzumd6KPyQsOj+EVBMk6Ba6LL2Bv/qvA83ylj7bbG1RA21ICHQgFJb3HJJcckipLpCYAxWoW30CvfXjAaX6g=
-X-Received: by 2002:a05:6870:219e:b0:24f:c0da:3d4e with SMTP id
- 586e51a60fabf-25065b2248dmr1053656fac.2.1717090914138; Thu, 30 May 2024
- 10:41:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717094291; x=1717699091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N13wcDnTXJ7BHG16ZSgwhLrXGVrSIVX8qhad/WdM2pk=;
+        b=CjUWJxCdjQZbBRAfjrkk88FVH/ckXG0wXObmKAvzXZyaOdcdszh0RcjhII8gv5cNv+
+         NDExarAxYBBY5FOQHxbGpg+zcvMJ13pHLgCSFlnZY2dZTpbD6KjZl+Pv52/FZPxdycE1
+         oG6kD5jOyjzHd4yH3Qd38PRA8OnRARQWM5zh9d7BTrj1m1ifZ9MJGsCy+8e536XIey+G
+         KnDwSU3h9myvBspKbGzVOdbQ8pr7KYFjGEX2FVJ9/hxXXKyMqQmqRn80UjI0uhSzN2x0
+         dYJGz5RmpT3wSUbWM0aX8tmpzowKK569uI6KEqLnKjT8RQCmTrxGgjXnVvdvvJbwpCnK
+         +vLQ==
+X-Gm-Message-State: AOJu0Yxi8e4maVTDdo0YAedSr2Dpt5FYOqpT2vFo5RH7eR36eulXIdud
+	2r7mgBuF+NW0g2ygWeeQNeMpvm1f6hGHW1Jqx8QEKGYGS0Ydklw0r1I4jRc5CHGxsHJjWWssR/F
+	8
+X-Google-Smtp-Source: AGHT+IF7TOvM7ZH6AlQjjrKXDZSfJRZVOBqAvQokUueUg9NBTYfOYacuhMhch+XEu+159JALbg3Vig==
+X-Received: by 2002:a05:6a00:1da9:b0:6ed:5f64:2ff4 with SMTP id d2e1a72fcca58-70231139480mr2850666b3a.14.1717094291118;
+        Thu, 30 May 2024 11:38:11 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 May 2024 11:38:10 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/7] Patch review
+Date: Thu, 30 May 2024 11:37:59 -0700
+Message-Id: <cover.1717094145.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240530164355.3294714-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20240530164355.3294714-1-dmitry.baryshkov@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 30 May 2024 10:41:28 -0700
-Message-ID: <CAMKF1so3N92kUUnR9HACZYWw3YBq2P+fT5VPaLH_VMO5va-4zA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] site/x86_64-linux: add ac_cv_func_fnmatch_works
-To: dbaryshkov@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 17:41:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200037
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200038
 
-On Thu, May 30, 2024 at 9:44=E2=80=AFAM Dmitry Baryshkov via
-lists.openembedded.org <dbaryshkov=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Other arch-specific caches have ac_cv_func_fnmatch_works. Add it to
-> x86_64 cache too, otherwise cabextract fails to build ([1])
->
-> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/389=
-3/steps/14/logs/stdio
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  meta/site/x86_64-linux | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-> index b9ee141fd5c5..ed9c88fa20f7 100644
-> --- a/meta/site/x86_64-linux
-> +++ b/meta/site/x86_64-linux
-> @@ -83,3 +83,6 @@ ac_cv_func__restgpr_14_x=3Dno
->
->  # cvs
->  cvs_cv_func_printf_ptr=3D${cvs_cv_func_printf_ptr=3Dyes}
-> +
-> +# cabextract
-> +ac_cv_func_fnmatch_works=3D${ac_cv_func_fnmatch_works=3Dyes}
+Please review this set of changes for kirktsone and have comments back by
+end of day Saturday, June 1
 
-I think it will be good to document the underlying reason for this test to
-fail during the autoconf run. It seems to trying fnmatch replacement,
-but then fails to do
-it properly.
+Passed a-full on autobuilder:
 
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200033): https://lists.openembedded.org/g/openembedde=
-d-core/message/200033
-> Mute This Topic: https://lists.openembedded.org/mt/106392140/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6984
+
+The following changes since commit e0a1ed7aa1f2b12d985414db9a75d6e151ae8d21:
+
+  initscripts: Add custom mount args for /var/lib (2024-05-22 05:07:30 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Archana Polampalli (5):
+  ghostscript: fix CVE-2024-33870
+  ghostscript: fix CVE-2024-33869
+  ghostscript: fix CVE-2024-33871
+  ghostscript: fix CVE-2024-29510
+  ghostscript: fix CVE-2023-52722
+
+Soumya Sambu (2):
+  util-linux: Fix CVE-2024-28085
+  git: Fix multiple CVEs
+
+ meta/recipes-core/util-linux/util-linux.inc   |    5 +
+ .../util-linux/CVE-2024-28085-0001.patch      |  202 +
+ .../util-linux/CVE-2024-28085-0002.patch      |  172 +
+ .../util-linux/CVE-2024-28085-0003.patch      |  223 +
+ .../util-linux/CVE-2024-28085-0004.patch      |   36 +
+ .../util-linux/CVE-2024-28085-0005.patch      |   34 +
+ .../git/git/CVE-2024-32002-0001.patch         |   69 +
+ .../git/git/CVE-2024-32002-0002.patch         |  213 +
+ .../git/git/CVE-2024-32002-0003.patch         |  141 +
+ .../git/git/CVE-2024-32002-0004.patch         |  150 +
+ .../git/git/CVE-2024-32004-0001.patch         |   95 +
+ .../git/git/CVE-2024-32004-0002.patch         |  187 +
+ .../git/git/CVE-2024-32004-0003.patch         |  158 +
+ .../git/git/CVE-2024-32020.patch              |  114 +
+ .../git/git/CVE-2024-32021-0001.patch         |   89 +
+ .../git/git/CVE-2024-32021-0002.patch         |   65 +
+ .../git/git/CVE-2024-32465.patch              |  206 +
+ meta/recipes-devtools/git/git_2.35.7.bb       |   11 +
+ .../ghostscript/CVE-2023-52722.patch          |   43 +
+ .../ghostscript/CVE-2024-29510.patch          |   84 +
+ .../ghostscript/CVE-2024-33869-0001.patch     |   39 +
+ .../ghostscript/CVE-2024-33869-0002.patch     |   52 +
+ .../ghostscript/CVE-2024-33870.patch          |   92 +
+ .../ghostscript/CVE-2024-33871-0001.patch     | 4863 +++++++++++++++++
+ .../ghostscript/CVE-2024-33871-0002.patch     |   43 +
+ .../ghostscript/ghostscript_9.55.0.bb         |    7 +
+ 26 files changed, 7393 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0004.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0005.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0001.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0002.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0003.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0004.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0001.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0002.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0003.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32020.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32021-0001.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32021-0002.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32465.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33869-0001.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33869-0002.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0001.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0002.patch
+
+-- 
+2.34.1
+
 
