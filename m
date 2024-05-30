@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E06AFC25B7E
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:16 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.4938.1717094293629636414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF39C25B74
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:26 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.4943.1717094301151444968
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 11:38:13 -0700
+ Thu, 30 May 2024 11:38:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vczCNbZF;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-701b0b0be38so1161633b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T86mP6XN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7022cabdc0aso1065758b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094293; x=1717699093; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094300; x=1717699100; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Q1JA9n7keJFje6ituDNj6KQ05CFEbixfsRA7s+CZcpM=;
-        b=vczCNbZFPquUETKZvflOH6ofTpG7zwRiqFlB2tCYdCTE1uTrDcVCNQapXzAhnfTBD2
-         KkNfLwrq649ObKh/fkiWNAdF4ptV6J9wdjfDC4T/NtPt+jxrmiUxCmlX8KzVRJzJLuD0
-         DvW9fB74hGJAB5RYj7828N6PT8Xmm9N3ebDblcI+QkU/BD6Ch8Tu8XxT6OK3YvPfR/Ex
-         8+Lduqr3vxiG2eD+MViJxAgLmM6TIWqnxJojvAXU1fJL6VyfDmCG52pBzwLbkv0RljuD
-         WdADvQW3sZX4u/eGki5fkkI8AEdTNi3rFbgGoYKDFWI92lbE9RCcvDdD6r7hZEZvsJ7E
-         JbBA==
+        bh=2Wevm+Cko/vfvWgCzzD+yZTQ5DSH6lkYVjWYXM5+OHQ=;
+        b=T86mP6XNBLqs5qiHStgYdBICV9lPISDv9rbPZx7jBh7MrrrSkufE9dhiYb9Izksnqh
+         0LbgfK/nW1kykUrKAigJF99czBj0kSqLA9A6wG1w4zaistFpYPI9hXaosPL778/IcjRM
+         sqs2wQFbDQvNNux3qK4eHVIi/c+9IU7ICZye7NrnjAq9VxJJKsnqg3qfiGl9J367I+0o
+         eOsIhr7LlZTi4NIYzWf6P2NCbK3TTWxVrxZxKULx9fW6tFv97ERGqoUoqGrZdeAuKqz0
+         P1T9WFS5AG64oQjFPGuEmY+csRkYnHMwaTHVz5pAej6uqhmget7hRO0LNSG+A8ksVNNQ
+         kuyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717094293; x=1717699093;
+        d=1e100.net; s=20230601; t=1717094300; x=1717699100;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q1JA9n7keJFje6ituDNj6KQ05CFEbixfsRA7s+CZcpM=;
-        b=SuGT7D+B+SUvGvp0aLO1BNbwWyLyhHg+GdeuM51HDFSphctRF0/PiKAp5BLhI/bmtT
-         izz66DVsI3vfy675qC2SqnVp7r1gn38Fjqi8oKTVFyZPWxdoTiiXEbihi1vQUwKgP+R8
-         LoXnW+j6CPDqnrFbYzFVoXaN7LHRvNGzRxLq8VaD0vfYMXjS1tWfvBPN+HWEv/CzJYJ6
-         75IDBtOIe4mUgXniFuk/U8hCmcHoRKmBNcMZogH1yefYDBzJ3mHSE1ACzWQuIaE+4fA2
-         KO9EIdXnY+F31/1EYeFnifwhW7Ge+H1o7ke429syQkPIOqbQZ3Rr5DW0u77tBFnM9Pdn
-         NkGg==
-X-Gm-Message-State: AOJu0Yw+mA+jD8MzpgCogW7C7SSFQqMrtznu3OpsPjfg+oU38WHiyAam
-	SsvevQ9r4kxK8qp4SQfhOu403RFqOYHZ6/nRk52hvywFXG6RYeoxa/Xbb3jR+5RSyjL2xBfUAlh
-	u
-X-Google-Smtp-Source: AGHT+IGizNHhh1PDQ5/EmQ+zxs/tBjeefqhqj3Hg1inOi74hVMe3apwW18K+SLPRw9KIh2J3iu0oBA==
-X-Received: by 2002:a05:6a20:12d5:b0:1af:9edd:9cb3 with SMTP id adf61e73a8af0-1b2645bf0b1mr3502641637.17.1717094292667;
-        Thu, 30 May 2024 11:38:12 -0700 (PDT)
+        bh=2Wevm+Cko/vfvWgCzzD+yZTQ5DSH6lkYVjWYXM5+OHQ=;
+        b=t4A7k3OnMBAYUEjwn0ktLm6hyqbQ6noyqXOCc3g2CCuidweVwQsxA9SWHI9/C9lBRv
+         o8SSHGmO34x4LvGQrSwwj8ohf1Tq3UsU2SbTclS2S9L2mMmY6SoR0OcSO2ezwOiNIm0K
+         aQ+32Zq33TD9Fdfe56wZ2WFLosFHUTFvCJWW4eZxNPpS5Rf38l53rEuJ9sFhMkQGW5+C
+         tj1uDyt3HMvuiDohn3ZzQNuoQPV6ErcTu2jepUddmkP02OO6l63LAcqsTRiOrz7Ine/1
+         zzX9E7YBC1HzIjxKhY/1Xb5uxnkp0pjutvXp5WRK5ns8ek5qQuoUj0RC5YKjQiFisflc
+         +X8Q==
+X-Gm-Message-State: AOJu0YxtIlTsHODeO3qe7ZyXPI5Dqt79IhpIagBqXEUX0A7D0QkjMs9o
+	PBzMnHTgTgVvoaDkuGZtZNrUVikVSY8xW8F6/2dwF1McmKS4hBrmaqbtQGVZGenK5THj6L420B0
+	M
+X-Google-Smtp-Source: AGHT+IEt4KmvQpeIr4OgZcO4EYlfbt4+LMfuPStvj7NVwR0F5QsWgNGUu42DFZNGVFFqbROe3z5MAw==
+X-Received: by 2002:a05:6300:8981:b0:1a9:509c:eba6 with SMTP id adf61e73a8af0-1b264d4a581mr2923469637.25.1717094300406;
+        Thu, 30 May 2024 11:38:20 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 11:38:12 -0700 (PDT)
+        Thu, 30 May 2024 11:38:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/7] ghostscript: fix CVE-2024-33870
-Date: Thu, 30 May 2024 11:38:00 -0700
-Message-Id: <9f0c63b568312da93daeb31eeb2874b98d1e3eea.1717094145.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/7] ghostscript: fix CVE-2023-52722
+Date: Thu, 30 May 2024 11:38:04 -0700
+Message-Id: <66228a9e8177e70a5653b61742836a3ad83e78af.1717094145.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717094145.git.steve@sakoman.com>
 References: <cover.1717094145.git.steve@sakoman.com>
@@ -61,126 +61,77 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200039
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200043
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ghostscript/CVE-2024-33870.patch          | 92 +++++++++++++++++++
+ .../ghostscript/CVE-2023-52722.patch          | 43 +++++++++++++++++++
  .../ghostscript/ghostscript_9.55.0.bb         |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
 new file mode 100644
-index 0000000000..0d289b6d07
+index 0000000000..8fbfc9ef09
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
-@@ -0,0 +1,92 @@
-+From 79aef19c685984dc3da2dc090450407d9fbcff80 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <Ken.Sharp@artifex.com>
-+Date: Tue, 26 Mar 2024 12:00:14 +0000
-+Subject: [PATCH 1/5] Bug #707686
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
+@@ -0,0 +1,43 @@
++From 1ff9a695947967d2d327c45bf5145dd381fc1745 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Tue, 12 Sep 2023 10:46:10 +0100
++Subject: [PATCH 5/5] In SAFER (default) don't allow eexec seeds other than the
++ Type 1 standard
 +
-+See bug thread for details
++CVE: CVE-2023-52722
 +
-+In addition to the noted bug; an error path (return from
-+gp_file_name_reduce not successful) could elad to a memory leak as we
-+did not free 'bufferfull'. Fix that too.
-+
-+This addresses CVE-2024-33870
-+
-+CVE: CVE-2024-33870
-+
-+Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=79aef19c685984dc]
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=1ff9a695947967d2d327]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ base/gpmisc.c | 33 ++++++++++++++++++++++++++++++---
-+ 1 file changed, 30 insertions(+), 3 deletions(-)
++ psi/zmisc1.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/base/gpmisc.c b/base/gpmisc.c
-+index f9a9230..3b6fffa 100644
-+--- a/base/gpmisc.c
-++++ b/base/gpmisc.c
-+@@ -1042,7 +1042,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+                      const uint         len,
-+                      const char        *mode)
-+ {
-+-    char *buffer, *bufferfull;
-++    char *buffer, *bufferfull = NULL;
-+     uint rlen;
-+     int code = 0;
-+     const char *cdirstr = gp_file_name_current();
-+@@ -1095,8 +1095,10 @@ gp_validate_path_len(const gs_memory_t *mem,
-+             return gs_error_VMerror;
++diff --git a/psi/zmisc1.c b/psi/zmisc1.c
++index 3c47e99..81556ac 100644
++--- a/psi/zmisc1.c
+++++ b/psi/zmisc1.c
++@@ -93,6 +93,9 @@ zexE(i_ctx_t *i_ctx_p)
 +
-+         buffer = bufferfull + prefix_len;
-+-        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-+-            return gs_error_invalidfileaccess;
-++	if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success) {
-++           code = gs_note_error(gs_error_invalidfileaccess);
-++            goto exit;
-++        }
-+         buffer[rlen] = 0;
++     if (code < 0)
++         return code;
+++    if (gs_is_path_control_active(imemory) != 0 && state.cstate != 55665) {
+++        return_error(gs_error_rangecheck);
+++    }
++     return filter_write(i_ctx_p, code, &s_exE_template, (stream_state *)&state, 0);
++ }
++
++@@ -130,6 +133,11 @@ zexD(i_ctx_t *i_ctx_p)
 +     }
-+     while (1) {
-+@@ -1131,9 +1133,33 @@ gp_validate_path_len(const gs_memory_t *mem,
-+             code = gs_note_error(gs_error_invalidfileaccess);
-+         }
-+         if (code < 0 && prefix_len > 0 && buffer > bufferfull) {
-++            uint newlen = rlen + cdirstrl + dirsepstrl;
-++            char *newbuffer;
-++            int code;
++     if (code < 0)
++         return code;
 ++
-+             buffer = bufferfull;
-+             memcpy(buffer, cdirstr, cdirstrl);
-+             memcpy(buffer + cdirstrl, dirsepstr, dirsepstrl);
-++	    /* We've prepended a './' or similar for the current working directory. We need
-++             * to execute file_name_reduce on that, to eliminate any '../' or similar from
-++             * the (new) full path.
-++             */
-++            newbuffer = (char *)gs_alloc_bytes(mem->thread_safe_memory, newlen + 1, "gp_validate_path");
-++            if (newbuffer == NULL) {
-++                code = gs_note_error(gs_error_VMerror);
-++                goto exit;
-++            }
+++    if (gs_is_path_control_active(imemory) != 0 && state.cstate != 55665) {
+++        return_error(gs_error_rangecheck);
+++    }
 ++
-++            memcpy(newbuffer, buffer, rlen + cdirstrl + dirsepstrl);
-++            newbuffer[newlen] = 0x00;
-++
-++            code = gp_file_name_reduce(newbuffer, (uint)newlen, buffer, &newlen);
-++            gs_free_object(mem->thread_safe_memory, newbuffer, "gp_validate_path");
-++            if (code != gp_combine_success) {
-++                code = gs_note_error(gs_error_invalidfileaccess);
-++                goto exit;
-++            }
-++
-+             continue;
-+         }
-+         else if (code < 0 && cdirstrl > 0 && prefix_len == 0 && buffer == bufferfull) {
-+@@ -1152,6 +1178,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+                                            gs_path_control_flag_is_scratch_file);
-+     }
-+
-++exit:
-+     gs_free_object(mem->thread_safe_memory, bufferfull, "gp_validate_path");
-+ #ifdef EACCES
-+     if (code == gs_error_invalidfileaccess)
++     /*
++      * If we're reading a .PFB file, let the filter know about it,
++      * so it can read recklessly to the end of the binary section.
 +--
 +2.40.0
 diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index e99c740685..5fa4da0fb8 100644
+index 1fd08d1cfe..2e332b1589 100644
 --- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
 +++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -43,6 +43,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2023-38559.patch \
-                 file://CVE-2023-43115.patch \
-                 file://CVE-2023-46751.patch \
-+                file://CVE-2024-33870.patch \
+@@ -49,6 +49,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-33871-0001.patch \
+                 file://CVE-2024-33871-0002.patch \
+                 file://CVE-2024-29510.patch \
++                file://CVE-2023-52722.patch \
  "
  
  SRC_URI = "${SRC_URI_BASE} \
