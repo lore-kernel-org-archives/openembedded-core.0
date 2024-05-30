@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF39C25B74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE46C27C50
 	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:26 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.4943.1717094301151444968
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.4825.1717094300060631146
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 11:38:21 -0700
+ Thu, 30 May 2024 11:38:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T86mP6XN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7022cabdc0aso1065758b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=S2BU+7i2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f44b594deeso9170955ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094300; x=1717699100; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094299; x=1717699099; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2Wevm+Cko/vfvWgCzzD+yZTQ5DSH6lkYVjWYXM5+OHQ=;
-        b=T86mP6XNBLqs5qiHStgYdBICV9lPISDv9rbPZx7jBh7MrrrSkufE9dhiYb9Izksnqh
-         0LbgfK/nW1kykUrKAigJF99czBj0kSqLA9A6wG1w4zaistFpYPI9hXaosPL778/IcjRM
-         sqs2wQFbDQvNNux3qK4eHVIi/c+9IU7ICZye7NrnjAq9VxJJKsnqg3qfiGl9J367I+0o
-         eOsIhr7LlZTi4NIYzWf6P2NCbK3TTWxVrxZxKULx9fW6tFv97ERGqoUoqGrZdeAuKqz0
-         P1T9WFS5AG64oQjFPGuEmY+csRkYnHMwaTHVz5pAej6uqhmget7hRO0LNSG+A8ksVNNQ
-         kuyQ==
+        bh=bbVdKYSF84uGAs5MvcYP0xuLW1UHX9MKy0aPio0h/j0=;
+        b=S2BU+7i2uwejX4vu5b0t6U3aAIplLlBHo0qk6JL/8U8xHqJbnMnSxjJUXGWob6hPGt
+         7lgkiE4svTD83bq7gbLGotkw1HhAbz14fqIytOeqtZYnqKgDMeaT5EYhAXx1dK5/Dz1B
+         UiV0W0xub4PtZaCYywrcm+Ts7dOP5z1ZH+JRISEewWz2YgdaM/m3h59d5aWQkP8SBSS3
+         JbHRmKUy5UvxYEgzYpfQiBEFy1NmGq5c3vNNZp4U4o0Wy57PtozjQEl51g4bE11BbArK
+         83RV4ouD6YieB+pTcIwbNXkf+4Qq1WzEIkaEr5lGCXMr6sG+qqZ8gvMT1ykJG1b2lNS3
+         tU9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717094300; x=1717699100;
+        d=1e100.net; s=20230601; t=1717094299; x=1717699099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2Wevm+Cko/vfvWgCzzD+yZTQ5DSH6lkYVjWYXM5+OHQ=;
-        b=t4A7k3OnMBAYUEjwn0ktLm6hyqbQ6noyqXOCc3g2CCuidweVwQsxA9SWHI9/C9lBRv
-         o8SSHGmO34x4LvGQrSwwj8ohf1Tq3UsU2SbTclS2S9L2mMmY6SoR0OcSO2ezwOiNIm0K
-         aQ+32Zq33TD9Fdfe56wZ2WFLosFHUTFvCJWW4eZxNPpS5Rf38l53rEuJ9sFhMkQGW5+C
-         tj1uDyt3HMvuiDohn3ZzQNuoQPV6ErcTu2jepUddmkP02OO6l63LAcqsTRiOrz7Ine/1
-         zzX9E7YBC1HzIjxKhY/1Xb5uxnkp0pjutvXp5WRK5ns8ek5qQuoUj0RC5YKjQiFisflc
-         +X8Q==
-X-Gm-Message-State: AOJu0YxtIlTsHODeO3qe7ZyXPI5Dqt79IhpIagBqXEUX0A7D0QkjMs9o
-	PBzMnHTgTgVvoaDkuGZtZNrUVikVSY8xW8F6/2dwF1McmKS4hBrmaqbtQGVZGenK5THj6L420B0
-	M
-X-Google-Smtp-Source: AGHT+IEt4KmvQpeIr4OgZcO4EYlfbt4+LMfuPStvj7NVwR0F5QsWgNGUu42DFZNGVFFqbROe3z5MAw==
-X-Received: by 2002:a05:6300:8981:b0:1a9:509c:eba6 with SMTP id adf61e73a8af0-1b264d4a581mr2923469637.25.1717094300406;
-        Thu, 30 May 2024 11:38:20 -0700 (PDT)
+        bh=bbVdKYSF84uGAs5MvcYP0xuLW1UHX9MKy0aPio0h/j0=;
+        b=QNnVbbJuXDcAsSZ7hq84gOKnBSVS/Luu5Q8R7s3M1n7hu5gyloZzQ1kLRHx4iuAlYA
+         cde77oJTF0uI+DUAR+UgK8RnJJQw+uhmLLOVKrCZI7KrH077p1YWVGG2Ozl7636n42c7
+         Y5/ETHxZmH+zrjWS+jLXJoXpoA6WREMJIc9Twq9bGLK2JE4dSgZPfV0oyumgj92VBNqc
+         tRgwIV1OECoX05OfvUW1XnzEw4eSO5SijynKCYYiagot0uSqF5rTbzVIakkrqgf8SUsm
+         Reqs/QLeaPSVhCKedlgoj2UMk0AzjHlZTyr0oiKVw7D7FcD5BlBJFhD5BYhv4+CNet4n
+         4llg==
+X-Gm-Message-State: AOJu0Yyusb8VRnb13H6wllzQl/ReM+NmKgXPdGBGVjiGJ2jxgKIKJj01
+	E/GQuv6k+W+bWOQKuIjBM/l77K8yAJMRPk15GrcXbw3Rkh+DdOpA5THExaKmkvFe2XkV/xoc1lj
+	I
+X-Google-Smtp-Source: AGHT+IFYX9d6/ess7s1AddFGVJfLdfSP9zSUK/0fRK9gd8ZmtPi8BryW78Jk8xcD8Yz6YK8Btex7pQ==
+X-Received: by 2002:a05:6a20:9154:b0:1af:a37e:367e with SMTP id adf61e73a8af0-1b264538040mr3351973637.15.1717094299126;
+        Thu, 30 May 2024 11:38:19 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.19
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 11:38:20 -0700 (PDT)
+        Thu, 30 May 2024 11:38:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/7] ghostscript: fix CVE-2023-52722
-Date: Thu, 30 May 2024 11:38:04 -0700
-Message-Id: <66228a9e8177e70a5653b61742836a3ad83e78af.1717094145.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/7] ghostscript: fix CVE-2024-29510
+Date: Thu, 30 May 2024 11:38:03 -0700
+Message-Id: <18e03cadcad0b416ef9fe65627e2e5c2924e3f26.1717094145.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717094145.git.steve@sakoman.com>
 References: <cover.1717094145.git.steve@sakoman.com>
@@ -62,76 +62,117 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200043
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200042
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ghostscript/CVE-2023-52722.patch          | 43 +++++++++++++++++++
+ .../ghostscript/CVE-2024-29510.patch          | 84 +++++++++++++++++++
  .../ghostscript/ghostscript_9.55.0.bb         |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
 new file mode 100644
-index 0000000000..8fbfc9ef09
+index 0000000000..0234c79c7d
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-52722.patch
-@@ -0,0 +1,43 @@
-+From 1ff9a695947967d2d327c45bf5145dd381fc1745 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Tue, 12 Sep 2023 10:46:10 +0100
-+Subject: [PATCH 5/5] In SAFER (default) don't allow eexec seeds other than the
-+ Type 1 standard
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29510.patch
+@@ -0,0 +1,84 @@
++From 3b1735085ecef20b29e8db3416ab36de93e86d1f Mon Sep 17 00:00:00 2001
++From: Ken Sharp <Ken.Sharp@artifex.com>
++Date: Thu, 21 Mar 2024 09:01:15 +0000
++Subject: [PATCH 4/5] Uniprint device - prevent string configuration changes
++ when SAFER
 +
-+CVE: CVE-2023-52722
++Bug #707662
 +
-+Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=1ff9a695947967d2d327]
++We cannot sanitise the string arguments used by the Uniprint device
++because they can potentially include anything.
++
++This commit ensures that these strings are locked and cannot be
++changed by PostScript once SAFER is activated. Full configuration from
++the command line is still possible (see the *.upp files in lib).
++
++This addresses CVE-2024-29510
++
++CVE: CVE-2024-29510
++
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=3b1735085ecef20b29e]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ psi/zmisc1.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ devices/gdevupd.c | 31 +++++++++++++++++++++++++++++++
++ 1 file changed, 31 insertions(+)
 +
-+diff --git a/psi/zmisc1.c b/psi/zmisc1.c
-+index 3c47e99..81556ac 100644
-+--- a/psi/zmisc1.c
-++++ b/psi/zmisc1.c
-+@@ -93,6 +93,9 @@ zexE(i_ctx_t *i_ctx_p)
-+
-+     if (code < 0)
-+         return code;
-++    if (gs_is_path_control_active(imemory) != 0 && state.cstate != 55665) {
-++        return_error(gs_error_rangecheck);
-++    }
-+     return filter_write(i_ctx_p, code, &s_exE_template, (stream_state *)&state, 0);
-+ }
-+
-+@@ -130,6 +133,11 @@ zexD(i_ctx_t *i_ctx_p)
-+     }
-+     if (code < 0)
-+         return code;
++diff --git a/devices/gdevupd.c b/devices/gdevupd.c
++index 6635984..7952165 100644
++--- a/devices/gdevupd.c
+++++ b/devices/gdevupd.c
++@@ -1886,6 +1886,16 @@ out on this copies.
++       if(!upd_strings[i]) continue;
++       UPD_PARAM_READ(param_read_string,upd_strings[i],value,udev->memory);
++       if(0 == code) {
+++        if (gs_is_path_control_active(udev->memory)) {
+++            if (strings[i].size != value.size)
+++              error = gs_error_invalidaccess;
+++            else {
+++                if (strings[i].data && memcmp(strings[i].data, value.data, strings[i].size) != 0)
+++                    error = gs_error_invalidaccess;
+++            }
+++            if (error < 0)
+++                goto exit;
+++        }
++          if(0 <= error) error |= UPD_PUT_STRINGS;
++          UPD_MM_DEL_PARAM(udev->memory, strings[i]);
++          if(!value.size) {
++@@ -1903,6 +1913,26 @@ out on this copies.
++       if(!upd_string_a[i]) continue;
++       UPD_PARAM_READ(param_read_string_array,upd_string_a[i],value,udev->memory);
++       if(0 == code) {
+++          if (gs_is_path_control_active(udev->memory)) {
+++              if (string_a[i].size != value.size)
+++                  error = gs_error_invalidaccess;
+++              else {
+++                  int loop;
+++                  for (loop = 0;loop < string_a[i].size;loop++) {
+++                      gs_param_string *tmp1 = (gs_param_string *)&(string_a[i].data[loop]);
+++                      gs_param_string *tmp2 = (gs_param_string *)&value.data[loop];
 ++
-++    if (gs_is_path_control_active(imemory) != 0 && state.cstate != 55665) {
-++        return_error(gs_error_rangecheck);
-++    }
-++
-+     /*
-+      * If we're reading a .PFB file, let the filter know about it,
-+      * so it can read recklessly to the end of the binary section.
+++                      if (tmp1->size != tmp2->size)
+++                          error = gs_error_invalidaccess;
+++                      else {
+++                          if (tmp1->data && memcmp(tmp1->data, tmp2->data, tmp1->size) != 0)
+++                              error = gs_error_invalidaccess;
+++                      }
+++                  }
+++              }
+++            if (error < 0)
+++                goto exit;
+++          }
++          if(0 <= error) error |= UPD_PUT_STRING_A;
++          UPD_MM_DEL_APARAM(udev->memory, string_a[i]);
++          if(!value.size) {
++@@ -2097,6 +2127,7 @@ transferred into the device-structure. In the case of "uniprint", this may
++       if(0 > code) error = code;
++    }
++
+++exit:
++    if(0 < error) { /* Actually something loaded without error */
++
++       if(!(upd = udev->upd)) {
 +--
 +2.40.0
 diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 1fd08d1cfe..2e332b1589 100644
+index 36c5aa3285..1fd08d1cfe 100644
 --- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
 +++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -49,6 +49,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+@@ -48,6 +48,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-33869-0002.patch \
                  file://CVE-2024-33871-0001.patch \
                  file://CVE-2024-33871-0002.patch \
-                 file://CVE-2024-29510.patch \
-+                file://CVE-2023-52722.patch \
++                file://CVE-2024-29510.patch \
  "
  
  SRC_URI = "${SRC_URI_BASE} \
