@@ -1,193 +1,230 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E35C27C43
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 13:42:26 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.83])
- by mx.groups.io with SMTP id smtpd.web10.8951.1717076536079334482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7190C41513
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 14:27:06 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.10348.1717079221678524983
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 06:42:17 -0700
+ Thu, 30 May 2024 07:27:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=P3N7NacA;
- spf=pass (domain: axis.com, ip: 40.107.7.83, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NVpkfh/u+EqifnYnHKP+uk6sAWmnW8K/4vMs8cg4/ggu8/7sxS6XsJQ5mbIQ+nFbIhJSkMeBSi9/hrQxS7jHxrst41nObMBSirdKgkNB87t0s8yek1ko7BfJFRV4OcZOLBRAsPbuBJDW358NxUzr1IvD13P2EbPAMfpLIZ6g1cybtle1Zxt8IXBKr4QSdJOSlvYZGKMKz/fOnkt+cyZMXEsMMh0YrAxr3nOpvh1COEr27Dxbs5mM26Aa2iV83xGlH0lhRliGMobCDxYVDFwJarfcjZ88j2g9nEau4C27uS78OpDrM8vPkyFXKl4cqkdiEMbzKnL33AEQ0CAGcZ77tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=15Z9YY1rOYPdVihTrW3sCw7iNWb41jV7KAWM/gnLqH4=;
- b=FChnF1/aKYwSIgtxONOERBAfMb4YUyfUn0L/SyDx00zMSzF3KZd3Y3XtgkOznmK5KyeiG45RjT2SfuqrQATudjUh4AnxKTng5FOgD3ulVfgJXf0oCCUOW9U/yPMpKPx2FvRXS7cd87nFP1Y47JZqAIdtB5gKQVYvRdVl7PLDgkfsdOoExWTF1rcMnXP4EJu4nkluhHhUijOGKyqnl8g6yg9rfQg0pajneNlYZ7KDZvqYFxoGsKoGFGkivIJkahALtH+kM2+cWd5wQMrzCFfvLlXHnY5HdJB2Q0lNjCBasL1dImRQVudZx89eomUgN5WUFKWhWLnTP1h5Nm0GjT0eLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=15Z9YY1rOYPdVihTrW3sCw7iNWb41jV7KAWM/gnLqH4=;
- b=P3N7NacAdjAniygBnbzNE7YCSfLL91nK8Fs4h1AvaVKdTwrITUKO8gBnbKVBYSZb6zePfZo1RWKcjjHNk1K85ddI+VnR2tc8n+mkxINiF2UtjzXxDw9ZDNEdLretcQrYkLxOSHRTE62tYEqak5cRmFinYGpwSh8GKhPmVlgaWRs=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB9PR02MB9827.eurprd02.prod.outlook.com (2603:10a6:10:451::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Thu, 30 May
- 2024 13:42:11 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%4]) with mapi id 15.20.7633.018; Thu, 30 May 2024
- 13:42:11 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: =?utf-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] tzdata: Add tzdata.zi to tzdata-core package
-Thread-Topic: [OE-core] [PATCH] tzdata: Add tzdata.zi to tzdata-core package
-Thread-Index: AQHash3N9gb1KiB7jk6/VK9tsN7D+rGvyU/Q
-Date: Thu, 30 May 2024 13:42:11 +0000
-Message-ID: 
- <DB5PR02MB10213AC9954564F2D4FF183C6EFF32@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240529231252.325820-1-simone.p.weiss@posteo.com>
-In-Reply-To: <20240529231252.325820-1-simone.p.weiss@posteo.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB9827:EE_
-x-ms-office365-filtering-correlation-id: 0f642211-3163-45ca-c188-08dc80ae4edd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|38070700009;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?UnVaRjhYT0xZT0t5UWtOQmRpZFhuNjA2cFNZOEZ4ODlpbkRhNHoveFhWdW56?=
- =?utf-8?B?TjJydGVkcVVvaE84WStYL1lSTG8zSFBuQzQrR3VRVGdZaWxRbjE2R2NUYVBR?=
- =?utf-8?B?T1laN2V2TTV4RmdwdlN0RmxtbHEyR25XMFNMUTVrN29sMXAxQlordXE0dnVW?=
- =?utf-8?B?Q2xsQTk3SUNRaTlOdlQ0WUdLL01jd1Vkd01ZNEd6bkVvZ0VoZVFGMHZWa0hw?=
- =?utf-8?B?TjJNVlVOalBNZGZ6TzVkaHU3MnVDNklVSFMzMzNNRm13ZVUra01FaEgzWExC?=
- =?utf-8?B?cEtOT0dHYm1XUU5LVm1tQWozclptR0lWRFFlcmxFc3lJMndBK1ZGZ294djFZ?=
- =?utf-8?B?Nk9JZGJNaExXL2VkOXI5TVhrb1FCSi80ZkdJa0VaRWNMSjlUdG1JY0RqT1ZU?=
- =?utf-8?B?Q3pxT29YbllpVnByMlBUM3pZZkJrZHJhczNMeVNEWC9VL0FDajBKakd2aWI3?=
- =?utf-8?B?d2VFampodGI4cHlMWWJZU3RpZDNXVnZEVzd2T0xUd2RYNkp2MTVUQ1BEQ0xE?=
- =?utf-8?B?OUhVSVY1MmNnbWEvV0pRbStEQllPSVRoQ0ovZzROVEZkbDhGOXc1RkFDbGVW?=
- =?utf-8?B?d2JzOE5uRE1YdnhSby96dVJlU1NJR3I0a2xZWk9BbDZrUzRIcEJHQWdPRDMv?=
- =?utf-8?B?RlJ1NjNtRFZldjBRM1N2V0VRK3pPMGZJQWVvTnVod2FtVitYdmVFMkhpZ0Jk?=
- =?utf-8?B?QUxiaDcxWFFxb1ZIUFRyNjE1eDVDeUovcEhRWDFBcHIyM0NBcDdoMnBlUytR?=
- =?utf-8?B?Q1FJYWxkMUJrMG5KSmZnRE9HUzZuaTc4bmIwT2dHV01sb21LcXhoT2txUlJq?=
- =?utf-8?B?My9SdVRoblFRdGIrKzYwL2IrY24wZ3doM2NaTERLYmpxems3Q090OEJiZXc2?=
- =?utf-8?B?QVZwY2JjNHF4MjZOT3Axd1MrN1VZdC9kSHE1TlNpbElrTXJqeTVVeUJUNTJX?=
- =?utf-8?B?bXhtNis1d0F4VXc0aXlNbVFQRDN6dmlENVJRUEwyQ0svckwwK0hncUo1UW4v?=
- =?utf-8?B?SHY0TElKcTZqMm0vUDZUVFJsWGNPVWNDb1d6WTRlT0Q3eE9JWVdBVmV3MWt3?=
- =?utf-8?B?NVp5bjZoMGdZTHNRTXB3L2xReHdkbUszeTZDZFowejNpQnVYUHhsR3JHanRB?=
- =?utf-8?B?dUV6QTdLclBwZVhuckdBTnBPV0VJSWNQN3ZlemV0MUhsc2x3VzlsbklzYVBw?=
- =?utf-8?B?K2xETWhyZDg3THBjNEJwK25BZXoveE9pdkJNS21BRW42MkIvb2VqaXFFaGhG?=
- =?utf-8?B?VW9lZUVhNzNuSnByUFFBT3NoQndONUloTWdRMUwzVU9sUXFyV0tCRTROTStX?=
- =?utf-8?B?MWVmZGVSVmdrME1XK0lESC9qSkZHWXplQkdCWkxKQmFzNlZuTEo5dXhiTEdv?=
- =?utf-8?B?VUhJSDU3TjBtKzdObmlHd2J1ajY2dDhsZ1dnRk1wN09lVHBtS0tKbktENjVx?=
- =?utf-8?B?REtaTkdnZ3pvcytTK0JQd1JnSGZ2Z0tLcGFmcktNK0pqTTNDQ3FLdVlWUUZm?=
- =?utf-8?B?OXFEeWtWRno0QUlRLytHTWdHQjljNVFMUE04MUk3U2g4NkhyU3pqMzVpWm12?=
- =?utf-8?B?azYyL3NYVWRsVUZHeHlxQzFCOTBnUXdQRmpNa0p3MUVqQ1ZsZUV5TXFGYUxk?=
- =?utf-8?B?UXpJQXJzcHJLVVJpc0ZrMHlheHlHTEh4SVp6SU5hRjJEQUFVcDVNU0FZK1Vp?=
- =?utf-8?B?ejhsWVlYNGV4R2RjS0RjcFpGcmR0aHJ3cDRuYXdNRC9tREpXNGt6QmVsT3ZQ?=
- =?utf-8?B?ZFBaL3kySVo2aGZ1QzRueDZMVjlEUEY0MHFMU3VpK3VxLzZocUY1WTdEY28x?=
- =?utf-8?B?M2tPcnhYNG1sWExxaDFydz09?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bi9hNEZFU3lWVzJoY09jUHVyMy9BcFZvZ2trVWlBYlMvazV1UVgzeVFjQWNi?=
- =?utf-8?B?RWdJYk5ZTE40NlplY0RoK1NYQ1pXQWtaYTc3V01oWnV1eVErbmowL3kzZ3VO?=
- =?utf-8?B?Nm0zc2Y0d2dPSERSeE1iYlh5MG4wRVRrYlFvRm4yMnNDYnVGTnM1Nk9vZXN0?=
- =?utf-8?B?Vm9rclErVEpvU2JOYktKWDV1aHowL1ZmNzY4RGZJckRQSkI0Q1RZQTk0UCtH?=
- =?utf-8?B?UllZblh2Rmk0M0s2S0lIL0FxU0QvR2lxN2gzL3U5SEplRVI0L0Z0OUduMDJs?=
- =?utf-8?B?UDVhZ0s3VHFhKytHaytkNmxSMXhRN0czVWliRlozZjlJUnVjNkFVRUNqQmxk?=
- =?utf-8?B?ajd1OTVLZjJtYWw1dUZvak1pOU5WNkJtNm9PaUhYeWQ2ejhBdThzUHBHdFFS?=
- =?utf-8?B?QVNaN0R1dWFNZVpVeXJnZDByTWRyY2t6d1c2QjR5bnZxWFRudmFVSHhxTmdE?=
- =?utf-8?B?SWxWUWxHUEtHa25ac0lGRjRkZW9EVjcrQUthV3IrbnNHbytGYjlXdnkzU3ZN?=
- =?utf-8?B?TXUxL3NweFJIbTNPSUdFaU1KaTJsSEo3Ni9Md0UyOHhjL2d1NSt5cy9Rejk4?=
- =?utf-8?B?c2FRUjNock5PNjRJeDgzVHI1TlFuNEJDQnlydmJramdKWUpaQTNKMGkzYVlJ?=
- =?utf-8?B?am51bDduSk9NaUlEeldBRHlWeTFhUUVQVjhUS2FzTk9PUC90ZTJPK1I2OFI4?=
- =?utf-8?B?RTkrVHNveG9Pc05QcnQvV3doMjlTa2NoU1AwaEJpQlp1TFhIWUNWSWFkNTMz?=
- =?utf-8?B?bkEvTjFvcmhGazB5N1hMc3ExTDBkOUFseXVPTUdxUTB3WjdJd1Yxd0dlUVVx?=
- =?utf-8?B?ODNmak9wUDQ0SmcyM1ZQMU9oYjdyRjFyNDlDV1lIeVJwc2RQdVc5YnR2T211?=
- =?utf-8?B?SXVHQllRZzBGbnJSZXczTTZNelRWSFhjdFltY3VnYUtWdVFGeGNma1ZLeWNO?=
- =?utf-8?B?dnJjZFp3c3BJOExyNVVqbTlRT21yV2d3UDJzUW1Xc1BTdEdYQVNvMHF3cERa?=
- =?utf-8?B?U0RWbWx1eGVpRlk0VXZVQUEyOWdjOHRTbVhuaVp1bXppeVBtbFdOeUFXUkw0?=
- =?utf-8?B?VFNzTDBVUkIyOE90NTM1SlpvMmNQeklYOVBYeGdzcXNtN2RVOW9vTWRmK2J0?=
- =?utf-8?B?UFZIWi9xQlBVTWJ6a3RNQmtJSnl5ZVpqMHd2QWpmZElYUlZCTjJTdVEraTUx?=
- =?utf-8?B?M1Z3MUhNQy9lMndHVDMvNFpFUHkyOHRtZ3VrcmorL0R2MFRGQ0xMWXYzRzBS?=
- =?utf-8?B?RExzVmlRczJwYkk0Q1BMRDNsS1ZPYVp3eHNBc2R6QTlwa05DR1dSS1ppK1VE?=
- =?utf-8?B?OGdtTlM3L2RMTG9TMFlUT3hhS09LT2lpMjBROHBpN0s2bFV2bGFYbDdwZ0lp?=
- =?utf-8?B?SjRhdkN4VkRQaFBpV2M3L21JNTcyTDc2WG03QVMya2FibXJ0L0RLbkl5aG1N?=
- =?utf-8?B?bkcvWXloY2RZNXI4UUdMalgwMGlNRVFTUXFKWjJaYm1RYStMWmhZSEUzZWNB?=
- =?utf-8?B?c1psQUNtQ0JQM0NjUk5HNUZablROczNWR1ozWjB6TThYdmxoYmJja1V0d2R3?=
- =?utf-8?B?VVNWVjl6U3RvamRNZHBwSGxuTWVSMVRyQThNLzlhbGV6cGV6Rm1oSnlmd2c0?=
- =?utf-8?B?OU5aT1BaUGpaMTVOY2FncHBCOUFwS0I3VVRVZjV4RzlOOHI3ZlQxdHJVbGlv?=
- =?utf-8?B?Sjh4TVVNWSsrSzhpRGpjOEk1YTIvS0dwblNhejlXU1pqVWNjSWFPUENvMW5G?=
- =?utf-8?B?WFE2SWEvOHhiYjdDeE5Rd3ZiQlNUY2ZpV0VvS0Z1aHRYZms1YWZ3T1lKV1Av?=
- =?utf-8?B?WVZ3TDM2cEZjUDNvYnFxWjJGUWNWdmRWUHl0dE1UMUlLVzVHYzhyVmxqaVgv?=
- =?utf-8?B?K011VTEyLzFIeEwxK0hGNThJb2F6WVZ0RFFBeXQ1eUZ2Q2JmUlJmeDlTUWtq?=
- =?utf-8?B?djdhcWZ3VXJRTk9FTG9jMEp0QWFqNG43MCtBM3lsNVFaME56YTA0Sm9SVFox?=
- =?utf-8?B?aEhQZVg5M0tvb3JWN2xQY1gwckhXMHgxQ0JtN3NJNCs4Q3hTdm9TM3RwL0Nj?=
- =?utf-8?B?d1NzZlM3R3RjODVJZzVZYzFFUGp5aXVNbDdYRzZRR1VveERMcDNQMkIxR3Jl?=
- =?utf-8?Q?0egY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VHlCSNSU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-421208c97a2so9616845e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 07:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1717079220; x=1717684020; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDucm0Qg1lrhNbRVUy+bUhpX0ShVWltYfmEgLGd9fIs=;
+        b=VHlCSNSUXKrE6vR6gozU5W4muwldDLwjS0gCVNBjYBKhsQqc0xzzlDOlLDAlS2plHE
+         KFEW7o6z3+opqiK9wwyH0xQB4cKStlIj277oUI59EZ0fjmiGCuuUfDuROQhDTjp+2o5Y
+         rsPh943tkBzbEqp/NOoBDDF57v+KmWwLG2Th8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717079220; x=1717684020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDucm0Qg1lrhNbRVUy+bUhpX0ShVWltYfmEgLGd9fIs=;
+        b=V1+IMIkN5k9B9vxKT2t0HqPbc4P7h+7WXvsnZ+2xkksgQE/EYE+NIRoGBpXBySW1C6
+         eNDxyX8H/euGT9R+8xkkiV3Jfc7lphcmNd2/dDZ7Jl1FQYMEnc7cgwfAolNH9wfMA5Xk
+         1YXd5ZQTfZ4K7yYLSu0Ml3mm5+C9SKjhYBeh9dvS9wLHyADmLZ72+3c6YRlPJ0LBjG4h
+         hW3HyGiA7hHXF+XOVRw6AAqxLlptpeIDZVIz4cIqRZKLchYJ9UWfT2sfdFVHE8S3RpED
+         agJnOrEr53Dsj4iB3yDnVxRWTiVIFdDo45SoD3u2LUHkd1fUfIMqa7/q2iYxjw+PAUFi
+         GdFQ==
+X-Gm-Message-State: AOJu0Yyjc59Ze8vBT53Cwjkf30h1LWO6b30gwn1MxS67o9GsiDEpIzAs
+	cCOJk2CgSKQFAqmsNmq80dpSSt5mOjGs2dLuNB71kL4hYKCbXAOjI/POC69Q00U6F+bBtqG4FMu
+	v
+X-Google-Smtp-Source: AGHT+IEgPvyl7/H6fAyeULi3yI2Xg5+iiyAPhWnELNWTRVmAW98haVmMIWWJ9OxcezwYbjbNFW0ujg==
+X-Received: by 2002:a05:600c:1d9a:b0:421:2065:3799 with SMTP id 5b1f17b1804b1-42127929560mr22016495e9.29.1717079219849;
+        Thu, 30 May 2024 07:26:59 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e2db:3695:26f3:1f11])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42127065ba7sm27081395e9.12.2024.05.30.07.26.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 May 2024 07:26:59 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] sstatesig/populate_sdk_ext: Improve unihash cache handling
+Date: Thu, 30 May 2024 15:26:57 +0100
+Message-Id: <20240530142658.3095832-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f642211-3163-45ca-c188-08dc80ae4edd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2024 13:42:11.5270
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eUmFw/U4vwwu0DJNQGwW/27xHgVZiQ4C1OmohKyPyAuKqtmbdlGViKCs/8/AJfF6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB9827
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 13:42:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200022
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 14:27:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200023
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgU2ltb25lIFdlacOfDQo+IFNlbnQ6IGRlbiAzMCBtYWogMjAy
-NCAwMToxMw0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
-PiBDYzogU2ltb25lIFdlacOfIDxzaW1vbmUucC53ZWlzc0Bwb3N0ZW8uY29tPg0KPiBTdWJqZWN0
-OiBbT0UtY29yZV0gW1BBVENIXSB0emRhdGE6IEFkZCB0emRhdGEuemkgdG8gdHpkYXRhLWNvcmUg
-cGFja2FnZQ0KPiANCj4gRnJvbTogU2ltb25lIFdlacOfIDxzaW1vbmUucC53ZWlzc0Bwb3N0ZW8u
-Y29tPg0KPiANCj4gQWRkaXRpb25hbGx5IGJ1aWxkIGFuZCBwYWNrYWdlIHR6ZGF0YS56aSBpbmZv
-IGZpbGUsIGFzIGUuZy4gU3lzdGVtZCBleHBlY3RzIGl0DQo+IHRvIGJlIHByZXNlbnQuDQo+IA0K
-PiBbWU9DVE8gIzE1MTcyXQ0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2ltb25lIFdlacOfIDxzaW1v
-bmUucC53ZWlzc0Bwb3N0ZW8uY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBlcy1leHRlbmRlZC90
-aW1lem9uZS90emRhdGEuYmIgfCA1ICsrKystDQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL3RpbWV6b25lL3R6ZGF0YS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9u
-ZS90emRhdGEuYmINCj4gaW5kZXggZGQxOTYwZmZhNy4uMzAxNzU3NDBkNyAxMDA2NDQNCj4gLS0t
-IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25lL3R6ZGF0YS5iYg0KPiArKysgYi9tZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvdGltZXpvbmUvdHpkYXRhLmJiDQo+IEBAIC0yMCw3ICsyMCw4IEBA
-IGRvX2NvbmZpZ3VyZVtjbGVhbmRpcnNdID0gIiR7Qn0iDQo+ICBCID0gIiR7V09SS0RJUn0vYnVp
-bGQiDQo+IA0KPiAgZG9fY29tcGlsZSgpIHsNCj4gLQlmb3Igem9uZSBpbiAke1RaT05FU307IGRv
-DQo+ICsgICAgb2VfcnVubWFrZSAtQyAke1N9IHR6ZGF0YS56aQ0KPiArICAgIGZvciB6b25lIGlu
-ICR7VFpPTkVTfTsgZG8NCg0KVXNlIHRhYnMgdG8gaW5kZW50IHNoZWxsIGNvZGUgaW4gT0UtQ29y
-ZSAoanVzdCBhcyBpdCB3ZXJlIGJlZm9yZSkuDQoNCj4gIAkJJHtTVEFHSU5HX0JJTkRJUl9OQVRJ
-VkV9L3ppYyAtYiAke1pJQ19GTVR9IC1kICR7Qn0vem9uZWluZm8gLUwgL2Rldi9udWxsICR7U30v
-JHt6b25lfQ0KPiAgCQkke1NUQUdJTkdfQklORElSX05BVElWRX0vemljIC1iICR7WklDX0ZNVH0g
-LWQgJHtCfS96b25laW5mby9wb3NpeCAtTCAvZGV2L251bGwgJHtTfS8ke3pvbmV9DQo+ICAJCSR7
-U1RBR0lOR19CSU5ESVJfTkFUSVZFfS96aWMgLWIgJHtaSUNfRk1UfSAtZCAke0J9L3pvbmVpbmZv
-L3JpZ2h0IC1MICR7U30vbGVhcHNlY29uZHMgJHtTfS8ke3pvbmV9DQo+IEBAIC0zNyw2ICszOCw3
-IEBAIGRvX2luc3RhbGwoKSB7DQo+ICAJY3AgLXBQICIke1N9L2lzbzMxNjYudGFiIiAke0R9JHtk
-YXRhZGlyfS96b25laW5mbw0KPiAgCWNwIC1wUCAiJHtTfS9sZWFwc2Vjb25kcyIgJHtEfSR7ZGF0
-YWRpcn0vem9uZWluZm8NCj4gIAljcCAtcFAgIiR7U30vbGVhcC1zZWNvbmRzLmxpc3QiICR7RH0k
-e2RhdGFkaXJ9L3pvbmVpbmZvDQo+ICsJY3AgLXBQICIke1N9L3R6ZGF0YS56aSIgJHtEfSR7ZGF0
-YWRpcn0vem9uZWluZm8NCj4gDQo+ICAJIyBJbnN0YWxsIGRlZmF1bHQgdGltZXpvbmUNCj4gIAlp
-ZiBbIC1lICR7RH0ke2RhdGFkaXJ9L3pvbmVpbmZvLyR7REVGQVVMVF9USU1FWk9ORX0gXTsgdGhl
-bg0KPiBAQCAtMTQxLDYgKzE0Myw3IEBAIEZJTEVTOnR6ZGF0YS1jb3JlICs9ICIgXA0KPiAgICAg
-ICR7c3lzY29uZmRpcn0vdGltZXpvbmUgXA0KPiAgICAgICR7ZGF0YWRpcn0vem9uZWluZm8vbGVh
-cHNlY29uZHMgXA0KPiAgICAgICR7ZGF0YWRpcn0vem9uZWluZm8vbGVhcC1zZWNvbmRzLmxpc3Qg
-XA0KPiArICAgICR7ZGF0YWRpcn0vem9uZWluZm8vdHpkYXRhLnppIFwNCj4gICAgICAke2RhdGFk
-aXJ9L3pvbmVpbmZvL1BhY2lmaWMvSG9ub2x1bHUgXA0KPiAgICAgICR7ZGF0YWRpcn0vem9uZWlu
-Zm8vQW1lcmljYS9BbmNob3JhZ2UgXA0KPiAgICAgICR7ZGF0YWRpcn0vem9uZWluZm8vQW1lcmlj
-YS9Mb3NfQW5nZWxlcyBcDQo+IC0tDQo+IDIuMzkuMg0KDQovL1BldGVyDQoNCg==
+Copying in the bb_unihashes cache file was at best a hack and creates a number of
+challenges. One is staying in sync with bitbake since it may not have saved the
+most recent version of the file. A second is a determinism problem since there may
+be more entries in the file than the SDK should have had access to.
+
+To improve the situation, add code to write the data into the locked-sigs.inc file
+such that even when locked-sigs aren't used, the right hash mappings are injected
+by the get_cached_unihash call.
+
+The functions in copy_buildsystem need to be updated to preserve data they're not
+editting.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/populate_sdk_ext.bbclass |  8 -----
+ meta/lib/oe/copy_buildsystem.py              | 10 +++++-
+ meta/lib/oe/sstatesig.py                     | 32 ++++++++++++++++++--
+ 3 files changed, 39 insertions(+), 11 deletions(-)
+
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index 09d5e2aeb66..019330e3ef7 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -413,10 +413,6 @@ def write_local_conf(d, baseoutpath, derivative, core_meta_subdir, uninative_che
+             if os.path.exists(builddir + dest_stub):
+                 shutil.copyfile(builddir + dest_stub, baseoutpath + dest_stub)
+ 
+-    cachedir = os.path.join(baseoutpath, 'cache')
+-    bb.utils.mkdirhier(cachedir)
+-    bb.parse.siggen.copy_unitaskhashes(cachedir)
+-
+     # If PR Service is in use, we need to export this as well
+     bb.note('Do we have a pr database?')
+     if d.getVar("PRSERV_HOST"):
+@@ -507,10 +503,6 @@ def prepare_locked_cache(d, baseoutpath, derivative, conf_initpath):
+     else:
+         tasklistfn = None
+ 
+-    cachedir = os.path.join(baseoutpath, 'cache')
+-    bb.utils.mkdirhier(cachedir)
+-    bb.parse.siggen.copy_unitaskhashes(cachedir)
+-
+     # Add packagedata if enabled
+     if d.getVar('SDK_INCLUDE_PKGDATA') == '1':
+         lockedsigs_base = d.getVar('WORKDIR') + '/locked-sigs-base.inc'
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 81abfbf9e23..ced751b8356 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -193,13 +193,17 @@ def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, onlynative, p
+                     else:
+                         f.write(line)
+                         invalue = False
+-                elif line.startswith('SIGGEN_LOCKEDSIGS'):
++                elif line.startswith('SIGGEN_LOCKEDSIGS_t'):
+                     invalue = True
+                     f.write(line)
++                else:
++                    invalue = False
++                    f.write(line)
+ 
+ def merge_lockedsigs(copy_tasks, lockedsigs_main, lockedsigs_extra, merged_output, copy_output=None):
+     merged = {}
+     arch_order = []
++    otherdata = []
+     with open(lockedsigs_main, 'r') as f:
+         invalue = None
+         for line in f:
+@@ -212,6 +216,9 @@ def merge_lockedsigs(copy_tasks, lockedsigs_main, lockedsigs_extra, merged_outpu
+                 invalue = line[18:].split('=', 1)[0].rstrip()
+                 merged[invalue] = []
+                 arch_order.append(invalue)
++            else:
++                invalue = None
++                otherdata.append(line)
+ 
+     with open(lockedsigs_extra, 'r') as f:
+         invalue = None
+@@ -246,6 +253,7 @@ def merge_lockedsigs(copy_tasks, lockedsigs_main, lockedsigs_extra, merged_outpu
+                     f.write('    "\n')
+                     fulltypes.append(typename)
+             f.write('SIGGEN_LOCKEDSIGS_TYPES = "%s"\n' % ' '.join(fulltypes))
++            f.write('\n' + ''.join(otherdata))
+ 
+     if copy_output:
+         write_sigs_file(copy_output, list(tocopy.keys()), tocopy)
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 5950b3e0e63..ce5006781f9 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -93,6 +93,14 @@ def sstate_lockedsigs(d):
+             sigs[pn][task] = [h, siggen_lockedsigs_var]
+     return sigs
+ 
++def lockedsigs_unihashmap(d):
++    unihashmap = {}
++    data = (d.getVar("SIGGEN_UNIHASHMAP") or "").split()
++    for entry in data:
++        pn, task, taskhash, unihash = entry.split(":")
++        unihashmap[(pn, task)] = (taskhash, unihash)
++    return unihashmap
++
+ class SignatureGeneratorOEBasicHashMixIn(object):
+     supports_multiconfig_datacaches = True
+ 
+@@ -100,6 +108,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
+         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
+         self.lockedsigs = sstate_lockedsigs(data)
++        self.unihashmap = lockedsigs_unihashmap(data)
+         self.lockedhashes = {}
+         self.lockedpnmap = {}
+         self.lockedhashfn = {}
+@@ -209,6 +218,14 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+     def get_cached_unihash(self, tid):
+         if tid in self.lockedhashes and self.lockedhashes[tid] and not self._internal:
+             return self.lockedhashes[tid]
++
++        (mc, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
++        recipename = self.lockedpnmap[fn]
++
++        if (recipename, task) in self.unihashmap:
++            taskhash, unihash = self.unihashmap[(recipename, task)]
++            return unihash
++
+         return super().get_cached_unihash(tid)
+ 
+     def dump_sigtask(self, fn, task, stampbase, runtime):
+@@ -219,6 +236,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+ 
+     def dump_lockedsigs(self, sigfile, taskfilter=None):
+         types = {}
++        unihashmap = {}
+         for tid in self.runtaskdeps:
+             # Bitbake changed this to a tuple in newer versions
+             if isinstance(tid, tuple):
+@@ -226,13 +244,18 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+             if taskfilter:
+                 if not tid in taskfilter:
+                     continue
+-            fn = bb.runqueue.fn_from_tid(tid)
++            (_, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
+             t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
+             t = 't-' + t.replace('_', '-')
+             if t not in types:
+                 types[t] = []
+             types[t].append(tid)
+ 
++            taskhash = self.taskhash[tid]
++            unihash = self.get_unihash(tid)
++            if taskhash != unihash:
++                unihashmap[tid] = "    " + self.lockedpnmap[fn] + ":" + task + ":" + taskhash + ":" + unihash
++
+         with open(sigfile, "w") as f:
+             l = sorted(types)
+             for t in l:
+@@ -245,7 +268,12 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+                         continue
+                     f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.get_unihash(tid) + " \\\n")
+                 f.write('    "\n')
+-            f.write('SIGGEN_LOCKEDSIGS_TYPES:%s = "%s"' % (self.machine, " ".join(l)))
++            f.write('SIGGEN_LOCKEDSIGS_TYPES:%s = "%s"\n' % (self.machine, " ".join(l)))
++            f.write('SIGGEN_UNIHASHMAP += "\\\n')
++            sortedtid = sorted(unihashmap, key=lambda tid: self.lockedpnmap[bb.runqueue.fn_from_tid(tid)])
++            for tid in sortedtid:
++                f.write(unihashmap[tid] + " \\\n")
++            f.write('    "\n')
+ 
+     def dump_siglist(self, sigfile, path_prefix_strip=None):
+         def strip_fn(fn):
 
