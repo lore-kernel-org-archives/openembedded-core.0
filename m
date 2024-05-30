@@ -1,87 +1,134 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58865C25B74
-	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 16:44:06 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.1360.1717087439314604516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 226A0C25B74
+	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 16:44:36 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.1374.1717087471129475913
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 09:43:59 -0700
+ Thu, 30 May 2024 09:44:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=eVKC3RAm;
- spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52a6ef5e731so1719678e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:43:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OMd7EKZJ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f082d92864so9343175ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 09:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717087437; x=1717692237; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XNT0ikjRQ0SxyK9/UGdUAQdaj+jsaJbWV7rrINRQfMQ=;
-        b=eVKC3RAmR8Af7KodQuWT0VAuytW6vjeertH5TUXZ3ACJpkAUUgSlDAte2mvrDNge5A
-         fxt22uzNjFuMk4eS1E0OlJVwuDiJJO22cRiWkWYpaGW5UFA/eGDXeS/zbX1Zn7+cMtoi
-         uAGX0PfKmhjcrryptnDIljVYUd5VzjKEJ93tLH/RMERPM91uaN4JeYdb6iuKQmpfT9O1
-         vmgVYLfUXBl7C717X4qehph6DTa8SbQ5EevWBxoeI1VMyTkddrLkojqXix+kBzgo3+ly
-         /ectoivWwb+P9pzuBASjFZfxIB5xFWNIo1HJEOj5Rb5RrvOZ9BERG9200gPfqm4z4frL
-         3QEw==
+        d=gmail.com; s=20230601; t=1717087470; x=1717692270; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fe8o7E/peWtXz+8yzDulDN63Bj0QOXC9fJSAbCI0Ijc=;
+        b=OMd7EKZJtuQtHsmgW3cHJLg4XI5/q7NXBs2CbJiBBQpunzeJBh22DC7xRNnlFeppF4
+         Ql6X000oqzfOmZM45vOXayQDwMaigT1A3UEGG3jPKO0P2d7EurIiDvQmOHIvZND0tHgF
+         ifg2XcKpX/iNx3ZMxleD9wkh54R/WfYCxEVNFqJPh8FAbmP1LZuaD8GMkgK+EY1Pje5v
+         tyEfY8XdhodF9l8wF1zhb/yhTDqgiQuaZJOHjbf2DHXm22m3qUTnceWSSteP+KKUBdr5
+         PJkPsio7/qZrP7EcJdC0pkUN5S0/2h+VbtBuE7HZodwyMJ8o7x3csRwFodRgphYllC+W
+         hkCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717087437; x=1717692237;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XNT0ikjRQ0SxyK9/UGdUAQdaj+jsaJbWV7rrINRQfMQ=;
-        b=na/G4tJ/BfvBvKhk1ixLPMhGpY/8MchQTE3cODWXuWarMMC8z3AOF1tXb1d9u4olIY
-         nABBCIlQ1BkxEUdu4HNvPbltNQJBfgbeBPPDJq4RpgSNixEx5lO4Tpfk83nYE4vsG+GI
-         YEKnjLlqO+Vwm6jT9d7GQ2AlP/S+c5RNRE+k5+6L2HFJtKcu2TG88++djBMawemg642S
-         0taV4TGJBxjyEDa0kuXPv5HGmrwKpMQCAVpi43Ajze9rJJXNgvEBnDX0XXKVCvPn+CGc
-         o/IZCA81kTRhLg6yOHgT5SU7BIpFMCWfVb+kpCh8prZWtC/AjF5AzMm9WO0c7nuYig5Y
-         y1Zg==
-X-Gm-Message-State: AOJu0YxmwcMLeUeAcjHshoE87523zEZMSYBoTcMIuLPcT6dHhdOHyMDy
-	PP9iDeLl+SAo1c4dKI+mqXI7L39DnImuswNSbT4I69SdQAZqG0INMRk0W8BJ0FctPVbcjW1ivJ3
-	p
-X-Google-Smtp-Source: AGHT+IEZX0yKxn653BKrG9cg478Fg75sXX5kHlcOKjRaAfqw8r+U0gfXKRo/AUn+HcjLtnzA/XlWSA==
-X-Received: by 2002:a19:c505:0:b0:52b:72d2:8ebd with SMTP id 2adb3069b0e04-52b7d428dcdmr1612495e87.24.1717087436887;
-        Thu, 30 May 2024 09:43:56 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b84d7f214sm11265e87.197.2024.05.30.09.43.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 09:43:56 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] site/x86_64-linux: add ac_cv_func_fnmatch_works
-Date: Thu, 30 May 2024 19:43:55 +0300
-Message-Id: <20240530164355.3294714-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1717087470; x=1717692270;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fe8o7E/peWtXz+8yzDulDN63Bj0QOXC9fJSAbCI0Ijc=;
+        b=mWSy9OE2ZkXyyyn8s+JPHzE041xFNXZxjUr1Hz3Z/O8adIyhEe3gsKE33ZJov5ZxlF
+         NR+yx5f73p8QEyHbniImYMLK2RnHlML0uDX6+5uUkZcaFaXBh8ILaqcPRFsV30Ccpu6v
+         pKhDKZs5Px39h7s5Jpc45ncyh0D1wm6Br/muGiTemGWG6TQTbNxrPxNd39CTMqZJWzmO
+         d8wM58di+sFivG1ynoK62ntgp4a2GcPFxNZwUcXH2LVDxtB/iAWYR/w9U+lwAEo/d+cE
+         9OL5F9bKDr845dniDBVSZIBOdF+mXUERlwrPvPy9P1BlfxNGPMFROE2qLipup/CGGeuf
+         Iz/w==
+X-Forwarded-Encrypted: i=1; AJvYcCW9zGaDlrgL1QSYsm9W7vu0NOCy2FY5gutVXWQ/CFAKi/OCu3QNg+jXBy0GhyEPEIZPi2pHFM/5pCkAKBGLiP8ugx17sWoirF5FOsgtV6xfbEsHbEmpoAkv
+X-Gm-Message-State: AOJu0YwkseGK06cre0Ao/gFzsqCwhWnP5fdq+UyDItjLTjBUkylIQ4wZ
+	ASdP8wfveq86CZLpRTRTimJhbUNCyMTJ+dzyGrV4PQZw4WvtYIc5WBKs/jYQLtyCUIYTnFz6OG/
+	2o1RjD8yQarkKny0goy5opDe0q+Kdh7F6
+X-Google-Smtp-Source: AGHT+IGQt0C9kKDax+CHKfjLQ5TehD1xs/qJ/bAA2DFpB6ihDln+vYVLdSO1zH3/uhzopMUUmv/GNonPBdgkRlAPAOA=
+X-Received: by 2002:a17:902:ec87:b0:1f4:466f:8ca4 with SMTP id
+ d9443c01a7336-1f619209d85mr31062655ad.0.1717087470350; Thu, 30 May 2024
+ 09:44:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 30 May 2024 18:44:18 +0200
+Message-ID: <CAApg2=S+YizxRSv5=5vj9dR0Z2uE25SDpe9_0UCr5w+0OQNFbA@mail.gmail.com>
+Subject: NVD update
+To: yocto-security@lists.yoctoproject.org, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000b7fb420619ae94ab"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 16:44:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200033
+ <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 16:44:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200034
 
-Other arch-specific caches have ac_cv_func_fnmatch_works. Add it to
-x86_64 cache too, otherwise cabextract fails to build ([1])
+--000000000000b7fb420619ae94ab
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3893/steps/14/logs/stdio
+https://www.nist.gov/itl/nvd
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- meta/site/x86_64-linux | 3 +++
- 1 file changed, 3 insertions(+)
+*May 29, 2024: *NIST has awarded a contract for additional processing
+support for incoming Common Vulnerabilities and Exposures (CVEs) for
+inclusion in the National Vulnerability Database. We are confident that
+this additional support will allow us to return to the processing rates we
+maintained prior to February 2024 *within the next few months.*
 
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index b9ee141fd5c5..ed9c88fa20f7 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -83,3 +83,6 @@ ac_cv_func__restgpr_14_x=no
- 
- # cvs
- cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
-+
-+# cabextract
-+ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
--- 
-2.39.2
+In addition, a backlog of unprocessed CVEs has developed since February.
+NIST is working with the Department of Homeland Security=E2=80=99s Cybersec=
+urity
+and Infrastructure Security Agency (CISA) to facilitate the addition of
+these unprocessed CVEs to the NVD. *We anticipate that that this backlog
+will be cleared by the end of the fiscal year. *
 
+As we shared earlier, NIST is also working on ways to address the
+increasing volume of vulnerabilities through technology and process
+updates. Our goal is to build a program that is sustainable for the long
+term and to support the automation of vulnerability management, security
+measurement and compliance.
+
+With a 25-year history of providing this database of vulnerabilities to
+users around the world and given that we do not play an enforcement or
+oversight role, NIST is uniquely suited to manage the NVD. NIST is fully
+committed to maintaining and modernizing this important national resource
+that is vital to building and maintaining trust in information technology
+and fostering innovation.
+
+Moving forward, we will keep the community informed of our progress toward
+normal operational levels and our future modernization plans.
+
+--000000000000b7fb420619ae94ab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><a href=3D"https://www.nist.gov/itl/nvd">https://www.=
+nist.gov/itl/nvd</a></div><div><br></div><div><p class=3D"MsoNormal"><stron=
+g>May 29, 2024: </strong>NIST has awarded a=20
+contract for additional processing support for incoming Common=20
+Vulnerabilities and Exposures (CVEs) for inclusion in the National=20
+Vulnerability Database. We are confident that this additional support=20
+will allow us to return to the processing rates we maintained prior to=20
+February 2024 <u>within the next few months.</u></p><p class=3D"MsoNormal">=
+In=20
+addition, a backlog of unprocessed CVEs has developed since February.=20
+NIST is working with the Department of Homeland Security=E2=80=99s Cybersec=
+urity
+ and Infrastructure Security Agency (CISA) to facilitate the addition of
+ these unprocessed CVEs to the NVD. <u>We anticipate that that this backlog
+ will be cleared by the end of the fiscal year.<span>=C2=A0</span></u></p><=
+p class=3D"MsoNormal">As
+ we shared earlier, NIST is also working on ways to address the=20
+increasing volume of vulnerabilities through technology and process=20
+updates. Our goal is to build a program that is sustainable for the long
+ term and to support the automation of vulnerability management,=20
+security measurement and compliance.</p><p class=3D"MsoNormal">With a=20
+25-year history of providing this database of vulnerabilities to users=20
+around the world and given that we do not play an enforcement or=20
+oversight role, NIST is uniquely suited to manage the NVD. NIST is fully
+ committed to maintaining and modernizing this important national=20
+resource that is vital to building and maintaining trust in information=20
+technology and fostering innovation.=C2=A0</p><p class=3D"MsoNormal">Moving=
+=20
+forward, we will keep the community informed of our progress toward=20
+normal operational levels and our future modernization plans.</p></div></di=
+v>
+
+--000000000000b7fb420619ae94ab--
 
