@@ -2,1752 +2,5015 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4F2C27C44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FFAC41513
 	for <webhook@archiver.kernel.org>; Thu, 30 May 2024 18:38:26 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.4949.1717094306069774026
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.4942.1717094299827294424
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 11:38:26 -0700
+ Thu, 30 May 2024 11:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=J0qjsinA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70231ac9093so955592b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YPBHv//o;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70231566377so931499b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 11:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094305; x=1717699105; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717094299; x=1717699099; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=atGPPF/NyULmINsv04OmDjHXh/C6bGaWAQKm+9tlnUE=;
-        b=J0qjsinAku91woaYFMtkvEGPWjGZ/Jxi+pKVfo3EjCe2D8QASzf8nCAzb3soyeu4HS
-         1+wuiR9mtVzucrWxSiqazxuo3yOCEAHFDXZd5u5J+YLjdb/rbwb5o39aEopORRqM2Uxd
-         tyGqSgKe0nbqmcQZfYz17OHGrX7q2OrKesYYmIU4edBX/sKZ3xrkbIoNNowURv4adIdQ
-         SYZe6w3Rg0PBNYBoFoplc5vhdV2Dllq8OckjlKw40lWw8UIr1Sx7bp1IJ5gvLgO1Wvcf
-         qLE5+nsyRMiWDFEk/8VlDwioJ0BFLI/asQcNTWPhBffkHi4dRYXcaYBc92yq4nKo3rMI
-         pqcw==
+        bh=LFXF4FKf9kHSYO3mLCM2bwM3h5bqaKKe3kk94rj9LJQ=;
+        b=YPBHv//oCIRizceIdPh9oOPNAs0leR9ytkUTcrcBf+li7qz8Nc5BcTmxCMVjYrHHCl
+         27YAGHN034nzCEPvOmkW07tjW4r07EfqhHlH2kwc5FQKVhHqkpzOL6o7IRWBvS/LQYq1
+         aKnC+GHcTzK+QLeXE9TtV7XlyOz5MoUeXWn41qB4xMMr867duZij67XPD0MaQxyw9hI8
+         vXiKrZzNoGjh98kTLBHcGF15GMInFPdWY5MCJyFR/YAkOUra2Z22C3w+v2H2zey2FjPi
+         M9IPnC0O+6/zPHE55etsVFmzJvjCTPridJib2TRkml/pYQET/P/mgAebDqK7roMIUEzo
+         00/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717094305; x=1717699105;
+        d=1e100.net; s=20230601; t=1717094299; x=1717699099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=atGPPF/NyULmINsv04OmDjHXh/C6bGaWAQKm+9tlnUE=;
-        b=hC3/LJT110I6uQUgkoywl+P2bEcUuoDsiNuhfLVcXoLyWz4aD4B3GPtkXTDSDYt4m7
-         mFjC5hgY6fVyX/S5drdLoYANTSX2QVRvfGLw3kA/ubeUmnCRzn726kpygi+8lvcsGwww
-         BbNbEvhCnznUzLZLnhrwoZFhY5LFxHw9XLqW6Le1sY9QUBL41MA4NrosEPStzN519MYI
-         owfRAJ2SUmkcuGxUwZV/RRGKRPOTTk8bw+UiIl5ftKS2WF7Sc7uTrHh0leVMHNchoitL
-         zjmYqSSDqwkobxrsTvdvGBuvHGh7yyZ8vnDvOrrzepNCaYOMfZVitEYtOvhS7wR3vMNA
-         lPhQ==
-X-Gm-Message-State: AOJu0YzUlqAozDaR3M6zWWKaBNO75ctgCPxWTgnZfcMPbYtFRKg3W1gB
-	CYxVROK1a92iEpF3RXwhA19tgDgaf/3tbW7mRF8iHzBH1K1nMI5wdAkxB/0c0BvH27wvN3RTyBO
-	N
-X-Google-Smtp-Source: AGHT+IGo4ega2HYwA2nP1XySqoGIt8jGqBnToYcKGS9zjp1v20wmtHZ5TVWl0LGn4qSq0awaEMJHcg==
-X-Received: by 2002:a05:6a20:7f9b:b0:1b1:d31d:c0c5 with SMTP id adf61e73a8af0-1b264562ef2mr3326351637.37.1717094303957;
-        Thu, 30 May 2024 11:38:23 -0700 (PDT)
+        bh=LFXF4FKf9kHSYO3mLCM2bwM3h5bqaKKe3kk94rj9LJQ=;
+        b=wvNu5I7EBGj/r9Mx2GKgN+m7nE6rvaAIAFa6dAlfKGxTpckqVVHk8mKrBCYg1NQFsr
+         hfa5wiXQax96//CLqeUokMCSbAcCE0KsKaX+cQK9+IBOpg6spSnBiKEdALFoSK2wRnVz
+         06JKooF0wPyeu42R8YuXsM1D+tIPd3rr066RyUtTuxpB0K7Vjn1mk5yQkoHuvppbuShm
+         yeytntc78JlpNTdC9WpGwHsB3Cp46grVMqorh2j4z9Bw3/Kyr5kxCcnaMoGsfiVf/tdW
+         VIKEJPnGIo5MTTn6wcoXIh9wOIT2hm2kG6Mpmikl/WFiIvuXpHSS0gRf/ULrkCGrhPN+
+         PLBQ==
+X-Gm-Message-State: AOJu0YxXG6XNJbfHzay8BYBlIYnHlCmfAc6kkzEiWn+EBBd9cuPfTiJ4
+	5i3+ft+5SWstlFAh1Ri0+x+4vrZoSumRLarRxc7tRNDnDBvQMeyD27NNay+CXxO3ZrDXqlHc7Z0
+	B
+X-Google-Smtp-Source: AGHT+IEz+bryjfkVB4234AYwK45spyrgidPeP/QvxjyuhYFpjIl03GutKwtLYvRMUL2XOYe1FX7ETQ==
+X-Received: by 2002:a05:6a20:da96:b0:1a9:d9bb:acdc with SMTP id adf61e73a8af0-1b264571a31mr3701397637.28.1717094297281;
+        Thu, 30 May 2024 11:38:17 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.23
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423dbfc4sm62005b3a.66.2024.05.30.11.38.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 May 2024 11:38:23 -0700 (PDT)
+        Thu, 30 May 2024 11:38:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/7] git: Fix multiple CVEs
-Date: Thu, 30 May 2024 11:38:06 -0700
-Message-Id: <209c41377abf6853455b00af3923f1b244a3766b.1717094145.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/7] ghostscript: fix CVE-2024-33871
+Date: Thu, 30 May 2024 11:38:02 -0700
+Message-Id: <edcaa55aa53d51528ae77d1f4b544309c8e1e48e.1717094145.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717094145.git.steve@sakoman.com>
 References: <cover.1717094145.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 18:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200041
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-CVE-2024-32002:
-Git is a revision control system. Prior to versions 2.45.1, 2.44.1, 2.43.4,
-2.42.2, 2.41.1, 2.40.2, and 2.39.4, repositories with submodules can be
-crafted in a way that exploits a bug in Git whereby it can be fooled into
-writing files not into the submodule's worktree but into a `.git/` directory.
-This allows writing a hook that will be executed while the clone operation
-is still running, giving the user no opportunity to inspect the code that is
-being executed. The problem has been patched in versions 2.45.1, 2.44.1,
-2.43.4, 2.42.2, 2.41.1, 2.40.2, and 2.39.4. If symbolic link support is
-disabled in Git (e.g. via `git config --global core.symlinks false`), the
-described attack won't work. As always, it is best to avoid cloning
-repositories from untrusted sources.
+Added dependent patch [1] for backporting this CVE
 
-CVE-2024-32004:
-Git is a revision control system. Prior to versions 2.45.1, 2.44.1, 2.43.4,
-2.42.2, 2.41.1, 2.40.2, and 2.39.4, an attacker can prepare a local repository
-in such a way that, when cloned, will execute arbitrary code during the
-operation. The problem has been patched in versions 2.45.1, 2.44.1, 2.43.4,
-2.42.2, 2.41.1, 2.40.2, and 2.39.4. As a workaround, avoid cloning repositories
-from untrusted sources.
+[1] https://github.com/ArtifexSoftware/ghostpdl/commit/8b47f269b83b172b22606806fe5ec272d974e797
 
-CVE-2024-32020:
-Git is a revision control system. Prior to versions 2.45.1, 2.44.1, 2.43.4,
-2.42.2, 2.41.1, 2.40.2, and 2.39.4, local clones may end up hardlinking files
-into the target repository's object database when source and target repository
-reside on the same disk. If the source repository is owned by a different user,
-then those hardlinked files may be rewritten at any point in time by the
-untrusted user. Cloning local repositories will cause Git to either copy or
-hardlink files of the source repository into the target repository. This
-significantly speeds up such local clones compared to doing a "proper" clone and
-saves both disk space and compute time. When cloning a repository located on the
-same disk that is owned by a different user than the current user we also end up
-creating such hardlinks. These files will continue to be owned and controlled by
-the potentially-untrusted user and can be rewritten by them at will in the
-future. The problem has been patched in versions 2.45.1, 2.44.1, 2.43.4, 2.42.2,
-2.41.1, 2.40.2, and 2.39.4.
-
-CVE-2024-32021:
-Git is a revision control system. Prior to versions 2.45.1, 2.44.1, 2.43.4,
-2.42.2, 2.41.1, 2.40.2, and 2.39.4, when cloning a local source repository that
-contains symlinks via the filesystem, Git may create hardlinks to arbitrary
-user-readable files on the same filesystem as the target repository in the
-`objects/` directory. Cloning a local repository over the filesystem may
-creating hardlinks to arbitrary user-owned files on the same filesystem in the
-target Git repository's `objects/` directory. When cloning a repository over the
-filesystem (without explicitly specifying the `file://` protocol or `--no-local`),
-the optimizations for local cloning will be used, which include attempting to
-hard link the object files instead of copying them. While the code includes checks
-against symbolic links in the source repository, which were added during the fix
-for CVE-2022-39253, these checks can still be raced because the hard link
-operation ultimately follows symlinks. If the object on the filesystem appears as
-a file during the check, and then a symlink during the operation, this will allow
-the adversary to bypass the check and create hardlinks in the destination objects
-directory to arbitrary, user-readable files. The problem has been patched in
-versions 2.45.1, 2.44.1, 2.43.4, 2.42.2, 2.41.1, 2.40.2, and 2.39.4.
-
-CVE-2024-32465:
-Git is a revision control system. The Git project recommends to avoid working in
-untrusted repositories, and instead to clone it first with `git clone --no-local`
-to obtain a clean copy. Git has specific protections to make that a safe
-operation even with an untrusted source repository, but vulnerabilities allow
-those protections to be bypassed. In the context of cloning local repositories
-owned by other users, this vulnerability has been covered in CVE-2024-32004. But
-there are circumstances where the fixes for CVE-2024-32004 are not enough: For
-example, when obtaining a `.zip` file containing a full copy of a Git repository,
-it should not be trusted by default to be safe, as e.g. hooks could be configured
-to run within the context of that repository. The problem has been patched in
-versions 2.45.1, 2.44.1, 2.43.4, 2.42.2, 2.41.1, 2.40.2, and 2.39.4. As a
-workaround, avoid using Git in repositories that have been obtained via archives
-from untrusted sources.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2024-32002
-https://nvd.nist.gov/vuln/detail/CVE-2024-32004
-https://nvd.nist.gov/vuln/detail/CVE-2024-32020
-https://nvd.nist.gov/vuln/detail/CVE-2024-32021
-https://nvd.nist.gov/vuln/detail/CVE-2024-32465
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../git/git/CVE-2024-32002-0001.patch         |  69 ++++++
- .../git/git/CVE-2024-32002-0002.patch         | 213 ++++++++++++++++++
- .../git/git/CVE-2024-32002-0003.patch         | 141 ++++++++++++
- .../git/git/CVE-2024-32002-0004.patch         | 150 ++++++++++++
- .../git/git/CVE-2024-32004-0001.patch         |  95 ++++++++
- .../git/git/CVE-2024-32004-0002.patch         | 187 +++++++++++++++
- .../git/git/CVE-2024-32004-0003.patch         | 158 +++++++++++++
- .../git/git/CVE-2024-32020.patch              | 114 ++++++++++
- .../git/git/CVE-2024-32021-0001.patch         |  89 ++++++++
- .../git/git/CVE-2024-32021-0002.patch         |  65 ++++++
- .../git/git/CVE-2024-32465.patch              | 206 +++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |  11 +
- 12 files changed, 1498 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0001.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0002.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0003.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32002-0004.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0001.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0002.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32004-0003.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32020.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32021-0001.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32021-0002.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2024-32465.patch
+ .../ghostscript/CVE-2024-33871-0001.patch     | 4863 +++++++++++++++++
+ .../ghostscript/CVE-2024-33871-0002.patch     |   43 +
+ .../ghostscript/ghostscript_9.55.0.bb         |    2 +
+ 3 files changed, 4908 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0001.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0002.patch
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32002-0001.patch b/meta/recipes-devtools/git/git/CVE-2024-32002-0001.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0001.patch
 new file mode 100644
-index 0000000000..c424562e05
+index 0000000000..008f588bff
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32002-0001.patch
-@@ -0,0 +1,69 @@
-+From 21496b4c60b2327417c63fc9762096037a185be3 Mon Sep 17 00:00:00 2001
-+From: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Date: Thu, 1 Sep 2022 01:17:54 +0200
-+Subject: [PATCH] submodule--helper: use xstrfmt() in clone_submodule()
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0001.patch
+@@ -0,0 +1,4863 @@
++From 8b47f269b83b172b22606806fe5ec272d974e797 Mon Sep 17 00:00:00 2001
++From: Michael Vrhel <michael.vrhel@artifex.com>
++Date: Mon, 22 Nov 2021 12:13:10 -0800
++Subject: [PATCH 6/7] Removal of globals in opvp device
 +
-+Use xstrfmt() in clone_submodule() instead of a "struct strbuf" in two
-+cases where we weren't getting anything out of using the "struct
-+strbuf".
++Thanks to Robin for suggesting the structure form
++to get the globals at a common offset for the
++raster and vector forms of the device. That coupled
++with pushing the device through all the methods and
++doing initialization was the biggest effort.
 +
-+This changes code that was was added along with other uses of "struct
-+strbuf" in this function in ee8838d1577 (submodule: rewrite
-+`module_clone` shell function in C, 2015-09-08).
++Thanks also to Chris for his help in providing
++understanding as to what this device was actually doing.
 +
-+Signed-off-by: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Reviewed-by: Glen Choo <chooglen@google.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
++This commit includes a test harness for the opvp
++device, which uses the device client API to write
++out the commands it receives to a text file for
++comparison.  To build the driver use  ./build_opv_harness.sh
++To use the driver use a command line like
++-sDEVICE=opvp -sDriver=libopv.so -o output.txt -f ./examples/tiger.eps
++The command lines are always dumped to the same
++file which is opvp_command_dump.txt.   Note that the
++harness itself has to rely upon globals due to our
++inability to change the client API.
 +
-+CVE: CVE-2024-32002
++CVE: CVE-2024-33871
 +
-+Upstream-Status: Backport [https://github.com/git/git/commit/21496b4c60b2327417c63fc9762096037a185be3]
++Upstream-Status: Backport [https://github.com/ArtifexSoftware/ghostpdl/commit/8b47f269b83b172b22606]
 +
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ builtin/submodule--helper.c | 17 +++++++++--------
-+ 1 file changed, 9 insertions(+), 8 deletions(-)
++ contrib/opvp/README.txt           |   18 +
++ contrib/opvp/build_opv_harness.sh |    4 +
++ contrib/opvp/gdevopvp.c           | 1879 +++++++++++++++++------------
++ contrib/opvp/opvp.h               |    9 +-
++ contrib/opvp/opvp_0_2_0.h         |    4 +-
++ contrib/opvp/opvpharness.c        |  947 +++++++++++++++
++ 6 files changed, 2070 insertions(+), 791 deletions(-)
++ create mode 100644 contrib/opvp/README.txt
++ create mode 100755 contrib/opvp/build_opv_harness.sh
++ create mode 100644 contrib/opvp/opvpharness.c
 +
-+diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
-+index c5d3fc3..79868c3 100644
-+--- a/builtin/submodule--helper.c
-++++ b/builtin/submodule--helper.c
-+@@ -1761,12 +1761,11 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+	sm_gitdir = absolute_pathdup(sb.buf);
-+	strbuf_reset(&sb);
-+
-+-	if (!is_absolute_path(clone_data->path)) {
-+-		strbuf_addf(&sb, "%s/%s", get_git_work_tree(), clone_data->path);
-+-		clone_data->path = strbuf_detach(&sb, NULL);
-+-	} else {
-++	if (!is_absolute_path(clone_data->path))
-++		clone_data->path = xstrfmt("%s/%s", get_git_work_tree(),
-++					   clone_data->path);
-++	else
-+		clone_data->path = xstrdup(clone_data->path);
-+-	}
-+
-+	if (validate_submodule_git_dir(sm_gitdir, clone_data->name) < 0)
-+		die(_("refusing to create/use '%s' in another submodule's "
-+@@ -1813,14 +1812,16 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+			die(_("clone of '%s' into submodule path '%s' failed"),
-+			    clone_data->url, clone_data->path);
-+	} else {
-++		char *path;
++diff --git a/contrib/opvp/README.txt b/contrib/opvp/README.txt
++new file mode 100644
++index 0000000..fd2250e
++--- /dev/null
+++++ b/contrib/opvp/README.txt
++@@ -0,0 +1,18 @@
+++In an effort to remove globals in devices
+++that ship with Ghostscript, the opvp device was updated
+++to place it's global values into the device structure.
 ++
-+		if (clone_data->require_init && !access(clone_data->path, X_OK) &&
-+		    !is_empty_dir(clone_data->path))
-+			die(_("directory not empty: '%s'"), clone_data->path);
-+		if (safe_create_leading_directories_const(clone_data->path) < 0)
-+			die(_("could not create directory '%s'"), clone_data->path);
-+-		strbuf_addf(&sb, "%s/index", sm_gitdir);
-+-		unlink_or_warn(sb.buf);
-+-		strbuf_reset(&sb);
-++		path = xstrfmt("%s/index", sm_gitdir);
-++		unlink_or_warn(path);
-++		free(path);
-+	}
-+
-+	connect_work_tree_and_git_dir(clone_data->path, sm_gitdir, 0);
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32002-0002.patch b/meta/recipes-devtools/git/git/CVE-2024-32002-0002.patch
-new file mode 100644
-index 0000000000..36cdb746a7
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32002-0002.patch
-@@ -0,0 +1,213 @@
-+From 6fac5b2f352efc8c246d6d5be63a66b7b0fc0209 Mon Sep 17 00:00:00 2001
-+From: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Date: Thu, 1 Sep 2022 01:17:56 +0200
-+Subject: [PATCH] submodule--helper: add "const" to passed "module_clone_data"
-+
-+Add "const" to the "struct module_clone_data" that we pass to
-+clone_submodule(), which makes the ownership clear, and stops us from
-+clobbering the "clone_data->path".
-+
-+We still need to add to the "reference" member, which is a "struct
-+string_list". Let's do this by having clone_submodule() create its
-+own, and copy the contents over, allowing us to pass it as a
-+separate parameter.
-+
-+This new "struct string_list" still leaks memory, just as the "struct
-+module_clone_data" did before. let's not fix that for now, to fix that
-+we'll need to add some "goto cleanup" to the relevant code. That will
-+eventually be done in follow-up commits, this change makes it easier
-+to fix the memory leak.
-+
-+The scope of the new "reference" variable in add_submodule() could be
-+narrowed to the "else" block, but as we'll eventually free it with a
-+"goto cleanup" let's declare it at the start of the function.
-+
-+Signed-off-by: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Reviewed-by: Glen Choo <chooglen@google.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+CVE: CVE-2024-32002
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/6fac5b2f352efc8c246d6d5be63a66b7b0fc0209]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ builtin/submodule--helper.c | 52 ++++++++++++++++++++-----------------
-+ 1 file changed, 28 insertions(+), 24 deletions(-)
-+
-+diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
-+index 79868c3..d1d64db 100644
-+--- a/builtin/submodule--helper.c
-++++ b/builtin/submodule--helper.c
-+@@ -1630,14 +1630,13 @@ struct module_clone_data {
-+	const char *name;
-+	const char *url;
-+	const char *depth;
-+-	struct string_list reference;
-+	unsigned int quiet: 1;
-+	unsigned int progress: 1;
-+	unsigned int dissociate: 1;
-+	unsigned int require_init: 1;
-+	int single_branch;
-+ };
-+-#define MODULE_CLONE_DATA_INIT { .reference = STRING_LIST_INIT_NODUP, .single_branch = -1 }
-++#define MODULE_CLONE_DATA_INIT { .single_branch = -1 }
-+
-+ struct submodule_alternate_setup {
-+	const char *submodule_name;
-+@@ -1750,22 +1749,24 @@ static void prepare_possible_alternates(const char *sm_name,
-+	free(error_strategy);
-+ }
-+
-+-static int clone_submodule(struct module_clone_data *clone_data)
-++static int clone_submodule(const struct module_clone_data *clone_data,
-++			   struct string_list *reference)
-+ {
-+	char *p, *sm_gitdir;
-+	char *sm_alternate = NULL, *error_strategy = NULL;
-+	struct strbuf sb = STRBUF_INIT;
-+	struct child_process cp = CHILD_PROCESS_INIT;
-++	const char *clone_data_path;
-+
-+	submodule_name_to_gitdir(&sb, the_repository, clone_data->name);
-+	sm_gitdir = absolute_pathdup(sb.buf);
-+	strbuf_reset(&sb);
-+
-+	if (!is_absolute_path(clone_data->path))
-+-		clone_data->path = xstrfmt("%s/%s", get_git_work_tree(),
-+-					   clone_data->path);
-++		clone_data_path = xstrfmt("%s/%s", get_git_work_tree(),
-++					  clone_data->path);
-+	else
-+-		clone_data->path = xstrdup(clone_data->path);
-++		clone_data_path = xstrdup(clone_data->path);
-+
-+	if (validate_submodule_git_dir(sm_gitdir, clone_data->name) < 0)
-+		die(_("refusing to create/use '%s' in another submodule's "
-+@@ -1775,7 +1776,7 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+		if (safe_create_leading_directories_const(sm_gitdir) < 0)
-+			die(_("could not create directory '%s'"), sm_gitdir);
-+
-+-		prepare_possible_alternates(clone_data->name, &clone_data->reference);
-++		prepare_possible_alternates(clone_data->name, reference);
-+
-+		strvec_push(&cp.args, "clone");
-+		strvec_push(&cp.args, "--no-checkout");
-+@@ -1784,10 +1785,10 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+		if (clone_data->progress)
-+			strvec_push(&cp.args, "--progress");
-+		if (clone_data->depth && *(clone_data->depth))
-+-			strvec_pushl(&cp.args, "--depth", clone_data->depth, NULL);
-+-		if (clone_data->reference.nr) {
-++				strvec_pushl(&cp.args, "--depth", clone_data->depth, NULL);
-++		if (reference->nr) {
-+			struct string_list_item *item;
-+-			for_each_string_list_item(item, &clone_data->reference)
-++			for_each_string_list_item(item, reference)
-+				strvec_pushl(&cp.args, "--reference",
-+					     item->string, NULL);
-+		}
-+@@ -1802,7 +1803,7 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+
-+		strvec_push(&cp.args, "--");
-+		strvec_push(&cp.args, clone_data->url);
-+-		strvec_push(&cp.args, clone_data->path);
-++		strvec_push(&cp.args, clone_data_path);
-+
-+		cp.git_cmd = 1;
-+		prepare_submodule_repo_env(&cp.env_array);
-+@@ -1810,25 +1811,25 @@ static int clone_submodule(struct module_clone_data *clone_data)
-+
-+		if(run_command(&cp))
-+			die(_("clone of '%s' into submodule path '%s' failed"),
-+-			    clone_data->url, clone_data->path);
-++			    clone_data->url, clone_data_path);
-+	} else {
-+		char *path;
-+
-+-		if (clone_data->require_init && !access(clone_data->path, X_OK) &&
-+-		    !is_empty_dir(clone_data->path))
-+-			die(_("directory not empty: '%s'"), clone_data->path);
-+-		if (safe_create_leading_directories_const(clone_data->path) < 0)
-+-			die(_("could not create directory '%s'"), clone_data->path);
-++		if (clone_data->require_init && !access(clone_data_path, X_OK) &&
-++		    !is_empty_dir(clone_data_path))
-++			die(_("directory not empty: '%s'"), clone_data_path);
-++		if (safe_create_leading_directories_const(clone_data_path) < 0)
-++			die(_("could not create directory '%s'"), clone_data_path);
-+		path = xstrfmt("%s/index", sm_gitdir);
-+		unlink_or_warn(path);
-+		free(path);
-+	}
-+
-+-	connect_work_tree_and_git_dir(clone_data->path, sm_gitdir, 0);
-++	connect_work_tree_and_git_dir(clone_data_path, sm_gitdir, 0);
-+
-+-	p = git_pathdup_submodule(clone_data->path, "config");
-++	p = git_pathdup_submodule(clone_data_path, "config");
-+	if (!p)
-+-		die(_("could not get submodule directory for '%s'"), clone_data->path);
-++		die(_("could not get submodule directory for '%s'"), clone_data_path);
-+
-+	/* setup alternateLocation and alternateErrorStrategy in the cloned submodule if needed */
-+	git_config_get_string("submodule.alternateLocation", &sm_alternate);
-+@@ -1853,6 +1854,7 @@ static int module_clone(int argc, const char **argv, const char *prefix)
-+ {
-+	int dissociate = 0, quiet = 0, progress = 0, require_init = 0;
-+	struct module_clone_data clone_data = MODULE_CLONE_DATA_INIT;
-++	struct string_list reference = STRING_LIST_INIT_NODUP;
-+
-+	struct option module_clone_options[] = {
-+		OPT_STRING(0, "prefix", &clone_data.prefix,
-+@@ -1867,7 +1869,7 @@ static int module_clone(int argc, const char **argv, const char *prefix)
-+		OPT_STRING(0, "url", &clone_data.url,
-+			   N_("string"),
-+			   N_("url where to clone the submodule from")),
-+-		OPT_STRING_LIST(0, "reference", &clone_data.reference,
-++		OPT_STRING_LIST(0, "reference", &reference,
-+			   N_("repo"),
-+			   N_("reference repository")),
-+		OPT_BOOL(0, "dissociate", &dissociate,
-+@@ -1905,7 +1907,7 @@ static int module_clone(int argc, const char **argv, const char *prefix)
-+		usage_with_options(git_submodule_helper_usage,
-+				   module_clone_options);
-+
-+-	clone_submodule(&clone_data);
-++	clone_submodule(&clone_data, &reference);
-+	return 0;
-+ }
-+
-+@@ -3029,6 +3031,7 @@ static int add_submodule(const struct add_data *add_data)
-+ {
-+	char *submod_gitdir_path;
-+	struct module_clone_data clone_data = MODULE_CLONE_DATA_INIT;
-++	struct string_list reference = STRING_LIST_INIT_NODUP;
-+
-+	/* perhaps the path already exists and is already a git repo, else clone it */
-+	if (is_directory(add_data->sm_path)) {
-+@@ -3045,6 +3048,7 @@ static int add_submodule(const struct add_data *add_data)
-+		free(submod_gitdir_path);
-+	} else {
-+		struct child_process cp = CHILD_PROCESS_INIT;
+++As part of that commit, a harness was added to enable
+++testing of the opvp device client API to test for any
+++issues. To build the harness use  ./build_opv_harness.sh
+++This will create a debug version of the shared object
+++libopv.so. The command line
+++gs -sDEVICE=opvp -sDriver=./contrib/opvp/libopv.so -o output.txt -f ./examples/tiger.eps
+++can then be used.
 ++
-+		submod_gitdir_path = xstrfmt(".git/modules/%s", add_data->sm_name);
-+
-+		if (is_directory(submod_gitdir_path)) {
-+@@ -3084,13 +3088,13 @@ static int add_submodule(const struct add_data *add_data)
-+		clone_data.quiet = add_data->quiet;
-+		clone_data.progress = add_data->progress;
-+		if (add_data->reference_path)
-+-			string_list_append(&clone_data.reference,
-++			string_list_append(&reference,
-+					   xstrdup(add_data->reference_path));
-+		clone_data.dissociate = add_data->dissociate;
-+		if (add_data->depth >= 0)
-+			clone_data.depth = xstrfmt("%d", add_data->depth);
-+
-+-		if (clone_submodule(&clone_data))
-++		if (clone_submodule(&clone_data, &reference))
-+			return -1;
-+
-+		prepare_submodule_repo_env(&cp.env_array);
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32002-0003.patch b/meta/recipes-devtools/git/git/CVE-2024-32002-0003.patch
-new file mode 100644
-index 0000000000..bb5702e122
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32002-0003.patch
-@@ -0,0 +1,141 @@
-+From e77b3da6bb60e9af5963c9e42442afe53af1780b Mon Sep 17 00:00:00 2001
-+From: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Date: Thu, 1 Sep 2022 01:14:08 +0200
-+Subject: [PATCH] submodule--helper: fix a leak in "clone_submodule"
-+
-+Fix a memory leak of the "clone_data_path" variable that we copy or
-+derive from the "struct module_clone_data" in clone_submodule(). This
-+code was refactored in preceding commits, but the leak has been with
-+us since f8eaa0ba98b (submodule--helper, module_clone: always operate
-+on absolute paths, 2016-03-31).
-+
-+For the "else" case we don't need to xstrdup() the "clone_data->path",
-+and we don't need to free our own "clone_data_path". We can therefore
-+assign the "clone_data->path" to our own "clone_data_path" right away,
-+and only override it (and remember to free it!) if we need to
-+xstrfmt() a replacement.
-+
-+In the case of the module_clone() caller it's from "argv", and doesn't
-+need to be free'd, and in the case of the add_submodule() caller we
-+get a pointer to "sm_path", which doesn't need to be directly free'd
-+either.
-+
-+Fixing this leak makes several tests pass, so let's mark them as
-+passing with TEST_PASSES_SANITIZE_LEAK=true.
-+
-+Signed-off-by: Ævar Arnfjörð Bjarmason <avarab@gmail.com>
-+Reviewed-by: Glen Choo <chooglen@google.com>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+CVE: CVE-2024-32002
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/e77b3da6bb60e9af5963c9e42442afe53af1780b]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ builtin/submodule--helper.c   | 10 +++++-----
-+ t/t1500-rev-parse.sh          |  1 +
-+ t/t6008-rev-list-submodule.sh |  1 +
-+ t/t7414-submodule-mistakes.sh |  2 ++
-+ t/t7506-status-submodule.sh   |  1 +
-+ t/t7507-commit-verbose.sh     |  2 ++
-+ 6 files changed, 12 insertions(+), 5 deletions(-)
-+
-+diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
-+index d1d64db..1158dcc 100644
-+--- a/builtin/submodule--helper.c
-++++ b/builtin/submodule--helper.c
-+@@ -1756,17 +1756,16 @@ static int clone_submodule(const struct module_clone_data *clone_data,
-+	char *sm_alternate = NULL, *error_strategy = NULL;
-+	struct strbuf sb = STRBUF_INIT;
-+	struct child_process cp = CHILD_PROCESS_INIT;
-+-	const char *clone_data_path;
-++	const char *clone_data_path = clone_data->path;
-++	char *to_free = NULL;;
-+
-+	submodule_name_to_gitdir(&sb, the_repository, clone_data->name);
-+	sm_gitdir = absolute_pathdup(sb.buf);
-+	strbuf_reset(&sb);
-+
-+	if (!is_absolute_path(clone_data->path))
-+-		clone_data_path = xstrfmt("%s/%s", get_git_work_tree(),
-+-					  clone_data->path);
-+-	else
-+-		clone_data_path = xstrdup(clone_data->path);
-++		clone_data_path = to_free = xstrfmt("%s/%s", get_git_work_tree(),
-++						    clone_data->path);
-+
-+	if (validate_submodule_git_dir(sm_gitdir, clone_data->name) < 0)
-+		die(_("refusing to create/use '%s' in another submodule's "
-+@@ -1847,6 +1846,7 @@ static int clone_submodule(const struct module_clone_data *clone_data,
-+	strbuf_release(&sb);
-+	free(sm_gitdir);
-+	free(p);
-++	free(to_free);
-+	return 0;
-+ }
-+
-+diff --git a/t/t1500-rev-parse.sh b/t/t1500-rev-parse.sh
-+index 2c429f9..81de584 100755
-+--- a/t/t1500-rev-parse.sh
-++++ b/t/t1500-rev-parse.sh
-+@@ -4,6 +4,7 @@ test_description='test git rev-parse'
-+ GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME=main
-+ export GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME
-+
-++TEST_PASSES_SANITIZE_LEAK=true
-+ . ./test-lib.sh
-+
-+ test_one () {
-+diff --git a/t/t6008-rev-list-submodule.sh b/t/t6008-rev-list-submodule.sh
-+index a0a070b..2cdef6f 100755
-+--- a/t/t6008-rev-list-submodule.sh
-++++ b/t/t6008-rev-list-submodule.sh
-+@@ -8,6 +8,7 @@ test_description='git rev-list involving submodules that this repo has'
-+ GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME=main
-+ export GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME
-+
-++TEST_PASSES_SANITIZE_LEAK=true
-+ . ./test-lib.sh
-+
-+ test_expect_success 'setup' '
-+diff --git a/t/t7414-submodule-mistakes.sh b/t/t7414-submodule-mistakes.sh
-+index cf95603..101afff 100755
-+--- a/t/t7414-submodule-mistakes.sh
-++++ b/t/t7414-submodule-mistakes.sh
-+@@ -1,6 +1,8 @@
-+ #!/bin/sh
-+
-+ test_description='handling of common mistakes people may make with submodules'
+++This command should create a file called
+++opvp_command_dump.txt that contains the calls and
+++the parameters made to the client API. Note that the
+++harness itself has to rely upon globals. To do otherwise
+++would require a to change the client API, which we
+++do not own.
++\ No newline at end of file
++diff --git a/contrib/opvp/build_opv_harness.sh b/contrib/opvp/build_opv_harness.sh
++new file mode 100755
++index 0000000..8d10f05
++--- /dev/null
+++++ b/contrib/opvp/build_opv_harness.sh
++@@ -0,0 +1,4 @@
+++#!/bin/bash
 ++
-++TEST_PASSES_SANITIZE_LEAK=true
-+ . ./test-lib.sh
+++gcc -Werror -Wall -c -fpic -g opvpharness.c
+++gcc -shared -o libopv.so opvpharness.o
++\ No newline at end of file
++diff --git a/contrib/opvp/gdevopvp.c b/contrib/opvp/gdevopvp.c
++index 844b46c..64afbfe 100644
++--- a/contrib/opvp/gdevopvp.c
+++++ b/contrib/opvp/gdevopvp.c
++@@ -115,14 +115,62 @@ typedef struct {
 +
-+ test_expect_success 'create embedded repository' '
-+diff --git a/t/t7506-status-submodule.sh b/t/t7506-status-submodule.sh
-+index 459300c..d050091 100755
-+--- a/t/t7506-status-submodule.sh
-++++ b/t/t7506-status-submodule.sh
-+@@ -2,6 +2,7 @@
++ #define MAX_PATH_POINTS 1000
 +
-+ test_description='git status for submodule'
-+
-++TEST_PASSES_SANITIZE_LEAK=true
-+ . ./test-lib.sh
-+
-+ test_create_repo_with_commit () {
-+diff --git a/t/t7507-commit-verbose.sh b/t/t7507-commit-verbose.sh
-+index bd0ae4b..916470c 100755
-+--- a/t/t7507-commit-verbose.sh
-++++ b/t/t7507-commit-verbose.sh
-+@@ -1,6 +1,8 @@
-+ #!/bin/sh
-+
-+ test_description='verbose commit template'
++-/* driver */
++-typedef struct  gx_device_opvp_s {
+++/* To remove the existing globals from this device,
+++   we place the current globals into a structure
+++   and place them at the same offset location
+++   for the opvp and oprp devices, allowing easy
+++   access regardless of the device type. */
 ++
-++TEST_PASSES_SANITIZE_LEAK=true
-+ . ./test-lib.sh
+++typedef struct opXp_globals_s {
+++    bool vector;
+++    bool inkjet;
+++    bool zoomAuto;
+++    bool zooming;
+++    bool beginPage;
+++    float margins[4];
+++    float zoom[2];
+++    float shift[2];
+++    opvp_int_t outputFD;
+++    opvp_int_t nApiEntry;
+++    opvp_dc_t printerContext;
+++    opvp_cspace_t colorSpace;
+++    opvp_cspace_t savedColorSpace;
+++    char* vectorDriver;
+++    char* printerModel;
+++    void* handle;
+++    opvp_brush_t* vectorFillColor;
+++    opvp_int_t* ErrorNo;
+++    opvp_api_procs_t* apiEntry;
+++    OPVP_api_procs* apiEntry_0_2;
+++    char* jobInfo;
+++    char* docInfo;
+++    opvp_dc_t(*OpenPrinter)(opvp_int_t, const opvp_char_t*,
+++        const opvp_int_t[2], opvp_api_procs_t**);
+++    int (*OpenPrinter_0_2)(int, char*, int*,
+++        OPVP_api_procs**);
+++    int (*GetLastError)(gx_device*);
+++} opXp_globals;
+++
+++typedef struct base_opvp_s {
++     gx_device_vector_common;
+++} base_opvp;
+++
+++typedef struct base_oprp_s {
+++    gx_device_common;
+++    gx_prn_device_common;
+++} base_oprp;
+++
+++typedef struct gx_device_opvp_s {
+++    gx_device_vector_common;
+++    char padding[1 + (sizeof(base_oprp) > sizeof(base_opvp) ? sizeof(base_oprp) - sizeof(base_opvp) : 0)];
+++    opXp_globals globals;
++ } gx_device_opvp;
 +
-+ write_script "check-for-diff" <<\EOF &&
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32002-0004.patch b/meta/recipes-devtools/git/git/CVE-2024-32002-0004.patch
-new file mode 100644
-index 0000000000..f2af2b48de
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32002-0004.patch
-@@ -0,0 +1,150 @@
-+From 97065761333fd62db1912d81b489db938d8c991d Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Fri, 22 Mar 2024 11:19:22 +0100
-+Subject: [PATCH] submodules: submodule paths must not contain symlinks
++-typedef struct  gx_device_oprp_s {
+++typedef struct gx_device_oprp_s {
++     gx_device_common;
++     gx_prn_device_common;
+++    char padding[1 + (sizeof(base_opvp) > sizeof(base_oprp) ? sizeof(base_opvp) - sizeof(base_oprp) : 0)];
+++    opXp_globals globals;
++ } gx_device_oprp;
 +
-+When creating a submodule path, we must be careful not to follow
-+symbolic links. Otherwise we may follow a symbolic link pointing to
-+a gitdir (which are valid symbolic links!) e.g. while cloning.
++ /* point (internal) */
++@@ -135,15 +183,16 @@ typedef struct {
 +
-+On case-insensitive filesystems, however, we blindly replace a directory
-+that has been created as part of the `clone` operation with a symlink
-+when the path to the latter differs only in case from the former's path.
++ /* Utilities */
++ static  int opvp_startpage(gx_device *);
++-static  int opvp_endpage(void);
+++static  int opvp_endpage(gx_device*);
++ static  char *opvp_alloc_string(char **, const char *);
++ static  char *opvp_cat_string(char **, const char *);
++ static  char *opvp_adjust_num_string(char *);
++-static  char **opvp_gen_dynamic_lib_name(void);
+++static  char **opvp_gen_dynamic_lib_name(gx_device*);
++ static  char *opvp_to_utf8(char *);
++-#define opvp_check_in_page(pdev)        \
++-                ((beginPage) || (inkjet) ? 0 \
++-                    : (*vdev_proc(pdev, beginpage))((gx_device_vector*)pdev))
+++#define opvp_check_in_page(opdev)        \
+++                 ((((gx_device_opvp*)(opdev))->globals.beginPage) || \
+++                  (((gx_device_opvp*)(opdev))->globals.inkjet) ? 0  \
+++                    : (*vdev_proc(opdev, beginpage))((gx_device_vector*)opdev))
++ static  int opvp_get_papertable_index(gx_device *);
++ static  char *opvp_get_sizestring(float, float);
++ /* not used     static  const char *opvp_get_papersize_region(gx_device *);*/
++@@ -160,8 +209,8 @@ static  int opvp_draw_image(gx_device_opvp *, int,
++                             int, int, int, int, int, int, const byte *);
 +
-+Let's simply avoid this situation by expecting not ever having to
-+overwrite any existing file/directory/symlink upon cloning. That way, we
-+won't even replace a directory that we just created.
++ /* load/unload vector driver */
++-static  int opvp_load_vector_driver(void);
++-static  int opvp_unload_vector_driver(void);
+++static  int opvp_load_vector_driver(gx_device*);
+++static  int opvp_unload_vector_driver(gx_device*);
++ static  int prepare_open(gx_device *);
 +
-+This addresses CVE-2024-32002.
++ /* driver procs */
++@@ -177,10 +226,10 @@ static  int opvp_copy_mono(gx_device *, const byte *, int, int,
++                            gx_color_index, gx_color_index);
++ static  int opvp_copy_color(gx_device *, const byte *, int, int,
++                             gx_bitmap_id, int, int, int, int);
++-static  int _get_params(gs_param_list *);
+++static  int _get_params(gx_device*, gs_param_list *);
++ static  int opvp_get_params(gx_device *, gs_param_list *);
++ static  int oprp_get_params(gx_device *, gs_param_list *);
++-static  int _put_params(gs_param_list *);
+++static  int _put_params(gx_device*, gs_param_list *);
++ static  int opvp_put_params(gx_device *, gs_param_list *);
++ static  int oprp_put_params(gx_device *, gs_param_list *);
++ static  int opvp_fill_path(gx_device *, const gs_gstate *, gx_path *,
++@@ -295,6 +344,53 @@ gs_public_st_suffix_add0_final(
++     NULL, /* *jobInfo */\
++     NULL /* *docInfo */
 +
-+Reported-by: Filip Hejsek <filip.hejsek@gmail.com>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32002
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ builtin/submodule--helper.c | 35 +++++++++++++++++++++++++++++++
-+ t/t7406-submodule-update.sh | 42 +++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 77 insertions(+)
-+
-+diff --git a/builtin/submodule--helper.c b/builtin/submodule--helper.c
-+index 1158dcc..d4147d8 100644
-+--- a/builtin/submodule--helper.c
-++++ b/builtin/submodule--helper.c
-+@@ -1749,11 +1749,34 @@ static void prepare_possible_alternates(const char *sm_name,
-+	free(error_strategy);
-+ }
-+
-++static int dir_contains_only_dotgit(const char *path)
+++
+++static int
+++GetLastError_1_0(gx_device* dev)
 ++{
-++	DIR *dir = opendir(path);
-++	struct dirent *e;
-++	int ret = 1;
+++    gx_device_opvp* pdev = (gx_device_opvp*)dev;
 ++
-++	if (!dir)
-++		return 0;
-++
-++	e = readdir_skip_dot_and_dotdot(dir);
-++	if (!e)
-++		ret = 0;
-++	else if (strcmp(DEFAULT_GIT_DIR_ENVIRONMENT, e->d_name) ||
-++		 (e = readdir_skip_dot_and_dotdot(dir))) {
-++		error("unexpected item '%s' in '%s'", e->d_name, path);
-++		ret = 0;
-++	}
-++
-++	closedir(dir);
-++	return ret;
+++    return *(pdev->globals.ErrorNo);
 ++}
 ++
-+ static int clone_submodule(const struct module_clone_data *clone_data,
-+			   struct string_list *reference)
-+ {
-+	char *p, *sm_gitdir;
-+	char *sm_alternate = NULL, *error_strategy = NULL;
-++	struct stat st;
-+	struct strbuf sb = STRBUF_INIT;
-+	struct child_process cp = CHILD_PROCESS_INIT;
-+	const char *clone_data_path = clone_data->path;
-+@@ -1772,6 +1795,10 @@ static int clone_submodule(const struct module_clone_data *clone_data,
-+		      "git dir"), sm_gitdir);
-+
-+	if (!file_exists(sm_gitdir)) {
-++		if (clone_data->require_init && !stat(clone_data_path, &st) &&
-++		    !is_empty_dir(clone_data_path))
-++			die(_("directory not empty: '%s'"), clone_data_path);
+++/* Initialize the globals */
+++static void
+++InitGlobals(gx_device* dev)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
 ++
-+		if (safe_create_leading_directories_const(sm_gitdir) < 0)
-+			die(_("could not create directory '%s'"), sm_gitdir);
-+
-+@@ -1811,6 +1838,14 @@ static int clone_submodule(const struct module_clone_data *clone_data,
-+		if(run_command(&cp))
-+			die(_("clone of '%s' into submodule path '%s' failed"),
-+			    clone_data->url, clone_data_path);
+++    opdev->globals.vector = true;
+++    opdev->globals.inkjet = false;
+++    opdev->globals.zoomAuto = false;
+++    opdev->globals.zooming = false;
+++    opdev->globals.beginPage = false;
+++    opdev->globals.margins[0] = 0;
+++    opdev->globals.margins[1] = 0;
+++    opdev->globals.margins[2] = 0;
+++    opdev->globals.margins[3] = 0;
+++    opdev->globals.zoom[0] = 1;
+++    opdev->globals.zoom[1] = 1;
+++    opdev->globals.shift[0] = 0;
+++    opdev->globals.shift[1] = 0;
+++    opdev->globals.outputFD = -1;
+++    opdev->globals.nApiEntry = 0;
+++    opdev->globals.printerContext = -1;
+++    opdev->globals.colorSpace = OPVP_CSPACE_STANDARDRGB;
+++    opdev->globals.savedColorSpace = OPVP_CSPACE_STANDARDRGB;
+++    opdev->globals.vectorDriver = NULL;
+++    opdev->globals.printerModel = NULL;
+++    opdev->globals.handle = NULL;
+++    opdev->globals.vectorFillColor = NULL;
+++    opdev->globals.ErrorNo = NULL;
+++    opdev->globals.apiEntry = NULL;
+++    opdev->globals.apiEntry_0_2 = NULL;
+++    opdev->globals.jobInfo = NULL;
+++    opdev->globals.docInfo = NULL;
+++    opdev->globals.OpenPrinter = NULL;
+++    opdev->globals.OpenPrinter_0_2 = NULL;
+++    opdev->globals.GetLastError = GetLastError_1_0;
+++}
 ++
-++		if (clone_data->require_init && !stat(clone_data_path, &st) &&
-++		    !dir_contains_only_dotgit(clone_data_path)) {
-++			char *dot_git = xstrfmt("%s/.git", clone_data_path);
-++			unlink(dot_git);
-++			free(dot_git);
-++			die(_("directory not empty: '%s'"), clone_data_path);
-++		}
-+	} else {
-+		char *path;
-+
-+diff --git a/t/t7406-submodule-update.sh b/t/t7406-submodule-update.sh
-+index 53d419c..00ffdb6 100755
-+--- a/t/t7406-submodule-update.sh
-++++ b/t/t7406-submodule-update.sh
-+@@ -1062,4 +1062,46 @@ test_expect_success 'submodule update --quiet passes quietness to fetch with a s
-+	)
-+ '
-+
-++test_expect_success CASE_INSENSITIVE_FS,SYMLINKS \
-++	'submodule paths must not follow symlinks' '
-++	# This is only needed because we want to run this in a self-contained
-++	# test without having to spin up an HTTP server; However, it would not
-++	# be needed in a real-world scenario where the submodule is simply
-++	# hosted on a public site.
-++	test_config_global protocol.file.allow always &&
-++	# Make sure that Git tries to use symlinks on Windows
-++	test_config_global core.symlinks true &&
-++	tell_tale_path="$PWD/tell.tale" &&
-++	git init hook &&
-++	(
-++		cd hook &&
-++		mkdir -p y/hooks &&
-++		write_script y/hooks/post-checkout <<-EOF &&
-++		echo HOOK-RUN >&2
-++		echo hook-run >"$tell_tale_path"
-++		EOF
-++		git add y/hooks/post-checkout &&
-++		test_tick &&
-++		git commit -m post-checkout
-++	) &&
-++	hook_repo_path="$(pwd)/hook" &&
-++	git init captain &&
-++	(
-++		cd captain &&
-++		git submodule add --name x/y "$hook_repo_path" A/modules/x &&
-++		test_tick &&
-++		git commit -m add-submodule &&
-++		printf .git >dotgit.txt &&
-++		git hash-object -w --stdin <dotgit.txt >dot-git.hash &&
-++		printf "120000 %s 0\ta\n" "$(cat dot-git.hash)" >index.info &&
-++		git update-index --index-info <index.info &&
-++		test_tick &&
-++		git commit -m add-symlink
-++	) &&
-++	test_path_is_missing "$tell_tale_path" &&
-++	test_must_fail git clone --recursive captain hooked 2>err &&
-++	grep "directory not empty" err &&
-++	test_path_is_missing "$tell_tale_path"
-++'
++ /* device procs */
++ static void
++ opvp_initialize_device_procs(gx_device *dev)
++@@ -325,6 +421,9 @@ opvp_initialize_device_procs(gx_device *dev)
++      * by the system to the default. For compatibility we do the same. */
++     set_dev_proc(dev, encode_color, NULL);
++     set_dev_proc(dev, decode_color, NULL);
 ++
-+ test_done
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32004-0001.patch b/meta/recipes-devtools/git/git/CVE-2024-32004-0001.patch
-new file mode 100644
-index 0000000000..410f3bc5e1
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32004-0001.patch
-@@ -0,0 +1,95 @@
-+From 5c5a4a1c05932378d259b1fdd9526cab971656a2 Mon Sep 17 00:00:00 2001
-+From: Filip Hejsek <filip.hejsek@gmail.com>
-+Date: Sun, 28 Jan 2024 04:29:33 +0100
-+Subject: [PATCH] t0411: add tests for cloning from partial repo
-+
-+Cloning from a partial repository must not fetch missing objects into
-+the partial repository, because that can lead to arbitrary code
-+execution.
-+
-+Add a couple of test cases, pretending to the `upload-pack` command (and
-+to that command only) that it is working on a repository owned by
-+someone else.
-+
-+Helped-by: Jeff King <peff@peff.net>
-+Signed-off-by: Filip Hejsek <filip.hejsek@gmail.com>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32004
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/5c5a4a1c05932378d259b1fdd9526cab971656a2]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ t/t0411-clone-from-partial.sh | 60 +++++++++++++++++++++++++++++++++++
-+ 1 file changed, 60 insertions(+)
-+ create mode 100755 t/t0411-clone-from-partial.sh
-+
-+diff --git a/t/t0411-clone-from-partial.sh b/t/t0411-clone-from-partial.sh
-+new file mode 100755
-+index 0000000..fb72a0a
-+--- /dev/null
-++++ b/t/t0411-clone-from-partial.sh
-+@@ -0,0 +1,60 @@
-++#!/bin/sh
-++
-++test_description='check that local clone does not fetch from promisor remotes'
-++
-++. ./test-lib.sh
-++
-++test_expect_success 'create evil repo' '
-++	git init tmp &&
-++	test_commit -C tmp a &&
-++	git -C tmp config uploadpack.allowfilter 1 &&
-++	git clone --filter=blob:none --no-local --no-checkout tmp evil &&
-++	rm -rf tmp &&
-++
-++	git -C evil config remote.origin.uploadpack \"\$TRASH_DIRECTORY/fake-upload-pack\" &&
-++	write_script fake-upload-pack <<-\EOF &&
-++		echo >&2 "fake-upload-pack running"
-++		>"$TRASH_DIRECTORY/script-executed"
-++		exit 1
-++	EOF
-++	export TRASH_DIRECTORY &&
-++
-++	# empty shallow file disables local clone optimization
-++	>evil/.git/shallow
-++'
-++
-++test_expect_failure 'local clone must not fetch from promisor remote and execute script' '
-++	rm -f script-executed &&
-++	test_must_fail git clone \
-++		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-++		evil clone1 2>err &&
-++	! grep "fake-upload-pack running" err &&
-++	test_path_is_missing script-executed
-++'
-++
-++test_expect_failure 'clone from file://... must not fetch from promisor remote and execute script' '
-++	rm -f script-executed &&
-++	test_must_fail git clone \
-++		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-++		"file://$(pwd)/evil" clone2 2>err &&
-++	! grep "fake-upload-pack running" err &&
-++	test_path_is_missing script-executed
-++'
-++
-++test_expect_failure 'fetch from file://... must not fetch from promisor remote and execute script' '
-++	rm -f script-executed &&
-++	test_must_fail git fetch \
-++		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-++		"file://$(pwd)/evil" 2>err &&
-++	! grep "fake-upload-pack running" err &&
-++	test_path_is_missing script-executed
-++'
-++
-++test_expect_success 'pack-objects should fetch from promisor remote and execute script' '
-++	rm -f script-executed &&
-++	echo "HEAD" | test_must_fail git -C evil pack-objects --revs --stdout >/dev/null 2>err &&
-++	grep "fake-upload-pack running" err &&
-++	test_path_is_file script-executed
-++'
-++
-++test_done
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32004-0002.patch b/meta/recipes-devtools/git/git/CVE-2024-32004-0002.patch
-new file mode 100644
-index 0000000000..1727f81950
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32004-0002.patch
-@@ -0,0 +1,187 @@
-+From 17d3883fe9c88b823002ad9fafb42313ddc3d3d5 Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Mon, 8 Aug 2022 13:27:47 +0000
-+Subject: [PATCH] setup: prepare for more detailed "dubious ownership" messages
-+
-+When verifying the ownership of the Git directory, we sometimes would
-+like to say a bit more about it, e.g. when using a platform-dependent
-+code path (think: Windows has the permission model that is so different
-+from Unix'), but only when it is a appropriate to actually say
-+something.
-+
-+To allow for that, collect that information and hand it back to the
-+caller (whose responsibility it is to show it or not).
-+
-+Note: We do not actually fill in any platform-dependent information yet,
-+this commit just adds the infrastructure to be able to do so.
-+
-+Based-on-an-idea-by: Junio C Hamano <gitster@pobox.com>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+
-+CVE: CVE-2024-32004
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/17d3883fe9c88b823002ad9fafb42313ddc3d3d5]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ compat/mingw.c    |  2 +-
-+ compat/mingw.h    |  2 +-
-+ git-compat-util.h |  5 ++++-
-+ setup.c           | 25 +++++++++++++++----------
-+ 4 files changed, 21 insertions(+), 13 deletions(-)
-+
-+diff --git a/compat/mingw.c b/compat/mingw.c
-+index 41fc163..9306a0e 100644
-+--- a/compat/mingw.c
-++++ b/compat/mingw.c
-+@@ -2658,7 +2658,7 @@ static PSID get_current_user_sid(void)
-+	return result;
+++    /* And the device globals */
+++    InitGlobals(dev);
 + }
 +
-+-int is_path_owned_by_current_sid(const char *path)
-++int is_path_owned_by_current_sid(const char *path, struct strbuf *report)
-+ {
-+	WCHAR wpath[MAX_PATH];
-+	PSID sid = NULL;
-+diff --git a/compat/mingw.h b/compat/mingw.h
-+index ffa53a4..a1a69c5 100644
-+--- a/compat/mingw.h
-++++ b/compat/mingw.h
-+@@ -457,7 +457,7 @@ char *mingw_query_user_email(void);
-+  * Verifies that the specified path is owned by the user running the
-+  * current process.
-+  */
-+-int is_path_owned_by_current_sid(const char *path);
-++int is_path_owned_by_current_sid(const char *path, struct strbuf *report);
-+ #define is_path_owned_by_current_user is_path_owned_by_current_sid
++ /* vector procs */
++@@ -394,6 +493,9 @@ oprp_initialize_device_procs(gx_device *dev)
++      * by the system to the default. For compatibility we do the same. */
++     set_dev_proc(dev, encode_color, NULL);
++     set_dev_proc(dev, decode_color, NULL);
+++
+++    /* And the device globals */
+++    InitGlobals(dev);
++ }
 +
-+ /**
-+diff --git a/git-compat-util.h b/git-compat-util.h
-+index 1c651c8..27b84b8 100644
-+--- a/git-compat-util.h
-++++ b/git-compat-util.h
-+@@ -23,6 +23,9 @@
-+ #include <crtdbg.h>
++ const gx_device_oprp gs_oprp_device =
++@@ -412,43 +514,6 @@ const gx_device_oprp gs_oprp_device =
++     )
++ };
++
++-/* driver mode */
++-static bool vector = true;
++-static bool inkjet = false;
++-static char *vectorDriver = NULL;
++-static char *printerModel = NULL;
++-static void *handle = NULL;
++-static opvp_dc_t (*OpenPrinter)(opvp_int_t,const opvp_char_t*,
++-                                  const opvp_int_t[2],
++-                                  opvp_api_procs_t**) = NULL;
++-static int (*OpenPrinter_0_2)(int,char*,int*,
++-                                  OPVP_api_procs**) = NULL;
++-static opvp_int_t *ErrorNo = NULL;
++-static opvp_int_t outputFD = -1;
++-static opvp_int_t nApiEntry = 0;
++-static opvp_api_procs_t *apiEntry = NULL;
++-static OPVP_api_procs *apiEntry_0_2 = NULL;
++-static opvp_dc_t printerContext = -1;
++-static char *jobInfo = NULL;
++-static char *docInfo = NULL;
++-static opvp_cspace_t colorSpace = OPVP_CSPACE_STANDARDRGB;
++-static opvp_cspace_t savedColorSpace;
++-static opvp_brush_t *vectorFillColor = NULL;
++-static float margins[4] = {0, 0, 0, 0};
++-static float zoom[2] = {1, 1};
++-static float shift[2] = {0, 0};
++-static bool zoomAuto = false;
++-static bool zooming = false;
++-static bool beginPage = false;
++-
++-static int
++-GetLastError_1_0(void)
++-{
++-    return *ErrorNo;
++-}
++-
++-static int (*GetLastError)(void) = GetLastError_1_0;
++-
++ /* Wrapper functions that keep compatible with 0.2 */
++
++ /* color space mapping 0.2 to 1.0 */
++@@ -496,9 +561,11 @@ static int colorDepth_0_2[] = {
++
++ /* translate error code */
++ static int
++-GetLastError_0_2(void)
+++GetLastError_0_2(gx_device* dev)
++ {
++-    switch(*ErrorNo) {
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    switch(*(opdev->globals.ErrorNo)) {
++     case OPVP_FATALERROR_0_2:
++         return OPVP_FATALERROR;
++         break;
++@@ -526,48 +593,51 @@ GetLastError_0_2(void)
++ }
++
++ static opvp_result_t
++-StartPageWrapper(opvp_dc_t printerContext, const opvp_char_t *pageInfo)
+++StartPageWrapper(gx_device *dev, opvp_dc_t printerContext, const opvp_char_t *pageInfo)
++ {
++     int r;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if ((r = apiEntry_0_2->StartPage(printerContext,
+++    if ((r = opdev->globals.apiEntry_0_2->StartPage(printerContext,
++            /* discard const */(char *)pageInfo)) != OPVP_OK) {
++           /* error */
++         return r;
++     }
++     /* initialize ROP */
++-    if (apiEntry_0_2->SetROP != NULL) {
++-        apiEntry_0_2->SetROP(printerContext,
+++    if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++        opdev->globals.apiEntry_0_2->SetROP(printerContext,
++           OPVP_0_2_ROP_P);
++     }
++     return OPVP_OK;
++ }
++
++ static opvp_result_t
++-InitGSWrapper(opvp_dc_t printerContext)
+++InitGSWrapper(gx_device *dev, opvp_dc_t printerContext)
++ {
++     int r;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if ((r = apiEntry_0_2->InitGS(printerContext)) != OPVP_OK) {
+++    if ((r = opdev->globals.apiEntry_0_2->InitGS(printerContext)) != OPVP_OK) {
++           /* error */
++         return r;
++     }
++     /* initialize ROP */
++-    if (apiEntry_0_2->SetROP != NULL) {
++-        apiEntry_0_2->SetROP(printerContext,
+++    if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++        opdev->globals.apiEntry_0_2->SetROP(printerContext,
++           OPVP_0_2_ROP_P);
++     }
++     return OPVP_OK;
++ }
++
++ static opvp_result_t
++-QueryColorSpaceWrapper( opvp_dc_t printerContext, opvp_int_t *pnum,
+++QueryColorSpaceWrapper(gx_device *dev, opvp_dc_t printerContext, opvp_int_t *pnum,
++     opvp_cspace_t *pcspace)
++ {
++     int r;
++     int i;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if ((r = apiEntry_0_2->QueryColorSpace(printerContext,
+++    if ((r = opdev->globals.apiEntry_0_2->QueryColorSpace(printerContext,
++          (OPVP_ColorSpace *)pcspace,pnum)) != OPVP_OK) {
++         /* error */
++         return r;
++@@ -587,51 +657,54 @@ QueryColorSpaceWrapper( opvp_dc_t printerContext, opvp_int_t *pnum,
++ }
++
++ static opvp_result_t
++-SetColorSpaceWrapper(opvp_dc_t printerContext, opvp_cspace_t cspace)
+++SetColorSpaceWrapper(gx_device *dev, opvp_dc_t printerContext, opvp_cspace_t cspace)
++ {
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
++     if (cspace == OPVP_CSPACE_DEVICEKRGB) {
++         /* 0.2 doesn't have OPVP_CSPACE_DEVICEKRGB */
++-        *ErrorNo = OPVP_NOTSUPPORTED_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_NOTSUPPORTED_0_2;
++         return -1;
++     }
++     if ((int)cspace
++          >= sizeof(cspace_1_0_to_0_2)/sizeof(OPVP_ColorSpace)) {
++         /* unknown color space */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++-    return  apiEntry_0_2->SetColorSpace(printerContext,
+++    return  opdev->globals.apiEntry_0_2->SetColorSpace(printerContext,
++       cspace_1_0_to_0_2[cspace]);
++ }
++
+++/* Not used
++ static opvp_result_t
++-GetColorSpaceWrapper(opvp_dc_t printerContext, opvp_cspace_t *pcspace)
+++GetColorSpaceWrapper(gx_device *dev, opvp_dc_t printerContext, opvp_cspace_t *pcspace)
++ {
++     int r;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if ((r = apiEntry_0_2->GetColorSpace(printerContext,
+++    if ((r = opdev->globals.apiEntry_0_2->GetColorSpace(printerContext,
++       (OPVP_ColorSpace *)pcspace)) != OPVP_OK) {
++-        /* error */
++         return r;
++     }
++     if (*pcspace
++          >= sizeof(cspace_0_2_to_1_0)/sizeof(opvp_cspace_t)) {
++-        /* unknown color space */
++-        /* set DEVICERGB instead */
++         *pcspace = OPVP_CSPACE_DEVICERGB;
++     } else {
++         *pcspace = cspace_0_2_to_1_0[*pcspace];
++     }
++     return r;
++ }
+++*/
++
++ static opvp_result_t
++-SetStrokeColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
+++SetStrokeColorWrapper(gx_device *dev, opvp_dc_t printerContext, const opvp_brush_t *brush)
++ {
++     OPVP_Brush brush_0_2;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     if (brush == NULL) {
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     if (brush->colorSpace == OPVP_CSPACE_DEVICEKRGB) {
++@@ -641,7 +714,7 @@ SetStrokeColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
++     if ((int)brush->colorSpace
++          >= sizeof(cspace_1_0_to_0_2)/sizeof(OPVP_ColorSpace)) {
++         /* unknown color space */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     brush_0_2.colorSpace = cspace_1_0_to_0_2[brush->colorSpace];
++@@ -649,16 +722,17 @@ SetStrokeColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
++     brush_0_2.yorg = brush->yorg;
++     brush_0_2.pbrush = (OPVP_BrushData *)brush->pbrush;
++     memcpy(brush_0_2.color,brush->color,sizeof(brush_0_2.color));
++-    return apiEntry_0_2->SetStrokeColor(printerContext,&brush_0_2);
+++    return opdev->globals.apiEntry_0_2->SetStrokeColor(printerContext, &brush_0_2);
++ }
++
++ static opvp_result_t
++-SetFillColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
+++SetFillColorWrapper(gx_device *dev, opvp_dc_t printerContext, const opvp_brush_t *brush)
++ {
++     OPVP_Brush brush_0_2;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     if (brush == NULL) {
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     if (brush->colorSpace == OPVP_CSPACE_DEVICEKRGB) {
++@@ -668,7 +742,7 @@ SetFillColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
++     if ((int)brush->colorSpace
++          >= sizeof(cspace_1_0_to_0_2)/sizeof(OPVP_ColorSpace)) {
++         /* unknown color space */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     brush_0_2.colorSpace = cspace_1_0_to_0_2[brush->colorSpace];
++@@ -676,27 +750,28 @@ SetFillColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
++     brush_0_2.yorg = brush->yorg;
++     brush_0_2.pbrush = (OPVP_BrushData *)brush->pbrush;
++     memcpy(brush_0_2.color,brush->color,sizeof(brush_0_2.color));
++-    return apiEntry_0_2->SetFillColor(printerContext,&brush_0_2);
+++    return opdev->globals.apiEntry_0_2->SetFillColor(printerContext, &brush_0_2);
++ }
++
++ static opvp_result_t
++-SetBgColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
+++SetBgColorWrapper(gx_device *dev, opvp_dc_t printerContext, const opvp_brush_t *brush)
++ {
++     OPVP_Brush brush_0_2;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     if (brush == NULL) {
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     if (brush->colorSpace == OPVP_CSPACE_DEVICEKRGB) {
++         /* 0.2 doesn't have OPVP_CSPACE_DEVICEKRGB */
++-        *ErrorNo = OPVP_NOTSUPPORTED_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_NOTSUPPORTED_0_2;
++         return -1;
++     }
++     if ((int)brush->colorSpace
++          >= sizeof(cspace_1_0_to_0_2)/sizeof(OPVP_ColorSpace)) {
++         /* unknown color space */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     brush_0_2.colorSpace = cspace_1_0_to_0_2[brush->colorSpace];
++@@ -704,11 +779,12 @@ SetBgColorWrapper(opvp_dc_t printerContext, const opvp_brush_t *brush)
++     brush_0_2.yorg = brush->yorg;
++     brush_0_2.pbrush = (OPVP_BrushData *)brush->pbrush;
++     memcpy(brush_0_2.color,brush->color,sizeof(brush_0_2.color));
++-    return apiEntry_0_2->SetBgColor(printerContext,&brush_0_2);
+++    return opdev->globals.apiEntry_0_2->SetBgColor(printerContext, &brush_0_2);
++ }
++
++ static opvp_result_t
++ DrawImageWrapper(
+++    gx_device *dev,
++     opvp_dc_t printerContext,
++     opvp_int_t sourceWidth,
++     opvp_int_t sourceHeight,
++@@ -723,30 +799,31 @@ DrawImageWrapper(
++     OPVP_ImageFormat iformat_0_2;
++     OPVP_PaintMode paintmode_0_2 = OPVP_paintModeTransparent;
++     int depth;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     if (imageFormat == OPVP_IFORMAT_MASK) {
++-        if (apiEntry_0_2->GetPaintMode != NULL) {
++-            apiEntry_0_2->GetPaintMode(printerContext,
+++        if (opdev->globals.apiEntry_0_2->GetPaintMode != NULL) {
+++            opdev->globals.apiEntry_0_2->GetPaintMode(printerContext,
++               &paintmode_0_2);
++         }
++         if (paintmode_0_2 != OPVP_paintModeTransparent) {
++-            if (apiEntry_0_2->SetROP != NULL) {
++-                apiEntry_0_2->SetROP(printerContext,
+++            if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++                opdev->globals.apiEntry_0_2->SetROP(printerContext,
++                     OPVP_0_2_ROP_S);
++             }
++         }
++         else {
++-            if (apiEntry_0_2->SetROP != NULL) {
++-                apiEntry_0_2->SetROP(printerContext,
+++            if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++                opdev->globals.apiEntry_0_2->SetROP(printerContext,
++                     OPVP_0_2_ROP_OR);
++             }
++         }
++         depth = 1;
++     } else {
++-        if (apiEntry_0_2->SetROP != NULL) {
++-            apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
+++        if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++            opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
++         }
++-        depth = colorDepth_0_2[colorSpace];
+++        depth = colorDepth_0_2[opdev->globals.colorSpace];
++     }
++
++     OPVP_I2FIX(0,rect.p0.x);
++@@ -755,17 +832,17 @@ DrawImageWrapper(
++     OPVP_I2FIX(destinationHeight,rect.p1.y);
++     if (imageFormat >= sizeof(iformat_1_0_to_0_2)/sizeof(OPVP_ImageFormat)) {
++         /* illegal image format */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     iformat_0_2 = iformat_1_0_to_0_2[imageFormat];
++-    r = apiEntry_0_2->DrawImage(printerContext,sourceWidth,sourceHeight,
+++    r = opdev->globals.apiEntry_0_2->DrawImage(printerContext,sourceWidth,sourceHeight,
++             depth,iformat_0_2,rect,
++             sourcePitch*sourceHeight,
++             /* remove const */ (void *)imagedata);
++
++-    if (apiEntry_0_2->SetROP != NULL) {
++-        apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_P);
+++    if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++        opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_P);
++     }
++
++     return r;
++@@ -773,6 +850,7 @@ DrawImageWrapper(
++
++ static opvp_result_t
++ StartDrawImageWrapper(
+++    gx_device *dev,
++     opvp_dc_t printerContext,
++     opvp_int_t sourceWidth,
++     opvp_int_t sourceHeight,
++@@ -786,28 +864,29 @@ StartDrawImageWrapper(
++     OPVP_ImageFormat iformat_0_2;
++     OPVP_PaintMode paintmode_0_2 = OPVP_paintModeTransparent;
++     int depth;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     if (imageFormat == OPVP_IFORMAT_MASK) {
++-        if (apiEntry_0_2->GetPaintMode != NULL) {
++-            apiEntry_0_2->GetPaintMode(printerContext,
+++        if (opdev->globals.apiEntry_0_2->GetPaintMode != NULL) {
+++            opdev->globals.apiEntry_0_2->GetPaintMode(printerContext,
++               &paintmode_0_2);
++         }
++         if (paintmode_0_2 != OPVP_paintModeTransparent) {
++-            if (apiEntry_0_2->SetROP != NULL) {
++-                apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
+++            if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++                opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
++             }
++         }
++         else {
++-            if (apiEntry_0_2->SetROP != NULL) {
++-                apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_OR);
+++            if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++                opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_OR);
++             }
++         }
++         depth = 1;
++     } else {
++-        if (apiEntry_0_2->SetROP != NULL) {
++-            apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
+++        if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++            opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_S);
++         }
++-        depth = colorDepth_0_2[colorSpace];
+++        depth = colorDepth_0_2[opdev->globals.colorSpace];
++     }
++
++     OPVP_I2FIX(0,rect.p0.x);
++@@ -816,310 +895,518 @@ StartDrawImageWrapper(
++     OPVP_I2FIX(destinationHeight,rect.p1.y);
++     if (imageFormat >= sizeof(iformat_1_0_to_0_2)/sizeof(OPVP_ImageFormat)) {
++         /* illegal image format */
++-        *ErrorNo = OPVP_PARAMERROR_0_2;
+++        *(opdev->globals.ErrorNo) = OPVP_PARAMERROR_0_2;
++         return -1;
++     }
++     iformat_0_2 = iformat_1_0_to_0_2[imageFormat];
++-    r = apiEntry_0_2->StartDrawImage(printerContext,
++-            sourceWidth,sourceHeight,
++-            depth,iformat_0_2,rect);
+++    r = opdev->globals.apiEntry_0_2->StartDrawImage(printerContext,
+++            sourceWidth, sourceHeight,
+++            depth, iformat_0_2, rect);
++
++     return r;
++ }
++
++ static opvp_result_t
++-EndDrawImageWrapper(opvp_dc_t printerContext)
+++EndDrawImageWrapper(gx_device *dev, opvp_dc_t printerContext)
++ {
++     int r;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    r = apiEntry_0_2->EndDrawImage(printerContext);
+++    r = opdev->globals.apiEntry_0_2->EndDrawImage(printerContext);
++
++     /* make sure rop is pattern copy */
++-    if (apiEntry_0_2->SetROP != NULL) {
++-        apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_P);
+++    if (opdev->globals.apiEntry_0_2->SetROP != NULL) {
+++        opdev->globals.apiEntry_0_2->SetROP(printerContext,OPVP_0_2_ROP_P);
++     }
++
++     return r;
++ }
++
+++/* Not used
++ static opvp_result_t
++ QueryDeviceCapabilityWrapper(
+++    gx_device *dev,
++     opvp_dc_t printerContext,
++     opvp_queryinfoflags_t queryflag,
++     opvp_int_t *buflen,
++     opvp_char_t *infoBuf)
++ {
++-    return apiEntry_0_2->QueryDeviceCapability(printerContext,queryflag,
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    return opdev->globals.apiEntry_0_2->QueryDeviceCapability(printerContext,queryflag,
++       *buflen,(char *)infoBuf);
++ }
++
++ static opvp_result_t
++ QueryDeviceInfoWrapper(
+++    gx_device *dev,
++     opvp_dc_t printerContext,
++     opvp_queryinfoflags_t queryflag,
++     opvp_int_t *buflen,
++     opvp_char_t *infoBuf)
++ {
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
++     if (queryflag & OPVP_QF_MEDIACOPY) {
++-        *ErrorNo = OPVP_NOTSUPPORTED;
+++        *(opdev->globals.ErrorNo) = OPVP_NOTSUPPORTED;
++         return -1;
++     }
++     if (queryflag & OPVP_QF_PRINTREGION) {
++         queryflag &= ~OPVP_QF_PRINTREGION;
++         queryflag |= 0x0020000;
++     }
++-    return apiEntry_0_2->QueryDeviceInfo(printerContext,queryflag,
++-      *buflen,(char *)infoBuf);
+++    return opdev->globals.apiEntry_0_2->QueryDeviceInfo(printerContext, queryflag,
+++      *buflen, (char *)infoBuf);
++ }
+++*/
++
++ static opvp_result_t
++-SetLineDashWrapper(opvp_dc_t printerContext, opvp_int_t num,
+++SetLineDashWrapper(gx_device *dev, opvp_dc_t printerContext, opvp_int_t num,
++     const opvp_fix_t *pdash)
++ {
++-    return apiEntry_0_2->SetLineDash(printerContext,
++-      /* remove const */ (OPVP_Fix *)pdash,num);
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    return opdev->globals.apiEntry_0_2->SetLineDash(printerContext, num,
+++      /* remove const */ (OPVP_Fix *)pdash);
++ }
++
+++/* Not used
++ static opvp_result_t
++-GetLineDashWrapper(opvp_dc_t printerContext, opvp_int_t *pnum,
+++GetLineDashWrapper(gx_device* dev, opvp_dc_t printerContext, opvp_int_t *pnum,
++     opvp_fix_t *pdash)
++ {
++-    return apiEntry_0_2->GetLineDash(printerContext,
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    return opdev->globals.apiEntry_0_2->GetLineDash(printerContext,
++       pdash,pnum);
++ }
+++*/
++
++ static opvp_dc_t
++ OpenPrinterWrapper(
+++    gx_device *dev,
++     opvp_int_t outputFD,
++     const opvp_char_t *printerModel,
++     const opvp_int_t apiVersion[2],
++     opvp_api_procs_t **apiProcs)
++ {
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
++     opvp_dc_t dc = -1;
++
++-    if (OpenPrinter != NULL) {
++-        dc = (*OpenPrinter)(outputFD,printerModel,apiVersion,apiProcs);
+++    if (opdev->globals.OpenPrinter != NULL) {
+++        dc = (*(opdev->globals.OpenPrinter))(outputFD, printerModel, apiVersion, apiProcs);
++     } else {
++         /* try version 0.2 */
++
++-        if (OpenPrinter_0_2 != NULL) {
+++        if (opdev->globals.OpenPrinter_0_2 != NULL) {
++             static opvp_api_procs_t tEntry;
++-            int nApiEntry;
+++            int nApiEntry;  /* Alias with prior global. Kept as is */
++
++-            dc = (*OpenPrinter_0_2)(outputFD,
+++            dc = (*(opdev->globals.OpenPrinter_0_2))(outputFD,
++                     /* remove const */
++                     (char *)printerModel,
++-                    &nApiEntry,&apiEntry_0_2);
+++                    &nApiEntry,
+++                    &(opdev->globals.apiEntry_0_2));
++             /* setting functions */
++             tEntry.opvpClosePrinter
++-                    = apiEntry_0_2->ClosePrinter;
+++                    = opdev->globals.apiEntry_0_2->ClosePrinter;
++             tEntry.opvpStartJob
++                     = (opvp_result_t (*)(opvp_int_t,
++                        const opvp_char_t*))
++-                       apiEntry_0_2->StartJob;
++-            tEntry.opvpEndJob = apiEntry_0_2->EndJob;
+++                       opdev->globals.apiEntry_0_2->StartJob;
+++            tEntry.opvpEndJob = opdev->globals.apiEntry_0_2->EndJob;
++             tEntry.opvpAbortJob = NULL;
++             tEntry.opvpStartDoc
++                     = (opvp_result_t (*)(opvp_dc_t,
++                        const opvp_char_t*))
++-                       apiEntry_0_2->StartDoc;
++-            tEntry.opvpEndDoc = apiEntry_0_2->EndDoc;
++-            if (apiEntry_0_2->StartPage != NULL) {
++-                tEntry.opvpStartPage = StartPageWrapper;
++-            } else {
++-                tEntry.opvpStartPage = NULL;
++-            }
++-            tEntry.opvpEndPage = apiEntry_0_2->EndPage;
++-
++-            if (apiEntry_0_2->QueryDeviceCapability != NULL) {
++-                tEntry.opvpQueryDeviceCapability
++-                  = QueryDeviceCapabilityWrapper;
++-            } else {
++-                tEntry.opvpQueryDeviceCapability = NULL;
++-            }
++-
++-            if (apiEntry_0_2->QueryDeviceInfo != NULL) {
++-                tEntry.opvpQueryDeviceInfo = QueryDeviceInfoWrapper;
++-            } else {
++-                tEntry.opvpQueryDeviceInfo = NULL;
++-            }
++-
++-            tEntry.opvpResetCTM = apiEntry_0_2->ResetCTM;
+++                       opdev->globals.apiEntry_0_2->StartDoc;
+++            tEntry.opvpEndDoc = opdev->globals.apiEntry_0_2->EndDoc;
+++            tEntry.opvpStartPage = NULL;
+++            tEntry.opvpEndPage = opdev->globals.apiEntry_0_2->EndPage;
+++            tEntry.opvpQueryDeviceCapability = NULL;
+++            tEntry.opvpQueryDeviceInfo = NULL;
+++            tEntry.opvpResetCTM = opdev->globals.apiEntry_0_2->ResetCTM;
++             tEntry.opvpSetCTM = (opvp_result_t (*)(opvp_dc_t,
++                        const opvp_ctm_t*))
++-                       apiEntry_0_2->SetCTM;
+++                       opdev->globals.apiEntry_0_2->SetCTM;
++             tEntry.opvpGetCTM = (opvp_result_t (*)(opvp_dc_t,opvp_ctm_t*))
++-                       apiEntry_0_2->GetCTM;
++-            if (apiEntry_0_2->InitGS != NULL) {
++-                tEntry.opvpInitGS = InitGSWrapper;
++-            } else {
++-                tEntry.opvpInitGS = NULL;
++-            }
++-            tEntry.opvpSaveGS = apiEntry_0_2->SaveGS;
++-            tEntry.opvpRestoreGS = apiEntry_0_2->RestoreGS;
++-            if (apiEntry_0_2->QueryColorSpace != NULL) {
++-                tEntry.opvpQueryColorSpace = QueryColorSpaceWrapper;
++-            } else {
++-                tEntry.opvpQueryColorSpace = NULL;
++-            }
++-            if (apiEntry_0_2->SetColorSpace != NULL) {
++-                tEntry.opvpSetColorSpace = SetColorSpaceWrapper;
++-            } else {
++-                tEntry.opvpSetColorSpace = NULL;
++-            }
++-            if (apiEntry_0_2->GetColorSpace != NULL) {
++-                tEntry.opvpGetColorSpace = GetColorSpaceWrapper;
++-            } else {
++-                tEntry.opvpGetColorSpace = NULL;
++-            }
+++                opdev->globals.apiEntry_0_2->GetCTM;
+++            tEntry.opvpInitGS = NULL;
+++            tEntry.opvpSaveGS = opdev->globals.apiEntry_0_2->SaveGS;
+++            tEntry.opvpRestoreGS = opdev->globals.apiEntry_0_2->RestoreGS;
+++            tEntry.opvpQueryColorSpace = NULL;
+++            tEntry.opvpSetColorSpace = NULL;
+++            tEntry.opvpGetColorSpace = NULL;
+++
++             tEntry.opvpSetFillMode
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_fillmode_t))
++-                       apiEntry_0_2->SetFillMode;
+++                opdev->globals.apiEntry_0_2->SetFillMode;
++             tEntry.opvpGetFillMode
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_fillmode_t*))
++-                       apiEntry_0_2->GetFillMode;
++-            tEntry.opvpSetAlphaConstant = apiEntry_0_2->SetAlphaConstant;
++-            tEntry.opvpGetAlphaConstant = apiEntry_0_2->GetAlphaConstant;
++-            tEntry.opvpSetLineWidth = apiEntry_0_2->SetLineWidth;
++-            tEntry.opvpGetLineWidth = apiEntry_0_2->GetLineWidth;
++-            if (apiEntry_0_2->SetLineDash != NULL) {
++-                tEntry.opvpSetLineDash = SetLineDashWrapper;
++-            } else {
++-                tEntry.opvpSetLineDash = NULL;
++-            }
++-            if (apiEntry_0_2->GetLineDash != NULL) {
++-                tEntry.opvpGetLineDash = GetLineDashWrapper;
++-            } else {
++-                tEntry.opvpGetLineDash = NULL;
++-            }
+++                opdev->globals.apiEntry_0_2->GetFillMode;
+++            tEntry.opvpSetAlphaConstant = opdev->globals.apiEntry_0_2->SetAlphaConstant;
+++            tEntry.opvpGetAlphaConstant = opdev->globals.apiEntry_0_2->GetAlphaConstant;
+++            tEntry.opvpSetLineWidth = opdev->globals.apiEntry_0_2->SetLineWidth;
+++            tEntry.opvpGetLineWidth = opdev->globals.apiEntry_0_2->GetLineWidth;
+++            tEntry.opvpSetLineDash = NULL;
+++            tEntry.opvpGetLineDash = NULL;
+++
++             tEntry.opvpSetLineDashOffset
++-                    = apiEntry_0_2->SetLineDashOffset;
+++                    = opdev->globals.apiEntry_0_2->SetLineDashOffset;
++             tEntry.opvpGetLineDashOffset
++-                    = apiEntry_0_2->GetLineDashOffset;
+++                    = opdev->globals.apiEntry_0_2->GetLineDashOffset;
++             tEntry.opvpSetLineStyle
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linestyle_t))
++-                       apiEntry_0_2->SetLineStyle;
+++                opdev->globals.apiEntry_0_2->SetLineStyle;
++             tEntry.opvpGetLineStyle
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linestyle_t*))
++-                       apiEntry_0_2->GetLineStyle;
+++                opdev->globals.apiEntry_0_2->GetLineStyle;
++             tEntry.opvpSetLineCap
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linecap_t))
++-                       apiEntry_0_2->SetLineCap;
+++                opdev->globals.apiEntry_0_2->SetLineCap;
++             tEntry.opvpGetLineCap
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linecap_t*))
++-                       apiEntry_0_2->GetLineCap;
+++                opdev->globals.apiEntry_0_2->GetLineCap;
++             tEntry.opvpSetLineJoin
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linejoin_t))
++-                       apiEntry_0_2->SetLineJoin;
+++                opdev->globals.apiEntry_0_2->SetLineJoin;
++             tEntry.opvpGetLineJoin
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_linejoin_t*))
++-                       apiEntry_0_2->GetLineJoin;
++-            tEntry.opvpSetMiterLimit = apiEntry_0_2->SetMiterLimit;
++-            tEntry.opvpGetMiterLimit = apiEntry_0_2->GetMiterLimit;
+++                opdev->globals.apiEntry_0_2->GetLineJoin;
+++            tEntry.opvpSetMiterLimit = opdev->globals.apiEntry_0_2->SetMiterLimit;
+++            tEntry.opvpGetMiterLimit = opdev->globals.apiEntry_0_2->GetMiterLimit;
++             tEntry.opvpSetPaintMode
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_paintmode_t))
++-                       apiEntry_0_2->SetPaintMode;
+++                opdev->globals.apiEntry_0_2->SetPaintMode;
++             tEntry.opvpGetPaintMode
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_paintmode_t*))
++-                       apiEntry_0_2->GetPaintMode;
++-            if (apiEntry_0_2->SetStrokeColor != NULL) {
++-                tEntry.opvpSetStrokeColor = SetStrokeColorWrapper;
++-            } else {
++-                tEntry.opvpSetStrokeColor = NULL;
++-            }
++-            if (apiEntry_0_2->SetFillColor != NULL) {
++-                tEntry.opvpSetFillColor = SetFillColorWrapper;
++-            } else {
++-                tEntry.opvpSetFillColor = NULL;
++-            }
++-            if (apiEntry_0_2->SetBgColor != NULL) {
++-                tEntry.opvpSetBgColor = SetBgColorWrapper;
++-            } else {
++-                tEntry.opvpSetBgColor = NULL;
++-            }
++-            tEntry.opvpNewPath = apiEntry_0_2->NewPath;
++-            tEntry.opvpEndPath = apiEntry_0_2->EndPath;
++-            tEntry.opvpStrokePath = apiEntry_0_2->StrokePath;
++-            tEntry.opvpFillPath = apiEntry_0_2->FillPath;
++-            tEntry.opvpStrokeFillPath = apiEntry_0_2->StrokeFillPath;
+++                opdev->globals.apiEntry_0_2->GetPaintMode;
+++            tEntry.opvpSetStrokeColor = NULL;
+++            tEntry.opvpSetFillColor = NULL;
+++            tEntry.opvpSetBgColor = NULL;
+++            tEntry.opvpNewPath = opdev->globals.apiEntry_0_2->NewPath;
+++            tEntry.opvpEndPath = opdev->globals.apiEntry_0_2->EndPath;
+++            tEntry.opvpStrokePath = opdev->globals.apiEntry_0_2->StrokePath;
+++            tEntry.opvpFillPath = opdev->globals.apiEntry_0_2->FillPath;
+++            tEntry.opvpStrokeFillPath = opdev->globals.apiEntry_0_2->StrokeFillPath;
++             tEntry.opvpSetClipPath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_cliprule_t))
++-                       apiEntry_0_2->SetClipPath;
++-            tEntry.opvpResetClipPath = apiEntry_0_2->ResetClipPath;
++-            tEntry.opvpSetCurrentPoint = apiEntry_0_2->SetCurrentPoint;
+++                opdev->globals.apiEntry_0_2->SetClipPath;
+++            tEntry.opvpResetClipPath = opdev->globals.apiEntry_0_2->ResetClipPath;
+++            tEntry.opvpSetCurrentPoint = opdev->globals.apiEntry_0_2->SetCurrentPoint;
++             tEntry.opvpLinePath
++                     = (opvp_result_t (*)(opvp_dc_t,
++                        opvp_pathmode_t,opvp_int_t,
++                        const opvp_point_t*))
++-                       apiEntry_0_2->LinePath;
+++                opdev->globals.apiEntry_0_2->LinePath;
++             tEntry.opvpPolygonPath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_int_t*,
++                        const opvp_point_t*))
++-                       apiEntry_0_2->PolygonPath;
+++                opdev->globals.apiEntry_0_2->PolygonPath;
++             tEntry.opvpRectanglePath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_rectangle_t*))
++-                       apiEntry_0_2->RectanglePath;
+++                opdev->globals.apiEntry_0_2->RectanglePath;
++             tEntry.opvpRoundRectanglePath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_roundrectangle_t*))
++-                       apiEntry_0_2->RoundRectanglePath;
+++                opdev->globals.apiEntry_0_2->RoundRectanglePath;
++             tEntry.opvpBezierPath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_point_t*))
++-                       apiEntry_0_2->BezierPath;
+++                opdev->globals.apiEntry_0_2->BezierPath;
++             tEntry.opvpArcPath
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_arcmode_t,
++                        opvp_arcdir_t,opvp_fix_t,opvp_fix_t,opvp_fix_t,
++                        opvp_fix_t,opvp_fix_t,opvp_fix_t,opvp_fix_t,
++-                       opvp_fix_t))apiEntry_0_2->ArcPath;
++-            if (apiEntry_0_2->DrawImage != NULL) {
++-                tEntry.opvpDrawImage = DrawImageWrapper;
++-            } else {
++-                tEntry.opvpDrawImage = NULL;
++-            }
++-            if (apiEntry_0_2->StartDrawImage != NULL) {
++-                tEntry.opvpStartDrawImage = StartDrawImageWrapper;
++-            } else {
++-                tEntry.opvpStartDrawImage = NULL;
++-            }
+++                       opvp_fix_t))opdev->globals.apiEntry_0_2->ArcPath;
+++            tEntry.opvpDrawImage = NULL;
+++            tEntry.opvpStartDrawImage = NULL;
++             tEntry.opvpTransferDrawImage =
++                (opvp_result_t (*)(opvp_dc_t,opvp_int_t,const void*))
++-               apiEntry_0_2->TransferDrawImage;
++-            if (apiEntry_0_2->EndDrawImage != NULL) {
++-                tEntry.opvpEndDrawImage = EndDrawImageWrapper;
++-            } else {
++-                tEntry.opvpEndDrawImage = NULL;
++-            }
++-            tEntry.opvpStartScanline = apiEntry_0_2->StartScanline;
+++                opdev->globals.apiEntry_0_2->TransferDrawImage;
+++            tEntry.opvpEndDrawImage = NULL;
+++            tEntry.opvpStartScanline = opdev->globals.apiEntry_0_2->StartScanline;
++             tEntry.opvpScanline
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_int_t*))
++-                       apiEntry_0_2->Scanline;
++-            tEntry.opvpEndScanline = apiEntry_0_2->EndScanline;
++-            tEntry.opvpStartRaster = apiEntry_0_2->StartRaster;
+++                opdev->globals.apiEntry_0_2->Scanline;
+++            tEntry.opvpEndScanline = opdev->globals.apiEntry_0_2->EndScanline;
+++            tEntry.opvpStartRaster = opdev->globals.apiEntry_0_2->StartRaster;
++             tEntry.opvpTransferRasterData
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const opvp_byte_t*))
++-                       apiEntry_0_2->TransferRasterData;
++-            tEntry.opvpSkipRaster = apiEntry_0_2->SkipRaster;
++-            tEntry.opvpEndRaster = apiEntry_0_2->EndRaster;
++-            tEntry.opvpStartStream = apiEntry_0_2->StartStream;
+++                opdev->globals.apiEntry_0_2->TransferRasterData;
+++            tEntry.opvpSkipRaster = opdev->globals.apiEntry_0_2->SkipRaster;
+++            tEntry.opvpEndRaster = opdev->globals.apiEntry_0_2->EndRaster;
+++            tEntry.opvpStartStream = opdev->globals.apiEntry_0_2->StartStream;
++             tEntry.opvpTransferStreamData
++                     = (opvp_result_t (*)(opvp_dc_t,opvp_int_t,
++                        const void *))
++-                       apiEntry_0_2->TransferStreamData;
++-            tEntry.opvpEndStream = apiEntry_0_2->EndStream;
+++                opdev->globals.apiEntry_0_2->TransferStreamData;
+++            tEntry.opvpEndStream = opdev->globals.apiEntry_0_2->EndStream;
++
++             *apiProcs = &tEntry;
++
++-            GetLastError = GetLastError_0_2;
+++            opdev->globals.GetLastError = GetLastError_0_2;
++         }
++     }
++     return dc;
++ }
++
+++/* Set of methods to separate the 0.2 and 1.0 calls AND deal with the prior use of globals */
+++static opvp_result_t
+++gsopvpStartPage(gx_device* dev, opvp_dc_t printerContext, const opvp_char_t* pageInfo)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->StartPage) {
+++        return StartPageWrapper(dev, printerContext, pageInfo);
+++    } else if (opdev->globals.apiEntry->opvpStartPage) {
+++        return opdev->globals.apiEntry->opvpStartPage(printerContext, pageInfo);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++/* Not used
+++static opvp_result_t
+++gsopvpQueryDeviceCapability(
+++    gx_device* dev,
+++    opvp_dc_t printerContext,
+++    opvp_queryinfoflags_t queryflag,
+++    opvp_int_t* buflen,
+++    opvp_char_t* infoBuf)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->QueryDeviceCapability) {
+++        return QueryDeviceCapabilityWrapper(dev, printerContext, queryflag, buflen, infoBuf);
+++    } else if (opdev->globals.apiEntry->opvpQueryDeviceCapability) {
+++        return opdev->globals.apiEntry->opvpQueryDeviceCapability(printerContext, queryflag, buflen, infoBuf);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpQueryDeviceInfo(
+++    gx_device* dev,
+++    opvp_dc_t printerContext,
+++    opvp_queryinfoflags_t queryflag,
+++    opvp_int_t* buflen,
+++    opvp_char_t* infoBuf)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->QueryDeviceCapability) {
+++        return QueryDeviceInfoWrapper(dev, printerContext, queryflag, buflen, infoBuf);
+++    } else if (opdev->globals.apiEntry->opvpQueryDeviceCapability) {
+++        return opdev->globals.apiEntry->opvpQueryDeviceInfo(printerContext, queryflag, buflen, infoBuf);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++*/
+++
+++static opvp_result_t
+++gsopvpInitGS(gx_device* dev, opvp_dc_t printerContext)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->InitGS) {
+++        return InitGSWrapper(dev, printerContext);
+++    } else if (opdev->globals.apiEntry->opvpInitGS) {
+++        return opdev->globals.apiEntry->opvpInitGS(printerContext);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpQueryColorSpace(gx_device* dev, opvp_dc_t printerContext, opvp_int_t* pnum,
+++    opvp_cspace_t* pcspace)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->QueryColorSpace) {
+++        return QueryColorSpaceWrapper(dev, printerContext, pnum, pcspace);
+++    } else if (opdev->globals.apiEntry->opvpQueryColorSpace) {
+++        return opdev->globals.apiEntry->opvpQueryColorSpace(printerContext, pnum, pcspace);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpSetColorSpace(gx_device* dev, opvp_dc_t printerContext, opvp_cspace_t cspace)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->SetColorSpace) {
+++        return SetColorSpaceWrapper(dev, printerContext, cspace);
+++    } else if (opdev->globals.apiEntry->opvpQueryColorSpace) {
+++        return opdev->globals.apiEntry->opvpSetColorSpace(printerContext, cspace);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++/* Not used
+++static opvp_result_t
+++gsopvpGetColorSpace(gx_device* dev, opvp_dc_t printerContext, opvp_cspace_t* pcspace)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->GetColorSpace) {
+++        return GetColorSpaceWrapper(dev, printerContext, pcspace);
+++    } else if (opdev->globals.apiEntry->opvpGetColorSpace) {
+++        return opdev->globals.apiEntry->opvpGetColorSpace(printerContext, pcspace);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++*/
+++
+++static opvp_result_t
+++gsopvpSetLineDash(gx_device* dev, opvp_dc_t printerContext, opvp_int_t num,
+++    const opvp_fix_t* pdash)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->SetLineDash) {
+++        return SetLineDashWrapper(dev, printerContext, num, pdash);
+++    } else if (opdev->globals.apiEntry->opvpSetLineDash) {
+++        return opdev->globals.apiEntry->opvpSetLineDash(printerContext, num, pdash);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++/* Not used
+++static opvp_result_t
+++gsopvpGetLineDash(gx_device* dev, opvp_dc_t printerContext, opvp_int_t* pnum,
+++    opvp_fix_t* pdash)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->GetLineDash) {
+++        return GetLineDashWrapper(dev, printerContext, pnum, pdash);
+++    } else if (opdev->globals.apiEntry->opvpGetLineDash) {
+++        return opdev->globals.apiEntry->opvpGetLineDash(printerContext, pnum, pdash);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++*/
+++
+++static opvp_result_t
+++gsopvpSetStrokeColor(gx_device* dev, opvp_dc_t printerContext, const opvp_brush_t* brush)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->SetStrokeColor) {
+++        return SetStrokeColorWrapper(dev, printerContext, brush);
+++    } else if (opdev->globals.apiEntry->opvpSetStrokeColor) {
+++        return opdev->globals.apiEntry->opvpSetStrokeColor(printerContext, brush);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpSetFillColor(gx_device* dev, opvp_dc_t printerContext, const opvp_brush_t* brush)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->SetFillColor) {
+++        return SetFillColorWrapper(dev, printerContext, brush);
+++    } else if (opdev->globals.apiEntry->opvpSetFillColor) {
+++        return opdev->globals.apiEntry->opvpSetFillColor(printerContext, brush);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpSetBgColor(gx_device* dev, opvp_dc_t printerContext, const opvp_brush_t* brush)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->SetBgColor) {
+++        return SetBgColorWrapper(dev, printerContext, brush);
+++    } else if (opdev->globals.apiEntry->opvpSetBgColor) {
+++        return opdev->globals.apiEntry->opvpSetBgColor(printerContext, brush);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpDrawImage(
+++    gx_device* dev,
+++    opvp_dc_t printerContext,
+++    opvp_int_t sourceWidth,
+++    opvp_int_t sourceHeight,
+++    opvp_int_t sourcePitch,
+++    opvp_imageformat_t imageFormat,
+++    opvp_int_t destinationWidth,
+++    opvp_int_t destinationHeight,
+++    const void* imagedata)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->DrawImage) {
+++        return DrawImageWrapper(dev, printerContext, sourceWidth, sourceHeight,
+++            sourcePitch, imageFormat, destinationWidth, destinationHeight, imagedata);
+++    } else if (opdev->globals.apiEntry->opvpDrawImage) {
+++        return opdev->globals.apiEntry->opvpDrawImage(printerContext, sourceWidth, sourceHeight,
+++            sourcePitch, imageFormat, destinationWidth, destinationHeight, imagedata);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpStartDrawImage(
+++    gx_device* dev,
+++    opvp_dc_t printerContext,
+++    opvp_int_t sourceWidth,
+++    opvp_int_t sourceHeight,
+++    opvp_int_t sourcePitch,
+++    opvp_imageformat_t imageFormat,
+++    opvp_int_t destinationWidth,
+++    opvp_int_t destinationHeight)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->StartDrawImage) {
+++        return StartDrawImageWrapper(dev, printerContext, sourceWidth, sourceHeight,
+++            sourcePitch, imageFormat, destinationWidth, destinationHeight);
+++    } else if (opdev->globals.apiEntry->opvpStartDrawImage) {
+++        return opdev->globals.apiEntry->opvpStartDrawImage(printerContext, sourceWidth, sourceHeight,
+++            sourcePitch, imageFormat, destinationWidth, destinationHeight);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
+++static opvp_result_t
+++gsopvpEndDrawImage(gx_device* dev, opvp_dc_t printerContext)
+++{
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.apiEntry_0_2 != NULL &&
+++        opdev->globals.apiEntry_0_2->EndDrawImage) {
+++        return EndDrawImageWrapper(dev, printerContext);
+++    } else if (opdev->globals.apiEntry->opvpEndDrawImage) {
+++        return opdev->globals.apiEntry->opvpEndDrawImage(printerContext);
+++    } else
+++        return OPVP_FATALERROR;
+++}
+++
++ /* for image */
++ static  const
++ gx_image_enum_procs_t opvp_image_enum_procs =
++@@ -1167,27 +1454,28 @@ typedef struct bbox_image_enum_s {
++ /* initialize Graphic State */
++ /* No defaults in OPVP 1.0 */
++ static int
++-InitGS(void)
+++InitGS(gx_device* dev)
++ {
++-    if (apiEntry->opvpInitGS != NULL) {
++-        if (apiEntry->opvpInitGS(printerContext) != OPVP_OK) {
++-            return -1;
++-        }
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    if (gsopvpInitGS(dev, opdev->globals.printerContext) != OPVP_OK) {
+++        return -1;
++     }
++-    if (apiEntry->opvpSetColorSpace != NULL) {
++-        if (apiEntry->opvpSetColorSpace(printerContext,colorSpace)
++-           != OPVP_OK) {
+++
+++    if (opdev->globals.apiEntry->opvpSetColorSpace != NULL) {
+++        if (opdev->globals.apiEntry->opvpSetColorSpace(opdev->globals.printerContext,
+++            opdev->globals.colorSpace) != OPVP_OK){
++             return -1;
++         }
++     }
++-    if (apiEntry->opvpSetPaintMode != NULL) {
++-        if (apiEntry->opvpSetPaintMode(printerContext,
+++    if (opdev->globals.apiEntry->opvpSetPaintMode != NULL) {
+++        if (opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext,
++             OPVP_PAINTMODE_TRANSPARENT) != OPVP_OK) {
++             return -1;
++         }
++     }
++-    if (apiEntry->opvpSetAlphaConstant != NULL) {
++-        if (apiEntry->opvpSetAlphaConstant(printerContext,1.0)
+++    if (opdev->globals.apiEntry->opvpSetAlphaConstant != NULL) {
+++        if (opdev->globals.apiEntry->opvpSetAlphaConstant(opdev->globals.printerContext,1.0)
++            != OPVP_OK) {
++             return -1;
++         }
++@@ -1203,20 +1491,20 @@ opvp_startpage(gx_device *dev)
++     int ecode = 0;
++     opvp_result_t r = -1;
++     static char *page_info = NULL;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     /* page info */
++     page_info = opvp_alloc_string(&page_info, OPVP_INFO_PREFIX);
++     page_info = opvp_cat_string(&page_info, opvp_gen_page_info(dev));
++
++     /* call StartPage */
++-    if (printerContext != -1) {
++-        if (apiEntry->opvpStartPage)
++-            r = apiEntry->opvpStartPage(printerContext,
++-                       (opvp_char_t *)opvp_to_utf8(page_info));
+++    if (opdev->globals.printerContext != -1) {
+++        r = gsopvpStartPage(dev, opdev->globals.printerContext,
+++                (opvp_char_t*)opvp_to_utf8(page_info));
++         if (r != OPVP_OK) {
++             ecode = -1;
++         } else {
++-            ecode = InitGS();
+++            ecode = InitGS(dev);
++         }
++     }
++
++@@ -1224,15 +1512,16 @@ opvp_startpage(gx_device *dev)
++ }
++
++ static  int
++-opvp_endpage(void)
+++opvp_endpage(gx_device* dev)
++ {
++     int ecode = 0;
++     opvp_result_t r = -1;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     /* call EndPage */
++-    if (printerContext != -1) {
++-        if (apiEntry->opvpEndPage)
++-            r = apiEntry->opvpEndPage(printerContext);
+++    if (opdev->globals.printerContext != -1) {
+++        if (opdev->globals.apiEntry->opvpEndPage)
+++            r = opdev->globals.apiEntry->opvpEndPage(opdev->globals.printerContext);
++         if (r != OPVP_OK) {
++             ecode = -1;
++         }
++@@ -1304,32 +1593,33 @@ opvp_adjust_num_string(char *num_string)
++ }
++
++ static  char **
++-opvp_gen_dynamic_lib_name(void)
+++opvp_gen_dynamic_lib_name(gx_device* dev)
++ {
++     static char *buff[5] = {NULL,NULL,NULL,NULL,NULL};
++     char tbuff[OPVP_BUFF_SIZE];
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if (!vectorDriver) {
+++    if (!(opdev->globals.vectorDriver)) {
++         return NULL;
++     }
++
++     memset((void*)tbuff, 0, OPVP_BUFF_SIZE);
++-    strncpy(tbuff, vectorDriver, OPVP_BUFF_SIZE - 1);
+++    strncpy(tbuff, opdev->globals.vectorDriver, OPVP_BUFF_SIZE - 1);
++     opvp_alloc_string(&(buff[0]), tbuff);
++
++     memset((void*)tbuff, 0, OPVP_BUFF_SIZE);
++-    strncpy(tbuff, vectorDriver, OPVP_BUFF_SIZE - 4);
+++    strncpy(tbuff, opdev->globals.vectorDriver, OPVP_BUFF_SIZE - 4);
++     strcat(tbuff, ".so");
++     opvp_alloc_string(&(buff[1]), tbuff);
++
++     memset((void*)tbuff, 0, OPVP_BUFF_SIZE);
++-    strncpy(tbuff, vectorDriver, OPVP_BUFF_SIZE - 5);
+++    strncpy(tbuff, opdev->globals.vectorDriver, OPVP_BUFF_SIZE - 5);
++     strcat(tbuff, ".dll");
++     opvp_alloc_string(&(buff[2]), tbuff);
++
++     memset((void*)tbuff, 0, OPVP_BUFF_SIZE);
++     strcpy(tbuff, "lib");
++-    strncat(tbuff, vectorDriver, OPVP_BUFF_SIZE - 7);
+++    strncat(tbuff, opdev->globals.vectorDriver, OPVP_BUFF_SIZE - 7);
++     strcat(tbuff, ".so");
++     opvp_alloc_string(&(buff[3]), tbuff);
++
++@@ -1387,7 +1677,7 @@ opvp_to_utf8(char *string)
++ }
++
++ static float
++-opvp_fabsf(float f)
+++opvp_fabsf(gx_device* dev, float f)
++ {
++     return (float)fabs((double)f);
++ }
++@@ -1429,7 +1719,7 @@ opvp_get_papertable_index(gx_device *pdev)
++                 paper = i;
++                 match = true;
++                 break;
++-            } else if ((f = opvp_fabsf(height - paper_h)) < TOLERANCE) {
+++            } else if ((f = opvp_fabsf(pdev, height - paper_h)) < TOLERANCE) {
++                 if (f < h_delta) {
++                     h_delta = f;
++                     candidate = i;
++@@ -1442,14 +1732,14 @@ opvp_get_papertable_index(gx_device *pdev)
++         } else if (prev != paper_w) {
++             prev = paper_w;
++             if (paper_w < width) {
++-                if ((f = opvp_fabsf(width - paper_w)) < TOLERANCE) {
+++                if ((f = opvp_fabsf(pdev, width - paper_w)) < TOLERANCE) {
++                     if (f < sw_delta) {
++                         sw_delta = f;
++                         smaller  = i;
++                     }
++                 }
++             } else {
++-                if ((f = opvp_fabsf(width - paper_w)) < TOLERANCE) {
+++                if ((f = opvp_fabsf(pdev, width - paper_w)) < TOLERANCE) {
++                     if (f < lw_delta) {
++                         lw_delta = f;
++                         larger   = i;
++@@ -1468,7 +1758,7 @@ opvp_get_papertable_index(gx_device *pdev)
++                     sh_delta = 0;
++                     s_candi  = i;
++                     break;
++-                } else if ((f = opvp_fabsf(height - paper_h)) < TOLERANCE) {
+++                } else if ((f = opvp_fabsf(pdev, height - paper_h)) < TOLERANCE) {
++                     if (f < sh_delta) {
++                         sh_delta = f;
++                         s_candi  = i;
++@@ -1484,7 +1774,7 @@ opvp_get_papertable_index(gx_device *pdev)
++                     lh_delta = 0;
++                     l_candi  = i;
++                     break;
++-                } else if ((f = opvp_fabsf(height - paper_h)) < TOLERANCE) {
+++                } else if ((f = opvp_fabsf(pdev, height - paper_h)) < TOLERANCE) {
++                     if (f < lh_delta) {
++                         lh_delta = f;
++                         l_candi  = i;
++@@ -1560,8 +1850,8 @@ opvp_get_mediasize(gx_device *pdev)
++            (strcmp(region, "oe"  ) == 0)) {
++             unit    = "in";
++         } else {
++-            width  *= MMPI;
++-            height *= MMPI;
+++            width  *= (float) MMPI;
+++            height *= (float) MMPI;
++             unit    = "mm";
++         }
++     } else {
++@@ -1591,9 +1881,10 @@ opvp_gen_page_info(gx_device *dev)
++     int num_copies = 1;
++     bool landscape;
++     char tbuff[OPVP_BUFF_SIZE];
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     /* copies */
++-    if (!inkjet) {
+++    if (!(opdev->globals.inkjet)) {
++         if (dev->IgnoreNumCopies) {
++             num_copies = 1;
++         } else if (dev->NumCopies_set > 0) {
++@@ -1642,14 +1933,13 @@ opvp_set_brush_color(gx_device_opvp *pdev, gx_color_index color,
++         ecode = -1;
++     } else {
++ #if ENABLE_SIMPLE_MODE
++-        brush->colorSpace = colorSpace;
+++        brush->colorSpace = pdev->globals.colorSpace;
++ #else
++         opvp_result_t           r = -1;
++         /* call GetColorSpace */
++-        if (apiEntry->opvpGetColorSpace) {
++-            r = apiEntry->opvpGetColorSpace(printerContext,
++-                                   &(brush->colorSpace));
++-        }
+++
+++        r = gsopvpGetColorSpace((gx_device*)pdev, printerContext,
+++                                &(brush->colorSpace));
++         if (r != OPVP_OK) {
++             brush->colorSpace = OPVP_CSPACE_DEVICEKRGB;
++         }
++@@ -1667,7 +1957,7 @@ opvp_set_brush_color(gx_device_opvp *pdev, gx_color_index color,
++
++ static  int
++ opvp_draw_image(
++-    gx_device_opvp *pdev,
+++    gx_device_opvp *opdev,
++     int depth,
++     int sw,
++     int sh,
++@@ -1682,35 +1972,36 @@ opvp_draw_image(
++     int                 count;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* image size */
++     count = raster * sh;
++
++     /* call DrawImage */
++-    if (apiEntry->opvpDrawImage) {
++-        r = apiEntry->opvpDrawImage(printerContext,
++-               sw,sh,
++-               raster,
++-               mask ? OPVP_IFORMAT_MASK : OPVP_IFORMAT_RAW,
++-               dw,dh,
++-               /* discard 'const' qualifier */
++-               (void *)data);
++-    }
+++    r = gsopvpDrawImage((gx_device*) opdev,
+++            opdev->globals.printerContext,
+++            sw,sh,
+++            raster,
+++            mask ? OPVP_IFORMAT_MASK : OPVP_IFORMAT_RAW,
+++            dw,dh,
+++            /* discard 'const' qualifier */
+++            (void *)data);
+++
++     if (r != OPVP_OK) {
++         /* call StartDrawImage */
++-        if (apiEntry->opvpStartDrawImage) {
++-            r = apiEntry->opvpStartDrawImage(printerContext,
++-                    sw,sh,
++-                    raster,
++-                    mask ? OPVP_IFORMAT_MASK : OPVP_IFORMAT_RAW,
++-                    dw,dh);
++-        }
+++        r = gsopvpStartDrawImage((gx_device*)opdev,
+++                opdev->globals.printerContext,
+++                sw,sh,
+++                raster,
+++                mask ? OPVP_IFORMAT_MASK : OPVP_IFORMAT_RAW,
+++                dw,dh);
+++
++         if (r == OPVP_OK) {
++             /* call TansferDrawImage */
++-            if (apiEntry->opvpTransferDrawImage) {
++-                r = apiEntry->opvpTransferDrawImage(
++-                       printerContext,
+++            if (opdev->globals.apiEntry->opvpTransferDrawImage) {
+++                r = opdev->globals.apiEntry->opvpTransferDrawImage(
+++                       opdev->globals.printerContext,
++                        count,
++                         /* discard 'const' qualifier */
++                        (void *)data);
++@@ -1718,9 +2009,8 @@ opvp_draw_image(
++             if (r != OPVP_OK) ecode = -1;
++
++             /* call EndDrawImage */
++-            if (apiEntry->opvpEndDrawImage) {
++-                apiEntry->opvpEndDrawImage(printerContext);
++-            }
+++            gsopvpEndDrawImage((gx_device*)opdev, opdev->globals.printerContext);
+++
++         } else {
++             ecode = 0;  /* continue... */
++         }
++@@ -1735,48 +2025,49 @@ opvp_draw_image(
++  * load vector-driver
++  */
++ static  int
++-opvp_load_vector_driver(void)
+++opvp_load_vector_driver(gx_device* dev)
++ {
++     char **list = NULL;
++     int i;
++     void *h;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++-    if (handle) {
++-        opvp_unload_vector_driver();
+++    if (opdev->globals.handle) {
+++        opvp_unload_vector_driver(dev);
++     }
++
++-    if (vectorDriver) {
++-        list = opvp_gen_dynamic_lib_name();
+++    if (opdev->globals.vectorDriver) {
+++        list = opvp_gen_dynamic_lib_name(dev);
++     }
++
++     if (list) {
++         i = 0;
++         while (list[i]) {
++             if ((h = dlopen(list[i],RTLD_NOW))) {
++-                OpenPrinter = dlsym(h,"opvpOpenPrinter");
++-                ErrorNo = dlsym(h,"opvpErrorNo");
++-                if (OpenPrinter && ErrorNo) {
++-                    handle = h;
+++                opdev->globals.OpenPrinter = dlsym(h,"opvpOpenPrinter");
+++                opdev->globals.ErrorNo = dlsym(h,"opvpErrorNo");
+++                if (opdev->globals.OpenPrinter && opdev->globals.ErrorNo) {
+++                    opdev->globals.handle = h;
++                     break;
++                 }
++-                OpenPrinter = NULL;
++-                ErrorNo = NULL;
+++                opdev->globals.OpenPrinter = NULL;
+++                opdev->globals.ErrorNo = NULL;
++                 /* try version 0.2 driver */
++-                OpenPrinter_0_2 = dlsym(h,"OpenPrinter");
++-                ErrorNo = dlsym(h,"errorno");
++-                if (OpenPrinter_0_2 && ErrorNo) {
++-                    handle = h;
+++                opdev->globals.OpenPrinter_0_2 = dlsym(h,"OpenPrinter");
+++                opdev->globals.ErrorNo = dlsym(h,"errorno");
+++                if (opdev->globals.OpenPrinter_0_2 && opdev->globals.ErrorNo) {
+++                    opdev->globals.handle = h;
++                     break;
++                 }
++-                OpenPrinter_0_2 = NULL;
++-                ErrorNo = NULL;
+++                opdev->globals.OpenPrinter_0_2 = NULL;
+++                opdev->globals.ErrorNo = NULL;
++                 dlclose(h);
++             }
++             i++;
++         }
++     }
++
++-    if (handle) {
+++    if (opdev->globals.handle) {
++         return 0;
++     } else {
++         return -1;
++@@ -1787,13 +2078,15 @@ opvp_load_vector_driver(void)
++  * unload vector-driver
++  */
++ static  int
++-opvp_unload_vector_driver(void)
+++opvp_unload_vector_driver(gx_device* dev)
++ {
++-    if (handle) {
++-        dlclose(handle);
++-        handle = NULL;
++-        OpenPrinter = NULL;
++-        ErrorNo = NULL;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
+++
+++    if (opdev->globals.handle) {
+++        dlclose(opdev->globals.handle);
+++        opdev->globals.handle = NULL;
+++        opdev->globals.OpenPrinter = NULL;
+++        opdev->globals.ErrorNo = NULL;
++     }
++     return 0;
++ }
++@@ -1810,6 +2103,7 @@ prepare_open(gx_device *dev)
++     int dumFD = -1;
++     opvp_dc_t dumContext = -1;
++     opvp_cspace_t cspace = OPVP_CSPACE_STANDARDRGB;
+++    gx_device_opvp *opdev = (gx_device_opvp*) dev;
++
++     /* open dummy device */
++     code = open("/dev/null", O_RDWR);
++@@ -1818,19 +2112,19 @@ prepare_open(gx_device *dev)
++
++     /* load vector driver */
++     if (!ecode) {
++-        if ((code = opvp_load_vector_driver())) {
+++        if ((code = opvp_load_vector_driver(dev))) {
++             ecode = code;
++         }
++     }
++
++     /* prepare array of function pointer for PDAPI */
++     if (!ecode) {
++-        if (!apiEntry) {
++-            if (!(apiEntry = calloc(sizeof(opvp_api_procs_t), 1))) {
+++        if (!(opdev->globals.apiEntry)) {
+++            if (!(opdev->globals.apiEntry = calloc(sizeof(opvp_api_procs_t), 1))) {
++                 ecode = -1;
++             }
++         } else {
++-            memset(apiEntry, 0, sizeof(opvp_api_procs_t));
+++            memset(opdev->globals.apiEntry, 0, sizeof(opvp_api_procs_t));
++         }
++     }
++
++@@ -1842,8 +2136,8 @@ prepare_open(gx_device *dev)
++         /* require version 1.0 */
++         apiVersion[0] = 1;
++         apiVersion[1] = 0;
++-        dc = OpenPrinterWrapper(dumFD, (opvp_char_t *)printerModel,
++-          apiVersion,&api_entry);
+++        dc = OpenPrinterWrapper(dev, dumFD, (opvp_char_t *)(opdev->globals.printerModel),
+++          apiVersion, &api_entry);
++         if (dc == -1) {
++             ecode = -1;
++         } else {
++@@ -1853,33 +2147,33 @@ prepare_open(gx_device *dev)
++
++     /* set apiEntry */
++     if (!ecode) {
++-        nApiEntry = sizeof(opvp_api_procs_t)/sizeof(void *);
++-        memcpy(apiEntry, api_entry, nApiEntry*sizeof(void *));
+++        opdev->globals.nApiEntry = sizeof(opvp_api_procs_t)/sizeof(void *);
+++        memcpy(opdev->globals.apiEntry, api_entry, opdev->globals.nApiEntry*sizeof(void *));
++     } else {
++-        if (apiEntry) free(apiEntry);
++-        apiEntry = NULL;
+++        if (opdev->globals.apiEntry) free(opdev->globals.apiEntry);
+++        opdev->globals.apiEntry = NULL;
++     }
++
++     /* check vector fucntion */
++-    if (apiEntry) {
++-        if (!inkjet) {
++-            if (!(apiEntry->opvpNewPath) ||
++-                !(apiEntry->opvpEndPath) ||
++-                !(apiEntry->opvpStrokePath) ||
++-                !(apiEntry->opvpSetCurrentPoint) ||
++-                !(apiEntry->opvpLinePath) ||
++-                !(apiEntry->opvpBezierPath)) {
+++    if (opdev->globals.apiEntry) {
+++        if (!(opdev->globals.inkjet)) {
+++            if (!(opdev->globals.apiEntry->opvpNewPath) ||
+++                !(opdev->globals.apiEntry->opvpEndPath) ||
+++                !(opdev->globals.apiEntry->opvpStrokePath) ||
+++                !(opdev->globals.apiEntry->opvpSetCurrentPoint) ||
+++                !(opdev->globals.apiEntry->opvpLinePath) ||
+++                !(opdev->globals.apiEntry->opvpBezierPath)) {
++                 /* NOT avail vector drawing mode */
++-                vector = false;
+++                opdev->globals.vector = false;
++             }
++         }
++         /* call GetColorSpace */
++-        if (apiEntry->opvpGetColorSpace) {
++-            (void)apiEntry->opvpGetColorSpace(dumContext, &cspace);
+++        if (opdev->globals.apiEntry->opvpGetColorSpace) {
+++            (void)(opdev->globals.apiEntry->opvpGetColorSpace)(dumContext, &cspace);
++         }
++         if (cspace == OPVP_CSPACE_BW) {
++             /* mono-color */
++-            colorSpace = cspace;
+++            opdev->globals.colorSpace = cspace;
++             dev->color_info.num_components = 1;
++             dev->color_info.depth = 1;
++             dev->color_info.max_gray = 0;
++@@ -1888,7 +2182,7 @@ prepare_open(gx_device *dev)
++             dev->color_info.dither_colors = 1;
++         } else if (cspace == OPVP_CSPACE_DEVICEGRAY) {
++             /* gray-scale */
++-            colorSpace = cspace;
+++            opdev->globals.colorSpace = cspace;
++             dev->color_info.num_components = 1;
++             dev->color_info.depth = 8;
++             dev->color_info.max_gray = 255;
++@@ -1897,7 +2191,7 @@ prepare_open(gx_device *dev)
++             dev->color_info.dither_colors = 256;
++         } else {
++             /* rgb color */
++-            colorSpace = OPVP_CSPACE_STANDARDRGB;
+++            opdev->globals.colorSpace = OPVP_CSPACE_STANDARDRGB;
++             dev->color_info.num_components = 3;
++             dev->color_info.depth = 24;
++             dev->color_info.max_gray = 255;
++@@ -1913,8 +2207,8 @@ prepare_open(gx_device *dev)
++     /* call Closerinter as dummy */
++     if (dumContext != -1) {
++         /* call ClosePrinter */
++-        if (apiEntry->opvpClosePrinter) {
++-            apiEntry->opvpClosePrinter(dumContext);
+++        if (opdev->globals.apiEntry->opvpClosePrinter) {
+++            opdev->globals.apiEntry->opvpClosePrinter(dumContext);
++         }
++         dumContext = -1;
++     }
++@@ -1926,7 +2220,7 @@ prepare_open(gx_device *dev)
++     }
++
++     /* un-load vector driver */
++-    opvp_unload_vector_driver();
+++    opvp_unload_vector_driver(dev);
++
++     return ecode;
++ }
++@@ -1961,51 +2255,52 @@ opvp_open(gx_device *dev)
++     }
++
++     /* set margins */
++-    if (zoomAuto) {
++-        margin_width = (margins[0] + margins[2])
+++    if (pdev->globals.zoomAuto) {
+++        margin_width = (pdev->globals.margins[0] + pdev->globals.margins[2])
++                      * dev->HWResolution[0];
++-        margin_height = (margins[1] + margins[3])
+++        margin_height = (pdev->globals.margins[1] + pdev->globals.margins[3])
++                       * dev->HWResolution[1];
++-        zoom[0] = (dev->width - margin_width) / dev->width;
++-        zoom[1] = (dev->height - margin_height) / dev->height;
++-        if (zoom[0] < zoom[1]) {
++-            zoom[1] = zoom[0];
+++        pdev->globals.zoom[0] = (dev->width - margin_width) / dev->width;
+++        pdev->globals.zoom[1] = (dev->height - margin_height) / dev->height;
+++        if (pdev->globals.zoom[0] < pdev->globals.zoom[1]) {
+++            pdev->globals.zoom[1] = pdev->globals.zoom[0];
++         } else {
++-            zoom[0] = zoom[1];
+++            pdev->globals.zoom[0] = pdev->globals.zoom[1];
++         }
++     }
++-    if (inkjet) {
++-        if ((margins[0] != 0) ||
++-            (margins[1] != 0) || (margins[3] != 0)) {
++-            shift[0] = margins[0] * dev->HWResolution[0];
++-            shift[1] = (margins[1] + margins[3])
+++    if (pdev->globals.inkjet) {
+++        if ((pdev->globals.margins[0] != 0) ||
+++            (pdev->globals.margins[1] != 0) || (pdev->globals.margins[3] != 0)) {
+++            pdev->globals.shift[0] = pdev->globals.margins[0] * dev->HWResolution[0];
+++            pdev->globals.shift[1] = (pdev->globals.margins[1] + pdev->globals.margins[3])
++                      * dev->HWResolution[1];
++-            zooming = true;
+++            pdev->globals.zooming = true;
++         }
++-        dev->width -= margins[2] * dev->HWResolution[0];
++-        dev->height -= margins[1] * dev->HWResolution[1];
+++        dev->width -= (int) (pdev->globals.margins[2] * dev->HWResolution[0]);
+++        dev->height -= (int) (pdev->globals.margins[1] * dev->HWResolution[1]);
++     } else {
++-            if ((margins[0] != 0) || (margins[1] != 0)) {
++-                shift[0] = margins[0] * dev->HWResolution[0];
++-                shift[1] = margins[3] * dev->HWResolution[1];
++-                zooming = true;
+++            if ((pdev->globals.margins[0] != 0) || (pdev->globals.margins[1] != 0)) {
+++                pdev->globals.shift[0] = pdev->globals.margins[0] * dev->HWResolution[0];
+++                pdev->globals.shift[1] = pdev->globals.margins[3] * dev->HWResolution[1];
+++                pdev->globals.zooming = true;
++             }
++             adj_margins[0] = 0;
++             adj_margins[3] = 0;
++-            adj_margins[1] = dev->height * zoom[1] / dev->HWResolution[1]
+++            adj_margins[1] = dev->height * pdev->globals.zoom[1] / dev->HWResolution[1]
++                             - (dev->MediaSize[1] / PS_DPI
++-                             - (margins[1] + margins[3]));
+++                             - (pdev->globals.margins[1] + pdev->globals.margins[3]));
++             if (adj_margins[1] < 0) adj_margins[0] = 0;
++-            adj_margins[2] = dev->width * zoom[0] / dev->HWResolution[0]
+++            adj_margins[2] = dev->width * pdev->globals.zoom[0] / dev->HWResolution[0]
++                             - (dev->MediaSize[0] / PS_DPI
++-                             - (margins[0] + margins[2]));
+++                             - (pdev->globals.margins[0] + pdev->globals.margins[2]));
++             if (adj_margins[2] < 0) adj_margins[2] = 0;
++             gx_device_set_margins(dev, adj_margins, true);
++     }
++-    if ((zoom[0] != 1) || (zoom[1] != 1)) zooming = true;
+++    if ((pdev->globals.zoom[0] != 1) || (pdev->globals.zoom[1] != 1))
+++        pdev->globals.zooming = true;
++
++     /* open file for output device */
++-    if (!inkjet) {
+++    if (!(pdev->globals.inkjet)) {
++         pdev->v_memory = gs_memory_stable(pdev->memory);
++         /* open output stream */
++         code = gdev_vector_open_file_options((gx_device_vector*)dev,
++@@ -2027,7 +2322,7 @@ opvp_open(gx_device *dev)
++                 pdev->bbox_device->memory = gs_memory_stable(dev->memory);
++             }
++         }
++-        outputFD = fileno(gp_get_file(pdev->file));
+++        pdev->globals.outputFD = fileno(gp_get_file(pdev->file));
++     } else {
++         /* open printer device */
++         code = gdev_prn_open(dev);
++@@ -2044,13 +2339,13 @@ opvp_open(gx_device *dev)
++         if (code < 0) {
++             return code;
++         }
++-        outputFD = fileno(gp_get_file(rdev->file));
+++        pdev->globals.outputFD = fileno(gp_get_file(rdev->file));
++     }
++-    if (outputFD < 0)
++-        return outputFD;
+++    if (pdev->globals.outputFD < 0)
+++        return pdev->globals.outputFD;
++
++     /* RE-load vector driver */
++-    if ((code = opvp_load_vector_driver())) {
+++    if ((code = opvp_load_vector_driver(dev))) {
++         return code;
++     }
++
++@@ -2058,44 +2353,48 @@ opvp_open(gx_device *dev)
++     /* require version 1.0 */
++     apiVersion[0] = 1;
++     apiVersion[1] = 0;
++-    dc = OpenPrinterWrapper(outputFD,(opvp_char_t *)printerModel,
+++    dc = OpenPrinterWrapper(dev, pdev->globals.outputFD, (opvp_char_t *)pdev->globals.printerModel,
++       apiVersion,&api_entry);
++-    if (!apiEntry) {
++-        if (!(apiEntry = calloc(sizeof(opvp_api_procs_t), 1))) {
+++    if (!(pdev->globals.apiEntry)) {
+++        if (!(pdev->globals.apiEntry = calloc(sizeof(opvp_api_procs_t), 1))) {
++             ecode = -1;
++         }
++     } else {
++-        memset(apiEntry, 0, sizeof(opvp_api_procs_t));
+++        memset(pdev->globals.apiEntry, 0, sizeof(opvp_api_procs_t));
++     }
++     if (dc == -1) {
++         ecode =  -1;
++-        if (apiEntry) free(apiEntry);
++-        apiEntry = NULL;
++-        opvp_unload_vector_driver();
++-        if (inkjet) gdev_prn_close(dev);
+++        if (pdev->globals.apiEntry)
+++            free(pdev->globals.apiEntry);
+++        pdev->globals.apiEntry = NULL;
+++        opvp_unload_vector_driver(dev);
+++        if (pdev->globals.inkjet)
+++            gdev_prn_close(dev);
++         else gdev_vector_close_file((gx_device_vector *)pdev);
++         return ecode;
++     }
++-    printerContext = dc;
++-    nApiEntry = sizeof(opvp_api_procs_t)/sizeof(void *);
++-    memcpy(apiEntry, api_entry, nApiEntry*sizeof(void *));
+++    pdev->globals.printerContext = dc;
+++    pdev->globals.nApiEntry = sizeof(opvp_api_procs_t)/sizeof(void *);
+++    memcpy(pdev->globals.apiEntry, api_entry, pdev->globals.nApiEntry*sizeof(void *));
++
++     /* initialize */
++-    if ((!ecode) && (!inkjet)) {
+++    if ((!ecode) && (!(pdev->globals.inkjet))) {
++         pdev->vec_procs = &opvp_vector_procs;
++-        if (vector) gdev_vector_init((gx_device_vector *)pdev);
+++        if (pdev->globals.vector)
+++            gdev_vector_init((gx_device_vector *)pdev);
++     }
++
++-    if (apiEntry->opvpQueryColorSpace) {
+++    if (pdev->globals.apiEntry->opvpQueryColorSpace ||
+++        pdev->globals.apiEntry_0_2->QueryColorSpace) {
++         int n = sizeof(cspace_available);
++         int nn = n;
++         opvp_cspace_t *p = malloc(n*sizeof(opvp_cspace_t));
++
++-        if ((r = apiEntry->opvpQueryColorSpace(printerContext,&nn,p))
+++        if ((r = gsopvpQueryColorSpace(dev, pdev->globals.printerContext,&nn,p))
++              == OPVP_PARAMERROR && nn > n) {
++             /* realloc buffer and retry */
++             p = realloc(p,nn*sizeof(opvp_cspace_t));
++-            r = apiEntry->opvpQueryColorSpace(printerContext,&nn,p);
+++            r = gsopvpQueryColorSpace(dev, pdev->globals.printerContext,&nn,p);
++         }
++         if (r == OPVP_OK) {
++             int i;
++@@ -2111,12 +2410,12 @@ opvp_open(gx_device *dev)
++     /* start job */
++     if (!ecode) {
++         /* job info */
++-        if (jobInfo) {
++-            if (strlen(jobInfo) > 0) {
++-                job_info = opvp_alloc_string(&job_info,jobInfo);
+++        if (pdev->globals.jobInfo) {
+++            if (strlen(pdev->globals.jobInfo) > 0) {
+++                job_info = opvp_alloc_string(&job_info, pdev->globals.jobInfo);
++             }
++         }
++-        tmp_info = opvp_alloc_string(&tmp_info,opvp_gen_job_info(dev));
+++        tmp_info = opvp_alloc_string(&tmp_info, opvp_gen_job_info(dev));
++         if (tmp_info) {
++             if (strlen(tmp_info) > 0) {
++                 if (job_info) {
++@@ -2130,8 +2429,8 @@ opvp_open(gx_device *dev)
++         }
++
++         /* call StartJob */
++-        if (apiEntry->opvpStartJob) {
++-            r = apiEntry->opvpStartJob(printerContext,
+++        if (pdev->globals.apiEntry->opvpStartJob) {
+++            r = pdev->globals.apiEntry->opvpStartJob(pdev->globals.printerContext,
++               (opvp_char_t *)opvp_to_utf8(job_info));
++         }
++         if (r != OPVP_OK) {
++@@ -2142,9 +2441,9 @@ opvp_open(gx_device *dev)
++     /* start doc */
++     if (!ecode) {
++         /* doc info */
++-        if (docInfo) {
++-            if (strlen(docInfo) > 0) {
++-                doc_info = opvp_alloc_string(&doc_info,docInfo);
+++        if (pdev->globals.docInfo) {
+++            if (strlen(pdev->globals.docInfo) > 0) {
+++                doc_info = opvp_alloc_string(&doc_info, pdev->globals.docInfo);
++             }
++         }
++         tmp_info = opvp_alloc_string(&tmp_info, opvp_gen_doc_info(dev));
++@@ -2161,8 +2460,8 @@ opvp_open(gx_device *dev)
++         }
++
++         /* call StartDoc */
++-        if (apiEntry->opvpStartDoc) {
++-            r = apiEntry->opvpStartDoc(printerContext,
+++        if (pdev->globals.apiEntry->opvpStartDoc) {
+++            r = pdev->globals.apiEntry->opvpStartDoc(pdev->globals.printerContext,
++               (opvp_char_t *)opvp_to_utf8(doc_info));
++         }
++         if (r != OPVP_OK) {
++@@ -2183,9 +2482,11 @@ opvp_open(gx_device *dev)
++ static  int
++ oprp_open(gx_device *dev)
++ {
+++    gx_device_opvp *opdev = (gx_device_opvp*) dev;
+++
++     /* set inkjet mode */
++-    vector = false;
++-    inkjet = true;
+++    opdev->globals.vector = false;
+++    opdev->globals.inkjet = true;
++
++     /* matrix */
++     dev->procs.get_initial_matrix = opvp_get_initial_matrix;
++@@ -2198,24 +2499,24 @@ oprp_open(gx_device *dev)
++ static  void
++ opvp_get_initial_matrix(gx_device *dev, gs_matrix *pmat)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)dev;
+++    gx_device_opvp * opdev = (gx_device_opvp *)dev;
++     opvp_ctm_t omat;
++
++     gx_default_get_initial_matrix(dev,pmat);
++-    if (zooming) {
+++    if (opdev->globals.zooming) {
++         /* gs matrix */
++-        pmat->xx *= zoom[0];
++-        pmat->xy *= zoom[1];
++-        pmat->yx *= zoom[0];
++-        pmat->yy *= zoom[1];
++-        pmat->tx = pmat->tx * zoom[0] + shift[0];
++-        pmat->ty = pmat->ty * zoom[1] + shift[1];
+++        pmat->xx *= opdev->globals.zoom[0];
+++        pmat->xy *= opdev->globals.zoom[1];
+++        pmat->yx *= opdev->globals.zoom[0];
+++        pmat->yy *= opdev->globals.zoom[1];
+++        pmat->tx = pmat->tx * opdev->globals.zoom[0] + opdev->globals.shift[0];
+++        pmat->ty = pmat->ty * opdev->globals.zoom[1] + opdev->globals.shift[1];
++     }
++
++-    if (pdev->is_open) {
+++    if (opdev->is_open) {
++         /* call ResetCTM */
++-        if (apiEntry->opvpResetCTM) {
++-            apiEntry->opvpResetCTM(printerContext);
+++        if (opdev->globals.apiEntry->opvpResetCTM) {
+++            opdev->globals.apiEntry->opvpResetCTM(opdev->globals.printerContext);
++         } else {
++             /* call SetCTM */
++             omat.a = 1;
++@@ -2224,8 +2525,8 @@ opvp_get_initial_matrix(gx_device *dev, gs_matrix *pmat)
++             omat.d = 1;
++             omat.e = 0;
++             omat.f = 0;
++-            if (apiEntry->opvpSetCTM) {
++-                apiEntry->opvpSetCTM(printerContext, &omat);
+++            if (opdev->globals.apiEntry->opvpSetCTM) {
+++                opdev->globals.apiEntry->opvpSetCTM(opdev->globals.printerContext, &omat);
++             }
++         }
++     }
++@@ -2239,30 +2540,32 @@ opvp_get_initial_matrix(gx_device *dev, gs_matrix *pmat)
++ static  int
++ opvp_output_page(gx_device *dev, int num_copies, int flush)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)dev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)dev;
++     int ecode = 0;
++     int code = -1;
++
++-    if (inkjet) return gdev_prn_output_page(dev, num_copies, flush);
+++    if (opdev->globals.inkjet)
+++        return gdev_prn_output_page(dev, num_copies, flush);
++
++ #ifdef OPVP_IGNORE_BLANK_PAGE
++     if (pdev->in_page) {
++ #else
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++ #endif
++         /* end page */
++-        code = opvp_endpage();
+++        code = opvp_endpage(dev);
++         if (code) ecode = code;
++
++-        pdev->in_page = false;
++-        beginPage = false;
+++        opdev->in_page = false;
+++        opdev->globals.beginPage = false;
++ #ifdef OPVP_IGNORE_BLANK_PAGE
++     }
 + #endif
 +
-++struct strbuf;
-++
-++
-+ #define _FILE_OFFSET_BITS 64
++-    if (vector) {
++-        gdev_vector_reset((gx_device_vector *)pdev);
+++    if (opdev->globals.vector) {
+++        gdev_vector_reset((gx_device_vector *)dev);
++     }
 +
++     code = gx_finish_output_page(dev, num_copies, flush);
++@@ -2289,6 +2592,7 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++     int rasterWidth;
++     bool start_page = false;
++     bool start_raster = false;
+++    gx_device_opvp *opdev = (gx_device_opvp*)pdev;
++ #if ENABLE_SKIP_RASTER
++     int i;
++     byte check;
++@@ -2317,8 +2621,8 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
 +
-+@@ -475,7 +478,7 @@ static inline void extract_id_from_env(const char *env, uid_t *id)
-+	}
++     /* call StartRaster */
++     if (!ecode) {
++-        if (apiEntry->opvpStartRaster) {
++-            r = apiEntry->opvpStartRaster(printerContext,rasterWidth);
+++        if (opdev->globals.apiEntry->opvpStartRaster) {
+++            r = opdev->globals.apiEntry->opvpStartRaster(opdev->globals.printerContext,rasterWidth);
++         }
++         if (r != OPVP_OK) {
++             ecode = r;
++@@ -2339,7 +2643,7 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++         }
++ #if ENABLE_SKIP_RASTER
++         /* check support SkipRaster */
++-        if (apiEntry->opvpSkipRaster) {
+++        if (opdev->globals.apiEntry->opvpSkipRaster) {
++             /* check all white */
++             if (pdev->color_info.depth > 8) {
++                 for (check = 0xff, i = 0; i < raster_size; i++)
++@@ -2349,7 +2653,7 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++                 }
++                 /* if all white call SkipRaster */
++                 if (check == 0xff) {
++-                    r = apiEntry->opvpSkipRaster(printerContext, 1);
+++                    r = opdev->globals.apiEntry->opvpSkipRaster(opdev->globals.printerContext, 1);
++                     if (r == OPVP_OK) continue;
++                 }
++             } else {
++@@ -2359,27 +2663,29 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++                 }
++                 /* if all zero call SkipRaster */
++                 if (check) {
++-                    r = apiEntry->opvpSkipRaster(printerContext, 1);
++-                    if (r == OPVP_OK) continue;
+++                    r = opdev->globals.apiEntry->opvpSkipRaster(opdev->globals.printerContext, 1);
+++                    if (r == OPVP_OK)
+++                        continue;
++                 }
++             }
++         }
++ #endif
++         /* call TransferRasterData */
++         if (!ecode) {
++-            if (apiEntry->opvpTransferRasterData) {
++-                r = apiEntry->opvpTransferRasterData(printerContext,
+++            if (opdev->globals.apiEntry->opvpTransferRasterData) {
+++                r = opdev->globals.apiEntry->opvpTransferRasterData(opdev->globals.printerContext,
++                                                 raster_size,
++                                                 data);
++             }
++-            if (r != OPVP_OK) ecode = r;
+++            if (r != OPVP_OK)
+++                ecode = r;
++         }
++     }
++
++     /* call EndRaster */
++     if (start_raster) {
++-        if (apiEntry->opvpEndRaster) {
++-            r = apiEntry->opvpEndRaster(printerContext);
+++        if (opdev->globals.apiEntry->opvpEndRaster) {
+++            r = opdev->globals.apiEntry->opvpEndRaster(opdev->globals.printerContext);
++         }
++         if (r != OPVP_OK) ecode = r;
++         start_raster = false;
++@@ -2387,7 +2693,7 @@ oprp_print_page(gx_device_printer *pdev, gp_file *prn_stream)
++
++     /* end page */
++     if (start_page) {
++-        code = opvp_endpage();
+++        code = opvp_endpage((gx_device*) pdev);
++         if (code) ecode = code;
++         start_page = false;
++     }
++@@ -2411,37 +2717,38 @@ opvp_close(gx_device *dev)
++     int ecode = 0;
++
++     /* finalize */
++-    if (printerContext != -1) {
+++    if (pdev->globals.printerContext != -1) {
++         /* call EndDoc */
++-        if (apiEntry->opvpEndDoc) {
++-            apiEntry->opvpEndDoc(printerContext);
+++        if (pdev->globals.apiEntry->opvpEndDoc) {
+++            pdev->globals.apiEntry->opvpEndDoc(pdev->globals.printerContext);
++         }
++
++         /* call EndJob */
++-        if (apiEntry->opvpEndJob) {
++-            apiEntry->opvpEndJob(printerContext);
+++        if (pdev->globals.apiEntry->opvpEndJob) {
+++            pdev->globals.apiEntry->opvpEndJob(pdev->globals.printerContext);
++         }
++
++         /* call ClosePrinter */
++-        if (apiEntry->opvpClosePrinter) {
++-            apiEntry->opvpClosePrinter(printerContext);
+++        if (pdev->globals.apiEntry->opvpClosePrinter) {
+++            pdev->globals.apiEntry->opvpClosePrinter(pdev->globals.printerContext);
++         }
++-        printerContext = -1;
+++        pdev->globals.printerContext = -1;
++     }
++
++     /* unload vector driver */
++-    if (apiEntry) free(apiEntry);
++-    apiEntry = NULL;
++-    opvp_unload_vector_driver();
+++    if (pdev->globals.apiEntry)
+++        free(pdev->globals.apiEntry);
+++    pdev->globals.apiEntry = NULL;
+++    opvp_unload_vector_driver(dev);
++
++-    if (inkjet) {
+++    if (pdev->globals.inkjet) {
++         /* close printer */
++         gdev_prn_close(dev);
++     } else {
++         /* close output stream */
++         gdev_vector_close_file((gx_device_vector *)pdev);
++     }
++-    outputFD = -1;
+++    pdev->globals.outputFD = -1;
++
++     return ecode;
++ }
++@@ -2455,6 +2762,7 @@ opvp_map_rgb_color(gx_device *dev,
++ {
++     opvp_cspace_t cs;
++     uint c, m, y, k;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++ #if !(ENABLE_SIMPLE_MODE)
++     gx_device_opvp *pdev;
++@@ -2467,16 +2775,15 @@ opvp_map_rgb_color(gx_device *dev,
++     b = prgb[2];
++
++ #if ENABLE_SIMPLE_MODE
++-    cs = colorSpace;
+++    cs = opdev->globals.colorSpace;
++ #else
++     pdev = (gx_device_opvp *)dev;
++     r = -1;
++     cs = OPVP_CSPACE_STANDARDRGB;
++     if (pdev->is_open) {
++         /* call GetColorSpace */
++-        if (apiEntry->opvpGetColorSpace) {
++-            r = apiEntry->opvpGetColorSpace(printerContext, &cs);
++-        }
+++
+++        r = gsopvpGetColorSpace(dev, opdev->globals.printerContext, &cs);
++         if (r != OPVP_OK) {
++             if (pdev->color_info.depth > 32) {
++                     cs = OPVP_CSPACE_STANDARDRGB64;
++@@ -2555,15 +2862,14 @@ opvp_map_color_rgb(gx_device *dev, gx_color_index color,
++ #endif
++     opvp_cspace_t cs = OPVP_CSPACE_STANDARDRGB;
++     uint c, m, y, k;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++ #if ENABLE_SIMPLE_MODE
++-    cs = colorSpace;
+++    cs = opdev->globals.colorSpace;
++ #else
++     /* call GetColorSpace */
++     if (pdev->is_open) {
++-        if (apiEntry->opvpGetColorSpace) {
++-            r = apiEntry->opvpGetColorSpace(printerContext, &cs);
++-        }
+++        r = gsopvpGetColorSpace(dev, opdev->globals.printerContext, &cs);
++         if (r != OPVP_OK) {
++             if (pdev->color_info.depth > 32) {
++                 cs = OPVP_CSPACE_STANDARDRGB64;
++@@ -2635,44 +2941,44 @@ opvp_fill_rectangle(
++     int h,
++     gx_color_index color)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)dev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)dev;
++     byte data[8] = {0xC0, 0, 0, 0, 0xC0, 0, 0, 0};
++     int code = -1;
++     int ecode = 0;
++     opvp_brush_t brush;
++     opvp_point_t point;
++
++-    if (vector) {
++-        return gdev_vector_fill_rectangle( dev, x, y, w, h, color);
+++    if (opdev->globals.vector) {
+++        return gdev_vector_fill_rectangle(dev, x, y, w, h, color);
++     }
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call SaveGS */
++-    if (apiEntry->opvpSaveGS) {
++-        apiEntry->opvpSaveGS(printerContext);
+++    if (pdev->globals.apiEntry->opvpSaveGS) {
+++        pdev->globals.apiEntry->opvpSaveGS(printerContext);
++     }
++ #endif
++
++     /* one-color */
++-    opvp_set_brush_color(pdev, color, &brush);
+++    opvp_set_brush_color(opdev, color, &brush);
++
++     /* call SetFillColor */
++-    if (apiEntry->opvpSetFillColor) {
++-        apiEntry->opvpSetFillColor(printerContext, &brush);
++-    }
+++    gsopvpSetFillColor(dev, opdev->globals.printerContext, &brush);
+++
++
++     /* call SetCurrentPoint */
++     OPVP_I2FIX(x, point.x);
++     OPVP_I2FIX(y, point.y);
++-    if (apiEntry->opvpSetCurrentPoint) {
++-        apiEntry->opvpSetCurrentPoint(printerContext,point.x, point.y);
+++    if (opdev->globals.apiEntry->opvpSetCurrentPoint) {
+++        opdev->globals.apiEntry->opvpSetCurrentPoint(opdev->globals.printerContext,point.x, point.y);
++     }
++
++     /* draw image */
++-    code = opvp_draw_image(pdev,
+++    code = opvp_draw_image(opdev,
++                            1,
++                            2, 2,
++                            w, h,
++@@ -2684,17 +2990,15 @@ opvp_fill_rectangle(
++     }
++
++     /* restore fill color */
++-    if (vectorFillColor) {
+++    if (opdev->globals.vectorFillColor) {
++         /* call SetFillColor */
++-        if (apiEntry->opvpSetFillColor) {
++-            apiEntry->opvpSetFillColor(printerContext,vectorFillColor);
++-        }
+++        gsopvpSetFillColor(dev, opdev->globals.printerContext,opdev->globals.vectorFillColor);
++     }
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call RestoreGS */
++-    if (apiEntry->opvpRestoreGS) {
++-        apiEntry->opvpRestoreGS(printerContext);
+++    if (pdev->globals.apiEntry->opvpRestoreGS) {
+++        pdev->globals.opdev->globals.apiEntry->opvpRestoreGS(printerContext);
++     }
++ #endif
++
++@@ -2718,7 +3022,7 @@ opvp_copy_mono(
++     gx_color_index zero,
++     gx_color_index one)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)dev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)dev;
++     int code = -1;
++     int ecode = 0;
++     opvp_brush_t brush;
++@@ -2736,7 +3040,8 @@ opvp_copy_mono(
++     bool reverse = false;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* data offset */
++     if (data_x) {
++@@ -2773,8 +3078,8 @@ opvp_copy_mono(
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call SaveGS */
++-    if (apiEntry->opvpSaveGS) {
++-        apiEntry->opvpSaveGS(printerContext);
+++    if (opdev->globals.apiEntry->opvpSaveGS) {
+++        opdev->globals.apiEntry->opvpSaveGS(printerContext);
++     }
++ #endif
++     if (one == gx_no_color_index) {
++@@ -2789,25 +3094,22 @@ opvp_copy_mono(
++     if (zero != gx_no_color_index) {
++         /* not mask */
++         /* Set PaintMode */
++-        if (apiEntry->opvpSetPaintMode) {
++-            apiEntry->opvpSetPaintMode(printerContext,OPVP_PAINTMODE_OPAQUE);
+++        if (opdev->globals.apiEntry->opvpSetPaintMode) {
+++            opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext, OPVP_PAINTMODE_OPAQUE);
++         }
++         /* zero-color */
++-        opvp_set_brush_color(pdev, zero, &brush);
+++        opvp_set_brush_color(opdev, zero, &brush);
++
++         /* call SetBgColor */
++-        if (apiEntry->opvpSetBgColor) {
++-            apiEntry->opvpSetBgColor(printerContext, &brush);
++-        }
+++        gsopvpSetBgColor(dev, opdev->globals.printerContext, &brush);
+++
++     }
++
++     /* one-color */
++-    opvp_set_brush_color(pdev, one, &brush);
+++    opvp_set_brush_color(opdev, one, &brush);
++
++     /* call SetFillColor */
++-    if (apiEntry->opvpSetFillColor) {
++-        apiEntry->opvpSetFillColor(printerContext, &brush);
++-    }
+++    gsopvpSetFillColor(dev, opdev->globals.printerContext, &brush);
++
++     if (reverse) {
++         /* 0/1 reverse image */
++@@ -2826,12 +3128,12 @@ opvp_copy_mono(
++     /* call SetCurrentPoint */
++     OPVP_I2FIX(x, point.x);
++     OPVP_I2FIX(y, point.y);
++-    if (apiEntry->opvpSetCurrentPoint) {
++-        apiEntry->opvpSetCurrentPoint(printerContext,point.x, point.y);
+++    if (opdev->globals.apiEntry->opvpSetCurrentPoint) {
+++        opdev->globals.apiEntry->opvpSetCurrentPoint(opdev->globals.printerContext,point.x, point.y);
++     }
++
++     /* draw image */
++-    code = opvp_draw_image(pdev,
+++    code = opvp_draw_image(opdev,
++                            1,
++                            w, h,
++                            w, h,
++@@ -2844,23 +3146,21 @@ opvp_copy_mono(
++
++     if (zero != gx_no_color_index) {
++         /* restore PaintMode */
++-        if (apiEntry->opvpSetPaintMode) {
++-            apiEntry->opvpSetPaintMode(printerContext,
+++        if (opdev->globals.apiEntry->opvpSetPaintMode) {
+++            opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext,
++               OPVP_PAINTMODE_TRANSPARENT);
++         }
++     }
++     /* restore fill color */
++-    if (vectorFillColor) {
+++    if (opdev->globals.vectorFillColor) {
++         /* call SetFillColor */
++-        if (apiEntry->opvpSetFillColor) {
++-            apiEntry->opvpSetFillColor(printerContext,vectorFillColor);
++-        }
+++        gsopvpSetFillColor(dev, opdev->globals.printerContext,opdev->globals.vectorFillColor);
++     }
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call RestoreGS */
++-    if (apiEntry->opvpRestoreGS) {
++-        apiEntry->opvpRestoreGS(printerContext);
+++    if (opdev->globals.apiEntry->opvpRestoreGS) {
+++        opdev->globals.apiEntry->opvpRestoreGS(opdev->globals.printerContext);
++     }
++ #endif
++
++@@ -2887,7 +3187,7 @@ opvp_copy_color(
++     int w,
++     int h)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)dev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)dev;
++     int code = -1;
++     int ecode = 0;
++     opvp_point_t point;
++@@ -2902,11 +3202,12 @@ opvp_copy_color(
++     int adj_raster = raster;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* data offset */
++     if (data_x) {
++-        depth = pdev->color_info.depth;
+++        depth = opdev->color_info.depth;
++         pixel = (depth + 7) >> 3;
++         byte_length = pixel * w;
++         adj_raster = ((byte_length + 3) >> 2) << 2;
++@@ -2926,21 +3227,21 @@ opvp_copy_color(
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call SaveGS */
++-    if (apiEntry->opvpSaveGS) {
++-        apiEntry->opvpSaveGS(printerContext);
+++    if (opdev->globals.apiEntry->opvpSaveGS) {
+++        opdev->globals.apiEntry->opvpSaveGS(opdev->globals.printerContext);
++     }
++ #endif
++
++     /* call SetCurrentPoint */
++     OPVP_I2FIX(x, point.x);
++     OPVP_I2FIX(y, point.y);
++-    if (apiEntry->opvpSetCurrentPoint) {
++-        apiEntry->opvpSetCurrentPoint(printerContext, point.x, point.y);
+++    if (opdev->globals.apiEntry->opvpSetCurrentPoint) {
+++        opdev->globals.apiEntry->opvpSetCurrentPoint(opdev->globals.printerContext, point.x, point.y);
++     }
++
++     /* draw image */
++-    code = opvp_draw_image(pdev,
++-                           pdev->color_info.depth,
+++    code = opvp_draw_image(opdev,
+++                           opdev->color_info.depth,
++                            w, h,
++                            w, h,
++                            adj_raster,
++@@ -2952,8 +3253,8 @@ opvp_copy_color(
++
++ #if !(ENABLE_SIMPLE_MODE)
++     /* call RestoreGS */
++-    if (apiEntry->opvpRestoreGS) {
++-        apiEntry->opvpRestoreGS(printerContext);
+++    if (opdev->globals.apiEntry->opvpRestoreGS) {
+++        opdev->globals.apiEntry->opvpRestoreGS(opdev->globals.printerContext);
++     }
++ #endif
++
++@@ -2969,7 +3270,7 @@ opvp_copy_color(
++  * get params
++  */
++ static  int
++-_get_params(gs_param_list *plist)
+++_get_params(gx_device* dev, gs_param_list *plist)
++ {
++     int code;
++     int ecode = 0;
++@@ -2985,37 +3286,38 @@ _get_params(gs_param_list *plist)
++     gs_param_string mbps;
++     gs_param_string zmps;
++     char buff[OPVP_BUFF_SIZE];
+++    gx_device_opvp* opdev = (gx_device_opvp*)dev;
++
++     /* get params */
++
++     /* vector driver name */
++     pname = "Driver";
++-    vdps.data = (byte *)vectorDriver;
++-    vdps.size = (vectorDriver ? strlen(vectorDriver) + 1 : 0);
+++    vdps.data = (byte *)opdev->globals.vectorDriver;
+++    vdps.size = (opdev->globals.vectorDriver ? strlen(opdev->globals.vectorDriver) + 1 : 0);
++     vdps.persistent = false;
++     code = param_write_string(plist, pname, &vdps);
++     if (code) ecode = code;
++
++     /* printer model name */
++     pname = "Model";
++-    pmps.data = (byte *)printerModel;
++-    pmps.size = (printerModel ? strlen(printerModel) + 1 : 0);
+++    pmps.data = (byte *)opdev->globals.printerModel;
+++    pmps.size = (opdev->globals.printerModel ? strlen(opdev->globals.printerModel) + 1 : 0);
++     pmps.persistent = false;
++     code = param_write_string(plist, pname, &pmps);
++     if (code) ecode = code;
++
++     /* job info */
++     pname = "JobInfo";
++-    jips.data = (byte *)jobInfo;
++-    jips.size = (jobInfo ? strlen(jobInfo) + 1 : 0);
+++    jips.data = (byte *)opdev->globals.jobInfo;
+++    jips.size = (opdev->globals.jobInfo ? strlen(opdev->globals.jobInfo) + 1 : 0);
++     jips.persistent = false;
++     code = param_write_string(plist, pname, &jips);
++     if (code) ecode = code;
++
++     /* doc info */
++     pname = "DocInfo";
++-    dips.data = (byte *)docInfo;
++-    dips.size = (docInfo ? strlen(docInfo) + 1 : 0);
+++    dips.data = (byte *)opdev->globals.docInfo;
+++    dips.size = (opdev->globals.docInfo ? strlen(opdev->globals.docInfo) + 1 : 0);
++     dips.persistent = false;
++     code = param_write_string(plist, pname, &dips);
++     if (code) ecode = code;
++@@ -3052,28 +3354,28 @@ _get_params(gs_param_list *plist)
++     /* margins */
++     memset((void*)buff, 0, OPVP_BUFF_SIZE);
++     pname = "MarginLeft";
++-    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",margins[0]);
+++    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",opdev->globals.margins[0]);
++     mlps.data = (byte *)buff;
++     mlps.size = strlen(buff) + 1;
++     mlps.persistent = false;
++     code = param_write_string(plist, pname, &mlps);
++     if (code) ecode = code;
++     pname = "MarginTop";
++-    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",margins[3]);
+++    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",opdev->globals.margins[3]);
++     mtps.data = (byte *)buff;
++     mtps.size = strlen(buff) + 1;
++     mtps.persistent = false;
++     code = param_write_string(plist, pname, &mtps);
++     if (code) ecode = code;
++     pname = "MarginRight";
++-    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",margins[2]);
+++    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",opdev->globals.margins[2]);
++     mrps.data = (byte *)buff;
++     mrps.size = strlen(buff) + 1;
++     mrps.persistent = false;
++     code = param_write_string(plist, pname, &mrps);
++     if (code) ecode = code;
++     pname = "MarginBottom";
++-    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",margins[1]);
+++    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",opdev->globals.margins[1]);
++     mbps.data = (byte *)buff;
++     mbps.size = strlen(buff) + 1;
++     mbps.persistent = false;
++@@ -3082,7 +3384,7 @@ _get_params(gs_param_list *plist)
++
++     /* zoom */
++     pname = "Zoom";
++-    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",zoom[0]);
+++    snprintf(buff, OPVP_BUFF_SIZE - 1, "%f",opdev->globals.zoom[0]);
++     zmps.data = (byte *)buff;
++     zmps.size = strlen(buff) + 1;
++     zmps.persistent = false;
++@@ -3105,7 +3407,7 @@ opvp_get_params(gx_device *dev, gs_param_list *plist)
++     if (code) return code;
++
++     /* get params */
++-    return _get_params(plist);
+++    return _get_params(dev, plist);
 + }
 +
-+-static inline int is_path_owned_by_current_uid(const char *path)
-++static inline int is_path_owned_by_current_uid(const char *path, struct strbuf *report)
-+ {
-+	struct stat st;
-+	uid_t euid;
-+diff --git a/setup.c b/setup.c
-+index 8686ffe..1ad7330 100644
-+--- a/setup.c
-++++ b/setup.c
-+@@ -1128,16 +1128,17 @@ static int safe_directory_cb(const char *key, const char *value, void *d)
-+  * added, for bare ones their git directory.
-+  */
-+ static int ensure_valid_ownership(const char *gitfile,
-+-				const char *worktree, const char *gitdir)
-++				  const char *worktree, const char *gitdir,
-++				  struct strbuf *report)
-+ {
-+	struct safe_directory_data data = {
-+		.path = worktree ? worktree : gitdir
-+	};
-+
-+	if (!git_env_bool("GIT_TEST_ASSUME_DIFFERENT_OWNER", 0) &&
-+-	   (!gitfile || is_path_owned_by_current_user(gitfile)) &&
-+-	   (!worktree || is_path_owned_by_current_user(worktree)) &&
-+-	   (!gitdir || is_path_owned_by_current_user(gitdir)))
-++	    (!gitfile || is_path_owned_by_current_user(gitfile, report)) &&
-++	    (!worktree || is_path_owned_by_current_user(worktree, report)) &&
-++	    (!gitdir || is_path_owned_by_current_user(gitdir, report)))
-+		return 1;
-+
-+	/*
-+@@ -1177,6 +1178,7 @@ enum discovery_result {
-+  */
-+ static enum discovery_result setup_git_directory_gently_1(struct strbuf *dir,
-+							  struct strbuf *gitdir,
-++							  struct strbuf *report,
-+							  int die_on_error)
-+ {
-+	const char *env_ceiling_dirs = getenv(CEILING_DIRECTORIES_ENVIRONMENT);
-+@@ -1264,7 +1266,7 @@ static enum discovery_result setup_git_directory_gently_1(struct strbuf *dir,
-+
-+			if (ensure_valid_ownership(gitfile,
-+						 dir->buf,
-+-				 (gitdir_path ? gitdir_path : gitdirenv))) {
-++				 (gitdir_path ? gitdir_path : gitdirenv), report)) {
-+				strbuf_addstr(gitdir, gitdirenv);
-+				ret = GIT_DIR_DISCOVERED;
-+			} else
-+@@ -1287,7 +1289,7 @@ static enum discovery_result setup_git_directory_gently_1(struct strbuf *dir,
-+		}
-+
-+		if (is_git_directory(dir->buf)) {
-+-			if (!ensure_valid_ownership(NULL, NULL, dir->buf))
-++			if (!ensure_valid_ownership(NULL, NULL, dir->buf, report))
-+				return GIT_DIR_INVALID_OWNERSHIP;
-+			strbuf_addstr(gitdir, ".");
-+			return GIT_DIR_BARE;
-+@@ -1320,7 +1322,7 @@ int discover_git_directory(struct strbuf *commondir,
-+		return -1;
-+
-+	cwd_len = dir.len;
-+-	if (setup_git_directory_gently_1(&dir, gitdir, 0) <= 0) {
-++	if (setup_git_directory_gently_1(&dir, gitdir, NULL, 0) <= 0) {
-+		strbuf_release(&dir);
-+		return -1;
-+	}
-+@@ -1367,7 +1369,7 @@ int discover_git_directory(struct strbuf *commondir,
-+ const char *setup_git_directory_gently(int *nongit_ok)
-+ {
-+	static struct strbuf cwd = STRBUF_INIT;
-+-	struct strbuf dir = STRBUF_INIT, gitdir = STRBUF_INIT;
-++	struct strbuf dir = STRBUF_INIT, gitdir = STRBUF_INIT, report = STRBUF_INIT;
-+	const char *prefix = NULL;
-+	struct repository_format repo_fmt = REPOSITORY_FORMAT_INIT;
-+
-+@@ -1392,7 +1394,7 @@ const char *setup_git_directory_gently(int *nongit_ok)
-+		die_errno(_("Unable to read current working directory"));
-+	strbuf_addbuf(&dir, &cwd);
-+
-+-	switch (setup_git_directory_gently_1(&dir, &gitdir, 1)) {
-++	switch (setup_git_directory_gently_1(&dir, &gitdir, &report, 1)) {
-+	case GIT_DIR_EXPLICIT:
-+		prefix = setup_explicit_git_dir(gitdir.buf, &cwd, &repo_fmt, nongit_ok);
-+		break;
-+@@ -1424,12 +1426,14 @@ const char *setup_git_directory_gently(int *nongit_ok)
-+		if (!nongit_ok) {
-+			struct strbuf quoted = STRBUF_INIT;
-+
-++			strbuf_complete(&report, '\n');
-+			sq_quote_buf_pretty(&quoted, dir.buf);
-+			die(_("detected dubious ownership in repository at '%s'\n"
-++			      "%s"
-+			      "To add an exception for this directory, call:\n"
-+			      "\n"
-+			      "\tgit config --global --add safe.directory %s"),
-+-			    dir.buf, quoted.buf);
-++			    dir.buf, report.buf, quoted.buf);
-+		}
-+		*nongit_ok = 1;
-+		break;
-+@@ -1508,6 +1512,7 @@ const char *setup_git_directory_gently(int *nongit_ok)
-+
-+	strbuf_release(&dir);
-+	strbuf_release(&gitdir);
-++	strbuf_release(&report);
-+	clear_repository_format(&repo_fmt);
-+
-+	return prefix;
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32004-0003.patch b/meta/recipes-devtools/git/git/CVE-2024-32004-0003.patch
-new file mode 100644
-index 0000000000..08ca1e596d
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32004-0003.patch
-@@ -0,0 +1,158 @@
-+From f4aa8c8bb11dae6e769cd930565173808cbb69c8 Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Wed, 10 Apr 2024 14:39:37 +0200
-+Subject: [PATCH] fetch/clone: detect dubious ownership of local repositories
-+
-+When cloning from somebody else's repositories, it is possible that,
-+say, the `upload-pack` command is overridden in the repository that is
-+about to be cloned, which would then be run in the user's context who
-+started the clone.
-+
-+To remind the user that this is a potentially unsafe operation, let's
-+extend the ownership checks we have already established for regular
-+gitdir discovery to extend also to local repositories that are about to
-+be cloned.
-+
-+This protection extends also to file:// URLs.
-+
-+The fixes in this commit address CVE-2024-32004.
-+
-+Note: This commit does not touch the `fetch`/`clone` code directly, but
-+instead the function used implicitly by both: `enter_repo()`. This
-+function is also used by `git receive-pack` (i.e. pushes), by `git
-+upload-archive`, by `git daemon` and by `git http-backend`. In setups
-+that want to serve repositories owned by different users than the
-+account running the service, this will require `safe.*` settings to be
-+configured accordingly.
-+
-+Also note: there are tiny time windows where a time-of-check-time-of-use
-+("TOCTOU") race is possible. The real solution to those would be to work
-+with `fstat()` and `openat()`. However, the latter function is not
-+available on Windows (and would have to be emulated with rather
-+expensive low-level `NtCreateFile()` calls), and the changes would be
-+quite extensive, for my taste too extensive for the little gain given
-+that embargoed releases need to pay extra attention to avoid introducing
-+inadvertent bugs.
-+
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32004
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ cache.h                       | 12 ++++++++++++
-+ path.c                        |  2 ++
-+ setup.c                       | 21 +++++++++++++++++++++
-+ t/t0411-clone-from-partial.sh |  6 +++---
-+ 4 files changed, 38 insertions(+), 3 deletions(-)
-+
-+diff --git a/cache.h b/cache.h
-+index 281f00a..a59bdbe 100644
-+--- a/cache.h
-++++ b/cache.h
-+@@ -615,6 +615,18 @@ void set_git_work_tree(const char *tree);
-+
-+ #define ALTERNATE_DB_ENVIRONMENT "GIT_ALTERNATE_OBJECT_DIRECTORIES"
-+
-++/*
-++ * Check if a repository is safe and die if it is not, by verifying the
-++ * ownership of the worktree (if any), the git directory, and the gitfile (if
-++ * any).
-++ *
-++ * Exemptions for known-safe repositories can be added via `safe.directory`
-++ * config settings; for non-bare repositories, their worktree needs to be
-++ * added, for bare ones their git directory.
-++ */
-++void die_upon_dubious_ownership(const char *gitfile, const char *worktree,
-++				const char *gitdir);
-++
-+ void setup_work_tree(void);
 + /*
-+  * Find the commondir and gitdir of the repository that contains the current
-+diff --git a/path.c b/path.c
-+index d73146b..ae1fb01 100644
-+--- a/path.c
-++++ b/path.c
-+@@ -840,6 +840,7 @@ const char *enter_repo(const char *path, int strict)
-+		if (!suffix[i])
-+			return NULL;
-+		gitfile = read_gitfile(used_path.buf);
-++		die_upon_dubious_ownership(gitfile, NULL, used_path.buf);
-+		if (gitfile) {
-+			strbuf_reset(&used_path);
-+			strbuf_addstr(&used_path, gitfile);
-+@@ -850,6 +851,7 @@ const char *enter_repo(const char *path, int strict)
-+	}
-+	else {
-+		const char *gitfile = read_gitfile(path);
-++		die_upon_dubious_ownership(gitfile, NULL, path);
-+		if (gitfile)
-+			path = gitfile;
-+		if (chdir(path))
-+diff --git a/setup.c b/setup.c
-+index 1ad7330..475c92e 100644
-+--- a/setup.c
-++++ b/setup.c
-+@@ -1151,6 +1151,27 @@ static int ensure_valid_ownership(const char *gitfile,
-+	return data.is_safe;
++@@ -3121,14 +3423,14 @@ oprp_get_params(gx_device *dev, gs_param_list *plist)
++     if (code) return code;
++
++     /* get params */
++-    return _get_params(plist);
+++    return _get_params(dev, plist);
 + }
 +
-++void die_upon_dubious_ownership(const char *gitfile, const char *worktree,
-++				const char *gitdir)
++ /*
++  * put params
++  */
++ static  int
++-_put_params(gs_param_list *plist)
+++_put_params(gx_device *dev, gs_param_list *plist)
++ {
++     int code;
++     int ecode = 0;
++@@ -3144,6 +3446,7 @@ _put_params(gs_param_list *plist)
++     gs_param_string mrps;
++     gs_param_string mbps;
++     gs_param_string zmps;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     /* vector driver name */
++     pname = "Driver";
++@@ -3153,10 +3456,10 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, vdps.size + 1);
++         memcpy(buff, vdps.data, vdps.size);
++         buff[vdps.size] = 0;
++-        opvp_alloc_string(&vectorDriver, buff);
+++        opvp_alloc_string(&(opdev->globals.vectorDriver), buff);
++         break;
++     case 1:
++-        /* opvp_alloc_string(&vectorDriver, NULL);*/
+++        /* opvp_alloc_string(&(opdev->globals.vectorDriver), NULL);*/
++         break;
++     default:
++         ecode = code;
++@@ -3171,10 +3474,10 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, pmps.size + 1);
++         memcpy(buff, pmps.data, pmps.size);
++         buff[pmps.size] = 0;
++-        opvp_alloc_string(&printerModel, buff);
+++        opvp_alloc_string(&(opdev->globals.printerModel), buff);
++         break;
++     case 1:
++-        /*opvp_alloc_string(&printerModel, NULL);*/
+++        /*opvp_alloc_string(&(opdev->globals.printerModel), NULL);*/
++         break;
++     default:
++         ecode = code;
++@@ -3189,10 +3492,10 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, jips.size + 1);
++         memcpy(buff, jips.data, jips.size);
++         buff[jips.size] = 0;
++-        opvp_alloc_string(&jobInfo, buff);
+++        opvp_alloc_string(&(opdev->globals.jobInfo), buff);
++         break;
++     case 1:
++-        /*opvp_alloc_string(&jobInfo, NULL);*/
+++        /*opvp_alloc_string(&(opdev->globals.jobInfo), NULL);*/
++         break;
++     default:
++         ecode = code;
++@@ -3207,10 +3510,10 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, dips.size + 1);
++         memcpy(buff, dips.data, dips.size);
++         buff[dips.size] = 0;
++-        opvp_alloc_string(&docInfo, buff);
+++        opvp_alloc_string(&(opdev->globals.docInfo), buff);
++         break;
++     case 1:
++-        /*opvp_alloc_string(&docInfo, NULL);*/
+++        /*opvp_alloc_string(&(opdev->globals.docInfo), NULL);*/
++         break;
++     default:
++         ecode = code;
++@@ -3256,7 +3559,7 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, mlps.size + 1);
++         memcpy(buff, mlps.data, mlps.size);
++         buff[mlps.size] = 0;
++-        margins[0] = atof(buff);
+++        opdev->globals.margins[0] = atof(buff);
++         break;
++     case 1:
++         break;
++@@ -3271,7 +3574,7 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, mtps.size + 1);
++         memcpy(buff, mtps.data, mtps.size);
++         buff[mtps.size] = 0;
++-        margins[3] = atof(buff);
+++        opdev->globals.margins[3] = atof(buff);
++         break;
++     case 1:
++         break;
++@@ -3286,7 +3589,7 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, mrps.size + 1);
++         memcpy(buff, mrps.data, mrps.size);
++         buff[mrps.size] = 0;
++-        margins[2] = atof(buff);
+++        opdev->globals.margins[2] = atof(buff);
++         break;
++     case 1:
++         break;
++@@ -3301,7 +3604,7 @@ _put_params(gs_param_list *plist)
++         buff = realloc(buff, mbps.size + 1);
++         memcpy(buff, mbps.data, mbps.size);
++         buff[mbps.size] = 0;
++-        margins[1] = atof(buff);
+++        opdev->globals.margins[1] = atof(buff);
++         break;
++     case 1:
++         break;
++@@ -3319,15 +3622,15 @@ _put_params(gs_param_list *plist)
++         memcpy(buff, zmps.data, zmps.size);
++         buff[zmps.size] = 0;
++         if (strncasecmp(buff, "Auto", 4)) {
++-            zoom[0] = atof(buff);
++-            if (zoom[0] > 0) {
++-                zoom[1] = zoom[0];
+++            opdev->globals.zoom[0] = atof(buff);
+++            if (opdev->globals.zoom[0] > 0) {
+++                opdev->globals.zoom[1] = opdev->globals.zoom[0];
++             } else {
++-                zoom[0] = zoom[1] = 1;
+++                opdev->globals.zoom[0] = opdev->globals.zoom[1] = 1;
++             }
++         } else {
++-            zoom[0] = zoom[1] = 1;
++-            zoomAuto = true;
+++            opdev->globals.zoom[0] = opdev->globals.zoom[1] = 1;
+++            opdev->globals.zoomAuto = true;
++         }
++         break;
++     case 1:
++@@ -3351,7 +3654,7 @@ opvp_put_params(gx_device *dev, gs_param_list *plist)
++     int code;
++
++     /* put params */
++-    code = _put_params(plist);
+++    code = _put_params(dev, plist);
++     if (code) return code;
++
++     /* put default params */
++@@ -3367,7 +3670,7 @@ oprp_put_params(gx_device *dev, gs_param_list *plist)
++     int code;
++
++     /* put params */
++-    code = _put_params(plist);
+++    code = _put_params(dev, plist);
++     if (code) return code;
++
++     /* put default params */
++@@ -3444,13 +3747,14 @@ opvp_fill_path(
++ {
++     bool draw_image = false;
++     gs_fixed_rect inner, outer;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     /* check if paths are too complex */
++     if (!checkPath(ppath) || !checkCPath(pxpath)) {
++         return gx_default_fill_path(dev, pgs, ppath, params, pdevc, pxpath);
++     }
++     /* check clippath support */
++-    if (!(apiEntry->opvpSetClipPath)) {
+++    if (!(opdev->globals.apiEntry->opvpSetClipPath)) {
++         /* get clipping box area */
++         gx_cpath_inner_box(pxpath,&inner);
++         gx_cpath_outer_box(pxpath,&outer);
++@@ -3462,7 +3766,7 @@ opvp_fill_path(
++         }
++     }
++
++-    if (!vector || draw_image) {
+++    if (!(opdev->globals.vector) || draw_image) {
++         return gx_default_fill_path(dev, pgs, ppath, params, pdevc, pxpath);
++     }
++
++@@ -3483,6 +3787,7 @@ opvp_stroke_path(
++ {
++     bool draw_image = false;
++     gs_fixed_rect inner, outer;
+++    gx_device_opvp *opdev = (gx_device_opvp *) dev;
++
++     /* check if paths are too complex */
++     if (!checkPath(ppath) || !checkCPath(pxpath)) {
++@@ -3490,7 +3795,7 @@ opvp_stroke_path(
++                                       params, pdcolor, pxpath);
++     }
++     /* check clippath support */
++-    if (!(apiEntry->opvpSetClipPath)) {
+++    if (!(opdev->globals.apiEntry->opvpSetClipPath)) {
++         /* get clipping box area */
++         gx_cpath_inner_box(pxpath,&inner);
++         gx_cpath_outer_box(pxpath,&outer);
++@@ -3502,7 +3807,7 @@ opvp_stroke_path(
++         }
++     }
++
++-    if (!vector || draw_image) {
+++    if (!(opdev->globals.vector) || draw_image) {
++         return gx_default_stroke_path(dev, pgs, ppath,
++                                       params, pdcolor, pxpath);
++     }
++@@ -3530,7 +3835,9 @@ opvp_fill_mask(
++     gs_logical_operation_t lop,
++     const gx_clip_path *pcpath)
++ {
++-    if (vector) {
+++    gx_device_opvp *opdev = (gx_device_opvp*) dev;
+++
+++    if (opdev->globals.vector) {
++         int code;
++         code = gdev_vector_update_fill_color((gx_device_vector *)dev, NULL, pdcolor);
++         if (code < 0)   return code;
++@@ -3574,6 +3881,7 @@ opvp_begin_typed_image(
++     int p;
++     float mag[2] = {1, 1};
++     const gs_color_space *pcs;
+++    gx_device_opvp *opdev = (gx_device_opvp *)dev;
++
++     /* check if paths are too complex */
++     if (pic->type->index != 1 || !checkCPath(pcpath))
++@@ -3757,7 +4065,7 @@ opvp_begin_typed_image(
++                  * 3 planes 24 bits color image
++                  * (8 bits per plane)
++                  */
++-                if (apiEntry->opvpStartDrawImage) {
+++                if (opdev->globals.apiEntry->opvpStartDrawImage) {
++                     draw_image = true;
++                 }
++             }
++@@ -3768,54 +4076,51 @@ opvp_begin_typed_image(
++         *pinfo = (gx_image_enum_common_t *)vinfo;
++
++         if (!ecode) {
+++            opvp_cspace_t ncspace;
+++
++             if (!pim->ImageMask) {
++                 /* call SetPaintMode */
++-                if (apiEntry->opvpSetPaintMode) {
++-                    apiEntry->opvpSetPaintMode(printerContext,
+++                if (opdev->globals.apiEntry->opvpSetPaintMode) {
+++                    opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext,
++                        OPVP_PAINTMODE_OPAQUE);
++                     change_paint_mode = true;
++                 }
++                 /* set color space */
++-                if (apiEntry->opvpSetColorSpace != NULL) {
++-                    opvp_cspace_t ncspace;
++-
++-                    savedColorSpace = colorSpace;
++-                    switch (bits_per_pixel) {
++-                    case 1:
++-                        ncspace = OPVP_CSPACE_DEVICEGRAY;
++-                        bits_per_pixel = 8;
++-                        if (!cspace_available[ncspace]) {
++-                            ncspace = OPVP_CSPACE_STANDARDRGB;
++-                            bits_per_pixel = 24;
++-                        }
++-                        break;
++-                    case 8:
++-                        ncspace = OPVP_CSPACE_DEVICEGRAY;
++-                        if (!cspace_available[ncspace]) {
++-                            ncspace = OPVP_CSPACE_STANDARDRGB;
++-                            bits_per_pixel = 24;
++-                        }
++-                        break;
++-                    case 24:
++-                        ncspace = OPVP_CSPACE_DEVICERGB;
++-                        if (!cspace_available[ncspace]) {
++-                            ncspace = OPVP_CSPACE_STANDARDRGB;
++-                        }
++-                        break;
++-                    default:
+++                opdev->globals.savedColorSpace = opdev->globals.colorSpace;
+++                switch (bits_per_pixel) {
+++                case 1:
+++                    ncspace = OPVP_CSPACE_DEVICEGRAY;
+++                    bits_per_pixel = 8;
+++                    if (!cspace_available[ncspace]) {
+++                        ncspace = OPVP_CSPACE_STANDARDRGB;
+++                        bits_per_pixel = 24;
+++                    }
+++                    break;
+++                case 8:
+++                    ncspace = OPVP_CSPACE_DEVICEGRAY;
+++                    if (!cspace_available[ncspace]) {
+++                        ncspace = OPVP_CSPACE_STANDARDRGB;
+++                        bits_per_pixel = 24;
+++                    }
+++                    break;
+++                case 24:
+++                    ncspace = OPVP_CSPACE_DEVICERGB;
+++                    if (!cspace_available[ncspace]) {
+++                        ncspace = OPVP_CSPACE_STANDARDRGB;
+++                    }
+++                    break;
+++                default:
+++                    r = -1;
+++                    goto fallthrough;
+++                    break;
+++                }
+++                if (ncspace != opdev->globals.colorSpace) {
+++                    if (gsopvpSetColorSpace(dev, opdev->globals.printerContext, ncspace) != OPVP_OK) {
++                         r = -1;
++                         goto fallthrough;
++-                        break;
++-                    }
++-                    if (ncspace != colorSpace) {
++-                        if (apiEntry->opvpSetColorSpace(printerContext,ncspace)
++-                             != OPVP_OK) {
++-                            r = -1;
++-                            goto fallthrough;
++-                        }
++-                        colorSpace = ncspace;
++-                        change_cspace = true;
++                     }
+++                    opdev->globals.colorSpace = ncspace;
+++                    change_cspace = true;
++                 }
++             }
++         }
++@@ -3832,8 +4137,8 @@ opvp_begin_typed_image(
++                 ctm.d = mtx.yy;
++                 ctm.e = mtx.tx;
++                 ctm.f = mtx.ty;
++-                if (apiEntry->opvpSetCTM) {
++-                    r = apiEntry->opvpSetCTM(printerContext, &ctm);
+++                if (opdev->globals.apiEntry->opvpSetCTM) {
+++                    r = opdev->globals.apiEntry->opvpSetCTM(opdev->globals.printerContext, &ctm);
++                 }
++                 else r = -1;
++                 if (r != OPVP_OK) ecode = r;
++@@ -3841,38 +4146,33 @@ opvp_begin_typed_image(
++         }
++         if (!ecode) {
++             int dw,dh;
+++            opvp_int_t adj_raster;
++
++             /* image size */
++             if (mag[0] != 1) {
++-                dw = floor(vinfo->width * mag[0]+0.5);
+++                dw = (int) floor(vinfo->width * mag[0]+0.5);
++             } else {
++                 dw = vinfo->width;
++             }
++             if (mag[1] != 1) {
++-                dh = floor(vinfo->height * mag[1]+0.5);
+++                dh = (int) floor(vinfo->height * mag[1]+0.5);
++             } else {
++                 dh = vinfo->height;
++             }
++             /* call StartDrawImage */
++-            if (apiEntry->opvpStartDrawImage) {
++-                opvp_int_t adj_raster;
++-
++-                adj_raster = bits_per_pixel*vinfo->width;
++-                adj_raster = ((adj_raster+31) >> 5) << 2;
++-                r = apiEntry->opvpStartDrawImage(
++-                                        printerContext,
++-                                        vinfo->width,
++-                                        vinfo->height,
++-                                        adj_raster,
++-                                        pim->ImageMask ?
++-                                          OPVP_IFORMAT_MASK:
++-                                          OPVP_IFORMAT_RAW,
++-                                        dw,dh);
++-                if(r != OPVP_OK) {
++-                    if (apiEntry->opvpEndDrawImage) {
++-                        apiEntry->opvpEndDrawImage(printerContext);
++-                    }
++-                }
+++            adj_raster = bits_per_pixel*vinfo->width;
+++            adj_raster = ((adj_raster+31) >> 5) << 2;
+++            r = gsopvpStartDrawImage(dev,
+++                                    opdev->globals.printerContext,
+++                                    vinfo->width,
+++                                    vinfo->height,
+++                                    adj_raster,
+++                                    pim->ImageMask ?
+++                                        OPVP_IFORMAT_MASK:
+++                                        OPVP_IFORMAT_RAW,
+++                                    dw,dh);
+++            if(r != OPVP_OK) {
+++                gsopvpEndDrawImage(dev, opdev->globals.printerContext);
++             }
++
++             /* bugfix for 32bit CMYK image print error */
++@@ -3880,23 +4180,20 @@ fallthrough:
++             if(r != OPVP_OK) {
++                 if (change_paint_mode) {
++                     /* restore paint mode */
++-                    if (apiEntry->opvpSetPaintMode) {
++-                        apiEntry->opvpSetPaintMode(printerContext,
+++                    if (opdev->globals.apiEntry->opvpSetPaintMode) {
+++                        opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext,
++                            OPVP_PAINTMODE_TRANSPARENT);
++                     }
++                     change_paint_mode = false;
++                 }
++                 if (change_cspace) {
++                     /* restore color space */
++-                    colorSpace = savedColorSpace;
++-                    if (apiEntry->opvpSetColorSpace) {
++-                        apiEntry->opvpSetColorSpace(printerContext,
++-                           colorSpace);
++-                    }
+++                    opdev->globals.colorSpace = opdev->globals.savedColorSpace;
+++                    gsopvpSetColorSpace(dev, opdev->globals.printerContext, opdev->globals.colorSpace);
++                     change_cspace = false;
++                 }
++-                if(apiEntry->opvpResetCTM) {
++-                    apiEntry->opvpResetCTM(printerContext); /* reset CTM */
+++                if(opdev->globals.apiEntry->opvpResetCTM) {
+++                    opdev->globals.apiEntry->opvpResetCTM(opdev->globals.printerContext); /* reset CTM */
++                 }
++                 goto fallback;
++             }
++@@ -3942,6 +4239,7 @@ opvp_image_plane_data(
++     bbox_image_enum *pbe;
++     gx_image_enum *tinfo;
++     const gs_gstate *pgs;
+++    gx_device_opvp *opdev = (gx_device_opvp*)(info->dev);
++
++     vinfo = (gdev_vector_image_enum_t *)info;
++
++@@ -4037,7 +4335,7 @@ opvp_image_plane_data(
++             if(color_index == gs_color_space_index_Indexed) {
++                 if (base_color_index == gs_color_space_index_DeviceGray ||
++                    base_color_index == gs_color_space_index_CIEA) {
++-                    if (colorSpace == OPVP_CSPACE_DEVICEGRAY) {
+++                    if (opdev->globals.colorSpace == OPVP_CSPACE_DEVICEGRAY) {
++                         /* Convert indexed gray color -> Gray */
++                         if (bits_per_pixel == 8) { /* 8bit image */
++                             dst_bytes = data_bytes;
++@@ -4193,8 +4491,8 @@ opvp_image_plane_data(
++             /* Convert Gray */
++             if(color_index == gs_color_space_index_DeviceGray ||
++                color_index == gs_color_space_index_CIEA) {
++-                if (colorSpace == OPVP_CSPACE_STANDARDRGB
++-                  || colorSpace == OPVP_CSPACE_DEVICERGB) {
+++                if (opdev->globals.colorSpace == OPVP_CSPACE_STANDARDRGB
+++                  || opdev->globals.colorSpace == OPVP_CSPACE_DEVICERGB) {
++                     /* convert to RGB */
++                     if (bits_per_pixel == 8) { /* 8bit image */
++                         dst_bytes = data_bytes * 3;
++@@ -4206,7 +4504,7 @@ opvp_image_plane_data(
++                                 src_ptr = buf + raster_length * i;
++                                 dst_ptr = tmp_buf + dst_length * i;
++                                 for (j = 0; j < data_bytes; j++) {
++-                                    unsigned char d = floor(
+++                                    unsigned char d = (unsigned char) floor(
++                                       imageDecode[0]*255 + src_ptr[j]*
++                                       (imageDecode[1]-imageDecode[0])+0.5);
++
++@@ -4234,7 +4532,7 @@ opvp_image_plane_data(
++                                 for (j = 0; j < vinfo->width; j++) {
++                                     int o = ((src_ptr[j/8] & (1 << (7 - (j & 7))))
++                                               != 0);
++-                                    unsigned char d = floor(
+++                                    unsigned char d =  (unsigned char) floor(
++                                       imageDecode[0]*255 + o*
++                                       (imageDecode[1]-imageDecode[0])*255+0.5);
++                                     dst_ptr[j*3] = d; /* R */
++@@ -4250,7 +4548,7 @@ opvp_image_plane_data(
++                             vinfo->bits_per_pixel = 24;
++                         }
++                     }
++-                } else if (colorSpace == OPVP_CSPACE_DEVICEGRAY) {
+++                } else if (opdev->globals.colorSpace == OPVP_CSPACE_DEVICEGRAY) {
++                     if (bits_per_pixel == 1) { /* 1bit image */
++                         dst_bytes = vinfo->width;
++                         dst_length = ((dst_bytes + 3) >> 2) << 2;
++@@ -4263,7 +4561,7 @@ opvp_image_plane_data(
++                                 for (j = 0; j < vinfo->width; j++) {
++                                     int o = ((src_ptr[j/8] & (1 << (7 - (j & 7))))
++                                               != 0);
++-                                    unsigned char d = floor(
+++                                    unsigned char d = (unsigned char) floor(
++                                       imageDecode[0]*255 + o*
++                                       (imageDecode[1]-imageDecode[0])*255+0.5);
++                                     dst_ptr[j] = d; /* R */
++@@ -4299,8 +4597,8 @@ opvp_image_plane_data(
++         }
++
++         /* call TansferDrawImage */
++-        if (apiEntry->opvpTransferDrawImage) {
++-            apiEntry->opvpTransferDrawImage(printerContext,
+++        if (opdev->globals.apiEntry->opvpTransferDrawImage) {
+++            opdev->globals.apiEntry->opvpTransferDrawImage(opdev->globals.printerContext,
++                         raster_length * height, (void *)buf);
++         }
++     }
++@@ -4325,21 +4623,20 @@ opvp_image_end_image(gx_image_enum_common_t *info, bool draw_last)
++     gx_device_vector *vdev = (gx_device_vector *)dev;
++     gdev_vector_image_enum_t *vinfo;
++     opvp_ctm_t ctm;
+++    gx_device_opvp *opdev = (gx_device_opvp*)dev;
++
++     vinfo = (gdev_vector_image_enum_t *)info;
++
++     if (begin_image) {
++         /* call EndDrawImage */
++-        if (apiEntry->opvpEndDrawImage) {
++-            apiEntry->opvpEndDrawImage(printerContext);
++-        }
+++        gsopvpEndDrawImage(dev, opdev->globals.printerContext);
++
++         begin_image = false;
++
++         if (FastImageMode != FastImageNoCTM) {
++             /* call ResetCTM */
++-            if (apiEntry->opvpResetCTM) {
++-                apiEntry->opvpResetCTM(printerContext);
+++            if (opdev->globals.apiEntry->opvpResetCTM) {
+++                opdev->globals.apiEntry->opvpResetCTM(opdev->globals.printerContext);
++             } else {
++                 /* call SetCTM */
++                 ctm.a = 1;
++@@ -4348,25 +4645,24 @@ opvp_image_end_image(gx_image_enum_common_t *info, bool draw_last)
++                 ctm.d = 1;
++                 ctm.e = 0;
++                 ctm.f = 0;
++-                if (apiEntry->opvpSetCTM) {
++-                    apiEntry->opvpSetCTM(printerContext, &ctm);
+++                if (opdev->globals.apiEntry->opvpSetCTM) {
+++                    opdev->globals.apiEntry->opvpSetCTM(opdev->globals.printerContext, &ctm);
++                 }
++             }
++         }
++         if (change_paint_mode) {
++             /* restore paint mode */
++-            if (apiEntry->opvpSetPaintMode) {
++-                apiEntry->opvpSetPaintMode(printerContext,
+++            if (opdev->globals.apiEntry->opvpSetPaintMode) {
+++                opdev->globals.apiEntry->opvpSetPaintMode(opdev->globals.printerContext,
++                    OPVP_PAINTMODE_TRANSPARENT);
++             }
++             change_paint_mode = false;
++         }
++         if (change_cspace) {
++             /* restore color space */
++-            colorSpace = savedColorSpace;
++-            if (apiEntry->opvpSetColorSpace) {
++-                apiEntry->opvpSetColorSpace(printerContext,
++-                   colorSpace);
+++            opdev->globals.colorSpace = opdev->globals.savedColorSpace;
+++            if (gsopvpSetColorSpace(dev, opdev->globals.printerContext, opdev->globals.colorSpace) != OPVP_OK) {
+++                return -1;
++             }
++             change_cspace = false;
++         }
++@@ -4382,20 +4678,20 @@ opvp_image_end_image(gx_image_enum_common_t *info, bool draw_last)
++ static  int
++ opvp_beginpage(gx_device_vector *vdev)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     int code = -1;
++     int ecode = 0;
++
++ #ifdef OPVP_IGNORE_BLANK_PAGE
++-    if (pdev->in_page) return 0;
+++    if (opdev->in_page) return 0;
++ #endif
++     /* start page */
++-    code = opvp_startpage((gx_device *)pdev);
+++    code = opvp_startpage((gx_device *)opdev);
++     if (code) {
++         ecode = code;
++     } else {
++-        pdev->in_page = true;   /* added '05.12.07 */
++-        beginPage = true;
+++        opdev->in_page = true;   /* added '05.12.07 */
+++        opdev->globals.beginPage = true;
++     }
++
++     return ecode;
++@@ -4407,18 +4703,19 @@ opvp_beginpage(gx_device_vector *vdev)
++ static  int
++ opvp_setlinewidth(gx_device_vector *vdev, double width)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_fix_t w;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* call SetLineWidth */
++     OPVP_F2FIX(width, w);
++-    if (apiEntry->opvpSetLineWidth) {
++-        r = apiEntry->opvpSetLineWidth(printerContext, w);
+++    if (opdev->globals.apiEntry->opvpSetLineWidth) {
+++        r = opdev->globals.apiEntry->opvpSetLineWidth(opdev->globals.printerContext, w);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -4433,13 +4730,14 @@ opvp_setlinewidth(gx_device_vector *vdev, double width)
++ static  int
++ opvp_setlinecap(gx_device_vector *vdev, gs_line_cap cap)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_linecap_t linecap;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     switch (cap) {
++     case gs_cap_butt:
++@@ -4458,8 +4756,8 @@ opvp_setlinecap(gx_device_vector *vdev, gs_line_cap cap)
++     }
++
++     /* call SetLineCap */
++-    if (apiEntry->opvpSetLineCap) {
++-        r = apiEntry->opvpSetLineCap(printerContext, linecap);
+++    if (opdev->globals.apiEntry->opvpSetLineCap) {
+++        r = opdev->globals.apiEntry->opvpSetLineCap(opdev->globals.printerContext, linecap);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -4474,13 +4772,14 @@ opvp_setlinecap(gx_device_vector *vdev, gs_line_cap cap)
++ static  int
++ opvp_setlinejoin(gx_device_vector *vdev, gs_line_join join)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_linejoin_t linejoin;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     switch (join) {
++     case gs_join_miter:
++@@ -4500,8 +4799,8 @@ opvp_setlinejoin(gx_device_vector *vdev, gs_line_join join)
++     }
++
++     /* call SetLineJoin */
++-    if (apiEntry->opvpSetLineJoin) {
++-        r = apiEntry->opvpSetLineJoin(printerContext, linejoin);
+++    if (opdev->globals.apiEntry->opvpSetLineJoin) {
+++        r = opdev->globals.apiEntry->opvpSetLineJoin(opdev->globals.printerContext, linejoin);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -4516,18 +4815,19 @@ opvp_setlinejoin(gx_device_vector *vdev, gs_line_join join)
++ static  int
++ opvp_setmiterlimit(gx_device_vector *vdev, double limit)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_fix_t l;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* call SetMiterLimit */
++     OPVP_F2FIX(limit, l);
++-    if (apiEntry->opvpSetMiterLimit) {
++-        r = apiEntry->opvpSetMiterLimit(printerContext, l);
+++    if (opdev->globals.apiEntry->opvpSetMiterLimit) {
+++        r = opdev->globals.apiEntry->opvpSetMiterLimit(opdev->globals.printerContext, l);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -4546,7 +4846,7 @@ opvp_setdash(
++     uint count,
++     double offset)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_fix_t *p = NULL;
++@@ -4554,7 +4854,8 @@ opvp_setdash(
++     int i;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* pattern */
++     if (count) {
++@@ -4570,9 +4871,7 @@ opvp_setdash(
++
++     /* call SetLineDash */
++     if (!ecode) {
++-        if (apiEntry->opvpSetLineDash) {
++-            r = apiEntry->opvpSetLineDash(printerContext, count,p);
++-        }
+++        r = gsopvpSetLineDash((gx_device*) vdev, opdev->globals.printerContext, count,p);
++         if (r != OPVP_OK) {
++             ecode = -1;
++         }
++@@ -4581,8 +4880,8 @@ opvp_setdash(
++     /* call SetLineDashOffset */
++     if (!ecode) {
++         OPVP_F2FIX(offset, o);
++-        if (apiEntry->opvpSetLineDashOffset) {
++-            r = apiEntry->opvpSetLineDashOffset(printerContext, o);
+++        if (opdev->globals.apiEntry->opvpSetLineDashOffset) {
+++            r = opdev->globals.apiEntry->opvpSetLineDashOffset(opdev->globals.printerContext, o);
++         }
++         if (r != OPVP_OK) {
++             ecode = -1;
++@@ -4591,8 +4890,8 @@ opvp_setdash(
++
++     /* call SetLineStyle */
++     if (!ecode) {
++-        if (apiEntry->opvpSetLineStyle) {
++-            r = apiEntry->opvpSetLineStyle(printerContext,
+++        if (opdev->globals.apiEntry->opvpSetLineStyle) {
+++            r = opdev->globals.apiEntry->opvpSetLineStyle(opdev->globals.printerContext,
++                                   (count ?
++                                    OPVP_LINESTYLE_DASH :
++                                    OPVP_LINESTYLE_SOLID));
++@@ -4613,11 +4912,12 @@ opvp_setdash(
++ static  int
++ opvp_setflat(gx_device_vector *vdev, double flatness)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     int ecode = 0;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* what to do ? */
++
++@@ -4654,26 +4954,26 @@ opvp_setfillcolor(
++     const gs_gstate *pgs, /* added for gs 8.15 */
++     const gx_drawing_color *pdc)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     gx_color_index color;
++     static opvp_brush_t brush;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     if (!gx_dc_is_pure(pdc)) return_error(gs_error_rangecheck);
++
++     /* color */
++-    if (!vectorFillColor) vectorFillColor = &brush;
+++    if (!opdev->globals.vectorFillColor)
+++        opdev->globals.vectorFillColor = &brush;
++     color = gx_dc_pure_color(pdc);
++-    opvp_set_brush_color(pdev, color, vectorFillColor);
+++    opvp_set_brush_color(opdev, color, opdev->globals.vectorFillColor);
++
++     /* call SetFillColor */
++-    if (apiEntry->opvpSetFillColor) {
++-        r = apiEntry->opvpSetFillColor(printerContext, vectorFillColor);
++-    }
+++    r = gsopvpSetFillColor((gx_device*) vdev, opdev->globals.printerContext, opdev->globals.vectorFillColor);
++     if (r != OPVP_OK) {
++         ecode = -1;
++     }
++@@ -4690,25 +4990,24 @@ opvp_setstrokecolor(
++     const gs_gstate *pgs, /* added for gs 8.15 */
++     const gx_drawing_color *pdc)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     gx_color_index color;
++     opvp_brush_t brush;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     if (!gx_dc_is_pure(pdc)) return_error(gs_error_rangecheck);
++
++     /* color */
++     color = gx_dc_pure_color(pdc);
++-    opvp_set_brush_color(pdev, color, &brush);
+++    opvp_set_brush_color(opdev, color, &brush);
++
++     /* call SetStrokeColor */
++-    if (apiEntry->opvpSetStrokeColor) {
++-        r = apiEntry->opvpSetStrokeColor(printerContext, &brush);
++-    }
+++    r = gsopvpSetStrokeColor((gx_device*) vdev, opdev->globals.printerContext, &brush);
++     if (r != OPVP_OK) {
++         ecode = -1;
++     }
++@@ -4728,7 +5027,7 @@ opvp_vector_dopath(
++     gx_path_type_t type,
++     const gs_matrix *pmat)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int code = -1;
++     int ecode = 0;
++@@ -4755,7 +5054,8 @@ opvp_vector_dopath(
++     current.x = current.y = 0;
++ #endif
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     if (gx_path_is_rectangle(ppath, &rect))
++     return (*vdev_proc(vdev, dorect))(vdev,
++@@ -4797,9 +5097,9 @@ opvp_vector_dopath(
++             switch (pop) {
++             case gs_pe_moveto:
++                 /* call SetCurrentPoint */
++-                if (apiEntry->opvpSetCurrentPoint) {
++-                    r = apiEntry->opvpSetCurrentPoint(
++-                       printerContext,
+++                if (opdev->globals.apiEntry->opvpSetCurrentPoint) {
+++                    r = opdev->globals.apiEntry->opvpSetCurrentPoint(
+++                        opdev->globals.printerContext,
++                        opvp_p[npoints-1].x,
++                        opvp_p[npoints-1].y);
++                 }
++@@ -4807,9 +5107,9 @@ opvp_vector_dopath(
++                 break;
++             case gs_pe_lineto:
++                 /* call LinePath */
++-                if (apiEntry->opvpLinePath) {
++-                    r = apiEntry->opvpLinePath(
++-                       printerContext,
+++                if (opdev->globals.apiEntry->opvpLinePath) {
+++                    r = opdev->globals.apiEntry->opvpLinePath(
+++                        opdev->globals.printerContext,
++                        OPVP_PATHOPEN,
++                        npoints - 1,
++                        &(opvp_p[1]));
++@@ -4819,9 +5119,9 @@ opvp_vector_dopath(
++             case gs_pe_curveto:
++                 /* npoints */
++                 /* call BezierPath */
++-                if (apiEntry->opvpBezierPath) {
++-                    r = apiEntry->opvpBezierPath(
++-                       printerContext,
+++                if (opdev->globals.apiEntry->opvpBezierPath) {
+++                    r = opdev->globals.apiEntry->opvpBezierPath(
+++                        opdev->globals.printerContext,
++                        npoints - 1,
++                        &(opvp_p[1])
++                        );
++@@ -4982,7 +5282,7 @@ opvp_vector_dorect(
++     fixed y1,
++     gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int code = -1;
++     int ecode = 0;
++@@ -4991,7 +5291,8 @@ opvp_vector_dorect(
++     _fPoint p;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* begin path */
++     code = (*vdev_proc(vdev, beginpath))(vdev, type);
++@@ -5010,8 +5311,9 @@ opvp_vector_dorect(
++         OPVP_F2FIX(p.y, rectangles[0].p1.y);
++
++         /* call RectanglePath */
++-        if (apiEntry->opvpRectanglePath) {
++-            r = apiEntry->opvpRectanglePath(printerContext,
+++        if (opdev->globals.apiEntry->opvpRectanglePath) {
+++            r = opdev->globals.apiEntry->opvpRectanglePath(
+++                                   opdev->globals.printerContext,
++                                    1,
++                                    rectangles);
++         }
++@@ -5038,22 +5340,23 @@ opvp_vector_dorect(
++ static  int
++ opvp_beginpath(gx_device_vector *vdev, gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* check clip-path */
++     if (type & gx_path_type_clip) {
++-        if (apiEntry->opvpResetClipPath)
++-        apiEntry->opvpResetClipPath(printerContext);
+++        if (opdev->globals.apiEntry->opvpResetClipPath)
+++        opdev->globals.apiEntry->opvpResetClipPath(opdev->globals.printerContext);
++     }
++
++     /* call NewPath */
++-    if (apiEntry->opvpNewPath) {
++-        r = apiEntry->opvpNewPath(printerContext);
+++    if (opdev->globals.apiEntry->opvpNewPath) {
+++        r = opdev->globals.apiEntry->opvpNewPath(opdev->globals.printerContext);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -5074,19 +5377,20 @@ opvp_moveto(
++     double y1,
++     gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_point_t p;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* call SetCurrentPoint */
++     OPVP_F2FIX(x1, p.x);
++     OPVP_F2FIX(y1, p.y);
++-    if (apiEntry->opvpSetCurrentPoint) {
++-        r = apiEntry->opvpSetCurrentPoint(printerContext, p.x, p.y);
+++    if (opdev->globals.apiEntry->opvpSetCurrentPoint) {
+++        r = opdev->globals.apiEntry->opvpSetCurrentPoint(opdev->globals.printerContext, p.x, p.y);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -5107,21 +5411,23 @@ opvp_lineto(
++     double y1,
++     gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_point_t points[1];
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* point */
++     OPVP_F2FIX(x1, points[0].x);
++     OPVP_F2FIX(y1, points[0].y);
++
++     /* call LinePath */
++-    if (apiEntry->opvpLinePath) {
++-        r = apiEntry->opvpLinePath(printerContext, OPVP_PATHOPEN, 1, points);
+++    if (opdev->globals.apiEntry->opvpLinePath) {
+++        r = opdev->globals.apiEntry->opvpLinePath(
+++                  opdev->globals.printerContext, OPVP_PATHOPEN, 1, points);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -5146,13 +5452,14 @@ opvp_curveto(
++     double y3,
++     gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_point_t points[4];
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* points */
++     OPVP_F2FIX(x0, points[0].x);
++@@ -5165,8 +5472,9 @@ opvp_curveto(
++     OPVP_F2FIX(y3, points[3].y);
++
++     /* call BezierPath */
++-    if (apiEntry->opvpBezierPath) {
++-        r = apiEntry->opvpBezierPath(printerContext,
+++    if (opdev->globals.apiEntry->opvpBezierPath) {
+++        r = opdev->globals.apiEntry->opvpBezierPath(
+++                            opdev->globals.printerContext,
++                             3,
++                             &(points[1])
++                             );
++@@ -5190,21 +5498,23 @@ opvp_closepath(
++     double y_start,
++     gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++     opvp_point_t points[1];
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* point */
++     OPVP_F2FIX(x_start, points[0].x);
++     OPVP_F2FIX(y_start, points[0].y);
++
++     /* call LinePath */
++-    if (apiEntry->opvpLinePath) {
++-        r = apiEntry->opvpLinePath(printerContext, OPVP_PATHCLOSE, 1, points);
+++    if (opdev->globals.apiEntry->opvpLinePath) {
+++        r = opdev->globals.apiEntry->opvpLinePath(
+++                          opdev->globals.printerContext, OPVP_PATHCLOSE, 1, points);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -5219,16 +5529,17 @@ opvp_closepath(
++ static  int
++ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++ {
++-    gx_device_opvp *pdev = (gx_device_opvp *)vdev;
+++    gx_device_opvp *opdev = (gx_device_opvp *)vdev;
++     opvp_result_t r = -1;
++     int ecode = 0;
++
++     /* check page-in */
++-    if (opvp_check_in_page(pdev)) return -1;
+++    if (opvp_check_in_page(opdev))
+++        return -1;
++
++     /* call EndPath */
++-    if (apiEntry->opvpEndPath) {
++-        r = apiEntry->opvpEndPath(printerContext);
+++    if (opdev->globals.apiEntry->opvpEndPath) {
+++        r = opdev->globals.apiEntry->opvpEndPath(opdev->globals.printerContext);
++     }
++     if (r != OPVP_OK) {
++         ecode = -1;
++@@ -5238,9 +5549,9 @@ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++         /* fill mode */
++         if (type & gx_path_type_even_odd) {
++             /* call SetFillMode */
++-            if (apiEntry->opvpSetFillMode) {
++-                r = apiEntry->opvpSetFillMode(
++-                   printerContext,
+++            if (opdev->globals.apiEntry->opvpSetFillMode) {
+++                r = opdev->globals.apiEntry->opvpSetFillMode(
+++                   opdev->globals.printerContext,
++                    OPVP_FILLMODE_EVENODD
++                 );
++             }
++@@ -5249,9 +5560,9 @@ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++             }
++         } else {
++             /* call SetFillMode */
++-            if (apiEntry->opvpSetFillMode) {
++-                r = apiEntry->opvpSetFillMode(
++-                   printerContext,
+++            if (opdev->globals.apiEntry->opvpSetFillMode) {
+++                r = opdev->globals.apiEntry->opvpSetFillMode(
+++                   opdev->globals.printerContext,
++                    OPVP_FILLMODE_WINDING
++                 );
++             }
++@@ -5262,16 +5573,16 @@ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++
++         if (type & gx_path_type_stroke) {
++             /* call StrokeFillPath */
++-            if (apiEntry->opvpStrokeFillPath) {
++-                r = apiEntry->opvpStrokeFillPath(printerContext);
+++            if (opdev->globals.apiEntry->opvpStrokeFillPath) {
+++                r = opdev->globals.apiEntry->opvpStrokeFillPath(opdev->globals.printerContext);
++             }
++             if (r != OPVP_OK) {
++                 ecode = -1;
++             }
++         } else {
++             /* call FillPath */
++-            if (apiEntry->opvpFillPath) {
++-                r = apiEntry->opvpFillPath(printerContext);
+++            if (opdev->globals.apiEntry->opvpFillPath) {
+++                r = opdev->globals.apiEntry->opvpFillPath(opdev->globals.printerContext);
++             }
++             if (r != OPVP_OK) {
++                 ecode = -1;
++@@ -5279,9 +5590,9 @@ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++         }
++     } else if (type & gx_path_type_clip) {
++         /* call SetClipPath */
++-        if (apiEntry->opvpSetClipPath) {
++-            r = apiEntry->opvpSetClipPath(
++-               printerContext,
+++        if (opdev->globals.apiEntry->opvpSetClipPath) {
+++            r = opdev->globals.apiEntry->opvpSetClipPath(
+++               opdev->globals.printerContext,
++                (type & gx_path_type_even_odd
++                             ? OPVP_CLIPRULE_EVENODD
++                             : OPVP_CLIPRULE_WINDING));
++@@ -5291,8 +5602,8 @@ opvp_endpath(gx_device_vector *vdev, gx_path_type_t type)
++         }
++     } else if (type & gx_path_type_stroke) {
++         /* call StrokePath */
++-        if (apiEntry->opvpStrokePath) {
++-            r = apiEntry->opvpStrokePath(printerContext);
+++        if (opdev->globals.apiEntry->opvpStrokePath) {
+++            r = opdev->globals.apiEntry->opvpStrokePath(opdev->globals.printerContext);
++         }
++         if (r != OPVP_OK) {
++             ecode = -1;
++diff --git a/contrib/opvp/opvp.h b/contrib/opvp/opvp.h
++index 426e8cf..db09046 100644
++--- a/contrib/opvp/opvp.h
+++++ b/contrib/opvp/opvp.h
++@@ -160,7 +160,7 @@ typedef struct _opvp_brushdata {
++ #elif defined(__HP_cc)
++         opvp_byte_t data[1];
++ #else
++-        opvp_byte_t data[];
+++        opvp_byte_t data[1];
++ #endif
++
++ } opvp_brushdata_t;
++@@ -222,8 +222,8 @@ typedef	struct _opvp_api_procs {
++         opvp_result_t (*opvpEndDoc)(opvp_dc_t);
++         opvp_result_t (*opvpStartPage)(opvp_dc_t,const opvp_char_t*);
++         opvp_result_t (*opvpEndPage)(opvp_dc_t);
++-        opvp_result_t (*opvpQueryDeviceCapability)(opvp_dc_t,opvp_flag_t,opvp_int_t*,opvp_byte_t*);
++-        opvp_result_t (*opvpQueryDeviceInfo)(opvp_dc_t,opvp_flag_t,opvp_int_t*,opvp_char_t*);
+++        opvp_result_t (*opvpQueryDeviceCapability)(opvp_dc_t, opvp_queryinfoflags_t,opvp_int_t*,opvp_byte_t*);
+++        opvp_result_t (*opvpQueryDeviceInfo)(opvp_dc_t, opvp_queryinfoflags_t,opvp_int_t*,opvp_char_t*);
++         opvp_result_t (*opvpResetCTM)(opvp_dc_t);
++         opvp_result_t (*opvpSetCTM)(opvp_dc_t,const opvp_ctm_t*);
++         opvp_result_t (*opvpGetCTM)(opvp_dc_t,opvp_ctm_t*);
++@@ -287,8 +287,7 @@ typedef	struct _opvp_api_procs {
++ } opvp_api_procs_t;
++
++ /* Function prototype */
++-opvp_dc_t opvpOpenPrinter(
++-        opvp_int_t outputFD,
+++extern opvp_dc_t opvpOpenPrinter(opvp_int_t outputFD,
++         const opvp_char_t *printerModel,
++         const opvp_int_t apiVersion[2],
++         opvp_api_procs_t **apiProcs);
++diff --git a/contrib/opvp/opvp_0_2_0.h b/contrib/opvp/opvp_0_2_0.h
++index 6030971..8518b7e 100644
++--- a/contrib/opvp/opvp_0_2_0.h
+++++ b/contrib/opvp/opvp_0_2_0.h
++@@ -210,7 +210,7 @@ typedef	struct	_OPVP_CTM {
++ typedef	struct	_OPVP_api_procs {
++         int	(*OpenPrinter)(int,char *,int *,struct _OPVP_api_procs **);
++         int	(*ClosePrinter)(int);
++-        int	(*StartJob)(int,char *);
+++        int	(*StartJob)(int, char *);
++         int	(*EndJob)(int);
++         int	(*StartDoc)(int,char *);
++         int	(*EndDoc)(int);
++@@ -238,7 +238,7 @@ typedef	struct	_OPVP_api_procs {
++         int	(*GetAlphaConstant)(int,float *);
++         int	(*SetLineWidth)(int,OPVP_Fix);
++         int	(*GetLineWidth)(int,OPVP_Fix *);
++-        int	(*SetLineDash)(int,OPVP_Fix *,int);
+++        int	(*SetLineDash)(int, int, OPVP_Fix *);
++         int	(*GetLineDash)(int,OPVP_Fix *,int *);
++         int	(*SetLineDashOffset)(int,OPVP_Fix);
++         int	(*GetLineDashOffset)(int,OPVP_Fix *);
++diff --git a/contrib/opvp/opvpharness.c b/contrib/opvp/opvpharness.c
++new file mode 100644
++index 0000000..95919f4
++--- /dev/null
+++++ b/contrib/opvp/opvpharness.c
++@@ -0,0 +1,947 @@
+++/* Test harness for checking results after
+++   removal of globals in opvp device. Note,
+++   0.2 API not tested. Assumption is OpenPrinter
+++   is the first method called and ClosePrinter
+++   will be the final method called. If not,
+++   there will be problems. */
+++
+++#include "opvp.h"
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <math.h>
+++
+++/* Yes globals, but here we don't care */
+++FILE *pFile = NULL;
+++
+++/* Graphic state members of API that are set and get. */
+++typedef struct opvp_gstate_s {
+++    opvp_ctm_t ctm;
+++    opvp_cspace_t colorspace;
+++    opvp_fillmode_t fill_mode;
+++    opvp_float_t alpha;
+++    opvp_fix_t line_width;
+++    opvp_int_t line_dash_n;
+++    opvp_fix_t *line_dash_array;
+++    opvp_fix_t dash_offset;
+++    opvp_linestyle_t line_style;
+++    opvp_linecap_t line_cap;
+++    opvp_linejoin_t line_join;
+++    opvp_fix_t miter_limit;
+++    opvp_paintmode_t paintmode;
+++} opvp_gstate_t;
+++
+++opvp_gstate_t opv_gstate;
+++
+++static opvp_result_t
+++opvpClosePrinter(opvp_dc_t printerContext)
 ++{
-++	struct strbuf report = STRBUF_INIT, quoted = STRBUF_INIT;
-++	const char *path;
+++    fputs("opvpClosePrinter\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fclose(pFile);
 ++
-++	if (ensure_valid_ownership(gitfile, worktree, gitdir, &report))
-++		return;
+++    if (opv_gstate.line_dash_array != NULL)
+++        free(opv_gstate.line_dash_array);
 ++
-++	strbuf_complete(&report, '\n');
-++	path = gitfile ? gitfile : gitdir;
-++	sq_quote_buf_pretty(&quoted, path);
-++
-++	die(_("detected dubious ownership in repository at '%s'\n"
-++	      "%s"
-++	      "To add an exception for this directory, call:\n"
-++	      "\n"
-++	      "\tgit config --global --add safe.directory %s"),
-++	    path, report.buf, quoted.buf);
+++    return 0;
 ++}
 ++
-+ enum discovery_result {
-+	GIT_DIR_NONE = 0,
-+	GIT_DIR_EXPLICIT,
-+diff --git a/t/t0411-clone-from-partial.sh b/t/t0411-clone-from-partial.sh
-+index fb72a0a..eb3360d 100755
-+--- a/t/t0411-clone-from-partial.sh
-++++ b/t/t0411-clone-from-partial.sh
-+@@ -23,7 +23,7 @@ test_expect_success 'create evil repo' '
-+	>evil/.git/shallow
-+ '
-+
-+-test_expect_failure 'local clone must not fetch from promisor remote and execute script' '
-++test_expect_success 'local clone must not fetch from promisor remote and execute script' '
-+	rm -f script-executed &&
-+	test_must_fail git clone \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-+@@ -32,7 +32,7 @@ test_expect_failure 'local clone must not fetch from promisor remote and execute
-+	test_path_is_missing script-executed
-+ '
-+
-+-test_expect_failure 'clone from file://... must not fetch from promisor remote and execute script' '
-++test_expect_success 'clone from file://... must not fetch from promisor remote and execute script' '
-+	rm -f script-executed &&
-+	test_must_fail git clone \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-+@@ -41,7 +41,7 @@ test_expect_failure 'clone from file://... must not fetch from promisor remote a
-+	test_path_is_missing script-executed
-+ '
-+
-+-test_expect_failure 'fetch from file://... must not fetch from promisor remote and execute script' '
-++test_expect_success 'fetch from file://... must not fetch from promisor remote and execute script' '
-+	rm -f script-executed &&
-+	test_must_fail git fetch \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
+++static opvp_result_t
+++opvpStartJob(opvp_dc_t printerContext, const opvp_char_t *job_info)
+++{
+++    fputs("opvpStartJob\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tjob_info = %s\n", job_info);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndJob(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndJob\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpAbortJob(opvp_dc_t printerContext)
+++{
+++    fputs("opvpAbortJob\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStartDoc(opvp_dc_t printerContext, const opvp_char_t *docinfo)
+++{
+++    fputs("opvpStartDoc\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tjob_info = %s\n", docinfo);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndDoc(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndDoc\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStartPage(opvp_dc_t printerContext, const opvp_char_t *pageinfo)
+++{
+++    fputs("opvpStartPage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tjob_info = %s\n", pageinfo);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndPage(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndPage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* Not used */
+++static opvp_result_t
+++opvpQueryDeviceCapability(opvp_dc_t printerContext, opvp_flag_t flag, opvp_int_t *a, opvp_byte_t *b)
+++{
+++    fputs("opvpQueryDeviceCapability\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* Not used */
+++static opvp_result_t
+++opvpQueryDeviceInfo(opvp_dc_t printerContext, opvp_flag_t flag, opvp_int_t *a, opvp_char_t *b)
+++{
+++    fputs("opvpQueryDeviceInfo\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpResetCTM(opvp_dc_t printerContext)
+++{
+++    fputs("opvpResetCTM\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    opv_gstate.ctm.a = 1.0;
+++    opv_gstate.ctm.b = 0.0;
+++    opv_gstate.ctm.c = 0.0;
+++    opv_gstate.ctm.d = 1.0;
+++    opv_gstate.ctm.e = 0.0;
+++    opv_gstate.ctm.f = 0.0;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetCTM(opvp_dc_t printerContext, const opvp_ctm_t *pctm)
+++{
+++    fputs("opvpSetCTM\n", pFile);
+++    opv_gstate.ctm = *pctm;
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tctm.a = %f\n", pctm->a);
+++    fprintf(pFile, "\tctm.b = %f\n", pctm->b);
+++    fprintf(pFile, "\tctm.c = %f\n", pctm->c);
+++    fprintf(pFile, "\tctm.d = %f\n", pctm->d);
+++    fprintf(pFile, "\tctm.e = %f\n", pctm->e);
+++    fprintf(pFile, "\tctm.f = %f\n", pctm->f);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetCTM(opvp_dc_t printerContext, opvp_ctm_t *pctm)
+++{
+++    fputs("opvpGetCTM\n", pFile);
+++    *pctm = opv_gstate.ctm;
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpInitGS(opvp_dc_t printerContext)
+++{
+++    fputs("opvpInitGS\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSaveGS(opvp_dc_t printerContext)
+++{
+++    fputs("opvpSaveGS\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpRestoreGS(opvp_dc_t printerContext)
+++{
+++    fputs("opvpRestoreGS\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpQueryColorSpace(opvp_dc_t printerContext, opvp_int_t *n, opvp_cspace_t *colorspace)
+++{
+++    fputs("opvpQueryColorSpace\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *n = 0;
+++    *colorspace = opv_gstate.colorspace;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetColorSpace(opvp_dc_t printerContext, opvp_cspace_t colorspace)
+++{
+++    fputs("opvpSetColorSpace\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tcolorspace = %d\n", colorspace);
+++    opv_gstate.colorspace = colorspace;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetColorSpace(opvp_dc_t printerContext, opvp_cspace_t *colorspace)
+++{
+++    fputs("opvpGetColorSpace\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *colorspace = opv_gstate.colorspace;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetFillMode(opvp_dc_t printerContext, opvp_fillmode_t fillmode)
+++{
+++    fputs("opvpSetFillMode\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tfillmode = %d\n", fillmode);
+++    opv_gstate.fill_mode = fillmode;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetFillMode(opvp_dc_t printerContext, opvp_fillmode_t *fillmode)
+++{
+++    fputs("opvpGetFillMode\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *fillmode = opv_gstate.fill_mode;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetAlphaConstant(opvp_dc_t printerContext, opvp_float_t alpha)
+++{
+++    fputs("opvpSetAlphaConstant\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\talpha = %f\n", alpha);
+++    opv_gstate.alpha = alpha;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetAlphaConstant(opvp_dc_t printerContext, opvp_float_t *alpha)
+++{
+++    fputs("opvpGetAlphaConstant\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *alpha = opv_gstate.alpha;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineWidth(opvp_dc_t printerContext, opvp_fix_t width)
+++{
+++    fputs("opvpSetLineWidth\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\twidth = %d\n", width);
+++    opv_gstate.line_width = width;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineWidth(opvp_dc_t printerContext, opvp_fix_t *width)
+++{
+++    fputs("opvpGetLineWidth\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *width = opv_gstate.line_width;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineDash(opvp_dc_t printerContext, opvp_int_t n, const opvp_fix_t *dash)
+++{
+++    int k;
+++
+++    fputs("opvpSetLineDash\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tn = %d\n", n);
+++    opv_gstate.line_dash_n = n;
+++
+++    if (opv_gstate.line_dash_array != NULL)
+++        free(opv_gstate.line_dash_array);
+++
+++    opv_gstate.line_dash_array = (opvp_fix_t*) malloc(n * sizeof(opvp_fix_t));
+++    if (opv_gstate.line_dash_array == NULL) {
+++        fprintf(pFile,"\t Error in dash array allocation.  Exiting.");
+++        fclose(pFile);
+++        exit(-1);
+++    }
+++
+++    for (k = 0; k < n; k++) {
+++        opv_gstate.line_dash_array[k] =  dash[k];
+++        fprintf(pFile, "\tdash[%d] = %d\n", k, dash[k]);
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineDash(opvp_dc_t printerContext, opvp_int_t *n, opvp_fix_t *dash)
+++{
+++    fputs("opvpGetLineDash\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++
+++    *n = opv_gstate.line_dash_n;
+++    dash = opv_gstate.line_dash_array;
+++
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineDashOffset(opvp_dc_t printerContext, opvp_fix_t offset)
+++{
+++    fputs("opvpSetLineDashOffset\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\toffset = %d\n", offset);
+++    opv_gstate.dash_offset = offset;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineDashOffset(opvp_dc_t printerContext, opvp_fix_t *offset)
+++{
+++    fputs("opvpGetLineDashOffset\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *offset = opv_gstate.dash_offset;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineStyle(opvp_dc_t printerContext, opvp_linestyle_t style)
+++{
+++    fputs("opvpSetLineStyle\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tstyle = %d\n", style);
+++    opv_gstate.line_style = style;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineStyle(opvp_dc_t printerContext, opvp_linestyle_t *style)
+++{
+++    fputs("opvpGetLineStyle\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *style = opv_gstate.line_style;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineCap(opvp_dc_t printerContext, opvp_linecap_t cap)
+++{
+++    fputs("opvpSetLineCap\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tcap = %d\n", cap);
+++    opv_gstate.line_cap = cap;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineCap(opvp_dc_t printerContext, opvp_linecap_t *cap)
+++{
+++    fputs("opvpGetLineCap\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *cap = opv_gstate.line_cap;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetLineJoin(opvp_dc_t printerContext, opvp_linejoin_t join)
+++{
+++    fputs("opvpSetLineJoin\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tjoin = %d\n", join);
+++    opv_gstate.line_join = join;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetLineJoin(opvp_dc_t printerContext, opvp_linejoin_t *join)
+++{
+++    fputs("opvpGetLineJoin\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *join = opv_gstate.line_join;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetMiterLimit(opvp_dc_t printerContext, opvp_fix_t miter)
+++{
+++    fputs("opvpSetMiterLimit\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tmiter = %d\n", miter);
+++    opv_gstate.miter_limit = miter;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetMiterLimit(opvp_dc_t printerContext, opvp_fix_t *miter)
+++{
+++    fputs("opvpGetMiterLimit\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *miter = opv_gstate.miter_limit;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetPaintMode(opvp_dc_t printerContext, opvp_paintmode_t paintmode)
+++{
+++    fputs("opvpSetPaintMode\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tpaintmode = %d\n", paintmode);
+++    opv_gstate.paintmode = paintmode;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpGetPaintMode(opvp_dc_t printerContext, opvp_paintmode_t *paintmode)
+++{
+++    fputs("opvpGetPaintMode\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    *paintmode = opv_gstate.paintmode;
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetStrokeColor(opvp_dc_t printerContext, const opvp_brush_t *strokecolor)
+++{
+++    int k;
+++
+++    fputs("opvpSetStrokeColor\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    if (strokecolor ==  NULL) {
+++        fprintf(pFile, "\tstrokecolor is NULL\n");
+++    } else {
+++        fprintf(pFile, "\tstrokecolor.colorSpace = %d\n", strokecolor->colorSpace);
+++
+++        for (k = 0; k < 4; k++) {
+++            fprintf(pFile, "\tstrokecolor.color[%d] = %d\n", k, strokecolor->color[k]);
+++        }
+++
+++        fprintf(pFile, "\tstrokecolor.xorg = %d\n", strokecolor->xorg);
+++        fprintf(pFile, "\tstrokecolor.yorg = %d\n", strokecolor->yorg);
+++
+++        if (strokecolor->pbrush ==  NULL) {
+++            fprintf(pFile, "\tstrokecolor.pbrush is NULL\n");
+++        } else {
+++            fprintf(pFile, "\tstrokecolor.pbrush.type = %d\n", strokecolor->pbrush->type);
+++            fprintf(pFile, "\tstrokecolor.pbrush.width = %d\n", strokecolor->pbrush->width);
+++            fprintf(pFile, "\tstrokecolor.pbrush.height = %d\n", strokecolor->pbrush->height);
+++            fprintf(pFile, "\tstrokecolor.pbrush.pitch = %d\n", strokecolor->pbrush->pitch);
+++        }
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetFillColor(opvp_dc_t printerContext, const opvp_brush_t *fillcolor)
+++{
+++    int k;
+++
+++    fputs("opvpSetFillColor\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    if (fillcolor ==  NULL) {
+++        fprintf(pFile, "\tfillcolor is NULL\n");
+++    } else {
+++        fprintf(pFile, "\tfillcolor.colorSpace = %d\n", fillcolor->colorSpace);
+++
+++        for (k = 0; k < 4; k++) {
+++            fprintf(pFile, "\tfillcolor.color[%d] = %d\n", k, fillcolor->color[k]);
+++        }
+++
+++        fprintf(pFile, "\tfillcolor.xorg = %d\n", fillcolor->xorg);
+++        fprintf(pFile, "\tfillcolor.yorg = %d\n", fillcolor->yorg);
+++
+++        if (fillcolor->pbrush ==  NULL) {
+++            fprintf(pFile, "\tfillcolor.pbrush is NULL\n");
+++        } else {
+++            fprintf(pFile, "\tfillcolor.pbrush.type = %d\n", fillcolor->pbrush->type);
+++            fprintf(pFile, "\tfillcolor.pbrush.width = %d\n", fillcolor->pbrush->width);
+++            fprintf(pFile, "\tfillcolor.pbrush.height = %d\n", fillcolor->pbrush->height);
+++            fprintf(pFile, "\tfillcolor.pbrush.pitch = %d\n", fillcolor->pbrush->pitch);
+++        }
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetBgColor(opvp_dc_t printerContext, const opvp_brush_t *bgcolor)
+++{
+++    int k;
+++
+++    fputs("opvpSetBgColor\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    if (bgcolor ==  NULL) {
+++        fprintf(pFile, "\tfillcbgcolorolor is NULL\n");
+++    } else {
+++        fprintf(pFile, "\tbgcolor.colorSpace = %d\n", bgcolor->colorSpace);
+++
+++        for (k = 0; k < 4; k++) {
+++            fprintf(pFile, "\tbgcolor.color[%d] = %d\n", k, bgcolor->color[k]);
+++        }
+++
+++        fprintf(pFile, "\tbgcolor.xorg = %d\n", bgcolor->xorg);
+++        fprintf(pFile, "\tbgcolor.yorg = %d\n", bgcolor->yorg);
+++
+++        if (bgcolor->pbrush ==  NULL) {
+++            fprintf(pFile, "\tbgcolor.pbrush is NULL\n");
+++        } else {
+++            fprintf(pFile, "\tbgcolor.pbrush.type = %d\n", bgcolor->pbrush->type);
+++            fprintf(pFile, "\tbgcolor.pbrush.width = %d\n", bgcolor->pbrush->width);
+++            fprintf(pFile, "\tbgcolor.pbrush.height = %d\n", bgcolor->pbrush->height);
+++            fprintf(pFile, "\tbgcolor.pbrush.pitch = %d\n", bgcolor->pbrush->pitch);
+++        }
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpNewPath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpNewPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndPath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStrokePath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpStrokePath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpFillPath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpFillPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStrokeFillPath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpStrokeFillPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetClipPath(opvp_dc_t printerContext, opvp_cliprule_t cliprule)
+++{
+++    fputs("opvpSetClipPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tcliprule = %d\n", cliprule);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpResetClipPath(opvp_dc_t printerContext)
+++{
+++    fputs("opvpResetClipPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSetCurrentPoint(opvp_dc_t printerContext, opvp_fix_t pointx, opvp_fix_t pointy)
+++{
+++    fputs("opvpSetCurrentPoint\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tpointx = %d\n", pointx);
+++    fprintf(pFile, "\tpointy = %d\n", pointy);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpLinePath(opvp_dc_t printerContext, opvp_pathmode_t pathmode, opvp_int_t npoints, const opvp_point_t *points)
+++{
+++    int k;
+++
+++    fputs("opvpLinePath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tpathmode = %d\n", pathmode);
+++    fprintf(pFile, "\tnpoints = %d\n", npoints);
+++
+++    for (k = 0; k < npoints; k++) {
+++        fprintf(pFile, "\tpoints[%d].x = %d\n", k, points[k].x);
+++        fprintf(pFile, "\tpoints[%d].y = %d\n", k, points[k].y);
+++    }
+++    return 0;
+++}
+++
+++/* Not used */
+++static opvp_result_t
+++opvpPolygonPath(opvp_dc_t printerContext, opvp_int_t n, const opvp_int_t *m, const opvp_point_t *p)
+++{
+++    fputs("opvpPolygonPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpRectanglePath(opvp_dc_t printerContext, opvp_int_t n, const opvp_rectangle_t *rects)
+++{
+++    int k;
+++
+++    fputs("opvpRectanglePath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tn = %d\n", n);
+++
+++    for (k = 0; k < n; k++) {
+++        fprintf(pFile, "\trects[%d].p0.x = %d\n", k, rects[k].p0.x);
+++        fprintf(pFile, "\trects[%d].p0.y = %d\n", k, rects[k].p0.y);
+++        fprintf(pFile, "\trects[%d].p1.x = %d\n", k, rects[k].p1.x);
+++        fprintf(pFile, "\trects[%d].p1.y = %d\n", k, rects[k].p1.y);
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpRoundRectanglePath(opvp_dc_t printerContext, opvp_int_t n, const opvp_roundrectangle_t *rects)
+++{
+++    int k;
+++
+++    fputs("opvpRoundRectanglePath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tn = %d\n", n);
+++
+++    for (k = 0; k < n; k++) {
+++        fprintf(pFile, "\trects[%d].p0.x = %d\n", k, rects[k].p0.x);
+++        fprintf(pFile, "\trects[%d].p0.y = %d\n", k, rects[k].p0.y);
+++        fprintf(pFile, "\trects[%d].p1.x = %d\n", k, rects[k].p1.x);
+++        fprintf(pFile, "\trects[%d].p1.y = %d\n", k, rects[k].p1.y);
+++        fprintf(pFile, "\trects[%d].xellipse = %d\n", k, rects[k].xellipse);
+++        fprintf(pFile, "\trects[%d].yellipse = %d\n", k, rects[k].yellipse);
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpBezierPath(opvp_dc_t printerContext, opvp_int_t n, const opvp_point_t *points)
+++{
+++    int k;
+++
+++    fputs("opvpBezierPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tn = %d\n", n);
+++
+++    for (k = 0; k < n; k++) {
+++        fprintf(pFile, "\tpoints[%d].x = %d\n", k, points[k].x);
+++        fprintf(pFile, "\trects[%d].y = %d\n", k, points[k].y);
+++
+++    }
+++    return 0;
+++}
+++
+++/* Not used */
+++static opvp_result_t
+++opvpArcPath(opvp_dc_t printerContext, opvp_arcmode_t mode, opvp_arcdir_t dir,
+++    opvp_fix_t a, opvp_fix_t b, opvp_fix_t c, opvp_fix_t d, opvp_fix_t e, opvp_fix_t f,
+++    opvp_fix_t g, opvp_fix_t h)
+++{
+++    fputs("opvpArcPath\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpDrawImage(opvp_dc_t printerContext, opvp_int_t sw, opvp_int_t sh, opvp_int_t raster,
+++    opvp_imageformat_t format, opvp_int_t dw, opvp_int_t dh, const void *data)
+++{
+++    int k;
+++    unsigned char *data_char = (unsigned char*) data;
+++
+++    fputs("opvpDrawImage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tsw = %d\n", sw);
+++    fprintf(pFile, "\tsh = %d\n", sh);
+++    fprintf(pFile, "\traster = %d\n", raster);
+++    fprintf(pFile, "\tformat = %d\n", format);
+++    fprintf(pFile, "\tdw = %d\n", dw);
+++    fprintf(pFile, "\tdh = %d\n", dh);
+++
+++    /* No idea how big data is here... Try sw, as byte? */
+++    for (k = 0; k < sw; k++) {
+++        fprintf(pFile, "\tdata[%d] = %d\n", k, data_char[k]);
+++    }
+++
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStartDrawImage(opvp_dc_t printerContext, opvp_int_t sw, opvp_int_t sh, opvp_int_t raster,
+++    opvp_imageformat_t format, opvp_int_t dw, opvp_int_t dh)
+++{
+++    fputs("opvpStartDrawImage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tsw = %d\n", sw);
+++    fprintf(pFile, "\tsh = %d\n", sh);
+++    fprintf(pFile, "\traster = %d\n", raster);
+++    fprintf(pFile, "\tformat = %d\n", format);
+++    fprintf(pFile, "\tdw = %d\n", dw);
+++    fprintf(pFile, "\tdh = %d\n", dh);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpTransferDrawImage(opvp_dc_t printerContext, opvp_int_t count, const void *data)
+++{
+++    int k;
+++    unsigned char *data_char = (unsigned char*) data;
+++
+++    fputs("opvpTransferDrawImage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\tcount = %d\n", count);
+++
+++    for (k = 0; k < count; k++) {
+++        fprintf(pFile, "\tdata[%d] = %d\n", k, data_char[k]);
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndDrawImage(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndDrawImage\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* not used */
+++static opvp_result_t
+++opvpStartScanline(opvp_dc_t printerContext, opvp_int_t a)
+++{
+++    fputs("opvpStartScanline\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* not used */
+++static opvp_result_t
+++opvpScanline(opvp_dc_t printerContext, opvp_int_t a, const opvp_int_t *b)
+++{
+++    fputs("opvpScanline\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* not used */
+++static opvp_result_t
+++opvpEndScanline(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndScanline\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStartRaster(opvp_dc_t printerContext, opvp_int_t width)
+++{
+++    fputs("opvpStartRaster\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\twidth = %d\n", width);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpTransferRasterData(opvp_dc_t printerContext, opvp_int_t raster_size, const opvp_byte_t *data)
+++{
+++    int k;
+++
+++    fputs("opvpTransferRasterData\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\traster_size = %d\n", raster_size);
+++
+++    for (k = 0; k < raster_size; k++) {
+++        fprintf(pFile, "\tdata[%d] = %d\n", k, data[k]);
+++    }
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpSkipRaster(opvp_dc_t printerContext, opvp_int_t a)
+++{
+++    fputs("opvpSkipRaster\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    fprintf(pFile, "\ta = %d\n", a);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndRaster(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndRaster\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpStartStream(opvp_dc_t printerContext)
+++{
+++    fputs("opvpStartStream\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++/* Not used */
+++static opvp_result_t
+++opvpTransferStreamData(opvp_dc_t printerContext, opvp_int_t a, const void *b)
+++{
+++    fputs("opvpTransferStreamData\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++static opvp_result_t
+++opvpEndStream(opvp_dc_t printerContext)
+++{
+++    fputs("opvpEndStream\n", pFile);
+++    fprintf(pFile, "\tContext = %d\n", printerContext);
+++    return 0;
+++}
+++
+++opvp_int_t opvpErrorNo;
+++
+++opvp_dc_t
+++opvpOpenPrinter(opvp_int_t outputFD, const opvp_char_t *printerModel, const opvp_int_t apiVersion[2],
+++        opvp_api_procs_t **apiProcs)
+++{
+++    static opvp_api_procs_t procs;
+++    opvp_fix_t fixed_value;
+++
+++    procs.opvpEndStream = opvpEndStream;
+++    procs.opvpClosePrinter = opvpClosePrinter;
+++    procs.opvpStartJob = opvpStartJob;
+++    procs.opvpEndJob = opvpEndJob;
+++    procs.opvpAbortJob = opvpAbortJob;
+++    procs.opvpStartDoc = opvpStartDoc;
+++    procs.opvpEndDoc = opvpEndDoc;
+++    procs.opvpStartPage = opvpStartPage;
+++    procs.opvpEndPage = opvpEndPage;
+++    procs.opvpQueryDeviceCapability = opvpQueryDeviceCapability;
+++    procs.opvpQueryDeviceInfo = opvpQueryDeviceInfo;
+++    procs.opvpResetCTM = opvpResetCTM;
+++    procs.opvpSetCTM = opvpSetCTM;
+++    procs.opvpGetCTM = opvpGetCTM;
+++    procs.opvpInitGS = opvpInitGS;
+++    procs.opvpSaveGS = opvpSaveGS;
+++    procs.opvpRestoreGS = opvpRestoreGS;
+++    procs.opvpQueryColorSpace = opvpQueryColorSpace;
+++    procs.opvpSetColorSpace = opvpSetColorSpace;
+++    procs.opvpGetColorSpace = opvpGetColorSpace;
+++    procs.opvpSetFillMode = opvpSetFillMode;
+++    procs.opvpGetFillMode = opvpGetFillMode;
+++    procs.opvpSetAlphaConstant = opvpSetAlphaConstant;
+++    procs.opvpGetAlphaConstant = opvpGetAlphaConstant;
+++    procs.opvpSetLineWidth = opvpSetLineWidth;
+++    procs.opvpGetLineWidth = opvpGetLineWidth;
+++    procs.opvpSetLineDash = opvpSetLineDash;
+++    procs.opvpSetLineDash = opvpSetLineDash;
+++    procs.opvpGetLineDash = opvpGetLineDash;
+++    procs.opvpSetLineDashOffset = opvpSetLineDashOffset;
+++    procs.opvpGetLineDashOffset = opvpGetLineDashOffset;
+++    procs.opvpSetLineStyle = opvpSetLineStyle;
+++    procs.opvpGetLineStyle = opvpGetLineStyle;
+++    procs.opvpSetLineCap = opvpSetLineCap;
+++    procs.opvpGetLineCap = opvpGetLineCap;
+++    procs.opvpSetLineJoin = opvpSetLineJoin;
+++    procs.opvpGetLineJoin = opvpGetLineJoin;
+++    procs.opvpSetMiterLimit = opvpSetMiterLimit;
+++    procs.opvpGetMiterLimit = opvpGetMiterLimit;
+++    procs.opvpSetPaintMode = opvpSetPaintMode;
+++    procs.opvpGetPaintMode = opvpGetPaintMode;
+++    procs.opvpSetStrokeColor = opvpSetStrokeColor;
+++    procs.opvpSetFillColor = opvpSetFillColor;
+++    procs.opvpSetBgColor = opvpSetBgColor;
+++    procs.opvpNewPath = opvpNewPath;
+++    procs.opvpEndPath = opvpEndPath;
+++    procs.opvpStrokePath = opvpStrokePath;
+++    procs.opvpFillPath = opvpFillPath;
+++    procs.opvpStrokeFillPath = opvpStrokeFillPath;
+++    procs.opvpSetClipPath = opvpSetClipPath;
+++    procs.opvpResetClipPath = opvpResetClipPath;
+++    procs.opvpSetCurrentPoint = opvpSetCurrentPoint;
+++    procs.opvpLinePath = opvpLinePath;
+++    procs.opvpPolygonPath = opvpPolygonPath;
+++    procs.opvpRectanglePath = opvpRectanglePath;
+++    procs.opvpRoundRectanglePath = opvpRoundRectanglePath;
+++    procs.opvpBezierPath = opvpBezierPath;
+++    procs.opvpArcPath = opvpArcPath;
+++    procs.opvpDrawImage = opvpDrawImage;
+++    procs.opvpStartDrawImage = opvpStartDrawImage;
+++    procs.opvpTransferDrawImage = opvpTransferDrawImage;
+++    procs.opvpEndDrawImage = opvpEndDrawImage;
+++    procs.opvpStartScanline = opvpStartScanline;
+++    procs.opvpScanline = opvpScanline;
+++    procs.opvpEndScanline = opvpEndScanline;
+++    procs.opvpStartRaster = opvpStartRaster;
+++    procs.opvpTransferRasterData = opvpTransferRasterData;
+++    procs.opvpSkipRaster = opvpSkipRaster;
+++    procs.opvpEndRaster = opvpEndRaster;
+++    procs.opvpStartStream = opvpStartStream;
+++    procs.opvpTransferStreamData = opvpTransferStreamData;
+++    procs.opvpEndStream = opvpEndStream;
+++
+++    *apiProcs = &procs;
+++
+++    OPVP_F2FIX(1.0, fixed_value);
+++
+++    opv_gstate.ctm.a = 1.0;
+++    opv_gstate.ctm.b = 0.0;
+++    opv_gstate.ctm.c = 0.0;
+++    opv_gstate.ctm.d = 1.0;
+++    opv_gstate.ctm.e = 0.0;
+++    opv_gstate.ctm.f = 0.0;
+++    opv_gstate.colorspace = OPVP_CSPACE_DEVICERGB;
+++    opv_gstate.fill_mode = OPVP_FILLMODE_EVENODD;
+++    opv_gstate.alpha = 1.0;
+++    opv_gstate.line_width = fixed_value;
+++    opv_gstate.line_dash_n = 0;
+++    opv_gstate.line_dash_array = NULL;
+++    opv_gstate.dash_offset = fixed_value;
+++    opv_gstate.line_style = OPVP_LINESTYLE_SOLID;
+++    opv_gstate.line_cap = OPVP_LINECAP_BUTT;
+++    opv_gstate.line_join = OPVP_LINEJOIN_MITER;
+++    opv_gstate.miter_limit = fixed_value;
+++    opv_gstate.paintmode = OPVP_PAINTMODE_OPAQUE;
+++    opv_gstate.colorspace = OPVP_CSPACE_DEVICERGB;
+++
+++    pFile = fopen("opvp_command_dump.txt","w");
+++    if (pFile != NULL)
+++    {
+++        fputs("opvpOpenPrinter\n", pFile);
+++        return 0;
+++    }
+++    return -1;
+++}
 +--
 +2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32020.patch b/meta/recipes-devtools/git/git/CVE-2024-32020.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0002.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0002.patch
 new file mode 100644
-index 0000000000..4dfe742ff7
+index 0000000000..6ac25f0d71
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32020.patch
-@@ -0,0 +1,114 @@
-+From 1204e1a824c34071019fe106348eaa6d88f9528d Mon Sep 17 00:00:00 2001
-+From: Patrick Steinhardt <ps@pks.im>
-+Date: Mon, 15 Apr 2024 13:30:41 +0200
-+Subject: [PATCH]  builtin/clone: refuse local clones of unsafe repositories
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33871-0002.patch
+@@ -0,0 +1,43 @@
++From 7145885041bb52cc23964f0aa2aec1b1c82b5908 Mon Sep 17 00:00:00 2001
++From: Zdenek Hutyra <zhutyra@centrum.cz>
++Date: Mon, 22 Apr 2024 13:33:47 +0100
++Subject: [PATCH 7/7] OPVP device - prevent unsafe parameter change with SAFER
 +
-+When performing a local clone of a repository we end up either copying
-+or hardlinking the source repository into the target repository. This is
-+significantly more performant than if we were to use git-upload-pack(1)
-+and git-fetch-pack(1) to create the new repository and preserves both
-+disk space and compute time.
++Bug #707754 "OPVP device - Arbitrary code execution via custom Driver library"
 +
-+Unfortunately though, performing such a local clone of a repository that
-+is not owned by the current user is inherently unsafe:
++The "Driver" parameter for the "opvp"/"oprp" device specifies the name
++of a dynamic library and allows any library to be loaded.
 +
-+  - It is possible that source files get swapped out underneath us while
-+    we are copying or hardlinking them. While we do perform some checks
-+    here to assert that we hardlinked the expected file, they cannot
-+    reliably thwart time-of-check-time-of-use (TOCTOU) style races. It
-+    is thus possible for an adversary to make us copy or hardlink
-+    unexpected files into the target directory.
++The patch does not allow changing this parameter after activating path
++control.
 +
-+    Ideally, we would address this by starting to use openat(3P),
-+    fstatat(3P) and friends. Due to platform compatibility with Windows
-+    we cannot easily do that though. Furthermore, the scope of these
-+    fixes would likely be quite broad and thus not fit for an embargoed
-+    security release.
++This addresses CVE-2024-33871
 +
-+  - Even if we handled TOCTOU-style races perfectly, hardlinking files
-+    owned by a different user into the target repository is not a good
-+    idea in general. It is possible for an adversary to rewrite those
-+    files to contain whatever data they want even after the clone has
-+    completed.
++CVE: CVE-2024-33871
 +
-+Address these issues by completely refusing local clones of a repository
-+that is not owned by the current user. This reuses our existing infra we
-+have in place via `ensure_valid_ownership()` and thus allows a user to
-+override the safety guard by adding the source repository path to the
-+"safe.directory" configuration.
++Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=7145885041bb52cc2396]
 +
-+This addresses CVE-2024-32020.
-+
-+Signed-off-by: Patrick Steinhardt <ps@pks.im>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32020
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/1204e1a824c34071019fe106348eaa6d88f9528d]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ builtin/clone.c           | 14 ++++++++++++++
-+ t/t0033-safe-directory.sh | 24 ++++++++++++++++++++++++
-+ 2 files changed, 38 insertions(+)
++ contrib/opvp/gdevopvp.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/builtin/clone.c b/builtin/clone.c
-+index 4541a55..11f6b4b 100644
-+--- a/builtin/clone.c
-++++ b/builtin/clone.c
-+@@ -312,6 +312,20 @@ static void copy_or_link_directory(struct strbuf *src, struct strbuf *dest,
-+	int iter_status;
-+	struct strbuf realpath = STRBUF_INIT;
-+
-++	/*
-++	 * Refuse copying directories by default which aren't owned by us. The
-++	 * code that performs either the copying or hardlinking is not prepared
-++	 * to handle various edge cases where an adversary may for example
-++	 * racily swap out files for symlinks. This can cause us to
-++	 * inadvertently use the wrong source file.
-++	 *
-++	 * Furthermore, even if we were prepared to handle such races safely,
-++	 * creating hardlinks across user boundaries is an inherently unsafe
-++	 * operation as the hardlinked files can be rewritten at will by the
-++	 * potentially-untrusted user. We thus refuse to do so by default.
-++	 */
-++	die_upon_dubious_ownership(NULL, NULL, src_repo);
-++
-+	mkdir_if_missing(dest->buf, 0777);
-+
-+	iter = dir_iterator_begin(src->buf, DIR_ITERATOR_PEDANTIC);
-+diff --git a/t/t0033-safe-directory.sh b/t/t0033-safe-directory.sh
-+index 239d93f..751cba5 100755
-+--- a/t/t0033-safe-directory.sh
-++++ b/t/t0033-safe-directory.sh
-+@@ -46,4 +46,28 @@ test_expect_success 'safe.directory=*, but is reset' '
-+	expect_rejected_dir
-+ '
-+
-++test_expect_success 'local clone of unowned repo refused in unsafe directory' '
-++	test_when_finished "rm -rf source" &&
-++	git init source &&
-++	(
-++		sane_unset GIT_TEST_ASSUME_DIFFERENT_OWNER &&
-++		test_commit -C source initial
-++	) &&
-++	test_must_fail git clone --local source target &&
-++	test_path_is_missing target
-++'
-++
-++test_expect_success 'local clone of unowned repo accepted in safe directory' '
-++	test_when_finished "rm -rf source" &&
-++	git init source &&
-++	(
-++		sane_unset GIT_TEST_ASSUME_DIFFERENT_OWNER &&
-++		test_commit -C source initial
-++	) &&
-++	test_must_fail git clone --local source target &&
-++	git config --global --add safe.directory "$(pwd)/source/.git" &&
-++	git clone --local source target &&
-++	test_path_is_dir target
-++'
-++
-+ test_done
++diff --git a/contrib/opvp/gdevopvp.c b/contrib/opvp/gdevopvp.c
++index 64afbfe..f49a380 100644
++--- a/contrib/opvp/gdevopvp.c
+++++ b/contrib/opvp/gdevopvp.c
++@@ -3453,6 +3453,12 @@ _put_params(gx_device *dev, gs_param_list *plist)
++     code = param_read_string(plist, pname, &vdps);
++     switch (code) {
++     case 0:
+++        if (gs_is_path_control_active(dev->memory)
+++            && (!opdev->globals.vectorDriver || strlen(opdev->globals.vectorDriver) != vdps.size
+++                || memcmp(opdev->globals.vectorDriver, vdps.data, vdps.size) != 0)) {
+++            param_signal_error(plist, pname, gs_error_invalidaccess);
+++            return_error(gs_error_invalidaccess);
+++        }
++         buff = realloc(buff, vdps.size + 1);
++         memcpy(buff, vdps.data, vdps.size);
++         buff[vdps.size] = 0;
 +--
 +2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32021-0001.patch b/meta/recipes-devtools/git/git/CVE-2024-32021-0001.patch
-new file mode 100644
-index 0000000000..cc33c54faa
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32021-0001.patch
-@@ -0,0 +1,89 @@
-+From 150e6b0aedf57d224c3c49038c306477fa159886 Mon Sep 17 00:00:00 2001
-+From: Patrick Steinhardt <ps@pks.im>
-+Date: Mon, 15 Apr 2024 13:30:26 +0200
-+Subject: [PATCH] builtin/clone: stop resolving symlinks when copying files
-+
-+When a user performs a local clone without `--no-local`, then we end up
-+copying the source repository into the target repository directly. To
-+optimize this even further, we try to hardlink files into place instead
-+of copying data over, which helps both disk usage and speed.
-+
-+There is an important edge case in this context though, namely when we
-+try to hardlink symlinks from the source repository into the target
-+repository. Depending on both platform and filesystem the resulting
-+behaviour here can be different:
-+
-+  - On macOS and NetBSD, calling link(3P) with a symlink target creates
-+    a hardlink to the file pointed to by the symlink.
-+
-+  - On Linux, calling link(3P) instead creates a hardlink to the symlink
-+    itself.
-+
-+To unify this behaviour, 36596fd2df (clone: better handle symlinked
-+files at .git/objects/, 2019-07-10) introduced logic to resolve symlinks
-+before we try to link(3P) files. Consequently, the new behaviour was to
-+always create a hard link to the target of the symlink on all platforms.
-+
-+Eventually though, we figured out that following symlinks like this can
-+cause havoc when performing a local clone of a malicious repository,
-+which resulted in CVE-2022-39253. This issue was fixed via 6f054f9fb3
-+(builtin/clone.c: disallow `--local` clones with symlinks, 2022-07-28),
-+by refusing symlinks in the source repository.
-+
-+But even though we now shouldn't ever link symlinks anymore, the code
-+that resolves symlinks still exists. In the best case the code does not
-+end up doing anything because there are no symlinks anymore. In the
-+worst case though this can be abused by an adversary that rewrites the
-+source file after it has been checked not to be a symlink such that it
-+actually is a symlink when we call link(3P). Thus, it is still possible
-+to recreate CVE-2022-39253 due to this time-of-check-time-of-use bug.
-+
-+Remove the call to `realpath()`. This doesn't yet address the actual
-+vulnerability, which will be handled in a subsequent commit.
-+
-+Reported-by: Apple Product Security <product-security@apple.com>
-+Signed-off-by: Patrick Steinhardt <ps@pks.im>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32021
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/150e6b0aedf57d224c3c49038c306477fa159886]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ builtin/clone.c | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/builtin/clone.c b/builtin/clone.c
-+index 11f6b4b..2778d20 100644
-+--- a/builtin/clone.c
-++++ b/builtin/clone.c
-+@@ -310,7 +310,6 @@ static void copy_or_link_directory(struct strbuf *src, struct strbuf *dest,
-+	int src_len, dest_len;
-+	struct dir_iterator *iter;
-+	int iter_status;
-+-	struct strbuf realpath = STRBUF_INIT;
-+
-+	/*
-+	 * Refuse copying directories by default which aren't owned by us. The
-+@@ -362,8 +361,7 @@ static void copy_or_link_directory(struct strbuf *src, struct strbuf *dest,
-+		if (unlink(dest->buf) && errno != ENOENT)
-+			die_errno(_("failed to unlink '%s'"), dest->buf);
-+		if (!option_no_hardlinks) {
-+-			strbuf_realpath(&realpath, src->buf, 1);
-+-			if (!link(realpath.buf, dest->buf))
-++			if (!link(src->buf, dest->buf))
-+				continue;
-+			if (option_local > 0)
-+				die_errno(_("failed to create link '%s'"), dest->buf);
-+@@ -377,8 +375,6 @@ static void copy_or_link_directory(struct strbuf *src, struct strbuf *dest,
-+		strbuf_setlen(src, src_len);
-+		die(_("failed to iterate over '%s'"), src->buf);
-+	}
-+-
-+-	strbuf_release(&realpath);
-+ }
-+
-+ static void clone_local(const char *src_repo, const char *dest_repo)
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32021-0002.patch b/meta/recipes-devtools/git/git/CVE-2024-32021-0002.patch
-new file mode 100644
-index 0000000000..2151d3d0ea
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32021-0002.patch
-@@ -0,0 +1,65 @@
-+From d1bb66a546b4bb46005d17ba711caaad26f26c1e Mon Sep 17 00:00:00 2001
-+From: Patrick Steinhardt <ps@pks.im>
-+Date: Mon, 15 Apr 2024 13:30:31 +0200
-+Subject: [PATCH] builtin/clone: abort when hardlinked source and target file
-+ differ
-+
-+When performing local clones with hardlinks we refuse to copy source
-+files which are symlinks as a mitigation for CVE-2022-39253. This check
-+can be raced by an adversary though by changing the file to a symlink
-+after we have checked it.
-+
-+Fix the issue by checking whether the hardlinked destination file
-+matches the source file and abort in case it doesn't.
-+
-+This addresses CVE-2024-32021.
-+
-+Reported-by: Apple Product Security <product-security@apple.com>
-+Suggested-by: Linus Torvalds <torvalds@linuxfoundation.org>
-+Signed-off-by: Patrick Steinhardt <ps@pks.im>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32021
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/d1bb66a546b4bb46005d17ba711caaad26f26c1e]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ builtin/clone.c | 21 ++++++++++++++++++++-
-+ 1 file changed, 20 insertions(+), 1 deletion(-)
-+
-+diff --git a/builtin/clone.c b/builtin/clone.c
-+index 2778d20..54eb441 100644
-+--- a/builtin/clone.c
-++++ b/builtin/clone.c
-+@@ -361,8 +361,27 @@ static void copy_or_link_directory(struct strbuf *src, struct strbuf *dest,
-+		if (unlink(dest->buf) && errno != ENOENT)
-+			die_errno(_("failed to unlink '%s'"), dest->buf);
-+		if (!option_no_hardlinks) {
-+-			if (!link(src->buf, dest->buf))
-++			if (!link(src->buf, dest->buf)) {
-++				struct stat st;
-++
-++				/*
-++				 * Sanity-check whether the created hardlink
-++				 * actually links to the expected file now. This
-++				 * catches time-of-check-time-of-use bugs in
-++				 * case the source file was meanwhile swapped.
-++				 */
-++				if (lstat(dest->buf, &st))
-++					die(_("hardlink cannot be checked at '%s'"), dest->buf);
-++				if (st.st_mode != iter->st.st_mode ||
-++				    st.st_ino != iter->st.st_ino ||
-++				    st.st_dev != iter->st.st_dev ||
-++				    st.st_size != iter->st.st_size ||
-++				    st.st_uid != iter->st.st_uid ||
-++				    st.st_gid != iter->st.st_gid)
-++					die(_("hardlink different from source at '%s'"), dest->buf);
-++
-+				continue;
-++			}
-+			if (option_local > 0)
-+				die_errno(_("failed to create link '%s'"), dest->buf);
-+			option_no_hardlinks = 1;
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git/CVE-2024-32465.patch b/meta/recipes-devtools/git/git/CVE-2024-32465.patch
-new file mode 100644
-index 0000000000..f9e2c1dc5f
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2024-32465.patch
-@@ -0,0 +1,206 @@
-+From 7b70e9efb18c2cc3f219af399bd384c5801ba1d7 Mon Sep 17 00:00:00 2001
-+From: Jeff King <peff@peff.net>
-+Date: Tue, 16 Apr 2024 04:35:33 -0400
-+Subject: [PATCH] upload-pack: disable lazy-fetching by default
-+
-+The upload-pack command tries to avoid trusting the repository in which
-+it's run (e.g., by not running any hooks and not using any config that
-+contains arbitrary commands). But if the server side of a fetch or a
-+clone is a partial clone, then either upload-pack or its child
-+pack-objects may run a lazy "git fetch" under the hood. And it is very
-+easy to convince fetch to run arbitrary commands.
-+
-+The "server" side can be a local repository owned by someone else, who
-+would be able to configure commands that are run during a clone with the
-+current user's permissions. This issue has been designated
-+CVE-2024-32004.
-+
-+The fix in this commit's parent helps in this scenario, as well as in
-+related scenarios using SSH to clone, where the untrusted .git directory
-+is owned by a different user id. But if you received one as a zip file,
-+on a USB stick, etc, it may be owned by your user but still untrusted.
-+
-+This has been designated CVE-2024-32465.
-+
-+To mitigate the issue more completely, let's disable lazy fetching
-+entirely during `upload-pack`. While fetching from a partial repository
-+should be relatively rare, it is certainly not an unreasonable workflow.
-+And thus we need to provide an escape hatch.
-+
-+This commit works by respecting a GIT_NO_LAZY_FETCH environment variable
-+(to skip the lazy-fetch), and setting it in upload-pack, but only when
-+the user has not already done so (which gives us the escape hatch).
-+
-+The name of the variable is specifically chosen to match what has
-+already been added in 'master' via e6d5479e7a (git: extend
-+--no-lazy-fetch to work across subprocesses, 2024-02-27). Since we're
-+building this fix as a backport for older versions, we could cherry-pick
-+that patch and its earlier steps. However, we don't really need the
-+niceties (like a "--no-lazy-fetch" option) that it offers. By using the
-+same name, everything should just work when the two are eventually
-+merged, but here are a few notes:
-+
-+  - the blocking of the fetch in e6d5479e7a is incomplete! It sets
-+    fetch_if_missing to 0 when we setup the repository variable, but
-+    that isn't enough. pack-objects in particular will call
-+    prefetch_to_pack() even if that variable is 0. This patch by
-+    contrast checks the environment variable at the lowest level before
-+    we call the lazy fetch, where we can be sure to catch all code
-+    paths.
-+
-+    Possibly the setting of fetch_if_missing from e6d5479e7a can be
-+    reverted, but it may be useful to have. For example, some code may
-+    want to use that flag to change behavior before it gets to the point
-+    of trying to start the fetch. At any rate, that's all outside the
-+    scope of this patch.
-+
-+  - there's documentation for GIT_NO_LAZY_FETCH in e6d5479e7a. We can
-+    live without that here, because for the most part the user shouldn't
-+    need to set it themselves. The exception is if they do want to
-+    override upload-pack's default, and that requires a separate
-+    documentation section (which is added here)
-+
-+  - it would be nice to use the NO_LAZY_FETCH_ENVIRONMENT macro added by
-+    e6d5479e7a, but those definitions have moved from cache.h to
-+    environment.h between 2.39.3 and master. I just used the raw string
-+    literals, and we can replace them with the macro once this topic is
-+    merged to master.
-+
-+At least with respect to CVE-2024-32004, this does render this commit's
-+parent commit somewhat redundant. However, it is worth retaining that
-+commit as defense in depth, and because it may help other issues (e.g.,
-+symlink/hardlink TOCTOU races, where zip files are not really an
-+interesting attack vector).
-+
-+The tests in t0411 still pass, but now we have _two_ mechanisms ensuring
-+that the evil command is not run. Let's beef up the existing ones to
-+check that they failed for the expected reason, that we refused to run
-+upload-pack at all with an alternate user id. And add two new ones for
-+the same-user case that both the restriction and its escape hatch.
-+
-+Signed-off-by: Jeff King <peff@peff.net>
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+
-+CVE: CVE-2024-32465
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/7b70e9efb18c2cc3f219af399bd384c5801ba1d7]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ Documentation/git-upload-pack.txt | 16 ++++++++++++++++
-+ builtin/upload-pack.c             |  2 ++
-+ promisor-remote.c                 | 10 ++++++++++
-+ t/t0411-clone-from-partial.sh     | 18 ++++++++++++++++++
-+ 4 files changed, 46 insertions(+)
-+
-+diff --git a/Documentation/git-upload-pack.txt b/Documentation/git-upload-pack.txt
-+index 8f87b23..eba0e81 100644
-+--- a/Documentation/git-upload-pack.txt
-++++ b/Documentation/git-upload-pack.txt
-+@@ -56,6 +56,22 @@ ENVIRONMENT
-+	admins may need to configure some transports to allow this
-+	variable to be passed. See the discussion in linkgit:git[1].
-+
-++`GIT_NO_LAZY_FETCH`::
-++	When cloning or fetching from a partial repository (i.e., one
-++	itself cloned with `--filter`), the server-side `upload-pack`
-++	may need to fetch extra objects from its upstream in order to
-++	complete the request. By default, `upload-pack` will refuse to
-++	perform such a lazy fetch, because `git fetch` may run arbitrary
-++	commands specified in configuration and hooks of the source
-++	repository (and `upload-pack` tries to be safe to run even in
-++	untrusted `.git` directories).
-+++
-++This is implemented by having `upload-pack` internally set the
-++`GIT_NO_LAZY_FETCH` variable to `1`. If you want to override it
-++(because you are fetching from a partial clone, and you are sure
-++you trust it), you can explicitly set `GIT_NO_LAZY_FETCH` to
-++`0`.
-++
-+ SEE ALSO
-+ --------
-+ linkgit:gitnamespaces[7]
-+diff --git a/builtin/upload-pack.c b/builtin/upload-pack.c
-+index 125af53..9ecaafe 100644
-+--- a/builtin/upload-pack.c
-++++ b/builtin/upload-pack.c
-+@@ -34,6 +34,8 @@ int cmd_upload_pack(int argc, const char **argv, const char *prefix)
-+
-+	packet_trace_identity("upload-pack");
-+	read_replace_refs = 0;
-++	/* TODO: This should use NO_LAZY_FETCH_ENVIRONMENT */
-++	xsetenv("GIT_NO_LAZY_FETCH", "1", 0);
-+
-+	argc = parse_options(argc, argv, prefix, options, upload_pack_usage, 0);
-+
-+diff --git a/promisor-remote.c b/promisor-remote.c
-+index db2ebdc..e73df68 100644
-+--- a/promisor-remote.c
-++++ b/promisor-remote.c
-+@@ -19,6 +19,16 @@ static int fetch_objects(struct repository *repo,
-+	int i;
-+	FILE *child_in;
-+
-++	/* TODO: This should use NO_LAZY_FETCH_ENVIRONMENT */
-++	if (git_env_bool("GIT_NO_LAZY_FETCH", 0)) {
-++		static int warning_shown;
-++		if (!warning_shown) {
-++			warning_shown = 1;
-++			warning(_("lazy fetching disabled; some objects may not be available"));
-++		}
-++		return -1;
-++	}
-++
-+	child.git_cmd = 1;
-+	child.in = -1;
-+	if (repo != the_repository)
-+diff --git a/t/t0411-clone-from-partial.sh b/t/t0411-clone-from-partial.sh
-+index eb3360d..b3d6ddc 100755
-+--- a/t/t0411-clone-from-partial.sh
-++++ b/t/t0411-clone-from-partial.sh
-+@@ -28,6 +28,7 @@ test_expect_success 'local clone must not fetch from promisor remote and execute
-+	test_must_fail git clone \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-+		evil clone1 2>err &&
-++	grep "detected dubious ownership" err &&
-+	! grep "fake-upload-pack running" err &&
-+	test_path_is_missing script-executed
-+ '
-+@@ -37,6 +38,7 @@ test_expect_success 'clone from file://... must not fetch from promisor remote a
-+	test_must_fail git clone \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-+		"file://$(pwd)/evil" clone2 2>err &&
-++	grep "detected dubious ownership" err &&
-+	! grep "fake-upload-pack running" err &&
-+	test_path_is_missing script-executed
-+ '
-+@@ -46,6 +48,7 @@ test_expect_success 'fetch from file://... must not fetch from promisor remote a
-+	test_must_fail git fetch \
-+		--upload-pack="GIT_TEST_ASSUME_DIFFERENT_OWNER=true git-upload-pack" \
-+		"file://$(pwd)/evil" 2>err &&
-++	grep "detected dubious ownership" err &&
-+	! grep "fake-upload-pack running" err &&
-+	test_path_is_missing script-executed
-+ '
-+@@ -57,4 +60,19 @@ test_expect_success 'pack-objects should fetch from promisor remote and execute
-+	test_path_is_file script-executed
-+ '
-+
-++test_expect_success 'clone from promisor remote does not lazy-fetch by default' '
-++	rm -f script-executed &&
-++	test_must_fail git clone evil no-lazy 2>err &&
-++	grep "lazy fetching disabled" err &&
-++	test_path_is_missing script-executed
-++'
-++
-++test_expect_success 'promisor lazy-fetching can be re-enabled' '
-++	rm -f script-executed &&
-++	test_must_fail env GIT_NO_LAZY_FETCH=0 \
-++		git clone evil lazy-ok 2>err &&
-++	grep "fake-upload-pack running" err &&
-++	test_path_is_file script-executed
-++'
-++
-+ test_done
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/git/git_2.35.7.bb b/meta/recipes-devtools/git/git_2.35.7.bb
-index 9e7b0a8cff..94352d38ef 100644
---- a/meta/recipes-devtools/git/git_2.35.7.bb
-+++ b/meta/recipes-devtools/git/git_2.35.7.bb
-@@ -12,6 +12,17 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch \
-            file://CVE-2023-29007.patch \
-            file://CVE-2023-25652.patch \
-+           file://CVE-2024-32002-0001.patch \
-+           file://CVE-2024-32002-0002.patch \
-+           file://CVE-2024-32002-0003.patch \
-+           file://CVE-2024-32002-0004.patch \
-+           file://CVE-2024-32004-0001.patch \
-+           file://CVE-2024-32004-0002.patch \
-+           file://CVE-2024-32004-0003.patch \
-+           file://CVE-2024-32020.patch \
-+           file://CVE-2024-32021-0001.patch \
-+           file://CVE-2024-32021-0002.patch \
-+           file://CVE-2024-32465.patch \
-            "
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 083ee4b337..36c5aa3285 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -46,6 +46,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-33870.patch \
+                 file://CVE-2024-33869-0001.patch \
+                 file://CVE-2024-33869-0002.patch \
++                file://CVE-2024-33871-0001.patch \
++                file://CVE-2024-33871-0002.patch \
+ "
  
- S = "${WORKDIR}/git-${PV}"
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.34.1
 
