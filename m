@@ -1,99 +1,100 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F37C41513
-	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 23:01:52 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.26612.1717196506948225275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E95C25B75
+	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 23:21:22 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.26954.1717197676519471965
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 May 2024 16:01:47 -0700
+ Fri, 31 May 2024 16:21:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XgHPeSLR;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52b8d483a08so861489e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 16:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717196505; x=1717801305; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NVxsD+DDm1HDjvbe7i2aeI79j33wKafG66LnD8CUMzM=;
-        b=XgHPeSLRTvxK/EaRId8sEBKYiy9nqjce/5hx5lIi7lMdEAHF5Vd/0/NEpXUfTPIawz
-         97n7JWmAJA7WUSghR7X3JuJ7G181CANrPCt+JQlSQd/lI4kbg2xzuFWcMRp0CBQN7L6m
-         Z8Zs8MtnA2jDuk8iwg1oSpWylXIhMI4B4zYpGhUB9gNODb3nD9NpOLfZ2KtK7qVfRBds
-         uuzsQ1Gdy5nOcLXw3tVOjxebJML1JRXyb/jLr8bQfri4VYsUznGlp1nslZ0n8FFrbXF8
-         cYJxMICd1envo3E8l0F50E+k8Nyx5OuVQV/2BqbcQelz8cgm0wqpcpjsoOtz7TYNFf4i
-         rSZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717196505; x=1717801305;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NVxsD+DDm1HDjvbe7i2aeI79j33wKafG66LnD8CUMzM=;
-        b=LotcdB1Od43waxIkBE1uRJNgMyYOK/o5mrwb4uhPIfJ5twWOZSh13kdhH/K7A+yNPO
-         Vdm0dcybkSEMzqpKHTEu5Zs7tuWkH0T/BpVqdt4yMGOjnkNnhsShSa5y4nMRjRuXpRPm
-         zJWrJ2FjlIeOOq8h70cWnTVU6F7o9u1HbfWgEge+b+CEreoeNh/uLwqLoGOy21oT8DyO
-         yJZsBvSc7U7OBMwVGybXEAi4+7HTQoRtUJdN2EEh3xCmZqCQ/h10TGfkpGOT3epUsM41
-         qirU9NI3VGb0rkbpBQcojXsgTX+htan3CXnFc3PGIXD4IWsq9rSwquHWn+oGBFzD5ly5
-         btyQ==
-X-Gm-Message-State: AOJu0Yxm9Sl/3O/s1qW22DuMtD+XmKrts1+aRY7EZtkzmRZEPAS+OEJ+
-	PuKgojkiCgyxPCOPoDgeJ/r2K71j7pjU9dPk/baa6Qo3JhXBE0uGaXQHAA==
-X-Google-Smtp-Source: AGHT+IHI7a0ge17GReQ+h9MhhgmqAzD7f9R6EXdzEmz/J/XgCAPzJ2aM+4bBcVMv6leraS9E87nEMg==
-X-Received: by 2002:a05:6512:2508:b0:523:dab3:34 with SMTP id 2adb3069b0e04-52b8955ad36mr2362052e87.13.1717196502944;
-        Fri, 31 May 2024 16:01:42 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67ea67b645sm132086166b.125.2024.05.31.16.01.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 16:01:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [RESENDv2][PATCH 2/2] insane: add patch-status to default ERROR_QA
-Date: Sat,  1 Jun 2024 01:01:25 +0200
-Message-ID: <20240531230125.2404729-2-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.45.1
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bK++U1bB;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RYCav+6/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018fd0f51c93-682e13a8-222f-4ef3-b1cc-c2cf6e176a36-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717197675; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=OO2ui+AmMlTVE9p57zccCL6gTpft4wEXRTpi5uTnsKg=;
+	b=bK++U1bBH5yxhW2s7GCpkXeFtvVuAByNZcOU/x/TQclrVYFc3KA6vYUN5e/Tm97/
+	4QFxd0I7GHN8rTLiB57KxswQFxaw+fjrZ0yTxxXnzQXumM31Qpms5XKxV6ahnnxfHRy
+	ROH3ow2eFFcdIDMbyWT/SfV48k1nAYxr0hT9hg2w=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717197675;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=OO2ui+AmMlTVE9p57zccCL6gTpft4wEXRTpi5uTnsKg=;
+	b=RYCav+6/N59VrNHTtmLHcm8yOZdMktGGnU9ANGzl1bE30WrpBvgOKHhWQYEYZpD3
+	e+VLDRiZVZy/NcBJO7YWkP9KzxW7unKK5cQbLDpOUwWTdYIAEGyV7pRaYKGL2ERCjkX
+	6wUe7YSH32GQKwB+LKHi9vEuzbg8SGG75pWhjoBE=
+From: patchtest@automation.yoctoproject.org
+To: Martin Jansa <martin.jansa@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RESENDv2][PATCH 1/2] gitrepotest: add Upstream-Status to
+ 0001-testpatch.patch
 In-Reply-To: <20240531230125.2404729-1-martin.jansa@gmail.com>
 References: <20240531230125.2404729-1-martin.jansa@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fd0f51c93-682e13a8-222f-4ef3-b1cc-c2cf6e176a36-000000@us-west-2.amazonses.com>
+Date: Fri, 31 May 2024 23:21:15 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.05.31-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 23:01:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200091
+ <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 23:21:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200092
 
-* it's enabled for patches in oe-core for very long time and I was using
-  it for many other layers as well, so most layers should be in good
-  shape
+--NextPart
+Content-Type: text/plain
 
-* it's also possible to disable it for individual layer as shown
-  by oe-core in:
-  https://git.openembedded.org/openembedded-core/commit/meta/classes-global/insane.bbclass?h=scarthgap&id=61a881fdbe8b5a21c6276b8a5d06cc30486b1eb3
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/classes-global/insane.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Testing patch /home/patchtest/share/mboxes/RESENDv2-1-2-gitrepotest-add-Upstream-Status-to-0001-testpatch.patch.patch
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 99736830b9..6d2f83c6f7 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -45,11 +45,10 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             already-stripped installed-vs-shipped ldflags compile-host-path \
-             install-host-path pn-overrides unknown-configure-option \
-             useless-rpaths rpaths staticdev empty-dirs \
--            patch-fuzz \
-+            patch-fuzz patch-status \
-             "
- # Add usrmerge QA check based on distro feature
- ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
--ERROR_QA:append:layer-core = " patch-status"
- WARN_QA:append:layer-core = " missing-metadata missing-maintainer"
- 
- FAKEROOT_QA = "host-user-contaminated"
--- 
-2.45.1
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
