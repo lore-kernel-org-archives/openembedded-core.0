@@ -1,127 +1,99 @@
-Return-Path: <bin.lan.cn@eng.windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A51BEC25B75
-	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 06:30:33 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.5391.1717137030534692767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB42C25B75
+	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 06:48:03 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.5585.1717138079550909839
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 May 2024 23:30:30 -0700
+ Thu, 30 May 2024 23:47:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=68818aac0f=bin.lan.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V4jFKw011797
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 23:30:30 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yf619r4nc-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 May 2024 23:30:30 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 30 May 2024 23:30:29 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Thu, 30 May 2024 23:30:28 -0700
-From: Bin Lan <bin.lan.cn@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Bin Lan <bin.lan.cn@windriver.com>
-Subject: [OE-core][scarthgap][PATCH] opencl: fix virtual PROVIDES warnings
-Date: Fri, 31 May 2024 14:30:27 +0800
-Message-ID: <20240531063027.2050793-1-bin.lan.cn@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: LzX8REer30LBFmTb-CtZKZcf1YTZSSB6
-X-Proofpoint-ORIG-GUID: LzX8REer30LBFmTb-CtZKZcf1YTZSSB6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-31_03,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- adultscore=0 phishscore=0 mlxlogscore=676 clxscore=1015 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2405310049
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GJLZIRTR;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aTDGjq23;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fcd67bb74-eb086cd7-6066-451e-a7d9-567d227858d3-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717138078; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=X9TWitQkWUiNw3Vucjo2rYYPj37lawGudij8NXUV3y4=;
+	b=GJLZIRTRgvx3c43yB4ADzOWETISa1hrVrs8uTJzK5uzUAgNO7BgCIlTbNUvAHzQ9
+	hseJQmKWXsCDJ2AQVxJHKTZ4nBanr6IEWpKbmnBUar2ZEIVBzlv9UcnGTBrh46UYgfx
+	AECkmo9XVv7TJIbWCGvzelz8+6j70L6vDPkKbKzk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717138078;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=X9TWitQkWUiNw3Vucjo2rYYPj37lawGudij8NXUV3y4=;
+	b=aTDGjq23gFHOUWpCRmJKRi/jVokfIafJiwb2KS3CgUhxm7kRl2zNK+EOGbIN0Xkn
+	dTa6yAWkUU3VbPW7BskuwxMp84M3DiBYt9WYAHIa2FevPBympqWU7LHoTIl/3FNN2Pt
+	aX32iQOkKnc4VupusM3Vxp/ERmG+2rS6NFye9dyI=
+From: patchtest@automation.yoctoproject.org
+To: Bin Lan <bin.lan.cn@eng.windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][scarthgap][PATCH] opencl: fix virtual PROVIDES warnings
+In-Reply-To: <20240531063027.2050793-1-bin.lan.cn@eng.windriver.com>
+References: <20240531063027.2050793-1-bin.lan.cn@eng.windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fcd67bb74-eb086cd7-6066-451e-a7d9-567d227858d3-000000@us-west-2.amazonses.com>
+Date: Fri, 31 May 2024 06:47:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.05.31-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 06:30:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200055
+ <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 06:48:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200056
 
-From: Bin Lan <bin.lan.cn@windriver.com>
+--NextPart
+Content-Type: text/plain
 
-oe-core has started to warn when virtual/ is used outside of
-the RPROVIDES (build) context.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-We tweak provides/depends to use virtual- instead to
-avoid the warning:
-
-  RPROVIDES is set to virtual/opencl-icd, the substring 'virtual/'
-  holds no meaning in this context. It is suggested to use the 'virtual-'
-
-Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
 ---
- meta-oe/recipes-core/opencl/ocl-icd_2.3.2.bb                | 2 +-
- meta-oe/recipes-core/opencl/opencl-icd-loader_2023.12.14.bb | 2 +-
- meta-oe/recipes-support/opencl/clinfo_3.0.23.01.25.bb       | 2 +-
- meta-oe/recipes-support/opencv/opencv_4.9.0.bb              | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Testing patch /home/patchtest/share/mboxes/scarthgap-opencl-fix-virtual-PROVIDES-warnings.patch
 
-diff --git a/meta-oe/recipes-core/opencl/ocl-icd_2.3.2.bb b/meta-oe/recipes-core/opencl/ocl-icd_2.3.2.bb
-index d43ea281ae..bc1a645217 100644
---- a/meta-oe/recipes-core/opencl/ocl-icd_2.3.2.bb
-+++ b/meta-oe/recipes-core/opencl/ocl-icd_2.3.2.bb
-@@ -14,7 +14,7 @@ S = "${WORKDIR}/git"
- inherit autotools
- 
- DEPENDS = "ruby-native"
--PROVIDES = "virtual/opencl-icd"
-+PROVIDES = "virtual-opencl-icd"
- RPROVIDES:${PN} = "virtual-opencl-icd"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta-oe/recipes-core/opencl/opencl-icd-loader_2023.12.14.bb b/meta-oe/recipes-core/opencl/opencl-icd-loader_2023.12.14.bb
-index 146ec6e472..9901e47616 100644
---- a/meta-oe/recipes-core/opencl/opencl-icd-loader_2023.12.14.bb
-+++ b/meta-oe/recipes-core/opencl/opencl-icd-loader_2023.12.14.bb
-@@ -8,7 +8,7 @@ inherit pkgconfig cmake
- 
- DEPENDS += "opencl-headers"
- 
--PROVIDES = "virtual/opencl-icd"
-+PROVIDES = "virtual-opencl-icd"
- RPROVIDES:${PN} = "virtual-opencl-icd"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta-oe/recipes-support/opencl/clinfo_3.0.23.01.25.bb b/meta-oe/recipes-support/opencl/clinfo_3.0.23.01.25.bb
-index 6cacd3722c..3e9ea48993 100644
---- a/meta-oe/recipes-support/opencl/clinfo_3.0.23.01.25.bb
-+++ b/meta-oe/recipes-support/opencl/clinfo_3.0.23.01.25.bb
-@@ -13,7 +13,7 @@ SRCREV = "748c3930a9b9cb826e631d77439e2cb8f84f5bcf"
- 
- S = "${WORKDIR}/git"
- 
--DEPENDS += "opencl-headers virtual/opencl-icd"
-+DEPENDS += "opencl-headers virtual-opencl-icd"
- 
- do_install() {
- 	oe_runmake install PREFIX=${D}${prefix} MANDIR=${D}${mandir}
-diff --git a/meta-oe/recipes-support/opencv/opencv_4.9.0.bb b/meta-oe/recipes-support/opencv/opencv_4.9.0.bb
-index cf836d3ecf..2e72f12658 100644
---- a/meta-oe/recipes-support/opencv/opencv_4.9.0.bb
-+++ b/meta-oe/recipes-support/opencv/opencv_4.9.0.bb
-@@ -109,7 +109,7 @@ PACKAGECONFIG[java] = "-DJAVA_INCLUDE_PATH=${JAVA_HOME}/include -DJAVA_INCLUDE_P
- PACKAGECONFIG[jpeg] = "-DWITH_JPEG=ON,-DWITH_JPEG=OFF,jpeg,"
- PACKAGECONFIG[libav] = "-DWITH_FFMPEG=ON,-DWITH_FFMPEG=OFF,libav,"
- PACKAGECONFIG[libv4l] = "-DWITH_LIBV4L=ON,-DWITH_LIBV4L=OFF,v4l-utils,"
--PACKAGECONFIG[opencl] = "-DWITH_OPENCL=ON,-DWITH_OPENCL=OFF,opencl-headers virtual/opencl-icd,"
-+PACKAGECONFIG[opencl] = "-DWITH_OPENCL=ON,-DWITH_OPENCL=OFF,opencl-headers virtual-opencl-icd,"
- PACKAGECONFIG[openvino] = "-DWITH_OPENVINO=ON,-DWITH_OPENVINO=OFF,openvino-inference-engine,openvino-inference-engine"
- PACKAGECONFIG[oracle-java] = "-DJAVA_INCLUDE_PATH=${ORACLE_JAVA_HOME}/include -DJAVA_INCLUDE_PATH2=${ORACLE_JAVA_HOME}/include/linux -DJAVA_AWT_INCLUDE_PATH=${ORACLE_JAVA_HOME}/include -DJAVA_AWT_LIBRARY=${ORACLE_JAVA_HOME}/lib/amd64/libjawt.so -DJAVA_JVM_LIBRARY=${ORACLE_JAVA_HOME}/lib/amd64/server/libjvm.so,,ant-native oracle-jse-jdk oracle-jse-jdk-native,"
- PACKAGECONFIG[png] = "-DWITH_PNG=ON,-DWITH_PNG=OFF,libpng,"
--- 
-2.34.1
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
