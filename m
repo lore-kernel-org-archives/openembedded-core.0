@@ -1,99 +1,130 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9257FC27C4F
-	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 22:49:12 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.26383.1717195744014519479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC5B9C25B75
+	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 22:53:32 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.26439.1717196004424171593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 May 2024 15:49:04 -0700
+ Fri, 31 May 2024 15:53:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=L7KzuwR5;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sf5KLB2r;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fd0d79e34-35296e04-e14f-4186-9f6a-ed9842e97e10-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717195743; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=8jn+/RpDSQdyA8i4Ti72z2vxlHyRPmRvDwuLsegIn0U=;
-	b=L7KzuwR5OPYZQemsShjcX/SZpGf7/9sXbxatBsYK83J2BRbHDQsGnVCQjALXv0Fl
-	qXQzLAVPxKIX03Dc3kiQiL11YogSLykkvY6XXD34OSHZDAuisJ66dxMdBqa0dVJtmyv
-	9xLytY0b+33lNK6yVyOTuzOdbWY6BUO7CUpJe8xs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717195743;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8jn+/RpDSQdyA8i4Ti72z2vxlHyRPmRvDwuLsegIn0U=;
-	b=sf5KLB2ruNwFKd/QtMGpjcje6F6Rtoe6/WBQu21sAbO6WX1Bx65ggsGXAwXnDKRN
-	2N+TLMsiCtkF5529MrxggDtdO61T4vwqblSeXLipuGhLbqFJQXxDNwF7QX58So8OQAe
-	/pMKQ9rQC0dSxoiv2I+U5r5ISJ6x20YckFE1rd2g=
-From: patchtest@automation.yoctoproject.org
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nFXP1STs;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A38A60002;
+	Fri, 31 May 2024 22:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1717196002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ctsi3YK3v1p9ILPRZBveelOCI2n0RR6cPuSVuJkmFjU=;
+	b=nFXP1STs6thjaGtsBzrIykXaSeEcVN6d/WXe7NUI1Q9TPPYr/AjKW09GWeuXQGSqEwYMqh
+	PGmDsiGw09JBp9WJRZQssD4qYq/L6kI78AO95Sl7RFULfETPLv2MHYie+cmgyIK6AnQdB8
+	/4BhY37VLPUaQXnqg4iB5bnwuBXLsjoUjuCez2A6KFXsrFyXzLu16ViRXhzeoo9GZWuSt9
+	P0nqGmJHXVy+EGGgzKXIec1BbBM1Ftuj9Fkrd4lfmY4d9wZeuhiIiHds/x5tuxjx+/dYhP
+	6/lwzUlUh8tw2dDduYqnpoTtfOMsu1IPXp1DYK7Ckk2K37LEIveht4HSGiKNjQ==
+Date: Sat, 1 Jun 2024 00:53:21 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Martin Jansa <martin.jansa@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gitrepotest: add Upstream-Status to 0001-testpatch.patch
-In-Reply-To: <20240531223644.1897964-1-martin.jansa@gmail.com>
-References: <20240531223644.1897964-1-martin.jansa@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018fd0d79e34-35296e04-e14f-4186-9f6a-ed9842e97e10-000000@us-west-2.amazonses.com>
-Date: Fri, 31 May 2024 22:49:02 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.05.31-54.240.27.23
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [RESEND][PATCH] insane: add patch-status to default
+ ERROR_QA
+Message-ID: <20240531225321112981d5@mail.local>
+References: <20240524160025.275450-1-martin.jansa@gmail.com>
+ <2024053121292511bb731d@mail.local>
+ <CA+chaQfSvcVRQQLNQ08jZBkQWXKr-MS-4Z-NQnbMJc-tvmu2BQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+chaQfSvcVRQQLNQ08jZBkQWXKr-MS-4Z-NQnbMJc-tvmu2BQ@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 22:49:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200088
+ <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 22:53:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200089
 
---NextPart
-Content-Type: text/plain
+On 01/06/2024 00:37:50+0200, Martin Jansa wrote:
+> On Fri, May 31, 2024 at 11:29 PM Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > ERROR: gitrepotest-1.0-r0 do_patch: QA Issue: Missing Upstream-Status in patch
+> > /home/pokybuild/yocto-worker/reproducible/build/build-st/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
+> > Please add according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status . [patch-status]
+> > ERROR: gitrepotest-1.0-r0 do_patch: Fatal QA errors were found, failing task.
+> 
+> https://lists.openembedded.org/g/openembedded-core/message/200086
+> should fix that.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I can't keep track of the tens f patches I need to reapply once they
+have been dropped so please always resend complete series. I'm pretty
+sure that once my current a-full build will be finished I'll have
+forgotten.
+The other option is to resend later on.
 
----
-Testing patch /home/patchtest/share/mboxes/gitrepotest-add-Upstream-Status-to-0001-testpatch.patch.patch
+> 
+> Thanks,
+> 
+> >
+> > On 24/05/2024 18:00:25+0200, Martin Jansa wrote:
+> > > * it's enabled for patches in oe-core for very long time and I was using
+> > >   it for many other layers as well, so most layers should be in good
+> > >   shape
+> > >
+> > > * it's also possible to disable it for individual layer as shown
+> > >   by oe-core in:
+> > >   https://git.openembedded.org/openembedded-core/commit/meta/classes-global/insane.bbclass?h=scarthgap&id=61a881fdbe8b5a21c6276b8a5d06cc30486b1eb3
+> > >
+> > > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > > ---
+> > > Resend https://patchwork.yoctoproject.org/project/oe-core/patch/20240314070903.83765-1-martin.jansa@gmail.com/
+> > > now when scarthgap is released and master is open for development
+> > >
+> > >  meta/classes-global/insane.bbclass | 3 +--
+> > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+> > > index 99736830b9..6d2f83c6f7 100644
+> > > --- a/meta/classes-global/insane.bbclass
+> > > +++ b/meta/classes-global/insane.bbclass
+> > > @@ -45,11 +45,10 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+> > >              already-stripped installed-vs-shipped ldflags compile-host-path \
+> > >              install-host-path pn-overrides unknown-configure-option \
+> > >              useless-rpaths rpaths staticdev empty-dirs \
+> > > -            patch-fuzz \
+> > > +            patch-fuzz patch-status \
+> > >              "
+> > >  # Add usrmerge QA check based on distro feature
+> > >  ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+> > > -ERROR_QA:append:layer-core = " patch-status"
+> > >  WARN_QA:append:layer-core = " missing-metadata missing-maintainer"
+> > >
+> > >  FAKEROOT_QA = "host-user-contaminated"
+> > > --
+> > > 2.45.1
+> > >
+> >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#199853): https://lists.openembedded.org/g/openembedded-core/message/199853
+> > > Mute This Topic: https://lists.openembedded.org/mt/106284256/3617179
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
