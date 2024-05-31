@@ -1,159 +1,167 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 357B5C41513
-	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 11:55:16 +0000 (UTC)
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
- by mx.groups.io with SMTP id smtpd.web11.9663.1717156513908144511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B130C25B75
+	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 12:09:26 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.102])
+ by mx.groups.io with SMTP id smtpd.web11.10003.1717157363839091690
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 May 2024 04:55:14 -0700
+ Fri, 31 May 2024 05:09:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.12, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4VrM4c0rgxzB0;
-	Fri, 31 May 2024 13:55:12 +0200 (CEST)
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4VrM4b4z9xzsFZ;
-	Fri, 31 May 2024 13:55:11 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 31 May 2024 13:53:56 +0200
-Subject: [PATCH 1/3] linux-firmware: update to 20240513
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240531-panthor-v1-1-1a76fd752c1b@cherry.de>
-References: <20240531-panthor-v1-0-1a76fd752c1b@cherry.de>
-In-Reply-To: <20240531-panthor-v1-0-1a76fd752c1b@cherry.de>
-To: Quentin Schulz <quentin.schulz@cherry.de>, 
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=SY+mS9IG;
+ spf=pass (domain: cherry.de, ip: 40.107.104.102, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H+QM8Whs/qgrqX539SfwLBYU134aqfu+y8vvktZqHUqGI3klM8ga1QjWBMiNH4xGqlsrzl47G37jeWYWTzPPIRL17EwhZ3rLLZKZXWVhZtrspALVz0gkjkJ9qFl1Tteg3yw+viYEGvDe9aNpD+12TiVdusQVIzZKXGIQal9Cedu7wGlRaAwsXTkgWAxnSXlTCxjMsx3I/kyXup6KtJ8Et14azIJ7MiQ8qSMEVmbQGoemjsoxp9s9OrK7outllAfY01/T3wG1otWN8VHPpQwt06h5GZ85l4FIRE409As61thZNcnVvBr1iGQ5kIQym7e1cwNjc3cVxKOKoGbnq/EjRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Eiv687Ff/lR0KIOrCEkJfMFhvM/bfwNLqJS+dX/Cbo=;
+ b=Vwh51EN2FnNcm+PGVqkXt5Wx01TYap+d+kZLRDTRM3+5/tp7JHhjRn3mrJBI2i+KG3tWz4ZuPre9pyxM6hKc42hEj2SVnzUXOSb7NaHKOlXun1+XVo7ZZuKw9/xn39/drBH5u9aH2r9nn15zSH+I3XkJt2I4rfVqzDYUprjrumOgIpALhtY+p7bmtJMXyncMmfZ3BslUli8KOYG8ToQxLErTm0KpT3p0lVTap9iq2RI3xod9PjRV0etOEOO3ZdcfK3l+iJHsBnJftTtsASrr1ipVErAsnb/hGJSkiPI8n1HXIAClbRF6coWETckr3rMr7KKrF7Hs5qtDD5fvJOxZYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Eiv687Ff/lR0KIOrCEkJfMFhvM/bfwNLqJS+dX/Cbo=;
+ b=SY+mS9IG8vtu+BCodimpnmCgLCsAiV+Agt4kRNffZItI5/j7SZgfUX/ZuSNJ9VKyW1/o7uTFsRHusDoaEmUTKH+hW0Z8dQ4UwI3MbbamKYI89D7olfqvP3gR+hME6YKku4SNEodUHJ5bhYDagX4gzUUFFF7TKfCRCibuRhxnKjA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PA4PR04MB7982.eurprd04.prod.outlook.com (2603:10a6:102:c4::9)
+ by DU2PR04MB8869.eurprd04.prod.outlook.com (2603:10a6:10:2e0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.25; Fri, 31 May
+ 2024 12:09:19 +0000
+Received: from PA4PR04MB7982.eurprd04.prod.outlook.com
+ ([fe80::3c4:afd5:49ac:77af]) by PA4PR04MB7982.eurprd04.prod.outlook.com
+ ([fe80::3c4:afd5:49ac:77af%4]) with mapi id 15.20.7633.018; Fri, 31 May 2024
+ 12:09:19 +0000
+Message-ID: <ee620352-7a8e-4186-b125-304467e7d0f9@cherry.de>
+Date: Fri, 31 May 2024 14:09:16 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] image-bootfiles.bbclass: new class, copy boot
+ files to root filesystem
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
  openembedded-core@lists.openembedded.org
-X-Mailer: b4 0.13.0
-X-Infomaniak-Routing: alpha
+References: <20240530095314.407638-1-marcus.folkesson@gmail.com>
+ <20240530095314.407638-3-marcus.folkesson@gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20240530095314.407638-3-marcus.folkesson@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA2P291CA0043.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::28) To PA4PR04MB7982.eurprd04.prod.outlook.com
+ (2603:10a6:102:c4::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7982:EE_|DU2PR04MB8869:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71eb6d36-0172-46cd-0863-08dc816a7fd4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?dlVGbTg5cmpzYTFPQkNQVjAyTUtrVjFaQTBHUHdGeTJ2OHdnVE9Kb0NKclhG?=
+ =?utf-8?B?bzhxTXZnU0xjUDIxVGd0V2xsWFhoNzNXbnhMTitUZ1J0ZFk0SElLNnJrQTZJ?=
+ =?utf-8?B?c21DRTBUb2w1VlR6THlqSHd2bURkM1hMUDhzQkxxWERRSXlmMk9LOC9DbDY1?=
+ =?utf-8?B?ODN1eVh2d3B6bi8xWU1RbUljT2JEb3pIcHIxL1EyZkw1SG1HbFB3NUdpYlJ5?=
+ =?utf-8?B?RTZmdDZZdGRtL01Ja3JrTFhLem1rMERVdEdqTnRsRnRQYWh4eWdtNE1paU84?=
+ =?utf-8?B?UW5TNWNYNFhBSjFOMVlCcFVhVXgyTEdRMkZLdWUrYXBXVFRHYlhTbGpVd05v?=
+ =?utf-8?B?KzVISU9sdXR3WGgzc2VuTzNtUm4rcFNqZS9FdjY3UWVBWGgzb2FLd3lQMTJp?=
+ =?utf-8?B?SzQrd3lKUW5BUDgybkJ4VGtmaFB6eWpkY01pZUxiUkVPQ00xK2NhemtrZWNa?=
+ =?utf-8?B?enc0Yk5XTDdDdTNKTlpmRGRJMFVZWUdZbFRUY0xadXY1M0xUb0U4aDhYTDZx?=
+ =?utf-8?B?aFBJTHllb3BOelhpUUtrYzhLUXRYbmszVUgrcTUzWG5NdEpRREN2NUNJRy8w?=
+ =?utf-8?B?dGt6RlJaMEFMT0t0b1FwakhUa0JybUl1eE0wSWMxNEdBTmVoakRqZDB4ZEd3?=
+ =?utf-8?B?TUd2Tks5Nk1tYjVLSDRqdXdNUUJtdnMyd080MjdmcVZ0cDI4QTNXS1pwdVB1?=
+ =?utf-8?B?cXNLWDNZTmREajVmSWl3UUpoSGtyRzRpWWVYTHRMWm40TWZMdFh2MUU0RkJK?=
+ =?utf-8?B?VmhLSUZuTURuaGZWK1pmNlhaZUR5K2F2NG10RFBFL1BCZGtFbnlhSUFHWjUr?=
+ =?utf-8?B?N0pmOGsvUVBxdHQ0UFhUeEZFbjRaYnkydXhBR1dNYm5zWEFzNEdoSk1WWitZ?=
+ =?utf-8?B?aHFpc0oyT0FRRFcwL1puSCtPS1JpaTFKYllyNDFVZThHS0Z0c0hDSVNUK05L?=
+ =?utf-8?B?eGFTZ1dFY1c5ZXdOb1lLVGFSanppZC9qZjZ2aUJjMDBmT3FLNmxKeVA5cFdY?=
+ =?utf-8?B?RVhYSGc1T2lCUUQ0ZXBKSGN2bjV0VVN1UTZtSnhYUDYyYlg5N3NJTzV5K2Zv?=
+ =?utf-8?B?VDN6d25xdjc1NlpUTjFwUThvR2hIaDUrMVQxVWRUa2tVL0dia1NEcXd6T1ho?=
+ =?utf-8?B?SjZuV3pXT1VlRFltL3RiWlAxUUxEekUreEVCUDUrRnQ1SHVrR1FGelZaQXA4?=
+ =?utf-8?B?a040eEJPTm9LaTdvZ2lvS3o4RVJBaHhNb3pIMTg0bmtBM1hJWW9PUTdzQjBa?=
+ =?utf-8?B?WTNTNElPZGVMdzJJUDUvb0lZMFhrTWhlTVlSMDJ5bWF0WFg1UkJmLzVZYUkw?=
+ =?utf-8?B?SmIycTJEZ0R4d2s5NUpTbkF0c0k3cUZTSUhNMDNvekNTWE01Z1VxM3k1ZmtS?=
+ =?utf-8?B?OTM3a01kTkFBekdqWjNtR0V2LzV6aFRaZFMrb0drazlnTUpYWHNvUE1xbE0w?=
+ =?utf-8?B?R0lFRGJ4QlA3N3VRQVRONDJkZ2xBTFpnTkdMaXNHZzRlem5TZ3BYUkIrYkxk?=
+ =?utf-8?B?WFVoM2RkZXRwMjRoc0cyelZqNDhDVUFVZzJUOGRjWjNTd0t6TmZBOVAxYWJq?=
+ =?utf-8?B?cVVCSDZxNUxodXBlNzBNbjV2TFI1R2s2c0J0ZnV5ZFlpYmZoaEtwbE9PQ204?=
+ =?utf-8?B?REFoNnBtTGJ1OEc3NkJkVFRWTmpKNS9hdWdENzFZc3ROSmRYOG53UFN5akxZ?=
+ =?utf-8?B?NDFUZUZDaDl4VmE0YmFXNE9aOFdGU0xKdHNVVUUrZFlxZkZuSlprRGRRPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7982.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?YzNGZDFZYUcrN1EyOVNldWN5TGRXOVpvU21XVFY5dFROK0QydWJtR2ZTUXFW?=
+ =?utf-8?B?Q3FXVzlDY3RvVU0xbHVDTm50bkRIMEVlcXVoSi9JcjU2ZWY5MXJ5emRUNXdT?=
+ =?utf-8?B?WmVobHlNd25iakI2NGRFenNaUHE0K2pOYlZKa2Q2OGtRbVlKemhXWE1Lb2dL?=
+ =?utf-8?B?aklWUldSVC9hNGdldHpwWXVaTTFuNGR4dHBJdTJaaTRtY0xFKy85K0lDVGcz?=
+ =?utf-8?B?T1lhbFVFdEhFQjZSNGpZa3FZV081bVlGUE9QaWhvUEpLNk9xbHRNT0MySER5?=
+ =?utf-8?B?NDc5WXFBN090dzBMdFhvdEVWZlVwRXpTaU1JV2dsNXNaVDJRR2F4aHJTeWpL?=
+ =?utf-8?B?Rk9Hb05xS1ljZUE2aWRZZ3pEVndSelFsQ0hBL1o5VnR6NmxqdWZsdnZiQk04?=
+ =?utf-8?B?bG84QkhsSWc2cmlGUmpXMnM4WTlqcFdCZW0vbndxc0MxMU5xMUJFMm8xQ1l4?=
+ =?utf-8?B?YUpMSFNkQy95TU8yb1Z1NHlzUFdORUdXY1FJT2ZpbXdwazZHTWl6UEZIVXZF?=
+ =?utf-8?B?OWJndmxmaHh3SUYvU3o2andhOHlmTDM1aHRmQmttOWNqYU5SMHRxcG15Y0gy?=
+ =?utf-8?B?cGZ1R0NXWTF0TGRYTDhRdGRRaCtrYWV3Znk0akJreE5rR3lVL0QyS2hFRmw5?=
+ =?utf-8?B?amVDTVkvbEVrZkhiUG5vTjlJa2pxOUp3VWdkNlgzSFBTeTlMeU81ZGJObGtQ?=
+ =?utf-8?B?NktHTTV6SEFRN3N0dTJCL1BpWkJxMUlPZEdiWmc2Mk9nQ2kwS08vN0pBK1U0?=
+ =?utf-8?B?aFRaclkvNjlHemg3RXRZQWt2V2FLcUN4T3pWTDdRNno0QVZyelBjSmdkRTdU?=
+ =?utf-8?B?M0E2dklLUW9qWWtybUhiMjZuSVdhV3VZVjFWcE1DR0R3Nlg4WjJqVUFqbTJz?=
+ =?utf-8?B?dElkUDU2bDI2Rk5kVm1JUGN6V0pBd3N6cTVJdHBpS01UcUNxdnhrUkRHb095?=
+ =?utf-8?B?K2RQeVJPTnhNa2tXamZwRWtqbnFTVUZubXlrWkU5WnlOdnFPZURadDh0R3hO?=
+ =?utf-8?B?MDQ2MUt1d1BDUjZHQk9BQXlOTW9keDN2ZkZYVjMyZUNlNGJZTGJrWGFQc3hy?=
+ =?utf-8?B?M2ROdGpVc0JNeFlONzhpcXArUDdySzR3cDBFMGJKNFdZSlhXejQ3RFYyWWpv?=
+ =?utf-8?B?ZWVQRVlpQmlvdTN6NEIyUGVEVUhSRCtvYzQ2OEd0cnZHSkVHcnp6UHM0NFVt?=
+ =?utf-8?B?Q0JxZ1BnckxLeWdiZld1RzlkQnhqS3YzSlhhbmxWbEtyM3I5UHFCODZVTjI3?=
+ =?utf-8?B?VitpYWs5MDFoUGNlOHZVZGE0T0ViVHhXbUo0WHZpMDhMeE5MSVVBOEQrR3F5?=
+ =?utf-8?B?QWpMRkJxSGdOLytoMzZYVS9nTytRUkJDQVJBNGt3OGlMRGNSbklnRHNMRlls?=
+ =?utf-8?B?c2hXeTFuSHIrOVFlRHdIK2FvcWJqekFKSGlQMHk0cjRWT0VSOVNoWGxuS01x?=
+ =?utf-8?B?M1BTek5NOXM3bVRZRnMzd3ozWks4U0VKejIwWnREUVZPVFFuZVhST0R1MGZ3?=
+ =?utf-8?B?b2dieHAyYmYyY3VHUFpNdnBMdjRFRUdQajdSK0RLVTBHYU04N0hnMjlxdEkr?=
+ =?utf-8?B?UDhmQlpkd0Z0bTF3QVVZdUZOeXJLZjNJZFpZUmduWUc2UUJzM1VHUElRWE1C?=
+ =?utf-8?B?UXhOR1Nuc1dHSUNPbGJBT1B1VklWYkhPSXFxUG9sNVNqQk9MUS8rUkFrbk5a?=
+ =?utf-8?B?YlFVSms2aEpKSTU2S3k3WjRzRnhlRDZBRjZHdlgzUmdDWUpLZGpURjIrQ1ZR?=
+ =?utf-8?B?R3pWS1p5L2k4T0dzYmhzZy84Z2RLUzRWSGtPZnpmd25hOThTNHRqbUJFTWoy?=
+ =?utf-8?B?elBSNndQeW1Id1ErU1ZmU1RJaFd4M01XMXY2VE9QaXloV1RVeDRxNVE2Y1la?=
+ =?utf-8?B?R0ZueDI2cTcrVndheDBOWWZEUW92bmx0cFlDeEFJLzZ6RUovR1pTUGRWU0VY?=
+ =?utf-8?B?VmJpM0JmbE9nZmZQN2ZtVlE0MG5Nbk04SUtHZmFSaGtpWFo0QU1FMmVONStQ?=
+ =?utf-8?B?SzNxM1ZGNCtKS2FCQ0xFQWI4QVltYTd5cDNuSGRBWlhiU1BhM01Bb2hZREVJ?=
+ =?utf-8?B?ZDdDZFhCbzhSWEthd0NwUVp6UUVwNUkwSVlYTmdYZzZkbmM2THFTejRabjVY?=
+ =?utf-8?B?WmRKQ3JXOEdIMngxL0ZOUWFidGlPc1Z3WDVSUjgrb2JseXhPdmZSSFlJWEFU?=
+ =?utf-8?B?aFE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71eb6d36-0172-46cd-0863-08dc816a7fd4
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7982.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2024 12:09:19.2692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GgmIbALdNQW7b6Q1EAb+jxgugz5BtPWqw4iyahkv+AUjnWhnYHrc5iUPiVAxjArE+9cjMAJzYEzQz5qX37m4M2fJ49dyXrjFh7ZMBLrxbYM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8869
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 11:55:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200065
+ <openembedded-core@lists.openembedded.org>; Fri, 31 May 2024 12:09:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200068
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+Hi Marcus,
 
-Update the linux-firmware recipe to the most recent upstream tag.
+On 5/30/24 11:53 AM, Marcus Folkesson wrote:
+> image-bootfiles class copy files listed in IMAGE_BOOT_FILES
+> to the IMAGE_BOOT_FILES_DIR directory of the root filesystem.
+> 
+> This is useful when there is no explicit boot partition but all boot
+> files should instead reside inside the root filesystem.
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
-LICENSE.amdgpu md5 checksum changed because they bumped the Copyright
-year[1].
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-Some of qcom-sdm845-modem files got replaced by a symlink to their
-counterpart in ath10k/WCN3990/hw1.0/. The same happened to files in
-qcom-qcm2290-wifi, but to ath10k/WCN3990/hw1.0/qcm2290/. Finally,
-qcom-qrb4210-wifi also got its file symlinked to
-ath10k/WCN3990/hw1.0/qrb4210/ which in turn is a symlink to
-ath10k/WCN3990/hw1.0/qcm2290/.[2] This meant that qrb4210-wifi now
-RDEPENDS on qcm2290-wifi for the target of the links to be present when
-installing it, and also that sdm845-modem and qcm2290-wifi packages have
-to be before the ath10k catch-all package.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=9442c72e361c1e1130a19248598ad6ab5282ba09
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=650e88378e76d5fad3997a5398f1ade47a74d924
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
----
- ...ware_20240312.bb => linux-firmware_20240513.bb} | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240513.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240513.bb
-index 13538afede..026e5dba00 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240513.bb
-@@ -82,7 +82,7 @@ LICENSE = "\
- LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
--                    file://LICENSE.amdgpu;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
-+                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
-                     file://LICENSE.amd-ucode;md5=6ca90c57f7b248de1e25c7f68ffc4698 \
-                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
-                     file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
-@@ -154,7 +154,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "514da1cd8b363373030f0c16749feb8d"
-+WHENCE_CHKSUM  = "ae024b46fd393d199f66bbe1f3ff5254"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -241,7 +241,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "b2327a54ad1897c828008caf63af5ee15469ba723a5016be58f2b44f07bd4b94"
-+SRC_URI[sha256sum] = "9f05edb99668135d37cedc4fdd18aac2802dc9e4566e086e6c6c2e321f3ecc4e"
- 
- inherit allarch
- 
-@@ -322,6 +322,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-cnm-license ${PN}-cnm \
-              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
-              ${PN}-carl9170 \
-+             ${PN}-qcom-qrb4210-wifi ${PN}-qcom-sdm845-modem \
-              ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
-              \
-              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
-@@ -384,13 +385,13 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem ${PN}-qcom-qcm2290-wifi  \
-              ${PN}-qcom-qrb4210-adreno ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute \
--             ${PN}-qcom-qrb4210-modem ${PN}-qcom-qrb4210-wifi  \
-+             ${PN}-qcom-qrb4210-modem \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compute \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-sensors \
--             ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-+             ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
-              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
-@@ -1419,12 +1420,12 @@ FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/m
- FILES:${PN}-qcom-qcm2290-adreno = "${nonarch_base_libdir}/firmware/qcom/qcm2290/a702_zap.mbn"
- FILES:${PN}-qcom-qcm2290-audio = "${nonarch_base_libdir}/firmware/qcom/qcm2290/adsp*.*"
- FILES:${PN}-qcom-qcm2290-modem = "${nonarch_base_libdir}/firmware/qcom/qcm2290/modem*.*"
--FILES:${PN}-qcom-qcm2290-wifi = "${nonarch_base_libdir}/firmware/qcom/qcm2290/wlanmdsp.mbn"
-+FILES:${PN}-qcom-qcm2290-wifi = "${nonarch_base_libdir}/firmware/qcom/qcm2290/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qcm2290/wlanmdsp.mbn"
- FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn"
- FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
- FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
- FILES:${PN}-qcom-qrb4210-modem = "${nonarch_base_libdir}/firmware/qcom/qrb4210/modem*.*"
--FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn"
-+FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qrb4210/wlanmdsp.mbn"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin ${nonarch_base_libdir}/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn"
-@@ -1433,7 +1434,8 @@ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware
- FILES:${PN}-qcom-sdm845-adreno = "${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
--FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/notice.txt_wlanmdsp"
-+FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/notice.txt_wlanmdsp \
-+                                 ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
- FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${nonarch_base_libdir}/firmware/qcom/sdm845/Thundercomm/db845c/slpi*.*"
- FILES:${PN}-qcom-sm8250-adreno = "${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
- FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
-@@ -1468,7 +1470,9 @@ RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-modem = "${PN}-qcom-license"
--RDEPENDS:${PN}-qcom-qrb4210-wifi = "${PN}-qcom-license"
-+# Only symlinks in qcom-qrb4210-wifi, firmware is in qcom-qcm2290-wifi
-+# c.f. https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=650e88378e76d5fad3997a5398f1ade47a74d924
-+RDEPENDS:${PN}-qcom-qrb4210-wifi = "${PN}-qcom-license ${PN}-qcom-qcm2290-wifi"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
-
--- 
-2.45.1
-
+Thanks!
+Quentin
 
