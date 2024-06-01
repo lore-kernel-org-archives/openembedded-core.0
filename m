@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972D3C32716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 274D5C30658
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.42247.1717263219592985950
+ by mx.groups.io with SMTP id smtpd.web11.42206.1717263217645949738
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:39 -0700
+ Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DroOLJFS;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LEk1j9am;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd36e0-4cc98103-5aa2-4d61-851e-4e88d031335d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bRZ60sSL;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SZsH+0Yf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd3533-d6e8f282-4af6-4246-b923-489f5af1aa35-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263219;
+	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bpJ/mXLaTBwJsw9nEbLayST7y1FVxSb3svm7esKrjyQ=;
-	b=DroOLJFSH2N2NtjtaCOf8kFt7SKz6BOL2liGdZV37qAc/mF8qSzt4SG55Nodbpgr
-	jX5PdfD4awX0njRIk7jj+0EBYp/t7L5NhRrKH1JwdFSlp2ob/Zo0uieDa9/cx3iaHgb
-	f2S8iowPtF5laqBU75W4xQFNogSO8Q4EcQGbFM/s=
+	bh=esdyQDjvKJTOzVw8jnNVS/OFb7x5Mhv/0Ja8JzE1jUQ=;
+	b=bRZ60sSLgvcxvNOSXR2v+wQWhq0C4m/3StcAhFM7PjyU2rR/tvf/az6VshQ0D7ds
+	69dhZGpTF+f38wHKWsTQJoApan2zjfvUUSb7ApxPtBsYQs8xP+iyDVXUcnG4HxvWQw/
+	lWUDNqWqgZtRCzSkWV9Hept/VohRlNgXJpevIFWw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bpJ/mXLaTBwJsw9nEbLayST7y1FVxSb3svm7esKrjyQ=;
-	b=LEk1j9amZGF082SDjeuhtOL/GNsE3i5q6IzgsFZ+y8sZYJbjLuCnzWYAAf9QOmRH
-	PFlxE/DmMqac/MsrHGpSDvzZYixc8qP7wsfHurdfy6p4DR2njMmkxDcmiW99Ja88fEc
-	jWmOnmuaJSYZKb+3SeqakPTVBSYSCxEbaeOsRcOo=
-Content-Type: multipart/mixed; boundary="===============8938287522386508943=="
+	bh=esdyQDjvKJTOzVw8jnNVS/OFb7x5Mhv/0Ja8JzE1jUQ=;
+	b=SZsH+0YfS+5gUR6E6Ycd2M1OqAJwTHjwwJVtDK/5L0rSCUHgVSkRMNVHUCVnH8x0
+	HPDdUsDc2uLzLQxxaJ4gUL3P7/thI8OJNN1eBQDH2kkmSasL0ggdgQYFg0ttbyeYAoa
+	8tl8bfafYKUtFuXwJlbanGNeNU3D1SvjWWyW8saM=
+Content-Type: multipart/mixed; boundary="===============6675728979033736061=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xz: upgrading to 5.6.2 SUCCEEDED
-Message-ID: <0101018fd4dd36e0-4cc98103-5aa2-4d61-851e-4e88d031335d-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] python3-trove-classifiers: upgrading to 2024.5.22 SUCCEEDED
+Message-ID: <0101018fd4dd3533-d6e8f282-4af6-4246-b923-489f5af1aa35-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.06.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200180
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200132
 
---===============8938287522386508943==
+--===============6675728979033736061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xz* to *5.6.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-trove-classifiers* to *2024.5.22* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xz-upgrade-5.4.6-5.6.2.patch
+    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2024.5.17-2024.5.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,624 +72,786 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f03d1b09c5859f51f356268522dc0c630349ae47 Mon Sep 17 00:00:00 2001
+From 33bd98a3cbf874368eb09b22d43613227cb242a9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 12:05:00 +0000
-Subject: [PATCH] xz: upgrade 5.4.6 -> 5.6.2
+Date: Sat, 1 Jun 2024 09:35:22 +0000
+Subject: [PATCH] python3-trove-classifiers: upgrade 2024.5.17 -> 2024.5.22
 
 ---
- .../xz/{xz_5.4.6.bb => xz_5.6.2.bb}           | 192 +++++++++++++++++-
- 1 file changed, 189 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.4.6.bb => xz_5.6.2.bb} (21%)
+ ...iers_2024.5.17.bb => python3-trove-classifiers_2024.5.22.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2024.5.17.bb => python3-trove-classifiers_2024.5.22.bb} (87%)
 
-diff --git a/meta/recipes-extended/xz/xz_5.4.6.bb b/meta/recipes-extended/xz/xz_5.6.2.bb
-similarity index 21%
-rename from meta/recipes-extended/xz/xz_5.4.6.bb
-rename to meta/recipes-extended/xz/xz_5.6.2.bb
-index da3b75a10b..4c11eb2bbe 100644
---- a/meta/recipes-extended/xz/xz_5.4.6.bb
-+++ b/meta/recipes-extended/xz/xz_5.6.2.bb
-@@ -1,3 +1,189 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -3,75 +3,81 @@
-+#  ==================
-+#  
-+#      Different licenses apply to different files in this package. Here
-+# -    is a rough summary of which licenses apply to which parts of this
-+# -    package (but check the individual files to be sure!):
-+# +    is a summary of which licenses apply to which parts of this package:
-+#  
-+# -      - liblzma is in the public domain.
-+# +      - liblzma is under the BSD Zero Clause License (0BSD).
-+#  
-+# -      - xz, xzdec, and lzmadec command line tools are in the public
-+# -        domain unless GNU getopt_long had to be compiled and linked
-+# -        in from the lib directory. The getopt_long code is under
-+# -        GNU LGPLv2.1+.
-+# +      - The command line tools xz, xzdec, lzmadec, and lzmainfo are
-+# +        under 0BSD except that, on systems that don't have a usable
-+# +        getopt_long, GNU getopt_long is compiled and linked in from the
-+# +        'lib' directory. The getopt_long code is under GNU LGPLv2.1+.
-+#  
-+#        - The scripts to grep, diff, and view compressed files have been
-+# -        adapted from gzip. These scripts and their documentation are
-+# -        under GNU GPLv2+.
-+# +        adapted from GNU gzip. These scripts (xzgrep, xzdiff, xzless,
-+# +        and xzmore) are under GNU GPLv2+. The man pages of the scripts
-+# +        are under 0BSD; they aren't based on the man pages of GNU gzip.
-+#  
-+# -      - All the documentation in the doc directory and most of the
-+# -        XZ Utils specific documentation files in other directories
-+# -        are in the public domain.
-+# +      - Most of the XZ Utils specific documentation that is in
-+# +        plain text files (like README, INSTALL, PACKAGERS, NEWS,
-+# +        and ChangeLog) are under 0BSD unless stated otherwise in
-+# +        the file itself. The files xz-file-format.txt and
-+# +        lzma-file-format.xt are in the public domain but may
-+# +        be distributed under the terms of 0BSD too.
-+#  
-+# -        Note: The JavaScript files (under the MIT license) have
-+# -        been removed from the Doxygen-generated HTML version of the
-+# -        liblzma API documentation. Doxygen itself is under the GNU GPL
-+# -        but the remaining files generated by Doxygen are not affected
-+# -        by the licenses used in Doxygen because Doxygen licensing has
-+# -        the following exception:
-+# +      - Translated messages and man pages are under 0BSD except that
-+# +        some old translations are in the public domain.
-+#  
-+# -            "Documents produced by doxygen are derivative works
-+# -            derived from the input used in their production;
-+# -            they are not affected by this license."
-+# +      - Test files and test code in the 'tests' directory, and
-+# +        debugging utilities in the 'debug' directory are under
-+# +        the BSD Zero Clause License (0BSD).
-+#  
-+# -      - Translated messages are in the public domain.
-+# +      - The GNU Autotools based build system contains files that are
-+# +        under GNU GPLv2+, GNU GPLv3+, and a few permissive licenses.
-+# +        These files don't affect the licensing of the binaries being
-+# +        built.
-+#  
-+# -      - The build system contains public domain files, and files that
-+# -        are under GNU GPLv2+ or GNU GPLv3+. None of these files end up
-+# -        in the binaries being built.
-+# +      - The 'extra' directory contains files that are under various
-+# +        free software licenses. These aren't built or installed as
-+# +        part of XZ Utils.
-+#  
-+# -      - Test files and test code in the tests directory, and debugging
-+# -        utilities in the debug directory are in the public domain.
-+# +    For the files under the BSD Zero Clause License (0BSD), if
-+# +    a copyright notice is needed, the following is sufficient:
-+#  
-+# -      - The extra directory may contain public domain files, and files
-+# -        that are under various free software licenses.
-+# +        Copyright (C) The XZ Utils authors and contributors
-+#  
-+# -    You can do whatever you want with the files that have been put into
-+# -    the public domain. If you find public domain legally problematic,
-+# -    take the previous sentence as a license grant. If you still find
-+# -    the lack of copyright legally problematic, you have too many
-+# -    lawyers.
-+# -
-+# -    As usual, this software is provided "as is", without any warranty.
-+# -
-+# -    If you copy significant amounts of public domain code from XZ Utils
-+# +    If you copy significant amounts of 0BSD-licensed code from XZ Utils
-+#      into your project, acknowledging this somewhere in your software is
-+#      polite (especially if it is proprietary, non-free software), but
-+# -    naturally it is not legally required. Here is an example of a good
-+# -    notice to put into "about box" or into documentation:
-+# +    it is not legally required by the license terms. Here is an example
-+# +    of a good notice to put into "about box" or into documentation:
-+#  
-+# -        This software includes code from XZ Utils
-+# -        <https://xz.tukaani.org/xz-utils/>.
-+# +        This software includes code from XZ Utils <https://tukaani.org/xz/>.
-+#  
-+#      The following license texts are included in the following files:
-+# +      - COPYING.0BSD: BSD Zero Clause License
-+#        - COPYING.LGPLv2.1: GNU Lesser General Public License version 2.1
-+#        - COPYING.GPLv2: GNU General Public License version 2
-+#        - COPYING.GPLv3: GNU General Public License version 3
-+#  
-+# -    Note that the toolchain (compiler, linker etc.) may add some code
-+# -    pieces that are copyrighted. Thus, it is possible that e.g. liblzma
-+# -    binary wouldn't actually be in the public domain in its entirety
-+# -    even though it contains no copyrighted code from the XZ Utils source
-+# -    package.
-+# +    A note about old XZ Utils releases:
-+#  
-+# -    If you have questions, don't hesitate to ask the author(s) for more
-+# -    information.
-+# +        XZ Utils releases 5.4.6 and older and 5.5.1alpha have a
-+# +        significant amount of code put into the public domain and
-+# +        that obviously remains so. The switch from public domain to
-+# +        0BSD for newer releases was made in Febrary 2024 because
-+# +        public domain has (real or perceived) legal ambiguities in
-+# +        some jurisdictions.
-+#  
-+# +        There is very little *practical* difference between public
-+# +        domain and 0BSD. The main difference likely is that one
-+# +        shouldn't claim that 0BSD-licensed code is in the public
-+# +        domain; 0BSD-licensed code is copyrighted but available under
-+# +        an extremely permissive license. Neither 0BSD nor public domain
-+# +        require retaining or reproducing author, copyright holder, or
-+# +        license notices when distributing the software. (Compare to,
-+# +        for example, BSD 2-Clause "Simplified" License which does have
-+# +        such requirements.)
-+# +
-+# +    If you have questions, don't hesitate to ask for more information.
-+# +    The contact information is in the README file.
-+# +
-+# --- lib/getopt.c
-+# +++ lib/getopt.c
-+# @@ -1,23 +1,23 @@
-+# +/* SPDX-License-Identifier: LGPL-2.1-or-later */
-+# +
-+#  /* Getopt for GNU.
-+# -   NOTE: getopt is now part of the C library, so if you don't know what
-+# -   "Keep this file name-space clean" means, talk to drepper@gnu.org
-+# -   before changing it!
-+# -   Copyright (C) 1987,88,89,90,91,92,93,94,95,96,98,99,2000,2001,2002,2003,2004,2006
-+# -	Free Software Foundation, Inc.
-+# -   This file is part of the GNU C Library.
-+# +   Copyright (C) 1987-2023 Free Software Foundation, Inc.
-+# +   This file is part of the GNU C Library and is also part of gnulib.
-+# +   Patches to this file should be submitted to both projects.
-+#  
-+# -   This program is free software; you can redistribute it and/or modify
-+# -   it under the terms of the GNU Lesser General Public License as published by
-+# -   the Free Software Foundation; either version 2.1, or (at your option)
-+# -   any later version.
-+# +   The GNU C Library is free software; you can redistribute it and/or
-+# +   modify it under the terms of the GNU Lesser General Public
-+# +   License as published by the Free Software Foundation; either
-+# +   version 2.1 of the License, or (at your option) any later version.
-+#  
-+# -   This program is distributed in the hope that it will be useful,
-+# +   The GNU C Library is distributed in the hope that it will be useful,
-+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# -   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# -   GNU Lesser General Public License for more details.
-+# +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# +   Lesser General Public License for more details.
-+#  
-+# -   You should have received a copy of the GNU Lesser General Public License along
-+# -   with this program; if not, write to the Free Software Foundation,
-+# -   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
-+# +   You should have received a copy of the GNU Lesser General Public
-+# +   License along with the GNU C Library; if not, see
-+# +   <https://www.gnu.org/licenses/>.  */
-+#  
-+#  #ifndef _LIBC
-+# +# ifdef HAVE_CONFIG_H
-+# 
-+#
-+
- SUMMARY = "Utilities for managing LZMA compressed files"
- HOMEPAGE = "https://tukaani.org/xz/"
- DESCRIPTION = "XZ Utils is free general-purpose data compression software with a high compression ratio. XZ Utils were written for POSIX-like systems, but also work on some not-so-POSIX systems. XZ Utils are the successor to LZMA Utils."
-@@ -17,17 +203,17 @@ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
- LICENSE:${PN}-locale = "GPL-2.0-or-later"
- LICENSE:liblzma = "PD"
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.17.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2024.5.17.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb
+index 94c48ed102..8876b63e7d 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.17.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=d4378ea9d5d1fc9ab0ae10d7948827d9 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
-                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
-                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
--                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
-+                    file://lib/getopt.c;endline=23;md5=3f33e207287bf72834f3ae8c247dfb6a \
-                     "
+-SRC_URI[sha256sum] = "d47a6f1c48803091c3fc81f535fecfeef65b558f2b9e4e83df7a79d17bce8bbf"
++SRC_URI[sha256sum] = "8a6242bbb5c9ae88d34cf665e816b287d2212973c8777dfaef5ec18d72ac1d03"
  
- SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
-            file://run-ptest \
-           "
--SRC_URI[sha256sum] = "aeba3e03bf8140ddedf62a0a367158340520f6b384f75ca6045ccc6c0d43fd5c"
-+SRC_URI[sha256sum] = "8bfd20c0e1d86f0402f2497cfa71c6ab62d4cd35fd704276e3140bfb71414519"
- UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
- UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
+ PYPI_PACKAGE = "trove_classifiers"
  
 -- 
 2.44.0
 
 
---===============8938287522386508943==
+--===============6675728979033736061==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (0 cached, 918 parsed). 1878 targets, 46 skipped, 0 masked, 0 errors.
+Removing 27 recipes from the core2-64 sysroot...done.
+Removing 70 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-454a7e96b4ac6634d3a6e0644086bfcbd951776d"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:454a7e96b4ac6634d3a6e0644086bfcbd951776d"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 558 Local 535 Mirrors 0 Missed 23 Current 241 (95% match, 97% complete)
+Removing 5 stale sstate objects for arch x86_64...done.
+Removing 2 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 250 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-atomicwrites_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 253 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 254 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 257 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 258 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-more-itertools_10.2.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 259 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-packaging_24.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 260 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pathlib2_2.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 261 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pluggy_1.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 262 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-py_1.11.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 263 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 264 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 266 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 278 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 279 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 280 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 281 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_package_write_rpm_setscene)
+NOTE: recipe python3-importlib-metadata-7.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-packaging-24.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-more-itertools-10.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-py-1.11.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-pluggy-1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 282 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 283 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pytest-8.2.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 284 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 285 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 286 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 287 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_deb_setscene)
+NOTE: recipe python3-importlib-metadata-7.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 291 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_ipk_setscene)
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-py-1.11.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/python3-setuptools/69.5.1/temp/log.do_packagedata_setscene.3036761
+NOTE: Running setscene task 292 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb:do_packagedata_setscene)
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe python3-atomicwrites-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pluggy-1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-more-itertools-10.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 296 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb:do_package_setscene)
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-packaging-24.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-wcwidth-0.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-attrs-23.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-wcwidth-0.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytest-8.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 317 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_setscene)
+NOTE: Running setscene task 327 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 336 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 337 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 338 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 339 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb:do_package_write_rpm_setscene)
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 450 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 460 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_create_spdx_setscene)
+NOTE: Running task 397 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_recipe_qa)
+NOTE: Running task 463 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_fetch)
+NOTE: Running task 503 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_fetch)
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_recipe_qa: Started
+NOTE: recipe python3-3.12.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-attrs-23.2.0-r0: task do_fetch: Started
+NOTE: Running setscene task 461 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 462 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 463 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 464 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_14.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 465 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
+NOTE: Running setscene task 466 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 467 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 468 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 469 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 470 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb:do_packagedata_setscene)
+NOTE: Running task 514 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_unpack)
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 472 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-14.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_package_setscene: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_setscene: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 518 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_unpack)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_recipe_qa: Succeeded
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 483 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_create_spdx_setscene)
+NOTE: Running task 520 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_fetch)
+NOTE: recipe tzdata-2024a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 496 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 497 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 501 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_fetch: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 548 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_unpack)
+NOTE: recipe gcc-14.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 511 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 516 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_packagedata_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 532 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_unpack: Started
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 540 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 550 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 552 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: Running setscene task 554 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 558 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 560 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 562 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytest-8.2.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 1054 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_patch)
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1080 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: Running task 1144 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_patch)
+NOTE: recipe python3-pytest-8.2.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 564 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 566 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb:do_recipe_qa_setscene)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 567 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 568 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1214 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_patch)
+NOTE: recipe libarchive-3.7.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_patch: Started
+NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running task 1273 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1274 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_patch: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_patch: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1281 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_deploy_source_date_epoch)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 585 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 587 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.8.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 589 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 591 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb:do_packagedata_setscene)
+NOTE: recipe libarchive-3.7.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 598 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1358 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_populate_lic)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1360 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.8.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_populate_lic: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 606 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 608 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata_setscene)
+NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 611 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 615 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.49.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1379 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 623 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.49-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 626 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 630 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 632 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 634 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_populate_lic unihash changed to b129e5fc5db77280bb2b939bbbba7ad39487cb464c82674422a719ac27b1c7da
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.12.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.12.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 643 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 644 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 645 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 646 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 647 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 648 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 649 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 650 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 652 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 653 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20240517-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 654 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.49-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 655 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 656 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 657 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 658 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20240517-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 663 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 665 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 669 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.12.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 672 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 677 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 681 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 682 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 685 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 693 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 694 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 696 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 698 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 700 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 703 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 704 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 705 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 708 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 713 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_packagedata_setscene)
+NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 716 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 718 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 722 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 724 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 726 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 727 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 730 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1476 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 736 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1492 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 740 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 742 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 744 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1523 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 749 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 750 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 757 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 759 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 760 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 762 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-14.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 764 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 765 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-14.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 767 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 768 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 770 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 772 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 773 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 774 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 775 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 776 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 778 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 786 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 788 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 789 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1568 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to c8afda1b9ad17f0a32fe2282140fb9fbfb6a58c64c5c1f9fe1f3c72112aae711
+NOTE: Reported task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 1b604f225d19067d8d0793c66ad9e114e380bd5c6976c3afd5b314e7b378caed to wss://hashserv.yoctoproject.org/ws ({'taskhash': '62ca092cb0537c881f0b94e9bdc7c5ceafe11ade62d9996d7bbcbb1bce3cef19', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '1b604f225d19067d8d0793c66ad9e114e380bd5c6976c3afd5b314e7b378caed'})
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 62ca092cb0537c881f0b94e9bdc7c5ceafe11ade62d9996d7bbcbb1bce3cef19 -> 1b604f225d19067d8d0793c66ad9e114e380bd5c6976c3afd5b314e7b378caed as wanted
+NOTE: Already covered setscene for /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 792 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 794 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 795 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 797 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 799 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1888 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1965 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2115 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2198 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb:do_packagedata)
+NOTE: Running task 2212 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_collect_spdx_deps)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_packagedata: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-setuptools-69.5.1-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2238 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_configure)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_configure: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2239 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_configure)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2240 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_configure)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_configure: Succeeded
+NOTE: Running task 2241 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_configure_ptest_base)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_configure: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-attrs-23.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 2242 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_compile)
+NOTE: Running task 2243 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_configure_ptest_base)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_configure: Succeeded
+NOTE: Running task 2244 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_compile)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2245 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_compile)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 2246 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_compile_ptest_base)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_compile: Succeeded
+NOTE: Running task 2247 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_install)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2248 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_install)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_compile: Succeeded
+NOTE: Running task 2249 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_compile_ptest_base)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_install: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2250 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_install)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_install: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_install: Succeeded
+NOTE: Running task 2251 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_install: Succeeded
+NOTE: Running task 2252 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_install_ptest_base)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_install: Succeeded
+NOTE: Running task 2253 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_install_ptest_base)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_install_ptest_base: Started
+NOTE: Running task 2254 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_package)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2255 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_package)
+NOTE: Running task 2256 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_populate_sysroot)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_package: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_package unihash changed to e25ba00cc6a976a8e80a852542772b721ea796ca03c6c69f07b58c357e3630b9
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata became valid
+NOTE: Running setscene task 799 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-iniconfig-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package: Succeeded
+NOTE: Running task 2258 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_packagedata)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_package unihash changed to 688c13b0a6f365a502000c78481c5fa90f867dcb050ef0cccdee5c29592983b4
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_ipk became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_deb became valid
+NOTE: Running setscene task 796 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 797 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 798 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_8.2.1.bb:do_package_write_rpm_setscene)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_packagedata: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-pytest-8.2.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 799 of 799 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_packagedata: Succeeded
+NOTE: Running task 2259 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_create_spdx)
+NOTE: Running task 2260 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_package_write_ipk)
+NOTE: recipe python3-attrs-23.2.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 2261 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_package_write_deb)
+NOTE: Running task 2262 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_package_write_rpm)
+NOTE: Running task 2263 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_package_qa)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_create_spdx: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-attrs-23.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_deb: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_qa: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2268 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_create_runtime_spdx)
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_create_runtime_spdx: Started
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_deb: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe python3-trove-classifiers-2024.5.22-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2269 of 2269 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-trove-classifiers_2024.5.22.bb:do_build)
+NOTE: Tasks Summary: Attempted 2269 tasks of which 2216 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-src went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-dbg went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-pkg-resources went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-staticdev went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-dev went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-doc went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools-locale went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: QA Issue: Package version for package python3-setuptools went backwards which would break package feeds (from 0:70.0.0-r0 to 0:69.5.1-r0) [version-going-backwards]
+ERROR: python3-setuptools-69.5.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============6675728979033736061==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-trove-classifiers-upgrade-2024.5.17-2024.5.2.patch"
+
+RnJvbSAzM2JkOThhM2NiZjg3NDM2OGViMDliMjJkNDM2MTMyMjdjYjI0MmE5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOTozNToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdHJvdmUtY2xhc3NpZmllcnM6IHVwZ3JhZGUgMjAyNC41LjE3IC0+IDIwMjQuNS4yMgoK
+LS0tCiAuLi5pZXJzXzIwMjQuNS4xNy5iYiA9PiBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIw
+MjQuNS4yMi5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
+ZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXRy
+b3ZlLWNsYXNzaWZpZXJzXzIwMjQuNS4xNy5iYiA9PiBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJz
+XzIwMjQuNS4yMi5iYn0gKDg3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNC41LjE3LmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjQuNS4yMi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNC41LjE3LmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAy
+NC41LjIyLmJiCmluZGV4IDk0YzQ4ZWQxMDIuLjg4NzZiNjNlN2QgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI0LjUu
+MTcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNs
+YXNzaWZpZXJzXzIwMjQuNS4yMi5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6
+Ly9naXRodWIuY29tL3B5cGEvdHJvdmUtY2xhc3NpZmllcnMiCiBMSUNFTlNFID0gIkFwYWNoZS0y
+LjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT04NmQzZjNhOTVjMzI0
+Yzk0NzliZDg5ODY5NjhmNDMyNyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ0N2E2ZjFjNDg4
+MDMwOTFjM2ZjODFmNTM1ZmVjZmVlZjY1YjU1OGYyYjllNGU4M2RmN2E3OWQxN2JjZThiYmYiCitT
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiOGE2MjQyYmJiNWM5YWU4OGQzNGNmNjY1ZTgxNmIyODdkMjIx
+Mjk3M2M4Nzc3ZGZhZWY1ZWMxOGQ3MmFjMWQwMyIKIAogUFlQSV9QQUNLQUdFID0gInRyb3ZlX2Ns
+YXNzaWZpZXJzIgogCi0tIAoyLjQ0LjAKCg==
+
+--===============6675728979033736061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xz: SRC_URI changed from "https://github.com/tukaani-project/xz/releases/download/v5.4.6/xz-5.4.6.tar.gz file://run-ptest" to "https://github.com/tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/xz: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.6", added "/usr/lib/liblzma.so.5.6.2"
-packages/core2-64-poky-linux/xz/liblzma: PKGSIZE changed from 190528 to 194624 (+2%)
-packages/core2-64-poky-linux/xz/liblzma: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/liblzma: PV changed from "5.4.6" to "5.6.2"
-Changes to packages/core2-64-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
-packages/core2-64-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.4.6", added "/usr/lib/xz/ptest/tests/.debug/test_microlzma /usr/lib/.debug/liblzma.so.5.6.2"
-packages/core2-64-poky-linux/xz/xz-dbg: PKGSIZE changed from 1868816 to 2007264 (+7%)
-packages/core2-64-poky-linux/xz/xz-dbg: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-dbg: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-dev: PKGSIZE changed from 225706 to 226687 (+0%)
-packages/core2-64-poky-linux/xz/xz-dev: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-dev: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/tabs.css /usr/share/doc/xz/api/tab_bd.png /usr/share/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/hardware_8h.html /usr/share/man/fr/man1/lzcmp.1 /usr/share/man/fr/man1/xzcmp.1 /usr/share/doc/xz/api/doxygen.svg /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/tab_a.png /usr/share/man/fr/man1/lzmore.1 /usr/share/man/fr/man1/xzmore.1 /usr/share/doc/xz/api/structlzma__filter.html /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/structlzma__stream.html /usr/share/doc/xz/api/tab_hd.png /usr/share/doc/xz/api/globals.html /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/open.png /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/man/pt_BR/man1/xzmore.1 /us
- r/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/folderclosedd.svg /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/files.html /usr/share/doc/xz/examples_old/xz_pipe_decomp.c /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/examples_old/xz_pipe_comp.c /usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/api/functions_vars.html /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/index.html /usr/share/doc/xz/api/vli_8h.html /usr/share/doc/xz/api/structlzma__options__bcj.html /usr/share/man/fr/man1/lzdiff.1 /usr/share/man/fr/man1/xzdiff.1 /usr/share/doc/xz/api/base_8h.html /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/filter_8h.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/doc/xz/api/tab_sd.png /usr/share/doc
- /xz/api/nav_hd.png /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/doc/xz/api/tab_h.png /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/folderopend.svg /usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/splitbard.png /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/structlzma__mt.html /usr/share/doc/xz/TODO /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/bc_sd.png /usr/share/doc/xz/api/index__hash_8h.html /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/annotated.html /usr/share/doc/xz/api/functi
- ons.html /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/nav_h.png /usr/share/doc/xz/api/structlzma__options__lzma.html /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/closed.png /usr/share/doc/xz/api/version_8h.html /usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/tab_s.png /usr/share/doc/xz/api/bc_s.png", added "/usr/share/man/uk/man1/lzmainfo.1 /usr/share/man/de/man1/lzmainfo.1 /usr/share/man/pt_BR/man1/lzmainfo.1 /usr/share/doc/xz/COPYING.0BSD /usr/share/man/ro/man1/lzmainfo.1 /usr/share/man/ko/man1/lzmainfo.1 /usr/share/doc/xz/examples/11_file_info.c /usr/share/man/fr/man1/lzmainfo.1"
-packages/core2-64-poky-linux/xz/xz-doc: PKGSIZE changed from 1793515 to 993542 (-45%)
-packages/core2-64-poky-linux/xz/xz-doc: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-doc: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-ca: PKGSIZE changed from 26876 to 22289 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-ca: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-ca: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-cs: PKGSIZE changed from 17576 to 15436 (-12%)
-packages/core2-64-poky-linux/xz/xz-locale-cs: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-cs: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-da: PKGSIZE changed from 12015 to 11042 (-8%)
-packages/core2-64-poky-linux/xz/xz-locale-da: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-da: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28599 to 32560 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-de: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-de: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26139 to 29979 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-eo: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-eo: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-es: PKGSIZE changed from 27192 to 31175 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-es: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-es: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-fi: PKGSIZE changed from 25923 to 21441 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-fi: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-fi: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-fr: PKGSIZE changed from 22313 to 19342 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-fr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-fr: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26682 to 30343 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-hr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-hr: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-hu: PKGSIZE changed from 27374 to 31658 (+16%)
-packages/core2-64-poky-linux/xz/xz-locale-hu: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-hu: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-it: PKGSIZE changed from 22043 to 19130 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-it: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-it: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27394 to 31480 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-ko: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-ko: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26643 to 30611 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-pl: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-pl: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 26890 to 22302 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-pt-br: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 21887 to 18992 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-pt: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-pt: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28538 to 32640 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-ro: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-ro: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-sr: PKGSIZE changed from 27551 to 23849 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-sr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-sr: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26576 to 30379 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-sv: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-sv: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-tr: PKGSIZE changed from 26545 to 22029 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-tr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-tr: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35322 to 40332 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-uk: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-uk: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 28619 to 32859 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-vi: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-vi: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25247 to 22476 (-11%)
-packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 24823 to 20613 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-ptest: FILELIST: removed "/usr/lib/xz/ptest/tests/files/good-1-x86-lzma2.xz /usr/lib/xz/ptest/tests/files/good-1-sparc-lzma2.xz", added "/usr/lib/xz/ptest/tests/test_microlzma"
-packages/core2-64-poky-linux/xz/xz-ptest: PKGSIZE changed from 433361 to 472412 (+9%)
-packages/core2-64-poky-linux/xz/xz-ptest: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-ptest: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-src: FILELIST: directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/rangecoder -> /usr/src/debug/xz/5.6.2/src/liblzma/rangecoder, directory renamed /usr/src/debug/xz/5.4.6/src/common -> /usr/src/debug/xz/5.6.2/src/common, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/common -> /usr/src/debug/xz/5.6.2/src/liblzma/common, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/delta -> /usr/src/debug/xz/5.6.2/src/liblzma/delta, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/api/lzma -> /usr/src/debug/xz/5.6.2/src/liblzma/api/lzma, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/lz -> /usr/src/debug/xz/5.6.2/src/liblzma/lz, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/lzma -> /usr/src/debug/xz/5.6.2/src/liblzma/lzma, directory renamed /usr/src/debug/xz/5.4.6/src/lzmainfo -> /usr/src/debug/xz/5.6.2/src/lzmainfo, directory renamed /usr/src/debug/xz/5.4.6/src/xzdec -> /usr/src/debug/xz/5.6.2/src/xzdec, removed "/usr/src/debug/
- xz/5.4.6/src/xz/args.h /usr/src/debug/xz/5.4.6/src/xz/hardware.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/powerpc.c /usr/src/debug/xz/5.4.6/src/xz/hardware.c /usr/src/debug/xz/5.4.6/src/xz/args.c /usr/src/debug/xz/5.4.6/tests/test_lzip_decoder.c /usr/src/debug/xz/5.4.6/tests/test_vli.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/armthumb.c /usr/src/debug/xz/5.4.6/src/xz/options.c /usr/src/debug/xz/5.4.6/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.4.6/src/xz/suffix.h /usr/src/debug/xz/5.4.6/tests/test_index_hash.c /usr/src/debug/xz/5.4.6/src/xz/options.h /usr/src/debug/xz/5.4.6/src/xz/suffix.c /usr/src/debug/xz/5.4.6/src/xz/list.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_decoder.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_encoder.h /usr/src/debug/xz/5.4.6/src/xz/main.c /usr/src/debug/xz/5.4.6/src/liblzma/check/check.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_encoder.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_decoder.c /usr/src/debug/xz/5.4.6/sr
- c/xz/list.c /usr/src/debug/xz/5.4.6/src/liblzma/check/check.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/x86.c /usr/src/debug/xz/5.4.6/src/xz/main.h /usr/src/debug/xz/5.4.6/src/xz/mytime.c /usr/src/debug/xz/5.4.6/tests/test_hardware.c /usr/src/debug/xz/5.4.6/src/xz/mytime.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_table.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_table.c /usr/src/debug/xz/5.4.6/tests/test_filter_str.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/arm64.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/sparc.c /usr/src/debug/xz/5.4.6/src/xz/file_io.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/arm.c /usr/src/debug/xz/5.4.6/src/xz/signals.c /usr/src/debug/xz/5.4.6/src/xz/coder.c /usr/src/debug/xz/5.4.6/src/xz/file_io.c /usr/src/debug/xz/5.4.6/tests/tests.h /usr/src/debug/xz/5.4.6/src/xz/coder.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_table_le.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_table_le.h /usr/src/debug/xz/5.4.6/src/xz/signals.h /usr/src/debu
- g/xz/5.4.6/tests/create_compress_files.c /usr/src/debug/xz/5.4.6/src/xz/util.c /usr/src/debug/xz/5.4.6/src/xz/message.h /usr/src/debug/xz/5.4.6/tests/test_block_header.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_coder.h /usr/src/debug/xz/5.4.6/src/xz/message.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/ia64.c /usr/src/debug/xz/5.4.6/src/xz/util.h /usr/src/debug/xz/5.4.6/tests/test_stream_flags.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_fast.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_fast.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_coder.c /usr/src/debug/xz/5.4.6/tests/test_filter_flags.c /usr/src/debug/xz/5.4.6/tests/test_check.c /usr/src/debug/xz/5.4.6/tests/test_index.c /usr/src/debug/xz/5.4.6/tests/test_memlimit.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_private.h /usr/src/debug/xz/5.4.6/src/liblzma/check/sha256.c /usr/src/debug/xz/5.4.6/tests/tuktest.h", added "/usr/src/debug/xz/5.6.2/src/xz/sandbox.c /usr/src/debug/xz/5.6.2/src/xz/args.h /
- usr/src/debug/xz/5.6.2/src/xz/hardware.h /usr/src/debug/xz/5.6.2/src/xz/sandbox.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/powerpc.c /usr/src/debug/xz/5.6.2/src/xz/hardware.c /usr/src/debug/xz/5.6.2/src/xz/args.c /usr/src/debug/xz/5.6.2/tests/test_lzip_decoder.c /usr/src/debug/xz/5.6.2/tests/test_vli.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/armthumb.c /usr/src/debug/xz/5.6.2/src/xz/options.c /usr/src/debug/xz/5.6.2/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.6.2/src/xz/suffix.h /usr/src/debug/xz/5.6.2/tests/test_index_hash.c /usr/src/debug/xz/5.6.2/src/xz/options.h /usr/src/debug/xz/5.6.2/src/xz/suffix.c /usr/src/debug/xz/5.6.2/src/xz/list.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_decoder.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_encoder.h /usr/src/debug/xz/5.6.2/src/xz/main.c /usr/src/debug/xz/5.6.2/src/liblzma/check/check.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_decoder.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_encoder.c /usr/src/
- debug/xz/5.6.2/src/xz/list.c /usr/src/debug/xz/5.6.2/src/liblzma/check/check.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/x86.c /usr/src/debug/xz/5.6.2/src/xz/main.h /usr/src/debug/xz/5.6.2/src/xz/mytime.c /usr/src/debug/xz/5.6.2/tests/test_hardware.c /usr/src/debug/xz/5.6.2/src/xz/mytime.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc32_table.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_table.c /usr/src/debug/xz/5.6.2/tests/test_filter_str.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/arm64.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/riscv.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/sparc.c /usr/src/debug/xz/5.6.2/src/xz/file_io.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/arm.c /usr/src/debug/xz/5.6.2/src/xz/signals.c /usr/src/debug/xz/5.6.2/src/xz/coder.c /usr/src/debug/xz/5.6.2/src/xz/file_io.c /usr/src/debug/xz/5.6.2/tests/tests.h /usr/src/debug/xz/5.6.2/src/xz/coder.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_table_le.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc
- 32_table_le.h /usr/src/debug/xz/5.6.2/src/xz/signals.h /usr/src/debug/xz/5.6.2/tests/create_compress_files.c /usr/src/debug/xz/5.6.2/src/xz/util.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc_x86_clmul.h /usr/src/debug/xz/5.6.2/src/xz/message.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_coder.h /usr/src/debug/xz/5.6.2/tests/test_block_header.c /usr/src/debug/xz/5.6.2/tests/test_microlzma.c /usr/src/debug/xz/5.6.2/src/xz/message.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/ia64.c /usr/src/debug/xz/5.6.2/src/xz/util.h /usr/src/debug/xz/5.6.2/tests/test_stream_flags.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc32_fast.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_fast.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_coder.c /usr/src/debug/xz/5.6.2/tests/test_filter_flags.c /usr/src/debug/xz/5.6.2/tests/test_check.c /usr/src/debug/xz/5.6.2/tests/test_index.c /usr/src/debug/xz/5.6.2/tests/test_memlimit.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_private.h /usr/sr
- c/debug/xz/5.6.2/src/liblzma/check/sha256.c /usr/src/debug/xz/5.6.2/tests/tuktest.h"
-packages/core2-64-poky-linux/xz/xz-src: PKGSIZE changed from 1543297 to 1658436 (+7%)
-packages/core2-64-poky-linux/xz/xz-src: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-src: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz-staticdev: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz-staticdev: PV changed from "5.4.6" to "5.6.2"
-packages/core2-64-poky-linux/xz/xz: PKGSIZE changed from 149851 to 158871 (+6%)
-packages/core2-64-poky-linux/xz/xz: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
-packages/core2-64-poky-linux/xz/xz: PV changed from "5.4.6" to "5.6.2"
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
+packages/core2-64-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2024.5.17.tar.gz;downloadfilename=trove_classifiers-2024.5.17.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2024.5.22.tar.gz;downloadfilename=trove_classifiers-2024.5.22.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-trove-classifiers: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2024.5.17" to "2024.5.22"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 92564 to 92626 (+0%)
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2024.5.17 [default] to 2024.5.22 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2024.5.17" to "2024.5.22"
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.17.dist-info moved to /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.22.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.17.dist-info moved to /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.22.dist-info
 
---===============8938287522386508943==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-xz-upgrade-5.4.6-5.6.2.patch"
-
-RnJvbSBmMDNkMWIwOWM1ODU5ZjUxZjM1NjI2ODUyMmRjMGM2MzAzNDlhZTQ3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxMjowNTowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
-OiB1cGdyYWRlIDUuNC42IC0+IDUuNi4yCgotLS0KIC4uLi94ei97eHpfNS40LjYuYmIgPT4geHpf
-NS42LjIuYmJ9ICAgICAgICAgICB8IDE5MiArKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAxODkgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQveHove3h6XzUuNC42LmJiID0+IHh6XzUuNi4yLmJifSAoMjElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjQuNi5iYiBiL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC94ei94el81LjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDIxJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC94ei94el81LjYuMi5iYgppbmRleCBkYTNiNzVhMTBiLi40YzExZWIyYmJl
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjYuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNi4yLmJiCkBAIC0xLDMgKzEsMTg5IEBACisj
-IEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkg
-J2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0
-d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0
-aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4K
-KyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFt
-cGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRo
-ZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORworIyArKysgQ09QWUlORworIyBAQCAtMyw3NSAr
-Myw4MSBAQAorIyAgPT09PT09PT09PT09PT09PT09CisjICAKKyMgICAgICBEaWZmZXJlbnQgbGlj
-ZW5zZXMgYXBwbHkgdG8gZGlmZmVyZW50IGZpbGVzIGluIHRoaXMgcGFja2FnZS4gSGVyZQorIyAt
-ICAgIGlzIGEgcm91Z2ggc3VtbWFyeSBvZiB3aGljaCBsaWNlbnNlcyBhcHBseSB0byB3aGljaCBw
-YXJ0cyBvZiB0aGlzCisjIC0gICAgcGFja2FnZSAoYnV0IGNoZWNrIHRoZSBpbmRpdmlkdWFsIGZp
-bGVzIHRvIGJlIHN1cmUhKToKKyMgKyAgICBpcyBhIHN1bW1hcnkgb2Ygd2hpY2ggbGljZW5zZXMg
-YXBwbHkgdG8gd2hpY2ggcGFydHMgb2YgdGhpcyBwYWNrYWdlOgorIyAgCisjIC0gICAgICAtIGxp
-Ymx6bWEgaXMgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIGxpYmx6bWEgaXMgdW5k
-ZXIgdGhlIEJTRCBaZXJvIENsYXVzZSBMaWNlbnNlICgwQlNEKS4KKyMgIAorIyAtICAgICAgLSB4
-eiwgeHpkZWMsIGFuZCBsem1hZGVjIGNvbW1hbmQgbGluZSB0b29scyBhcmUgaW4gdGhlIHB1Ymxp
-YworIyAtICAgICAgICBkb21haW4gdW5sZXNzIEdOVSBnZXRvcHRfbG9uZyBoYWQgdG8gYmUgY29t
-cGlsZWQgYW5kIGxpbmtlZAorIyAtICAgICAgICBpbiBmcm9tIHRoZSBsaWIgZGlyZWN0b3J5LiBU
-aGUgZ2V0b3B0X2xvbmcgY29kZSBpcyB1bmRlcgorIyAtICAgICAgICBHTlUgTEdQTHYyLjErLgor
-IyArICAgICAgLSBUaGUgY29tbWFuZCBsaW5lIHRvb2xzIHh6LCB4emRlYywgbHptYWRlYywgYW5k
-IGx6bWFpbmZvIGFyZQorIyArICAgICAgICB1bmRlciAwQlNEIGV4Y2VwdCB0aGF0LCBvbiBzeXN0
-ZW1zIHRoYXQgZG9uJ3QgaGF2ZSBhIHVzYWJsZQorIyArICAgICAgICBnZXRvcHRfbG9uZywgR05V
-IGdldG9wdF9sb25nIGlzIGNvbXBpbGVkIGFuZCBsaW5rZWQgaW4gZnJvbSB0aGUKKyMgKyAgICAg
-ICAgJ2xpYicgZGlyZWN0b3J5LiBUaGUgZ2V0b3B0X2xvbmcgY29kZSBpcyB1bmRlciBHTlUgTEdQ
-THYyLjErLgorIyAgCisjICAgICAgICAtIFRoZSBzY3JpcHRzIHRvIGdyZXAsIGRpZmYsIGFuZCB2
-aWV3IGNvbXByZXNzZWQgZmlsZXMgaGF2ZSBiZWVuCisjIC0gICAgICAgIGFkYXB0ZWQgZnJvbSBn
-emlwLiBUaGVzZSBzY3JpcHRzIGFuZCB0aGVpciBkb2N1bWVudGF0aW9uIGFyZQorIyAtICAgICAg
-ICB1bmRlciBHTlUgR1BMdjIrLgorIyArICAgICAgICBhZGFwdGVkIGZyb20gR05VIGd6aXAuIFRo
-ZXNlIHNjcmlwdHMgKHh6Z3JlcCwgeHpkaWZmLCB4emxlc3MsCisjICsgICAgICAgIGFuZCB4em1v
-cmUpIGFyZSB1bmRlciBHTlUgR1BMdjIrLiBUaGUgbWFuIHBhZ2VzIG9mIHRoZSBzY3JpcHRzCisj
-ICsgICAgICAgIGFyZSB1bmRlciAwQlNEOyB0aGV5IGFyZW4ndCBiYXNlZCBvbiB0aGUgbWFuIHBh
-Z2VzIG9mIEdOVSBnemlwLgorIyAgCisjIC0gICAgICAtIEFsbCB0aGUgZG9jdW1lbnRhdGlvbiBp
-biB0aGUgZG9jIGRpcmVjdG9yeSBhbmQgbW9zdCBvZiB0aGUKKyMgLSAgICAgICAgWFogVXRpbHMg
-c3BlY2lmaWMgZG9jdW1lbnRhdGlvbiBmaWxlcyBpbiBvdGhlciBkaXJlY3RvcmllcworIyAtICAg
-ICAgICBhcmUgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIE1vc3Qgb2YgdGhlIFha
-IFV0aWxzIHNwZWNpZmljIGRvY3VtZW50YXRpb24gdGhhdCBpcyBpbgorIyArICAgICAgICBwbGFp
-biB0ZXh0IGZpbGVzIChsaWtlIFJFQURNRSwgSU5TVEFMTCwgUEFDS0FHRVJTLCBORVdTLAorIyAr
-ICAgICAgICBhbmQgQ2hhbmdlTG9nKSBhcmUgdW5kZXIgMEJTRCB1bmxlc3Mgc3RhdGVkIG90aGVy
-d2lzZSBpbgorIyArICAgICAgICB0aGUgZmlsZSBpdHNlbGYuIFRoZSBmaWxlcyB4ei1maWxlLWZv
-cm1hdC50eHQgYW5kCisjICsgICAgICAgIGx6bWEtZmlsZS1mb3JtYXQueHQgYXJlIGluIHRoZSBw
-dWJsaWMgZG9tYWluIGJ1dCBtYXkKKyMgKyAgICAgICAgYmUgZGlzdHJpYnV0ZWQgdW5kZXIgdGhl
-IHRlcm1zIG9mIDBCU0QgdG9vLgorIyAgCisjIC0gICAgICAgIE5vdGU6IFRoZSBKYXZhU2NyaXB0
-IGZpbGVzICh1bmRlciB0aGUgTUlUIGxpY2Vuc2UpIGhhdmUKKyMgLSAgICAgICAgYmVlbiByZW1v
-dmVkIGZyb20gdGhlIERveHlnZW4tZ2VuZXJhdGVkIEhUTUwgdmVyc2lvbiBvZiB0aGUKKyMgLSAg
-ICAgICAgbGlibHptYSBBUEkgZG9jdW1lbnRhdGlvbi4gRG94eWdlbiBpdHNlbGYgaXMgdW5kZXIg
-dGhlIEdOVSBHUEwKKyMgLSAgICAgICAgYnV0IHRoZSByZW1haW5pbmcgZmlsZXMgZ2VuZXJhdGVk
-IGJ5IERveHlnZW4gYXJlIG5vdCBhZmZlY3RlZAorIyAtICAgICAgICBieSB0aGUgbGljZW5zZXMg
-dXNlZCBpbiBEb3h5Z2VuIGJlY2F1c2UgRG94eWdlbiBsaWNlbnNpbmcgaGFzCisjIC0gICAgICAg
-IHRoZSBmb2xsb3dpbmcgZXhjZXB0aW9uOgorIyArICAgICAgLSBUcmFuc2xhdGVkIG1lc3NhZ2Vz
-IGFuZCBtYW4gcGFnZXMgYXJlIHVuZGVyIDBCU0QgZXhjZXB0IHRoYXQKKyMgKyAgICAgICAgc29t
-ZSBvbGQgdHJhbnNsYXRpb25zIGFyZSBpbiB0aGUgcHVibGljIGRvbWFpbi4KKyMgIAorIyAtICAg
-ICAgICAgICAgIkRvY3VtZW50cyBwcm9kdWNlZCBieSBkb3h5Z2VuIGFyZSBkZXJpdmF0aXZlIHdv
-cmtzCisjIC0gICAgICAgICAgICBkZXJpdmVkIGZyb20gdGhlIGlucHV0IHVzZWQgaW4gdGhlaXIg
-cHJvZHVjdGlvbjsKKyMgLSAgICAgICAgICAgIHRoZXkgYXJlIG5vdCBhZmZlY3RlZCBieSB0aGlz
-IGxpY2Vuc2UuIgorIyArICAgICAgLSBUZXN0IGZpbGVzIGFuZCB0ZXN0IGNvZGUgaW4gdGhlICd0
-ZXN0cycgZGlyZWN0b3J5LCBhbmQKKyMgKyAgICAgICAgZGVidWdnaW5nIHV0aWxpdGllcyBpbiB0
-aGUgJ2RlYnVnJyBkaXJlY3RvcnkgYXJlIHVuZGVyCisjICsgICAgICAgIHRoZSBCU0QgWmVybyBD
-bGF1c2UgTGljZW5zZSAoMEJTRCkuCisjICAKKyMgLSAgICAgIC0gVHJhbnNsYXRlZCBtZXNzYWdl
-cyBhcmUgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIFRoZSBHTlUgQXV0b3Rvb2xz
-IGJhc2VkIGJ1aWxkIHN5c3RlbSBjb250YWlucyBmaWxlcyB0aGF0IGFyZQorIyArICAgICAgICB1
-bmRlciBHTlUgR1BMdjIrLCBHTlUgR1BMdjMrLCBhbmQgYSBmZXcgcGVybWlzc2l2ZSBsaWNlbnNl
-cy4KKyMgKyAgICAgICAgVGhlc2UgZmlsZXMgZG9uJ3QgYWZmZWN0IHRoZSBsaWNlbnNpbmcgb2Yg
-dGhlIGJpbmFyaWVzIGJlaW5nCisjICsgICAgICAgIGJ1aWx0LgorIyAgCisjIC0gICAgICAtIFRo
-ZSBidWlsZCBzeXN0ZW0gY29udGFpbnMgcHVibGljIGRvbWFpbiBmaWxlcywgYW5kIGZpbGVzIHRo
-YXQKKyMgLSAgICAgICAgYXJlIHVuZGVyIEdOVSBHUEx2Misgb3IgR05VIEdQTHYzKy4gTm9uZSBv
-ZiB0aGVzZSBmaWxlcyBlbmQgdXAKKyMgLSAgICAgICAgaW4gdGhlIGJpbmFyaWVzIGJlaW5nIGJ1
-aWx0LgorIyArICAgICAgLSBUaGUgJ2V4dHJhJyBkaXJlY3RvcnkgY29udGFpbnMgZmlsZXMgdGhh
-dCBhcmUgdW5kZXIgdmFyaW91cworIyArICAgICAgICBmcmVlIHNvZnR3YXJlIGxpY2Vuc2VzLiBU
-aGVzZSBhcmVuJ3QgYnVpbHQgb3IgaW5zdGFsbGVkIGFzCisjICsgICAgICAgIHBhcnQgb2YgWFog
-VXRpbHMuCisjICAKKyMgLSAgICAgIC0gVGVzdCBmaWxlcyBhbmQgdGVzdCBjb2RlIGluIHRoZSB0
-ZXN0cyBkaXJlY3RvcnksIGFuZCBkZWJ1Z2dpbmcKKyMgLSAgICAgICAgdXRpbGl0aWVzIGluIHRo
-ZSBkZWJ1ZyBkaXJlY3RvcnkgYXJlIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyArICAgIEZvciB0
-aGUgZmlsZXMgdW5kZXIgdGhlIEJTRCBaZXJvIENsYXVzZSBMaWNlbnNlICgwQlNEKSwgaWYKKyMg
-KyAgICBhIGNvcHlyaWdodCBub3RpY2UgaXMgbmVlZGVkLCB0aGUgZm9sbG93aW5nIGlzIHN1ZmZp
-Y2llbnQ6CisjICAKKyMgLSAgICAgIC0gVGhlIGV4dHJhIGRpcmVjdG9yeSBtYXkgY29udGFpbiBw
-dWJsaWMgZG9tYWluIGZpbGVzLCBhbmQgZmlsZXMKKyMgLSAgICAgICAgdGhhdCBhcmUgdW5kZXIg
-dmFyaW91cyBmcmVlIHNvZnR3YXJlIGxpY2Vuc2VzLgorIyArICAgICAgICBDb3B5cmlnaHQgKEMp
-IFRoZSBYWiBVdGlscyBhdXRob3JzIGFuZCBjb250cmlidXRvcnMKKyMgIAorIyAtICAgIFlvdSBj
-YW4gZG8gd2hhdGV2ZXIgeW91IHdhbnQgd2l0aCB0aGUgZmlsZXMgdGhhdCBoYXZlIGJlZW4gcHV0
-IGludG8KKyMgLSAgICB0aGUgcHVibGljIGRvbWFpbi4gSWYgeW91IGZpbmQgcHVibGljIGRvbWFp
-biBsZWdhbGx5IHByb2JsZW1hdGljLAorIyAtICAgIHRha2UgdGhlIHByZXZpb3VzIHNlbnRlbmNl
-IGFzIGEgbGljZW5zZSBncmFudC4gSWYgeW91IHN0aWxsIGZpbmQKKyMgLSAgICB0aGUgbGFjayBv
-ZiBjb3B5cmlnaHQgbGVnYWxseSBwcm9ibGVtYXRpYywgeW91IGhhdmUgdG9vIG1hbnkKKyMgLSAg
-ICBsYXd5ZXJzLgorIyAtCisjIC0gICAgQXMgdXN1YWwsIHRoaXMgc29mdHdhcmUgaXMgcHJvdmlk
-ZWQgImFzIGlzIiwgd2l0aG91dCBhbnkgd2FycmFudHkuCisjIC0KKyMgLSAgICBJZiB5b3UgY29w
-eSBzaWduaWZpY2FudCBhbW91bnRzIG9mIHB1YmxpYyBkb21haW4gY29kZSBmcm9tIFhaIFV0aWxz
-CisjICsgICAgSWYgeW91IGNvcHkgc2lnbmlmaWNhbnQgYW1vdW50cyBvZiAwQlNELWxpY2Vuc2Vk
-IGNvZGUgZnJvbSBYWiBVdGlscworIyAgICAgIGludG8geW91ciBwcm9qZWN0LCBhY2tub3dsZWRn
-aW5nIHRoaXMgc29tZXdoZXJlIGluIHlvdXIgc29mdHdhcmUgaXMKKyMgICAgICBwb2xpdGUgKGVz
-cGVjaWFsbHkgaWYgaXQgaXMgcHJvcHJpZXRhcnksIG5vbi1mcmVlIHNvZnR3YXJlKSwgYnV0Cisj
-IC0gICAgbmF0dXJhbGx5IGl0IGlzIG5vdCBsZWdhbGx5IHJlcXVpcmVkLiBIZXJlIGlzIGFuIGV4
-YW1wbGUgb2YgYSBnb29kCisjIC0gICAgbm90aWNlIHRvIHB1dCBpbnRvICJhYm91dCBib3giIG9y
-IGludG8gZG9jdW1lbnRhdGlvbjoKKyMgKyAgICBpdCBpcyBub3QgbGVnYWxseSByZXF1aXJlZCBi
-eSB0aGUgbGljZW5zZSB0ZXJtcy4gSGVyZSBpcyBhbiBleGFtcGxlCisjICsgICAgb2YgYSBnb29k
-IG5vdGljZSB0byBwdXQgaW50byAiYWJvdXQgYm94IiBvciBpbnRvIGRvY3VtZW50YXRpb246Cisj
-ICAKKyMgLSAgICAgICAgVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyBjb2RlIGZyb20gWFogVXRpbHMK
-KyMgLSAgICAgICAgPGh0dHBzOi8veHoudHVrYWFuaS5vcmcveHotdXRpbHMvPi4KKyMgKyAgICAg
-ICAgVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyBjb2RlIGZyb20gWFogVXRpbHMgPGh0dHBzOi8vdHVr
-YWFuaS5vcmcveHovPi4KKyMgIAorIyAgICAgIFRoZSBmb2xsb3dpbmcgbGljZW5zZSB0ZXh0cyBh
-cmUgaW5jbHVkZWQgaW4gdGhlIGZvbGxvd2luZyBmaWxlczoKKyMgKyAgICAgIC0gQ09QWUlORy4w
-QlNEOiBCU0QgWmVybyBDbGF1c2UgTGljZW5zZQorIyAgICAgICAgLSBDT1BZSU5HLkxHUEx2Mi4x
-OiBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyLjEKKyMgICAgICAg
-IC0gQ09QWUlORy5HUEx2MjogR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyCisj
-ICAgICAgICAtIENPUFlJTkcuR1BMdjM6IEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNp
-b24gMworIyAgCisjIC0gICAgTm90ZSB0aGF0IHRoZSB0b29sY2hhaW4gKGNvbXBpbGVyLCBsaW5r
-ZXIgZXRjLikgbWF5IGFkZCBzb21lIGNvZGUKKyMgLSAgICBwaWVjZXMgdGhhdCBhcmUgY29weXJp
-Z2h0ZWQuIFRodXMsIGl0IGlzIHBvc3NpYmxlIHRoYXQgZS5nLiBsaWJsem1hCisjIC0gICAgYmlu
-YXJ5IHdvdWxkbid0IGFjdHVhbGx5IGJlIGluIHRoZSBwdWJsaWMgZG9tYWluIGluIGl0cyBlbnRp
-cmV0eQorIyAtICAgIGV2ZW4gdGhvdWdoIGl0IGNvbnRhaW5zIG5vIGNvcHlyaWdodGVkIGNvZGUg
-ZnJvbSB0aGUgWFogVXRpbHMgc291cmNlCisjIC0gICAgcGFja2FnZS4KKyMgKyAgICBBIG5vdGUg
-YWJvdXQgb2xkIFhaIFV0aWxzIHJlbGVhc2VzOgorIyAgCisjIC0gICAgSWYgeW91IGhhdmUgcXVl
-c3Rpb25zLCBkb24ndCBoZXNpdGF0ZSB0byBhc2sgdGhlIGF1dGhvcihzKSBmb3IgbW9yZQorIyAt
-ICAgIGluZm9ybWF0aW9uLgorIyArICAgICAgICBYWiBVdGlscyByZWxlYXNlcyA1LjQuNiBhbmQg
-b2xkZXIgYW5kIDUuNS4xYWxwaGEgaGF2ZSBhCisjICsgICAgICAgIHNpZ25pZmljYW50IGFtb3Vu
-dCBvZiBjb2RlIHB1dCBpbnRvIHRoZSBwdWJsaWMgZG9tYWluIGFuZAorIyArICAgICAgICB0aGF0
-IG9idmlvdXNseSByZW1haW5zIHNvLiBUaGUgc3dpdGNoIGZyb20gcHVibGljIGRvbWFpbiB0bwor
-IyArICAgICAgICAwQlNEIGZvciBuZXdlciByZWxlYXNlcyB3YXMgbWFkZSBpbiBGZWJyYXJ5IDIw
-MjQgYmVjYXVzZQorIyArICAgICAgICBwdWJsaWMgZG9tYWluIGhhcyAocmVhbCBvciBwZXJjZWl2
-ZWQpIGxlZ2FsIGFtYmlndWl0aWVzIGluCisjICsgICAgICAgIHNvbWUganVyaXNkaWN0aW9ucy4K
-KyMgIAorIyArICAgICAgICBUaGVyZSBpcyB2ZXJ5IGxpdHRsZSAqcHJhY3RpY2FsKiBkaWZmZXJl
-bmNlIGJldHdlZW4gcHVibGljCisjICsgICAgICAgIGRvbWFpbiBhbmQgMEJTRC4gVGhlIG1haW4g
-ZGlmZmVyZW5jZSBsaWtlbHkgaXMgdGhhdCBvbmUKKyMgKyAgICAgICAgc2hvdWxkbid0IGNsYWlt
-IHRoYXQgMEJTRC1saWNlbnNlZCBjb2RlIGlzIGluIHRoZSBwdWJsaWMKKyMgKyAgICAgICAgZG9t
-YWluOyAwQlNELWxpY2Vuc2VkIGNvZGUgaXMgY29weXJpZ2h0ZWQgYnV0IGF2YWlsYWJsZSB1bmRl
-cgorIyArICAgICAgICBhbiBleHRyZW1lbHkgcGVybWlzc2l2ZSBsaWNlbnNlLiBOZWl0aGVyIDBC
-U0Qgbm9yIHB1YmxpYyBkb21haW4KKyMgKyAgICAgICAgcmVxdWlyZSByZXRhaW5pbmcgb3IgcmVw
-cm9kdWNpbmcgYXV0aG9yLCBjb3B5cmlnaHQgaG9sZGVyLCBvcgorIyArICAgICAgICBsaWNlbnNl
-IG5vdGljZXMgd2hlbiBkaXN0cmlidXRpbmcgdGhlIHNvZnR3YXJlLiAoQ29tcGFyZSB0bywKKyMg
-KyAgICAgICAgZm9yIGV4YW1wbGUsIEJTRCAyLUNsYXVzZSAiU2ltcGxpZmllZCIgTGljZW5zZSB3
-aGljaCBkb2VzIGhhdmUKKyMgKyAgICAgICAgc3VjaCByZXF1aXJlbWVudHMuKQorIyArCisjICsg
-ICAgSWYgeW91IGhhdmUgcXVlc3Rpb25zLCBkb24ndCBoZXNpdGF0ZSB0byBhc2sgZm9yIG1vcmUg
-aW5mb3JtYXRpb24uCisjICsgICAgVGhlIGNvbnRhY3QgaW5mb3JtYXRpb24gaXMgaW4gdGhlIFJF
-QURNRSBmaWxlLgorIyArCisjIC0tLSBsaWIvZ2V0b3B0LmMKKyMgKysrIGxpYi9nZXRvcHQuYwor
-IyBAQCAtMSwyMyArMSwyMyBAQAorIyArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IExHUEwt
-Mi4xLW9yLWxhdGVyICovCisjICsKKyMgIC8qIEdldG9wdCBmb3IgR05VLgorIyAtICAgTk9URTog
-Z2V0b3B0IGlzIG5vdyBwYXJ0IG9mIHRoZSBDIGxpYnJhcnksIHNvIGlmIHlvdSBkb24ndCBrbm93
-IHdoYXQKKyMgLSAgICJLZWVwIHRoaXMgZmlsZSBuYW1lLXNwYWNlIGNsZWFuIiBtZWFucywgdGFs
-ayB0byBkcmVwcGVyQGdudS5vcmcKKyMgLSAgIGJlZm9yZSBjaGFuZ2luZyBpdCEKKyMgLSAgIENv
-cHlyaWdodCAoQykgMTk4Nyw4OCw4OSw5MCw5MSw5Miw5Myw5NCw5NSw5Niw5OCw5OSwyMDAwLDIw
-MDEsMjAwMiwyMDAzLDIwMDQsMjAwNgorIyAtCUZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwgSW5j
-LgorIyAtICAgVGhpcyBmaWxlIGlzIHBhcnQgb2YgdGhlIEdOVSBDIExpYnJhcnkuCisjICsgICBD
-b3B5cmlnaHQgKEMpIDE5ODctMjAyMyBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4KKyMg
-KyAgIFRoaXMgZmlsZSBpcyBwYXJ0IG9mIHRoZSBHTlUgQyBMaWJyYXJ5IGFuZCBpcyBhbHNvIHBh
-cnQgb2YgZ251bGliLgorIyArICAgUGF0Y2hlcyB0byB0aGlzIGZpbGUgc2hvdWxkIGJlIHN1Ym1p
-dHRlZCB0byBib3RoIHByb2plY3RzLgorIyAgCisjIC0gICBUaGlzIHByb2dyYW0gaXMgZnJlZSBz
-b2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeQorIyAtICAgaXQg
-dW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2Ug
-YXMgcHVibGlzaGVkIGJ5CisjIC0gICB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRo
-ZXIgdmVyc2lvbiAyLjEsIG9yIChhdCB5b3VyIG9wdGlvbikKKyMgLSAgIGFueSBsYXRlciB2ZXJz
-aW9uLgorIyArICAgVGhlIEdOVSBDIExpYnJhcnkgaXMgZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiBy
-ZWRpc3RyaWJ1dGUgaXQgYW5kL29yCisjICsgICBtb2RpZnkgaXQgdW5kZXIgdGhlIHRlcm1zIG9m
-IHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljCisjICsgICBMaWNlbnNlIGFzIHB1Ymxpc2hl
-ZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIKKyMgKyAgIHZlcnNpb24g
-Mi4xIG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24pIGFueSBsYXRlciB2ZXJzaW9u
-LgorIyAgCisjIC0gICBUaGlzIHByb2dyYW0gaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhh
-dCBpdCB3aWxsIGJlIHVzZWZ1bCwKKyMgKyAgIFRoZSBHTlUgQyBMaWJyYXJ5IGlzIGRpc3RyaWJ1
-dGVkIGluIHRoZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2VmdWwsCisjICAgICBidXQgV0lUSE9V
-VCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZgorIyAt
-ICAgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiAg
-U2VlIHRoZQorIyAtICAgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3Jl
-IGRldGFpbHMuCisjICsgICBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNV
-TEFSIFBVUlBPU0UuICBTZWUgdGhlIEdOVQorIyArICAgTGVzc2VyIEdlbmVyYWwgUHVibGljIExp
-Y2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgIAorIyAtICAgWW91IHNob3VsZCBoYXZlIHJlY2Vp
-dmVkIGEgY29weSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFsb25n
-CisjIC0gICB3aXRoIHRoaXMgcHJvZ3JhbTsgaWYgbm90LCB3cml0ZSB0byB0aGUgRnJlZSBTb2Z0
-d2FyZSBGb3VuZGF0aW9uLAorIyAtICAgSW5jLiwgNTEgRnJhbmtsaW4gU3RyZWV0LCBGaWZ0aCBG
-bG9vciwgQm9zdG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuICAqLworIyArICAgWW91IHNob3VsZCBo
-YXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYworIyAr
-ICAgTGljZW5zZSBhbG9uZyB3aXRoIHRoZSBHTlUgQyBMaWJyYXJ5OyBpZiBub3QsIHNlZQorIyAr
-ICAgPGh0dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4gICovCisjICAMCisjICAjaWZuZGVm
-IF9MSUJDCisjICsjIGlmZGVmIEhBVkVfQ09ORklHX0gKKyMgCisjCisKIFNVTU1BUlkgPSAiVXRp
-bGl0aWVzIGZvciBtYW5hZ2luZyBMWk1BIGNvbXByZXNzZWQgZmlsZXMiCiBIT01FUEFHRSA9ICJo
-dHRwczovL3R1a2Fhbmkub3JnL3h6LyIKIERFU0NSSVBUSU9OID0gIlhaIFV0aWxzIGlzIGZyZWUg
-Z2VuZXJhbC1wdXJwb3NlIGRhdGEgY29tcHJlc3Npb24gc29mdHdhcmUgd2l0aCBhIGhpZ2ggY29t
-cHJlc3Npb24gcmF0aW8uIFhaIFV0aWxzIHdlcmUgd3JpdHRlbiBmb3IgUE9TSVgtbGlrZSBzeXN0
-ZW1zLCBidXQgYWxzbyB3b3JrIG9uIHNvbWUgbm90LXNvLVBPU0lYIHN5c3RlbXMuIFhaIFV0aWxz
-IGFyZSB0aGUgc3VjY2Vzc29yIHRvIExaTUEgVXRpbHMuIgpAQCAtMTcsMTcgKzIwMywxNyBAQCBM
-SUNFTlNFOiR7UE59LWRiZyA9ICJHUEwtMi4wLW9yLWxhdGVyIgogTElDRU5TRToke1BOfS1sb2Nh
-bGUgPSAiR1BMLTIuMC1vci1sYXRlciIKIExJQ0VOU0U6bGlibHptYSA9ICJQRCIKIAotTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZDQzNzhlYTlkNWQxZmM5YWIwYWUxMGQ3
-OTQ4ODI3ZDkgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YzAyZGU3
-MTJiMDI4YTVjYzdlMjI0NzJlOGYyYjNkYjEgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
-Q09QWUlORy5HUEx2MjttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMgXAogICAg
-ICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5HUEx2MzttZDU9MWViYmQzZTM0MjM3YWYy
-NmRhNWRjMDhhNGU0NDA0NjQgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5M
-R1BMdjIuMTttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAotICAgICAgICAg
-ICAgICAgICAgICBmaWxlOi8vbGliL2dldG9wdC5jO2VuZGxpbmU9MjM7bWQ1PTIwNjliMGVlNzEw
-NTcyYzAzYmIzMTE0ZTQ1MzJjZDg0IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL2xpYi9n
-ZXRvcHQuYztlbmRsaW5lPTIzO21kNT0zZjMzZTIwNzI4N2JmNzI4MzRmM2FlOGMyNDdkZmI2YSBc
-CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20v
-dHVrYWFuaS1wcm9qZWN0L3h6L3JlbGVhc2VzL2Rvd25sb2FkL3Yke1BWfS94ei0ke1BWfS50YXIu
-Z3ogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAiCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiYWViYTNlMDNiZjgxNDBkZGVkZjYyYTBhMzY3MTU4MzQwNTIwZjZiMzg0
-Zjc1Y2E2MDQ1Y2NjNmMwZDQzZmQ1YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4YmZkMjBjMGUx
-ZDg2ZjA0MDJmMjQ5N2NmYTcxYzZhYjYyZDRjZDM1ZmQ3MDQyNzZlMzE0MGJmYjcxNDE0NTE5Igog
-VVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFnL3YoP1A8cHZlcj5cZCsoXC5cZCsp
-KykiCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3R1a2FhbmktcHJv
-amVjdC94ei9yZWxlYXNlcy8iCiAKLS0gCjIuNDQuMAoK
-
---===============8938287522386508943==
+--===============6675728979033736061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.6", added "/usr/lib/liblzma.so.5.6.2"
-Changes to packages/core2-64-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
-packages/core2-64-poky-linux/xz/xz-doc: PKGSIZE changed from 1793515 to 993542 (-45%)
-packages/core2-64-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/api/tab_bd.png /usr/share/man/fr/man1/xzdiff.1 /usr/share/man/fr/man1/lzdiff.1 /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/version_8h.html /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/base_8h.html /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/vli_8h.html /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/index.html /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api
- /globals.html /usr/share/doc/xz/api/splitbard.png /usr/share/doc/xz/api/structlzma__filter.html /usr/share/doc/xz/api/structlzma__stream.html /usr/share/doc/xz/api/functions_vars.html /usr/share/doc/xz/api/filter_8h.html /usr/share/doc/xz/api/annotated.html /usr/share/doc/xz/api/functions.html /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/doc/xz/api/structlzma__mt.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/folderopend.svg /usr/share/doc/xz/api/tabs.css /usr/share/man/fr/man1/lzmore.1 /usr/share/man/fr/man1/xzmore.1 /usr/share/doc/xz/api/tab_hd.png /usr/share/doc/xz/api/tab_a.png /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/nav_hd.png /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/examples_old/xz_pipe_comp.c /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/tab_h.png /usr/share/doc/xz/api/structlzma__opti
- ons__bcj.html /usr/share/doc/xz/api/index__hash_8h.html /usr/share/man/fr/man1/lzcmp.1 /usr/share/man/fr/man1/xzcmp.1 /usr/share/doc/xz/api/folderclosedd.svg /usr/share/doc/xz/api/closed.png /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/bc_s.png /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/tab_sd.png /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/nav_h.png /usr/share/doc/xz/api/hardware_8h.html /usr/share/man/pt_BR/man1/xzmore.1 /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/TODO /usr/share/doc/xz/api/structlzma__options__lzma.html /usr
- /share/doc/xz/api/doxygen.svg /usr/share/doc/xz/api/tab_s.png /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/files.html /usr/share/doc/xz/examples_old/xz_pipe_decomp.c /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/open.png /usr/share/doc/xz/api/bc_sd.png", added "/usr/share/doc/xz/COPYING.0BSD /usr/share/man/uk/man1/lzmainfo.1 /usr/share/man/pt_BR/man1/lzmainfo.1 /usr/share/man/de/man1/lzmainfo.1 /usr/share/doc/xz/examples/11_file_info.c /usr/share/man/ko/man1/lzmainfo.1 /usr/share/man/fr/man1/lzmainfo.1 /usr/share/man/ro/man1/lzmainfo.1"
-packages/core2-64-poky-linux/xz/xz-locale-ca: PKGSIZE changed from 26876 to 22289 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-cs: PKGSIZE changed from 17576 to 15436 (-12%)
-packages/core2-64-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28599 to 32560 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26139 to 29979 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-es: PKGSIZE changed from 27192 to 31175 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-fi: PKGSIZE changed from 25923 to 21441 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-fr: PKGSIZE changed from 22313 to 19342 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26682 to 30343 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-hu: PKGSIZE changed from 27374 to 31658 (+16%)
-packages/core2-64-poky-linux/xz/xz-locale-it: PKGSIZE changed from 22043 to 19130 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27394 to 31480 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26643 to 30611 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 26890 to 22302 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 21887 to 18992 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28538 to 32640 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-sr: PKGSIZE changed from 27551 to 23849 (-13%)
-packages/core2-64-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26576 to 30379 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-tr: PKGSIZE changed from 26545 to 22029 (-17%)
-packages/core2-64-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35322 to 40332 (+14%)
-packages/core2-64-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 28619 to 32859 (+15%)
-packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25247 to 22476 (-11%)
-packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 24823 to 20613 (-17%)
-packages/core2-64-poky-linux/xz/xz-ptest: FILELIST: removed "/usr/lib/xz/ptest/tests/files/good-1-x86-lzma2.xz /usr/lib/xz/ptest/tests/files/good-1-sparc-lzma2.xz", added "/usr/lib/xz/ptest/tests/test_microlzma"
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
-  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.17.dist-info moved to /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.22.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.17.dist-info moved to /usr/lib/python3.12/site-packages/trove_classifiers-2024.5.22.dist-info
 
---===============8938287522386508943==--
+--===============6675728979033736061==--
 
