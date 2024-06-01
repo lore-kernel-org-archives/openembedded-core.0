@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE337C2D0D1
-	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.42216.1717263218698328650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F271C30653
+	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.42229.1717263217979766766
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LGy4uaDw;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NyQTDLN+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018fd4dd35c6-7928110e-90f2-430f-b49b-7ba91f525888-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fMIb1QG/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=J3F7+vzp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018fd4dd3572-a6642a41-3e50-4ca4-8b81-90db663acc17-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Q9n8QOQmGvqm0vo8o2rpyCX1xWu5rZMLCbdAtd4yi/k=;
-	b=LGy4uaDwm5VQ7CxCAReYBNAyzvETNHAw+85Wmf4TTlPAGz4twED/UAKeZP+r2fQC
-	J3akDXWJfZfKDJvbZeUJpyiGHc7BKFUGJMpMhr7sVTvLRsrT0SjG8kZ7d35e02Va4lf
-	cqRPTBtNtD/rWHdJ6uYW4k/GOs5Y/5ybHOJSjXxY=
+	bh=EQiBLm/mxv3hxEGnb1HgvOFHJsD3M0MkIH25W/nQNqM=;
+	b=fMIb1QG/lFDWaJYEIbaTMZgMqSx/7SsFFG2TXQvgEFrzgtKtIKh2YVRLXXl9sRLS
+	6d88ANPevJDF6IbKg2YTCCzqweDSvzmiZWVCKpBqABLEtbHWzxIyYhXUgfLTmBT1M7E
+	LuFEX/U0w6zE+L66aBChsFP4sT1/KNFwgM9CaZhM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Q9n8QOQmGvqm0vo8o2rpyCX1xWu5rZMLCbdAtd4yi/k=;
-	b=NyQTDLN+IWHHTA/lGpclhINl5ojWhoUffjYTK0KeKIQ4gJFh8Hp9xP+Fn2Hq4B8e
-	CQ3++s8P2fV80vOid5DW2uPh7Kgvxlvrh0WpTW4yhgFtbDLFcEN3eOu+G0IHBFLFa1p
-	/fQ3V9csmftBNoulqPoLv0FP49EMnrFlkX8dFsRI=
-Content-Type: multipart/mixed; boundary="===============0677953887140249166=="
+	bh=EQiBLm/mxv3hxEGnb1HgvOFHJsD3M0MkIH25W/nQNqM=;
+	b=J3F7+vzpuD3FmNy+/3PG1uNAJy4fW7arHoei3AlajMbGvtQzM9urpItJVyEdXu4r
+	b0rO7YkpHG+I5ihaKsxN1hce+vDd//s0V7DVnN3Z/oYAy1FgXn0uCitHTxZzRtk7x1Y
+	afNJSVgi/4F8ZuVKB75L1STjlzKjUxcjmjQMCHWk=
+Content-Type: multipart/mixed; boundary="===============2863542695997622779=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <mrybczynska@syslinbit.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] qemu: upgrading to 9.0.0 FAILED
-Message-ID: <0101018fd4dd35c6-7928110e-90f2-430f-b49b-7ba91f525888-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-uritools: upgrading to 4.0.3 SUCCEEDED
+Message-ID: <0101018fd4dd3572-a6642a41-3e50-4ca4-8b81-90db663acc17-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.45
+X-SES-Outgoing: 2024.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200143
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200131
 
---===============0677953887140249166==
+--===============2863542695997622779==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,133 +51,161 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *qemu* to *9.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-uritools* to *4.0.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-uritools-upgrade-4.0.2-4.0.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe qemu failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-616ccc902d718bbfd89691a069efde7bfae7c04d"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:616ccc902d718bbfd89691a069efde7bfae7c04d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-616ccc902d718bbfd89691a069efde7bfae7c04d"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:616ccc902d718bbfd89691a069efde7bfae7c04d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-10c6c7ck: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-3w1w_l2f/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-3w1w_l2f/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   3% |#                                   | ETA:  0:00:12
-Adding changed files:   6% |##                                  | ETA:  0:00:08
-Adding changed files:   9% |###                                 | ETA:  0:00:07
-Adding changed files:  13% |####                                | ETA:  0:00:07
-Adding changed files:  16% |#####                               | ETA:  0:00:06
-Adding changed files:  19% |#######                             | ETA:  0:00:06
-Adding changed files:  22% |########                            | ETA:  0:00:06
-Adding changed files:  26% |#########                           | ETA:  0:00:05
-Adding changed files:  29% |##########                          | ETA:  0:00:05
-Adding changed files:  32% |###########                         | ETA:  0:00:05
-Adding changed files:  35% |############                        | ETA:  0:00:04
-Adding changed files:  39% |##############                      | ETA:  0:00:04
-Adding changed files:  42% |###############                     | ETA:  0:00:04
-Adding changed files:  45% |################                    | ETA:  0:00:04
-Adding changed files:  49% |#################                   | ETA:  0:00:03
-Adding changed files:  52% |##################                  | ETA:  0:00:03
-Adding changed files:  55% |###################                 | ETA:  0:00:03
-Adding changed files:  58% |#####################               | ETA:  0:00:03
-Adding changed files:  62% |######################              | ETA:  0:00:03
-Adding changed files:  65% |#######################             | ETA:  0:00:02
-Adding changed files:  68% |########################            | ETA:  0:00:02
-Adding changed files:  71% |#########################           | ETA:  0:00:02
-Adding changed files:  75% |###########################         | ETA:  0:00:02
-Adding changed files:  78% |############################        | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:08
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.qemu.org/qemu-9.0.0.tar.xz...
-INFO: Rebasing devtool onto 262d4400a0925f7167b9283389f008785cb265c4
-WARNING: Command 'git rebase 262d4400a0925f7167b9283389f008785cb265c4' failed:
-Auto-merging linux-user/mmap.c
-CONFLICT (content): Merge conflict in linux-user/mmap.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 262d4400a0925f7167b9283389f008785cb265c4
-WARNING: Command 'git rebase 262d4400a0925f7167b9283389f008785cb265c4' failed:
-Auto-merging linux-user/mmap.c
-CONFLICT (content): Merge conflict in linux-user/mmap.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-nativesdk onto 262d4400a0925f7167b9283389f008785cb265c4
-WARNING: Command 'git rebase 262d4400a0925f7167b9283389f008785cb265c4' failed:
-Auto-merging linux-user/mmap.c
-CONFLICT (content): Merge conflict in linux-user/mmap.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/qemu
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/qemu/qemu_9.0.0.bb
-WARNING: Version is pinned to 8.2% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0677953887140249166==--
+
+-- >8 --
+From 57b5f5cc9c0d861d16218b8bd3b8576ba941a36a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 09:41:36 +0000
+Subject: [PATCH] python3-uritools: upgrade 4.0.2 -> 4.0.3
+
+---
+ ...ols_4.0.2.bb => python3-uritools_4.0.3.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-uritools_4.0.2.bb => python3-uritools_4.0.3.bb} (17%)
+
+diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
+similarity index 17%
+rename from meta/recipes-devtools/python/python3-uritools_4.0.2.bb
+rename to meta/recipes-devtools/python/python3-uritools_4.0.3.bb
+index 5ffedccb85..e09c2acf6d 100644
+--- a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb
++++ b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
+@@ -1,10 +1,31 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,6 +1,6 @@
++#  The MIT License (MIT)
++#  
++# -Copyright (c) 2014-2022 Thomas Kemmer
++# +Copyright (c) 2014-2024 Thomas Kemmer
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "URI parsing, classification and composition"
+ HOMEPAGE = "https://github.com/tkem/uritools/"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1ec55353c80c662e4255f8889a0ca558"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
+ 
+-SRC_URI[sha256sum] = "04df2b787d0eb76200e8319382a03562fbfe4741fd66c15506b08d3b8211d573"
++SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
+ 
+ inherit setuptools3 pypi
+ 
+-- 
+2.44.0
+
+
+--===============2863542695997622779==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-uritools: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.2.tar.gz;downloadfilename=uritools-4.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.3.tar.gz;downloadfilename=uritools-4.0.3.tar.gz"
+packages/core2-64-poky-linux/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PV changed from "4.0.2" to "4.0.3"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
+
+--===============2863542695997622779==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
+
+--===============2863542695997622779==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-uritools-upgrade-4.0.2-4.0.3.patch"
+
+RnJvbSA1N2I1ZjVjYzljMGQ4NjFkMTYyMThiOGJkM2I4NTc2YmE5NDFhMzZhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOTo0MTozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNC4wLjIgLT4gNC4wLjMKCi0tLQogLi4ub2xzXzQuMC4y
+LmJiID0+IHB5dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmJ9IHwgMjUgKysrKysrKysrKysrKysrKyst
+LQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cml0b29sc180LjAuMi5i
+YiA9PiBweXRob24zLXVyaXRvb2xzXzQuMC4zLmJifSAoMTclKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc180LjAuMi5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc180LjAuMy5iYgpzaW1pbGFy
+aXR5IGluZGV4IDE3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtdXJpdG9vbHNfNC4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy11cml0b29sc180LjAuMy5iYgppbmRleCA1ZmZlZGNjYjg1Li5lMDljMmFj
+ZjZkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJp
+dG9vbHNfNC4wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXVyaXRvb2xzXzQuMC4zLmJiCkBAIC0xLDEwICsxLDMxIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJ
+TEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScu
+CisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0
+aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBp
+ZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNz
+YWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRh
+dGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAt
+LS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgIFRoZSBNSVQg
+TGljZW5zZSAoTUlUKQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMTQtMjAyMiBUaG9tYXMgS2Vt
+bWVyCisjICtDb3B5cmlnaHQgKGMpIDIwMTQtMjAyNCBUaG9tYXMgS2VtbWVyCisjICAKKyMgIFBl
+cm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29u
+IG9idGFpbmluZyBhIGNvcHkgb2YKKyMgIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9j
+dW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluCisjIAorIworCiBT
+VU1NQVJZID0gIlVSSSBwYXJzaW5nLCBjbGFzc2lmaWNhdGlvbiBhbmQgY29tcG9zaXRpb24iCiBI
+T01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vdGtlbS91cml0b29scy8iCiAKIExJQ0VOU0Ug
+PSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MWVjNTUzNTNj
+ODBjNjYyZTQyNTVmODg4OWEwY2E1NTgiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
+TlNFO21kNT01MzkyNzVlNjU3YzZiN2FmMDI2YmI5MDgzNTZmNzU0MSIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjA0ZGYyYjc4N2QwZWI3NjIwMGU4MzE5MzgyYTAzNTYyZmJmZTQ3NDFmZDY2YzE1
+NTA2YjA4ZDNiODIxMWQ1NzMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWUwNmExODJhOWM4NDk0
+NjRjZTlkNWZhOTE3NTM5YWFjYzhlZGQyYTQ5MjRkMWI3YWFiZWVlY2FiY2FlM2JjMiIKIAogaW5o
+ZXJpdCBzZXR1cHRvb2xzMyBweXBpCiAKLS0gCjIuNDQuMAoK
+
+--===============2863542695997622779==--
 
