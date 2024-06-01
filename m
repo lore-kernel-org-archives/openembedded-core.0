@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AA1C2BA1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA79C2BA18
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.42212.1717263218221447139
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.42220.1717263219003271835
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:38 -0700
+ Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NB2HsmOl;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nrdWgfbm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018fd4dd37a2-533903c4-173e-401d-a984-e7a8052168a5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LdzCHInS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WR1Bab2q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fd4dd35ce-e4735cd8-dcb0-4cbe-98d9-f535be33d57b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tUFkhybbAdWo5NlFF2IgeTSIAq+Jc62NYrAl4QxYgWw=;
-	b=NB2HsmOlcpXkg4owNFYMZWepUwA25MUdNiRDqOzNOdlAYUEyQPg3Ql7X9bjkRifv
-	7FS5RRYv0kEMIzagMiV5JvEeaW24ZladAIUXlYcyNuUZZIpu2Dkp+nExgo20DQ5lkL8
-	X8TbE9R7XoYwhEi1veXkV5T1FDmIv+9VwKIy/EHk=
+	bh=AhVafytG7VaCwXrHAXgbDNqbv5DZeWhLZbXqg69nHKY=;
+	b=LdzCHInSvFt0BmjEa3Yrit1ZNY8S4FjIdT4XMB/v149Z8Fv+TlieF0VE9AldmQoj
+	IJn3/mifTJ/eAxtFWP04hQQ/BXxcf7j+Un3rCL5uSS/AC0Shf/0VbgHubUKebPKU+F1
+	GX7z1pXnLzuzm2wbS6A3yUDA9MQRBQRuEdxclUwE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tUFkhybbAdWo5NlFF2IgeTSIAq+Jc62NYrAl4QxYgWw=;
-	b=nrdWgfbmDVVG7RqFrzPH6Zn2ABGbIXO5aZIEeI/JGAnCbEkLI3VnQcEpGZ0KRLbT
-	AYzK6wHIcB41lhEB+KBsvrH2bvoLIThEJdFT05EintKBspC7tp6GL0GqD3/tXeVNpK1
-	qTupQtY+4rU9vmtF8ShjUzd42IivKCE3ciBq7kuc=
-Content-Type: multipart/mixed; boundary="===============2139599613597926752=="
+	bh=AhVafytG7VaCwXrHAXgbDNqbv5DZeWhLZbXqg69nHKY=;
+	b=WR1Bab2q0LNaXj9vMrPMMnh6c/gqwjnBJj4xekWRvFbXxk8ynhsjJxlwjn/oP2gY
+	kzBFvqDdMccGcBhZ/jTyLfY/5SV+ac7OQNo43GVPLq/RUZgYRD7nZhuaEF3zU6+esWG
+	ZnMe0LQdEGVsPz34yLjpS7HMiZIJOMfnzNtA7/7c=
+Content-Type: multipart/mixed; boundary="===============2797909060987833398=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libva-initial: upgrading to 2.21.0 FAILED
-Message-ID: <0101018fd4dd37a2-533903c4-173e-401d-a984-e7a8052168a5-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-requests: upgrading to 2.32.3 SUCCEEDED
+Message-ID: <0101018fd4dd35ce-e4735cd8-dcb0-4cbe-98d9-f535be33d57b-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.192
+X-SES-Outgoing: 2024.06.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200153
 
---===============2139599613597926752==
+--===============2797909060987833398==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,32 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libva-initial* to *2.21.0* has Failed (devtool error).
-
-Detailed error information:
-
-The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (918 cached, 1 parsed). 1880 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-
-INFO: No patches or local source files needed updating
-INFO: Cleaning sysroot for recipe libva-initial...
-ERROR: Command 'bitbake -c clean libva-initial' failed, output:
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1881 entries from dependency cache.
-Parsing recipes...
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-
-If you wish, you may specify -n/--no-clean to skip running this command when resetting
-
+that the automatic attempt to upgrade the recipe *python3-requests* to *2.32.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libva-initial-upgrade-2.20.0-2.21.0.patch
+    - apply the patch: git am 0001-python3-requests-upgrade-2.32.1-2.32.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -94,132 +72,102 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9f5a40c35a33bf82ad3667d264d6b15070296f33 Mon Sep 17 00:00:00 2001
+From 0728e4a267ae64284885149695614b276c91b66a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 13:39:28 +0000
-Subject: [PATCH] libva-initial: upgrade 2.20.0 -> 2.21.0
+Date: Sat, 1 Jun 2024 09:28:46 +0000
+Subject: [PATCH] python3-requests: upgrade 2.32.1 -> 2.32.3
 
 ---
- .../libva/libva-initial_2.20.0.bb             |  8 ----
- meta/recipes-graphics/libva/libva.inc         | 37 -------------------
- 2 files changed, 45 deletions(-)
- delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.20.0.bb
- delete mode 100644 meta/recipes-graphics/libva/libva.inc
+ .../{python3-requests_2.32.1.bb => python3-requests_2.32.3.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-requests_2.32.1.bb => python3-requests_2.32.3.bb} (85%)
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb b/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
-deleted file mode 100644
-index 453096822f..0000000000
---- a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require libva.inc
--
--PACKAGECONFIG ?= ""
--
--do_install:append () {
--	rm -f ${D}${libdir}/*.so*
--}
--
-diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
-deleted file mode 100644
-index 486291bced..0000000000
---- a/meta/recipes-graphics/libva/libva.inc
-+++ /dev/null
-@@ -1,37 +0,0 @@
--SUMMARY = "Video Acceleration (VA) API for Linux"
--DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
--and API specification which enables and provides access to graphics \
--hardware (GPU) acceleration for video processing on Linux and UNIX \
--based operating systems. Accelerated processing includes video \
--decoding, video encoding, subpicture blending and rendering. The \
--specification was originally designed by Intel for its GMA (Graphics \
--Media Accelerator) series of GPU hardware, the API is however not \
--limited to GPUs or Intel specific hardware, as other hardware and \
--manufacturers can also freely use this API for hardware accelerated \
--video decoding."
--
--HOMEPAGE = "https://01.org/linuxmedia/vaapi"
--BUGTRACKER = "https://github.com/intel/libva/issues"
--
--SECTION = "x11"
--LICENSE = "MIT"
--
--SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
--SRC_URI[sha256sum] = "f72bdb4f48dfe71ad01f1cbefe069672a2c949a6abd51cf3c4d4784210badc49"
--
--S = "${WORKDIR}/libva-${PV}"
--
--GITHUB_BASE_URI = "https://github.com/intel/libva/releases"
--
--DEPENDS = "libdrm"
--
--inherit meson pkgconfig github-releases
--
--PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11 libxext libxfixes"
--PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/mesa"
--
--PACKAGECONFIG[wayland] = "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
--
--BBCLASSEXTEND = "native nativesdk"
--
+diff --git a/meta/recipes-devtools/python/python3-requests_2.32.1.bb b/meta/recipes-devtools/python/python3-requests_2.32.3.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-requests_2.32.1.bb
+rename to meta/recipes-devtools/python/python3-requests_2.32.3.bb
+index a1144181bc..4f0638b50c 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.32.1.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.32.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://requests.readthedocs.io"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+ 
+-SRC_URI[sha256sum] = "eb97e87e64c79e64e5b8ac75cee9dd1f97f49e289b083ee6be96268930725685"
++SRC_URI[sha256sum] = "55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
 -- 
 2.44.0
 
 
---===============2139599613597926752==
+--===============2797909060987833398==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-requests: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.1.tar.gz;downloadfilename=requests-2.32.1.tar.gz" to "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.3.tar.gz;downloadfilename=requests-2.32.3.tar.gz"
+packages/core2-64-poky-linux/python3-requests: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-dbg: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-dbg: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-dev: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-dev: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-doc: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-doc: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-locale: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-locale: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-src: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-src: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests-staticdev: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests-staticdev: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests: PV changed from "2.32.1" to "2.32.3"
+packages/core2-64-poky-linux/python3-requests/python3-requests: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
+packages/core2-64-poky-linux/python3-requests/python3-requests: PKGSIZE changed from 406069 to 415385 (+2%)
+Changes to packages/core2-64-poky-linux/python3-requests (sysroot):
+  /usr/lib/python3.12/site-packages/requests-2.32.1.dist-info moved to /usr/lib/python3.12/site-packages/requests-2.32.3.dist-info
+
+--===============2797909060987833398==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libva-initial-upgrade-2.20.0-2.21.0.patch"
+ filename="0001-python3-requests-upgrade-2.32.1-2.32.3.patch"
 
-RnJvbSA5ZjVhNDBjMzVhMzNiZjgyYWQzNjY3ZDI2NGQ2YjE1MDcwMjk2ZjMzIE1vbiBTZXAgMTcg
+RnJvbSAwNzI4ZTRhMjY3YWU2NDI4NDg4NTE0OTY5NTYxNGIyNzZjOTFiNjZhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxMzozOToyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnZhLWluaXRpYWw6IHVwZ3JhZGUgMi4yMC4wIC0+IDIuMjEuMAoKLS0tCiAuLi4vbGlidmEvbGli
-dmEtaW5pdGlhbF8yLjIwLjAuYmIgICAgICAgICAgICAgfCAgOCAtLS0tCiBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvbGlidmEvbGlidmEuaW5jICAgICAgICAgfCAzNyAtLS0tLS0tLS0tLS0tLS0tLS0t
-CiAyIGZpbGVzIGNoYW5nZWQsIDQ1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS1pbml0aWFsXzIuMjAuMC5iYgogZGVsZXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAuYmIK
-ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQ1MzA5NjgyMmYuLjAwMDAwMDAwMDAKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLWluaXRpYWxfMi4yMC4wLmJiCisr
-KyAvZGV2L251bGwKQEAgLTEsOCArMCwwIEBACi1yZXF1aXJlIGxpYnZhLmluYwotCi1QQUNLQUdF
-Q09ORklHID89ICIiCi0KLWRvX2luc3RhbGw6YXBwZW5kICgpIHsKLQlybSAtZiAke0R9JHtsaWJk
-aXJ9Lyouc28qCi19Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9s
-aWJ2YS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCmRlbGV0ZWQg
-ZmlsZSBtb2RlIDEwMDY0NAppbmRleCA0ODYyOTFiY2VkLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKKysrIC9kZXYvbnVsbApAQCAtMSwzNyAr
-MCwwIEBACi1TVU1NQVJZID0gIlZpZGVvIEFjY2VsZXJhdGlvbiAoVkEpIEFQSSBmb3IgTGludXgi
-Ci1ERVNDUklQVElPTiA9ICJWaWRlbyBBY2NlbGVyYXRpb24gQVBJIChWQSBBUEkpIGlzIGEgbGli
-cmFyeSAobGliVkEpIFwKLWFuZCBBUEkgc3BlY2lmaWNhdGlvbiB3aGljaCBlbmFibGVzIGFuZCBw
-cm92aWRlcyBhY2Nlc3MgdG8gZ3JhcGhpY3MgXAotaGFyZHdhcmUgKEdQVSkgYWNjZWxlcmF0aW9u
-IGZvciB2aWRlbyBwcm9jZXNzaW5nIG9uIExpbnV4IGFuZCBVTklYIFwKLWJhc2VkIG9wZXJhdGlu
-ZyBzeXN0ZW1zLiBBY2NlbGVyYXRlZCBwcm9jZXNzaW5nIGluY2x1ZGVzIHZpZGVvIFwKLWRlY29k
-aW5nLCB2aWRlbyBlbmNvZGluZywgc3VicGljdHVyZSBibGVuZGluZyBhbmQgcmVuZGVyaW5nLiBU
-aGUgXAotc3BlY2lmaWNhdGlvbiB3YXMgb3JpZ2luYWxseSBkZXNpZ25lZCBieSBJbnRlbCBmb3Ig
-aXRzIEdNQSAoR3JhcGhpY3MgXAotTWVkaWEgQWNjZWxlcmF0b3IpIHNlcmllcyBvZiBHUFUgaGFy
-ZHdhcmUsIHRoZSBBUEkgaXMgaG93ZXZlciBub3QgXAotbGltaXRlZCB0byBHUFVzIG9yIEludGVs
-IHNwZWNpZmljIGhhcmR3YXJlLCBhcyBvdGhlciBoYXJkd2FyZSBhbmQgXAotbWFudWZhY3R1cmVy
-cyBjYW4gYWxzbyBmcmVlbHkgdXNlIHRoaXMgQVBJIGZvciBoYXJkd2FyZSBhY2NlbGVyYXRlZCBc
-Ci12aWRlbyBkZWNvZGluZy4iCi0KLUhPTUVQQUdFID0gImh0dHBzOi8vMDEub3JnL2xpbnV4bWVk
-aWEvdmFhcGkiCi1CVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9saWJ2YS9p
-c3N1ZXMiCi0KLVNFQ1RJT04gPSAieDExIgotTElDRU5TRSA9ICJNSVQiCi0KLVNSQ19VUkkgPSAi
-JHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L2xpYnZhLSR7UFZ9LnRhci5iejIiCi1M
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yZTQ4OTQwZjk0YWNiMGFmNTgy
-ZTVlZjAzNTM3ODAwZiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmNzJiZGI0ZjQ4ZGZlNzFhZDAx
-ZjFjYmVmZTA2OTY3MmEyYzk0OWE2YWJkNTFjZjNjNGQ0Nzg0MjEwYmFkYzQ5IgotCi1TID0gIiR7
-V09SS0RJUn0vbGlidmEtJHtQVn0iCi0KLUdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1
-Yi5jb20vaW50ZWwvbGlidmEvcmVsZWFzZXMiCi0KLURFUEVORFMgPSAibGliZHJtIgotCi1pbmhl
-cml0IG1lc29uIHBrZ2NvbmZpZyBnaXRodWItcmVsZWFzZXMKLQotUEFDS0FHRUNPTkZJR1t4MTFd
-ID0gIi1Ed2l0aF94MTE9eWVzLC1Ed2l0aF94MTE9bm8sdmlydHVhbC9saWJ4MTEgbGlieGV4dCBs
-aWJ4Zml4ZXMiCi1QQUNLQUdFQ09ORklHW2dseF0gPSAiLUR3aXRoX2dseD15ZXMsLUR3aXRoX2ds
-eD1ubyx2aXJ0dWFsL21lc2EiCi0KLVBBQ0tBR0VDT05GSUdbd2F5bGFuZF0gPSAiLUR3aXRoX3dh
-eWxhbmQ9eWVzLC1Ed2l0aF93YXlsYW5kPW5vLHdheWxhbmQtbmF0aXZlIHdheWxhbmQiCi0KLUJC
-Q0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLQotLSAKMi40NC4wCgo=
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOToyODo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcmVxdWVzdHM6IHVwZ3JhZGUgMi4zMi4xIC0+IDIuMzIuMwoKLS0tCiAuLi4ve3B5dGhv
+bjMtcmVxdWVzdHNfMi4zMi4xLmJiID0+IHB5dGhvbjMtcmVxdWVzdHNfMi4zMi4zLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJlcXVlc3RzXzIuMzIuMS5i
+YiA9PiBweXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4xLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYgpzaW1p
+bGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4zLmJiCmluZGV4IGExMTQ0MTgxYmMuLjRm
+MDYzOGI1MGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1yZXF1ZXN0c18yLjMyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0
+cHM6Ly9yZXF1ZXN0cy5yZWFkdGhlZG9jcy5pbyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTM0NDAwYjY4MDcyZDcxMGZlY2Qw
+YTI5NDBhMGQxNjU4IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWI5N2U4N2U2NGM3OWU2NGU1
+YjhhYzc1Y2VlOWRkMWY5N2Y0OWUyODliMDgzZWU2YmU5NjI2ODkzMDcyNTY4NSIKK1NSQ19VUklb
+c2hhMjU2c3VtXSA9ICI1NTM2NTQxNzczNGViMTgyNTU1OTBhOWZmOWViOTdlOWUxZGE4NjhkNGNj
+ZDY0MDIzOTllYWY2OGFmMjBhNzYwIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNf
+YnVpbGRfbWV0YQogCi0tIAoyLjQ0LjAKCg==
 
---===============2139599613597926752==--
+--===============2797909060987833398==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-requests (sysroot):
+  /usr/lib/python3.12/site-packages/requests-2.32.1.dist-info moved to /usr/lib/python3.12/site-packages/requests-2.32.3.dist-info
+
+--===============2797909060987833398==--
 
