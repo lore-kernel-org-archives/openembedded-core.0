@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E169DC32717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972D3C32716
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.42246.1717263219566411893
+ by mx.groups.io with SMTP id smtpd.web10.42247.1717263219592985950
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MV1Ppulu;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YDwmAVJ/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd3881-67e1ebdc-7e28-4bea-8494-26748bb5a56e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DroOLJFS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LEk1j9am;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd36e0-4cc98103-5aa2-4d61-851e-4e88d031335d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Qc0x8Ch9sYAVy/805LnG77FIFt1VTTWUjuhuAx0dJa0=;
-	b=MV1PpuluQfgCxJFZGk6Fz0KADNyBCii/EbzV+ILyM7WLHN1hpkTeVi1VuQArMIaB
-	UHRNCmNQMm6w6Sz92LloRhbB8Ne4zzgBGPkbwacCbCbKs+afvx+qJYhMrdMsBdpGdcO
-	A75cTS2cIpvhJIVB0SFoEd2YfiRi8jFyHSDqA6zI=
+	bh=bpJ/mXLaTBwJsw9nEbLayST7y1FVxSb3svm7esKrjyQ=;
+	b=DroOLJFSH2N2NtjtaCOf8kFt7SKz6BOL2liGdZV37qAc/mF8qSzt4SG55Nodbpgr
+	jX5PdfD4awX0njRIk7jj+0EBYp/t7L5NhRrKH1JwdFSlp2ob/Zo0uieDa9/cx3iaHgb
+	f2S8iowPtF5laqBU75W4xQFNogSO8Q4EcQGbFM/s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Qc0x8Ch9sYAVy/805LnG77FIFt1VTTWUjuhuAx0dJa0=;
-	b=YDwmAVJ/q+Fk82y38NVVkHw+SFNfXd9DnH/zJrbLH4hcxFJJ29vJCAgym5DeoFEO
-	OliKGAxJdTr1mBF8tg8WOCol1jEeAwnWR5tBze04eXtYuMCbcpAndTHbpd1KDskDraE
-	8XVPFXWzFx7UWfH2A+Qihsi42nbIT86qe2U6rHNo=
-Content-Type: multipart/mixed; boundary="===============0990314246777744037=="
+	bh=bpJ/mXLaTBwJsw9nEbLayST7y1FVxSb3svm7esKrjyQ=;
+	b=LEk1j9amZGF082SDjeuhtOL/GNsE3i5q6IzgsFZ+y8sZYJbjLuCnzWYAAf9QOmRH
+	PFlxE/DmMqac/MsrHGpSDvzZYixc8qP7wsfHurdfy6p4DR2njMmkxDcmiW99Ja88fEc
+	jWmOnmuaJSYZKb+3SeqakPTVBSYSCxEbaeOsRcOo=
+Content-Type: multipart/mixed; boundary="===============8938287522386508943=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.13.13 FAILED
-Message-ID: <0101018fd4dd3881-67e1ebdc-7e28-4bea-8494-26748bb5a56e-000000@us-west-2.amazonses.com>
+Subject: [AUH] xz: upgrading to 5.6.2 SUCCEEDED
+Message-ID: <0101018fd4dd36e0-4cc98103-5aa2-4d61-851e-4e88d031335d-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.06.01-54.240.27.30
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200177
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200180
 
---===============0990314246777744037==
+--===============8938287522386508943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-modules* to *2.13.13* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *xz* to *5.6.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lttng-modules-upgrade-2.13.12-2.13.13.patch
+    - apply the patch: git am 0001-xz-upgrade-5.4.6-5.6.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,937 +72,624 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 402c75221fe4257ab26d53b110df0c79f2cc71b1 Mon Sep 17 00:00:00 2001
+From f03d1b09c5859f51f356268522dc0c630349ae47 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 14:29:32 +0000
-Subject: [PATCH] lttng-modules: upgrade 2.13.12 -> 2.13.13
+Date: Sat, 1 Jun 2024 12:05:00 +0000
+Subject: [PATCH] xz: upgrade 5.4.6 -> 5.6.2
 
 ---
- ...x-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch |  93 ------------
- ...e-missing-CONFIG_TRACEPOINTS-to-warn.patch |  12 +-
- ...ponent-to-set_bias_level-events-in-l.patch | 132 ------------------
- ...n_migratepages-changed-in-linux-6.9-.patch |  81 -----------
- ...v_base_lock-removed-in-linux-6.9-rc1.patch |  57 --------
- ...es_2.13.12.bb => lttng-modules_2.13.13.bb} |   9 +-
- 6 files changed, 9 insertions(+), 375 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.12.bb => lttng-modules_2.13.13.bb} (77%)
+ .../xz/{xz_5.4.6.bb => xz_5.6.2.bb}           | 192 +++++++++++++++++-
+ 1 file changed, 189 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.4.6.bb => xz_5.6.2.bb} (21%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch
-deleted file mode 100644
-index 9d5fd0de60..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch
-+++ /dev/null
-@@ -1,93 +0,0 @@
--From fec007d9630e010062cf5699a08460f71f46b527 Mon Sep 17 00:00:00 2001
--From: Kienan Stewart <kstewart@efficios.com>
--Date: Mon, 25 Mar 2024 08:54:42 -0400
--Subject: [PATCH 1/4] Fix: ASoC snd_doc_dapm on linux 6.9-rc1
--
--See upstream commit:
--
--    commit 7df3eb4cdb6bbfa482f51548b9fd47c2723c68ba
--    Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
--    Date:   Wed Mar 6 10:30:01 2024 +0100
--
--        ASoC: trace: add event to snd_soc_dapm trace events
--
--        Add the event value to the snd_soc_dapm_start and snd_soc_dapm_done trace
--        events to make them more informative.
--
--        Trace before:
--
--                   aplay-229   [000]   250.140309: snd_soc_dapm_start:   card=vscn-2046
--                   aplay-229   [000]   250.167531: snd_soc_dapm_done:    card=vscn-2046
--                   aplay-229   [000]   251.169588: snd_soc_dapm_start:   card=vscn-2046
--                   aplay-229   [000]   251.195245: snd_soc_dapm_done:    card=vscn-2046
--
--        Trace after:
--
--                   aplay-214   [000]   693.290612: snd_soc_dapm_start:   card=vscn-2046 event=1
--                   aplay-214   [000]   693.315508: snd_soc_dapm_done:    card=vscn-2046 event=1
--                   aplay-214   [000]   694.537349: snd_soc_dapm_start:   card=vscn-2046 event=2
--                   aplay-214   [000]   694.563241: snd_soc_dapm_done:    card=vscn-2046 event=2
--
--Upstream-Status: Backport [88c4e0fe Fix: ASoC snd_doc_dapm on linux 6.9-rc1]
--
--Change-Id: If0d33544b8dd1dfb3d12ca9390892190fc0444b0
--Signed-off-by: Kienan Stewart <kstewart@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/instrumentation/events/asoc.h | 33 +++++++++++++++++++++++++++
-- 1 file changed, 33 insertions(+)
--
--diff --git a/include/instrumentation/events/asoc.h b/include/instrumentation/events/asoc.h
--index 21d13a0f..5126d4c1 100644
----- a/include/instrumentation/events/asoc.h
--+++ b/include/instrumentation/events/asoc.h
--@@ -51,6 +51,38 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_card, snd_soc_bias_level_done,
-- 
-- )
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0))
--+LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_dapm_basic,
--+
--+	TP_PROTO(struct snd_soc_card *card, int event),
--+
--+	TP_ARGS(card, event),
--+
--+	TP_FIELDS(
--+		ctf_string(name, card->name)
--+		ctf_integer(int, event, event)
--+	)
--+)
--+LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_dapm_basic, snd_soc_dapm_start,
--+
--+	asoc_snd_soc_dapm_start,
--+
--+	TP_PROTO(struct snd_soc_card *card, int event),
--+
--+	TP_ARGS(card, event)
--+
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_dapm_basic, snd_soc_dapm_done,
--+
--+	asoc_snd_soc_dapm_done,
--+
--+	TP_PROTO(struct snd_soc_card *card, int event),
--+
--+	TP_ARGS(card, event)
--+
--+)
--+#else
-- LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_dapm_basic,
-- 
-- 	TP_PROTO(struct snd_soc_card *card),
--@@ -81,6 +113,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_dapm_basic, snd_soc_dapm_done,
-- 	TP_ARGS(card)
-- 
-- )
--+#endif
-- 
-- LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_dapm_widget,
-- 
---- 
--2.39.2
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-index 120528bf9c..ed2ffb622d 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-@@ -1,4 +1,4 @@
--From 878f89b6136ff7b870a19e04901cc6f316bbe10a Mon Sep 17 00:00:00 2001
-+From 6cab21fdba5cd5c074bf43b0ccb90a9a15f915da Mon Sep 17 00:00:00 2001
- From: Bruce Ashfield <bruce.ashfield@gmail.com>
- Date: Sat, 15 May 2021 10:26:38 -0400
- Subject: [PATCH] src/Kbuild: change missing CONFIG_TRACEPOINTS to warning
-@@ -19,10 +19,10 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-  src/Kbuild | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-extended/xz/xz_5.4.6.bb b/meta/recipes-extended/xz/xz_5.6.2.bb
+similarity index 21%
+rename from meta/recipes-extended/xz/xz_5.4.6.bb
+rename to meta/recipes-extended/xz/xz_5.6.2.bb
+index da3b75a10b..4c11eb2bbe 100644
+--- a/meta/recipes-extended/xz/xz_5.4.6.bb
++++ b/meta/recipes-extended/xz/xz_5.6.2.bb
+@@ -1,3 +1,189 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -3,75 +3,81 @@
++#  ==================
++#  
++#      Different licenses apply to different files in this package. Here
++# -    is a rough summary of which licenses apply to which parts of this
++# -    package (but check the individual files to be sure!):
++# +    is a summary of which licenses apply to which parts of this package:
++#  
++# -      - liblzma is in the public domain.
++# +      - liblzma is under the BSD Zero Clause License (0BSD).
++#  
++# -      - xz, xzdec, and lzmadec command line tools are in the public
++# -        domain unless GNU getopt_long had to be compiled and linked
++# -        in from the lib directory. The getopt_long code is under
++# -        GNU LGPLv2.1+.
++# +      - The command line tools xz, xzdec, lzmadec, and lzmainfo are
++# +        under 0BSD except that, on systems that don't have a usable
++# +        getopt_long, GNU getopt_long is compiled and linked in from the
++# +        'lib' directory. The getopt_long code is under GNU LGPLv2.1+.
++#  
++#        - The scripts to grep, diff, and view compressed files have been
++# -        adapted from gzip. These scripts and their documentation are
++# -        under GNU GPLv2+.
++# +        adapted from GNU gzip. These scripts (xzgrep, xzdiff, xzless,
++# +        and xzmore) are under GNU GPLv2+. The man pages of the scripts
++# +        are under 0BSD; they aren't based on the man pages of GNU gzip.
++#  
++# -      - All the documentation in the doc directory and most of the
++# -        XZ Utils specific documentation files in other directories
++# -        are in the public domain.
++# +      - Most of the XZ Utils specific documentation that is in
++# +        plain text files (like README, INSTALL, PACKAGERS, NEWS,
++# +        and ChangeLog) are under 0BSD unless stated otherwise in
++# +        the file itself. The files xz-file-format.txt and
++# +        lzma-file-format.xt are in the public domain but may
++# +        be distributed under the terms of 0BSD too.
++#  
++# -        Note: The JavaScript files (under the MIT license) have
++# -        been removed from the Doxygen-generated HTML version of the
++# -        liblzma API documentation. Doxygen itself is under the GNU GPL
++# -        but the remaining files generated by Doxygen are not affected
++# -        by the licenses used in Doxygen because Doxygen licensing has
++# -        the following exception:
++# +      - Translated messages and man pages are under 0BSD except that
++# +        some old translations are in the public domain.
++#  
++# -            "Documents produced by doxygen are derivative works
++# -            derived from the input used in their production;
++# -            they are not affected by this license."
++# +      - Test files and test code in the 'tests' directory, and
++# +        debugging utilities in the 'debug' directory are under
++# +        the BSD Zero Clause License (0BSD).
++#  
++# -      - Translated messages are in the public domain.
++# +      - The GNU Autotools based build system contains files that are
++# +        under GNU GPLv2+, GNU GPLv3+, and a few permissive licenses.
++# +        These files don't affect the licensing of the binaries being
++# +        built.
++#  
++# -      - The build system contains public domain files, and files that
++# -        are under GNU GPLv2+ or GNU GPLv3+. None of these files end up
++# -        in the binaries being built.
++# +      - The 'extra' directory contains files that are under various
++# +        free software licenses. These aren't built or installed as
++# +        part of XZ Utils.
++#  
++# -      - Test files and test code in the tests directory, and debugging
++# -        utilities in the debug directory are in the public domain.
++# +    For the files under the BSD Zero Clause License (0BSD), if
++# +    a copyright notice is needed, the following is sufficient:
++#  
++# -      - The extra directory may contain public domain files, and files
++# -        that are under various free software licenses.
++# +        Copyright (C) The XZ Utils authors and contributors
++#  
++# -    You can do whatever you want with the files that have been put into
++# -    the public domain. If you find public domain legally problematic,
++# -    take the previous sentence as a license grant. If you still find
++# -    the lack of copyright legally problematic, you have too many
++# -    lawyers.
++# -
++# -    As usual, this software is provided "as is", without any warranty.
++# -
++# -    If you copy significant amounts of public domain code from XZ Utils
++# +    If you copy significant amounts of 0BSD-licensed code from XZ Utils
++#      into your project, acknowledging this somewhere in your software is
++#      polite (especially if it is proprietary, non-free software), but
++# -    naturally it is not legally required. Here is an example of a good
++# -    notice to put into "about box" or into documentation:
++# +    it is not legally required by the license terms. Here is an example
++# +    of a good notice to put into "about box" or into documentation:
++#  
++# -        This software includes code from XZ Utils
++# -        <https://xz.tukaani.org/xz-utils/>.
++# +        This software includes code from XZ Utils <https://tukaani.org/xz/>.
++#  
++#      The following license texts are included in the following files:
++# +      - COPYING.0BSD: BSD Zero Clause License
++#        - COPYING.LGPLv2.1: GNU Lesser General Public License version 2.1
++#        - COPYING.GPLv2: GNU General Public License version 2
++#        - COPYING.GPLv3: GNU General Public License version 3
++#  
++# -    Note that the toolchain (compiler, linker etc.) may add some code
++# -    pieces that are copyrighted. Thus, it is possible that e.g. liblzma
++# -    binary wouldn't actually be in the public domain in its entirety
++# -    even though it contains no copyrighted code from the XZ Utils source
++# -    package.
++# +    A note about old XZ Utils releases:
++#  
++# -    If you have questions, don't hesitate to ask the author(s) for more
++# -    information.
++# +        XZ Utils releases 5.4.6 and older and 5.5.1alpha have a
++# +        significant amount of code put into the public domain and
++# +        that obviously remains so. The switch from public domain to
++# +        0BSD for newer releases was made in Febrary 2024 because
++# +        public domain has (real or perceived) legal ambiguities in
++# +        some jurisdictions.
++#  
++# +        There is very little *practical* difference between public
++# +        domain and 0BSD. The main difference likely is that one
++# +        shouldn't claim that 0BSD-licensed code is in the public
++# +        domain; 0BSD-licensed code is copyrighted but available under
++# +        an extremely permissive license. Neither 0BSD nor public domain
++# +        require retaining or reproducing author, copyright holder, or
++# +        license notices when distributing the software. (Compare to,
++# +        for example, BSD 2-Clause "Simplified" License which does have
++# +        such requirements.)
++# +
++# +    If you have questions, don't hesitate to ask for more information.
++# +    The contact information is in the README file.
++# +
++# --- lib/getopt.c
++# +++ lib/getopt.c
++# @@ -1,23 +1,23 @@
++# +/* SPDX-License-Identifier: LGPL-2.1-or-later */
++# +
++#  /* Getopt for GNU.
++# -   NOTE: getopt is now part of the C library, so if you don't know what
++# -   "Keep this file name-space clean" means, talk to drepper@gnu.org
++# -   before changing it!
++# -   Copyright (C) 1987,88,89,90,91,92,93,94,95,96,98,99,2000,2001,2002,2003,2004,2006
++# -	Free Software Foundation, Inc.
++# -   This file is part of the GNU C Library.
++# +   Copyright (C) 1987-2023 Free Software Foundation, Inc.
++# +   This file is part of the GNU C Library and is also part of gnulib.
++# +   Patches to this file should be submitted to both projects.
++#  
++# -   This program is free software; you can redistribute it and/or modify
++# -   it under the terms of the GNU Lesser General Public License as published by
++# -   the Free Software Foundation; either version 2.1, or (at your option)
++# -   any later version.
++# +   The GNU C Library is free software; you can redistribute it and/or
++# +   modify it under the terms of the GNU Lesser General Public
++# +   License as published by the Free Software Foundation; either
++# +   version 2.1 of the License, or (at your option) any later version.
++#  
++# -   This program is distributed in the hope that it will be useful,
++# +   The GNU C Library is distributed in the hope that it will be useful,
++#     but WITHOUT ANY WARRANTY; without even the implied warranty of
++# -   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# -   GNU Lesser General Public License for more details.
++# +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# +   Lesser General Public License for more details.
++#  
++# -   You should have received a copy of the GNU Lesser General Public License along
++# -   with this program; if not, write to the Free Software Foundation,
++# -   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
++# +   You should have received a copy of the GNU Lesser General Public
++# +   License along with the GNU C Library; if not, see
++# +   <https://www.gnu.org/licenses/>.  */
++#  
++#  #ifndef _LIBC
++# +# ifdef HAVE_CONFIG_H
++# 
++#
++
+ SUMMARY = "Utilities for managing LZMA compressed files"
+ HOMEPAGE = "https://tukaani.org/xz/"
+ DESCRIPTION = "XZ Utils is free general-purpose data compression software with a high compression ratio. XZ Utils were written for POSIX-like systems, but also work on some not-so-POSIX systems. XZ Utils are the successor to LZMA Utils."
+@@ -17,17 +203,17 @@ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
+ LICENSE:${PN}-locale = "GPL-2.0-or-later"
+ LICENSE:liblzma = "PD"
  
--Index: lttng-modules-2.13.10/src/Kbuild
--===================================================================
----- lttng-modules-2.13.10.orig/src/Kbuild
--+++ lttng-modules-2.13.10/src/Kbuild
-+diff --git a/src/Kbuild b/src/Kbuild
-+index 7137874..04eb5c9 100644
-+--- a/src/Kbuild
-++++ b/src/Kbuild
- @@ -2,10 +2,13 @@
-  
-  ifdef CONFIG_LOCALVERSION	# Check if dot-config is included.
-@@ -38,7 +38,7 @@ Index: lttng-modules-2.13.10/src/Kbuild
-  TOP_LTTNG_MODULES_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))/..
-  
-  lttng_check_linux_version = $(shell pwd)/include/linux/version.h
--@@ -150,3 +153,5 @@ lttng-statedump-objs := lttng-statedump-
-+@@ -150,3 +153,5 @@ lttng-statedump-objs := lttng-statedump-impl.o
-  obj-$(CONFIG_LTTNG) += probes/
-  obj-$(CONFIG_LTTNG) += lib/
-  obj-$(CONFIG_LTTNG) += tests/
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch
-deleted file mode 100644
-index 6ea10ffc91..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch
-+++ /dev/null
-@@ -1,132 +0,0 @@
--From d8379ec6365a925db33cae94fb6783cdbdb6a922 Mon Sep 17 00:00:00 2001
--From: Kienan Stewart <kstewart@efficios.com>
--Date: Mon, 25 Mar 2024 09:40:29 -0400
--Subject: [PATCH 2/4] Fix: ASoC add component to set_bias_level events in linux
-- 6.9-rc1
--
--See upstream commit:
--
--    commit 6ef46a69ec32fe1cf56de67742fcd01af4bf48af
--    Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
--    Date:   Wed Mar 6 10:30:00 2024 +0100
--
--        ASoC: trace: add component to set_bias_level trace events
--
--        The snd_soc_bias_level_start and snd_soc_bias_level_done trace events
--        currently look like:
--
--                   aplay-229   [000]  1250.140778: snd_soc_bias_level_start: card=vscn-2046 val=1
--                   aplay-229   [000]  1250.140784: snd_soc_bias_level_done: card=vscn-2046 val=1
--                   aplay-229   [000]  1250.140786: snd_soc_bias_level_start: card=vscn-2046 val=2
--                   aplay-229   [000]  1250.140788: snd_soc_bias_level_done: card=vscn-2046 val=2
--            kworker/u8:1-21    [000]  1250.140871: snd_soc_bias_level_start: card=vscn-2046 val=1
--            kworker/u8:0-11    [000]  1250.140951: snd_soc_bias_level_start: card=vscn-2046 val=1
--            kworker/u8:0-11    [000]  1250.140956: snd_soc_bias_level_done: card=vscn-2046 val=1
--            kworker/u8:0-11    [000]  1250.140959: snd_soc_bias_level_start: card=vscn-2046 val=2
--            kworker/u8:0-11    [000]  1250.140961: snd_soc_bias_level_done: card=vscn-2046 val=2
--            kworker/u8:1-21    [000]  1250.167219: snd_soc_bias_level_done: card=vscn-2046 val=1
--            kworker/u8:1-21    [000]  1250.167222: snd_soc_bias_level_start: card=vscn-2046 val=2
--            kworker/u8:1-21    [000]  1250.167232: snd_soc_bias_level_done: card=vscn-2046 val=2
--            kworker/u8:0-11    [000]  1250.167440: snd_soc_bias_level_start: card=vscn-2046 val=3
--            kworker/u8:0-11    [000]  1250.167444: snd_soc_bias_level_done: card=vscn-2046 val=3
--            kworker/u8:1-21    [000]  1250.167497: snd_soc_bias_level_start: card=vscn-2046 val=3
--            kworker/u8:1-21    [000]  1250.167506: snd_soc_bias_level_done: card=vscn-2046 val=3
--
--        There are clearly multiple calls, one per component, but they cannot be
--        discriminated from each other.
--
--        Change the ftrace events to also print the component name, to make it clear
--        which part of the code is involved. This requires changing the passed value
--        from a struct snd_soc_card, where the DAPM context is not kwown, to a
--        struct snd_soc_dapm_context where it is obviously known but the a card
--        pointer is also available.
--
--        With this change, the resulting trace becomes:
--
--                   aplay-247   [000]  1436.357332: snd_soc_bias_level_start: card=vscn-2046 component=(none) val=1
--                   aplay-247   [000]  1436.357338: snd_soc_bias_level_done: card=vscn-2046 component=(none) val=1
--                   aplay-247   [000]  1436.357340: snd_soc_bias_level_start: card=vscn-2046 component=(none) val=2
--                   aplay-247   [000]  1436.357343: snd_soc_bias_level_done: card=vscn-2046 component=(none) val=2
--            kworker/u8:4-215   [000]  1436.357437: snd_soc_bias_level_start: card=vscn-2046 component=ff560000.codec val=1
--            kworker/u8:5-231   [000]  1436.357518: snd_soc_bias_level_start: card=vscn-2046 component=ff320000.i2s val=1
--            kworker/u8:5-231   [000]  1436.357523: snd_soc_bias_level_done: card=vscn-2046 component=ff320000.i2s val=1
--            kworker/u8:5-231   [000]  1436.357526: snd_soc_bias_level_start: card=vscn-2046 component=ff320000.i2s val=2
--            kworker/u8:5-231   [000]  1436.357528: snd_soc_bias_level_done: card=vscn-2046 component=ff320000.i2s val=2
--            kworker/u8:4-215   [000]  1436.383217: snd_soc_bias_level_done: card=vscn-2046 component=ff560000.codec val=1
--            kworker/u8:4-215   [000]  1436.383221: snd_soc_bias_level_start: card=vscn-2046 component=ff560000.codec val=2
--            kworker/u8:4-215   [000]  1436.383231: snd_soc_bias_level_done: card=vscn-2046 component=ff560000.codec val=2
--            kworker/u8:5-231   [000]  1436.383468: snd_soc_bias_level_start: card=vscn-2046 component=ff320000.i2s val=3
--            kworker/u8:5-231   [000]  1436.383472: snd_soc_bias_level_done: card=vscn-2046 component=ff320000.i2s val=3
--            kworker/u8:4-215   [000]  1436.383503: snd_soc_bias_level_start: card=vscn-2046 component=ff560000.codec val=3
--            kworker/u8:4-215   [000]  1436.383513: snd_soc_bias_level_done: card=vscn-2046 component=ff560000.codec val=3
--
--Upstream-Status: Backport [303434ab Fix: ASoC add component to set_bias_level events in linux 6.9-rc1]
--
--Change-Id: I959f1680c002acdf29828b968d3975247f5433d8
--Signed-off-by: Kienan Stewart <kstewart@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/instrumentation/events/asoc.h | 36 +++++++++++++++++++++++++++
-- 1 file changed, 36 insertions(+)
--
--Index: lttng-modules-2.13.12/include/instrumentation/events/asoc.h
--===================================================================
----- lttng-modules-2.13.12.orig/include/instrumentation/events/asoc.h
--+++ lttng-modules-2.13.12/include/instrumentation/events/asoc.h
--@@ -10,6 +10,7 @@
-- #include <lttng/kernel-version.h>
-- 
-- #define DAPM_DIRECT "(direct)"
--+#define DAPM_COMPONENT_NONE "(none)"
-- 
-- #ifndef _TRACE_ASOC_DEF
-- #define _TRACE_ASOC_DEF
--@@ -119,6 +120,40 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc
-- )
-- #endif
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0))
--+LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_dapm_context,
--+
--+	TP_PROTO(struct snd_soc_dapm_context *dapm, int val),
--+
--+	TP_ARGS(dapm, val),
--+
--+	TP_FIELDS(
--+		ctf_string(name, dapm->card->name)
--+		ctf_string(component, dapm->component ? dapm->component->name : DAPM_COMPONENT_NONE)
--+		ctf_integer(int, val, val)
--+	)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_dapm_context, snd_soc_bias_level_start,
--+
--+	asoc_snd_soc_bias_level_start,
--+
--+	TP_PROTO(struct snd_soc_dapm_context *dapm, int val),
--+
--+	TP_ARGS(dapm, val)
--+
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc_snd_soc_dapm_context, snd_soc_bias_level_done,
--+
--+	asoc_snd_soc_bias_level_done,
--+
--+	TP_PROTO(struct snd_soc_dapm_context *dapm, int val),
--+
--+	TP_ARGS(dapm, val)
--+
--+)
--+#else
-- LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_card,
-- 
-- 	TP_PROTO(struct snd_soc_card *card, int val),
--@@ -150,6 +185,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(asoc
-- 	TP_ARGS(card, val)
-- 
-- )
--+#endif
-- 
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0))
-- LTTNG_TRACEPOINT_EVENT_CLASS(asoc_snd_soc_dapm_basic,
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch
-deleted file mode 100644
-index 66c48ebe8f..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch
-+++ /dev/null
-@@ -1,81 +0,0 @@
--From f4a6415f8d5fa447868d1fdc7119e0a328966379 Mon Sep 17 00:00:00 2001
--From: Kienan Stewart <kstewart@efficios.com>
--Date: Mon, 25 Mar 2024 10:30:32 -0400
--Subject: [PATCH 3/4] Fix: mm_compaction_migratepages changed in linux 6.9-rc1
--
--See upstream commit:
--
--    commit ab755bf4249b992fc2140d615ab0a686d50765b4
--    Author: Baolin Wang <baolin.wang@linux.alibaba.com>
--    Date:   Tue Feb 20 14:16:31 2024 +0800
--
--        mm: compaction: update the cc->nr_migratepages when allocating or freeing the freepages
--
--        Currently we will use 'cc->nr_freepages >= cc->nr_migratepages' comparison
--        to ensure that enough freepages are isolated in isolate_freepages(),
--        however it just decreases the cc->nr_freepages without updating
--        cc->nr_migratepages in compaction_alloc(), which will waste more CPU
--        cycles and cause too many freepages to be isolated.
--
--        So we should also update the cc->nr_migratepages when allocating or
--        freeing the freepages to avoid isolating excess freepages.  And I can see
--        fewer free pages are scanned and isolated when running thpcompact on my
--        Arm64 server:
--
--                                               k6.7         k6.7_patched
--        Ops Compaction pages isolated      120692036.00   118160797.00
--        Ops Compaction migrate scanned     131210329.00   154093268.00
--        Ops Compaction free scanned       1090587971.00  1080632536.00
--        Ops Compact scan efficiency               12.03          14.26
--
--        Moreover, I did not see an obvious latency improvements, this is likely
--        because isolating freepages is not the bottleneck in the thpcompact test
--        case.
--
--                                      k6.7                  k6.7_patched
--        Amean     fault-both-1      1089.76 (   0.00%)     1080.16 *   0.88%*
--        Amean     fault-both-3      1616.48 (   0.00%)     1636.65 *  -1.25%*
--        Amean     fault-both-5      2266.66 (   0.00%)     2219.20 *   2.09%*
--        Amean     fault-both-7      2909.84 (   0.00%)     2801.90 *   3.71%*
--        Amean     fault-both-12     4861.26 (   0.00%)     4733.25 *   2.63%*
--        Amean     fault-both-18     7351.11 (   0.00%)     6950.51 *   5.45%*
--        Amean     fault-both-24     9059.30 (   0.00%)     9159.99 *  -1.11%*
--        Amean     fault-both-30    10685.68 (   0.00%)    11399.02 *  -6.68%*
--
--Upstream-Status: Backport [175fe77c Fix: mm_compaction_migratepages changed in linux 6.9-rc1]
--
--Change-Id: I103a43fd1b549360b3fc978fd409b7c17ef3e192
--Signed-off-by: Kienan Stewart <kstewart@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/instrumentation/events/compaction.h | 17 ++++++++++++++++-
-- 1 file changed, 16 insertions(+), 1 deletion(-)
--
--Index: lttng-modules-2.13.12/include/instrumentation/events/compaction.h
--===================================================================
----- lttng-modules-2.13.12.orig/include/instrumentation/events/compaction.h
--+++ lttng-modules-2.13.12/include/instrumentation/events/compaction.h
--@@ -97,7 +97,22 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(comp
-- 
-- #endif /* #else #if LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,0,0) */
-- 
---#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) || \
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0))
--+LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
--+
--+	compaction_migratepages,
--+
--+	TP_PROTO(unsigned int nr_migratepages,
--+		unsigned int nr_succeeded),
--+
--+	TP_ARGS(nr_migratepages, nr_succeeded),
--+
--+	TP_FIELDS(
--+		ctf_integer(unsigned long, nr_migrated, nr_succeeded)
--+		ctf_integer(unsigned long, nr_failed, nr_migratepages - nr_succeeded)
--+	)
--+)
--+#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) || \
--     LTTNG_RHEL_KERNEL_RANGE(5,14,0,163,0,0, 5,15,0,0,0,0))
-- LTTNG_TRACEPOINT_EVENT_MAP(mm_compaction_migratepages,
-- 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch b/meta/recipes-kernel/lttng/lttng-modules/0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch
-deleted file mode 100644
-index 59ef4f9313..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 217bc2e4685050dddce9bdd2557b64f6b8c16622 Mon Sep 17 00:00:00 2001
--From: Kienan Stewart <kstewart@efficios.com>
--Date: Mon, 25 Mar 2024 10:53:46 -0400
--Subject: [PATCH 4/4] Fix: dev_base_lock removed in linux 6.9-rc1
--
--See upstream commit:
--
--    commit 1b3ef46cb7f2618cc0b507393220a69810f6da12
--    Author: Eric Dumazet <edumazet@google.com>
--    Date:   Tue Feb 13 06:32:45 2024 +0000
--
--        net: remove dev_base_lock
--
--        dev_base_lock is not needed anymore, all remaining users also hold RTNL.
--
--Upstream-Status: Backport [52eb2ee9 Fix: dev_base_lock removed in linux 6.9-rc1]
--
--Change-Id: I6b07e6eed07fd398302ca14d23162ed24d74df15
--Signed-off-by: Kienan Stewart <kstewart@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- src/lttng-statedump-impl.c | 15 +++++++++++++++
-- 1 file changed, 15 insertions(+)
--
--Index: lttng-modules-2.13.12/src/lttng-statedump-impl.c
--===================================================================
----- lttng-modules-2.13.12.orig/src/lttng-statedump-impl.c
--+++ lttng-modules-2.13.12/src/lttng-statedump-impl.c
--@@ -392,6 +392,20 @@ void lttng_enumerate_device(struct lttng
-- 	}
-- }
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0))
--+static
--+int lttng_enumerate_network_ip_interface(struct lttng_kernel_session *session)
--+{
--+	struct net_device *dev;
--+
--+	rtnl_lock();
--+	for_each_netdev(&init_net, dev)
--+		lttng_enumerate_device(session, dev);
--+	rtnl_unlock();
--+
--+	return 0;
--+}
--+#else
-- static
-- int lttng_enumerate_network_ip_interface(struct lttng_kernel_session *session)
-- {
--@@ -404,6 +418,7 @@ int lttng_enumerate_network_ip_interface
-- 
-- 	return 0;
-- }
--+#endif /* (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,9,0)) */
-- #else /* CONFIG_INET */
-- static inline
-- int lttng_enumerate_network_ip_interface(struct lttng_kernel_session *session)
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb
-similarity index 77%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb
-index 95d5e2d615..0f05622bd4 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb
-@@ -10,16 +10,13 @@ inherit module
- include lttng-platforms.inc
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d4378ea9d5d1fc9ab0ae10d7948827d9 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=c02de712b028a5cc7e22472e8f2b3db1 \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
+-                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
++                    file://lib/getopt.c;endline=23;md5=3f33e207287bf72834f3ae8c247dfb6a \
+                     "
  
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
--           file://0001-Fix-ASoC-snd_doc_dapm-on-linux-6.9-rc1.patch \
--           file://0002-Fix-ASoC-add-component-to-set_bias_level-events-in-l.patch \
--           file://0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch \
--           file://0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch \
--        "
-+           file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-+           "
- 
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
- 
--SRC_URI[sha256sum] = "d85fcb66c7bd31003ab8735e8c77700e5e4f417b4c22fe1f20112cf435abad79"
-+SRC_URI[sha256sum] = "7d26c07a5e80b66aa7bdcfdaaf4857f00fc9a5cdde79226b2528676700d50228"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
+ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
+            file://run-ptest \
+           "
+-SRC_URI[sha256sum] = "aeba3e03bf8140ddedf62a0a367158340520f6b384f75ca6045ccc6c0d43fd5c"
++SRC_URI[sha256sum] = "8bfd20c0e1d86f0402f2497cfa71c6ab62d4cd35fd704276e3140bfb71414519"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
+ UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
  
 -- 
 2.44.0
 
 
---===============0990314246777744037==
+--===============8938287522386508943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (915 cached, 3 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/xz: SRC_URI changed from "https://github.com/tukaani-project/xz/releases/download/v5.4.6/xz-5.4.6.tar.gz file://run-ptest" to "https://github.com/tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/xz: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.6", added "/usr/lib/liblzma.so.5.6.2"
+packages/core2-64-poky-linux/xz/liblzma: PKGSIZE changed from 190528 to 194624 (+2%)
+packages/core2-64-poky-linux/xz/liblzma: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/liblzma: PV changed from "5.4.6" to "5.6.2"
+Changes to packages/core2-64-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
+packages/core2-64-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.4.6", added "/usr/lib/xz/ptest/tests/.debug/test_microlzma /usr/lib/.debug/liblzma.so.5.6.2"
+packages/core2-64-poky-linux/xz/xz-dbg: PKGSIZE changed from 1868816 to 2007264 (+7%)
+packages/core2-64-poky-linux/xz/xz-dbg: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-dbg: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-dev: PKGSIZE changed from 225706 to 226687 (+0%)
+packages/core2-64-poky-linux/xz/xz-dev: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-dev: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/tabs.css /usr/share/doc/xz/api/tab_bd.png /usr/share/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/hardware_8h.html /usr/share/man/fr/man1/lzcmp.1 /usr/share/man/fr/man1/xzcmp.1 /usr/share/doc/xz/api/doxygen.svg /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/tab_a.png /usr/share/man/fr/man1/lzmore.1 /usr/share/man/fr/man1/xzmore.1 /usr/share/doc/xz/api/structlzma__filter.html /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/structlzma__stream.html /usr/share/doc/xz/api/tab_hd.png /usr/share/doc/xz/api/globals.html /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/open.png /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/man/pt_BR/man1/xzmore.1 /us
+ r/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/folderclosedd.svg /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/files.html /usr/share/doc/xz/examples_old/xz_pipe_decomp.c /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/examples_old/xz_pipe_comp.c /usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/api/functions_vars.html /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/index.html /usr/share/doc/xz/api/vli_8h.html /usr/share/doc/xz/api/structlzma__options__bcj.html /usr/share/man/fr/man1/lzdiff.1 /usr/share/man/fr/man1/xzdiff.1 /usr/share/doc/xz/api/base_8h.html /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/filter_8h.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/doc/xz/api/tab_sd.png /usr/share/doc
+ /xz/api/nav_hd.png /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/doc/xz/api/tab_h.png /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/folderopend.svg /usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/splitbard.png /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/structlzma__mt.html /usr/share/doc/xz/TODO /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/bc_sd.png /usr/share/doc/xz/api/index__hash_8h.html /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/annotated.html /usr/share/doc/xz/api/functi
+ ons.html /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/nav_h.png /usr/share/doc/xz/api/structlzma__options__lzma.html /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/closed.png /usr/share/doc/xz/api/version_8h.html /usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/tab_s.png /usr/share/doc/xz/api/bc_s.png", added "/usr/share/man/uk/man1/lzmainfo.1 /usr/share/man/de/man1/lzmainfo.1 /usr/share/man/pt_BR/man1/lzmainfo.1 /usr/share/doc/xz/COPYING.0BSD /usr/share/man/ro/man1/lzmainfo.1 /usr/share/man/ko/man1/lzmainfo.1 /usr/share/doc/xz/examples/11_file_info.c /usr/share/man/fr/man1/lzmainfo.1"
+packages/core2-64-poky-linux/xz/xz-doc: PKGSIZE changed from 1793515 to 993542 (-45%)
+packages/core2-64-poky-linux/xz/xz-doc: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-doc: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-ca: PKGSIZE changed from 26876 to 22289 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-ca: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ca: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-cs: PKGSIZE changed from 17576 to 15436 (-12%)
+packages/core2-64-poky-linux/xz/xz-locale-cs: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-cs: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-da: PKGSIZE changed from 12015 to 11042 (-8%)
+packages/core2-64-poky-linux/xz/xz-locale-da: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-da: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28599 to 32560 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-de: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-de: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26139 to 29979 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-eo: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-eo: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-es: PKGSIZE changed from 27192 to 31175 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-es: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-es: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-fi: PKGSIZE changed from 25923 to 21441 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-fi: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-fi: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-fr: PKGSIZE changed from 22313 to 19342 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-fr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-fr: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26682 to 30343 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-hr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-hr: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-hu: PKGSIZE changed from 27374 to 31658 (+16%)
+packages/core2-64-poky-linux/xz/xz-locale-hu: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-hu: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-it: PKGSIZE changed from 22043 to 19130 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-it: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-it: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27394 to 31480 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-ko: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ko: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26643 to 30611 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-pl: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pl: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 26890 to 22302 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 21887 to 18992 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-pt: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pt: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28538 to 32640 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-ro: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ro: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-sr: PKGSIZE changed from 27551 to 23849 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-sr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-sr: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26576 to 30379 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-sv: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-sv: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-tr: PKGSIZE changed from 26545 to 22029 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-tr: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-tr: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35322 to 40332 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-uk: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-uk: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 28619 to 32859 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-vi: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-vi: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25247 to 22476 (-11%)
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 24823 to 20613 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-ptest: FILELIST: removed "/usr/lib/xz/ptest/tests/files/good-1-x86-lzma2.xz /usr/lib/xz/ptest/tests/files/good-1-sparc-lzma2.xz", added "/usr/lib/xz/ptest/tests/test_microlzma"
+packages/core2-64-poky-linux/xz/xz-ptest: PKGSIZE changed from 433361 to 472412 (+9%)
+packages/core2-64-poky-linux/xz/xz-ptest: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-ptest: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-src: FILELIST: directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/rangecoder -> /usr/src/debug/xz/5.6.2/src/liblzma/rangecoder, directory renamed /usr/src/debug/xz/5.4.6/src/common -> /usr/src/debug/xz/5.6.2/src/common, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/common -> /usr/src/debug/xz/5.6.2/src/liblzma/common, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/delta -> /usr/src/debug/xz/5.6.2/src/liblzma/delta, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/api/lzma -> /usr/src/debug/xz/5.6.2/src/liblzma/api/lzma, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/lz -> /usr/src/debug/xz/5.6.2/src/liblzma/lz, directory renamed /usr/src/debug/xz/5.4.6/src/liblzma/lzma -> /usr/src/debug/xz/5.6.2/src/liblzma/lzma, directory renamed /usr/src/debug/xz/5.4.6/src/lzmainfo -> /usr/src/debug/xz/5.6.2/src/lzmainfo, directory renamed /usr/src/debug/xz/5.4.6/src/xzdec -> /usr/src/debug/xz/5.6.2/src/xzdec, removed "/usr/src/debug/
+ xz/5.4.6/src/xz/args.h /usr/src/debug/xz/5.4.6/src/xz/hardware.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/powerpc.c /usr/src/debug/xz/5.4.6/src/xz/hardware.c /usr/src/debug/xz/5.4.6/src/xz/args.c /usr/src/debug/xz/5.4.6/tests/test_lzip_decoder.c /usr/src/debug/xz/5.4.6/tests/test_vli.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/armthumb.c /usr/src/debug/xz/5.4.6/src/xz/options.c /usr/src/debug/xz/5.4.6/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.4.6/src/xz/suffix.h /usr/src/debug/xz/5.4.6/tests/test_index_hash.c /usr/src/debug/xz/5.4.6/src/xz/options.h /usr/src/debug/xz/5.4.6/src/xz/suffix.c /usr/src/debug/xz/5.4.6/src/xz/list.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_decoder.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_encoder.h /usr/src/debug/xz/5.4.6/src/xz/main.c /usr/src/debug/xz/5.4.6/src/liblzma/check/check.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_encoder.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_decoder.c /usr/src/debug/xz/5.4.6/sr
+ c/xz/list.c /usr/src/debug/xz/5.4.6/src/liblzma/check/check.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/x86.c /usr/src/debug/xz/5.4.6/src/xz/main.h /usr/src/debug/xz/5.4.6/src/xz/mytime.c /usr/src/debug/xz/5.4.6/tests/test_hardware.c /usr/src/debug/xz/5.4.6/src/xz/mytime.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_table.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_table.c /usr/src/debug/xz/5.4.6/tests/test_filter_str.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/arm64.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/sparc.c /usr/src/debug/xz/5.4.6/src/xz/file_io.h /usr/src/debug/xz/5.4.6/src/liblzma/simple/arm.c /usr/src/debug/xz/5.4.6/src/xz/signals.c /usr/src/debug/xz/5.4.6/src/xz/coder.c /usr/src/debug/xz/5.4.6/src/xz/file_io.c /usr/src/debug/xz/5.4.6/tests/tests.h /usr/src/debug/xz/5.4.6/src/xz/coder.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_table_le.h /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_table_le.h /usr/src/debug/xz/5.4.6/src/xz/signals.h /usr/src/debu
+ g/xz/5.4.6/tests/create_compress_files.c /usr/src/debug/xz/5.4.6/src/xz/util.c /usr/src/debug/xz/5.4.6/src/xz/message.h /usr/src/debug/xz/5.4.6/tests/test_block_header.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_coder.h /usr/src/debug/xz/5.4.6/src/xz/message.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/ia64.c /usr/src/debug/xz/5.4.6/src/xz/util.h /usr/src/debug/xz/5.4.6/tests/test_stream_flags.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc32_fast.c /usr/src/debug/xz/5.4.6/src/liblzma/check/crc64_fast.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_coder.c /usr/src/debug/xz/5.4.6/tests/test_filter_flags.c /usr/src/debug/xz/5.4.6/tests/test_check.c /usr/src/debug/xz/5.4.6/tests/test_index.c /usr/src/debug/xz/5.4.6/tests/test_memlimit.c /usr/src/debug/xz/5.4.6/src/liblzma/simple/simple_private.h /usr/src/debug/xz/5.4.6/src/liblzma/check/sha256.c /usr/src/debug/xz/5.4.6/tests/tuktest.h", added "/usr/src/debug/xz/5.6.2/src/xz/sandbox.c /usr/src/debug/xz/5.6.2/src/xz/args.h /
+ usr/src/debug/xz/5.6.2/src/xz/hardware.h /usr/src/debug/xz/5.6.2/src/xz/sandbox.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/powerpc.c /usr/src/debug/xz/5.6.2/src/xz/hardware.c /usr/src/debug/xz/5.6.2/src/xz/args.c /usr/src/debug/xz/5.6.2/tests/test_lzip_decoder.c /usr/src/debug/xz/5.6.2/tests/test_vli.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/armthumb.c /usr/src/debug/xz/5.6.2/src/xz/options.c /usr/src/debug/xz/5.6.2/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.6.2/src/xz/suffix.h /usr/src/debug/xz/5.6.2/tests/test_index_hash.c /usr/src/debug/xz/5.6.2/src/xz/options.h /usr/src/debug/xz/5.6.2/src/xz/suffix.c /usr/src/debug/xz/5.6.2/src/xz/list.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_decoder.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_encoder.h /usr/src/debug/xz/5.6.2/src/xz/main.c /usr/src/debug/xz/5.6.2/src/liblzma/check/check.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_decoder.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_encoder.c /usr/src/
+ debug/xz/5.6.2/src/xz/list.c /usr/src/debug/xz/5.6.2/src/liblzma/check/check.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/x86.c /usr/src/debug/xz/5.6.2/src/xz/main.h /usr/src/debug/xz/5.6.2/src/xz/mytime.c /usr/src/debug/xz/5.6.2/tests/test_hardware.c /usr/src/debug/xz/5.6.2/src/xz/mytime.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc32_table.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_table.c /usr/src/debug/xz/5.6.2/tests/test_filter_str.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/arm64.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/riscv.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/sparc.c /usr/src/debug/xz/5.6.2/src/xz/file_io.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/arm.c /usr/src/debug/xz/5.6.2/src/xz/signals.c /usr/src/debug/xz/5.6.2/src/xz/coder.c /usr/src/debug/xz/5.6.2/src/xz/file_io.c /usr/src/debug/xz/5.6.2/tests/tests.h /usr/src/debug/xz/5.6.2/src/xz/coder.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_table_le.h /usr/src/debug/xz/5.6.2/src/liblzma/check/crc
+ 32_table_le.h /usr/src/debug/xz/5.6.2/src/xz/signals.h /usr/src/debug/xz/5.6.2/tests/create_compress_files.c /usr/src/debug/xz/5.6.2/src/xz/util.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc_x86_clmul.h /usr/src/debug/xz/5.6.2/src/xz/message.h /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_coder.h /usr/src/debug/xz/5.6.2/tests/test_block_header.c /usr/src/debug/xz/5.6.2/tests/test_microlzma.c /usr/src/debug/xz/5.6.2/src/xz/message.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/ia64.c /usr/src/debug/xz/5.6.2/src/xz/util.h /usr/src/debug/xz/5.6.2/tests/test_stream_flags.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc32_fast.c /usr/src/debug/xz/5.6.2/src/liblzma/check/crc64_fast.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_coder.c /usr/src/debug/xz/5.6.2/tests/test_filter_flags.c /usr/src/debug/xz/5.6.2/tests/test_check.c /usr/src/debug/xz/5.6.2/tests/test_index.c /usr/src/debug/xz/5.6.2/tests/test_memlimit.c /usr/src/debug/xz/5.6.2/src/liblzma/simple/simple_private.h /usr/sr
+ c/debug/xz/5.6.2/src/liblzma/check/sha256.c /usr/src/debug/xz/5.6.2/tests/tuktest.h"
+packages/core2-64-poky-linux/xz/xz-src: PKGSIZE changed from 1543297 to 1658436 (+7%)
+packages/core2-64-poky-linux/xz/xz-src: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-src: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz-staticdev: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz-staticdev: PV changed from "5.4.6" to "5.6.2"
+packages/core2-64-poky-linux/xz/xz: PKGSIZE changed from 149851 to 158871 (+6%)
+packages/core2-64-poky-linux/xz/xz: PKGV changed from 5.4.6 [default] to 5.6.2 [default]
+packages/core2-64-poky-linux/xz/xz: PV changed from "5.4.6" to "5.6.2"
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-bb2c4f1e1f34ab487db7744d0cb3e42f6b80043f"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:bb2c4f1e1f34ab487db7744d0cb3e42f6b80043f"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 107 Local 95 Mirrors 0 Missed 12 Current 214 (88% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 841 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_recipe_qa)
-NOTE: recipe lttng-modules-2.13.13-r0: task do_recipe_qa: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_recipe_qa unihash changed to d20e7346827b422eb66c7509c64b74369f8ba6f89bd059e040b29ed35f0bcc8f
-NOTE: Setscene tasks completed
-NOTE: Running task 971 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_fetch)
-NOTE: recipe lttng-modules-2.13.13-r0: task do_fetch: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_fetch: Succeeded
-NOTE: Running task 972 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_unpack)
-NOTE: Running task 973 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-modules-2.13.13-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_unpack: Succeeded
-NOTE: Running task 974 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_patch)
-NOTE: Running task 975 of 990 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_collect_spdx_deps)
-NOTE: recipe lttng-modules-2.13.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-modules-2.13.13-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_collect_spdx_deps: Started
-NOTE: recipe lttng-modules-2.13.13-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe lttng-modules-2.13.13-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 975 tasks of which 969 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601142914.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601142914.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_patch
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: lttng-modules-2.13.13-r0 do_patch: Applying patch '0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch' on target directory '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/lttng-modules/2.13.13/lttng-modules-2.13.13'
-CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/lttng-modules/2.13.13/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Patch 0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch is already applied; check your series file
-
-stderr: ')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/lttng-modules/2.13.13/temp/log.do_patch.2473106
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/lttng/lttng-modules_2.13.13.bb:do_patch) failed with exit code '1'
-
---===============0990314246777744037==
+--===============8938287522386508943==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-lttng-modules-upgrade-2.13.12-2.13.13.patch"
+Content-Disposition: attachment; filename="0001-xz-upgrade-5.4.6-5.6.2.patch"
 
-RnJvbSA0MDJjNzUyMjFmZTQyNTdhYjI2ZDUzYjExMGRmMGM3OWYyY2M3MWIxIE1vbiBTZXAgMTcg
+RnJvbSBmMDNkMWIwOWM1ODU5ZjUxZjM1NjI2ODUyMmRjMGM2MzAzNDlhZTQ3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNDoyOTozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx0
-dG5nLW1vZHVsZXM6IHVwZ3JhZGUgMi4xMy4xMiAtPiAyLjEzLjEzCgotLS0KIC4uLngtQVNvQy1z
-bmRfZG9jX2RhcG0tb24tbGludXgtNi45LXJjMS5wYXRjaCB8ICA5MyAtLS0tLS0tLS0tLS0KIC4u
-LmUtbWlzc2luZy1DT05GSUdfVFJBQ0VQT0lOVFMtdG8td2Fybi5wYXRjaCB8ICAxMiArLQogLi4u
-cG9uZW50LXRvLXNldF9iaWFzX2xldmVsLWV2ZW50cy1pbi1sLnBhdGNoIHwgMTMyIC0tLS0tLS0t
-LS0tLS0tLS0tLQogLi4ubl9taWdyYXRlcGFnZXMtY2hhbmdlZC1pbi1saW51eC02LjktLnBhdGNo
-IHwgIDgxIC0tLS0tLS0tLS0tCiAuLi52X2Jhc2VfbG9jay1yZW1vdmVkLWluLWxpbnV4LTYuOS1y
-YzEucGF0Y2ggfCAgNTcgLS0tLS0tLS0KIC4uLmVzXzIuMTMuMTIuYmIgPT4gbHR0bmctbW9kdWxl
-c18yLjEzLjEzLmJifSB8ICAgOSArLQogNiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyks
-IDM3NSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMta2VybmVs
-L2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMS1GaXgtQVNvQy1zbmRfZG9jX2RhcG0tb24tbGludXgt
-Ni45LXJjMS5wYXRjaAogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1rZXJuZWwvbHR0
-bmcvbHR0bmctbW9kdWxlcy8wMDAyLUZpeC1BU29DLWFkZC1jb21wb25lbnQtdG8tc2V0X2JpYXNf
-bGV2ZWwtZXZlbnRzLWluLWwucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
-a2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMy1GaXgtbW1fY29tcGFjdGlvbl9taWdyYXRl
-cGFnZXMtY2hhbmdlZC1pbi1saW51eC02LjktLnBhdGNoCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0
-YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzLzAwMDQtRml4LWRldl9iYXNlX2xv
-Y2stcmVtb3ZlZC1pbi1saW51eC02LjktcmMxLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtl
-cm5lbC9sdHRuZy97bHR0bmctbW9kdWxlc18yLjEzLjEyLmJiID0+IGx0dG5nLW1vZHVsZXNfMi4x
-My4xMy5iYn0gKDc3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0
-dG5nLW1vZHVsZXMvMDAwMS1GaXgtQVNvQy1zbmRfZG9jX2RhcG0tb24tbGludXgtNi45LXJjMS5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDAxLUZpeC1B
-U29DLXNuZF9kb2NfZGFwbS1vbi1saW51eC02LjktcmMxLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2Rl
-IDEwMDY0NAppbmRleCA5ZDVmZDBkZTYwLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1r
-ZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDAxLUZpeC1BU29DLXNuZF9kb2NfZGFwbS1vbi1s
-aW51eC02LjktcmMxLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsOTMgKzAsMCBAQAotRnJvbSBm
-ZWMwMDdkOTYzMGUwMTAwNjJjZjU2OTlhMDg0NjBmNzFmNDZiNTI3IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQotRnJvbTogS2llbmFuIFN0ZXdhcnQgPGtzdGV3YXJ0QGVmZmljaW9zLmNvbT4KLURh
-dGU6IE1vbiwgMjUgTWFyIDIwMjQgMDg6NTQ6NDIgLTA0MDAKLVN1YmplY3Q6IFtQQVRDSCAxLzRd
-IEZpeDogQVNvQyBzbmRfZG9jX2RhcG0gb24gbGludXggNi45LXJjMQotCi1TZWUgdXBzdHJlYW0g
-Y29tbWl0OgotCi0gICAgY29tbWl0IDdkZjNlYjRjZGI2YmJmYTQ4MmY1MTU0OGI5ZmQ0N2MyNzIz
-YzY4YmEKLSAgICBBdXRob3I6IEx1Y2EgQ2VyZXNvbGkgPGx1Y2EuY2VyZXNvbGlAYm9vdGxpbi5j
-b20+Ci0gICAgRGF0ZTogICBXZWQgTWFyIDYgMTA6MzA6MDEgMjAyNCArMDEwMAotCi0gICAgICAg
-IEFTb0M6IHRyYWNlOiBhZGQgZXZlbnQgdG8gc25kX3NvY19kYXBtIHRyYWNlIGV2ZW50cwotCi0g
-ICAgICAgIEFkZCB0aGUgZXZlbnQgdmFsdWUgdG8gdGhlIHNuZF9zb2NfZGFwbV9zdGFydCBhbmQg
-c25kX3NvY19kYXBtX2RvbmUgdHJhY2UKLSAgICAgICAgZXZlbnRzIHRvIG1ha2UgdGhlbSBtb3Jl
-IGluZm9ybWF0aXZlLgotCi0gICAgICAgIFRyYWNlIGJlZm9yZToKLQotICAgICAgICAgICAgICAg
-ICAgIGFwbGF5LTIyOSAgIFswMDBdICAgMjUwLjE0MDMwOTogc25kX3NvY19kYXBtX3N0YXJ0OiAg
-IGNhcmQ9dnNjbi0yMDQ2Ci0gICAgICAgICAgICAgICAgICAgYXBsYXktMjI5ICAgWzAwMF0gICAy
-NTAuMTY3NTMxOiBzbmRfc29jX2RhcG1fZG9uZTogICAgY2FyZD12c2NuLTIwNDYKLSAgICAgICAg
-ICAgICAgICAgICBhcGxheS0yMjkgICBbMDAwXSAgIDI1MS4xNjk1ODg6IHNuZF9zb2NfZGFwbV9z
-dGFydDogICBjYXJkPXZzY24tMjA0NgotICAgICAgICAgICAgICAgICAgIGFwbGF5LTIyOSAgIFsw
-MDBdICAgMjUxLjE5NTI0NTogc25kX3NvY19kYXBtX2RvbmU6ICAgIGNhcmQ9dnNjbi0yMDQ2Ci0K
-LSAgICAgICAgVHJhY2UgYWZ0ZXI6Ci0KLSAgICAgICAgICAgICAgICAgICBhcGxheS0yMTQgICBb
-MDAwXSAgIDY5My4yOTA2MTI6IHNuZF9zb2NfZGFwbV9zdGFydDogICBjYXJkPXZzY24tMjA0NiBl
-dmVudD0xCi0gICAgICAgICAgICAgICAgICAgYXBsYXktMjE0ICAgWzAwMF0gICA2OTMuMzE1NTA4
-OiBzbmRfc29jX2RhcG1fZG9uZTogICAgY2FyZD12c2NuLTIwNDYgZXZlbnQ9MQotICAgICAgICAg
-ICAgICAgICAgIGFwbGF5LTIxNCAgIFswMDBdICAgNjk0LjUzNzM0OTogc25kX3NvY19kYXBtX3N0
-YXJ0OiAgIGNhcmQ9dnNjbi0yMDQ2IGV2ZW50PTIKLSAgICAgICAgICAgICAgICAgICBhcGxheS0y
-MTQgICBbMDAwXSAgIDY5NC41NjMyNDE6IHNuZF9zb2NfZGFwbV9kb25lOiAgICBjYXJkPXZzY24t
-MjA0NiBldmVudD0yCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgWzg4YzRlMGZlIEZpeDog
-QVNvQyBzbmRfZG9jX2RhcG0gb24gbGludXggNi45LXJjMV0KLQotQ2hhbmdlLUlkOiBJZjBkMzM1
-NDRiOGRkMWRmYjNkMTJjYTkzOTA4OTIxOTBmYzA0NDRiMAotU2lnbmVkLW9mZi1ieTogS2llbmFu
-IFN0ZXdhcnQgPGtzdGV3YXJ0QGVmZmljaW9zLmNvbT4KLVNpZ25lZC1vZmYtYnk6IE1hdGhpZXUg
-RGVzbm95ZXJzIDxtYXRoaWV1LmRlc25veWVyc0BlZmZpY2lvcy5jb20+Ci0tLS0KLSBpbmNsdWRl
-L2luc3RydW1lbnRhdGlvbi9ldmVudHMvYXNvYy5oIHwgMzMgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrCi0gMSBmaWxlIGNoYW5nZWQsIDMzIGluc2VydGlvbnMoKykKLQotZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9hc29jLmggYi9pbmNsdWRlL2luc3RydW1l
-bnRhdGlvbi9ldmVudHMvYXNvYy5oCi1pbmRleCAyMWQxM2EwZi4uNTEyNmQ0YzEgMTAwNjQ0Ci0t
-LS0gYS9pbmNsdWRlL2luc3RydW1lbnRhdGlvbi9ldmVudHMvYXNvYy5oCi0rKysgYi9pbmNsdWRl
-L2luc3RydW1lbnRhdGlvbi9ldmVudHMvYXNvYy5oCi1AQCAtNTEsNiArNTEsMzggQEAgTFRUTkdf
-VFJBQ0VQT0lOVF9FVkVOVF9JTlNUQU5DRV9NQVAoYXNvY19zbmRfc29jX2NhcmQsIHNuZF9zb2Nf
-Ymlhc19sZXZlbF9kb25lLAotIAotICkKLSAKLSsjaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09E
-RSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig2LDksMCkpCi0rTFRUTkdfVFJBQ0VQT0lOVF9FVkVO
-VF9DTEFTUyhhc29jX3NuZF9zb2NfZGFwbV9iYXNpYywKLSsKLSsJVFBfUFJPVE8oc3RydWN0IHNu
-ZF9zb2NfY2FyZCAqY2FyZCwgaW50IGV2ZW50KSwKLSsKLSsJVFBfQVJHUyhjYXJkLCBldmVudCks
-Ci0rCi0rCVRQX0ZJRUxEUygKLSsJCWN0Zl9zdHJpbmcobmFtZSwgY2FyZC0+bmFtZSkKLSsJCWN0
-Zl9pbnRlZ2VyKGludCwgZXZlbnQsIGV2ZW50KQotKwkpCi0rKQotK0xUVE5HX1RSQUNFUE9JTlRf
-RVZFTlRfSU5TVEFOQ0VfTUFQKGFzb2Nfc25kX3NvY19kYXBtX2Jhc2ljLCBzbmRfc29jX2RhcG1f
-c3RhcnQsCi0rCi0rCWFzb2Nfc25kX3NvY19kYXBtX3N0YXJ0LAotKwotKwlUUF9QUk9UTyhzdHJ1
-Y3Qgc25kX3NvY19jYXJkICpjYXJkLCBpbnQgZXZlbnQpLAotKwotKwlUUF9BUkdTKGNhcmQsIGV2
-ZW50KQotKwotKykKLSsKLStMVFROR19UUkFDRVBPSU5UX0VWRU5UX0lOU1RBTkNFX01BUChhc29j
-X3NuZF9zb2NfZGFwbV9iYXNpYywgc25kX3NvY19kYXBtX2RvbmUsCi0rCi0rCWFzb2Nfc25kX3Nv
-Y19kYXBtX2RvbmUsCi0rCi0rCVRQX1BST1RPKHN0cnVjdCBzbmRfc29jX2NhcmQgKmNhcmQsIGlu
-dCBldmVudCksCi0rCi0rCVRQX0FSR1MoY2FyZCwgZXZlbnQpCi0rCi0rKQotKyNlbHNlCi0gTFRU
-TkdfVFJBQ0VQT0lOVF9FVkVOVF9DTEFTUyhhc29jX3NuZF9zb2NfZGFwbV9iYXNpYywKLSAKLSAJ
-VFBfUFJPVE8oc3RydWN0IHNuZF9zb2NfY2FyZCAqY2FyZCksCi1AQCAtODEsNiArMTEzLDcgQEAg
-TFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9JTlNUQU5DRV9NQVAoYXNvY19zbmRfc29jX2RhcG1fYmFz
-aWMsIHNuZF9zb2NfZGFwbV9kb25lLAotIAlUUF9BUkdTKGNhcmQpCi0gCi0gKQotKyNlbmRpZgot
-IAotIExUVE5HX1RSQUNFUE9JTlRfRVZFTlRfQ0xBU1MoYXNvY19zbmRfc29jX2RhcG1fd2lkZ2V0
-LAotIAotLS0gCi0yLjM5LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRu
-Zy9sdHRuZy1tb2R1bGVzLzAwMDEtc3JjLUtidWlsZC1jaGFuZ2UtbWlzc2luZy1DT05GSUdfVFJB
-Q0VQT0lOVFMtdG8td2Fybi5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmct
-bW9kdWxlcy8wMDAxLXNyYy1LYnVpbGQtY2hhbmdlLW1pc3NpbmctQ09ORklHX1RSQUNFUE9JTlRT
-LXRvLXdhcm4ucGF0Y2gKaW5kZXggMTIwNTI4YmY5Yy4uZWQyZmZiNjIyZCAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzLzAwMDEtc3JjLUtidWlsZC1j
-aGFuZ2UtbWlzc2luZy1DT05GSUdfVFJBQ0VQT0lOVFMtdG8td2Fybi5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMS1zcmMtS2J1aWxkLWNoYW5n
-ZS1taXNzaW5nLUNPTkZJR19UUkFDRVBPSU5UUy10by13YXJuLnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSA4NzhmODliNjEzNmZmN2I4NzBhMTllMDQ5MDFjYzZmMzE2YmJlMTBhIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2Y2FiMjFmZGJhNWNkNWMwNzRiZjQzYjBjY2I5MGE5YTE1
-ZjkxNWRhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQnJ1Y2UgQXNoZmllbGQgPGJy
-dWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwgMTUgTWF5IDIwMjEgMTA6MjY6Mzgg
-LTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gc3JjL0tidWlsZDogY2hhbmdlIG1pc3NpbmcgQ09ORklH
-X1RSQUNFUE9JTlRTIHRvIHdhcm5pbmcKQEAgLTE5LDEwICsxOSwxMCBAQCBTaWduZWQtb2ZmLWJ5
-OiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPgogIHNyYy9LYnVpbGQg
-fCA3ICsrKysrKy0KICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pCiAKLUluZGV4OiBsdHRuZy1tb2R1bGVzLTIuMTMuMTAvc3JjL0tidWlsZAotPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQotLS0tIGx0dG5nLW1vZHVsZXMtMi4xMy4xMC5vcmlnL3NyYy9LYnVpbGQKLSsrKyBsdHRuZy1t
-b2R1bGVzLTIuMTMuMTAvc3JjL0tidWlsZAorZGlmZiAtLWdpdCBhL3NyYy9LYnVpbGQgYi9zcmMv
-S2J1aWxkCitpbmRleCA3MTM3ODc0Li4wNGViNWM5IDEwMDY0NAorLS0tIGEvc3JjL0tidWlsZAor
-KysrIGIvc3JjL0tidWlsZAogQEAgLTIsMTAgKzIsMTMgQEAKICAKICBpZmRlZiBDT05GSUdfTE9D
-QUxWRVJTSU9OCSMgQ2hlY2sgaWYgZG90LWNvbmZpZyBpcyBpbmNsdWRlZC4KQEAgLTM4LDcgKzM4
-LDcgQEAgSW5kZXg6IGx0dG5nLW1vZHVsZXMtMi4xMy4xMC9zcmMvS2J1aWxkCiAgVE9QX0xUVE5H
-X01PRFVMRVNfRElSIDo9ICQoc2hlbGwgZGlybmFtZSAkKGxhc3R3b3JkICQoTUFLRUZJTEVfTElT
-VCkpKS8uLgogIAogIGx0dG5nX2NoZWNrX2xpbnV4X3ZlcnNpb24gPSAkKHNoZWxsIHB3ZCkvaW5j
-bHVkZS9saW51eC92ZXJzaW9uLmgKLUBAIC0xNTAsMyArMTUzLDUgQEAgbHR0bmctc3RhdGVkdW1w
-LW9ianMgOj0gbHR0bmctc3RhdGVkdW1wLQorQEAgLTE1MCwzICsxNTMsNSBAQCBsdHRuZy1zdGF0
-ZWR1bXAtb2JqcyA6PSBsdHRuZy1zdGF0ZWR1bXAtaW1wbC5vCiAgb2JqLSQoQ09ORklHX0xUVE5H
-KSArPSBwcm9iZXMvCiAgb2JqLSQoQ09ORklHX0xUVE5HKSArPSBsaWIvCiAgb2JqLSQoQ09ORklH
-X0xUVE5HKSArPSB0ZXN0cy8KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcv
-bHR0bmctbW9kdWxlcy8wMDAyLUZpeC1BU29DLWFkZC1jb21wb25lbnQtdG8tc2V0X2JpYXNfbGV2
-ZWwtZXZlbnRzLWluLWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1v
-ZHVsZXMvMDAwMi1GaXgtQVNvQy1hZGQtY29tcG9uZW50LXRvLXNldF9iaWFzX2xldmVsLWV2ZW50
-cy1pbi1sLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA2ZWExMGZmYzkxLi4w
-MDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8w
-MDAyLUZpeC1BU29DLWFkZC1jb21wb25lbnQtdG8tc2V0X2JpYXNfbGV2ZWwtZXZlbnRzLWluLWwu
-cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwxMzIgKzAsMCBAQAotRnJvbSBkODM3OWVjNjM2NWE5
-MjVkYjMzY2FlOTRmYjY3ODNjZGJkYjZhOTIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJv
-bTogS2llbmFuIFN0ZXdhcnQgPGtzdGV3YXJ0QGVmZmljaW9zLmNvbT4KLURhdGU6IE1vbiwgMjUg
-TWFyIDIwMjQgMDk6NDA6MjkgLTA0MDAKLVN1YmplY3Q6IFtQQVRDSCAyLzRdIEZpeDogQVNvQyBh
-ZGQgY29tcG9uZW50IHRvIHNldF9iaWFzX2xldmVsIGV2ZW50cyBpbiBsaW51eAotIDYuOS1yYzEK
-LQotU2VlIHVwc3RyZWFtIGNvbW1pdDoKLQotICAgIGNvbW1pdCA2ZWY0NmE2OWVjMzJmZTFjZjU2
-ZGU2Nzc0MmZjZDAxYWY0YmY0OGFmCi0gICAgQXV0aG9yOiBMdWNhIENlcmVzb2xpIDxsdWNhLmNl
-cmVzb2xpQGJvb3RsaW4uY29tPgotICAgIERhdGU6ICAgV2VkIE1hciA2IDEwOjMwOjAwIDIwMjQg
-KzAxMDAKLQotICAgICAgICBBU29DOiB0cmFjZTogYWRkIGNvbXBvbmVudCB0byBzZXRfYmlhc19s
-ZXZlbCB0cmFjZSBldmVudHMKLQotICAgICAgICBUaGUgc25kX3NvY19iaWFzX2xldmVsX3N0YXJ0
-IGFuZCBzbmRfc29jX2JpYXNfbGV2ZWxfZG9uZSB0cmFjZSBldmVudHMKLSAgICAgICAgY3VycmVu
-dGx5IGxvb2sgbGlrZToKLQotICAgICAgICAgICAgICAgICAgIGFwbGF5LTIyOSAgIFswMDBdICAx
-MjUwLjE0MDc3ODogc25kX3NvY19iaWFzX2xldmVsX3N0YXJ0OiBjYXJkPXZzY24tMjA0NiB2YWw9
-MQotICAgICAgICAgICAgICAgICAgIGFwbGF5LTIyOSAgIFswMDBdICAxMjUwLjE0MDc4NDogc25k
-X3NvY19iaWFzX2xldmVsX2RvbmU6IGNhcmQ9dnNjbi0yMDQ2IHZhbD0xCi0gICAgICAgICAgICAg
-ICAgICAgYXBsYXktMjI5ICAgWzAwMF0gIDEyNTAuMTQwNzg2OiBzbmRfc29jX2JpYXNfbGV2ZWxf
-c3RhcnQ6IGNhcmQ9dnNjbi0yMDQ2IHZhbD0yCi0gICAgICAgICAgICAgICAgICAgYXBsYXktMjI5
-ICAgWzAwMF0gIDEyNTAuMTQwNzg4OiBzbmRfc29jX2JpYXNfbGV2ZWxfZG9uZTogY2FyZD12c2Nu
-LTIwNDYgdmFsPTIKLSAgICAgICAgICAgIGt3b3JrZXIvdTg6MS0yMSAgICBbMDAwXSAgMTI1MC4x
-NDA4NzE6IHNuZF9zb2NfYmlhc19sZXZlbF9zdGFydDogY2FyZD12c2NuLTIwNDYgdmFsPTEKLSAg
-ICAgICAgICAgIGt3b3JrZXIvdTg6MC0xMSAgICBbMDAwXSAgMTI1MC4xNDA5NTE6IHNuZF9zb2Nf
-Ymlhc19sZXZlbF9zdGFydDogY2FyZD12c2NuLTIwNDYgdmFsPTEKLSAgICAgICAgICAgIGt3b3Jr
-ZXIvdTg6MC0xMSAgICBbMDAwXSAgMTI1MC4xNDA5NTY6IHNuZF9zb2NfYmlhc19sZXZlbF9kb25l
-OiBjYXJkPXZzY24tMjA0NiB2YWw9MQotICAgICAgICAgICAga3dvcmtlci91ODowLTExICAgIFsw
-MDBdICAxMjUwLjE0MDk1OTogc25kX3NvY19iaWFzX2xldmVsX3N0YXJ0OiBjYXJkPXZzY24tMjA0
-NiB2YWw9MgotICAgICAgICAgICAga3dvcmtlci91ODowLTExICAgIFswMDBdICAxMjUwLjE0MDk2
-MTogc25kX3NvY19iaWFzX2xldmVsX2RvbmU6IGNhcmQ9dnNjbi0yMDQ2IHZhbD0yCi0gICAgICAg
-ICAgICBrd29ya2VyL3U4OjEtMjEgICAgWzAwMF0gIDEyNTAuMTY3MjE5OiBzbmRfc29jX2JpYXNf
-bGV2ZWxfZG9uZTogY2FyZD12c2NuLTIwNDYgdmFsPTEKLSAgICAgICAgICAgIGt3b3JrZXIvdTg6
-MS0yMSAgICBbMDAwXSAgMTI1MC4xNjcyMjI6IHNuZF9zb2NfYmlhc19sZXZlbF9zdGFydDogY2Fy
-ZD12c2NuLTIwNDYgdmFsPTIKLSAgICAgICAgICAgIGt3b3JrZXIvdTg6MS0yMSAgICBbMDAwXSAg
-MTI1MC4xNjcyMzI6IHNuZF9zb2NfYmlhc19sZXZlbF9kb25lOiBjYXJkPXZzY24tMjA0NiB2YWw9
-MgotICAgICAgICAgICAga3dvcmtlci91ODowLTExICAgIFswMDBdICAxMjUwLjE2NzQ0MDogc25k
-X3NvY19iaWFzX2xldmVsX3N0YXJ0OiBjYXJkPXZzY24tMjA0NiB2YWw9MwotICAgICAgICAgICAg
-a3dvcmtlci91ODowLTExICAgIFswMDBdICAxMjUwLjE2NzQ0NDogc25kX3NvY19iaWFzX2xldmVs
-X2RvbmU6IGNhcmQ9dnNjbi0yMDQ2IHZhbD0zCi0gICAgICAgICAgICBrd29ya2VyL3U4OjEtMjEg
-ICAgWzAwMF0gIDEyNTAuMTY3NDk3OiBzbmRfc29jX2JpYXNfbGV2ZWxfc3RhcnQ6IGNhcmQ9dnNj
-bi0yMDQ2IHZhbD0zCi0gICAgICAgICAgICBrd29ya2VyL3U4OjEtMjEgICAgWzAwMF0gIDEyNTAu
-MTY3NTA2OiBzbmRfc29jX2JpYXNfbGV2ZWxfZG9uZTogY2FyZD12c2NuLTIwNDYgdmFsPTMKLQot
-ICAgICAgICBUaGVyZSBhcmUgY2xlYXJseSBtdWx0aXBsZSBjYWxscywgb25lIHBlciBjb21wb25l
-bnQsIGJ1dCB0aGV5IGNhbm5vdCBiZQotICAgICAgICBkaXNjcmltaW5hdGVkIGZyb20gZWFjaCBv
-dGhlci4KLQotICAgICAgICBDaGFuZ2UgdGhlIGZ0cmFjZSBldmVudHMgdG8gYWxzbyBwcmludCB0
-aGUgY29tcG9uZW50IG5hbWUsIHRvIG1ha2UgaXQgY2xlYXIKLSAgICAgICAgd2hpY2ggcGFydCBv
-ZiB0aGUgY29kZSBpcyBpbnZvbHZlZC4gVGhpcyByZXF1aXJlcyBjaGFuZ2luZyB0aGUgcGFzc2Vk
-IHZhbHVlCi0gICAgICAgIGZyb20gYSBzdHJ1Y3Qgc25kX3NvY19jYXJkLCB3aGVyZSB0aGUgREFQ
-TSBjb250ZXh0IGlzIG5vdCBrd293biwgdG8gYQotICAgICAgICBzdHJ1Y3Qgc25kX3NvY19kYXBt
-X2NvbnRleHQgd2hlcmUgaXQgaXMgb2J2aW91c2x5IGtub3duIGJ1dCB0aGUgYSBjYXJkCi0gICAg
-ICAgIHBvaW50ZXIgaXMgYWxzbyBhdmFpbGFibGUuCi0KLSAgICAgICAgV2l0aCB0aGlzIGNoYW5n
-ZSwgdGhlIHJlc3VsdGluZyB0cmFjZSBiZWNvbWVzOgotCi0gICAgICAgICAgICAgICAgICAgYXBs
-YXktMjQ3ICAgWzAwMF0gIDE0MzYuMzU3MzMyOiBzbmRfc29jX2JpYXNfbGV2ZWxfc3RhcnQ6IGNh
-cmQ9dnNjbi0yMDQ2IGNvbXBvbmVudD0obm9uZSkgdmFsPTEKLSAgICAgICAgICAgICAgICAgICBh
-cGxheS0yNDcgICBbMDAwXSAgMTQzNi4zNTczMzg6IHNuZF9zb2NfYmlhc19sZXZlbF9kb25lOiBj
-YXJkPXZzY24tMjA0NiBjb21wb25lbnQ9KG5vbmUpIHZhbD0xCi0gICAgICAgICAgICAgICAgICAg
-YXBsYXktMjQ3ICAgWzAwMF0gIDE0MzYuMzU3MzQwOiBzbmRfc29jX2JpYXNfbGV2ZWxfc3RhcnQ6
-IGNhcmQ9dnNjbi0yMDQ2IGNvbXBvbmVudD0obm9uZSkgdmFsPTIKLSAgICAgICAgICAgICAgICAg
-ICBhcGxheS0yNDcgICBbMDAwXSAgMTQzNi4zNTczNDM6IHNuZF9zb2NfYmlhc19sZXZlbF9kb25l
-OiBjYXJkPXZzY24tMjA0NiBjb21wb25lbnQ9KG5vbmUpIHZhbD0yCi0gICAgICAgICAgICBrd29y
-a2VyL3U4OjQtMjE1ICAgWzAwMF0gIDE0MzYuMzU3NDM3OiBzbmRfc29jX2JpYXNfbGV2ZWxfc3Rh
-cnQ6IGNhcmQ9dnNjbi0yMDQ2IGNvbXBvbmVudD1mZjU2MDAwMC5jb2RlYyB2YWw9MQotICAgICAg
-ICAgICAga3dvcmtlci91ODo1LTIzMSAgIFswMDBdICAxNDM2LjM1NzUxODogc25kX3NvY19iaWFz
-X2xldmVsX3N0YXJ0OiBjYXJkPXZzY24tMjA0NiBjb21wb25lbnQ9ZmYzMjAwMDAuaTJzIHZhbD0x
-Ci0gICAgICAgICAgICBrd29ya2VyL3U4OjUtMjMxICAgWzAwMF0gIDE0MzYuMzU3NTIzOiBzbmRf
-c29jX2JpYXNfbGV2ZWxfZG9uZTogY2FyZD12c2NuLTIwNDYgY29tcG9uZW50PWZmMzIwMDAwLmky
-cyB2YWw9MQotICAgICAgICAgICAga3dvcmtlci91ODo1LTIzMSAgIFswMDBdICAxNDM2LjM1NzUy
-Njogc25kX3NvY19iaWFzX2xldmVsX3N0YXJ0OiBjYXJkPXZzY24tMjA0NiBjb21wb25lbnQ9ZmYz
-MjAwMDAuaTJzIHZhbD0yCi0gICAgICAgICAgICBrd29ya2VyL3U4OjUtMjMxICAgWzAwMF0gIDE0
-MzYuMzU3NTI4OiBzbmRfc29jX2JpYXNfbGV2ZWxfZG9uZTogY2FyZD12c2NuLTIwNDYgY29tcG9u
-ZW50PWZmMzIwMDAwLmkycyB2YWw9MgotICAgICAgICAgICAga3dvcmtlci91ODo0LTIxNSAgIFsw
-MDBdICAxNDM2LjM4MzIxNzogc25kX3NvY19iaWFzX2xldmVsX2RvbmU6IGNhcmQ9dnNjbi0yMDQ2
-IGNvbXBvbmVudD1mZjU2MDAwMC5jb2RlYyB2YWw9MQotICAgICAgICAgICAga3dvcmtlci91ODo0
-LTIxNSAgIFswMDBdICAxNDM2LjM4MzIyMTogc25kX3NvY19iaWFzX2xldmVsX3N0YXJ0OiBjYXJk
-PXZzY24tMjA0NiBjb21wb25lbnQ9ZmY1NjAwMDAuY29kZWMgdmFsPTIKLSAgICAgICAgICAgIGt3
-b3JrZXIvdTg6NC0yMTUgICBbMDAwXSAgMTQzNi4zODMyMzE6IHNuZF9zb2NfYmlhc19sZXZlbF9k
-b25lOiBjYXJkPXZzY24tMjA0NiBjb21wb25lbnQ9ZmY1NjAwMDAuY29kZWMgdmFsPTIKLSAgICAg
-ICAgICAgIGt3b3JrZXIvdTg6NS0yMzEgICBbMDAwXSAgMTQzNi4zODM0Njg6IHNuZF9zb2NfYmlh
-c19sZXZlbF9zdGFydDogY2FyZD12c2NuLTIwNDYgY29tcG9uZW50PWZmMzIwMDAwLmkycyB2YWw9
-MwotICAgICAgICAgICAga3dvcmtlci91ODo1LTIzMSAgIFswMDBdICAxNDM2LjM4MzQ3Mjogc25k
-X3NvY19iaWFzX2xldmVsX2RvbmU6IGNhcmQ9dnNjbi0yMDQ2IGNvbXBvbmVudD1mZjMyMDAwMC5p
-MnMgdmFsPTMKLSAgICAgICAgICAgIGt3b3JrZXIvdTg6NC0yMTUgICBbMDAwXSAgMTQzNi4zODM1
-MDM6IHNuZF9zb2NfYmlhc19sZXZlbF9zdGFydDogY2FyZD12c2NuLTIwNDYgY29tcG9uZW50PWZm
-NTYwMDAwLmNvZGVjIHZhbD0zCi0gICAgICAgICAgICBrd29ya2VyL3U4OjQtMjE1ICAgWzAwMF0g
-IDE0MzYuMzgzNTEzOiBzbmRfc29jX2JpYXNfbGV2ZWxfZG9uZTogY2FyZD12c2NuLTIwNDYgY29t
-cG9uZW50PWZmNTYwMDAwLmNvZGVjIHZhbD0zCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQg
-WzMwMzQzNGFiIEZpeDogQVNvQyBhZGQgY29tcG9uZW50IHRvIHNldF9iaWFzX2xldmVsIGV2ZW50
-cyBpbiBsaW51eCA2LjktcmMxXQotCi1DaGFuZ2UtSWQ6IEk5NTlmMTY4MGMwMDJhY2RmMjk4Mjhi
-OTY4ZDM5NzUyNDdmNTQzM2Q4Ci1TaWduZWQtb2ZmLWJ5OiBLaWVuYW4gU3Rld2FydCA8a3N0ZXdh
-cnRAZWZmaWNpb3MuY29tPgotU2lnbmVkLW9mZi1ieTogTWF0aGlldSBEZXNub3llcnMgPG1hdGhp
-ZXUuZGVzbm95ZXJzQGVmZmljaW9zLmNvbT4KLS0tLQotIGluY2x1ZGUvaW5zdHJ1bWVudGF0aW9u
-L2V2ZW50cy9hc29jLmggfCAzNiArKysrKysrKysrKysrKysrKysrKysrKysrKysKLSAxIGZpbGUg
-Y2hhbmdlZCwgMzYgaW5zZXJ0aW9ucygrKQotCi1JbmRleDogbHR0bmctbW9kdWxlcy0yLjEzLjEy
-L2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9hc29jLmgKLT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tLSBs
-dHRuZy1tb2R1bGVzLTIuMTMuMTIub3JpZy9pbmNsdWRlL2luc3RydW1lbnRhdGlvbi9ldmVudHMv
-YXNvYy5oCi0rKysgbHR0bmctbW9kdWxlcy0yLjEzLjEyL2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9u
-L2V2ZW50cy9hc29jLmgKLUBAIC0xMCw2ICsxMCw3IEBACi0gI2luY2x1ZGUgPGx0dG5nL2tlcm5l
-bC12ZXJzaW9uLmg+Ci0gCi0gI2RlZmluZSBEQVBNX0RJUkVDVCAiKGRpcmVjdCkiCi0rI2RlZmlu
-ZSBEQVBNX0NPTVBPTkVOVF9OT05FICIobm9uZSkiCi0gCi0gI2lmbmRlZiBfVFJBQ0VfQVNPQ19E
-RUYKLSAjZGVmaW5lIF9UUkFDRV9BU09DX0RFRgotQEAgLTExOSw2ICsxMjAsNDAgQEAgTFRUTkdf
-VFJBQ0VQT0lOVF9FVkVOVF9JTlNUQU5DRV9NQVAoYXNvYwotICkKLSAjZW5kaWYKLSAKLSsjaWYg
-KExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig2LDksMCkp
-Ci0rTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9DTEFTUyhhc29jX3NuZF9zb2NfZGFwbV9jb250ZXh0
-LAotKwotKwlUUF9QUk9UTyhzdHJ1Y3Qgc25kX3NvY19kYXBtX2NvbnRleHQgKmRhcG0sIGludCB2
-YWwpLAotKwotKwlUUF9BUkdTKGRhcG0sIHZhbCksCi0rCi0rCVRQX0ZJRUxEUygKLSsJCWN0Zl9z
-dHJpbmcobmFtZSwgZGFwbS0+Y2FyZC0+bmFtZSkKLSsJCWN0Zl9zdHJpbmcoY29tcG9uZW50LCBk
-YXBtLT5jb21wb25lbnQgPyBkYXBtLT5jb21wb25lbnQtPm5hbWUgOiBEQVBNX0NPTVBPTkVOVF9O
-T05FKQotKwkJY3RmX2ludGVnZXIoaW50LCB2YWwsIHZhbCkKLSsJKQotKykKLSsKLStMVFROR19U
-UkFDRVBPSU5UX0VWRU5UX0lOU1RBTkNFX01BUChhc29jX3NuZF9zb2NfZGFwbV9jb250ZXh0LCBz
-bmRfc29jX2JpYXNfbGV2ZWxfc3RhcnQsCi0rCi0rCWFzb2Nfc25kX3NvY19iaWFzX2xldmVsX3N0
-YXJ0LAotKwotKwlUUF9QUk9UTyhzdHJ1Y3Qgc25kX3NvY19kYXBtX2NvbnRleHQgKmRhcG0sIGlu
-dCB2YWwpLAotKwotKwlUUF9BUkdTKGRhcG0sIHZhbCkKLSsKLSspCi0rCi0rTFRUTkdfVFJBQ0VQ
-T0lOVF9FVkVOVF9JTlNUQU5DRV9NQVAoYXNvY19zbmRfc29jX2RhcG1fY29udGV4dCwgc25kX3Nv
-Y19iaWFzX2xldmVsX2RvbmUsCi0rCi0rCWFzb2Nfc25kX3NvY19iaWFzX2xldmVsX2RvbmUsCi0r
-Ci0rCVRQX1BST1RPKHN0cnVjdCBzbmRfc29jX2RhcG1fY29udGV4dCAqZGFwbSwgaW50IHZhbCks
-Ci0rCi0rCVRQX0FSR1MoZGFwbSwgdmFsKQotKwotKykKLSsjZWxzZQotIExUVE5HX1RSQUNFUE9J
-TlRfRVZFTlRfQ0xBU1MoYXNvY19zbmRfc29jX2NhcmQsCi0gCi0gCVRQX1BST1RPKHN0cnVjdCBz
-bmRfc29jX2NhcmQgKmNhcmQsIGludCB2YWwpLAotQEAgLTE1MCw2ICsxODUsNyBAQCBMVFROR19U
-UkFDRVBPSU5UX0VWRU5UX0lOU1RBTkNFX01BUChhc29jCi0gCVRQX0FSR1MoY2FyZCwgdmFsKQot
-IAotICkKLSsjZW5kaWYKLSAKLSAjaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFRO
-R19LRVJORUxfVkVSU0lPTig2LDksMCkpCi0gTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9DTEFTUyhh
-c29jX3NuZF9zb2NfZGFwbV9iYXNpYywKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwv
-bHR0bmcvbHR0bmctbW9kdWxlcy8wMDAzLUZpeC1tbV9jb21wYWN0aW9uX21pZ3JhdGVwYWdlcy1j
-aGFuZ2VkLWluLWxpbnV4LTYuOS0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0
-dG5nLW1vZHVsZXMvMDAwMy1GaXgtbW1fY29tcGFjdGlvbl9taWdyYXRlcGFnZXMtY2hhbmdlZC1p
-bi1saW51eC02LjktLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA2NmM0OGVi
-ZThmLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9k
-dWxlcy8wMDAzLUZpeC1tbV9jb21wYWN0aW9uX21pZ3JhdGVwYWdlcy1jaGFuZ2VkLWluLWxpbnV4
-LTYuOS0ucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw4MSArMCwwIEBACi1Gcm9tIGY0YTY0MTVm
-OGQ1ZmE0NDc4NjhkMWZkYzcxMTllMGEzMjg5NjYzNzkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-Ci1Gcm9tOiBLaWVuYW4gU3Rld2FydCA8a3N0ZXdhcnRAZWZmaWNpb3MuY29tPgotRGF0ZTogTW9u
-LCAyNSBNYXIgMjAyNCAxMDozMDozMiAtMDQwMAotU3ViamVjdDogW1BBVENIIDMvNF0gRml4OiBt
-bV9jb21wYWN0aW9uX21pZ3JhdGVwYWdlcyBjaGFuZ2VkIGluIGxpbnV4IDYuOS1yYzEKLQotU2Vl
-IHVwc3RyZWFtIGNvbW1pdDoKLQotICAgIGNvbW1pdCBhYjc1NWJmNDI0OWI5OTJmYzIxNDBkNjE1
-YWIwYTY4NmQ1MDc2NWI0Ci0gICAgQXV0aG9yOiBCYW9saW4gV2FuZyA8YmFvbGluLndhbmdAbGlu
-dXguYWxpYmFiYS5jb20+Ci0gICAgRGF0ZTogICBUdWUgRmViIDIwIDE0OjE2OjMxIDIwMjQgKzA4
-MDAKLQotICAgICAgICBtbTogY29tcGFjdGlvbjogdXBkYXRlIHRoZSBjYy0+bnJfbWlncmF0ZXBh
-Z2VzIHdoZW4gYWxsb2NhdGluZyBvciBmcmVlaW5nIHRoZSBmcmVlcGFnZXMKLQotICAgICAgICBD
-dXJyZW50bHkgd2Ugd2lsbCB1c2UgJ2NjLT5ucl9mcmVlcGFnZXMgPj0gY2MtPm5yX21pZ3JhdGVw
-YWdlcycgY29tcGFyaXNvbgotICAgICAgICB0byBlbnN1cmUgdGhhdCBlbm91Z2ggZnJlZXBhZ2Vz
-IGFyZSBpc29sYXRlZCBpbiBpc29sYXRlX2ZyZWVwYWdlcygpLAotICAgICAgICBob3dldmVyIGl0
-IGp1c3QgZGVjcmVhc2VzIHRoZSBjYy0+bnJfZnJlZXBhZ2VzIHdpdGhvdXQgdXBkYXRpbmcKLSAg
-ICAgICAgY2MtPm5yX21pZ3JhdGVwYWdlcyBpbiBjb21wYWN0aW9uX2FsbG9jKCksIHdoaWNoIHdp
-bGwgd2FzdGUgbW9yZSBDUFUKLSAgICAgICAgY3ljbGVzIGFuZCBjYXVzZSB0b28gbWFueSBmcmVl
-cGFnZXMgdG8gYmUgaXNvbGF0ZWQuCi0KLSAgICAgICAgU28gd2Ugc2hvdWxkIGFsc28gdXBkYXRl
-IHRoZSBjYy0+bnJfbWlncmF0ZXBhZ2VzIHdoZW4gYWxsb2NhdGluZyBvcgotICAgICAgICBmcmVl
-aW5nIHRoZSBmcmVlcGFnZXMgdG8gYXZvaWQgaXNvbGF0aW5nIGV4Y2VzcyBmcmVlcGFnZXMuICBB
-bmQgSSBjYW4gc2VlCi0gICAgICAgIGZld2VyIGZyZWUgcGFnZXMgYXJlIHNjYW5uZWQgYW5kIGlz
-b2xhdGVkIHdoZW4gcnVubmluZyB0aHBjb21wYWN0IG9uIG15Ci0gICAgICAgIEFybTY0IHNlcnZl
-cjoKLQotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBrNi43
-ICAgICAgICAgazYuN19wYXRjaGVkCi0gICAgICAgIE9wcyBDb21wYWN0aW9uIHBhZ2VzIGlzb2xh
-dGVkICAgICAgMTIwNjkyMDM2LjAwICAgMTE4MTYwNzk3LjAwCi0gICAgICAgIE9wcyBDb21wYWN0
-aW9uIG1pZ3JhdGUgc2Nhbm5lZCAgICAgMTMxMjEwMzI5LjAwICAgMTU0MDkzMjY4LjAwCi0gICAg
-ICAgIE9wcyBDb21wYWN0aW9uIGZyZWUgc2Nhbm5lZCAgICAgICAxMDkwNTg3OTcxLjAwICAxMDgw
-NjMyNTM2LjAwCi0gICAgICAgIE9wcyBDb21wYWN0IHNjYW4gZWZmaWNpZW5jeSAgICAgICAgICAg
-ICAgIDEyLjAzICAgICAgICAgIDE0LjI2Ci0KLSAgICAgICAgTW9yZW92ZXIsIEkgZGlkIG5vdCBz
-ZWUgYW4gb2J2aW91cyBsYXRlbmN5IGltcHJvdmVtZW50cywgdGhpcyBpcyBsaWtlbHkKLSAgICAg
-ICAgYmVjYXVzZSBpc29sYXRpbmcgZnJlZXBhZ2VzIGlzIG5vdCB0aGUgYm90dGxlbmVjayBpbiB0
-aGUgdGhwY29tcGFjdCB0ZXN0Ci0gICAgICAgIGNhc2UuCi0KLSAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgazYuNyAgICAgICAgICAgICAgICAgIGs2LjdfcGF0Y2hlZAotICAg
-ICAgICBBbWVhbiAgICAgZmF1bHQtYm90aC0xICAgICAgMTA4OS43NiAoICAgMC4wMCUpICAgICAx
-MDgwLjE2ICogICAwLjg4JSoKLSAgICAgICAgQW1lYW4gICAgIGZhdWx0LWJvdGgtMyAgICAgIDE2
-MTYuNDggKCAgIDAuMDAlKSAgICAgMTYzNi42NSAqICAtMS4yNSUqCi0gICAgICAgIEFtZWFuICAg
-ICBmYXVsdC1ib3RoLTUgICAgICAyMjY2LjY2ICggICAwLjAwJSkgICAgIDIyMTkuMjAgKiAgIDIu
-MDklKgotICAgICAgICBBbWVhbiAgICAgZmF1bHQtYm90aC03ICAgICAgMjkwOS44NCAoICAgMC4w
-MCUpICAgICAyODAxLjkwICogICAzLjcxJSoKLSAgICAgICAgQW1lYW4gICAgIGZhdWx0LWJvdGgt
-MTIgICAgIDQ4NjEuMjYgKCAgIDAuMDAlKSAgICAgNDczMy4yNSAqICAgMi42MyUqCi0gICAgICAg
-IEFtZWFuICAgICBmYXVsdC1ib3RoLTE4ICAgICA3MzUxLjExICggICAwLjAwJSkgICAgIDY5NTAu
-NTEgKiAgIDUuNDUlKgotICAgICAgICBBbWVhbiAgICAgZmF1bHQtYm90aC0yNCAgICAgOTA1OS4z
-MCAoICAgMC4wMCUpICAgICA5MTU5Ljk5ICogIC0xLjExJSoKLSAgICAgICAgQW1lYW4gICAgIGZh
-dWx0LWJvdGgtMzAgICAgMTA2ODUuNjggKCAgIDAuMDAlKSAgICAxMTM5OS4wMiAqICAtNi42OCUq
-Ci0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgWzE3NWZlNzdjIEZpeDogbW1fY29tcGFjdGlv
-bl9taWdyYXRlcGFnZXMgY2hhbmdlZCBpbiBsaW51eCA2LjktcmMxXQotCi1DaGFuZ2UtSWQ6IEkx
-MDNhNDNmZDFiNTQ5MzYwYjNmYzk3OGZkNDA5YjdjMTdlZjNlMTkyCi1TaWduZWQtb2ZmLWJ5OiBL
-aWVuYW4gU3Rld2FydCA8a3N0ZXdhcnRAZWZmaWNpb3MuY29tPgotU2lnbmVkLW9mZi1ieTogTWF0
-aGlldSBEZXNub3llcnMgPG1hdGhpZXUuZGVzbm95ZXJzQGVmZmljaW9zLmNvbT4KLS0tLQotIGlu
-Y2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9jb21wYWN0aW9uLmggfCAxNyArKysrKysrKysr
-KysrKysrLQotIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-Ci0KLUluZGV4OiBsdHRuZy1tb2R1bGVzLTIuMTMuMTIvaW5jbHVkZS9pbnN0cnVtZW50YXRpb24v
-ZXZlbnRzL2NvbXBhY3Rpb24uaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIGx0dG5nLW1vZHVsZXMtMi4xMy4x
-Mi5vcmlnL2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9jb21wYWN0aW9uLmgKLSsrKyBs
-dHRuZy1tb2R1bGVzLTIuMTMuMTIvaW5jbHVkZS9pbnN0cnVtZW50YXRpb24vZXZlbnRzL2NvbXBh
-Y3Rpb24uaAotQEAgLTk3LDcgKzk3LDIyIEBAIExUVE5HX1RSQUNFUE9JTlRfRVZFTlRfSU5TVEFO
-Q0VfTUFQKGNvbXAKLSAKLSAjZW5kaWYgLyogI2Vsc2UgI2lmIExUVE5HX0xJTlVYX1ZFUlNJT05f
-Q09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig0LDAsMCkgKi8KLSAKLS0jaWYgKExUVE5HX0xJ
-TlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig1LDE4LDApIHx8IFwKLSsj
-aWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig2LDks
-MCkpCi0rTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9NQVAobW1fY29tcGFjdGlvbl9taWdyYXRlcGFn
-ZXMsCi0rCi0rCWNvbXBhY3Rpb25fbWlncmF0ZXBhZ2VzLAotKwotKwlUUF9QUk9UTyh1bnNpZ25l
-ZCBpbnQgbnJfbWlncmF0ZXBhZ2VzLAotKwkJdW5zaWduZWQgaW50IG5yX3N1Y2NlZWRlZCksCi0r
-Ci0rCVRQX0FSR1MobnJfbWlncmF0ZXBhZ2VzLCBucl9zdWNjZWVkZWQpLAotKwotKwlUUF9GSUVM
-RFMoCi0rCQljdGZfaW50ZWdlcih1bnNpZ25lZCBsb25nLCBucl9taWdyYXRlZCwgbnJfc3VjY2Vl
-ZGVkKQotKwkJY3RmX2ludGVnZXIodW5zaWduZWQgbG9uZywgbnJfZmFpbGVkLCBucl9taWdyYXRl
-cGFnZXMgLSBucl9zdWNjZWVkZWQpCi0rCSkKLSspCi0rI2VsaWYgKExUVE5HX0xJTlVYX1ZFUlNJ
-T05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig1LDE4LDApIHx8IFwKLSAgICAgTFRUTkdf
-UkhFTF9LRVJORUxfUkFOR0UoNSwxNCwwLDE2MywwLDAsIDUsMTUsMCwwLDAsMCkpCi0gTFRUTkdf
-VFJBQ0VQT0lOVF9FVkVOVF9NQVAobW1fY29tcGFjdGlvbl9taWdyYXRlcGFnZXMsCi0gCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwNC1GaXgt
-ZGV2X2Jhc2VfbG9jay1yZW1vdmVkLWluLWxpbnV4LTYuOS1yYzEucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwNC1GaXgtZGV2X2Jhc2VfbG9jay1yZW1v
-dmVkLWluLWxpbnV4LTYuOS1yYzEucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
-IDU5ZWY0ZjkzMTMuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9s
-dHRuZy1tb2R1bGVzLzAwMDQtRml4LWRldl9iYXNlX2xvY2stcmVtb3ZlZC1pbi1saW51eC02Ljkt
-cmMxLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNTcgKzAsMCBAQAotRnJvbSAyMTdiYzJlNDY4
-NTA1MGRkZGNlOWJkZDI1NTdiNjRmNmI4YzE2NjIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQot
-RnJvbTogS2llbmFuIFN0ZXdhcnQgPGtzdGV3YXJ0QGVmZmljaW9zLmNvbT4KLURhdGU6IE1vbiwg
-MjUgTWFyIDIwMjQgMTA6NTM6NDYgLTA0MDAKLVN1YmplY3Q6IFtQQVRDSCA0LzRdIEZpeDogZGV2
-X2Jhc2VfbG9jayByZW1vdmVkIGluIGxpbnV4IDYuOS1yYzEKLQotU2VlIHVwc3RyZWFtIGNvbW1p
-dDoKLQotICAgIGNvbW1pdCAxYjNlZjQ2Y2I3ZjI2MThjYzBiNTA3MzkzMjIwYTY5ODEwZjZkYTEy
-Ci0gICAgQXV0aG9yOiBFcmljIER1bWF6ZXQgPGVkdW1hemV0QGdvb2dsZS5jb20+Ci0gICAgRGF0
-ZTogICBUdWUgRmViIDEzIDA2OjMyOjQ1IDIwMjQgKzAwMDAKLQotICAgICAgICBuZXQ6IHJlbW92
-ZSBkZXZfYmFzZV9sb2NrCi0KLSAgICAgICAgZGV2X2Jhc2VfbG9jayBpcyBub3QgbmVlZGVkIGFu
-eW1vcmUsIGFsbCByZW1haW5pbmcgdXNlcnMgYWxzbyBob2xkIFJUTkwuCi0KLVVwc3RyZWFtLVN0
-YXR1czogQmFja3BvcnQgWzUyZWIyZWU5IEZpeDogZGV2X2Jhc2VfbG9jayByZW1vdmVkIGluIGxp
-bnV4IDYuOS1yYzFdCi0KLUNoYW5nZS1JZDogSTZiMDdlNmVlZDA3ZmQzOTgzMDJjYTE0ZDIzMTYy
-ZWQyNGQ3NGRmMTUKLVNpZ25lZC1vZmYtYnk6IEtpZW5hbiBTdGV3YXJ0IDxrc3Rld2FydEBlZmZp
-Y2lvcy5jb20+Ci1TaWduZWQtb2ZmLWJ5OiBNYXRoaWV1IERlc25veWVycyA8bWF0aGlldS5kZXNu
-b3llcnNAZWZmaWNpb3MuY29tPgotLS0tCi0gc3JjL2x0dG5nLXN0YXRlZHVtcC1pbXBsLmMgfCAx
-NSArKysrKysrKysrKysrKysKLSAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKQotCi1J
-bmRleDogbHR0bmctbW9kdWxlcy0yLjEzLjEyL3NyYy9sdHRuZy1zdGF0ZWR1bXAtaW1wbC5jCi09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09Ci0tLS0gbHR0bmctbW9kdWxlcy0yLjEzLjEyLm9yaWcvc3JjL2x0dG5nLXN0YXRl
-ZHVtcC1pbXBsLmMKLSsrKyBsdHRuZy1tb2R1bGVzLTIuMTMuMTIvc3JjL2x0dG5nLXN0YXRlZHVt
-cC1pbXBsLmMKLUBAIC0zOTIsNiArMzkyLDIwIEBAIHZvaWQgbHR0bmdfZW51bWVyYXRlX2Rldmlj
-ZShzdHJ1Y3QgbHR0bmcKLSAJfQotIH0KLSAKLSsjaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09E
-RSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig2LDksMCkpCi0rc3RhdGljCi0raW50IGx0dG5nX2Vu
-dW1lcmF0ZV9uZXR3b3JrX2lwX2ludGVyZmFjZShzdHJ1Y3QgbHR0bmdfa2VybmVsX3Nlc3Npb24g
-KnNlc3Npb24pCi0rewotKwlzdHJ1Y3QgbmV0X2RldmljZSAqZGV2OwotKwotKwlydG5sX2xvY2so
-KTsKLSsJZm9yX2VhY2hfbmV0ZGV2KCZpbml0X25ldCwgZGV2KQotKwkJbHR0bmdfZW51bWVyYXRl
-X2RldmljZShzZXNzaW9uLCBkZXYpOwotKwlydG5sX3VubG9jaygpOwotKwotKwlyZXR1cm4gMDsK
-LSt9Ci0rI2Vsc2UKLSBzdGF0aWMKLSBpbnQgbHR0bmdfZW51bWVyYXRlX25ldHdvcmtfaXBfaW50
-ZXJmYWNlKHN0cnVjdCBsdHRuZ19rZXJuZWxfc2Vzc2lvbiAqc2Vzc2lvbikKLSB7Ci1AQCAtNDA0
-LDYgKzQxOCw3IEBAIGludCBsdHRuZ19lbnVtZXJhdGVfbmV0d29ya19pcF9pbnRlcmZhY2UKLSAK
-LSAJcmV0dXJuIDA7Ci0gfQotKyNlbmRpZiAvKiAoTFRUTkdfTElOVVhfVkVSU0lPTl9DT0RFID49
-IExUVE5HX0tFUk5FTF9WRVJTSU9OKDYsOSwwKSkgKi8KLSAjZWxzZSAvKiBDT05GSUdfSU5FVCAq
-LwotIHN0YXRpYyBpbmxpbmUKLSBpbnQgbHR0bmdfZW51bWVyYXRlX25ldHdvcmtfaXBfaW50ZXJm
-YWNlKHN0cnVjdCBsdHRuZ19rZXJuZWxfc2Vzc2lvbiAqc2Vzc2lvbikKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlc18yLjEzLjEyLmJiIGIvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzXzIuMTMuMTMuYmIKc2ltaWxhcml0eSBp
-bmRleCA3NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1
-bGVzXzIuMTMuMTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmct
-bW9kdWxlc18yLjEzLjEzLmJiCmluZGV4IDk1ZDVlMmQ2MTUuLjBmMDU2MjJiZDQgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlc18yLjEzLjEyLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlc18yLjEzLjEzLmJiCkBA
-IC0xMCwxNiArMTAsMTMgQEAgaW5oZXJpdCBtb2R1bGUKIGluY2x1ZGUgbHR0bmctcGxhdGZvcm1z
-LmluYwogCiBTUkNfVVJJID0gImh0dHBzOi8vbHR0bmcub3JnL2ZpbGVzLyR7QlBOfS8ke0JQTn0t
-JHtQVn0udGFyLmJ6MiBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLUZpeC1BU29DLXNuZF9kb2Nf
-ZGFwbS1vbi1saW51eC02LjktcmMxLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDItRml4
-LUFTb0MtYWRkLWNvbXBvbmVudC10by1zZXRfYmlhc19sZXZlbC1ldmVudHMtaW4tbC5wYXRjaCBc
-Ci0gICAgICAgICAgIGZpbGU6Ly8wMDAzLUZpeC1tbV9jb21wYWN0aW9uX21pZ3JhdGVwYWdlcy1j
-aGFuZ2VkLWluLWxpbnV4LTYuOS0ucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwNC1GaXgt
-ZGV2X2Jhc2VfbG9jay1yZW1vdmVkLWluLWxpbnV4LTYuOS1yYzEucGF0Y2ggXAotICAgICAgICAi
-CisgICAgICAgICAgIGZpbGU6Ly8wMDAxLXNyYy1LYnVpbGQtY2hhbmdlLW1pc3NpbmctQ09ORklH
-X1RSQUNFUE9JTlRTLXRvLXdhcm4ucGF0Y2ggXAorICAgICAgICAgICAiCiAKICMgVXNlIDphcHBl
-bmQgaGVyZSBzbyB0aGF0IHRoZSBwYXRjaCBpcyBhcHBsaWVkIGFsc28gd2hlbiB1c2luZyBkZXZ1
-cHN0cmVhbQogU1JDX1VSSTphcHBlbmQgPSAiIGZpbGU6Ly8wMDAxLXNyYy1LYnVpbGQtY2hhbmdl
-LW1pc3NpbmctQ09ORklHX1RSQUNFUE9JTlRTLXRvLXdhcm4ucGF0Y2giCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICJkODVmY2I2NmM3YmQzMTAwM2FiODczNWU4Yzc3NzAwZTVlNGY0MTdiNGMyMmZl
-MWYyMDExMmNmNDM1YWJhZDc5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdkMjZjMDdhNWU4MGI2
-NmFhN2JkY2ZkYWFmNDg1N2YwMGZjOWE1Y2RkZTc5MjI2YjI1Mjg2NzY3MDBkNTAyMjgiCiAKIGV4
-cG9ydCBJTlNUQUxMX01PRF9ESVI9Imtlcm5lbC9sdHRuZy1tb2R1bGVzIgogCi0tIAoyLjQ0LjAK
-Cg==
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxMjowNTowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
+OiB1cGdyYWRlIDUuNC42IC0+IDUuNi4yCgotLS0KIC4uLi94ei97eHpfNS40LjYuYmIgPT4geHpf
+NS42LjIuYmJ9ICAgICAgICAgICB8IDE5MiArKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFu
+Z2VkLCAxODkgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQveHove3h6XzUuNC42LmJiID0+IHh6XzUuNi4yLmJifSAoMjElKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjQuNi5iYiBiL21ldGEvcmVjaXBl
+cy1leHRlbmRlZC94ei94el81LjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDIxJQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC94ei94el81LjYuMi5iYgppbmRleCBkYTNiNzVhMTBiLi40YzExZWIyYmJl
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjYuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNi4yLmJiCkBAIC0xLDMgKzEsMTg5IEBACisj
+IEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkg
+J2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0
+d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0
+aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4K
+KyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFt
+cGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRo
+ZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORworIyArKysgQ09QWUlORworIyBAQCAtMyw3NSAr
+Myw4MSBAQAorIyAgPT09PT09PT09PT09PT09PT09CisjICAKKyMgICAgICBEaWZmZXJlbnQgbGlj
+ZW5zZXMgYXBwbHkgdG8gZGlmZmVyZW50IGZpbGVzIGluIHRoaXMgcGFja2FnZS4gSGVyZQorIyAt
+ICAgIGlzIGEgcm91Z2ggc3VtbWFyeSBvZiB3aGljaCBsaWNlbnNlcyBhcHBseSB0byB3aGljaCBw
+YXJ0cyBvZiB0aGlzCisjIC0gICAgcGFja2FnZSAoYnV0IGNoZWNrIHRoZSBpbmRpdmlkdWFsIGZp
+bGVzIHRvIGJlIHN1cmUhKToKKyMgKyAgICBpcyBhIHN1bW1hcnkgb2Ygd2hpY2ggbGljZW5zZXMg
+YXBwbHkgdG8gd2hpY2ggcGFydHMgb2YgdGhpcyBwYWNrYWdlOgorIyAgCisjIC0gICAgICAtIGxp
+Ymx6bWEgaXMgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIGxpYmx6bWEgaXMgdW5k
+ZXIgdGhlIEJTRCBaZXJvIENsYXVzZSBMaWNlbnNlICgwQlNEKS4KKyMgIAorIyAtICAgICAgLSB4
+eiwgeHpkZWMsIGFuZCBsem1hZGVjIGNvbW1hbmQgbGluZSB0b29scyBhcmUgaW4gdGhlIHB1Ymxp
+YworIyAtICAgICAgICBkb21haW4gdW5sZXNzIEdOVSBnZXRvcHRfbG9uZyBoYWQgdG8gYmUgY29t
+cGlsZWQgYW5kIGxpbmtlZAorIyAtICAgICAgICBpbiBmcm9tIHRoZSBsaWIgZGlyZWN0b3J5LiBU
+aGUgZ2V0b3B0X2xvbmcgY29kZSBpcyB1bmRlcgorIyAtICAgICAgICBHTlUgTEdQTHYyLjErLgor
+IyArICAgICAgLSBUaGUgY29tbWFuZCBsaW5lIHRvb2xzIHh6LCB4emRlYywgbHptYWRlYywgYW5k
+IGx6bWFpbmZvIGFyZQorIyArICAgICAgICB1bmRlciAwQlNEIGV4Y2VwdCB0aGF0LCBvbiBzeXN0
+ZW1zIHRoYXQgZG9uJ3QgaGF2ZSBhIHVzYWJsZQorIyArICAgICAgICBnZXRvcHRfbG9uZywgR05V
+IGdldG9wdF9sb25nIGlzIGNvbXBpbGVkIGFuZCBsaW5rZWQgaW4gZnJvbSB0aGUKKyMgKyAgICAg
+ICAgJ2xpYicgZGlyZWN0b3J5LiBUaGUgZ2V0b3B0X2xvbmcgY29kZSBpcyB1bmRlciBHTlUgTEdQ
+THYyLjErLgorIyAgCisjICAgICAgICAtIFRoZSBzY3JpcHRzIHRvIGdyZXAsIGRpZmYsIGFuZCB2
+aWV3IGNvbXByZXNzZWQgZmlsZXMgaGF2ZSBiZWVuCisjIC0gICAgICAgIGFkYXB0ZWQgZnJvbSBn
+emlwLiBUaGVzZSBzY3JpcHRzIGFuZCB0aGVpciBkb2N1bWVudGF0aW9uIGFyZQorIyAtICAgICAg
+ICB1bmRlciBHTlUgR1BMdjIrLgorIyArICAgICAgICBhZGFwdGVkIGZyb20gR05VIGd6aXAuIFRo
+ZXNlIHNjcmlwdHMgKHh6Z3JlcCwgeHpkaWZmLCB4emxlc3MsCisjICsgICAgICAgIGFuZCB4em1v
+cmUpIGFyZSB1bmRlciBHTlUgR1BMdjIrLiBUaGUgbWFuIHBhZ2VzIG9mIHRoZSBzY3JpcHRzCisj
+ICsgICAgICAgIGFyZSB1bmRlciAwQlNEOyB0aGV5IGFyZW4ndCBiYXNlZCBvbiB0aGUgbWFuIHBh
+Z2VzIG9mIEdOVSBnemlwLgorIyAgCisjIC0gICAgICAtIEFsbCB0aGUgZG9jdW1lbnRhdGlvbiBp
+biB0aGUgZG9jIGRpcmVjdG9yeSBhbmQgbW9zdCBvZiB0aGUKKyMgLSAgICAgICAgWFogVXRpbHMg
+c3BlY2lmaWMgZG9jdW1lbnRhdGlvbiBmaWxlcyBpbiBvdGhlciBkaXJlY3RvcmllcworIyAtICAg
+ICAgICBhcmUgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIE1vc3Qgb2YgdGhlIFha
+IFV0aWxzIHNwZWNpZmljIGRvY3VtZW50YXRpb24gdGhhdCBpcyBpbgorIyArICAgICAgICBwbGFp
+biB0ZXh0IGZpbGVzIChsaWtlIFJFQURNRSwgSU5TVEFMTCwgUEFDS0FHRVJTLCBORVdTLAorIyAr
+ICAgICAgICBhbmQgQ2hhbmdlTG9nKSBhcmUgdW5kZXIgMEJTRCB1bmxlc3Mgc3RhdGVkIG90aGVy
+d2lzZSBpbgorIyArICAgICAgICB0aGUgZmlsZSBpdHNlbGYuIFRoZSBmaWxlcyB4ei1maWxlLWZv
+cm1hdC50eHQgYW5kCisjICsgICAgICAgIGx6bWEtZmlsZS1mb3JtYXQueHQgYXJlIGluIHRoZSBw
+dWJsaWMgZG9tYWluIGJ1dCBtYXkKKyMgKyAgICAgICAgYmUgZGlzdHJpYnV0ZWQgdW5kZXIgdGhl
+IHRlcm1zIG9mIDBCU0QgdG9vLgorIyAgCisjIC0gICAgICAgIE5vdGU6IFRoZSBKYXZhU2NyaXB0
+IGZpbGVzICh1bmRlciB0aGUgTUlUIGxpY2Vuc2UpIGhhdmUKKyMgLSAgICAgICAgYmVlbiByZW1v
+dmVkIGZyb20gdGhlIERveHlnZW4tZ2VuZXJhdGVkIEhUTUwgdmVyc2lvbiBvZiB0aGUKKyMgLSAg
+ICAgICAgbGlibHptYSBBUEkgZG9jdW1lbnRhdGlvbi4gRG94eWdlbiBpdHNlbGYgaXMgdW5kZXIg
+dGhlIEdOVSBHUEwKKyMgLSAgICAgICAgYnV0IHRoZSByZW1haW5pbmcgZmlsZXMgZ2VuZXJhdGVk
+IGJ5IERveHlnZW4gYXJlIG5vdCBhZmZlY3RlZAorIyAtICAgICAgICBieSB0aGUgbGljZW5zZXMg
+dXNlZCBpbiBEb3h5Z2VuIGJlY2F1c2UgRG94eWdlbiBsaWNlbnNpbmcgaGFzCisjIC0gICAgICAg
+IHRoZSBmb2xsb3dpbmcgZXhjZXB0aW9uOgorIyArICAgICAgLSBUcmFuc2xhdGVkIG1lc3NhZ2Vz
+IGFuZCBtYW4gcGFnZXMgYXJlIHVuZGVyIDBCU0QgZXhjZXB0IHRoYXQKKyMgKyAgICAgICAgc29t
+ZSBvbGQgdHJhbnNsYXRpb25zIGFyZSBpbiB0aGUgcHVibGljIGRvbWFpbi4KKyMgIAorIyAtICAg
+ICAgICAgICAgIkRvY3VtZW50cyBwcm9kdWNlZCBieSBkb3h5Z2VuIGFyZSBkZXJpdmF0aXZlIHdv
+cmtzCisjIC0gICAgICAgICAgICBkZXJpdmVkIGZyb20gdGhlIGlucHV0IHVzZWQgaW4gdGhlaXIg
+cHJvZHVjdGlvbjsKKyMgLSAgICAgICAgICAgIHRoZXkgYXJlIG5vdCBhZmZlY3RlZCBieSB0aGlz
+IGxpY2Vuc2UuIgorIyArICAgICAgLSBUZXN0IGZpbGVzIGFuZCB0ZXN0IGNvZGUgaW4gdGhlICd0
+ZXN0cycgZGlyZWN0b3J5LCBhbmQKKyMgKyAgICAgICAgZGVidWdnaW5nIHV0aWxpdGllcyBpbiB0
+aGUgJ2RlYnVnJyBkaXJlY3RvcnkgYXJlIHVuZGVyCisjICsgICAgICAgIHRoZSBCU0QgWmVybyBD
+bGF1c2UgTGljZW5zZSAoMEJTRCkuCisjICAKKyMgLSAgICAgIC0gVHJhbnNsYXRlZCBtZXNzYWdl
+cyBhcmUgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICsgICAgICAtIFRoZSBHTlUgQXV0b3Rvb2xz
+IGJhc2VkIGJ1aWxkIHN5c3RlbSBjb250YWlucyBmaWxlcyB0aGF0IGFyZQorIyArICAgICAgICB1
+bmRlciBHTlUgR1BMdjIrLCBHTlUgR1BMdjMrLCBhbmQgYSBmZXcgcGVybWlzc2l2ZSBsaWNlbnNl
+cy4KKyMgKyAgICAgICAgVGhlc2UgZmlsZXMgZG9uJ3QgYWZmZWN0IHRoZSBsaWNlbnNpbmcgb2Yg
+dGhlIGJpbmFyaWVzIGJlaW5nCisjICsgICAgICAgIGJ1aWx0LgorIyAgCisjIC0gICAgICAtIFRo
+ZSBidWlsZCBzeXN0ZW0gY29udGFpbnMgcHVibGljIGRvbWFpbiBmaWxlcywgYW5kIGZpbGVzIHRo
+YXQKKyMgLSAgICAgICAgYXJlIHVuZGVyIEdOVSBHUEx2Misgb3IgR05VIEdQTHYzKy4gTm9uZSBv
+ZiB0aGVzZSBmaWxlcyBlbmQgdXAKKyMgLSAgICAgICAgaW4gdGhlIGJpbmFyaWVzIGJlaW5nIGJ1
+aWx0LgorIyArICAgICAgLSBUaGUgJ2V4dHJhJyBkaXJlY3RvcnkgY29udGFpbnMgZmlsZXMgdGhh
+dCBhcmUgdW5kZXIgdmFyaW91cworIyArICAgICAgICBmcmVlIHNvZnR3YXJlIGxpY2Vuc2VzLiBU
+aGVzZSBhcmVuJ3QgYnVpbHQgb3IgaW5zdGFsbGVkIGFzCisjICsgICAgICAgIHBhcnQgb2YgWFog
+VXRpbHMuCisjICAKKyMgLSAgICAgIC0gVGVzdCBmaWxlcyBhbmQgdGVzdCBjb2RlIGluIHRoZSB0
+ZXN0cyBkaXJlY3RvcnksIGFuZCBkZWJ1Z2dpbmcKKyMgLSAgICAgICAgdXRpbGl0aWVzIGluIHRo
+ZSBkZWJ1ZyBkaXJlY3RvcnkgYXJlIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyArICAgIEZvciB0
+aGUgZmlsZXMgdW5kZXIgdGhlIEJTRCBaZXJvIENsYXVzZSBMaWNlbnNlICgwQlNEKSwgaWYKKyMg
+KyAgICBhIGNvcHlyaWdodCBub3RpY2UgaXMgbmVlZGVkLCB0aGUgZm9sbG93aW5nIGlzIHN1ZmZp
+Y2llbnQ6CisjICAKKyMgLSAgICAgIC0gVGhlIGV4dHJhIGRpcmVjdG9yeSBtYXkgY29udGFpbiBw
+dWJsaWMgZG9tYWluIGZpbGVzLCBhbmQgZmlsZXMKKyMgLSAgICAgICAgdGhhdCBhcmUgdW5kZXIg
+dmFyaW91cyBmcmVlIHNvZnR3YXJlIGxpY2Vuc2VzLgorIyArICAgICAgICBDb3B5cmlnaHQgKEMp
+IFRoZSBYWiBVdGlscyBhdXRob3JzIGFuZCBjb250cmlidXRvcnMKKyMgIAorIyAtICAgIFlvdSBj
+YW4gZG8gd2hhdGV2ZXIgeW91IHdhbnQgd2l0aCB0aGUgZmlsZXMgdGhhdCBoYXZlIGJlZW4gcHV0
+IGludG8KKyMgLSAgICB0aGUgcHVibGljIGRvbWFpbi4gSWYgeW91IGZpbmQgcHVibGljIGRvbWFp
+biBsZWdhbGx5IHByb2JsZW1hdGljLAorIyAtICAgIHRha2UgdGhlIHByZXZpb3VzIHNlbnRlbmNl
+IGFzIGEgbGljZW5zZSBncmFudC4gSWYgeW91IHN0aWxsIGZpbmQKKyMgLSAgICB0aGUgbGFjayBv
+ZiBjb3B5cmlnaHQgbGVnYWxseSBwcm9ibGVtYXRpYywgeW91IGhhdmUgdG9vIG1hbnkKKyMgLSAg
+ICBsYXd5ZXJzLgorIyAtCisjIC0gICAgQXMgdXN1YWwsIHRoaXMgc29mdHdhcmUgaXMgcHJvdmlk
+ZWQgImFzIGlzIiwgd2l0aG91dCBhbnkgd2FycmFudHkuCisjIC0KKyMgLSAgICBJZiB5b3UgY29w
+eSBzaWduaWZpY2FudCBhbW91bnRzIG9mIHB1YmxpYyBkb21haW4gY29kZSBmcm9tIFhaIFV0aWxz
+CisjICsgICAgSWYgeW91IGNvcHkgc2lnbmlmaWNhbnQgYW1vdW50cyBvZiAwQlNELWxpY2Vuc2Vk
+IGNvZGUgZnJvbSBYWiBVdGlscworIyAgICAgIGludG8geW91ciBwcm9qZWN0LCBhY2tub3dsZWRn
+aW5nIHRoaXMgc29tZXdoZXJlIGluIHlvdXIgc29mdHdhcmUgaXMKKyMgICAgICBwb2xpdGUgKGVz
+cGVjaWFsbHkgaWYgaXQgaXMgcHJvcHJpZXRhcnksIG5vbi1mcmVlIHNvZnR3YXJlKSwgYnV0Cisj
+IC0gICAgbmF0dXJhbGx5IGl0IGlzIG5vdCBsZWdhbGx5IHJlcXVpcmVkLiBIZXJlIGlzIGFuIGV4
+YW1wbGUgb2YgYSBnb29kCisjIC0gICAgbm90aWNlIHRvIHB1dCBpbnRvICJhYm91dCBib3giIG9y
+IGludG8gZG9jdW1lbnRhdGlvbjoKKyMgKyAgICBpdCBpcyBub3QgbGVnYWxseSByZXF1aXJlZCBi
+eSB0aGUgbGljZW5zZSB0ZXJtcy4gSGVyZSBpcyBhbiBleGFtcGxlCisjICsgICAgb2YgYSBnb29k
+IG5vdGljZSB0byBwdXQgaW50byAiYWJvdXQgYm94IiBvciBpbnRvIGRvY3VtZW50YXRpb246Cisj
+ICAKKyMgLSAgICAgICAgVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyBjb2RlIGZyb20gWFogVXRpbHMK
+KyMgLSAgICAgICAgPGh0dHBzOi8veHoudHVrYWFuaS5vcmcveHotdXRpbHMvPi4KKyMgKyAgICAg
+ICAgVGhpcyBzb2Z0d2FyZSBpbmNsdWRlcyBjb2RlIGZyb20gWFogVXRpbHMgPGh0dHBzOi8vdHVr
+YWFuaS5vcmcveHovPi4KKyMgIAorIyAgICAgIFRoZSBmb2xsb3dpbmcgbGljZW5zZSB0ZXh0cyBh
+cmUgaW5jbHVkZWQgaW4gdGhlIGZvbGxvd2luZyBmaWxlczoKKyMgKyAgICAgIC0gQ09QWUlORy4w
+QlNEOiBCU0QgWmVybyBDbGF1c2UgTGljZW5zZQorIyAgICAgICAgLSBDT1BZSU5HLkxHUEx2Mi4x
+OiBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyLjEKKyMgICAgICAg
+IC0gQ09QWUlORy5HUEx2MjogR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyCisj
+ICAgICAgICAtIENPUFlJTkcuR1BMdjM6IEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNp
+b24gMworIyAgCisjIC0gICAgTm90ZSB0aGF0IHRoZSB0b29sY2hhaW4gKGNvbXBpbGVyLCBsaW5r
+ZXIgZXRjLikgbWF5IGFkZCBzb21lIGNvZGUKKyMgLSAgICBwaWVjZXMgdGhhdCBhcmUgY29weXJp
+Z2h0ZWQuIFRodXMsIGl0IGlzIHBvc3NpYmxlIHRoYXQgZS5nLiBsaWJsem1hCisjIC0gICAgYmlu
+YXJ5IHdvdWxkbid0IGFjdHVhbGx5IGJlIGluIHRoZSBwdWJsaWMgZG9tYWluIGluIGl0cyBlbnRp
+cmV0eQorIyAtICAgIGV2ZW4gdGhvdWdoIGl0IGNvbnRhaW5zIG5vIGNvcHlyaWdodGVkIGNvZGUg
+ZnJvbSB0aGUgWFogVXRpbHMgc291cmNlCisjIC0gICAgcGFja2FnZS4KKyMgKyAgICBBIG5vdGUg
+YWJvdXQgb2xkIFhaIFV0aWxzIHJlbGVhc2VzOgorIyAgCisjIC0gICAgSWYgeW91IGhhdmUgcXVl
+c3Rpb25zLCBkb24ndCBoZXNpdGF0ZSB0byBhc2sgdGhlIGF1dGhvcihzKSBmb3IgbW9yZQorIyAt
+ICAgIGluZm9ybWF0aW9uLgorIyArICAgICAgICBYWiBVdGlscyByZWxlYXNlcyA1LjQuNiBhbmQg
+b2xkZXIgYW5kIDUuNS4xYWxwaGEgaGF2ZSBhCisjICsgICAgICAgIHNpZ25pZmljYW50IGFtb3Vu
+dCBvZiBjb2RlIHB1dCBpbnRvIHRoZSBwdWJsaWMgZG9tYWluIGFuZAorIyArICAgICAgICB0aGF0
+IG9idmlvdXNseSByZW1haW5zIHNvLiBUaGUgc3dpdGNoIGZyb20gcHVibGljIGRvbWFpbiB0bwor
+IyArICAgICAgICAwQlNEIGZvciBuZXdlciByZWxlYXNlcyB3YXMgbWFkZSBpbiBGZWJyYXJ5IDIw
+MjQgYmVjYXVzZQorIyArICAgICAgICBwdWJsaWMgZG9tYWluIGhhcyAocmVhbCBvciBwZXJjZWl2
+ZWQpIGxlZ2FsIGFtYmlndWl0aWVzIGluCisjICsgICAgICAgIHNvbWUganVyaXNkaWN0aW9ucy4K
+KyMgIAorIyArICAgICAgICBUaGVyZSBpcyB2ZXJ5IGxpdHRsZSAqcHJhY3RpY2FsKiBkaWZmZXJl
+bmNlIGJldHdlZW4gcHVibGljCisjICsgICAgICAgIGRvbWFpbiBhbmQgMEJTRC4gVGhlIG1haW4g
+ZGlmZmVyZW5jZSBsaWtlbHkgaXMgdGhhdCBvbmUKKyMgKyAgICAgICAgc2hvdWxkbid0IGNsYWlt
+IHRoYXQgMEJTRC1saWNlbnNlZCBjb2RlIGlzIGluIHRoZSBwdWJsaWMKKyMgKyAgICAgICAgZG9t
+YWluOyAwQlNELWxpY2Vuc2VkIGNvZGUgaXMgY29weXJpZ2h0ZWQgYnV0IGF2YWlsYWJsZSB1bmRl
+cgorIyArICAgICAgICBhbiBleHRyZW1lbHkgcGVybWlzc2l2ZSBsaWNlbnNlLiBOZWl0aGVyIDBC
+U0Qgbm9yIHB1YmxpYyBkb21haW4KKyMgKyAgICAgICAgcmVxdWlyZSByZXRhaW5pbmcgb3IgcmVw
+cm9kdWNpbmcgYXV0aG9yLCBjb3B5cmlnaHQgaG9sZGVyLCBvcgorIyArICAgICAgICBsaWNlbnNl
+IG5vdGljZXMgd2hlbiBkaXN0cmlidXRpbmcgdGhlIHNvZnR3YXJlLiAoQ29tcGFyZSB0bywKKyMg
+KyAgICAgICAgZm9yIGV4YW1wbGUsIEJTRCAyLUNsYXVzZSAiU2ltcGxpZmllZCIgTGljZW5zZSB3
+aGljaCBkb2VzIGhhdmUKKyMgKyAgICAgICAgc3VjaCByZXF1aXJlbWVudHMuKQorIyArCisjICsg
+ICAgSWYgeW91IGhhdmUgcXVlc3Rpb25zLCBkb24ndCBoZXNpdGF0ZSB0byBhc2sgZm9yIG1vcmUg
+aW5mb3JtYXRpb24uCisjICsgICAgVGhlIGNvbnRhY3QgaW5mb3JtYXRpb24gaXMgaW4gdGhlIFJF
+QURNRSBmaWxlLgorIyArCisjIC0tLSBsaWIvZ2V0b3B0LmMKKyMgKysrIGxpYi9nZXRvcHQuYwor
+IyBAQCAtMSwyMyArMSwyMyBAQAorIyArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IExHUEwt
+Mi4xLW9yLWxhdGVyICovCisjICsKKyMgIC8qIEdldG9wdCBmb3IgR05VLgorIyAtICAgTk9URTog
+Z2V0b3B0IGlzIG5vdyBwYXJ0IG9mIHRoZSBDIGxpYnJhcnksIHNvIGlmIHlvdSBkb24ndCBrbm93
+IHdoYXQKKyMgLSAgICJLZWVwIHRoaXMgZmlsZSBuYW1lLXNwYWNlIGNsZWFuIiBtZWFucywgdGFs
+ayB0byBkcmVwcGVyQGdudS5vcmcKKyMgLSAgIGJlZm9yZSBjaGFuZ2luZyBpdCEKKyMgLSAgIENv
+cHlyaWdodCAoQykgMTk4Nyw4OCw4OSw5MCw5MSw5Miw5Myw5NCw5NSw5Niw5OCw5OSwyMDAwLDIw
+MDEsMjAwMiwyMDAzLDIwMDQsMjAwNgorIyAtCUZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwgSW5j
+LgorIyAtICAgVGhpcyBmaWxlIGlzIHBhcnQgb2YgdGhlIEdOVSBDIExpYnJhcnkuCisjICsgICBD
+b3B5cmlnaHQgKEMpIDE5ODctMjAyMyBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4KKyMg
+KyAgIFRoaXMgZmlsZSBpcyBwYXJ0IG9mIHRoZSBHTlUgQyBMaWJyYXJ5IGFuZCBpcyBhbHNvIHBh
+cnQgb2YgZ251bGliLgorIyArICAgUGF0Y2hlcyB0byB0aGlzIGZpbGUgc2hvdWxkIGJlIHN1Ym1p
+dHRlZCB0byBib3RoIHByb2plY3RzLgorIyAgCisjIC0gICBUaGlzIHByb2dyYW0gaXMgZnJlZSBz
+b2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeQorIyAtICAgaXQg
+dW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2Ug
+YXMgcHVibGlzaGVkIGJ5CisjIC0gICB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRo
+ZXIgdmVyc2lvbiAyLjEsIG9yIChhdCB5b3VyIG9wdGlvbikKKyMgLSAgIGFueSBsYXRlciB2ZXJz
+aW9uLgorIyArICAgVGhlIEdOVSBDIExpYnJhcnkgaXMgZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiBy
+ZWRpc3RyaWJ1dGUgaXQgYW5kL29yCisjICsgICBtb2RpZnkgaXQgdW5kZXIgdGhlIHRlcm1zIG9m
+IHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljCisjICsgICBMaWNlbnNlIGFzIHB1Ymxpc2hl
+ZCBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXIKKyMgKyAgIHZlcnNpb24g
+Mi4xIG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24pIGFueSBsYXRlciB2ZXJzaW9u
+LgorIyAgCisjIC0gICBUaGlzIHByb2dyYW0gaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhh
+dCBpdCB3aWxsIGJlIHVzZWZ1bCwKKyMgKyAgIFRoZSBHTlUgQyBMaWJyYXJ5IGlzIGRpc3RyaWJ1
+dGVkIGluIHRoZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2VmdWwsCisjICAgICBidXQgV0lUSE9V
+VCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZgorIyAt
+ICAgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiAg
+U2VlIHRoZQorIyAtICAgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3Jl
+IGRldGFpbHMuCisjICsgICBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNV
+TEFSIFBVUlBPU0UuICBTZWUgdGhlIEdOVQorIyArICAgTGVzc2VyIEdlbmVyYWwgUHVibGljIExp
+Y2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgIAorIyAtICAgWW91IHNob3VsZCBoYXZlIHJlY2Vp
+dmVkIGEgY29weSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFsb25n
+CisjIC0gICB3aXRoIHRoaXMgcHJvZ3JhbTsgaWYgbm90LCB3cml0ZSB0byB0aGUgRnJlZSBTb2Z0
+d2FyZSBGb3VuZGF0aW9uLAorIyAtICAgSW5jLiwgNTEgRnJhbmtsaW4gU3RyZWV0LCBGaWZ0aCBG
+bG9vciwgQm9zdG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuICAqLworIyArICAgWW91IHNob3VsZCBo
+YXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYworIyAr
+ICAgTGljZW5zZSBhbG9uZyB3aXRoIHRoZSBHTlUgQyBMaWJyYXJ5OyBpZiBub3QsIHNlZQorIyAr
+ICAgPGh0dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4gICovCisjICAMCisjICAjaWZuZGVm
+IF9MSUJDCisjICsjIGlmZGVmIEhBVkVfQ09ORklHX0gKKyMgCisjCisKIFNVTU1BUlkgPSAiVXRp
+bGl0aWVzIGZvciBtYW5hZ2luZyBMWk1BIGNvbXByZXNzZWQgZmlsZXMiCiBIT01FUEFHRSA9ICJo
+dHRwczovL3R1a2Fhbmkub3JnL3h6LyIKIERFU0NSSVBUSU9OID0gIlhaIFV0aWxzIGlzIGZyZWUg
+Z2VuZXJhbC1wdXJwb3NlIGRhdGEgY29tcHJlc3Npb24gc29mdHdhcmUgd2l0aCBhIGhpZ2ggY29t
+cHJlc3Npb24gcmF0aW8uIFhaIFV0aWxzIHdlcmUgd3JpdHRlbiBmb3IgUE9TSVgtbGlrZSBzeXN0
+ZW1zLCBidXQgYWxzbyB3b3JrIG9uIHNvbWUgbm90LXNvLVBPU0lYIHN5c3RlbXMuIFhaIFV0aWxz
+IGFyZSB0aGUgc3VjY2Vzc29yIHRvIExaTUEgVXRpbHMuIgpAQCAtMTcsMTcgKzIwMywxNyBAQCBM
+SUNFTlNFOiR7UE59LWRiZyA9ICJHUEwtMi4wLW9yLWxhdGVyIgogTElDRU5TRToke1BOfS1sb2Nh
+bGUgPSAiR1BMLTIuMC1vci1sYXRlciIKIExJQ0VOU0U6bGlibHptYSA9ICJQRCIKIAotTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZDQzNzhlYTlkNWQxZmM5YWIwYWUxMGQ3
+OTQ4ODI3ZDkgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YzAyZGU3
+MTJiMDI4YTVjYzdlMjI0NzJlOGYyYjNkYjEgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+Q09QWUlORy5HUEx2MjttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMgXAogICAg
+ICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5HUEx2MzttZDU9MWViYmQzZTM0MjM3YWYy
+NmRhNWRjMDhhNGU0NDA0NjQgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5M
+R1BMdjIuMTttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAotICAgICAgICAg
+ICAgICAgICAgICBmaWxlOi8vbGliL2dldG9wdC5jO2VuZGxpbmU9MjM7bWQ1PTIwNjliMGVlNzEw
+NTcyYzAzYmIzMTE0ZTQ1MzJjZDg0IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL2xpYi9n
+ZXRvcHQuYztlbmRsaW5lPTIzO21kNT0zZjMzZTIwNzI4N2JmNzI4MzRmM2FlOGMyNDdkZmI2YSBc
+CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20v
+dHVrYWFuaS1wcm9qZWN0L3h6L3JlbGVhc2VzL2Rvd25sb2FkL3Yke1BWfS94ei0ke1BWfS50YXIu
+Z3ogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAiCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiYWViYTNlMDNiZjgxNDBkZGVkZjYyYTBhMzY3MTU4MzQwNTIwZjZiMzg0
+Zjc1Y2E2MDQ1Y2NjNmMwZDQzZmQ1YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4YmZkMjBjMGUx
+ZDg2ZjA0MDJmMjQ5N2NmYTcxYzZhYjYyZDRjZDM1ZmQ3MDQyNzZlMzE0MGJmYjcxNDE0NTE5Igog
+VVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFnL3YoP1A8cHZlcj5cZCsoXC5cZCsp
+KykiCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3R1a2FhbmktcHJv
+amVjdC94ei9yZWxlYXNlcy8iCiAKLS0gCjIuNDQuMAoK
 
---===============0990314246777744037==--
+--===============8938287522386508943==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.6", added "/usr/lib/liblzma.so.5.6.2"
+Changes to packages/core2-64-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
+packages/core2-64-poky-linux/xz/xz-doc: PKGSIZE changed from 1793515 to 993542 (-45%)
+packages/core2-64-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/lzma12_8h.html /usr/share/doc/xz/api/bcj_8h.html /usr/share/doc/xz/api/tab_bd.png /usr/share/man/fr/man1/xzdiff.1 /usr/share/man/fr/man1/lzdiff.1 /usr/share/doc/xz/api/globals_eval.html /usr/share/doc/xz/api/index_8h.html /usr/share/doc/xz/api/version_8h.html /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/nav_fd.png /usr/share/doc/xz/api/base_8h.html /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/nav_f.png /usr/share/doc/xz/api/structlzma__block.html /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/vli_8h.html /usr/share/man/pt_BR/man1/lzcmp.1 /usr/share/man/pt_BR/man1/xzcmp.1 /usr/share/doc/xz/api/container_8h.html /usr/share/doc/xz/api/index.html /usr/share/doc/xz/api/globals_type.html /usr/share/doc/xz/api/stream__flags_8h.html /usr/share/doc/xz/api/globals_defs.html /usr/share/doc/xz/api/structlzma__stream__flags.html /usr/share/doc/xz/api/nav_g.png /usr/share/doc/xz/api
+ /globals.html /usr/share/doc/xz/api/splitbard.png /usr/share/doc/xz/api/structlzma__filter.html /usr/share/doc/xz/api/structlzma__stream.html /usr/share/doc/xz/api/functions_vars.html /usr/share/doc/xz/api/filter_8h.html /usr/share/doc/xz/api/annotated.html /usr/share/doc/xz/api/functions.html /usr/share/doc/xz/api/structlzma__index__iter.html /usr/share/doc/xz/api/structlzma__mt.html /usr/share/doc/xz/api/structlzma__allocator.html /usr/share/doc/xz/api/block_8h.html /usr/share/doc/xz/api/folderopend.svg /usr/share/doc/xz/api/tabs.css /usr/share/man/fr/man1/lzmore.1 /usr/share/man/fr/man1/xzmore.1 /usr/share/doc/xz/api/tab_hd.png /usr/share/doc/xz/api/tab_a.png /usr/share/doc/xz/api/globals_enum.html /usr/share/doc/xz/api/classes.html /usr/share/doc/xz/api/nav_hd.png /usr/share/doc/xz/api/sync_on.png /usr/share/doc/xz/examples_old/xz_pipe_comp.c /usr/share/doc/xz/api/sync_off.png /usr/share/doc/xz/api/tab_ad.png /usr/share/doc/xz/api/tab_h.png /usr/share/doc/xz/api/structlzma__opti
+ ons__bcj.html /usr/share/doc/xz/api/index__hash_8h.html /usr/share/man/fr/man1/lzcmp.1 /usr/share/man/fr/man1/xzcmp.1 /usr/share/doc/xz/api/folderclosedd.svg /usr/share/doc/xz/api/closed.png /usr/share/man/pt_BR/man1/lzegrep.1 /usr/share/man/pt_BR/man1/lzfgrep.1 /usr/share/man/pt_BR/man1/xzegrep.1 /usr/share/man/pt_BR/man1/xzfgrep.1 /usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/bc_s.png /usr/share/doc/xz/api/check_8h.html /usr/share/doc/xz/api/tab_b.png /usr/share/doc/xz/api/tab_sd.png /usr/share/doc/xz/api/dir_b17a1d403082bd69a703ed987cf158fb.html /usr/share/doc/xz/api/nav_h.png /usr/share/doc/xz/api/hardware_8h.html /usr/share/man/pt_BR/man1/xzmore.1 /usr/share/man/pt_BR/man1/lzdiff.1 /usr/share/man/pt_BR/man1/lzgrep.1 /usr/share/man/pt_BR/man1/lzmore.1 /usr/share/man/pt_BR/man1/xzdiff.1 /usr/share/man/pt_BR/man1/xzgrep.1 /usr/share/doc/xz/api/lzma_8h.html /usr/share/doc/xz/api/globals_func.html /usr/share/doc/xz/TODO /usr/share/doc/xz/api/structlzma__options__lzma.html /usr
+ /share/doc/xz/api/doxygen.svg /usr/share/doc/xz/api/tab_s.png /usr/share/doc/xz/api/doxygen.css /usr/share/doc/xz/api/structlzma__options__delta.html /usr/share/doc/xz/api/delta_8h.html /usr/share/doc/xz/api/files.html /usr/share/doc/xz/examples_old/xz_pipe_decomp.c /usr/share/doc/xz/api/splitbar.png /usr/share/doc/xz/api/open.png /usr/share/doc/xz/api/bc_sd.png", added "/usr/share/doc/xz/COPYING.0BSD /usr/share/man/uk/man1/lzmainfo.1 /usr/share/man/pt_BR/man1/lzmainfo.1 /usr/share/man/de/man1/lzmainfo.1 /usr/share/doc/xz/examples/11_file_info.c /usr/share/man/ko/man1/lzmainfo.1 /usr/share/man/fr/man1/lzmainfo.1 /usr/share/man/ro/man1/lzmainfo.1"
+packages/core2-64-poky-linux/xz/xz-locale-ca: PKGSIZE changed from 26876 to 22289 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-cs: PKGSIZE changed from 17576 to 15436 (-12%)
+packages/core2-64-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28599 to 32560 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26139 to 29979 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-es: PKGSIZE changed from 27192 to 31175 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-fi: PKGSIZE changed from 25923 to 21441 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-fr: PKGSIZE changed from 22313 to 19342 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26682 to 30343 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-hu: PKGSIZE changed from 27374 to 31658 (+16%)
+packages/core2-64-poky-linux/xz/xz-locale-it: PKGSIZE changed from 22043 to 19130 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27394 to 31480 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26643 to 30611 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 26890 to 22302 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 21887 to 18992 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28538 to 32640 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-sr: PKGSIZE changed from 27551 to 23849 (-13%)
+packages/core2-64-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26576 to 30379 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-tr: PKGSIZE changed from 26545 to 22029 (-17%)
+packages/core2-64-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35322 to 40332 (+14%)
+packages/core2-64-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 28619 to 32859 (+15%)
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25247 to 22476 (-11%)
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 24823 to 20613 (-17%)
+packages/core2-64-poky-linux/xz/xz-ptest: FILELIST: removed "/usr/lib/xz/ptest/tests/files/good-1-x86-lzma2.xz /usr/lib/xz/ptest/tests/files/good-1-sparc-lzma2.xz", added "/usr/lib/xz/ptest/tests/test_microlzma"
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.6 to liblzma.so.5.6.2
+  /usr/lib/liblzma.so.5.4.6 moved to /usr/lib/liblzma.so.5.6.2
+
+--===============8938287522386508943==--
 
