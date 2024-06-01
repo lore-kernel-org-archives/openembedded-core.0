@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A68FC3DA42
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D32C3DA43
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:43 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.42223.1717263219202768392
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.42243.1717263219280473852
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VyPGhJly;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Jh/l1Ls6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd3657-f19efe3e-7105-4bbc-8de8-9d72f8248ed3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Ip+NFlZc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CEJ9MzVw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fd4dd368a-85ef8456-e178-4bc1-9144-9bb4ac2c7f3b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qf1godeGnFq118jq4j1ysPOJb+Wu+Zxw84NozTmA9xE=;
-	b=VyPGhJlyCNVvEAkNi+PnGgrcTG6Ez/cgagiJN45Bndmz66Dfh28uALpHDnnVvh23
-	syhpb3gjJv6MGTYbRGZLBDzIw3IvviE+cAhl6SMm4mj5sU0WaOYu2iOXsEWqi0Kr1l9
-	2JQpETqlJyfNElN5ksdKkJwt2PEnBg1zeS/YvX/E=
+	bh=q5/1rO0sC8RtVaqExUNYX7ecbqxGm4XdVF/Bq2ED6wI=;
+	b=Ip+NFlZcXsNVf1tlCsd31qFdcrldkRMQqxohpWuPGr8vsdzpYA5pnDv9OUzN4iFD
+	xDgVqd91p4cD1D4nExDz2P10wrYAuaNairai6s2fohH8bnIkn6CoObiH2yscvjCq4ym
+	LSBFP0hU/XcICwSp8qjtFthhvW+BMA16psyRNOLE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qf1godeGnFq118jq4j1ysPOJb+Wu+Zxw84NozTmA9xE=;
-	b=Jh/l1Ls6boB59yO9bAo/fU14J33xnrPgQvJD+y+HwQALaVAdhMGHgOTW6c12fJWG
-	PF5SFtTDOmbQuccE/6JqQ/ZpX8tWCLWsmWwsizgLBxnn4MlaKdjB4eKCWYQ+yq1uS7g
-	ykZsuIQzf1r8WhGLkq89wlefYh2eA9zyrK8ogoj0=
-Content-Type: multipart/mixed; boundary="===============6508782703335232973=="
+	bh=q5/1rO0sC8RtVaqExUNYX7ecbqxGm4XdVF/Bq2ED6wI=;
+	b=CEJ9MzVwYo3IGMIT+jB0DSIUW7IK2ySDSX6BK9y2oKFoQp3Wb0/G1UPB2SzRJyhz
+	1un0RvXhQHqsTgjnTElVZbaoFnYt/1ELH7Q4Y0GbsGevDgaPby875x6do595TFo2xcj
+	/Zh1GmWZiYwkms1T/8jRUJMFnKksm7HiI/hjFUSg=
+Content-Type: multipart/mixed; boundary="===============3113155363271502385=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rust-llvm: upgrading to 1.78.0 FAILED
-Message-ID: <0101018fd4dd3657-f19efe3e-7105-4bbc-8de8-9d72f8248ed3-000000@us-west-2.amazonses.com>
+Subject: [AUH] rust: upgrading to 1.78.0 FAILED
+Message-ID: <0101018fd4dd368a-85ef8456-e178-4bc1-9144-9bb4ac2c7f3b-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.29
+X-SES-Outgoing: 2024.06.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200162
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200166
 
---===============6508782703335232973==
+--===============3113155363271502385==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rust-llvm* to *1.78.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust* to *1.78.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade rust-llvm -V 1.78.0
+The following devtool command failed:  upgrade rust -V 1.78.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1879 entries from dependency cache.
+Loaded 1880 entries from dependency cache.
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -85,7 +85,7 @@ NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun an
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
 Loading cache...done.
-Loaded 1879 entries from dependency cache.
+Loaded 1880 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -109,61 +109,61 @@ Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing bu
 Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: tmp-recipetool-qumrtd50: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-oqaiiurc/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-oqaiiurc/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+WARNING: tmp-recipetool-c9prlwlb: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-rd3kz2ne/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-rd3kz2ne/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:10:22
-Adding changed files:   0% |                                    | ETA:  0:07:44
-Adding changed files:   0% |                                    | ETA:  0:06:57
-Adding changed files:   0% |                                    | ETA:  0:06:30
-Adding changed files:   0% |                                    | ETA:  0:06:02
-Adding changed files:   0% |                                    | ETA:  0:05:50
-Adding changed files:   0% |                                    | ETA:  0:05:45
-Adding changed files:   0% |                                    | ETA:  0:05:32
-Adding changed files:   1% |                                    | ETA:  0:05:24
-Adding changed files:   1% |                                    | ETA:  0:05:20
-Adding changed files:   1% |                                    | ETA:  0:05:15
-Adding changed files:   1% |                                    | ETA:  0:05:10
+Adding changed files:   0% |                                    | ETA:  0:10:11
+Adding changed files:   0% |                                    | ETA:  0:07:39
+Adding changed files:   0% |                                    | ETA:  0:06:52
+Adding changed files:   0% |                                    | ETA:  0:06:26
+Adding changed files:   0% |                                    | ETA:  0:05:59
+Adding changed files:   0% |                                    | ETA:  0:05:47
+Adding changed files:   0% |                                    | ETA:  0:05:42
+Adding changed files:   0% |                                    | ETA:  0:05:30
+Adding changed files:   1% |                                    | ETA:  0:05:22
+Adding changed files:   1% |                                    | ETA:  0:05:18
+Adding changed files:   1% |                                    | ETA:  0:05:13
 Adding changed files:   1% |                                    | ETA:  0:05:08
-Adding changed files:   1% |                                    | ETA:  0:05:04
-Adding changed files:   1% |                                    | ETA:  0:05:03
+Adding changed files:   1% |                                    | ETA:  0:05:05
 Adding changed files:   1% |                                    | ETA:  0:05:02
-Adding changed files:   2% |                                    | ETA:  0:04:59
-Adding changed files:   2% |                                    | ETA:  0:04:58
+Adding changed files:   1% |                                    | ETA:  0:05:01
+Adding changed files:   1% |                                    | ETA:  0:04:59
 Adding changed files:   2% |                                    | ETA:  0:04:57
+Adding changed files:   2% |                                    | ETA:  0:04:55
 Adding changed files:   2% |                                    | ETA:  0:04:54
 Adding changed files:   2% |                                    | ETA:  0:04:52
 Adding changed files:   2% |                                    | ETA:  0:04:50
-Adding changed files:   2% |#                                   | ETA:  0:04:50
-Adding changed files:   2% |#                                   | ETA:  0:04:49
-Adding changed files:   3% |#                                   | ETA:  0:04:48
-Adding changed files:   3% |#                                   | ETA:  0:04:46
+Adding changed files:   2% |                                    | ETA:  0:04:48
+Adding changed files:   2% |#                                   | ETA:  0:04:48
+Adding changed files:   2% |#                                   | ETA:  0:04:48
+Adding changed files:   3% |#                                   | ETA:  0:04:47
+Adding changed files:   3% |#                                   | ETA:  0:04:45
 Adding changed files:   3% |#                                   | ETA:  0:04:44
-Adding changed files:   3% |#                                   | ETA:  0:04:43
 Adding changed files:   3% |#                                   | ETA:  0:04:42
 Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   3% |#                                   | ETA:  0:04:43
+Adding changed files:   3% |#                                   | ETA:  0:04:41
 Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   4% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:39
+Adding changed files:   3% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:40
+Adding changed files:   4% |#                                   | ETA:  0:04:40
+Adding changed files:   4% |#                                   | ETA:  0:04:40
 Adding changed files:   4% |#                                   | ETA:  0:04:38
 Adding changed files:   4% |#                                   | ETA:  0:04:37
 Adding changed files:   4% |#                                   | ETA:  0:04:36
-Adding changed files:   4% |#                                   | ETA:  0:04:36
-Adding changed files:   4% |#                                   | ETA:  0:04:36
-Adding changed files:   5% |#                                   | ETA:  0:04:36
+Adding changed files:   4% |#                                   | ETA:  0:04:35
+Adding changed files:   4% |#                                   | ETA:  0:04:35
+Adding changed files:   4% |#                                   | ETA:  0:04:35
 Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:34
+Adding changed files:   5% |#                                   | ETA:  0:04:34
 Adding changed files:   5% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |#                                   | ETA:  0:04:36
-Adding changed files:   5% |##                                  | ETA:  0:04:35
 Adding changed files:   5% |##                                  | ETA:  0:04:34
-Adding changed files:   5% |##                                  | ETA:  0:04:34
+Adding changed files:   5% |##                                  | ETA:  0:04:33
+Adding changed files:   5% |##                                  | ETA:  0:04:33
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
 INFO: Fetching https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz;name=rust...
@@ -182,5 +182,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6508782703335232973==--
+--===============3113155363271502385==--
 
