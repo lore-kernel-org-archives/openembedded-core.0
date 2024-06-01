@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4FAC2B9FB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AA1C2BA1A
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.42240.1717263218936838646
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.42212.1717263218221447139
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:39 -0700
+ Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Cl8dKIr5;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=T10KJNsK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd3678-a23c9867-2759-4b27-a85e-fca4f9d1a264-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NB2HsmOl;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nrdWgfbm;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018fd4dd37a2-533903c4-173e-401d-a984-e7a8052168a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GYRF0ulLhsuDHEWTF/ctr6uZG43Wq4sjgGCiuJSkZ5g=;
-	b=Cl8dKIr5ZlylWSCg/+AaLk/HzNI+Y/3oATSapdb81Jh+453rYE0381nMafdFJSVY
-	G+pKHjiwnKzVnqSzTn3J9dL7zIACf4r3zdiE1TErLMsmliI5f8HvGqT6T9/73/yTZqk
-	BPktV91DXv48K9hyDye1yi17+T0ZgvEyVTuNMh6E=
+	bh=tUFkhybbAdWo5NlFF2IgeTSIAq+Jc62NYrAl4QxYgWw=;
+	b=NB2HsmOlcpXkg4owNFYMZWepUwA25MUdNiRDqOzNOdlAYUEyQPg3Ql7X9bjkRifv
+	7FS5RRYv0kEMIzagMiV5JvEeaW24ZladAIUXlYcyNuUZZIpu2Dkp+nExgo20DQ5lkL8
+	X8TbE9R7XoYwhEi1veXkV5T1FDmIv+9VwKIy/EHk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GYRF0ulLhsuDHEWTF/ctr6uZG43Wq4sjgGCiuJSkZ5g=;
-	b=T10KJNsKS4tUuJsxpMoXmMXGmNUKDL6/wqpntXz3W7EtrcyknuOU6FlS6oCmMuWl
-	SZKO1S5jEPMgikscCMVHi+7BTjsMtWgFwseCahkGFZdIqbm/2R1rIO6PcEz5Z1ipjao
-	YkfG4WtwLc00fdv0THE6laIej2oTfrBnqmTTbFi4=
-Content-Type: multipart/mixed; boundary="===============2580055104992909267=="
+	bh=tUFkhybbAdWo5NlFF2IgeTSIAq+Jc62NYrAl4QxYgWw=;
+	b=nrdWgfbmDVVG7RqFrzPH6Zn2ABGbIXO5aZIEeI/JGAnCbEkLI3VnQcEpGZ0KRLbT
+	AYzK6wHIcB41lhEB+KBsvrH2bvoLIThEJdFT05EintKBspC7tp6GL0GqD3/tXeVNpK1
+	qTupQtY+4rU9vmtF8ShjUzd42IivKCE3ciBq7kuc=
+Content-Type: multipart/mixed; boundary="===============2139599613597926752=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libstd-rs: upgrading to 1.78.0 FAILED
-Message-ID: <0101018fd4dd3678-a23c9867-2759-4b27-a85e-fca4f9d1a264-000000@us-west-2.amazonses.com>
+Subject: [AUH] libva-initial: upgrading to 2.21.0 FAILED
+Message-ID: <0101018fd4dd37a2-533903c4-173e-401d-a984-e7a8052168a5-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.30
+X-SES-Outgoing: 2024.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200152
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200148
 
---===============2580055104992909267==
+--===============2139599613597926752==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,135 +51,175 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libstd-rs* to *1.78.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libva-initial* to *2.21.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade libstd-rs -V 1.78.0
+The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1878 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1880 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
+INFO: No patches or local source files needed updating
+INFO: Cleaning sysroot for recipe libva-initial...
+ERROR: Command 'bitbake -c clean libva-initial' failed, output:
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1881 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-fy9evkmw: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-00t2qmku/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-00t2qmku/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:10:22
-Adding changed files:   0% |                                    | ETA:  0:07:45
-Adding changed files:   0% |                                    | ETA:  0:06:56
-Adding changed files:   0% |                                    | ETA:  0:06:30
-Adding changed files:   0% |                                    | ETA:  0:06:03
-Adding changed files:   0% |                                    | ETA:  0:05:50
-Adding changed files:   0% |                                    | ETA:  0:05:42
-Adding changed files:   0% |                                    | ETA:  0:05:30
-Adding changed files:   1% |                                    | ETA:  0:05:23
-Adding changed files:   1% |                                    | ETA:  0:05:18
-Adding changed files:   1% |                                    | ETA:  0:05:14
-Adding changed files:   1% |                                    | ETA:  0:05:08
-Adding changed files:   1% |                                    | ETA:  0:05:08
-Adding changed files:   1% |                                    | ETA:  0:05:05
-Adding changed files:   1% |                                    | ETA:  0:05:04
-Adding changed files:   1% |                                    | ETA:  0:05:02
-Adding changed files:   2% |                                    | ETA:  0:05:00
-Adding changed files:   2% |                                    | ETA:  0:04:58
-Adding changed files:   2% |                                    | ETA:  0:04:57
-Adding changed files:   2% |                                    | ETA:  0:04:55
-Adding changed files:   2% |                                    | ETA:  0:04:53
-Adding changed files:   2% |                                    | ETA:  0:04:51
-Adding changed files:   2% |#                                   | ETA:  0:04:50
-Adding changed files:   2% |#                                   | ETA:  0:04:50
-Adding changed files:   3% |#                                   | ETA:  0:04:48
-Adding changed files:   3% |#                                   | ETA:  0:04:47
-Adding changed files:   3% |#                                   | ETA:  0:04:45
-Adding changed files:   3% |#                                   | ETA:  0:04:43
-Adding changed files:   3% |#                                   | ETA:  0:04:43
-Adding changed files:   3% |#                                   | ETA:  0:04:43
-Adding changed files:   3% |#                                   | ETA:  0:04:43
-Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   4% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:42
-Adding changed files:   4% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:40
-Adding changed files:   4% |#                                   | ETA:  0:04:39
-Adding changed files:   4% |#                                   | ETA:  0:04:38
-Adding changed files:   4% |#                                   | ETA:  0:04:37
-Adding changed files:   4% |#                                   | ETA:  0:04:37
-Adding changed files:   4% |#                                   | ETA:  0:04:36
-Adding changed files:   5% |#                                   | ETA:  0:04:36
-Adding changed files:   5% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |#                                   | ETA:  0:04:36
-Adding changed files:   5% |##                                  | ETA:  0:04:35
-Adding changed files:   5% |##                                  | ETA:  0:04:35
-Adding changed files:   5% |##                                  | ETA:  0:04:34
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz;name=rust...
-ERROR: Execution of 'git add -f -A "tests/rustdoc-ui/argfile/commandline-argfile-missing-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-missing.rs" "tests/rustdoc-ui/argfile/commandline-argfile-missing.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.stderr" "tests/rustdoc-ui/argfile/commandline-argfile.args" "tests/rustdoc-ui/argfile/commandline-argfile.rs" "tests/rustdoc-ui/auxiliary/issue-36031.rs" "tests/rustdoc-ui/auxiliary/issue-40936.rs" "tests/rustdoc-ui/auxiliary/issue-48414.rs" "tests/rustdoc-ui/circular-intra-doc-link-48414.rs" "tests/rustdoc-ui/hidden-trait-method-34423.rs" "tests/rustdoc-ui/ice-blanket-impl-52873.rs" "tests/rustdoc-ui/ice-blanket-impl-selection-55001.rs" "tests/rustdoc-ui/inherent-assoc-consts-36031.rs" "tests/rustdoc-ui/issues/issu
- e-120444-1.rs" "tests/rustdoc-ui/issues/issue-120444-1.stderr" "tests/rustdoc-ui/issues/issue-120444-2.rs" "tests/rustdoc-ui/issues/issue-120444-2.stderr" "tests/rustdoc-ui/nested-extern-crate-46271.rs" "tests/rustdoc-ui/nested-macro-rules-47639.rs" "tests/rustdoc-ui/normalize-in-inlined-type-alias.rs" "tests/rustdoc-ui/redundant-explicit-links-123677.rs" "tests/rustdoc-ui/super-glob-40936.rs" "tests/rustdoc/auto-trait-bounds-by-associated-type-50159.rs" "tests/rustdoc/auto-trait-bounds-inference-variables-54705.rs" "tests/rustdoc/auto-trait-bounds-where-51236.rs" "tests/rustdoc/auto-trait-negative-impl-55321.rs" "tests/rustdoc/auxiliary/issue-106421-force-unstable.rs" "tests/rustdoc/auxiliary/jump-to-def-macro.rs" "tests/rustdoc/blank-line-in-doc-block-47197.rs" "tests/rustdoc/bounds.rs" "tests/rustdoc/demo-allocator-54478.rs" "tests/rustdoc/deref-mut-35169-2.rs" "tests/rustdoc/deref-mut-35169.rs" "tests/rustdoc/doc-attr-comment-mix-42760.rs" "tests/rustdoc/doctest/auxiliary/empty.
- rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.
- rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inline_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$na
- me.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_defs.
- rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_item_kind.rs"' failed with exit code 128:
-fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
+If you wish, you may specify -n/--no-clean to skip running this command when resetting
 
 
+Next steps:
+    - apply the patch: git am 0001-libva-initial-upgrade-2.20.0-2.21.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2580055104992909267==--
+
+-- >8 --
+From 9f5a40c35a33bf82ad3667d264d6b15070296f33 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 13:39:28 +0000
+Subject: [PATCH] libva-initial: upgrade 2.20.0 -> 2.21.0
+
+---
+ .../libva/libva-initial_2.20.0.bb             |  8 ----
+ meta/recipes-graphics/libva/libva.inc         | 37 -------------------
+ 2 files changed, 45 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.20.0.bb
+ delete mode 100644 meta/recipes-graphics/libva/libva.inc
+
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb b/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
+deleted file mode 100644
+index 453096822f..0000000000
+--- a/meta/recipes-graphics/libva/libva-initial_2.20.0.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require libva.inc
+-
+-PACKAGECONFIG ?= ""
+-
+-do_install:append () {
+-	rm -f ${D}${libdir}/*.so*
+-}
+-
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+deleted file mode 100644
+index 486291bced..0000000000
+--- a/meta/recipes-graphics/libva/libva.inc
++++ /dev/null
+@@ -1,37 +0,0 @@
+-SUMMARY = "Video Acceleration (VA) API for Linux"
+-DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
+-and API specification which enables and provides access to graphics \
+-hardware (GPU) acceleration for video processing on Linux and UNIX \
+-based operating systems. Accelerated processing includes video \
+-decoding, video encoding, subpicture blending and rendering. The \
+-specification was originally designed by Intel for its GMA (Graphics \
+-Media Accelerator) series of GPU hardware, the API is however not \
+-limited to GPUs or Intel specific hardware, as other hardware and \
+-manufacturers can also freely use this API for hardware accelerated \
+-video decoding."
+-
+-HOMEPAGE = "https://01.org/linuxmedia/vaapi"
+-BUGTRACKER = "https://github.com/intel/libva/issues"
+-
+-SECTION = "x11"
+-LICENSE = "MIT"
+-
+-SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "f72bdb4f48dfe71ad01f1cbefe069672a2c949a6abd51cf3c4d4784210badc49"
+-
+-S = "${WORKDIR}/libva-${PV}"
+-
+-GITHUB_BASE_URI = "https://github.com/intel/libva/releases"
+-
+-DEPENDS = "libdrm"
+-
+-inherit meson pkgconfig github-releases
+-
+-PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11 libxext libxfixes"
+-PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/mesa"
+-
+-PACKAGECONFIG[wayland] = "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-- 
+2.44.0
+
+
+--===============2139599613597926752==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libva-initial-upgrade-2.20.0-2.21.0.patch"
+
+RnJvbSA5ZjVhNDBjMzVhMzNiZjgyYWQzNjY3ZDI2NGQ2YjE1MDcwMjk2ZjMzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxMzozOToyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnZhLWluaXRpYWw6IHVwZ3JhZGUgMi4yMC4wIC0+IDIuMjEuMAoKLS0tCiAuLi4vbGlidmEvbGli
+dmEtaW5pdGlhbF8yLjIwLjAuYmIgICAgICAgICAgICAgfCAgOCAtLS0tCiBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvbGlidmEvbGlidmEuaW5jICAgICAgICAgfCAzNyAtLS0tLS0tLS0tLS0tLS0tLS0t
+CiAyIGZpbGVzIGNoYW5nZWQsIDQ1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS1pbml0aWFsXzIuMjAuMC5iYgogZGVsZXRl
+IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtaW5pdGlhbF8yLjIwLjAuYmIK
+ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQ1MzA5NjgyMmYuLjAwMDAwMDAwMDAKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhLWluaXRpYWxfMi4yMC4wLmJiCisr
+KyAvZGV2L251bGwKQEAgLTEsOCArMCwwIEBACi1yZXF1aXJlIGxpYnZhLmluYwotCi1QQUNLQUdF
+Q09ORklHID89ICIiCi0KLWRvX2luc3RhbGw6YXBwZW5kICgpIHsKLQlybSAtZiAke0R9JHtsaWJk
+aXJ9Lyouc28qCi19Ci0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9s
+aWJ2YS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCmRlbGV0ZWQg
+ZmlsZSBtb2RlIDEwMDY0NAppbmRleCA0ODYyOTFiY2VkLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YS5pbmMKKysrIC9kZXYvbnVsbApAQCAtMSwzNyAr
+MCwwIEBACi1TVU1NQVJZID0gIlZpZGVvIEFjY2VsZXJhdGlvbiAoVkEpIEFQSSBmb3IgTGludXgi
+Ci1ERVNDUklQVElPTiA9ICJWaWRlbyBBY2NlbGVyYXRpb24gQVBJIChWQSBBUEkpIGlzIGEgbGli
+cmFyeSAobGliVkEpIFwKLWFuZCBBUEkgc3BlY2lmaWNhdGlvbiB3aGljaCBlbmFibGVzIGFuZCBw
+cm92aWRlcyBhY2Nlc3MgdG8gZ3JhcGhpY3MgXAotaGFyZHdhcmUgKEdQVSkgYWNjZWxlcmF0aW9u
+IGZvciB2aWRlbyBwcm9jZXNzaW5nIG9uIExpbnV4IGFuZCBVTklYIFwKLWJhc2VkIG9wZXJhdGlu
+ZyBzeXN0ZW1zLiBBY2NlbGVyYXRlZCBwcm9jZXNzaW5nIGluY2x1ZGVzIHZpZGVvIFwKLWRlY29k
+aW5nLCB2aWRlbyBlbmNvZGluZywgc3VicGljdHVyZSBibGVuZGluZyBhbmQgcmVuZGVyaW5nLiBU
+aGUgXAotc3BlY2lmaWNhdGlvbiB3YXMgb3JpZ2luYWxseSBkZXNpZ25lZCBieSBJbnRlbCBmb3Ig
+aXRzIEdNQSAoR3JhcGhpY3MgXAotTWVkaWEgQWNjZWxlcmF0b3IpIHNlcmllcyBvZiBHUFUgaGFy
+ZHdhcmUsIHRoZSBBUEkgaXMgaG93ZXZlciBub3QgXAotbGltaXRlZCB0byBHUFVzIG9yIEludGVs
+IHNwZWNpZmljIGhhcmR3YXJlLCBhcyBvdGhlciBoYXJkd2FyZSBhbmQgXAotbWFudWZhY3R1cmVy
+cyBjYW4gYWxzbyBmcmVlbHkgdXNlIHRoaXMgQVBJIGZvciBoYXJkd2FyZSBhY2NlbGVyYXRlZCBc
+Ci12aWRlbyBkZWNvZGluZy4iCi0KLUhPTUVQQUdFID0gImh0dHBzOi8vMDEub3JnL2xpbnV4bWVk
+aWEvdmFhcGkiCi1CVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9saWJ2YS9p
+c3N1ZXMiCi0KLVNFQ1RJT04gPSAieDExIgotTElDRU5TRSA9ICJNSVQiCi0KLVNSQ19VUkkgPSAi
+JHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L2xpYnZhLSR7UFZ9LnRhci5iejIiCi1M
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yZTQ4OTQwZjk0YWNiMGFmNTgy
+ZTVlZjAzNTM3ODAwZiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmNzJiZGI0ZjQ4ZGZlNzFhZDAx
+ZjFjYmVmZTA2OTY3MmEyYzk0OWE2YWJkNTFjZjNjNGQ0Nzg0MjEwYmFkYzQ5IgotCi1TID0gIiR7
+V09SS0RJUn0vbGlidmEtJHtQVn0iCi0KLUdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1
+Yi5jb20vaW50ZWwvbGlidmEvcmVsZWFzZXMiCi0KLURFUEVORFMgPSAibGliZHJtIgotCi1pbmhl
+cml0IG1lc29uIHBrZ2NvbmZpZyBnaXRodWItcmVsZWFzZXMKLQotUEFDS0FHRUNPTkZJR1t4MTFd
+ID0gIi1Ed2l0aF94MTE9eWVzLC1Ed2l0aF94MTE9bm8sdmlydHVhbC9saWJ4MTEgbGlieGV4dCBs
+aWJ4Zml4ZXMiCi1QQUNLQUdFQ09ORklHW2dseF0gPSAiLUR3aXRoX2dseD15ZXMsLUR3aXRoX2ds
+eD1ubyx2aXJ0dWFsL21lc2EiCi0KLVBBQ0tBR0VDT05GSUdbd2F5bGFuZF0gPSAiLUR3aXRoX3dh
+eWxhbmQ9eWVzLC1Ed2l0aF93YXlsYW5kPW5vLHdheWxhbmQtbmF0aXZlIHdheWxhbmQiCi0KLUJC
+Q0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLQotLSAKMi40NC4wCgo=
+
+--===============2139599613597926752==--
 
