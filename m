@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DC1C27C44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC561C27C52
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 12:25:26 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.36170.1717244722540327236
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.36172.1717244724140425824
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 05:25:22 -0700
+ Sat, 01 Jun 2024 05:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ktsZiJL+;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-6c4926bf9baso1187625a12.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=I0wSuEkT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f44b42e9a6so23125645ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244722; x=1717849522; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244723; x=1717849523; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HLBZNC9MOCZA818NHSsDITzDvaxmznFPKrebneg9Uu0=;
-        b=ktsZiJL+Dqz+wGXe6NRob0I+dNtyjov4zPQcFT58tbbdLzXqFjh2S0kytnW9im/0eS
-         B+tW+LU+D6KXLFCxNAitFqi/w62/JWEcDNnYtZHzHo2I3wOIWxP04vrOXcOOyR4EC4Zv
-         q2+AZ9QlLX3UcHO8M4xMrQzCuLys6OSFqtxIYyX8WdbzkSiXtt7PtcxemfhECEopVgE3
-         dVBDvQHoiwuI34gMXmz62tu99GRioL3db1AGrezPPrycuO1Yb9S3t+udy0bTZ1GzWvKV
-         Muc0FPDXlCyK3UScZuLj+RbW4xhutzUkgrFzbMO21rbHnaNCBBtqB70fy7j6B8zr6zfd
-         cXVw==
+        bh=NC/1qvevR2tCOgOyY80y2D0ENBAkTgXsH8g7Pvr0A/E=;
+        b=I0wSuEkTGgUd8kFP94nKzbS8J9ZU8crANQSSXMjSI8kXTuyuTdv0HpIA/sr3ehAkUU
+         Kog4WDhuN5tDOtYEupRzorh7eBWwMeQCgCVk5rpQM+zTaEYnOYRxlOiymxEXhDlpCo5V
+         jZp16Tv5H0ASir4j/0yt/4hcNLFtSF7GiZ0PElG0V/8Wp94Lz6D4jptJdvMIrXU6ddDG
+         5atjOszi9XtsqxYoOPTM//6YpxgubP+21szJouJBqY5Cb7CLgpXX5spS4LJ5lWAq0qSe
+         rCFjXvS6cfp9/lgZjEeOaMlIhTZ3rPXu4w10EKsWMsUIz95ilm5ZRIG/zMPj1L2L/MAZ
+         /wmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717244722; x=1717849522;
+        d=1e100.net; s=20230601; t=1717244723; x=1717849523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HLBZNC9MOCZA818NHSsDITzDvaxmznFPKrebneg9Uu0=;
-        b=wggnHd8XSy583NdYPVRU4LzYll1/giaPEGZ0g4+2iXgprSQHJKqzSgp1d9FPRb/5oR
-         KbyoSKb1smF7sA+VbYuUyUopmTOKmqcZlScsZPel8OFOAvgqPjKgcFTvEuLXjxO1m8EX
-         ESJXJG7hYrWPyaoRAv0hJhBH+vpLLZFvtDk0jt2WKNJxXUS02zFP03mXyHBYsE7g1ERH
-         jo4VDqoaMU9GQ/521Xwv4AUxLohr9/H6dVc52wCfiToHI2Of9jX8iGXvv6G7oMJbkuoa
-         +i7J7QNwe3ri81OjOxzxsTDTKgjjXAUBY/2YBmSU84k4WoM/LBZ4wy1rLjmUsfkZlTWF
-         uacg==
-X-Gm-Message-State: AOJu0YyeMXuALN3Kp3wxfP15lTk8QFXXHydUKkHTevNdUE+iYjr2OPdv
-	QMuij+8Ll7pl1ua5/5/3IRgpyxZI2nY2GHReNNibZZnGjF6Q8imHZjnIPqO7dynW8j/5QX7vINz
-	1
-X-Google-Smtp-Source: AGHT+IFOS1WxlwyTt59c/PjdTvF5Cv+BK+xyEQNFofdIcd9nuFsGSApXKoLrOWBgG1ORdBjLZyrfLA==
-X-Received: by 2002:a17:902:d548:b0:1f4:a6cb:db3d with SMTP id d9443c01a7336-1f6370cebbamr53734445ad.44.1717244721778;
-        Sat, 01 Jun 2024 05:25:21 -0700 (PDT)
+        bh=NC/1qvevR2tCOgOyY80y2D0ENBAkTgXsH8g7Pvr0A/E=;
+        b=STUD5Vswjvg1A44oVr30gJbaeoTE/Jdjv1P/b1OHoUMvUvvKQl7h9zCMx1n6DZWWSI
+         1pBPnsinOCkpI+9eAIvDdF3ENHcFMb3ADDt8ulIAQYvCx9RKdqpVp5hSqoEP6iQEk1qu
+         y8g1d7gOcjHb8K6mnWQBgQn0KDFF4BqzhlHFfMGTdEIDq6eG6V/Hu/Hwlxa039J+wpBc
+         5EpFLp0qR60oWrgmWEtnN6HaZCoYQBOwqS8ITvAy0tffMQB4+aVCjXT4zPp7WJEqJIw0
+         JxfOSXHSEOaTe+aM2YontZ/9ngSID3lb6GOqfS2mz4+lvQPmLJ4hHCFB1Hh++/ctA9kA
+         QFSQ==
+X-Gm-Message-State: AOJu0YxMV1p3/GT5K0r73eVCB9lRxhYZgDL4dJA13EajTHRibi0ZXI/H
+	Q+WDhmn/KDQFqnOg0Je234hTdcRwTma7BUO2JKlKc/91h9bytio4MImnpfk+OnzbAg02BB0kG3N
+	n
+X-Google-Smtp-Source: AGHT+IEd7C2iE0PhcQegwPADervEVuOu5P6ti7O045gwri9p14DCdaeZeci99yDLOB//5nVejSBglA==
+X-Received: by 2002:a17:903:32c6:b0:1f4:962f:6343 with SMTP id d9443c01a7336-1f636fe8771mr48601945ad.3.1717244723142;
+        Sat, 01 Jun 2024 05:25:23 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 05:25:21 -0700 (PDT)
+        Sat, 01 Jun 2024 05:25:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/21] ipk: Fix clean up of extracted IPK payload
-Date: Sat,  1 Jun 2024 05:24:46 -0700
-Message-Id: <ec1c6bc79f5ca219e77a379bbabc2dad808d2020.1717243719.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 21/21] git: set --with-gitconfig=/etc/gitconfig for -native builds
+Date: Sat,  1 Jun 2024 05:24:47 -0700
+Message-Id: <a3f5ac9f9fee2c8e10fec7c3f758e49513fef724.1717243719.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717243719.git.steve@sakoman.com>
 References: <cover.1717243719.git.steve@sakoman.com>
@@ -62,47 +62,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 12:25:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200116
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200117
 
-From: Philip Lorenz <philip.lorenz@bmw.de>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-It turns out that the IPK payload tarball was actually cleaned up in the
-concrete package manager implementation (most likely because at some
-point Debian and IPK packages used different compression algorithms).
+Commit 6c2ae2346db0 (kern-tools: depend on git-replacement-native)
+broke our kernel builds. For saving space and time, we have a DL_DIR
+shared between multiple users/buildbots, not all of which run with the
+same uid (and with appropriate sticky bits set so that files
+downloaded by one user become owned by a common group and are readable
+by others). This works fine also for git sources because the docker
+images we use all have a /etc/gitconfig with
 
-Globbing removes this ambiguity so move the removal of the payload into
-the common extract method.
+  [safe]
+    directory = *
 
-Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+But with the mentioned commit, the host's git is no longer used for
+do_unpack (nor for do_fetch if re-building and sysroot has already
+been populated by a previous build), causing spurious "fatal: detected
+dubious ownership..." failures.
+
+Currently, the path where the git-native binary searches for system
+gitconfig is the sysroot from it was built, which obviously doesn't
+contain a /etc/gitconfig. As for the nativesdk variant, respect the
+host's /etc/gitconfig if present.
+
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1e2b02a54f482159e21902eeb997b21e00e9588e)
+(cherry picked from commit 572f511f7ff02fb559ac42d2d5dbd09fec478d97)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/package_manager/ipk/__init__.py | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/git/git_2.44.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-index 0f0038d00d..47e72cc7a6 100644
---- a/meta/lib/oe/package_manager/ipk/__init__.py
-+++ b/meta/lib/oe/package_manager/ipk/__init__.py
-@@ -159,6 +159,7 @@ class OpkgDpkgPM(PackageManager):
-         bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
-         bb.utils.remove(os.path.join(tmp_dir, "debian-binary"))
-         bb.utils.remove(os.path.join(tmp_dir, "control.tar.gz"))
-+        bb.utils.remove(os.path.join(tmp_dir, data_tar))
-         os.chdir(current_dir)
+diff --git a/meta/recipes-devtools/git/git_2.44.0.bb b/meta/recipes-devtools/git/git_2.44.0.bb
+index 90e555eba7..78b00dd19f 100644
+--- a/meta/recipes-devtools/git/git_2.44.0.bb
++++ b/meta/recipes-devtools/git/git_2.44.0.bb
+@@ -40,6 +40,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
+ 		--without-iconv \
+ "
+ EXTRA_OECONF:append:class-nativesdk = " --with-gitconfig=/etc/gitconfig "
++EXTRA_OECONF:append:class-native = " --with-gitconfig=/etc/gitconfig "
  
-         return tmp_dir
-@@ -511,7 +512,4 @@ class OpkgPM(OpkgDpkgPM):
-             bb.fatal("Unable to get information for package '%s' while "
-                      "trying to extract the package."  % pkg)
- 
--        tmp_dir = super(OpkgPM, self).extract(pkg, pkg_info)
--        bb.utils.remove(os.path.join(tmp_dir, "data.tar.zst"))
--
--        return tmp_dir
-+        return super(OpkgPM, self).extract(pkg, pkg_info)
+ # Needs brokensep as this doesn't use automake
+ inherit autotools-brokensep perlnative bash-completion manpages
 -- 
 2.34.1
 
