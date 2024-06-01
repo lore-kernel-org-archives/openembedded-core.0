@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D32C3DA43
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0D6C3DA46
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.42243.1717263219280473852
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.42225.1717263219264008729
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Ip+NFlZc;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CEJ9MzVw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fd4dd368a-85ef8456-e178-4bc1-9144-9bb4ac2c7f3b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FP+7csmq;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UMUbJpPq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018fd4dd3a1f-964b2422-0b85-41a8-969e-8bde72126e19-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263218;
+	t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q5/1rO0sC8RtVaqExUNYX7ecbqxGm4XdVF/Bq2ED6wI=;
-	b=Ip+NFlZcXsNVf1tlCsd31qFdcrldkRMQqxohpWuPGr8vsdzpYA5pnDv9OUzN4iFD
-	xDgVqd91p4cD1D4nExDz2P10wrYAuaNairai6s2fohH8bnIkn6CoObiH2yscvjCq4ym
-	LSBFP0hU/XcICwSp8qjtFthhvW+BMA16psyRNOLE=
+	bh=YJ1CXerPlaC5F5yKseu3XfliPJZVnKHa0//YgZhZXN4=;
+	b=FP+7csmqPwzaqXQccrinZD1cGYqcOlj6Q28IS/wjXll6aq8GE/sRpDhS8CRZ0VxK
+	OiLRec5eby4mOq0W82Q1avNxmgjwZvUH/zWYpiNeQOrOXMgyzJtUiSEykWM5bAfK1mZ
+	L30ZADFa1gv2AJclRgmTrDMmzsqBXlHGVepXWYvI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q5/1rO0sC8RtVaqExUNYX7ecbqxGm4XdVF/Bq2ED6wI=;
-	b=CEJ9MzVwYo3IGMIT+jB0DSIUW7IK2ySDSX6BK9y2oKFoQp3Wb0/G1UPB2SzRJyhz
-	1un0RvXhQHqsTgjnTElVZbaoFnYt/1ELH7Q4Y0GbsGevDgaPby875x6do595TFo2xcj
-	/Zh1GmWZiYwkms1T/8jRUJMFnKksm7HiI/hjFUSg=
-Content-Type: multipart/mixed; boundary="===============3113155363271502385=="
+	bh=YJ1CXerPlaC5F5yKseu3XfliPJZVnKHa0//YgZhZXN4=;
+	b=UMUbJpPq74MdtQ1+YaKsi+faKL41mCWh/tFcr+QGHbwbkbgIsBiW1NSc7jwz0NUV
+	hQNuFPrRQWd9oROMgnSmRb3SkFogQDlzFNVEvIbM7PFaUPEJfRMJJ4FNkVlkE0yfBSy
+	NhXOoFXXZOx7JItGIW+i1UtmDzZ5Dr8jGRIPcYzM=
+Content-Type: multipart/mixed; boundary="===============8264083423786939237=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rust: upgrading to 1.78.0 FAILED
-Message-ID: <0101018fd4dd368a-85ef8456-e178-4bc1-9144-9bb4ac2c7f3b-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] enchant2: upgrading to 2.8.0 SUCCEEDED
+Message-ID: <0101018fd4dd3a1f-964b2422-0b85-41a8-969e-8bde72126e19-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.23
+X-SES-Outgoing: 2024.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200166
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200189
 
---===============3113155363271502385==
+--===============8264083423786939237==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,136 +51,137 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rust* to *1.78.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *enchant2* to *2.8.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-enchant2-upgrade-2.7.3-2.8.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade rust -V 1.78.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-c9prlwlb: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-rd3kz2ne/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-rd3kz2ne/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:10:11
-Adding changed files:   0% |                                    | ETA:  0:07:39
-Adding changed files:   0% |                                    | ETA:  0:06:52
-Adding changed files:   0% |                                    | ETA:  0:06:26
-Adding changed files:   0% |                                    | ETA:  0:05:59
-Adding changed files:   0% |                                    | ETA:  0:05:47
-Adding changed files:   0% |                                    | ETA:  0:05:42
-Adding changed files:   0% |                                    | ETA:  0:05:30
-Adding changed files:   1% |                                    | ETA:  0:05:22
-Adding changed files:   1% |                                    | ETA:  0:05:18
-Adding changed files:   1% |                                    | ETA:  0:05:13
-Adding changed files:   1% |                                    | ETA:  0:05:08
-Adding changed files:   1% |                                    | ETA:  0:05:05
-Adding changed files:   1% |                                    | ETA:  0:05:02
-Adding changed files:   1% |                                    | ETA:  0:05:01
-Adding changed files:   1% |                                    | ETA:  0:04:59
-Adding changed files:   2% |                                    | ETA:  0:04:57
-Adding changed files:   2% |                                    | ETA:  0:04:55
-Adding changed files:   2% |                                    | ETA:  0:04:54
-Adding changed files:   2% |                                    | ETA:  0:04:52
-Adding changed files:   2% |                                    | ETA:  0:04:50
-Adding changed files:   2% |                                    | ETA:  0:04:48
-Adding changed files:   2% |#                                   | ETA:  0:04:48
-Adding changed files:   2% |#                                   | ETA:  0:04:48
-Adding changed files:   3% |#                                   | ETA:  0:04:47
-Adding changed files:   3% |#                                   | ETA:  0:04:45
-Adding changed files:   3% |#                                   | ETA:  0:04:44
-Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   3% |#                                   | ETA:  0:04:41
-Adding changed files:   3% |#                                   | ETA:  0:04:42
-Adding changed files:   3% |#                                   | ETA:  0:04:41
-Adding changed files:   4% |#                                   | ETA:  0:04:40
-Adding changed files:   4% |#                                   | ETA:  0:04:40
-Adding changed files:   4% |#                                   | ETA:  0:04:40
-Adding changed files:   4% |#                                   | ETA:  0:04:38
-Adding changed files:   4% |#                                   | ETA:  0:04:37
-Adding changed files:   4% |#                                   | ETA:  0:04:36
-Adding changed files:   4% |#                                   | ETA:  0:04:35
-Adding changed files:   4% |#                                   | ETA:  0:04:35
-Adding changed files:   4% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |#                                   | ETA:  0:04:34
-Adding changed files:   5% |#                                   | ETA:  0:04:34
-Adding changed files:   5% |#                                   | ETA:  0:04:35
-Adding changed files:   5% |##                                  | ETA:  0:04:34
-Adding changed files:   5% |##                                  | ETA:  0:04:33
-Adding changed files:   5% |##                                  | ETA:  0:04:33
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz;name=rust...
-ERROR: Execution of 'git add -f -A "tests/rustdoc-ui/argfile/commandline-argfile-missing-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-missing.rs" "tests/rustdoc-ui/argfile/commandline-argfile-missing.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.stderr" "tests/rustdoc-ui/argfile/commandline-argfile.args" "tests/rustdoc-ui/argfile/commandline-argfile.rs" "tests/rustdoc-ui/auxiliary/issue-36031.rs" "tests/rustdoc-ui/auxiliary/issue-40936.rs" "tests/rustdoc-ui/auxiliary/issue-48414.rs" "tests/rustdoc-ui/circular-intra-doc-link-48414.rs" "tests/rustdoc-ui/hidden-trait-method-34423.rs" "tests/rustdoc-ui/ice-blanket-impl-52873.rs" "tests/rustdoc-ui/ice-blanket-impl-selection-55001.rs" "tests/rustdoc-ui/inherent-assoc-consts-36031.rs" "tests/rustdoc-ui/issues/issu
- e-120444-1.rs" "tests/rustdoc-ui/issues/issue-120444-1.stderr" "tests/rustdoc-ui/issues/issue-120444-2.rs" "tests/rustdoc-ui/issues/issue-120444-2.stderr" "tests/rustdoc-ui/nested-extern-crate-46271.rs" "tests/rustdoc-ui/nested-macro-rules-47639.rs" "tests/rustdoc-ui/normalize-in-inlined-type-alias.rs" "tests/rustdoc-ui/redundant-explicit-links-123677.rs" "tests/rustdoc-ui/super-glob-40936.rs" "tests/rustdoc/auto-trait-bounds-by-associated-type-50159.rs" "tests/rustdoc/auto-trait-bounds-inference-variables-54705.rs" "tests/rustdoc/auto-trait-bounds-where-51236.rs" "tests/rustdoc/auto-trait-negative-impl-55321.rs" "tests/rustdoc/auxiliary/issue-106421-force-unstable.rs" "tests/rustdoc/auxiliary/jump-to-def-macro.rs" "tests/rustdoc/blank-line-in-doc-block-47197.rs" "tests/rustdoc/bounds.rs" "tests/rustdoc/demo-allocator-54478.rs" "tests/rustdoc/deref-mut-35169-2.rs" "tests/rustdoc/deref-mut-35169.rs" "tests/rustdoc/doc-attr-comment-mix-42760.rs" "tests/rustdoc/doctest/auxiliary/empty.
- rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.
- rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inline_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$na
- me.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_defs.
- rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_item_kind.rs"' failed with exit code 128:
-fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3113155363271502385==--
+
+-- >8 --
+From 7db99844f5b6e921b804411e4991a1b3c31d5dd5 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 16:49:01 +0000
+Subject: [PATCH] enchant2: upgrade 2.7.3 -> 2.8.0
+
+---
+ .../enchant/{enchant2_2.7.3.bb => enchant2_2.8.0.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.7.3.bb => enchant2_2.8.0.bb} (91%)
+
+diff --git a/meta/recipes-support/enchant/enchant2_2.7.3.bb b/meta/recipes-support/enchant/enchant2_2.8.0.bb
+similarity index 91%
+rename from meta/recipes-support/enchant/enchant2_2.7.3.bb
+rename to meta/recipes-support/enchant/enchant2_2.8.0.bb
+index d5073b6f31..5f6f6c86f2 100644
+--- a/meta/recipes-support/enchant/enchant2_2.7.3.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.0.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "fe6ad4cbe8c71b9384ffdef962be52d4d2bd5ebfb6351435bb390543d4f78b1e"
++SRC_URI[sha256sum] = "c57add422237b8a7eed116a9a88d8be4f7b9281778fa36f03e1f2c051ecb0372"
+ 
+ GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
+ 
+-- 
+2.44.0
+
+
+--===============8264083423786939237==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: FILELIST: removed "/usr/lib/.debug/libenchant-2.so.2.7.3", added "/usr/lib/.debug/libenchant-2.so.2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 326576 to 363128 (+11%)
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGSIZE changed from 20827 to 20735 (-0%)
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGSIZE changed from 22362 to 23346 (+4%)
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-src: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-src: FILELIST: directory renamed /usr/src/debug/enchant2/2.7.3/src -> /usr/src/debug/enchant2/2.8.0/src, directory renamed /usr/src/debug/enchant2/2.7.3/providers -> /usr/src/debug/enchant2/2.8.0/providers, removed "/usr/src/debug/enchant2/2.7.3/lib/util.c /usr/src/debug/enchant2/2.7.3/lib/util.vala /usr/src/debug/enchant2/2.7.3/lib/dict.vala /usr/src/debug/enchant2/2.7.3/lib/api.vala /usr/src/debug/enchant2/2.7.3/lib/pwl.vala /usr/src/debug/enchant2/2.7.3/lib/session.c /usr/src/debug/enchant2/2.7.3/lib/session.vala /usr/src/debug/enchant2/2.7.3/lib/broker.c /usr/src/debug/enchant2/2.7.3/lib/api.c /usr/src/debug/enchant2/2.7.3/lib/dict.c /usr/src/debug/enchant2/2.7.3/lib/broker.vala /usr/src/debug/enchant2/2.7.3/lib/provider.vala /usr/src/debug/enchant2/2.7.3/lib/enchant-provider.h /usr/src/debug/enchant2/2.7.3/lib/provider.c /usr/src/debug/enchant2/2.7.3/lib/enchant.h /usr/src/debug/enchant2/2.7.3/lib/gnu.vapi /usr/src/debug/enchant2/2.
+ 7.3/lib/pwl.c", added "/usr/src/debug/enchant2/2.8.0/lib/util.c /usr/src/debug/enchant2/2.8.0/lib/composite.c /usr/src/debug/enchant2/2.8.0/lib/api.vala /usr/src/debug/enchant2/2.8.0/lib/pwl.vala /usr/src/debug/enchant2/2.8.0/lib/session.vala /usr/src/debug/enchant2/2.8.0/lib/broker.vala /usr/src/debug/enchant2/2.8.0/lib/provider.c /usr/src/debug/enchant2/2.8.0/lib/gnu.vapi /usr/src/debug/enchant2/2.8.0/lib/session.c /usr/src/debug/enchant2/2.8.0/lib/composite.vala /usr/src/debug/enchant2/2.8.0/lib/broker.c /usr/src/debug/enchant2/2.8.0/lib/api.c /usr/src/debug/enchant2/2.8.0/lib/provider.vala /usr/src/debug/enchant2/2.8.0/lib/enchant.h /usr/src/debug/enchant2/2.8.0/lib/pwl.c /usr/src/debug/enchant2/2.8.0/lib/dict.vala /usr/src/debug/enchant2/2.8.0/lib/util.vala /usr/src/debug/enchant2/2.8.0/lib/dict.c /usr/src/debug/enchant2/2.8.0/lib/enchant-provider.h"
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 352394 to 398047 (+13%)
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.7.3", added "/usr/lib/libenchant-2.so.2.8.0"
+packages/core2-64-poky-linux/enchant2/enchant2: PKGSIZE changed from 119234 to 123330 (+3%)
+packages/core2-64-poky-linux/enchant2: PV changed from "2.7.3" to "2.8.0"
+packages/core2-64-poky-linux/enchant2: PKGV changed from 2.7.3 [default] to 2.8.0 [default]
+packages/core2-64-poky-linux/enchant2: SRC_URI changed from "https://github.com/AbiWord/enchant/releases/download/v2.7.3/enchant-2.7.3.tar.gz" to "https://github.com/AbiWord/enchant/releases/download/v2.8.0/enchant-2.8.0.tar.gz"
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.7.3 to libenchant-2.so.2.8.0
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.7.3 to libenchant-2.so.2.8.0
+  /usr/lib/libenchant-2.so.2.7.3 moved to /usr/lib/libenchant-2.so.2.8.0
+
+--===============8264083423786939237==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 326576 to 363128 (+11%)
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 352394 to 398047 (+13%)
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.7.3", added "/usr/lib/libenchant-2.so.2.8.0"
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.7.3 to libenchant-2.so.2.8.0
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.7.3 to libenchant-2.so.2.8.0
+  /usr/lib/libenchant-2.so.2.7.3 moved to /usr/lib/libenchant-2.so.2.8.0
+
+--===============8264083423786939237==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-enchant2-upgrade-2.7.3-2.8.0.patch"
+
+RnJvbSA3ZGI5OTg0NGY1YjZlOTIxYjgwNDQxMWU0OTkxYTFiM2MzMWQ1ZGQ1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNjo0OTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVu
+Y2hhbnQyOiB1cGdyYWRlIDIuNy4zIC0+IDIuOC4wCgotLS0KIC4uLi9lbmNoYW50L3tlbmNoYW50
+Ml8yLjcuMy5iYiA9PiBlbmNoYW50Ml8yLjguMC5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2VuY2hhbnQve2VuY2hhbnQyXzIuNy4zLmJiID0+IGVuY2hhbnQyXzIuOC4w
+LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2VuY2hhbnQvZW5j
+aGFudDJfMi43LjMuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIu
+OC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2VuY2hhbnQvZW5jaGFudDJfMi43LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2VuY2hhbnQvZW5jaGFudDJfMi44LjAuYmIKaW5kZXggZDUwNzNiNmYzMS4uNWY2ZjZjODZm
+MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZW5jaGFudC9lbmNoYW50Ml8yLjcu
+My5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9lbmNoYW50L2VuY2hhbnQyXzIuOC4wLmJi
+CkBAIC0xMiw3ICsxMiw3IEBAIERFUEVORFMgPSAiZ2xpYi0yLjAgZ3JvZmYtbmF0aXZlIgogaW5o
+ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIGdpdGh1Yi1yZWxlYXNlcwogCiBTUkNfVVJJID0gIiR7
+R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vZW5jaGFudC0ke1BWfS50YXIuZ3oiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZmU2YWQ0Y2JlOGM3MWI5Mzg0ZmZkZWY5NjJiZTUyZDRkMmJk
+NWViZmI2MzUxNDM1YmIzOTA1NDNkNGY3OGIxZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJjNTdh
+ZGQ0MjIyMzdiOGE3ZWVkMTE2YTlhODhkOGJlNGY3YjkyODE3NzhmYTM2ZjAzZTFmMmMwNTFlY2Iw
+MzcyIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL0FiaVdvcmQvZW5j
+aGFudC9yZWxlYXNlcyIKIAotLSAKMi40NC4wCgo=
+
+--===============8264083423786939237==--
 
