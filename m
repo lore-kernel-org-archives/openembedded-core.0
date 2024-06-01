@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC343C2D0CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E349BC2BD09
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.42210.1717263218081781367
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.42217.1717263218871187355
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fnQoZVIu;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DTVWXcIE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018fd4dd3528-1673fee0-5cec-4e13-a40a-12677a33b3c7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a8ED+m8m;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=p0amBkpE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018fd4dd3625-bbad8cb8-caeb-40a6-a742-120a31d146af-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3OiBlt3pOmna3CHgWUc6jk6oaasYoJotILe9yNX220I=;
-	b=fnQoZVIuIDgPPZUUA7iXWNou5vTog4WWtBWkS0MoXRdJnyRiGU5E2HxpyFE4mWWr
-	bIODp5f4tRr30z4JFPmfHeQnpU2yAHFrYMCwC4v6HDgq/3i7y6WTaMM3SJEl4G1L+BB
-	Fb/B0uqCfM6L01lh3A+lVHQtEtX/PgY3VdvcCAo0=
+	bh=s9Fx7NSnLD9gpRwj824CxOhLkTVek4GqsvGVfEL8axc=;
+	b=a8ED+m8mmAY580rbkuNDBmh5AJXh8uHeUsfucuntz/hecnrsRUneDbIvhpY4NloA
+	5jbGnKfqjP6JM+QgKHcx3P9XCvdoDqPfqf9OTSQiyQACSj7kS8MufWMv5nLeIpYqup/
+	2Et2fhohkVKMzEEzet6SuobR2a3oA1g+y5w15koo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3OiBlt3pOmna3CHgWUc6jk6oaasYoJotILe9yNX220I=;
-	b=DTVWXcIEZaiGwLGVOxc+D2SznAiKNRWMpChJWs7mdzVkG/Pvy8jIPO26CpfXTYWy
-	RhagednxaYXQJ71kzKbJinlmDp8yn5IT9K+TmzyC7CfqEaJp0VZRe2rEQNUc8qElA9N
-	YZBxGL/XQAui+zABtbK1XdqodqNXInn1BkmpFncY=
-Content-Type: multipart/mixed; boundary="===============9202749448719056139=="
+	bh=s9Fx7NSnLD9gpRwj824CxOhLkTVek4GqsvGVfEL8axc=;
+	b=p0amBkpEY94P3xfhZHaUHwQ9obwUDYnnhCYvQSIjR8fkVE3nRhnmmfY50xZVrKLg
+	VA74clpx/frZ99TMeTBFwlDKRnHiOUCXAYAStIf8PqTt5JBTF7R1p1td943Bt8xNhIx
+	eZMQMITb4bKzysYU0V1lHVK4lGEMTOVGphmOt76s=
+Content-Type: multipart/mixed; boundary="===============7592844254018210183=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-typing-extensions: upgrading to 4.12.0 SUCCEEDED
-Message-ID: <0101018fd4dd3528-1673fee0-5cec-4e13-a40a-12677a33b3c7-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:37 +0000
+Subject: [AUH] python3-meson-python: upgrading to 0.16.0 FAILED
+Message-ID: <0101018fd4dd3625-bbad8cb8-caeb-40a6-a742-120a31d146af-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.31
+X-SES-Outgoing: 2024.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200137
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200147
 
---===============9202749448719056139==
+--===============7592844254018210183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,124 +51,83 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-typing-extensions* to *4.12.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-meson-python* to *0.16.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.11.0-4.12.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-meson-python -V 0.16.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1878 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1878 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-2s05wgwo: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-7a3kjczy/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-7a3kjczy/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.16.0.tar.gz;downloadfilename=meson_python-0.16.0.tar.gz...
+ERROR: Execution of 'git add -f -A ".readthedocs.yaml" "tests/packages/complex/complex/more/baz.pyx" "tests/packages/complex/complex/more/meson.build" "tests/packages/complex/foo.py" "tests/packages/complex/move.py" "tests/packages/custom-target-dir/codegen.py" "tests/packages/custom-target-dir/meson.build" "tests/packages/custom-target-dir/pyproject.toml" "tests/packages/encoding/meson.build" "tests/packages/encoding/pyproject.toml" ""tests/packages/encoding/\343\203\206\343\202\271\343\203\210.py"" ".cirrus.yml" ".github/workflows/docs.yml" ".github/workflows/tests.yml" ".pre-commit-config.yaml" ".readthedocs.yml" "CHANGELOG.rst" "PKG-INFO" "README.rst" "ci/alpine-3.docker" "ci/debian-11.docker" "ci/debian-12.docker" "ci/fedora-37.docker" "ci/miniconda.docker" "docs/changelog.rst" "docs/conf.py" "docs/contributing/commit-format.rst" "docs/contributing/documentation.rst" "docs/contributing/getting-started.rst" "docs/contributing/index.rst" "docs/contributing/release-process.rst" "do
+ cs/contributing/test-suite.rst" "docs/explanations/design.rst" "docs/explanations/editable-installs.rst" "docs/explanations/internal-dependencies.rst" "docs/how-to-guides/build-directory.rst" "docs/how-to-guides/config-settings.rst" "docs/how-to-guides/first-project.rst" "docs/index.rst" "docs/projects-using-meson-python.rst" "docs/reference/environment-variables.rst" "docs/reference/meson-compatibility.rst" "docs/reference/pyproject-settings.rst" "docs/reference/quirks.rst" "docs/tutorials/entrypoints.rst" "docs/tutorials/executable.rst" "docs/tutorials/introduction.rst" "meson.build" "mesonpy/__init__.py" "mesonpy/_editable.py" "mesonpy/_tags.py" "mesonpy/_util.py" "pyproject.toml" "tests/packages/complex/meson.build" "tests/packages/imports-itself-during-build/meson.build" "tests/test_editable.py" "tests/test_output.py" "tests/test_project.py" "tests/test_tags.py" "tests/test_wheel.py"' failed with exit code 128:
+fatal: pathspec 'tests/packages/encoding/343203206343202271343203210.py' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 6a3aa1c7bffd5e105ff71be980a5057fecb2bd49 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 09:38:28 +0000
-Subject: [PATCH] python3-typing-extensions: upgrade 4.11.0 -> 4.12.0
-
----
- ...extensions_4.11.0.bb => python3-typing-extensions_4.12.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.11.0.bb => python3-typing-extensions_4.12.0.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.12.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.12.0.bb
-index ad45b669ec..87d8158f75 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.12.0.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
- 
--SRC_URI[sha256sum] = "83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"
-+SRC_URI[sha256sum] = "8cbcdc8606ebcb0d95453ad7dc5065e6237b6aa230a31e81d0f440c30fed5fd8"
- 
- inherit pypi python_flit_core
- 
--- 
-2.44.0
-
-
---===============9202749448719056139==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-typing-extensions-upgrade-4.11.0-4.12.0.patch"
-
-RnJvbSA2YTNhYTFjN2JmZmQ1ZTEwNWZmNzFiZTk4MGE1MDU3ZmVjYjJiZDQ5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOTozODoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnM6IHVwZ3JhZGUgNC4xMS4wIC0+IDQuMTIuMAoKLS0tCiAu
-Li5leHRlbnNpb25zXzQuMTEuMC5iYiA9PiBweXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTIu
-MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXR5cGluZy1l
-eHRlbnNpb25zXzQuMTEuMC5iYiA9PiBweXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTIuMC5i
-Yn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTIuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlw
-aW5nLWV4dGVuc2lvbnNfNC4xMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xMi4wLmJiCmluZGV4IGFkNDViNjY5
-ZWMuLjg3ZDgxNThmNzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjExLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTIuMC5iYgpAQCAtMTUs
-NyArMTUsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mY2Y2YjI0
-OWMyNjQxNTQwMjE5YTcyN2YzNWQ4ZDJjMiIKICMgVGhlIG5hbWUgb24gUHlQaSBpcyBzbGlnaHRs
-eSBkaWZmZXJlbnQuCiBQWVBJX1BBQ0tBR0UgPSAidHlwaW5nX2V4dGVuc2lvbnMiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI4M2YwODViZDVjYTU5YzgwMjk1ZmMyYTgyYWI1ZGFjNjc5Y2JlMDJi
-OWYzM2Y3ZDgzYWY2OGUyNDFiZWE1MWIwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhjYmNkYzg2
-MDZlYmNiMGQ5NTQ1M2FkN2RjNTA2NWU2MjM3YjZhYTIzMGEzMWU4MWQwZjQ0MGMzMGZlZDVmZDgi
-CiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxpdF9jb3JlCiAKLS0gCjIuNDQuMAoK
-
---===============9202749448719056139==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.11.0.tar.gz;downloadfilename=typing_extensions-4.11.0.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.12.0.tar.gz;downloadfilename=typing_extensions-4.12.0.tar.gz"
-packages/core2-64-poky-linux/python3-typing-extensions: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.11.0" to "4.12.0"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 267732 to 290049 (+8%)
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.11.0 [default] to 4.12.0 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.11.0" to "4.12.0"
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.12/site-packages/typing_extensions-4.11.0.dist-info moved to /usr/lib/python3.12/site-packages/typing_extensions-4.12.0.dist-info
-
---===============9202749448719056139==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.12/site-packages/typing_extensions-4.11.0.dist-info moved to /usr/lib/python3.12/site-packages/typing_extensions-4.12.0.dist-info
-
---===============9202749448719056139==--
+--===============7592844254018210183==--
 
