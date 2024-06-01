@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F271C30653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 215D8C2D0D0
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.42229.1717263217979766766
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.42233.1717263218505552296
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fMIb1QG/;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=J3F7+vzp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018fd4dd3572-a6642a41-3e50-4ca4-8b81-90db663acc17-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CVQwCivP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=w15crdzq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018fd4dd33c2-e925e0b9-2740-4b8d-b58f-a6c4142150b2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263218;
+	t=1717263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EQiBLm/mxv3hxEGnb1HgvOFHJsD3M0MkIH25W/nQNqM=;
-	b=fMIb1QG/lFDWaJYEIbaTMZgMqSx/7SsFFG2TXQvgEFrzgtKtIKh2YVRLXXl9sRLS
-	6d88ANPevJDF6IbKg2YTCCzqweDSvzmiZWVCKpBqABLEtbHWzxIyYhXUgfLTmBT1M7E
-	LuFEX/U0w6zE+L66aBChsFP4sT1/KNFwgM9CaZhM=
+	bh=Olwep2VZovlFHCen04HiaLWmDc0WSGhagy9tW1fT1hU=;
+	b=CVQwCivPl5oZYmtfp2GcHAEor8+g+enE2uxT8ZMp35yx/OVNjWjDE/QzMwndUKS8
+	HivebMhtV6rWzC028o7W+L1WGV+sjKpnVanqv2vnghhNrXhkP8fLgLPThAnf8rEXqjo
+	d9CTaIRFRG3zFjKaldPCcsnG3W3wfTmpslmbMjpI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EQiBLm/mxv3hxEGnb1HgvOFHJsD3M0MkIH25W/nQNqM=;
-	b=J3F7+vzpuD3FmNy+/3PG1uNAJy4fW7arHoei3AlajMbGvtQzM9urpItJVyEdXu4r
-	b0rO7YkpHG+I5ihaKsxN1hce+vDd//s0V7DVnN3Z/oYAy1FgXn0uCitHTxZzRtk7x1Y
-	afNJSVgi/4F8ZuVKB75L1STjlzKjUxcjmjQMCHWk=
-Content-Type: multipart/mixed; boundary="===============2863542695997622779=="
+	bh=Olwep2VZovlFHCen04HiaLWmDc0WSGhagy9tW1fT1hU=;
+	b=w15crdzqIX5bcOt6cCDLw/4P98KaQyjAkRfRk1PvWjc4ltFgstVJs8kFQL82RIuv
+	vBNLz8XjCQG1GmlxwU+YAvqyRMmfep5bmDjOomKc5CPdxVHm1/dW2Sbt5OIuGJtHEGL
+	CDFXM18Bl0xc/3yN5QXod5/xEWSJ1XLTRL+p3kiI=
+Content-Type: multipart/mixed; boundary="===============6331175402316455432=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Marta Rybczynska <mrybczynska@syslinbit.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uritools: upgrading to 4.0.3 SUCCEEDED
-Message-ID: <0101018fd4dd3572-a6642a41-3e50-4ca4-8b81-90db663acc17-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] meson: upgrading to 1.4.1 SUCCEEDED
+Message-ID: <0101018fd4dd33c2-e925e0b9-2740-4b8d-b58f-a6c4142150b2-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.193
+X-SES-Outgoing: 2024.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200131
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200136
 
---===============2863542695997622779==
+--===============6331175402316455432==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-uritools* to *4.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *meson* to *1.4.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-uritools-upgrade-4.0.2-4.0.3.patch
+    - apply the patch: git am 0001-meson-upgrade-1.4.0-1.4.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,140 +72,218 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 57b5f5cc9c0d861d16218b8bd3b8576ba941a36a Mon Sep 17 00:00:00 2001
+From ee2f9f88668300a6354e7a0dae9dddace42ae1fb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 09:41:36 +0000
-Subject: [PATCH] python3-uritools: upgrade 4.0.2 -> 4.0.3
+Date: Sat, 1 Jun 2024 09:07:40 +0000
+Subject: [PATCH] meson: upgrade 1.4.0 -> 1.4.1
 
 ---
- ...ols_4.0.2.bb => python3-uritools_4.0.3.bb} | 25 +++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-uritools_4.0.2.bb => python3-uritools_4.0.3.bb} (17%)
+ .../meson/meson/0001-Make-CPU-family-warnings-fatal.patch   | 6 +++---
+ ...thon-module-do-not-manipulate-the-environment-when.patch | 4 ++--
+ .../meson/0002-Support-building-allarch-recipes-again.patch | 2 +-
+ .../meson/{meson_1.4.0.bb => meson_1.4.1.bb}                | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.4.0.bb => meson_1.4.1.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-similarity index 17%
-rename from meta/recipes-devtools/python/python3-uritools_4.0.2.bb
-rename to meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-index 5ffedccb85..e09c2acf6d 100644
---- a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-@@ -1,10 +1,31 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#  The MIT License (MIT)
-+#  
-+# -Copyright (c) 2014-2022 Thomas Kemmer
-+# +Copyright (c) 2014-2024 Thomas Kemmer
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
-+#  this software and associated documentation files (the "Software"), to deal in
-+# 
-+#
-+
- SUMMARY = "URI parsing, classification and composition"
- HOMEPAGE = "https://github.com/tkem/uritools/"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 94129b2f25..9738ef98f9 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From c61c93f43b70ba0670d41e841bff9f2a7186cc2f Mon Sep 17 00:00:00 2001
++From bca6a2ed41f6f68aa7d84304711f084cd2274ca2 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -26,10 +26,10 @@ index 0e9cd23..b44e60c 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index af69f64..248d6dd 100644
++index 156d329..e443dd2 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -379,10 +379,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++@@ -380,10 +380,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+          if compilers and not any_compiler_has_define(compilers, '__mips64'):
+              trial = 'mips'
+  
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+index 9f3f516a5c..e96b70fb2c 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From b4c0602a56d3517ab66b98a7dbb69defe77d29a3 Mon Sep 17 00:00:00 2001
++From 127652397d57e54d161830906254fd20499191fd Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when calling
+@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=1ec55353c80c662e4255f8889a0ca558"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
+-index b9b17f8..a305afb 100644
++index a0a22c1..6fc0453 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+ @@ -381,9 +381,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index fa5ea57d5b..4b28830f08 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From 7f69bfabb87d311d7409ea6699f7dee8e9b3a95b Mon Sep 17 00:00:00 2001
++From d4f7d34bbcde918230428938918eb02ddbbeb110 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_1.4.0.bb b/meta/recipes-devtools/meson/meson_1.4.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.4.0.bb
+rename to meta/recipes-devtools/meson/meson_1.4.1.bb
+index 5db100ff1c..6686b99d31 100644
+--- a/meta/recipes-devtools/meson/meson_1.4.0.bb
++++ b/meta/recipes-devtools/meson/meson_1.4.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] = "8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d"
++SRC_URI[sha256sum] = "1b8aad738a5f6ae64294cc8eaba9a82988c1c420204484ac02ef782e5bba5f49"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)$"
  
--SRC_URI[sha256sum] = "04df2b787d0eb76200e8319382a03562fbfe4741fd66c15506b08d3b8211d573"
-+SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
- 
- inherit setuptools3 pypi
- 
+ inherit python_setuptools_build_meta github-releases
 -- 
 2.44.0
 
 
---===============2863542695997622779==
+--===============6331175402316455432==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-meson-upgrade-1.4.0-1.4.1.patch"
+
+RnJvbSBlZTJmOWY4ODY2ODMwMGE2MzU0ZTdhMGRhZTlkZGRhY2U0MmFlMWZiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOTowNzo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c29uOiB1cGdyYWRlIDEuNC4wIC0+IDEuNC4xCgotLS0KIC4uLi9tZXNvbi9tZXNvbi8wMDAxLU1h
+a2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCAgIHwgNiArKystLS0KIC4uLnRob24t
+bW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1lbnZpcm9ubWVudC13aGVuLnBhdGNoIHwgNCAr
+Ky0tCiAuLi4vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fp
+bi5wYXRjaCB8IDIgKy0KIC4uLi9tZXNvbi97bWVzb25fMS40LjAuYmIgPT4gbWVzb25fMS40LjEu
+YmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMo
+KyksIDcgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL3tt
+ZXNvbl8xLjQuMC5iYiA9PiBtZXNvbl8xLjQuMS5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1NYWtlLUNQVS1mYW1pbHktd2Fybmlu
+Z3MtZmF0YWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1N
+YWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwucGF0Y2gKaW5kZXggOTQxMjliMmYyNS4uOTcz
+OGVmOThmOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAw
+MDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRh
+bC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzYxYzkzZjQzYjcwYmEwNjcwZDQxZTg0MWJm
+ZjlmMmE3MTg2Y2MyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmNhNmEyZWQ0MWY2
+ZjY4YWE3ZDg0MzA0NzExZjA4NGNkMjI3NGNhMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBUdWUsIDMgSnVs
+IDIwMTggMTM6NTk6MDkgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBDUFUgZmFtaWx5IHdh
+cm5pbmdzIGZhdGFsCkBAIC0yNiwxMCArMjYsMTAgQEAgaW5kZXggMGU5Y2QyMy4uYjQ0ZTYwYyAx
+MDA2NDQKICAgICAgICAgIGVuZGlhbiA9IGxpdGVyYWxbJ2VuZGlhbiddCiAgICAgICAgICBpZiBl
+bmRpYW4gbm90IGluICgnbGl0dGxlJywgJ2JpZycpOgogZGlmZiAtLWdpdCBhL21lc29uYnVpbGQv
+ZW52aXJvbm1lbnQucHkgYi9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5Ci1pbmRleCBhZjY5ZjY0
+Li4yNDhkNmRkIDEwMDY0NAoraW5kZXggMTU2ZDMyOS4uZTQ0M2RkMiAxMDA2NDQKIC0tLSBhL21l
+c29uYnVpbGQvZW52aXJvbm1lbnQucHkKICsrKyBiL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkK
+LUBAIC0zNzksMTAgKzM3OSw4IEBAIGRlZiBkZXRlY3RfY3B1X2ZhbWlseShjb21waWxlcnM6IENv
+bXBpbGVyc0RpY3QpIC0+IHN0cjoKK0BAIC0zODAsMTAgKzM4MCw4IEBAIGRlZiBkZXRlY3RfY3B1
+X2ZhbWlseShjb21waWxlcnM6IENvbXBpbGVyc0RpY3QpIC0+IHN0cjoKICAgICAgICAgIGlmIGNv
+bXBpbGVycyBhbmQgbm90IGFueV9jb21waWxlcl9oYXNfZGVmaW5lKGNvbXBpbGVycywgJ19fbWlw
+czY0Jyk6CiAgICAgICAgICAgICAgdHJpYWwgPSAnbWlwcycKICAKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1h
+bmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbWVzb24vbWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1l
+bnZpcm9ubWVudC13aGVuLnBhdGNoCmluZGV4IDlmM2Y1MTZhNWMuLmU5NmI3MGZiMmMgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1
+bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3Qt
+bWFuaXB1bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gYjRjMDYwMmE1NmQzNTE3YWI2NmI5OGE3ZGJiNjlkZWZlNzdkMjlhMyBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gMTI3NjUyMzk3ZDU3ZTU0ZDE2MTgzMDkwNjI1NGZkMjA0OTkxOTFm
+ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogTW9uLCAxOSBOb3YgMjAxOCAxNDoyNDoyNiArMDEw
+MAogU3ViamVjdDogW1BBVENIXSBweXRob24gbW9kdWxlOiBkbyBub3QgbWFuaXB1bGF0ZSB0aGUg
+ZW52aXJvbm1lbnQgd2hlbiBjYWxsaW5nCkBAIC0xMSw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgNSBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29u
+YnVpbGQvZGVwZW5kZW5jaWVzL3B5dGhvbi5weSBiL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5
+dGhvbi5weQotaW5kZXggYjliMTdmOC4uYTMwNWFmYiAxMDA2NDQKK2luZGV4IGEwYTIyYzEuLjZm
+YzA0NTMgMTAwNjQ0CiAtLS0gYS9tZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkKICsr
+KyBiL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5dGhvbi5weQogQEAgLTM4MSw5ICszODEsNiBA
+QCBkZWYgcHl0aG9uX2ZhY3RvcnkoZW52OiAnRW52aXJvbm1lbnQnLCBmb3JfbWFjaGluZTogJ01h
+Y2hpbmVDaG9pY2UnLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFs
+bGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAppbmRleCBmYTVlYTU3ZDViLi40YjI4ODMwZjA4IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0
+LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBl
+cy1hZ2Fpbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2Y2OWJmYWJiODdkMzExZDc0MDll
+YTY2OTlmN2RlZThlOWIzYTk1YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDRmN2Qz
+NGJiY2RlOTE4MjMwNDI4OTM4OTE4ZWIwMmRkYmJlYjExMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29tPgogRGF0ZTogVGh1LCAy
+NiBKdWwgMjAxOCAxNjozMjo0OSArMDIwMAogU3ViamVjdDogW1BBVENIXSBTdXBwb3J0IGJ1aWxk
+aW5nIGFsbGFyY2ggcmVjaXBlcyBhZ2FpbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21lc29uL21lc29uXzEuNC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uXzEuNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21lc29uL21lc29uXzEuNC4xLmJiCmluZGV4IDVkYjEwMGZmMWMuLjY2ODZiOTlkMzEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjQuMC5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS40LjEuYmIKQEAgLTE1LDcg
+KzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vbWVz
+b24tJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtTWFrZS1DUFUtZmFtaWx5
+LXdhcm5pbmdzLWZhdGFsLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDItU3VwcG9ydC1i
+dWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiOGZkNjYzMGMyNWMyN2YxNDg5YThhMDM5MmIzMTFhNjA0ODFhM2Mx
+NjFhYTY5OWIzMzBlMjU5MzViNzUwMTM4ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxYjhhYWQ3
+MzhhNWY2YWU2NDI5NGNjOGVhYmE5YTgyOTg4YzFjNDIwMjA0NDg0YWMwMmVmNzgyZTViYmE1ZjQ5
+IgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIKIAogaW5o
+ZXJpdCBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIGdpdGh1Yi1yZWxlYXNlcwotLSAKMi40
+NC4wCgo=
+
+--===============6331175402316455432==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-uritools: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.2.tar.gz;downloadfilename=uritools-4.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.3.tar.gz;downloadfilename=uritools-4.0.3.tar.gz"
-packages/core2-64-poky-linux/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
+packages/core2-64-poky-linux/meson: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.4.0/meson-1.4.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.4.1/meson-1.4.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
+packages/core2-64-poky-linux/meson: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-dbg: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-dbg: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-dev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-dev: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-doc: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-doc: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-doc: PKGSIZE changed from 5356 to 5354 (-0%)
+packages/core2-64-poky-linux/meson/meson-locale: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-locale: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-src: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-src: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-staticdev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-staticdev: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson: PKGSIZE changed from 7974910 to 7993492 (+0%)
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.1.dist-info
 
---===============2863542695997622779==
+--===============6331175402316455432==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.1.dist-info
 
---===============2863542695997622779==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-uritools-upgrade-4.0.2-4.0.3.patch"
-
-RnJvbSA1N2I1ZjVjYzljMGQ4NjFkMTYyMThiOGJkM2I4NTc2YmE5NDFhMzZhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOTo0MTozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNC4wLjIgLT4gNC4wLjMKCi0tLQogLi4ub2xzXzQuMC4y
-LmJiID0+IHB5dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmJ9IHwgMjUgKysrKysrKysrKysrKysrKyst
-LQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cml0b29sc180LjAuMi5i
-YiA9PiBweXRob24zLXVyaXRvb2xzXzQuMC4zLmJifSAoMTclKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc180LjAuMi5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc180LjAuMy5iYgpzaW1pbGFy
-aXR5IGluZGV4IDE3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtdXJpdG9vbHNfNC4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy11cml0b29sc180LjAuMy5iYgppbmRleCA1ZmZlZGNjYjg1Li5lMDljMmFj
-ZjZkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJp
-dG9vbHNfNC4wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXVyaXRvb2xzXzQuMC4zLmJiCkBAIC0xLDEwICsxLDMxIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJ
-TEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScu
-CisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0
-aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBp
-ZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNz
-YWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRh
-dGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAt
-LS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgIFRoZSBNSVQg
-TGljZW5zZSAoTUlUKQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMTQtMjAyMiBUaG9tYXMgS2Vt
-bWVyCisjICtDb3B5cmlnaHQgKGMpIDIwMTQtMjAyNCBUaG9tYXMgS2VtbWVyCisjICAKKyMgIFBl
-cm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29u
-IG9idGFpbmluZyBhIGNvcHkgb2YKKyMgIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9j
-dW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluCisjIAorIworCiBT
-VU1NQVJZID0gIlVSSSBwYXJzaW5nLCBjbGFzc2lmaWNhdGlvbiBhbmQgY29tcG9zaXRpb24iCiBI
-T01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vdGtlbS91cml0b29scy8iCiAKIExJQ0VOU0Ug
-PSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MWVjNTUzNTNj
-ODBjNjYyZTQyNTVmODg4OWEwY2E1NTgiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
-TlNFO21kNT01MzkyNzVlNjU3YzZiN2FmMDI2YmI5MDgzNTZmNzU0MSIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjA0ZGYyYjc4N2QwZWI3NjIwMGU4MzE5MzgyYTAzNTYyZmJmZTQ3NDFmZDY2YzE1
-NTA2YjA4ZDNiODIxMWQ1NzMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWUwNmExODJhOWM4NDk0
-NjRjZTlkNWZhOTE3NTM5YWFjYzhlZGQyYTQ5MjRkMWI3YWFiZWVlY2FiY2FlM2JjMiIKIAogaW5o
-ZXJpdCBzZXR1cHRvb2xzMyBweXBpCiAKLS0gCjIuNDQuMAoK
-
---===============2863542695997622779==--
+--===============6331175402316455432==--
 
