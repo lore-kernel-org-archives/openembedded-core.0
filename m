@@ -1,100 +1,157 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62D4C27C51
-	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 12:25:26 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.36167.1717244718676266582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB89DC25B76
+	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:38 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.42213.1717263218285554867
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 05:25:18 -0700
+ Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yqkIMLTe;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-702548b056aso546796b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244718; x=1717849518; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WcQHhN3rdzFS7YtD/JnWT+kubW/eOOcJUuN4JOG1wRA=;
-        b=yqkIMLTeCyufqL78hHwjBNPhz3661q+MYih0nX1I7XeHGHpjoAOREJqzjBHolGfiQN
-         N94imowPXfqR2il3nUDfvp+2oaiLg0JRVoiW/oMS0U0A44CGhSLMitCXGcnOTiR15GJK
-         m/w3k2D4UqG3QI2DmgsZlV2CT4+IINiCb18SXVfjIsQ/vRWbLMVr7/rCfVLtcgEBsd5x
-         a8UcdQJpGH/Du1cyH4ETg98IRVogrkHjTPiVhkn220CxCQUq9Np/FZV0Htt2kJ3I87eG
-         5u49rN/gdRNoGpwo93fbu5rjxFk2/gx0H1JMzJ4Mz+GAnf9tHDKlnI9LTOvkBpXnMhPj
-         BZUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717244718; x=1717849518;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WcQHhN3rdzFS7YtD/JnWT+kubW/eOOcJUuN4JOG1wRA=;
-        b=Tiu4PhP1zJvy82K+4oOm1r4MhWPi7B6Ww35as8T+rS0LftxKA19WN1kRHNYyemKtO3
-         etjSe8GVYysrGSI4m/W3A0kOUOBhOfNGqKM5Ps6g93eUQoHU4VnW+Yzflc/IRJlnmK8/
-         VZFLH3LRzbo/aSbUFIpZV4UIaiz7RzDOropSn59Cr1asYYaGBhJghDNAaVSHiMPe75PS
-         EqtxDTAGeik9H4v+OFM1xkk+uFq0tA6Opzu1xJatGIxHrlvFgx9U7RAxD39dtRVmOV/c
-         LAA5QUh3F4uAQ9XzTuQhv9j5bzb5c9oYm/wmm0cABwe8MihumGWBCy/peX6ihPD5ZxlJ
-         SxFA==
-X-Gm-Message-State: AOJu0YwT2B98SZO9ui9T5XaZARtUTw7Kvt4HHVSf/SakLRkIOtujh/ii
-	+KrHa54ZqV+FqVM1uRPNEir7ZTR3z76wdvGID9/hDhlQBVpU6DhleIBT5njgiTqsEPXkJ0MgGdd
-	I
-X-Google-Smtp-Source: AGHT+IFMarXfFUK6c6HlKSge7V1NB/YbCbJ1IU6KGM47VXywZ9sd+A2+PVOptZ/vRzw5am8J06ITXA==
-X-Received: by 2002:a05:6a20:96ca:b0:1b1:f6a9:6b0a with SMTP id adf61e73a8af0-1b26f275a5fmr3956298637.47.1717244717694;
-        Sat, 01 Jun 2024 05:25:17 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 05:25:17 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/21] gstreamer1.0-plugins-good: Include qttools-native during the build with qt5 PACKAGECONFIG
-Date: Sat,  1 Jun 2024 05:24:43 -0700
-Message-Id: <4e9274f2719eea91de3c98b9f88a7e2ebebcce90.1717243719.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1717243719.git.steve@sakoman.com>
-References: <cover.1717243719.git.steve@sakoman.com>
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QYwVwYbN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OQWhtWb1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fd4dd32bd-a5379e1f-b135-4198-821c-3952b7a60934-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717263217;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=8chOFkfqfepJGTZyulEC5DVRFM4UiCbGKj8cJFCx2Dg=;
+	b=QYwVwYbNwpb+58xBerUr0Mf6TUTngLXaK4+bOpg00352zfmm3Xzs9Dydg+bLHgw7
+	3wBTtHoF9JIuGA02+8NsrIs7XXnKV5Uh4AAlx56ClEZeGX+eWNM5Vu0gD/oqRv8drne
+	UBByWQe32HjURUFEER1NVsP7lytHR0Es+ndaCsx8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263217;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=8chOFkfqfepJGTZyulEC5DVRFM4UiCbGKj8cJFCx2Dg=;
+	b=OQWhtWb1nPWHDpcM+S74lcxx+Qb+xPrmqxWTKceqfSkv9VsHiHGdfL2EwYpGcwxC
+	9eSdP1TxFSJasLgrDqzQE8Bxk71KRHjX+G9eOXN2uio90DLMyeTaglz8oQJTl43Z4US
+	4KKNoUukkg5knUChp/KxQcGQBZDJRtAMgG5N2JG8=
+Content-Type: multipart/mixed; boundary="===============8267814914680219066=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ttyrun: upgrading to 2.33.1 SUCCEEDED
+Message-ID: <0101018fd4dd32bd-a5379e1f-b135-4198-821c-3952b7a60934-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:37 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 12:25:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200113
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200130
 
-From: Marek Vasut <marex@denx.de>
+--===============8267814914680219066==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-The qttools provide 'lrelease' tool, which is checked by recent
-versions of meson build system. Unless the qttools are available
-in sysroot, meson will fail to detect qt5 installation at build
-time and the gstreamer build will fail. Fix this by including
-the qttools-native.
+Hello,
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ae2ca4af54695003638da38f8548aa8573d18201)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *ttyrun* to *2.33.1* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-ttyrun-upgrade-2.32.0-2.33.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 6fb40448569bc1600a89228297429b5f06bae667 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 08:24:12 +0000
+Subject: [PATCH] ttyrun: upgrade 2.32.0 -> 2.33.1
+
 ---
- .../gstreamer/gstreamer1.0-plugins-good_1.22.11.bb              | 2 +-
+ meta/recipes-core/ttyrun/{ttyrun_2.32.0.bb => ttyrun_2.33.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.32.0.bb => ttyrun_2.33.1.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb
-index edd8609b7c..85143aa1b9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb
-@@ -52,7 +52,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
- PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
- PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
- PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
--PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
-+PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native qttools-native ${QT5WAYLANDDEPENDS}"
- PACKAGECONFIG[soup2]      = "-Dsoup=enabled,,libsoup-2.4,,,soup3"
- PACKAGECONFIG[soup3]      = "-Dsoup=enabled,,libsoup,,,soup2"
- PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.32.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.33.1.bb
+similarity index 94%
+rename from meta/recipes-core/ttyrun/ttyrun_2.32.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.33.1.bb
+index 815f625a67..ccb7f9b268 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.32.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.33.1.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+ 
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master"
+-SRCREV = "9eea78b3ad8ab3710fb3b2d80b9cd058d7c8aba7"
++SRCREV = "686262fdcdaed7903ca1720d7dd0b1f9f5621d7b"
+ 
+ CVE_PRODUCT = "s390-tools"
+ 
 -- 
-2.34.1
+2.44.0
 
+
+--===============8267814914680219066==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/ttyrun: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-src: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.32.0" to "2.33.1"
+packages/core2-64-poky-linux/ttyrun/ttyrun: PKGV changed from 2.32.0 [default] to 2.33.1 [default]
+packages/core2-64-poky-linux/ttyrun/ttyrun: PV changed from "2.32.0" to "2.33.1"
+
+--===============8267814914680219066==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ttyrun-upgrade-2.32.0-2.33.1.patch"
+
+RnJvbSA2ZmI0MDQ0ODU2OWJjMTYwMGE4OTIyODI5NzQyOWI1ZjA2YmFlNjY3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwODoyNDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR0
+eXJ1bjogdXBncmFkZSAyLjMyLjAgLT4gMi4zMy4xCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL3R0
+eXJ1bi97dHR5cnVuXzIuMzIuMC5iYiA9PiB0dHlydW5fMi4zMy4xLmJifSB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1jb3JlL3R0eXJ1bi97dHR5cnVuXzIuMzIuMC5iYiA9PiB0dHlydW5fMi4zMy4xLmJifSAo
+OTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zMi4w
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8yLjMzLjEuYmIKc2ltaWxhcml0
+eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8y
+LjMyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zMy4x
+LmJiCmluZGV4IDgxNWY2MjVhNjcuLmNjYjdmOWIyNjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3R0
+eXJ1bi90dHlydW5fMi4zMy4xLmJiCkBAIC03LDcgKzcsNyBAQCBMSUNFTlNFID0gIk1JVCIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY1MTE4ZjE2N2IwNTViZmQ3YzM0
+NTA4MDNmMTg0N2FmIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaWJtLXMzOTAtbGlu
+dXgvczM5MC10b29scztwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIgotU1JDUkVWID0gIjll
+ZWE3OGIzYWQ4YWIzNzEwZmIzYjJkODBiOWNkMDU4ZDdjOGFiYTciCitTUkNSRVYgPSAiNjg2MjYy
+ZmRjZGFlZDc5MDNjYTE3MjBkN2RkMGIxZjlmNTYyMWQ3YiIKIAogQ1ZFX1BST0RVQ1QgPSAiczM5
+MC10b29scyIKIAotLSAKMi40NC4wCgo=
+
+--===============8267814914680219066==--
 
