@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B80C2BB85
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BD1C2BA2B
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.42238.1717263218847701036
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.42237.1717263218752894487
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VnsDHf4L;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LK7w6Yjd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fd4dd3504-6c40b523-35da-47ce-8b68-5a3bc2992036-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TTda9b7w;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Xs9N7mwn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018fd4dd35f8-3542d66b-aca9-491b-ac10-7694ba98892d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2FaKUhbcriVOElMmW8a+TGPbBN8lMIIu8zFisNBQ+UM=;
-	b=VnsDHf4Ln22SGlLK+X07QqDKB0HC2CFKn+XGtKZqlBJNKdgrIciNfv8LEeGZDy9+
-	zPmFf7zGHr13+SLHsn3bbNt/LdPdGwDOkEKmY1XIcZm0JdOKl9N8nB62kslRzGIpSWK
-	TusHbkXPkkAxVTOiKSBAc9WqGj9jPixi2grZRRts=
+	bh=1OeEWUR6tsXSe7U5wK8dijr3cv5+YNdD6bZzt6ZTyAo=;
+	b=TTda9b7wHlQ28JSKVm1q/QX3Iw3tUFqOHT4s+OcX8GXzTdFnB5oPCqg6LWAaII1F
+	dckVlaKoricDc+Bsndmtb5q3F2+ijEMm8hjoFRYeehLVHJ2JQBQ0b3ovqYndTsBugAx
+	4pQmTX1md9Ks6xR5atv+jvBvZZtuompRBBbLhRck=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2FaKUhbcriVOElMmW8a+TGPbBN8lMIIu8zFisNBQ+UM=;
-	b=LK7w6YjdXTvaufI7NjjQxIqqhkRHtqlTS6FAqRCLQRal1Pf4iS1KwpwIgamp25dR
-	h5d1/c6JjzPlk1Xo2rq3AVMgTqJ7WgZY2+EWFkhwf9qLPxVO6/5oPNa107G4RL8mCE7
-	5rZs4nNwn8Vw/KhzeXjkHAYGO7sPo7wYU7VLc2cM=
-Content-Type: multipart/mixed; boundary="===============3560615214283634046=="
+	bh=1OeEWUR6tsXSe7U5wK8dijr3cv5+YNdD6bZzt6ZTyAo=;
+	b=Xs9N7mwn+MZAX5rHWPCnZVW7lIIviBApw5lkQpsJv0s7Z3HweXlspdc5vWg+oxYN
+	uElyAyRFc/33xsRiEl2l0XyRZKcfm75cBrGIO+p5+WnGCd7JKVyf86gmRAHkR6wETV+
+	0KRaKd6EW7DwczLaUXaSP1VjyCd0FDP762hQpr90=
+Content-Type: multipart/mixed; boundary="===============2662208994202759403=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jinja2: upgrading to 3.1.4 FAILED
-Message-ID: <0101018fd4dd3504-6c40b523-35da-47ce-8b68-5a3bc2992036-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:37 +0000
+Subject: [AUH] cargo: upgrading to 1.78.0 FAILED
+Message-ID: <0101018fd4dd35f8-3542d66b-aca9-491b-ac10-7694ba98892d-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.23
+X-SES-Outgoing: 2024.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200146
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200144
 
---===============3560615214283634046==
+--===============2662208994202759403==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jinja2* to *3.1.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *cargo* to *1.78.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-jinja2 -V 3.1.4
+The following devtool command failed:  upgrade cargo -V 1.78.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1877 entries from dependency cache.
@@ -69,19 +69,19 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
 Loading cache...done.
@@ -97,35 +97,84 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+WARNING: tmp-recipetool-ixxy35tj: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-l8kyhsys/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-l8kyhsys/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601092252.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601092252.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:10:15
+Adding changed files:   0% |                                    | ETA:  0:07:40
+Adding changed files:   0% |                                    | ETA:  0:06:55
+Adding changed files:   0% |                                    | ETA:  0:06:29
+Adding changed files:   0% |                                    | ETA:  0:06:01
+Adding changed files:   0% |                                    | ETA:  0:05:48
+Adding changed files:   0% |                                    | ETA:  0:05:41
+Adding changed files:   0% |                                    | ETA:  0:05:29
+Adding changed files:   1% |                                    | ETA:  0:05:24
+Adding changed files:   1% |                                    | ETA:  0:05:19
+Adding changed files:   1% |                                    | ETA:  0:05:15
+Adding changed files:   1% |                                    | ETA:  0:05:09
+Adding changed files:   1% |                                    | ETA:  0:05:07
+Adding changed files:   1% |                                    | ETA:  0:05:04
+Adding changed files:   1% |                                    | ETA:  0:05:03
+Adding changed files:   1% |                                    | ETA:  0:05:01
+Adding changed files:   2% |                                    | ETA:  0:04:59
+Adding changed files:   2% |                                    | ETA:  0:04:57
+Adding changed files:   2% |                                    | ETA:  0:04:56
+Adding changed files:   2% |                                    | ETA:  0:04:54
+Adding changed files:   2% |                                    | ETA:  0:04:52
+Adding changed files:   2% |                                    | ETA:  0:04:50
+Adding changed files:   2% |#                                   | ETA:  0:04:50
+Adding changed files:   2% |#                                   | ETA:  0:04:49
+Adding changed files:   3% |#                                   | ETA:  0:04:48
+Adding changed files:   3% |#                                   | ETA:  0:04:47
+Adding changed files:   3% |#                                   | ETA:  0:04:45
+Adding changed files:   3% |#                                   | ETA:  0:04:43
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   3% |#                                   | ETA:  0:04:43
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:39
+Adding changed files:   4% |#                                   | ETA:  0:04:38
+Adding changed files:   4% |#                                   | ETA:  0:04:37
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |##                                  | ETA:  0:04:35
+Adding changed files:   5% |##                                  | ETA:  0:04:34
+Adding changed files:   5% |##                                  | ETA:  0:04:34
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipe
- tool-_laipc95/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/autobuilder/autobuilder.yocto.io/current_sources/Jinja2-3.1.4.tar.gz.tmp -P /srv/autobuilder/autobuilder.yocto.io/current_sources 'https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/temp/log.do_fetch.2975728
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "tests/rustdoc-ui/argfile/commandline-argfile-missing-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-missing.rs" "tests/rustdoc-ui/argfile/commandline-argfile-missing.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.stderr" "tests/rustdoc-ui/argfile/commandline-argfile.args" "tests/rustdoc-ui/argfile/commandline-argfile.rs" "tests/rustdoc-ui/auxiliary/issue-36031.rs" "tests/rustdoc-ui/auxiliary/issue-40936.rs" "tests/rustdoc-ui/auxiliary/issue-48414.rs" "tests/rustdoc-ui/circular-intra-doc-link-48414.rs" "tests/rustdoc-ui/hidden-trait-method-34423.rs" "tests/rustdoc-ui/ice-blanket-impl-52873.rs" "tests/rustdoc-ui/ice-blanket-impl-selection-55001.rs" "tests/rustdoc-ui/inherent-assoc-consts-36031.rs" "tests/rustdoc-ui/issues/issu
+ e-120444-1.rs" "tests/rustdoc-ui/issues/issue-120444-1.stderr" "tests/rustdoc-ui/issues/issue-120444-2.rs" "tests/rustdoc-ui/issues/issue-120444-2.stderr" "tests/rustdoc-ui/nested-extern-crate-46271.rs" "tests/rustdoc-ui/nested-macro-rules-47639.rs" "tests/rustdoc-ui/normalize-in-inlined-type-alias.rs" "tests/rustdoc-ui/redundant-explicit-links-123677.rs" "tests/rustdoc-ui/super-glob-40936.rs" "tests/rustdoc/auto-trait-bounds-by-associated-type-50159.rs" "tests/rustdoc/auto-trait-bounds-inference-variables-54705.rs" "tests/rustdoc/auto-trait-bounds-where-51236.rs" "tests/rustdoc/auto-trait-negative-impl-55321.rs" "tests/rustdoc/auxiliary/issue-106421-force-unstable.rs" "tests/rustdoc/auxiliary/jump-to-def-macro.rs" "tests/rustdoc/blank-line-in-doc-block-47197.rs" "tests/rustdoc/bounds.rs" "tests/rustdoc/demo-allocator-54478.rs" "tests/rustdoc/deref-mut-35169-2.rs" "tests/rustdoc/deref-mut-35169.rs" "tests/rustdoc/doc-attr-comment-mix-42760.rs" "tests/rustdoc/doctest/auxiliary/empty.
+ rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.
+ rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inline_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$na
+ me.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_defs.
+ rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_item_kind.rs"' failed with exit code 128:
+fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -133,5 +182,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3560615214283634046==--
+--===============2662208994202759403==--
 
