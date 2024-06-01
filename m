@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA79C2BA18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B80C2BB85
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.42220.1717263219003271835
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.42238.1717263218847701036
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:39 -0700
+ Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LdzCHInS;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WR1Bab2q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fd4dd35ce-e4735cd8-dcb0-4cbe-98d9-f535be33d57b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VnsDHf4L;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LK7w6Yjd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fd4dd3504-6c40b523-35da-47ce-8b68-5a3bc2992036-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AhVafytG7VaCwXrHAXgbDNqbv5DZeWhLZbXqg69nHKY=;
-	b=LdzCHInSvFt0BmjEa3Yrit1ZNY8S4FjIdT4XMB/v149Z8Fv+TlieF0VE9AldmQoj
-	IJn3/mifTJ/eAxtFWP04hQQ/BXxcf7j+Un3rCL5uSS/AC0Shf/0VbgHubUKebPKU+F1
-	GX7z1pXnLzuzm2wbS6A3yUDA9MQRBQRuEdxclUwE=
+	bh=2FaKUhbcriVOElMmW8a+TGPbBN8lMIIu8zFisNBQ+UM=;
+	b=VnsDHf4Ln22SGlLK+X07QqDKB0HC2CFKn+XGtKZqlBJNKdgrIciNfv8LEeGZDy9+
+	zPmFf7zGHr13+SLHsn3bbNt/LdPdGwDOkEKmY1XIcZm0JdOKl9N8nB62kslRzGIpSWK
+	TusHbkXPkkAxVTOiKSBAc9WqGj9jPixi2grZRRts=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AhVafytG7VaCwXrHAXgbDNqbv5DZeWhLZbXqg69nHKY=;
-	b=WR1Bab2q0LNaXj9vMrPMMnh6c/gqwjnBJj4xekWRvFbXxk8ynhsjJxlwjn/oP2gY
-	kzBFvqDdMccGcBhZ/jTyLfY/5SV+ac7OQNo43GVPLq/RUZgYRD7nZhuaEF3zU6+esWG
-	ZnMe0LQdEGVsPz34yLjpS7HMiZIJOMfnzNtA7/7c=
-Content-Type: multipart/mixed; boundary="===============2797909060987833398=="
+	bh=2FaKUhbcriVOElMmW8a+TGPbBN8lMIIu8zFisNBQ+UM=;
+	b=LK7w6YjdXTvaufI7NjjQxIqqhkRHtqlTS6FAqRCLQRal1Pf4iS1KwpwIgamp25dR
+	h5d1/c6JjzPlk1Xo2rq3AVMgTqJ7WgZY2+EWFkhwf9qLPxVO6/5oPNa107G4RL8mCE7
+	5rZs4nNwn8Vw/KhzeXjkHAYGO7sPo7wYU7VLc2cM=
+Content-Type: multipart/mixed; boundary="===============3560615214283634046=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-requests: upgrading to 2.32.3 SUCCEEDED
-Message-ID: <0101018fd4dd35ce-e4735cd8-dcb0-4cbe-98d9-f535be33d57b-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] python3-jinja2: upgrading to 3.1.4 FAILED
+Message-ID: <0101018fd4dd3504-6c40b523-35da-47ce-8b68-5a3bc2992036-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.191
+X-SES-Outgoing: 2024.06.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200153
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200146
 
---===============2797909060987833398==
+--===============3560615214283634046==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,123 +51,87 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-requests* to *2.32.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-jinja2* to *3.1.4* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-requests-upgrade-2.32.1-2.32.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-jinja2 -V 3.1.4
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601092252.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601092252.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipe
+ tool-_laipc95/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/autobuilder/autobuilder.yocto.io/current_sources/Jinja2-3.1.4.tar.gz.tmp -P /srv/autobuilder/autobuilder.yocto.io/current_sources 'https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-_laipc95/work/temp/log.do_fetch.2975728
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.4.tar.gz;downloadfilename=Jinja2-3.1.4.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 0728e4a267ae64284885149695614b276c91b66a Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 09:28:46 +0000
-Subject: [PATCH] python3-requests: upgrade 2.32.1 -> 2.32.3
-
----
- .../{python3-requests_2.32.1.bb => python3-requests_2.32.3.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-requests_2.32.1.bb => python3-requests_2.32.3.bb} (85%)
-
-diff --git a/meta/recipes-devtools/python/python3-requests_2.32.1.bb b/meta/recipes-devtools/python/python3-requests_2.32.3.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-requests_2.32.1.bb
-rename to meta/recipes-devtools/python/python3-requests_2.32.3.bb
-index a1144181bc..4f0638b50c 100644
---- a/meta/recipes-devtools/python/python3-requests_2.32.1.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.32.3.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://requests.readthedocs.io"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
- 
--SRC_URI[sha256sum] = "eb97e87e64c79e64e5b8ac75cee9dd1f97f49e289b083ee6be96268930725685"
-+SRC_URI[sha256sum] = "55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"
- 
- inherit pypi python_setuptools_build_meta
- 
--- 
-2.44.0
-
-
---===============2797909060987833398==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-requests: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.1.tar.gz;downloadfilename=requests-2.32.1.tar.gz" to "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.3.tar.gz;downloadfilename=requests-2.32.3.tar.gz"
-packages/core2-64-poky-linux/python3-requests: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-dbg: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-dbg: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-dev: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-dev: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-doc: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-doc: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-locale: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-locale: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-src: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-src: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests-staticdev: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests-staticdev: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests: PV changed from "2.32.1" to "2.32.3"
-packages/core2-64-poky-linux/python3-requests/python3-requests: PKGV changed from 2.32.1 [default] to 2.32.3 [default]
-packages/core2-64-poky-linux/python3-requests/python3-requests: PKGSIZE changed from 406069 to 415385 (+2%)
-Changes to packages/core2-64-poky-linux/python3-requests (sysroot):
-  /usr/lib/python3.12/site-packages/requests-2.32.1.dist-info moved to /usr/lib/python3.12/site-packages/requests-2.32.3.dist-info
-
---===============2797909060987833398==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-requests-upgrade-2.32.1-2.32.3.patch"
-
-RnJvbSAwNzI4ZTRhMjY3YWU2NDI4NDg4NTE0OTY5NTYxNGIyNzZjOTFiNjZhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOToyODo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcmVxdWVzdHM6IHVwZ3JhZGUgMi4zMi4xIC0+IDIuMzIuMwoKLS0tCiAuLi4ve3B5dGhv
-bjMtcmVxdWVzdHNfMi4zMi4xLmJiID0+IHB5dGhvbjMtcmVxdWVzdHNfMi4zMi4zLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJlcXVlc3RzXzIuMzIuMS5i
-YiA9PiBweXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4xLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcmVxdWVzdHNfMi4zMi4zLmJiCmluZGV4IGExMTQ0MTgxYmMuLjRm
-MDYzOGI1MGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1yZXF1ZXN0c18yLjMyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXJlcXVlc3RzXzIuMzIuMy5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9yZXF1ZXN0cy5yZWFkdGhlZG9jcy5pbyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTM0NDAwYjY4MDcyZDcxMGZlY2Qw
-YTI5NDBhMGQxNjU4IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWI5N2U4N2U2NGM3OWU2NGU1
-YjhhYzc1Y2VlOWRkMWY5N2Y0OWUyODliMDgzZWU2YmU5NjI2ODkzMDcyNTY4NSIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICI1NTM2NTQxNzczNGViMTgyNTU1OTBhOWZmOWViOTdlOWUxZGE4NjhkNGNj
-ZDY0MDIzOTllYWY2OGFmMjBhNzYwIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNf
-YnVpbGRfbWV0YQogCi0tIAoyLjQ0LjAKCg==
-
---===============2797909060987833398==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-requests (sysroot):
-  /usr/lib/python3.12/site-packages/requests-2.32.1.dist-info moved to /usr/lib/python3.12/site-packages/requests-2.32.3.dist-info
-
---===============2797909060987833398==--
+--===============3560615214283634046==--
 
