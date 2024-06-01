@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F091C27C4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B50C27C51
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 12:25:16 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.36113.1717244712972359851
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web11.36112.1717244711683719390
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 05:25:13 -0700
+ Sat, 01 Jun 2024 05:25:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=j7BPZ3cr;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f47f0d8ec9so24981275ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gVdS0KE4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-6c7df306e86so334691a12.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244712; x=1717849512; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244711; x=1717849511; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RUgXXMW68/7OD3TVvlheoOEmmsiu4a5F9xAsmEo047U=;
-        b=j7BPZ3crI7iOdYCrAwHQg2EQmyO/l44LrhsNspTA6qbKMAD7VhvQsWMHCPh/9c7agO
-         v7BF/O3Ze1MZBZsedz88/NbpMUz/qLq2RvMKxOy6dGK1POhzUxejikPqhZ+dShMjTKiB
-         zNmWfWnSuQD+MFq8iFag6KYQ0eptZqF+24GH89ghwzWIp1KKyon5k4VPWmxeGl2WjDQY
-         9X14iOE9huLNEyi5eOnQn7/Bb18fkNEePfLcymxwhmojf1knJD+t49ak1uUIDRExcOa2
-         LSZMlK/beCHNCO0x3R4dYQZeb5kL/ladLmIhf/cSIoDJwRVfI8kgMhkAIZxQP9lATHO8
-         fkhQ==
+        bh=62QOrcVHx8CZeLylUqOWA4GxFzaKRdDsXx1M5Xnt3bc=;
+        b=gVdS0KE4fce/I9IC3Z8KGNV4pNvLjFHSHfnYsA2cC2fyCWI0BBJyeyt78tVuB9vLV5
+         7nbSHsqViS3YoHf3AkHADn1c3JtdpN+VJWBwt0n7Nbq+50yAxxlsYFVI1jZ2CtuWhEDZ
+         IO74HBgsqroQ6UwaD9i1/4cixYUvcsCb3Lr6NZR6m+S7RhibGUE7LcgaQd5WAkYlY1uo
+         h2DvW35YbiOpvOqAyLS6tHN9SMacXGeR+yWcZCB7J49GELTxPFL6jXRWNPNTUgdfmPo0
+         dXN6hOlZgvL2PhPWFVC+/7oExnOLBKtti1a8q1CSA44JUUK14td/KOvLkXi9oXTYd3DP
+         o91A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717244712; x=1717849512;
+        d=1e100.net; s=20230601; t=1717244711; x=1717849511;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RUgXXMW68/7OD3TVvlheoOEmmsiu4a5F9xAsmEo047U=;
-        b=XqNZRc3ms39MNxO+0qHVZ7Kw4JXqcCKlRxd3TmHhZfg5MBcHOfQUW8w9eTY5WEG7X+
-         X2SFbnCpDMG8jYQMERB9JzpO9CU3JQJQFFZeawoYL/qOFsICW+ozmIdpzWEen8PescVz
-         83ZBbqE9Q7GGr+VZEGJtoK9UG7f5HcTQpTaLJzLzAU3XHLi8osikUzbIgBCczJ4z9xSp
-         BDrnEaBHGoXU4uacqP4WNPV11bF+cLOChfOqsrgZtbpUo3GQa6sRzOKVpLdxny37BRvt
-         2ojmP3JJrs3KEZ8focvYnPnzsk4fclJL4Tj9kx9eoO4YdHB6MVlZB5doyWWh5tYYxHNo
-         y+9A==
-X-Gm-Message-State: AOJu0YwlN5SdyiIDHyLbAx1AfIPJMB/7R9KoOOVnBluFGe0QLdVTnK5x
-	3BlzE8lfOK/Sw/VJmyshrdKn3gHAIvJa4fP0WFSCK/3K4b8YqBQRzJoo1w+jrIG+kMhQC+RpLbX
-	c
-X-Google-Smtp-Source: AGHT+IFyUPhwsBH9sNEDKZ257MSQzspZ0oZsMRMfrxXaqcFnJEh/Pbrx92rlD3MeSoWJeurfy7Fp6A==
-X-Received: by 2002:a17:902:d4cd:b0:1f4:8b95:a1fe with SMTP id d9443c01a7336-1f6370191b2mr53747255ad.29.1717244712151;
-        Sat, 01 Jun 2024 05:25:12 -0700 (PDT)
+        bh=62QOrcVHx8CZeLylUqOWA4GxFzaKRdDsXx1M5Xnt3bc=;
+        b=SFZHoyTAagx2sw2nyUmcUm9UdOd7W2B6Z0Rn8/g/ZA7dkQRl0MreJjqmasYUuBhmpq
+         CH6WyXRLjkmS0NA76jqP/muOGu05Q1HenyDaiKHuIxSMI5mEw3sH96xBEuK/Yi00Hrto
+         vujoAbA/7/LdLr8tZrJV82j4hNkOZkbdNUhmM51hr5WZnl31q1vKC65VjsJ00PKlzIRj
+         th9L1ohGNY637GPBJWUtxcTTjSNCzE9c9J/e/mSxfLAuzK46oyQXhm3r7SWnTR8tnVzu
+         77l/3iT77gY+eeWScfFSrUsysIxNGvzPkXVnA6gcAqdT/anRMpe9O2z3GI53Ic+cR0OG
+         z6pw==
+X-Gm-Message-State: AOJu0Yzzy8UlmgoAjAdloX7MqmimtjDNDjj0ZrVrYQSUy+z/rrVGrJZy
+	PQA/ZCEdeRFifpIdVGTqHp/hSoHaqhg11QW2gDO0ZLBwKpE970liI+74f6deQoeM+f3lpi1xX7A
+	X
+X-Google-Smtp-Source: AGHT+IG1aDSmStZRTE2evVY13hdg4k1TfH+iy9sgk3NUv0AOo90Y5M6ugG2HrSSx1PzZ696m5d1RRA==
+X-Received: by 2002:a17:902:7846:b0:1f6:62c:96df with SMTP id d9443c01a7336-1f6370c3b66mr35244685ad.69.1717244710898;
+        Sat, 01 Jun 2024 05:25:10 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 05:25:11 -0700 (PDT)
+        Sat, 01 Jun 2024 05:25:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/21] ptest-runner: Bump to 2.4.4 (95f528c)
-Date: Sat,  1 Jun 2024 05:24:39 -0700
-Message-Id: <c0061e8e30c0bbd45c31f56d01ed5b688a641e9e.1717243719.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 12/21] llvm: Switch to using release tarballs
+Date: Sat,  1 Jun 2024 05:24:38 -0700
+Message-Id: <251d626a7d3cf6dfb3c0d8617f6cace666c7ea74.1717243719.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717243719.git.steve@sakoman.com>
 References: <cover.1717243719.git.steve@sakoman.com>
@@ -62,37 +62,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 12:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200109
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200108
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Changes in 2.4.4:
-95f528c utils.c: run_ptests improve error handling on ptests iteration
-c48e5fc utils.c: run-ptests improve pseudo-terminal handling
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+git checkouts are in excess of 3G, which is not
+ideal for everyone to download/clone, instead switch to
+fetching release tarball which is ~126M as of 18.1.5 release
+
+(From OE-Core rev: 800e6576e4f3af10846af13c2f217f986c1afdb4)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{ptest-runner_2.4.3.bb => ptest-runner_2.4.4.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.3.bb => ptest-runner_2.4.4.bb} (95%)
+ .../llvm/{llvm_git.bb => llvm_18.1.5.bb}            | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/llvm/{llvm_git.bb => llvm_18.1.5.bb} (93%)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb
-similarity index 95%
-rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb
-index e6668da01f..2263e07280 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.4.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
+similarity index 93%
+rename from meta/recipes-devtools/llvm/llvm_git.bb
+rename to meta/recipes-devtools/llvm/llvm_18.1.5.bb
+index dfaa031012..4b6763e580 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_18.1.5.bb
+@@ -13,27 +13,26 @@ DEPENDS = "libffi libxml2 zlib zstd libedit ninja-native llvm-native"
+ RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
  
--SRCREV = "92c1b97bfdb4a94acc1cabcaf97eef52dc29144c"
-+SRCREV = "95f528cff0bc52903b98c292d4a322fcffa74471"
- PV .= "+git"
+ inherit cmake pkgconfig
+-
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
  
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
+-PV = "18.1.5${VER_SUFFIX}"
++PV .= "${VER_SUFFIX}"
+ 
+ MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
+ 
+ LLVM_RELEASE = "${PV}"
+ 
+-BRANCH = "release/${MAJOR_VERSION}.x"
+-SRCREV = "617a15a9eac96088ae5e9134248d8236e34b91b1"
+-SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
++SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/llvm-project-${PV}.src.tar.xz \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+            file://llvm-config \
+            "
++SRC_URI[sha256sum] = "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d019b67a57edd7de56"
+ 
+-UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
++UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
++UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
+ 
+-S = "${WORKDIR}/git/llvm"
++S = "${WORKDIR}/llvm-project-${PV}.src/llvm"
+ 
+ LLVM_INSTALL_DIR = "${WORKDIR}/llvm-install"
+ 
 -- 
 2.34.1
 
