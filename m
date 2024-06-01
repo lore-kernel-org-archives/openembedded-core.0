@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B29B2C27C54
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3157C3DA40
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 12:25:16 +0000 (UTC)
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.36165.1717244715756856858
+ by mx.groups.io with SMTP id smtpd.web10.36160.1717244707793956347
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 05:25:15 -0700
+ Sat, 01 Jun 2024 05:25:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y5nzAD3O;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TtlW3H8V;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f6559668e1so2038965ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:15 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f44b594deeso21951625ad.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244715; x=1717849515; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244707; x=1717849507; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oohLTN3WdH/C+MKz7zsiLE5Yi8iOczm1p6obc2Xao/s=;
-        b=y5nzAD3OzhVIr7n99GdjjEq/Enakd7foRPt9RbDghDPJusnDyHvKb4zxpl+ImmuUVH
-         Xc3J+QFc7BvvJ2alPY90dtWy99JIjlhgMUP02OKX4qT6wigZQpe/9Pi3MnBktut26aDf
-         BMotiFOpDbsnU5bIFDmtF/mT8Js+vztHn3k8BeeA03yJSlAOr1UmMM0CV1CCbZIzOq/m
-         IggY8YuOIrgr+Q/CuzcdUCdjGLeKTOCKRDpwQGnHy3Xv4As/JXnH3yELjvYO0aO3cHfp
-         49XYVbN5qgUHgYEGrRiq6RlI8guOg6wglk6LNbtb187QiPWbc+rG2uA50DLvqcnwOVXV
-         jyXQ==
+        bh=CFBO0dX5mwd6cB73TWb5c1cizFlJeGx4g6DIgQw8xyo=;
+        b=TtlW3H8VbNjuhlA2+vAAcge0HSzH7/unvEgYtnGBytWLAD4onIqoqaZmTDd57soV9o
+         9rWCosvVFP+QZ1HD9hL2Fli5zhEDYWMoUvdyuIxQ16ROkuC3nBHtWmuaNfPIqzKyjLUv
+         rgxto/lPEGqSa679QngSuM1EmxS/87Onieml2UmbHNNAaimUNZ8MHusUWam8Kkp1X1Do
+         7SXd/BpuUDdAsildfA/JFaxfredEV8l0CTR5PmziuzAXQ4xPrztpv64j/B80slcsoUSq
+         znjMU+1grmdiGgChTAvmb6Jp1TOvuleAA9JnEJuxPGkkWjSSsuZnTYAtOgEFt9NNB53B
+         nlTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717244715; x=1717849515;
+        d=1e100.net; s=20230601; t=1717244707; x=1717849507;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oohLTN3WdH/C+MKz7zsiLE5Yi8iOczm1p6obc2Xao/s=;
-        b=qrMu6Sl5QuG8rjw/cq+6iyKNPk9TKvqUOL4UwhF9Sj/CEyP8oK9tLKfiy5St/rlNiH
-         jJwRc+M2tciVFV6HklfGMr/+FpIwgfPfadYKAnugCb1bWDB0u/wbzvC6mSTK9SEZ2UXw
-         3wVQqArwTLLTq0+00FkGCzB1oOigQuZmfFCaxaczBUL0if4zyNyyKS5YZzminsVjewZb
-         TKF5duJIauHYPhIg/W2dgZCbT3iceKC+hlLaNQfs+bFAD5rP4h4CETcHLxqc2oNE5mW+
-         T9KihxklSoUGeIxuqMnToCulI1e0qlQAc23p1Yey1sZUxcT9KzuTaiKB1HtwWnKK30Fn
-         tsrg==
-X-Gm-Message-State: AOJu0YxyZJaud6e76qmlMvy/t0E/c9SUIlAo9LWhx4hLa2yNey7KJBkg
-	TbD1ZDeQ3b1Ai68DSscmN7L9u4r+gK10zrqmPGYuhLVP1aXziMOQZv4cAk2ZLc+LpDBR+X4FldC
-	M
-X-Google-Smtp-Source: AGHT+IFsGVwy75K4rSQHlDQPwiksQTiMxWbM+Oj2oxchliNN8YBc6YqavVcznbFNmoZ8pGVmh0iIHA==
-X-Received: by 2002:a17:902:c20d:b0:1f3:453f:1372 with SMTP id d9443c01a7336-1f637020480mr39873885ad.30.1717244714885;
-        Sat, 01 Jun 2024 05:25:14 -0700 (PDT)
+        bh=CFBO0dX5mwd6cB73TWb5c1cizFlJeGx4g6DIgQw8xyo=;
+        b=vjy/e3QOShsc+g6rbCWMGLqeGvsLyrEH3FqwsG8fQw2HZrPtlAeQAKdqJIehIkxCXR
+         kOku//FhXx4e14dVR2IbchoY+XpFiNXzPO9YXkOnjI7wXYXY2S63T29Ttu3EAkejKvI6
+         GNUZDXGrzUNNU4bvNOGbsBRoD9Xp+lzQ3h/RRc9gy+jW9P33dCOYo6HLye3muSwDg+hU
+         yPWYQQggpqw5ZgrWcDRRPjcIkEP8XA355H2yQ1p40DUGAGBo3XbmvYLX/0ClYQ98/fYn
+         OqOiYFNhfkhXMTbQnO4o6mU+uISjEhdHwBxPtNYdp9yXn1KE7SibaoBtRRljrU1EWA7G
+         DGcA==
+X-Gm-Message-State: AOJu0YyMtg7RDFnH9raAZnuTYTBWs0ajopNT9AhZYlVMXM3S/0GrRdVo
+	4kM76Iats7iGnKtAqtOhxhL0pqZHvsZ3u3fIgphGb1LmKslJLTH1st4TS+xRJoCm9F113OJAIOM
+	q
+X-Google-Smtp-Source: AGHT+IGx73dgGRH2Sf2eQqJ8lebG2I+lskCB7esttR2tAGkZiVRTO5Sx9tZsZ1Miusessx+BEqmuAA==
+X-Received: by 2002:a17:903:228c:b0:1f4:9ce1:6e76 with SMTP id d9443c01a7336-1f6370ced3amr51812845ad.65.1717244706959;
+        Sat, 01 Jun 2024 05:25:06 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.25.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 05:25:14 -0700 (PDT)
+        Sat, 01 Jun 2024 05:25:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/21] devtool: standard: update-recipe/finish: fix update localfile in another layer
-Date: Sat,  1 Jun 2024 05:24:41 -0700
-Message-Id: <b4fb19df1746d04c9534feff58a9e534705d46df.1717243719.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/21] xserver-xorg: upgrade 21.1.11 -> 21.1.12
+Date: Sat,  1 Jun 2024 05:24:35 -0700
+Message-Id: <64174dc0f593baa4f74c0080726de94802b903ef.1717243719.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717243719.git.steve@sakoman.com>
 References: <cover.1717243719.git.steve@sakoman.com>
@@ -62,123 +62,58 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 12:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200111
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200105
 
-From: Julien Stephan <jstephan@baylibre.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-When trying to use devtool update-recipe/finish on another layer, with modified
-local file we have the following error:
+This release contains security fixes for
 
-  Traceback (most recent call last):
-    File "<..>/poky/scripts/devtool", line 350, in <module>
-      ret = main()
-            ^^^^^^
-    File "<..>/poky/scripts/devtool", line 337, in main
-      ret = args.func(args, config, basepath, workspace)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "<..>/poky/scripts/lib/devtool/standard.py", line 1968, in update_recipe
-      updated, _, _ = _update_recipe(args.recipename, workspace, rd, args.mode, args.append, args.wildcard_version, args.no_remove, args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "<..>/poky/scripts/lib/devtool/standard.py", line 1930, in _update_recipe
-      updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "<..>/poky/scripts/lib/devtool/standard.py", line 1747, in _update_recipe_patch
-      patchdir = param.get('patchdir', ".")
-                 ^^^^^^^^^
-  AttributeError: 'str' object has no attribute 'get'
+* CVE-2024-31080
+* CVE-2024-31081
+* CVE-2024-31082
+* CVE-2024-31083
 
-This was introduced when adding support for git submodules.
-No selftest case exists to catch this, so a selftest will be
-added in another commit.
+Changelog:
+===========
+101caa1b0 (tag: xorg-server-21.1.12) xserver 21.1.12
+117315640 render: fix refcounting of glyphs during ProcRenderAddGlyphs
+0e34d8ebc Xquartz: ProcAppleDRICreatePixmap needs to use unswapped length to send reply
+cea92ca78 Xi: ProcXIPassiveGrabDevice needs to use unswapped length to send reply
+8a7cd0e3e Xi: ProcXIGetSelectedEvents needs to use unswapped length to send reply
+5ca3a9513 Xext: SProcSyncCreateFence needs to swap drawable id too
+5d7272f05 Allow disabling byte-swapped clients
+8a46a463f Initialize Mode->name in xf86CVTMode()
+f653d9a0a hw/xfree86: fix NULL pointer refrence to mode name
+8b75ec34d dix: Fix use after free in input device shutdown
 
-(From OE-Core rev: de7ca9f800e15e10271502da7e51e3ae08e0c85b)
+https://lists.x.org/archives/xorg-announce/2024-April/003497.html
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Jeff Harris <jefftharris@gmail.com>
+(cherry picked from commit 12dfa6889a1c322d0e20fd9b7638dcb861e032f2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/standard.py | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ .../{xserver-xorg_21.1.11.bb => xserver-xorg_21.1.12.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.11.bb => xserver-xorg_21.1.12.bb} (92%)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 6674e67267..10d0cd3b7c 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1452,8 +1452,10 @@ def _export_local_files(srctree, rd, destdir, srctreebase):
-          1. updated - files that already exist in SRCURI
-          2. added - new files files that don't exist in SRCURI
-          3  removed - files that exist in SRCURI but not in exported files
--      In each dict the key is the 'basepath' of the URI and value is the
--      absolute path to the existing file in recipe space (if any).
-+       In each dict the key is the 'basepath' of the URI and value is:
-+         - for updated and added dicts, a dict with 1 optionnal key:
-+           - 'path': the absolute path to the existing file in recipe space (if any)
-+         - for removed dict, the absolute path to the existing file in recipe space
-     """
-     import oe.recipeutils
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+index 6506d775ca..570e08d5ae 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.11.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.12.bb
+@@ -3,7 +3,7 @@ require xserver-xorg.inc
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            "
+-SRC_URI[sha256sum] = "1d3dadbd57fb86b16a018e9f5f957aeeadf744f56c0553f55737628d06d326ef"
++SRC_URI[sha256sum] = "1e016e2be1b5ccdd65eac3ea08e54bd13ce8f4f6c3fb32ad6fdac4e71729a90f"
  
-@@ -1535,9 +1537,9 @@ def _export_local_files(srctree, rd, destdir, srctreebase):
-                 origpath = existing_files.pop(fname)
-                 workpath = os.path.join(local_files_dir, fname)
-                 if not filecmp.cmp(origpath, workpath):
--                    updated[fname] = origpath
-+                    updated[fname] = {'path' : origpath}
-             elif fname != '.gitignore':
--                added[fname] = None
-+                added[fname] = {}
- 
-         workdir = rd.getVar('WORKDIR')
-         s = rd.getVar('S')
-@@ -1554,7 +1556,7 @@ def _export_local_files(srctree, rd, destdir, srctreebase):
-                     if os.path.exists(fpath):
-                         origpath = existing_files.pop(fname)
-                         if not filecmp.cmp(origpath, fpath):
--                            updated[fpath] = origpath
-+                            updated[fpath] = {'path' : origpath}
- 
-         removed = existing_files
-     return (updated, added, removed)
-@@ -1640,7 +1642,8 @@ def _update_recipe_srcrev(recipename, workspace, srctree, rd, appendlayerdir, wi
-                     redirect_output=dry_run_outdir)
-         else:
-             files_dir = _determine_files_dir(rd)
--            for basepath, path in upd_f.items():
-+            for basepath, param in upd_f.items():
-+                path = param['path']
-                 logger.info('Updating file %s%s' % (basepath, dry_run_suffix))
-                 if os.path.isabs(basepath):
-                     # Original file (probably with subdir pointing inside source tree)
-@@ -1650,7 +1653,8 @@ def _update_recipe_srcrev(recipename, workspace, srctree, rd, appendlayerdir, wi
-                     _move_file(os.path.join(local_files_dir, basepath), path,
-                                dry_run_outdir=dry_run_outdir, base_outdir=recipedir)
-                 update_srcuri= True
--            for basepath, path in new_f.items():
-+            for basepath, param in new_f.items():
-+                path = param['path']
-                 logger.info('Adding new file %s%s' % (basepath, dry_run_suffix))
-                 _move_file(os.path.join(local_files_dir, basepath),
-                            os.path.join(files_dir, basepath),
-@@ -1772,7 +1776,8 @@ def _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wil
-         else:
-             # Update existing files
-             files_dir = _determine_files_dir(rd)
--            for basepath, path in upd_f.items():
-+            for basepath, param in upd_f.items():
-+                path = param['path']
-                 logger.info('Updating file %s' % basepath)
-                 if os.path.isabs(basepath):
-                     # Original file (probably with subdir pointing inside source tree)
-@@ -1806,7 +1811,7 @@ def _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wil
-                            dry_run_outdir=dry_run_outdir, base_outdir=recipedir)
-                 updatefiles = True
-             # Add any new files
--            for basepath, path in new_f.items():
-+            for basepath, param in new_f.items():
-                 logger.info('Adding new file %s%s' % (basepath, dry_run_suffix))
-                 _move_file(os.path.join(local_files_dir, basepath),
-                            os.path.join(files_dir, basepath),
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.34.1
 
