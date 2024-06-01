@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED056C2D0CF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EED14C3DA40
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.42218.1717263218884654374
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.42232.1717263218484608256
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LusJRtP2;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LCvVwDlG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018fd4dd3583-4b66ebd2-2a0e-457b-af17-83605fd91890-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CJgTFJ6z;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tnGXocy0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018fd4dd33cf-97ab6a60-57c1-477f-8dca-45fc14516821-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263218;
+	t=1717263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TZ7i34p8ElMMbeUupT1XUzAZxWA4/O8c3KXgDbciVNw=;
-	b=LusJRtP2veTmXKs5AUMzPjVmTKUEFUKMF8Zy2q40mr1dHpX1vxXlgJDPv9d1tC7d
-	O125XyBgy5YcIR4zvJyra/iUy9T3iJFwyPq7QfJ3kZ6al3C8CqtUufIaTgqDOIQUUDQ
-	6eD+hmKKXvG6tnukcAGBoYl19QHZ/EWtM/OdvK+8=
+	bh=hBbpLfFHM+75NOzak8FiquwvPQwgub1gQONmvH0k8d0=;
+	b=CJgTFJ6z5A3Pla/L7uN5tLFGQZOACFQHYnkPRnH99eFdgDF4mPMnk6tdhfj/y49h
+	EHUB47f7I0MAAPaTTq7cVheZo9VyQXnbJFzI1reWEAqnPQUAO4gitKmpliZ5cPTsOP7
+	UbZjdam3qF6pcyyXdwmSgxbQrK/cwov2Sj6kuyTg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TZ7i34p8ElMMbeUupT1XUzAZxWA4/O8c3KXgDbciVNw=;
-	b=LCvVwDlGEUPVR5hTmtNtIP7v4KRB3HdXVTLeforpxHLXrwM4bkwt8sa0kU/v7kxu
-	mAAP5udaUR8Ht4AACexzC/KkblE5JWK5c3ldVypxvDgg/N4hoxMjG4U0CxEctDS0m/E
-	OCGAUGxO4o6AWxKMHHBeb2f+YQfuMD4HUcSUMAB4=
-Content-Type: multipart/mixed; boundary="===============7018836009093759213=="
+	bh=hBbpLfFHM+75NOzak8FiquwvPQwgub1gQONmvH0k8d0=;
+	b=tnGXocy0HhM1Q8cYujNKyd6pGJKOL1ny374FjWzQEHqx8dm7x4tKWVDEmzRy6vEz
+	1fCPVf9aS9eEAtp6M+L2XNEVhHeAOH6l3sjrTwtdLdW6pczy2wSwiUGWi1MfWnVsYiJ
+	+PW7V9xku4/32F1ZrIoJRW0N+gDeKSQL0hIv/5jI=
+Content-Type: multipart/mixed; boundary="===============4001177943761495207=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyproject-hooks: upgrading to 1.1.0 FAILED
-Message-ID: <0101018fd4dd3583-4b66ebd2-2a0e-457b-af17-83605fd91890-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] createrepo-c: upgrading to 1.1.2 SUCCEEDED
+Message-ID: <0101018fd4dd33cf-97ab6a60-57c1-477f-8dca-45fc14516821-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.31
+X-SES-Outgoing: 2024.06.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200145
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200135
 
---===============7018836009093759213==
+--===============4001177943761495207==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,97 +51,213 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyproject-hooks* to *1.1.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *createrepo-c* to *1.1.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-createrepo-c-upgrade-1.1.1-1.1.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-pyproject-hooks -V 1.1.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f545f76df362714d49c9cdad3a9c02789a25890a"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f545f76df362714d49c9cdad3a9c02789a25890a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-1vjn39kw: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-zvshq4kg/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-zvshq4kg/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pyproject_hooks/pyproject_hooks-1.1.0.tar.gz;downloadfilename=pyproject_hooks-1.1.0.tar.gz...
-INFO: Rebasing devtool onto 9376bd2a9e9a62ebb408982ec6673a1b9bb50fd5
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/devtool", line 350, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/devtool", line 337, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 600, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 508, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-pyproject-hooks/LICENSE'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7018836009093759213==--
+
+-- >8 --
+From c48eeed232407f21864eb1ded9cd8a8605f3c88d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 08:35:01 +0000
+Subject: [PATCH] createrepo-c: upgrade 1.1.1 -> 1.1.2
+
+---
+ ...001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 5 +----
+ .../createrepo-c/0001-include-rpm-rpmstring.h.patch          | 5 ++---
+ .../{createrepo-c_1.1.1.bb => createrepo-c_1.1.2.bb}         | 2 +-
+ 3 files changed, 4 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.1.1.bb => createrepo-c_1.1.2.bb} (96%)
+
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+index b63fe53944..a4da515f53 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+@@ -1,4 +1,4 @@
+-From 6f8f6d151b831b60f6e7892aa9294a6361353c72 Mon Sep 17 00:00:00 2001
++From 1ccefa844c624ddcb8f764b956d0c3c3e817ac73 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:31:02 +0200
+ Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
+@@ -23,6 +23,3 @@ index a31b14d..01fd8ca 100644
+  INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
+  
+  MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
+index b7e5710b39..646c4072e8 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-include-rpm-rpmstring.h.patch
+@@ -1,4 +1,4 @@
+-From eb66326c3fc6e942282d01ddd56659c78ed7400b Mon Sep 17 00:00:00 2001
++From 308f76140e704b894e2e9525a09d06e18221c47e Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 13 Jan 2023 13:21:51 -0800
+ Subject: [PATCH] include rpm/rpmstring.h
+@@ -11,13 +11,12 @@ on 'rasprintf'; ISO C99 and later do not support implicit function declarations
+ 
+ Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/340]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  src/xml_file.c | 1 +
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/src/xml_file.c b/src/xml_file.c
+-index d2400b8..871109c 100644
++index 44b38f9..de5176b 100644
+ --- a/src/xml_file.c
+ +++ b/src/xml_file.c
+ @@ -19,6 +19,7 @@
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.1.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.1.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.1.1.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.1.2.bb
+index e6714629af..85b2901d50 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.1.1.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.1.2.bb
+@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;p
+            file://0001-include-rpm-rpmstring.h.patch \
+            "
+ 
+-SRCREV = "78b0c3ff48bd58eb9c0a72879cf1025e9f225684"
++SRCREV = "0ce71adda8a33ede9e9d21b7c18cc58d5a495849"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.44.0
+
+
+--===============4001177943761495207==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-createrepo-c-upgrade-1.1.1-1.1.2.patch"
+
+RnJvbSBjNDhlZWVkMjMyNDA3ZjIxODY0ZWIxZGVkOWNkOGE4NjA1ZjNjODhkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwODozNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNy
+ZWF0ZXJlcG8tYzogdXBncmFkZSAxLjEuMSAtPiAxLjEuMgoKLS0tCiAuLi4wMDEtRG8tbm90LXNl
+dC1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2ggfCA1ICstLS0tCiAu
+Li4vY3JlYXRlcmVwby1jLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2ggICAgICAg
+ICAgfCA1ICsrLS0tCiAuLi4ve2NyZWF0ZXJlcG8tY18xLjEuMS5iYiA9PiBjcmVhdGVyZXBvLWNf
+MS4xLjIuYmJ9ICAgICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygr
+KSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVw
+by1jL3tjcmVhdGVyZXBvLWNfMS4xLjEuYmIgPT4gY3JlYXRlcmVwby1jXzEuMS4yLmJifSAoOTYl
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRl
+cmVwby1jLzAwMDEtRG8tbm90LXNldC1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1weXRo
+b24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8t
+Yy8wMDAxLURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBh
+dGNoCmluZGV4IGI2M2ZlNTM5NDQuLmE0ZGE1MTVmNTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jLzAwMDEtRG8tbm90LXNldC1QWVRI
+T05fSU5TVEFMTF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1Eby1ub3Qtc2V0LVBZVEhP
+Tl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gNmY4ZjZkMTUxYjgzMWI2MGY2ZTc4OTJhYTkyOTRhNjM2MTM1M2M3MiBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gMWNjZWZhODQ0YzYyNGRkY2I4Zjc2NGI5NTZkMGMzYzNlODE3YWM3
+MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogRnJpLCAzMCBEZWMgMjAxNiAxODozMTowMiArMDIw
+MAogU3ViamVjdDogW1BBVENIXSBEbyBub3Qgc2V0IFBZVEhPTl9JTlNUQUxMX0RJUiBieSBydW5u
+aW5nIHB5dGhvbgpAQCAtMjMsNiArMjMsMyBAQCBpbmRleCBhMzFiMTRkLi4wMWZkOGNhIDEwMDY0
+NAogIElOQ0xVREVfRElSRUNUT1JJRVMgKCR7UFlUSE9OX0lOQ0xVREVfUEFUSH0pCiAgCiAgTUVT
+U0FHRShTVEFUVVMgIlB5dGhvbiBpbnN0YWxsIGRpciBpcyAke1BZVEhPTl9JTlNUQUxMX0RJUn0i
+KQotLS0gCi0yLjI1LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0
+ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1pbmNsdWRlLXJwbS1ycG1zdHJpbmcuaC5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jLzAwMDEtaW5j
+bHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2gKaW5kZXggYjdlNTcxMGIzOS4uNjQ2YzQwNzJlOCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBv
+LWMvMDAwMS1pbmNsdWRlLXJwbS1ycG1zdHJpbmcuaC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0
+cmluZy5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlYjY2MzI2YzNmYzZlOTQyMjgyZDAx
+ZGRkNTY2NTljNzhlZDc0MDBiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzMDhmNzYx
+NDBlNzA0Yjg5NGUyZTk1MjVhMDlkMDZlMTgyMjFjNDdlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IEZyaSwgMTMgSmFu
+IDIwMjMgMTM6MjE6NTEgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gaW5jbHVkZSBycG0vcnBtc3Ry
+aW5nLmgKQEAgLTExLDEzICsxMSwxMiBAQCBvbiAncmFzcHJpbnRmJzsgSVNPIEM5OSBhbmQgbGF0
+ZXIgZG8gbm90IHN1cHBvcnQgaW1wbGljaXQgZnVuY3Rpb24gZGVjbGFyYXRpb25zCiAKIFVwc3Ry
+ZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1h
+bmFnZW1lbnQvY3JlYXRlcmVwb19jL3B1bGwvMzQwXQogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KLQogLS0tCiAgc3JjL3htbF9maWxlLmMgfCAxICsKICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAogZGlmZiAtLWdpdCBhL3NyYy94bWxfZmlsZS5j
+IGIvc3JjL3htbF9maWxlLmMKLWluZGV4IGQyNDAwYjguLjg3MTEwOWMgMTAwNjQ0CitpbmRleCA0
+NGIzOGY5Li5kZTUxNzZiIDEwMDY0NAogLS0tIGEvc3JjL3htbF9maWxlLmMKICsrKyBiL3NyYy94
+bWxfZmlsZS5jCiBAQCAtMTksNiArMTksNyBAQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18xLjEuMi5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2Ny
+ZWF0ZXJlcG8tY18xLjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0
+ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMS4xLjIuYmIKaW5kZXggZTY3MTQ2MjlhZi4uODViMjkwMWQ1
+MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVy
+ZXBvLWNfMS4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9j
+cmVhdGVyZXBvLWNfMS4xLjIuYmIKQEAgLTksNyArOSw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0
+aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9jcmVhdGVyZXBvX2M7YnJhbmNoPW1hc3Rl
+cjtwCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0cmluZy5oLnBhdGNo
+IFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiNzhiMGMzZmY0OGJkNThlYjljMGE3Mjg3OWNm
+MTAyNWU5ZjIyNTY4NCIKK1NSQ1JFViA9ICIwY2U3MWFkZGE4YTMzZWRlOWU5ZDIxYjdjMThjYzU4
+ZDVhNDk1ODQ5IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQ0LjAKCg==
+
+--===============4001177943761495207==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.1.1.1", added "/usr/lib/.debug/libcreaterepo_c.so.1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-doc: PKGSIZE changed from 16327 to 16346 (+0%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1287851 to 1287870 (+0%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.1.1.1", added "/usr/lib/libcreaterepo_c.so.1.1.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: PKGSIZE changed from 563359 to 563305 (-0%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: PV changed from "1.1.1" to "1.1.2"
+packages/core2-64-poky-linux/createrepo-c: PKGV changed from 1.1.1 [default] to 1.1.2 [default]
+packages/core2-64-poky-linux/createrepo-c: PV changed from "1.1.1" to "1.1.2"
+Changes to packages/core2-64-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.1.1 to libcreaterepo_c.so.1.1.2
+  /usr/lib/libcreaterepo_c.so.1.1.1 moved to /usr/lib/libcreaterepo_c.so.1.1.2
+
+--===============4001177943761495207==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.1.1.1", added "/usr/lib/libcreaterepo_c.so.1.1.2"
+Changes to packages/core2-64-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.1.1 to libcreaterepo_c.so.1.1.2
+  /usr/lib/libcreaterepo_c.so.1.1.1 moved to /usr/lib/libcreaterepo_c.so.1.1.2
+
+--===============4001177943761495207==--
 
