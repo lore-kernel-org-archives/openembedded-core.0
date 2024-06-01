@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E5FC27C7B
-	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:39 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.42235.1717263218594699976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA0BC2BA16
+	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:40 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.42206.1717263217645949738
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:38 -0700
+ Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=h+SMC4+V;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AX8ZxY1G;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018fd4dd34af-79c52283-7dd2-48b0-b4e1-2fc2ab501469-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fxQhpKS/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cf225NCu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018fd4dd37a2-de66a94c-1858-41a8-a9d8-02cef73dca21-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jZsETTzOOWsFs2sxfxopnPELgqmWrW1BSq/0AQJlU00=;
-	b=h+SMC4+VrNOznKttsj/0yrWLdpFQ1+oq6fvnJUUXk6W/vE72mKZqKNdTkZqs8SO2
-	TiaVfw4Y11um7i5MqbIrhU5wEpn3ACt/F720D2RmuwJOx0uHaK2czLgbMUbyw73XtYm
-	ioaERzeTWmDxdf82Mf0g9ztmY5c34uCOYH/jDM/Q=
+	bh=NaUZiuO8eVw48toIXXTY5jNVOUO5rAEXpC7FNoxh+L0=;
+	b=fxQhpKS/TNvGC48r2D85fl3wzwe7C1SB8j/2fWsXQyqccif2lPG/NX2v9oVG0FBS
+	vCuvQo6c6VwAJv2akrzgPAGaFW8qMAcBK59BsBy8iMHrLbFpSvCUraFJiu2t9loR0DS
+	7GBJjKCVdVyhIVbZlfzp/ac/xmPXPrz9J/CK1YwE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jZsETTzOOWsFs2sxfxopnPELgqmWrW1BSq/0AQJlU00=;
-	b=AX8ZxY1GXSQmOeYy9vi06XA5HjBphNneLx9btecE6PiX3wY3bXBmtus8CpSUNlJs
-	8NRMOSllSsTXeSjjPL7bCLvZNDgPjeU7R4HH5SRaAPwq10c6EEE021GDnd2fOlOgXxV
-	JB6ePXzP1Vk20yZncNOg6RG3z9i5scCJsdJx4evs=
-Content-Type: multipart/mixed; boundary="===============7218149227827351363=="
+	bh=NaUZiuO8eVw48toIXXTY5jNVOUO5rAEXpC7FNoxh+L0=;
+	b=cf225NCuG6yA1L5Z7RS/dSEgc7wA9eDxBuxPF3Fpny6Csik02BgytXZDj0zNKbU2
+	fd4H7S01wBe8BylXL+iDdq7EywTtOTYY6RbOfXvTCHPis2CGm+NHhafxAsep/tj6/vJ
+	m8tqcjld/agJqvjeagFlCEpnRpnbgCOjsUbDrHxw=
+Content-Type: multipart/mixed; boundary="===============0432486827728524233=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-babel: upgrading to 2.15.0 FAILED
-Message-ID: <0101018fd4dd34af-79c52283-7dd2-48b0-b4e1-2fc2ab501469-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:37 +0000
+Subject: [AUH] libva-utils: upgrading to 2.21.0 FAILED
+Message-ID: <0101018fd4dd37a2-de66a94c-1858-41a8-a9d8-02cef73dca21-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.193
+X-SES-Outgoing: 2024.06.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200139
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200150
 
---===============7218149227827351363==
+--===============0432486827728524233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-babel* to *2.15.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libva-utils* to *2.21.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-babel -V 2.15.0
+Running 'devtool upgrade' for recipe libva-utils failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1877 entries from dependency cache.
@@ -68,13 +68,13 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-685527e1b4a3ba13f47b5d267a468b32e7170cb4"
+DISTRO_VERSION       = "5.0+snapshot-578141e5c98114537d76b11fe0da87150cbc4725"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:685527e1b4a3ba13f47b5d267a468b32e7170cb4"
+workspace            = "tmp-auh-upgrades:578141e5c98114537d76b11fe0da87150cbc4725"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -83,48 +83,19 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-685527e1b4a3ba13f47b5d267a468b32e7170cb4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:685527e1b4a3ba13f47b5d267a468b32e7170cb4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.15.0.tar.gz;downloadfilename=Babel-2.15.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601091308.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601091308.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.15.0.tar.gz;downloadfilename=Babel-2.15.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipe
- tool-ih95fc42/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/autobuilder/autobuilder.yocto.io/current_sources/Babel-2.15.0.tar.gz.tmp -P /srv/autobuilder/autobuilder.yocto.io/current_sources 'https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.15.0.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.15.0.tar.gz;downloadfilename=Babel-2.15.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ih95fc42/work/temp/log.do_fetch.2921110
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.15.0.tar.gz;downloadfilename=Babel-2.15.0.tar.gz
+INFO: Rebasing devtool onto cbb91aeae935f60eed69880b29ee684391038780
+WARNING: Command 'git rebase cbb91aeae935f60eed69880b29ee684391038780' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/libva-utils
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libva-utils/libva-utils_2.21.0.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -132,5 +103,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7218149227827351363==--
+--===============0432486827728524233==--
 
