@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F22F8C3DA41
-	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A68FC3DA42
+	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:43 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.42245.1717263219458596278
+ by mx.groups.io with SMTP id smtpd.web11.42223.1717263219202768392
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HdpoUo58;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZfWnPvF+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd38e2-3206b911-feb4-46f7-a345-9a23eea9aa1c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VyPGhJly;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Jh/l1Ls6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd3657-f19efe3e-7105-4bbc-8de8-9d72f8248ed3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263219;
+	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qE9QOxUSnciU7zd7LaWNrYd88pW3KNVsq3eRnh5FtMY=;
-	b=HdpoUo58g8JnUiz6vAef8muiEAX927HKHPkOUNL2MlantrRXeGkgIe0ol6/OsqH6
-	1mMf2Bv849ECupy2GWUpXfbMwaMbczl6TSQMluyvmECZ6wyyX5xVOlD+uxNI+BA9/JT
-	xNoy4o3gFZMF2I3FriOx4y85Ci3rc9Wg/ABbWB/Y=
+	bh=qf1godeGnFq118jq4j1ysPOJb+Wu+Zxw84NozTmA9xE=;
+	b=VyPGhJlyCNVvEAkNi+PnGgrcTG6Ez/cgagiJN45Bndmz66Dfh28uALpHDnnVvh23
+	syhpb3gjJv6MGTYbRGZLBDzIw3IvviE+cAhl6SMm4mj5sU0WaOYu2iOXsEWqi0Kr1l9
+	2JQpETqlJyfNElN5ksdKkJwt2PEnBg1zeS/YvX/E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qE9QOxUSnciU7zd7LaWNrYd88pW3KNVsq3eRnh5FtMY=;
-	b=ZfWnPvF+VvPcXWO3jz5RPpi6sUHMQCwq4fHz5gIpvDTNmZlpCZWoIYiRdosV7UFb
-	IwpcJZNBy2UNb+MgkYKb5y9lXsVlJaPbzp4T1wgiag1r+IYUAm0fM2liK7XfK0qTxNi
-	doVEdlOSJrL4pv6GOHvlKDzSHQGy1DtbYhU1EItQ=
-Content-Type: multipart/mixed; boundary="===============8740167143271432010=="
+	bh=qf1godeGnFq118jq4j1ysPOJb+Wu+Zxw84NozTmA9xE=;
+	b=Jh/l1Ls6boB59yO9bAo/fU14J33xnrPgQvJD+y+HwQALaVAdhMGHgOTW6c12fJWG
+	PF5SFtTDOmbQuccE/6JqQ/ZpX8tWCLWsmWwsizgLBxnn4MlaKdjB4eKCWYQ+yq1uS7g
+	ykZsuIQzf1r8WhGLkq89wlefYh2eA9zyrK8ogoj0=
+Content-Type: multipart/mixed; boundary="===============6508782703335232973=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.24.4 SUCCEEDED
-Message-ID: <0101018fd4dd38e2-3206b911-feb4-46f7-a345-9a23eea9aa1c-000000@us-west-2.amazonses.com>
+Subject: [AUH] rust-llvm: upgrading to 1.78.0 FAILED
+Message-ID: <0101018fd4dd3657-f19efe3e-7105-4bbc-8de8-9d72f8248ed3-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.06.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200172
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200162
 
---===============8740167143271432010==
+--===============6508782703335232973==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,114 +51,136 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-libav* to *1.24.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *rust-llvm* to *1.78.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.24.3-1.24.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade rust-llvm -V 1.78.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (917 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-ca903cfca8774f01b23cf7d725f03b3c15c34b78"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ca903cfca8774f01b23cf7d725f03b3c15c34b78"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-qumrtd50: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-oqaiiurc/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-oqaiiurc/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:10:22
+Adding changed files:   0% |                                    | ETA:  0:07:44
+Adding changed files:   0% |                                    | ETA:  0:06:57
+Adding changed files:   0% |                                    | ETA:  0:06:30
+Adding changed files:   0% |                                    | ETA:  0:06:02
+Adding changed files:   0% |                                    | ETA:  0:05:50
+Adding changed files:   0% |                                    | ETA:  0:05:45
+Adding changed files:   0% |                                    | ETA:  0:05:32
+Adding changed files:   1% |                                    | ETA:  0:05:24
+Adding changed files:   1% |                                    | ETA:  0:05:20
+Adding changed files:   1% |                                    | ETA:  0:05:15
+Adding changed files:   1% |                                    | ETA:  0:05:10
+Adding changed files:   1% |                                    | ETA:  0:05:08
+Adding changed files:   1% |                                    | ETA:  0:05:04
+Adding changed files:   1% |                                    | ETA:  0:05:03
+Adding changed files:   1% |                                    | ETA:  0:05:02
+Adding changed files:   2% |                                    | ETA:  0:04:59
+Adding changed files:   2% |                                    | ETA:  0:04:58
+Adding changed files:   2% |                                    | ETA:  0:04:57
+Adding changed files:   2% |                                    | ETA:  0:04:54
+Adding changed files:   2% |                                    | ETA:  0:04:52
+Adding changed files:   2% |                                    | ETA:  0:04:50
+Adding changed files:   2% |#                                   | ETA:  0:04:50
+Adding changed files:   2% |#                                   | ETA:  0:04:49
+Adding changed files:   3% |#                                   | ETA:  0:04:48
+Adding changed files:   3% |#                                   | ETA:  0:04:46
+Adding changed files:   3% |#                                   | ETA:  0:04:44
+Adding changed files:   3% |#                                   | ETA:  0:04:43
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   3% |#                                   | ETA:  0:04:43
+Adding changed files:   3% |#                                   | ETA:  0:04:42
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:41
+Adding changed files:   4% |#                                   | ETA:  0:04:39
+Adding changed files:   4% |#                                   | ETA:  0:04:38
+Adding changed files:   4% |#                                   | ETA:  0:04:37
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   4% |#                                   | ETA:  0:04:36
+Adding changed files:   5% |#                                   | ETA:  0:04:36
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:35
+Adding changed files:   5% |#                                   | ETA:  0:04:36
+Adding changed files:   5% |##                                  | ETA:  0:04:35
+Adding changed files:   5% |##                                  | ETA:  0:04:34
+Adding changed files:   5% |##                                  | ETA:  0:04:34
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "tests/rustdoc-ui/argfile/commandline-argfile-missing-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-missing.rs" "tests/rustdoc-ui/argfile/commandline-argfile-missing.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple-windows.stderr" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.rs" "tests/rustdoc-ui/argfile/commandline-argfile-multiple.stderr" "tests/rustdoc-ui/argfile/commandline-argfile.args" "tests/rustdoc-ui/argfile/commandline-argfile.rs" "tests/rustdoc-ui/auxiliary/issue-36031.rs" "tests/rustdoc-ui/auxiliary/issue-40936.rs" "tests/rustdoc-ui/auxiliary/issue-48414.rs" "tests/rustdoc-ui/circular-intra-doc-link-48414.rs" "tests/rustdoc-ui/hidden-trait-method-34423.rs" "tests/rustdoc-ui/ice-blanket-impl-52873.rs" "tests/rustdoc-ui/ice-blanket-impl-selection-55001.rs" "tests/rustdoc-ui/inherent-assoc-consts-36031.rs" "tests/rustdoc-ui/issues/issu
+ e-120444-1.rs" "tests/rustdoc-ui/issues/issue-120444-1.stderr" "tests/rustdoc-ui/issues/issue-120444-2.rs" "tests/rustdoc-ui/issues/issue-120444-2.stderr" "tests/rustdoc-ui/nested-extern-crate-46271.rs" "tests/rustdoc-ui/nested-macro-rules-47639.rs" "tests/rustdoc-ui/normalize-in-inlined-type-alias.rs" "tests/rustdoc-ui/redundant-explicit-links-123677.rs" "tests/rustdoc-ui/super-glob-40936.rs" "tests/rustdoc/auto-trait-bounds-by-associated-type-50159.rs" "tests/rustdoc/auto-trait-bounds-inference-variables-54705.rs" "tests/rustdoc/auto-trait-bounds-where-51236.rs" "tests/rustdoc/auto-trait-negative-impl-55321.rs" "tests/rustdoc/auxiliary/issue-106421-force-unstable.rs" "tests/rustdoc/auxiliary/jump-to-def-macro.rs" "tests/rustdoc/blank-line-in-doc-block-47197.rs" "tests/rustdoc/bounds.rs" "tests/rustdoc/demo-allocator-54478.rs" "tests/rustdoc/deref-mut-35169-2.rs" "tests/rustdoc/deref-mut-35169.rs" "tests/rustdoc/doc-attr-comment-mix-42760.rs" "tests/rustdoc/doctest/auxiliary/empty.
+ rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.
+ rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inline_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$na
+ me.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_defs.
+ rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_item_kind.rs"' failed with exit code 128:
+fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 4eb314bf04b4810fb3724d3879262a7f55806b72 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 14:41:23 +0000
-Subject: [PATCH] gstreamer1.0-libav: upgrade 1.24.3 -> 1.24.4
-
----
- ...streamer1.0-libav_1.24.3.bb => gstreamer1.0-libav_1.24.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.3.bb => gstreamer1.0-libav_1.24.4.bb} (91%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.4.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.4.bb
-index d468f2983c..dfd26f7df7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.4.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "d9c5b152468a45c1fa8351410422090a7192707ad74d2e1a4367f5254e188d91"
-+SRC_URI[sha256sum] = "4d3803f36008e847fc4842c8dd366162baf8359526cc46c1851bf68bb638da73"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
--- 
-2.44.0
-
-
---===============8740167143271432010==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.24.3-1.24.4.patch"
-
-RnJvbSA0ZWIzMTRiZjA0YjQ4MTBmYjM3MjRkMzg3OTI2MmE3ZjU1ODA2YjcyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNDo0MToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1saWJhdjogdXBncmFkZSAxLjI0LjMgLT4gMS4yNC40CgotLS0KIC4uLnN0cmVh
-bWVyMS4wLWxpYmF2XzEuMjQuMy5iYiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yNC40LmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLWxpYmF2
-XzEuMjQuMy5iYiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yNC40LmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGli
-YXZfMS4yNC4zLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1saWJhdl8xLjI0LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1saWJhdl8xLjI0LjMu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
-LjAtbGliYXZfMS4yNC40LmJiCmluZGV4IGQ0NjhmMjk4M2MuLmRmZDI2ZjdkZjcgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZf
-MS4yNC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtbGliYXZfMS4yNC40LmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PTY5MzMzZGFhMDQ0Y2I3N2U0ODZjYzM2MTI5ZjdhNzcwIFwK
-ICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZy
-ZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LWxpYmF2L2dzdC1saWJhdi0ke1BWfS50YXIueHoiCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiZDljNWIxNTI0NjhhNDVjMWZhODM1MTQxMDQyMjA5MGE3MTkyNzA3
-YWQ3NGQyZTFhNDM2N2Y1MjU0ZTE4OGQ5MSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0ZDM4MDNm
-MzYwMDhlODQ3ZmM0ODQyYzhkZDM2NjE2MmJhZjgzNTk1MjZjYzQ2YzE4NTFiZjY4YmI2MzhkYTcz
-IgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LWxpYmF2LSR7UFZ9IgogCi0tIAoyLjQ0LjAKCg==
-
---===============8740167143271432010==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGSIZE changed from 913048 to 913016 (-0%)
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGSIZE changed from 537163 to 537167 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.4.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-libav: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav: PV changed from "1.24.3" to "1.24.4"
-
---===============8740167143271432010==--
+--===============6508782703335232973==--
 
