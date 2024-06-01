@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B2CC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41F17C25B76
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 12:25:06 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.36153.1717244701018805677
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.36106.1717244697817727688
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 05:25:01 -0700
+ Sat, 01 Jun 2024 05:24:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rEpm3aYr;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f65a3abd01so1774825ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:25:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=A/wX2HoK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6c53a315c6eso1045693a12.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 05:24:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244700; x=1717849500; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717244697; x=1717849497; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CNmHJ8ghS4KyE8+EYkuwnwIt1TAolfVhKWlq5d94kxQ=;
-        b=rEpm3aYr/NUY2XQs1u6T9jnFS8l10JGwqC6PsXRtvtwLA+xzJSIS7KOD+1fQc2gPit
-         WwO/Q6SHkMVnsL+5S6zLQmRIlkiE60iOZEjEWXkstwX8wxbKKNOE3h+n/c4o9wmCG5nT
-         2t78z83eBnA/xpYAwSk8q18cXTUb2tFDt0jtfy7+6eXhOLneF3zkX2qn6wSTeGqZSi1z
-         7QKAm/keG9gSDY6EG9z2zui7HOEX5IMeeyBuu5SJFrVwX+hpeHU3ho2acEyai+Jvdiuq
-         L7vdCPdJ3o8+z9SznhQezHFR3h9Rat+N5qjwx0CzK0sOKM4Rvl1culV/wVNI9OwJTjfU
-         Krmg==
+        bh=Cq6mLixbadsvOWNNEFBjvZdLE6AU1MF33U2+QnxNg8o=;
+        b=A/wX2HoKhRQwQiglGpRz9jE99zqJKt63lUMPxI7abTkJ55WdkKQRNFUjC78kNT+B/f
+         z5IMbJ0Uu31dY1+JsaLr0z8ErilEhIhume2QtrTqp6JWzfPnqmiSGm7GQsDgtp/sWpPn
+         OzGCxvwnuShptcczN9PMYjZt3WKAX7tGTSYUE1xbp385CWEE/s3putj4r4Ql4KwCIfaO
+         g5SBg7DLHhAQ5OTt96NpC0Fgvpmv4pjFDgTHwGpUb4+d7vHPQXajrgOxpp2b5SvYZCDn
+         JoaMAxk4hedo/aAxkrHvCP3IDBTnxru9TmmDkxkaH6AwKBOtOb4e5d6H/fAXgCxn1Kmj
+         BGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717244700; x=1717849500;
+        d=1e100.net; s=20230601; t=1717244697; x=1717849497;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CNmHJ8ghS4KyE8+EYkuwnwIt1TAolfVhKWlq5d94kxQ=;
-        b=PicmDQz9QUSC/omTwycEkZ1ESFVgc8WhgVDmX0y7UmbH8ysuVAFHvypQwv37BaNhre
-         ccELGc5Edphs58hizrj0liamHZ3qgfGzNDvuR9tTyDwNN5jkKwP6wzITmKaNPdk0nP9Y
-         0PIAR0zZlyZwdr4SwRTqzA/OR5voT32TxVkhdm1GzHKVWqCsG80CtukvoAEaPrlZcsKl
-         JyXCbqyweYHSeRFEEAEDsff3piX2uXxOQ4XWuU9ypzPoI0oH7xCFfyFderCxFs9YWUb4
-         8FFQIOFm6oEo3rWqGzvb8B2Xuzlu1qbMm3Vvs9PdXcJF/Is6/IPkG/BwSWXO4M8hdLDC
-         /n0Q==
-X-Gm-Message-State: AOJu0YzNdn4Tq+u5IIUM8DeqvTcioIgh6Ti+wZAekS9rrL1X07ARRNNU
-	9o/3JYnbhsKkj32+tQUcjFV4rfPsXrKp5VL2QMKliFq2mTkQI2stULY/8zOzHG70bqV9ziP3Ql5
-	G
-X-Google-Smtp-Source: AGHT+IE2u3EhuRPLQNeesPHmNf+ScisNYTnLrYZKqkIkuJ+p0/16n7KYzxiM/XMMmjZtyCA+uby5qw==
-X-Received: by 2002:a17:902:d2d0:b0:1f4:af72:35da with SMTP id d9443c01a7336-1f6370b120bmr56531065ad.65.1717244700214;
-        Sat, 01 Jun 2024 05:25:00 -0700 (PDT)
+        bh=Cq6mLixbadsvOWNNEFBjvZdLE6AU1MF33U2+QnxNg8o=;
+        b=d5C5NBcvV3mq6kDSrVQ+tE0tfl56UZh0lxXxoziiQ88yYCkbHk/EUEXDwHSZ1Isn+4
+         2ra7OTIJGHY6yNP8SL8oEij1DD2bl9l5sLZO3ahWNnCxjNMT6nJpLrNOVg+GKCYYM5mF
+         mNadVD3FMN5pl3jw1zU9Yd+8FRf7azrV6V9PmWucce8es033oslohPW3PUXwpLejWYPZ
+         sr1FsmqPzmhtg6VZzjprHIZFtr3jNfL8AX3yuK/WmSEXjRJx2fiO2Hm5a9PO9B7cdKjF
+         oFyRmSE2cE/k0VkOJrh/bgc9epnFe+X9tzu5df634P2J85oYxtg4X4XejBu/6VN9Ogir
+         T2pA==
+X-Gm-Message-State: AOJu0Yw1njETs18OZS/vWFq0YkhvsHek2JgrkzTdHzcE8nGo5m9tNFTi
+	PCySxxYkkD6PxsSaJl4zneOuq/szs6lGu1vGaVXntEKBu6rLxBW8CuvFo26ZrXTxvEez7suH3LI
+	l
+X-Google-Smtp-Source: AGHT+IEbAfbyEofdfVFij3FgYRq83jrf5tgVGi16aLH7mpKsqq6r/x/3620g5nNG19o1vMOFd/m8Mg==
+X-Received: by 2002:a17:902:eb8c:b0:1f3:35d9:432b with SMTP id d9443c01a7336-1f636fd2790mr45075995ad.10.1717244696993;
+        Sat, 01 Jun 2024 05:24:56 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.24.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63241d4d9sm31804165ad.296.2024.06.01.05.24.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 05:24:59 -0700 (PDT)
+        Sat, 01 Jun 2024 05:24:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/21] ghostscript: fix CVE-2024-33870
-Date: Sat,  1 Jun 2024 05:24:30 -0700
-Message-Id: <b95a08ec9f70a0b21f5fc239eda1857cea54702f.1717243719.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/21] ncurses: Fix CVE-2023-45918
+Date: Sat,  1 Jun 2024 05:24:28 -0700
+Message-Id: <5385b15345dddc958fc961246e56b962db735276.1717243719.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1717243719.git.steve@sakoman.com>
 References: <cover.1717243719.git.steve@sakoman.com>
@@ -62,135 +62,227 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 12:25:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200100
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200098
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
+
+ncurses 6.4-20230610 has a NULL pointer dereference in tgetstr in tinfo/lib_termcap.c.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-45918
+
+(From OE-Core rev: 6573995adf4cfd48b036f8463b39f3864fcfd85b)
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ghostscript/CVE-2024-33870.patch          | 99 +++++++++++++++++++
- .../ghostscript/ghostscript_10.02.1.bb        |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
+ .../ncurses/files/CVE-2023-45918.patch        | 180 ++++++++++++++++++
+ meta/recipes-core/ncurses/ncurses_6.4.bb      |   1 +
+ 2 files changed, 181 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-45918.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
+diff --git a/meta/recipes-core/ncurses/files/CVE-2023-45918.patch b/meta/recipes-core/ncurses/files/CVE-2023-45918.patch
 new file mode 100644
-index 0000000000..9c2b9dcfa2
+index 0000000000..fbdae49a61
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-33870.patch
-@@ -0,0 +1,99 @@
-+From 79aef19c685984dc3da2dc090450407d9fbcff80 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <Ken.Sharp@artifex.com>
-+Date: Tue, 26 Mar 2024 12:00:14 +0000
-+Subject: [PATCH 1/5] Bug #707686
++++ b/meta/recipes-core/ncurses/files/CVE-2023-45918.patch
+@@ -0,0 +1,180 @@
++From bcf02d3242f1c7d57224a95f7903fcf4b5e7695d Mon Sep 17 00:00:00 2001
++From: Thomas E. Dickey <dickey@invisible-island.net>
++Date: Fri, 16 Jun 2023 02:54:29 +0530
++Subject: [PATCH] Fix CVE-2023-45918
 +
-+See bug thread for details
++CVE: CVE-2023-45918
 +
-+In addition to the noted bug; an error path (return from
-+gp_file_name_reduce not successful) could elad to a memory leak as we
-+did not free 'bufferfull'. Fix that too.
++Upstream-Status: Backport [https://ncurses.scripts.mit.edu/?p=ncurses.git;a=commit;h=bcf02d3242f1c7d57224a95f7903fcf4b5e7695d]
 +
-+This addresses CVE-2024-33870
-+
-+CVE: CVE-2024-33870
-+
-+Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=79aef19c685984dc]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ base/gpmisc.c | 36 ++++++++++++++++++++++++++++++++----
-+ 1 file changed, 32 insertions(+), 4 deletions(-)
++ ncurses/tinfo/comp_error.c | 15 ++++++---
++ ncurses/tinfo/read_entry.c | 65 ++++++++++++++++++++++++++------------
++ 2 files changed, 56 insertions(+), 24 deletions(-)
 +
-+diff --git a/base/gpmisc.c b/base/gpmisc.c
-+index 2b0064b..c4a69b0 100644
-+--- a/base/gpmisc.c
-++++ b/base/gpmisc.c
-+@@ -1,4 +1,4 @@
-+-/* Copyright (C) 2001-2023 Artifex Software, Inc.
-++/* Copyright (C) 2001-2024 Artifex Software, Inc.
-+    All Rights Reserved.
-+
-+    This software is provided AS-IS with no warranty, either express or
-+@@ -1042,7 +1042,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+                      const uint         len,
-+                      const char        *mode)
++diff --git a/ncurses/tinfo/comp_error.c b/ncurses/tinfo/comp_error.c
++index 48f48784..ee518e28 100644
++--- a/ncurses/tinfo/comp_error.c
+++++ b/ncurses/tinfo/comp_error.c
++@@ -60,8 +60,15 @@ _nc_get_source(void)
++ NCURSES_EXPORT(void)
++ _nc_set_source(const char *const name)
 + {
-+-    char *buffer, *bufferfull;
-++    char *buffer, *bufferfull = NULL;
-+     uint rlen;
-+     int code = 0;
-+     const char *cdirstr = gp_file_name_current();
-+@@ -1096,8 +1096,10 @@ gp_validate_path_len(const gs_memory_t *mem,
-+             return gs_error_VMerror;
++-    FreeIfNeeded(SourceName);
++-    SourceName = strdup(name);
+++    if (name == NULL) {
+++	free(SourceName);
+++	SourceName = NULL;
+++    } else if (SourceName == NULL) {
+++	SourceName = strdup(name);
+++    } else if (strcmp(name, SourceName)) {
+++	free(SourceName);
+++	SourceName = strdup(name);
+++    }
++ }
 +
-+         buffer = bufferfull + prefix_len;
-+-        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-+-            return gs_error_invalidfileaccess;
-++        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success) {
-++            code = gs_note_error(gs_error_invalidfileaccess);
-++            goto exit;
-++        }
-+         buffer[rlen] = 0;
-+     }
-+     while (1) {
-+@@ -1132,9 +1134,34 @@ gp_validate_path_len(const gs_memory_t *mem,
-+             code = gs_note_error(gs_error_invalidfileaccess);
-+         }
-+         if (code < 0 && prefix_len > 0 && buffer > bufferfull) {
-++            uint newlen = rlen + cdirstrl + dirsepstrl;
-++            char *newbuffer;
-++            int code;
-++
-+             buffer = bufferfull;
-+             memcpy(buffer, cdirstr, cdirstrl);
-+             memcpy(buffer + cdirstrl, dirsepstr, dirsepstrl);
-++
-++            /* We've prepended a './' or similar for the current working directory. We need
-++             * to execute file_name_reduce on that, to eliminate any '../' or similar from
-++             * the (new) full path.
-++             */
-++            newbuffer = (char *)gs_alloc_bytes(mem->thread_safe_memory, newlen + 1, "gp_validate_path");
-++            if (newbuffer == NULL) {
-++                code = gs_note_error(gs_error_VMerror);
-++                goto exit;
-++            }
-++
-++            memcpy(newbuffer, buffer, rlen + cdirstrl + dirsepstrl);
-++            newbuffer[newlen] = 0x00;
-++
-++            code = gp_file_name_reduce(newbuffer, (uint)newlen, buffer, &newlen);
-++            gs_free_object(mem->thread_safe_memory, newbuffer, "gp_validate_path");
-++            if (code != gp_combine_success) {
-++                code = gs_note_error(gs_error_invalidfileaccess);
-++                goto exit;
-++            }
-++
-+             continue;
-+         }
-+         else if (code < 0 && cdirstrl > 0 && prefix_len == 0 && buffer == bufferfull) {
-+@@ -1153,6 +1180,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+                                            gs_path_control_flag_is_scratch_file);
-+     }
++ NCURSES_EXPORT(void)
++@@ -95,9 +102,9 @@ static NCURSES_INLINE void
++ where_is_problem(void)
++ {
++     fprintf(stderr, "\"%s\"", SourceName ? SourceName : "?");
++-    if (_nc_curr_line >= 0)
+++    if (_nc_curr_line > 0)
++	fprintf(stderr, ", line %d", _nc_curr_line);
++-    if (_nc_curr_col >= 0)
+++    if (_nc_curr_col > 0)
++	fprintf(stderr, ", col %d", _nc_curr_col);
++     if (TermType != 0 && TermType[0] != '\0')
++	fprintf(stderr, ", terminal '%s'", TermType);
++diff --git a/ncurses/tinfo/read_entry.c b/ncurses/tinfo/read_entry.c
++index 341337d2..b0c3ad26 100644
++--- a/ncurses/tinfo/read_entry.c
+++++ b/ncurses/tinfo/read_entry.c
++@@ -138,12 +138,13 @@ convert_16bits(char *buf, NCURSES_INT2 *Numbers, int count)
++ }
++ #endif
 +
-++exit:
-+     gs_free_object(mem->thread_safe_memory, bufferfull, "gp_validate_path");
-+ #ifdef EACCES
-+     if (code == gs_error_invalidfileaccess)
++-static void
++-convert_strings(char *buf, char **Strings, int count, int size, char *table)
+++static bool
+++convert_strings(char *buf, char **Strings, int count, int size,
+++		char *table, bool always)
++ {
++     int i;
++     char *p;
++-    bool corrupt = FALSE;
+++    bool success = TRUE;
++
++     for (i = 0; i < count; i++) {
++	if (IS_NEG1(buf + 2 * i)) {
++@@ -159,13 +160,10 @@ convert_strings(char *buf, char **Strings, int count, int size, char *table)
++		TR(TRACE_DATABASE, ("Strings[%d] = %s", i,
++				    _nc_visbuf(Strings[i])));
++	    } else {
++-		if (!corrupt) {
++-		    corrupt = TRUE;
++-		    TR(TRACE_DATABASE,
++-		       ("ignore out-of-range index %d to Strings[]", nn));
++-		    _nc_warning("corrupt data found in convert_strings");
++-		}
++-		Strings[i] = ABSENT_STRING;
+++		TR(TRACE_DATABASE,
+++		   ("found out-of-range index %d to Strings[%d]", nn, i));
+++		success = FALSE;
+++		break;
++	    }
++	}
++
++@@ -175,10 +173,25 @@ convert_strings(char *buf, char **Strings, int count, int size, char *table)
++		if (*p == '\0')
++		    break;
++	    /* if there is no NUL, ignore the string */
++-	    if (p >= table + size)
+++	    if (p >= table + size) {
++		Strings[i] = ABSENT_STRING;
+++	    } else if (p == Strings[i] && always) {
+++		TR(TRACE_DATABASE,
+++		   ("found empty but required Strings[%d]", i));
+++		success = FALSE;
+++		break;
+++	    }
+++	} else if (always) {	/* names are always needed */
+++	    TR(TRACE_DATABASE,
+++	       ("found invalid but required Strings[%d]", i));
+++	    success = FALSE;
+++	    break;
++	}
++     }
+++    if (!success) {
+++	_nc_warning("corrupt data found in convert_strings");
+++    }
+++    return success;
++ }
++
++ static int
++@@ -382,7 +395,10 @@ _nc_read_termtype(TERMTYPE2 *ptr, char *buffer, int limit)
++	if (Read(string_table, (unsigned) str_size) != str_size) {
++	    returnDB(TGETENT_NO);
++	}
++-	convert_strings(buf, ptr->Strings, str_count, str_size, string_table);
+++	if (!convert_strings(buf, ptr->Strings, str_count, str_size,
+++			     string_table, FALSE)) {
+++	    returnDB(TGETENT_NO);
+++	}
++     }
++ #if NCURSES_XNAMES
++
++@@ -483,8 +499,10 @@ _nc_read_termtype(TERMTYPE2 *ptr, char *buffer, int limit)
++	       ("Before computing extended-string capabilities "
++		"str_count=%d, ext_str_count=%d",
++		str_count, ext_str_count));
++-	    convert_strings(buf, ptr->Strings + str_count, ext_str_count,
++-			    ext_str_limit, ptr->ext_str_table);
+++	    if (!convert_strings(buf, ptr->Strings + str_count, ext_str_count,
+++				 ext_str_limit, ptr->ext_str_table, FALSE)) {
+++		returnDB(TGETENT_NO);
+++	    }
++	    for (i = ext_str_count - 1; i >= 0; i--) {
++		TR(TRACE_DATABASE, ("MOVE from [%d:%d] %s",
++				    i, i + str_count,
++@@ -516,10 +534,13 @@ _nc_read_termtype(TERMTYPE2 *ptr, char *buffer, int limit)
++	    TR(TRACE_DATABASE,
++	       ("ext_NAMES starting @%d in extended_strings, first = %s",
++		base, _nc_visbuf(ptr->ext_str_table + base)));
++-	    convert_strings(buf + (2 * ext_str_count),
++-			    ptr->ext_Names,
++-			    (int) need,
++-			    ext_str_limit, ptr->ext_str_table + base);
+++	    if (!convert_strings(buf + (2 * ext_str_count),
+++				 ptr->ext_Names,
+++				 (int) need,
+++				 ext_str_limit, ptr->ext_str_table + base,
+++				 TRUE)) {
+++		returnDB(TGETENT_NO);
+++	    }
++	}
++
++	TR(TRACE_DATABASE,
++@@ -572,13 +593,17 @@ _nc_read_file_entry(const char *const filename, TERMTYPE2 *ptr)
++	int limit;
++	char buffer[MAX_ENTRY_SIZE + 1];
++
++-	if ((limit = (int) fread(buffer, sizeof(char), sizeof(buffer), fp))
++-	    > 0) {
+++	limit = (int) fread(buffer, sizeof(char), sizeof(buffer), fp);
+++	if (limit > 0) {
+++	    const char *old_source = _nc_get_source();
++
++	    TR(TRACE_DATABASE, ("read terminfo %s", filename));
+++	    if (old_source == NULL)
+++		_nc_set_source(filename);
++	    if ((code = _nc_read_termtype(ptr, buffer, limit)) == TGETENT_NO) {
++		_nc_free_termtype2(ptr);
++	    }
+++	    _nc_set_source(old_source);
++	} else {
++	    code = TGETENT_NO;
++	}
 +--
 +2.40.0
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-index 3dff16eec2..ca6f628f38 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://ghostscript-9.16-Werror-return-type.patch \
-            file://avoid-host-contamination.patch \
-            file://configure.ac-add-option-to-explicitly-disable-neon.patch \
-+           file://CVE-2024-33870.patch \
+diff --git a/meta/recipes-core/ncurses/ncurses_6.4.bb b/meta/recipes-core/ncurses/ncurses_6.4.bb
+index 31f18bbadc..97130c06d6 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.4.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.4.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://0001-tic-hang.patch \
+            file://0001-Fix-CVE-2023-29491.patch \
+            file://0001-Updating-reset-code-ncurses-6.4-patch-20231104.patch \
+            file://CVE-2023-50495.patch \
++           file://CVE-2023-45918.patch \
             "
- 
- SRC_URI[sha256sum] = "e429e4f5b01615a4f0f93a4128e8a1a4d932dff983b1774174c79c0630717ad9"
+ # commit id corresponds to the revision in package version
+ SRCREV = "79b9071f2be20a24c7be031655a5638f6032f29f"
 -- 
 2.34.1
 
