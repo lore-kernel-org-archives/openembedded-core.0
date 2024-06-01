@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48BD0C3271A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FFDC3271D
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:42 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.42244.1717263219450838779
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.42237.1717263218752894487
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WnOB6cOW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=foQJ2rIM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018fd4dd38b5-56caeedd-4c01-4183-b47e-75198ae1eefe-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JOJngAXT;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cACDVkUj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018fd4dd395a-10ed0164-5150-4250-80b1-b6ca5f2e56cb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263218;
+	t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uubXE2atTIK/J0lM7//4KNBjLN2bgD3vGUDncriqoOM=;
-	b=WnOB6cOW2kWO1YmCY2BtyDgouw9FAO9+/51MWVeDuFQu8klNa//vButdH/JgZW6l
-	p0zGbnbwo9+fKKKE5IeJV7F+zZEXcKJjeRphnieAURV3A3qRyxp9bHpkidj8cN3opY1
-	S7NFozk4it//NQVABe2EllsIhoYnTXsMIoBNj9Xs=
+	bh=oD09GqIQ/qxag6a26ha7rTE4aT6j4AikdIZ8q5FeZos=;
+	b=JOJngAXTv8jBVvVHwsdZD5Scu8V93KxHd2j2NckO28sgUgXQIGzWTSR3pFEn1IAv
+	QWF5R4GwZnojsQCLRi2L/bUW7WVKtMBoVZmqH1vDyKiHtPXuh+NlosaWiW4XFb6KBxX
+	4oFL6oGdQi1N6mxEVuXPyOKAZVAx4ftrZd5edfwE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uubXE2atTIK/J0lM7//4KNBjLN2bgD3vGUDncriqoOM=;
-	b=foQJ2rIM6o11kS+CzZk1aGxZtr00QEAhSV2IjEtUrDWIfubhuLDgHwWFFfMADtOU
-	UM0ZbfFFesFznJ0SQ0th8Cqcv0u3ijC3avkniyMDmznHSl6YMGmpKRWXhmdIKRHXvDT
-	6T7pzOfNWKbhBq1tjSnVqP4Yybk2Rt/hZC9qcuFc=
-Content-Type: multipart/mixed; boundary="===============6754470505510825788=="
+	bh=oD09GqIQ/qxag6a26ha7rTE4aT6j4AikdIZ8q5FeZos=;
+	b=cACDVkUjvlbGNC0/eRE7O16A+wRVekHWcZFd9eDQfUIdxl1mUBZfljCDOWqOx/nX
+	w+EiyUVncgpeiBIoUg8n1QLDcpJC0KJhCfx74iviqVI0KuYPS2e6R7Ynvs68AuJuwxs
+	SUSHwCyrRdDMxLCtk0x5CttBWIVN37KgwFN5COqY=
+Content-Type: multipart/mixed; boundary="===============6418745024457789690=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.24.4 SUCCEEDED
-Message-ID: <0101018fd4dd38b5-56caeedd-4c01-4183-b47e-75198ae1eefe-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:38 +0000
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.4 SUCCEEDED
+Message-ID: <0101018fd4dd395a-10ed0164-5150-4250-80b1-b6ca5f2e56cb-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.33
+X-SES-Outgoing: 2024.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200174
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200170
 
---===============6754470505510825788==
+--===============6418745024457789690==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gst-devtools* to *1.24.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.24.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.24.3-1.24.4.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.24.3-1.24.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,137 +72,94 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From daa6e6c558137b7b91094e0363fd089be565c3a8 Mon Sep 17 00:00:00 2001
+From 1199250d9bff57f80efc29565a0954c2a73f413d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 14:36:31 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.24.3 -> 1.24.4
+Date: Sat, 1 Jun 2024 15:07:19 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.24.3 -> 1.24.4
 
 ---
- .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
- .../{gst-devtools_1.24.3.bb => gst-devtools_1.24.4.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.3.bb => gst-devtools_1.24.4.bb} (95%)
+ ...reamer1.0-python_1.24.3.bb => gstreamer1.0-python_1.24.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.3.bb => gstreamer1.0-python_1.24.4.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index 8520567f17..c0d472ab6e 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-@@ -1,4 +1,4 @@
--From c20894a5e6f52aa9fe3437e733a228b1a0eb6428 Mon Sep 17 00:00:00 2001
-+From 18c5edde97ce0ee4ce11aedb782fe2388b7d2712 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.3.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb
-index 9df802afe9..eca0753cf2 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.4.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.4.bb
+index 5fbf860741..6f05863486 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.4.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
--SRC_URI[sha256sum] = "b91114a2fd958f42acf441186e87e2bec93538ef35a9f8248111197360ffb237"
-+SRC_URI[sha256sum] = "8bff1b388522e03d761786e61fe9aff1f9867b8f7cc230043cbb2622dcf6f0fe"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "ecdb3e2ba94ea2c82b93a8c715d5a7e04f9726a8838c0a6b17694928fd1e8595"
++SRC_URI[sha256sum] = "5510358316eb5c965829a393714b4d88306033cd64db3eae8cc62b41ae80a392"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.44.0
 
 
---===============6754470505510825788==
+--===============6418745024457789690==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-1.0.so.0.2403.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2403.0", added "/usr/lib/.debug/libgstvalidate-1.0.so.0.2404.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2404.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2403.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2403.0", added "/usr/lib/libgstvalidate-1.0.so.0.2404.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0"
-packages/core2-64-poky-linux/gst-devtools: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.3.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.4.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-64-poky-linux/gst-devtools: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2403.0 to libgstvalidate-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2403.0 to libgstvalidate-default-overrides-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-1.0.so.0.2403.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2403.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.4.tar.xz"
 
---===============6754470505510825788==
+--===============6418745024457789690==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.24.3-1.24.4.patch"
+ filename="0001-gstreamer1.0-python-upgrade-1.24.3-1.24.4.patch"
 
-RnJvbSBkYWE2ZTZjNTU4MTM3YjdiOTEwOTRlMDM2M2ZkMDg5YmU1NjVjM2E4IE1vbiBTZXAgMTcg
+RnJvbSAxMTk5MjUwZDliZmY1N2Y4MGVmYzI5NTY1YTA5NTRjMmE3M2Y0MTNkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNDozNjozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dC1kZXZ0b29sczogdXBncmFkZSAxLjI0LjMgLT4gMS4yNC40CgotLS0KIC4uLi8wMDAxLWNvbm5l
-Y3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoICAgICAgICB8IDIgKy0K
-IC4uLi97Z3N0LWRldnRvb2xzXzEuMjQuMy5iYiA9PiBnc3QtZGV2dG9vbHNfMS4yNC40LmJifSAg
-ICAgICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0LWRl
-dnRvb2xzXzEuMjQuMy5iYiA9PiBnc3QtZGV2dG9vbHNfMS4yNC40LmJifSAoOTUlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHMvMDAw
-MS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHMvMDAwMS1jb25uZWN0LWhh
-cy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaAppbmRleCA4NTIwNTY3ZjE3Li5j
-MGQ0NzJhYjZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
-Z3N0LWRldnRvb2xzLzAwMDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11
-c2wucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0
-b29scy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjMjA4OTRhNWU2ZjUyYWE5ZmUzNDM3ZTczM2EyMjhiMWEw
-ZWI2NDI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxOGM1ZWRkZTk3Y2UwZWU0Y2Ux
-MWFlZGI3ODJmZTIzODhiN2QyNzEyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hl
-bSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFN1biwgOSBTZXAgMjAxOCAxNzozODox
-MCAtMDcwMAogU3ViamVjdDogW1BBVENIXSBjb25uZWN0IGhhcyBhIGRpZmZlcmVudCBzaWduYXR1
-cmUgb24gbXVzbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdC1kZXZ0b29sc18xLjI0LjMuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0LWRldnRvb2xzXzEuMjQuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzXzEuMjQuMy5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29s
-c18xLjI0LjQuYmIKaW5kZXggOWRmODAyYWZlOS4uZWNhMDc1M2NmMiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0LjMuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0LjQu
-YmIKQEAgLTEyLDcgKzEyLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVz
-a3RvcC5vcmcvc3JjL2dzdC1kZXZ0b29scy9nc3QtZGV2dG9vbHMtJHtQVn0KICAgICAgICAgICAg
-ZmlsZTovLzAwMDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0
-Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiOTExMTRhMmZkOTU4
-ZjQyYWNmNDQxMTg2ZTg3ZTJiZWM5MzUzOGVmMzVhOWY4MjQ4MTExMTk3MzYwZmZiMjM3IgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjhiZmYxYjM4ODUyMmUwM2Q3NjE3ODZlNjFmZTlhZmYxZjk4Njdi
-OGY3Y2MyMzAwNDNjYmIyNjIyZGNmNmYwZmUiCiAKIERFUEVORFMgPSAianNvbi1nbGliIGdsaWIt
-Mi4wIGdsaWItMi4wLW5hdGl2ZSBnc3RyZWFtZXIxLjAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZSIKIFJSRUNPTU1FTkRTOiR7UE59ID0gImdpdCIKLS0gCjIuNDQuMAoK
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNTowNzoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yNC4zIC0+IDEuMjQuNAoKLS0tCiAuLi5yZWFt
+ZXIxLjAtcHl0aG9uXzEuMjQuMy5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuNC5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1weXRo
+b25fMS4yNC4zLmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yNC40LmJifSAoOTElKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
+cHl0aG9uXzEuMjQuMy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtcHl0aG9uXzEuMjQuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8x
+LjI0LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtcHl0aG9uXzEuMjQuNC5iYgppbmRleCA1ZmJmODYwNzQxLi42ZjA1ODYzNDg2IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LXB5dGhvbl8xLjI0LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC1weXRob25fMS4yNC40LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNFID0g
+IkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
+ZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6
+Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9LSR7UFZ9
+LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlY2RiM2UyYmE5NGVhMmM4MmI5M2E4Yzcx
+NWQ1YTdlMDRmOTcyNmE4ODM4YzBhNmIxNzY5NDkyOGZkMWU4NTk1IgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjU1MTAzNTgzMTZlYjVjOTY1ODI5YTM5MzcxNGI0ZDg4MzA2MDMzY2Q2NGRiM2VhZThj
+YzYyYjQxYWU4MGEzOTIiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1w
+bHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QiCiBSREVQRU5EUzoke1BOfSArPSAiZ3N0cmVh
+bWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QiCi0tIAoy
+LjQ0LjAKCg==
 
---===============6754470505510825788==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2403.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2403.0", added "/usr/lib/libgstvalidate-1.0.so.0.2404.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0"
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2403.0 to libgstvalidate-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2403.0 to libgstvalidate-default-overrides-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-1.0.so.0.2403.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2404.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2403.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0
-
---===============6754470505510825788==--
+--===============6418745024457789690==--
 
