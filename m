@@ -2,163 +2,117 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CF2C3064D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A9AC3065B
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
  by mx.groups.io with SMTP id smtpd.web11.42215.1717263218661094089
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jun 2024 10:33:38 -0700
+ Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=e3mNlCOz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=16Ce0b+4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd34db-72f6743d-85b1-4e2d-9b82-acb605ec2bd6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AtHBT/hB;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PUYX2TAK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd3aee-b65d79e2-dbf3-484b-b039-80ab78820a0c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263218;
+	t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CQOhQKYchry/DyipIiIFPXMwCnCxCF1uipKIDm/juKY=;
-	b=e3mNlCOzzXen1bc/ylLfrqzxLSttM0P/PpIwmaUvGu/H1dBB0R9A7lPf8VvsWcJj
-	cjm3HrIqivNWRi9xcQJNkJsZLuzog20mVZpjK3YeZe/OwxblxX8aystGpIEK95+Q6iT
-	j3eKdOA5+5VkGWzfozJfS0eBBFQllhCTlSo9vtqg=
+	bh=WZdm8Etiq7pr6/1B4F1eYxS3z6H9lUpBYMdzsU57tEA=;
+	b=AtHBT/hBS6OrbCBL9hGTzdVM2iykLWIe0+psGISvZRVq+1UMmFO3Bipy8LqMhLYT
+	SqHhRLpzn2TiD3CZ8+c/J4EofkmDqUzlVF4a8llToBK0l4mjy6FXhRBeaLxgdZIt/Lo
+	Nn4QrR3LL5/AtsAzSBvlPFhPR4VmgVBBxqGz0zFs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CQOhQKYchry/DyipIiIFPXMwCnCxCF1uipKIDm/juKY=;
-	b=16Ce0b+4X1HJ4oe6ksmG5WoSWjH9GU41cilksbBmpE5RQUQ/WyV0MLSV2hbEZVlR
-	b4gNvWhpahw+KB4q8dJp7jFr+uMAUGp8WNJwA9sdGGY/+qlDnhjcyxXD0aIMttHh7ud
-	R6TSdrnaj6JGHdtQRhzKgUrtNsjEXF5Sdz59+pLw=
-Content-Type: multipart/mixed; boundary="===============4710036535149471542=="
+	bh=WZdm8Etiq7pr6/1B4F1eYxS3z6H9lUpBYMdzsU57tEA=;
+	b=PUYX2TAKyTdjlrRm7F+M3RS6DRIo9x/WCqHAAOnbeYnsdbvOmS2Yk+ojFQwezMq3
+	biNjLzXiTWuWfZjg9BKtME0PJ0E1zFGGK0fuNMIU0mvvbhnUQdGTUXGbmbm974oHpCO
+	rJrnuTj2hJiqi3+Oj1kgL/ZAYbtwC/+phrsqHx7s=
+Content-Type: multipart/mixed; boundary="===============1365292220633160323=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-docutils: upgrading to 0.21.2 FAILED
-Message-ID: <0101018fd4dd34db-72f6743d-85b1-4e2d-9b82-acb605ec2bd6-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:37 +0000
+Subject: [AUH] vte: upgrading to 0.76.2 FAILED
+Message-ID: <0101018fd4dd3aee-b65d79e2-dbf3-484b-b039-80ab78820a0c-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.06.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200142
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200186
 
---===============4710036535149471542==
-Content-Type: text/plain; charset="us-ascii"
+--===============1365292220633160323==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+ICp2dGUqIHRvICowLjc2LjIqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
+ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
+cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtdnRlLXVwZ3JhZGUtMC43NC4yLTAuNzYuMi5wYXRj
+aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
+emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
+dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
+c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
+LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
+YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
+dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
+VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
+IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
+ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
+IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
+ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
+bSBmYjg5OTRlOWNjMDE1YzAxYmRiMWY1YzYxZmM4YjEzYzI1YmYyMzRiIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
+dGU6IFNhdCwgMSBKdW4gMjAyNCAxNzoyNjozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0ZTog
+dXBncmFkZSAwLjc0LjIgLT4gMC43Ni4yCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFjcm8t
+Zm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUve3Z0
+ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMi5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4yLmJifSAoOTYl
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19F
+WElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1z
+eXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmU2Y2MyNzUzYjcgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3It
+bm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0
+ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNmNjk1
+OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTFjYTI4Mjg5YWM2OGU1NjQ4MDhj
+ZWQ0YjVhNzk0MjcyMmEzOWVmOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERhbmls
+byBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEgTWFy
+IDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUgbWFj
+cm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9mZi1i
+eTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0dHBz
+Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lkZ2V0
+LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMvd2lk
+Z2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZm
+IC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJmLi4z
+MWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9zcmMv
+d2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAgLTMw
+LDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRlICJj
+b25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKaW5kZXggZDhlYWZkZTJmYi4uZDBl
+ODFjMzAyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKQEAgLTE5LDcg
+KzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21lYmFz
+ZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdvYmpl
+Y3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAwMDEt
+QWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JDX1VS
+SVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1MTkw
+MTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
+dW1dID0gImUzZGM2MDgyZDViZDcwZjhhYWZhYWFkMmNkZmNhZjdlNTFkYTZiYTAwYTkxOWIxMWRk
+YWM2ZWZhMDljNzI4NDciCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJP
+RkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-docutils* to *0.21.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-docutils-upgrade-0.20.1-0.21.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From ad3069bdbb01852f8312ae9762e52f78748778d4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jun 2024 09:15:01 +0000
-Subject: [PATCH] python3-docutils: upgrade 0.20.1 -> 0.21.2
-
----
- ...s_0.20.1.bb => python3-docutils_0.21.2.bb} | 50 ++++++++++++++++++-
- 1 file changed, 48 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-docutils_0.20.1.bb => python3-docutils_0.21.2.bb} (22%)
-
-diff --git a/meta/recipes-devtools/python/python3-docutils_0.20.1.bb b/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
-similarity index 22%
-rename from meta/recipes-devtools/python/python3-docutils_0.20.1.bb
-rename to meta/recipes-devtools/python/python3-docutils_0.21.2.bb
-index 6038732cc4..0d096dd570 100644
---- a/meta/recipes-devtools/python/python3-docutils_0.20.1.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
-@@ -1,10 +1,56 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING.txt
-+# +++ COPYING.txt
-+# @@ -6,7 +6,7 @@
-+#  
-+#  :Author: David Goodger
-+#  :Contact: goodger@python.org
-+# -:Date: $Date: 2022-11-29 00:55:25 +0100 (Di, 29. Nov 2022) $
-+# +:Date: $Date: 2023-06-22 17:34:37 +0200 (Do, 22. Jun 2023) $
-+#  :Web site: https://docutils.sourceforge.io/
-+#  :Copyright: This document has been placed in the public domain.
-+#  
-+# @@ -131,9 +131,9 @@
-+#  * docutils/utils/roman.py
-+#  
-+#    copyright by Mark Pilgrim, released under the
-+# -  `Python 2.1.1 license`_ (`local copy`__).
-+# +  `Zope Public License Version 2.1`_ (`local copy`__).
-+#  
-+# -  __ licenses/python-2-1-1.txt
-+# +  __ licenses/ZPL-2-1.txt
-+#  
-+#  * tools/editors/emacs/rst.el
-+#  
-+# @@ -150,10 +150,10 @@
-+#  
-+#  .. _sandbox: https://docutils.sourceforge.io/sandbox/README.html
-+#  .. _licenses: licenses/
-+# -.. _Python 2.1.1 license: https://docs.python.org/3/license.html
-+#  .. _GNU General Public License: https://www.gnu.org/copyleft/gpl.html
-+#  .. _BSD 2-Clause License: http://opensource.org/licenses/BSD-2-Clause
-+#  .. _BSD 3-Clause License: https://opensource.org/licenses/BSD-3-Clause
-+# +.. _Zope Public License Version 2.1: https://opensource.org/license/zpl-2-1/
-+#  .. _OSI-approved: http://opensource.org/licenses/
-+#  .. _license-list:
-+#  .. _GPL-compatible: https://www.gnu.org/licenses/license-list.html
-+# 
-+#
-+
- SUMMARY = "Docutils is a modular system for processing documentation into useful formats"
- HOMEPAGE = "http://docutils.sourceforge.net"
- SECTION = "devel/python"
- LICENSE = "PSF-2.0 & BSD-2-Clause & GPL-3.0-only"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=08f5f8aa6a1db2500c08a2bb558e45af"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=382430a09a4453818aa6618f2090491b"
- 
--SRC_URI[sha256sum] = "f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"
-+SRC_URI[sha256sum] = "3a6b18732edf182daa3cd12775bbb338cf5691468f91eeeb109deff6ebfa986f"
- 
- inherit pypi setuptools3
- 
--- 
-2.44.0
-
-
---===============4710036535149471542==
+--===============1365292220633160323==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -166,7 +120,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1881 entries from dependency cache.
+Loaded 1878 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 918 .bb files complete (917 cached, 1 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -180,144 +134,330 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-685527e1b4a3ba13f47b5d267a468b32e7170cb4"
+DISTRO_VERSION       = "5.0+snapshot-3659605c1588ea660ba9d5e1c2fc9a1f14680e7a"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:685527e1b4a3ba13f47b5d267a468b32e7170cb4"
+workspace            = "tmp-auh-upgrades:3659605c1588ea660ba9d5e1c2fc9a1f14680e7a"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 326 Local 313 Mirrors 0 Missed 13 Current 309 (96% match, 97% complete)
+Sstate summary: Wanted 543 Local 530 Mirrors 0 Missed 13 Current 772 (97% match, 99% complete)
 done.
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 1403 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_recipe_qa)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_recipe_qa unihash changed to 39dfef0d85a608b9f59ca1f8f898c228b434e2a496a6355c621c02479a2ca31a
-NOTE: Setscene tasks completed
-NOTE: Running task 1786 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_fetch)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_fetch: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1787 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_unpack)
-NOTE: Running task 1788 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_unpack: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1789 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_patch)
-NOTE: Running task 1790 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_patch: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-docutils-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-docutils-0.21.2-r0: task do_patch: Succeeded
-NOTE: Running task 1791 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1792 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_populate_lic)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_populate_lic unihash changed to 0c9280c8e40780ce0f957d0eee6eb804ed376f42f80f9ffebe7ff7a30ea34ebc
-NOTE: recipe python3-docutils-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_deploy_source_date_epoch unihash changed to 72216fac93c131a12a409098e045e1a59b0f8379c65c5253982f5dcf47f017d7
-NOTE: Setscene tasks completed
-NOTE: Running task 1793 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_configure)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_configure: Started
-NOTE: recipe python3-docutils-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 1794 of 1805 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_compile)
-NOTE: recipe python3-docutils-0.21.2-r0: task do_compile: Started
+NOTE: Running task 3251 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_recipe_qa)
+NOTE: Running task 3449 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_write_config)
+NOTE: recipe vte-0.76.2-r0: task do_recipe_qa: Started
+NOTE: recipe vte-0.76.2-r0: task do_write_config: Started
+NOTE: recipe vte-0.76.2-r0: task do_write_config: Succeeded
+NOTE: recipe vte-0.76.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3584 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_fetch)
+NOTE: recipe vte-0.76.2-r0: task do_fetch: Started
+NOTE: recipe vte-0.76.2-r0: task do_fetch: Succeeded
+NOTE: Running task 3585 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_unpack)
+NOTE: Running task 3586 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vte-0.76.2-r0: task do_unpack: Started
+NOTE: recipe vte-0.76.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vte-0.76.2-r0: task do_unpack: Succeeded
+NOTE: Running task 3587 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_patch)
+NOTE: Running task 3588 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_collect_spdx_deps)
+NOTE: recipe vte-0.76.2-r0: task do_patch: Started
+NOTE: recipe vte-0.76.2-r0: task do_patch: Succeeded
+NOTE: recipe vte-0.76.2-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 3589 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3590 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_populate_lic)
+NOTE: recipe vte-0.76.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vte-0.76.2-r0: task do_populate_lic: Started
+NOTE: recipe vte-0.76.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe vte-0.76.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vte-0.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vte-0.76.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3591 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure)
+NOTE: recipe vte-0.76.2-r0: task do_configure: Started
 Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/docutils-0.21.2/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695:180 exit 1 from 'exit 1'
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroo
+ t', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.7.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.4.0.bb
+ :do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gperf/gperf_3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:na
+ tive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gi-docgen', 'gobject-introspection', 'gtk+3', 'gtk4', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-s
+ tubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', '
+ libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dgir=true -Ddocs=false -Dvapi=true -Dfribidi=false -Dgnutls=true -Dgtk4=true -D_systemd=true...
+| The Meson build system
+| Version: 1.4.0
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/vte-0.76.2
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/build
+| Build type: cross build
+| Project name: vte
+| Project version: 0.76.2
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-gcc (GCC) 14.1.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot ld.bfd 2.42.0.20240513
+| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-g++ (GCC) 14.1.0")
+| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot ld.bfd 2.42.0.20240513
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| C++ compiler for the build machine: g++ (gcc 13.2.0 "g++ (GCC) 13.2.0")
+| C++ linker for the build machine: g++ ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Compiler for C supports arguments -std=gnu11: YES
+| ../vte-0.76.2/meson.build:143: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu11".
+| Compiler for C++ supports arguments -std=gnu++20: YES
+| ../vte-0.76.2/meson.build:151: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu++20".
+| Program python3 (dataclasses) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot-native/usr/bin/nativepython3) modules: dataclasses
+| Header "sys/ioctl.h" has symbol "TIOCGWINSZ" : YES
+| Library m found: YES
+| Checking if "fork" compiles: YES
+| Checking if "grantpt" compiles: YES
+| Checking if "posix_openpt" compiles: YES
+| Checking if "ptsname" compiles: YES
+| Checking if "tcgetattr" compiles: YES
+| Checking if "unlockpt" compiles: YES
+| Checking if "explicit_bzero" compiles: YES
+| Checking if "fdwalk" compiles: NO
+| Checking if "pread" compiles: YES
+| Checking if "pwrite" compiles: YES
+| Checking if "strchrnul" compiles: YES
+| Checking if "close_range" compiles: YES
+| Checking if "ceil" with dependency -lm compiles: YES
+| Checking if "floor" with dependency -lm compiles: YES
+| Checking if "round" with dependency -lm compiles: YES
+| Compiler for C supports arguments -Wall: YES
+| Compiler for C supports arguments -Wextra: YES
+| Compiler for C supports arguments -Wcast-align: YES
+| Compiler for C supports arguments -Wcast-function-type: YES
+| Compiler for C supports arguments -Wclobbered: YES
+| Compiler for C supports arguments -Wempty-body: YES
+| Compiler for C supports arguments -Wendif-labels: YES
+| Compiler for C supports arguments -Werror=init-self: YES
+| Compiler for C supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C supports arguments -Werror=pointer-arith: YES
+| Compiler for C supports arguments -Wfloat-equal: YES
+| Compiler for C supports arguments -Wignored-qualifiers: YES
+| Compiler for C supports arguments -Winvalid-pch: YES
+| Compiler for C supports arguments -Wlogical-op: YES
+| Compiler for C supports arguments -Wmisleading-indentation: YES
+| Compiler for C supports arguments -Wmissing-declarations: YES
+| Compiler for C supports arguments -Wmissing-field-initializers: YES
+| Compiler for C supports arguments -Wmissing-format-attribute: YES
+| Compiler for C supports arguments -Wmissing-include-dirs: YES
+| Compiler for C supports arguments -Wmissing-noreturn: YES
+| Compiler for C supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C supports arguments -Wno-c99-designator: NO
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-packed: YES
+| Compiler for C supports arguments -Wno-switch-enum: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Compiler for C supports arguments -Wno-volatile: NO
+| Compiler for C supports arguments -Wshadow: YES
+| Compiler for C supports arguments -Wshift-negative-value: YES
+| Compiler for C supports arguments -Wsign-compare: YES
+| Compiler for C supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C supports arguments -Wtype-limits: YES
+| Compiler for C supports arguments -Wundef: YES
+| Compiler for C supports arguments -Wuninitialized: YES
+| Compiler for C supports arguments -Wuninitialized: YES (cached)
+| Compiler for C supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C supports arguments -Wunused: YES
+| Compiler for C supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C supports arguments -Wunused-but-set-variable: YES
+| Compiler for C supports arguments -Wunused-function: YES
+| Compiler for C supports arguments -Wunused-label: YES
+| Compiler for C supports arguments -Wunused-local-typedefs: YES
+| Compiler for C supports arguments -Wunused-value: YES
+| Compiler for C supports arguments -Wunused-variable: YES
+| Compiler for C supports arguments -Wvla: YES
+| Compiler for C supports arguments -Wwrite-strings: YES
+| Compiler for C supports arguments -fdiagnostics-show-option: YES
+| Compiler for C supports arguments -fno-common: YES
+| Compiler for C supports arguments -fno-semantic-interposition: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Compiler for C supports arguments -Waggregate-return: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Werror=missing-prototypes: YES
+| Compiler for C supports arguments -Wimplicit: YES
+| Compiler for C supports arguments -Wimplicit-fallthrough=3: YES
+| Compiler for C supports arguments -Wmissing-parameter-type: YES
+| Compiler for C supports arguments -Wnested-externs: YES
+| Compiler for C supports arguments -Wold-style-declaration: YES
+| Compiler for C supports arguments -Wold-style-definition: YES
+| Compiler for C supports arguments -Woverride-init: YES
+| Compiler for C supports arguments -Wsign-compare: YES (cached)
+| Compiler for C supports arguments -Wstrict-prototypes: YES
+| Compiler for C++ supports arguments -Wall: YES
+| Compiler for C++ supports arguments -Wextra: YES
+| Compiler for C++ supports arguments -Wcast-align: YES
+| Compiler for C++ supports arguments -Wcast-function-type: YES
+| Compiler for C++ supports arguments -Wclobbered: YES
+| Compiler for C++ supports arguments -Wempty-body: YES
+| Compiler for C++ supports arguments -Wendif-labels: YES
+| Compiler for C++ supports arguments -Werror=init-self: YES
+| Compiler for C++ supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C++ supports arguments -Werror=pointer-arith: YES
+| Compiler for C++ supports arguments -Wfloat-equal: YES
+| Compiler for C++ supports arguments -Wignored-qualifiers: YES
+| Compiler for C++ supports arguments -Winvalid-pch: YES
+| Compiler for C++ supports arguments -Wlogical-op: YES
+| Compiler for C++ supports arguments -Wmisleading-indentation: YES
+| Compiler for C++ supports arguments -Wmissing-declarations: YES
+| Compiler for C++ supports arguments -Wmissing-field-initializers: YES
+| Compiler for C++ supports arguments -Wmissing-format-attribute: YES
+| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
+| Compiler for C++ supports arguments -Wmissing-noreturn: YES
+| Compiler for C++ supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C++ supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C++ supports arguments -Wno-c99-designator: NO
+| Compiler for C++ supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C++ supports arguments -Wno-packed: YES
+| Compiler for C++ supports arguments -Wno-switch-enum: YES
+| Compiler for C++ supports arguments -Wno-unused-parameter: YES
+| Compiler for C++ supports arguments -Wno-volatile: YES
+| Compiler for C++ supports arguments -Wshadow: YES
+| Compiler for C++ supports arguments -Wshift-negative-value: YES
+| Compiler for C++ supports arguments -Wsign-compare: YES
+| Compiler for C++ supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C++ supports arguments -Wtype-limits: YES
+| Compiler for C++ supports arguments -Wundef: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES (cached)
+| Compiler for C++ supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C++ supports arguments -Wunused: YES
+| Compiler for C++ supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C++ supports arguments -Wunused-but-set-variable: YES
+| Compiler for C++ supports arguments -Wunused-function: YES
+| Compiler for C++ supports arguments -Wunused-label: YES
+| Compiler for C++ supports arguments -Wunused-local-typedefs: YES
+| Compiler for C++ supports arguments -Wunused-value: YES
+| Compiler for C++ supports arguments -Wunused-variable: YES
+| Compiler for C++ supports arguments -Wvla: YES
+| Compiler for C++ supports arguments -Wwrite-strings: YES
+| Compiler for C++ supports arguments -fdiagnostics-show-option: YES
+| Compiler for C++ supports arguments -fno-common: YES
+| Compiler for C++ supports arguments -fno-semantic-interposition: YES
+| Compiler for C++ supports arguments -fno-strict-aliasing: YES
+| Compiler for C++ supports arguments -Wimplicit-fallthrough=5: YES
+| Compiler for C++ supports arguments -Wnon-virtual-dtor: YES
+| Compiler for C++ supports arguments -Wstrict-null-sentinel: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES
+| Compiler for C++ supports arguments -fvisibility=hidden: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES (cached)
+| Compiler for C++ supports arguments -fvisibility=hidden: YES (cached)
+| Compiler for C supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| Compiler for C++ supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| ../vte-0.76.2/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.2/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| ../vte-0.76.2/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.2/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| Compiler for C supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C supports link arguments -fstack-protector: YES
+| Compiler for C++ supports link arguments -fstack-protector: YES
+| Compiler for C supports link arguments -fstack-protector-strong: YES
+| Compiler for C++ supports link arguments -fstack-protector-strong: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency cairo found: YES 1.18.0
+| Run-time dependency cairo-gobject found: YES 1.18.0
+| Run-time dependency gio-2.0 found: YES 2.80.2
+| Run-time dependency glib-2.0 found: YES 2.80.2
+| Run-time dependency gobject-2.0 found: YES 2.80.2
+| Run-time dependency pango found: YES 1.52.2
+| Run-time dependency libpcre2-8 found: YES 10.43
+| Run-time dependency threads found: YES
+| Found CMake: NO
+| Run-time dependency liblz4 found: NO (tried pkgconfig)
+| 
+| ../vte-0.76.2/meson.build:615:20: ERROR: Dependency "liblz4" not found, tried pkgconfig
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303:177 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695, line 180
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695, line 170
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695, line 152
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695, line 184
-NOTE: recipe python3-docutils-0.21.2-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1794 tasks of which 1784 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 177
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 166
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 155
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 190
+NOTE: recipe vte-0.76.2-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3591 tasks of which 3581 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601091441.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601172606.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601091441.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601172606.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_compile
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-docutils-0.21.2-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-docutils-0.21.2-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/run.do_compile.2926695', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-docutils/0.21.2/temp/log.do_compile.2926695
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-docutils_0.21.2.bb:do_compile) failed with exit code '1'
+ERROR: vte-0.76.2-r0 do_configure: meson failed
+ERROR: vte-0.76.2-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/log.do_configure.4075303
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure) failed with exit code '1'
 
---===============4710036535149471542==
+--===============1365292220633160323==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-docutils-upgrade-0.20.1-0.21.2.patch"
+ filename="0001-vte-upgrade-0.74.2-0.76.2.patch"
 
-RnJvbSBhZDMwNjliZGJiMDE4NTJmODMxMmFlOTc2MmU1MmY3ODc0ODc3OGQ0IE1vbiBTZXAgMTcg
+RnJvbSBmYjg5OTRlOWNjMDE1YzAxYmRiMWY1YzYxZmM4YjEzYzI1YmYyMzRiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAwOToxNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZG9jdXRpbHM6IHVwZ3JhZGUgMC4yMC4xIC0+IDAuMjEuMgoKLS0tCiAuLi5zXzAuMjAu
-MS5iYiA9PiBweXRob24zLWRvY3V0aWxzXzAuMjEuMi5iYn0gfCA1MCArKysrKysrKysrKysrKysr
-KystCiAxIGZpbGUgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWRvY3V0aWxzXzAuMjAu
-MS5iYiA9PiBweXRob24zLWRvY3V0aWxzXzAuMjEuMi5iYn0gKDIyJSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAuMjEuMi5iYgpz
-aW1pbGFyaXR5IGluZGV4IDIyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMS4yLmJiCmluZGV4IDYwMzg3MzJjYzQu
-LjBkMDk2ZGQ1NzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWRvY3V0aWxzXzAuMjEuMi5iYgpAQCAtMSwxMCArMSw1NiBAQAorIyBGSVhNRTog
-dGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29s
-IHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhl
-IG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VO
-U0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBj
-b21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xp
-Y2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdl
-czoKKyMKKyMgLS0tIENPUFlJTkcudHh0CisjICsrKyBDT1BZSU5HLnR4dAorIyBAQCAtNiw3ICs2
-LDcgQEAKKyMgIAorIyAgOkF1dGhvcjogRGF2aWQgR29vZGdlcgorIyAgOkNvbnRhY3Q6IGdvb2Rn
-ZXJAcHl0aG9uLm9yZworIyAtOkRhdGU6ICREYXRlOiAyMDIyLTExLTI5IDAwOjU1OjI1ICswMTAw
-IChEaSwgMjkuIE5vdiAyMDIyKSAkCisjICs6RGF0ZTogJERhdGU6IDIwMjMtMDYtMjIgMTc6MzQ6
-MzcgKzAyMDAgKERvLCAyMi4gSnVuIDIwMjMpICQKKyMgIDpXZWIgc2l0ZTogaHR0cHM6Ly9kb2N1
-dGlscy5zb3VyY2Vmb3JnZS5pby8KKyMgIDpDb3B5cmlnaHQ6IFRoaXMgZG9jdW1lbnQgaGFzIGJl
-ZW4gcGxhY2VkIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyAgCisjIEBAIC0xMzEsOSArMTMxLDkg
-QEAKKyMgICogZG9jdXRpbHMvdXRpbHMvcm9tYW4ucHkKKyMgIAorIyAgICBjb3B5cmlnaHQgYnkg
-TWFyayBQaWxncmltLCByZWxlYXNlZCB1bmRlciB0aGUKKyMgLSAgYFB5dGhvbiAyLjEuMSBsaWNl
-bnNlYF8gKGBsb2NhbCBjb3B5YF9fKS4KKyMgKyAgYFpvcGUgUHVibGljIExpY2Vuc2UgVmVyc2lv
-biAyLjFgXyAoYGxvY2FsIGNvcHlgX18pLgorIyAgCisjIC0gIF9fIGxpY2Vuc2VzL3B5dGhvbi0y
-LTEtMS50eHQKKyMgKyAgX18gbGljZW5zZXMvWlBMLTItMS50eHQKKyMgIAorIyAgKiB0b29scy9l
-ZGl0b3JzL2VtYWNzL3JzdC5lbAorIyAgCisjIEBAIC0xNTAsMTAgKzE1MCwxMCBAQAorIyAgCisj
-ICAuLiBfc2FuZGJveDogaHR0cHM6Ly9kb2N1dGlscy5zb3VyY2Vmb3JnZS5pby9zYW5kYm94L1JF
-QURNRS5odG1sCisjICAuLiBfbGljZW5zZXM6IGxpY2Vuc2VzLworIyAtLi4gX1B5dGhvbiAyLjEu
-MSBsaWNlbnNlOiBodHRwczovL2RvY3MucHl0aG9uLm9yZy8zL2xpY2Vuc2UuaHRtbAorIyAgLi4g
-X0dOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlOiBodHRwczovL3d3dy5nbnUub3JnL2NvcHlsZWZ0
-L2dwbC5odG1sCisjICAuLiBfQlNEIDItQ2xhdXNlIExpY2Vuc2U6IGh0dHA6Ly9vcGVuc291cmNl
-Lm9yZy9saWNlbnNlcy9CU0QtMi1DbGF1c2UKKyMgIC4uIF9CU0QgMy1DbGF1c2UgTGljZW5zZTog
-aHR0cHM6Ly9vcGVuc291cmNlLm9yZy9saWNlbnNlcy9CU0QtMy1DbGF1c2UKKyMgKy4uIF9ab3Bl
-IFB1YmxpYyBMaWNlbnNlIFZlcnNpb24gMi4xOiBodHRwczovL29wZW5zb3VyY2Uub3JnL2xpY2Vu
-c2UvenBsLTItMS8KKyMgIC4uIF9PU0ktYXBwcm92ZWQ6IGh0dHA6Ly9vcGVuc291cmNlLm9yZy9s
-aWNlbnNlcy8KKyMgIC4uIF9saWNlbnNlLWxpc3Q6CisjICAuLiBfR1BMLWNvbXBhdGlibGU6IGh0
-dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvbGljZW5zZS1saXN0Lmh0bWwKKyMgCisjCisKIFNV
-TU1BUlkgPSAiRG9jdXRpbHMgaXMgYSBtb2R1bGFyIHN5c3RlbSBmb3IgcHJvY2Vzc2luZyBkb2N1
-bWVudGF0aW9uIGludG8gdXNlZnVsIGZvcm1hdHMiCiBIT01FUEFHRSA9ICJodHRwOi8vZG9jdXRp
-bHMuc291cmNlZm9yZ2UubmV0IgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNFTlNFID0g
-IlBTRi0yLjAgJiBCU0QtMi1DbGF1c2UgJiBHUEwtMy4wLW9ubHkiCi1MSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HLnR4dDttZDU9MDhmNWY4YWE2YTFkYjI1MDBjMDhhMmJiNTU4ZTQ1
-YWYiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HLnR4dDttZDU9MzgyNDMwYTA5
-YTQ0NTM4MThhYTY2MThmMjA5MDQ5MWIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDhhNGUy
-NzZjM2ExNTgzYTg2ZGNlM2UzNGFiYTNmZTA0ZDAyYmJhMmRkNTFlZDE2MTA2MjQ0ZThhOTIzZTNi
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNhNmIxODczMmVkZjE4MmRhYTNjZDEyNzc1YmJiMzM4
-Y2Y1NjkxNDY4ZjkxZWVlYjEwOWRlZmY2ZWJmYTk4NmYiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRv
-b2xzMwogCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNzoyNjozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0
+ZTogdXBncmFkZSAwLjc0LjIgLT4gMC43Ni4yCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFj
+cm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUv
+e3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMi5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIg
+ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4yLmJifSAo
+OTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQt
+V19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGli
+Yy1zeXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmU2Y2MyNzUzYjcgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1m
+b3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRl
+L3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNm
+Njk1OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTFjYTI4Mjg5YWM2OGU1NjQ4
+MDhjZWQ0YjVhNzk0MjcyMmEzOWVmOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERh
+bmlsbyBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEg
+TWFyIDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUg
+bWFjcm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9m
+Zi1ieTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0
+dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lk
+Z2V0LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMv
+d2lkZ2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBk
+aWZmIC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJm
+Li4zMWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9z
+cmMvd2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAg
+LTMwLDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRl
+ICJjb25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKaW5kZXggZDhlYWZkZTJmYi4u
+ZDBlODFjMzAyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0
+LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKQEAgLTE5
+LDcgKzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21l
+YmFzZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdv
+YmplY3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAw
+MDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JD
+X1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1
+MTkwMTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEy
+NTZzdW1dID0gImUzZGM2MDgyZDViZDcwZjhhYWZhYWFkMmNkZmNhZjdlNTFkYTZiYTAwYTkxOWIx
+MWRkYWM2ZWZhMDljNzI4NDciCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElT
+VFJPRkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
 
---===============4710036535149471542==--
+--===============1365292220633160323==--
 
