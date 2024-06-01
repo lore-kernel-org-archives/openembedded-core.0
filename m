@@ -2,462 +2,378 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A9AC3065B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352F0C3065A
 	for <webhook@archiver.kernel.org>; Sat,  1 Jun 2024 17:33:41 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.42215.1717263218661094089
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.42224.1717263219257218023
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jun 2024 10:33:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AtHBT/hB;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PUYX2TAK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fd4dd3aee-b65d79e2-dbf3-484b-b039-80ab78820a0c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XlA63dlL;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2D3BV0VN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fd4dd3842-7509e4ae-45d9-4cba-9ae0-6084ef891431-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717263219;
+	t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WZdm8Etiq7pr6/1B4F1eYxS3z6H9lUpBYMdzsU57tEA=;
-	b=AtHBT/hBS6OrbCBL9hGTzdVM2iykLWIe0+psGISvZRVq+1UMmFO3Bipy8LqMhLYT
-	SqHhRLpzn2TiD3CZ8+c/J4EofkmDqUzlVF4a8llToBK0l4mjy6FXhRBeaLxgdZIt/Lo
-	Nn4QrR3LL5/AtsAzSBvlPFhPR4VmgVBBxqGz0zFs=
+	bh=doxmCHEta+Jh81vVtkpVxi6ClBNqwxJbQFfSQO5CJtk=;
+	b=XlA63dlLkAqcnOUfiafD+cKOPx0YW+GgVTQQcL79e2iSKa4vDayyFG9jdf8g/4Pt
+	uQCFGzdUq9B2m2K42oeRPdZuGxQZB3yBd6xy0ZQITu8w8UKJVTMNwop5gw1Njnt9WPG
+	uhDJXuDu1hrobxrVfhX0JHQcoGXCH7CRbYBSWpzI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263219;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717263218;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WZdm8Etiq7pr6/1B4F1eYxS3z6H9lUpBYMdzsU57tEA=;
-	b=PUYX2TAKyTdjlrRm7F+M3RS6DRIo9x/WCqHAAOnbeYnsdbvOmS2Yk+ojFQwezMq3
-	biNjLzXiTWuWfZjg9BKtME0PJ0E1zFGGK0fuNMIU0mvvbhnUQdGTUXGbmbm974oHpCO
-	rJrnuTj2hJiqi3+Oj1kgL/ZAYbtwC/+phrsqHx7s=
-Content-Type: multipart/mixed; boundary="===============1365292220633160323=="
+	bh=doxmCHEta+Jh81vVtkpVxi6ClBNqwxJbQFfSQO5CJtk=;
+	b=2D3BV0VNccyz3pV2D4/7LQ5so9GHfObC/yEXVDgtvZkXUfn4jY/GnONb0Oell4sT
+	yRpIQZlJKaL3ymYCfEyInWzFT8ZkdmVfrQj85NX5qCAEZ+pwjpPZEN2uvYLEqQwFA46
+	yN42gnS0yoAAgRzs1NGgT9vKx+UaNMFT+pjGSkfk=
+Content-Type: multipart/mixed; boundary="===============4798030477094069923=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vte: upgrading to 0.76.2 FAILED
-Message-ID: <0101018fd4dd3aee-b65d79e2-dbf3-484b-b039-80ab78820a0c-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jun 2024 17:33:39 +0000
+Subject: [AUH] wayland: upgrading to 1.23.0 SUCCEEDED
+Message-ID: <0101018fd4dd3842-7509e4ae-45d9-4cba-9ae0-6084ef891431-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jun 2024 17:33:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.01-54.240.27.29
+X-SES-Outgoing: 2024.06.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jun 2024 17:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200186
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200163
 
---===============1365292220633160323==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICp2dGUqIHRvICowLjc2LjIqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
-ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
-cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtdnRlLXVwZ3JhZGUtMC43NC4yLTAuNzYuMi5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSBmYjg5OTRlOWNjMDE1YzAxYmRiMWY1YzYxZmM4YjEzYzI1YmYyMzRiIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFNhdCwgMSBKdW4gMjAyNCAxNzoyNjozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0ZTog
-dXBncmFkZSAwLjc0LjIgLT4gMC43Ni4yCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFjcm8t
-Zm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUve3Z0
-ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMi5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIgZmls
-ZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4yLmJifSAoOTYl
-KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19F
-WElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1z
-eXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmU2Y2MyNzUzYjcgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3It
-bm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0
-ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNmNjk1
-OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTFjYTI4Mjg5YWM2OGU1NjQ4MDhj
-ZWQ0YjVhNzk0MjcyMmEzOWVmOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERhbmls
-byBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEgTWFy
-IDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUgbWFj
-cm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9mZi1i
-eTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0dHBz
-Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lkZ2V0
-LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMvd2lk
-Z2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZm
-IC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJmLi4z
-MWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9zcmMv
-d2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAgLTMw
-LDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRlICJj
-b25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKaW5kZXggZDhlYWZkZTJmYi4uZDBl
-ODFjMzAyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKQEAgLTE5LDcg
-KzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21lYmFz
-ZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdvYmpl
-Y3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAwMDEt
-QWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JDX1VS
-SVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1MTkw
-MTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
-dW1dID0gImUzZGM2MDgyZDViZDcwZjhhYWZhYWFkMmNkZmNhZjdlNTFkYTZiYTAwYTkxOWIxMWRk
-YWM2ZWZhMDljNzI4NDciCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJP
-RkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
-
---===============1365292220633160323==
+--===============4798030477094069923==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (917 cached, 1 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Hello,
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-3659605c1588ea660ba9d5e1c2fc9a1f14680e7a"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:3659605c1588ea660ba9d5e1c2fc9a1f14680e7a"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *wayland* to *1.23.0* has Succeeded.
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 543 Local 530 Mirrors 0 Missed 13 Current 772 (97% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 3251 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_recipe_qa)
-NOTE: Running task 3449 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_write_config)
-NOTE: recipe vte-0.76.2-r0: task do_recipe_qa: Started
-NOTE: recipe vte-0.76.2-r0: task do_write_config: Started
-NOTE: recipe vte-0.76.2-r0: task do_write_config: Succeeded
-NOTE: recipe vte-0.76.2-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 3584 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_fetch)
-NOTE: recipe vte-0.76.2-r0: task do_fetch: Started
-NOTE: recipe vte-0.76.2-r0: task do_fetch: Succeeded
-NOTE: Running task 3585 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_unpack)
-NOTE: Running task 3586 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.76.2-r0: task do_unpack: Started
-NOTE: recipe vte-0.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.76.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3587 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_patch)
-NOTE: Running task 3588 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_collect_spdx_deps)
-NOTE: recipe vte-0.76.2-r0: task do_patch: Started
-NOTE: recipe vte-0.76.2-r0: task do_patch: Succeeded
-NOTE: recipe vte-0.76.2-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 3589 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3590 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_populate_lic)
-NOTE: recipe vte-0.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.76.2-r0: task do_populate_lic: Started
-NOTE: recipe vte-0.76.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe vte-0.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vte-0.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vte-0.76.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3591 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure)
-NOTE: recipe vte-0.76.2-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroo
- t', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.43.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.7.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.4.0.bb
- :do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gperf/gperf_3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:na
- tive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gi-docgen', 'gobject-introspection', 'gtk+3', 'gtk4', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-s
- tubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', '
- libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dgir=true -Ddocs=false -Dvapi=true -Dfribidi=false -Dgnutls=true -Dgtk4=true -D_systemd=true...
-| The Meson build system
-| Version: 1.4.0
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/vte-0.76.2
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/build
-| Build type: cross build
-| Project name: vte
-| Project version: 0.76.2
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-gcc (GCC) 14.1.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot ld.bfd 2.42.0.20240513
-| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-g++ (GCC) 14.1.0")
-| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot ld.bfd 2.42.0.20240513
-| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
-| C++ compiler for the build machine: g++ (gcc 13.2.0 "g++ (GCC) 13.2.0")
-| C++ linker for the build machine: g++ ld.bfd 2.42.0.20240216
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Compiler for C supports arguments -std=gnu11: YES
-| ../vte-0.76.2/meson.build:143: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu11".
-| Compiler for C++ supports arguments -std=gnu++20: YES
-| ../vte-0.76.2/meson.build:151: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu++20".
-| Program python3 (dataclasses) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot-native/usr/bin/nativepython3) modules: dataclasses
-| Header "sys/ioctl.h" has symbol "TIOCGWINSZ" : YES
-| Library m found: YES
-| Checking if "fork" compiles: YES
-| Checking if "grantpt" compiles: YES
-| Checking if "posix_openpt" compiles: YES
-| Checking if "ptsname" compiles: YES
-| Checking if "tcgetattr" compiles: YES
-| Checking if "unlockpt" compiles: YES
-| Checking if "explicit_bzero" compiles: YES
-| Checking if "fdwalk" compiles: NO
-| Checking if "pread" compiles: YES
-| Checking if "pwrite" compiles: YES
-| Checking if "strchrnul" compiles: YES
-| Checking if "close_range" compiles: YES
-| Checking if "ceil" with dependency -lm compiles: YES
-| Checking if "floor" with dependency -lm compiles: YES
-| Checking if "round" with dependency -lm compiles: YES
-| Compiler for C supports arguments -Wall: YES
-| Compiler for C supports arguments -Wextra: YES
-| Compiler for C supports arguments -Wcast-align: YES
-| Compiler for C supports arguments -Wcast-function-type: YES
-| Compiler for C supports arguments -Wclobbered: YES
-| Compiler for C supports arguments -Wempty-body: YES
-| Compiler for C supports arguments -Wendif-labels: YES
-| Compiler for C supports arguments -Werror=init-self: YES
-| Compiler for C supports arguments -Werror=missing-include-dirs: YES
-| Compiler for C supports arguments -Werror=pointer-arith: YES
-| Compiler for C supports arguments -Wfloat-equal: YES
-| Compiler for C supports arguments -Wignored-qualifiers: YES
-| Compiler for C supports arguments -Winvalid-pch: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmisleading-indentation: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-field-initializers: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wno-deprecated-declarations: YES
-| Compiler for C supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C supports arguments -Wno-c99-designator: NO
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-packed: YES
-| Compiler for C supports arguments -Wno-switch-enum: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Compiler for C supports arguments -Wno-volatile: NO
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wshift-negative-value: YES
-| Compiler for C supports arguments -Wsign-compare: YES
-| Compiler for C supports arguments -Wstrict-aliasing=2: YES
-| Compiler for C supports arguments -Wtype-limits: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wuninitialized: YES
-| Compiler for C supports arguments -Wuninitialized: YES (cached)
-| Compiler for C supports arguments -Wunsafe-loop-optimizations: YES
-| Compiler for C supports arguments -Wunused: YES
-| Compiler for C supports arguments -Wunused-but-set-parameter: YES
-| Compiler for C supports arguments -Wunused-but-set-variable: YES
-| Compiler for C supports arguments -Wunused-function: YES
-| Compiler for C supports arguments -Wunused-label: YES
-| Compiler for C supports arguments -Wunused-local-typedefs: YES
-| Compiler for C supports arguments -Wunused-value: YES
-| Compiler for C supports arguments -Wunused-variable: YES
-| Compiler for C supports arguments -Wvla: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -fdiagnostics-show-option: YES
-| Compiler for C supports arguments -fno-common: YES
-| Compiler for C supports arguments -fno-semantic-interposition: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Compiler for C supports arguments -Waggregate-return: YES
-| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
-| Compiler for C supports arguments -Werror=missing-prototypes: YES
-| Compiler for C supports arguments -Wimplicit: YES
-| Compiler for C supports arguments -Wimplicit-fallthrough=3: YES
-| Compiler for C supports arguments -Wmissing-parameter-type: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wold-style-declaration: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Woverride-init: YES
-| Compiler for C supports arguments -Wsign-compare: YES (cached)
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C++ supports arguments -Wall: YES
-| Compiler for C++ supports arguments -Wextra: YES
-| Compiler for C++ supports arguments -Wcast-align: YES
-| Compiler for C++ supports arguments -Wcast-function-type: YES
-| Compiler for C++ supports arguments -Wclobbered: YES
-| Compiler for C++ supports arguments -Wempty-body: YES
-| Compiler for C++ supports arguments -Wendif-labels: YES
-| Compiler for C++ supports arguments -Werror=init-self: YES
-| Compiler for C++ supports arguments -Werror=missing-include-dirs: YES
-| Compiler for C++ supports arguments -Werror=pointer-arith: YES
-| Compiler for C++ supports arguments -Wfloat-equal: YES
-| Compiler for C++ supports arguments -Wignored-qualifiers: YES
-| Compiler for C++ supports arguments -Winvalid-pch: YES
-| Compiler for C++ supports arguments -Wlogical-op: YES
-| Compiler for C++ supports arguments -Wmisleading-indentation: YES
-| Compiler for C++ supports arguments -Wmissing-declarations: YES
-| Compiler for C++ supports arguments -Wmissing-field-initializers: YES
-| Compiler for C++ supports arguments -Wmissing-format-attribute: YES
-| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
-| Compiler for C++ supports arguments -Wmissing-noreturn: YES
-| Compiler for C++ supports arguments -Wno-deprecated-declarations: YES
-| Compiler for C++ supports arguments -Wno-address-of-packed-member: YES
-| Compiler for C++ supports arguments -Wno-c99-designator: NO
-| Compiler for C++ supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C++ supports arguments -Wno-packed: YES
-| Compiler for C++ supports arguments -Wno-switch-enum: YES
-| Compiler for C++ supports arguments -Wno-unused-parameter: YES
-| Compiler for C++ supports arguments -Wno-volatile: YES
-| Compiler for C++ supports arguments -Wshadow: YES
-| Compiler for C++ supports arguments -Wshift-negative-value: YES
-| Compiler for C++ supports arguments -Wsign-compare: YES
-| Compiler for C++ supports arguments -Wstrict-aliasing=2: YES
-| Compiler for C++ supports arguments -Wtype-limits: YES
-| Compiler for C++ supports arguments -Wundef: YES
-| Compiler for C++ supports arguments -Wuninitialized: YES
-| Compiler for C++ supports arguments -Wuninitialized: YES (cached)
-| Compiler for C++ supports arguments -Wunsafe-loop-optimizations: YES
-| Compiler for C++ supports arguments -Wunused: YES
-| Compiler for C++ supports arguments -Wunused-but-set-parameter: YES
-| Compiler for C++ supports arguments -Wunused-but-set-variable: YES
-| Compiler for C++ supports arguments -Wunused-function: YES
-| Compiler for C++ supports arguments -Wunused-label: YES
-| Compiler for C++ supports arguments -Wunused-local-typedefs: YES
-| Compiler for C++ supports arguments -Wunused-value: YES
-| Compiler for C++ supports arguments -Wunused-variable: YES
-| Compiler for C++ supports arguments -Wvla: YES
-| Compiler for C++ supports arguments -Wwrite-strings: YES
-| Compiler for C++ supports arguments -fdiagnostics-show-option: YES
-| Compiler for C++ supports arguments -fno-common: YES
-| Compiler for C++ supports arguments -fno-semantic-interposition: YES
-| Compiler for C++ supports arguments -fno-strict-aliasing: YES
-| Compiler for C++ supports arguments -Wimplicit-fallthrough=5: YES
-| Compiler for C++ supports arguments -Wnon-virtual-dtor: YES
-| Compiler for C++ supports arguments -Wstrict-null-sentinel: YES
-| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES
-| Compiler for C++ supports arguments -fvisibility=hidden: YES
-| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES (cached)
-| Compiler for C++ supports arguments -fvisibility=hidden: YES (cached)
-| Compiler for C supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
-| Compiler for C++ supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
-| ../vte-0.76.2/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
-| ../vte-0.76.2/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
-| ../vte-0.76.2/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
-| ../vte-0.76.2/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
-| Compiler for C supports link arguments -Wl,-Bsymbolic: YES
-| Compiler for C++ supports link arguments -Wl,-Bsymbolic: YES
-| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C++ supports link arguments -Wl,-Bsymbolic-functions: YES
-| Compiler for C supports link arguments -fstack-protector: YES
-| Compiler for C++ supports link arguments -fstack-protector: YES
-| Compiler for C supports link arguments -fstack-protector-strong: YES
-| Compiler for C++ supports link arguments -fstack-protector-strong: YES
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency cairo found: YES 1.18.0
-| Run-time dependency cairo-gobject found: YES 1.18.0
-| Run-time dependency gio-2.0 found: YES 2.80.2
-| Run-time dependency glib-2.0 found: YES 2.80.2
-| Run-time dependency gobject-2.0 found: YES 2.80.2
-| Run-time dependency pango found: YES 1.52.2
-| Run-time dependency libpcre2-8 found: YES 10.43
-| Run-time dependency threads found: YES
-| Found CMake: NO
-| Run-time dependency liblz4 found: NO (tried pkgconfig)
-| 
-| ../vte-0.76.2/meson.build:615:20: ERROR: Dependency "liblz4" not found, tried pkgconfig
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303:177 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 177
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 166
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 155
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303, line 190
-NOTE: recipe vte-0.76.2-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3591 tasks of which 3581 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601172606.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240601172606.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Next steps:
+    - apply the patch: git am 0001-wayland-upgrade-1.22.0-1.23.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: vte-0.76.2-r0 do_configure: meson failed
-ERROR: vte-0.76.2-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/run.do_configure.4075303', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.2/temp/log.do_configure.4075303
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.2.bb:do_configure) failed with exit code '1'
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
---===============1365292220633160323==
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From e424903aa1cd85ca12d209da67e973649a0e07cc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jun 2024 14:08:18 +0000
+Subject: [PATCH] wayland: upgrade 1.22.0 -> 1.23.0
+
+---
+ ...build-Fix-strndup-detection-on-MinGW.patch |  9 ++--
+ ...der-pkgconfig-sysroot-for-pkgdatadir.patch | 46 -------------------
+ .../{wayland_1.22.0.bb => wayland_1.23.0.bb}  |  3 +-
+ 3 files changed, 4 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
+ rename meta/recipes-graphics/wayland/{wayland_1.22.0.bb => wayland_1.23.0.bb} (93%)
+
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+index bc753de113..c6ddf8a1f9 100644
+--- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
++++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+@@ -1,4 +1,4 @@
+-From b4c64b6f07743e3fb63ce52359bc664ab7d60df0 Mon Sep 17 00:00:00 2001
++From a90bfa622f7323074c715674b368cba80bc7d196 Mon Sep 17 00:00:00 2001
+ From: Joshua Watt <JPEWhacker@gmail.com>
+ Date: Thu, 20 Feb 2020 15:20:45 -0600
+ Subject: [PATCH] build: Fix strndup detection on MinGW
+@@ -20,10 +20,10 @@ Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 3bc25c9..adde7b9 100644
++index 8e28f2a..b56ba91 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -38,11 +38,11 @@ have_funcs = [
++@@ -45,11 +45,11 @@ have_funcs = [
+  	'prctl',
+  	'memfd_create',
+  	'mremap',
+@@ -36,6 +36,3 @@ index 3bc25c9..adde7b9 100644
+  config_h.set10('HAVE_XUCRED_CR_PID', cc.has_member('struct xucred', 'cr_pid', prefix : '#include <sys/ucred.h>'))
+  have_broken_msg_cmsg_cloexec = false
+  if host_machine.system() == 'freebsd'
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch b/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
+deleted file mode 100644
+index 4573bb635a..0000000000
+--- a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From ff8ecbe8891d592e645927659318720f9e190054 Mon Sep 17 00:00:00 2001
+-From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+-Date: Sun, 6 Feb 2022 17:23:46 +0100
+-Subject: [PATCH] Consider pkgconfig sysroot for pkgdatadir
+-
+-For libs/cflags this is done automatically, but not for manually accessed
+-variables. This matches what wayland-protocols does.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/272]
+----
+- src/meson.build | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/meson.build b/src/meson.build
+-index a8a1d2b..721e151 100644
+---- a/src/meson.build
+-+++ b/src/meson.build
+-@@ -65,7 +65,7 @@ if get_option('scanner')
+- 		version: meson.project_version(),
+- 		variables: [
+- 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
+--			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name()),
+-+			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name()),
+- 			'bindir=' + join_paths('${prefix}', get_option('bindir')),
+- 			'wayland_scanner=${bindir}/wayland-scanner'
+- 		],
+-@@ -211,7 +211,7 @@ if get_option('libraries')
+- 		filebase: 'wayland-server',
+- 		variables: [
+- 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
+--			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name())
+-+			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name())
+- 		]
+- 	)
+-
+-@@ -250,7 +250,7 @@ if get_option('libraries')
+- 		filebase: 'wayland-client',
+- 		variables: [
+- 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
+--			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name())
+-+			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name())
+- 		]
+- 	)
+-
+---
+-2.37.2
+diff --git a/meta/recipes-graphics/wayland/wayland_1.22.0.bb b/meta/recipes-graphics/wayland/wayland_1.23.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/wayland/wayland_1.22.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.23.0.bb
+index e7babc9ec6..8ff47ac171 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.22.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.23.0.bb
+@@ -15,9 +15,8 @@ DEPENDS = "expat libffi wayland-native"
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
+-           file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch \
+            "
+-SRC_URI[sha256sum] = "1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"
++SRC_URI[sha256sum] = "05b3e1574d3e67626b5974f862f36b5b427c7ceeb965cb36a4e6c2d342e45ab2"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+-- 
+2.44.0
+
+
+--===============4798030477094069923==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/wayland: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.22.0/downloads/wayland-1.22.0.tar.xz file://run-ptest file://0001-build-Fix-strndup-detection-on-MinGW.patch file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch" to "https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz file://run-ptest file://0001-build-Fix-strndup-detection-on-MinGW.patch"
+packages/core2-64-poky-linux/wayland: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+Changes to packages/core2-64-poky-linux/wayland (sysroot):
+  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.22.0 to libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.22.0 to libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.22.0 to libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.22.0 to libwayland-server.so.0.23.0
+  /usr/lib/libwayland-client.so.0.22.0 moved to /usr/lib/libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0.22.0 moved to /usr/lib/libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1.22.0 moved to /usr/lib/libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0.22.0 moved to /usr/lib/libwayland-server.so.0.23.0
+packages/core2-64-poky-linux/wayland/wayland-dbg: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-dbg: FILELIST: removed "/usr/lib/.debug/libwayland-cursor.so.0.22.0 /usr/lib/.debug/libwayland-egl.so.1.22.0 /usr/lib/.debug/libwayland-client.so.0.22.0 /usr/lib/.debug/libwayland-server.so.0.22.0", added "/usr/lib/.debug/libwayland-server.so.0.23.0 /usr/lib/.debug/libwayland-cursor.so.0.23.0 /usr/lib/wayland/ptest/tests/.debug/enum-validator-test /usr/lib/.debug/libwayland-client.so.0.23.0 /usr/lib/.debug/libwayland-egl.so.1.23.0 /usr/lib/wayland/ptest/tests/.debug/proxy-test"
+packages/core2-64-poky-linux/wayland/wayland-dbg: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-dbg: PKGSIZE changed from 2138776 to 2280544 (+7%)
+packages/core2-64-poky-linux/wayland/wayland-dev: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-dev: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-dev: PKGSIZE changed from 427808 to 457288 (+7%)
+packages/core2-64-poky-linux/wayland/wayland-doc: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-doc: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-locale: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-locale: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-ptest: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-ptest: FILELIST: added "/usr/lib/wayland/ptest/tests/proxy-test /usr/lib/wayland/ptest/tests/data/empty.xml /usr/lib/wayland/ptest/tests/enum-validator-test /usr/lib/wayland/ptest/tests/data/empty-server.h /usr/lib/wayland/ptest/tests/data/empty-client.h /usr/lib/wayland/ptest/tests/data/example-enum.h /usr/lib/wayland/ptest/tests/data/README.md /usr/lib/wayland/ptest/tests/data/empty-code.c"
+packages/core2-64-poky-linux/wayland/wayland-ptest: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-ptest: PKGSIZE changed from 1264726 to 1360708 (+8%)
+packages/core2-64-poky-linux/wayland/wayland-src: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-src: FILELIST: directory renamed /usr/src/debug/wayland/1.22.0/src -> /usr/src/debug/wayland/1.23.0/src, directory renamed /usr/src/debug/wayland/1.22.0/egl -> /usr/src/debug/wayland/1.23.0/egl, directory renamed /usr/src/debug/wayland/1.22.0/cursor -> /usr/src/debug/wayland/1.23.0/cursor, removed "/usr/src/debug/wayland/1.22.0/tests/test-helpers.c /usr/src/debug/wayland/1.22.0/tests/compositor-introspection-test.c /usr/src/debug/wayland/1.22.0/tests/protocol-logger-test.c /usr/src/debug/wayland/1.22.0/tests/newsignal-test.c /usr/src/debug/wayland/1.22.0/tests/exec-fd-leak-checker.c /usr/src/debug/wayland/1.22.0/tests/os-wrappers-test.c /usr/src/debug/wayland/1.22.0/tests/list-test.c /usr/src/debug/wayland/1.22.0/tests/sanity-test.c /usr/src/debug/wayland/1.22.0/tests/event-loop-test.c /usr/src/debug/wayland/1.22.0/tests/map-test.c /usr/src/debug/wayland/1.22.0/tests/resources-test.c /usr/src/debug/wayland/1.22.0/tests/test-runner.h /usr/s
+ rc/debug/wayland/1.22.0/tests/client-test.c /usr/src/debug/wayland/1.22.0/tests/test-compositor.c /usr/src/debug/wayland/1.22.0/tests/cpp-compile-test.cpp /usr/src/debug/wayland/1.22.0/tests/test-compositor.h /usr/src/debug/wayland/1.22.0/tests/headers-test.c /usr/src/debug/wayland/1.22.0/tests/test-runner.c /usr/src/debug/wayland/1.22.0/tests/queue-test.c /usr/src/debug/wayland/1.22.0/tests/display-test.c /usr/src/debug/wayland/1.22.0/tests/tests-protocol.c /usr/src/debug/wayland/1.22.0/tests/tests-client-protocol.h /usr/src/debug/wayland/1.22.0/tests/message-test.c /usr/src/debug/wayland/1.22.0/tests/tests-server-protocol.h /usr/src/debug/wayland/1.22.0/tests/array-test.c /usr/src/debug/wayland/1.22.0/tests/socket-test.c /usr/src/debug/wayland/1.22.0/tests/signal-test.c /usr/src/debug/wayland/1.22.0/tests/connection-test.c /usr/src/debug/wayland/1.22.0/tests/fixed-test.c /usr/src/debug/wayland/1.22.0/tests/interface-test.c", added "/usr/src/debug/wayland/1.23.0/tests/test-helpers.
+ c /usr/src/debug/wayland/1.23.0/tests/compositor-introspection-test.c /usr/src/debug/wayland/1.23.0/tests/protocol-logger-test.c /usr/src/debug/wayland/1.23.0/tests/newsignal-test.c /usr/src/debug/wayland/1.23.0/tests/data/small-server-core.h /usr/src/debug/wayland/1.23.0/tests/exec-fd-leak-checker.c /usr/src/debug/wayland/1.23.0/tests/os-wrappers-test.c /usr/src/debug/wayland/1.23.0/tests/list-test.c /usr/src/debug/wayland/1.23.0/tests/sanity-test.c /usr/src/debug/wayland/1.23.0/tests/event-loop-test.c /usr/src/debug/wayland/1.23.0/tests/map-test.c /usr/src/debug/wayland/1.23.0/tests/enum-validator-test.c /usr/src/debug/wayland/1.23.0/tests/resources-test.c /usr/src/debug/wayland/1.23.0/tests/test-runner.h /usr/src/debug/wayland/1.23.0/tests/client-test.c /usr/src/debug/wayland/1.23.0/tests/test-compositor.c /usr/src/debug/wayland/1.23.0/tests/cpp-compile-test.cpp /usr/src/debug/wayland/1.23.0/tests/test-compositor.h /usr/src/debug/wayland/1.23.0/tests/headers-test.c /usr/src/debug
+ /wayland/1.23.0/tests/test-runner.c /usr/src/debug/wayland/1.23.0/tests/queue-test.c /usr/src/debug/wayland/1.23.0/tests/display-test.c /usr/src/debug/wayland/1.23.0/tests/tests-protocol.c /usr/src/debug/wayland/1.23.0/tests/tests-client-protocol.h /usr/src/debug/wayland/1.23.0/tests/message-test.c /usr/src/debug/wayland/1.23.0/tests/tests-server-protocol.h /usr/src/debug/wayland/1.23.0/tests/array-test.c /usr/src/debug/wayland/1.23.0/tests/proxy-test.c /usr/src/debug/wayland/1.23.0/tests/socket-test.c /usr/src/debug/wayland/1.23.0/tests/signal-test.c /usr/src/debug/wayland/1.23.0/tests/connection-test.c /usr/src/debug/wayland/1.23.0/tests/fixed-test.c /usr/src/debug/wayland/1.23.0/tests/interface-test.c"
+packages/core2-64-poky-linux/wayland/wayland-src: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-src: PKGSIZE changed from 1032719 to 1102120 (+7%)
+packages/core2-64-poky-linux/wayland/wayland-staticdev: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-staticdev: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland-tools: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland-tools: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland: PV changed from "1.22.0" to "1.23.0"
+packages/core2-64-poky-linux/wayland/wayland: FILELIST: removed "/usr/lib/libwayland-server.so.0.22.0 /usr/lib/libwayland-cursor.so.0.22.0 /usr/lib/libwayland-client.so.0.22.0 /usr/lib/libwayland-egl.so.1.22.0", added "/usr/lib/libwayland-cursor.so.0.23.0 /usr/lib/libwayland-server.so.0.23.0 /usr/lib/libwayland-client.so.0.23.0 /usr/lib/libwayland-egl.so.1.23.0"
+packages/core2-64-poky-linux/wayland/wayland: PKGV changed from 1.22.0 [default] to 1.23.0 [default]
+packages/core2-64-poky-linux/wayland/wayland: PKGSIZE changed from 356690 to 362290 (+2%)
+Changes to packages/x86_64-linux/wayland-native (sysroot):
+  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.22.0 to libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.22.0 to libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.22.0 to libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.22.0 to libwayland-server.so.0.23.0
+  /usr/lib/libwayland-client.so.0.22.0 moved to /usr/lib/libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0.22.0 moved to /usr/lib/libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1.22.0 moved to /usr/lib/libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0.22.0 moved to /usr/lib/libwayland-server.so.0.23.0
+
+--===============4798030477094069923==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vte-upgrade-0.74.2-0.76.2.patch"
+ filename="0001-wayland-upgrade-1.22.0-1.23.0.patch"
 
-RnJvbSBmYjg5OTRlOWNjMDE1YzAxYmRiMWY1YzYxZmM4YjEzYzI1YmYyMzRiIE1vbiBTZXAgMTcg
+RnJvbSBlNDI0OTAzYWExY2Q4NWNhMTJkMjA5ZGE2N2U5NzM2NDlhMGUwN2NjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNzoyNjozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0
-ZTogdXBncmFkZSAwLjc0LjIgLT4gMC43Ni4yCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFj
-cm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUv
-e3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMi5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIg
-ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4yLmJifSAo
-OTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQt
-V19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGli
-Yy1zeXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLmU2Y2MyNzUzYjcgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1m
-b3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRl
-L3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNm
-Njk1OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTFjYTI4Mjg5YWM2OGU1NjQ4
-MDhjZWQ0YjVhNzk0MjcyMmEzOWVmOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERh
-bmlsbyBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEg
-TWFyIDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUg
-bWFjcm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9m
-Zi1ieTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0
-dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lk
-Z2V0LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMv
-d2lkZ2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBk
-aWZmIC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJm
-Li4zMWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9z
-cmMvd2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAg
-LTMwLDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRl
-ICJjb25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKaW5kZXggZDhlYWZkZTJmYi4u
-ZDBlODFjMzAyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0
-LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjIuYmIKQEAgLTE5
-LDcgKzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21l
-YmFzZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdv
-YmplY3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAw
-MDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JD
-X1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1
-MTkwMTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEy
-NTZzdW1dID0gImUzZGM2MDgyZDViZDcwZjhhYWZhYWFkMmNkZmNhZjdlNTFkYTZiYTAwYTkxOWIx
-MWRkYWM2ZWZhMDljNzI4NDciCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElT
-VFJPRkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFNhdCwgMSBKdW4gMjAyNCAxNDowODoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdh
+eWxhbmQ6IHVwZ3JhZGUgMS4yMi4wIC0+IDEuMjMuMAoKLS0tCiAuLi5idWlsZC1GaXgtc3RybmR1
+cC1kZXRlY3Rpb24tb24tTWluR1cucGF0Y2ggfCAgOSArKy0tCiAuLi5kZXItcGtnY29uZmlnLXN5
+c3Jvb3QtZm9yLXBrZ2RhdGFkaXIucGF0Y2ggfCA0NiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
+e3dheWxhbmRfMS4yMi4wLmJiID0+IHdheWxhbmRfMS4yMy4wLmJifSAgfCAgMyArLQogMyBmaWxl
+cyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDU0IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQvMDAwMi1Db25zaWRl
+ci1wa2djb25maWctc3lzcm9vdC1mb3ItcGtnZGF0YWRpci5wYXRjaAogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL3t3YXlsYW5kXzEuMjIuMC5iYiA9PiB3YXlsYW5kXzEuMjMu
+MC5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93
+YXlsYW5kLzAwMDEtYnVpbGQtRml4LXN0cm5kdXAtZGV0ZWN0aW9uLW9uLU1pbkdXLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC8wMDAxLWJ1aWxkLUZpeC1zdHJu
+ZHVwLWRldGVjdGlvbi1vbi1NaW5HVy5wYXRjaAppbmRleCBiYzc1M2RlMTEzLi5jNmRkZjhhMWY5
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLzAwMDEt
+YnVpbGQtRml4LXN0cm5kdXAtZGV0ZWN0aW9uLW9uLU1pbkdXLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQvMDAwMS1idWlsZC1GaXgtc3RybmR1cC1kZXRl
+Y3Rpb24tb24tTWluR1cucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI0YzY0YjZmMDc3NDNl
+M2ZiNjNjZTUyMzU5YmM2NjRhYjdkNjBkZjAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IGE5MGJmYTYyMmY3MzIzMDc0YzcxNTY3NGIzNjhjYmE4MGJjN2QxOTYgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+CiBEYXRl
+OiBUaHUsIDIwIEZlYiAyMDIwIDE1OjIwOjQ1IC0wNjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGJ1aWxk
+OiBGaXggc3RybmR1cCBkZXRlY3Rpb24gb24gTWluR1cKQEAgLTIwLDEwICsyMCwxMCBAQCBTaWdu
+ZWQtb2ZmLWJ5OiBEZW55cyBEbXl0cml5ZW5rbyA8ZGVuaXNAZGVuaXgub3JnPgogIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvbWVz
+b24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggM2JjMjVjOS4uYWRkZTdiOSAxMDA2NDQKK2lu
+ZGV4IDhlMjhmMmEuLmI1NmJhOTEgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVz
+b24uYnVpbGQKLUBAIC0zOCwxMSArMzgsMTEgQEAgaGF2ZV9mdW5jcyA9IFsKK0BAIC00NSwxMSAr
+NDUsMTEgQEAgaGF2ZV9mdW5jcyA9IFsKICAJJ3ByY3RsJywKICAJJ21lbWZkX2NyZWF0ZScsCiAg
+CSdtcmVtYXAnLApAQCAtMzYsNiArMzYsMyBAQCBpbmRleCAzYmMyNWM5Li5hZGRlN2I5IDEwMDY0
+NAogIGNvbmZpZ19oLnNldDEwKCdIQVZFX1hVQ1JFRF9DUl9QSUQnLCBjYy5oYXNfbWVtYmVyKCdz
+dHJ1Y3QgeHVjcmVkJywgJ2NyX3BpZCcsIHByZWZpeCA6ICcjaW5jbHVkZSA8c3lzL3VjcmVkLmg+
+JykpCiAgaGF2ZV9icm9rZW5fbXNnX2Ntc2dfY2xvZXhlYyA9IGZhbHNlCiAgaWYgaG9zdF9tYWNo
+aW5lLnN5c3RlbSgpID09ICdmcmVlYnNkJwotLS0gCi0yLjcuNAotCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLzAwMDItQ29uc2lkZXItcGtnY29uZmln
+LXN5c3Jvb3QtZm9yLXBrZ2RhdGFkaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5
+bGFuZC93YXlsYW5kLzAwMDItQ29uc2lkZXItcGtnY29uZmlnLXN5c3Jvb3QtZm9yLXBrZ2RhdGFk
+aXIucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQ1NzNiYjYzNWEuLjAwMDAw
+MDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC8wMDAyLUNv
+bnNpZGVyLXBrZ2NvbmZpZy1zeXNyb290LWZvci1wa2dkYXRhZGlyLnBhdGNoCisrKyAvZGV2L251
+bGwKQEAgLTEsNDYgKzAsMCBAQAotRnJvbSBmZjhlY2JlODg5MWQ1OTJlNjQ1OTI3NjU5MzE4NzIw
+ZjllMTkwMDU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogQW5kcmVhcyBDb3JkLUxh
+bmR3ZWhyIDxjb3JkbGFuZHdlaHJAa2RlLm9yZz4KLURhdGU6IFN1biwgNiBGZWIgMjAyMiAxNzoy
+Mzo0NiArMDEwMAotU3ViamVjdDogW1BBVENIXSBDb25zaWRlciBwa2djb25maWcgc3lzcm9vdCBm
+b3IgcGtnZGF0YWRpcgotCi1Gb3IgbGlicy9jZmxhZ3MgdGhpcyBpcyBkb25lIGF1dG9tYXRpY2Fs
+bHksIGJ1dCBub3QgZm9yIG1hbnVhbGx5IGFjY2Vzc2VkCi12YXJpYWJsZXMuIFRoaXMgbWF0Y2hl
+cyB3aGF0IHdheWxhbmQtcHJvdG9jb2xzIGRvZXMuCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0
+dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93YXlsYW5kLy0vbWVy
+Z2VfcmVxdWVzdHMvMjcyXQotLS0tCi0gc3JjL21lc29uLmJ1aWxkIHwgNiArKystLS0KLSAxIGZp
+bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0
+IGEvc3JjL21lc29uLmJ1aWxkIGIvc3JjL21lc29uLmJ1aWxkCi1pbmRleCBhOGExZDJiLi43MjFl
+MTUxIDEwMDY0NAotLS0tIGEvc3JjL21lc29uLmJ1aWxkCi0rKysgYi9zcmMvbWVzb24uYnVpbGQK
+LUBAIC02NSw3ICs2NSw3IEBAIGlmIGdldF9vcHRpb24oJ3NjYW5uZXInKQotIAkJdmVyc2lvbjog
+bWVzb24ucHJvamVjdF92ZXJzaW9uKCksCi0gCQl2YXJpYWJsZXM6IFsKLSAJCQknZGF0YXJvb3Rk
+aXI9JyArIGpvaW5fcGF0aHMoJyR7cHJlZml4fScsIGdldF9vcHRpb24oJ2RhdGFkaXInKSksCi0t
+CQkJJ3BrZ2RhdGFkaXI9JyArIGpvaW5fcGF0aHMoJyR7ZGF0YXJvb3RkaXJ9JywgbWVzb24ucHJv
+amVjdF9uYW1lKCkpLAotKwkJCSdwa2dkYXRhZGlyPScgKyBqb2luX3BhdGhzKCcke3BjX3N5c3Jv
+b3RkaXJ9JHtkYXRhcm9vdGRpcn0nLCBtZXNvbi5wcm9qZWN0X25hbWUoKSksCi0gCQkJJ2JpbmRp
+cj0nICsgam9pbl9wYXRocygnJHtwcmVmaXh9JywgZ2V0X29wdGlvbignYmluZGlyJykpLAotIAkJ
+CSd3YXlsYW5kX3NjYW5uZXI9JHtiaW5kaXJ9L3dheWxhbmQtc2Nhbm5lcicKLSAJCV0sCi1AQCAt
+MjExLDcgKzIxMSw3IEBAIGlmIGdldF9vcHRpb24oJ2xpYnJhcmllcycpCi0gCQlmaWxlYmFzZTog
+J3dheWxhbmQtc2VydmVyJywKLSAJCXZhcmlhYmxlczogWwotIAkJCSdkYXRhcm9vdGRpcj0nICsg
+am9pbl9wYXRocygnJHtwcmVmaXh9JywgZ2V0X29wdGlvbignZGF0YWRpcicpKSwKLS0JCQkncGtn
+ZGF0YWRpcj0nICsgam9pbl9wYXRocygnJHtkYXRhcm9vdGRpcn0nLCBtZXNvbi5wcm9qZWN0X25h
+bWUoKSkKLSsJCQkncGtnZGF0YWRpcj0nICsgam9pbl9wYXRocygnJHtwY19zeXNyb290ZGlyfSR7
+ZGF0YXJvb3RkaXJ9JywgbWVzb24ucHJvamVjdF9uYW1lKCkpCi0gCQldCi0gCSkKLQotQEAgLTI1
+MCw3ICsyNTAsNyBAQCBpZiBnZXRfb3B0aW9uKCdsaWJyYXJpZXMnKQotIAkJZmlsZWJhc2U6ICd3
+YXlsYW5kLWNsaWVudCcsCi0gCQl2YXJpYWJsZXM6IFsKLSAJCQknZGF0YXJvb3RkaXI9JyArIGpv
+aW5fcGF0aHMoJyR7cHJlZml4fScsIGdldF9vcHRpb24oJ2RhdGFkaXInKSksCi0tCQkJJ3BrZ2Rh
+dGFkaXI9JyArIGpvaW5fcGF0aHMoJyR7ZGF0YXJvb3RkaXJ9JywgbWVzb24ucHJvamVjdF9uYW1l
+KCkpCi0rCQkJJ3BrZ2RhdGFkaXI9JyArIGpvaW5fcGF0aHMoJyR7cGNfc3lzcm9vdGRpcn0ke2Rh
+dGFyb290ZGlyfScsIG1lc29uLnByb2plY3RfbmFtZSgpKQotIAkJXQotIAkpCi0KLS0tCi0yLjM3
+LjIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmRfMS4y
+Mi4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZF8xLjIzLjAuYmIK
+c2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dh
+eWxhbmQvd2F5bGFuZF8xLjIyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
+YXlsYW5kL3dheWxhbmRfMS4yMy4wLmJiCmluZGV4IGU3YmFiYzllYzYuLjhmZjQ3YWMxNzEgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmRfMS4yMi4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmRfMS4yMy4wLmJiCkBA
+IC0xNSw5ICsxNSw4IEBAIERFUEVORFMgPSAiZXhwYXQgbGliZmZpIHdheWxhbmQtbmF0aXZlIgog
+U1JDX1VSSSA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93YXlsYW5k
+Ly0vcmVsZWFzZXMvJHtQVn0vZG93bmxvYWRzLyR7QlBOfS0ke1BWfS50YXIueHogXAogICAgICAg
+ICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtYnVpbGQtRml4
+LXN0cm5kdXAtZGV0ZWN0aW9uLW9uLU1pbkdXLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAw
+MDItQ29uc2lkZXItcGtnY29uZmlnLXN5c3Jvb3QtZm9yLXBrZ2RhdGFkaXIucGF0Y2ggXAogICAg
+ICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTU0MGFmMWVhNjk4YTQ3MWMyZDhlOWQy
+ODgzMzJjN2UwZmQzNjBjOGYxZDEyOTM2ZWJiN2U3Y2JjMjQyNTg0MiIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIwNWIzZTE1NzRkM2U2NzYyNmI1OTc0Zjg2MmYzNmI1YjQyN2M3Y2VlYjk2NWNiMzZh
+NGU2YzJkMzQyZTQ1YWIyIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRsYWIu
+ZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC8tL3RhZ3MiCiBVUFNUUkVBTV9DSEVDS19S
+RUdFWCA9ICJyZWxlYXNlcy8oP1A8cHZlcj5cZCtcLlxkK1wuKD8hOVxkKylcZCspIgotLSAKMi40
+NC4wCgo=
 
---===============1365292220633160323==--
+--===============4798030477094069923==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/wayland (sysroot):
+  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.22.0 to libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.22.0 to libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.22.0 to libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.22.0 to libwayland-server.so.0.23.0
+  /usr/lib/libwayland-client.so.0.22.0 moved to /usr/lib/libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0.22.0 moved to /usr/lib/libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1.22.0 moved to /usr/lib/libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0.22.0 moved to /usr/lib/libwayland-server.so.0.23.0
+packages/core2-64-poky-linux/wayland/wayland-ptest: FILELIST: added "/usr/lib/wayland/ptest/tests/data/empty-client.h /usr/lib/wayland/ptest/tests/data/empty.xml /usr/lib/wayland/ptest/tests/data/empty-code.c /usr/lib/wayland/ptest/tests/data/empty-server.h /usr/lib/wayland/ptest/tests/data/example-enum.h /usr/lib/wayland/ptest/tests/data/README.md /usr/lib/wayland/ptest/tests/enum-validator-test /usr/lib/wayland/ptest/tests/proxy-test"
+packages/core2-64-poky-linux/wayland/wayland: FILELIST: removed "/usr/lib/libwayland-client.so.0.22.0 /usr/lib/libwayland-cursor.so.0.22.0 /usr/lib/libwayland-server.so.0.22.0 /usr/lib/libwayland-egl.so.1.22.0", added "/usr/lib/libwayland-cursor.so.0.23.0 /usr/lib/libwayland-egl.so.1.23.0 /usr/lib/libwayland-client.so.0.23.0 /usr/lib/libwayland-server.so.0.23.0"
+Changes to packages/x86_64-linux/wayland-native (sysroot):
+  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.22.0 to libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.22.0 to libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.22.0 to libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.22.0 to libwayland-server.so.0.23.0
+  /usr/lib/libwayland-client.so.0.22.0 moved to /usr/lib/libwayland-client.so.0.23.0
+  /usr/lib/libwayland-cursor.so.0.22.0 moved to /usr/lib/libwayland-cursor.so.0.23.0
+  /usr/lib/libwayland-egl.so.1.22.0 moved to /usr/lib/libwayland-egl.so.1.23.0
+  /usr/lib/libwayland-server.so.0.22.0 moved to /usr/lib/libwayland-server.so.0.23.0
+
+--===============4798030477094069923==--
 
