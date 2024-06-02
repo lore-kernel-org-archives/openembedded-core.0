@@ -1,267 +1,680 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A36C25B74
-	for <webhook@archiver.kernel.org>; Sun,  2 Jun 2024 21:01:32 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.68301.1717362083159642883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F250C25B74
+	for <webhook@archiver.kernel.org>; Sun,  2 Jun 2024 21:26:12 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.68750.1717363568011108182
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jun 2024 14:01:23 -0700
+ Sun, 02 Jun 2024 14:26:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=c5KtyjBp;
- spf=pass (domain: konsulko.com, ip: 209.85.214.178, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f4a52b9413so29693365ad.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 14:01:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R/VDT7LT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-421208c97a2so32364465e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 14:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1717362081; x=1717966881; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d/bZLeAeCALz8hO/CD9brUNESrRDjUxsz9p/gRmSm5I=;
-        b=c5KtyjBp4sJPuiJFy7ZlI0g5GFoRozeYz5bglQ+lRd/5mSG2ABzVVgU8r64XVLdlPe
-         eMbJjB+x0gpSItQCky6hTitV8nmu1O4OEuH+s0Xke2v/4N3AAjFgeurVMUpsYdwMsq9I
-         4KxjNp4Jsqm2JGmOmlZvA9g4NWbQyY/65vxJQ=
+        d=linuxfoundation.org; s=google; t=1717363566; x=1717968366; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xih6u7qU5Va7gjzOqJUAlR9JN7na60YBpDdmggq45E0=;
+        b=R/VDT7LTdSoi7q04DHeQn/Yvjmw+RhjY885lPbweMueUdFEdxS1LQgnDyf/ZJL72YB
+         WiUMV9HeN5FmgujRrXibnBbhuTIttauHq9Cd1c/+EgLEOcQ73BVFNZZHtknodyC2UMVo
+         LEikSL2GDHjSirFGUJvJZDHqp1CpgQnlTrs80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717362081; x=1717966881;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d/bZLeAeCALz8hO/CD9brUNESrRDjUxsz9p/gRmSm5I=;
-        b=eHbDkDShUOUgRv/Q3hI3FXp0TRI5aA1QXh7x2rhUxRziaH/mP7jEOVPhAtkxlVK0BW
-         AXBeCwDvpQd1cAAspjEhpyIndwVtJP73gPIDAt7dRzT02OKboHBo9cPV8lAhA9MrFD5Y
-         iMAFRZvGuPks6aungSNVWjKMGtoa/rLJTFodGsGp3mzS6aibVJy7Auj1JCwpezicUHoA
-         LlxdCHVXA+GOSx3Qp0ny5a2xlLA4enLrFtxyNRorwGL/GeIRHGMddcmy7LEFLSz/IyGe
-         coOZymEKxNF42bgCPISUpLPkZtPR59OW5HC3tNrfPH2OC8G4CtZi2M4R1DJyJG7mN4Mx
-         ltvQ==
-X-Gm-Message-State: AOJu0YzsTImca2gp4/FTCgrvKTVvVn/N69jqoUSAZHMqDVMjIOF5kpzb
-	DyTx3GqK1u/XXQZv9GZ5MotEAfqZcpMdRB5+5eia7z7R4QgLikZp/RYKikwjYqlp1PTahyjq4Jt
-	w18A=
-X-Google-Smtp-Source: AGHT+IGthFZfRq8aERKUWbm1glfL5RaA3i0/QS4EKeV9mdlKlhDnDgYAkuEP1abP3pKahVjiHv1ldg==
-X-Received: by 2002:a17:902:ec91:b0:1f5:5f0c:1409 with SMTP id d9443c01a7336-1f6370075a2mr82747685ad.26.1717362081489;
-        Sun, 02 Jun 2024 14:01:21 -0700 (PDT)
-Received: from localhost ([2601:1c0:ca00:bd60:3fc2:5771:b380:483a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323eb03fsm50743005ad.194.2024.06.02.14.01.20
+        d=1e100.net; s=20230601; t=1717363566; x=1717968366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xih6u7qU5Va7gjzOqJUAlR9JN7na60YBpDdmggq45E0=;
+        b=vPC/a0AOluBcispgn458Ka/mOHOa3R0QJzq82qVFwB3OP9hqw0dKVnLHi9jN3YVNC+
+         WfJQumZV1fVUV6RqIopqxbgBTrg7/SvVDEXAUWGg8scA3z7+Jj17P1yvS9qMpQm6tr6l
+         HGiUJI0t+HIIvbJZwB4/3qvUpDrVMccf3W6EPKySncbL6XhlYTnLjXxf9O7nh9WmaeQ1
+         D98NDd3fwA0YAbP90pJ5wMQHYk+vCL/g7g82vTQaxOqV6WuFWUn0ATTTHFmfWHUZ9D9B
+         W9ZZWGxMa8eWNgyYyrWPD1bRFJSlMHjQonHkIkCGDWmfZax0bVZbkGf+Q6SXEH2Mzz4F
+         jQig==
+X-Gm-Message-State: AOJu0YwhEVxFkuIY/1P6w3UMg3zM+t9zAioYwH+DJewnApsnG1+GKcFX
+	UN0DivWWaQURJzagGUN2Q7hkjuFIVBt12UspPRCsPbNt8rhlqbjYP6FiRCO/DSwIucCVbPbJa63
+	y
+X-Google-Smtp-Source: AGHT+IFtW7CE1BlELumJUVsakluf92s3HFER/7E1FG0epc7Q8WdhS4aL2WEUUw3qWLh9coH9qFeXNA==
+X-Received: by 2002:a05:600c:1ca9:b0:420:29dd:84d5 with SMTP id 5b1f17b1804b1-4212e043d0fmr58511785e9.5.1717363565362;
+        Sun, 02 Jun 2024 14:26:05 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42136e0d9fbsm52413975e9.28.2024.06.02.14.26.04
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 14:01:20 -0700 (PDT)
-From: tim.orling@konsulko.com
+        Sun, 02 Jun 2024 14:26:05 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: bluelightning@bluelightning.org
-Subject: [RFC PATCH 5/5] oe-selftest: add RECIPE_UPDATE_EXTRA_TASKS test
-Date: Sun,  2 Jun 2024 14:00:42 -0700
-Message-ID: <b40c9d3ebaf6000d72dbf15c0db388d726b2daa7.1717361301.git.tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <cover.1717361301.git.tim.orling@konsulko.com>
-References: <cover.1717361301.git.tim.orling@konsulko.com>
+Subject: [PATCH] libtool: 2.4.7 -> 2.5.0
+Date: Sun,  2 Jun 2024 22:26:04 +0100
+Message-Id: <20240602212604.3421561-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 21:01:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200221
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 21:26:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200222
 
-From: Tim Orling <tim.orling@konsulko.com>
+Whilst this is an alpha release, it makes sense for us to
+stay close to upstream.
 
-Add test_devtool_upgrade_recipe_update_extra_tasks test case
-to test upgrade of python3-guessing-game from v0.1.0 to v0.2.0
-which will exercise the update_crates task during the upgrade.
+We can drop a lot of merged patches which is great to see.
 
-Add python3-guessing-game_git.bb.upgraded and
-python3-guessing-game-crates.inc.upgraded  which are the 0.2.0
-variants.
+During testing, one bug showed up, particularly on mip64 due
+to an issue with FILECMD being changed to use AC_CHECK_PROG
+incorredly. A patch has been added for that and sent upstream.
 
-Check that the new recipe file has the expected differences.
-
-Check that the new -crates.inc file has the expected differences,
-which should be reproducible because of Cargo.lock.
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python3-guessing-game-crates.inc.upgraded | 88 +++++++++++++++++++
- .../python3-guessing-game_git.bb.upgraded     | 19 ++++
- meta/lib/oeqa/selftest/cases/devtool.py       | 46 ++++++++++
- 3 files changed, 153 insertions(+)
- create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
- create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+ .../{libtool-2.4.7.inc => libtool-2.5.0.inc}  | 16 ++---
+ ...-cross_2.4.7.bb => libtool-cross_2.5.0.bb} |  0
+ ...ative_2.4.7.bb => libtool-native_2.5.0.bb} |  0
+ ...in.in-Parse-additional-clang-options.patch | 33 ----------
+ ...e-the-with-sysroot-option-to-avoid-c.patch | 51 +++++++---------
+ ...-libtool.m4-Cleanup-sysroot-trailing.patch | 37 ------------
+ ...-Add-missing-sysroot-to-library-path.patch |  3 +-
+ ...tool-Fix-support-for-NIOS2-processor.patch | 60 -------------------
+ ...r-static-libs-for-internal-compiler-.patch | 17 +++---
+ ...-sure-autoheader-run-before-autoconf.patch | 31 ----------
+ ...-sure-autoheader-run-before-automake.patch | 33 ----------
+ ...-prefix-map-compiler-options-correct.patch | 37 ------------
+ ...eproducibility-stop-encoding-hostnam.patch | 29 ---------
+ .../libtool/libtool/filefix.patch             | 28 +++++++++
+ .../{libtool_2.4.7.bb => libtool_2.5.0.bb}    |  0
+ ...ol_2.4.7.bb => nativesdk-libtool_2.5.0.bb} |  0
+ 16 files changed, 66 insertions(+), 309 deletions(-)
+ rename meta/recipes-devtools/libtool/{libtool-2.4.7.inc => libtool-2.5.0.inc} (70%)
+ rename meta/recipes-devtools/libtool/{libtool-cross_2.4.7.bb => libtool-cross_2.5.0.bb} (100%)
+ rename meta/recipes-devtools/libtool/{libtool-native_2.4.7.bb => libtool-native_2.5.0.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0003-libtool.m4-Cleanup-sysroot-trailing.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-support-for-NIOS2-processor.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0010-Makefile.am-make-sure-autoheader-run-before-automake.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/filefix.patch
+ rename meta/recipes-devtools/libtool/{libtool_2.4.7.bb => libtool_2.5.0.bb} (100%)
+ rename meta/recipes-devtools/libtool/{nativesdk-libtool_2.4.7.bb => nativesdk-libtool_2.5.0.bb} (100%)
 
-diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
-new file mode 100644
-index 00000000000..b19b42832d9
---- /dev/null
-+++ b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
-@@ -0,0 +1,88 @@
-+# Autogenerated with 'bitbake -c update_crates python3-guessing-game'
-+
-+# from Cargo.lock
-+SRC_URI += " \
-+    crate://crates.io/autocfg/1.3.0 \
-+    crate://crates.io/bitflags/2.5.0 \
-+    crate://crates.io/cfg-if/1.0.0 \
-+    crate://crates.io/getrandom/0.2.15 \
-+    crate://crates.io/heck/0.4.1 \
-+    crate://crates.io/indoc/2.0.5 \
-+    crate://crates.io/libc/0.2.155 \
-+    crate://crates.io/lock_api/0.4.12 \
-+    crate://crates.io/memoffset/0.9.1 \
-+    crate://crates.io/once_cell/1.19.0 \
-+    crate://crates.io/parking_lot/0.12.3 \
-+    crate://crates.io/parking_lot_core/0.9.10 \
-+    crate://crates.io/portable-atomic/1.6.0 \
-+    crate://crates.io/ppv-lite86/0.2.17 \
-+    crate://crates.io/proc-macro2/1.0.84 \
-+    crate://crates.io/pyo3/0.21.2 \
-+    crate://crates.io/pyo3-build-config/0.21.2 \
-+    crate://crates.io/pyo3-ffi/0.21.2 \
-+    crate://crates.io/pyo3-macros/0.21.2 \
-+    crate://crates.io/pyo3-macros-backend/0.21.2 \
-+    crate://crates.io/quote/1.0.36 \
-+    crate://crates.io/rand/0.8.5 \
-+    crate://crates.io/rand_chacha/0.3.1 \
-+    crate://crates.io/rand_core/0.6.4 \
-+    crate://crates.io/redox_syscall/0.5.1 \
-+    crate://crates.io/scopeguard/1.2.0 \
-+    crate://crates.io/smallvec/1.13.2 \
-+    crate://crates.io/syn/2.0.66 \
-+    crate://crates.io/target-lexicon/0.12.14 \
-+    crate://crates.io/unicode-ident/1.0.12 \
-+    crate://crates.io/unindent/0.2.3 \
-+    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
-+    crate://crates.io/windows-targets/0.52.5 \
-+    crate://crates.io/windows_aarch64_gnullvm/0.52.5 \
-+    crate://crates.io/windows_aarch64_msvc/0.52.5 \
-+    crate://crates.io/windows_i686_gnu/0.52.5 \
-+    crate://crates.io/windows_i686_gnullvm/0.52.5 \
-+    crate://crates.io/windows_i686_msvc/0.52.5 \
-+    crate://crates.io/windows_x86_64_gnu/0.52.5 \
-+    crate://crates.io/windows_x86_64_gnullvm/0.52.5 \
-+    crate://crates.io/windows_x86_64_msvc/0.52.5 \
-+"
-+
-+SRC_URI[autocfg-1.3.0.sha256sum] = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
-+SRC_URI[bitflags-2.5.0.sha256sum] = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
-+SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-+SRC_URI[getrandom-0.2.15.sha256sum] = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
-+SRC_URI[heck-0.4.1.sha256sum] = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
-+SRC_URI[indoc-2.0.5.sha256sum] = "b248f5224d1d606005e02c97f5aa4e88eeb230488bcc03bc9ca4d7991399f2b5"
-+SRC_URI[libc-0.2.155.sha256sum] = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
-+SRC_URI[lock_api-0.4.12.sha256sum] = "07af8b9cdd281b7915f413fa73f29ebd5d55d0d3f0155584dade1ff18cea1b17"
-+SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
-+SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
-+SRC_URI[parking_lot-0.12.3.sha256sum] = "f1bf18183cf54e8d6059647fc3063646a1801cf30896933ec2311622cc4b9a27"
-+SRC_URI[parking_lot_core-0.9.10.sha256sum] = "1e401f977ab385c9e4e3ab30627d6f26d00e2c73eef317493c4ec6d468726cf8"
-+SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
-+SRC_URI[ppv-lite86-0.2.17.sha256sum] = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
-+SRC_URI[proc-macro2-1.0.84.sha256sum] = "ec96c6a92621310b51366f1e28d05ef11489516e93be030060e5fc12024a49d6"
-+SRC_URI[pyo3-0.21.2.sha256sum] = "a5e00b96a521718e08e03b1a622f01c8a8deb50719335de3f60b3b3950f069d8"
-+SRC_URI[pyo3-build-config-0.21.2.sha256sum] = "7883df5835fafdad87c0d888b266c8ec0f4c9ca48a5bed6bbb592e8dedee1b50"
-+SRC_URI[pyo3-ffi-0.21.2.sha256sum] = "01be5843dc60b916ab4dad1dca6d20b9b4e6ddc8e15f50c47fe6d85f1fb97403"
-+SRC_URI[pyo3-macros-0.21.2.sha256sum] = "77b34069fc0682e11b31dbd10321cbf94808394c56fd996796ce45217dfac53c"
-+SRC_URI[pyo3-macros-backend-0.21.2.sha256sum] = "08260721f32db5e1a5beae69a55553f56b99bd0e1c3e6e0a5e8851a9d0f5a85c"
-+SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
-+SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
-+SRC_URI[rand_chacha-0.3.1.sha256sum] = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
-+SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
-+SRC_URI[redox_syscall-0.5.1.sha256sum] = "469052894dcb553421e483e4209ee581a45100d31b4018de03e5a7ad86374a7e"
-+SRC_URI[scopeguard-1.2.0.sha256sum] = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
-+SRC_URI[smallvec-1.13.2.sha256sum] = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
-+SRC_URI[syn-2.0.66.sha256sum] = "c42f3f41a2de00b01c0aaad383c5a45241efc8b2d1eda5661812fda5f3cdcff5"
-+SRC_URI[target-lexicon-0.12.14.sha256sum] = "e1fc403891a21bcfb7c37834ba66a547a8f402146eba7265b5a6d88059c9ff2f"
-+SRC_URI[unicode-ident-1.0.12.sha256sum] = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
-+SRC_URI[unindent-0.2.3.sha256sum] = "c7de7d73e1754487cb58364ee906a499937a0dfabd86bcb980fa99ec8c8fa2ce"
-+SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
-+SRC_URI[windows-targets-0.52.5.sha256sum] = "6f0713a46559409d202e70e28227288446bf7841d3211583a4b53e3f6d96e7eb"
-+SRC_URI[windows_aarch64_gnullvm-0.52.5.sha256sum] = "7088eed71e8b8dda258ecc8bac5fb1153c5cffaf2578fc8ff5d61e23578d3263"
-+SRC_URI[windows_aarch64_msvc-0.52.5.sha256sum] = "9985fd1504e250c615ca5f281c3f7a6da76213ebd5ccc9561496568a2752afb6"
-+SRC_URI[windows_i686_gnu-0.52.5.sha256sum] = "88ba073cf16d5372720ec942a8ccbf61626074c6d4dd2e745299726ce8b89670"
-+SRC_URI[windows_i686_gnullvm-0.52.5.sha256sum] = "87f4261229030a858f36b459e748ae97545d6f1ec60e5e0d6a3d32e0dc232ee9"
-+SRC_URI[windows_i686_msvc-0.52.5.sha256sum] = "db3c2bf3d13d5b658be73463284eaf12830ac9a26a90c717b7f771dfe97487bf"
-+SRC_URI[windows_x86_64_gnu-0.52.5.sha256sum] = "4e4246f76bdeff09eb48875a0fd3e2af6aada79d409d33011886d3e1581517d9"
-+SRC_URI[windows_x86_64_gnullvm-0.52.5.sha256sum] = "852298e482cd67c356ddd9570386e2862b5673c85bd5f88df9ab6802b334c596"
-+SRC_URI[windows_x86_64_msvc-0.52.5.sha256sum] = "bec47e5bfd1bff0eeaf6d8b485cc1074891a197ab4225d504cb7a1ab88b02bf0"
-diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
-new file mode 100644
-index 00000000000..2ff2a816caa
---- /dev/null
-+++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
-@@ -0,0 +1,19 @@
-+SUMMARY = "The guessing game from The Rust Book using pyo3."
-+DESCRIPTION = "Wrap a version of the guessing game from The Rust Book \
-+to run in Python using pyo3."
-+HOMEPAGE = "https://www.maturin.rs/tutorial"
-+SECTION = "devel/python"
-+LICENSE = "MIT & Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=1836efb2eb779966696f473ee8540542 \
-+                    file://LICENSE-MIT;md5=85fd3b67069cff784d98ebfc7d5c0797"
-+
-+SRC_URI = "git://github.com/moto-timo/guessing-game.git;protocol=https;branch=main"
-+
-+PV = "0.2.0"
-+SRCREV = "40cf004c2772ffa20ea803fa3be1528a75be3e98"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit python_maturin cargo-update-recipe-crates
-+
-+require ${BPN}-crates.inc
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 1cafb922ea4..432d9c9a673 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2017,6 +2017,52 @@ class DevtoolUpgradeTests(DevtoolBase):
-             newlines = f.readlines()
-         self.assertEqual(desiredlines, newlines)
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.7.inc b/meta/recipes-devtools/libtool/libtool-2.5.0.inc
+similarity index 70%
+rename from meta/recipes-devtools/libtool/libtool-2.4.7.inc
+rename to meta/recipes-devtools/libtool/libtool-2.5.0.inc
+index 16bb10d48f8..dd6215476e8 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.7.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.5.0.inc
+@@ -8,26 +8,22 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+     file://libltdl/COPYING.LIB;md5=4fbd65380cdd255951079008b364516c "
  
-+    def test_devtool_upgrade_recipe_update_extra_tasks(self):
-+        # Check preconditions
-+        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        recipe = 'python3-guessing-game'
-+        version = '0.2.0'
-+        commit = '40cf004c2772ffa20ea803fa3be1528a75be3e98'
-+        oldrecipefile = get_bb_var('FILE', recipe)
-+        oldcratesincfile = os.path.join(os.path.dirname(oldrecipefile), os.path.basename(oldrecipefile).strip('_git.bb') + '-crates.inc')
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        # Check that recipe is not already under devtool control
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        # Check upgrade
-+        result = runCmd('devtool upgrade %s %s --version %s --srcrev %s' % (recipe, tempdir, version, commit))
-+        # Check if srctree at least is populated
-+        self.assertTrue(len(os.listdir(tempdir)) > 0, 'srctree (%s) should be populated with new (%s) source code' % (tempdir, commit))
-+        # Check new recipe file and new -crates.inc files are present
-+        newrecipefile = os.path.join(self.workspacedir, 'recipes', recipe, os.path.basename(oldrecipefile))
-+        newcratesincfile = os.path.join(self.workspacedir, 'recipes', recipe, os.path.basename(oldcratesincfile))
-+        self.assertExists(newrecipefile, 'Recipe file should exist after upgrade')
-+        self.assertExists(newcratesincfile, 'Recipe crates.inc file should exist after upgrade')
-+        # Check devtool status and make sure recipe is present
-+        result = runCmd('devtool status')
-+        self.assertIn(recipe, result.output)
-+        self.assertIn(tempdir, result.output)
-+        # Check recipe got changed as expected
-+        with open(oldrecipefile + '.upgraded', 'r') as f:
-+            desiredlines = f.readlines()
-+        with open(newrecipefile, 'r') as f:
-+            newlines = f.readlines()
-+        self.assertEqual(desiredlines, newlines)
-+        # Check crates.inc got changed as expected
-+        with open(oldcratesincfile + '.upgraded', 'r') as f:
-+            desiredlines = f.readlines()
-+        with open(newcratesincfile, 'r') as f:
-+            newlines = f.readlines()
-+        self.assertEqual(desiredlines, newlines)
-+        # Check devtool reset recipe
-+        result = runCmd('devtool reset %s -n' % recipe)
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        self.assertNotExists(os.path.join(self.workspacedir, 'recipes', recipe), 'Recipe directory should not exist after resetting')
-+
-     def test_devtool_layer_plugins(self):
-         """Test that devtool can use plugins from other layers.
+-SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
++SRC_URI = "https://alpha.gnu.org/gnu/libtool/libtool-${PV}.tar.gz \
+            file://0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch \
+            file://0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch \
+            file://0003-ltmain.in-Add-missing-sysroot-to-library-path.patch \
+            file://0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch \
+            file://0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch \
+            file://dont-depend-on-help2man.patch \
+-           file://0003-libtool.m4-Cleanup-sysroot-trailing.patch \
+            file://0006-libtool.m4-Handle-as-a-sysroot-correctly.patch \
+-           file://nohardcodepaths.patch \
+-           file://0007-libtool-Fix-support-for-NIOS2-processor.patch \
+            file://0008-libtool-Check-for-static-libs-for-internal-compiler-.patch \
+-           file://0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
+-           file://0010-Makefile.am-make-sure-autoheader-run-before-automake.patch \
+-           file://0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch \
+-           file://0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch \
+-           file://0001-ltmain.in-Parse-additional-clang-options.patch \
++           file://nohardcodepaths.patch \
++           file://filefix.patch \
+           "
  
--- 
-2.45.2
-
+-SRC_URI[sha256sum] = "04e96c2404ea70c590c546eba4202a4e12722c640016c12b9b2f1ce3d481e9a8"
++
++
++SRC_URI[sha256sum] = "d438c317455d85554ce2f998be48866fd40cfcbf834d60b3026f4fc0ed583d23"
+ 
+ do_compile:prepend () {
+ 	# Sometimes this file doesn't get rebuilt, force the issue
+diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb b/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb
+rename to meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb
+diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb b/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool-native_2.4.7.bb
+rename to meta/recipes-devtools/libtool/libtool-native_2.5.0.bb
+diff --git a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch b/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
+deleted file mode 100644
+index c52083327c4..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-ltmain.in: Parse additional clang options
+-
+-clang uses -rtlib and --unwindlib to select proper compiler
+-runtime in some cases. Therefore pass these options to linker when found in
+-ldflags
+-
+-* build-aux/ltmain.in: Handle clang linker options
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=725646bf095bf5c07c49ae38dd060f95bd95ae3c]
+-
+----
+- build-aux/ltmain.in | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
+-index 037f009..ba5c816 100644
+---- a/build-aux/ltmain.in
+-+++ b/build-aux/ltmain.in
+-@@ -5414,10 +5414,12 @@ func_mode_link ()
+-       # -fsanitize=*         Clang/GCC memory and address sanitizer
+-       # -fuse-ld=*           Linker select flags for GCC
+-       # -f{file|debug|macro|profile}-prefix-map* needed for lto linking
+-+      # -rtlib=*             select c runtime lib with clang
+-+      # --unwindlib=*        select unwinder library with clang
+-       # -Wa,*                Pass flags directly to the assembler
+-       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+-       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
+--      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*| \
+-+      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*|-rtlib=*|--unwindlib=*| \
+-       -specs=*|-fsanitize=*|-fuse-ld=*|-ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*|-fprofile-prefix-map=*|-Wa,*)
+-         func_quote_arg pretty "$arg"
+- 	arg=$func_quote_arg_result
+diff --git a/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch b/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
+index 2126f829537..039f063bf67 100644
+--- a/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
++++ b/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
+@@ -13,18 +13,12 @@ http://lists.gnu.org/archive/html/libtool/2010-10/msg00048.html
+ 
+ Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00014.html]
+ 
+-Index: libtool-2.4.7/m4/libtool.m4
++Index: libtool-2.5.0/m4/libtool.m4
+ ===================================================================
+---- libtool-2.4.7.orig/m4/libtool.m4
+-+++ libtool-2.4.7/m4/libtool.m4
+-@@ -1244,28 +1244,28 @@ _LT_DECL([], [ECHO], [1], [An echo progr
+- AC_DEFUN([_LT_WITH_SYSROOT],
+- [m4_require([_LT_DECL_SED])dnl
+- AC_MSG_CHECKING([for sysroot])
+--AC_ARG_WITH([sysroot],
+--[AS_HELP_STRING([--with-sysroot@<:@=DIR@:>@],
+-+AC_ARG_WITH([libtool-sysroot],
+-+[AS_HELP_STRING([--with-libtool-sysroot@<:@=DIR@:>@],
++--- libtool-2.5.0.orig/m4/libtool.m4
+++++ libtool-2.5.0/m4/libtool.m4
++@@ -1247,12 +1247,12 @@ AC_ARG_WITH([sysroot],
++ [AS_HELP_STRING([--with-sysroot@<:@=DIR@:>@],
+    [Search for dependent libraries within DIR (or the compiler's sysroot
+     if not specified).])],
+ -[], [with_sysroot=no])
+@@ -37,7 +31,8 @@ Index: libtool-2.4.7/m4/libtool.m4
+ +case $with_libtool_sysroot in #(
+   yes)
+     if test yes = "$GCC"; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
++      # Trim trailing / since we'll always append absolute paths and we want
++@@ -1261,12 +1261,12 @@ case $with_sysroot in #(
+     fi
+     ;; #(
+   /*)
+@@ -52,10 +47,10 @@ Index: libtool-2.4.7/m4/libtool.m4
+     AC_MSG_ERROR([The sysroot must be an absolute path.])
+     ;;
+  esac
+-Index: libtool-2.4.7/tests/sysroot.at
++Index: libtool-2.5.0/tests/sysroot.at
+ ===================================================================
+---- libtool-2.4.7.orig/tests/sysroot.at
+-+++ libtool-2.4.7/tests/sysroot.at
++--- libtool-2.5.0.orig/tests/sysroot.at
+++++ libtool-2.5.0/tests/sysroot.at
+ @@ -65,7 +65,7 @@ while read file; do
+  done])
+  
+@@ -83,11 +78,11 @@ Index: libtool-2.4.7/tests/sysroot.at
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  ]])
+-diff --git a/tests/testsuite b/tests/testsuite
+-index 24265e4..d388e3e 100755
+---- a/tests/testsuite
+-+++ b/tests/testsuite
+-@@ -48997,7 +48997,7 @@ $at_traceon; }
++Index: libtool-2.5.0/tests/testsuite
++===================================================================
++--- libtool-2.5.0.orig/tests/testsuite
+++++ libtool-2.5.0/tests/testsuite
++@@ -49054,7 +49054,7 @@ $at_traceon; }
+  
+  
+  LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
+@@ -96,7 +91,7 @@ index 24265e4..d388e3e 100755
+  
+  #???
+  if test PATH = "$shlibpath_var"; then
+-@@ -49211,7 +49211,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -49269,7 +49269,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([lib2.c])
+  LT_INIT
+@@ -105,7 +100,7 @@ index 24265e4..d388e3e 100755
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  _ATEOF
+-@@ -49404,7 +49404,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -49463,7 +49463,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([prog.c])
+  LT_INIT
+@@ -114,7 +109,7 @@ index 24265e4..d388e3e 100755
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  _ATEOF
+-@@ -49761,7 +49761,7 @@ $at_traceon; }
++@@ -49821,7 +49821,7 @@ $at_traceon; }
+  
+  
+  LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
+@@ -123,7 +118,7 @@ index 24265e4..d388e3e 100755
+  
+  #???
+  if test PATH = "$shlibpath_var"; then
+-@@ -49975,7 +49975,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -50036,7 +50036,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([lib2.c])
+  LT_INIT
+@@ -132,7 +127,7 @@ index 24265e4..d388e3e 100755
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  _ATEOF
+-@@ -50168,7 +50168,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -50230,7 +50230,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([prog.c])
+  LT_INIT
+@@ -141,7 +136,7 @@ index 24265e4..d388e3e 100755
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  _ATEOF
+-@@ -50525,7 +50525,7 @@ $at_traceon; }
++@@ -50588,7 +50588,7 @@ $at_traceon; }
+  
+  
+  LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
+@@ -150,7 +145,7 @@ index 24265e4..d388e3e 100755
+  
+  #???
+  if test PATH = "$shlibpath_var"; then
+-@@ -50739,7 +50739,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -50803,7 +50803,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([lib2.c])
+  LT_INIT
+@@ -159,7 +154,7 @@ index 24265e4..d388e3e 100755
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  _ATEOF
+-@@ -50932,7 +50932,7 @@ AM_INIT_AUTOMAKE([foreign])
++@@ -50997,7 +50997,7 @@ AM_INIT_AUTOMAKE([foreign])
+  AC_PROG_CC
+  AC_CONFIG_SRCDIR([prog.c])
+  LT_INIT
+diff --git a/meta/recipes-devtools/libtool/libtool/0003-libtool.m4-Cleanup-sysroot-trailing.patch b/meta/recipes-devtools/libtool/libtool/0003-libtool.m4-Cleanup-sysroot-trailing.patch
+deleted file mode 100644
+index 6d922382ef1..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0003-libtool.m4-Cleanup-sysroot-trailing.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-libtool.m4: Cleanup sysroot trailing "/"
+-
+-If $CC has --sysroot=/, it is a valid configuration however libtool will
+-then set lt_sysroot to "/".
+-
+-This means references like $lt_sysroot$libdir become //usr/lib instead
+-of the more normally expected /usr/lib. This may or may not break something
+-but certainly is confusing to the user and gives confusing output. Making
+-"/" simply unset lt_sysroot is much cleaner.
+-
+-Whilst here, trim any trailing '/' from sysroot paths to drop the duplication
+-and result in cleaner/consistent output.
+-
+-* m4/libtool.m4: Cleanup sysroot trailing '/' handling
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=365805327c7b9bbdb0e622b954b6b0d8eaeb3f99]
+-Signed-off-by:  Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+----
+- m4/libtool.m4 | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/m4/libtool.m4 b/m4/libtool.m4
+-index fa1ae91..2f31d24 100644
+---- a/m4/libtool.m4
+-+++ b/m4/libtool.m4
+-@@ -1256,7 +1256,9 @@ lt_sysroot=
+- case $with_libtool_sysroot in #(
+-  yes)
+-    if test yes = "$GCC"; then
+--     lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-+     # Trim trailing / since we'll always append absolute paths and we want
+-+     # to avoid //, if only for less confusing output for the user.
+-+     lt_sysroot=`$CC --print-sysroot 2>/dev/null | $SED 's:/\+$::'`
+-    fi
+-    ;; #(
+-  /*)
+diff --git a/meta/recipes-devtools/libtool/libtool/0003-ltmain.in-Add-missing-sysroot-to-library-path.patch b/meta/recipes-devtools/libtool/libtool/0003-ltmain.in-Add-missing-sysroot-to-library-path.patch
+index 35f48ef906a..69e2c456af3 100644
+--- a/meta/recipes-devtools/libtool/libtool/0003-ltmain.in-Add-missing-sysroot-to-library-path.patch
++++ b/meta/recipes-devtools/libtool/libtool/0003-ltmain.in-Add-missing-sysroot-to-library-path.patch
+@@ -8,7 +8,8 @@ i.e. when lt_sysroot is not set, it will still behave the same and add
+ 
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00017.html]
++Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00017.html]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=3221f9f0fb98d5740ab5d0e8db6a731302520644]
+ 
+ diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
+ index f884824..25a91de 100644
+diff --git a/meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-support-for-NIOS2-processor.patch b/meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-support-for-NIOS2-processor.patch
+deleted file mode 100644
+index 676ce7fd1ba..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-support-for-NIOS2-processor.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-libtool: Fix support for NIOS2 processor
+-
+-The name of the system contains the string "nios2". This string
+-is caught by the some of the greedy checks for OS/2 in libtool,
+-in particular the *os2* branches of switch statements match for
+-the nios2 string, which results in incorrect behavior of libtool.
+-
+-Switch to use $host_os instead of $host and tweak the patterns to
+-match to avoid this problem for nios2.
+-
+-* build-aux/ltmain.in: Fix NIOS2 support
+----
+- build-aux/ltmain.in | 12 ++++++------
+- 1 file changed, 6 insertions(+), 6 deletions(-)
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Submitted: https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00021.html
+-Reworked and submitted: https://lists.gnu.org/archive/html/libtool-patches/2024-01/msg00068.html
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=49e6cb0d4dfdca2a59b909dc4532fe22dbc57ad5]
+-
+-Index: libtool-2.4.7/build-aux/ltmain.in
+-===================================================================
+---- libtool-2.4.7.orig/build-aux/ltmain.in
+-+++ libtool-2.4.7/build-aux/ltmain.in
+-@@ -518,10 +518,10 @@ libtool_validate_options ()
+-     # preserve --debug
+-     test : = "$debug_cmd" || func_append preserve_args " --debug"
+- 
+--    case $host in
+-+    case $host_os in
+-       # Solaris2 added to fix http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16452
+-       # see also: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59788
+--      *cygwin* | *mingw* | *pw32* | *cegcc* | *solaris2* | *os2*)
+-+      cygwin* | mingw* | pw32* | cegcc* | solaris2* | os2*)
+-         # don't eliminate duplications in $postdeps and $predeps
+-         opt_duplicate_compiler_generated_deps=:
+-         ;;
+-@@ -6273,8 +6273,8 @@ func_mode_link ()
+- 	fi
+- 	if test -n "$library_names" &&
+- 	   { test no = "$use_static_libs" || test -z "$old_library"; }; then
+--	  case $host in
+--	  *cygwin* | *mingw* | *cegcc* | *os2*)
+-+	  case $host_os in
+-+	  cygwin* | mingw* | cegcc* | os2*)
+- 	      # No point in relinking DLLs because paths are not encoded
+- 	      func_append notinst_deplibs " $lib"
+- 	      need_relink=no
+-@@ -6343,8 +6343,8 @@ func_mode_link ()
+- 	      soname=$dlname
+- 	    elif test -n "$soname_spec"; then
+- 	      # bleh windows
+--	      case $host in
+--	      *cygwin* | mingw* | *cegcc* | *os2*)
+-+	      case $host_os in
+-+	      cygwin* | mingw* | cegcc* | os2*)
+- 	        func_arith $current - $age
+- 		major=$func_arith_result
+- 		versuffix=-$major
+diff --git a/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch b/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch
+index c151c3b4813..c103ebb7bfc 100644
+--- a/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch
++++ b/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch
+@@ -15,19 +15,16 @@ https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27866
+ 
+ Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00016.html]
+ 
+-diff --git a/m4/libtool.m4 b/m4/libtool.m4
+-index bd90775..3794130 100644
+---- a/m4/libtool.m4
+-+++ b/m4/libtool.m4
+-@@ -7556,7 +7556,7 @@ if AC_TRY_EVAL(ac_compile); then
++Index: libtool-2.5.0/m4/libtool.m4
++===================================================================
++--- libtool-2.5.0.orig/m4/libtool.m4
+++++ libtool-2.5.0/m4/libtool.m4
++@@ -7553,7 +7553,7 @@ if AC_TRY_EVAL(ac_compile); then
+    for p in `eval "$output_verbose_link_cmd"`; do
+      case $prev$p in
+  
+ -    -L* | -R* | -l*)
+ +    -L* | -R* | -l* | */libclang_rt.*.a)
+-        # Some compilers place space between "-{L,R}" and the path.
++        # Some compilers place space between "-{L,R,l}" and the path.
+         # Remove the space.
+-        if test x-L = "$p" ||
+--- 
+-2.25.1
+-
++        if test x-L = x"$p" ||
+diff --git a/meta/recipes-devtools/libtool/libtool/0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch b/meta/recipes-devtools/libtool/libtool/0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
+deleted file mode 100644
+index f51deecbef2..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From: Mingli Yu <mingli.yu@windriver.com>
+-Subject: [PATCH 09/12] Makefile.am: make sure autoheader run before autoconf
+-
+-autoheader will update ../libtool-2.4.6/libltdl/config-h.in which
+-autoconf needs, so there comes a race sometimes as below:
+- | configure.ac:45: error: required file 'config-h.in' not found
+- | touch '../libtool-2.4.6/libltdl/config-h.in'
+-
+-So make sure autoheader run before autoconf to avoid this race.
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=e7dc729dd27b367905cd0ce52b5466d91537857a]
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index c29860e..9c34bfd 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -370,7 +370,7 @@ lt_configure_deps = $(lt_aclocal_m4) $(lt_aclocal_m4_deps)
+- $(lt_aclocal_m4): $(lt_aclocal_m4_deps)
+- 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(ACLOCAL) -I ../m4
+- 
+--$(lt_configure): $(lt_configure_deps)
+-+$(lt_configure): $(lt_configure_deps) $(lt_config_h_in)
+- 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(AUTOCONF)
+- 
+- $(lt_config_h_in): $(lt_configure_deps)
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/libtool/libtool/0010-Makefile.am-make-sure-autoheader-run-before-automake.patch b/meta/recipes-devtools/libtool/libtool/0010-Makefile.am-make-sure-autoheader-run-before-automake.patch
+deleted file mode 100644
+index e451de59e33..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0010-Makefile.am-make-sure-autoheader-run-before-automake.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From: Mingli Yu <mingli.yu@windriver.com>
+-Subject: [PATCH 10/12] Makefile.am: make sure autoheader run before automake
+-
+-When use automake to generate Makefile.in from Makefile.am, there
+-comes below race:
+- | configure.ac:45: error: required file 'config-h.in' not found
+-
+-It is because the file config-h.in in updating process by autoheader,
+-so make automake run after autoheader to avoid the above race.
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=e01c0bfe5e041418d84460901a1a5b11b89d596f]
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 9c34bfd..231ef3f 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -333,7 +333,7 @@ EXTRA_DIST     += $(lt_aclocal_m4) \
+- 		  $(lt_obsolete_m4) \
+- 		  $(stamp_mk)
+- 
+--$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4)
+-+$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4) $(lt_config_h_in)
+- 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(AUTOMAKE) Makefile
+- 
+- # Don't let unused scripts leak into the libltdl Makefile
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch b/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
+deleted file mode 100644
+index 4c6b6f05b49..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-ltmain.in: Handle prefix-map compiler options correctly
+-
+-If lto is enabled, we need the prefix-map variables to be passed to the linker
+-to correctly link the objects using correctly mapped paths.
+-
+-Add these to the list of options libtool passes through.
+-
+-* build-aux/ltmain.in: Handle prefix-map compiler options
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00019.html
+-https://lists.gnu.org/archive/html/libtool-patches/2024-01/msg00066.html
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=cdf4bf702f11d17e06569936e8a433a77f791228]
+-
+----
+- build-aux/ltmain.in | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
+-index 0a50f5b..037f009 100644
+---- a/build-aux/ltmain.in
+-+++ b/build-aux/ltmain.in
+-@@ -5413,11 +5413,12 @@ func_mode_link ()
+-       # -stdlib=*            select c++ std lib with clang
+-       # -fsanitize=*         Clang/GCC memory and address sanitizer
+-       # -fuse-ld=*           Linker select flags for GCC
+-+      # -f{file|debug|macro|profile}-prefix-map* needed for lto linking
+-       # -Wa,*                Pass flags directly to the assembler
+-       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+-       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
+-       -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*| \
+--      -specs=*|-fsanitize=*|-fuse-ld=*|-Wa,*)
+-+      -specs=*|-fsanitize=*|-fuse-ld=*|-ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*|-fprofile-prefix-map=*|-Wa,*)
+-         func_quote_arg pretty "$arg"
+- 	arg=$func_quote_arg_result
+-         func_append compile_command " $arg"
+diff --git a/meta/recipes-devtools/libtool/libtool/0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch b/meta/recipes-devtools/libtool/libtool/0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch
+deleted file mode 100644
+index 8469b8727e1..00000000000
+--- a/meta/recipes-devtools/libtool/libtool/0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Subject: [PATCH 12/12] libtool.m4: For reproducibility stop encoding hostname in libtool script
+-
+-For reproducibilty, stop encoding the hostname into the libtool script, this isn't
+-really adding much to debugging and most distros are carrying such a patch now as
+-reproducibility is important.
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-https://sources.debian.org/data/main/libt/libtool/2.4.6-10/debian/patches/
+-        no_hostname.patch
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=bd826173c4c9c3fa8d77d92785754897cb4bfd89]
+-
+-diff --git a/m4/libtool.m4 b/m4/libtool.m4
+-index 3794130..84a550c 100644
+---- a/m4/libtool.m4
+-+++ b/m4/libtool.m4
+-@@ -730,7 +730,6 @@ _LT_CONFIG_SAVE_COMMANDS([
+-     cat <<_LT_EOF >> "$cfgfile"
+- #! $SHELL
+- # Generated automatically by $as_me ($PACKAGE) $VERSION
+--# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
+- # NOTE: Changes made to this file will be lost: look at ltmain.sh.
+- 
+- # Provide generalized library-building support services.
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/libtool/libtool/filefix.patch b/meta/recipes-devtools/libtool/libtool/filefix.patch
+new file mode 100644
+index 00000000000..a76b5be2cc4
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/filefix.patch
+@@ -0,0 +1,28 @@
++[PATCH] libtool.m4: Fix AC_CHECK_PROG usage
++
++In commit:
++
++https://git.savannah.gnu.org/cgit/libtool.git/commit/m4/libtool.m4?id=64bef5ba65f6820cd5f88e5249324b4f5955ee25
++
++AC_CHECK_TOOL was changed to AC_CHECK_PROG however the arguments are
++different and this result is a value of ":". Change this to match the
++original intent.
++
++The lack of FILECMD was causing failures for mips64 builds as -m elf was 
++being passed to LD which isn't supported on our targets.
++
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2024-06/msg00000.html]
++
++Index: libtool-2.5.0/m4/libtool.m4
++===================================================================
++--- libtool-2.5.0.orig/m4/libtool.m4
+++++ libtool-2.5.0/m4/libtool.m4
++@@ -8216,7 +8216,7 @@ AC_SUBST([DLLTOOL])
++ # ----------------
++ # Check for a file(cmd) program that can be used to detect file type and magic
++ m4_defun([_LT_DECL_FILECMD],
++-[AC_CHECK_PROG([FILECMD], [file], [:])
+++[AC_CHECK_PROG([FILECMD], [file], [file], [:])
++ _LT_DECL([], [FILECMD], [1], [A file(cmd) program that detects file types])
++ ])# _LD_DECL_FILECMD
++ 
+diff --git a/meta/recipes-devtools/libtool/libtool_2.4.7.bb b/meta/recipes-devtools/libtool/libtool_2.5.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/libtool_2.4.7.bb
+rename to meta/recipes-devtools/libtool/libtool_2.5.0.bb
+diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.7.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/libtool/nativesdk-libtool_2.4.7.bb
+rename to meta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb
 
