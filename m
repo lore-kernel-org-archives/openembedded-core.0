@@ -1,192 +1,136 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E75BC25B74
-	for <webhook@archiver.kernel.org>; Sun,  2 Jun 2024 20:18:42 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web10.67375.1717359512178610132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 389E2C27C50
+	for <webhook@archiver.kernel.org>; Sun,  2 Jun 2024 21:01:12 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.68305.1717362069251343491
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jun 2024 13:18:32 -0700
+ Sun, 02 Jun 2024 14:01:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=j/eYSuJP;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfa7ab78ef2so2107800276.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 13:18:32 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=dIS/ateq;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.176, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70255d5ddc7so1010275b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 14:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717359511; x=1717964311; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0goGTFHvqI2nNfJ1rUTLl/HLehkv1zseqxAEfSujDI4=;
-        b=j/eYSuJPXmDLiw7TQHDOU2HE0S+nfn1UOtu0IUKJ4SAjVARFzbMd5fqrYTL3Zalpik
-         rnSAjjpgo8xDCPoYisbub7deA34/9UX0+hF/hemY8qwFT/RsTDcMpJS1dBcsyeWT7Bhj
-         Vb/+4rr0auwdv4e84MZaG6zagnN0CVtrjZH97k9cReNTvZgmJuB4h0B7lW0xApNow9Bx
-         I02GueckNt5KUTNyHOt4yPAqIQiRMAZPk8nDXXPaC0rDx4E8qPGe0RX2GrqRZL4qMnM9
-         uBj68Ako1kAT7SqsGtpmfIgmfMH3Cf02Ek0+RoU2Rioa69u77POP9TzMBsXBvjJQ/6IR
-         WdmQ==
+        d=konsulko.com; s=google; t=1717362068; x=1717966868; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uw/cArj54Xh+U6sMfg/h8PoTHxGxagKfMHmBO+x5Xs=;
+        b=dIS/ateqAar0Nd5qr+fjw8WGskJPM4DWCcSrKOsoUDhknIPbOJWQMpKlmjNe/oD6e4
+         UHUfPg8796XRI7tMsjSG3s4SWcnkr3Br78e4VBzaRunYb59GTSWacVd4c5K+wKcBWLDb
+         APakOLDVN4kKQjriDu9ScDcl/3XVb7UVU4qCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717359511; x=1717964311;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1717362068; x=1717966868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0goGTFHvqI2nNfJ1rUTLl/HLehkv1zseqxAEfSujDI4=;
-        b=G4INkJCu1xRxKTINzNtE4ENCXWOGTiN4d/waOjDpo4h1qR3G3jYoPd8eqM1Fq7TTNo
-         TRo46QWQdG2M6o2O12N4cbSUHTlrswTNjoMemPchCRZ2HAJsLdEcE4alNqgo2fpYM5qW
-         CbFtMcYWifiE7sSnFtRVVyqfJfW5s5BdWcjl4iYPExkBapLXh0KPzfuHtTdbMb4XEa8p
-         hte+tEFt3paqO238u1DSVxEccGe+c/+0VDirtJeX38CGWhcmeZO5GYyjq1k2/meQxDYy
-         5x76uuU+D/RDi3rKqdHsXQO0ny612AUk1JNAXW5Bh48ZF5p1Dtvi/Ee3WDV0QCTaN55R
-         9wXA==
-X-Gm-Message-State: AOJu0YzIcj49M/wKPVIqwijIkIvZSFDPyco2IoYiQg1s9JTQLWzuUnwF
-	3VI6bsvASRjSO5Swf/oJ0x4+k0NWQMwn8x87Yn68pylna0hVjfPqpXKlfCIgyFi1Cfyt6OtriLg
-	lFL8xTrLKgSYSASSAcTgvOKxqiTw=
-X-Google-Smtp-Source: AGHT+IHm+iOAwGUj0yu1n2jrGvzrmbtK2nDl35srItfmv9o/Pdg03eb+qP5t66iqXoh+MwZF33JQcKq4s/qYJg6R5Fg=
-X-Received: by 2002:a25:bc89:0:b0:dca:c369:fac2 with SMTP id
- 3f1490d57ef6-dfa73bd0aa5mr7152826276.3.1717359511068; Sun, 02 Jun 2024
- 13:18:31 -0700 (PDT)
+        bh=8uw/cArj54Xh+U6sMfg/h8PoTHxGxagKfMHmBO+x5Xs=;
+        b=Ctn9BciqCfVrVT4PhvQK0FkqGSvFr/jt2cEMCadpEBC7fyAaEuso1V1N+X2D/jDGI1
+         MPd5TL8k9LXszhLUcsCBgm494mc2Q+eiQPEXdNMV8hRPn+TO+cY5769lIo8J9+i0FPqN
+         pUe+X5XjQquGwfNgj+93Ytx6HdB9A6OUp6MnkfD28g5dpCn/prziN2NYfrqCMRJejY4m
+         JHe0t2vXIIbgxK4s+U9B+GpWdXfk+e1/KrPOppvUTp5CwL9Fk5/4xk8lVlZ/wVOnZ/aR
+         wL7MZ2Kaqc15zHYTucHxlMEoGznVAX4VPmzIEkyjcXlAYIh6DaEO5Pspd2W0WeugcPEf
+         OiaA==
+X-Gm-Message-State: AOJu0Yz+/RJ/5en/kcVVDjJF6U3ONf/zGaY0AST0lX6a/dlNmQ9TLg3d
+	nNK9DyZGJj2F6YEl/BTroI+cK/D7vVoJgdHzddXoYqZ3pPugzF8m62/mvq1K+Pz6KA+SOGXOEOw
+	LQwM=
+X-Google-Smtp-Source: AGHT+IGGtSHMvTvkP4kwbJ14qVsvea5rq/wIafaI0eF778rnOpFrGylxQ2nDlreU3rUIFbSffYuiMQ==
+X-Received: by 2002:a05:6a20:734e:b0:1b0:812:ab3e with SMTP id adf61e73a8af0-1b26f25d051mr8728658637.38.1717362067512;
+        Sun, 02 Jun 2024 14:01:07 -0700 (PDT)
+Received: from localhost ([2601:1c0:ca00:bd60:3fc2:5771:b380:483a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423c7c78sm4312042b3a.7.2024.06.02.14.01.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jun 2024 14:01:06 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: openembedded-core@lists.openembedded.org
+Cc: bluelightning@bluelightning.org
+Subject: [RFC PATCH 0/3] Implement RECIPE_UPDATE_EXTRA_TASKS
+Date: Sun,  2 Jun 2024 14:00:37 -0700
+Message-ID: <cover.1717361301.git.tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240602122849.254064-1-jan.vermaete@gmail.com>
-In-Reply-To: <20240602122849.254064-1-jan.vermaete@gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 2 Jun 2024 13:18:20 -0700
-Message-ID: <CANx9H-BcY4O2WU_kWzTxAKtyTwz8wR2+EjMRaczo7giT_bSHwQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-pygments: added rdepends
-To: jan.vermaete@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009be5330619edeb56"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 20:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200215
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jun 2024 21:01:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200216
 
---0000000000009be5330619edeb56
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Tim Orling <tim.orling@konsulko.com>
 
-On Sun, Jun 2, 2024 at 5:31=E2=80=AFAM Jan Vermaete via lists.openembedded.=
-org
-<jan.vermaete=3Dgmail.com@lists.openembedded.org> wrote:
+Whenever a recipe which inherits cargo-update-recipe-crates is upgraded with
+devtool (such as with the Auto Upgrade Helper) we frequently see failures.
+If the upstream Cargo.toml or Cargo.lock has been changed, the corresponding
+<recipe_name>-crates.inc needs to be updated. This is done by running the
+"bitbake -c update_crates <recipe_name>" task, but this has until now been
+a manual operation.
 
-> python3-compression to have zipfile
-> python3-unixadmin to have getpass
+Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimited
+list of tasks to be run during the upgrade() method of
+meta/lib/devtool/upgrade.py.
 
+To solve the problem described above, the solution is for all recipes which
+inherit cargo-update-recipe-crates to add the "do_update_crates" task to
+the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.
 
-Can you please add comments about what this is fixing? Without this change
-what was wrong?
+Add test case based on the guessing-game source we currently use for the
+maturin runtime test cases, based on https://www.maturin.rs/tutorial.
+This oe-selftest case checks for both the change in the recipe file and
+the recipe -crates.inc file.
 
+This will rely on a new "guessing-game" git repository to be added to
+git.yoctoproject.org/guessing-game (currently hosted on GitHub for the
+purposes of this RFC).
 
->
-> Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
-> ---
->  meta/recipes-devtools/python/python3-pygments_2.18.0.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-devtools/python/python3-pygments_2.18.0.bb
-> b/meta/recipes-devtools/python/python3-pygments_2.18.0.bb
-> index fd37365681..8058372498 100644
-> --- a/meta/recipes-devtools/python/python3-pygments_2.18.0.bb
-> +++ b/meta/recipes-devtools/python/python3-pygments_2.18.0.bb
-> @@ -10,5 +10,10 @@ SRC_URI[sha256sum] =3D
-> "786ff802f32e91311bff3889f6e9a86e81505fe99f2735bb6d60ae0c50
->  UPSTREAM_CHECK_PYPI_PACKAGE =3D "Pygments"
->  inherit pypi
->
-> +RDEPENDS:${PN} +=3D "\
-> +    python3-compression \
-> +    python3-unixadmin \
-> +"
-> +
->  BBCLASSEXTEND =3D "native nativesdk"
->
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200206):
-> https://lists.openembedded.org/g/openembedded-core/message/200206
-> Mute This Topic: https://lists.openembedded.org/mt/106442552/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Currently, update_crates is the only task known to the author to fall into
+this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other use
+cases that can also be added (and tested!), please let me know.
 
---0000000000009be5330619edeb56
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Two obvious use cases that would be nice to add with changes in oe-core are:
+(1) some kind of "go-mod://" update class to use a similar <recipe>-go-mods.inc
+(2) some kind of rework of the "npm://" fetcher to use <recipe>-npm-mods.inc
+But both of those are out of scope for this proposal.
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Jun 2, 2024 at 5:31=E2=80=AFAM Jan Vermaete via <a =
-href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;jan.v=
-ermaete=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lis=
-ts.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">python3-compre=
-ssion to have zipfile<br>
-python3-unixadmin to have getpass</blockquote><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Can you please add comments about what this is fixing? Wit=
-hout this change what was wrong?</div><div dir=3D"auto"><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
-h:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,20=
-4,204)" dir=3D"auto"><br>
-<br>
-Signed-off-by: Jan Vermaete &lt;<a href=3D"mailto:jan.vermaete@gmail.com" t=
-arget=3D"_blank">jan.vermaete@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.18.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.18.0.bb</a> |=
- 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pygment=
-s_2.18.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.18.0.b=
-b</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.1=
-8.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.18.0.bb</a>=
-<br>
-index fd37365681..8058372498 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.18.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.18.0.bb</a><b=
-r>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.18.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.18.0.bb</a><b=
-r>
-@@ -10,5 +10,10 @@ SRC_URI[sha256sum] =3D &quot;786ff802f32e91311bff3889f6e=
-9a86e81505fe99f2735bb6d60ae0c50<br>
-=C2=A0UPSTREAM_CHECK_PYPI_PACKAGE =3D &quot;Pygments&quot;<br>
-=C2=A0inherit pypi<br>
-<br>
-+RDEPENDS:${PN} +=3D &quot;\<br>
-+=C2=A0 =C2=A0 python3-compression \<br>
-+=C2=A0 =C2=A0 python3-unixadmin \<br>
-+&quot;<br>
-+<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#200206): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/200206" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/200206</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106442552/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/106442552/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+The _run_recipe_update_extra_tasks() method added to lib/devtool/upgrade.py
+is functional, but could probably use some more guards and checks. Ideas for
+improvements are welcome, hence the RFC.
 
---0000000000009be5330619edeb56--
+An attempt at documenting the new variable has been added to ref-manual,
+but if anyone has some ideas for better clarification, input is welcome.
+
+The following changes since commit af6d28d2b0abdfcfa70edcc95abd99a3c1a64ac8:
+
+  sanity: Check if tar is gnutar (2024-05-31 16:58:36 +0100)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib timo/RECIPE_UPDATE_EXTRA_TASKS
+  https://git.yoctoproject.org/poky-contrib/log/?h=timo/RECIPE_UPDATE_EXTRA_TASKS
+
+Tim Orling (5):
+  devtool upgrade: enable RECIPE_UPDATE_EXTRA_TASKS
+  cargo-update-recipe-crates: add RECIPE_UPDATE_EXTRA_TASKS
+  ref-manual: add RECIPE_UPDATE_EXTRA_TASKS variable
+  meta-selftest: add python3-guessing-game
+  oe-selftest: add RECIPE_UPDATE_EXTRA_TASKS test
+
+ documentation/ref-manual/variables.rst        |  7 ++
+ .../python/python3-guessing-game-crates.inc   | 82 +++++++++++++++++
+ .../python3-guessing-game-crates.inc.upgraded | 88 +++++++++++++++++++
+ .../python/python3-guessing-game_git.bb       | 19 ++++
+ .../python3-guessing-game_git.bb.upgraded     | 19 ++++
+ .../cargo-update-recipe-crates.bbclass        |  2 +
+ meta/lib/oeqa/selftest/cases/devtool.py       | 46 ++++++++++
+ scripts/lib/devtool/upgrade.py                | 12 +++
+ 8 files changed, 275 insertions(+)
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+
+-- 
+2.45.2
+
 
