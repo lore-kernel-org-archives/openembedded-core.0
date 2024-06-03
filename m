@@ -1,107 +1,92 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 660FBC25B76
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 16:25:38 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.88322.1717431929337203457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B5AC25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 16:32:38 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.88564.1717432356832734740
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 09:25:29 -0700
+ Mon, 03 Jun 2024 09:32:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gem5uvAd;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-681ad081695so3249500a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 09:25:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DnPtDkdw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-421396e3918so19789895e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 09:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717431928; x=1718036728; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UllaYThKzBpjChy8cWrmpOhBFXaCKUQKC44fRDmkylg=;
-        b=Gem5uvAd4tq0YBbvUmIRgRcRwi8nghP7RQ257q410HREmuIuZEg1MC2BCTAtoiyvIU
-         RBnoYJsL8/+lMDxjm7pwRw5HgmIgeSxhyLApV+0vEsww47LvVUtiMCfrX9SZoDbzLvK1
-         mFA0CHYUUWjmxKUvpQyey58A4bfVB7i8fEpf1fVuepUPsPDKgeibc4nf5s9qSIPEO1rl
-         +yhx7NP1ZzZ5AfFhQiPc6j/eyF69aHi2KHwu7k2LWtjZyeXjs9YMEmwywF/N3lVJG3UG
-         obGJrgx489vVN8j5CLupGOzDZTr7EQXMjvg22+Zny7sQrx7vD/n/e2NcjRZ9UhOwTD76
-         q3fQ==
+        d=linuxfoundation.org; s=google; t=1717432355; x=1718037155; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZFkMZiKVz1G2FsAGlTbHRbVpzBZbYksovWycQTIOKcE=;
+        b=DnPtDkdwrStgxJBmRd9ibNegQqMGtSS3TxeFe/feo6X0lLnLeNydVb+MIG5xyrLnhU
+         eTuKPT5TmqS2lqvcXFCX3XwZURPtT71FHHtAv0iv8XyYewgHHV7ZBfYQWR+bv3b2dzuq
+         vj0Jm0958X3hH0i7UHX8kZWFKJn2qyDmLe4pM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717431928; x=1718036728;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UllaYThKzBpjChy8cWrmpOhBFXaCKUQKC44fRDmkylg=;
-        b=gI8TZttDwCFhcHjHJIKnqlIjjcW5MnN3epXe1gBnOo3vogvAf+qA/QKNlgbPQ9dFcG
-         8QoAAuT7aJq0pZe+1jaIUWH2Wy4E7qIbloN4AJ29UvGsu8VJ8h6ZJ7L33EqCvPAoGyqu
-         tNme7hvaCGwGHAapmK4ClNiDhWJ21QTPqgigaROGrw6oOYk5LWaod02hu9vSyrkR3UOg
-         +ml4xZ7lBgiM2EVnd7u0G799k43CsyfwMX8oVQY07QARwTg7jqx51/MySO122fL9j00D
-         QXlZn0um9o8cyxgwmuGGV+AJGSCMm4nljKFxz7HwxHHSn3N6QPVRE3Dz0M6n4xIJCL6U
-         rvkQ==
-X-Gm-Message-State: AOJu0Yyxnpd90cwlBm6ASWUYTT6WteOv6HvINnMlMc8RGrQtKfLilodB
-	rHiAVarw1wz9Lf35howKmwOLbeU5UcpxlIQWbVu+TN94GLEw7QreB1+uK65vYcc=
-X-Google-Smtp-Source: AGHT+IHTou9drwEIhBtjqOuKNmEXfB7W7G+gbT5NjKAMzcf9roGe9U2bBIIwxPCVtI2mK+j9KrjuAQ==
-X-Received: by 2002:a05:6a20:6a10:b0:1af:d44c:cfc4 with SMTP id adf61e73a8af0-1b26f12ce45mr11499811637.17.1717431928275;
-        Mon, 03 Jun 2024 09:25:28 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::6d8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63235d991sm66941505ad.85.2024.06.03.09.25.27
+        d=1e100.net; s=20230601; t=1717432355; x=1718037155;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZFkMZiKVz1G2FsAGlTbHRbVpzBZbYksovWycQTIOKcE=;
+        b=oQHu548CDM/9yJu8Vqhp3oR1+KJaH2XH34dR/WDY1p4s/9dKsy5S+OphaNNnkWonV0
+         vE4kaHM+7od0vUMHe8QKn1IJvF2FCxSAA7tBlMSgNce36QMvAftZCsaf8QffYCmsZdo9
+         p5qn5N3axaZmHSOQ7Wq79yVM01Uyfs6IpLYn3fmocsW3SioL3OcAO0+rzyAtHR+pT6A/
+         TRXTyG3xzQ3/Rp7UR5NBvgfBV9/6+rIwhgguY8WaUR5WCNiggZV5piG/EkJE8MI+iaHY
+         QIstdm4gGMeeTcEL9bTO+ec0Y/jOXpjXZI3LemxSwH/bLxGfrgP3t/ublGB1tLxND7jd
+         WrqA==
+X-Gm-Message-State: AOJu0Ywkqo0Pj4qbNgNIRKlyCX/Lkp7X2T1DbdPFIQ9YkXUWd/E3Qd6i
+	7zwEp5QQzzHIR17KSn0QFyAaJp8V4aqbi3/XMWyvd/PoAU29qlcec2I05i79iPM=
+X-Google-Smtp-Source: AGHT+IEWJNE/oSndh7HJGmMTRzG/a7U/2UFRtitDsJdpik/3KdiqQKsv2Vs5bIhnxPkCi3hyl+4Azg==
+X-Received: by 2002:a05:600c:3584:b0:421:2bf5:2362 with SMTP id 5b1f17b1804b1-4212e0c0597mr103542905e9.39.1717432355256;
+        Mon, 03 Jun 2024 09:32:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc? ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35e56669a23sm4337058f8f.83.2024.06.03.09.32.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 09:25:27 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3-rpds-py: Create a symlink for cython module on musl
-Date: Mon,  3 Jun 2024 09:25:25 -0700
-Message-ID: <20240603162525.2940419-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        Mon, 03 Jun 2024 09:32:34 -0700 (PDT)
+Message-ID: <04bdcfe5aa8df4af897dbd59e1e99d58714e86c5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/4] autotools/libtool: Drop libtool sysroot
+ patch as not needed
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Jun 2024 17:32:33 +0100
+In-Reply-To: <CABcZAN=hTMHq4DWisLSf6_i1QtOFUZQvxkvCTF5MGeD1DnctUA@mail.gmail.com>
+References: <20240603133938.3552266-1-richard.purdie@linuxfoundation.org>
+	 <20240603133938.3552266-2-richard.purdie@linuxfoundation.org>
+	 <CABcZAN=hTMHq4DWisLSf6_i1QtOFUZQvxkvCTF5MGeD1DnctUA@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 16:25:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200269
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 16:32:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200270
 
-loader expects it to be called with 'linux-gnu' e.g
-rpds.cpython-312-x86_64-linux-musl.so is created with musl
-but loader expects it to called rpds.cpython-312-x86_64-linux-gnu.so
+On Mon, 2024-06-03 at 15:59 +0000, Christopher Larson wrote:
+> Always lovely to see a libtool patch go away, nice!
 
-Lets create the symlink to please the loader.
+Yes!
 
-Fixes
-ImportError while importing test module '/usr/lib/python3-rpds-py/ptest/tests/test_hash_trie_map.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-../../python3.12/importlib/__init__.py:90: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-tests/test_hash_trie_map.py:36: in <module>
-    from rpds import HashTrieMap
-../../python3.12/site-packages/rpds/__init__.py:1: in <module>
-    from .rpds import *
-E   ModuleNotFoundError: No module named 'rpds.rpds'
-ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py
+We've had reasonable success at getting quite a few merged upstream so
+the upgrade removes a load too.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../recipes-devtools/python/python3-rpds-py_0.18.1.bb | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+https://savannah.gnu.org/news/?id=3D10631
 
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-index f46df1115c8..b1f0e100332 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-@@ -27,4 +27,15 @@ do_install_ptest() {
-     cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
- }
- 
-+do_install:append() {
-+    for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds.cpython*.so
-+    do
-+        fname=`basename $f`
-+        lname=`echo $fname | sed 's/musl/gnu/'`
-+        if [ "$fname" != "$lname" ]; then
-+            mv $f ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/$lname
-+        fi
-+    done
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
+5 commits into 2.5.0 and we had more into 2.4.7 and 2.4.6.
+
+Its taken far too long but things do look/feel cleaner now.
+
+Cheers,
+
+Richard
 
