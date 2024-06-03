@@ -1,234 +1,205 @@
-Return-Path: <sundeep.kokkonda@windriver.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09E12C25B76
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 15:07:38 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.86047.1717427250438263245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11916C25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 15:13:48 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.86225.1717427618080111571
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 08:07:30 -0700
+ Mon, 03 Jun 2024 08:13:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=688417d902=sundeep.kokkonda@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4535Cggc008350
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 15:07:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7suuy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:07:29 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 453F2TDs026197
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 15:07:28 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7suux-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 15:07:28 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d0xVSZ6c6lKOSAUbbf3hRyR+qYtZ9FPkk+dFgYSboFgGwqXKtZ0m2ij0EOtcDYWBlo344em8vqsmk0vNSOxadMo3GfoR9HsiZqQ/BC5zpk7CIjStOSZ7aVaE7aUNcRZoJXDoKcWDyESWyKfkk1R3AcVZMVbVNY3Rs6fpzykH8MJBvnB1EX/jRdE4MRDqh39mnvqjGJcd8seJ2If7DvEFZCvyPlTbq4Hoei5GG72eIbkq5rv0jQo3g4mI749ApkRqEUfwH4BDXAGIb85uEdksPcUe5egOKqei/6/m8BKA3LBjX/RhCYnuo9NVuaauWokMpHAH/Ay8b2HPwnEfNWSiLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9F17zoNuK0T8unHbL+55Rqth1QMGGDNm85kv00oU+Eo=;
- b=DmBrCxNSmSBW8kNvKOmxcEX2ygxfY2rynDbnRFbezfnwSIeqCTNIjXCBQ5HVhPvibljaGoFQvTbEwLzYpG/SlT8J1lH3IPfDWy4Vxw79kZiRrLEfgPzGuz4UVElyVIk5aZ2uOTAI0vh4y5xIncB+vRQdvcgZg7eRtDGtPrBBkYgLfbpMhZq27cvicFvLcGGmOdqeX6hbqq8Ck9g11CUJ5a5nnbmaga3lJRz0D+eEQYx1FUOYmHQSByI5TrcDDbGATW1thVOkThMJ5gBuU2koivO7BDapiomL26KYgMXzA7TX39TZMZqNaB8QS7yRhL+pp/4WDf7YH7PA5QgeEjAeXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BYAPR11MB3063.namprd11.prod.outlook.com (2603:10b6:a03:89::11)
- by SA1PR11MB7016.namprd11.prod.outlook.com (2603:10b6:806:2b6::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Mon, 3 Jun
- 2024 15:07:23 +0000
-Received: from BYAPR11MB3063.namprd11.prod.outlook.com
- ([fe80::25e9:e6a:756e:dc99]) by BYAPR11MB3063.namprd11.prod.outlook.com
- ([fe80::25e9:e6a:756e:dc99%5]) with mapi id 15.20.7633.021; Mon, 3 Jun 2024
- 15:07:23 +0000
-Message-ID: <14893660-1952-4e6e-89f3-70883d2b465f@windriver.com>
-Date: Mon, 3 Jun 2024 20:37:18 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility - disable PGO
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
-References: <20240603144545.163535-1-sundeep.kokkonda@windriver.com>
- <CANNYZj-CgmCG3+iCoUWV=Se8gENS7TCxOS6eLGb7RCm8nzejEw@mail.gmail.com>
-Content-Language: en-US
-From: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
-In-Reply-To: <CANNYZj-CgmCG3+iCoUWV=Se8gENS7TCxOS6eLGb7RCm8nzejEw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0026.prod.exchangelabs.com (2603:10b6:a02:80::39)
- To BYAPR11MB3063.namprd11.prod.outlook.com (2603:10b6:a03:89::11)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=tl2yjNEw;
+ spf=pass (domain: konsulko.com, ip: 209.85.208.41, mailfrom: tim.orling@konsulko.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5751bcb3139so5452972a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 08:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1717427616; x=1718032416; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3FlFXdccBINqrFdAhT+pdhOqAwnEfGmw/XW8k6xCwhQ=;
+        b=tl2yjNEwdWu2FyfKverXzBYmWnzFDg9OZM/mBPNnG6RqSLfOMbLbYtxYwEzvk6++/G
+         caa5K5Oan42q24KJhzyFuXDeCNAho7xRHd1llpIOdkcXWfzAa9QoUCd1oR2QiHvTrSyp
+         cEUsmwByQwnVhr5744juFtOf6Xm9BVNPIYi5A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717427616; x=1718032416;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3FlFXdccBINqrFdAhT+pdhOqAwnEfGmw/XW8k6xCwhQ=;
+        b=vwCYeYz06BLunYOLWmEizeLwdRT8LDfkL87zsAYKHEXuohty7T6HuWW3Qh7ZPog3DO
+         X9a1viEEkc0GFp92bLHBXbIkv7Nx8MkwLMD3UNzGV/4CYlWjZG92S/xyAAwmGppwEEuI
+         X9OoAI+awYfJ+fEc97oVWVLt30H614lv2ZWjpTg5hgqWaCwmx2orYRNHYn45X6m+wOju
+         bqJXq6+de30wkWRnyJdS+t2fnxsheuRd6Jipiu/dzD4gEtnZuPn5CXkEZXPVajO9yL7R
+         mlTXUk7+oFh5gkOmjYSqQxEi8IXkWwdj6/C+ggJ2vPOF/ddWSCdGechMrHXp7GFMQHhf
+         vK0g==
+X-Gm-Message-State: AOJu0YwihHSdWgR0+UY+FmmYw4tDmHqlvH6ZvzE6AlNmkVA6+b8CO3Zl
+	Pki9ZhlbOISWGtLjncDrE4RqF78qQh5M9RQ3qPKPeeGhDw7XGjnkTgXKAF3DnExpazl50UcdE1e
+	zpBVpkx2guSIXE3JXV3IdT1w7pQ84gJOippVSVg==
+X-Google-Smtp-Source: AGHT+IErgw3NVvtjTF++XXX8xy4lXbTmk9a6njvtqM759QeQ8aWX7McTjeNFdQYMO3LipLAmrlV8LU1xgmYdGZFD5vc=
+X-Received: by 2002:a50:8adc:0:b0:57a:2fb9:a0e1 with SMTP id
+ 4fb4d7f45d1cf-57a36384288mr6211510a12.15.1717427616089; Mon, 03 Jun 2024
+ 08:13:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3063:EE_|SA1PR11MB7016:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb4a9cb0-15a8-4c00-e5e3-08dc83dedf49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|366007|376005|52116005|1800799015|38350700005;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ZUxTNGRiSk5pNFlHRld2S2xVUWpnUG10V3RNdzIrZ3hKeGxxUThxYWF4Z3NE?=
- =?utf-8?B?Rng2YW5ROEFQajhNYXRUS3VTRDFyU2lvK3RJOWZJamo4VzliT1VzOUtPN3Ba?=
- =?utf-8?B?Y2lYZDZweTdFcG9ucU8xSmROU3pRcVN2UGk1NndTaU1tcnRIdWh2bEhDUjJk?=
- =?utf-8?B?TGd0S0FIN2FBblFiTHdBWGREWWJ2NHZQK2RNcHl3VXJnV1pXZTlWTDB3VklC?=
- =?utf-8?B?MUhFLzQySVJxRnMyV2lVSHRNOEo0VWdhRXEzT2JPY3VEYk4yeW9oaEZhQ3oy?=
- =?utf-8?B?NEc2cmtNa04xdDFrUmxIU2JuUW8rUGxzU3lhd2hlVmduNmFzQUpMN3hVQlVo?=
- =?utf-8?B?cEZsZE8wRVFjVVZTUkE4VzJpQjBrZ0FxS2RETWRvRzFUTjVtOHBsd3lnVENy?=
- =?utf-8?B?aDB3UFNLeFhXU3d2V1FYcWNMRVU2T2NaNjhzWDdzM2FSelFBbEZPa3AxV3c4?=
- =?utf-8?B?OXFGdEZLeUFTZDhKcG5wVHRzUC9mK1pTQXBtZXhMdDBYWEZNRThQN296eGVl?=
- =?utf-8?B?eWZZOVpyakVmcWprTmt3R1hIeWxtbTZqUi9qYTVlWG8zcjlpU0RLc0RRalgy?=
- =?utf-8?B?b1I0aUhEcVVmNTR1SkVJbFZqcUMzNDNXemZ3OFpZQ0hPSEJIclZBcjQ1WDA5?=
- =?utf-8?B?djNIeGZrSVlzU1pTdUhNdU41NTlhekZ2SHB6R3VHV3hrWUJrbWVnYVlSV3M5?=
- =?utf-8?B?enBJKzZNM2NVTVkwZmU2SGd3S0JBRzBTTWZOUGhOamd6MnE5V2pKdVU1MU1u?=
- =?utf-8?B?NzRwOC9KS2IvamVxbTMwa2NTVGN6bHppZ3FZa3ZoNkJydkl1cm1GNk1PeGFJ?=
- =?utf-8?B?YndNdlp6R0JickkrT3FKdlVvY2VMcE1PTW1hcUNHT2xzUm5kK2RaYnZCelF5?=
- =?utf-8?B?L3h0dHV1WkdQT2FmZHpBeUZOeExrT3gvcFMvdXBydXVEU1ByUnpFaTVIL00z?=
- =?utf-8?B?SlpWUmp4aFhyK1BJY1dmY1h3NURjUnQzUFRSSlJXSXV0a1B0WXpnSkdXOTJR?=
- =?utf-8?B?eWZabStNTFBvU2g0UzBWUTdpNFZSSHlLQUtPNTBiYUpIaDNHbHV4Mzllc0pM?=
- =?utf-8?B?QzhuSmh3b0hoMm5KWjY0SHdPR2RVK0tkOEJ2THlqdThqYlc3VlBNQXdibjNS?=
- =?utf-8?B?ZVNsWlo3cFYwdkRNd3hVWHRWZEFGUUNGNVNobEkwb2RwakcxS0ovMDBxS0ti?=
- =?utf-8?B?b293SmdEYThIZEtnWURSL3Zjajg5alY3em9BSlB2S3BXd3J4R25BQ245Y1ZS?=
- =?utf-8?B?SHJtVDZrSVVFdTdJemFPei9LWmxXeUFRUlBocFlBckxmcUg2M2VtemNHM0R5?=
- =?utf-8?B?NXRocHBZaWJobnR6MG9pb2VRQ1A5SlI1RUtML2gvbWtwTTN0Qk9jbHg0RjFN?=
- =?utf-8?B?a2lvdW5KYlQ4WGlMSXAxUDFZTWZ5VVo4dGdrdnY0emMwWEk0Ri9BcDB0c09S?=
- =?utf-8?B?MnBoWFVkc3dNU3NtcEZhTW9QZ3ZGSmlvejNlQnRCY2xoNVZkYUV2SHI4Mm9O?=
- =?utf-8?B?TUE4Umk5SzZYSTZoTXdoSzhpUmZIdkUwRmd4MW5hUVpTcFU0NSt5VFZWa1VZ?=
- =?utf-8?B?RFhhSFBvQjlJL1lHWGRZMmFNb3VYZVNPQllSV3hBNFViOWIzM2xmeHJ2S0xh?=
- =?utf-8?B?ZXB2L3BCd2VSb1NIMmFqa3BpZCsvZThneW1xQnNxbzRxQUJycHhPZGtyQS9H?=
- =?utf-8?B?QnU4UzVnL0VFL0F1VmJESE5xazdxNTNjSzFYaE9Xd0trY0tEcFpoQk40QXEz?=
- =?utf-8?Q?xSUvbHXYKEF9uEYS2s=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3063.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MWdKOHlscE0rS0V0NVBqZ2ZHN29XNGtlYmMxemFHV1hWVmlZVmh2aVNkeUxM?=
- =?utf-8?B?K2lyZytXTEFmQS9RbTc5NzdyZk1VNWNFNEtYVDNqS3hZSXFSMlRpUlU5V1A1?=
- =?utf-8?B?M21xbWEvcWg5SlRMbXZjZ0s2ampKUnptYUI0UEl5SjZMYS9zUnY3WGh4U1pk?=
- =?utf-8?B?VUpTNG96UVUrd0pjVFZ0TDZlY3RSZ3hGWFRRbDJhMWdsaHQrb3h0V3NHY1F4?=
- =?utf-8?B?S2svcjI4RUFZeUxFcXRpYk16ZDdyeGN5K1dBQ3BHRkUzVnVmaTZoSDNhZHVx?=
- =?utf-8?B?bVFBM2k3QVpROGJrMGRwMEloNytYeUw5ZEpzOW1Ed2N3TVo0cDJBajVwbkMr?=
- =?utf-8?B?cEpYeUdxSEw3TTY5SzRBcVdFdFNLUENqbUFJWUpDWnFYMU4yUFN4MU5QbzM4?=
- =?utf-8?B?WFd1ampGNGJpTENyTVA2SCs1bnNWOTRlbTM2VTVWVWpyaGJHWDhQbXovaTcy?=
- =?utf-8?B?V29vTGVOUk5VOVl3alRkb2prQ0JpVHVXSlN4ck80bVpDQlR5ZFZvMlZNbTRI?=
- =?utf-8?B?VDBRYWMzdCtHOFhuKzhQUnBkV2JkSm1OSTlVN3FJc3FTY2ZnUjB0TFVmV3J6?=
- =?utf-8?B?WkZYR21KMlZwMkJoRDFPOVZxYkl0R2Jpei9jTk1uSmNaeEY2Y05MWFNhWS9a?=
- =?utf-8?B?WmVZcm1nb2ZnZWNuUTA0bjZBVmxNUFBLUjhnMDZYSDZNN1luWjlDR25mNjhM?=
- =?utf-8?B?MXdjTnlxMHp3K0xMWkk0Z29rcHljOFBsMVVVVE8ybGZCbFlONDVLTTcyV1JZ?=
- =?utf-8?B?T0FYc0c3MzJzQmwwT2h3NWpNV2JIcTcrbG92Yi9PVFZ0bW9RbHR5cXdBdU9a?=
- =?utf-8?B?a0RpSTZjS0RCQlRJU3VPNUMyK2xJTE1TS1lCNGtPalkreWIrak9KOWVmNEQy?=
- =?utf-8?B?Y0c2d3lMd09taUNXcTJVUWZhSzBHOGc5TlZuN3hudkQ0aitmazRGYkFGWmtv?=
- =?utf-8?B?NENQM0pzdVZ6NGtnczhhcko4YmxyRWZqcmlIZDUwNy9MK2k1YWtqU3NpakIy?=
- =?utf-8?B?TmdHaUpEQ0xUVWFXSkQ3VkErTjZ6czE0OWc2SXBsejE0b3RRTTgyRVFCZCtm?=
- =?utf-8?B?TGRzZmV3L2tpb2VDajlIcnBqVWFWNnJlYTZaOGRjQm5sRk9uNy9Xa2s2QXBV?=
- =?utf-8?B?NFZESGZtN3I4N25sa1U3bmRLdlc0RkRNK1dRRGhSdnZ4Yi9OQUFxV3dvWUpS?=
- =?utf-8?B?NWRnVUErZWFzV0l1TWFCQUJTSVEwRlVqaWpMSmRVQlhHcUVuNkVPbE9uaGZO?=
- =?utf-8?B?eFpwNjJlWGd4YWg0amtwQmI0bytGaE14cFZUeFlCMlQyZDNYZlF3dmRUWHFO?=
- =?utf-8?B?Zk8reUlLVFFWcG1MVldVMDhWMGhhRzlSUFFXRWt6ZWZ5ZUR2Z01DaEQyM3pX?=
- =?utf-8?B?RThGbit2NTNVZG5YZi9qYjhSdG1NNS9FNUUzNjI1YnAwbytlNklzZE4rZVkx?=
- =?utf-8?B?bGFYajV5L2k4M1NzZWRRTVBRWERYazBBTmY0dUJUUVR4RkNJNFJDakU3dmxk?=
- =?utf-8?B?WjB3WmtyeUQxS2dSMGcwVlFhTmJ6dXpIZlRDT2dHTnFhUjY4UEZWdUFQTm9V?=
- =?utf-8?B?akJIMm0wSXh5ZWF6MExtWUdNbG1sb3NlL0kxRnRPRDB1WTQvODNlNEt6UGs5?=
- =?utf-8?B?clc2ZEpsc0ZNaWdUd21Wa1dzS1V3OGkrRHNnTXk2YWJjTXR5V0ltWVowa0p6?=
- =?utf-8?B?SCs3eVFRT3lXUU1neG1wcVVXTTRzdVlnMkV0OHc2cEJtd3NCKzFnejFXeFpF?=
- =?utf-8?B?NUQwZ2xTK0locFJMSXFES215Vm9hdnhQVXowNkJCaGJ0NHZ3c3NVL0ZCaUE4?=
- =?utf-8?B?RHMyck8xNEJJTUlNdDJRM3kzN08wMEM1WUZJcllPdk1KT2Q0LzAzNGxla1lS?=
- =?utf-8?B?K1JCaWlOdHpjMzZrWU5nMi9KRmp5UmJBc0xMUWJsaGNKUlNBMlVkcVBKVnY0?=
- =?utf-8?B?aFJMNnBPMzZjL3lhV01HSnJrR0J1WGUxcUhuRlhFcVRRUDNJTnNBc3pZN25T?=
- =?utf-8?B?NE4xRExNd00rSnBwczlCUkdwNDBaL2ErNlJyRWMvQkluejFadjkxSXhUdms4?=
- =?utf-8?B?UFVoOElXbjhaVDlEZHNvREZTOWF4STJXVjh1V2w1c1ZvSFJ5SStBU3Fmd2NK?=
- =?utf-8?B?Si82Y2w1VGhEYmw2VjhuWjFOakhKOXJJdUJ6ejhyaUhKYWFWZDRiZ1p0ZUZv?=
- =?utf-8?Q?pg/caPVe8EzDGkc4LM+BktM=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb4a9cb0-15a8-4c00-e5e3-08dc83dedf49
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3063.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 15:07:23.2565
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E06LnLMadiXxYBic4EOOWYwlt1OUt2P69zeUcvJKNhSfSIEQwcXdIPnXYwPWISYUyY7/82V3CqrtvaDJdY0QFZEwI7Gs3ovwSR0zDM/J4o0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7016
-X-Proofpoint-GUID: FqxcDqQoGeEg85KQg00LyK0SYdRQfCK6
-X-Proofpoint-ORIG-GUID: 25vIcSEiiJJBOG-gXiOW-97vN80aO5cc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_11,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2406030125
+References: <cover.1717361301.git.tim.orling@konsulko.com> <d29724bf4472b3b4f5db512b611946b77ef3f8ee.camel@linuxfoundation.org>
+In-Reply-To: <d29724bf4472b3b4f5db512b611946b77ef3f8ee.camel@linuxfoundation.org>
+From: Tim Orling <tim.orling@konsulko.com>
+Date: Mon, 3 Jun 2024 08:13:24 -0700
+Message-ID: <CAOyo-85re7eCm3m8_X8pk2WGn8RpxudvYg4_tcFjyOUojabkfQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 0/3] Implement RECIPE_UPDATE_EXTRA_TASKS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Trevor Gamblin <tgamblin@baylibre.com>, bluelightning@bluelightning.org
+Content-Type: multipart/alternative; boundary="000000000000fc3a200619fdc665"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:07:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200262
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:13:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200263
+
+--000000000000fc3a200619fdc665
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 3, 2024 at 7:08=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Sun, 2024-06-02 at 14:00 -0700, Tim Orling via lists.openembedded.org
+> wrote:
+> > From: Tim Orling <tim.orling@konsulko.com>
+> >
+> > Whenever a recipe which inherits cargo-update-recipe-crates is upgraded
+> with
+> > devtool (such as with the Auto Upgrade Helper) we frequently see
+> failures.
+> > If the upstream Cargo.toml or Cargo.lock has been changed, the
+> corresponding
+> > <recipe_name>-crates.inc needs to be updated. This is done by running t=
+he
+> > "bitbake -c update_crates <recipe_name>" task, but this has until now
+> been
+> > a manual operation.
+> >
+> > Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimite=
+d
+> > list of tasks to be run during the upgrade() method of
+> > meta/lib/devtool/upgrade.py.
+> >
+> > To solve the problem described above, the solution is for all recipes
+> which
+> > inherit cargo-update-recipe-crates to add the "do_update_crates" task t=
+o
+> > the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.
+> >
+> > Add test case based on the guessing-game source we currently use for th=
+e
+> > maturin runtime test cases, based on https://www.maturin.rs/tutorial.
+> > This oe-selftest case checks for both the change in the recipe file and
+> > the recipe -crates.inc file.
+> >
+> > This will rely on a new "guessing-game" git repository to be added to
+> > git.yoctoproject.org/guessing-game (currently hosted on GitHub for the
+> > purposes of this RFC).
+> >
+> > Currently, update_crates is the only task known to the author to fall
+> into
+> > this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other u=
+se
+> > cases that can also be added (and tested!), please let me know.
+>
+> This looks good to me, thanks.
+>
+> Would we want to add the task that updates the python recipe's manifest
+> to this?
+>
+
+Probably yes. Good idea. Which then brings up perl which has a similar
+issue with the perl-rdepends.txt.
 
 
-On 03-Jun-24 20:20, Alexander Kanavin wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
-> Wait, did you test this patch locally? What was the outcome?
-rust-rustdoc_1.75.0-r0_amd64.deb is generated and the binaries are 
-identical.
+> Cheers,
 >
-> Alex
+> Richard
 >
-> On Mon, 3 Jun 2024 at 16:46, Sundeep KOKKONDA via
-> lists.openembedded.org
-> <sundeep.kokkonda=windriver.com@lists.openembedded.org> wrote:
->> From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
->>
->> The rustdoc binaries are differed on their .llvm.<hash> suffixes between the builds.
->> This is a test patch to verify the PGO effect on rustdoc binaries. The issue discussion is here:
->> https://internals.rust-lang.org/t/rustdoc-binary-is-not-reproducible/20027
->>
->> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
->> ---
->>   meta/lib/oeqa/selftest/cases/reproducible.py | 2 --
->>   meta/recipes-devtools/rust/rust_1.75.0.bb    | 4 ++++
->>   2 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
->> index 97a9c3da90..80e830136f 100644
->> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
->> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
->> @@ -16,8 +16,6 @@ import os
->>   import datetime
->>
->>   exclude_packages = [
->> -       'rust-rustdoc',
->> -       'rust-dbg'
->>          ]
->>
->>   def is_excluded(package):
->> diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
->> index c66c14cc5a..4caa5892e6 100644
->> --- a/meta/recipes-devtools/rust/rust_1.75.0.bb
->> +++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
->> @@ -153,6 +153,10 @@ python do_configure() {
->>       rustc = d.getVar('RUSTC_BOOTSTRAP')
->>       config.set("build", "rustc", e(rustc))
->>
->> +    # Support for the profiler runtime to generate e.g. coverage report,
->> +    # PGO etc.
->> +    config.set("build", "profiler", e(False))
->> +
->>       cargo = d.getVar('CARGO_BOOTSTRAP')
->>       config.set("build", "cargo", e(cargo))
->>
->> --
->> 2.43.0
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#200260): https://lists.openembedded.org/g/openembedded-core/message/200260
->> Mute This Topic: https://lists.openembedded.org/mt/106463035/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+>
+>
+
+--000000000000fc3a200619fdc665
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 3, 2024 at 7:08=E2=80=AFA=
+M Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">=
+richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">On Sun, 2024-06-02 at 14:00 -0700, Tim Or=
+ling via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targe=
+t=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
+=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; <br>
+&gt; Whenever a recipe which inherits cargo-update-recipe-crates is upgrade=
+d with<br>
+&gt; devtool (such as with the Auto Upgrade Helper) we frequently see failu=
+res.<br>
+&gt; If the upstream Cargo.toml or Cargo.lock has been changed, the corresp=
+onding<br>
+&gt; &lt;recipe_name&gt;-crates.inc needs to be updated. This is done by ru=
+nning the<br>
+&gt; &quot;bitbake -c update_crates &lt;recipe_name&gt;&quot; task, but thi=
+s has until now been<br>
+&gt; a manual operation.<br>
+&gt; <br>
+&gt; Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimit=
+ed<br>
+&gt; list of tasks to be run during the upgrade() method of<br>
+&gt; meta/lib/devtool/upgrade.py.<br>
+&gt; <br>
+&gt; To solve the problem described above, the solution is for all recipes =
+which<br>
+&gt; inherit cargo-update-recipe-crates to add the &quot;do_update_crates&q=
+uot; task to<br>
+&gt; the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.<br>
+&gt; <br>
+&gt; Add test case based on the guessing-game source we currently use for t=
+he<br>
+&gt; maturin runtime test cases, based on <a href=3D"https://www.maturin.rs=
+/tutorial" rel=3D"noreferrer" target=3D"_blank">https://www.maturin.rs/tuto=
+rial</a>.<br>
+&gt; This oe-selftest case checks for both the change in the recipe file an=
+d<br>
+&gt; the recipe -crates.inc file.<br>
+&gt; <br>
+&gt; This will rely on a new &quot;guessing-game&quot; git repository to be=
+ added to<br>
+&gt; <a href=3D"http://git.yoctoproject.org/guessing-game" rel=3D"noreferre=
+r" target=3D"_blank">git.yoctoproject.org/guessing-game</a> (currently host=
+ed on GitHub for the<br>
+&gt; purposes of this RFC).<br>
+&gt; <br>
+&gt; Currently, update_crates is the only task known to the author to fall =
+into<br>
+&gt; this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other =
+use<br>
+&gt; cases that can also be added (and tested!), please let me know.<br>
+<br>
+This looks good to me, thanks.<br>
+<br>
+Would we want to add the task that updates the python recipe&#39;s manifest=
+<br>
+to this?<br></blockquote><div><br></div><div>Probably yes. Good idea. Which=
+ then brings up perl which has a similar issue with the perl-rdepends.txt.<=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fc3a200619fdc665--
 
