@@ -1,232 +1,374 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5757C25B76
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 18:21:05 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.2033.1717438857784628379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 576EBC25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 19:59:45 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.3043.1717444782178493407
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 11:20:58 -0700
+ Mon, 03 Jun 2024 12:59:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 453IKvnc027502
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 13:20:57 -0500
-Received: from [192.168.3.156] ([192.168.3.156])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 453IJm8G009147
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 13:20:56 -0500
-Message-ID: <2f11f6ce-d102-4678-a8a9-106bb06d1c46@kernel.crashing.org>
-Date: Mon, 3 Jun 2024 13:20:56 -0500
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fd8WTYSA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so26665231fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 12:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717444780; x=1718049580; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1y0NTRR/AkkTs1023pjsph8Ew+IKJkAacESKN70+AG4=;
+        b=Fd8WTYSA44NbPtWcJ/1ygUFr4EPkRX+5AsFNb3/EHlBytXvpYqPsgxrZI2ZVGyOGio
+         Gglf+WJPcpMum7J3CgTSwr1/K0xCtWhEQxmC6lX9spsDo8cWHs1c9oUA0uW/sB+iJjRh
+         alEeyJNDED/yel4rfgUdF8mz5B7Ftn5cmDHtJsWV1aUw+Uq61ew2xl8e9n+VnleoY6mL
+         PDAfgeBdNySL6b17hlviqypNjJ379PhOHm4JNKADyxL5jFf/o+t7TBdlgrjhbm9ukxsc
+         /eQw3TmjVrUpgX7Dq5AGw2/RrJQK/XXpm4ZCBHMoI8JqP3zr8bbF2VGJKMpb7DBt7ZZT
+         BREw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717444780; x=1718049580;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1y0NTRR/AkkTs1023pjsph8Ew+IKJkAacESKN70+AG4=;
+        b=Na38FWjoN0a8zcYAHt9aFINRv05UMdWPNTfqrW05A2haPjKaN6HV07iGjURBZm9yt8
+         VplW4nLvJF6GmFSkYQTqFtKnW8lYb/4MwFMjGH9/MYYbP8J2KjZTSyXbzgILGmRs4jnC
+         n+GOdjO46Oe89IxKXaVyn5+uAz9mrIHMR4U4cG9HZ8o/FRos24/Egii/EjbAQDr/ohbw
+         NXQ82AnX7q1EZmJgd6d2fJymwVNCKhLHG1rqJ3pT+AsuIsW1A7LM+HBnsq0HTYUkZCAY
+         yr3ZM2Bq1KAtVYqcDl4TxVDYH26pvjhlBikab3AYIHGiQsRgPGDsCYYiiCmThibBGNHR
+         QUfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWGwsfsdJROr4nw9RYuj05PhQHNCk+YzyoOGvg7RmHdGqKbB0+C0SRxr2vrLv0s7Ew3YvYrWTP8Dr6VS44LG1t36PZJqCzLT89yWqLdgY/0j3+DYCcMY4Lw
+X-Gm-Message-State: AOJu0Yx0hrmz3ZdwKaxr5U5FMfnegh9inZQlCwt8OTjw0ZPviv/HI2YK
+	1DG6htNatsTeG4JYZKH1S1jOC2W5XUts+BbQQZyd6kPFUYMoalL96rrPoBcXt/F9FHg+ZF2OrkY
+	rm/7lEuJ8o0NEVMJN7Pozqsiiks0=
+X-Google-Smtp-Source: AGHT+IFPa29mNdb6gvGLW8RJt/7t7il2fAVhRk9cDnHB+O/z6RqMagriVC7ve6N8kIePg0ER4GtaM2wXeYV8dA6kUrE=
+X-Received: by 2002:a05:651c:1a28:b0:2e9:821a:82fb with SMTP id
+ 38308e7fff4ca-2ea950e877bmr96539441fa.6.1717444779843; Mon, 03 Jun 2024
+ 12:59:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] RFC: CVE check standalone (introducing yocto-vex-check)
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <CAApg2=RLRbMABzs=WV-6vzYBGFvQbuVf14trJGAD=P14+Mt7aQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAApg2=RLRbMABzs=WV-6vzYBGFvQbuVf14trJGAD=P14+Mt7aQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 453IKvnc027502
+References: <20240603162525.2940419-1-raj.khem@gmail.com> <1facaae48c6b1ea6e6b7640384a5e7ad79de5868.camel@linuxfoundation.org>
+ <CAMKF1sr5B27YZ6rjPma-tgh=jLdZO50eGomprLPjQtvc5bi9qA@mail.gmail.com>
+In-Reply-To: <CAMKF1sr5B27YZ6rjPma-tgh=jLdZO50eGomprLPjQtvc5bi9qA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 3 Jun 2024 22:59:28 +0300
+Message-ID: <CANNYZj8XiWxKW3qp=V2-NsxTGuGR_AXnB8ywUKq-PikQhyYrbw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-rpds-py: Create a symlink for cython
+ module on musl
+To: raj.khem@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000062abf061a01c6de"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 18:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200279
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 19:59:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200280
 
-I reviewed the RFC.  It looks good to me.  I had one minor comment on the=
- 2/3 of=20
-patch.
+--000000000000062abf061a01c6de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+I agree with RP, please get to the source of the mismatch. It=E2=80=99s a r=
+eally
+unpleasant workaround.
 
-On 5/31/24 9:06 AM, Marta Rybczynska wrote:
-> Hello,
-> We have been working on the standalone version of the cve-check that ca=
-n run=20
-> over an SBOM (SPDX+VEX-like information) since April. This is the momen=
-t for the=20
-> RFC. This way we can verify use cases, discuss what is needed to add an=
-d do=20
-> testing early! (and the curious people can start running it too)
->=20
-> The tooling consists of a patchset over OE-core:
-> https://lists.openembedded.org/g/openembedded-core/message/200074=20
-> <https://lists.openembedded.org/g/openembedded-core/message/200074>
-> https://lists.openembedded.org/g/openembedded-core/message/200075=20
-> <https://lists.openembedded.org/g/openembedded-core/message/200075>
-> and a modification heeded for the CVE backend (the Kernel CNA uses "lin=
-ux" and=20
-> not "linux_kernel")
-> https://lists.openembedded.org/g/openembedded-core/message/200076=20
-> <https://lists.openembedded.org/g/openembedded-core/message/200076>
->=20
-> The standalone tool RFC is here:=20
-> https://gitlab.com/syslinbit/public/yocto-vex-check=20
-> <https://gitlab.com/syslinbit/public/yocto-vex-check> This repo will mi=
-grate to=20
-> the YP infra, likely in a form of multiple ones (we also have autobuild=
-er=20
-> changes, and will likely split binary data to a separate repository).
->=20
-> The yocto-vex-check supports two databases today: NVD and CVE.
->=20
-> How to use the tool (from the README)
->=20
-> This tool allows to check SBOMs for vulnerabilities. You can take SBOM/=
-VEX of a=20
-> Yocto Project build and generate a fresh vulnerability status. It uses =
-the SPDX=20
-> archive as the list of packages to check, with the additional informati=
-on from=20
-> the VEX class.
->=20
-> WARNING: this tool is under active development, file formats and option=
-s do=20
-> change regularly.
-> Functionalities:
->  =C2=A0- reads YP SPDX 2.2 files and YP cve-check JSON files
->  =C2=A0- converts SPDX/cve-check JSON to VEX (close to OpenVEX)
->  =C2=A0- performs a check for vulnerabilities taking the VEX and using =
-the specified=20
-> database
->  =C2=A0- uses output of the "vex" class of OpenEmbedded-core
->=20
->  =C2=A0How to use:
->  =C2=A01. Download the database to use:
->  =C2=A0- for NVD, use cve-update-nvd2-native.py
->  =C2=A0- for the CVE database, get the CVEv5 git repository: either the=
- upsteam one=20
-> at https://github.com/CVEProject/cvelistV5=20
-> <https://github.com/CVEProject/cvelistV5> or the one with OE-related fi=
-xes at=20
-> https://github.com/mrybczyn/cvelistV5-overrides=20
-> <https://github.com/mrybczyn/cvelistV5-overrides> (recommended)
->=20
-> 2. Enable the vex class in your YP-based distribution build by adding t=
-o your=20
-> local.conf:
-> INHERIT +=3D "vex"
->=20
-> 3. Build your image as usual and note the location of the CVE JSON file=
- (in the=20
-> output of the build)
->=20
-> 4. (Recommended for production builds) archive the CVE JSON file and th=
-e SPDX=20
-> archive
->=20
->  =C2=A05. Use the tool as described below at any moment to generate a f=
-resh=20
-> vulnerability status
->=20
->  =C2=A06. (Optional) You can convert the output to text or CSV format u=
-sing=20
-> scripts/cve-report.py
->=20
-> Descrition of tools:
->=20
-> The high-level wrapper performs the whole process of a given database. =
-The usage=20
-> is as follows:
->=20
->  =C2=A0./wrap-yocto-vex-check.py -i <cve-check-JSON-file> -o <output_di=
-r> -t=20
-> <temporary_dir> -b <build directory like tmp-glibc> -db <database path>=
- -db-type=20
-> <database type>
->=20
-> where:
-> -i <cve-check-JSON-file> is the CVE JSON file as given in the output of=
- the build
-> -o <output_dir> is the output directory for the updated CVE file
-> -t <temporary_dir> is a temporary directory used during the scan
-> -b <build directory like tmp-glibc> is the build directory that contain=
-s the=20
-> SPDX archive
-> -db <database path> is the path to the database file (NVD) or downloade=
-d git=20
-> repository (CVE)
-> -db-type <database type> is the database type: NVD or CVE
->=20
->  =C2=A0Lower-level tools:
->=20
-> - cve-update-nvd2-native.py - allows to download the NVD database
-> - yocto-vex-check.py - step-by-step conversions; imports SPDX archive, =
-allows to=20
-> convert SPDX+CVE JSON to VEX, runs the vulnerability check on the given=
- database
->=20
->  =C2=A0Limitations:
-> - today the SPDX generation in YP works for images and SDK, not for the=
- world build
-> - the MITRE (CVE) database contains a number of difficult-to-parse entr=
-ies;=20
-> especially before 2024.
->=20
-> We know there are some bugs (one related to the linux_kernel), the fix =
-is in=20
-> progress.
->=20
-> Questions/comments/use-cases welcome!
->=20
-> Our questions for further steps:
-> 1. We started with the assumption of SPDX as the package list to scan a=
-nd the=20
-> CVE JSON data as the supplementary data needed for the scan. However, S=
-PDX=20
-> archive isn't generated for world builds. We can 1) add the only remain=
-ing=20
-> information to the VEX (CVE-JSON) which is the CPE list and allow to us=
-e the VEX=20
-> file as source and 2) add the remaining archives to SPDX.
->=20
-> At the end we will likely want both, also because SPDX2.2 requires the =
-complete=20
-> build, and that is long in case of world.
->=20
-> 2. The tool currently supports either one backend (CVE, NVD), or the ot=
-her.=20
-> Results are different. We can merge results by post-processing or add a=
- list of=20
-> databases to use. In both cases, there is a difficulty to decide on pri=
-ority of=20
-> conflicting scan results.
->=20
-> 3. We'd like to have unit tests using binary data (static NVD database,=
-=20
-> specially choosen CVE entries etc). It makes sense to keep them in a se=
-parate=20
-> repository because of the size.
->=20
-> 4. It turned out to be complicated to find locate variables needed to p=
-ass to=20
-> the tool directly from bitbake. CVE check and SPDX are running at diffe=
-rent=20
-> phases, and there would be a need for changes in task ordering and poss=
-ibly some=20
-> inheritance. This is complicated and bug prone, so the question is: wha=
-t about=20
-> using the tool separately from the build? We can generate configuration=
- files as=20
-> the list of options increases
->=20
-> What do you think?
->=20
-> Regards,
-> Marta and Samantha
->=20
->=20
->=20
+Alex
+
+On Mon 3. Jun 2024 at 20.49, Khem Raj via lists.openembedded.org <raj.khem=
+=3D
+gmail.com@lists.openembedded.org> wrote:
+
+> On Mon, Jun 3, 2024 at 9:35=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Mon, 2024-06-03 at 09:25 -0700, Khem Raj via lists.openembedded.org
+> > wrote:
+> > > loader expects it to be called with 'linux-gnu' e.g
+> > > rpds.cpython-312-x86_64-linux-musl.so is created with musl
+> > > but loader expects it to called rpds.cpython-312-x86_64-linux-gnu.so
+> > >
+> > > Lets create the symlink to please the loader.
+> > >
+> > > Fixes
+> > > ImportError while importing test module '/usr/lib/python3-rpds-
+> > > py/ptest/tests/test_hash_trie_map.py'.
+> > > Hint: make sure your test modules/packages have valid Python names.
+> > > Traceback:
+> > > ../../python3.12/importlib/__init__.py:90: in import_module
+> > >     return _bootstrap._gcd_import(name[level:], package, level)
+> > > tests/test_hash_trie_map.py:36: in <module>
+> > >     from rpds import HashTrieMap
+> > > ../../python3.12/site-packages/rpds/__init__.py:1: in <module>
+> > >     from .rpds import *
+> > > E   ModuleNotFoundError: No module named 'rpds.rpds'
+> > > ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  .../recipes-devtools/python/python3-rpds-py_0.18.1.bb | 11
+> > > +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> > > b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> > > index f46df1115c8..b1f0e100332 100644
+> > > --- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> > > +++ b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> > > @@ -27,4 +27,15 @@ do_install_ptest() {
+> > >      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> > >  }
+> > >
+> > > +do_install:append() {
+> > > +    for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds.cpython*.so
+> > > +    do
+> > > +        fname=3D`basename $f`
+> > > +        lname=3D`echo $fname | sed 's/musl/gnu/'`
+> > > +        if [ "$fname" !=3D "$lname" ]; then
+> > > +            mv $f ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/$lname
+> > > +        fi
+> > > +    done
+> > > +}
+> > > +
+> > >  BBCLASSEXTEND =3D "native nativesdk"
+> > >
+> >
+> > This feels like the kind of workaround that will live forever. Can we
+> > not fix the loader to use the right name?
+>
+> OE's python interpreter is cross-built and we end up using OSABI which
+> is detected during build 'linux-gnu', this seems to work fine for most of
+> python modules since they get the OSABI from the sysconfigdata so it
+> all works even though the OSABI is called linux-gnu, however some modules
+> like this one which are using maturin to build, seems to get the OSABI
+> equivalent differently, I am no expert on maturin but maybe someone knows
+> how it happens. This problem is seen with several python modules built wi=
+th
+> OE,  see
+>
+> https://github.com/meta-homeassistant/meta-homeassistant/issues/89
+> https://github.com/pypa/auditwheel/issues/349
+>
+> also see how it is fixed in python3-pydantic-core on meta-python
+>
+> https://git.openembedded.org/meta-openembedded/tree/meta-python/recipes-d=
+evtools/python/python3-pydantic-core_2.16.3.bb#n38
+>
+> Hopefully musllinux ABI tag will be sorted in pypa and this will work
+> better
+> however, we also need to see how we are encoding OSABI in python builds
+>
+> e.g. on qemux86-64 musl target I get
+>
+> root@qemux86-64:~# python3
+> Python 3.12.3 (main, Apr  9 2024, 08:09:14) [Clang 19.0.0
+> (/home/kraj/work/llvm-project 4152c5f5ae88d8d5fe99d20b525b35f14db2 on
+> linux
+> Type "help", "copyright", "credits" or "license" for more information.
+> >>> import sysconfig
+> >>> sysconfig.get_config_var('SOABI')
+> 'cpython-312-x86_64-linux-gnu'
+>
+> >
+> > Also, there is not even a comment above saying why we need to do this.
+> >
+>
+> I added the log showing how it does not work, I thought that is showing h=
+ow
+> it's not working at all when using musl. If you have better idea what I
+> should
+> add to commit msg to make it better, let me know I will send a v2.
+>
+> > Cheers,
+> >
+> > Richard
+>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#200079): https://lists.openembedded.org/g/openembed=
-ded-core/message/200079
-> Mute This Topic: https://lists.openembedded.org/mt/106408578/3616948
+> View/Reply Online (#200275):
+> https://lists.openembedded.org/g/openembedded-core/message/200275
+> Mute This Topic: https://lists.openembedded.org/mt/106465307/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>
+>
+
+--000000000000062abf061a01c6de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">I agree with RP, please get to the source of the mismatch=
+. It=E2=80=99s a really unpleasant workaround.</div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Mon 3. Jun 2024 at 20.49, Khem Raj via <=
+a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;raj=
+.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists=
+.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On Mon, Jun 3, 2=
+024 at 9:35=E2=80=AFAM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Mon, 2024-06-03 at 09:25 -0700, Khem Raj via <a href=3D"http://list=
+s.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded=
+.org</a><br>
+&gt; wrote:<br>
+&gt; &gt; loader expects it to be called with &#39;linux-gnu&#39; e.g<br>
+&gt; &gt; <a href=3D"http://rpds.cpython-312-x86_64-linux-musl.so" rel=3D"n=
+oreferrer" target=3D"_blank">rpds.cpython-312-x86_64-linux-musl.so</a> is c=
+reated with musl<br>
+&gt; &gt; but loader expects it to called <a href=3D"http://rpds.cpython-31=
+2-x86_64-linux-gnu.so" rel=3D"noreferrer" target=3D"_blank">rpds.cpython-31=
+2-x86_64-linux-gnu.so</a><br>
+&gt; &gt;<br>
+&gt; &gt; Lets create the symlink to please the loader.<br>
+&gt; &gt;<br>
+&gt; &gt; Fixes<br>
+&gt; &gt; ImportError while importing test module &#39;/usr/lib/python3-rpd=
+s-<br>
+&gt; &gt; py/ptest/tests/test_hash_trie_map.py&#39;.<br>
+&gt; &gt; Hint: make sure your test modules/packages have valid Python name=
+s.<br>
+&gt; &gt; Traceback:<br>
+&gt; &gt; ../../python3.12/importlib/__init__.py:90: in import_module<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0return _bootstrap._gcd_import(name[level:], pa=
+ckage, level)<br>
+&gt; &gt; tests/test_hash_trie_map.py:36: in &lt;module&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0from rpds import HashTrieMap<br>
+&gt; &gt; ../../python3.12/site-packages/rpds/__init__.py:1: in &lt;module&=
+gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0from .rpds import *<br>
+&gt; &gt; E=C2=A0 =C2=A0ModuleNotFoundError: No module named &#39;rpds.rpds=
+&#39;<br>
+&gt; &gt; ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py<br=
+>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
+ target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 .../recipes-devtools/python/<a href=3D"http://python3-rpds-=
+py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.b=
+b</a> | 11<br>
+&gt; &gt; +++++++++++<br>
+&gt; &gt;=C2=A0 1 file changed, 11 insertions(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://pytho=
+n3-rpds-py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_=
+0.18.1.bb</a><br>
+&gt; &gt; b/meta/recipes-devtools/python/<a href=3D"http://python3-rpds-py_=
+0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.bb</=
+a><br>
+&gt; &gt; index f46df1115c8..b1f0e100332 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-rpds=
+-py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.=
+bb</a><br>
+&gt; &gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-rpds=
+-py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.=
+bb</a><br>
+&gt; &gt; @@ -27,4 +27,15 @@ do_install_ptest() {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/<=
+br>
+&gt; &gt;=C2=A0 }<br>
+&gt; &gt;<br>
+&gt; &gt; +do_install:append() {<br>
+&gt; &gt; +=C2=A0 =C2=A0 for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds=
+.cpython*.so<br>
+&gt; &gt; +=C2=A0 =C2=A0 do<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fname=3D`basename $f`<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 lname=3D`echo $fname | sed &#39;s/mu=
+sl/gnu/&#39;`<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;$fname&quot; !=3D &quot;$=
+lname&quot; ]; then<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv $f ${D}/${PYTHON_SI=
+TEPACKAGES_DIR}/rpds/$lname<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; &gt; +=C2=A0 =C2=A0 done<br>
+&gt; &gt; +}<br>
+&gt; &gt; +<br>
+&gt; &gt;=C2=A0 BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; This feels like the kind of workaround that will live forever. Can we<=
+br>
+&gt; not fix the loader to use the right name?<br>
+<br>
+OE&#39;s python interpreter is cross-built and we end up using OSABI which<=
+br>
+is detected during build &#39;linux-gnu&#39;, this seems to work fine for m=
+ost of<br>
+python modules since they get the OSABI from the sysconfigdata so it<br>
+all works even though the OSABI is called linux-gnu, however some modules<b=
+r>
+like this one which are using maturin to build, seems to get the OSABI<br>
+equivalent differently, I am no expert on maturin but maybe someone knows<b=
+r>
+how it happens. This problem is seen with several python modules built with=
+<br>
+OE,=C2=A0 see<br>
+<br>
+<a href=3D"https://github.com/meta-homeassistant/meta-homeassistant/issues/=
+89" rel=3D"noreferrer" target=3D"_blank">https://github.com/meta-homeassist=
+ant/meta-homeassistant/issues/89</a><br>
+<a href=3D"https://github.com/pypa/auditwheel/issues/349" rel=3D"noreferrer=
+" target=3D"_blank">https://github.com/pypa/auditwheel/issues/349</a><br>
+<br>
+also see how it is fixed in python3-pydantic-core on meta-python<br>
+<a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta-python/=
+recipes-devtools/python/python3-pydantic-core_2.16.3.bb#n38" rel=3D"norefer=
+rer" target=3D"_blank">https://git.openembedded.org/meta-openembedded/tree/=
+meta-python/recipes-devtools/python/python3-pydantic-core_2.16.3.bb#n38</a>=
+<br>
+<br>
+Hopefully musllinux ABI tag will be sorted in pypa and this will work bette=
+r<br>
+however, we also need to see how we are encoding OSABI in python builds<br>
+<br>
+e.g. on qemux86-64 musl target I get<br>
+<br>
+root@qemux86-64:~# python3<br>
+Python 3.12.3 (main, Apr=C2=A0 9 2024, 08:09:14) [Clang 19.0.0<br>
+(/home/kraj/work/llvm-project 4152c5f5ae88d8d5fe99d20b525b35f14db2 on<br>
+linux<br>
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;=
+license&quot; for more information.<br>
+&gt;&gt;&gt; import sysconfig<br>
+&gt;&gt;&gt; sysconfig.get_config_var(&#39;SOABI&#39;)<br>
+&#39;cpython-312-x86_64-linux-gnu&#39;<br>
+<br>
+&gt;<br>
+&gt; Also, there is not even a comment above saying why we need to do this.=
+<br>
+&gt;<br>
+<br>
+I added the log showing how it does not work, I thought that is showing how=
+<br>
+it&#39;s not working at all when using musl. If you have better idea what I=
+ should<br>
+add to commit msg to make it better, let me know I will send a v2.<br>
+<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#200275): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/200275" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/200275</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106465307/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/106465307/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000062abf061a01c6de--
 
