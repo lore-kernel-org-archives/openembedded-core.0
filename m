@@ -1,253 +1,302 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86970C25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 10:33:26 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.80134.1717410796456326134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4F4C25B76
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 11:35:26 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.81089.1717414522296343154
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 03:33:16 -0700
+ Mon, 03 Jun 2024 04:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6884730cad=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4535FSUG011273
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 03:33:16 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2047.outbound.protection.outlook.com [104.47.55.47])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yg35f1ck5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 03:33:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LAuHOmzdVb83OhDqO5KxicS6nkJEBcRnHo5HFp81PgjnIpGe4uMHtvEJnu+cQ1nkc5fKPi2TpKFeMO9IvMre6atDcmJMqxZomhwRIOdPnbZ83bD4TnDNQEv8gOIpPk++Nh8TuRjUfBafy04y5Bk9TdIUjilg7YMJspxMVQJBTcI2nxIz2sjL73uuL1jUbIzMzq3mnCXWRpwUURDLf6VYETfrgc81BBHOJPtTB6rFXBpwXfyY7/goojgILjpyXmjd+esNkFrE/r554TFPPPHyUZYtxiUM3KR1D5R5nD5cX4oL6qeUKYg7Fi1nQx/tJ7GG8atFEkjwPPJx0IGOTY5gkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rR6rtHFNn3ry0LXCmbvaZ6uR9w9xg/amQ8eu6mAKxYk=;
- b=nm07aECS+YJRZyU8ErGxlDgqEM2nXqQrryab+hL0kwqq7YfHZDOX7JWaFPsDogq2DzYFVCTStamaVcNkfCK3aIMA+wX4Idv4rYXvJHrrkQpPVwuVMqDQfnrIjEy2aNz7Ulf/cw3mNOjCJFJSJ3xgajFWRZctDvkLTgvu0BiTmJy5+VwJuQfrglDlbfMkzribrW+PPJEieMm9M9zbKo9yvBG6gIVmqfEYHIxaCsABcL60TuZNhMZ99A1AYhxsBmyInU9OeCMveGZzOhZnrQ250vvkeKUgcW6q5cV9dOxCOlD4JL6htoE63bUgwvH7gCT4RuJibmT+TQR4f5vmjmpsHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10)
- by CY8PR11MB7033.namprd11.prod.outlook.com (2603:10b6:930:53::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.33; Mon, 3 Jun
- 2024 10:33:12 +0000
-Received: from DS0PR11MB7484.namprd11.prod.outlook.com
- ([fe80::4e72:f734:5886:b658]) by DS0PR11MB7484.namprd11.prod.outlook.com
- ([fe80::4e72:f734:5886:b658%7]) with mapi id 15.20.7633.021; Mon, 3 Jun 2024
- 10:33:12 +0000
-From: Yi Zhao <yi.zhao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libcap: upgrade 2.69 -> 2.70
-Date: Mon,  3 Jun 2024 18:32:59 +0800
-Message-Id: <20240603103300.1626507-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0113.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::17) To DS0PR11MB7484.namprd11.prod.outlook.com
- (2603:10b6:8:14c::10)
+ dkim=pass header.i=@snap.com header.s=google header.b=M57ygSvX;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.41, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a68ca4d6545so259364566b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 04:35:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1717414521; x=1718019321; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w3eQr6NamX8J80Vcba5OcLY1Lbds2aLgX0uhTz3p5ww=;
+        b=M57ygSvX8Auplg1yRlJo8qVxSdBsg6ij/XbUjiYOF45hIhFfnsSa4p3ZihkkrpHSa/
+         bMlMYv4FlCn28yRGWud/s8l4q9fmrYfkFW904rYFuSswryI32DyPkA8zr7QMlYEre0tB
+         lZGB9Z0CUPgcIlHzJG0E26qZCEjb7Ss3j7L3s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717414521; x=1718019321;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w3eQr6NamX8J80Vcba5OcLY1Lbds2aLgX0uhTz3p5ww=;
+        b=fXVW1n4ZXToCldXyXJZSrs9hz3VcluQ0XY2MiXZhkZHHp+fdpi+YMEmhXACcrQ32ME
+         wwaeladA6h8GCA0x5qCzfbHpA2RlU/GGCjwVYNuapIRAPDY9eEgwAH7KIyBr7B4EKtQS
+         1Yte+LN0IJvOMcJAxpFzjRzo4YiLR2mL40O1ARw50twiivxg4TXinvFu23GiaqGMLylS
+         L2ZY7klPOTYN+XZnkoKOBl+2/FMktfdlL+ooM5wsAslXbKTeVqsNEP3q8oywZZg51tt7
+         ruCbMZwzQz1LRNNND1PYFNOi1rbsSJeWLOFkKn9M9snxaiMnMk7J1nzmgA6BtDLpC8gc
+         Nx1A==
+X-Forwarded-Encrypted: i=1; AJvYcCW0i4QLOkMJD4h+1mSiVjz+1AldmqVyypN/q47NIjILhKetq+DP9a+q+kdSfmAErMjmOeTsuNnU/3DVdCkefcKj95kGXh8gvk/aY+O3jDwW7UrElbe7bW/2
+X-Gm-Message-State: AOJu0YzFCeiycpV4hCYlgnA6Xh4jNBonZHZIJhBWnmEGQPLbxbxe5MPV
+	cvp1uDg4Vpx2obuG6Gbe1rN2VoEG8g/mcTwTkD+291vrBywfvrO6u4+GGex1lPwxW2qk8vi7osk
+	UToLtwMcVTa1/6JDl/BAhkE+EtK+5Y8Kjt1HZeA==
+X-Google-Smtp-Source: AGHT+IHuqqBYSM+1O6i+O7/GmMOT9iGt9qGFRLBFzYeW9x75OIEEcgLyETCfd8fFmfB2h3Q5JHY1ppocYGYZuixatUU=
+X-Received: by 2002:a17:907:869e:b0:a68:c70b:5555 with SMTP id
+ a640c23a62f3a-a68c70b565amr479524466b.17.1717414520546; Mon, 03 Jun 2024
+ 04:35:20 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7484:EE_|CY8PR11MB7033:EE_
-X-MS-Office365-Filtering-Correlation-Id: b20578b6-f3ec-4447-6488-08dc83b891a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|376005|366007|1800799015|52116005|38350700005;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?X5H621+3Upx0Bf0gGFx/JjDbo0l2N6Oz/eRQZUXaGquNcENfE0z4XkZGYlym?=
- =?us-ascii?Q?uZ1omNjB1UbAoNKyePx/O+gCLm6jpMY2UKub8S/XlsSpiRkzlJlaEQ1wYr1q?=
- =?us-ascii?Q?pnmpRRLqF0WrWffk+vNLfOdr0PmidS9RvKp2q73qmiqob+DmezU1sj+06jAO?=
- =?us-ascii?Q?4g8uSXTBQdQ0iABYfwAok6kdbFzqwvBLgJiw54Cff56/tlFkm2LIFt8g9U81?=
- =?us-ascii?Q?t0Kq4YLDgRD02LUIg5k+q3L9AlK/X29xnNwGRtnhcK33bUfS7mY4hcd3wA5C?=
- =?us-ascii?Q?O/toXvXivAalRiGg2B3lc9sW+CDz+MGRZPQMw/lL5O1S3M1qjINMt9NZTPOo?=
- =?us-ascii?Q?Yf3dCf7Hr5Oi6AJSkCz58s8QP1U8JN7Va2cmHFE9qpT+S2geR/jlcQCdxUtx?=
- =?us-ascii?Q?SLqsA63iFs+lcrqvAPto3mjZPektA7wEveyLeREZ+lAxhlHqSXkrLxfLFTwD?=
- =?us-ascii?Q?jLuZjrt5jn2m+Pb955qYIW7rHdqB7Clp390JOy5iKbyg8lOOLmx9bcg57RBP?=
- =?us-ascii?Q?40awUwASDjglnVoMpoSH+kevSfz0I51j0yHoUj99TU1TZqMun46xx7R/FrXo?=
- =?us-ascii?Q?QWK4HSQc7nE03eXO/TkAiS+ycRUzm4heHzC/aKtXnvXMPNF2jPfvGLMmV+gr?=
- =?us-ascii?Q?RIhgz1oX837g2vQ2VvpNRyBhMGe7W3wfmEfNDGdbR18pT2rx2C5mS3Q8WPpB?=
- =?us-ascii?Q?jPc23sLqMSkzgS9FHMuf73f+swLhQEjF0hqZ7APG5XqDUihPal/R5MFgqrfx?=
- =?us-ascii?Q?kL2e5dZflOuJcgjBs9TEdLjQnKybPqWTDjwR0kxrhsLcaOqJGfGzbT81X3aZ?=
- =?us-ascii?Q?jYpJ3Z+P+KaZQEyvEkJA0vKh6qhi7fW5ty1mPq4q8yaF7ByUvvyRyTtrWqyG?=
- =?us-ascii?Q?Y0X9Z5iK5GSLr334KI1ncyGd2u6ZsvfxNwH+uHGWpqHX40tUNiVcC+UJsVKq?=
- =?us-ascii?Q?ByamEAtqaKHYcL3Bg+flnoB/vUszS+ejJm7S31+Mqg5HuM+NlxxCaOATt3eV?=
- =?us-ascii?Q?bjSVxqMFE3i7V20E3JKP+Rr2yIKivCoiwjQc/pziBqQDdjQG9M3o2gE2Dt8L?=
- =?us-ascii?Q?9pvfHS4hITMKDd6ckSGyUANPKm6vHZ2B2HUdHgzlC+4WTyZxRsUIqxcSH1na?=
- =?us-ascii?Q?ew1k1OZk4KNgNUn9Ccw5ek388msJVhgmGX7pGO7xFCtUyLgP7V2mtx33ej2U?=
- =?us-ascii?Q?Yex/GG5NwRDGNcoY5LhHkeGw24ry4EHiwjjXq0BusIcxsYDlZEMT1UK8DxVw?=
- =?us-ascii?Q?D1jo+7Mw+I/lnJhP6QG+BWp8G0Dz+Z6y3VHtVvbC6Vo7jChetEaAhRMYxyqp?=
- =?us-ascii?Q?IoHonNxblHuov5fcmxleOOaEGEc892ahkZlJBsIiUW3ptw=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7484.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?L1L33jPyUj+M2LxTPQbL6A3ikRFMZrDASgw/d6pjP0tla4VSYld7rgTBhYNI?=
- =?us-ascii?Q?oCWJq7M8UUaOEjKokok1jtkQVMIKsGf9eecf4mnEURi2/pV9lu2trNnuHrNH?=
- =?us-ascii?Q?0RPpC8M8SmQJh6sko9z6JeQSUHEeJoYWNml/EW7M2JLrekPlF/S+yeDWrA+e?=
- =?us-ascii?Q?Bb+ofE1Je03ACKhS9Kzd8CcyTYIUvR7cHj1Ch7CBIRHhDxT3PwVUUh+ekmMj?=
- =?us-ascii?Q?8Joa+tIKWgqmmBZKLICNh0ETn+N4RI7KdYAJpnlusrM9vipnZryhg4OP3KGf?=
- =?us-ascii?Q?wdhytvXTCIewZAExGyu402VLfLz0Iw6kimlhdgXIN6l+Hj7MWGJUUCLO6rEr?=
- =?us-ascii?Q?j99QhdI/vz8a559GmznTJFH5EFGWEajoLKgZOlKYmddSMJqd7v7C0YSGa8/4?=
- =?us-ascii?Q?1kWwMzvF31sgSTZS98ciclzN47gA5J+tHxixr1mJUr7C8mc8TroXIPTXbwCp?=
- =?us-ascii?Q?XcT38QTwxx3JP14MFt01asTnrMH5NUV/fyH0z2DnXj4Cr7qxZtvWnqXp+7vD?=
- =?us-ascii?Q?n5O/9KQOoofbEXol3FXfP0pa+jttvzSuLD+mtAY+hNOrESyFdu2O0QgQWrlm?=
- =?us-ascii?Q?mOO7P9RPQk3BMeXp6xXfEu0DEg0s/TJ2qtUTvvrZrPSXRdBvpYpI1S61qwgP?=
- =?us-ascii?Q?k9Vscj6QLDS8XejAtFFIOyfy9qJQQEOG27k6Nj6wIsjnSDKlHJ4/Rre4TEg1?=
- =?us-ascii?Q?iEPMxh1yD8WbMT7f779si4dF1leu0tVrqOjNa9jhCgDR1LOLqsYq3RaJxSrL?=
- =?us-ascii?Q?cgZm4j3hVadiSn0lw5WMwMV7hK4PuctYm7iGyOr4uvCFFszl+llKKRiFvc/3?=
- =?us-ascii?Q?0lopvd4oAHqj5KUVk8X469ObZ+HTCn6SPbUjsRCce4rmujCdQXkhKSnn2nWj?=
- =?us-ascii?Q?VDcL54SKdAZ5FUVfKqKIqgqwWGLx0JFwsDbpO3YSxOhSwxw5FKtM/H+lYTjK?=
- =?us-ascii?Q?nSqe3n/EHP2MhlSYr7UpIh8xIxA7C3G/8qGSP61qtS8JQm55goi+6rdN99Ms?=
- =?us-ascii?Q?6oAqUKiMfZqqtTiOfR3O9CDw7k4wCFyPQjXSHjc4kUIlvuLZivMBvpj1S9V1?=
- =?us-ascii?Q?+iBjkQPqPjpajHYWoSAvnqw86ivGpiUDLR/QKL5h8YI6tayC26iAmzFVpWLP?=
- =?us-ascii?Q?CXPhkZpHv2jUz+zxU6gnPnAc0oeMBH2yez4hlT+Tdlp6FlZfP1q1uwd5g1Rx?=
- =?us-ascii?Q?3ah6tTguDxSVmxyx5E16hbnbezEE/eZqq1VeTrQj6IitQx7ZRrgDyQXfESFo?=
- =?us-ascii?Q?wKTUmAksbOxSLfuW9kAYf9Uw6QwKif/xAGOeeWQ8K5cwyy7cffvgKjbNvBwl?=
- =?us-ascii?Q?C8YE1YQnoUCceumhnxsbzaC+Zdqqcr1ad/qqCk9VAzvYHaGMhgh5IRF2IEa0?=
- =?us-ascii?Q?Z2Q6dZqvXRuZ1L8f1tdZ4ls3o3wwSK3g5SfW2gxhzod9IkAc3wUarIKMUnlc?=
- =?us-ascii?Q?Cp3duUXTf3C+m5S/b+hoy8+EtCX4VfvQFElJYk5dhrJL/MEdJCptkfdwkseb?=
- =?us-ascii?Q?VZ496dkoq/T1J6ABtqQNODXtrj4WKtRQ5FCNBLPy9+GqxaJ3Q65fCU2wQvZV?=
- =?us-ascii?Q?O81uJWmOyxQU98+EGQ/i3ZIFOFQ7vxQHweWxWjxZ?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b20578b6-f3ec-4447-6488-08dc83b891a5
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7484.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 10:33:12.2114
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c87rx3BkInzA5S13fWzx2zBJutusBcgBL9Ihud4fhlVk3qYcKAJ+LMUPz/pOXZzhaeYK7PM1qteSSIUVu49BUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7033
-X-Proofpoint-GUID: kfuXMe8OdAVspWJi-FjSadCgTVbuB0sd
-X-Proofpoint-ORIG-GUID: kfuXMe8OdAVspWJi-FjSadCgTVbuB0sd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_06,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 mlxscore=0 phishscore=0
- clxscore=1015 malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2406030088
+References: <20240529100853.1162640-1-ecordonnier@snap.com>
+ <80be0806edba87cb67f7f5711fb9c83516fb860d.camel@linuxfoundation.org> <17D44D900E0F42D1.15404@lists.openembedded.org>
+In-Reply-To: <17D44D900E0F42D1.15404@lists.openembedded.org>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Mon, 3 Jun 2024 13:35:09 +0200
+Message-ID: <CAHUKmYY53BOSRdFvxwsTeDOXfurLbvJ9yS6by-K4mR1OshvFRg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oeqa/runtime: fix regression in minidebuginfo test
+To: ecordonnier@snap.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006e18a50619fabaf5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 10:33:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200244
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 11:35:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200246
 
-Release notes for 2.70
-* setcap changes to make it harder to set invalid file capabilities
-* Lots of documentation fixes
-* Fix c89 compilation syntax for the C code in the libraries
-* libpam has deprecated providing the _pam_overwrite() function, so use
-  memset() instead
+--0000000000006e18a50619fabaf5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...ATTR_NAME_CAPS-is-defined-when-it-is-use.patch | 15 +++++++++------
- ...bcap-Raise-the-size-of-arrays-containing.patch |  5 ++---
- ...0002-tests-do-not-run-target-executables.patch |  3 +--
- .../libcap/{libcap_2.69.bb => libcap_2.70.bb}     |  2 +-
- 4 files changed, 13 insertions(+), 12 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.69.bb => libcap_2.70.bb} (96%)
+Hi Richard,
+thanks for merging the v2 of this patch. Is this test running in CI
+currently? I'm thinking I could send a PR to enable minidebuginfo in
+poky-altcfg, but is there a way I can verify that this test works in
+yocto's CI? (it works locally, but as I mentioned it would fail on a kernel
+with CONFIG_USER_NS disabled.)
 
-diff --git a/meta/recipes-support/libcap/files/0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch b/meta/recipes-support/libcap/files/0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch
-index 05c771ac10..e77d0c8c51 100644
---- a/meta/recipes-support/libcap/files/0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch
-+++ b/meta/recipes-support/libcap/files/0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch
-@@ -1,4 +1,10 @@
--Ensure the XATTR_NAME_CAPS is defined when it is used
-+From 2261f47bac78aa77934ca03980ed54d1d86116b9 Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Thu, 23 Jun 2016 16:26:43 +0800
-+Subject: [PATCH] Ensure the XATTR_NAME_CAPS is defined when it is used
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
- 
- Upstream-Status: Pending
- 
-@@ -15,10 +21,10 @@ Signed-off-by: Roy Li <rongqing.li@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/libcap/cap_file.c b/libcap/cap_file.c
--index 40756ea..e27ca80 100644
-+index 0bc07f7..37bc34e 100644
- --- a/libcap/cap_file.c
- +++ b/libcap/cap_file.c
--@@ -25,7 +25,7 @@ extern int fremovexattr(int, const char *);
-+@@ -44,7 +44,7 @@ extern int fremovexattr(int, const char *);
-  
-  #include "libcap.h"
-  
-@@ -27,6 +33,3 @@ index 40756ea..e27ca80 100644
-  
-  #if VFS_CAP_U32 != __CAP_BLKS
-  # error VFS representation of capabilities is not the same size as kernel
---- 
--2.8.1
--
-diff --git a/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch b/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-index 2ac1e6e560..ecbdd22099 100644
---- a/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-+++ b/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-@@ -1,4 +1,4 @@
--From 709aa8e156415215b0bb034d05b2aa2f44be044e Mon Sep 17 00:00:00 2001
-+From fcb0166c5e991fcf62797b19bea39983214289cb Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Thu, 14 Oct 2021 15:57:36 +0800
- Subject: [PATCH] nativesdk-libcap: Raise the size of arrays containing dl
-@@ -14,13 +14,12 @@ the strings in a certain path.
- Upstream-Status: Inappropriate [SDK specific]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  libcap/execable.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/libcap/execable.h b/libcap/execable.h
--index fee17b4..5bb0c55 100644
-+index 7a2d247..682e0ee 100644
- --- a/libcap/execable.h
- +++ b/libcap/execable.h
- @@ -23,7 +23,7 @@
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-index 20346cf2fb..31f27e914f 100644
---- a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -1,11 +1,10 @@
--From 10212b6d4e8843feffbeab5336342d97f3a46bb2 Mon Sep 17 00:00:00 2001
-+From a3368b38abfb703e730fc5462f42cc5d177d864d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 20 Dec 2019 16:54:05 +0100
- Subject: [PATCH] tests: do not run target executables
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  tests/Makefile | 2 --
-  1 file changed, 2 deletions(-)
-diff --git a/meta/recipes-support/libcap/libcap_2.69.bb b/meta/recipes-support/libcap/libcap_2.70.bb
-similarity index 96%
-rename from meta/recipes-support/libcap/libcap_2.69.bb
-rename to meta/recipes-support/libcap/libcap_2.70.bb
-index 92fa766d37..6e2fd728e2 100644
---- a/meta/recipes-support/libcap/libcap_2.69.bb
-+++ b/meta/recipes-support/libcap/libcap_2.70.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
-            "
--SRC_URI[sha256sum] = "f311f8f3dad84699d0566d1d6f7ec943a9298b28f714cae3c931dfd57492d7eb"
-+SRC_URI[sha256sum] = "23a6ef8aadaf1e3e875f633bb2d116cfef8952dba7bc7c569b13458e1952b30f"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
- 
--- 
-2.25.1
+=C3=89tienne
 
+
+On Thu, May 30, 2024 at 5:24=E2=80=AFPM Etienne Cordonnier via
+lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org> wrot=
+e:
+
+> Hi Richard,
+> I thought it was OK because systemd requires usrmerge, but I've sent a ne=
+w
+> version of the patch using "env sleep" instead of "/usr/bin/sleep" in ord=
+er
+> to be safe. I hope this also fixes the test failure which was happening o=
+n
+> CI.
+> One reason this could be failing in CI is that this functionality
+> currently requires user-namespaces enabled in the kernel (e.g.
+> core-image-sato does have CONFIG_USER_NS, thus it works with this image).
+> This is not really by design, and I'm working on changing this in the
+> upstream systemd: https://github.com/systemd/systemd/pull/33043 . I can
+> then backport this on scarthgap if the change is merged upstream.
+>
+> =C3=89tienne
+>
+> On Wed, May 29, 2024 at 4:54=E2=80=AFPM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>
+>> On Wed, 2024-05-29 at 12:08 +0200, Etienne Cordonnier via
+>> lists.openembedded.org
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembedde=
+d.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNo=
+nVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpMdB=
+OTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&s=3DjZOAoPx0ETGk3PoW9Wmzdl9wuDwTZtC_WxYX7O3=
+EPFY&e=3D>
+>> wrote:
+>> > From: Etienne Cordonnier <ecordonnier@snap.com>
+>> >
+>> > The builtin command "sleep" was getting executed instead of the busybo=
+x
+>> binary.
+>> > Hence "pidof sleep" was empty and the test was failing.
+>> >
+>> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>> > ---
+>> >  meta/lib/oeqa/runtime/cases/systemd.py | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/lib/oeqa/runtime/cases/systemd.py
+>> b/meta/lib/oeqa/runtime/cases/systemd.py
+>> > index 5481e1d840..a2229848e7 100644
+>> > --- a/meta/lib/oeqa/runtime/cases/systemd.py
+>> > +++ b/meta/lib/oeqa/runtime/cases/systemd.py
+>> > @@ -145,7 +145,7 @@ class SystemdServiceTests(SystemdTest):
+>> >          Verify that call-stacks generated by systemd-coredump contain
+>> symbolicated call-stacks,
+>> >          extracted from the minidebuginfo metadata (.gnu_debugdata elf
+>> section).
+>> >          """
+>> > -        t_thread =3D threading.Thread(target=3Dself.target.run,
+>> args=3D("ulimit -c unlimited && sleep 1000",))
+>> > +        t_thread =3D threading.Thread(target=3Dself.target.run,
+>> args=3D("ulimit -c unlimited && /usr/bin/sleep 1000",))
+>> >          t_thread.start()
+>> >          time.sleep(1)
+>>
+>> I get a bit nervous about hardcoding paths like "/usr/bin",
+>> particularly in the context of some distros liking to move things
+>> around. We may want to put a shutil.which("sleep") call in instead (and
+>> an import shutil if needed)?
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200026):
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_message_200026&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
+pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
+=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&s=3DEhl=
+pO7VCVBhijcCMY2T86qar5UZZTaUidFKXQTXXBXA&e=3D
+> Mute This Topic:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_mt_106365956_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
+2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Dqu0Injv6pHxfa=
+5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&s=3Dv89AFdBy-BUex49TuXq=
+DiEFkidJxP27psNJVdVXrgCM&e=3D
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
+bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Dqu0Inj=
+v6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&s=3DvCbKyJLrNTiy=
+VgVTio-Tl9XdO6erBWJiypaEgcrkqX8&e=3D
+> [ecordonnier@snap.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000006e18a50619fabaf5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Richard,<br>thanks for merging the v2 of this patch. Is=
+ this test running in CI currently? I&#39;m thinking I could send a PR to e=
+nable minidebuginfo in poky-altcfg, but is there a way I can verify that th=
+is test works in yocto&#39;s=C2=A0CI? (it works locally, but as I mentioned=
+ it would fail on a kernel with CONFIG_USER_NS disabled.)<br><br>=C3=89tien=
+ne<br><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Thu, May 30, 2024 at 5:24=E2=80=AFPM Etienne Cordonnier via <a=
+ href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ecor=
+donnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org">snap.com@lists=
+.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><div dir=3D"ltr">Hi Richard,<br>I thought it was OK becaus=
+e systemd requires usrmerge, but I&#39;ve sent a new version of the patch u=
+sing &quot;env sleep&quot; instead of &quot;/usr/bin/sleep&quot; in order t=
+o be safe. I hope this also fixes the test failure which was happening on C=
+I.<br>One reason this could be failing in CI is that this functionality cur=
+rently requires user-namespaces enabled in the kernel (e.g. core-image-sato=
+ does have CONFIG_USER_NS, thus it works with this image). This is not real=
+ly by design, and I&#39;m working on changing this in the upstream systemd:=
+=C2=A0<a href=3D"https://github.com/systemd/systemd/pull/33043" target=3D"_=
+blank">https://github.com/systemd/systemd/pull/33043</a> . I can then backp=
+ort this on scarthgap=C2=A0if the change is merged upstream.<br><br>=C3=89t=
+ienne</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Wed, May 29, 2024 at 4:54=E2=80=AFPM Richard Purdie &lt;<a href=3D"=
+mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Wed, 2024-05-29 at 12:08 +0200, Etienne Cordonnier v=
+ia <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.o=
+penembedded.org&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2e=
+pckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv=
+6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&amp;s=3DjZOAoPx0E=
+TGk3PoW9Wmzdl9wuDwTZtC_WxYX7O3EPFY&amp;e=3D" rel=3D"noreferrer" target=3D"_=
+blank">lists.openembedded.org</a> wrote:<br>
+&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
+arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt; <br>
+&gt; The builtin command &quot;sleep&quot; was getting executed instead of =
+the busybox binary.<br>
+&gt; Hence &quot;pidof sleep&quot; was empty and the test was failing.<br>
+&gt; <br>
+&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
+ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/lib/oeqa/runtime/cases/systemd.py | 2 +-<br>
+&gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/ru=
+ntime/cases/systemd.py<br>
+&gt; index 5481e1d840..a2229848e7 100644<br>
+&gt; --- a/meta/lib/oeqa/runtime/cases/systemd.py<br>
+&gt; +++ b/meta/lib/oeqa/runtime/cases/systemd.py<br>
+&gt; @@ -145,7 +145,7 @@ class SystemdServiceTests(SystemdTest):<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Verify that call-stac=
+ks generated by systemd-coredump contain symbolicated call-stacks,<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 extracted from the mi=
+nidebuginfo metadata (.gnu_debugdata elf section).<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;&quot;&quot;<br=
+>
+&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 t_thread =3D threading.Thr=
+ead(target=3Dself.target.run, args=3D(&quot;ulimit -c unlimited &amp;&amp; =
+sleep 1000&quot;,))<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 t_thread =3D threading.Thr=
+ead(target=3Dself.target.run, args=3D(&quot;ulimit -c unlimited &amp;&amp; =
+/usr/bin/sleep 1000&quot;,))<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 t_thread.start()<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 time.sleep(1)<br>
+<br>
+I get a bit nervous about hardcoding paths like &quot;/usr/bin&quot;,<br>
+particularly in the context of some distros liking to move things<br>
+around. We may want to put a shutil.which(&quot;sleep&quot;) call in instea=
+d (and<br>
+an import shutil if needed)?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#200026): <a href=3D"https://urldefense.proofpoint.com/v=
+2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_20=
+0026&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
+;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv6pHxfa5BgL3=
+x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&amp;s=3DEhlpO7VCVBhijcCMY2T8=
+6qar5UZZTaUidFKXQTXXBXA&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
+s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
+_openembedded-2Dcore_message_200026&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
+0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
+m67E&amp;m=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6=
+c-&amp;s=3DEhlpO7VCVBhijcCMY2T86qar5UZZTaUidFKXQTXXBXA&amp;e=3D</a> <br>
+Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
+tps-3A__lists.openembedded.org_mt_106365956_7048771&amp;d=3DDwIFaQ&amp;c=3D=
+ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsR=
+ih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLaFlx=
+Roh9vy7WMU3VU2o6c-&amp;s=3Dv89AFdBy-BUex49TuXqDiEFkidJxP27psNJVdVXrgCM&amp;=
+e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.co=
+m/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_106365956_7048771&amp;d=3D=
+DwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpM=
+dBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&amp;s=3Dv89AFdBy-BUex49TuXqDiEFkidJxP27ps=
+NJVdVXrgCM&amp;e=3D</a> <br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
+3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
+=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
+TsRih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv6pHxfa5BgL3x29y11Al_3EpMdBOTkj8cWHLa=
+FlxRoh9vy7WMU3VU2o6c-&amp;s=3DvCbKyJLrNTiyVgVTio-Tl9XdO6erBWJiypaEgcrkqX8&a=
+mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
+.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
+b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Dqu0Injv6pHxfa5BgL3x2=
+9y11Al_3EpMdBOTkj8cWHLaFlxRoh9vy7WMU3VU2o6c-&amp;s=3DvCbKyJLrNTiyVgVTio-Tl9=
+XdO6erBWJiypaEgcrkqX8&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
+p.com" target=3D"_blank">ecordonnier@snap.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000006e18a50619fabaf5--
 
