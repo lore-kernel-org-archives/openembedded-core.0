@@ -2,58 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB014C25B76
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 14:08:27 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.84361.1717423697181649683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0550C25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 14:11:07 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.84435.1717423859661999355
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 07:08:17 -0700
+ Mon, 03 Jun 2024 07:11:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A94RAi+m;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52b87e8ba1eso4296159e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 07:08:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iIF+ppuO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35dca73095aso3662639f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 07:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717423695; x=1718028495; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1717423858; x=1718028658; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OGqAuNouwc9HWDYHt+T55D/eOdLbAhwxByGvinmhFlM=;
-        b=A94RAi+muYra0BpgLPEAHohzsSiKHX/SEEqybPwZw4a6bI9rkq4+JBDb8O1o/hOn0I
-         IZMyT2tGoCJTT1bllvEDrzsPRlpl9emoJ3GTFhX7ZC8mw8Q2XJ1D28Vr4bpmmg9DOUz9
-         OXCHnTk/9+PK39iFyzLzd/LY1q/Bg57My+knU=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S4c2b7MtV8ZEN+3RWHx/XHdbFKgqPZ+seMuFXrehnX8=;
+        b=iIF+ppuOAr6mGGSN1tZMLTlYVFALe2CL7t2jQdR9tpUREuCF81lc1UdFueX7uLN2mz
+         phwob1AlbXQyUP2twxrFFD6STMONIJvum1FJX5oXK+xIfsCR1/igmS8EGRKfw2E5h0HZ
+         r9Tt5iuyOZq6WKaVOVs483MqkJEqvHvDd3kM4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717423695; x=1718028495;
+        d=1e100.net; s=20230601; t=1717423858; x=1718028658;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OGqAuNouwc9HWDYHt+T55D/eOdLbAhwxByGvinmhFlM=;
-        b=HAEUOAarGKITfBkI5PLk8h7Co9rLSI8uRwm+srheY29fnfPGxL9NKlNdHgZ6u7UWUm
-         J28QTVL1Fzuqit3Iy/jdVBponbFdwCecYOgeP3QOCA0XpW2nYLdo+BnfQtUqTqFoPG72
-         6qhK6S2Jms8fUvqbzHzAw+opzIzrbr7dZRK1ROYCbJrCpBa+l7M9ClhGRy/Z0LTcn3Sm
-         EccWSIfX59MM/ZT5WQ91BC/gaAqIIDU6kYLOm+Rxvxp4Ayks3VIE32k3seo/0QMpjF32
-         d23ZClHuL1s9RhJLMAhJiKeO2CaRr5rPBh84UzczckOcKS7W35DsY6dOdD80cTpXFMZv
-         h3pw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5qKg1U0MPCHtkC1l8nRxawWTS2uPaGaqeuFRccz1KwrXIz2+Ve1TjX3YwP3jLD2+oNbIGHQs8GvJ1RjH8xrPR73kGH859fZjA3bgFgzdlkjn0eXXjBkHg
-X-Gm-Message-State: AOJu0YzMTKAphZmzPsjobvOqq4Trq3qJtTsCOhSjuo6c56n6wFcyIjyL
-	ydjB1SKlS8HOS0T4EEwSgoKd+V1IJTkElOcQMhpGw2Z2LYlnKYNubeC6/TSiUCIqV2arA50CdTP
-	i
-X-Google-Smtp-Source: AGHT+IEMUk/nUpnvLvM2RDEBVO26IIkSghGJ5xEtyQ8gLA1V7MC7Pk95VgCQd+nCplhVdw/wfJf0fA==
-X-Received: by 2002:a05:6512:45b:b0:523:8a79:21b with SMTP id 2adb3069b0e04-52b89560a68mr6634843e87.11.1717423695155;
-        Mon, 03 Jun 2024 07:08:15 -0700 (PDT)
+        bh=S4c2b7MtV8ZEN+3RWHx/XHdbFKgqPZ+seMuFXrehnX8=;
+        b=xCQmhuiQIX5JXhISk72khFJcmo3mHORSvLKfWZ+5tEGQQr9MDbQ3zYtx4ZYowmS50/
+         +GiUJlq1P1b4KmpmeaNYKAq/7nn0wpzPAV3wkcCyub2hrzzeyKcJaV/cJRsnrR2j3RiC
+         Avr0WGD9FGsc7htDIA5ACdyEtkQ1vTYpm+mnyapqwaWW65mfUopL9z2tQMUncGN/DYj1
+         HCj4vn/jBlVgNDFjDc5OodD+85poLKNCOK/T0pQt325sTH9HnTjBY2gklpe9BcD+HZSw
+         wBsUieHg+UL72DuQlmCwwZI/9i1rIPyx6xD6KXUJPkv/IW0RnyiT4Z1zUklw/a5cnFFE
+         R0Uw==
+X-Gm-Message-State: AOJu0YwMkHmWTU2tQq+h79xPxKFh2+SFDg8mFf2FxDR5NoeArQf6N5i8
+	4FHJUNbt33D8WcVMwLozRNSrMlr5RmMnFzhJSN7azN/BPAhl/PKrvMzfRVoV/MYOykR8f0oDzza
+	8
+X-Google-Smtp-Source: AGHT+IEfPx/Eyu4rGoOqjNfNTBHihZgkEeSHHlIB2JT1RiKnQQN0g5/u+/VSRkLb1V0191lsvjKc4A==
+X-Received: by 2002:a05:600c:310d:b0:421:129e:98a0 with SMTP id 5b1f17b1804b1-4212e05f62cmr80879385e9.19.1717423857582;
+        Mon, 03 Jun 2024 07:10:57 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc? ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42138ec47eesm64497885e9.23.2024.06.03.07.08.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4212b85ec87sm119953205e9.27.2024.06.03.07.10.57
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 07:08:14 -0700 (PDT)
-Message-ID: <d29724bf4472b3b4f5db512b611946b77ef3f8ee.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 0/3] Implement RECIPE_UPDATE_EXTRA_TASKS
+        Mon, 03 Jun 2024 07:10:57 -0700 (PDT)
+Message-ID: <7967b4ff2a0e54d543bf10097556eff6f76488c3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] autotools/libtool: Drop libtool sysroot
+ patch as not needed
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: tim.orling@konsulko.com, openembedded-core@lists.openembedded.org, 
-	Trevor Gamblin <tgamblin@baylibre.com>
-Cc: bluelightning@bluelightning.org
-Date: Mon, 03 Jun 2024 15:08:13 +0100
-In-Reply-To: <cover.1717361301.git.tim.orling@konsulko.com>
-References: <cover.1717361301.git.tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Jun 2024 15:10:56 +0100
+In-Reply-To: <17D58399F5A9B8EE.21428@lists.openembedded.org>
+References: <17D58399F5A9B8EE.21428@lists.openembedded.org>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,55 +68,27 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 14:08:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200255
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 14:11:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200256
 
-On Sun, 2024-06-02 at 14:00 -0700, Tim Orling via lists.openembedded.org wr=
-ote:
-> From: Tim Orling <tim.orling@konsulko.com>
+On Mon, 2024-06-03 at 15:05 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> libtool auto detects the sysroot from gcc's parameters or
+> configuration so we
+> don't need to pass in this configuration separately to libtool.
 >=20
-> Whenever a recipe which inherits cargo-update-recipe-crates is upgraded w=
-ith
-> devtool (such as with the Auto Upgrade Helper) we frequently see failures=
-.
-> If the upstream Cargo.toml or Cargo.lock has been changed, the correspond=
-ing
-> <recipe_name>-crates.inc needs to be updated. This is done by running the
-> "bitbake -c update_crates <recipe_name>" task, but this has until now bee=
-n
-> a manual operation.
+> Whilst the option names do conflict with gcc/binutils, that is an
+> issue for those
+> projects to resolve, not us. Upstream libtool did reject the patch.
+> We can
+> drop this patch and simplify our code.
 >=20
-> Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimited
-> list of tasks to be run during the upgrade() method of
-> meta/lib/devtool/upgrade.py.
->=20
-> To solve the problem described above, the solution is for all recipes whi=
-ch
-> inherit cargo-update-recipe-crates to add the "do_update_crates" task to
-> the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.
->=20
-> Add test case based on the guessing-game source we currently use for the
-> maturin runtime test cases, based on https://www.maturin.rs/tutorial.
-> This oe-selftest case checks for both the change in the recipe file and
-> the recipe -crates.inc file.
->=20
-> This will rely on a new "guessing-game" git repository to be added to
-> git.yoctoproject.org/guessing-game (currently hosted on GitHub for the
-> purposes of this RFC).
->=20
-> Currently, update_crates is the only task known to the author to fall int=
-o
-> this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other use
-> cases that can also be added (and tested!), please let me know.
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This looks good to me, thanks.
-
-Would we want to add the task that updates the python recipe's manifest
-to this?
+v2 just adds the commit message that was missing in v1. The patches are
+in master-next.
 
 Cheers,
 
 Richard
-
-
 
