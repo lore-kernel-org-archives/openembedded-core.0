@@ -1,378 +1,256 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C20C25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 15:14:37 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.86244.1717427671883898126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18BC6C25B76
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 15:25:28 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.86518.1717428324109623115
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 08:14:32 -0700
+ Mon, 03 Jun 2024 08:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=DQm52lo9;
- spf=pass (domain: konsulko.com, ip: 209.85.208.51, mailfrom: tim.orling@konsulko.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57a32b0211aso4000368a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 08:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1717427670; x=1718032470; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HfJbFy8x7YEoaVagehGU6O/65gTqCm7DnNCMwHvYhXQ=;
-        b=DQm52lo99qwF/HmVvTfK7to4xXgY/seDUhHAL6Ah5uiLYdhf5HXa21A8Lxb1qejNHk
-         xPrBwmsVKuWmNPzPFi+ob0nMYlolAQei3JU94tqWVLjmpiQCXckxi1iNsXG9GujLoGFu
-         QJndk/gss7DzezKG21NLBmus29ELgmi3kDYOI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717427670; x=1718032470;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HfJbFy8x7YEoaVagehGU6O/65gTqCm7DnNCMwHvYhXQ=;
-        b=BwVTwf/BMM6Wvio4dgAlNOwi1a0ROlQGBDNURBskRHvomEgyZdY+LnGO3abw+fBQ4P
-         AWaOtJn/NZsLiGrdnfNKF82HvbWXtAVJHzq3Wjg1+XvZokSsLS+w1+dPR4gpuxpv6LOR
-         7n+CyWBdNS1fy2szB3EGqq0pD5vuxWZQ0mLXTITDbjEXeGFGVwjFMXleuSiAi+RfRy+N
-         HbijJloHwIPeiPJnSKWWZx1Vq9qEFolIJjRVv1O3mWeqVUWBnMLaBOXru5+/zrkPRd9K
-         7/Ba98MbUilUgYmvEBH2JSNmgU68bwYAv+Tly6V2/PCugD7s0yG+RIIocZb2Zn//E0Gy
-         g4VA==
-X-Gm-Message-State: AOJu0YzUrqjLtpaal7j7VxZvOV2LYdq37BPd3Y8FjBMojLr+pIR5B+5r
-	bzo5CxdZvWmMBKLtE2H719/+OUnBvO1GJulqjKSbWgZwQLrwMNTwF3p9dqJVCydiLh8je/XM/Fa
-	aTwLNdkMuKpYDl7pbsQMEx79NH7Z5TJadKWhTRpEMHVEyZJAuyU0=
-X-Google-Smtp-Source: AGHT+IHs/p8vhY4Jv+Y4aYn/Xy4PWyB/kRHPR5qgOIJ0bqMBJMNZ54Kf+3qwhiAZG0J7P8nKyrOHkfzMyuTzDLY6zYI=
-X-Received: by 2002:a50:cd83:0:b0:57a:79c2:e9d0 with SMTP id
- 4fb4d7f45d1cf-57a79c2eb22mr141449a12.3.1717427670278; Mon, 03 Jun 2024
- 08:14:30 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=688417d902=sundeep.kokkonda@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 453AU1p4031155
+	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 15:25:23 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7svfh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:25:23 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 453FLsvU020755
+	for <openembedded-core@lists.openembedded.org>; Mon, 3 Jun 2024 15:25:22 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2043.outbound.protection.outlook.com [104.47.55.43])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7svff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jun 2024 15:25:22 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cHVJxSfz/VTL7ZWLPoxYPM1lqWmPl98NCLEyRq8NZu2xd5lDHa+iSSyrVu6mVQgYveSei2BNCQll9czYdgAVu1CtbckcvWQt3mmvh6loOGJWJ9yp6LrbR+IZ92XpkqZ3LtWxnZ1aIv9xqRXpJHILR1sJSkT6Pvsn4qU4R5CFzRBQZbDcJ5jGIptQZUnTOfAKoPRPpKoxxd9c+82aXry4djj0+SSXBmplHj0ptOG0KCLaaAgg5DMkNZWTxAstEWsN8RrfQH7OD2klXmIn3KD4CnFMOj1n6MrpOVuDjQwO+Q6nrKdavPkqSZxuyXfHHLbbNyeGY3gS8Gwf9YYcv0Subg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JaNB/7G6HGYOh24QrDxFdcptx9WPKr2A2UAIEHTRS6k=;
+ b=HtrIgYffeSnucvcDVrkJ0vCG1orD1puwb95r6Xr6LDUH6CIONUeMZ1uLT+dimoEaXXVtd6yll+nmwPE6w6BQab7XII4MNZLNExI6vNrkLUtssceTI5z5LzJTV3a0QzYJq7oOPeufdph1PHHs+eaHmGLWkLUbcdkcxGwXN5O5VpNElImBGasHk+BDgvyRaLPAGuPKMynzGm7yUrQSQRM5w/XIqrE26vnVn59tgNfjiFrLLwprXg8wvyZcpe4A4RDnI9HN+hC0QsoPuk4sxBHi3FLxP6mJpcTHr8BRzSeJLiYZ4UkMoLPDeGWWN2By1YMeFdpzLS7QBYRF3DV3rw6suQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BYAPR11MB3063.namprd11.prod.outlook.com (2603:10b6:a03:89::11)
+ by CH3PR11MB8776.namprd11.prod.outlook.com (2603:10b6:610:1c1::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.25; Mon, 3 Jun
+ 2024 15:25:17 +0000
+Received: from BYAPR11MB3063.namprd11.prod.outlook.com
+ ([fe80::25e9:e6a:756e:dc99]) by BYAPR11MB3063.namprd11.prod.outlook.com
+ ([fe80::25e9:e6a:756e:dc99%5]) with mapi id 15.20.7633.021; Mon, 3 Jun 2024
+ 15:25:17 +0000
+Message-ID: <1f43ccdb-e9b9-4e0c-a818-8ac6115e4488@windriver.com>
+Date: Mon, 3 Jun 2024 20:55:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility - disable PGO
+To: openembedded-core@lists.openembedded.org,
+        Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20240603144545.163535-1-sundeep.kokkonda@windriver.com>
+ <CANNYZj-CgmCG3+iCoUWV=Se8gENS7TCxOS6eLGb7RCm8nzejEw@mail.gmail.com>
+ <14893660-1952-4e6e-89f3-70883d2b465f@windriver.com>
+Content-Language: en-US
+From: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
+In-Reply-To: <14893660-1952-4e6e-89f3-70883d2b465f@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: SJ0PR03CA0187.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::12) To BYAPR11MB3063.namprd11.prod.outlook.com
+ (2603:10b6:a03:89::11)
 MIME-Version: 1.0
-References: <cover.1717361301.git.tim.orling@konsulko.com> <CANNYZj-VbOsKOrbanT36Tfb3CsnVDtE8uRmbUssmuoFb162VeA@mail.gmail.com>
-In-Reply-To: <CANNYZj-VbOsKOrbanT36Tfb3CsnVDtE8uRmbUssmuoFb162VeA@mail.gmail.com>
-From: Tim Orling <tim.orling@konsulko.com>
-Date: Mon, 3 Jun 2024 08:14:19 -0700
-Message-ID: <CAOyo-84ouc5QLwST-359=JJisGOBEgbgMUNV=3GUT_dS_UheLg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 0/3] Implement RECIPE_UPDATE_EXTRA_TASKS
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, bluelightning@bluelightning.org
-Content-Type: multipart/alternative; boundary="0000000000003705010619fdca8f"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3063:EE_|CH3PR11MB8776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 870dee03-8e0a-44b9-a00f-08dc83e15f69
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|366007|52116005|376005|1800799015|38350700005;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Y3l5Qzc2c29nUndCVmQwUVhIajNuMGVXR3N6WVV4YkdRTlFpa1cvQ1JpOUZE?=
+ =?utf-8?B?ekNneG1mY1lJUzBNQWptSWpiVDhWMXJIb0hmbU5XQng0WkZRT3FRM01McGdv?=
+ =?utf-8?B?V3ptdmNMcmFRZ2pWQjNORm9HUFRGUkJtbXNhQjRYQXNtcTFYdFdyMWplVEUv?=
+ =?utf-8?B?R1NvZklvb1BlckV1aW03U3l2UVpDRGJGV3FnODdpNWR5RXp0cmZ6SXZ0QjVn?=
+ =?utf-8?B?NUdzNHk2bi9Kdi9aS21ydGIwSEJrM21VZU1mQUwyb1dzSXFqbk9JT3Exa1pU?=
+ =?utf-8?B?NHpib2E0S0hhOWNLZ2ljWlB1dkFHbnBvS3dNdEMvcm43WVp4SVJSbGlrWjU4?=
+ =?utf-8?B?bVdDWHBIVE1pYmoxckg3NDQvSmgrN1ZPN1lScHBPZVBuTloyYW5DWFllT2Vv?=
+ =?utf-8?B?Vm1Sbi9rZndmekNxd3FYdHVTbkJYU1AwWUFnbDZoTHVMTnVCMjQvQ3Q5dTBY?=
+ =?utf-8?B?RkpTQk9ycVJndXZLTkNISzlzeWh1cEZPM3dhZitZbmlRMWxVQTRKODBaZlo4?=
+ =?utf-8?B?TWwyVXpmYnR4S1BoaCtDaDRLTzJHeG5KUzdiMlhvYjQ0Z0crK0pTWkx3MTlX?=
+ =?utf-8?B?aDAxVnNNWXR6cEh5VjVpZ2xqM3pTelgvWGZRc0lnS2hwbzhXUW1sY2xYZ3lY?=
+ =?utf-8?B?Y05abnkzdHRTU2RKUkNucGtaZEt4c01pUTJFenB3dUNxcHhoYTB3T3E1eTNU?=
+ =?utf-8?B?OWRDYVB2MFF5TnhWd2dqV3hWdmtjMVpYNEZEWmNEU09wbXZpakRETkxQT0d0?=
+ =?utf-8?B?cThKdjJpUkE1Ukh4aVI4ZkxDL0RRZnQyeUFvM2pQM2dlOW4zbnJ6b21lUElo?=
+ =?utf-8?B?TG92VU1WcHpHT2sycE5uRzNXNkJ1bXlpQUM4ZVRiZ29SOTVjeVpoaU9DYkxL?=
+ =?utf-8?B?TEF5WU9YMFJ1dU5nK3JKbTNBS0ZPMjJNd3lydDJYbytGa3BvZldmTzd2Vk9i?=
+ =?utf-8?B?THEvMnRBOHRQaG91NXdkNmZ5ZStRSXNRS2E0OWRDUmpvOEdTTThXR2Y0MFdt?=
+ =?utf-8?B?TjdkWEtTZnR1RlZQQ01pRVdCdXFQSUcrTVFHQXlyMVdLQUg2YnFEWEpibHlG?=
+ =?utf-8?B?cVMvM1h3N1VudXlXYzN5QzBSNmZyL1NCdmJPYTVlVGxWMjFNWHkyamprVi93?=
+ =?utf-8?B?VlB0VWs5Nk1rU21ENmhmUjFWMEh0SEx6TGFjNGNYVlhwSElleHlON05uUFlX?=
+ =?utf-8?B?WGpSVkUrNWJUSlBuMEFLcGs2eVlxNjFkdFZnWnB2aVNUTTFVeXpUZ3c0ODcw?=
+ =?utf-8?B?c1lROHFZem9LcFpWdXlBd3BsWExyUytKb0hjRFRXTCtvS2tLMk93bW1HQnlv?=
+ =?utf-8?B?V0IrdGZGL0tXWWlwUU0vTUNFZGExdXJMN00rWllyTnJKUnVsZjgrSGkyMlhl?=
+ =?utf-8?B?UHpRR1d1V2oyUTQ3Z2VCVm1OL2gxQVRLY2hwbEdkNityVWtIRC84UkZ6Qm05?=
+ =?utf-8?B?Y3JKckpYUmFwemJQOWpENWowNVY2VnJlT2wwcFVJdTZDMWMxTnpzcU5JSlNS?=
+ =?utf-8?B?c0lDUHZYcUR4Tit6L1hWT09TdWY2NE0weU91NkdTMGR3bVZiV2d1TUp3ZXZa?=
+ =?utf-8?B?MjZJZ0RheXBHY0ZnZTEwRmJCcWpaV2JnbkxTeHhKWFNzdDB3OGFRVXJZaTcr?=
+ =?utf-8?B?SlF4akw3MndXVEdWN0c1RTlaa096L29WajJUaXR2UmdweDJoaHdDVFBSUVJU?=
+ =?utf-8?B?SDdncG5ReEx4QjcxMXlvNVREdnQzMDlxb1VmcGROYkZGUW9ReDN4cmE1RzE2?=
+ =?utf-8?Q?6qV/gxlz1gjATsfaCo=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3063.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(52116005)(376005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?b1BiV0FGWDBWbCtobVV1bW5Ydmg2TkRNaWI0djhVQTM2dTU1SjhvdkNrWDFj?=
+ =?utf-8?B?T0JSbk9oWmNlVGFyVDFBNzRhdXVIZ0RuYnZtSEpORjBub3JieDk3dTN3S3FY?=
+ =?utf-8?B?R0FrbXRReFRyQ1pTYVVBSXVqMHF6a2sxOHdwNkNmTmdrajdPQjNzOUFXSDFJ?=
+ =?utf-8?B?SHRhUjF4VUpkOWdGdmUzbTRTUHdOcFo5d1dPdTl0V3N1OU80KzFFSktpQzNJ?=
+ =?utf-8?B?Q2I4UEgrZ1ZjdzVoN1BRZ1pqTkhTTnFRNURSbDROcjFMRG85VzdNOG1hWmtV?=
+ =?utf-8?B?V3BvRDhBZ2xrMytpUWZ0aDN1QVZkNkkrcnhjM011dTEyQTl4SnhRUUxiQW5D?=
+ =?utf-8?B?MFo3NkFkNDhGSkxRM3cvOHBuT0FQbC9EVnRTTzZvaWdnK3Q3Y0dkUFVJQy8y?=
+ =?utf-8?B?dEZJclNPeFBhckpYNGZNM3QyL0plSFhpUE9NN1lxekFDKzdPTGg5ZG9Femxk?=
+ =?utf-8?B?R1Z4Y0h0SWxOMER1cmF2TUVra2JLYUJNQnY1aWF5ME9BNDV1dk1xUVIyd3NJ?=
+ =?utf-8?B?aTBkMXluOUsrNjJpL0VZUDZjQkt3MUZFS0ZqdzZaaUZDNTRMV0dJeUlEWG1l?=
+ =?utf-8?B?cEJoSHdBRmNMYUpqVFR3Q1V0V0svNmVMWnJyN2FPVkZwMk1mRnViOEVha3VF?=
+ =?utf-8?B?VUc1ZkhRWlptWXIwSW5JUm5FZVRoNXg5Q2hQbDZ0YmlzUGptSnhGUHEySlk4?=
+ =?utf-8?B?dzMycSt3N1A2Zk55WW9Kc3ZzWm01a3JCdWNDYUowQXVPTmVpK2dBNWxLa2RH?=
+ =?utf-8?B?bys0OTNDZXhJV2g0MXk1MFdTeURzQU1vOEErN3N2NUpjZW1DVW5mK2lVYUtX?=
+ =?utf-8?B?K21ZU0tUaXE1SGN6U1dJRzNjOVpTOEdPNkVMSUR0Z2xpZlRNMk56UUhvUXVt?=
+ =?utf-8?B?Nng1b0FieEdIRHhOUndrZXk2azdwQmk2a3V2c0JEbzhKRGx0K2xJWXZEYzBJ?=
+ =?utf-8?B?dWM5ZjJCUUI5dmZaMGNCRjdaWno0R3FyZ2N3RFBCalVjc0lHSVJMZHlQK25Q?=
+ =?utf-8?B?U2FGWkRaa3BHd29obUJMdWZyVGE3L0xISlBiSTJJeEtteE5UUk1MVnhMbndP?=
+ =?utf-8?B?cVBzQTNrU0hzYVVicWYrcWhMQVhpYXF6ZnNVZGNLc3piMnluekV6NDhGdWds?=
+ =?utf-8?B?d3VQVFpIV0hObzZIT2hLTDAzU3JSQkhoeXlFdE9pNUZMSExQeVZZbTNnK3dV?=
+ =?utf-8?B?M2x6aGFleVVON0xOeFFRa09GdDVBU3l1bkZVQUg4dHVPM2ZnQXZsMGQxQW12?=
+ =?utf-8?B?eU1RdXA2dnEyMDlTZlJUTGtMRGR3WmQ1YnpibTlERzk0V1lBUjhEVzQ1M2th?=
+ =?utf-8?B?dFgvdS82bUJBTG1WWHliMFpkUEorQ00wcC9KbkhRZGhHNTJ2ZVpSQm83c0FU?=
+ =?utf-8?B?bnVqelJsUE5yMUxrM1dtZ2FITzVuN3lQU0F6d0JJRHFuY1JIQnlBMFNIR3RD?=
+ =?utf-8?B?YklCeTZlN1lkdzVsb0dYSmxYd2lkWkkvZFlEOWtUb0pCZDA4RFYwa3JnVVVU?=
+ =?utf-8?B?RFg1T3hFcW9jQkhDRHFEcFBSelRQRWxpb3dGR2VmR2ZBOVBxcy8xZUJBWEdY?=
+ =?utf-8?B?ZGl1ZlFEMWFWL0pLaXpSUnh1TUx4SjVGWW5aWmg1UTBOd2FqR0VPUVBpbUxQ?=
+ =?utf-8?B?ei8ycFhzaUpGRkgyRVlCYU5VbCtsbkE3b01qWFk4SHVkaXNWa1VtWGVlWGlz?=
+ =?utf-8?B?ZjlrNUlYcit6clFoSXFyK2hrODJ2MUNjT0JXemZOWFdGMkZna1VZOVhZSnpM?=
+ =?utf-8?B?NG9BaTZLRUFRcFd3NDF0eVV3S1RaMmNncURPVHhuNFlMUEJKTHloUGlvREVq?=
+ =?utf-8?B?K2wyampaWEdMRUxFNFprQkx3dlhRZmxMNm5MMkRKYlpxeWp3cDZCNjEzQzBz?=
+ =?utf-8?B?TUp5TURJVEcxYjBldW9WbFFTZTdzcExVNlZDeHI4UTd3bEh6NUlBS3dwdlEz?=
+ =?utf-8?B?VUNFSU9sZTJ2TE1GVmpNaUQ2emFhU2ZYbWpsbWIvOGNaTU9ldFYrRUZ0cVVZ?=
+ =?utf-8?B?a0MyejgvVTFGbWthTEZWcXJGMWp4cUMwaGdmdHZjZURmMmdhWkgvbFI5Rzk0?=
+ =?utf-8?B?dXFtd1FnNXRpSWZ2dk1DZTJMc3JzSFpEWTM4T3VxYWVoUSsrMFhWdTRmWlZH?=
+ =?utf-8?B?dmU4ZEpTQzlIV0RsajBtVW03dnRWVkxEZnk5dnVPdVVKYjhuWFdoYStVUFVw?=
+ =?utf-8?Q?ow27ZqYBc3nk1rtYwtqfPHg=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 870dee03-8e0a-44b9-a00f-08dc83e15f69
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3063.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 15:25:17.2174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P5fz9d4STWSiYgJZ1tuSuI16k1bB9sLH1RyHi8uyqBVoQHnlPACeXTyw/5eeN27wa/4DPYizzFqScRccKS1hc592NGCIbHgX/rKgFXQtm3M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8776
+X-Proofpoint-GUID: pYIE94MiGn7sjxi_6AETrQzFL-PsBIX-
+X-Proofpoint-ORIG-GUID: m7OfxqGklebo6BUz_p9alJTm-YDL9_St
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_11,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2405170001 definitions=main-2406030126
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 453AU1p4031155
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:14:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200264
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 15:25:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200265
 
---0000000000003705010619fdca8f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 3, 2024 at 2:09=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
-l.com>
-wrote:
-
-> Thanks, I like the idea. There are a number of other recipes that for
-> various reasons need 'special handling' in version updates that
-> devtool doesn't know how to perform, and this could be used to define
-> that handling where it belongs, which is in the recipe itself.
+On 03-Jun-24 20:37, Sundeep KOKKONDA via lists.openembedded.org wrote:
 >
-> E.g. updating cmake could also rename cmake-native_*.bb to match.
+> On 03-Jun-24 20:20, Alexander Kanavin wrote:
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the=20
+>> sender and know the content is safe.
+>>
+>> Wait, did you test this patch locally? What was the outcome?
+> rust-rustdoc_1.75.0-r0_amd64.deb is generated and the binaries are=20
+> identical.
+Also, as I mentioned in commit message it is a test patch to see the=20
+issue is fixed or not on autobuilder.
+>>
+>> Alex
+>>
+>> On Mon, 3 Jun 2024 at 16:46, Sundeep KOKKONDA via
+>> lists.openembedded.org
+>> <sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> wrote:
+>>> From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+>>>
+>>> The rustdoc binaries are differed on their .llvm.<hash> suffixes=20
+>>> between the builds.
+>>> This is a test patch to verify the PGO effect on rustdoc binaries.=20
+>>> The issue discussion is here:
+>>> https://internals.rust-lang.org/t/rustdoc-binary-is-not-reproducible/=
+20027=20
+>>>
+>>>
+>>> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+>>> ---
+>>> =C2=A0 meta/lib/oeqa/selftest/cases/reproducible.py | 2 --
+>>> =C2=A0 meta/recipes-devtools/rust/rust_1.75.0.bb=C2=A0=C2=A0=C2=A0 | =
+4 ++++
+>>> =C2=A0 2 files changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py=20
+>>> b/meta/lib/oeqa/selftest/cases/reproducible.py
+>>> index 97a9c3da90..80e830136f 100644
+>>> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+>>> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+>>> @@ -16,8 +16,6 @@ import os
+>>> =C2=A0 import datetime
+>>>
+>>> =C2=A0 exclude_packages =3D [
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'rust-rustdoc',
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'rust-dbg'
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ]
+>>>
+>>> =C2=A0 def is_excluded(package):
+>>> diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb=20
+>>> b/meta/recipes-devtools/rust/rust_1.75.0.bb
+>>> index c66c14cc5a..4caa5892e6 100644
+>>> --- a/meta/recipes-devtools/rust/rust_1.75.0.bb
+>>> +++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+>>> @@ -153,6 +153,10 @@ python do_configure() {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rustc =3D d.getVar('RUSTC_BOOTSTRAP')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 config.set("build", "rustc", e(rustc))
+>>>
+>>> +=C2=A0=C2=A0=C2=A0 # Support for the profiler runtime to generate e.=
+g. coverage=20
+>>> report,
+>>> +=C2=A0=C2=A0=C2=A0 # PGO etc.
+>>> +=C2=A0=C2=A0=C2=A0 config.set("build", "profiler", e(False))
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cargo =3D d.getVar('CARGO_BOOTSTRAP')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 config.set("build", "cargo", e(cargo))
+>>>
+>>> --=20
+>>> 2.43.0
+>>>
+>>>
+>>>
+>>>
 >
-
-Good point. I had not considered that. As RP pointed out, python manifest
-is another.
-
-I suspect we will find many use cases for this pattern.
-
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200262): https://lists.openembedded.org/g/openembed=
+ded-core/message/200262
+> Mute This Topic: https://lists.openembedded.org/mt/106463035/7677583
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+sundeep.kokkonda@eng.windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
-> Alex
->
-> On Sun, 2 Jun 2024 at 23:01, Tim Orling via lists.openembedded.org
-> <tim.orling=3Dkonsulko.com@lists.openembedded.org> wrote:
-> >
-> > From: Tim Orling <tim.orling@konsulko.com>
-> >
-> > Whenever a recipe which inherits cargo-update-recipe-crates is upgraded
-> with
-> > devtool (such as with the Auto Upgrade Helper) we frequently see
-> failures.
-> > If the upstream Cargo.toml or Cargo.lock has been changed, the
-> corresponding
-> > <recipe_name>-crates.inc needs to be updated. This is done by running t=
-he
-> > "bitbake -c update_crates <recipe_name>" task, but this has until now
-> been
-> > a manual operation.
-> >
-> > Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimite=
-d
-> > list of tasks to be run during the upgrade() method of
-> > meta/lib/devtool/upgrade.py.
-> >
-> > To solve the problem described above, the solution is for all recipes
-> which
-> > inherit cargo-update-recipe-crates to add the "do_update_crates" task t=
-o
-> > the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.
-> >
-> > Add test case based on the guessing-game source we currently use for th=
-e
-> > maturin runtime test cases, based on https://www.maturin.rs/tutorial.
-> > This oe-selftest case checks for both the change in the recipe file and
-> > the recipe -crates.inc file.
-> >
-> > This will rely on a new "guessing-game" git repository to be added to
-> > git.yoctoproject.org/guessing-game (currently hosted on GitHub for the
-> > purposes of this RFC).
-> >
-> > Currently, update_crates is the only task known to the author to fall
-> into
-> > this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other u=
-se
-> > cases that can also be added (and tested!), please let me know.
-> >
-> > Two obvious use cases that would be nice to add with changes in oe-core
-> are:
-> > (1) some kind of "go-mod://" update class to use a similar
-> <recipe>-go-mods.inc
-> > (2) some kind of rework of the "npm://" fetcher to use
-> <recipe>-npm-mods.inc
-> > But both of those are out of scope for this proposal.
-> >
-> > The _run_recipe_update_extra_tasks() method added to
-> lib/devtool/upgrade.py
-> > is functional, but could probably use some more guards and checks. Idea=
-s
-> for
-> > improvements are welcome, hence the RFC.
-> >
-> > An attempt at documenting the new variable has been added to ref-manual=
-,
-> > but if anyone has some ideas for better clarification, input is welcome=
-.
-> >
-> > The following changes since commit
-> af6d28d2b0abdfcfa70edcc95abd99a3c1a64ac8:
-> >
-> >   sanity: Check if tar is gnutar (2024-05-31 16:58:36 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://git.yoctoproject.org/poky-contrib
-> timo/RECIPE_UPDATE_EXTRA_TASKS
-> >
-> https://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/RECIPE_UPDATE_EXT=
-RA_TASKS
-> >
-> > Tim Orling (5):
-> >   devtool upgrade: enable RECIPE_UPDATE_EXTRA_TASKS
-> >   cargo-update-recipe-crates: add RECIPE_UPDATE_EXTRA_TASKS
-> >   ref-manual: add RECIPE_UPDATE_EXTRA_TASKS variable
-> >   meta-selftest: add python3-guessing-game
-> >   oe-selftest: add RECIPE_UPDATE_EXTRA_TASKS test
-> >
-> >  documentation/ref-manual/variables.rst        |  7 ++
-> >  .../python/python3-guessing-game-crates.inc   | 82 +++++++++++++++++
-> >  .../python3-guessing-game-crates.inc.upgraded | 88 +++++++++++++++++++
-> >  .../python/python3-guessing-game_git.bb       | 19 ++++
-> >  .../python3-guessing-game_git.bb.upgraded     | 19 ++++
-> >  .../cargo-update-recipe-crates.bbclass        |  2 +
-> >  meta/lib/oeqa/selftest/cases/devtool.py       | 46 ++++++++++
-> >  scripts/lib/devtool/upgrade.py                | 12 +++
-> >  8 files changed, 275 insertions(+)
-> >  create mode 100644
-> meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc
-> >  create mode 100644
-> meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.up=
-graded
-> >  create mode 100644 meta-selftest/recipes-devtools/python/
-> python3-guessing-game_git.bb
-> >  create mode 100644
-> meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgrad=
-ed
-> >
-> > --
-> > 2.45.2
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#200216):
-> https://lists.openembedded.org/g/openembedded-core/message/200216
-> > Mute This Topic: https://lists.openembedded.org/mt/106450866/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---0000000000003705010619fdca8f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 3, 2024 at 2:09=E2=80=AFA=
-M Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kana=
-vin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Thanks, I like the idea. There are a number of other recipes t=
-hat for<br>
-various reasons need &#39;special handling&#39; in version updates that<br>
-devtool doesn&#39;t know how to perform, and this could be used to define<b=
-r>
-that handling where it belongs, which is in the recipe itself.<br>
-<br>
-E.g. updating cmake could also rename cmake-native_*.bb to match.<br></bloc=
-kquote><div><br></div><div>Good point. I had not considered that. As RP poi=
-nted out, python manifest is another.</div><div><br></div><div>I suspect we=
- will find many use cases for this pattern.</div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
-<br>
-Alex<br>
-<br>
-On Sun, 2 Jun 2024 at 23:01, Tim Orling via <a href=3D"http://lists.openemb=
-edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><=
-br>
-&lt;tim.orling=3D<a href=3D"mailto:konsulko.com@lists.openembedded.org" tar=
-get=3D"_blank">konsulko.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
-=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt;<br>
-&gt; Whenever a recipe which inherits cargo-update-recipe-crates is upgrade=
-d with<br>
-&gt; devtool (such as with the Auto Upgrade Helper) we frequently see failu=
-res.<br>
-&gt; If the upstream Cargo.toml or Cargo.lock has been changed, the corresp=
-onding<br>
-&gt; &lt;recipe_name&gt;-crates.inc needs to be updated. This is done by ru=
-nning the<br>
-&gt; &quot;bitbake -c update_crates &lt;recipe_name&gt;&quot; task, but thi=
-s has until now been<br>
-&gt; a manual operation.<br>
-&gt;<br>
-&gt; Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimit=
-ed<br>
-&gt; list of tasks to be run during the upgrade() method of<br>
-&gt; meta/lib/devtool/upgrade.py.<br>
-&gt;<br>
-&gt; To solve the problem described above, the solution is for all recipes =
-which<br>
-&gt; inherit cargo-update-recipe-crates to add the &quot;do_update_crates&q=
-uot; task to<br>
-&gt; the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.<br>
-&gt;<br>
-&gt; Add test case based on the guessing-game source we currently use for t=
-he<br>
-&gt; maturin runtime test cases, based on <a href=3D"https://www.maturin.rs=
-/tutorial" rel=3D"noreferrer" target=3D"_blank">https://www.maturin.rs/tuto=
-rial</a>.<br>
-&gt; This oe-selftest case checks for both the change in the recipe file an=
-d<br>
-&gt; the recipe -crates.inc file.<br>
-&gt;<br>
-&gt; This will rely on a new &quot;guessing-game&quot; git repository to be=
- added to<br>
-&gt; <a href=3D"http://git.yoctoproject.org/guessing-game" rel=3D"noreferre=
-r" target=3D"_blank">git.yoctoproject.org/guessing-game</a> (currently host=
-ed on GitHub for the<br>
-&gt; purposes of this RFC).<br>
-&gt;<br>
-&gt; Currently, update_crates is the only task known to the author to fall =
-into<br>
-&gt; this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other =
-use<br>
-&gt; cases that can also be added (and tested!), please let me know.<br>
-&gt;<br>
-&gt; Two obvious use cases that would be nice to add with changes in oe-cor=
-e are:<br>
-&gt; (1) some kind of &quot;go-mod://&quot; update class to use a similar &=
-lt;recipe&gt;-go-mods.inc<br>
-&gt; (2) some kind of rework of the &quot;npm://&quot; fetcher to use &lt;r=
-ecipe&gt;-npm-mods.inc<br>
-&gt; But both of those are out of scope for this proposal.<br>
-&gt;<br>
-&gt; The _run_recipe_update_extra_tasks() method added to lib/devtool/upgra=
-de.py<br>
-&gt; is functional, but could probably use some more guards and checks. Ide=
-as for<br>
-&gt; improvements are welcome, hence the RFC.<br>
-&gt;<br>
-&gt; An attempt at documenting the new variable has been added to ref-manua=
-l,<br>
-&gt; but if anyone has some ideas for better clarification, input is welcom=
-e.<br>
-&gt;<br>
-&gt; The following changes since commit af6d28d2b0abdfcfa70edcc95abd99a3c1a=
-64ac8:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0sanity: Check if tar is gnutar (2024-05-31 16:58:36 +0100)=
-<br>
-&gt;<br>
-&gt; are available in the Git repository at:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib" rel=
-=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org/poky-contrib=
-</a> timo/RECIPE_UPDATE_EXTRA_TASKS<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?=
-h=3Dtimo/RECIPE_UPDATE_EXTRA_TASKS" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/RECIPE_UPDATE_EXTRA_T=
-ASKS</a><br>
-&gt;<br>
-&gt; Tim Orling (5):<br>
-&gt;=C2=A0 =C2=A0devtool upgrade: enable RECIPE_UPDATE_EXTRA_TASKS<br>
-&gt;=C2=A0 =C2=A0cargo-update-recipe-crates: add RECIPE_UPDATE_EXTRA_TASKS<=
-br>
-&gt;=C2=A0 =C2=A0ref-manual: add RECIPE_UPDATE_EXTRA_TASKS variable<br>
-&gt;=C2=A0 =C2=A0meta-selftest: add python3-guessing-game<br>
-&gt;=C2=A0 =C2=A0oe-selftest: add RECIPE_UPDATE_EXTRA_TASKS test<br>
-&gt;<br>
-&gt;=C2=A0 documentation/ref-manual/variables.rst=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 7 ++<br>
-&gt;=C2=A0 .../python/python3-guessing-game-crates.inc=C2=A0 =C2=A0| 82 +++=
-++++++++++++++<br>
-&gt;=C2=A0 .../python3-guessing-game-crates.inc.upgraded | 88 +++++++++++++=
-++++++<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-guessing-game_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3-guessing-game_git.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 19 ++++<br>
-&gt;=C2=A0 .../python3-guessing-game_git.bb.upgraded=C2=A0 =C2=A0 =C2=A0| 1=
-9 ++++<br>
-&gt;=C2=A0 .../cargo-update-recipe-crates.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 2 +<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/devtool.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 46 ++++++++++<br>
-&gt;=C2=A0 scripts/lib/devtool/upgrade.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 12 +++<br>
-&gt;=C2=A0 8 files changed, 275 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/python/python3=
--guessing-game-crates.inc<br>
-&gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/python/python3=
--guessing-game-crates.inc.upgraded<br>
-&gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/python/<a href=
-=3D"http://python3-guessing-game_git.bb" rel=3D"noreferrer" target=3D"_blan=
-k">python3-guessing-game_git.bb</a><br>
-&gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/python/python3=
--guessing-game_git.bb.upgraded<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.45.2<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#200216): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/200216" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/200216</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10645086=
-6/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/106450866/1686489</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.co=
-m" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
-
---0000000000003705010619fdca8f--
 
