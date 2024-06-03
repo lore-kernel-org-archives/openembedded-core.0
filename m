@@ -1,99 +1,141 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD510C25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 06:04:04 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.76932.1717394637855581848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D32C25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 06:07:24 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.76965.1717394836503353605
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jun 2024 23:03:58 -0700
+ Sun, 02 Jun 2024 23:07:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=goDOQRr2;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=T8OsBWnV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018fdcb2812f-16b04c2d-e470-4842-9026-156891b164ae-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717394637; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=5dQCOsdcFh9/nzuZzBO1v/S6lzbuJ49wyzW3iW6xdEM=;
-	b=goDOQRr2ATSL6WgtsbJwS4dfDvvN4n9VMtje2xdnZD8w+HD9fW0nuK6v519jJJ+y
-	MpOaHt8nIeTSsNYI5ZpmMe3udqtMqSzbEOw6Lsxq4zeEpUScEIBA7FNztHo2T5QcIxz
-	NF3uYEHzoh0vsyJmVaKdT94WC5mC2BXnDOEJ+vrk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717394637;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=5dQCOsdcFh9/nzuZzBO1v/S6lzbuJ49wyzW3iW6xdEM=;
-	b=T8OsBWnVYDEnwFoNBl2BbspcZ1AVRQX5f9K7RVl/51OR13uEFlNuLCUeYURdeYLY
-	VuIvg+kEGIg3SvTavdakuUOPtBJBxfDFYNb7BN5gYfIdk4SZK8SeyyuKcHzYsfSm3aJ
-	Ra6zSBmwlA0700whz5tqAJi4c+Zv7VKviJvX3jsw=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCH] xcb-util-errors: add recipe
-In-Reply-To: <20240603055922.3150-1-f_l_k@t-online.de>
-References: <20240603055922.3150-1-f_l_k@t-online.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018fdcb2812f-16b04c2d-e470-4842-9026-156891b164ae-000000@us-west-2.amazonses.com>
-Date: Mon, 3 Jun 2024 06:03:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.03-54.240.27.23
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ivo8DE2s;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 71002240005;
+	Mon,  3 Jun 2024 06:07:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1717394834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eYwDGlMzmCFVnFBYCiCzDDsY+F8tNj5w9dKlIc28wHM=;
+	b=Ivo8DE2sjPJNN8M4+60YgrQXJEMx1hsvqdHTW2fgfDWYneqCollXhwepKaNwbbSU4uZLAR
+	efv+mx/Vk07sYlFf4QM8QAA8hI0SRm+Liatqm3sM3aX0MYFb0wdptFVNzyJ8N/o8rokcoR
+	59bLcQhI4FLiYoGJXchtvHwQUiyfgU/uvONydX3Ifr+yOvESZ5VtTypKbv2Nmr3CS39UXU
+	ieBFMrl1XCJ3LxVg/We5+UYDtMXnGqheHjw/50Jv/y8QbjQEA1hKcjQN/0pHODBR3QjN4j
+	WuFfLGKSFkpD6zpskdaIevv2aS7XRik1xt6ebNNcVLuqxxE0GQQc6+2VQhAbgQ==
+Date: Mon, 3 Jun 2024 08:07:13 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] iptables: Do not install /etc/ethertypes
+Message-ID: <202406030607134a92d8a6@mail.local>
+References: <20240528041053.11356-1-changhyeok.bae@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528041053.11356-1-changhyeok.bae@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 06:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200235
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 06:07:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200236
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This doesn't apply on master, can you rebase?
 
----
-Testing patch /home/patchtest/share/mboxes/xcb-util-errors-add-recipe.patch
+On 28/05/2024 04:10:53+0000, Changhyeok Bae wrote:
+> The patch file was deleted by mistaken during 1.8.10 upgrade.
+> Re-introduce the patch file after re-writing based on 1.8.10 code.
+> 
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+> ---
+>  ...ile.am-do-not-install-etc-ethertypes.patch | 44 +++++++++++++++++++
+>  .../iptables/iptables_1.8.10.bb               |  1 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-extended/iptables/iptables/0003-Makefile.am-do-not-install-etc-ethertypes.patch
+> 
+> diff --git a/meta/recipes-extended/iptables/iptables/0003-Makefile.am-do-not-install-etc-ethertypes.patch b/meta/recipes-extended/iptables/iptables/0003-Makefile.am-do-not-install-etc-ethertypes.patch
+> new file mode 100644
+> index 0000000000..3aa40ac635
+> --- /dev/null
+> +++ b/meta/recipes-extended/iptables/iptables/0003-Makefile.am-do-not-install-etc-ethertypes.patch
+> @@ -0,0 +1,44 @@
+> +From 77024225a4d7a39e362296f0d1e5188a7c9340d4 Mon Sep 17 00:00:00 2001
+> +From: Trevor Gamblin <trevor.gamblin@windriver.com>
+> +Date: Tue, 28 May 2024 03:55:50 +0000
+> +Subject: [PATCH] Makefile.am do not install etc ethertypes
+> +
+> +The /etc/ethertypes is provided by netbase since 6.0[1].
+> +Do not instal the file in ebtables, otherwise there would be a conflict:
+> +Error: Transaction test error:
+> +  file /etc/ethertypes conflicts between attempted installs of
+> +netbase-1:6.2-r0.corei7_64 and iptables-1.8.7-r0.corei7_64
+> +
+> +[1] https://salsa.debian.org/md/netbase/-/commit/316680c6a2c3641b6abc76b3eebf88781f609d35)
+> +
+> +This patch is based off of the same change made for the ebtables recipe:
+> +
+> +http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-filter/ebtables/ebtables-2.0.11/0001-Makefile.am-do-not-install-etc-ethertypes.patch?h=master
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> +Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+> +---
+> + Makefile.am | 5 -----
+> + 1 file changed, 5 deletions(-)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index 299ab46..7b60eb4 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -18,11 +18,6 @@ SUBDIRS         += iptables
+> + 
+> + EXTRA_DIST	= autogen.sh iptables-test.py xlate-test.py
+> + 
+> +-if ENABLE_NFTABLES
+> +-confdir		= $(sysconfdir)
+> +-dist_conf_DATA	= etc/ethertypes
+> +-endif
+> +-
+> + .PHONY: tarball
+> + tarball:
+> + 	rm -Rf /tmp/${PACKAGE_TARNAME}-${PACKAGE_VERSION};
+> +-- 
+> +2.34.1
+> +
+> diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> index 5a87897742..8cb9b76ca1 100644
+> --- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> +++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> @@ -14,6 +14,7 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.xz \
+>             file://ip6tables.service \
+>             file://ip6tables.rules \
+>             file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+> +           file://0003-Makefile.am-do-not-install-etc-ethertypes.patch \
+>             file://0002-iptables-xshared.h-add-missing-sys.types.h-include.patch \
+>             file://0004-configure.ac-only-check-conntrack-when-libnfnetlink-.patch \
+>             "
+> -- 
+> 2.34.1
+> 
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum presence (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-PASS: test license presence (test_metadata.TestMetadata.test_license_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test summary presence (test_metadata.TestMetadata.test_summary_presence)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199950): https://lists.openembedded.org/g/openembedded-core/message/199950
+> Mute This Topic: https://lists.openembedded.org/mt/106343339/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
