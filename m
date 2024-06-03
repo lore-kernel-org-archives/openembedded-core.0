@@ -2,58 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B5AC25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 16:32:38 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.88564.1717432356832734740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CC2C25B76
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 16:35:28 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.88623.1717432527201861147
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 09:32:37 -0700
+ Mon, 03 Jun 2024 09:35:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DnPtDkdw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-421396e3918so19789895e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 09:32:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HJ/LE8LF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3550134ef25so4282039f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 09:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717432355; x=1718037155; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1717432525; x=1718037325; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZFkMZiKVz1G2FsAGlTbHRbVpzBZbYksovWycQTIOKcE=;
-        b=DnPtDkdwrStgxJBmRd9ibNegQqMGtSS3TxeFe/feo6X0lLnLeNydVb+MIG5xyrLnhU
-         eTuKPT5TmqS2lqvcXFCX3XwZURPtT71FHHtAv0iv8XyYewgHHV7ZBfYQWR+bv3b2dzuq
-         vj0Jm0958X3hH0i7UHX8kZWFKJn2qyDmLe4pM=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nk9E2INoBWScp8IVo0nZx7YAhk3K4PpsEZ2LL6Rfd0U=;
+        b=HJ/LE8LFvV9TjvqlPQyCD78pi/f9nKSpiNv2y1qmNhS9tNqUpBTK5EMUuVwEZehsHQ
+         ARfpuog877AYZRY2jQ/DniuNTwqEgCf2gFX/4qORveeQ4t0w8pCe89rLsmPjuMUGoxpk
+         ct3Rq4ZVIvhcxJhdpQo246o2L9FqfG9+UcLBM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717432355; x=1718037155;
+        d=1e100.net; s=20230601; t=1717432525; x=1718037325;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFkMZiKVz1G2FsAGlTbHRbVpzBZbYksovWycQTIOKcE=;
-        b=oQHu548CDM/9yJu8Vqhp3oR1+KJaH2XH34dR/WDY1p4s/9dKsy5S+OphaNNnkWonV0
-         vE4kaHM+7od0vUMHe8QKn1IJvF2FCxSAA7tBlMSgNce36QMvAftZCsaf8QffYCmsZdo9
-         p5qn5N3axaZmHSOQ7Wq79yVM01Uyfs6IpLYn3fmocsW3SioL3OcAO0+rzyAtHR+pT6A/
-         TRXTyG3xzQ3/Rp7UR5NBvgfBV9/6+rIwhgguY8WaUR5WCNiggZV5piG/EkJE8MI+iaHY
-         QIstdm4gGMeeTcEL9bTO+ec0Y/jOXpjXZI3LemxSwH/bLxGfrgP3t/ublGB1tLxND7jd
-         WrqA==
-X-Gm-Message-State: AOJu0Ywkqo0Pj4qbNgNIRKlyCX/Lkp7X2T1DbdPFIQ9YkXUWd/E3Qd6i
-	7zwEp5QQzzHIR17KSn0QFyAaJp8V4aqbi3/XMWyvd/PoAU29qlcec2I05i79iPM=
-X-Google-Smtp-Source: AGHT+IEWJNE/oSndh7HJGmMTRzG/a7U/2UFRtitDsJdpik/3KdiqQKsv2Vs5bIhnxPkCi3hyl+4Azg==
-X-Received: by 2002:a05:600c:3584:b0:421:2bf5:2362 with SMTP id 5b1f17b1804b1-4212e0c0597mr103542905e9.39.1717432355256;
-        Mon, 03 Jun 2024 09:32:35 -0700 (PDT)
+        bh=nk9E2INoBWScp8IVo0nZx7YAhk3K4PpsEZ2LL6Rfd0U=;
+        b=rw13DQJpTHex8t5O+GthNYDOjSFFHZsBHfDamk/uda5gTcUv0OAwoIjDdek5KLhMI2
+         vUl9QKGr4mfr+CGDnOsM/cGp1IZL5as+AmePBrjC70Q+HubLdIx63U+eS/VeIT4etJry
+         J1L9PJaB5gCA/jgmDZOY+sYCU7qBLZf9Su0768atichCHP25yUheTionxo0WNUWtURh6
+         1rhpv7tYYQstmO25wf1IdSU84H4BWu9cIK6hcQ2oS2Rgfbq8Q3uN1ae9BqTbVd0/8icj
+         PGSXvW7FqNAjqNXyLseJ3Ppb2/Z6DfLhGrHFy6nXlqn0mvnp/Spy240z31We1KujcM1A
+         43Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCXq/OAp2ynm/b0XVxTcdFFywrfdXIuAyE9Ysv1HfDtgE9VA5ZJPztR7hmoOvZBQGpm3QYZFfPbJW9TBPnLrbvs2ddKnxWnB8e1dqzMq+UVcOMIilxF9PFeE
+X-Gm-Message-State: AOJu0Yy911xkk4MXlaHPU1m8UmJF3fBhj5q2gZqMhMFoJFm8tSop3Dgo
+	GfrfPy4VzGxQGqWYW1ECZbPWCpwJRBwiCCU42m9JSgGfxz2UzNxOOB7gbwLOEvtbMyrnwjCxana
+	L
+X-Google-Smtp-Source: AGHT+IHIkuSAJIaoIFii8+7UweWl2XtBLH9xElLKAPvh3BPfyRByDaPzYJED/tnzRdxVcf0fQwS6Iw==
+X-Received: by 2002:adf:e6c4:0:b0:357:d26a:4f2a with SMTP id ffacd0b85a97d-35e0f2898acmr7256314f8f.33.1717432525602;
+        Mon, 03 Jun 2024 09:35:25 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc? ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35e56669a23sm4337058f8f.83.2024.06.03.09.32.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04da5acsm9122418f8f.62.2024.06.03.09.35.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 09:32:34 -0700 (PDT)
-Message-ID: <04bdcfe5aa8df4af897dbd59e1e99d58714e86c5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/4] autotools/libtool: Drop libtool sysroot
- patch as not needed
+        Mon, 03 Jun 2024 09:35:25 -0700 (PDT)
+Message-ID: <1facaae48c6b1ea6e6b7640384a5e7ad79de5868.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-rpds-py: Create a symlink for cython
+ module on musl
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 03 Jun 2024 17:32:33 +0100
-In-Reply-To: <CABcZAN=hTMHq4DWisLSf6_i1QtOFUZQvxkvCTF5MGeD1DnctUA@mail.gmail.com>
-References: <20240603133938.3552266-1-richard.purdie@linuxfoundation.org>
-	 <20240603133938.3552266-2-richard.purdie@linuxfoundation.org>
-	 <CABcZAN=hTMHq4DWisLSf6_i1QtOFUZQvxkvCTF5MGeD1DnctUA@mail.gmail.com>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 03 Jun 2024 17:35:24 +0100
+In-Reply-To: <20240603162525.2940419-1-raj.khem@gmail.com>
+References: <20240603162525.2940419-1-raj.khem@gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,22 +68,69 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 16:32:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200270
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 16:35:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200271
 
-On Mon, 2024-06-03 at 15:59 +0000, Christopher Larson wrote:
-> Always lovely to see a libtool patch go away, nice!
+On Mon, 2024-06-03 at 09:25 -0700, Khem Raj via lists.openembedded.org
+wrote:
+> loader expects it to be called with 'linux-gnu' e.g
+> rpds.cpython-312-x86_64-linux-musl.so is created with musl
+> but loader expects it to called rpds.cpython-312-x86_64-linux-gnu.so
+>=20
+> Lets create the symlink to please the loader.
+>=20
+> Fixes
+> ImportError while importing test module '/usr/lib/python3-rpds-
+> py/ptest/tests/test_hash_trie_map.py'.
+> Hint: make sure your test modules/packages have valid Python names.
+> Traceback:
+> ../../python3.12/importlib/__init__.py:90: in import_module
+> =C2=A0=C2=A0=C2=A0 return _bootstrap._gcd_import(name[level:], package, l=
+evel)
+> tests/test_hash_trie_map.py:36: in <module>
+> =C2=A0=C2=A0=C2=A0 from rpds import HashTrieMap
+> ../../python3.12/site-packages/rpds/__init__.py:1: in <module>
+> =C2=A0=C2=A0=C2=A0 from .rpds import *
+> E=C2=A0=C2=A0 ModuleNotFoundError: No module named 'rpds.rpds'
+> ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> =C2=A0.../recipes-devtools/python/python3-rpds-py_0.18.1.bb | 11
+> +++++++++++
+> =C2=A01 file changed, 11 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> index f46df1115c8..b1f0e100332 100644
+> --- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> +++ b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+> @@ -27,4 +27,15 @@ do_install_ptest() {
+> =C2=A0=C2=A0=C2=A0=C2=A0 cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> =C2=A0}
+> =C2=A0
+> +do_install:append() {
+> +=C2=A0=C2=A0=C2=A0 for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds.cp=
+ython*.so
+> +=C2=A0=C2=A0=C2=A0 do
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fname=3D`basename $f`
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lname=3D`echo $fname | sed 's=
+/musl/gnu/'`
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "$fname" !=3D "$lname" ]=
+; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mv $f=
+ ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/$lname
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> +=C2=A0=C2=A0=C2=A0 done
+> +}
+> +
+> =C2=A0BBCLASSEXTEND =3D "native nativesdk"
+>=20
 
-Yes!
+This feels like the kind of workaround that will live forever. Can we
+not fix the loader to use the right name?
 
-We've had reasonable success at getting quite a few merged upstream so
-the upgrade removes a load too.
-
-https://savannah.gnu.org/news/?id=3D10631
-
-5 commits into 2.5.0 and we had more into 2.4.7 and 2.4.6.
-
-Its taken far too long but things do look/feel cleaner now.
+Also, there is not even a comment above saying why we need to do this.
 
 Cheers,
 
