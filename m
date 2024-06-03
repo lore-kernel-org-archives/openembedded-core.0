@@ -2,345 +2,122 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7622C25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 14:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB014C25B76
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 14:08:27 +0000 (UTC)
 Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.84301.1717423529668659679
+ by mx.groups.io with SMTP id smtpd.web11.84361.1717423697181649683
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 07:05:30 -0700
+ Mon, 03 Jun 2024 07:08:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IknH8/8K;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A94RAi+m;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.167.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52b7ffd9f6eso4144329e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 07:05:29 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52b87e8ba1eso4296159e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 07:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717423527; x=1718028327; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=63un3JFHD6lIlJ0RNBhv5zsg730CazqbSO3eCJ+cpb0=;
-        b=IknH8/8KmGyE7t6pXeUp1oRSPx9uOk5BW9lEn4tI+mOb4NXQodhJ5QXTPRRGjEb4q/
-         1ZTXhrCDszm/FXIK/7GDmgqKYOAUSShM96Tt97IWbtrt6eOWOG/q4SIo0T2VrD11x6LQ
-         cp5Ula16J5yA95EzdQLnrhPwQ/vr61IqoJXn8=
+        d=linuxfoundation.org; s=google; t=1717423695; x=1718028495; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OGqAuNouwc9HWDYHt+T55D/eOdLbAhwxByGvinmhFlM=;
+        b=A94RAi+muYra0BpgLPEAHohzsSiKHX/SEEqybPwZw4a6bI9rkq4+JBDb8O1o/hOn0I
+         IZMyT2tGoCJTT1bllvEDrzsPRlpl9emoJ3GTFhX7ZC8mw8Q2XJ1D28Vr4bpmmg9DOUz9
+         OXCHnTk/9+PK39iFyzLzd/LY1q/Bg57My+knU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717423528; x=1718028328;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=63un3JFHD6lIlJ0RNBhv5zsg730CazqbSO3eCJ+cpb0=;
-        b=O9P0qfqvFJ1zhE8h9lX1u5c9dA+q0S3dlG9N/cUTG8NvkQhiUDSGBSWZs0JpiEXb0I
-         zc1/p59e2jJspgFaa08vgGmG3+GhjEuFh07vVO/z3dFQFo/6rtLFMJS8+CtMpfGumJ2n
-         Q4HJV6T291ZZm2+K1Zfak6wkQ81XIGNMbX9+muFB1zzJeAGAoYRq14xsl3WAqL81jv5x
-         IoZ9x9XhjaOa0IAZhr9i5f34UDYSKptl6ULxdZFNSc/rDi+46GYLmEFF0StLV0UMe6QU
-         GriPJXbRkytKtbUP3mr+g7bs+VoSYd7/RTiRsLJTLdZWckITmKbFCNdJFkHW1gV2bSm2
-         Fmww==
-X-Gm-Message-State: AOJu0YxiazkcCLAGIU15KDJXXLMN9jwGGOBY9x6Wnm15HkxpUZjl6+AC
-	IN+fjJtZmXuMFuyZ8XkyY4ueiGTNQudywT1qDXKYeYrqkiu+xfQghViUvwVvW5D8tpW3dWoZ8fB
-	f
-X-Google-Smtp-Source: AGHT+IG5hTheXiFcNB1h3N8wfiEZqrOAQEQOseFGDgld5WixGuHlAi/tIHwFHZWMziRW43704CLWQA==
-X-Received: by 2002:ac2:5f66:0:b0:524:43b2:d326 with SMTP id 2adb3069b0e04-52b8958db32mr5548713e87.37.1717423527138;
-        Mon, 03 Jun 2024 07:05:27 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4213860126fsm70656695e9.40.2024.06.03.07.05.26
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1717423695; x=1718028495;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OGqAuNouwc9HWDYHt+T55D/eOdLbAhwxByGvinmhFlM=;
+        b=HAEUOAarGKITfBkI5PLk8h7Co9rLSI8uRwm+srheY29fnfPGxL9NKlNdHgZ6u7UWUm
+         J28QTVL1Fzuqit3Iy/jdVBponbFdwCecYOgeP3QOCA0XpW2nYLdo+BnfQtUqTqFoPG72
+         6qhK6S2Jms8fUvqbzHzAw+opzIzrbr7dZRK1ROYCbJrCpBa+l7M9ClhGRy/Z0LTcn3Sm
+         EccWSIfX59MM/ZT5WQ91BC/gaAqIIDU6kYLOm+Rxvxp4Ayks3VIE32k3seo/0QMpjF32
+         d23ZClHuL1s9RhJLMAhJiKeO2CaRr5rPBh84UzczckOcKS7W35DsY6dOdD80cTpXFMZv
+         h3pw==
+X-Forwarded-Encrypted: i=1; AJvYcCW5qKg1U0MPCHtkC1l8nRxawWTS2uPaGaqeuFRccz1KwrXIz2+Ve1TjX3YwP3jLD2+oNbIGHQs8GvJ1RjH8xrPR73kGH859fZjA3bgFgzdlkjn0eXXjBkHg
+X-Gm-Message-State: AOJu0YzMTKAphZmzPsjobvOqq4Trq3qJtTsCOhSjuo6c56n6wFcyIjyL
+	ydjB1SKlS8HOS0T4EEwSgoKd+V1IJTkElOcQMhpGw2Z2LYlnKYNubeC6/TSiUCIqV2arA50CdTP
+	i
+X-Google-Smtp-Source: AGHT+IEMUk/nUpnvLvM2RDEBVO26IIkSghGJ5xEtyQ8gLA1V7MC7Pk95VgCQd+nCplhVdw/wfJf0fA==
+X-Received: by 2002:a05:6512:45b:b0:523:8a79:21b with SMTP id 2adb3069b0e04-52b89560a68mr6634843e87.11.1717423695155;
+        Mon, 03 Jun 2024 07:08:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc? ([2001:8b0:aba:5f3c:3a80:acf7:af1d:55dc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42138ec47eesm64497885e9.23.2024.06.03.07.08.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 07:05:26 -0700 (PDT)
+        Mon, 03 Jun 2024 07:08:14 -0700 (PDT)
+Message-ID: <d29724bf4472b3b4f5db512b611946b77ef3f8ee.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 0/3] Implement RECIPE_UPDATE_EXTRA_TASKS
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] autotools/libtool: Drop libtool sysroot patch as not needed
-Date: Mon,  3 Jun 2024 15:05:25 +0100
-Message-Id: <20240603140525.3554848-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+To: tim.orling@konsulko.com, openembedded-core@lists.openembedded.org, 
+	Trevor Gamblin <tgamblin@baylibre.com>
+Cc: bluelightning@bluelightning.org
+Date: Mon, 03 Jun 2024 15:08:13 +0100
+In-Reply-To: <cover.1717361301.git.tim.orling@konsulko.com>
+References: <cover.1717361301.git.tim.orling@konsulko.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 14:05:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200254
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 14:08:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200255
 
-libtool auto detects the sysroot from gcc's parameters or configuration so we
-don't need to pass in this configuration separately to libtool.
+On Sun, 2024-06-02 at 14:00 -0700, Tim Orling via lists.openembedded.org wr=
+ote:
+> From: Tim Orling <tim.orling@konsulko.com>
+>=20
+> Whenever a recipe which inherits cargo-update-recipe-crates is upgraded w=
+ith
+> devtool (such as with the Auto Upgrade Helper) we frequently see failures=
+.
+> If the upstream Cargo.toml or Cargo.lock has been changed, the correspond=
+ing
+> <recipe_name>-crates.inc needs to be updated. This is done by running the
+> "bitbake -c update_crates <recipe_name>" task, but this has until now bee=
+n
+> a manual operation.
+>=20
+> Add a new variable RECIPE_UPDATE_EXTRA_TASKS which is a string delimited
+> list of tasks to be run during the upgrade() method of
+> meta/lib/devtool/upgrade.py.
+>=20
+> To solve the problem described above, the solution is for all recipes whi=
+ch
+> inherit cargo-update-recipe-crates to add the "do_update_crates" task to
+> the RECIPE_UPDATE_EXTRA_TASKS variable. Add this to the bbclass.
+>=20
+> Add test case based on the guessing-game source we currently use for the
+> maturin runtime test cases, based on https://www.maturin.rs/tutorial.
+> This oe-selftest case checks for both the change in the recipe file and
+> the recipe -crates.inc file.
+>=20
+> This will rely on a new "guessing-game" git repository to be added to
+> git.yoctoproject.org/guessing-game (currently hosted on GitHub for the
+> purposes of this RFC).
+>=20
+> Currently, update_crates is the only task known to the author to fall int=
+o
+> this RECIPE_UPDATE_EXTRA_TASKS use case. If anyone can think of other use
+> cases that can also be added (and tested!), please let me know.
 
-Whilst the option names do conflict with gcc/binutils, that is an issue for those
-projects to resolve, not us. Upstream libtool did reject the patch. We can
-drop this patch and simplify our code.
+This looks good to me, thanks.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/insane.bbclass            |   2 +-
- meta/classes-recipe/autotools.bbclass         |   9 +-
- .../libtool/libtool-2.5.0.inc                 |   1 -
- .../libtool/libtool-native_2.5.0.bb           |   2 +-
- ...e-the-with-sysroot-option-to-avoid-c.patch | 171 ------------------
- ...ool.m4-Handle-as-a-sysroot-correctly.patch |   6 +-
- 6 files changed, 6 insertions(+), 185 deletions(-)
- delete mode 100644 meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
+Would we want to add the task that updates the python recipe's manifest
+to this?
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 151cf0c4eac..822d190a304 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -58,7 +58,7 @@ enabled tests are listed here, the do_package_qa task will run under fakeroot."
- 
- ALL_QA = "${WARN_QA} ${ERROR_QA}"
- 
--UNKNOWN_CONFIGURE_OPT_IGNORE ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot --disable-static"
-+UNKNOWN_CONFIGURE_OPT_IGNORE ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --disable-static"
- 
- # This is a list of directories that are expected to be empty.
- QA_EMPTY_DIRS ?= " \
-diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/autotools.bbclass
-index 7ee1b0d9c74..9ebdca47680 100644
---- a/meta/classes-recipe/autotools.bbclass
-+++ b/meta/classes-recipe/autotools.bbclass
-@@ -57,12 +57,6 @@ export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
- export LD_FOR_BUILD = "${BUILD_LD}"
- export LDFLAGS_FOR_BUILD = "${BUILD_LDFLAGS}"
- 
--def append_libtool_sysroot(d):
--    # Only supply libtool sysroot option for non-native packages
--    if not bb.data.inherits_class('native', d):
--        return '--with-libtool-sysroot=${STAGING_DIR_HOST}'
--    return ""
--
- CONFIGUREOPTS = " --build=${BUILD_SYS} \
- 		  --host=${HOST_SYS} \
- 		  --target=${TARGET_SYS} \
-@@ -81,8 +75,7 @@ CONFIGUREOPTS = " --build=${BUILD_SYS} \
- 		  --infodir=${infodir} \
- 		  --mandir=${mandir} \
- 		  --disable-silent-rules \
--		  ${CONFIGUREOPT_DEPTRACK} \
--		  ${@append_libtool_sysroot(d)}"
-+		  ${CONFIGUREOPT_DEPTRACK}"
- CONFIGUREOPT_DEPTRACK ?= "--disable-dependency-tracking"
- 
- CACHED_CONFIGUREVARS ?= ""
-diff --git a/meta/recipes-devtools/libtool/libtool-2.5.0.inc b/meta/recipes-devtools/libtool/libtool-2.5.0.inc
-index dd6215476e8..a609de6369b 100644
---- a/meta/recipes-devtools/libtool/libtool-2.5.0.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.5.0.inc
-@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "https://alpha.gnu.org/gnu/libtool/libtool-${PV}.tar.gz \
-            file://0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch \
--           file://0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch \
-            file://0003-ltmain.in-Add-missing-sysroot-to-library-path.patch \
-            file://0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch \
-            file://0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch \
-diff --git a/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb b/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb
-index 19024f7830c..90c06f0ec3f 100644
---- a/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb
-+++ b/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb
-@@ -4,7 +4,7 @@ DEPENDS = ""
- 
- inherit native
- 
--EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
-+EXTRA_OECONF = " --with-sysroot=${STAGING_DIR_NATIVE}"
- 
- do_configure:prepend () {
- 	# Remove any existing libtool m4 since old stale versions would break
-diff --git a/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch b/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
-deleted file mode 100644
-index 156622bb54b..00000000000
---- a/meta/recipes-devtools/libtool/libtool/0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch
-+++ /dev/null
-@@ -1,171 +0,0 @@
--From: Khem Raj <raj.khem@gmail.com>
--Subject: [PATCH 02/12] libtool.m4: Rename the --with-sysroot option to avoid conflict with gcc/binutils
--
--This patch renames the --with-sysroot option to --with-libtool-sysroot
--to avoid namespace conflict with binutils, gcc and other toolchain
--components since these componets also add that option to configure
--and this becomes confusing and conflicting otherwise.
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Upstream report:
--http://lists.gnu.org/archive/html/libtool/2010-10/msg00048.html
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00014.html]
--
--Index: libtool-2.5.0/m4/libtool.m4
--===================================================================
----- libtool-2.5.0.orig/m4/libtool.m4
--+++ libtool-2.5.0/m4/libtool.m4
--@@ -1243,16 +1243,16 @@ _LT_DECL([], [ECHO], [1], [An echo progr
-- AC_DEFUN([_LT_WITH_SYSROOT],
-- [m4_require([_LT_DECL_SED])dnl
-- AC_MSG_CHECKING([for sysroot])
---AC_ARG_WITH([sysroot],
---[AS_HELP_STRING([--with-sysroot@<:@=DIR@:>@],
--+AC_ARG_WITH([libtool-sysroot],
--+[AS_HELP_STRING([--with-libtool-sysroot@<:@=DIR@:>@],
--   [Search for dependent libraries within DIR (or the compiler's sysroot
--    if not specified).])],
---[], [with_sysroot=no])
--+[], [with_libtool_sysroot=no])
-- 
-- dnl lt_sysroot will always be passed unquoted.  We quote it here
-- dnl in case the user passed a directory name.
-- lt_sysroot=
---case $with_sysroot in #(
--+case $with_libtool_sysroot in #(
--  yes)
--    if test yes = "$GCC"; then
--      # Trim trailing / since we'll always append absolute paths and we want
--@@ -1261,12 +1261,12 @@ case $with_sysroot in #(
--    fi
--    ;; #(
--  /*)
---   lt_sysroot=`echo "$with_sysroot" | $SED -e "$sed_quote_subst"`
--+   lt_sysroot=`echo "$with_libtool_sysroot" | $SED -e "$sed_quote_subst"`
--    ;; #(
--  no|'')
--    ;; #(
--  *)
---   AC_MSG_RESULT([$with_sysroot])
--+   AC_MSG_RESULT([$with_libtool_sysroot])
--    AC_MSG_ERROR([The sysroot must be an absolute path.])
--    ;;
-- esac
--Index: libtool-2.5.0/tests/sysroot.at
--===================================================================
----- libtool-2.5.0.orig/tests/sysroot.at
--+++ libtool-2.5.0/tests/sysroot.at
--@@ -65,7 +65,7 @@ while read file; do
-- done])
-- 
-- LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
---configure_options="$configure_options --with-sysroot=$sysroot --prefix=$prefix"
--+configure_options="$configure_options --with-libtool-sysroot=$sysroot --prefix=$prefix"
-- 
-- #???
-- if test PATH = "$shlibpath_var"; then
--@@ -115,7 +115,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([lib2.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- ]])
--@@ -156,7 +156,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([prog.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- ]])
--Index: libtool-2.5.0/tests/testsuite
--===================================================================
----- libtool-2.5.0.orig/tests/testsuite
--+++ libtool-2.5.0/tests/testsuite
--@@ -49054,7 +49054,7 @@ $at_traceon; }
-- 
-- 
-- LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
---configure_options="$configure_options --with-sysroot=$sysroot --prefix=$prefix"
--+configure_options="$configure_options --with-libtool-sysroot=$sysroot --prefix=$prefix"
-- 
-- #???
-- if test PATH = "$shlibpath_var"; then
--@@ -49269,7 +49269,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([lib2.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
--@@ -49463,7 +49463,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([prog.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
--@@ -49821,7 +49821,7 @@ $at_traceon; }
-- 
-- 
-- LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
---configure_options="$configure_options --with-sysroot=$sysroot --prefix=$prefix"
--+configure_options="$configure_options --with-libtool-sysroot=$sysroot --prefix=$prefix"
-- 
-- #???
-- if test PATH = "$shlibpath_var"; then
--@@ -50036,7 +50036,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([lib2.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
--@@ -50230,7 +50230,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([prog.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
--@@ -50588,7 +50588,7 @@ $at_traceon; }
-- 
-- 
-- LDFLAGS="$LDFLAGS --sysroot=$sysroot -no-undefined"
---configure_options="$configure_options --with-sysroot=$sysroot --prefix=$prefix"
--+configure_options="$configure_options --with-libtool-sysroot=$sysroot --prefix=$prefix"
-- 
-- #???
-- if test PATH = "$shlibpath_var"; then
--@@ -50803,7 +50803,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([lib2.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
--@@ -50997,7 +50997,7 @@ AM_INIT_AUTOMAKE([foreign])
-- AC_PROG_CC
-- AC_CONFIG_SRCDIR([prog.c])
-- LT_INIT
---sysroot=$with_sysroot
--+sysroot=$with_libtool_sysroot
-- AC_SUBST([sysroot])
-- AC_OUTPUT(Makefile)
-- _ATEOF
-diff --git a/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch b/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch
-index 435c52c7301..feb1048b554 100644
---- a/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch
-@@ -17,7 +17,7 @@ Index: libtool-2.5.0/m4/libtool.m4
- @@ -1253,18 +1253,18 @@ dnl lt_sysroot will always be passed unq
-  dnl in case the user passed a directory name.
-  lt_sysroot=
-- case $with_libtool_sysroot in #(
-+ case $with_sysroot in #(
- - yes)
- + no)
-     if test yes = "$GCC"; then
-@@ -29,10 +29,10 @@ Index: libtool-2.5.0/m4/libtool.m4
- + yes|''|/)
- +   ;; #(
-   /*)
--    lt_sysroot=`echo "$with_libtool_sysroot" | $SED -e "$sed_quote_subst"`
-+    lt_sysroot=`echo "$with_sysroot" | $SED -e "$sed_quote_subst"`
-     ;; #(
- - no|'')
- -   ;; #(
-   *)
--    AC_MSG_RESULT([$with_libtool_sysroot])
-+    AC_MSG_RESULT([$with_sysroot])
-     AC_MSG_ERROR([The sysroot must be an absolute path.])
+Cheers,
+
+Richard
+
+
 
