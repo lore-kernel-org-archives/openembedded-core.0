@@ -2,78 +2,78 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA011C25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 17:23:45 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.57.1717435424422896624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6ACC25B75
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 17:28:55 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.198.1717435730992949043
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 10:23:44 -0700
+ Mon, 03 Jun 2024 10:28:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=W8IEHmyl;
- spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: sdoshi@mvista.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70276322ad8so230961b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 10:23:44 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Acv+EOZs;
+ spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f612d7b0f5so29062785ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 10:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1717435423; x=1718040223; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1717435730; x=1718040530; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lYJuBFMHVwuWUzj0igRQYji+0LMTX7qTo2wrGWiK3/Q=;
-        b=W8IEHmylr/iiPtzJGDDfDl9BLSh4Vb4kMgxJ3dxWGr6AUnk7R68uTPsC5yJMAAg/Ha
-         jqO9GpVqueOLPN/evY+C5blXsdAHPpzTHfmZiaY2IUUtQFK/5ngpMGjKrPBDgh94kiur
-         xk4wfQj4SGL/XyG4KDJzk4vTlu1v1Z3pWhfIY=
+        bh=zNOdcLpE30jeAUTTdUuJw7wNQl9l1gyV1BCkGQHneXU=;
+        b=Acv+EOZsERLbvXl9qdhkShURU3lWzhZ9m0L8Kl6HXlrH6ICqlAepOmKMTYEDQyDUMJ
+         oyzajn+7/CGKuF6JS1soU6NVC0V5fo6WFInqFgo3+sCBhEsd01YmbzlByJi+qFo6v7Cm
+         KBhaMIAGeITNCdlMCVeKKNaQas1wmYT39a8EM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717435423; x=1718040223;
+        d=1e100.net; s=20230601; t=1717435730; x=1718040530;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lYJuBFMHVwuWUzj0igRQYji+0LMTX7qTo2wrGWiK3/Q=;
-        b=gAVc1BZTS4A7v46sFQNqelcFFGNDtSzKS8t5ICqdGsoL/sOdFJJ1isIglmiDridl5c
-         Nna5CJc4nkBG47t8rmLKtVmD1d5EWHcejwy5ujMM6SXbKABulqwJDPieiTKwXcb4erfc
-         isMCqnchnHwZGzj38ImSIh/+m4TkRWgQQeYtCELObhDAkviKH0TDFa8qNaMnsFgAO0gp
-         XHTD7bsPAN0g8LUHW8OarKBHt/s0WgOIP08HzILv1ZyutLzjWbRzKk4cP97rKR4IuGy9
-         cM9EEathsfOGQW/rU9qcPQXQh2WOgNXztqrTb4Ouf0Klzcujb31JSUlj/eh3OyYNzPHf
-         0+dw==
-X-Gm-Message-State: AOJu0YzrN8Bhs8CKv29mHXXk58cVZHeWCPB27o8Zmp5VMKrLpkNwrA4V
-	jvOqzv6kQFooJt/njXWlyrvhLgxsdBgd0LjcAa8jon/nccNz0j9vyFy3BECFFu39EPCJi80sXWo
-	r
-X-Google-Smtp-Source: AGHT+IFuw6dr6c82BHXhgoXO7uYp9uXPOuCWPUcRD6PMqQRepWpc98yYy3Py4cmIu2p+xPxeYCX6MQ==
-X-Received: by 2002:a05:6a20:5aa9:b0:1b1:c745:5c66 with SMTP id adf61e73a8af0-1b26f286f07mr8606710637.54.1717435423068;
-        Mon, 03 Jun 2024 10:23:43 -0700 (PDT)
+        bh=zNOdcLpE30jeAUTTdUuJw7wNQl9l1gyV1BCkGQHneXU=;
+        b=DOGr75YUJrFaTxD1dTM1uoYfBlpjT9pMmwze2MfkcTTk7QkxIWkarJf+yAByY5Jiyg
+         RhMGJMlsoXFbPTbq39EQskQkyj/2Pg6cr9EXqlj7vJpjc/Txa5rh8Wx2EKb/XcP8cD3K
+         GvT3gzwGwF17kXqU7aoK5Lz1O82s3wgQTSMi563ioIV4DPnWNZuHaMgCH8QS5t+1V7Z5
+         wPL3WUbBC9677cFcyNtVP/p0U6R5Dnc0YR6zfPiBna8cBpSiE78lEeMHoviNPwP/+6Ax
+         cHsNCPqiVmTWSu9+S9rMgPEzEpcXQcfgrOBd/1BHVInPjPKlzIYlfFMDyDh+mo6hy5Xh
+         Q9Vg==
+X-Gm-Message-State: AOJu0Yz9674LTE4e0ES8LTK9VbBdEm30QZi7hihLo9JUXk0K5V9ta0jc
+	YSg7v3G7oud93/Cvp/RyDg8hcim3bXAUABVesrmZq6CTAGRWSbLuPAOJQhzXp++RuTdC79ryJVp
+	k
+X-Google-Smtp-Source: AGHT+IHndDUU7NjsSTm8vbBNIgClITqlkDS8ma1G7PZ76yUkFyaiCIOrxTgjeVMxqXJ+8gIdqHQm1w==
+X-Received: by 2002:a17:902:e74d:b0:1f6:83d1:a232 with SMTP id d9443c01a7336-1f6937b3bebmr4306135ad.10.1717435729721;
+        Mon, 03 Jun 2024 10:28:49 -0700 (PDT)
 Received: from siddharth-latitude-3420.mvista.com ([49.34.100.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f667512bf2sm32662355ad.224.2024.06.03.10.23.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323dfe3bsm69289445ad.135.2024.06.03.10.28.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 10:23:42 -0700 (PDT)
+        Mon, 03 Jun 2024 10:28:49 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCHv2] openssl: Security fix for CVE-2024-4741
-Date: Mon,  3 Jun 2024 22:52:15 +0530
-Message-Id: <20240603172215.319982-1-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCHv2] openssl: Security fix for CVE-2024-4741
+Date: Mon,  3 Jun 2024 22:58:13 +0530
+Message-Id: <20240603172813.320248-1-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 17:23:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200272
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 17:28:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200273
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
-Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/b3f0eb0a295f58f16ba43ba99dad70d4ee5c437d, https://github.com/openssl/openssl/commit/2d05959073c4bf8803401668b9df85931a08e020, https://github.com/openssl/openssl/commit/6fef334f914abfcd988e53a32d19f01d84529f74, https://github.com/openssl/openssl/commit/1359c00e683840154760b7ba9204bad1b13dc074, https://github.com/openssl/openssl/commit/d095674320c84b8ed1250715b1dd5ce05f9f267b]
+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/c88c3de51020c37e8706bf7a682a162593053aac, https://github.com/openssl/openssl/commit/10171e5b511b700c5ecd4fd3e1086b19c34b1ae3, https://github.com/openssl/openssl/commit/ec87bc54c8ccc13caa29bc7f74ae84d78ffa1f5e, https://github.com/openssl/openssl/commit/d0f5a122ba271c9c848e16970249f61b3fc11b2b, https://github.com/openssl/openssl/commit/d03e6fdf54ea41fb35e0499134eb3a7f831eeeeb]
 
 CVE's Fixed:
 CVE-2024-4741:Use After Free with SSL_free_buffers
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../openssl/openssl/CVE-2024-4741_1.patch     |  76 +++++++
- .../openssl/openssl/CVE-2024-4741_2.patch     |  56 +++++
+ .../openssl/openssl/CVE-2024-4741_1.patch     |  43 ++++
+ .../openssl/openssl/CVE-2024-4741_2.patch     |  52 +++++
  .../openssl/openssl/CVE-2024-4741_3.patch     | 137 ++++++++++++
- .../openssl/openssl/CVE-2024-4741_4.patch     | 122 +++++++++++
+ .../openssl/openssl/CVE-2024-4741_4.patch     | 124 +++++++++++
  .../openssl/openssl/CVE-2024-4741_5.patch     | 205 ++++++++++++++++++
- .../openssl/openssl_3.0.13.bb                 |   5 +
- 6 files changed, 601 insertions(+)
+ .../openssl/openssl_3.2.1.bb                  |   5 +
+ 6 files changed, 566 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_1.patch
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_2.patch
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_3.patch
@@ -82,14 +82,14 @@ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_1.patch
 new file mode 100644
-index 0000000000..0753fa222c
+index 0000000000..6987220c35
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_1.patch
-@@ -0,0 +1,76 @@
-+From b3f0eb0a295f58f16ba43ba99dad70d4ee5c437d Mon Sep 17 00:00:00 2001
-+From: Watson Ladd <watsonbladd@gmail.com>
-+Date: Wed, 24 Apr 2024 11:26:56 +0100
-+Subject: [PATCH] Only free the read buffers if we're not using them
+@@ -0,0 +1,43 @@
++From fe3eeaab1b2b5c9f9240a5ebafa5057a3211c3d0 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Tue, 23 Apr 2024 16:34:46 +0100
++Subject: [PATCH 1/5] Only free the read buffers if we're not using them
 +
 +If we're part way through processing a record, or the application has
 +not released all the records then we should not free our buffer because
@@ -99,141 +99,104 @@ index 0000000000..0753fa222c
 +
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
 +(Merged from https://github.com/openssl/openssl/pull/24395)
 +
-+(cherry picked from commit 704f725b96aa373ee45ecfb23f6abfe8be8d9177)
++(cherry picked from commit 38690cab18de88198f46478565fab423cf534efa)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/b3f0eb0a295f58f16ba43ba99dad70d4ee5c437d]
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/c88c3de51020c37e8706bf7a682a162593053aac]
 +CVE: CVE-2024-4741
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ ssl/record/rec_layer_s3.c | 9 +++++++++
-+ ssl/record/record.h       | 1 +
-+ ssl/ssl_lib.c             | 3 +++
-+ 3 files changed, 13 insertions(+)
++ ssl/record/methods/tls_common.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/ssl/record/rec_layer_s3.c b/ssl/record/rec_layer_s3.c
-+index 4bcffcc..1569997 100644
-+--- a/ssl/record/rec_layer_s3.c
-++++ b/ssl/record/rec_layer_s3.c
-+@@ -81,6 +81,15 @@ int RECORD_LAYER_read_pending(const RECORD_LAYER *rl)
-+     return SSL3_BUFFER_get_left(&rl->rbuf) != 0;
-+ }
++diff --git a/ssl/record/methods/tls_common.c b/ssl/record/methods/tls_common.c
++index 08e519a..f46da0f 100644
++--- a/ssl/record/methods/tls_common.c
+++++ b/ssl/record/methods/tls_common.c
++@@ -2129,7 +2129,10 @@ int tls_free_buffers(OSSL_RECORD_LAYER *rl)
++     /* Read direction */
 + 
-++int RECORD_LAYER_data_present(const RECORD_LAYER *rl)
-++{
-++    if (rl->rstate == SSL_ST_READ_BODY)
-++        return 1;
-++    if (RECORD_LAYER_processed_read_pending(rl))
-++        return 1;
-++    return 0;
-++}
-++
-+ /* Checks if we have decrypted unread record data pending */
-+ int RECORD_LAYER_processed_read_pending(const RECORD_LAYER *rl)
-+ {
-+diff --git a/ssl/record/record.h b/ssl/record/record.h
-+index 234656b..b60f71c 100644
-+--- a/ssl/record/record.h
-++++ b/ssl/record/record.h
-+@@ -205,6 +205,7 @@ void RECORD_LAYER_release(RECORD_LAYER *rl);
-+ int RECORD_LAYER_read_pending(const RECORD_LAYER *rl);
-+ int RECORD_LAYER_processed_read_pending(const RECORD_LAYER *rl);
-+ int RECORD_LAYER_write_pending(const RECORD_LAYER *rl);
-++int RECORD_LAYER_data_present(const RECORD_LAYER *rl);
-+ void RECORD_LAYER_reset_read_sequence(RECORD_LAYER *rl);
-+ void RECORD_LAYER_reset_write_sequence(RECORD_LAYER *rl);
-+ int RECORD_LAYER_is_sslv2_record(RECORD_LAYER *rl);
-+diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
-+index eed649c..d14c55a 100644
-+--- a/ssl/ssl_lib.c
-++++ b/ssl/ssl_lib.c
-+@@ -5492,6 +5492,9 @@ int SSL_free_buffers(SSL *ssl)
-+     if (RECORD_LAYER_read_pending(rl) || RECORD_LAYER_write_pending(rl))
++     /* If we have pending data to be read then fail */
++-    if (rl->curr_rec < rl->num_recs || TLS_BUFFER_get_left(&rl->rbuf) != 0)
+++    if (rl->curr_rec < rl->num_recs
+++            || rl->curr_rec != rl->num_released
+++            || TLS_BUFFER_get_left(&rl->rbuf) != 0
+++            || rl->rstate == SSL_ST_READ_BODY)
 +         return 0;
 + 
-++    if (RECORD_LAYER_data_present(rl))
-++        return 0;
-++
-+     RECORD_LAYER_release(rl);
-+     return 1;
-+ }
++     return tls_release_read_buffer(rl);
 +-- 
-+2.25.1
++2.44.0
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_2.patch
 new file mode 100644
-index 0000000000..30a74c5ca4
+index 0000000000..6d455264ff
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_2.patch
-@@ -0,0 +1,56 @@
-+From 2d05959073c4bf8803401668b9df85931a08e020 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,52 @@
++From af2a2a9b4a6504891de7225ad12dba799cc2f1d3 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
-+Date: Wed, 24 Apr 2024 11:33:41 +0100
-+Subject: [PATCH] Set rlayer.packet to NULL after we've finished using it
++Date: Tue, 23 Apr 2024 16:36:11 +0100
++Subject: [PATCH 2/5] Set rl->packet to NULL after we've finished using it
 +
-+In order to ensure we do not have a UAF we reset the rlayer.packet pointer
++In order to ensure we do not have a UAF we reset the rl->packet pointer
 +to NULL after we free it.
 +
-+CVE-2024-4741
++Follow on from CVE-2024-4741
 +
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +(Merged from https://github.com/openssl/openssl/pull/24395)
 +
-+(cherry picked from commit d146349171101dec3a876c13eb7a6dea32ba62ba)
++(cherry picked from commit bfb8128190632092b3a66465838b87b469455cec)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/2d05959073c4bf8803401668b9df85931a08e020]
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/10171e5b511b700c5ecd4fd3e1086b19c34b1ae3]
 +CVE: CVE-2024-4741
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ ssl/record/rec_layer_s3.c | 6 ++++++
-+ ssl/record/ssl3_buffer.c  | 2 ++
-+ 2 files changed, 8 insertions(+)
++ ssl/record/methods/tls_common.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/ssl/record/rec_layer_s3.c b/ssl/record/rec_layer_s3.c
-+index 1569997..779e998 100644
-+--- a/ssl/record/rec_layer_s3.c
-++++ b/ssl/record/rec_layer_s3.c
-+@@ -230,6 +230,12 @@ int ssl3_read_n(SSL *s, size_t n, size_t max, int extend, int clearold,
-+         /* ... now we can act as if 'extend' was set */
-+     }
-+ 
-++    if (!ossl_assert(s->rlayer.packet != NULL)) {
-++        /* does not happen */
-++        SSLfatal(s, SSL_AD_INTERNAL_ERROR, ERR_R_INTERNAL_ERROR);
-++        return -1;
-++    }
-++
-+     len = s->rlayer.packet_length;
-+     pkt = rb->buf + align;
-+     /*
-+diff --git a/ssl/record/ssl3_buffer.c b/ssl/record/ssl3_buffer.c
-+index 97b0c26..1a10a7c 100644
-+--- a/ssl/record/ssl3_buffer.c
-++++ b/ssl/record/ssl3_buffer.c
-+@@ -191,5 +191,7 @@ int ssl3_release_read_buffer(SSL *s)
++diff --git a/ssl/record/methods/tls_common.c b/ssl/record/methods/tls_common.c
++index f46da0f..4cc432e 100644
++--- a/ssl/record/methods/tls_common.c
+++++ b/ssl/record/methods/tls_common.c
++@@ -283,6 +283,8 @@ static int tls_release_read_buffer(OSSL_RECORD_LAYER *rl)
 +         OPENSSL_cleanse(b->buf, b->len);
 +     OPENSSL_free(b->buf);
 +     b->buf = NULL;
-++    s->rlayer.packet = NULL;
-++    s->rlayer.packet_length = 0;
+++    rl->packet = NULL;
+++    rl->packet_length = 0;
 +     return 1;
 + }
++ 
++@@ -325,6 +327,12 @@ int tls_default_read_n(OSSL_RECORD_LAYER *rl, size_t n, size_t max, int extend,
++         /* ... now we can act as if 'extend' was set */
++     }
++ 
+++    if (!ossl_assert(rl->packet != NULL)) {
+++        /* does not happen */
+++        RLAYERfatal(rl, SSL_AD_INTERNAL_ERROR, ERR_R_INTERNAL_ERROR);
+++        return OSSL_RECORD_RETURN_FATAL;
+++    }
+++
++     len = rl->packet_length;
++     pkt = rb->buf + align;
++     /*
 +-- 
-+2.25.1
++2.44.0
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_3.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_3.patch
 new file mode 100644
-index 0000000000..60a6dcbf2a
+index 0000000000..7e79da8890
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_3.patch
 @@ -0,0 +1,137 @@
-+From 6fef334f914abfcd988e53a32d19f01d84529f74 Mon Sep 17 00:00:00 2001
++From 59874acf3ce063157851b9ec89298f036a4228c1 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Thu, 25 Apr 2024 09:34:16 +0100
-+Subject: [PATCH] Extend the SSL_free_buffers testing
++Subject: [PATCH 3/5] Extend the SSL_free_buffers testing
 +
 +Test that attempting to free the buffers at points where they should not
 +be freed works as expected.
@@ -244,9 +207,9 @@ index 0000000000..60a6dcbf2a
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +(Merged from https://github.com/openssl/openssl/pull/24395)
 +
-+(cherry picked from commit 4238abc17d44383592f92d6254d89dac806ee76b)
++(cherry picked from commit 566f3069169b9fab4fbb23da98c3c91730dd5209)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/6fef334f914abfcd988e53a32d19f01d84529f74]
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/ec87bc54c8ccc13caa29bc7f74ae84d78ffa1f5e]
 +CVE: CVE-2024-4741
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -254,10 +217,10 @@ index 0000000000..60a6dcbf2a
 + 1 file changed, 93 insertions(+)
 +
 +diff --git a/test/sslbuffertest.c b/test/sslbuffertest.c
-+index 3c3e69d..133fdb1 100644
++index 94229d5..93cfc44 100644
 +--- a/test/sslbuffertest.c
 ++++ b/test/sslbuffertest.c
-+@@ -150,6 +150,98 @@ static int test_func(int test)
++@@ -175,6 +175,98 @@ static int test_func(int test)
 +     return result;
 + }
 + 
@@ -356,7 +319,7 @@ index 0000000000..60a6dcbf2a
 + OPT_TEST_DECLARE_USAGE("certfile privkeyfile\n")
 + 
 + int setup_tests(void)
-+@@ -173,6 +265,7 @@ int setup_tests(void)
++@@ -198,6 +290,7 @@ int setup_tests(void)
 +     }
 + 
 +     ADD_ALL_TESTS(test_func, 9);
@@ -365,18 +328,19 @@ index 0000000000..60a6dcbf2a
 + }
 + 
 +-- 
-+2.25.1
++2.44.0
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_4.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_4.patch
 new file mode 100644
-index 0000000000..26775ecc86
+index 0000000000..e28cd1fb9c
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_4.patch
-@@ -0,0 +1,122 @@
-+From 0bb8b48c00f69601266db2b67dcec70b2c248632 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,124 @@
++From 48f0b411ca42ea43ae9ea4ed9cd6e0459fd8a7e2 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 26 Apr 2024 11:05:52 +0100
-+Subject: [PATCH] Move the ability to load the dasync engine into ssltestlib.c
++Subject: [PATCH 4/5] Move the ability to load the dasync engine into
++ ssltestlib.c
 +
 +The sslapitest has a helper function to load the dasync engine which is
 +useful for testing pipelining. We would like to have the same facility
@@ -389,19 +353,19 @@ index 0000000000..26775ecc86
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +(Merged from https://github.com/openssl/openssl/pull/24395)
 +
-+(cherry picked from commit 0544c21a22f4d787e6f31d35e8f980402ac90a6d)
++(cherry picked from commit 05752478df623a9ddf849f897b630c1e0728cb7c)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/1359c00e683840154760b7ba9204bad1b13dc074]
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/d0f5a122ba271c9c848e16970249f61b3fc11b2b]
 +CVE: CVE-2024-4741
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
 + test/helpers/ssltestlib.c | 33 +++++++++++++++++++++++++++++++++
-+ test/helpers/ssltestlib.h |  1 +
++ test/helpers/ssltestlib.h |  2 ++
 + test/sslapitest.c         | 21 ---------------------
-+ 3 files changed, 34 insertions(+), 21 deletions(-)
++ 3 files changed, 35 insertions(+), 21 deletions(-)
 +
 +diff --git a/test/helpers/ssltestlib.c b/test/helpers/ssltestlib.c
-+index ef4a617..da14f66 100644
++index 906aed4..b2ebed5 100644
 +--- a/test/helpers/ssltestlib.c
 ++++ b/test/helpers/ssltestlib.c
 +@@ -7,8 +7,17 @@
@@ -419,12 +383,12 @@ index 0000000000..26775ecc86
 + #include <string.h>
 + 
 ++#include <openssl/engine.h>
++ #include "internal/e_os.h"
 + #include "internal/nelem.h"
 + #include "ssltestlib.h"
-+ #include "../testutil.h"
-+@@ -1182,3 +1191,27 @@ void shutdown_ssl_connection(SSL *serverssl, SSL *clientssl)
-+     SSL_free(serverssl);
-+     SSL_free(clientssl);
++@@ -1451,3 +1460,27 @@ int ssl_ctx_add_large_cert_chain(OSSL_LIB_CTX *libctx, SSL_CTX *sctx,
++     X509_free(chaincert);
++     return ret;
 + }
 ++
 ++ENGINE *load_dasync(void)
@@ -451,21 +415,22 @@ index 0000000000..26775ecc86
 ++#endif
 ++}
 +diff --git a/test/helpers/ssltestlib.h b/test/helpers/ssltestlib.h
-+index 8e9daa5..2777fb3 100644
++index 871f9bd..bb73b58 100644
 +--- a/test/helpers/ssltestlib.h
 ++++ b/test/helpers/ssltestlib.h
-+@@ -59,4 +59,5 @@ typedef struct mempacket_st MEMPACKET;
-+ 
-+ DEFINE_STACK_OF(MEMPACKET)
++@@ -81,4 +81,6 @@ SSL_SESSION *create_a_psk(SSL *ssl, size_t mdsize);
++ int ssl_ctx_add_large_cert_chain(OSSL_LIB_CTX *libctx, SSL_CTX *sctx,
++                                  const char *cert_file);
 + 
 ++ENGINE *load_dasync(void);
+++
 + #endif /* OSSL_TEST_SSLTESTLIB_H */
 +diff --git a/test/sslapitest.c b/test/sslapitest.c
-+index e0274f1..f344b07 100644
++index a95f563..abda61d 100644
 +--- a/test/sslapitest.c
 ++++ b/test/sslapitest.c
-+@@ -10128,27 +10128,6 @@ end:
-+ }
++@@ -10621,27 +10621,6 @@ end:
++ #endif /* OSSL_NO_USABLE_TLS1_3 */
 + 
 + #if !defined(OPENSSL_NO_TLS1_2) && !defined(OPENSSL_NO_DYNAMIC_ENGINE)
 +-
@@ -493,18 +458,18 @@ index 0000000000..26775ecc86
 +  * Test TLSv1.2 with a pipeline capable cipher. TLSv1.3 and DTLS do not
 +  * support this yet. The only pipeline capable cipher that we have is in the
 +-- 
-+2.35.7
++2.44.0
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_5.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_5.patch
 new file mode 100644
-index 0000000000..8d231b4946
+index 0000000000..00e7c3add0
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4741_5.patch
 @@ -0,0 +1,205 @@
-+From d095674320c84b8ed1250715b1dd5ce05f9f267b Mon Sep 17 00:00:00 2001
++From 76624e3e95f77849e524d40e22063a51163ff58e Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 26 Apr 2024 13:58:29 +0100
-+Subject: [PATCH] Further extend the SSL_free_buffers testing
++Subject: [PATCH 5/5] Further extend the SSL_free_buffers testing
 +
 +We extend the testing to test what happens when pipelining is in use.
 +
@@ -514,9 +479,9 @@ index 0000000000..8d231b4946
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +(Merged from https://github.com/openssl/openssl/pull/24395)
 +
-+(cherry picked from commit 6972d5ace1275faf404e7a53e806861962f4121c)
++(cherry picked from commit c1bd38a003fa19fd0d8ade85e1bbc20d8ae59dab)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/d095674320c84b8ed1250715b1dd5ce05f9f267b]
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/d03e6fdf54ea41fb35e0499134eb3a7f831eeeeb]
 +CVE: CVE-2024-4741
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -524,7 +489,7 @@ index 0000000000..8d231b4946
 + 1 file changed, 97 insertions(+), 16 deletions(-)
 +
 +diff --git a/test/sslbuffertest.c b/test/sslbuffertest.c
-+index 133fdb1..7079d04 100644
++index 93cfc44..ee58574 100644
 +--- a/test/sslbuffertest.c
 ++++ b/test/sslbuffertest.c
 +@@ -8,10 +8,19 @@
@@ -545,9 +510,9 @@ index 0000000000..8d231b4946
 + #include <openssl/err.h>
 ++#include <openssl/engine.h>
 + 
-+ #include "internal/packet.h"
-+ 
-+@@ -160,34 +169,65 @@ static int test_func(int test)
++ /* We include internal headers so we can check if the buffers are allocated */
++ #include "../ssl/ssl_local.h"
++@@ -185,34 +194,65 @@ static int test_func(int test)
 +  * Test 2: Attempt to free buffers after a full record header but no record body
 +  * Test 3: Attempt to free buffers after a full record hedaer and partial record
 +  *         body
@@ -622,7 +587,7 @@ index 0000000000..8d231b4946
 +             goto end;
 +     } else {
 +         BIO *tmp;
-+@@ -215,16 +255,47 @@ static int test_free_buffers(int test)
++@@ -240,16 +280,47 @@ static int test_free_buffers(int test)
 +             goto end;
 +         }
 + 
@@ -676,7 +641,7 @@ index 0000000000..8d231b4946
 +     }
 + 
 +     /*
-+@@ -238,7 +309,13 @@ static int test_free_buffers(int test)
++@@ -263,7 +334,13 @@ static int test_free_buffers(int test)
 +  end:
 +     SSL_free(clientssl);
 +     SSL_free(serverssl);
@@ -691,7 +656,7 @@ index 0000000000..8d231b4946
 +     return result;
 + }
 + 
-+@@ -265,7 +342,11 @@ int setup_tests(void)
++@@ -290,7 +367,11 @@ int setup_tests(void)
 +     }
 + 
 +     ADD_ALL_TESTS(test_func, 9);
@@ -704,14 +669,14 @@ index 0000000000..8d231b4946
 + }
 + 
 +-- 
-+2.25.1
++2.44.0
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-index 87ab4047d9..d7a71d51f5 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-@@ -14,6 +14,11 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+index 9bdf7e1ec6..495f0d7630 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+@@ -15,6 +15,11 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://bti.patch \
             file://CVE-2024-2511.patch \
             file://CVE-2024-4603.patch \
 +           file://CVE-2024-4741_1.patch \
