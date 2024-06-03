@@ -1,374 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 576EBC25B75
-	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 19:59:45 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.3043.1717444782178493407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29199C25B78
+	for <webhook@archiver.kernel.org>; Mon,  3 Jun 2024 21:22:16 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.5328.1717449729181864708
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jun 2024 12:59:42 -0700
+ Mon, 03 Jun 2024 14:22:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fd8WTYSA;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so26665231fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 12:59:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b5Z+Bxmy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354cd8da8b9so4650101f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 14:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717444780; x=1718049580; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1y0NTRR/AkkTs1023pjsph8Ew+IKJkAacESKN70+AG4=;
-        b=Fd8WTYSA44NbPtWcJ/1ygUFr4EPkRX+5AsFNb3/EHlBytXvpYqPsgxrZI2ZVGyOGio
-         Gglf+WJPcpMum7J3CgTSwr1/K0xCtWhEQxmC6lX9spsDo8cWHs1c9oUA0uW/sB+iJjRh
-         alEeyJNDED/yel4rfgUdF8mz5B7Ftn5cmDHtJsWV1aUw+Uq61ew2xl8e9n+VnleoY6mL
-         PDAfgeBdNySL6b17hlviqypNjJ379PhOHm4JNKADyxL5jFf/o+t7TBdlgrjhbm9ukxsc
-         /eQw3TmjVrUpgX7Dq5AGw2/RrJQK/XXpm4ZCBHMoI8JqP3zr8bbF2VGJKMpb7DBt7ZZT
-         BREw==
+        d=linuxfoundation.org; s=google; t=1717449727; x=1718054527; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LDy/TT06POZug2JAM0uP8N1kIng6IxGHdYTwJ1xCfvE=;
+        b=b5Z+Bxmy0krVQ3FkjPTkm5AoBx54NXzcU0hjOAYNjux0iygCmf1/soGMaT+6o9l5Fe
+         fR4rvX3XTxm2XLdc3WKeqBnynYnbRbjZpDNY0ZYMGB3DFCrq+pd+slYDFjttEzhMbKSH
+         pHdYiHsG6+eZJc1IP+21aGPl/0A3h6V8FnKJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717444780; x=1718049580;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1y0NTRR/AkkTs1023pjsph8Ew+IKJkAacESKN70+AG4=;
-        b=Na38FWjoN0a8zcYAHt9aFINRv05UMdWPNTfqrW05A2haPjKaN6HV07iGjURBZm9yt8
-         VplW4nLvJF6GmFSkYQTqFtKnW8lYb/4MwFMjGH9/MYYbP8J2KjZTSyXbzgILGmRs4jnC
-         n+GOdjO46Oe89IxKXaVyn5+uAz9mrIHMR4U4cG9HZ8o/FRos24/Egii/EjbAQDr/ohbw
-         NXQ82AnX7q1EZmJgd6d2fJymwVNCKhLHG1rqJ3pT+AsuIsW1A7LM+HBnsq0HTYUkZCAY
-         yr3ZM2Bq1KAtVYqcDl4TxVDYH26pvjhlBikab3AYIHGiQsRgPGDsCYYiiCmThibBGNHR
-         QUfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGwsfsdJROr4nw9RYuj05PhQHNCk+YzyoOGvg7RmHdGqKbB0+C0SRxr2vrLv0s7Ew3YvYrWTP8Dr6VS44LG1t36PZJqCzLT89yWqLdgY/0j3+DYCcMY4Lw
-X-Gm-Message-State: AOJu0Yx0hrmz3ZdwKaxr5U5FMfnegh9inZQlCwt8OTjw0ZPviv/HI2YK
-	1DG6htNatsTeG4JYZKH1S1jOC2W5XUts+BbQQZyd6kPFUYMoalL96rrPoBcXt/F9FHg+ZF2OrkY
-	rm/7lEuJ8o0NEVMJN7Pozqsiiks0=
-X-Google-Smtp-Source: AGHT+IFPa29mNdb6gvGLW8RJt/7t7il2fAVhRk9cDnHB+O/z6RqMagriVC7ve6N8kIePg0ER4GtaM2wXeYV8dA6kUrE=
-X-Received: by 2002:a05:651c:1a28:b0:2e9:821a:82fb with SMTP id
- 38308e7fff4ca-2ea950e877bmr96539441fa.6.1717444779843; Mon, 03 Jun 2024
- 12:59:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717449727; x=1718054527;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LDy/TT06POZug2JAM0uP8N1kIng6IxGHdYTwJ1xCfvE=;
+        b=wuVCNk3CDtlgpk0VHaxMK5tnGOunAVyex1xFo4GQUqIZJMfGxlRJFSbbeYE+95An3B
+         lo/Y2oP6lURjJ/oXZtCduRx6ydyCtVx1yBFMgSr2nrkZT1DkEHnSunw1kTWKYjQhwk8B
+         1XEhzPBGy7UYDwCm8g0LD8LU0m5VEBc+S3iJnOT0CAvYnfzaUmxfOb+bkKR5sOXcK7TI
+         n0It9Qg/GbwBOp28CJPQsIF8rohT1m2f9VFfRYVvJxLVoeCFU1KOgpYmojhDYL9FB7BE
+         unzLdXcJ0JRnKMxXCzx3PkuOEyKgPRStzOi0cc+Je+rfitxAKK3uwSE4z3CJVd1vY1z2
+         AV3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUCktLD0U4lPD62w111mfP5wZNkwe7/p/KRtKFmOg2H1DOX0qifgvXIdpVdnk/koaH+PHQSP9UlcUvIVFbAhJ0L2IzAnxxqNdGFpuOkVzOL01rccX7vxn3S
+X-Gm-Message-State: AOJu0YxyPu1vEFlajDE4hWetkwgO9vFt6fz52to1tnhWegyP9kZA2G4a
+	azlAlhSmJFu+x52KjPi1WX8ITzwoLa384ztYq2l6EKVwQet0bhcg2jpW0LbD15I=
+X-Google-Smtp-Source: AGHT+IHrlMi7w6D1JT2Guv7HcCQeY3SYYdDHfFa/xvD2Vj2vo3KrbKkmjcfZaVkXycgz4RuZkixbCw==
+X-Received: by 2002:a5d:5f8b:0:b0:354:f550:8363 with SMTP id ffacd0b85a97d-35e0f286c5dmr9262793f8f.34.1717449727422;
+        Mon, 03 Jun 2024 14:22:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1? ([2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42138c41becsm79594215e9.30.2024.06.03.14.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 14:22:07 -0700 (PDT)
+Message-ID: <648acd46523f9be85df778aa235d082312ead1ff.camel@linuxfoundation.org>
+Subject: Re: [oe-core] [RFC] meson.bbclass: pkg-config vs pkgconf
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randolph Sapp <rs@ti.com>, alex.kanavin@gmail.com, 
+ openembedded-core@lists.openembedded.org, Ryan Eatmon <reatmon@ti.com>,
+ Denys Dmytriyenko <denys@konsulko.com>, cordlandwehr@kde.org,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>
+Date: Mon, 03 Jun 2024 22:22:03 +0100
+In-Reply-To: <f709a2b1-450a-47ab-9438-577c8d5e6bba@ti.com>
+References: <f709a2b1-450a-47ab-9438-577c8d5e6bba@ti.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-References: <20240603162525.2940419-1-raj.khem@gmail.com> <1facaae48c6b1ea6e6b7640384a5e7ad79de5868.camel@linuxfoundation.org>
- <CAMKF1sr5B27YZ6rjPma-tgh=jLdZO50eGomprLPjQtvc5bi9qA@mail.gmail.com>
-In-Reply-To: <CAMKF1sr5B27YZ6rjPma-tgh=jLdZO50eGomprLPjQtvc5bi9qA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Jun 2024 22:59:28 +0300
-Message-ID: <CANNYZj8XiWxKW3qp=V2-NsxTGuGR_AXnB8ywUKq-PikQhyYrbw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-rpds-py: Create a symlink for cython
- module on musl
-To: raj.khem@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000062abf061a01c6de"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 19:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200280
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jun 2024 21:22:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200281
 
---000000000000062abf061a01c6de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2024-06-03 at 13:02 -0500, Randolph Sapp wrote:
+> Forgive my ignorance, but is there any particular reason why pkg-
+> config is preferred over pkgconf for meson related recipes?
 
-I agree with RP, please get to the source of the mismatch. It=E2=80=99s a r=
-eally
-unpleasant workaround.
+Yes, as to try and mix both pkg-config and pkgconf would be a path to
+madness.
 
-Alex
+> It seems the two treat the usage of the PKG_CONFIG_SYSROOT_DIR
+> variable differently, resulting in issues when build scripts
+> attempting to use package config variables directly.
 
-On Mon 3. Jun 2024 at 20.49, Khem Raj via lists.openembedded.org <raj.khem=
-=3D
-gmail.com@lists.openembedded.org> wrote:
+Right, this is basically the problem. We have a long history of using
+pkg-config, we worked with upstream to merge sysroot support and it is
+the standard we built around.
 
-> On Mon, Jun 3, 2024 at 9:35=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2024-06-03 at 09:25 -0700, Khem Raj via lists.openembedded.org
-> > wrote:
-> > > loader expects it to be called with 'linux-gnu' e.g
-> > > rpds.cpython-312-x86_64-linux-musl.so is created with musl
-> > > but loader expects it to called rpds.cpython-312-x86_64-linux-gnu.so
-> > >
-> > > Lets create the symlink to please the loader.
-> > >
-> > > Fixes
-> > > ImportError while importing test module '/usr/lib/python3-rpds-
-> > > py/ptest/tests/test_hash_trie_map.py'.
-> > > Hint: make sure your test modules/packages have valid Python names.
-> > > Traceback:
-> > > ../../python3.12/importlib/__init__.py:90: in import_module
-> > >     return _bootstrap._gcd_import(name[level:], package, level)
-> > > tests/test_hash_trie_map.py:36: in <module>
-> > >     from rpds import HashTrieMap
-> > > ../../python3.12/site-packages/rpds/__init__.py:1: in <module>
-> > >     from .rpds import *
-> > > E   ModuleNotFoundError: No module named 'rpds.rpds'
-> > > ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  .../recipes-devtools/python/python3-rpds-py_0.18.1.bb | 11
-> > > +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-> > > b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-> > > index f46df1115c8..b1f0e100332 100644
-> > > --- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-> > > +++ b/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
-> > > @@ -27,4 +27,15 @@ do_install_ptest() {
-> > >      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-> > >  }
-> > >
-> > > +do_install:append() {
-> > > +    for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds.cpython*.so
-> > > +    do
-> > > +        fname=3D`basename $f`
-> > > +        lname=3D`echo $fname | sed 's/musl/gnu/'`
-> > > +        if [ "$fname" !=3D "$lname" ]; then
-> > > +            mv $f ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/$lname
-> > > +        fi
-> > > +    done
-> > > +}
-> > > +
-> > >  BBCLASSEXTEND =3D "native nativesdk"
-> > >
-> >
-> > This feels like the kind of workaround that will live forever. Can we
-> > not fix the loader to use the right name?
->
-> OE's python interpreter is cross-built and we end up using OSABI which
-> is detected during build 'linux-gnu', this seems to work fine for most of
-> python modules since they get the OSABI from the sysconfigdata so it
-> all works even though the OSABI is called linux-gnu, however some modules
-> like this one which are using maturin to build, seems to get the OSABI
-> equivalent differently, I am no expert on maturin but maybe someone knows
-> how it happens. This problem is seen with several python modules built wi=
-th
-> OE,  see
->
-> https://github.com/meta-homeassistant/meta-homeassistant/issues/89
-> https://github.com/pypa/auditwheel/issues/349
->
-> also see how it is fixed in python3-pydantic-core on meta-python
->
-> https://git.openembedded.org/meta-openembedded/tree/meta-python/recipes-d=
-evtools/python/python3-pydantic-core_2.16.3.bb#n38
->
-> Hopefully musllinux ABI tag will be sorted in pypa and this will work
-> better
-> however, we also need to see how we are encoding OSABI in python builds
->
-> e.g. on qemux86-64 musl target I get
->
-> root@qemux86-64:~# python3
-> Python 3.12.3 (main, Apr  9 2024, 08:09:14) [Clang 19.0.0
-> (/home/kraj/work/llvm-project 4152c5f5ae88d8d5fe99d20b525b35f14db2 on
-> linux
-> Type "help", "copyright", "credits" or "license" for more information.
-> >>> import sysconfig
-> >>> sysconfig.get_config_var('SOABI')
-> 'cpython-312-x86_64-linux-gnu'
->
-> >
-> > Also, there is not even a comment above saying why we need to do this.
-> >
->
-> I added the log showing how it does not work, I thought that is showing h=
-ow
-> it's not working at all when using musl. If you have better idea what I
-> should
-> add to commit msg to make it better, let me know I will send a v2.
->
-> > Cheers,
-> >
-> > Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200275):
-> https://lists.openembedded.org/g/openembedded-core/message/200275
-> Mute This Topic: https://lists.openembedded.org/mt/106465307/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+pkgconf then came along and decided it would be a great idea to have
+some slightly different behaviour. We did originally plan to have a
+switchable virtual/ provider but due to the differences in behaviour it
+doesn't work.
 
---000000000000062abf061a01c6de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Things are bad enough that there are two standards. Saying "if building
+with meson, it behaves differently again" would be a nightmare.
 
-<div dir=3D"auto">I agree with RP, please get to the source of the mismatch=
-. It=E2=80=99s a really unpleasant workaround.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Mon 3. Jun 2024 at 20.49, Khem Raj via <=
-a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;raj=
-.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists=
-.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
-solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On Mon, Jun 3, 2=
-024 at 9:35=E2=80=AFAM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, 2024-06-03 at 09:25 -0700, Khem Raj via <a href=3D"http://list=
-s.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded=
-.org</a><br>
-&gt; wrote:<br>
-&gt; &gt; loader expects it to be called with &#39;linux-gnu&#39; e.g<br>
-&gt; &gt; <a href=3D"http://rpds.cpython-312-x86_64-linux-musl.so" rel=3D"n=
-oreferrer" target=3D"_blank">rpds.cpython-312-x86_64-linux-musl.so</a> is c=
-reated with musl<br>
-&gt; &gt; but loader expects it to called <a href=3D"http://rpds.cpython-31=
-2-x86_64-linux-gnu.so" rel=3D"noreferrer" target=3D"_blank">rpds.cpython-31=
-2-x86_64-linux-gnu.so</a><br>
-&gt; &gt;<br>
-&gt; &gt; Lets create the symlink to please the loader.<br>
-&gt; &gt;<br>
-&gt; &gt; Fixes<br>
-&gt; &gt; ImportError while importing test module &#39;/usr/lib/python3-rpd=
-s-<br>
-&gt; &gt; py/ptest/tests/test_hash_trie_map.py&#39;.<br>
-&gt; &gt; Hint: make sure your test modules/packages have valid Python name=
-s.<br>
-&gt; &gt; Traceback:<br>
-&gt; &gt; ../../python3.12/importlib/__init__.py:90: in import_module<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0return _bootstrap._gcd_import(name[level:], pa=
-ckage, level)<br>
-&gt; &gt; tests/test_hash_trie_map.py:36: in &lt;module&gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0from rpds import HashTrieMap<br>
-&gt; &gt; ../../python3.12/site-packages/rpds/__init__.py:1: in &lt;module&=
-gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0from .rpds import *<br>
-&gt; &gt; E=C2=A0 =C2=A0ModuleNotFoundError: No module named &#39;rpds.rpds=
-&#39;<br>
-&gt; &gt; ERROR: tests/test_hash_trie_map.py:tests/test_hash_trie_map.py<br=
->
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
- target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 .../recipes-devtools/python/<a href=3D"http://python3-rpds-=
-py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.b=
-b</a> | 11<br>
-&gt; &gt; +++++++++++<br>
-&gt; &gt;=C2=A0 1 file changed, 11 insertions(+)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://pytho=
-n3-rpds-py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_=
-0.18.1.bb</a><br>
-&gt; &gt; b/meta/recipes-devtools/python/<a href=3D"http://python3-rpds-py_=
-0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.bb</=
-a><br>
-&gt; &gt; index f46df1115c8..b1f0e100332 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-rpds=
--py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.=
-bb</a><br>
-&gt; &gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-rpds=
--py_0.18.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-rpds-py_0.18.1.=
-bb</a><br>
-&gt; &gt; @@ -27,4 +27,15 @@ do_install_ptest() {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/<=
-br>
-&gt; &gt;=C2=A0 }<br>
-&gt; &gt;<br>
-&gt; &gt; +do_install:append() {<br>
-&gt; &gt; +=C2=A0 =C2=A0 for f in ${D}/${PYTHON_SITEPACKAGES_DIR}/rpds/rpds=
-.cpython*.so<br>
-&gt; &gt; +=C2=A0 =C2=A0 do<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fname=3D`basename $f`<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 lname=3D`echo $fname | sed &#39;s/mu=
-sl/gnu/&#39;`<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;$fname&quot; !=3D &quot;$=
-lname&quot; ]; then<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv $f ${D}/${PYTHON_SI=
-TEPACKAGES_DIR}/rpds/$lname<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt; &gt; +=C2=A0 =C2=A0 done<br>
-&gt; &gt; +}<br>
-&gt; &gt; +<br>
-&gt; &gt;=C2=A0 BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; This feels like the kind of workaround that will live forever. Can we<=
-br>
-&gt; not fix the loader to use the right name?<br>
-<br>
-OE&#39;s python interpreter is cross-built and we end up using OSABI which<=
-br>
-is detected during build &#39;linux-gnu&#39;, this seems to work fine for m=
-ost of<br>
-python modules since they get the OSABI from the sysconfigdata so it<br>
-all works even though the OSABI is called linux-gnu, however some modules<b=
-r>
-like this one which are using maturin to build, seems to get the OSABI<br>
-equivalent differently, I am no expert on maturin but maybe someone knows<b=
-r>
-how it happens. This problem is seen with several python modules built with=
-<br>
-OE,=C2=A0 see<br>
-<br>
-<a href=3D"https://github.com/meta-homeassistant/meta-homeassistant/issues/=
-89" rel=3D"noreferrer" target=3D"_blank">https://github.com/meta-homeassist=
-ant/meta-homeassistant/issues/89</a><br>
-<a href=3D"https://github.com/pypa/auditwheel/issues/349" rel=3D"noreferrer=
-" target=3D"_blank">https://github.com/pypa/auditwheel/issues/349</a><br>
-<br>
-also see how it is fixed in python3-pydantic-core on meta-python<br>
-<a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta-python/=
-recipes-devtools/python/python3-pydantic-core_2.16.3.bb#n38" rel=3D"norefer=
-rer" target=3D"_blank">https://git.openembedded.org/meta-openembedded/tree/=
-meta-python/recipes-devtools/python/python3-pydantic-core_2.16.3.bb#n38</a>=
-<br>
-<br>
-Hopefully musllinux ABI tag will be sorted in pypa and this will work bette=
-r<br>
-however, we also need to see how we are encoding OSABI in python builds<br>
-<br>
-e.g. on qemux86-64 musl target I get<br>
-<br>
-root@qemux86-64:~# python3<br>
-Python 3.12.3 (main, Apr=C2=A0 9 2024, 08:09:14) [Clang 19.0.0<br>
-(/home/kraj/work/llvm-project 4152c5f5ae88d8d5fe99d20b525b35f14db2 on<br>
-linux<br>
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;=
-license&quot; for more information.<br>
-&gt;&gt;&gt; import sysconfig<br>
-&gt;&gt;&gt; sysconfig.get_config_var(&#39;SOABI&#39;)<br>
-&#39;cpython-312-x86_64-linux-gnu&#39;<br>
-<br>
-&gt;<br>
-&gt; Also, there is not even a comment above saying why we need to do this.=
-<br>
-&gt;<br>
-<br>
-I added the log showing how it does not work, I thought that is showing how=
-<br>
-it&#39;s not working at all when using musl. If you have better idea what I=
- should<br>
-add to commit msg to make it better, let me know I will send a v2.<br>
-<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#200275): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/200275" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/200275</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106465307/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/106465307/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+I have been asked to switch everything to pkgconf however I suspect
+that would also involve carrying patches and would end up as ton of
+work to be incompatible with a different set of software. I'm therefore
+not keen on that either.
 
---000000000000062abf061a01c6de--
+> If there's not an explicit reason we're preferring pkg-config, would=20
+> anyone be opposed to switching it out for pkgconf for meson related=20
+> packages? Of course, with a note about this behavior discrepancy. It=20
+> would reduce these Yocto specific patches and align meson behavior
+> with distros that currently default to pkgconf.
+
+Personally, I think it would just confuse things even more. xcb-proto
+might get used by meson or non-meson software. Mesa might get used by
+either too. Keeping it simple and saying "pkg-config behaviour"
+everywhere is simpler IMO.
+
+Cheers,
+
+Richard
 
