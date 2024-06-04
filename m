@@ -1,81 +1,100 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D29C8C41513
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 09:03:59 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.16973.1717491826492661964
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108F2C25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 09:25:00 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.17207.1717493087146533134
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 02:03:46 -0700
+ Tue, 04 Jun 2024 02:24:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ai6mZGAj;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-578517c7ae9so862445a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 02:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717491825; x=1718096625; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TOy09+aZez1XJ5CGH9LAEz5qo80QU94Q22O+aFgKJDA=;
-        b=Ai6mZGAjyfpBvM0VIwGVUJVesaLFX84qzAySxNsj3w3CqLMlhsBEJeArSVeNFg2PN+
-         aw0HECObn9n9ZyKGIns4WdOtr8USz9myfu+h8+X1mOBy54wJTGFGHGyqfQLMe+vKfXFV
-         WwqkL/+XaM7xjUqlZ0fOpjhNg1W/dYOksx+Vrmubuh0B1QGpOeFoIhD+QEYBhCKH1bPH
-         d/bs6KJw8R9m1Lg7tbcj7X+7BDA5T7PQ/E0Klefu+bpPcK6dLkivA17MujKMxAPwj2gK
-         yx298KMVsPpE77sYvtoPPhY7w6qR9xjT5gtm+xT2fzvWyhXNC6tW+xdx03mDsviT2kW5
-         SCGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717491825; x=1718096625;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TOy09+aZez1XJ5CGH9LAEz5qo80QU94Q22O+aFgKJDA=;
-        b=FUObUws6dgtlgQE6eRq0PRFaqEuEBerzCVB0LKsWyfF9bIAjq/sApe8ONCExI7t2OF
-         d6ZoZ2O/7+J+3y34wcOzcwXFKDsawdYFxOoq5Mx8CwqVdm6YZ4Tc69ryqUra4RtEf35K
-         bmegDB0EAdqIehbvsag77FuX30mh+gdRdQFwsinZ7bTvOxTLUVFGiIaq8+qlra1XRh9F
-         fhHCigXC34qZniPjBPhiVbyFpKflzPIiuT7KaQ5hoWazEMGdWU3/7ahUz48oOrqIby1g
-         u9c4iMz7IvODE6fudCgE/DIF2+HsKDwzwkQELyxNRHrOt3Eo2ahuh+w9JcdAuI3lDm4X
-         n01g==
-X-Gm-Message-State: AOJu0YxY/viWuBfBGy6K0nmuiV9jmQN75S5yTATgWuxjbHy6ja2bqBhq
-	Y4N8ybiwbep+zA8iroEqp0tS+P9P5tW+JFhmdTt1vmh3+n/J/aFEsgbtTw==
-X-Google-Smtp-Source: AGHT+IFv8Bk8dsQaVPeXuW4tYeblFxnO+HBqi/HSAxLaN5+wMUs8m3bzf/jeP1U29oQ2PlYaSliQBg==
-X-Received: by 2002:a50:8a9d:0:b0:57a:2742:de36 with SMTP id 4fb4d7f45d1cf-57a36563e86mr7197482a12.35.1717491824341;
-        Tue, 04 Jun 2024 02:03:44 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a61b4e36dsm3298048a12.75.2024.06.04.02.03.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:03:43 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [RESENDv4][PATCH 1/4] selftest: gitrepotest: add Upstream-Status to 0001-testpatch.patch
-Date: Tue,  4 Jun 2024 11:03:38 +0200
-Message-ID: <20240604090341.45444-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XT11xwQj;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MXlg67Ng;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018fe290b78b-5a1a7a1a-0606-459b-a483-6245d5d88310-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717493086; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=GS+/fCns3t570xzLpJTRvCdY+IP3g8fDLcTwJxpYzLU=;
+	b=XT11xwQjzGDga5lCERb3bne4+dlOWKpZSEN4KMKMapKS8lw/IvLasrYjgX30aZrP
+	kzpwMriAyX/uVoPKmevaRWBWBkiVzrr3SUXW+/ujxsnIJSqZ5E+WSZB8KuYbnXXwd98
+	9j7/UQk8ikbbIQjTosB7OIJ8kjGj7lGLdbq7xC7c=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717493086;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GS+/fCns3t570xzLpJTRvCdY+IP3g8fDLcTwJxpYzLU=;
+	b=MXlg67NgO9YRhNz5Q4v+6DahobkTfgIqHdS2thxvLrAd5SId+PFrInBerPUX4shj
+	XUfVwW1ARNfh+ym0LE6z8vl8aTuDqRYAm+Pt209YOXRY5dMrbpHbaqtjRfwRJ1KsmsE
+	bxS7bcwB0IfnOl/kI6ebn03fbIGtFKvmyiKhgdJw=
+From: patchtest@automation.yoctoproject.org
+To: Martin Jansa <martin.jansa@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RESENDv4][PATCH 1/4] selftest: gitrepotest: add Upstream-Status to
+ 0001-testpatch.patch
+In-Reply-To: <20240604090341.45444-1-martin.jansa@gmail.com>
+References: <20240604090341.45444-1-martin.jansa@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fe290b78b-5a1a7a1a-0606-459b-a483-6245d5d88310-000000@us-west-2.amazonses.com>
+Date: Tue, 4 Jun 2024 09:24:46 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.04-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 09:03:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200316
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 09:25:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200320
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch   | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/RESENDv4-1-4-selftest-gitrepotest-add-Upstream-Status-to-0001-testpatch.patch.patch
 
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-index bccda17ee9..c3f99455ca 100644
---- a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [this is useless patch only for selftest]
-+
- diff --git a/Makefile.am b/Makefile.am
- index 432a9b4..bbf7c74 100644
- --- a/Makefile.am
--- 
-2.45.2
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
