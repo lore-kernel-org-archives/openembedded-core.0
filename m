@@ -2,90 +2,95 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A38C25B78
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 18:10:13 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.3058.1717524605619574135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85257C25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 18:12:53 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.3307.1717524772273003169
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 11:10:05 -0700
+ Tue, 04 Jun 2024 11:12:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=YdzG4D0u;
- spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f64ecb1766so12350265ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 11:10:05 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=XAJB0SBa;
+ spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f4a5344ec7so715605ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 11:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1717524605; x=1718129405; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1717524771; x=1718129571; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uoQ6BKjDGWv44f3Vv7PkYJPc1IpRqR4osm2bgXDvU94=;
-        b=YdzG4D0u6MqfVMuTw3U9BQBwSZRonbJoLk9zXLtXXmsGOnWj22nsbwJYIdIIU4V8pf
-         coFkZfzz/bFScApuDEusdJuLJils432J8233U1WEbf6/WAEXDq2qycnVmfIKIe+i0wH+
-         4t3PKnTTuB6UOjUI8b2+usiz4EuE31d2Ot8WA=
+        bh=+U5AChznuput29mxlfEpXX9K89g6+m/4akE76FDk2HE=;
+        b=XAJB0SBaUA00aRnfITQg41VOVrJJvip1GKqbpG5kgJzQwmW/iaL6qxaD0whStb/8cs
+         XkuiSgGyqKr1mS51qe0/DvWWf55OEFLGEpcTxfJRfpuPDMEZgUUtMxJA0NrYoZL8ZAgT
+         TGoq06JrOIW4mqzfpwhp9Dbi2tE/2qld8vwXc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717524605; x=1718129405;
+        d=1e100.net; s=20230601; t=1717524771; x=1718129571;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uoQ6BKjDGWv44f3Vv7PkYJPc1IpRqR4osm2bgXDvU94=;
-        b=H6Taaq9ZMt9b8uUEtta20f1B2GYpNzy43qlqEnymYXQHNU2+qI0kVf39YwY0hOdakT
-         eKmWowIs2zWhJmFyimhBxL6sHHCbwA5wBXQS2TaqpAcV87p0Uw225ergh+A3K/p3sTds
-         1CCsXkQvKOimrCTEGTKnf7kpP1t+EhSs3I6bRFp4f2/aaXVxPVLGRsu+0B2SLVjRPLLQ
-         tZhiY+frFd2MDVZbW4PcvSIatskbF7XjbKoptDApROYQU6MQpONCrfwHyECaZXMN60JD
-         xlPpOAZGlxNfNbnhoFo3ewyWzeTGy/41VnZzXhX7e+mxH5rpPw/v+lSGkmAuUlUccndl
-         QImg==
-X-Gm-Message-State: AOJu0Yz+Ffo4If2poAjLQBp80W1dEu4g78XmIV2TxdhdaC2/0MNH6dzR
-	yNiPtgeAScAWbvhMdzN+56Dk53judUmVRwq0a8/Oi0K9Os4cdoJTwe0z1gJ0kjfukNgeZRUQe5e
-	+
-X-Google-Smtp-Source: AGHT+IFX6AL5cOiN86kC2h5g9XzqK7OTMOOC4ggQncXdCoj1gwKSodHUdVwNdxFC8zS4kF27Y9CQ0Q==
-X-Received: by 2002:a17:902:c7cc:b0:1f3:900:8f8c with SMTP id d9443c01a7336-1f6a5a253e3mr2016695ad.30.1717524604471;
-        Tue, 04 Jun 2024 11:10:04 -0700 (PDT)
+        bh=+U5AChznuput29mxlfEpXX9K89g6+m/4akE76FDk2HE=;
+        b=tAD2jgs5+twufARJ0mwx2BAIce/4QM/ALyPq7haDezCwfUOb4HR8uEEwqaHRiY0LV2
+         AzCKzOVicdAfHaz5v2MiBZrT1TXJ7v/3QJ48N2j0YbiRXK4wN/fvs9AVEzUKvUQEJYCn
+         2Zw6018L/bI2eFGls0gsqS6Qt/NWUdPcCdR1pn9yzRPnsBj8RiwdnG7+ftsVLALnh4Y1
+         cM34gz34JDn5BtIy9g2xTnD0MwMVEoWgUD50MJTEAx2l/UgKaB/2CknTsKoK+nVU95yd
+         efzZGgb+l8D3+tCSv6rPUfcsoxvmLORIb7VUJx3Vhf3Gt7M+MUHc+Vihe0w1Nqx7yfEN
+         dk0w==
+X-Gm-Message-State: AOJu0Yza90tl8bnwG8x7CJxXo8FHkQuvDPv1HQbOhnbxI64Qfa+xyhIm
+	Mpaiml9q/3mcX0aqd9THHiGbSY9EpiFsUj1TdBcOuYTLRuW91dNwOx0lNDwpcvWo4uSlXgfZ0Np
+	d
+X-Google-Smtp-Source: AGHT+IHegbkOh5x+pSpjmeI2n598hnYOKP/+ASRgPB27W3juv5AIEFbU5kPRGO3VrrU1ff9cpMVUlA==
+X-Received: by 2002:a17:902:ce90:b0:1f6:3a73:1eac with SMTP id d9443c01a7336-1f6a569e528mr5510525ad.17.1717524770833;
+        Tue, 04 Jun 2024 11:12:50 -0700 (PDT)
 Received: from siddharth-latitude-3420.mvista.com ([49.34.253.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63237d9c3sm87498475ad.116.2024.06.04.11.10.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63232dd39sm86487945ad.21.2024.06.04.11.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 11:10:04 -0700 (PDT)
+        Tue, 04 Jun 2024 11:12:50 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: Upgrade 3.0.13 -> 3.0.14
-Date: Tue,  4 Jun 2024 23:39:48 +0530
-Message-Id: <20240604180948.272814-1-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] openssl: Upgrade 3.2.1 -> 3.2.2
+Date: Tue,  4 Jun 2024 23:42:36 +0530
+Message-Id: <20240604181236.272963-1-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 18:10:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200342
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 18:12:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200343
 
 CVE's Fixed by upgrade:
 CVE-2024-4741: Fixed potential use after free after SSL_free_buffers() is called
 CVE-2024-4603: Fixed an issue where checking excessively long DSA keys or parameters may be very slow
 CVE-2024-2511: Fixed unbounded memory growth with session handling in TLSv1.3
 
-Removed backports of CVE-2024-2511 and CVE-2024-4603 as they are already
-fixed.
+Bugs Fixed by upgrade:
+#23560: Fixed bug where SSL_export_keying_material() could not be used with QUIC connections
+
+Removed backports of CVE-2024-2511, CVE-2024-4603 and bti.patch as they
+are already fixed.
 
 Detailed Information:
-https://github.com/openssl/openssl/blob/openssl-3.0/CHANGES.md#changes-between-3013-and-3014-4-jun-2024
+https://github.com/openssl/openssl/blob/openssl-3.2/CHANGES.md#changes-between-321-and-322-4-jun-2024
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../openssl/openssl/CVE-2024-2511.patch       | 122 ------------
- .../openssl/openssl/CVE-2024-4603.patch       | 180 ------------------
- .../{openssl_3.0.13.bb => openssl_3.0.14.bb}  |   4 +-
- 3 files changed, 1 insertion(+), 305 deletions(-)
+ .../openssl/openssl/CVE-2024-2511.patch       | 120 ------------
+ .../openssl/openssl/CVE-2024-4603.patch       | 179 ------------------
+ .../openssl/openssl/bti.patch                 |  58 ------
+ .../{openssl_3.2.1.bb => openssl_3.2.2.bb}    |   5 +-
+ 4 files changed, 1 insertion(+), 361 deletions(-)
  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.13.bb => openssl_3.0.14.bb} (98%)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/bti.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.2.1.bb => openssl_3.2.2.bb} (97%)
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
 deleted file mode 100644
-index 8aea686205..0000000000
+index 8772f716d5..0000000000
 --- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
 +++ /dev/null
-@@ -1,122 +0,0 @@
--From b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d Mon Sep 17 00:00:00 2001
+@@ -1,120 +0,0 @@
+-From e9d7083e241670332e0443da0f0d4ffb52829f08 Mon Sep 17 00:00:00 2001
 -From: Matt Caswell <matt@openssl.org>
 -Date: Tue, 5 Mar 2024 15:43:53 +0000
 -Subject: [PATCH] Fix unconstrained session cache growth in TLSv1.3
@@ -111,12 +116,10 @@ index 8aea686205..0000000000
 -
 -Reviewed-by: Neil Horman <nhorman@openssl.org>
 -Reviewed-by: Tomas Mraz <tomas@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/24044)
--
--(cherry picked from commit 7e4d731b1c07201ad9374c1cd9ac5263bdf35bce)
+-(Merged from https://github.com/openssl/openssl/pull/24043)
 -
 -CVE: CVE-2024-2511
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d]
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ffb52829f08]
 -Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
 - ssl/ssl_lib.c            |  5 +++--
@@ -125,10 +128,10 @@ index 8aea686205..0000000000
 - 3 files changed, 27 insertions(+), 11 deletions(-)
 -
 -diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
--index 2c8479eb5fc69..eed649c6fdee9 100644
+-index 4afb43bc86e54..c51529ddab5bb 100644
 ---- a/ssl/ssl_lib.c
 -+++ b/ssl/ssl_lib.c
--@@ -3736,9 +3736,10 @@ void ssl_update_cache(SSL *s, int mode)
+-@@ -4457,9 +4457,10 @@ void ssl_update_cache(SSL_CONNECTION *s, int mode)
 - 
 -     /*
 -      * If the session_id_length is 0, we are not supposed to cache it, and it
@@ -142,10 +145,10 @@ index 8aea686205..0000000000
 - 
 -     /*
 -diff --git a/ssl/ssl_sess.c b/ssl/ssl_sess.c
--index d836b33ed0e81..75adbd9e52b40 100644
+-index 3dcc4d81e5bc6..1fa6d17c46863 100644
 ---- a/ssl/ssl_sess.c
 -+++ b/ssl/ssl_sess.c
--@@ -152,16 +152,11 @@ SSL_SESSION *SSL_SESSION_new(void)
+-@@ -127,16 +127,11 @@ SSL_SESSION *SSL_SESSION_new(void)
 -     return ss;
 - }
 - 
@@ -163,7 +166,7 @@ index 8aea686205..0000000000
 - {
 -     SSL_SESSION *dest;
 - 
--@@ -285,6 +280,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
+-@@ -265,6 +260,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
 -     return NULL;
 - }
 - 
@@ -192,28 +195,28 @@ index 8aea686205..0000000000
 - {
 -     if (len)
 -diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c
--index a9e67f9d32a77..6c942e6bcec29 100644
+-index 853af8c0aa9f9..d5f0ab091dacc 100644
 ---- a/ssl/statem/statem_srvr.c
 -+++ b/ssl/statem/statem_srvr.c
--@@ -2338,9 +2338,8 @@ int tls_construct_server_hello(SSL *s, WPACKET *pkt)
+-@@ -2445,9 +2445,8 @@ CON_FUNC_RETURN tls_construct_server_hello(SSL_CONNECTION *s, WPACKET *pkt)
 -      * so the following won't overwrite an ID that we're supposed
 -      * to send back.
 -      */
 --    if (s->session->not_resumable ||
---        (!(s->ctx->session_cache_mode & SSL_SESS_CACHE_SERVER)
+--        (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode & SSL_SESS_CACHE_SERVER)
 --         && !s->hit))
--+    if (!(s->ctx->session_cache_mode & SSL_SESS_CACHE_SERVER)
+-+    if (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode & SSL_SESS_CACHE_SERVER)
 -+            && !s->hit)
 -         s->session->session_id_length = 0;
 - 
 -     if (usetls13) {
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
 deleted file mode 100644
-index b8e0b9fb7d..0000000000
+index 50fb969c03..0000000000
 --- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
 +++ /dev/null
-@@ -1,180 +0,0 @@
--From 3559e868e58005d15c6013a0c1fd832e51c73397 Mon Sep 17 00:00:00 2001
+@@ -1,179 +0,0 @@
+-From da343d0605c826ef197aceedc67e8e04f065f740 Mon Sep 17 00:00:00 2001
 -From: Tomas Mraz <tomas@openssl.org>
 -Date: Wed, 8 May 2024 15:23:45 +0200
 -Subject: [PATCH] Check DSA parameters for excessive sizes before validating
@@ -234,13 +237,12 @@ index b8e0b9fb7d..0000000000
 -<dropped CHANGES.md modifications as it would need backport of all previous changes>
 -
 -CVE: CVE-2024-4603
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/3559e868e58005d15c6013a0c1fd832e51c73397]
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/da343d0605c826ef197aceedc67e8e04f065f740]
 -Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
 - crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
 - .../invalid/p10240_q256_too_big.pem           | 57 +++++++++++++++++++
 - 2 files changed, 97 insertions(+), 4 deletions(-)
-- create mode 100644 test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
 -
 -diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
 -index fb0e9129a2..122449a7bf 100644
@@ -393,17 +395,82 @@ index b8e0b9fb7d..0000000000
 --- 
 -2.30.2
 -
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.14.bb
-index 87ab4047d9..021787adcb 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
-@@ -12,15 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+diff --git a/meta/recipes-connectivity/openssl/openssl/bti.patch b/meta/recipes-connectivity/openssl/openssl/bti.patch
+deleted file mode 100644
+index 748576c30c..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/bti.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From ba8a599395f8b770c76316b5f5b0f3838567014f Mon Sep 17 00:00:00 2001
+-From: Tom Cosgrove <tom.cosgrove@arm.com>
+-Date: Tue, 26 Mar 2024 13:18:00 +0000
+-Subject: [PATCH] aarch64: fix BTI in bsaes assembly code
+-
+-In Arm systems where BTI is enabled but the Crypto extensions are not (more
+-likely in FVPs than in real hardware), the bit-sliced assembler code will
+-be used. However, this wasn't annotated with BTI instructions when BTI was
+-enabled, so the moment libssl jumps into this code it (correctly) aborts.
+-
+-Solve this by adding the missing BTI landing pads.
+-
+-Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/23982]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- crypto/aes/asm/bsaes-armv8.pl | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/crypto/aes/asm/bsaes-armv8.pl b/crypto/aes/asm/bsaes-armv8.pl
+-index b3c97e439f..c3c5ff3e05 100644
+---- a/crypto/aes/asm/bsaes-armv8.pl
+-+++ b/crypto/aes/asm/bsaes-armv8.pl
+-@@ -1018,6 +1018,7 @@ _bsaes_key_convert:
+- //   Initialisation vector overwritten with last quadword of ciphertext
+- //   No output registers, usual AAPCS64 register preservation
+- ossl_bsaes_cbc_encrypt:
+-+        AARCH64_VALID_CALL_TARGET
+-         cmp     x2, #128
+-         bhs     .Lcbc_do_bsaes
+-         b       AES_cbc_encrypt
+-@@ -1270,7 +1271,7 @@ ossl_bsaes_cbc_encrypt:
+- //   Output text filled in
+- //   No output registers, usual AAPCS64 register preservation
+- ossl_bsaes_ctr32_encrypt_blocks:
+--
+-+        AARCH64_VALID_CALL_TARGET
+-         cmp     x2, #8                      // use plain AES for
+-         blo     .Lctr_enc_short             // small sizes
+- 
+-@@ -1476,6 +1477,7 @@ ossl_bsaes_ctr32_encrypt_blocks:
+- //   Output ciphertext filled in
+- //   No output registers, usual AAPCS64 register preservation
+- ossl_bsaes_xts_encrypt:
+-+        AARCH64_VALID_CALL_TARGET
+-         // Stack layout:
+-         // sp ->
+-         //        nrounds*128-96 bytes: key schedule
+-@@ -1921,6 +1923,7 @@ ossl_bsaes_xts_encrypt:
+- //   Output plaintext filled in
+- //   No output registers, usual AAPCS64 register preservation
+- ossl_bsaes_xts_decrypt:
+-+        AARCH64_VALID_CALL_TARGET
+-         // Stack layout:
+-         // sp ->
+-         //        nrounds*128-96 bytes: key schedule
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.2.2.bb
+index 9bdf7e1ec6..1c92707144 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
+@@ -12,16 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
+-           file://bti.patch \
 -           file://CVE-2024-2511.patch \
 -           file://CVE-2024-4603.patch \
             "
@@ -412,10 +479,10 @@ index 87ab4047d9..021787adcb 100644
             file://environment.d-openssl.sh \
             "
  
--SRC_URI[sha256sum] = "88525753f79d3bec27d2fa7c66aa0b92b3aa9498dafd93d7cfa4b3780cdae313"
-+SRC_URI[sha256sum] = "eeca035d4dd4e84fc25846d952da6297484afa0650a6f84c682e39df3a4123ca"
+-SRC_URI[sha256sum] = "83c7329fe52c850677d75e5d0b0ca245309b97e8ecbcfdc1dfdc4ab9fac35b39"
++SRC_URI[sha256sum] = "197149c18d9e9f292c43f0400acaba12e5f52cacfe050f3d199277ea738ec2e7"
  
- inherit lib_package multilib_header multilib_script ptest perlnative
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.34.1
