@@ -1,193 +1,423 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6560C27C52
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 15:05:01 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.113])
- by mx.groups.io with SMTP id smtpd.web10.24049.1717513497767816107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A38C25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 18:10:13 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.3058.1717524605619574135
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 08:04:58 -0700
+ Tue, 04 Jun 2024 11:10:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=ADQk8/qj;
- spf=pass (domain: cherry.de, ip: 40.107.7.113, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FidrQgwkGGIC5Oo0t5uv1gUl/w4L8F89b8WMusLQD4aB9chXLh7tnTCy8Nl18tbfTokfB2Wm+rLcA2Bys653wg4PpKEGrT1pEPUAvY0LiRN/6R205lWj3FyVzHv7IQ6AN3N+DbHX219dlw7/oj8r3awWtWQ3AMqyyc+ZQTnj1dMC+JL6LWa0hlST2brAKGEKJURJsGq7WOF0G/YFGpNqqHbD8KMb42p3BsnvEqFJyXzvIx+MTPR8p6Bjv3hAzTtBV8NbBjngVFSMfRRPeM0pb/lp5tesskOX+EGuyyeSGJLeQkKtZvhJUEiyGdnqpRf9Wz+jTJoRnvFHBieeQ1/FYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7UbpCMPL7VRhNWw7vMmaI74nNVWVbzM3GBJFkWSUSs=;
- b=HGMbtpmym5P+DkZqwy7XSaEvy1B3AFfsahhvDzIAi8COKOlBYeUQLHuPE4644uZXmrk/b5kiQWJOG/nheAimc8HCDX7ig6JOi5zdheeUGZJd2pIskdnAY8LhyVRqT7nfMVi4+j6hypfryLM0WGIHVJw1TagSXRkliRX4N68okIrcbZthXs6rAQBjbGPXpxhp4GRfwrYtfxXAyx+N1zjsF+2Ak6I5o8XxNai46a8aCXoDextC4tv3yfKyPto/iDeN0zaxbcXQWtmxhpZqwFwN4WIvyDq/JAMCt+1iwhjKLnVvnFi6NQCJ6deE/20y/lo1IqO9DZMKaOyy15QOP+ieQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7UbpCMPL7VRhNWw7vMmaI74nNVWVbzM3GBJFkWSUSs=;
- b=ADQk8/qjHnEnEAa/CM66P5Yu1S2Rx7Ph8/gFcc4rQ6WFfX9sG5LpnrrZHeXUGoutTo4Y9EcF/Xlzace1o7zfgctox6q9ZU+wFmcMGmPO+Iz/NAEej682qrAvLIm1AMUJVZQ2IURVF/OxU0xCG/S/u+BpmrIT506Fm+a+lW9/aos=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7982.eurprd04.prod.outlook.com (2603:10a6:102:c4::9)
- by PAXPR04MB8444.eurprd04.prod.outlook.com (2603:10a6:102:1db::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Tue, 4 Jun
- 2024 15:04:50 +0000
-Received: from PA4PR04MB7982.eurprd04.prod.outlook.com
- ([fe80::3c4:afd5:49ac:77af]) by PA4PR04MB7982.eurprd04.prod.outlook.com
- ([fe80::3c4:afd5:49ac:77af%4]) with mapi id 15.20.7633.021; Tue, 4 Jun 2024
- 15:04:50 +0000
-Message-ID: <ace0be62-d968-468c-aa99-27b8ae87ad7a@cherry.de>
-Date: Tue, 4 Jun 2024 17:04:48 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 3/3] mesa: add new package for Mali CSFFW
- Valhall firmware
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Quentin Schulz <foss+yocto@0leil.net>,
- openembedded-core@lists.openembedded.org
-References: <20240531-panthor-v1-0-1a76fd752c1b@cherry.de>
- <20240531-panthor-v1-3-1a76fd752c1b@cherry.de>
- <7f0cbf29-f885-4f39-8b83-4e89b709d6f0@cherry.de>
- <7dc1935cc2d7a0af58ebe65b6afaf4ef7d5eb426.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <7dc1935cc2d7a0af58ebe65b6afaf4ef7d5eb426.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0042.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::14) To PA4PR04MB7982.eurprd04.prod.outlook.com
- (2603:10a6:102:c4::9)
+ dkim=pass header.i=@mvista.com header.s=google header.b=YdzG4D0u;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f64ecb1766so12350265ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 11:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1717524605; x=1718129405; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uoQ6BKjDGWv44f3Vv7PkYJPc1IpRqR4osm2bgXDvU94=;
+        b=YdzG4D0u6MqfVMuTw3U9BQBwSZRonbJoLk9zXLtXXmsGOnWj22nsbwJYIdIIU4V8pf
+         coFkZfzz/bFScApuDEusdJuLJils432J8233U1WEbf6/WAEXDq2qycnVmfIKIe+i0wH+
+         4t3PKnTTuB6UOjUI8b2+usiz4EuE31d2Ot8WA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717524605; x=1718129405;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uoQ6BKjDGWv44f3Vv7PkYJPc1IpRqR4osm2bgXDvU94=;
+        b=H6Taaq9ZMt9b8uUEtta20f1B2GYpNzy43qlqEnymYXQHNU2+qI0kVf39YwY0hOdakT
+         eKmWowIs2zWhJmFyimhBxL6sHHCbwA5wBXQS2TaqpAcV87p0Uw225ergh+A3K/p3sTds
+         1CCsXkQvKOimrCTEGTKnf7kpP1t+EhSs3I6bRFp4f2/aaXVxPVLGRsu+0B2SLVjRPLLQ
+         tZhiY+frFd2MDVZbW4PcvSIatskbF7XjbKoptDApROYQU6MQpONCrfwHyECaZXMN60JD
+         xlPpOAZGlxNfNbnhoFo3ewyWzeTGy/41VnZzXhX7e+mxH5rpPw/v+lSGkmAuUlUccndl
+         QImg==
+X-Gm-Message-State: AOJu0Yz+Ffo4If2poAjLQBp80W1dEu4g78XmIV2TxdhdaC2/0MNH6dzR
+	yNiPtgeAScAWbvhMdzN+56Dk53judUmVRwq0a8/Oi0K9Os4cdoJTwe0z1gJ0kjfukNgeZRUQe5e
+	+
+X-Google-Smtp-Source: AGHT+IFX6AL5cOiN86kC2h5g9XzqK7OTMOOC4ggQncXdCoj1gwKSodHUdVwNdxFC8zS4kF27Y9CQ0Q==
+X-Received: by 2002:a17:902:c7cc:b0:1f3:900:8f8c with SMTP id d9443c01a7336-1f6a5a253e3mr2016695ad.30.1717524604471;
+        Tue, 04 Jun 2024 11:10:04 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([49.34.253.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63237d9c3sm87498475ad.116.2024.06.04.11.10.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 11:10:04 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth <sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] openssl: Upgrade 3.0.13 -> 3.0.14
+Date: Tue,  4 Jun 2024 23:39:48 +0530
+Message-Id: <20240604180948.272814-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7982:EE_|PAXPR04MB8444:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1b96af3-a7a1-4bf4-0a48-08dc84a7ae5b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dmhITjR4R3o4NkZLbUJHcXVYWlI4RzBXWDFPSnYxdElSRXpVdkV2bHJ5TlhG?=
- =?utf-8?B?WXhrQ1VNR2JncGYrL3dWR2NXSmg5RnFLNWJDTW9Xb0JZeEpESXRscEtHMHBk?=
- =?utf-8?B?WEpWb1Q1dUo2eWJUbU5ieDlPQlVSNXZ0d05Jb0xuL1VSd2x5VzBaRERKbTgw?=
- =?utf-8?B?SVZ3TnUxYVZKWlhhbzlpc3Vxb3FZVTZRVFNtQjBxWTJlZkovcnlEY0lHbTFY?=
- =?utf-8?B?UzMraFNIZ2t2WmN4emtxVnN5eTc5SlEwMkxTN0hUb1AyMFgzZ3hmdFphcnl4?=
- =?utf-8?B?NklQV05HWkROOVBsSmlzRjdTV2RqWlZET2pRNTVudTJoUjlCS1l4bmV4V1JM?=
- =?utf-8?B?L2VJQ3VqdXdWOXNzb2NKMTcrbmY3d1g0akxLNlgxUmVqZ2dvelErOGFDQzlu?=
- =?utf-8?B?bXVPaVVnNTM2VFUzRC9pUkRLd1ByQ2lEUlIrR0JCcExROWhqZlVRSjdCRDZq?=
- =?utf-8?B?aUJhQ002T1ZwSUhxa0w0TVU5VGNpdi9EZ0krdlY1clRoaWYwT2VNQ3BqbXFV?=
- =?utf-8?B?M09nUHBsam9BeXdiU0sxNzlrZnVCTXFINHpEY29udVJSeDNuTGVISkFvNHh0?=
- =?utf-8?B?UDI3aW1SS3RxYkNySnI5VzhDUlA3Nkh0dm9YQTRKaVhHMDNCK0d2cGs4em9P?=
- =?utf-8?B?SWF2UVJQLzg5emdUWFBYaHllSUVIWWRhMXpUN042UG1JcGJ2R2krMFB3elZU?=
- =?utf-8?B?K3Rld28rVmNGQlpScThXWVpQYTlYaGU5L1J1YnVZN0VLaFJBRUN5V2lndld6?=
- =?utf-8?B?VUY4bEVQdVlhMFpFVEdxR1ZqRUF0N25QeGNlL3U4bmttQkpTSlZhcTVPOFVs?=
- =?utf-8?B?OWhGQS85YzVVV3RocTkvU1JCaldUYUpsamd6NGVJbGVCSHJFSXZCWGNVN1dz?=
- =?utf-8?B?TFBiT3ZmdERWNEdDVkNJeEt5cmMweDVoZjBkcFdTUzhpZjNoSCt0Snh4ekVj?=
- =?utf-8?B?cFB4S0kyK01LQkxNTUcyckpBcW1yTGFmcFlSaEQ3RUhpemt1QnovOEk5VTFK?=
- =?utf-8?B?dXVITEtRTkN5UkVBTUZiT1hzbVlRa2Eyd0dFQmVSRXZ4bXZOWExacmxIVDBk?=
- =?utf-8?B?RCtlYURuUHh3eFR6ckRCemxqVEZLZWZDUzV1dFF6UFF4bnRlc3FSMndYUS9I?=
- =?utf-8?B?Q0xORnVudDFJNnVpTGcvTUJFTnVmU3ozSW1jOGkyWHUxRlFwQnRhUjdTTDdY?=
- =?utf-8?B?bkpTQUMzT3dTcFNBcHB0QWY3NFU0U2RXT0ExSWV4MDloN1BzajJUQkF1bjNJ?=
- =?utf-8?B?a2cxSGdqOUQ4N3RyQWlxak5KM29uUTlEdlBaN0tQb29LZlhlZ1RLM05YZ2sr?=
- =?utf-8?B?ekdHT0ZFUk1MUVoxZFQ4TjhURlovRTExbTNqYlZFZk1Dd2dPNVAwTVAwcVI0?=
- =?utf-8?B?bVpqeEthZWpEd2Y3MU1ENEJ1ZWVwWWhoU0ZUblo5QjRCS0ZkVGdaUDg4VzE1?=
- =?utf-8?B?Y0JicVFCZk5xdTlDTU80YjJDVEt3WC85QVkxeHVERlBQekhRb3VKQ1UvQU4z?=
- =?utf-8?B?cSs1M1cwSTA1NmROd2hrUW1DK0JSbHJMVWhJcTR2MjFGM1NKNkJjemxidGlv?=
- =?utf-8?B?RjRBVEpXbVJnUFJZWDhqTkpaeWVUSEpCN2lXZkxTM1BhSGI5RkwxTnJOdXRL?=
- =?utf-8?Q?QrBrxjoUYM2sdNntXzXHTt/UOJD5Ptme0DO2G3kT+Uew=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7982.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eWpKRGZUZmFjOVFtNElrczgyMDV5UHduMkRhOUZiOEwyMGw0RzRMd1NWT3VM?=
- =?utf-8?B?UzFBdUJudUNMQk9HSjRxbnJ6RE93OTJtNzVVSFRPcFZpbXZyWkxMT2g5ZmYw?=
- =?utf-8?B?V29Rc3ZNdG1iZzFvbmlnbTg4bnVWeHpIQlZZOGkvRXVRRGJkTjQzdi9XbnpK?=
- =?utf-8?B?RlV2V3FBRHM0WFBTN21VMkwvZk1LTDNULysxR2piTHJIU21yVmk2N3k3ZGVm?=
- =?utf-8?B?N1djWXZJN1NYR0xmVmgrM0RWZ2c4UkxIRGpjTjljL0Z6TTZ3UUxiY094OUk2?=
- =?utf-8?B?N29EbkJFYUkzQVk4MG9qRFBxT1FHV25WL3NJUVBEcW9Kai9KblZMeUgrdFVT?=
- =?utf-8?B?akY3ajVDZXBWUllzdVZlNTFxOW84MXhUcDZXM3dJaSsrS0x6b1l5aW9BVmdp?=
- =?utf-8?B?UnQ3bkM4OEtVYU1PaE9YWWRROHRHenBBSzhDTVlUNmptdUMvTEVoVHNmU1JX?=
- =?utf-8?B?ZlRxMHB0SVFpNjZZOUNkeTRsVktQR21jSzRTMHZ5TE9nSkJ0Wi9vWjM4eVBS?=
- =?utf-8?B?OEpWd1kvN3ZuVXhpQWdBZEc3T0swNUNkV1AzUWNTREJoTXliclUwd0I4elgr?=
- =?utf-8?B?Z21hb3liUWFYWXRUK2J1dzdBaWVsdHQ2OGJVN3kyZVpPLzJKVExNSTFwNVU2?=
- =?utf-8?B?SWFFRTdoOGViWS9VdUVUaHl4Z203WnpkaUtqaFQ3NGhpeDVLcWlxZXgrMHBn?=
- =?utf-8?B?eWJjek5SRXFqODBJV29xWVRhMWkzbVB1TXd5U0hIaGNTbzhsL2tTTmFYdk1x?=
- =?utf-8?B?MHZ4V1diVC9RUS9hdVBlN2hrQVR5d2tUWVNFcUtxL3ZWNkptT3NFSWw0UlBV?=
- =?utf-8?B?UmFJV3pRUUZHV2NkYUFzTThBYVZHSEllV2RQN2xhbGlRSDF3OHdaaGpMYWNl?=
- =?utf-8?B?SndSL0NYRG5ESXlmTWpRQ29zMnczRzNCSjBVNlhVSWEzMjNqRUdlRlY1TGZs?=
- =?utf-8?B?VmFzQTNkNXJGYnJ4Q2k1RDMxRm1ESnBad050dW52cE5HMFpoaERBY1lPbkVs?=
- =?utf-8?B?NG5RQlRoSjZrNzZyV0hoRi9QQUJhOGpoVXNZelZwRnZjOGRrcmRmNEsvN0VQ?=
- =?utf-8?B?Z3VuUjNmV1A2YzVCOTRRVTZrZm5CYTFKc0trdGUwSXJoaHJQV2F5eGNtbm1B?=
- =?utf-8?B?RGQyN2NWMjlqemVybHgwVk9wU3F6Mzk0RkYvUlZwbWhnamw3UzRTQTNVeUNX?=
- =?utf-8?B?L0o4QXEycEdmVU1VeXY4K2lmY1VUNTRLRDFJZ0xpdCtocUJmaG1pTlI1bDkx?=
- =?utf-8?B?MmRjdkRGSEVqbHdlZlhkMlFVM3F0RENvT3dlZzdJcE5sQ09PSE9LK3lCb0ZP?=
- =?utf-8?B?bndEWmd4K1pwM1B4Z2xYMENmS0h6Uko3d2pBa1FUZFRvdk1TOW1zZ1NTaFFP?=
- =?utf-8?B?RUhVQXBkUzhVeWoxaGk1M0hTVTc0VVlRN2JLUFVxRVpBZnZpQjFuT0dsZllR?=
- =?utf-8?B?SFh0ais4VTJSUStsRlcrT0lyNXVzcVlXYXlZSDdHT0h1OWhNMVhJZVQrRXo3?=
- =?utf-8?B?ekFTRjl6N01aSmRtVWd4R0pZdVBmejN0OGM2Q2NrdW56a2dTcUZETTFHVXdw?=
- =?utf-8?B?cWxuOXBkMEI0SDlKa0J3aytGMWtCZjJMM0RESXF4ZHN0VDFVM296UlNJbVNH?=
- =?utf-8?B?L3NvWitCZjdhcHJZMitiMUVzU0M2UHFpSkJ5VUxVOTRKMHQ1YldjVm9IWGxK?=
- =?utf-8?B?T2ozeXV1SWRDbHgydGswY2hBeThoZjdwQ056QTE3TUgvbW1kUXMvR1hSQ1ZM?=
- =?utf-8?B?dFQ1WHNOK2JrWmFjanY0VlpIQytwVzlLOWIyLzVzV2VxbVRkQXR3OVR1c0p0?=
- =?utf-8?B?R255VER5VHFma0sxa0FLVlRERjhmb0ZhZGF2SnljNURxdGdMVmRNaUMzTCtX?=
- =?utf-8?B?RDhzelpoMHVaN3R3eFFIMEJSTGJKM2E5WjluNi8yQnhYMlY2ZkdZRTFsaDhY?=
- =?utf-8?B?UzFPUTcxWEw1dCthcmRRZUZnVXlldjN2eDdjaU5Tc2lJRTJzSkJlTUE4OHJw?=
- =?utf-8?B?ZFJNMTBjMmxlTmhvdGRkMTVQR290eEdZYUhTM1RMSUZWNmZZQUF3Y1BScGJL?=
- =?utf-8?B?c3hqTklkN01STCtnaGNnc0plWEt1M05pdXd5d3JzUWFkYkJIeXZxRUFBTDZ1?=
- =?utf-8?B?M21vektVbU42NXBwZDdRMDdjQUpVc2pQMkZHNnNwZ2QrMGcrV0FZazYwMzVK?=
- =?utf-8?B?SWc9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1b96af3-a7a1-4bf4-0a48-08dc84a7ae5b
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7982.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 15:04:50.0762
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f0/ZoD9laUsm5LMcyhpnnDKkkW8C90bNWL5fFOYMOJW78pvDtY2RyBUwXZBhwPq1/DyxwBHn9z0Wu6BzEeVVfhfpjK52fKUHLajcBRTM/qo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8444
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 15:05:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200341
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 18:10:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200342
 
-Hi Richard,
+CVE's Fixed by upgrade:
+CVE-2024-4741: Fixed potential use after free after SSL_free_buffers() is called
+CVE-2024-4603: Fixed an issue where checking excessively long DSA keys or parameters may be very slow
+CVE-2024-2511: Fixed unbounded memory growth with session handling in TLSv1.3
 
-On 6/4/24 4:59 PM, Richard Purdie wrote:
-> On Tue, 2024-06-04 at 16:23 +0200, Quentin Schulz via
-> lists.openembedded.org wrote:
->> Hi all,
->>
->> The title is misleading, this isn't for mesa but for linux-firmware.
->>
->> I know this has been reverted in master-next
-> 
-> has it? :/
-> 
-> I don't see that...
-> 
+Removed backports of CVE-2024-2511 and CVE-2024-4603 as they are already
+fixed.
 
-Well, I should have said "removed" and not from master-next but from 
-abelloni/master-next in poky-contrib. It used to be there (got a mail in 
-the ML from the SWAT team complaining about broken mesa build recently).
+Detailed Information:
+https://github.com/openssl/openssl/blob/openssl-3.0/CHANGES.md#changes-between-3013-and-3014-4-jun-2024
 
-I'm trying to figure out the changes needed for this mesa update (the 
-patch 2 in this series), but this getting quite difficult as I have no 
-experience with mesa nor meson and the changes aren't trivial to me 
-reading the git log of all meson files in the repo.
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../openssl/openssl/CVE-2024-2511.patch       | 122 ------------
+ .../openssl/openssl/CVE-2024-4603.patch       | 180 ------------------
+ .../{openssl_3.0.13.bb => openssl_3.0.14.bb}  |   4 +-
+ 3 files changed, 1 insertion(+), 305 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.13.bb => openssl_3.0.14.bb} (98%)
 
-What I can say already is that it seems the iris Gallium driver now 
-requires libclc as well, which means mesa-native as built on x86 hosts 
-will require that, which means bringing in meta-clang... I'll continue 
-to investigate a bit more to at least get something to compile (if I can 
-manage to) on my x86 build machine, both mesa and mesa-native in its 
-default PACKAGECONFIG config from current master, and then hopefully 
-send an RFC and we can discuss there. The whole migration from clc to 
-rusticl for some drivers is also confusing me, so will probably need 
-some help there, especially since we have this commit already in the 
-last (few?) release(s): 
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
+deleted file mode 100644
+index 8aea686205..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
++++ /dev/null
+@@ -1,122 +0,0 @@
+-From b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d Mon Sep 17 00:00:00 2001
+-From: Matt Caswell <matt@openssl.org>
+-Date: Tue, 5 Mar 2024 15:43:53 +0000
+-Subject: [PATCH] Fix unconstrained session cache growth in TLSv1.3
+-
+-In TLSv1.3 we create a new session object for each ticket that we send.
+-We do this by duplicating the original session. If SSL_OP_NO_TICKET is in
+-use then the new session will be added to the session cache. However, if
+-early data is not in use (and therefore anti-replay protection is being
+-used), then multiple threads could be resuming from the same session
+-simultaneously. If this happens and a problem occurs on one of the threads,
+-then the original session object could be marked as not_resumable. When we
+-duplicate the session object this not_resumable status gets copied into the
+-new session object. The new session object is then added to the session
+-cache even though it is not_resumable.
+-
+-Subsequently, another bug means that the session_id_length is set to 0 for
+-sessions that are marked as not_resumable - even though that session is
+-still in the cache. Once this happens the session can never be removed from
+-the cache. When that object gets to be the session cache tail object the
+-cache never shrinks again and grows indefinitely.
+-
+-CVE-2024-2511
+-
+-Reviewed-by: Neil Horman <nhorman@openssl.org>
+-Reviewed-by: Tomas Mraz <tomas@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/24044)
+-
+-(cherry picked from commit 7e4d731b1c07201ad9374c1cd9ac5263bdf35bce)
+-
+-CVE: CVE-2024-2511
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- ssl/ssl_lib.c            |  5 +++--
+- ssl/ssl_sess.c           | 28 ++++++++++++++++++++++------
+- ssl/statem/statem_srvr.c |  5 ++---
+- 3 files changed, 27 insertions(+), 11 deletions(-)
+-
+-diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
+-index 2c8479eb5fc69..eed649c6fdee9 100644
+---- a/ssl/ssl_lib.c
+-+++ b/ssl/ssl_lib.c
+-@@ -3736,9 +3736,10 @@ void ssl_update_cache(SSL *s, int mode)
+- 
+-     /*
+-      * If the session_id_length is 0, we are not supposed to cache it, and it
+--     * would be rather hard to do anyway :-)
+-+     * would be rather hard to do anyway :-). Also if the session has already
+-+     * been marked as not_resumable we should not cache it for later reuse.
+-      */
+--    if (s->session->session_id_length == 0)
+-+    if (s->session->session_id_length == 0 || s->session->not_resumable)
+-         return;
+- 
+-     /*
+-diff --git a/ssl/ssl_sess.c b/ssl/ssl_sess.c
+-index d836b33ed0e81..75adbd9e52b40 100644
+---- a/ssl/ssl_sess.c
+-+++ b/ssl/ssl_sess.c
+-@@ -152,16 +152,11 @@ SSL_SESSION *SSL_SESSION_new(void)
+-     return ss;
+- }
+- 
+--SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
+--{
+--    return ssl_session_dup(src, 1);
+--}
+--
+- /*
+-  * Create a new SSL_SESSION and duplicate the contents of |src| into it. If
+-  * ticket == 0 then no ticket information is duplicated, otherwise it is.
+-  */
+--SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
+-+static SSL_SESSION *ssl_session_dup_intern(const SSL_SESSION *src, int ticket)
+- {
+-     SSL_SESSION *dest;
+- 
+-@@ -285,6 +280,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
+-     return NULL;
+- }
+- 
+-+SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
+-+{
+-+    return ssl_session_dup_intern(src, 1);
+-+}
+-+
+-+/*
+-+ * Used internally when duplicating a session which might be already shared.
+-+ * We will have resumed the original session. Subsequently we might have marked
+-+ * it as non-resumable (e.g. in another thread) - but this copy should be ok to
+-+ * resume from.
+-+ */
+-+SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
+-+{
+-+    SSL_SESSION *sess = ssl_session_dup_intern(src, ticket);
+-+
+-+    if (sess != NULL)
+-+        sess->not_resumable = 0;
+-+
+-+    return sess;
+-+}
+-+
+- const unsigned char *SSL_SESSION_get_id(const SSL_SESSION *s, unsigned int *len)
+- {
+-     if (len)
+-diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c
+-index a9e67f9d32a77..6c942e6bcec29 100644
+---- a/ssl/statem/statem_srvr.c
+-+++ b/ssl/statem/statem_srvr.c
+-@@ -2338,9 +2338,8 @@ int tls_construct_server_hello(SSL *s, WPACKET *pkt)
+-      * so the following won't overwrite an ID that we're supposed
+-      * to send back.
+-      */
+--    if (s->session->not_resumable ||
+--        (!(s->ctx->session_cache_mode & SSL_SESS_CACHE_SERVER)
+--         && !s->hit))
+-+    if (!(s->ctx->session_cache_mode & SSL_SESS_CACHE_SERVER)
+-+            && !s->hit)
+-         s->session->session_id_length = 0;
+- 
+-     if (usetls13) {
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+deleted file mode 100644
+index b8e0b9fb7d..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
++++ /dev/null
+@@ -1,180 +0,0 @@
+-From 3559e868e58005d15c6013a0c1fd832e51c73397 Mon Sep 17 00:00:00 2001
+-From: Tomas Mraz <tomas@openssl.org>
+-Date: Wed, 8 May 2024 15:23:45 +0200
+-Subject: [PATCH] Check DSA parameters for excessive sizes before validating
+-
+-This avoids overly long computation of various validation
+-checks.
+-
+-Fixes CVE-2024-4603
+-
+-Reviewed-by: Paul Dale <ppzgs1@gmail.com>
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-Reviewed-by: Neil Horman <nhorman@openssl.org>
+-Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
+-(Merged from https://github.com/openssl/openssl/pull/24346)
+-
+-(cherry picked from commit 85ccbab216da245cf9a6503dd327072f21950d9b)
+-
+-<dropped CHANGES.md modifications as it would need backport of all previous changes>
+-
+-CVE: CVE-2024-4603
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/3559e868e58005d15c6013a0c1fd832e51c73397]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
+- .../invalid/p10240_q256_too_big.pem           | 57 +++++++++++++++++++
+- 2 files changed, 97 insertions(+), 4 deletions(-)
+- create mode 100644 test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
+-
+-diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
+-index fb0e9129a2..122449a7bf 100644
+---- a/crypto/dsa/dsa_check.c
+-+++ b/crypto/dsa/dsa_check.c
+-@@ -19,8 +19,34 @@
+- #include "dsa_local.h"
+- #include "crypto/dsa.h"
+- 
+-+static int dsa_precheck_params(const DSA *dsa, int *ret)
+-+{
+-+    if (dsa->params.p == NULL || dsa->params.q == NULL) {
+-+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_FFC_PARAMETERS);
+-+        *ret = FFC_CHECK_INVALID_PQ;
+-+        return 0;
+-+    }
+-+
+-+    if (BN_num_bits(dsa->params.p) > OPENSSL_DSA_MAX_MODULUS_BITS) {
+-+        ERR_raise(ERR_LIB_DSA, DSA_R_MODULUS_TOO_LARGE);
+-+        *ret = FFC_CHECK_INVALID_PQ;
+-+        return 0;
+-+    }
+-+
+-+    if (BN_num_bits(dsa->params.q) >= BN_num_bits(dsa->params.p)) {
+-+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_Q_VALUE);
+-+        *ret = FFC_CHECK_INVALID_PQ;
+-+        return 0;
+-+    }
+-+
+-+    return 1;
+-+}
+-+
+- int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
+- {
+-+    if (!dsa_precheck_params(dsa, ret))
+-+        return 0;
+-+
+-     if (checktype == OSSL_KEYMGMT_VALIDATE_QUICK_CHECK)
+-         return ossl_ffc_params_simple_validate(dsa->libctx, &dsa->params,
+-                                                FFC_PARAM_TYPE_DSA, ret);
+-@@ -39,6 +65,9 @@ int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
+-  */
+- int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
+- {
+-+    if (!dsa_precheck_params(dsa, ret))
+-+        return 0;
+-+
+-     return ossl_ffc_validate_public_key(&dsa->params, pub_key, ret)
+-            && *ret == 0;
+- }
+-@@ -50,6 +79,9 @@ int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
+-  */
+- int ossl_dsa_check_pub_key_partial(const DSA *dsa, const BIGNUM *pub_key, int *ret)
+- {
+-+    if (!dsa_precheck_params(dsa, ret))
+-+        return 0;
+-+
+-     return ossl_ffc_validate_public_key_partial(&dsa->params, pub_key, ret)
+-            && *ret == 0;
+- }
+-@@ -58,8 +90,10 @@ int ossl_dsa_check_priv_key(const DSA *dsa, const BIGNUM *priv_key, int *ret)
+- {
+-     *ret = 0;
+- 
+--    return (dsa->params.q != NULL
+--            && ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret));
+-+    if (!dsa_precheck_params(dsa, ret))
+-+        return 0;
+-+
+-+    return ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret);
+- }
+- 
+- /*
+-@@ -72,8 +106,10 @@ int ossl_dsa_check_pairwise(const DSA *dsa)
+-     BN_CTX *ctx = NULL;
+-     BIGNUM *pub_key = NULL;
+- 
+--    if (dsa->params.p == NULL
+--        || dsa->params.g == NULL
+-+    if (!dsa_precheck_params(dsa, &ret))
+-+        return 0;
+-+
+-+    if (dsa->params.g == NULL
+-         || dsa->priv_key == NULL
+-         || dsa->pub_key == NULL)
+-         return 0;
+-diff --git a/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
+-new file mode 100644
+-index 0000000000..e85e2953b7
+---- /dev/null
+-+++ b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
+-@@ -0,0 +1,57 @@
+-+-----BEGIN DSA PARAMETERS-----
+-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
+-+vKuje86bePD6kD/LH3wmkA==
+-+-----END DSA PARAMETERS-----
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.14.bb
+index 87ab4047d9..021787adcb 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
+@@ -12,15 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://CVE-2024-2511.patch \
+-           file://CVE-2024-4603.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "88525753f79d3bec27d2fa7c66aa0b92b3aa9498dafd93d7cfa4b3780cdae313"
++SRC_URI[sha256sum] = "eeca035d4dd4e84fc25846d952da6297484afa0650a6f84c682e39df3a4123ca"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+-- 
+2.34.1
 
-Cheers,
-Quentin
 
