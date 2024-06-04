@@ -1,83 +1,86 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F30C25B78
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 19:56:04 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.5824.1717530960801224652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5456AC25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 20:37:12 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.723.1717533422875412001
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 12:56:01 -0700
+ Tue, 04 Jun 2024 13:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kisWgH4c;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52b98fb5c32so3957966e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 12:56:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VqgvnhMc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-35dc04717a1so4524481f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 13:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717530959; x=1718135759; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RjWRg1IaHq4u4/HHPuBKM8VoPe3ZnW21BSDlqmji9xU=;
-        b=kisWgH4cqFkUpetHnyfcM/vXibXmGTeXXtC3Zrn1gajkIYqqtfWiGy8RBhMSHApGpL
-         TO/xAa3uwX8Qe6AbyAf0rm5A3PuB13GRU8uAvcmnVUTIFoLNVX5HI+5MX2TvdSAKNfmI
-         UN057IROUiVqb0jz7k/y+uh+Bij0V9aNq8LRf7ABxS8qVmsevrnIE1BRW6f6h+6BlWh3
-         tf3iPeC0XkKRhq99kZq7MR5CiqPGBGvCkXRilJRd0wK705ySeWKMfWxZS7par1xtqFEP
-         +60gqTEB6fVz9bgNjXY/6Hjywrl6WbEsEk3rP06E0ounYtStxrbWbVnVAzPHhxwYmhiZ
-         J45w==
+        d=linuxfoundation.org; s=google; t=1717533421; x=1718138221; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r1+QtmbR/dNhVDn/nAYNQmsPJ18NrkR2Q/6uyAL/CgQ=;
+        b=VqgvnhMc7BOoUCdxtPN5P4eNHeCpbRdWyQMPePVSPCmycFO6lC6FD9f+dPKwCHENCu
+         aZMFErSGUOJ7JiZg5aJ3c+yZ8PxLnnqSPqHzBF5svWS2cWAqNqlwETOslkFR0fuCigRK
+         Jx+IwYMXGb5w9C81aCXoMk2XFuCDiiAneEhwU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717530959; x=1718135759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RjWRg1IaHq4u4/HHPuBKM8VoPe3ZnW21BSDlqmji9xU=;
-        b=tdvK1N69fEE32lAVgCCmSQst3xBKq/p77XbhbgHB819+yrLVc77Y7FmaNQ9aSjTUA6
-         VblJSbuIYRFPBtPw6ptO8AV2X6JYGpCpEiGoUtofj/jFI7GtVoQNzsOh6TkoOqKhiO+1
-         WIwcZgmPjhMH6kZ6ddNEzYr9QQfD28UgHwt/aT4oNepjxpDry9PQ8yujcopoALebWZ2y
-         Ae7fSe+XPechzfNZ+WJIACcwJoPuE/3U5tUCkblPjbl6RGqFh4M8b4xkXtXJ6fiO5Mrg
-         BNn77IGEctau7Kpt3HCemZXBPGNld01hAD4id0r45QkzcGQbzegxRx4k6coTfqbzDrjj
-         3uKw==
-X-Gm-Message-State: AOJu0YxiE5Illlcmeyn4KCCr8/26GaKHhep9agxk56eVMYLK+k6Mq6fb
-	D31XaN0PCxH0FKEd9Ua9Mv6RU+R1BFszHwuhQ36R5oxurA1a2b3tvRPn3ydsg8wY+ifDJ6OaVrN
-	XcW51omdV2x0nvF+NCsTBR+fm3Rc=
-X-Google-Smtp-Source: AGHT+IHzrNjPlEbI0igSS0m9YWgvI/6aEXJhh1NF/kT35NB9GeIXbKXgx9QAFIdGqvY+tLm0jdHIUgEXAIruxWi1oGM=
-X-Received: by 2002:a05:6512:3da3:b0:52b:aa18:1c52 with SMTP id
- 2adb3069b0e04-52bab4ca461mr527729e87.4.1717530958703; Tue, 04 Jun 2024
- 12:55:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717533421; x=1718138221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r1+QtmbR/dNhVDn/nAYNQmsPJ18NrkR2Q/6uyAL/CgQ=;
+        b=cpS0NbP3lqIEgOZdrHp29tXbUtR3b3Ir/TvRzFmnlZDzB8l8DayLFkij4Ythwfc6+j
+         6FsA8dqOGyzYJTT+SkMfUfHO30wfaVdN4LnX1SehxV8k/CW5tJHUnqJyDGYEz/VYc1Q5
+         SU5E9vG7TILmGFbBNYEGafYTQDKp0kHEGdMwkV8Sf6vXPIEkW6e70aGLZqB8XPDLVIun
+         9swmc/gnrTTRNvqKtHt9lcAv8/Z6wUYFNMIr//wMxJ0U08+pybC+WOyn80YO8FbqCHG5
+         YnTP5HHwlae9HeDaMzu16KP56nSOBOaTUlHKCA1KT4JGJEdmPM9CI2YhUkopSS0qs60+
+         wVNg==
+X-Gm-Message-State: AOJu0Yxy2KBWdFOBTKzD1ali0F482QS7/ZUTdDRY46xNYXxcxLXjKEW/
+	D3UTgMh5khyAGUi5Bquz7QzXwQNTR4xIbie6Hm/qo1dKtagW8K1DUy1dKLGkU8EHcFmYQGxVPze
+	a
+X-Google-Smtp-Source: AGHT+IHbM6YNVL2w3lh4Tvquhe8rW+42jYD+ARi4fcNH8Az06ywTWkvsb1jfA7jfJofEtqaVUR/jog==
+X-Received: by 2002:adf:e6d2:0:b0:35e:839a:b469 with SMTP id ffacd0b85a97d-35e929c7ff3mr386542f8f.60.1717533420864;
+        Tue, 04 Jun 2024 13:37:00 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e518:8da0:d67c:ea72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35e836d0d33sm803196f8f.52.2024.06.04.13.37.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 13:37:00 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] openssl: Add passthrough variables to work with bitbake
+Date: Tue,  4 Jun 2024 21:36:59 +0100
+Message-Id: <20240604203659.3674323-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20240531230125.2404729-1-martin.jansa@gmail.com>
- <20240531230125.2404729-2-martin.jansa@gmail.com> <CAMKF1spyXm84sariUX_zLxfH374KWdYQJyS56cyW0rVXYBURKg@mail.gmail.com>
-In-Reply-To: <CAMKF1spyXm84sariUX_zLxfH374KWdYQJyS56cyW0rVXYBURKg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 4 Jun 2024 21:55:44 +0200
-Message-ID: <CA+chaQfgMXMUB+7q7o2Xr78FPbw+0pRnT_h2faLF1bQPYCpptA@mail.gmail.com>
-Subject: Re: [OE-core] [RESENDv2][PATCH 2/2] insane: add patch-status to
- default ERROR_QA
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 19:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200345
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 20:37:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200346
 
-On Tue, Jun 4, 2024 at 8:46=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Fri, May 31, 2024 at 4:01=E2=80=AFPM Martin Jansa via
-> lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > * it's enabled for patches in oe-core for very long time and I was usin=
-g
-> >   it for many other layers as well, so most layers should be in good
-> >   shape
->
-> Do other layers have the patches taken care of is what you mean here ?
-> otherwise I would suggest sending those fixes ahead of merging this.
+Now that bitbake uses websockets over SSL as hashserv and is correctly
+limiting hash equivalence only to things in the orginal SDK, bitbake builds
+from buildtools can fail due to broken SSL from buildtools.
 
-The layers I sometimes use were already fixed, the list of fixes was
-included in:
-https://lists.openembedded.org/g/openembedded-core/message/197115
+The issue is that the relocation variables are being removed from the
+environment. This could be fixed within bitbake or it could be fixed
+within the SDK environment. This patch does the latter for now. We
+really need to improve openssl relocation within the SDK in general.
+
+Fixing this has become more urgent to fix failing builds in automated
+testing.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/openssl/files/environment.d-openssl.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+index 6f23490c872..f90088aab7f 100644
+--- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
++++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+@@ -3,3 +3,4 @@ export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
+ export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
+ export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
+ export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
++export BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS SSL_CERT_DIR SSL_CERT_FILE OPENSSL_CONF OPENSSL_MODULES OPENSSL_ENGINES"
 
