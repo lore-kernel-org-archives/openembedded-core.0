@@ -1,218 +1,119 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E38CBC25B78
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 11:45:30 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.19402.1717501526959869029
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33E2C25B7E
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 11:56:50 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.19583.1717502203914498125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 04:45:27 -0700
+ Tue, 04 Jun 2024 04:56:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=JIOhEI8F;
- spf=pass (domain: snapchat.com, ip: 209.85.218.45, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a68f1017170so96338766b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 04:45:26 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Bj0VSxgv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-35dcff36522so859897f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 04:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1717501525; x=1718106325; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YXQ1BoiwmJdzW5t/8L4mzD+AnAS1r9+yvVR3Pc+87Qg=;
-        b=JIOhEI8F2zZEleyQ+vlF1TxdFzaFMpCkEs7ejHB+uT+8oikmgM7B2HlKvzZahMzlnK
-         Xp22CNr5/4ArMycUGWZxWpsXrQQxXCSbQVtq8IuogM7wHgWmNKJ17mkE+vB+B3HO1TwY
-         kbwkKjrMYVQqw69y/IROE98FsC+/WCh41BvUw=
+        d=linuxfoundation.org; s=google; t=1717502202; x=1718107002; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QggkXmqQYvyNBnKgYq57fNfwDZVkU+fq75pdMCNNQeY=;
+        b=Bj0VSxgveIZso6Vz6wc0QlxKGfm9P0xyV9UaeKESPWvAArCi+KdTuHdRWE/lqO38v5
+         TaZiwDgESo1VIIoXBGQlydziOrMcsgFPjWzah6DBa2TrW1Mt9iG1J0mQI9Mktvf58lz2
+         yq5z8F3Ueb3yzPcKqAWNBAXz1lm3s1mZ5O3vs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717501525; x=1718106325;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YXQ1BoiwmJdzW5t/8L4mzD+AnAS1r9+yvVR3Pc+87Qg=;
-        b=gx/x21w9ez5X7tcDNp08qOQYDANCqXyJsGdSbanaKpXbTO7wNY1Y8gZH8ucfhDkHKu
-         BOUTXxxNa/UhkEdY6skuIAT9oyARh7NFIQVhpqeMvm45yRdPiSfJIn5C6KIek20t+CQp
-         s0XplwByYa3DhL3ZwIikWNkZE7GM+nz9IeUkrR2uKIMznmexWH7ND1hafPy1eTejQHOK
-         v/orUAXtyIWm4uZ7HfqVC5+KgwyuWMkCtwHaPlKmxHI5rVfBmYhJUfZUnqhyywxzT/6E
-         3Ic8eJD7o8/nIPB1QFnV5gcoswabRY4QSQSQPrP4WuKJILcfUF2n7OWKLbFQBSMliXK4
-         8svw==
-X-Gm-Message-State: AOJu0YyMOSHfYlTdAD5tCD2iX/Nfi/FExpftvt0lb93UoFw9qzNFWxIR
-	IeHjvA+3doFnkBt+t6VZsjpMq/03nml6ppAL6qwVd+2U4d2ciIkKdRtKqyTCp2Cebrd1MidX9RW
-	ow7bnQS5YHB0LLzxdi6430d9M4oat8rsNOrsITRHD5jMgfBHF
-X-Google-Smtp-Source: AGHT+IFrWI2aY9r9g4J6OHo8EVaUVjD9uoX3vYYgFLAK0S59kjy/t+1rh1kqBez6MO3tfd0AcUpfABSdmj/ulMwr9CA=
-X-Received: by 2002:a17:906:6046:b0:a64:3518:f904 with SMTP id
- a640c23a62f3a-a681fe4e25emr777971266b.7.1717501525211; Tue, 04 Jun 2024
- 04:45:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240529100853.1162640-1-ecordonnier@snap.com>
- <80be0806edba87cb67f7f5711fb9c83516fb860d.camel@linuxfoundation.org>
- <17D44D900E0F42D1.15404@lists.openembedded.org> <CAHUKmYY53BOSRdFvxwsTeDOXfurLbvJ9yS6by-K4mR1OshvFRg@mail.gmail.com>
- <17D5840BB429ED6B.21428@lists.openembedded.org> <efb2d0c37c60615dd0dc6bb2b71b3d8f8dfa98b7.camel@linuxfoundation.org>
-In-Reply-To: <efb2d0c37c60615dd0dc6bb2b71b3d8f8dfa98b7.camel@linuxfoundation.org>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Tue, 4 Jun 2024 13:45:14 +0200
-Message-ID: <CAHUKmYa1kyhrJQ8C3o9zyx15FvjzxdBs5D=4GUU-33T7v53NSA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/runtime: fix regression in minidebuginfo test
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1717502202; x=1718107002;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QggkXmqQYvyNBnKgYq57fNfwDZVkU+fq75pdMCNNQeY=;
+        b=nq3m+x0lNuzoWUwuRcbZ8WXz8iOYaGEHlQ2UW0hcgp7wcSa9+dv2lsXJ/O+yQOxwca
+         jMPh4EMBcvIGW1QiGul/DZUuRDtLf/PKMe8Kso7JCxAUrqBK5qjreuUnjkwHye+OcDMl
+         kwX23UN+bgljj4FdJ9wa1HKuHaN2qtMLHDGYVJ376P0Pkq3kEPV8yBMLfg0htQkm9TVA
+         OqNw2GHPVT1IFJJi5xxsa5CvULh+gIPSoSJGL6lgpJxMAETNFv4qe47NbG8ghw0DL42Z
+         7RzL1WKGS+czShu1Jp9/jc6fUzbqRxS8vNNxL1HERZjs5NvTTQNEu2wQLqns0/efO0KB
+         DJbg==
+X-Gm-Message-State: AOJu0YyDr4SBND6olniLrZhj4L3byAeemZc65fqS6oybeh1iXH+gM3pk
+	P/QQVsCet2dU+SoLqfjETRiwAIFkbKBV+EwcUxKABQHr6G3/ZwvrbtxdpDgFUk0=
+X-Google-Smtp-Source: AGHT+IHxkMvLOQmFTQWmFCFCDrC4nQWX5j3pvwKcAZPAy/uqKzEId3ylY78Kj0Redex89gEQh4+8FA==
+X-Received: by 2002:a5d:6a84:0:b0:354:fc85:7416 with SMTP id ffacd0b85a97d-35e0f35b16bmr8355641f8f.71.1717502202241;
+        Tue, 04 Jun 2024 04:56:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1? ([2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd064aa6csm11289079f8f.93.2024.06.04.04.56.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 04:56:41 -0700 (PDT)
+Message-ID: <57260bcac841a038fc1e0af5dad1d66f28dd111c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/runtime: fix regression in minidebuginfo
+ test
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Etienne Cordonnier <ecordonnier@snap.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004ff28c061a0efce9"
+Date: Tue, 04 Jun 2024 12:56:40 +0100
+In-Reply-To: <CAHUKmYa1kyhrJQ8C3o9zyx15FvjzxdBs5D=4GUU-33T7v53NSA@mail.gmail.com>
+References: <20240529100853.1162640-1-ecordonnier@snap.com>
+	 <80be0806edba87cb67f7f5711fb9c83516fb860d.camel@linuxfoundation.org>
+	 <17D44D900E0F42D1.15404@lists.openembedded.org>
+	 <CAHUKmYY53BOSRdFvxwsTeDOXfurLbvJ9yS6by-K4mR1OshvFRg@mail.gmail.com>
+	 <17D5840BB429ED6B.21428@lists.openembedded.org>
+	 <efb2d0c37c60615dd0dc6bb2b71b3d8f8dfa98b7.camel@linuxfoundation.org>
+	 <CAHUKmYa1kyhrJQ8C3o9zyx15FvjzxdBs5D=4GUU-33T7v53NSA@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 11:45:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200327
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 11:56:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200328
 
---0000000000004ff28c061a0efce9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2024-06-04 at 13:45 +0200, Etienne Cordonnier wrote:
+> Thanks Richard, this is helpful.
+> This shows that=C2=A0test_systemd_coredump_minidebuginfo is skipped / not
+> executed, so I'm quite sure the test is still failing in CI as you
+> had reported in December. I've sent a patch to fix what I think is
+> causing the CI issue, and another patch to enable the feature in
+> poky-altcfg once the CI failure is fixed.
 
-Thanks Richard, this is helpful.
-This shows that test_systemd_coredump_minidebuginfo is skipped / not
-executed, so I'm quite sure the test is still failing in CI as you had
-reported in December. I've sent a patch to fix what I think is causing the
-CI issue, and another patch to enable the feature in poky-altcfg once the
-CI failure is fixed.
+I think it is being tested. There is this test:
 
-=C3=89tienne
+https://git.yoctoproject.org/poky/tree/meta/lib/oeqa/selftest/cases/minideb=
+uginfo.py
 
-On Mon, Jun 3, 2024 at 4:28=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+which is run with oe-selftest -r minidebuginfo
 
-> On Mon, 2024-06-03 at 15:13 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Mon, 2024-06-03 at 13:35 +0200, Etienne Cordonnier wrote:
-> > > Hi Richard,
-> > > thanks for merging the v2 of this patch. Is this test running in CI
-> > > currently? I'm thinking I could send a PR to enable minidebuginfo
-> > > in
-> > > poky-altcfg, but is there a way I can verify that this test works
-> > > in
-> > > yocto's CI? (it works locally, but as I mentioned it would fail on
-> > > a
-> > > kernel with CONFIG_USER_NS disabled.)
-> >
-> > I'd have expected it to be tested in CI, yes.
-> >
-> > You can see results here for example:
-> >
-> >
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.o=
-rg_yocto-2Dtestresults_tree_runtime_poky-2Daltcfg_qemux86-2D64_core-2Dimage=
--2Dsato-2Dsdk_testresults.json&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabg=
-GkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DVT5mIgXA=
-iw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6BRxih0bgXf-O&s=3DfxG471cE71Up_h=
-9_5zn5AMCspSvX9vZwR-_3lGUEQxc&e=3D
->
-> Being more specific, there are minidebuginfo tests here:
->
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.o=
-rg_poky_tree_meta_lib_oeqa_selftest_cases_minidebuginfo.py&d=3DDwIFaQ&c=3Dn=
-cDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DU=
-LJTKUkSGa66m67E&m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6BRx=
-ih0bgXf-O&s=3DrBKJ_kiFzQzdclkgzStD5LO90KUAh_xjZmZzYCmy4Mc&e=3D
->
-> with test results here:
->
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.o=
-rg_yocto-2Dtestresults_tree_oeselftest_testresults.json&d=3DDwIFaQ&c=3DncDT=
-mphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJT=
-KUkSGa66m67E&m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6BRxih0=
-bgXf-O&s=3DkvjEIBBwJ6pnlJEHyyAg_Fzemajwma8z2SVR_mHja0g&e=3D
->
-> but that is a larger json file.
->
-> Cheers,
->
-> Richard
->
->
+which generates results here:
 
---0000000000004ff28c061a0efce9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks Richard, this is helpful.<br>This shows that=C2=A0t=
-est_systemd_coredump_minidebuginfo is skipped / not executed, so I&#39;m qu=
-ite sure the test is still failing in CI as you had reported in December. I=
-&#39;ve sent a patch to fix what I think is causing the CI issue, and anoth=
-er patch to enable the feature in poky-altcfg once the CI failure is fixed.=
-<br><br>=C3=89tienne=C2=A0</div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Mon, Jun 3, 2024 at 4:28=E2=80=AFPM Richard Pu=
-rdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Mon, 2024-06-03 at 15:13 +0100, =
-Richard Purdie via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> wrote:<br>
-&gt; On Mon, 2024-06-03 at 13:35 +0200, Etienne Cordonnier wrote:<br>
-&gt; &gt; Hi Richard,<br>
-&gt; &gt; thanks for merging the v2 of this patch. Is this test running in =
-CI<br>
-&gt; &gt; currently? I&#39;m thinking I could send a PR to enable minidebug=
-info<br>
-&gt; &gt; in<br>
-&gt; &gt; poky-altcfg, but is there a way I can verify that this test works=
-<br>
-&gt; &gt; in<br>
-&gt; &gt; yocto&#39;s=C2=A0CI? (it works locally, but as I mentioned it wou=
-ld fail on<br>
-&gt; &gt; a<br>
-&gt; &gt; kernel with CONFIG_USER_NS disabled.)<br>
-&gt; <br>
-&gt; I&#39;d have expected it to be tested in CI, yes.<br>
-&gt; <br>
-&gt; You can see results here for example:<br>
-&gt; <br>
-&gt; <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.=
-yoctoproject.org_yocto-2Dtestresults_tree_runtime_poky-2Daltcfg_qemux86-2D6=
-4_core-2Dimage-2Dsato-2Dsdk_testresults.json&amp;d=3DDwIFaQ&amp;c=3DncDTmph=
-kJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJ=
-TKUkSGa66m67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6B=
-Rxih0bgXf-O&amp;s=3DfxG471cE71Up_h9_5zn5AMCspSvX9vZwR-_3lGUEQxc&amp;e=3D" r=
-el=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/ur=
-l?u=3Dhttps-3A__git.yoctoproject.org_yocto-2Dtestresults_tree_runtime_poky-=
-2Daltcfg_qemux86-2D64_core-2Dimage-2Dsato-2Dsdk_testresults.json&amp;d=3DDw=
-IFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuM=
-IGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-e=
-fmyplXXwC7bFU6wHrv6BRxih0bgXf-O&amp;s=3DfxG471cE71Up_h9_5zn5AMCspSvX9vZwR-_=
-3lGUEQxc&amp;e=3D</a> <br>
-<br>
-Being more specific, there are minidebuginfo tests here:<br>
-<br>
-<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yocto=
-project.org_poky_tree_meta_lib_oeqa_selftest_cases_minidebuginfo.py&amp;d=
-=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbN=
-onVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHB=
-zZ6-efmyplXXwC7bFU6wHrv6BRxih0bgXf-O&amp;s=3DrBKJ_kiFzQzdclkgzStD5LO90KUAh_=
-xjZmZzYCmy4Mc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldef=
-ense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.org_poky_tree_met=
-a_lib_oeqa_selftest_cases_minidebuginfo.py&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJ=
-TvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTK=
-UkSGa66m67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6BRx=
-ih0bgXf-O&amp;s=3DrBKJ_kiFzQzdclkgzStD5LO90KUAh_xjZmZzYCmy4Mc&amp;e=3D</a> =
-<br>
-<br>
-with test results here:<br>
-<br>
-<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yocto=
-project.org_yocto-2Dtestresults_tree_oeselftest_testresults.json&amp;d=3DDw=
-IFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuM=
-IGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-e=
-fmyplXXwC7bFU6wHrv6BRxih0bgXf-O&amp;s=3DkvjEIBBwJ6pnlJEHyyAg_Fzemajwma8z2SV=
-R_mHja0g&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.=
-proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.org_yocto-2Dtestresult=
-s_tree_oeselftest_testresults.json&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0=
-hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m=
-67E&amp;m=3DVT5mIgXAiw0SxyBc46dQyS_ECUHBzZ6-efmyplXXwC7bFU6wHrv6BRxih0bgXf-=
-O&amp;s=3DkvjEIBBwJ6pnlJEHyyAg_Fzemajwma8z2SVR_mHja0g&amp;e=3D</a> <br>
-<br>
-but that is a larger json file.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
+https://git.yoctoproject.org/yocto-testresults/tree/oeselftest/testresults.=
+json
 
---0000000000004ff28c061a0efce9--
+e.g.:
+
+            "minidebuginfo.Minidebuginfo.test_minidebuginfo": {
+                "duration": 1073.8962650299072,
+                "status": "PASSED"
+            },
+
+            "minidebuginfo.Minidebuginfo.test_minidebuginfo": {
+                "duration": 764.4718866348267,
+                "status": "PASSED"
+            },
+
+so I think it is being tested in each oe-selftest run (hence the
+multiple results)?
+
+Cheers,
+
+Richard
+
 
