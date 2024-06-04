@@ -1,182 +1,107 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B140C25B78
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 09:37:40 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.134])
- by mx.groups.io with SMTP id smtpd.web10.17380.1717493853456779163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B237C25B7E
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 09:46:00 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.17477.1717494354301149763
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 02:37:34 -0700
+ Tue, 04 Jun 2024 02:45:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=GRGOfE+L;
- spf=pass (domain: cherry.de, ip: 40.107.22.134, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FnOUXNNmh1herXqjlrnOX50TmB4S4r2tp3Ryypv7Rw0HgQSxQCmZxcsibKC+dp6VY0EiOPci3aJXFOPBOPwUUl5IfyuEfakhE1ptTKDhcQchVjScjCDRQ02vCJyx81pvPDBEvgFRFrWGnC1wx0iPRtjbckFRvB5LW5aEKVPfGu3pwclCly9NWnXDfFc4oi8we/rySett5c3SoPkJzPAfPllISiczAK3crQdH7EroKkfF30kcQzOhr0vTdaTQvFvublKjPniEQgMCY3EvUlvewBPEayjgCqgK7b/Y0DtBUOLqLWZ4MqNemwHdIySAM7kBVZyKCQuFoorVN0d00djXsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aDkKdHBFr37HvpJv8K7a2iyOb+VXQJVmn+TRFfFc9ws=;
- b=MylUlPwtQZ5HW+fopsBpeeHhYQfcOKCaWCYY/jbCipMScPkkich3eAZXPllw4vg2Vfk45mYQLolFrrLwU8EGaISHUfgZCVGqYuFsjjXQNVvClm012BgoaPVxUaq3A5X0XOy3cdj1jbDetMc89oKOF+J/0rulHmX7sMkB/+/NN1HOupNpfdklxTGckSNBA7a/zm5mgX/N1SeV7qwF9HynOelgjsnXtRCAgpcKwHx2+bYT1nI8a0deH5WGZqI/ET/jYGmbNHUUVCMuKnwUu7pPBJbgXNu1CnI8Jlm7w4E6CVipdg0Yqy6lx7l0lJkNcKLlP6Be+6SHal0aaR3Ku+s+NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aDkKdHBFr37HvpJv8K7a2iyOb+VXQJVmn+TRFfFc9ws=;
- b=GRGOfE+LGmdvtW0w41920ov55dWfX1/nwsfnYq+iBLMqPr9HVUI7plHPIy3+wGL9hpZjBLQ38Tm68yIi+pPdpzli81NfWi16TrTF68mqcIS+3j0r7tdckuWGuBOr3sux+TNTQ4V1Q+/KaPFDlTZ7CHr2hBPQHU9Pa0a71G7DQZc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7982.eurprd04.prod.outlook.com (2603:10a6:102:c4::9)
- by PA1PR04MB10295.eurprd04.prod.outlook.com (2603:10a6:102:447::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.27; Tue, 4 Jun
- 2024 09:37:26 +0000
-Received: from PA4PR04MB7982.eurprd04.prod.outlook.com
- ([fe80::3c4:afd5:49ac:77af]) by PA4PR04MB7982.eurprd04.prod.outlook.com
- ([fe80::3c4:afd5:49ac:77af%4]) with mapi id 15.20.7633.021; Tue, 4 Jun 2024
- 09:37:26 +0000
-Message-ID: <beedf05b-3b5e-4468-a6d1-46d7d6734246@cherry.de>
-Date: Tue, 4 Jun 2024 11:37:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] mesa: build failure in CI, dependency not found
-To: joaomarcos.costa@bootlin.com, openembedded-core@lists.openembedded.org
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <aa532133-c872-4bde-8479-dba12de225c7@bootlin.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <aa532133-c872-4bde-8479-dba12de225c7@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NHCvr60Z;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-35e1fcd0c0fso1051383f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 02:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1717494353; x=1718099153; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=byaSbqZfiKckoj2xg6H3qzMksz88GSZZR114IoQH9YM=;
+        b=NHCvr60ZeOyAjGIH/hhhxOYS5ki2nrUJ/79u7Q2rqS6EANrEudbiPKx+7iQozgpc//
+         zEUgxGB5CIfezIp/MpHQ9N0su3IKu355fN08ZChr/Rk2PL4UaBNVwDFIWHQXTGPZ9ZNc
+         d9vLvqvgGI2UgvRIVI5brbdjdNI2xIH72HWtE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717494353; x=1718099153;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=byaSbqZfiKckoj2xg6H3qzMksz88GSZZR114IoQH9YM=;
+        b=Imxt60xuzEIsHzn0vm64j2QNI+ngA60fTHxYcbZv0NIdhMQPjVjEXBTWKiCggoqH+4
+         QxFQGyKC9VXG9j5WUp9Dn7js9k8uI6iX1aUt43iGmN/9xgWhXKMTHzhVX+mLh/EN0FcV
+         YE2VwNL40wKhmEaK+55ItCr/+lZKTJSYjuPU1TJw9C/DBrPI+gra1RUZYM2CgW6EcLxm
+         JVIVbmDnX7/ihKJj8k+aEAn/uW0P0riNrfdn6XhEG0PqnJpVSeyLZRNQa9pN8b/wJULH
+         7f/UWXyypkK9U3aE5kYzogs/hOMz/3cbfYypW+nNqR09Ls5bNaBVPsP7Qtwj53q1EWmv
+         aCkw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2LuS5lWH0LMFBr6OLQ5AP4U9Jryv1xwf5wE8G/JLqX6U/YV4GFLERJBRYWA9j+cD8dvtNrhY3cVlDAT5V4WsZhY9Xs80J/b8T3ZTtGHwLmqVO04EsgpxR
+X-Gm-Message-State: AOJu0YwK2DwIGovcPI2Nqu61wkVoJX919zU/G7hkNH6h/qH7pDIe+UGy
+	iXPuD3KBfLYo3VaQKkyaSjLMrq0WSvFII9J9ZQ02gyeMDlGIPdK4a5hxaYPZQIw=
+X-Google-Smtp-Source: AGHT+IHxBmr3pBGEEwEdxQMSMMKigVcysTp0duD3hvGSMyeWbYsOhg/Sf1QNniXw9QsnXvGwknCo7w==
+X-Received: by 2002:a05:6000:52:b0:354:e746:7515 with SMTP id ffacd0b85a97d-35e0f286676mr8648442f8f.34.1717494352704;
+        Tue, 04 Jun 2024 02:45:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1? ([2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd062edcdsm11059702f8f.70.2024.06.04.02.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 02:45:52 -0700 (PDT)
+Message-ID: <a314cb4d4df281b779c2e01e79ceb79cff1e2b68.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility - disable PGO
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: sundeep.kokkonda@windriver.com,
+ openembedded-core@lists.openembedded.org,  Alexander Kanavin
+ <alex.kanavin@gmail.com>
+Date: Tue, 04 Jun 2024 10:45:48 +0100
+In-Reply-To: <1f43ccdb-e9b9-4e0c-a818-8ac6115e4488@windriver.com>
+References: <20240603144545.163535-1-sundeep.kokkonda@windriver.com>
+	 <CANNYZj-CgmCG3+iCoUWV=Se8gENS7TCxOS6eLGb7RCm8nzejEw@mail.gmail.com>
+	 <14893660-1952-4e6e-89f3-70883d2b465f@windriver.com>
+	 <1f43ccdb-e9b9-4e0c-a818-8ac6115e4488@windriver.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: WA2P291CA0045.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::19) To PA4PR04MB7982.eurprd04.prod.outlook.com
- (2603:10a6:102:c4::9)
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7982:EE_|PA1PR04MB10295:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a21d360-413d-409b-2ea5-08dc8479f203
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?1tWDY7htc5A3np1WgWGzkhiiVrdbCPhPWvwg/l3xaVofZO1t2XGgc0zivA7i?=
- =?us-ascii?Q?uHplMaqTi7pIlcoPmpUAJCua+Fn7KTWqCnD8CQPbNjD9xgATMQsHeKsfJEs+?=
- =?us-ascii?Q?GCd48KJuhXAewL3S1kEzmBWuNKsfb+SZy/aLL79QcxuukqtVWJQtzepTSecd?=
- =?us-ascii?Q?uMHhOGB/AdZa4tXrEEcmCARsUNhPGL2c9vQHkbRgph6z6vAsy880vjYyrwq9?=
- =?us-ascii?Q?AX2EjlsRm0HHvZXM5TRLxgSM9YzkF0mXs23rkfvorjLDnDdMtr23j48pzn35?=
- =?us-ascii?Q?zNFfHXCNMm2CikRoHsPWolFuBQwWkJs/yqPxV8YwFnCP0bP32D42xrTwqy+V?=
- =?us-ascii?Q?1WVM3WH0QLv90okMAF+VMMgqC07s0Ir/UQYoSjjVr58Da2k5ovoDHD2IGd9C?=
- =?us-ascii?Q?aeCmrGiuQRyZvsKZpnuKuS6g7vSWD0rs/51bY3HpeqhjvuMlEcVK4Hc1BEHz?=
- =?us-ascii?Q?7cbtCPevhP3SpXIghFPxZKvw/tS7UpuTtMXfamoWOUoNynsIOFVbsCQHggR/?=
- =?us-ascii?Q?xFkK4CW9dYFXh1Lt9lKpIAq2MmnyRigJo/pSnoB/ooykpiL0XcWx7F1bt5s0?=
- =?us-ascii?Q?SSYmAu3UY4JtcyxpXcCGKpXPJ6q//rgjGIaiRnDn5WaB2H3TDNp3P1zEn23B?=
- =?us-ascii?Q?rxFEhoidZ5wXKhXYciCiDid8ePvz3zjCJU5+Vtn7AA258rtibkfQWVv1FEO0?=
- =?us-ascii?Q?wrJPbtf1lKZ9Dj25GdVAEDFQPTBsyh6Qy02c+zTorlfYKn7YJOloJHbj5lam?=
- =?us-ascii?Q?GgczpXNp++R3Xr0f0o24QpQxfBJsf2MPuaDAODx23bQhwz0bCuwq9AF6D1EL?=
- =?us-ascii?Q?0B431U4mdAuTI6hXg7VRTjGpm51WXA+JWDXppHvVLRSaBZ/fFgk6YVeqm9+o?=
- =?us-ascii?Q?14BIUhqeRWVOWuZhjhAJ84zrh1ubE5ekVqQ35fJARFE0ofqy9QTc/0tMu2gT?=
- =?us-ascii?Q?fuHBCecg+7W4WcnxG06pmOecxxLV5TA0c9ClEHoNgZyhrcNiBPHq3Gb0QTi1?=
- =?us-ascii?Q?/dMgqeYDivrVEnmGrZcNByYDiSYlP08mvd++BuTknJBpl8CHbGZpFSZTRej5?=
- =?us-ascii?Q?e1e8Dc9fHwabql+ogJEJEdmXR60rKTU1R3xvORpk5PPiWNvh1XO/zfyoCuI0?=
- =?us-ascii?Q?kVVuFJJH2PTgUOvVE4GrQX8qNbGKw1bYia8u2K3Bzdwg5HFvuThEsFdJwm06?=
- =?us-ascii?Q?ZEeg5ofzlo6UV4V0gnEs+wm+95UsVNuSjk0EGrwRf+lprtKAoX8yf/dX6R8?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7982.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ds6CmduC3MMhFqIdAECYRmd8aN/GDZDXiZ2qFD06X04SNB7Cn+GGlARxsUZM?=
- =?us-ascii?Q?F84JFDFJi0MpleNm70HvFUJd1sW5r7F6Xs9d+0mLmJrpRyOFniDI/Sg91FGt?=
- =?us-ascii?Q?RSNGPPWmiwNqBMpjgo8NgWTHrGoBKchCIdYqMa0q6JT9WctgpzmhDehIFztV?=
- =?us-ascii?Q?KHFUXhze48mAObVPQ7DzKPbPcw1TR2ooHb72ik174VsuFipu1Nj9aR/ojfWB?=
- =?us-ascii?Q?lXaHqsg7J+6ZjwqQC7Pq0qqvOxNYByuZBfA88zjCuLVMVDJv9hjrpyBVptNl?=
- =?us-ascii?Q?WhJiqdFM547RtvGMTRmTj5z5IRCTU++1+R0NqYzkVOOI9Auei+Nyso7mGQGo?=
- =?us-ascii?Q?D1Ld3Dv7Wp+4fLBFR0O4r02jyd3wngQ+VTYCO85a8il1DE+SjtiTSaN2Q6AA?=
- =?us-ascii?Q?JQU/ENBS1BuyR/FPTpeXWCUrw3POC6+oj33Bu7oi9t1eLImee0OKBQYZZOrY?=
- =?us-ascii?Q?tHRQHSyCnSvDE7TZLrajPL1sTHtv3IzHW6wjzTE/Aa8nqx3NzRUIjYkX//MS?=
- =?us-ascii?Q?pVZ2d6+47ki0uBIq5ln4nFBL3zFrUQT+ArfKdjtdsnDEi/5rG8iVDk3qPhoc?=
- =?us-ascii?Q?RDURtzZQOqHU+BuR+TYY3NOXN6wtL5xkSP7D8o/0Rn4glTfRWF2Fly4/4ruy?=
- =?us-ascii?Q?K389bM01mAqlZuqeowEZrmW/F4ECjhJnN954oRR34Vc2hSaborEHwYscN7Sq?=
- =?us-ascii?Q?qsR85YIhKPTT6Cq8QyOlSMlrM2AsIvqb2E9yRiRLGC10hB0I0/fVKWekzf0f?=
- =?us-ascii?Q?EvDqIO57reqQSRQWcLKE09pHiYNlBhc9QwwDja9fsOQrZLoFva0470f6XnAj?=
- =?us-ascii?Q?5982KZeJ3lrc/sncFnPXJ4IRrQSQKZMAAjXZqG+M2VF1f8sV0SakRIReHKYo?=
- =?us-ascii?Q?jPiNwkLmiWRZXUUXpCVFmtzalXyhYPrmlPkgKKAvB/cMc5Ou2uuTesLFq7TG?=
- =?us-ascii?Q?D+p9b5VP6fuHflk9q0+IalJzWQG7UeEs7V2P4YbmtWlhz4q6uJAkeHkac/s1?=
- =?us-ascii?Q?vaiwiag1ro9xykPG3i1p1/O8L1TRdRO23VveLuVSRdWllEZj0m8q/vjePQJ9?=
- =?us-ascii?Q?Zzz8pH833yJQpYlDTAtHEVZgM6St8QOX7WDj2Lsunll1EMXpXM8yp51RPCJT?=
- =?us-ascii?Q?+bHBSbdGE9DEQM/Wcqi8Ws7CIOpT3QhHFQILl5rGWMh7+g5cDnyUfgKUG3Fr?=
- =?us-ascii?Q?rru1CH9W9q4W+ZzAl3TOSjsEzXVFhbKK9CB4EO9R03ATw00U+j6q3St74hB2?=
- =?us-ascii?Q?klraNbgh6lHWPXjYcC9Sna0UDZaUDQBt133AGt9m4b11DUYGD5fcxZGEPHNU?=
- =?us-ascii?Q?MIdAiiPA2zxK7fyWuYgvNz+lIc4IKX+jGicJ2pARHigXLNrw2oGJxm6ktEk9?=
- =?us-ascii?Q?z9ugO6eaSVdi4bo5zOvcbfaZFqtuqJEbUza+z225k6a3JukS3D1CG5+Wi6eH?=
- =?us-ascii?Q?D8k84RrZ5D6s2/gnR5ctUL/7S87AiMA0C3sz7lsWUz0kRzyTUtDopBuDLXm8?=
- =?us-ascii?Q?c93Wv6Sv8nSns5l04eKnHmx49zxmUVmg+OoIf879EyT0ioFifhjmVUMukD+n?=
- =?us-ascii?Q?AHctDGGeMNuDtCFcIEmW+PPK7w4Fq9Uzj+la0vy5ATVDhi5gbX5a6J3AUCsj?=
- =?us-ascii?Q?vQ=3D=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a21d360-413d-409b-2ea5-08dc8479f203
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7982.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 09:37:26.8086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HaHlDwCLWusqvo+KakA039GR3lhUYasqDWUlwTrwVGkEV3+VHH7hcK2ZBaQ1ZCg+OWUAL+TlhC8I1mdzYQ8+JhUuPXrmyZJAiMAgQid8AZU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10295
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 09:37:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200321
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 09:46:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200322
 
-Hi Joao,
+On Mon, 2024-06-03 at 20:55 +0530, Sundeep KOKKONDA via
+lists.openembedded.org wrote:
+>=20
+> On 03-Jun-24 20:37, Sundeep KOKKONDA via lists.openembedded.org
+> wrote:
+> >=20
+> > On 03-Jun-24 20:20, Alexander Kanavin wrote:
+> > > CAUTION: This email comes from a non Wind River email account!
+> > > Do not click links or open attachments unless you recognize the=20
+> > > sender and know the content is safe.
+> > >=20
+> > > Wait, did you test this patch locally? What was the outcome?
+> > rust-rustdoc_1.75.0-r0_amd64.deb is generated and the binaries are=20
+> > identical.
+> Also, as I mentioned in commit message it is a test patch to see the=20
+> issue is fixed or not on autobuilder.
+> >=20
 
-On 6/3/24 5:39 PM, Joao Marcos Costa via lists.openembedded.org wrote:
-> Hello,
->=20
-> The following error was raised in Swat's CI:
->=20
-> | Run-time dependency libclc found: NO (tried pkgconfig)
-> |
-> | ../mesa-24.1.0/meson.build:852:12: ERROR: Dependency "libclc" not=20
-> found, tried pkgconfig
-> |
-> | A full log can be found at=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/build/meson-logs/meson-log.txt
-> | ERROR: meson failed
-> | WARNING:=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874:171 exit 1 from 'exit=
- 1'
-> | WARNING: Backtrace (BB generated script):
-> | =C2=A0=C2=A0=C2=A0 #1: bbfatal_log,=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 171
-> | =C2=A0=C2=A0=C2=A0 #2: meson_do_configure,=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 160
-> | =C2=A0=C2=A0=C2=A0 #3: do_configure,=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 149
-> | =C2=A0=C2=A0=C2=A0 #4: main,=20
-> /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-=
-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 184
-> NOTE: recipe mesa-2_24.1.0-r0: task do_configure: Failed
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6680/st=
-eps/12/logs/stdio
->=20
-> Mesa was upgraded a few days ago. Could it be related to this error?
->=20
+I started a few runs with this patch included:
 
-Likely yes, can you provide some info on how I can reproduce this=20
-locally so I don't have to hunt this?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4897
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4898
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4899
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4900
 
-Maybe you also have access to the full log somewhere?
+They all failed.
 
 Cheers,
-Quentin
+
+Richard
 
