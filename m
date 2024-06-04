@@ -1,107 +1,131 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B237C25B7E
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 09:46:00 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.17477.1717494354301149763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEDDC25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 10:13:20 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.17977.1717495994415531253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 02:45:54 -0700
+ Tue, 04 Jun 2024 03:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NHCvr60Z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-35e1fcd0c0fso1051383f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 02:45:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AZ7z0DJ7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2e95a883101so69190301fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 03:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717494353; x=1718099153; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=byaSbqZfiKckoj2xg6H3qzMksz88GSZZR114IoQH9YM=;
-        b=NHCvr60ZeOyAjGIH/hhhxOYS5ki2nrUJ/79u7Q2rqS6EANrEudbiPKx+7iQozgpc//
-         zEUgxGB5CIfezIp/MpHQ9N0su3IKu355fN08ZChr/Rk2PL4UaBNVwDFIWHQXTGPZ9ZNc
-         d9vLvqvgGI2UgvRIVI5brbdjdNI2xIH72HWtE=
+        d=gmail.com; s=20230601; t=1717495992; x=1718100792; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCIfr6r6OFshtojYefdMiMyetUz6P4mI3kC+i1nqWc8=;
+        b=AZ7z0DJ7JpC5882pOjSxme7krrW/cdCffQESjTQU97fHg0djKSJIplLNopQQj9dh3i
+         WK9MIH8qxAMGHJ1SWFZY5rGm3Cc6WKWpbOJULyIY+xwsLO7OhgxucO9gmSJmOE9oi/qf
+         MmrEtVX7MqDVjjXqBiI6yx/+8tbKPZHxIJZmO6Cuxwx6xs2TtAzeB15QJs82HzY09E7o
+         Qa5m8R4Qxpv9rgkx4mTiVtYkhgl/YsIHGIHrrL5Z+bJlYVyFF/hiEaslSDDQc+Silltl
+         f1pAx6XIbExpq7r5eh2H4j1KIhouPidEtEi/M/QB6bHM5ArziFwENnakVvE+R83ViUuN
+         cA1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717494353; x=1718099153;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=byaSbqZfiKckoj2xg6H3qzMksz88GSZZR114IoQH9YM=;
-        b=Imxt60xuzEIsHzn0vm64j2QNI+ngA60fTHxYcbZv0NIdhMQPjVjEXBTWKiCggoqH+4
-         QxFQGyKC9VXG9j5WUp9Dn7js9k8uI6iX1aUt43iGmN/9xgWhXKMTHzhVX+mLh/EN0FcV
-         YE2VwNL40wKhmEaK+55ItCr/+lZKTJSYjuPU1TJw9C/DBrPI+gra1RUZYM2CgW6EcLxm
-         JVIVbmDnX7/ihKJj8k+aEAn/uW0P0riNrfdn6XhEG0PqnJpVSeyLZRNQa9pN8b/wJULH
-         7f/UWXyypkK9U3aE5kYzogs/hOMz/3cbfYypW+nNqR09Ls5bNaBVPsP7Qtwj53q1EWmv
-         aCkw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2LuS5lWH0LMFBr6OLQ5AP4U9Jryv1xwf5wE8G/JLqX6U/YV4GFLERJBRYWA9j+cD8dvtNrhY3cVlDAT5V4WsZhY9Xs80J/b8T3ZTtGHwLmqVO04EsgpxR
-X-Gm-Message-State: AOJu0YwK2DwIGovcPI2Nqu61wkVoJX919zU/G7hkNH6h/qH7pDIe+UGy
-	iXPuD3KBfLYo3VaQKkyaSjLMrq0WSvFII9J9ZQ02gyeMDlGIPdK4a5hxaYPZQIw=
-X-Google-Smtp-Source: AGHT+IHxBmr3pBGEEwEdxQMSMMKigVcysTp0duD3hvGSMyeWbYsOhg/Sf1QNniXw9QsnXvGwknCo7w==
-X-Received: by 2002:a05:6000:52:b0:354:e746:7515 with SMTP id ffacd0b85a97d-35e0f286676mr8648442f8f.34.1717494352704;
-        Tue, 04 Jun 2024 02:45:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1? ([2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd062edcdsm11059702f8f.70.2024.06.04.02.45.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:45:52 -0700 (PDT)
-Message-ID: <a314cb4d4df281b779c2e01e79ceb79cff1e2b68.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rust: rustdoc reproducibility - disable PGO
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: sundeep.kokkonda@windriver.com,
- openembedded-core@lists.openembedded.org,  Alexander Kanavin
- <alex.kanavin@gmail.com>
-Date: Tue, 04 Jun 2024 10:45:48 +0100
-In-Reply-To: <1f43ccdb-e9b9-4e0c-a818-8ac6115e4488@windriver.com>
-References: <20240603144545.163535-1-sundeep.kokkonda@windriver.com>
-	 <CANNYZj-CgmCG3+iCoUWV=Se8gENS7TCxOS6eLGb7RCm8nzejEw@mail.gmail.com>
-	 <14893660-1952-4e6e-89f3-70883d2b465f@windriver.com>
-	 <1f43ccdb-e9b9-4e0c-a818-8ac6115e4488@windriver.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1717495992; x=1718100792;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FCIfr6r6OFshtojYefdMiMyetUz6P4mI3kC+i1nqWc8=;
+        b=QFDY34rbjd4SSI6oLsmy2u49L6P3XrgueiH5y4IfbHiD5PT86zDJyvvKL515x+jwTh
+         q4cLdX684e2A0FCtH1QKJoUN4jHhMrgyRdxZiyeaA+8atMJFSBaS2pjNkay7Cm1N0B5a
+         yfG+mrLLrNjWPc7AySrThN+1Ao5zbD6OIqB/SAourHpKRbLZCPy5CsXewaPOVI8U/Utn
+         O4JU+RXEDwyUqn6yoNLDHshBB5ByxpodAWQcfINvQEAsvPoQDY0W029+Iviw0N2Ka2ev
+         64HedCZlu32Uh5Otvyy0bGaUK4220cvB42eyQl2EHIChMopFqPMco1Uw3/Lx11xJqFN9
+         h7eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAMQCSaIHNEDRJ6ZKRlFqjbIE8rk90Faz9ELYFI9Zl8V27dSheB7FQ9RL+FGSdeQrrmi5ld6UAYx1lWSbPpFX7uXdA8Gik8UyCO8IpsgG72tJ4JYM2mRwm
+X-Gm-Message-State: AOJu0Yxa+/YTvxGThXypG8NnkFLMFSeLcCT02WSX4Lm4tiiVls+q3mDQ
+	/0mI1/TOJ6IDJrHs2jCw1LgYulc5MG+dcxCmelzIueQgYI6ed6JjlaGv6MmNhssPnBxkrVUPs7m
+	bXGiMHA4iddMfLFswbrEVUzihmN8=
+X-Google-Smtp-Source: AGHT+IGeDSzVXH9WB+1Ob2NGB2l8RzM/zwHvEPnijbs4aaN+0yROfLiZtz8/OgRPjkRY78a294eqWIa4Z9IcK5r2CVk=
+X-Received: by 2002:a2e:8655:0:b0:2e9:81f0:8597 with SMTP id
+ 38308e7fff4ca-2ea951d2480mr74589111fa.43.1717495992224; Tue, 04 Jun 2024
+ 03:13:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <aa532133-c872-4bde-8479-dba12de225c7@bootlin.com> <beedf05b-3b5e-4468-a6d1-46d7d6734246@cherry.de>
+In-Reply-To: <beedf05b-3b5e-4468-a6d1-46d7d6734246@cherry.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 4 Jun 2024 12:13:03 +0200
+Message-ID: <CANNYZj_Nd0Yq2yh9caj0uu+1qv7ybEhMgSsBy1LFxwA32Kk-Qw@mail.gmail.com>
+Subject: Re: [OE-core] mesa: build failure in CI, dependency not found
+To: quentin.schulz@cherry.de
+Cc: joaomarcos.costa@bootlin.com, openembedded-core@lists.openembedded.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 09:46:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200322
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 10:13:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200323
 
-On Mon, 2024-06-03 at 20:55 +0530, Sundeep KOKKONDA via
-lists.openembedded.org wrote:
->=20
-> On 03-Jun-24 20:37, Sundeep KOKKONDA via lists.openembedded.org
-> wrote:
-> >=20
-> > On 03-Jun-24 20:20, Alexander Kanavin wrote:
-> > > CAUTION: This email comes from a non Wind River email account!
-> > > Do not click links or open attachments unless you recognize the=20
-> > > sender and know the content is safe.
-> > >=20
-> > > Wait, did you test this patch locally? What was the outcome?
-> > rust-rustdoc_1.75.0-r0_amd64.deb is generated and the binaries are=20
-> > identical.
-> Also, as I mentioned in commit message it is a test patch to see the=20
-> issue is fixed or not on autobuilder.
-> >=20
+I don't think you need the full log. The key part is:
 
-I started a few runs with this patch included:
+Run-time dependency libclc found: NO (tried pkgconfig)
+> |
+> | ../mesa-24.1.0/meson.build:852:12: ERROR: Dependency "libclc" not
+> found, tried pkgconfig
+> |
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4897
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4898
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4899
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4900
+So you could find meson.build in ${S}, find line 852 in it, and see
+why that line is being processed and what enables the block of code
+it's in. We also have a libclc patch that looks highly suspicious to
+me (and should be dropped tbh).
 
-They all failed.
+Alex
 
-Cheers,
-
-Richard
+On Tue, 4 Jun 2024 at 11:37, Quentin Schulz via lists.openembedded.org
+<quentin.schulz=cherry.de@lists.openembedded.org> wrote:
+>
+> Hi Joao,
+>
+> On 6/3/24 5:39 PM, Joao Marcos Costa via lists.openembedded.org wrote:
+> > Hello,
+> >
+> > The following error was raised in Swat's CI:
+> >
+> > | Run-time dependency libclc found: NO (tried pkgconfig)
+> > |
+> > | ../mesa-24.1.0/meson.build:852:12: ERROR: Dependency "libclc" not
+> > found, tried pkgconfig
+> > |
+> > | A full log can be found at
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/build/meson-logs/meson-log.txt
+> > | ERROR: meson failed
+> > | WARNING:
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874:171 exit 1 from 'exit 1'
+> > | WARNING: Backtrace (BB generated script):
+> > |     #1: bbfatal_log,
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 171
+> > |     #2: meson_do_configure,
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 160
+> > |     #3: do_configure,
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 149
+> > |     #4: main,
+> > /home/pokybuild/yocto-worker/qemux86-64-ptest/build/build/tmp/work/core2-64-poky-linux/mesa/24.1.0/temp/run.do_configure.47874, line 184
+> > NOTE: recipe mesa-2_24.1.0-r0: task do_configure: Failed
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6680/steps/12/logs/stdio
+> >
+> > Mesa was upgraded a few days ago. Could it be related to this error?
+> >
+>
+> Likely yes, can you provide some info on how I can reproduce this
+> locally so I don't have to hunt this?
+>
+> Maybe you also have access to the full log somewhere?
+>
+> Cheers,
+> Quentin
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200321): https://lists.openembedded.org/g/openembedded-core/message/200321
+> Mute This Topic: https://lists.openembedded.org/mt/106464279/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
