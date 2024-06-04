@@ -1,81 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF1BC25B78
-	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 12:49:01 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.20616.1717505339715417053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E091C25B78
+	for <webhook@archiver.kernel.org>; Tue,  4 Jun 2024 13:03:21 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.20720.1717506195200315920
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 05:49:00 -0700
+ Tue, 04 Jun 2024 06:03:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b0SzOgk2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42120fc8cbfso42773495e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 05:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717505338; x=1718110138; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wnqEqPbESxgwX9HnTq3GwdVA1ndvn5Zr5VGbIpPcNKA=;
-        b=b0SzOgk2Y9ECa84PBI0mv6bfy+kc2tY37z55Nrc6hd7+p+JVwA9r9qVX1NJiYtKONt
-         sU90yShC/Gjkb8/t6FchGs/geETn5Oguvyv95imiMlFlMo50IDFT/wov8iIFK2YCHrYT
-         wVnZYFkIC39x+mXBwF2DFzXJ/5MUtsb/DSOCI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717505338; x=1718110138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wnqEqPbESxgwX9HnTq3GwdVA1ndvn5Zr5VGbIpPcNKA=;
-        b=P1bC6AwVKMnoJIkRqQh1NsOHuhyfrNYj1PeI4vb8YqGT54HFBcHCQ0AbjpJdL64lXr
-         WrJ2zLDTnpWmihqPnyufC/PUvitrCg83a+5VVkkTrYBrBqv0NGipG0okw6D2ACNws17i
-         U3Je9cnG/QFs9Sb24neKOeKVI/p5He+4fCOXw6p9PoFPi8bPgW7cAdQ7gfOURKr1IcxG
-         GNr6XLlkeNneI1uKYFwCkGDCnS1xDShm4Jdu4yXEmsiWdIn20uKHVqjwlddlUrk0Wpcg
-         CmMuh1LjhHbnh2dW5CRvNkJgI4IwPz+NI9xxlekAOScw1rF30XPFdDs8wZ4zUQMvYRAZ
-         e0hg==
-X-Gm-Message-State: AOJu0Yzu1T12yYWEuIRvvpZWo38mM5Hgf9/+XK1Nr/KjI+LnLCkzuElj
-	uA/FzbInyEQuByak51lJ73KCICZ3VrWkthAWDDGzxQI28AlQKikM76hmnS0R6w07mMQaSiM/+3b
-	t
-X-Google-Smtp-Source: AGHT+IFhSEa7zPVmWWbbLEIRQF39ra3/NvPTDi/RZztmvWbNEr3grce5PNz2+WdWj4sX4ghRk5BvRw==
-X-Received: by 2002:a05:600c:3b8b:b0:421:29c6:e2ce with SMTP id 5b1f17b1804b1-4212e047477mr101171125e9.7.1717505337554;
-        Tue, 04 Jun 2024 05:48:57 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9a5c:ae3c:1b90:53c1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42139688d82sm95917715e9.3.2024.06.04.05.48.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 05:48:57 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/ltp: Drop groups that were removed in new version
-Date: Tue,  4 Jun 2024 13:48:56 +0100
-Message-Id: <20240604124856.3649228-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZCnSSDnR;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iWTjohtQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018fe358bbdc-d8e7788f-2d9c-4b7b-a85f-341b4707a7f1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717506194; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=/Q/EyUFaX/IsUIcOY7Joc87JYGjKaLV8nLZNH6Mmkt8=;
+	b=ZCnSSDnRIhnGc8aDUxFOOFqPZL0LlAUF7tNQO5IIUz0iS5ux+Im3KbQxu8AiLzL5
+	SGqnxxh80z51Q13ADB49cRaWOgOVemFVbuY9I+sj9csnUcogpMuQBw6IA9N1SYUepGT
+	qRmii8fchUqIcEL9hy1zzwt5I+mrHGWlkOstWwbc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717506194;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/Q/EyUFaX/IsUIcOY7Joc87JYGjKaLV8nLZNH6Mmkt8=;
+	b=iWTjohtQH0zOpUxTO9MkvdBI7Ycarl5gBUGpxE6HdrZZm9FJEkbBeKhroZkwEOM0
+	+WGA5moB2jIyiA169f9IPFniiCCLT5FTj0Q90dLrCb0LXAANQ4jPGsHnco8dIyJugnc
+	N0T0TXSaRaGBG846kdcsWX1/NWDzpuBzr89A+i9M=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] oeqa/runtime/ltp: Drop groups that were removed in new
+ version
+In-Reply-To: <20240604124856.3649228-1-richard.purdie@linuxfoundation.org>
+References: <20240604124856.3649228-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fe358bbdc-d8e7788f-2d9c-4b7b-a85f-341b4707a7f1-000000@us-west-2.amazonses.com>
+Date: Tue, 4 Jun 2024 13:03:14 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.04-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 12:49:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200333
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 13:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200334
 
-The io, cap_bounds and filecaps groups were removed in latest version
-of ltp. Tweak the test class to match.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/oeqa-runtime-ltp-Drop-groups-that-were-removed-in-new-version.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-index f588a93200e..e81360670c5 100644
---- a/meta/lib/oeqa/runtime/cases/ltp.py
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -57,7 +57,7 @@ class LtpTestBase(OERuntimeTestCase):
- 
- class LtpTest(LtpTestBase):
- 
--    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "commands", "net.ipv6_lib", "input","fs_perms_simple", "cve", "crypto", "ima", "net.nfs", "net_stress.ipsec_icmp", "net.ipv6", "numa", "uevent", "ltp-aiodio.part1", "ltp-aiodio.part2", "ltp-aiodio.part3", "ltp-aiodio.part4"]
-+    ltp_groups = ["math", "syscalls", "dio", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "fcntl-locktests", "commands", "net.ipv6_lib", "input","fs_perms_simple", "cve", "crypto", "ima", "net.nfs", "net_stress.ipsec_icmp", "net.ipv6", "numa", "uevent", "ltp-aiodio.part1", "ltp-aiodio.part2", "ltp-aiodio.part3", "ltp-aiodio.part4"]
- 
-     ltp_fs = ["fs", "fs_bind"]
-     # skip kernel cpuhotplug
+FAIL: test max line length: Patch line too long (current length 354, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
