@@ -1,102 +1,148 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A42F4C25B76
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 17:22:38 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.21827.1717608154861894959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A11E4C25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 17:27:48 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web11.22126.1717608459004754042
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jun 2024 10:22:36 -0700
+ Wed, 05 Jun 2024 10:27:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gTRI5Ugu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ea9386cde0so570231fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 10:22:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E4aa+0mA;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-24cbb884377so23203fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 10:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717608153; x=1718212953; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y8fzGp500u0Uh0KE0lweDMF++8lXMC/IXFQefr2AJMs=;
-        b=gTRI5UguzyKhrOL/nlAR+5/egZYVpB2tBVVt3gYby5OPS0n8PAvYFSQg4utnVKSTNM
-         6+UxRppXAID3skJaHkRYMCXaruC3LEQsQxW9Rc/Yv2uIMu0S7pGZvgYIC+KlFTL87X2M
-         qawBQzgojbhUAoKRHUWqTOtFP41NLzA0dvjd4=
+        d=gmail.com; s=20230601; t=1717608458; x=1718213258; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=It99+AYznLpGLVp5juQc/HX6WqzmVFvIWLESIaQVgs4=;
+        b=E4aa+0mArlCc3gVYLmpPkl3CDqg0Ls5U3TsyjwtrRG/aIuP/ZRDOVG/dt21Y2/dbey
+         XY9BrjbgKgZxtHBlI40kgSQDUUWTPkCETMbN0z434l/b3GwagA8Zo+hK/18UySu5KZma
+         OCuhuZd53Yn0684Q5v/dMmQQnpsB1vsni335DCykBEuzca+7YvAw6zJ+zoT1q2Mjzf5E
+         0jBb/rLoSgonXy9yRk++2tj4oRynp+SBqAuUegs8+fKiQoBw3CV3E7evt3jUlfJQ6P3n
+         R67ZTqlWZp1smsKkzegfpqCdLwdAJ/d6MjuKz8GGxSeRkmXawfApO2ASlveVgSFe2YdM
+         +yWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717608153; x=1718212953;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y8fzGp500u0Uh0KE0lweDMF++8lXMC/IXFQefr2AJMs=;
-        b=JxW2z3r0o92kGsiWkOb6o+OEWcaip0T05yRyHQ+gXOZOglEmk7Lt8bQcZbYMwUhw7e
-         MlBm9nJXxPMZJ/QIJp6hj99x+ZeDSXsIWkqEOWKk9Ezdo7QW27uNSaAe4vb9Z/jcCg0F
-         HDgGOVeADY6+NFei4zerVVh2gcl16qvGvgSynJuCT4ooPtJR8/Yv266x2eBMBDb2g56f
-         s6hRacaT0aF7RV1YcAdd8Wt5pFEgCVnNHQk/VP9MDZUyj4/KN95gxpbHJdaKymx+kUuY
-         A2IBFiA4KVGe0COxWcRruojnHoAYf6krRLOhHEGYs3FySLOTOTSFM0vQfx11w9gIwJBx
-         dumw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRLW7Y9kCbnd4JNbCl10zxhuPIeeXgapMHrabuKqGw8ntPOSGLzJAM5G9WtW4Oz0oNXluHtFTCWp/eITZsRI16xJXp/kuK0AwmJkqEfFqpOjpn7US6SJ8r
-X-Gm-Message-State: AOJu0YxSxB1mz7HxhMtBE0vIBMTIbKpwP9LkhaYi14me7+nvdSqGhCAK
-	cohb9+oG6Zd5MXPFpaZ22rVY1hwhNAPXjinrmA0Mrt/3RvrobPImZvKQHHI75Co=
-X-Google-Smtp-Source: AGHT+IGUGGmA96+pwR9WOVdSZLhfvfBLAt2KP01Q6kInmjxfdmkmbM+dXfU/ME9imgQUotxYcwN6zg==
-X-Received: by 2002:a2e:8217:0:b0:2e9:8632:61d7 with SMTP id 38308e7fff4ca-2eac79f0beamr18215141fa.30.1717608152968;
-        Wed, 05 Jun 2024 10:22:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e518:8da0:d67c:ea72? ([2001:8b0:aba:5f3c:e518:8da0:d67c:ea72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215810826csm30245555e9.17.2024.06.05.10.22.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 10:22:32 -0700 (PDT)
-Message-ID: <29ccd7990821d93b76b8284360eea701ebb9d37b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RESENDv4][PATCH 2/4] selftest: add few missing
- Upstream-Status
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: martin.jansa@gmail.com, openembedded-core@lists.openembedded.org
-Date: Wed, 05 Jun 2024 18:22:31 +0100
-In-Reply-To: <20240604090341.45444-2-martin.jansa@gmail.com>
-References: <20240604090341.45444-1-martin.jansa@gmail.com>
-	 <20240604090341.45444-2-martin.jansa@gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
+        d=1e100.net; s=20230601; t=1717608458; x=1718213258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=It99+AYznLpGLVp5juQc/HX6WqzmVFvIWLESIaQVgs4=;
+        b=MepuAGKHXsJUqNOoMFS2WDiQED7yttE2P4CYXPskpWsEi72yPq/bNkYcUNepTl8QpH
+         AKC4sGQsRybe19yMopwF/DYONtjin8zKhYuu+hRWuzguu0gQrzUOsnR/LQq+aoog44h8
+         3bWNpoI452fpz8hoL0QG5DGXPvlwLyE8STMwLcc/NHqFy8PhvFtHod6rLLd1mobPfPgL
+         SHNk3/5QLdAigVppLVM07qqJg7pAA4S6YMESD+R/gnpwntD7zgianPz6rn1ntMeA3Nc/
+         VVbjmgmfsVgWUQJ0qz5Wl4QiCMj6QJwxUwFl/r015QEw4jSRX/n8RfkbOOFpiLYQ/pkc
+         bjQA==
+X-Gm-Message-State: AOJu0YyvRQj4D1jDSSA/t3C3phCudY7KxQfEh+TeoCy+PQyBXXXuFY7F
+	9gi2jWac4NdnfZnOpIIyhpuL4aZ67hyw/Zouk/8cG9uFePnyJI/yHL+/iHbpMaQjocDv6/SM0XV
+	agRb1h8ZA9RiDXe07NLGUXGGYHbJ/Xd6h
+X-Google-Smtp-Source: AGHT+IE4jTg9uHeZMoO2tuzv7tjINuha9JOfrQGMJ0g74E8B81BYDuRU2UUPAGDhrGsZuymHd8j5FHSYqEhq6wAlcJ8=
+X-Received: by 2002:a05:6870:64a2:b0:250:68e5:9b65 with SMTP id
+ 586e51a60fabf-25122084291mr3464287fac.48.1717608457914; Wed, 05 Jun 2024
+ 10:27:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240605072629.115812-1-jonas.gorski@bisdn.de>
+In-Reply-To: <20240605072629.115812-1-jonas.gorski@bisdn.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 5 Jun 2024 10:27:11 -0700
+Message-ID: <CAMKF1spF33TbaHgh0g=oXz5d-a_mxn6zaXO+zL=6bTBEXGXJUg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linuxloader: add -armhf on arm only for
+ TARGET_FPU 'hard'
+To: jonas.gorski@bisdn.de
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 17:22:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200376
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 17:27:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200377
 
-On Tue, 2024-06-04 at 11:03 +0200, Martin Jansa via
-lists.openembedded.org wrote:
-> * these were reported in:
-> =C2=A0 https://lists.openembedded.org/g/openembedded-core/message/200282
->=20
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+On Wed, Jun 5, 2024 at 2:52=E2=80=AFAM Jonas Gorski via lists.openembedded.=
+org
+<jonas.gorski=3Dbisdn.de@lists.openembedded.org> wrote:
+>
+> There are two types of soft FPU options for arm, soft and softfp, and if
+> using the latter the wrong dynamic loader will be used.
+>
+> E.g. go will link against ld-linux-armhf.so.3, but libc6 will only ship
+> a ld-linux.so.3, so go programs will fail to start.
+>
+> Fix this by instead checking for TARGET_FPU being 'hard' and then
+> applying the suffix.
+>
+> Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
+> ---
+>
+> I stumbled upon this on kirkstone after the Go linker changes were
+> backported to 4.0.19. Suddenly docker wasn't working anymore, being
+> linked against a non-existing ld-linux.
+>
+> This is only tested on kirkstone since we are still on kirkstone and
+> going to master (or garthgap) is non-trivial (though planned).
+>
+>  meta/classes-recipe/linuxloader.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/linuxloader.bbclass b/meta/classes-recip=
+e/linuxloader.bbclass
+> index 2ea1b62254c9..a2e8f9837bd4 100644
+> --- a/meta/classes-recipe/linuxloader.bbclass
+> +++ b/meta/classes-recipe/linuxloader.bbclass
+> @@ -57,7 +57,7 @@ def get_glibc_loader(d):
+>      elif re.search("i.86", targetarch):
+>          dynamic_loader =3D "${base_libdir}/ld-linux.so.2"
+>      elif targetarch =3D=3D "arm":
+> -        dynamic_loader =3D "${base_libdir}/ld-linux${@['-armhf', ''][d.g=
+etVar('TARGET_FPU') =3D=3D 'soft']}.so.3"
+> +        dynamic_loader =3D "${base_libdir}/ld-linux${@['', '-armhf'][d.g=
+etVar('TARGET_FPU') =3D=3D 'hard']}.so.3"
 
-devtool selftest still isn't quite working with this:
+looks fine.
 
-https://valkyrie.yoctoproject.org/#/builders/76/builds/46/steps/14/logs/std=
-io
 
-I'd also like to try and standardise the entries to something like:
-
-Upstream-Status: Inappropriate [Test artefact]
-
-and add this to:
-
-https://docs.yoctoproject.org/dev/contributor-guide/recipe-style-guide.html=
-#patch-upstream-status
-
-Just so that when we need to look through the Inappropriate patches
-(once we're cleared all the Pending) we can know what these ones are at
-a glance.
-
-Cheers,
-
-Richard
+>      elif targetarch.startswith("aarch64"):
+>          dynamic_loader =3D "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_E=
+NDIAN_64}.so.1"
+>      elif targetarch.startswith("riscv64"):
+> --
+> 2.45.1
+>
+>
+> --
+> BISDN GmbH
+> K=C3=B6rnerstra=C3=9Fe 7-10
+> 10785 Berlin
+> Germany
+>
+>
+> Phone:
+> +49-30-6108-1-6100
+>
+>
+> Managing Directors:
+> Dr.-Ing. Hagen Woesner, Andreas
+> K=C3=B6psel
+>
+>
+> Commercial register:
+> Amtsgericht Berlin-Charlottenburg HRB 141569
+> B
+> VAT ID No: DE283257294
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200359): https://lists.openembedded.org/g/openembedde=
+d-core/message/200359
+> Mute This Topic: https://lists.openembedded.org/mt/106500218/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
