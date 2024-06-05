@@ -2,8 +2,8 @@ Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 402BFC27C52
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 21:04:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40719C25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 21:06:48 +0000 (UTC)
 Subject: Re: [PATCH 1/1] archiver.bbclass: Improve work-shared checking
 To: openembedded-core@lists.openembedded.org
 From: "Livius" <egyszeregy@freemail.hu>
@@ -11,17 +11,19 @@ X-Originating-Location: =?UTF-8?B?U3R1dHRnYXJ0LCBCYWRlbi1Xw7xydHRlbWJlcmcsIERF?=
 X-Originating-Platform: Windows Chrome 125
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Wed, 05 Jun 2024 14:04:20 -0700
+Date: Wed, 05 Jun 2024 14:06:41 -0700
 References: <7829286302c0e4a4bdcb351cbd295cb95387d7c1.1702307359.git.liezhi.yang@windriver.com>
 In-Reply-To: <7829286302c0e4a4bdcb351cbd295cb95387d7c1.1702307359.git.liezhi.yang@windriver.com>
 Message-ID: <24041.1717621460219935507@lists.openembedded.org>
-Content-Type: text/plain; charset="utf-8"
+X-Old-Date: Wed, 05 Jun 2024 14:04:20 -0700
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 21:04:28 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 21:06:48 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200381
+Message-ID: <20240605210641.MUufaeWZJS9FyEqQorxi7F19ygZxbg24RB-Zla32-Fo@z>
 
 Hi,
 
@@ -38,8 +40,8 @@ t the moment without usage of INHERIT +=3D "archiver" Yocto scarthgap build=
  in this case in linux working directory.
 
 I use the following settings when i try to making archives but it is failed=
- to build/fetch kernel source to kernel-source directory (it was fine to us=
-e in nanbield release before).
+ to fetch kernel source to kernel-source directory (it was fine to use in n=
+anbield release before).
 
 INHERIT +=3D "archiver"
 ARCHIVER_MODE[src] =3D "patched"
