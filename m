@@ -1,288 +1,120 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E17DC25B78
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 01:37:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.4658.1717551450757208173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 558CFC25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 06:16:05 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.8338.1717568162322176973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 18:37:30 -0700
+ Tue, 04 Jun 2024 23:16:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=68867ad8c0=kai.kang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4550KvhI009722
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jun 2024 01:37:29 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7uj41-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 01:37:29 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 4 Jun 2024 18:37:27 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 4 Jun 2024 18:37:27 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] multilib.bbclass: replace deprecated e.data with d
-Date: Wed, 5 Jun 2024 09:37:19 +0800
-Message-ID: <20240605013719.1751604-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=azH/SIEj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35dce6102f4so1648226f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 23:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1717568161; x=1718172961; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CzWhTTYxX+FhB9D490pTgiCCcYDxgSY04lHdNSCL8LU=;
+        b=azH/SIEjlskx1hkf6NBbt3QPsIqvpLx5+GecwitbH4NySsrbGQlLYQxxARdkY7bweR
+         VZF7toyIBD7GEYs0rhTAVblklWJz/e+Lhc3tdfc5dpYgu5nn1xJDToWGkM+pZtitFNFu
+         BHYNR08YMKu+TKk2iZCwhDEq4HLUBwnXfhdFk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717568161; x=1718172961;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CzWhTTYxX+FhB9D490pTgiCCcYDxgSY04lHdNSCL8LU=;
+        b=TWiyHk0JTsGirHJRfXhs+0szPs4vJT/ak+AllpMeLcx7TX0D2XNmrOWuJy2sOmQ1NK
+         bZrRbhVU16Wh4eiSXSJ9tkLW0cO6JRspBErUrjGl3dH1p9w0/sDZheHqy13dArt6G94g
+         j346w/LY5EID2e/G5qbHAEp8JCCIACpDicc28t6zKeTBCgeBl85F+DmtCc0nSUOP5M9s
+         XdMdAl7tEyjBmbrYAgBvi7IQZAOMO5RwqtzWxWCoZoNgGz26ZseyPhViaoJ47cmFV3wU
+         5gtDF7AIN4nlsmRnS2rbIYFC4pk+SXT53e7nP27D4cVMMyUviSWWGwcwZ8aatryWrQoP
+         AvUw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgd8/NjyxKOCQO6ETwwrxvJ812dAOFcEBgsnLix8J+SxHuUNS+/PRpC9ldpDHFf05yXgIuj6YZIldbNbjRsUDuLhRRzkCJe3ikGDhuWh24InjZvKLcUB4N
+X-Gm-Message-State: AOJu0YydYXANC9PWuvmmHkoI/TvZAMO5woBHFBTz3ynRdD6iIrkw2Hqr
+	KeJub5EbneWSo2hBxj+L7yEEWmrY1NJkudQnzpJ/1NKRyVfV+U96Ry14PDgEtV4=
+X-Google-Smtp-Source: AGHT+IEHnrtF/K4I5/XjIUfjksSXfWmPPLFrOhoXdZF6RJh9bNiBMw7l/Mvgv1byjgG+daQX8K0mSg==
+X-Received: by 2002:adf:ce05:0:b0:354:f3d0:55d5 with SMTP id ffacd0b85a97d-35e8ef099edmr1019770f8f.31.1717568160681;
+        Tue, 04 Jun 2024 23:16:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e518:8da0:d67c:ea72? ([2001:8b0:aba:5f3c:e518:8da0:d67c:ea72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04ca981sm13297022f8f.33.2024.06.04.23.15.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 23:16:00 -0700 (PDT)
+Message-ID: <dfc86695d4d75c5ec118b3e5fdb795ead16b1bb0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/3] mesa: add new package for Mali CSFFW
+ Valhall firmware
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Quentin Schulz <quentin.schulz@cherry.de>, Quentin Schulz
+	 <foss+yocto@0leil.net>, openembedded-core@lists.openembedded.org
+Date: Wed, 05 Jun 2024 07:15:59 +0100
+In-Reply-To: <ace0be62-d968-468c-aa99-27b8ae87ad7a@cherry.de>
+References: <20240531-panthor-v1-0-1a76fd752c1b@cherry.de>
+	 <20240531-panthor-v1-3-1a76fd752c1b@cherry.de>
+	 <7f0cbf29-f885-4f39-8b83-4e89b709d6f0@cherry.de>
+	 <7dc1935cc2d7a0af58ebe65b6afaf4ef7d5eb426.camel@linuxfoundation.org>
+	 <ace0be62-d968-468c-aa99-27b8ae87ad7a@cherry.de>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 6bCyl-OH-DXKXFj0WSPrjmQ24FE8Yc51
-X-Proofpoint-ORIG-GUID: 6bCyl-OH-DXKXFj0WSPrjmQ24FE8Yc51
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 clxscore=1011 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2406050010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 01:37:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200351
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 06:16:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200352
 
-From: Kai Kang <kai.kang@windriver.com>
+Hi Quentin,
 
-Replace deprecated e.data with d in multilib.bbclass and
-multilib_global.bbclass.
+On Tue, 2024-06-04 at 17:04 +0200, Quentin Schulz wrote:
+> Well, I should have said "removed" and not from master-next but from=20
+> abelloni/master-next in poky-contrib. It used to be there (got a mail in=
+=20
+> the ML from the SWAT team complaining about broken mesa build recently).
 
-Remove event check in function multilib_virtclass_handler_vendor in
-multilib_global.bbclass. The function flag 'eventmask' has been set
-with 'bb.event.ConfigParsed', so no need to check the event any more.
+I understand now, I was just a bit surprised as I hadn't looked at in
+in my own master-next branch!
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/classes/multilib.bbclass        | 87 ++++++++++++++--------------
- meta/classes/multilib_global.bbclass | 25 ++++----
- 2 files changed, 56 insertions(+), 56 deletions(-)
+> I'm trying to figure out the changes needed for this mesa update (the
+> patch 2 in this series), but this getting quite difficult as I have no=
+=20
+> experience with mesa nor meson and the changes aren't trivial to me=20
+> reading the git log of all meson files in the repo.
+>=20
+> What I can say already is that it seems the iris Gallium driver now=20
+> requires libclc as well, which means mesa-native as built on x86 hosts=
+=20
+> will require that, which means bringing in meta-clang... I'll continue=
+=20
+> to investigate a bit more to at least get something to compile (if I can=
+=20
+> manage to) on my x86 build machine, both mesa and mesa-native in its=20
+> default PACKAGECONFIG config from current master, and then hopefully=20
+> send an RFC and we can discuss there. The whole migration from clc to
+> rusticl for some drivers is also confusing me, so will probably need=20
+> some help there, especially since we have this commit already in the=20
+> last (few?) release(s):=20
+> https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics=
+/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index b6c09969b1..a4151658a6 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -5,30 +5,30 @@
- #
- 
- python multilib_virtclass_handler () {
--    cls = e.data.getVar("BBEXTENDCURR")
--    variant = e.data.getVar("BBEXTENDVARIANT")
-+    cls = d.getVar("BBEXTENDCURR")
-+    variant = d.getVar("BBEXTENDVARIANT")
-     if cls != "multilib" or not variant:
-         return
- 
--    localdata = bb.data.createCopy(e.data)
-+    localdata = bb.data.createCopy(d)
-     localdata.delVar('TMPDIR')
--    e.data.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR'))
-+    d.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR'))
- 
-     # There should only be one kernel in multilib configs
-     # We also skip multilib setup for module packages.
--    provides = (e.data.getVar("PROVIDES") or "").split()
-+    provides = (d.getVar("PROVIDES") or "").split()
-     non_ml_recipes = d.getVar('NON_MULTILIB_RECIPES').split()
--    bpn = e.data.getVar("BPN")
--    if "virtual/kernel" in provides or \
--            bb.data.inherits_class('module-base', e.data) or \
--            bpn in non_ml_recipes:
-+    bpn = d.getVar("BPN")
-+    if ("virtual/kernel" in provides
-+            or bb.data.inherits_class('module-base', d)
-+            or bpn in non_ml_recipes):
-         raise bb.parse.SkipRecipe("We shouldn't have multilib variants for %s" % bpn)
- 
--    save_var_name=e.data.getVar("MULTILIB_SAVE_VARNAME") or ""
-+    save_var_name = d.getVar("MULTILIB_SAVE_VARNAME") or ""
-     for name in save_var_name.split():
--        val=e.data.getVar(name)
-+        val = d.getVar(name)
-         if val:
--            e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
-+            d.setVar(name + "_MULTILIB_ORIGINAL", val)
- 
-     # We nearly don't need this but dependencies on NON_MULTILIB_RECIPES don't work without it
-     d.setVar("SSTATE_ARCHS_TUNEPKG", "${@all_multilib_tune_values(d, 'TUNE_PKGARCH')}")
-@@ -36,66 +36,67 @@ python multilib_virtclass_handler () {
-     overrides = e.data.getVar("OVERRIDES", False)
-     pn = e.data.getVar("PN", False)
-     overrides = overrides.replace("pn-${PN}", "pn-${PN}:pn-" + pn)
--    e.data.setVar("OVERRIDES", overrides)
-+    d.setVar("OVERRIDES", overrides)
- 
--    if bb.data.inherits_class('image', e.data):
--        e.data.setVar("MLPREFIX", variant + "-")
--        e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
--        e.data.setVar('SDKTARGETSYSROOT', e.data.getVar('SDKTARGETSYSROOT'))
-+    if bb.data.inherits_class('image', d):
-+        d.setVar("MLPREFIX", variant + "-")
-+        d.setVar("PN", variant + "-" + d.getVar("PN", False))
-+        d.setVar('SDKTARGETSYSROOT', d.getVar('SDKTARGETSYSROOT'))
-         override = ":virtclass-multilib-" + variant
--        e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
--        target_vendor = e.data.getVar("TARGET_VENDOR:" + "virtclass-multilib-" + variant, False)
-+        d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
-+        target_vendor = d.getVar("TARGET_VENDOR:" + "virtclass-multilib-" + variant, False)
-         if target_vendor:
--            e.data.setVar("TARGET_VENDOR", target_vendor)
-+            d.setVar("TARGET_VENDOR", target_vendor)
-         return
- 
--    if bb.data.inherits_class('cross-canadian', e.data):
-+    if bb.data.inherits_class('cross-canadian', d):
-         # Multilib cross-candian should use the same nativesdk sysroot without MLPREFIX
--        e.data.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
--        e.data.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
--        e.data.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
--        e.data.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
--        e.data.setVar("MLPREFIX", variant + "-")
-+        d.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
-+        d.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
-+        d.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
-+        d.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
-+        d.setVar("MLPREFIX", variant + "-")
-         override = ":virtclass-multilib-" + variant
--        e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
-+        d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
-         return
- 
--    if bb.data.inherits_class('native', e.data):
-+    if bb.data.inherits_class('native', d):
-         raise bb.parse.SkipRecipe("We can't extend native recipes")
- 
--    if bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data):
-+    if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d):
-         raise bb.parse.SkipRecipe("We can't extend nativesdk recipes")
- 
--    if bb.data.inherits_class('allarch', e.data) and not d.getVar('MULTILIB_VARIANTS') \
--        and not bb.data.inherits_class('packagegroup', e.data):
-+    if (bb.data.inherits_class('allarch', d)
-+            and not d.getVar('MULTILIB_VARIANTS')
-+            and not bb.data.inherits_class('packagegroup', d)):
-         raise bb.parse.SkipRecipe("Don't extend allarch recipes which are not packagegroups")
- 
-     # Expand this since this won't work correctly once we set a multilib into place
--    e.data.setVar("ALL_MULTILIB_PACKAGE_ARCHS", e.data.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
-+    d.setVar("ALL_MULTILIB_PACKAGE_ARCHS", d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
-  
-     override = ":virtclass-multilib-" + variant
- 
--    skip_msg = e.data.getVarFlag('SKIP_RECIPE', e.data.getVar('PN'))
-+    skip_msg = d.getVarFlag('SKIP_RECIPE', d.getVar('PN'))
-     if skip_msg:
--        pn_new = variant + "-" + e.data.getVar('PN')
--        if not e.data.getVarFlag('SKIP_RECIPE', pn_new):
--            e.data.setVarFlag('SKIP_RECIPE', pn_new, skip_msg)
-+        pn_new = variant + "-" + d.getVar('PN')
-+        if not d.getVarFlag('SKIP_RECIPE', pn_new):
-+            d.setVarFlag('SKIP_RECIPE', pn_new, skip_msg)
- 
--    e.data.setVar("MLPREFIX", variant + "-")
--    e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
--    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
-+    d.setVar("MLPREFIX", variant + "-")
-+    d.setVar("PN", variant + "-" + d.getVar("PN", False))
-+    d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
- 
-     # Expand INCOMPATIBLE_LICENSE_EXCEPTIONS with multilib prefix
--    pkgs = e.data.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS")
-+    pkgs = d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS")
-     if pkgs:
-         for pkg in pkgs.split():
-             pkgs += " " + variant + "-" + pkg
--        e.data.setVar("INCOMPATIBLE_LICENSE_EXCEPTIONS", pkgs)
-+        d.setVar("INCOMPATIBLE_LICENSE_EXCEPTIONS", pkgs)
- 
-     # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
--    newtune = e.data.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
-+    newtune = d.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
-     if newtune:
--        e.data.setVar("DEFAULTTUNE", newtune)
-+        d.setVar("DEFAULTTUNE", newtune)
- }
- 
- addhandler multilib_virtclass_handler
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index 6095d278dd..973ac9130b 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -171,24 +171,23 @@ def preferred_ml_updates(d):
-     d.appendVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS", " " + " ".join(extras))
- 
- python multilib_virtclass_handler_vendor () {
--    if isinstance(e, bb.event.ConfigParsed):
--        for v in e.data.getVar("MULTILIB_VARIANTS").split():
--            if e.data.getVar("TARGET_VENDOR:virtclass-multilib-" + v, False) is None:
--                e.data.setVar("TARGET_VENDOR:virtclass-multilib-" + v, e.data.getVar("TARGET_VENDOR", False) + "ml" + v)
--        preferred_ml_updates(e.data)
-+    for v in d.getVar("MULTILIB_VARIANTS").split():
-+        if d.getVar("TARGET_VENDOR:virtclass-multilib-" + v, False) is None:
-+            d.setVar("TARGET_VENDOR:virtclass-multilib-" + v, d.getVar("TARGET_VENDOR", False) + "ml" + v)
-+    preferred_ml_updates(d)
- }
- addhandler multilib_virtclass_handler_vendor
- multilib_virtclass_handler_vendor[eventmask] = "bb.event.ConfigParsed"
- 
- python multilib_virtclass_handler_global () {
--    variant = e.data.getVar("BBEXTENDVARIANT")
-+    variant = d.getVar("BBEXTENDVARIANT")
-     if variant:
-         return
- 
-     non_ml_recipes = d.getVar('NON_MULTILIB_RECIPES').split()
- 
--    if bb.data.inherits_class('kernel', e.data) or \
--            bb.data.inherits_class('module-base', e.data) or \
-+    if bb.data.inherits_class('kernel', d) or \
-+            bb.data.inherits_class('module-base', d) or \
-             d.getVar('BPN') in non_ml_recipes:
- 
-             # We need to avoid expanding KERNEL_VERSION which we can do by deleting it
-@@ -197,7 +196,7 @@ python multilib_virtclass_handler_global () {
-             localdata.delVar("KERNEL_VERSION")
-             localdata.delVar("KERNEL_VERSION_PKG_NAME")
- 
--            variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
-+            variants = (d.getVar("MULTILIB_VARIANTS") or "").split()
- 
-             import oe.classextend
-             clsextends = []
-@@ -208,22 +207,22 @@ python multilib_virtclass_handler_global () {
-             origprovs = provs = localdata.getVar("PROVIDES") or ""
-             for clsextend in clsextends:
-                 provs = provs + " " + clsextend.map_variable("PROVIDES", setvar=False)
--            e.data.setVar("PROVIDES", provs)
-+            d.setVar("PROVIDES", provs)
- 
-             # Process RPROVIDES
-             origrprovs = rprovs = localdata.getVar("RPROVIDES") or ""
-             for clsextend in clsextends:
-                 rprovs = rprovs + " " + clsextend.map_variable("RPROVIDES", setvar=False)
-             if rprovs.strip():
--                e.data.setVar("RPROVIDES", rprovs)
-+                d.setVar("RPROVIDES", rprovs)
- 
-             # Process RPROVIDES:${PN}...
--            for pkg in (e.data.getVar("PACKAGES") or "").split():
-+            for pkg in (d.getVar("PACKAGES") or "").split():
-                 origrprovs = rprovs = localdata.getVar("RPROVIDES:%s" % pkg) or ""
-                 for clsextend in clsextends:
-                     rprovs = rprovs + " " + clsextend.map_variable("RPROVIDES:%s" % pkg, setvar=False)
-                     rprovs = rprovs + " " + clsextend.extname + "-" + pkg
--                e.data.setVar("RPROVIDES:%s" % pkg, rprovs)
-+                d.setVar("RPROVIDES:%s" % pkg, rprovs)
- }
- 
- addhandler multilib_virtclass_handler_global
--- 
-2.34.1
+It does sound complicated, I'm afraid I don't have any specific advice
+but avoiding a rust dependency would be nice if we can and requiring
+clang would be much more problematic.
+
+Cheers,
+
+Richard
+
 
 
