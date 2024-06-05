@@ -1,309 +1,102 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49794C25B76
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 16:03:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.19630.1717603426449623141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A42F4C25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 17:22:38 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.21827.1717608154861894959
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jun 2024 09:03:46 -0700
+ Wed, 05 Jun 2024 10:22:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=68866e7383=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4556u28e012962
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jun 2024 09:03:46 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yg35f3ywd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 09:03:45 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 455G3j2R012009;
-	Wed, 5 Jun 2024 09:03:45 -0700
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yg35f3ywc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 09:03:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IAaGoZm121BYIVPUmFJCA2Orty2y4JuRAv43fw1FPuW5tt5bOk3eBi1l5MDGvA+7Rf8as87Lcc18V5xmhuwAWzIGYYYQX0duJN+nTcrqjsoa74zCvx4IDrhBEd3IyxwwHxpLLEN3GI81DgS5eTB5XuQ4NGAC4hOiCjUPFwsx83EapNuKZSrmvvaKKJnxXhbF4F8G256KIQNC1ppU6g4rXtynRapEO/+s8uoS6AtMQ7JICEh5NNtX65yqxuiDBB6R447XhLQh0/rlH3TZAaBXDMUqD1x+M99JVmst3RWJGMtsBTA7KzVhWyGSAvFmfbpZPazlwNbXJdwLV1jfsiYbwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DGDvWbwhHu0TmCbT5TVdPY9JocdXKcrVzJU4o4R4ZxM=;
- b=jZND4/JMYy/5JAidvAKpj7Tz7uWK5U96Uj25+ECxI07KvL5VwCYjnH/THLfo6oUUCz29vKkRsM/USVUKzSg8SZgLo5ALe3QmVvQrfu/4+k4J0yZ5anUS9FrBtZBUvntp9Nyg21KzqGziLKpGUqMww6w6rxprOkTzvEzLUd4L7Ult4hd+GQMSm9CNsGu7xoUOXOevYlVbxBpkcmYrWLEoF5qHXqOIBayRd78gZfR7Oy8SqE4ZAvXXI+P5H0Gqgdz6NTDDcD0HvqgNY6o+eHLUYuzbzI8eFngTOidP0h0wZ5X6IhtcmsDj3jB/KUWhQocpmRgW7Y2Uke9CxIVTdzd7Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by SN7PR11MB8262.namprd11.prod.outlook.com (2603:10b6:806:26e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Wed, 5 Jun
- 2024 16:03:35 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%3]) with mapi id 15.20.7633.021; Wed, 5 Jun 2024
- 16:03:35 +0000
-Content-Type: multipart/alternative;
- boundary="------------PbYueegfkCkQC0OdeRZ7b9g9"
-Message-ID: <bcfc7bb9-fdb8-4dd8-841b-3266f354ed51@windriver.com>
-Date: Wed, 5 Jun 2024 12:03:32 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [scarthgap][PATCH V2] gcc : upgrade to v13.3
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Deepthi.Hemraj@windriver.com, openembedded-core@lists.openembedded.org
-References: <20240605143945.405558-1-Deepthi.Hemraj@windriver.com>
- <18618.1717599402117239778@lists.openembedded.org>
- <86ffc957-8b91-48d9-afc9-629b0e1dcaad@windriver.com>
- <CAOSpxdaNze=WcFwW_6A=o7-HN85bW9wuONgJtPpQyzcPVYx66A@mail.gmail.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CAOSpxdaNze=WcFwW_6A=o7-HN85bW9wuONgJtPpQyzcPVYx66A@mail.gmail.com>
-X-ClientProxiedBy: QB1P288CA0025.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c00:2d::38) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gTRI5Ugu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ea9386cde0so570231fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 10:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1717608153; x=1718212953; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y8fzGp500u0Uh0KE0lweDMF++8lXMC/IXFQefr2AJMs=;
+        b=gTRI5UguzyKhrOL/nlAR+5/egZYVpB2tBVVt3gYby5OPS0n8PAvYFSQg4utnVKSTNM
+         6+UxRppXAID3skJaHkRYMCXaruC3LEQsQxW9Rc/Yv2uIMu0S7pGZvgYIC+KlFTL87X2M
+         qawBQzgojbhUAoKRHUWqTOtFP41NLzA0dvjd4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717608153; x=1718212953;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8fzGp500u0Uh0KE0lweDMF++8lXMC/IXFQefr2AJMs=;
+        b=JxW2z3r0o92kGsiWkOb6o+OEWcaip0T05yRyHQ+gXOZOglEmk7Lt8bQcZbYMwUhw7e
+         MlBm9nJXxPMZJ/QIJp6hj99x+ZeDSXsIWkqEOWKk9Ezdo7QW27uNSaAe4vb9Z/jcCg0F
+         HDgGOVeADY6+NFei4zerVVh2gcl16qvGvgSynJuCT4ooPtJR8/Yv266x2eBMBDb2g56f
+         s6hRacaT0aF7RV1YcAdd8Wt5pFEgCVnNHQk/VP9MDZUyj4/KN95gxpbHJdaKymx+kUuY
+         A2IBFiA4KVGe0COxWcRruojnHoAYf6krRLOhHEGYs3FySLOTOTSFM0vQfx11w9gIwJBx
+         dumw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRLW7Y9kCbnd4JNbCl10zxhuPIeeXgapMHrabuKqGw8ntPOSGLzJAM5G9WtW4Oz0oNXluHtFTCWp/eITZsRI16xJXp/kuK0AwmJkqEfFqpOjpn7US6SJ8r
+X-Gm-Message-State: AOJu0YxSxB1mz7HxhMtBE0vIBMTIbKpwP9LkhaYi14me7+nvdSqGhCAK
+	cohb9+oG6Zd5MXPFpaZ22rVY1hwhNAPXjinrmA0Mrt/3RvrobPImZvKQHHI75Co=
+X-Google-Smtp-Source: AGHT+IGUGGmA96+pwR9WOVdSZLhfvfBLAt2KP01Q6kInmjxfdmkmbM+dXfU/ME9imgQUotxYcwN6zg==
+X-Received: by 2002:a2e:8217:0:b0:2e9:8632:61d7 with SMTP id 38308e7fff4ca-2eac79f0beamr18215141fa.30.1717608152968;
+        Wed, 05 Jun 2024 10:22:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e518:8da0:d67c:ea72? ([2001:8b0:aba:5f3c:e518:8da0:d67c:ea72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215810826csm30245555e9.17.2024.06.05.10.22.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 10:22:32 -0700 (PDT)
+Message-ID: <29ccd7990821d93b76b8284360eea701ebb9d37b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RESENDv4][PATCH 2/4] selftest: add few missing
+ Upstream-Status
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: martin.jansa@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 05 Jun 2024 18:22:31 +0100
+In-Reply-To: <20240604090341.45444-2-martin.jansa@gmail.com>
+References: <20240604090341.45444-1-martin.jansa@gmail.com>
+	 <20240604090341.45444-2-martin.jansa@gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SN7PR11MB8262:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bd6a042-042f-4dc2-f84a-08dc85790dd3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ekhlTXVPRVREQnZnT3FwSnlRVnZrdUl1ZCtPS0xxSCtMSU9zcDlPbUR2UTBC?=
- =?utf-8?B?U0h5c1JhWFM3NENqaDFkV09zOEFQWitTbWVSb3FnZytqeW1nSDRaR3RPbWFT?=
- =?utf-8?B?RlNSaVlacVpiZ1BVYUUwa1dETmMvOUcreERncklldmNzcUpGN1J6REtvcjZj?=
- =?utf-8?B?d2xBNktxYTN6c1ZpRkU1MUU0UVBVc0pZV2UzNHRCbmsyRTRQSVhlS25CT3RW?=
- =?utf-8?B?UFlPL1J1d3d4US85c1Jha0NCVGdQQmZ1VGVyTU5LVWVVVXNzVFppYW1TWDR3?=
- =?utf-8?B?cmJBSVk5VWsyZUJqN0oxYytDbG5kM2xDa0lkaDg2b3NWOEEyOTI5NjhvajBW?=
- =?utf-8?B?cFppR1pwQWxWUnEyU00yc0FhZjNNeU1YbXhCZ2gyclNITEsrZkk5L3N6bFQ1?=
- =?utf-8?B?UTE2eGxhcjdUTlBxYmJvQkY4K09HRHFoalY4UXUyWGNwS3crR1FCazZOSUJo?=
- =?utf-8?B?aCtIOU9uT28zRU5yNVdJM2x1dnA3SEY0S1YwejV5Y3kvMnpsODZNZU1OZkdu?=
- =?utf-8?B?YkxVaXJJTzZvUVpIUzVrbEhtVGpJY1NCdkVEaVlGeS9pTEwram9NQlVOTS82?=
- =?utf-8?B?U3BjRjhUU0grRXMzcEgrZGxydE9vSkVQYTlLV01abWFocUdZZTBhc1JLZmha?=
- =?utf-8?B?MVlkcnRTTEkwUFcwSzV2OXFzelFmMzBLeWJmZjUzMzhSMUd6RmE5WXpzZWZO?=
- =?utf-8?B?bHBUTkhoT3J3cjhQTk1CcnVsOG1GTzB6aUFiWG5wZ2lSV3JFOGdVUGorY2Iw?=
- =?utf-8?B?bFovdWI0SDh6d2RhdnV1c1lxbDZzcHlDaHQzU05ZYWVkNG1SZW9Kb0lPN21o?=
- =?utf-8?B?NkQyYm1WaGRFb016eFlKbE5WZWZXMWZWMWlzSmRieVRqMEp0cVJGQ0gvTkpZ?=
- =?utf-8?B?cW5wR254WTQ5bC8wQjd4RGlnbllGY3NDK3ZrRURaZVE5bEJ4QzJFd1l4Z3lE?=
- =?utf-8?B?U3Z3bnlFcEVDek00RDZkdnhCbU5ZU01CUkdSSzRHbTZmbTFZZkdraWxHcmFz?=
- =?utf-8?B?VG5kVC8xSzQ2VHNkaXZUblJFc1JSKzNBelNxQ1RlSlloSjE2czhzRXliMnFj?=
- =?utf-8?B?M0hzQXZGRzBPWDBMY08rd3lwV0xiKys3UUtPa3pMZ1pEaU8yM3dGQTREdkV0?=
- =?utf-8?B?aHdmYkNGTWdUeE9nVmxKbGNsRkVReERvN1pIVVlqMzF2bUJRaUxXbkE3V1JX?=
- =?utf-8?B?Y2lLOHQzOGZmSm9vRUNPQnFqdHRJcHdCN04rV0lHZmJTQTRucE9YemxORUFE?=
- =?utf-8?B?Vi9kSmlsNjZNdEc0M3JTZ2RRM1U3OHV3SStoRDNKM2FmZVBiZFMxRzBxa21W?=
- =?utf-8?B?ZFUvUitQKzZ1OE1YbWlubWZvQTJHZDZmVCs1dFVSUzk0cDlLTDFzWEUrbkZl?=
- =?utf-8?B?b1hJMVcyK1dGakNlRCttcVNYRVRGVCtYek0wWkhoTGtQTFVEdjFKMU5KdFNP?=
- =?utf-8?B?UFFNTWVZalJ4MkRtOHV1ZGxXRlk3Y1RyM1V1eUFGOVArM2JWSlMxT0laM1NP?=
- =?utf-8?B?MU1HS3g1YVBYaW03bHNJRVVyN2RCOFg2SGRKSjdrdW1HYndHaXpKc3hTY3Ux?=
- =?utf-8?B?dDg0VE9ZLzlLeVFYK0xZNGlnTHYzclh0Sml5Zjl1VU5pdmFlbVdLOU50ZHFZ?=
- =?utf-8?B?TkxaVkVBaWw1SHRPRDFNMTRNM2lZTXc9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?V1ZaZmtZTUQ4U3RndFJFaDJoK2tTai9WelptVzFpVnZ2QWVCNTdFcjVjR0Jl?=
- =?utf-8?B?U05CVVhiNWVnekpvK2ROdlErVkR4c2xadmV0NmgwKzFmSzNGL2Rxc2RrRXVM?=
- =?utf-8?B?Zit2cG1mbnQxS3hEUmZvcHgzd3JWdkdJUVY4QmlvcnZuNkw1Q3o1UkhudG1i?=
- =?utf-8?B?MlZQK0ZtSy91ZE9ya25zOXpyNmh3YVJwWE9iWlJOeUx3QTVjOHMzTlJuUHdT?=
- =?utf-8?B?TE1SeXNUZHBBMmxzOWF6Mk5OUmc3Vi9Hd2dKTkVUYkJIbGI4emZhdk5DSnFk?=
- =?utf-8?B?aWg3TmpZTGhoWk5JLzkwQVdIME1vSEwwRldTUSswME0vNUVUQmMrMTBIVG1x?=
- =?utf-8?B?eGhPZTVkaFBSTVFFN0FyZm9PaUhyQ3NyNFp6aURwTHByb1pRR2VJbVBXTzVp?=
- =?utf-8?B?ZWlubGlmUU1jRkFjRU1NSytEY2lDTmdpVDQxeXArL1gwVVZJTWlZUVdCYTFu?=
- =?utf-8?B?bzl5bkZjV05DcllZdTgxbzFWN09ZLzNqV3lseDFoalh2NjZINGsxSWxlMG9t?=
- =?utf-8?B?bkFrcUJCVTgxeVNKRjdWSnBTMEI1dFJMa2ZqNDBQSEdLcDJieHhlRjNTck9u?=
- =?utf-8?B?NFc4Z2xXQ01UWXRaallvMjYrV1JZZmpPTWdNc3c2Y1BUUDdPTjV3eiswS2JJ?=
- =?utf-8?B?M3lxT0t1Q1VwVWJaczBSVWM0Uk9TaXVMWkIwUll5KzhWUkZITXNqaUNBQVRs?=
- =?utf-8?B?TUYzTkhJVTdLNjVBWU9jYlFZQlBaSnlUR2pldVVpZnpGRERweUFZOFM4Nmxv?=
- =?utf-8?B?MW0wWm1SYkF6aXdURHRxUFVKWVVhRy9KbWVoVHQ2ZkwvRXRrWVVzQ2VOc3pt?=
- =?utf-8?B?ZUhCU2NLRGJZcENHL0wyNHNWV0lIRWxUNXFiTURmK2JnOUI1NXVlZC9OS3Zl?=
- =?utf-8?B?NzBZRitzRkpvOGZqcWpCWWorK2ZHbk1VUWgrWmdMUVJ2blAwUWtucW03M3dw?=
- =?utf-8?B?K0o1Nnl2MzdrWWlVTlRkYXNnSlN5eDJ1d1liQVpmbDFYRGZiT1lSbVZsdFdt?=
- =?utf-8?B?NlZJSncyVjN4Z2wwajdJNjhuNHNudXVQSlBkZThwR243RndrM0ZnK1phWm01?=
- =?utf-8?B?MHAvelVvV3FCVkg3cGFPSUR1c2M3UnBGam5TWUl1UU9tU1ZkZW1HRGNPV1BU?=
- =?utf-8?B?Y2JaNk9yUVk0dW1ZcWlwVVNUT1F6cVMzQklUZmsyb0tqTWdQOG4vRlQwU1cz?=
- =?utf-8?B?aFQ3OHUwQWJNNzhFNS8rSjYxalRQcHpqVjNMbVh0cmVoNDlER0w3OSs4R0FS?=
- =?utf-8?B?bERsUzV0NWNvZUw3UFFmWHEydGl3RG5hV1NqSVg2cEkxcnVOdGJWdDNhdDFG?=
- =?utf-8?B?Ylhnc0dSekdWUmt6QjQ4dXFEUzM4ZVAwRjIwVTQ3c3M3RTEwSHVtam45eHRV?=
- =?utf-8?B?cC9iQTRjSHFvLy9WdnpFMkREamVDUzZGcm5yWlJOWURXQWI3cVpkZ1Nvend6?=
- =?utf-8?B?RlY3Y0xTTzVvZlJvQysrUEt4WkFOU1pKVi9Ta25OcVV5a1dWaDRNT3RDV2lK?=
- =?utf-8?B?enZkaFo5N2dvRjlLOU1PRmtXVWU0SEVlNGNWQ3lXTFhzZDZ1TkQyL29jaU90?=
- =?utf-8?B?UjNKTkdRRmU3aHVoSHp6SmY4THR2ZUM4WC9zVi9JMUMya0Jhd2VOTzVIS0tm?=
- =?utf-8?B?NHhFMkh2V0xtbW02NzRHNVdXVDFhRE5TcU53TStaOUQya3p0ODdSWFhSS3pa?=
- =?utf-8?B?Ujg5eGUrR2piVzR1NytFUnYxb04rdWJsSHEwWHBNSG9BU051UitnY0Jrb3g1?=
- =?utf-8?B?cjRicHA1MXhEdU11WWFNWEQwOVZZL2RrblNyc090cHE4bzNJY1VIVGNQcWRN?=
- =?utf-8?B?M3NBcWpFSTRnZnRxSVRQTzJob3Yzd09VTVJLTGgwbXZGV0NXRXhldEUyNEpC?=
- =?utf-8?B?d1NXMGp5OEdlNDgyVkNjMmlaVVAxdXRPNU52aFpkN0pFOGhUWEU3WE9RVmlZ?=
- =?utf-8?B?NThVcVJCejJYLzQ3bW1KbkNIbW9NejhtRzA3SkhuY0xRZHQ0RW5vWGtGaGVs?=
- =?utf-8?B?RTZvRUV3VlFpMkNtVUZQc0ExejhLRW96QjEyRjhXK20rNkMyd1F4S0ZYYzlu?=
- =?utf-8?B?bXdWTjBHZTk3c01OKzBQY01HNmE0elpGVi9NT0VrN3ZaSWF3TzI4WElWSDY0?=
- =?utf-8?B?WFdhcXZtZ210dUhrNFo3SWNCaUJHOURmYjVYNkVRTEo1N2dQL3ppbUIvV20z?=
- =?utf-8?B?N3c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bd6a042-042f-4dc2-f84a-08dc85790dd3
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 16:03:35.0459
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WlrOR06ZqhmfJV8mHvloprwz7LZIQK3opDfRu5RXL8PgxDfL0LQVoCsI3qtuhWr7y1lGrF2BliLm6IGPF730HKVkzRCk+NvJgRSfVpAt0x8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8262
-X-Proofpoint-GUID: wiDJPHqEOEgfJlysjaBy5DF1GaDDIQsS
-X-Proofpoint-ORIG-GUID: RjKaWB7xxaKrY-g27_qfMyYHxfAdWIz2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 mlxscore=0 phishscore=0
- clxscore=1015 malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2406050121
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 16:03:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200375
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 17:22:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200376
 
---------------PbYueegfkCkQC0OdeRZ7b9g9
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Tue, 2024-06-04 at 11:03 +0200, Martin Jansa via
+lists.openembedded.org wrote:
+> * these were reported in:
+> =C2=A0 https://lists.openembedded.org/g/openembedded-core/message/200282
+>=20
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 
-On 2024-06-05 11:49 a.m., Steve Sakoman wrote:
-> I had no issues applying the patch when taken from patchworks,
-Huh, that's odd.
-Thunderbird and my email delivery chain doesn't usually mangle patches.
+devtool selftest still isn't quite working with this:
 
-Looking at:
+https://valkyrie.yoctoproject.org/#/builders/76/builds/46/steps/14/logs/std=
+io
 
-https://patchwork.yoctoproject.org/project/oe-core/patch/20240605143945.405558-1-Deepthi.Hemraj@windriver.com/
+I'd also like to try and standardise the entries to something like:
 
-and downloading the patch by clicking on the 'mbox' option in the top 
-right, worked for me too.
+Upstream-Status: Inappropriate [Test artefact]
 
-Bloody email line wrapping!
+and add this to:
 
+https://docs.yoctoproject.org/dev/contributor-guide/recipe-style-guide.html=
+#patch-upstream-status
 
-I guess I'll be using patchwork from now on.
-Thanks for the reply Steve.
+Just so that when we need to look through the Inappropriate patches
+(once we're cleared all the Pending) we can know what these ones are at
+a glance.
 
+Cheers,
 
->   only at
-> build time when applying the CVE-2024-0151 patch:
->
-> CmdError('quilt --quiltrc
-> TOPDIR/tmp/work-shared/gcc-13.3.0-r0/recipe-sysroot-native/etc/quiltrc
-> push', 0, 'stdout: Applying patch CVE-2024-0151.patch
-> patching file gcc/config/arm/arm.cc
-> Hunk #1 succeeded at 19157 with fuzz 2 (offset -53 lines).
-> Hunk #2 succeeded at 23668 with fuzz 2 (offset -8 lines).
-> The next patch would create the file
-> gcc/testsuite/gcc.target/arm/cmse/extend-param.c,
-> which already exists!  Applying it anyway.
-> patching file gcc/testsuite/gcc.target/arm/cmse/extend-param.c
-> Hunk #1 FAILED at 1.
-> 1 out of 1 hunk FAILED -- rejects in file
-> gcc/testsuite/gcc.target/arm/cmse/extend-param.c
-> The next patch would create the file
-> gcc/testsuite/gcc.target/arm/cmse/extend-return.c,
-> which already exists!  Applying it anyway.
-> patching file gcc/testsuite/gcc.target/arm/cmse/extend-return.c
-> Hunk #1 FAILED at 1.
-> 1 out of 1 hunk FAILED -- rejects in file
-> gcc/testsuite/gcc.target/arm/cmse/extend-return.c
-> Patch CVE-2024-0151.patch can be reverse-applied
->
-> So I suspect that V3 of the patch needs to also remove
-> CVE-2024-0151.patch, since the version bump seems to include the fix.
-
-and documented in the commit log!
-
-../Randy
-
->
-> Steve
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------PbYueegfkCkQC0OdeRZ7b9g9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2024-06-05 11:49 a.m., Steve Sakoman
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CAOSpxdaNze=WcFwW_6A=o7-HN85bW9wuONgJtPpQyzcPVYx66A@mail.gmail.com">
-      <pre>I had no issues applying the patch when taken from patchworks,</pre>
-    </blockquote>
-    Huh, that's odd. <br>
-    Thunderbird and my email delivery chain doesn't usually mangle
-    patches.
-    <p>Looking at:<br>
-    </p>
-    <p><a class="moz-txt-link-freetext" href="https://patchwork.yoctoproject.org/project/oe-core/patch/20240605143945.405558-1-Deepthi.Hemraj@windriver.com/">https://patchwork.yoctoproject.org/project/oe-core/patch/20240605143945.405558-1-Deepthi.Hemraj@windriver.com/</a></p>
-    <p>and downloading the patch by clicking on the 'mbox' option in the
-      top right, worked for me too.</p>
-    <p>Bloody email line wrapping!<br>
-    </p>
-    <p><br>
-    </p>
-    <p>I guess I'll be using patchwork from now on.<br>
-      Thanks for the reply Steve.<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:CAOSpxdaNze=WcFwW_6A=o7-HN85bW9wuONgJtPpQyzcPVYx66A@mail.gmail.com">
-      <pre> only at
-build time when applying the CVE-2024-0151 patch:
-
-CmdError('quilt --quiltrc
-TOPDIR/tmp/work-shared/gcc-13.3.0-r0/recipe-sysroot-native/etc/quiltrc
-push', 0, 'stdout: Applying patch CVE-2024-0151.patch
-patching file gcc/config/arm/arm.cc
-Hunk #1 succeeded at 19157 with fuzz 2 (offset -53 lines).
-Hunk #2 succeeded at 23668 with fuzz 2 (offset -8 lines).
-The next patch would create the file
-gcc/testsuite/gcc.target/arm/cmse/extend-param.c,
-which already exists!  Applying it anyway.
-patching file gcc/testsuite/gcc.target/arm/cmse/extend-param.c
-Hunk #1 FAILED at 1.
-1 out of 1 hunk FAILED -- rejects in file
-gcc/testsuite/gcc.target/arm/cmse/extend-param.c
-The next patch would create the file
-gcc/testsuite/gcc.target/arm/cmse/extend-return.c,
-which already exists!  Applying it anyway.
-patching file gcc/testsuite/gcc.target/arm/cmse/extend-return.c
-Hunk #1 FAILED at 1.
-1 out of 1 hunk FAILED -- rejects in file
-gcc/testsuite/gcc.target/arm/cmse/extend-return.c
-Patch CVE-2024-0151.patch can be reverse-applied
-
-So I suspect that V3 of the patch needs to also remove
-CVE-2024-0151.patch, since the version bump seems to include the fix.</pre>
-    </blockquote>
-    <p>and documented in the commit log! <br>
-    </p>
-    <p>../Randy<br>
-    </p>
-    <blockquote type="cite" cite="mid:CAOSpxdaNze=WcFwW_6A=o7-HN85bW9wuONgJtPpQyzcPVYx66A@mail.gmail.com">
-      <pre>
-
-Steve</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------PbYueegfkCkQC0OdeRZ7b9g9--
+Richard
 
