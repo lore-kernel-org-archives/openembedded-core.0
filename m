@@ -1,203 +1,288 @@
-Return-Path: <denis@denix.org>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 952F5C25B78
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 00:06:43 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.3081.1717545993461914153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E17DC25B78
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 01:37:34 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.4658.1717551450757208173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 17:06:34 -0700
+ Tue, 04 Jun 2024 18:37:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 4E5CE40C8F
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Jun 2024 00:06:32 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aZ9YVPHKEG_y
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2024 00:06:32 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3BBEC40C67
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Jun 2024 00:06:32 +0000 (UTC)
-Received: from thorin.denix (thorin.denix [192.168.30.9])
-	by mail.denix.org (Postfix) with ESMTP id 64696163F85;
-	Tue,  4 Jun 2024 20:06:31 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH 1/2] wayland: upgrade 1.22.0 -> 1.23.0
-Date: Tue,  4 Jun 2024 20:06:16 -0400
-Message-Id: <20240605000617.1273011-1-denis@denix.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=68867ad8c0=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4550KvhI009722
+	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jun 2024 01:37:29 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yftm7uj41-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 01:37:29 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 4 Jun 2024 18:37:27 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Tue, 4 Jun 2024 18:37:27 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] multilib.bbclass: replace deprecated e.data with d
+Date: Wed, 5 Jun 2024 09:37:19 +0800
+Message-ID: <20240605013719.1751604-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 6bCyl-OH-DXKXFj0WSPrjmQ24FE8Yc51
+X-Proofpoint-ORIG-GUID: 6bCyl-OH-DXKXFj0WSPrjmQ24FE8Yc51
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1011 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2405170001 definitions=main-2406050010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 00:06:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200349
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 01:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200351
 
-This is the official release for Wayland 1.23.
+From: Kai Kang <kai.kang@windriver.com>
 
-Besides numerous bugfixes and protocol clarifications, Wayland 1.23 inclu=
-des
-the following new features:
+Replace deprecated e.data with d in multilib.bbclass and
+multilib_global.bbclass.
 
-- A mechanism to set the size of the internal connection buffer used by
-  libwayland
-- An enum-header mode for wayland-scanner to generate headers with only e=
-nums
-- wayland-scanner now generates validator functions for enums on the serv=
-er
-  side
-- Protocols can now indicate with a "deprecated-since" XML attribute that=
- a
-  request, event or enum entry is deprecated
-- An API to set a name for a queue to aid debugging
-- wl_client_get_user_data() and wl_client_set_user_data() to more easily =
-attach
-  custom data to a client
-- OpenBSD support
-- A wl_shm.release request for proper cleanup of this global
+Remove event check in function multilib_virtclass_handler_vendor in
+multilib_global.bbclass. The function flag 'eventmask' has been set
+with 'bb.event.ConfigParsed', so no need to check the event any more.
 
-Changelog:
-https://lists.freedesktop.org/archives/wayland-devel/2024-May/043636.html
-
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- ...build-Fix-strndup-detection-on-MinGW.patch |  9 ++--
- ...der-pkgconfig-sysroot-for-pkgdatadir.patch | 46 -------------------
- .../{wayland_1.22.0.bb =3D> wayland_1.23.0.bb}  |  3 +-
- 3 files changed, 4 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/wayland/0002-Consider-p=
-kgconfig-sysroot-for-pkgdatadir.patch
- rename meta/recipes-graphics/wayland/{wayland_1.22.0.bb =3D> wayland_1.2=
-3.0.bb} (93%)
+ meta/classes/multilib.bbclass        | 87 ++++++++++++++--------------
+ meta/classes/multilib_global.bbclass | 25 ++++----
+ 2 files changed, 56 insertions(+), 56 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup=
--detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-bu=
-ild-Fix-strndup-detection-on-MinGW.patch
-index bc753de113..c6ddf8a1f9 100644
---- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detect=
-ion-on-MinGW.patch
-+++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detect=
-ion-on-MinGW.patch
-@@ -1,4 +1,4 @@
--From b4c64b6f07743e3fb63ce52359bc664ab7d60df0 Mon Sep 17 00:00:00 2001
-+From a90bfa622f7323074c715674b368cba80bc7d196 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Thu, 20 Feb 2020 15:20:45 -0600
- Subject: [PATCH] build: Fix strndup detection on MinGW
-@@ -20,10 +20,10 @@ Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/meson.build b/meson.build
--index 3bc25c9..adde7b9 100644
-+index 8e28f2a..b56ba91 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -38,11 +38,11 @@ have_funcs =3D [
-+@@ -45,11 +45,11 @@ have_funcs =3D [
-  	'prctl',
-  	'memfd_create',
-  	'mremap',
-@@ -36,6 +36,3 @@ index 3bc25c9..adde7b9 100644
-  config_h.set10('HAVE_XUCRED_CR_PID', cc.has_member('struct xucred', 'cr=
-_pid', prefix : '#include <sys/ucred.h>'))
-  have_broken_msg_cmsg_cloexec =3D false
-  if host_machine.system() =3D=3D 'freebsd'
----=20
--2.7.4
--
-diff --git a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfi=
-g-sysroot-for-pkgdatadir.patch b/meta/recipes-graphics/wayland/wayland/00=
-02-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
-deleted file mode 100644
-index 4573bb635a..0000000000
---- a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysro=
-ot-for-pkgdatadir.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From ff8ecbe8891d592e645927659318720f9e190054 Mon Sep 17 00:00:00 2001
--From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
--Date: Sun, 6 Feb 2022 17:23:46 +0100
--Subject: [PATCH] Consider pkgconfig sysroot for pkgdatadir
--
--For libs/cflags this is done automatically, but not for manually accesse=
-d
--variables. This matches what wayland-protocols does.
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayla=
-nd/-/merge_requests/272]
-----
-- src/meson.build | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/src/meson.build b/src/meson.build
--index a8a1d2b..721e151 100644
----- a/src/meson.build
--+++ b/src/meson.build
--@@ -65,7 +65,7 @@ if get_option('scanner')
-- 		version: meson.project_version(),
-- 		variables: [
-- 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
---			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())=
-,
--+			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name()),
-- 			'bindir=3D' + join_paths('${prefix}', get_option('bindir')),
-- 			'wayland_scanner=3D${bindir}/wayland-scanner'
-- 		],
--@@ -211,7 +211,7 @@ if get_option('libraries')
-- 		filebase: 'wayland-server',
-- 		variables: [
-- 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
---			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
--+			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name())
-- 		]
-- 	)
--
--@@ -250,7 +250,7 @@ if get_option('libraries')
-- 		filebase: 'wayland-client',
-- 		variables: [
-- 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
---			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
--+			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name())
-- 		]
-- 	)
--
----
--2.37.2
-diff --git a/meta/recipes-graphics/wayland/wayland_1.22.0.bb b/meta/recip=
-es-graphics/wayland/wayland_1.23.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/wayland/wayland_1.22.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.23.0.bb
-index e7babc9ec6..8ff47ac171 100644
---- a/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.23.0.bb
-@@ -15,9 +15,8 @@ DEPENDS =3D "expat libffi wayland-native"
- SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wayland/-/releases/$=
-{PV}/downloads/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
--           file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch \
-            "
--SRC_URI[sha256sum] =3D "1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936=
-ebb7e7cbc2425842"
-+SRC_URI[sha256sum] =3D "05b3e1574d3e67626b5974f862f36b5b427c7ceeb965cb36=
-a4e6c2d342e45ab2"
-=20
- UPSTREAM_CHECK_URI =3D "https://gitlab.freedesktop.org/wayland/wayland/-=
-/tags"
- UPSTREAM_CHECK_REGEX =3D "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
---=20
-2.25.1
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index b6c09969b1..a4151658a6 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -5,30 +5,30 @@
+ #
+ 
+ python multilib_virtclass_handler () {
+-    cls = e.data.getVar("BBEXTENDCURR")
+-    variant = e.data.getVar("BBEXTENDVARIANT")
++    cls = d.getVar("BBEXTENDCURR")
++    variant = d.getVar("BBEXTENDVARIANT")
+     if cls != "multilib" or not variant:
+         return
+ 
+-    localdata = bb.data.createCopy(e.data)
++    localdata = bb.data.createCopy(d)
+     localdata.delVar('TMPDIR')
+-    e.data.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR'))
++    d.setVar('STAGING_KERNEL_DIR', localdata.getVar('STAGING_KERNEL_DIR'))
+ 
+     # There should only be one kernel in multilib configs
+     # We also skip multilib setup for module packages.
+-    provides = (e.data.getVar("PROVIDES") or "").split()
++    provides = (d.getVar("PROVIDES") or "").split()
+     non_ml_recipes = d.getVar('NON_MULTILIB_RECIPES').split()
+-    bpn = e.data.getVar("BPN")
+-    if "virtual/kernel" in provides or \
+-            bb.data.inherits_class('module-base', e.data) or \
+-            bpn in non_ml_recipes:
++    bpn = d.getVar("BPN")
++    if ("virtual/kernel" in provides
++            or bb.data.inherits_class('module-base', d)
++            or bpn in non_ml_recipes):
+         raise bb.parse.SkipRecipe("We shouldn't have multilib variants for %s" % bpn)
+ 
+-    save_var_name=e.data.getVar("MULTILIB_SAVE_VARNAME") or ""
++    save_var_name = d.getVar("MULTILIB_SAVE_VARNAME") or ""
+     for name in save_var_name.split():
+-        val=e.data.getVar(name)
++        val = d.getVar(name)
+         if val:
+-            e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
++            d.setVar(name + "_MULTILIB_ORIGINAL", val)
+ 
+     # We nearly don't need this but dependencies on NON_MULTILIB_RECIPES don't work without it
+     d.setVar("SSTATE_ARCHS_TUNEPKG", "${@all_multilib_tune_values(d, 'TUNE_PKGARCH')}")
+@@ -36,66 +36,67 @@ python multilib_virtclass_handler () {
+     overrides = e.data.getVar("OVERRIDES", False)
+     pn = e.data.getVar("PN", False)
+     overrides = overrides.replace("pn-${PN}", "pn-${PN}:pn-" + pn)
+-    e.data.setVar("OVERRIDES", overrides)
++    d.setVar("OVERRIDES", overrides)
+ 
+-    if bb.data.inherits_class('image', e.data):
+-        e.data.setVar("MLPREFIX", variant + "-")
+-        e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+-        e.data.setVar('SDKTARGETSYSROOT', e.data.getVar('SDKTARGETSYSROOT'))
++    if bb.data.inherits_class('image', d):
++        d.setVar("MLPREFIX", variant + "-")
++        d.setVar("PN", variant + "-" + d.getVar("PN", False))
++        d.setVar('SDKTARGETSYSROOT', d.getVar('SDKTARGETSYSROOT'))
+         override = ":virtclass-multilib-" + variant
+-        e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
+-        target_vendor = e.data.getVar("TARGET_VENDOR:" + "virtclass-multilib-" + variant, False)
++        d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
++        target_vendor = d.getVar("TARGET_VENDOR:" + "virtclass-multilib-" + variant, False)
+         if target_vendor:
+-            e.data.setVar("TARGET_VENDOR", target_vendor)
++            d.setVar("TARGET_VENDOR", target_vendor)
+         return
+ 
+-    if bb.data.inherits_class('cross-canadian', e.data):
++    if bb.data.inherits_class('cross-canadian', d):
+         # Multilib cross-candian should use the same nativesdk sysroot without MLPREFIX
+-        e.data.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
+-        e.data.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
+-        e.data.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
+-        e.data.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
+-        e.data.setVar("MLPREFIX", variant + "-")
++        d.setVar("RECIPE_SYSROOT", "${WORKDIR}/recipe-sysroot")
++        d.setVar("STAGING_DIR_TARGET", "${WORKDIR}/recipe-sysroot")
++        d.setVar("STAGING_DIR_HOST", "${WORKDIR}/recipe-sysroot")
++        d.setVar("RECIPE_SYSROOT_MANIFEST_SUBDIR", "nativesdk-" + variant)
++        d.setVar("MLPREFIX", variant + "-")
+         override = ":virtclass-multilib-" + variant
+-        e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
++        d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
+         return
+ 
+-    if bb.data.inherits_class('native', e.data):
++    if bb.data.inherits_class('native', d):
+         raise bb.parse.SkipRecipe("We can't extend native recipes")
+ 
+-    if bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data):
++    if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d):
+         raise bb.parse.SkipRecipe("We can't extend nativesdk recipes")
+ 
+-    if bb.data.inherits_class('allarch', e.data) and not d.getVar('MULTILIB_VARIANTS') \
+-        and not bb.data.inherits_class('packagegroup', e.data):
++    if (bb.data.inherits_class('allarch', d)
++            and not d.getVar('MULTILIB_VARIANTS')
++            and not bb.data.inherits_class('packagegroup', d)):
+         raise bb.parse.SkipRecipe("Don't extend allarch recipes which are not packagegroups")
+ 
+     # Expand this since this won't work correctly once we set a multilib into place
+-    e.data.setVar("ALL_MULTILIB_PACKAGE_ARCHS", e.data.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
++    d.setVar("ALL_MULTILIB_PACKAGE_ARCHS", d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
+  
+     override = ":virtclass-multilib-" + variant
+ 
+-    skip_msg = e.data.getVarFlag('SKIP_RECIPE', e.data.getVar('PN'))
++    skip_msg = d.getVarFlag('SKIP_RECIPE', d.getVar('PN'))
+     if skip_msg:
+-        pn_new = variant + "-" + e.data.getVar('PN')
+-        if not e.data.getVarFlag('SKIP_RECIPE', pn_new):
+-            e.data.setVarFlag('SKIP_RECIPE', pn_new, skip_msg)
++        pn_new = variant + "-" + d.getVar('PN')
++        if not d.getVarFlag('SKIP_RECIPE', pn_new):
++            d.setVarFlag('SKIP_RECIPE', pn_new, skip_msg)
+ 
+-    e.data.setVar("MLPREFIX", variant + "-")
+-    e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+-    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
++    d.setVar("MLPREFIX", variant + "-")
++    d.setVar("PN", variant + "-" + d.getVar("PN", False))
++    d.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + override)
+ 
+     # Expand INCOMPATIBLE_LICENSE_EXCEPTIONS with multilib prefix
+-    pkgs = e.data.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS")
++    pkgs = d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS")
+     if pkgs:
+         for pkg in pkgs.split():
+             pkgs += " " + variant + "-" + pkg
+-        e.data.setVar("INCOMPATIBLE_LICENSE_EXCEPTIONS", pkgs)
++        d.setVar("INCOMPATIBLE_LICENSE_EXCEPTIONS", pkgs)
+ 
+     # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
+-    newtune = e.data.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
++    newtune = d.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
+     if newtune:
+-        e.data.setVar("DEFAULTTUNE", newtune)
++        d.setVar("DEFAULTTUNE", newtune)
+ }
+ 
+ addhandler multilib_virtclass_handler
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index 6095d278dd..973ac9130b 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -171,24 +171,23 @@ def preferred_ml_updates(d):
+     d.appendVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS", " " + " ".join(extras))
+ 
+ python multilib_virtclass_handler_vendor () {
+-    if isinstance(e, bb.event.ConfigParsed):
+-        for v in e.data.getVar("MULTILIB_VARIANTS").split():
+-            if e.data.getVar("TARGET_VENDOR:virtclass-multilib-" + v, False) is None:
+-                e.data.setVar("TARGET_VENDOR:virtclass-multilib-" + v, e.data.getVar("TARGET_VENDOR", False) + "ml" + v)
+-        preferred_ml_updates(e.data)
++    for v in d.getVar("MULTILIB_VARIANTS").split():
++        if d.getVar("TARGET_VENDOR:virtclass-multilib-" + v, False) is None:
++            d.setVar("TARGET_VENDOR:virtclass-multilib-" + v, d.getVar("TARGET_VENDOR", False) + "ml" + v)
++    preferred_ml_updates(d)
+ }
+ addhandler multilib_virtclass_handler_vendor
+ multilib_virtclass_handler_vendor[eventmask] = "bb.event.ConfigParsed"
+ 
+ python multilib_virtclass_handler_global () {
+-    variant = e.data.getVar("BBEXTENDVARIANT")
++    variant = d.getVar("BBEXTENDVARIANT")
+     if variant:
+         return
+ 
+     non_ml_recipes = d.getVar('NON_MULTILIB_RECIPES').split()
+ 
+-    if bb.data.inherits_class('kernel', e.data) or \
+-            bb.data.inherits_class('module-base', e.data) or \
++    if bb.data.inherits_class('kernel', d) or \
++            bb.data.inherits_class('module-base', d) or \
+             d.getVar('BPN') in non_ml_recipes:
+ 
+             # We need to avoid expanding KERNEL_VERSION which we can do by deleting it
+@@ -197,7 +196,7 @@ python multilib_virtclass_handler_global () {
+             localdata.delVar("KERNEL_VERSION")
+             localdata.delVar("KERNEL_VERSION_PKG_NAME")
+ 
+-            variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
++            variants = (d.getVar("MULTILIB_VARIANTS") or "").split()
+ 
+             import oe.classextend
+             clsextends = []
+@@ -208,22 +207,22 @@ python multilib_virtclass_handler_global () {
+             origprovs = provs = localdata.getVar("PROVIDES") or ""
+             for clsextend in clsextends:
+                 provs = provs + " " + clsextend.map_variable("PROVIDES", setvar=False)
+-            e.data.setVar("PROVIDES", provs)
++            d.setVar("PROVIDES", provs)
+ 
+             # Process RPROVIDES
+             origrprovs = rprovs = localdata.getVar("RPROVIDES") or ""
+             for clsextend in clsextends:
+                 rprovs = rprovs + " " + clsextend.map_variable("RPROVIDES", setvar=False)
+             if rprovs.strip():
+-                e.data.setVar("RPROVIDES", rprovs)
++                d.setVar("RPROVIDES", rprovs)
+ 
+             # Process RPROVIDES:${PN}...
+-            for pkg in (e.data.getVar("PACKAGES") or "").split():
++            for pkg in (d.getVar("PACKAGES") or "").split():
+                 origrprovs = rprovs = localdata.getVar("RPROVIDES:%s" % pkg) or ""
+                 for clsextend in clsextends:
+                     rprovs = rprovs + " " + clsextend.map_variable("RPROVIDES:%s" % pkg, setvar=False)
+                     rprovs = rprovs + " " + clsextend.extname + "-" + pkg
+-                e.data.setVar("RPROVIDES:%s" % pkg, rprovs)
++                d.setVar("RPROVIDES:%s" % pkg, rprovs)
+ }
+ 
+ addhandler multilib_virtclass_handler_global
+-- 
+2.34.1
 
 
