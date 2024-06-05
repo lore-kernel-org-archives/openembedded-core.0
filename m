@@ -1,148 +1,101 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A11E4C25B76
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 17:27:48 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.22126.1717608459004754042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C659C25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 18:29:47 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.1598.1717612178517960753
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jun 2024 10:27:39 -0700
+ Wed, 05 Jun 2024 11:29:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E4aa+0mA;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-24cbb884377so23203fac.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 10:27:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cnuasunB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4214f52b810so2157985e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 11:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717608458; x=1718213258; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1717612177; x=1718216977; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=It99+AYznLpGLVp5juQc/HX6WqzmVFvIWLESIaQVgs4=;
-        b=E4aa+0mArlCc3gVYLmpPkl3CDqg0Ls5U3TsyjwtrRG/aIuP/ZRDOVG/dt21Y2/dbey
-         XY9BrjbgKgZxtHBlI40kgSQDUUWTPkCETMbN0z434l/b3GwagA8Zo+hK/18UySu5KZma
-         OCuhuZd53Yn0684Q5v/dMmQQnpsB1vsni335DCykBEuzca+7YvAw6zJ+zoT1q2Mjzf5E
-         0jBb/rLoSgonXy9yRk++2tj4oRynp+SBqAuUegs8+fKiQoBw3CV3E7evt3jUlfJQ6P3n
-         R67ZTqlWZp1smsKkzegfpqCdLwdAJ/d6MjuKz8GGxSeRkmXawfApO2ASlveVgSFe2YdM
-         +yWg==
+        bh=i5kHf6eiheT+iamvKCpdjwJgxExcdLyISQofwtQqKMc=;
+        b=cnuasunBstCfAYUV7xFwZ7ZN3z/DaSA9E9/8VRlVcKcWcBxl2uhOkB6x5iNcWTOQqB
+         cZ1rNKplfoP1a7zKVKGLAQOuMjp8NctMqkeixXWg/3MywDpueuF/WDmLMd9SGJa2tKeb
+         UPM9evt8oQS3u5sdYaO50JYhZUBvEDEhLB6SA+RtRkNp/mbr/9OHnZ6c7ywdkf4xRbrv
+         udQK3rVcH3+bjHOwjkjQ0SM7t3bwj8+2FGJzflRSTaaaOvHYhdCz46imyI3CnJzl+znB
+         uLrRHqDcx4YLa5pZY4ViH6MCc82OaEooj+iBnkw+yLlhRiYdjWRG0jnj+UocHtzRq31N
+         o0Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717608458; x=1718213258;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1717612177; x=1718216977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=It99+AYznLpGLVp5juQc/HX6WqzmVFvIWLESIaQVgs4=;
-        b=MepuAGKHXsJUqNOoMFS2WDiQED7yttE2P4CYXPskpWsEi72yPq/bNkYcUNepTl8QpH
-         AKC4sGQsRybe19yMopwF/DYONtjin8zKhYuu+hRWuzguu0gQrzUOsnR/LQq+aoog44h8
-         3bWNpoI452fpz8hoL0QG5DGXPvlwLyE8STMwLcc/NHqFy8PhvFtHod6rLLd1mobPfPgL
-         SHNk3/5QLdAigVppLVM07qqJg7pAA4S6YMESD+R/gnpwntD7zgianPz6rn1ntMeA3Nc/
-         VVbjmgmfsVgWUQJ0qz5Wl4QiCMj6QJwxUwFl/r015QEw4jSRX/n8RfkbOOFpiLYQ/pkc
-         bjQA==
-X-Gm-Message-State: AOJu0YyvRQj4D1jDSSA/t3C3phCudY7KxQfEh+TeoCy+PQyBXXXuFY7F
-	9gi2jWac4NdnfZnOpIIyhpuL4aZ67hyw/Zouk/8cG9uFePnyJI/yHL+/iHbpMaQjocDv6/SM0XV
-	agRb1h8ZA9RiDXe07NLGUXGGYHbJ/Xd6h
-X-Google-Smtp-Source: AGHT+IE4jTg9uHeZMoO2tuzv7tjINuha9JOfrQGMJ0g74E8B81BYDuRU2UUPAGDhrGsZuymHd8j5FHSYqEhq6wAlcJ8=
-X-Received: by 2002:a05:6870:64a2:b0:250:68e5:9b65 with SMTP id
- 586e51a60fabf-25122084291mr3464287fac.48.1717608457914; Wed, 05 Jun 2024
- 10:27:37 -0700 (PDT)
+        bh=i5kHf6eiheT+iamvKCpdjwJgxExcdLyISQofwtQqKMc=;
+        b=aea4XIdXgYpNgE8SrFBkgsZ23TwzH4oLkVqIV2Yn7Cc133NrTBJv+GNSWMWaOxC7vV
+         aOlBq11CuVUN5gboAI5uULeMWNy8AwrRIJFEi0+5u6YHyx6Y9uqohq1dv8g9/NdO1chS
+         UX3ztXUrYzKPN8zTGJ87+r9qCTCpAcuQIbAJhb0WMdTUhZggUdK+R7EqGKeb+xN3cCts
+         xb8359UBhH391a/XgXtssY5jiQ2Vv3OjJ+6b3XQieuFUALLL6R6Kd/2tz+KIJW3Bm1DR
+         MjyUG2fzweGqiFInzcERXE+tSv2mBlNc3lCfb1hl/1Cg0dq5nJ2hXXffzZCWFNTMG8rx
+         IokA==
+X-Gm-Message-State: AOJu0YxsPN/Q04zpOCK/MacJSAnx7fRf5CGZDrmPK6sPZ11DwYog0oyO
+	23ZoxZ/Df3RvFx4Y+tLST9AIq8i3C6QKBJGC9JpLUqqH8tQkawleyf+SYA==
+X-Google-Smtp-Source: AGHT+IGXjMc4UH+6FSl83RrZHUNAYcIPCYzPS3yt1d4RsI3+9QMmBYJrXp8MJpVxS7h13Qt8qtJzMA==
+X-Received: by 2002:a05:600c:4f49:b0:421:36da:9438 with SMTP id 5b1f17b1804b1-4215633a175mr35186915e9.28.1717612176673;
+        Wed, 05 Jun 2024 11:29:36 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe343sm31915225e9.6.2024.06.05.11.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 11:29:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH v4 2/2] insane: add patch-status to default ERROR_QA
+Date: Wed,  5 Jun 2024 20:29:25 +0200
+Message-ID: <20240605182925.3890273-2-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240605182925.3890273-1-martin.jansa@gmail.com>
+References: <20240605182925.3890273-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-References: <20240605072629.115812-1-jonas.gorski@bisdn.de>
-In-Reply-To: <20240605072629.115812-1-jonas.gorski@bisdn.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Jun 2024 10:27:11 -0700
-Message-ID: <CAMKF1spF33TbaHgh0g=oXz5d-a_mxn6zaXO+zL=6bTBEXGXJUg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linuxloader: add -armhf on arm only for
- TARGET_FPU 'hard'
-To: jonas.gorski@bisdn.de
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 17:27:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200377
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 18:29:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200379
 
-On Wed, Jun 5, 2024 at 2:52=E2=80=AFAM Jonas Gorski via lists.openembedded.=
-org
-<jonas.gorski=3Dbisdn.de@lists.openembedded.org> wrote:
->
-> There are two types of soft FPU options for arm, soft and softfp, and if
-> using the latter the wrong dynamic loader will be used.
->
-> E.g. go will link against ld-linux-armhf.so.3, but libc6 will only ship
-> a ld-linux.so.3, so go programs will fail to start.
->
-> Fix this by instead checking for TARGET_FPU being 'hard' and then
-> applying the suffix.
->
-> Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
-> ---
->
-> I stumbled upon this on kirkstone after the Go linker changes were
-> backported to 4.0.19. Suddenly docker wasn't working anymore, being
-> linked against a non-existing ld-linux.
->
-> This is only tested on kirkstone since we are still on kirkstone and
-> going to master (or garthgap) is non-trivial (though planned).
->
->  meta/classes-recipe/linuxloader.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/linuxloader.bbclass b/meta/classes-recip=
-e/linuxloader.bbclass
-> index 2ea1b62254c9..a2e8f9837bd4 100644
-> --- a/meta/classes-recipe/linuxloader.bbclass
-> +++ b/meta/classes-recipe/linuxloader.bbclass
-> @@ -57,7 +57,7 @@ def get_glibc_loader(d):
->      elif re.search("i.86", targetarch):
->          dynamic_loader =3D "${base_libdir}/ld-linux.so.2"
->      elif targetarch =3D=3D "arm":
-> -        dynamic_loader =3D "${base_libdir}/ld-linux${@['-armhf', ''][d.g=
-etVar('TARGET_FPU') =3D=3D 'soft']}.so.3"
-> +        dynamic_loader =3D "${base_libdir}/ld-linux${@['', '-armhf'][d.g=
-etVar('TARGET_FPU') =3D=3D 'hard']}.so.3"
+* it's enabled for patches in oe-core for very long time and I was using
+  it for many other layers as well, so most layers should be in good
+  shape
 
-looks fine.
+* it's also possible to disable it for individual layer as shown
+  by oe-core in:
+  https://git.openembedded.org/openembedded-core/commit/meta/classes-global/insane.bbclass?h=scarthgap&id=61a881fdbe8b5a21c6276b8a5d06cc30486b1eb3
 
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+v4: no change
 
->      elif targetarch.startswith("aarch64"):
->          dynamic_loader =3D "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_E=
-NDIAN_64}.so.1"
->      elif targetarch.startswith("riscv64"):
-> --
-> 2.45.1
->
->
-> --
-> BISDN GmbH
-> K=C3=B6rnerstra=C3=9Fe 7-10
-> 10785 Berlin
-> Germany
->
->
-> Phone:
-> +49-30-6108-1-6100
->
->
-> Managing Directors:
-> Dr.-Ing. Hagen Woesner, Andreas
-> K=C3=B6psel
->
->
-> Commercial register:
-> Amtsgericht Berlin-Charlottenburg HRB 141569
-> B
-> VAT ID No: DE283257294
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200359): https://lists.openembedded.org/g/openembedde=
-d-core/message/200359
-> Mute This Topic: https://lists.openembedded.org/mt/106500218/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ meta/classes-global/insane.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index bd05da0378e..06181d9059e 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -45,11 +45,10 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             already-stripped installed-vs-shipped ldflags compile-host-path \
+             install-host-path pn-overrides unknown-configure-option \
+             useless-rpaths rpaths staticdev empty-dirs \
+-            patch-fuzz \
++            patch-fuzz patch-status \
+             "
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+-ERROR_QA:append:layer-core = " patch-status"
+ WARN_QA:append:layer-core = " missing-metadata missing-maintainer"
+ 
+ FAKEROOT_QA = "host-user-contaminated"
+-- 
+2.45.2
+
 
