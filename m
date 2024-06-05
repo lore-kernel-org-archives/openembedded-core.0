@@ -1,120 +1,120 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 558CFC25B76
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 06:16:05 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.8338.1717568162322176973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCFFC41513
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 06:43:25 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.8677.1717569802393077200
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jun 2024 23:16:02 -0700
+ Tue, 04 Jun 2024 23:43:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=azH/SIEj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35dce6102f4so1648226f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 23:16:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GRbzF2je;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7023b6d810bso1563703b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jun 2024 23:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1717568161; x=1718172961; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CzWhTTYxX+FhB9D490pTgiCCcYDxgSY04lHdNSCL8LU=;
-        b=azH/SIEjlskx1hkf6NBbt3QPsIqvpLx5+GecwitbH4NySsrbGQlLYQxxARdkY7bweR
-         VZF7toyIBD7GEYs0rhTAVblklWJz/e+Lhc3tdfc5dpYgu5nn1xJDToWGkM+pZtitFNFu
-         BHYNR08YMKu+TKk2iZCwhDEq4HLUBwnXfhdFk=
+        d=gmail.com; s=20230601; t=1717569801; x=1718174601; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ss7vRlduix33/ixYkESD1gbR5YWgRGIK1cCYBYPB0is=;
+        b=GRbzF2jeiDNo5QzQpRrkajd6jS9o/FwI4J17+GPAy75WKvuK5MPKvYKNDjEguaewXT
+         fhyyPqcCxNJZgr95y3ixvhc6QuLhMU1EBkTlzDeXV2y89jEWEUfshO1XfUa20qlETxWX
+         wlu2SCnEPyO4dlfkHfav7KhLKy9ECnfEyU8z1p6uDveND4DCIOHc4dOIaY7lfmYBm2+/
+         oBhiE30qFusW6B97WFBTJkW84vN3QA3wvkoaQTaSpwub/TTGQkFKqmwclu9AztTna+VU
+         ZB7GWbtMjRxRmu9oLIlntn6vro+DYQ25DlouRDNhfVmt5+uLs5R8n5klO5ZDiuYkaey2
+         o/Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717568161; x=1718172961;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CzWhTTYxX+FhB9D490pTgiCCcYDxgSY04lHdNSCL8LU=;
-        b=TWiyHk0JTsGirHJRfXhs+0szPs4vJT/ak+AllpMeLcx7TX0D2XNmrOWuJy2sOmQ1NK
-         bZrRbhVU16Wh4eiSXSJ9tkLW0cO6JRspBErUrjGl3dH1p9w0/sDZheHqy13dArt6G94g
-         j346w/LY5EID2e/G5qbHAEp8JCCIACpDicc28t6zKeTBCgeBl85F+DmtCc0nSUOP5M9s
-         XdMdAl7tEyjBmbrYAgBvi7IQZAOMO5RwqtzWxWCoZoNgGz26ZseyPhViaoJ47cmFV3wU
-         5gtDF7AIN4nlsmRnS2rbIYFC4pk+SXT53e7nP27D4cVMMyUviSWWGwcwZ8aatryWrQoP
-         AvUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgd8/NjyxKOCQO6ETwwrxvJ812dAOFcEBgsnLix8J+SxHuUNS+/PRpC9ldpDHFf05yXgIuj6YZIldbNbjRsUDuLhRRzkCJe3ikGDhuWh24InjZvKLcUB4N
-X-Gm-Message-State: AOJu0YydYXANC9PWuvmmHkoI/TvZAMO5woBHFBTz3ynRdD6iIrkw2Hqr
-	KeJub5EbneWSo2hBxj+L7yEEWmrY1NJkudQnzpJ/1NKRyVfV+U96Ry14PDgEtV4=
-X-Google-Smtp-Source: AGHT+IEHnrtF/K4I5/XjIUfjksSXfWmPPLFrOhoXdZF6RJh9bNiBMw7l/Mvgv1byjgG+daQX8K0mSg==
-X-Received: by 2002:adf:ce05:0:b0:354:f3d0:55d5 with SMTP id ffacd0b85a97d-35e8ef099edmr1019770f8f.31.1717568160681;
-        Tue, 04 Jun 2024 23:16:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e518:8da0:d67c:ea72? ([2001:8b0:aba:5f3c:e518:8da0:d67c:ea72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04ca981sm13297022f8f.33.2024.06.04.23.15.59
+        d=1e100.net; s=20230601; t=1717569801; x=1718174601;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ss7vRlduix33/ixYkESD1gbR5YWgRGIK1cCYBYPB0is=;
+        b=pWiqjsIfzTFarwOvVk/odylZUAIUtK61m7xepK/QkQ6wQVSjIILnoNHwKZpxCcPtG4
+         u3OsGEcRBLY37kWUCIIctvllV0cW4vdSrPXsekl70VwcZ+D/C0HPZH227EwkktcL9KM5
+         4/Yda5TWhl3GmkwSkUw6MRZFpwcuEU7u71gkiM8MpLLxaVkpRW+NO4RUIqHmeJFfEDJ/
+         WtzRMo9lA91k1bf1L3yZRUdzt/tzUZSJEJAkAdCLPuXlEhWRdmlcDcpq/SWWYyXyLWkp
+         9GgB3JQb45X6H3FEe8/w/LyKOpEbCHfr4xcSVD9ghILGSKAFWpD7y8ZCI5rdkRR15dkt
+         7LeQ==
+X-Gm-Message-State: AOJu0YyDFsFnalOi/lFjCQzkglTDuX3pNjfs8pb0Sms+Nq8vnjKt0rsr
+	IO8bBSYKETom+XHYGkJOiqgV1C8fznpj4xBoybGJN5fK9YPCIpERaqrOg0d1
+X-Google-Smtp-Source: AGHT+IEpowpwDX6bVETPsg1sKMFB/AVmGoTVuYTtvqPX7hBdnGjqu2GKPok8eFB+s4wmgcNbZ68MxA==
+X-Received: by 2002:a05:6a00:2350:b0:702:711c:731d with SMTP id d2e1a72fcca58-703e5a49005mr1723768b3a.32.1717569801203;
+        Tue, 04 Jun 2024 23:43:21 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::6d8c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703edadedd1sm436214b3a.92.2024.06.04.23.43.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 23:16:00 -0700 (PDT)
-Message-ID: <dfc86695d4d75c5ec118b3e5fdb795ead16b1bb0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] mesa: add new package for Mali CSFFW
- Valhall firmware
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <quentin.schulz@cherry.de>, Quentin Schulz
-	 <foss+yocto@0leil.net>, openembedded-core@lists.openembedded.org
-Date: Wed, 05 Jun 2024 07:15:59 +0100
-In-Reply-To: <ace0be62-d968-468c-aa99-27b8ae87ad7a@cherry.de>
-References: <20240531-panthor-v1-0-1a76fd752c1b@cherry.de>
-	 <20240531-panthor-v1-3-1a76fd752c1b@cherry.de>
-	 <7f0cbf29-f885-4f39-8b83-4e89b709d6f0@cherry.de>
-	 <7dc1935cc2d7a0af58ebe65b6afaf4ef7d5eb426.camel@linuxfoundation.org>
-	 <ace0be62-d968-468c-aa99-27b8ae87ad7a@cherry.de>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Tue, 04 Jun 2024 23:43:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] python3: Drop empty patch
+Date: Tue,  4 Jun 2024 23:43:17 -0700
+Message-ID: <20240605064317.1646597-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240605064317.1646597-1-raj.khem@gmail.com>
+References: <20240605064317.1646597-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 06:16:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200352
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 06:43:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200354
 
-Hi Quentin,
+The fix brought by this patch is already part of python 3.12.3
+therefore drop it.
 
-On Tue, 2024-06-04 at 17:04 +0200, Quentin Schulz wrote:
-> Well, I should have said "removed" and not from master-next but from=20
-> abelloni/master-next in poky-contrib. It used to be there (got a mail in=
-=20
-> the ML from the SWAT team complaining about broken mesa build recently).
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...lize-struct-termios-before-calling-t.patch | 26 -------------------
+ .../recipes-devtools/python/python3_3.12.3.bb |  1 -
+ 2 files changed, 27 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-114492-Initialize-struct-termios-before-calling-t.patch
 
-I understand now, I was just a bit surprised as I hadn't looked at in
-in my own master-next branch!
-
-> I'm trying to figure out the changes needed for this mesa update (the
-> patch 2 in this series), but this getting quite difficult as I have no=
-=20
-> experience with mesa nor meson and the changes aren't trivial to me=20
-> reading the git log of all meson files in the repo.
->=20
-> What I can say already is that it seems the iris Gallium driver now=20
-> requires libclc as well, which means mesa-native as built on x86 hosts=
-=20
-> will require that, which means bringing in meta-clang... I'll continue=
-=20
-> to investigate a bit more to at least get something to compile (if I can=
-=20
-> manage to) on my x86 build machine, both mesa and mesa-native in its=20
-> default PACKAGECONFIG config from current master, and then hopefully=20
-> send an RFC and we can discuss there. The whole migration from clc to
-> rusticl for some drivers is also confusing me, so will probably need=20
-> some help there, especially since we have this commit already in the=20
-> last (few?) release(s):=20
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics=
-/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
-
-It does sound complicated, I'm afraid I don't have any specific advice
-but avoiding a rust dependency would be nice if we can and requiring
-clang would be much more problematic.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-114492-Initialize-struct-termios-before-calling-t.patch b/meta/recipes-devtools/python/python3/0001-gh-114492-Initialize-struct-termios-before-calling-t.patch
+deleted file mode 100644
+index 8406ef30a21..00000000000
+--- a/meta/recipes-devtools/python/python3/0001-gh-114492-Initialize-struct-termios-before-calling-t.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From 439aa02f42d6e6715c172076261757fcb89a936a Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Tue, 23 Jan 2024 23:02:02 +0100
+-Subject: [PATCH] gh-114492: Initialize struct termios before calling
+- tcgetattr() (GH-114495) (GH-114502)
+-
+-On Alpine Linux it could leave some field non-initialized.
+-(cherry picked from commit d22c066b802592932f9eb18434782299e80ca42e)
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/386c72d9928c51aa2c855ce592bd8022da3b407f]
+-Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- .../next/Library/2024-01-23-21-20-40.gh-issue-114492.vKxl5o.rst | 2 ++
+- 1 file changed, 2 insertions(+)
+- create mode 100644 Misc/NEWS.d/next/Library/2024-01-23-21-20-40.gh-issue-114492.vKxl5o.rst
+-
+-diff --git a/Misc/NEWS.d/next/Library/2024-01-23-21-20-40.gh-issue-114492.vKxl5o.rst b/Misc/NEWS.d/next/Library/2024-01-23-21-20-40.gh-issue-114492.vKxl5o.rst
+-new file mode 100644
+-index 0000000..8df8299
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Library/2024-01-23-21-20-40.gh-issue-114492.vKxl5o.rst
+-@@ -0,0 +1,2 @@
+-+Make the result of :func:`termios.tcgetattr` reproducible on Alpine Linux.
+-+Previously it could leave a random garbage in some fields.
+diff --git a/meta/recipes-devtools/python/python3_3.12.3.bb b/meta/recipes-devtools/python/python3_3.12.3.bb
+index f5f311f61c9..9102bb879e9 100644
+--- a/meta/recipes-devtools/python/python3_3.12.3.bb
++++ b/meta/recipes-devtools/python/python3_3.12.3.bb
+@@ -29,7 +29,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
+            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+-           file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
+            file://0001-test_shutdown-skip-problematic-test.patch \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
+            file://0001-gh-95855-Refactor-platform-triplet-detection-code-ad.patch \
 
