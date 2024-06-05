@@ -1,88 +1,86 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62868C25B76
-	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 12:58:47 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.14648.1717592324144008186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F44C25B76
+	for <webhook@archiver.kernel.org>; Wed,  5 Jun 2024 13:08:27 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.14917.1717592900558947695
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jun 2024 05:58:44 -0700
+ Wed, 05 Jun 2024 06:08:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g1UagLYe;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e96f29884dso24443741fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 05:58:43 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=H+8enQnZ;
+ spf=pass (domain: snapchat.com, ip: 209.85.214.182, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f32a3b9491so49208105ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 06:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717592322; x=1718197122; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Iebuf/3fN3Tqi742heqEMYC9DB56+wgGb43N2Y2f1M=;
-        b=g1UagLYe8xUTR2jzyAgqMGJXs1M5FzeNHVA0tlGM+Y9G9LBr/Ke9Bziw7hTLCIcgQ9
-         7xp8OzYD4iyS8VhmFluovD2jxbX9X6Xea+eJE5cvDyt+2IzDlqtoegT8od43+V38Lzyj
-         LkRU8VJSoA+TOR8USK/zSv6AwlCZbOqX+aZuz7dnwQI6zvAyZ0rt9YpB3+c12j1Cnjx9
-         Nnx1Kxb5i4AKnYWmUcx7jfqqIVUEx4BLpgO3ukKRa3xcTXg+Va4wk12MaACSiE0bVvJa
-         ijTOrI+zNyI2xVJGp1rKbvb+Kttdo4WrjQGgrFEL7pOLZMEL5XvucwJxhmwqsXOsPtwo
-         m/ZQ==
+        d=snap.com; s=google; t=1717592899; x=1718197699; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LDEbqKDu6bfcB/sT5647eFVV9qt3DUmqIeLVUYDsNNE=;
+        b=H+8enQnZxX7L0YMOXQWNmgRiCc5Lv0jUfCKi0wYEoehAJjFR1syy4V0IUfHxZXOqYY
+         0W1O6UgQn8ASjw4ZYtVz+GS7ZUSmT83cD7X0BWAEYUzvNxQtfpp4CuJIFhDN89Aio2EA
+         0C8y0QbOYDNY/9SrNkVMobOeJDN1s8mu3FO7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717592322; x=1718197122;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1717592899; x=1718197699;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/Iebuf/3fN3Tqi742heqEMYC9DB56+wgGb43N2Y2f1M=;
-        b=NCrn0Tr5HypirjLc1eDy6nd2DmkVIn1mQGC15GS5GctRllQHEMR4s6+qWIClI9W7YO
-         3gY9P7tABr0IXzX0M3G46YqzmNHR5OGgTNsL82bKVfHSTV2oPDUT26DNUSbPxa2zLn7J
-         KxUOyzk6vdAfmMKhwOZMlVFENY2X3I+HP0Vmzzt1062ltVs9Mq9ypKKkuf8zrz81mkDs
-         EZET0dLAIqyQEeNAwa8BfAxHMbzPNl1FRl24FbI4YgLKyXs5ILnT6GSgcN1lec2jJj5U
-         0eke1H/i6n5xX5M9hUn/Cr1kBzsBu/vJRS3ifGWIn89IHA59Ciqj6A4ytmz72Z+cQu/K
-         nkKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGJEW4AOlZgHR3Ei1j0F266WnuiqN5DthC7chQsidqyxHO+yV8/THkiiNTU5qorShWfCn0gXI4dGTOWIkjrETEV64VjpFOsJnYjeCUBpsXed1f1cLsQQru
-X-Gm-Message-State: AOJu0YyOUadQ2xxyQktBcnnBraJ03VqnXuM3dxKcXINPTGu+EtzcAaQ0
-	L5sgraphhN5qYDIA6Uu8khUk9TVLa4FnatiUNUU1KavD2JvJlp7U8GsETQIlRy1DrfcBQI2PN1/
-	Crmj0RlEDZQ36bRA5RhOneS5gRmU=
-X-Google-Smtp-Source: AGHT+IGtF4lpIcxJ031r6IYbpdH/eh3qyX+5mV4sbAqKi6g1YhF5VlMQrdaHZ6Gl0Yj+xodpUm8/POH4QJywrgobjEM=
-X-Received: by 2002:a2e:9913:0:b0:2ea:7f5d:ed93 with SMTP id
- 38308e7fff4ca-2eac7a6efa7mr12921151fa.50.1717592322094; Wed, 05 Jun 2024
- 05:58:42 -0700 (PDT)
+        bh=LDEbqKDu6bfcB/sT5647eFVV9qt3DUmqIeLVUYDsNNE=;
+        b=ejzRnAJ9lsoFgwz6Bz1NDDds5fbtIGdMHnRmSY6PpPl6XaA0JQfZFbqRx7UChAhZwY
+         0BzjoCsxyovzGuJAXn8pkSrUSvI39y0haFN77OM93/0zbY1nd7LsEEh5x6Ov1ENBYjtu
+         iTfljIK1rnMsxfD6eoKe6pfsWc9q1Jmx+NnMi/6Xu1PYZdX8LRhfK8lFXBgf4m2roPxb
+         gs62vqm28gls0MvERK/wym/LH/FOCEgQmz38Ob3vGrEJ2hVl/frmQJospryF2JMxQup8
+         QsdrQNk6Kz5tEiYzReNMBe3Po+GZI1yPch4Wp8KXJKr4P+NwuPqsLHaYjAUDBHi9iUDU
+         Js0A==
+X-Gm-Message-State: AOJu0Yy9HZvM//03FWmTeIZBNhoOr1iEyL9cx8SsRMwSvLESwAignr72
+	MvhjBijKy3oF9N99Al0V5poZuxYQOk20NIvR4X5ZBrygREvPECFg2GIx7lvbPoyBaAu5DHWOadj
+	YI7U=
+X-Google-Smtp-Source: AGHT+IFYIukLPScUTb64oAReJbMOlXCrM9K9Pjn9n+lRtwwIvuM/P5usYGCkJpAQSZ1Vz3YPzQwQlg==
+X-Received: by 2002:a17:902:ec83:b0:1f4:ac56:3d15 with SMTP id d9443c01a7336-1f6a5a0e83dmr33825225ad.15.1717592899496;
+        Wed, 05 Jun 2024 06:08:19 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632355e0asm101697005ad.72.2024.06.05.06.08.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 06:08:19 -0700 (PDT)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] build-appliance-image: Update to master head revision
+Date: Wed,  5 Jun 2024 15:08:08 +0200
+Message-Id: <20240605130808.2643140-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
-References: <aa532133-c872-4bde-8479-dba12de225c7@bootlin.com>
- <beedf05b-3b5e-4468-a6d1-46d7d6734246@cherry.de> <17D5C581F2EC238F.7636@lists.openembedded.org>
- <CANNYZj92YgWuYYw+ofrRSJ-TW60AHksUOyY7xeY9sneUEv8DcA@mail.gmail.com> <e59274dd-de20-4d04-8e9d-850a514066b8@cherry.de>
-In-Reply-To: <e59274dd-de20-4d04-8e9d-850a514066b8@cherry.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 5 Jun 2024 14:58:30 +0200
-Message-ID: <CANNYZj-o1wT5izemxGzdBm4Uxp=AcpXhK2dC4eDZAjqkyNNoEQ@mail.gmail.com>
-Subject: Re: [OE-core] mesa: build failure in CI, dependency not found
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: Markus Volk <f_l_k@t-online.de>, joaomarcos.costa@bootlin.com, 
-	openembedded-core@lists.openembedded.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Anuj Mittal <anuj.mittal@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 12:58:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200363
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jun 2024 13:08:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200364
 
-On Wed, 5 Jun 2024 at 14:25, Quentin Schulz <quentin.schulz@cherry.de> wrote:
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> Additionally, Intel Vulkan driver forces libclc dependency if intel-clc
-> option is not "system" (so either "enabled" or "disabled" or "auto"),
-> since commit b52e25d3a8eee702ff5d21e4cdb9a4dc0736282a.
->
-> Moreover, Intel Iris Gallium driver forces libclc dependency if
-> intel-clc option is not "system", since commit
-> 5438b1910464e4b17fe0248a96a6ed98f0280a20.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-core cannot rely on meta-clang (although merging that into core is a
-medium term aspiration), so I think the only feasible solution is to
-drop both iris and intel_vk from default driver set. And have
-meta-intel folks sort out the needed pieces in their layer, with
-meta-clang dependency or whatever else that requires. It's their
-silicon, so I think it's fair to say it's on them to figure out how to
-support it with the yocto stack.
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index e406968df2..520d4f1f5f 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -26,7 +26,7 @@ inherit core-image setuptools3 features_check
+ 
+ REQUIRED_DISTRO_FEATURES += "xattr"
+ 
+-SRCREV ?= "17723c6e34096a53fb186cc70cfc604bb30da8b9"
++SRCREV ?= "06cba9abc4dcb630142be7606f5272be8bcb2e36"
+ SRC_URI = "git://git.yoctoproject.org/poky;branch=master \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
+-- 
+2.36.1.vfs.0.0
 
-CC Anuj.
-
-Alex
 
