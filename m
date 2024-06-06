@@ -1,143 +1,157 @@
-Return-Path: <jonas.gorski@bisdn.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C70C27C55
-	for <webhook@archiver.kernel.org>; Thu,  6 Jun 2024 07:19:39 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.8446.1717658372098860422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EAE5C25B75
+	for <webhook@archiver.kernel.org>; Thu,  6 Jun 2024 08:59:40 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.9716.1717664376661733942
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jun 2024 00:19:32 -0700
+ Thu, 06 Jun 2024 01:59:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=pXM2/3wM;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.128.54, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-421555a4454so7441705e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 00:19:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bVf/lZ5P;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so3672755e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 01:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1717658370; x=1718263170; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1717664375; x=1718269175; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GGyc2wUubMqeyD+SVQ3GQEdh8b8NlC9QRSsaZtT1RqM=;
-        b=pXM2/3wMa2v16wOUg8IiTpoR/XzorjoO1c3EYQnux3lYkIfJHj20pwOTA42HKmpDFk
-         cS13P+h/3BEMzlbSD4E+moZQCTjWk/kc2Dy5uX7DxSSoT/lVA+wvDmTuMo2CqfjmcCtP
-         SHyEXK4wdqDjKIQB3Mj+YlXx0llN7iKrZNc7iyRB4Bue+ji7Rd6J7ErCM7GH5y2JN5Y3
-         MSLgT0qsHMs0X/B+Tn+umdvTpOXb/VX3fVmUM45LN6HATtXUORPCCcH8IUmam6b8MTxv
-         ybLpRqu5C7X5LM44uGhMAHJm5aD0hyg4PqoGfRQ3sxkeH6e7Vu3swneyipxVcGRcCtz9
-         6sBg==
+        bh=lgH6PplUcx5YFLv6g6Rb9souhNcmVij5mbVUyB2JAUo=;
+        b=bVf/lZ5POOlrFa01eYyJSEbaNnhrJF7qPe18dNRURfTlvHejUMJmjHlmikF5p16u2E
+         CiFeHQcIp12nUwnnhrt7Ei8JAjS8LORnHj9HO+74tHE/dfn5HyvGHJdJrydPFKfsYITB
+         btLHqEsjk8uu2qlyuMppnCPhKapgfTWmpv9bw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717658370; x=1718263170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GGyc2wUubMqeyD+SVQ3GQEdh8b8NlC9QRSsaZtT1RqM=;
-        b=M9YuSfxbNHe+0u6LeHj7WQfiA+V6YW7W9ADYGL00O/cz+xwWZ5DL22P0Pc8hEGkPet
-         IytlXwE/iFCO0YReQ5cmp2IEyvlOVP/yYrX4+mQpMaDRalFVuAbGqm6y1h6y2xrZhgR6
-         VRAM0YzC+LaIh6KPraWcqW5pYNXD8f8wptdh+K+viyeejDbNQAPmKN4MeBhzheWXQcUf
-         yJzpnv66ghHfMkaGQC/DDZ0mVhKRJH6PITHA8YgKl+DUF5FCyvf9ox0Xy4J0xgoyF1Ob
-         m5nI1GRgzDHgz4e+sX3Rr+R5LjQ/4Z9eAb5qBZ+C8CQyy5m1+Ov+GuEUtNRBSQU6+GXY
-         WumQ==
-X-Gm-Message-State: AOJu0YygZHhwPyI42gpLLY+U7n9R3RFdxsvqfBRdAtpccHCBkeWK0V/Y
-	q1U1WgMQOQBd/pwfAXlgrOGwW77zHCy411vtkklTLK1rUz9RfYcy0fqEArhYYlj67HWr+thmG6S
-	5k4pcEk400+a44kbSLnot/3hqC7fyU2YnRuZ9Ed92sLnPSi7QnEmlHe2kKgCXFQUWjoma1M/I3a
-	gQvLuj5oyQ
-X-Google-Smtp-Source: AGHT+IEZ0FVmxLo20o+gVIXm+oTKC5xQ1Qk1aeLaEILW8ybolB2eMLkYGTKiDfkQAn6Gs3DEPiQnZw==
-X-Received: by 2002:a05:600c:19c7:b0:421:58f2:3568 with SMTP id 5b1f17b1804b1-42158f236a5mr27998925e9.5.1717658370622;
-        Thu, 06 Jun 2024 00:19:30 -0700 (PDT)
-Received: from localhost (dslb-002-205-022-096.002.205.pools.vodafone-ip.de. [2.205.22.96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c2cd2d3sm11344945e9.41.2024.06.06.00.19.30
+        d=1e100.net; s=20230601; t=1717664375; x=1718269175;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lgH6PplUcx5YFLv6g6Rb9souhNcmVij5mbVUyB2JAUo=;
+        b=GrtKxe444graih74RqIPByCm6SfWhJeySmNxuJS5oe69nZ9thky4Fz2Mk5c0mB1tCE
+         +HjBo5lTZpV0HbIVZ/Xp0mwXYChry3VPmh1Pd+mlg+AXVEv51+49qc+uUXOM3NMkJJzM
+         eFBQLe3p453FUQcJIeQlycJRHLhiRpjKoAk9HDtbo3LqBild+ZHuhZVAGGQBHOG4JL/L
+         pNG1zB7nJITPpyqohKvi8zw7nOUbKhBAEAlkHmJDPLTtMprWM7rrGa/uGM/5iea8Hur7
+         yIkaKVYUwPHkziMATHXDd0P3u56QGRNtrl1uyAnms78YL0hsg8rJD++0fMF/P5b4X5wQ
+         zB+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUWJ46DprVyhDo/gHVTFq5e289NYnjbk6v4zredN7SqDlLSEBtzBsE1WrcF1ZArgfYVrjE3fkm9YbidFNc3xR/stoJGsuSXP4pYxjWjhbbeTa5eToJ9YeR6
+X-Gm-Message-State: AOJu0Yzh893C7jrgOQP/+KVETDrJz97/8E/5y0TlrS04EKen4MN2pwH/
+	dNBNTtzR4GirYrfGnElnEpRfjcXTmaCEOL5R/rTTXRfokzTvHP66O1We6VwkSnY=
+X-Google-Smtp-Source: AGHT+IGjZyagU7vf1cqnmuSAeSrVexalEg9Oi5YtUSgkWeD8ChPqObQt95BvAyWi4uc/KVVZ4qwTAQ==
+X-Received: by 2002:a05:600c:5254:b0:421:3be5:a6cb with SMTP id 5b1f17b1804b1-4215acd81a5mr17640595e9.6.1717664375007;
+        Thu, 06 Jun 2024 01:59:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2418:892f:d822:11fe? ([2001:8b0:aba:5f3c:2418:892f:d822:11fe])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215810826csm49407825e9.17.2024.06.06.01.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 00:19:30 -0700 (PDT)
-From: Jonas Gorski <jonas.gorski@bisdn.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Changqing Li <changqing.li@windriver.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH 2/2] man-pages: remove conflict pages
-Date: Thu,  6 Jun 2024 09:19:16 +0200
-Message-ID: <20240606071916.23943-3-jonas.gorski@bisdn.de>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240606071916.23943-1-jonas.gorski@bisdn.de>
-References: <20240606071916.23943-1-jonas.gorski@bisdn.de>
-MIME-Version: 1.0
+        Thu, 06 Jun 2024 01:59:34 -0700 (PDT)
+Message-ID: <c2d8da7991938312c834001d5e5f07d73cc675dc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc: Fix wrong order of gcc include paths on
+ musl systems
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 06 Jun 2024 09:59:34 +0100
+In-Reply-To: <20240606071005.884909-1-raj.khem@gmail.com>
+References: <20240606071005.884909-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.52.0-1build2 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 07:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200386
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 08:59:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200387
 
-From: Changqing Li <changqing.li@windriver.com>
+On Thu, 2024-06-06 at 00:10 -0700, Khem Raj via lists.openembedded.org wrot=
+e:
+> musl does not use gcc private system headers, however, the path gets
+> prepended since gcc driver passes -iprefix option to cc1 based on its
+> installation location. This starts to prefer these headers instead of
+> musl provided equivalent system headers which is not as per musl's
+> design. This patch switches prepend to append for musl systems.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> =C2=A0meta/recipes-devtools/gcc/gcc-14.1.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0...te-include-paths-on-musl-instead-of-.patch | 35 ++++++++++++++++=
++++
+> =C2=A02 files changed, 36 insertions(+)
+> =C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc/0026-Append-GCC-pr=
+ivate-include-paths-on-musl-instead-of-.patch
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-14.1.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-14.1.inc
+> index b057e570f3b..c4bc4c72664 100644
+> --- a/meta/recipes-devtools/gcc/gcc-14.1.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-14.1.inc
+> @@ -68,6 +68,7 @@ SRC_URI =3D "${BASEURI} \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/0023-Fix-install-path-of-linux64.h.patch=C2=A0\
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=C2=A0\
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/0025-gcc-testsuite-tweaks-for-mips-OE.patch=C2=A0\
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0026=
+-Append-GCC-private-include-paths-on-musl-instead-of-.patch=C2=A0\
+> =C2=A0"
+> =C2=A0
+> =C2=A0S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
+> diff --git a/meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-includ=
+e-paths-on-musl-instead-of-.patch b/meta/recipes-devtools/gcc/gcc/0026-Appe=
+nd-GCC-private-include-paths-on-musl-instead-of-.patch
+> new file mode 100644
+> index 00000000000..1bcff39aa7c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0026-Append-GCC-private-include-paths=
+-on-musl-instead-of-.patch
+> @@ -0,0 +1,35 @@
+> +From 30f1229a8b663ee4dc35d389acf60241a4536fb8 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Wed, 5 Jun 2024 22:56:12 -0700
+> +Subject: [PATCH] Append GCC private include paths on musl instead of
+> + prepending
+> +
+> +Musl does not need gcc private compiler headers, therefore use them
+> +after standard system header search paths.
+> +
+> +This fixes packages like python builds to detect the musl systems
+> +correclty, as it looks for musl specific stuff in stdarg.h system
+> +header, which is wrongly picked from gcc private headers in OE
+> +
+> +Upstream-Status: Submitted [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=
+=3D115368]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + gcc/gcc.cc | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/gcc/gcc.cc b/gcc/gcc.cc
+> +index 01968001c44..d0d5c35cf83 100644
+> +--- a/gcc/gcc.cc
+> ++++ b/gcc/gcc.cc
+> +@@ -6589,7 +6589,11 @@ do_spec_1 (const char *spec, int inswitch, const =
+char *soft_matched_part)
+> +=20
+> +=C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (gcc_exec_prefix)
+> +=C2=A0		{
+> ++#if DEFAULT_LIBC =3D=3D LIBC_MUSL
+> ++		=C2=A0 do_spec_1 ("-idirafter", 1, NULL);
+> ++#else
+> +=C2=A0		=C2=A0 do_spec_1 ("-iprefix", 1, NULL);
+> ++#endif
+> +=C2=A0		=C2=A0 /* Make this a separate argument.=C2=A0 */
+> +=C2=A0		=C2=A0 do_spec_1 (" ", 0, NULL);
+> +=C2=A0		=C2=A0 do_spec_1 (gcc_exec_prefix, 1, NULL);
+>=20
 
-Remove the pages which libxcrypt and shadow already have to avoid
-following conflicts during install man-pages and libxcrypt/shadow at the
-same time.
+The trouble is we build one cross compiler for both glibc and musl so
+this will fix musl and break glibc. It would need to change this
+depending upon the target at runtime. I suspect upstream gcc will say
+the same thing :/
 
-Error: Transaction test error:
-  file /usr/share/man/man3/crypt.3 from install of
-  libcrypt-doc-4.4.33-r0.x86_64 conflicts with file from package
-  man-pages-6.04-r0.x86_64
+Cheers,
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 605b4a91dc44d33bd4742841e71645275bc039e8)
-Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
----
- meta/recipes-extended/man-pages/man-pages_5.13.bb | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
-
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.13.bb b/meta/recip=
-es-extended/man-pages/man-pages_5.13.bb
-index f8602c699ea5..9afa9274a8e3 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.13.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.13.bb
-@@ -21,17 +21,12 @@ do_compile[noexec] =3D "1"
-=20
- do_install() {
-         oe_runmake install prefix=3D${prefix} DESTDIR=3D${D}
-+        rm -rf ${D}${mandir}/man3/crypt.3
-+        rm -rf ${D}${mandir}/man3/crypt_r.3
-+        rm -rf ${D}${mandir}/man3/getspnam.3
-+        rm -rf ${D}${mandir}/man5/passwd.5
- }
-=20
- # Only deliveres man-pages so FILES:${PN} gets everything
- FILES:${PN}-doc =3D ""
- FILES:${PN} =3D "${mandir}/*"
--
--inherit update-alternatives
--
--ALTERNATIVE_PRIORITY =3D "100"
--ALTERNATIVE:${PN} =3D "crypt.3 crypt_r.3 getspnam.3 passwd.5"
--ALTERNATIVE_LINK_NAME[crypt.3] =3D "${mandir}/man3/crypt.3"
--ALTERNATIVE_LINK_NAME[crypt_r.3] =3D "${mandir}/man3/crypt_r.3"
--ALTERNATIVE_LINK_NAME[getspnam.3] =3D "${mandir}/man3/getspnam.3"
--ALTERNATIVE_LINK_NAME[passwd.5] =3D "${mandir}/man5/passwd.5"
---=20
-2.45.1
-
-
---=20
-BISDN GmbH
-K=F6rnerstra=DFe 7-10
-10785 Berlin
-Germany
-
-
-Phone:=20
-+49-30-6108-1-6100
-
-
-Managing Directors:=A0
-Dr.-Ing. Hagen Woesner, Andreas=20
-K=F6psel
-
-
-Commercial register:=A0
-Amtsgericht Berlin-Charlottenburg HRB 141569=20
-B
-VAT ID No:=A0DE283257294
+Richard
 
 
