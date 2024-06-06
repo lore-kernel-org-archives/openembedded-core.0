@@ -1,137 +1,99 @@
-Return-Path: <simit.ghane@lge.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18329C27C55
-	for <webhook@archiver.kernel.org>; Thu,  6 Jun 2024 10:25:02 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web11.11070.1717669490969907321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 235BEC25B75
+	for <webhook@archiver.kernel.org>; Thu,  6 Jun 2024 10:34:02 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.11122.1717670035614029222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jun 2024 03:24:51 -0700
+ Thu, 06 Jun 2024 03:33:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: simit.ghane@lge.com)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.52 with ESMTP; 6 Jun 2024 19:24:48 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: simit.ghane@lge.com
-Received: from unknown (HELO si-rd23-bld64.lge.net) (10.221.31.64)
-	by 156.147.1.127 with ESMTP; 6 Jun 2024 19:24:48 +0900
-X-Original-SENDERIP: 10.221.31.64
-X-Original-MAILFROM: simit.ghane@lge.com
-From: "simit.ghane" <simit.ghane@lge.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "simit.ghane" <simit.ghane@lge.com>
-Subject: [PATCHv2] Fix building error with '-O2' in sysroot path
-Date: Thu,  6 Jun 2024 15:54:45 +0530
-Message-Id: <20240606102445.873957-1-simit.ghane@lge.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ORsK9gy0;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CB/53bur;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018fed1cbd89-47583180-3cc1-491c-9b1f-a352947da890-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717670034; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=kFlTFhiUO1rL9o7RgzHpr5Cl+phX7nKRTGsZSJRXwpQ=;
+	b=ORsK9gy0GtKJjUTUU56IuQKKKmhtBbVwSWer3quq9WoaaJzkSW7WR18nGLqxkazi
+	Yq/enLbtF+g7Vc7rfrG9rdNzBpNRFyjUx7lLm8mkStY71mHeyJZG2pWV4KCSiD53VLe
+	5j7rJRWJm4CU4MGzkEVwnuRSAoM/eXGEFkehJg9U=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717670034;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=kFlTFhiUO1rL9o7RgzHpr5Cl+phX7nKRTGsZSJRXwpQ=;
+	b=CB/53burA9RTbn6gh2v374vsjr6dBNWYPFFCBZPOHRDWU5OytLp4P9oZQE4RHhZC
+	ycN/zKCXi/xm66mEOHiLadwwRger6uahU0u8RgMj3EBw2YkCmUwqxawSlFXGcG33GAX
+	U+ylll9Jj8dqasvdJ50peJTvLuvEo5VgJuo94AYI=
+From: patchtest@automation.yoctoproject.org
+To: "simit.ghane" <simit.ghane@lge.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCHv2] Fix building error with '-O2' in sysroot path
+In-Reply-To: <20240606102445.873957-1-simit.ghane@lge.com>
+References: <20240606102445.873957-1-simit.ghane@lge.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018fed1cbd89-47583180-3cc1-491c-9b1f-a352947da890-000000@us-west-2.amazonses.com>
+Date: Thu, 6 Jun 2024 10:33:54 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.06-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 10:25:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200389
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 10:34:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200390
 
-Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
-respectively when compiling cipher and random in the filesystem
-paths as well if they happen to contain '-O2' or '-Ofast
+--NextPart
+Content-Type: text/plain
 
-If we are cross compiling libgcrypt and sysroot contains such
-characters, we would
-get compile errors because the sysroot path has been modified.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Fix this by adding blank spaces and tabs before the original matching
-pattern in the sed command.
-
-It is difficult to control -O1 for cipher and -O0 for random
-at the same time in OE environment along with patch file.
-So, keeping same change as it is.
-
-Signed-off-by: simit.ghane <simit.ghane@lge.com>
 ---
-v2: No change
- ...ilding-error-with-O2-in-sysroot-path.patch | 52 +++++++++++++------
- 1 file changed, 36 insertions(+), 16 deletions(-)
+Testing patch /home/patchtest/share/mboxes/PATCHv2-Fix-building-error-with--O2-in-sysroot-path.patch
 
-diff --git a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-index cf9ebfb3e6..339bc9c563 100644
---- a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-+++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-@@ -1,31 +1,38 @@
--From 0f66e796a8522e1043dda03b88d5f6feae839d16 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Wed, 16 Aug 2017 10:44:41 +0800
--Subject: [PATCH] libgcrypt: fix building error with '-O2' in sysroot path
-+From 7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 Mon Sep 17 00:00:00 2001
-+From: "simit.ghane" <simit.ghane@lge.com>
-+Date: Tue, 7 May 2024 14:09:03 +0530
-+Subject: [PATCHV2] Fix building error with '-O2' in sysroot path
- 
--Upstream-Status: Pending
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=7d9817ca935a35fe6c8e2c2c7615825fa08a3a19]
-+
-+* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
-+* random/Makefile.am (o_flag_munging): Ditto.
-+--
-+
-+Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
-+respectively when compiling cipher and random in the filesystem
-+paths as well if they happen to contain '-O2' or '-Ofast
- 
--Characters like '-O2' or '-Ofast' will be replaced by '-O1' when
--compiling cipher.
- If we are cross compiling libgcrypt and sysroot contains such
- characters, we would
- get compile errors because the sysroot path has been modified.
- 
--Fix this by adding blank spaces before and after the original matching
--pattern in the
--sed command.
-+Fix this by adding blank spaces and tabs before the original matching
-+pattern in the sed command.
- 
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+Signed-off-by: simit.ghane <simit.ghane@lge.com>
- 
--Rebase to 1.8.0
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+ChangeLog entries added by wk
- 
-+Note that there is also the configure option --disable-O-flag-munging;
-+see the README.
- ---
-  cipher/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ random/Makefile.am | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/cipher/Makefile.am b/cipher/Makefile.am
--index c3d642b..88c883a 100644
-+index c3d642b2ac..f1c3971c40 100644
- --- a/cipher/Makefile.am
- +++ b/cipher/Makefile.am
- @@ -153,7 +153,7 @@ gost-s-box: gost-s-box.c
-@@ -33,7 +40,20 @@ index c3d642b..88c883a 100644
-  
-  if ENABLE_O_FLAG_MUNGING
- -o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
--+o_flag_munging = sed -e 's/ -O\([2-9sgz][2-9sgz]*\) / -O1 /' -e 's/ -Ofast / -O1 /g'
-++o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /' -e 's/[[:blank:]]-Ofast/ -O1 /g'
-+ else
-+ o_flag_munging = cat
-+ endif
-+diff --git a/random/Makefile.am b/random/Makefile.am
-+index 0c935a0595..340df38a79 100644
-+--- a/random/Makefile.am
-++++ b/random/Makefile.am
-+@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
-+ 
-+ # The rndjent module needs to be compiled without optimization.  */
-+ if ENABLE_O_FLAG_MUNGING
-+-o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
-++o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O0 /' -e 's/[[:blank:]]-Ofast/ -O0 /g'
-  else
-  o_flag_munging = cat
-  endif
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
