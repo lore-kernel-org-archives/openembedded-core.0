@@ -1,275 +1,197 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95100C27C53
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 04:48:47 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web10.34258.1717735721751164303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A959EC27C53
+	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 05:08:37 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.34535.1717736914532240857
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jun 2024 21:48:41 -0700
+ Thu, 06 Jun 2024 22:08:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cWrwwLHP;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3d2026f5b33so953313b6e.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 21:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717735721; x=1718340521; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UR5N4gZsJ9xlxDwTrwBJbH/L61EPQ+NpkoFgshW/b9A=;
-        b=cWrwwLHPuWYX3iR6xtFf7bLGZP/TDzSy0xUsA/D5H2+d1FMVRGJWpqwrCLKJtjskNt
-         lcvgA4YcsHEu1J3fuzV78+PHL5nmnirYWAzji+ZLxYSu9DoMfyI1FoXUxTMLPzG8X+DK
-         LChLx5+BEwW6F5BO+NErzS4E2m8sNMSFOVhMrD9rWib7v1WMyFytfc5H29Z98vCtzims
-         JhUOYvlq/gErPgDP8k7HhgaVX9Zawt53BYBBKUopwTR+smcER4eh6gf08zwTgdLuB1pF
-         mSXHm8qzXMcEUYr1kVv3OVz9JKsXU1n9nkypYTz9PcJwq+oiUpjh05OjPk9mnixfL/Ph
-         ljGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717735721; x=1718340521;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UR5N4gZsJ9xlxDwTrwBJbH/L61EPQ+NpkoFgshW/b9A=;
-        b=HrBX/NQpyHZKMY8SLj6kBqzT669C6G+O/MxS1vm8RkQ+Df0noBENUFkavVCAjH2yZH
-         4Emaq2wAH54o8lktC2MpV/pVDjenKtL5l7cwS7PUWGTDwc5469nbXBiXr+YmoRAKLZvN
-         q5ho/l/fPWtjNfhnqdDtiq8k4h1pgmEnWtbto0WKaXOY04/kIBBixtjU2BkSLl17d1+Y
-         QHNhEmp9Z9+erE/Nn2mfP++pEVkO65hbsiNxbF/geOkPgSfQZVIsclMPMLG+bQA8lUEz
-         qe/1Sy0VHN2fHA7rrbftp/fsWqtfZQ5nT9Sc0P3toSp2bmdlEiid3XNpJOXTXGnPcqoj
-         Dt9g==
-X-Gm-Message-State: AOJu0YwESOU71m39s2Lpa4mA9v/ki/XTWexPzhhE7XAmLejhaxCtQfqs
-	AcLO+MwmkMclFoLsHb8So7feSlyWelIeiO2OuMDWfhcHUiBOIu3lRGD35oYYh1SbxrHlEfsBmLi
-	zs6WOXTP/D80frXzTTo7Zcw8dzMA=
-X-Google-Smtp-Source: AGHT+IGxSqtXIP7l7kLPzlLtB1Mp/3TIQdUPZ/70BC7VlI6TfVEl4ctoKOfjWm5T/6/h88RgHCJm1E29Q94Z86KEZP8=
-X-Received: by 2002:a05:6870:d186:b0:250:191e:aeb2 with SMTP id
- 586e51a60fabf-25464f1bc1emr1474493fac.56.1717735720713; Thu, 06 Jun 2024
- 21:48:40 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6888aec719=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4574J3aP023220
+	for <openembedded-core@lists.openembedded.org>; Fri, 7 Jun 2024 05:08:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yfruxe2p6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 05:08:33 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45758X5B026866;
+	Fri, 7 Jun 2024 05:08:33 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yfruxe2p3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Jun 2024 05:08:33 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IF4wi0Ui9AS9Kx9cRxQikxVtgbvVGwtN+/IcBMfsE4yPMv9Vq/3Z4zKNSwAClsgVE45Xdl0xg4t9chZC79GG2vzL3oizzmDpc70dRT4M6GqC1FgEz9CPATNBzhNcjAC/0d4qKME9uKuma2RZwdUIrmrPsJHwVxwQRasATPcfY8T33c8HF79Vl0YefC+uP6uvc06DexPndvvatlGRpnvcKY6CJVX4F1/ruEE97MLzoVzWr4I+pQQTV+Gpz50sfxdsSkeYtuhUd0Zb4LUc8GyordbZ7xdXrCWoB4jOHWFnNlCKzTfUlRcr4kMKiN7CDHpT7u6ahZTfXxUJUiwf/W+2Ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OihtBDaK6rxD6cAzOYV0J6G5fcgJEn+e7vyyjQTPWfE=;
+ b=Q9UnnNVQa+RNFnYsZ2ua1BmULbM6H9i8mdPGbnfCF3NUUjnKJX0l6pewVtd62JdwoNjzUu+wej/v4J3qg+0v3vYx+FZFiy2ummpaH+LO+Cn0LxfG4Vm6/p5pM5gdILrWEJU9ZHQPo/o5Vbyp1iD7zvKu5rG0mWxGf9W9OudXKCq3ojhTi67UHiBPaUs73kbktudpDFs+FE9VBDTdLYB+wk4yBFo/8wK88rGoq+RuGn089T7NT6MkJ1vGQLRFjjc6TwxpxO2vCmHKCfCfEgENRdpOzNEfhyws5H6eA0sHdCigsKzimKI57zxjJWB5an3BQdXpVC4mqN8BrZFI+LvD4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DM4PR11MB6429.namprd11.prod.outlook.com (2603:10b6:8:b5::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.27; Fri, 7 Jun
+ 2024 05:08:29 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
+ 05:08:29 +0000
+Message-ID: <0cc91c9f-32e7-badb-8b77-681fdb4e8325@windriver.com>
+Date: Fri, 7 Jun 2024 13:08:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core][RFC 0/2] Write out file manifest in do_unpack
+To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
+References: <20240606140622.2494668-1-JPEWhacker@gmail.com>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <20240606140622.2494668-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP286CA0353.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:7c::10) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <20240603103300.1626507-1-yi.zhao@windriver.com> <20240603103300.1626507-2-yi.zhao@windriver.com>
-In-Reply-To: <20240603103300.1626507-2-yi.zhao@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Jun 2024 21:48:14 -0700
-Message-ID: <CAMKF1soWcy6n3xtDfW30v1XdP6e-7DnLcMUVJK1=xMKaBZxhTg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ltp: upgrade 20240129 -> 20240524
-To: yi.zhao@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DM4PR11MB6429:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e344c50-fa07-4258-8d72-08dc86afde9f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?TnFDRlNaMCtRWkZQQ2U5OXNRbDJRSjJUZTl6SkJYWVJQQ1FBRC8zMnJDOU9z?=
+ =?utf-8?B?cDlVZW9ERW4xQjdycFZOSnNjUjJONHh5dWZGTW9NRThDdlNFNHgxQnlKVzM5?=
+ =?utf-8?B?eUFLcjJVQUlJaC9kTjVwQkd6dHVscVh2SGhUbHFNMy8yNmtuSjBnZzNFR05o?=
+ =?utf-8?B?RE1VdFhucmJvQkcrQy9YSjBRVWZlYWkrMXM4K3BBYXB1WEduQ00xSUMxcmlE?=
+ =?utf-8?B?MEV3cFZRRlFkK3YxYkxHZ0Nqbjc2ZWlabzVZbUljdm5vZUNXWWFKTStuRVQw?=
+ =?utf-8?B?UWMyY3l4RG1hS1pKUVBYTmJWeDMwYjdzRHhOaEFQcnRRUkVTT3kvYnV1WFkv?=
+ =?utf-8?B?dkpjelRHbEIva1pjbFdLdFErTThrd0p2VzVrQTBiVUZ4UnNpbzAzL2ZTYkZL?=
+ =?utf-8?B?UmZaVDJDODArVU9FM2RCWC9tOElxaytuQjZjdUx1UEJNNzFLdWQrcEl4cW1k?=
+ =?utf-8?B?L05CNVJtbUhyS1p3aWk4RHNkRTNYb1Y2U2c2SUljeXZVM3lFU0V1dzhZVFU4?=
+ =?utf-8?B?L1BSdFNtaTBZSnhLaVRqbkNTYlVDN0h5Vlk3TDdoZk1ZSG9sZU95a3JsZzhG?=
+ =?utf-8?B?ZC82bndDQlA3OWRlVVk3bXc5cTBRZXVWcjBiUi81SExSc2xFNXBiYjZPSWt0?=
+ =?utf-8?B?dVhPL25ubWhiNER6OGpSdlZWMGF1QVZncmNGWGtwbUVQYk04TWtjdlhDTy9i?=
+ =?utf-8?B?MnVFRmxMT2RiN0FITTZ0TUxMSVRXUVlLeFlTQk5yK2dGRENjcm1EdTgvZzM1?=
+ =?utf-8?B?QlpZV09YZW5SQXh4a1NrSFFQR0U1UWgxVDdIQTdOQVlRNVcyTE1Ed0l0UFNG?=
+ =?utf-8?B?UXNkVmZtdk41M2YyTWlZeG9jMlFwcDZ6MEkzRnFYdFN0aHVWN3hETGFwZ3hU?=
+ =?utf-8?B?R2lNQ1lyUEhteGJmMTJPSmZHRXM4SjV2ZC9XNS9KM3FSMU9HNnhoK2x6c21T?=
+ =?utf-8?B?RW1xTHBFeWxJcm41TlQ0SVM4Nm9LeSsrZCtxc25xeEI1bTZkd2s5alNtSVRC?=
+ =?utf-8?B?cmZodUFMbXFOTHgzc2hHTG1pV25iMTZ6dnpPVFpZSnBQa2liYzdyMG1yK2w5?=
+ =?utf-8?B?bFJ0Uzg3ZzNQRktaMlhEZGcrMzB4bDV1MUdibTRWWDlZN2VOSWdnUXFSdEgv?=
+ =?utf-8?B?L1l2Y0J0bGIxc2w2eXdPczNiYTVmK0ozK3dGNzNtaU9iM0Y1WGFYaHZGL2E5?=
+ =?utf-8?B?b3p6WkJHSjg5TG9TV3RieWNrejNhS3ZNYlI3aVlwWFdEaXJoTUw5VGVZdVhL?=
+ =?utf-8?B?ajd4VWtUM3dGaUhqVDVMcDRXdmNKWXkwb2pmNjNGaFZGZitDWm1MNFBsT3hF?=
+ =?utf-8?B?dnFhcnRJa0RTNStGRmNNaTRPVUp4dzJKNzY3T3IrWEloRTdZc3ExVGp6VnZH?=
+ =?utf-8?B?ZCtPbGZhMW5lTWlhOVU2allZWlJPTkNoVVVMU1RMRk5BK3FBN09HZUtTVGFC?=
+ =?utf-8?B?bWFSUkl5dzZuYVo0OE44WE1VaU84bmFZNVJmZ3FoYngwY0w1eXByYnpGc2Fm?=
+ =?utf-8?B?MDU3alEwZUhCYUI4SXU1K2VvVmNqZ2tMNGw3ZFprUkk2MktqVHZUTzRiWU93?=
+ =?utf-8?B?MmlTcWwxOFFadzV5L2V4dmtFZ1JBejhWdG12TmwzOGs1WHdDdlFXK2h5cEtI?=
+ =?utf-8?B?Q1RFWkROamgrUTRhSUZEUTBHY0VQU2FZSkhhRHFtbGdSaDlZWnJkQ0NHODVQ?=
+ =?utf-8?B?Slp2UVlmZkJZZU1seS9NdmdoKzJ3SzZnZ0diK1dPend5OEtXb2EyUlJ3PT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eHNBMEc2Mm03QmhlcEdOazNFY3kwNHYvazJZcTV5aHlxYU5tVGN5ZjVlenJa?=
+ =?utf-8?B?d05wV0R3OEY5Mmo2WWZUUHZ4MTkzSG0wSzl3SEJJdzVLK2k5ZS9DQWJEeHA5?=
+ =?utf-8?B?dk82WisyTVM3d0RPQmJiZTZlbU04Y3hSZ2xPb25yaFdzQ3R2RWFwQUVYUlB2?=
+ =?utf-8?B?RmVBYzV5K01pemY2N0tLNWMzbXByTzI1eU8zZWxmS2dHajkwMGdENG42WTVu?=
+ =?utf-8?B?S2RZYmI1T1hqQ1NXNXBjVEIyVjFaaFFEMkZDeUtodWREWXd2OEtsSWFMTjZB?=
+ =?utf-8?B?bHVKZ3g5ZXdDQUZDYk9COUtWYVpqYVR6SEJEeDJjRkJzUVJkam9YQm1ENkJy?=
+ =?utf-8?B?UlM1eFhucS9iNHZjNDJ3UlQ4djNKR1I5bmlSUFN5TjFlT3pOMmRnZnp2Sksx?=
+ =?utf-8?B?MHYwd1JCUUFlS3JMVGFjODNyWS8rTkhqMEROUElleTYvVEFjZ29XRk1HcU5R?=
+ =?utf-8?B?WG9Wa0FETTI3YU5VbTBncFVma1NaNHd0Y2ZOTHFmZ1hPUVY2cU1CSXdmVTZW?=
+ =?utf-8?B?WWVOLzIyNmRkQndUSkNDZ0d1WjcrdmMwdlhQUFFBaFZMdWF4c0lFOUQrTWVK?=
+ =?utf-8?B?NzVPKzNJeWFJZW9pNVVIYW1EbXVTQm5XWGx2M0pxRWRQUEZKZ1VyRGI0ZktT?=
+ =?utf-8?B?NkZzVndyQ1V2Wmx1Tlh3NEJ2a0VBU3B6NHRLYTBDV3dYZy9haFh0N1BrUTgr?=
+ =?utf-8?B?SEZWNEZ5RDNLUjBmejlyZElybnJnMndPMloxMlJMUkxKOU1aaTVrK3RzK3pk?=
+ =?utf-8?B?TzNsNzI4Ti85VURIZXhhYWptUmRIbnRnb0tzRjlXczlpTFczdkJPZlpHNVdw?=
+ =?utf-8?B?ZG53OU1TMHZkSXlveVVxMUtKNGlyS2dNVzFlRHlPbjUzTWpUbDFyc1dxaTBJ?=
+ =?utf-8?B?NHd1MEl5enB2NHdmbGFMSkl0VmppWDVtOEVQY25lbkVGNEpsak9XK0RKWjZK?=
+ =?utf-8?B?NmVGLy84bHRuS1lEM2NxUGc2d3o4bisrMDNkQTgyN2lZVHk4QjRoN0RHYklx?=
+ =?utf-8?B?b29ta0p1YWh2NVh3ZEhYWVBqdEFPOFR4WXBURlNhaFF5dlFtNnphYjBhK1p6?=
+ =?utf-8?B?Y0dyaGkzMkp0VWdJbDJBcjd2S0Q0RzFUb3ZvMFpCZ2pSMFR0SlFiQ3I1Q3U4?=
+ =?utf-8?B?YnBJUkZ4QTZtTk1qWW5zV2dRUGRzYnI5Um5sT2hwVkN5WWZDNHN3WW5GYTFX?=
+ =?utf-8?B?S1h2NHNjQmpMejJqL0VsSHREbEswdWR2bVBTeVQxeDFwd1k1R1RMNStIOHRw?=
+ =?utf-8?B?UDI5K3VhRHQrK0JiLzFSUW5tR214VTFWK0Q4MHQvajF3NmdSeWVuTzNFZ2lY?=
+ =?utf-8?B?YitOZnFkVXJVNE5KZjlRdHMyOG9CN0JNYjROQUFxUHgvaGZ3bjJjd0p0YnBS?=
+ =?utf-8?B?VlAwc1J4UVlOYXR4YkNES1FDcGcvS1AwNHgyKzdrOGc0eWpqWmw5U08yWkFY?=
+ =?utf-8?B?YlVXT01ldUhOcXNKa2ZEeTFmNm9XTlpBOEkrWHcwN09ZRnQvYlJWTVlxbnN5?=
+ =?utf-8?B?UjhPbGF3U1NkQWZsMFZ3cTF2RmZySjMvYXMyejE2QnRhalpVQnVhc2swOXo3?=
+ =?utf-8?B?dTUwY3pHZzlhcFdlaUdnZU0vNWFGM1BTNUIrOXdXL0YzVkJ6c2NHRGlQbTNj?=
+ =?utf-8?B?UWovb21Vb1NkWU16NkxmRDR2OGRtbzl2S3lTZ1BOZjcxdTVSUVhHbVA1QmVq?=
+ =?utf-8?B?YWdWZmJ2bDUwZDE1eTlPYkRmc25VS1JwQXpnQUdDR0VkaGJkN1F3bWVhVmM1?=
+ =?utf-8?B?MTNkNDFFMmdTUEVkY3pYSCtWVUtzVEErOHBZcDByOGxxWFR6Y1ZrUTQ0S1gx?=
+ =?utf-8?B?dzB1ZVIwYnVXcGNPcjRLRERvbktkWkFDS0JncTVGczJUVDJIdU9GMUx4VWkw?=
+ =?utf-8?B?S3NmcDAzdUxFa1IydFJLekNsUllnN0lpUkZxczJJTVp2VmFmMk40cGFSRGNO?=
+ =?utf-8?B?eXJCQVR4T1hMRlZkZk5PaUt4M0JNb0lBMXlsWVZmZkJxTkFBTUV2ZE91MWJF?=
+ =?utf-8?B?bUVEeGlMd0l4MUE3aHV1TlMra1VVZmRVY1RWOWFDekVQa3A1OU1HbUZIS0Uw?=
+ =?utf-8?B?SU9kb3psNi9zeXFkYUwreDI2K0F0ano2dHgxeFdNR09Oa1dRelNZZ1JKUk5w?=
+ =?utf-8?Q?zse3qLVrRKFa0uTAnh8J2rodD?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e344c50-fa07-4258-8d72-08dc86afde9f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 05:08:29.3188
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nDUcJbpOK6/lAn2LZvZKZqkUNZckSES4qI2229hGiyQtf67JpE0TjNxMwxzQuj7evQ6qICup5Z5hfSxG199NRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6429
+X-Proofpoint-ORIG-GUID: _ilSp67ynUhLkaGmjlTugpnO6q7H54Ya
+X-Proofpoint-GUID: CJz194BNd_i1y9445xfb38oO0Omf9Bni
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-06_20,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=658 adultscore=0
+ bulkscore=0 spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2405170001 definitions=main-2406070035
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 04:48:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200421
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 05:08:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200422
 
-fails to build on riscv64 see
-https://errors.yoctoproject.org/Errors/Details/785948/
+If I understand it correctly, spdx uses patched source, so in order to 
+be potentially used by spdx, the function should be called after do_patch
 
-On Mon, Jun 3, 2024 at 3:33=E2=80=AFAM Yi Zhao via lists.openembedded.org
-<yi.zhao=3Deng.windriver.com@lists.openembedded.org> wrote:
->
-> ChangeLog:
-> https://github.com/linux-test-project/ltp/releases/tag/20240524
->
-> Drop backport patches.
->
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  ...001-Remove-OOM-tests-from-runtest-mm.patch |  9 ++--
->  ...rio_groups-default-remove-connectors.patch | 34 ------------
->  ...-Use-time_t-instead-of-long-for-type.patch | 54 -------------------
->  .../ltp/{ltp_20240129.bb =3D> ltp_20240524.bb}  |  4 +-
->  4 files changed, 4 insertions(+), 97 deletions(-)
->  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-scenario_groups-de=
-fault-remove-connectors.patch
->  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-sched_stress-Use-t=
-ime_t-instead-of-long-for-type.patch
->  rename meta/recipes-extended/ltp/{ltp_20240129.bb =3D> ltp_20240524.bb} =
-(96%)
->
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-run=
-test-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-ru=
-ntest-mm.patch
-> index cc98079651..5b6c780bec 100644
-> --- a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm=
-.patch
-> +++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm=
-.patch
-> @@ -1,4 +1,4 @@
-> -From e87c2ad1e16cdbd62ba71b2ace3270503decaa56 Mon Sep 17 00:00:00 2001
-> +From 768159aa53257d247645a12518778f50b8fdf578 Mon Sep 17 00:00:00 2001
->  From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
->  Date: Wed, 29 Jul 2020 08:47:09 -0400
->  Subject: [PATCH] Remove OOM tests from runtest/mm
-> @@ -14,10 +14,10 @@ Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
->   1 file changed, 6 deletions(-)
->
->  diff --git a/runtest/mm b/runtest/mm
-> -index d859b331c..3c2962f44 100644
-> +index 6a8cd0b9d..8ce3f4416 100644
->  --- a/runtest/mm
->  +++ b/runtest/mm
-> -@@ -74,12 +74,6 @@ ksm07 ksm07
-> +@@ -76,12 +76,6 @@ ksm07 ksm07
->
->   cpuset01 cpuset01
->
-> @@ -30,6 +30,3 @@ index d859b331c..3c2962f44 100644
->   swapping01 swapping01 -i 5
->
->   thp01 thp01 -I 120
-> ---
-> -2.43.0
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-scenario_groups-default-r=
-emove-connectors.patch b/meta/recipes-extended/ltp/ltp/0001-scenario_groups=
--default-remove-connectors.patch
-> deleted file mode 100644
-> index 4a50d1ae38..0000000000
-> --- a/meta/recipes-extended/ltp/ltp/0001-scenario_groups-default-remove-c=
-onnectors.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -From 14c710cae38aa96bd8d681e891b6a1d691f99988 Mon Sep 17 00:00:00 2001
-> -From: Xiangyu Chen <xiangyu.chen@windriver.com>
-> -Date: Thu, 14 Mar 2024 09:47:10 +0800
-> -Subject: [PATCH] scenario_groups/default: remove connectors
-> -
-> -runtest/connectors was removed in 9b642d89c, thus update scenario_groups=
-/default.
-> -
-> -Fixes: 9b642d89c ("runtest: Merge runtest/connectors to kernel_misc")
-> -Closes: https://github.com/linux-test-project/ltp/pull/1144
-> -
-> -Upstream-Status: Backport from
-> -[https://github.com/linux-test-project/ltp/commit/14c710ca]
-> -
-> -Reviewed-by: Petr Vorel <pvorel@suse.cz>
-> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ----
-> - scenario_groups/default | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/scenario_groups/default b/scenario_groups/default
-> -index f17b2061a..ec77d8fb8 100644
-> ---- a/scenario_groups/default
-> -+++ b/scenario_groups/default
-> -@@ -16,7 +16,6 @@ controllers
-> - filecaps
-> - cap_bounds
-> - fcntl-locktests
-> --connectors
-> - power_management_tests
-> - hugetlb
-> - commands
-> ---
-> -2.34.1
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-sched_stress-Use-time_t-i=
-nstead-of-long-for-type.patch b/meta/recipes-extended/ltp/ltp/0001-sched_st=
-ress-Use-time_t-instead-of-long-for-type.patch
-> deleted file mode 100644
-> index ae8dc8706e..0000000000
-> --- a/meta/recipes-extended/ltp/ltp/0001-sched_stress-Use-time_t-instead-=
-of-long-for-type.patch
-> +++ /dev/null
-> @@ -1,54 +0,0 @@
-> -From 74074f9a71c876d6e95c2d72702888dd2fabc761 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 6 May 2024 11:43:20 -0700
-> -Subject: [PATCH] sched_stress: Use time_t instead of long for type
-> -
-> -This ensures it works across different architectures
-> -Fixes
-> -
-> -| sched_driver.c:744:43: error: passing argument 1 of 'ctime' from incom=
-patible pointer type [-Wincompatible-pointer-types]
-> -|   744 |         printf("\nend time =3D %s\n", ctime(&end_time));
-> -|       |                                           ^~~~~~~~~
-> -
-> -With gcc-14
-> -
-> -Upstream-Status: Backport [https://github.com/linux-test-project/ltp/com=
-mit/0a682f1af42d8d261202821be580fe26d17ee9b7]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - testcases/kernel/sched/sched_stress/sched_driver.c | 6 +++---
-> - 1 file changed, 3 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/testcases/kernel/sched/sched_stress/sched_driver.c b/testca=
-ses/kernel/sched/sched_stress/sched_driver.c
-> -index 61573d788..5b8c187fe 100644
-> ---- a/testcases/kernel/sched/sched_stress/sched_driver.c
-> -+++ b/testcases/kernel/sched/sched_stress/sched_driver.c
-> -@@ -136,7 +136,7 @@ int debug =3D 0;
-> - /*
-> -  * Function prototypes
-> -  */
-> --void startup(long);
-> -+void startup(time_t);
-> - int start_testcase(char *, char *, char *, char *, char *, char *);
-> - int process_slots_in_use();
-> - int available_user_process_slots();
-> -@@ -251,7 +251,7 @@ int main(int argc, char **argv)
-> -  * information to the screen and .  It also initializes the    *
-> -  * process id list and other global variables.                         =
-        *
-> -  *---------------------------------------------------------------------=
---*/
-> --void startup(long start_time)
-> -+void startup(time_t start_time)
-> - {
-> -       char tempbuffer[50];    /* temporary buffer to hold names */
-> -
-> -@@ -734,7 +734,7 @@ void kill_short_term_testcases()
-> - void finishup(start_time)
-> - long start_time;              /* starting time to calculate elapsed tim=
-e */
-> - {
-> --      long end_time;          /* time when program finished */
-> -+      time_t end_time;                /* time when program finished */
-> -
-> -       /*
-> -        * Get the end time and calculate elapsed time; write all this ou=
-t
-> ---
-> -2.45.0
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp_20240129.bb b/meta/recipes-ext=
-ended/ltp/ltp_20240524.bb
-> similarity index 96%
-> rename from meta/recipes-extended/ltp/ltp_20240129.bb
-> rename to meta/recipes-extended/ltp/ltp_20240524.bb
-> index f8e6d3987e..1aafed0bf5 100644
-> --- a/meta/recipes-extended/ltp/ltp_20240129.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20240524.bb
-> @@ -24,12 +24,10 @@ TUNE_CCARGS:remove:x86-64 =3D "-mfpmath=3Dsse"
->
->  CFLAGS:append:powerpc64 =3D " -D__SANE_USERSPACE_TYPES__"
->  CFLAGS:append:mipsarchn64 =3D " -D__SANE_USERSPACE_TYPES__"
-> -SRCREV =3D "68737d20556d37364c95776044b1119c0912a36a"
-> +SRCREV =3D "8f21ebba42216dbb7e8d44c23b4a977d6823f7a1"
->
->  SRC_URI =3D "git://github.com/linux-test-project/ltp.git;branch=3Dmaster=
-;protocol=3Dhttps \
->             file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-> -           file://0001-scenario_groups-default-remove-connectors.patch \
-> -           file://0001-sched_stress-Use-time_t-instead-of-long-for-type.=
-patch \
->             "
->
->  S =3D "${WORKDIR}/git"
-> --
-> 2.25.1
+Regards,
+Qi
+
+On 6/6/24 22:03, Joshua Watt via lists.openembedded.org wrote:
+> This patch series implements a mechanism for do_unpack to write out a
+> manifest of unpacked files, which is now possible due to the UNPACKDIR
+> changes. This manifest can be consumed by downstream tasks to report the
+> source files for the recipe; specifically SPDX can use this instead of
+> the current behavior where it re-runs do_unpack on it's own.
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Joshua Watt (2):
+>    utils: Add write_files_manifest helper
+>    classes-global/base: Add manifest to do_unpack
+>
+>   meta/classes-global/base.bbclass |  4 +-
+>   meta/lib/oe/utils.py             | 67 ++++++++++++++++++++++++++++++++
+>   2 files changed, 70 insertions(+), 1 deletion(-)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#200245): https://lists.openembedded.org/g/openembedde=
-d-core/message/200245
-> Mute This Topic: https://lists.openembedded.org/mt/106459042/1997914
+> View/Reply Online (#200402): https://lists.openembedded.org/g/openembedded-core/message/200402
+> Mute This Topic: https://lists.openembedded.org/mt/106523630/3618072
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
+
 
