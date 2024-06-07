@@ -1,96 +1,171 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC2AC27C53
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 12:35:20 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.40789.1717763710873694407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 389A8C27C5F
+	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 12:41:50 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.40918.1717764102043972120
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jun 2024 05:35:10 -0700
+ Fri, 07 Jun 2024 05:41:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Iy65e7cg;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2bfdae7997aso1735901a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 05:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717763709; x=1718368509; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tBsKlbH/NnFbBJNsWUyS23a4hIgBoPL6tdJRwM4ACuM=;
-        b=Iy65e7cgsJkhVkqCqQXXuqAGoiZHldH9Hius26PmtBsAig9EC0hf0e5x0kDrcWenZU
-         eXddkoird7i16senrBj3Cl6vU9cLaJfiEBkKm6VklHfE7X3BvUef4/2PByfshN41IB4v
-         /EGI5c9Zqp59+CPTYND2U0PiECCs8zlOyv3fByN00nlONoxIz4B9LiXiyUN6KTcatj22
-         BF9ZhUJzXZSlhldETehhsHssvTYD/v1RNz6iO/41rLdrXm9L/7CDhI9XYcKsIJVv0oXl
-         vlrNwh6bniOgxcusmJgFsa2oIMc8+Z8fQ8EqDJQvRcpj5gDXYdUITgG14yJEuVHfzroh
-         QSYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717763709; x=1718368509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tBsKlbH/NnFbBJNsWUyS23a4hIgBoPL6tdJRwM4ACuM=;
-        b=k/DO5KxCOT5AwTF5RXf/zFDlwQ+Avd+T0OZjltpVko4+qJRZlFV/M/rn/Fod/1rZGJ
-         SIjWqdMFMPfAssdaFg/0hUsK1PntKTGkNz7rl/M+kAMm79+6TsAn+9OlEJDYIb4NHa0l
-         UGIXHNgMKSP7TEIH0ylkeKWKCv2FswHmmIlBMheN2VKZOLC9igc9NhunZmrBg8AzUOcv
-         8cxGpLldO7PwbwtM7/IpQicMWX4IyJ7meztM7SgQLEDgFovZjoMHgYjjDYZtXmkpSPAB
-         RFwvrwXEoO2R5PRO4zOPBiTAFqGCYBHidYZJ7AcxaHHLVaNOWAH8qPgpJsxZSZHaIdiq
-         VdZg==
-X-Gm-Message-State: AOJu0Yw+wZgepumDjXqnUu+QGH6q+pO7tIM4ipF7WegF4iCmsyDAAQas
-	w7A1eUJoHZkTBGuCaqOVuHMNG2ZQ9ZeHw2nzSyDaMPxEzGD8UB2GN7zr
-X-Google-Smtp-Source: AGHT+IHEsMBnR5MYMfZEX/wDvwk3gFDOGvI8AuW5gmJo8FInZFKhdlNivh4F1NSIR8tvFQiOyseypg==
-X-Received: by 2002:a17:90a:684a:b0:2c2:5f25:5490 with SMTP id 98e67ed59e1d1-2c2bcc6cd65mr2652744a91.34.1717763708677;
-        Fri, 07 Jun 2024 05:35:08 -0700 (PDT)
-Received: from L-17494.kpit.com ([103.146.224.210])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c2806bd795sm5371303a91.35.2024.06.07.05.35.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 05:35:08 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
-X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	nikhil.r@kpit.com
-Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][kirkstone][PATCH] ffmpeg: Whitelist CVE-2023-46407
-Date: Fri,  7 Jun 2024 18:05:00 +0530
-Message-Id: <20240607123500.127317-1-nikhil.r@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6888d63cd4=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4576xUHT026914
+	for <openembedded-core@lists.openembedded.org>; Fri, 7 Jun 2024 12:41:41 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yfruxectj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 12:41:41 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 7 Jun 2024 05:41:38 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][PATCH 1/1] util-linux: Fix CVE-2024-28085
+Date: Fri, 7 Jun 2024 12:41:23 +0000
+Message-ID: <20240607124123.3645930-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: -3hDzVOIqIqeswC9NW559XCmySSlkF4s
+X-Proofpoint-GUID: -3hDzVOIqIqeswC9NW559XCmySSlkF4s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-07_06,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2405170001 definitions=main-2406070092
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 12:35:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200439
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 12:41:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200440
 
-Whitelist CVE-2023-46407 as Vulnerable code
-introduced later than 5.0.1 version
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Introduced by:
-https://github.com/FFmpeg/FFmpeg/commit/f7ac3512f5b5cb8eb149f37300b43461d8e93af3
+wall in util-linux through 2.40, often installed with setgid
+tty permissions, allows escape sequences to be sent to other
+users' terminals through argv. (Specifically, escape sequences
+received from stdin are blocked, but escape sequences received
+from argv are not blocked.) There may be plausible scenarios
+where this leads to account takeover.
 
-Debian link: https://security-tracker.debian.org/tracker/CVE-2023-46407
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-28085
 
-Signed-off-by: Nikhil R <nikhil.r@kpit.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc   |  2 ++
+ .../util-linux/CVE-2024-28085-0001.patch      | 36 +++++++++++++++++++
+ .../util-linux/CVE-2024-28085-0002.patch      | 34 ++++++++++++++++++
+ 3 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 1295d5cdf1..c0121edc7d 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -39,6 +39,10 @@ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a
- # https://bugzilla.suse.com/show_bug.cgi?id=CVE-2023-39018
- CVE_CHECK_IGNORE += "CVE-2023-39018"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index d506783f9a..48520ef951 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -40,6 +40,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://avoid_parallel_tests.patch \
+            file://0001-login-utils-include-libgen.h-for-basename-API.patch \
+            file://fcntl-lock.c \
++           file://CVE-2024-28085-0001.patch \
++           file://CVE-2024-28085-0002.patch \
+            "
  
-+# CVE-2023-46407 was introduced in 6.1 version of ffmpeg
-+# Vulnerable code introduced later than 5.0.1 Version
-+CVE_CHECK_IGNORE += "CVE-2023-46407"
+ SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+new file mode 100644
+index 0000000000..af39931b3f
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0001.patch
+@@ -0,0 +1,36 @@
++From 07f0f0f5bd1e5e2268257ae1ff6d76a9b6c6ea8b Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Wed, 17 Jan 2024 12:37:08 +0100
++Subject: [PATCH] wall: fix calloc cal [-Werror=calloc-transposed-args]
 +
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
++term-utils/wall.c:143:37: error: xcalloc sizes specified with sizeof in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
++  143 |         buf->groups = xcalloc(sizeof(*buf->groups), buf->ngroups);
++      |                                     ^
++term-utils/wall.c:143:37: note: earlier argument should specify number of elements, later size of each element
++
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/07f0f0f5bd1e5e2268257ae1ff6d76a9b6c6ea8b]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ term-utils/wall.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index 377db45..85c006a 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -135,7 +135,7 @@ static struct group_workspace *init_group_workspace(const char *group)
++
++	buf->requested_group = get_group_gid(group);
++	buf->ngroups = sysconf(_SC_NGROUPS_MAX) + 1;  /* room for the primary gid */
++-	buf->groups = xcalloc(sizeof(*buf->groups), buf->ngroups);
+++	buf->groups = xcalloc(buf->ngroups, sizeof(*buf->groups));
++
++	return buf;
++ }
++--
++2.40.0
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+new file mode 100644
+index 0000000000..a2b914d580
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0002.patch
+@@ -0,0 +1,34 @@
++From 404b0781f52f7c045ca811b2dceec526408ac253 Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Thu, 21 Mar 2024 11:16:20 +0100
++Subject: [PATCH] wall: fix escape sequence Injection [CVE-2024-28085]
++
++Let's use for all cases the same output function.
++
++Reported-by: Skyler Ferrante <sjf5462@rit.edu>
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2024-28085
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/404b0781f52f7c045ca811b2dceec526408ac253]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ term-utils/wall.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/term-utils/wall.c b/term-utils/wall.c
++index 85c006a..0212c03 100644
++--- a/term-utils/wall.c
+++++ b/term-utils/wall.c
++@@ -328,7 +328,7 @@ static char *makemsg(char *fname, char **mvec, int mvecsz,
++		int i;
++
++		for (i = 0; i < mvecsz; i++) {
++-			fputs(mvec[i], fs);
+++			fputs_careful(mvec[i], fs, '^', true, TERM_WIDTH);
++			if (i < mvecsz - 1)
++				fputc(' ', fs);
++		}
++--
++2.40.0
 -- 
-2.25.1
+2.40.0
 
 
