@@ -1,90 +1,102 @@
-Return-Path: <bbara93@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1508BC27C55
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 06:36:08 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.35708.1717742156199352390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68244C27C53
+	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 07:22:58 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.36273.1717744974970411933
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jun 2024 23:35:56 -0700
+ Fri, 07 Jun 2024 00:22:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z0DR8YGf;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: bbara93@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42163fa630aso7589485e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jun 2024 23:35:55 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=k6rVQBKd;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52b7c82e39eso2007259e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 00:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717742154; x=1718346954; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1717744973; x=1718349773; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rOwxGlDDFwPuQrXv4DvKG0ZzaaE835ZLU/mI4HuuDYg=;
-        b=Z0DR8YGf/AWU+Vlnl+3Sss8dPa8YtRvRIzY/cyOEBgrQnQ6TwRhD/ucuJKyfSGVBV9
-         WQmR/7I133sJEez/Ib0l9Qa6Wp6ujy1lwI/MxfZ0SCTYy1EX51RcGjgN/tYK7vBrQHSc
-         Du4XVwW7bhOXAeJGbh/tqkcsNJ2Z963dsQ/TXTl2Wv6o31FVeMghkBl1ILgx00AOB9pL
-         JRMbP8/h91DY2rEFmwXEyc7E+hQUV14hZgGmqVJkISJGTLLE72gdso7vO0MD6m956vON
-         6afKDhkJVJONNexFRrLN0ZFS53pcPb0lI9FRpquRtEYotSptidBX3wb115J2NqnWwQdi
-         +guw==
+        bh=qpUI7yOj0geGpoHOmm7gy9aeO8gTqLL+WoIbVOaBgBw=;
+        b=k6rVQBKdLVB9122ZymTmmGrlTXn5yCXKL5vyVFcT/YdXKpZ7yH/hBkkdjPYmRYT3UT
+         t2k3H9/3eJdwbxxFNVcGohmPqYB+rUHszo8n2MIgCvZORgnke47uic6umqs4MZlbvkvF
+         6hEuE9//FjW9nNUbJKFZ2blCzndR+1csD+VHLs8q/WgxJBL93WfxuJaUDOhIIvoS6pyT
+         eEJ+EHyWMIm9pHNFmRSU38mor6SqAL6bAU12vMN5MXGEhWjENRqG3wDjgioICbp51din
+         7I+4FNFGTQRoNuY16Ufx4UFnJd9OU3AbHL8mEnKSXUl4qgnOVA5OxdKNgK+SzyVZtR3k
+         dQ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717742154; x=1718346954;
+        d=1e100.net; s=20230601; t=1717744973; x=1718349773;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rOwxGlDDFwPuQrXv4DvKG0ZzaaE835ZLU/mI4HuuDYg=;
-        b=QiSN3X2vkxWM9MCV1qEmy0InnLe4vhoBZweklpBHzvNlUzFXZHhc8YspaEkOFMy0q3
-         tO3SZc225N8vl0NWVUxnm1n/dkHnI9tuwYcPurUSlbkdkYEcClirtVguAK3nbuz/ytVZ
-         mBSgM7GiBA3RKLHMTOfJnHPDi+vVemM+jMEE5hQstoL6lzJm1UG5DBIpTJO0HNjFBNAX
-         EOp8IM/rmRihe1gXftLEULxYHEkb1RNw1nDaDs3ZIT+n7CMoTrGtdRtnTChqaZRxzIL5
-         LC5rjEXkRmMGCvDfuHMBxFJMo1D4tCgRPj952okTI+QTg5VIN/Viu5P/l7aL1a6hUjBu
-         Dv9g==
-X-Gm-Message-State: AOJu0YxZcexzd6E1IkAJTEPw3kiPGIpKOAlizJAqJ7lTW9NkAvGW3uX8
-	UTjWtQA1dFhjMr8rR4T990yDdu5ULE2GDDOePNn68k+oDA6e2ikwzcZcEQ==
-X-Google-Smtp-Source: AGHT+IEeFCewAXg8y1RAEHdtjBKVN2STEvhJNNoTQB6CvKvVcv+3PYga54bqU7Ubj7lnXEOnFXyNfA==
-X-Received: by 2002:a05:600c:a05:b0:421:ad:f104 with SMTP id 5b1f17b1804b1-421649f497emr15136955e9.10.1717742153532;
-        Thu, 06 Jun 2024 23:35:53 -0700 (PDT)
-Received: from ltbabn.skidata.net (178.112.145.204.wireless.dyn.drei.com. [178.112.145.204])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe37csm78300325e9.3.2024.06.06.23.35.53
+        bh=qpUI7yOj0geGpoHOmm7gy9aeO8gTqLL+WoIbVOaBgBw=;
+        b=Jlps0kQOC9EmDMzyDjNedNp0sUvwatZNSgOFvWKkbW/rVGTCb9ltivjlLigx1Gk4EH
+         gIAjLKXj2afj5K1Zvmij2oJV8jmOEbcHO7RovchYt/PsqMRVuO4q1Dgn0xoK04MeDHbm
+         7w9ofmlueUIXBijbbYZLau+FK9PSk94nGGRC7/BiJIkRUrk15m5i/3b6YSLOQ6RMgnfq
+         6V0mFpxaOl3m5agqCgq5r6H4Cft9uX8w7xZuWCaTrNIb2YpfwpLYHSdv17TSOR1sVQpb
+         bNOwMImyDl9X79lCBlcVpeXtXI9alivrygSZ9l9ve4d6f0cgmmxMdzRP7HQZdg10kKn/
+         I38w==
+X-Gm-Message-State: AOJu0YwIJykILvt5LX69iYZrVDpMVnGtYQrzUzzwWlkdu4sZhBGgZ1oi
+	c0ab3FfYp2t9DkkyKjB1KOa2a5VwzhZtQeqGBqHtw9D9O2jmO7U83NLb3QRL7d2XUTwc/2wEc4d
+	Z
+X-Google-Smtp-Source: AGHT+IHl0X9dAeqrfXDFAo2hlFYPHAaPGhCJ/W9LEihyconkBC8PHYvaYSvlcQt8jZeKov+rgEXSYg==
+X-Received: by 2002:ac2:5a01:0:b0:52b:c09e:407a with SMTP id 2adb3069b0e04-52bc09e414amr334535e87.47.1717744972864;
+        Fri, 07 Jun 2024 00:22:52 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bbc664476sm110454e87.36.2024.06.07.00.22.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 23:35:53 -0700 (PDT)
-From: Benjamin Bara <bbara93@gmail.com>
-X-Google-Original-From: Benjamin Bara <benjamin.bara@skidata.com>
+        Fri, 07 Jun 2024 00:22:52 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Benjamin Bara <benjamin.bara@skidata.com>
-Subject: [PATCH] gstreamer1.0-plugins-bad: adapt webrtc audio dependency
-Date: Fri,  7 Jun 2024 08:34:13 +0200
-Message-ID: <20240607063413.184390-1-benjamin.bara@skidata.com>
-X-Mailer: git-send-email 2.45.2
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Subject: [PATCH] site/riscv*-linux: add ac_cv_func_fnmatch_works
+Date: Fri,  7 Jun 2024 10:22:52 +0300
+Message-Id: <20240607072252.1732005-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 06:36:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200423
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 07:22:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200424
 
-Since d5755744 (MR !2943; landed in 1.23.1), gstreamer switched to
-webrtc-audio-processing-1. This fixes:
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-./gst-plugins-bad-1.24.3/ext/webrtcdsp/meson.build:7:13: ERROR: Dependency "webrtc-audio-processing-1" not found, tried pkgconfig
+Other arch-specific caches have ac_cv_func_fnmatch_works. Add it to
+riscv32 and riscv64 caches too, otherwise cabextract fails to build ([1])
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+[1] https://errors.yoctoproject.org/Errors/Details/785949/
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_1.24.3.bb                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/site/riscv32-linux | 3 +++
+ meta/site/riscv64-linux | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.3.bb
-index 693ee06669..dbd504e87d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.3.bb
-@@ -92,7 +92,7 @@ PACKAGECONFIG[vulkan]          = "-Dvulkan=enabled,-Dvulkan=disabled,vulkan-load
- PACKAGECONFIG[wayland]         = "-Dwayland=enabled,-Dwayland=disabled,wayland-native wayland wayland-protocols libdrm"
- PACKAGECONFIG[webp]            = "-Dwebp=enabled,-Dwebp=disabled,libwebp"
- PACKAGECONFIG[webrtc]          = "-Dwebrtc=enabled,-Dwebrtc=disabled,libnice"
--PACKAGECONFIG[webrtcdsp]       = "-Dwebrtcdsp=enabled,-Dwebrtcdsp=disabled,webrtc-audio-processing"
-+PACKAGECONFIG[webrtcdsp]       = "-Dwebrtcdsp=enabled,-Dwebrtcdsp=disabled,webrtc-audio-processing-1"
- PACKAGECONFIG[zbar]            = "-Dzbar=enabled,-Dzbar=disabled,zbar"
- PACKAGECONFIG[x11]             = "-Dx11=enabled,-Dx11=disabled,libxcb libxkbcommon"
- PACKAGECONFIG[x265]            = "-Dx265=enabled,-Dx265=disabled,x265"
+diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
+index 2cc26f3b93f4..4956639f5566 100644
+--- a/meta/site/riscv32-linux
++++ b/meta/site/riscv32-linux
+@@ -5,3 +5,6 @@ ac_cv_alignof_unsigned_long=4
+ 
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# cabextract
++ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
+index 384d3bd87747..cbfebf5e3bd7 100644
+--- a/meta/site/riscv64-linux
++++ b/meta/site/riscv64-linux
+@@ -5,3 +5,6 @@ ac_cv_alignof_unsigned_long=8
+ 
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# cabextract
++ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
 -- 
-2.45.2
+2.39.2
 
 
