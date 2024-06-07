@@ -1,99 +1,91 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C143C27C53
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 10:25:19 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.38625.1717755912170649500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A806BC27C53
+	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 10:51:19 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.39021.1717757474458132219
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jun 2024 03:25:12 -0700
+ Fri, 07 Jun 2024 03:51:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PaNsU3Vf;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RoPQLhQZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018ff23b1c80-69a0b1bf-fa0f-45e5-8888-48fe22eb8785-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1717755911; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ct4JOEcBj8/CCh1Mm1UzHaAcOtav9lBj1Z+pfnlxmy4=;
-	b=PaNsU3Vfvgrg3NQ5VwvHEqUHRt6UkXPnkc9pgGTIxlpP8B3M0SZkN8Mbdc5yQJIU
-	ujyF8N2X/Mi+DgT3d+okV4eC+Ujk3yICOua9tInlFj4oknuq+t8cYUrLH7m03DNrATy
-	RJip2c1S922JbdD4Awa/mRg/PrFe6ax9FWDUbW7o=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717755911;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ct4JOEcBj8/CCh1Mm1UzHaAcOtav9lBj1Z+pfnlxmy4=;
-	b=RoPQLhQZ2meIBSHq/YY9KSCY1GRe9evOER1Y5Cu114dCjFSZM6pILgvnC5QdNVNv
-	bS7Ge5C8uHsjjl2GcawyQIHDzyz5/waNInp3OZ2lEdDA1xBLj3mRoIboyoaCdkWG6YN
-	kCi8RYen9FpT9TzSsddPhNZGaDNLl9AT5q3YpMWI=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/6] site: fix ac_cv_uint typo
-In-Reply-To: <20240607100706.3174227-2-ross.burton@arm.com>
-References: <20240607100706.3174227-2-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018ff23b1c80-69a0b1bf-fa0f-45e5-8888-48fe22eb8785-000000@us-west-2.amazonses.com>
-Date: Fri, 7 Jun 2024 10:25:11 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.07-54.240.27.33
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73EE92F4
+	for <openembedded-core@lists.openembedded.org>; Fri,  7 Jun 2024 03:51:38 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B38773F762
+	for <openembedded-core@lists.openembedded.org>; Fri,  7 Jun 2024 03:51:13 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] insane: show cleaned build paths in more tests
+Date: Fri,  7 Jun 2024 10:51:12 +0000
+Message-Id: <20240607105112.3188264-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 10:25:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200435
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 10:51:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200436
 
---NextPart
-Content-Type: text/plain
+A few tests were still manually cleaning their build paths, change them
+to use package_qa_clean_path().
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/2-6-site-fix-ac_cv_uint-typo.patch
+ meta/classes-global/insane.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
+ane.bbclass
+index bd05da0378e..345196eeb3f 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -459,8 +459,8 @@ def package_qa_check_buildpaths(path, name, d, elf, m=
+essages):
+     with open(path, 'rb') as f:
+         file_content =3D f.read()
+         if tmpdir in file_content:
+-            trimmed =3D path.replace(os.path.join (d.getVar("PKGDEST"), =
+name), "")
+-            oe.qa.add_message(messages, "buildpaths", "File %s in packag=
+e %s contains reference to TMPDIR" % (trimmed, name))
++            path =3D package_qa_clean_path(path, d, name)
++            oe.qa.add_message(messages, "buildpaths", "File %s in packag=
+e %s contains reference to TMPDIR" % (path, name))
+=20
+=20
+ QAPATHTEST[xorg-driver-abi] =3D "package_qa_check_xorg_driver_abi"
+@@ -489,7 +489,7 @@ def package_qa_check_infodir(path, name, d, elf, mess=
+ages):
+     infodir =3D d.expand("${infodir}/dir")
+=20
+     if infodir in path:
+-        oe.qa.add_message(messages, "infodir", "The /usr/share/info/dir =
+file is not meant to be shipped in a particular package.")
++        oe.qa.add_message(messages, "infodir", "The %s file is not meant=
+ to be shipped in a particular package." % infodir)
+=20
+ QAPATHTEST[symlink-to-sysroot] =3D "package_qa_check_symlink_to_sysroot"
+ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+@@ -501,8 +501,8 @@ def package_qa_check_symlink_to_sysroot(path, name, d=
+, elf, messages):
+         if os.path.isabs(target):
+             tmpdir =3D d.getVar('TMPDIR')
+             if target.startswith(tmpdir):
+-                trimmed =3D path.replace(os.path.join (d.getVar("PKGDEST=
+"), name), "")
+-                oe.qa.add_message(messages, "symlink-to-sysroot", "Symli=
+nk %s in %s points to TMPDIR" % (trimmed, name))
++                path =3D package_qa_clean_path(path, d, name)
++                oe.qa.add_message(messages, "symlink-to-sysroot", "Symli=
+nk %s in %s points to TMPDIR" % (path, name))
+=20
+ QAPATHTEST[32bit-time] =3D "check_32bit_symbols"
+ def check_32bit_symbols(path, packagename, d, elf, messages):
+--=20
+2.34.1
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
