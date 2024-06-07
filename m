@@ -1,656 +1,215 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AC6AC27C53
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 14:11:11 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web11.43117.1717769461416531974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4898C27C53
+	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 14:46:11 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.63])
+ by mx.groups.io with SMTP id smtpd.web11.44131.1717771567710489641
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jun 2024 07:11:01 -0700
+ Fri, 07 Jun 2024 07:46:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ICzT9736;
- spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-250ac3acc6dso1057140fac.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 07:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717769460; x=1718374260; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FAWP1XkyOKLtsXLTWsOmR1zz0klM8+sxZdlGRQ2J7OQ=;
-        b=ICzT9736+LqckiHTfrH8L8xdYR52tWW47jbZCCo2GBLKT6W0UtbvwIpwK4SSJTLPIm
-         GXgF0F57x5QRywefZd8gytkl8sTkXEDDaPv/VfoYsCOSnWo0C1Xe7/m9nSfOclZ7XhR+
-         iY95SEKPPHqZ8MCDZhixRaI4HCgSHSXWy+E61zT9xQJEGfMK00P4+inKziDqEIlYl0eN
-         hat7+LImjSQcqpw2fb/zlo1HewyT5w9k+9+b1Oif2kLJbdcfYqY4Ua6RiD+LwWTz35Kp
-         KwT0JXO/736ppVSdxDxpnyzC+IkZLe9gRt85/jk056LtPUaUJ09D/mH40F74p5S3jMK6
-         4KHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717769460; x=1718374260;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FAWP1XkyOKLtsXLTWsOmR1zz0klM8+sxZdlGRQ2J7OQ=;
-        b=EBjBOLyX8pCsd92emM8bUFWox4+waD3j9BEv08DLjpwBAir/PQjeYeZWP4LrIcDsR5
-         ChrkqFJ5odnR5KEi0Q4PtqFXqZALNmqSy4CVjdVTudARhs3htS7eU5lMJ2ejk3VMB8Ra
-         XdWVHeHe09oiyod295AnaZKbl+VBClGHTliRfTg2hQDaSdmP5RsK1H3N5+o6ZfzU6KQV
-         BogXEnCwxYqZMWnmU6IpjF9bq0tRNLt5p+S61J1YTEVkp5xC/xrv5X1uaZkZmC/rxvN6
-         P49q20IKd8PxSWTp6YXEeaet4rznJjkLvLJFmymxusGi52IJaxr7Rn9my433L/uFYISY
-         27sA==
-X-Gm-Message-State: AOJu0YzwUVf4T/t0ZMxibtje+RDj1jICWTWjIHklmuMkVVOF9FSpqwN8
-	siecP/HLu/yT1w14Q8YoKCDGIwOeWQ053yIUbrJxKcRIRLph464PPV9vOoRBtGZkDnArMgkYTyM
-	x7ULChwFdFsacqnsCGu3JBTPQN1w=
-X-Google-Smtp-Source: AGHT+IF0TLKO4bNXi4S1yTe11AkXHbuNfkZpjNbba0YP+1QEOA8AS6F0fNMxT2uEJMZqcs04QiEvfR14Ozal/9EIzgE=
-X-Received: by 2002:a05:6870:970b:b0:24f:e8f1:675b with SMTP id
- 586e51a60fabf-2546460c605mr2670898fac.30.1717769460279; Fri, 07 Jun 2024
- 07:11:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240605064317.1646597-1-raj.khem@gmail.com> <202406070933261b369a8f@mail.local>
-In-Reply-To: <202406070933261b369a8f@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 7 Jun 2024 07:10:33 -0700
-Message-ID: <CAMKF1sqwG-vUYKxH3CDs5bLXc6o9Yx7AY2wJACm=b0C7Fp_EKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3: Check for host OS type instead of
- build OS
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=VaB7nd3t;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=VaB7nd3t;
+ spf=pass (domain: arm.com, ip: 40.107.247.63, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=mGN4n66iqujj2z4uPsemQzwqHJbi08NKE5HmG+ohjNp77vtI/lqhWG/UQUjV/BiHcwINhtO3VTAFK9ewIMVD2y4n5em7+GsomPPzrA8WU7ggWA/D7H/2VejEW+SfrcgnaNhJMfMI1lszSiNhijoHGwU3SKVaAPBP1vwecmSnIAvesh5OMNAo9QpvacjxO0ovBqmFqQ/OyXHIpie56BKCT/yanMtvzO5Qi2dep/wwhCPNDn6SHbZFEVsIo+XL0z37bitagmcfuOu21TepkSdgWvwg17S61gOvn+b+kzV7iK7qLwxUh14F8eSih3eeHWWOSgUJxHcSZTfXFu3F1TNvVA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4G+Mdid+j+Lwo/NPxTbMbJLcPpA5Bf7rsGb8Wbq7r2g=;
+ b=kJJMkNFC1ulVujmL94p83USWuzxl0roacfTtK9HI7JEiKA6lCof/YdvJ483xqJWxJVQfDG6QL6jlzsohKY9yAgVjiYI52q/gimYbt51A2E4PVD1judO2quIXG+cS2Q8oXIvwN6JZPUkrumn966H6dtSUKeaXkl7v6oMPGTLT8DZFXOvM6w48b/xgwBh6T01g00RhyC5JceDDBXL6JWhQ1w0Byj0L1W/7Y47CxYoSNCyyQGkU/EgRCunFLr79TrolNfA4ON/ucdsTSYJH/S5H1XS7AJmcfbCzy3n+Azl3V/frMasiqm1NAuvQyaqUCefUy1IBbvnLH3qoD1PhqCh6eQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4G+Mdid+j+Lwo/NPxTbMbJLcPpA5Bf7rsGb8Wbq7r2g=;
+ b=VaB7nd3t3dGOVWOMQJQDBddRpi+0E96IW9ayO39ZujaaY32ts8hUHmj8h9lo8VJXxoJi69xf+xdsbqeGuLktq9PCtGDTVBheHCo3rLvGDe+7vyC9I4FlPFwyocJzoTN5/JdAF0Scf0JtfmVMSdHeAusrTvNK7aVKwU7uQm/MtNo=
+Received: from DUZP191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::23)
+ by GV2PR08MB8509.eurprd08.prod.outlook.com (2603:10a6:150:b1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Fri, 7 Jun
+ 2024 14:46:03 +0000
+Received: from DB1PEPF00039232.eurprd03.prod.outlook.com
+ (2603:10a6:10:4f9:cafe::f6) by DUZP191CA0004.outlook.office365.com
+ (2603:10a6:10:4f9::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.22 via Frontend
+ Transport; Fri, 7 Jun 2024 14:46:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB1PEPF00039232.mail.protection.outlook.com (10.167.8.105) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7633.15
+ via Frontend Transport; Fri, 7 Jun 2024 14:46:01 +0000
+Received: ("Tessian outbound 22b47b37b644:v330"); Fri, 07 Jun 2024 14:46:01 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 24f2b88825046ee7
+X-CR-MTA-TID: 64aa7808
+Received: from 8dab192107b7.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B96648DA-2708-44F0-955B-68B2079CC2B1.1;
+	Fri, 07 Jun 2024 14:45:54 +0000
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8dab192107b7.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 07 Jun 2024 14:45:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fJPwyP/mQEXcmJHCHic9thGxOGKKPWj+1HyMZ1EDBcVQOZdw+ZqomFLeGuysI/wU8Cs+3EHrdde8NEcV92D79ZswI5HpFGR1EtBQA+TrS9VjDfmWGK+GzVC4I1mpssGOKqnzbDgel6PTUfLz7lgVIvVvfdbCisi5s4jRqwtpAZM8Lvkt7P3ZEwisi1Rkazc6dh6sfvm8ZgDkN6IRJhNYWQWDohlhvARx2EWmZ82pAdPb1UJ+eZfgvbC/NLBsYP5hAHIcjmiPb/rzFDerLhQl/oOc+rF+zFdddRAAMzjtZKL7F4GJes/4OkMrQQ4QpQ3606OhMuH+H0+M0RmvzfMKMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4G+Mdid+j+Lwo/NPxTbMbJLcPpA5Bf7rsGb8Wbq7r2g=;
+ b=D+AD6LkuFQsZvY+xAMkzo1PwYsvAgBflWvMvPRZ7FDwrK9ORLE3ALME2G5RMwl/wBDXO2Z254evSzfNnJH+Zb1RZoU4WkC0zcXjuMGjbjLj5IrJNj/WD2PdCyCUrqsXoXGVtrMyhKCXV+DRT2yr+aWU5ZRGFPGT/Wg0XLaDJIOq3dJTvV2Om3ivsHXg59H+zOuHnDnjRTFQANCWqt+tqT5QyD2QUl52ijbjAu6A/EhSVCG691qlBRgOi1sfqmmddRHXiGgEIbKT6vc2BD+KThtab2/FGEWBMb2rw6Yoh6qk81jZqs10Oz0pC10A+pf95F+evkl5GbxbkHjoOyEHcmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4G+Mdid+j+Lwo/NPxTbMbJLcPpA5Bf7rsGb8Wbq7r2g=;
+ b=VaB7nd3t3dGOVWOMQJQDBddRpi+0E96IW9ayO39ZujaaY32ts8hUHmj8h9lo8VJXxoJi69xf+xdsbqeGuLktq9PCtGDTVBheHCo3rLvGDe+7vyC9I4FlPFwyocJzoTN5/JdAF0Scf0JtfmVMSdHeAusrTvNK7aVKwU7uQm/MtNo=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU5PR08MB10415.eurprd08.prod.outlook.com (2603:10a6:10:519::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Fri, 7 Jun
+ 2024 14:45:50 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7633.021; Fri, 7 Jun 2024
+ 14:45:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: ChenQi <Qi.Chen@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 1/2] coreutils: split out coreutils-getlimits
+Thread-Topic: [OE-core][PATCH 1/2] coreutils: split out coreutils-getlimits
+Thread-Index: AQHauAv2qjuTSjwIe0yTdY4KAjFfgLG8TnwAgAACSgCAABHcgA==
+Date: Fri, 7 Jun 2024 14:45:50 +0000
+Message-ID: <ED5C1C84-D389-451F-8D9A-242D4C7928FF@arm.com>
+References: <20240606122013.145187-1-Qi.Chen@windriver.com>
+ <F1C4FA48-6A4A-4471-8AE2-1C1E3AC20A97@arm.com>
+ <CO6PR11MB5602F9E6285EBA317395BB3BEDFB2@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <CO6PR11MB5602F9E6285EBA317395BB3BEDFB2@CO6PR11MB5602.namprd11.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.600.62)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU5PR08MB10415:EE_|DB1PEPF00039232:EE_|GV2PR08MB8509:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57ffa703-caa0-42a0-aace-08dc87008d01
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230031|376005|366007|1800799015|38070700009;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?jbV1uhZ+QBB1aB9Hv63QiR9HOO4sFdpJhOLOclan8iEXIv+sThk/i4uXRKI7?=
+ =?us-ascii?Q?6dAesyASz5ynsccJ+QFZnCEvP63+TCzdHvE0Mz9BCum+h/f10GlTCekdIPA0?=
+ =?us-ascii?Q?7PX26SXUtROSR0LTNRLkn7aVt00aZ2jUgLEh/+1voLqfdeWJHVnumADGFhW9?=
+ =?us-ascii?Q?OeImXZJnCee+RoXHtXZpen8PBrP5gVOqVVSPF9otRbdsVJVXJMzweyEQ8dpN?=
+ =?us-ascii?Q?6A0fswwti0+6H61RTVTcyGgKn514nsY0or47fiX3qbC6Qv2yw4AWsYN063z7?=
+ =?us-ascii?Q?wPrKAPudBO0Foo4mr/i0HKRtWSc3osXaDade3KGXmXa5sS6C7EdvqlrzDzL7?=
+ =?us-ascii?Q?sfw3R4LNaIDtZnQC2msLE+ui7P10p/L+3HU3pOhrIjksX0KJX5S5S+cxZVW0?=
+ =?us-ascii?Q?79K3c6OXiJ+F8ZaNqiU7zEYNJ/Dbw69370nwug7R/cqhtnRoahFXUJpBRc5u?=
+ =?us-ascii?Q?XWCJj9Zw2nptwWpuY8xBQMPak3fTkRiBgYCJyULf1+P/3JwDgBG52CeHd6jI?=
+ =?us-ascii?Q?2Swrk5SmEeA3dOTFBkxoscOPkpKG6JioSaK2zlsmBF6vJnr+ogv1fLKehLUx?=
+ =?us-ascii?Q?2AaAE8S0j+v9OhbmJOdwDOLxMoF1ASJ2vvvejaTFkPieHtz4Mj6I5C8QHNjV?=
+ =?us-ascii?Q?2aDTbHpmVvRKt+sStofN/+ryrC0+/8GdYMRWM5HYWcpHl5hUxehfunyTDR7O?=
+ =?us-ascii?Q?wUeb/uscS/ZslfpCFjEtfvYhbyaTZ4ffnSc4CZWf3Tt/Zom4aUf8Uwxbb4qh?=
+ =?us-ascii?Q?VlKd0DGY7YPQG6ofuKg0aB7szGdaMawoVdiHyishXsp84OHwAoc71gKkr7Si?=
+ =?us-ascii?Q?E/cj7ivQ1mODSN4H9MRPQf8aWDHdxzWikPJD9z+8P6Sx/pUbjspSQNn8StWT?=
+ =?us-ascii?Q?0fyvgtg4eQk6DkqpNsoh+PCi8xqJUFCrSDa0NgZL2/zF0bLgnNhZQO7Y68nj?=
+ =?us-ascii?Q?iRRrrJ2Rzzjuj5fQxS9BeZ3W72zJnHdK1FU6vme88h9TYXI2h89b2ADRxyzZ?=
+ =?us-ascii?Q?mfkYkZOcf8m96HATwJliAWh3STGa5frEBldDaPj3sGwjOhsCucNhjjKK/j+h?=
+ =?us-ascii?Q?JoV9ti2dHa6wDvF2o0/Bo1E//0hZ3LXIGcnwNTdeiWWUcmTE5UgvSgaJMyZZ?=
+ =?us-ascii?Q?0BU9+vep/oN0H9KIR8QojKgZgCPz7lXIHZNeaP1lOlMXoBjms1HpWZrPgDUK?=
+ =?us-ascii?Q?Tw7v5XQo1EfcF4QSQPg5K/jh5CwCHR3Rk9qVAj5ENnDcLw8FQPLnNaPMig0S?=
+ =?us-ascii?Q?Wu13FtyGV6r6WU2zV74zjERsRdZWMFE7HFGjUXZ275E/UrgdF/aBv5gYHUlc?=
+ =?us-ascii?Q?2eBjbcQJHI2eYwkZguZOvQ18y0FlB70cDlUVUK6VmWRaFgLVwtqMG6rGX1UH?=
+ =?us-ascii?Q?9obDeqQ=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4E7F3A88485D494F8D9D0F5974750948@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10415
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF00039232.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	eba9f8c5-b2f9-4909-f1be-08dc8700865e
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|376005|36860700004|82310400017|35042699013|1800799015;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ezTohx9RYdvhIIPScLZSzPb8S0dawMH26eALvAc8TAGM7AEr0xr2GolGsMFS?=
+ =?us-ascii?Q?cb9T48kI4EsvW/mS6EyE63/nPgee2yqDQ4Sr4Lxths/PdPI334KpH6AZj9K9?=
+ =?us-ascii?Q?2GAFeNHzSUg8f5u2saStjuA2vtxvxv3SjzmcjhFyjp1vwy0bLz6v1DSRYhUn?=
+ =?us-ascii?Q?8JzkNLUrYqXbB2OoI937Gq+2WVTiA2IC1jDJQjMIhJ6aCz6bhYGSD5ITdGEY?=
+ =?us-ascii?Q?GU3lfDUexELZR+0S3wycD4L8CyxtWZXNeM1MGAqnkYSfOA90wXYGGoo0VILa?=
+ =?us-ascii?Q?fE/KnuV7RTP8Wl+Em0QxMMobqIuOtEljPmVZqFnrvEr1sdCZKAgcu359jKTo?=
+ =?us-ascii?Q?uLQy7a/E04kqW5H0Q7BlZdLFOkP1nNKm9RoJfV2UKrV61+B1C2X/U76rMXI/?=
+ =?us-ascii?Q?nA+sRcUtsBoVjKquUxbazyYvctvEb5Wo4lHoc4F6kD2e/loP2nRxgN6tnheh?=
+ =?us-ascii?Q?r/JkhEP0BNgtkvSINijI84XEcbNZvNixwEXJ+1Ewx++jb+pEBuUO2ynNXAz2?=
+ =?us-ascii?Q?AN0BP/jHIeXTAQWsdCwCQsEggwjPQKauncykZ1g94roNrlkEoVJO0RDxGASb?=
+ =?us-ascii?Q?YwR/bubAIBhBr1m/OOta2xLSSaoDNqS+ak1sgBe807TXbbdtKfoMQCRxq+n8?=
+ =?us-ascii?Q?lXg1Rp0S6aKoCSg3YbNMohZbb/hLuU/yh8mQmB/Av4uCKmSf3cBfFL2gNEJy?=
+ =?us-ascii?Q?/oBKyIW3oQQL0ob7hLZEeyzvXu8SgYljHHAKsCI5v5WRunGI3EN1jwuHlf+H?=
+ =?us-ascii?Q?G7OlYF1s5MumlYe+4VdAFlfp2tUto+VzK+VM+jv9+R9FEE5mCt1QDuU6V1kp?=
+ =?us-ascii?Q?AbVrHl5ZvpzWj8yOzETdMehImkn82dNosPyL6OR7rM0fUjRduiChMGDJzlT9?=
+ =?us-ascii?Q?3ApuZNiDF30FEIha/0LZ4M+hgdIENhOxS+ZVcsrFY0RzNSPcBZv+YbFIrSwW?=
+ =?us-ascii?Q?D8sK/4WfEMJhJFWGCvDWoJ2u+prhzN6FfbuaXnTEZUsJDS4k9gkJX0OYZE5m?=
+ =?us-ascii?Q?YKZpFfhi+q4TmXJKIPVrhKrTP3Im3WMSTcj/CaSBWTgn1WgejtmlxvS2srER?=
+ =?us-ascii?Q?UppOp6+Mr5DTjotBLpQ1x/nIV5A+1afORRWfHjsxswbhCbFH5KAtVQWvC+cU?=
+ =?us-ascii?Q?bi8iKari+KTTom+K5VpDn9Gb+d3cAySC7ztn6DoK0sGxj36A3SV5X3JAsKas?=
+ =?us-ascii?Q?FdZPPZM6Mfi4iOq2tZel5QigUjVzLv5JxcrETJiuoUEjdXo/LBabk3oGRt3L?=
+ =?us-ascii?Q?ic5MUE9Xa7TTFHw0Rm5WwbEYtmAfHIG8Lqari5gEBKYtCtLqr2bqRfIAPz+O?=
+ =?us-ascii?Q?BXQF2CGX6zsqfRZxNE+PBp8ipeKGq/krdnW2DX1eTDy3OdjBTFI6+wa1Oj1h?=
+ =?us-ascii?Q?h0c5vKtJondI7hZUmqvvn0xGDLx7jO37eiZNwTi2EAlXGMwWVw=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(376005)(36860700004)(82310400017)(35042699013)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 14:46:01.5214
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57ffa703-caa0-42a0-aace-08dc87008d01
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF00039232.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8509
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 14:11:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200444
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 14:46:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200445
 
-On Fri, Jun 7, 2024 at 2:33=E2=80=AFAM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello,
->
-> This breaks musl:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/9102/st=
-eps/11/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/9116/st=
-eps/12/logs/stdio
->
+On 7 Jun 2024, at 14:41, Chen Qi via lists.openembedded.org <Qi.Chen=3Dwind=
+river.com@lists.openembedded.org> wrote:
+>=20
+> Because unlike other commands, getlimits is a noinst_PROGRAM. It's expect=
+ed to be used by its tests only. I checked Ubuntu, Debian and Fedora, none =
+of them provides getlimits. So if not for the ptest packages, we would not =
+be using this command either.
 
-yeah, it exposed another issue in how we configure gcc for musl sadly.
+So if nobody installs it, how does anyone else run the findutils test suite=
+?
 
->
-> On 04/06/2024 23:43:16-0700, Khem Raj wrote:
-> > configure uses PLATOFRM_TRIPLET derive many variabled e.g.
-> > SOABI, EXT_SUFFIX etc. However, the check is for build system
-> > which is not correct when cross-compiling python, it works ok
-> > for native builds since host =3D=3D build, however for cross-builds
-> > host !=3D build and this ends up with wrong value e.g. on musl/linux
-> > it gets linux-gnu whereas it should be linux-musl.
-> >
-> > Luckily, its fixed upstream, hence backported
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  ...r-platform-triplet-detection-code-ad.patch | 498 ++++++++++++++++++
-> >  .../recipes-devtools/python/python3_3.12.3.bb |   1 +
-> >  2 files changed, 499 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/python/python3/0001-gh-95855-=
-Refactor-platform-triplet-detection-code-ad.patch
-> >
-> > diff --git a/meta/recipes-devtools/python/python3/0001-gh-95855-Refacto=
-r-platform-triplet-detection-code-ad.patch b/meta/recipes-devtools/python/p=
-ython3/0001-gh-95855-Refactor-platform-triplet-detection-code-ad.patch
-> > new file mode 100644
-> > index 00000000000..c0dc3a79f67
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/python/python3/0001-gh-95855-Refactor-platf=
-orm-triplet-detection-code-ad.patch
-> > @@ -0,0 +1,498 @@
-> > +From c163d7f0b67a568e9b64eeb9c1cbbaa127818596 Mon Sep 17 00:00:00 2001
-> > +From: Jeffery To <jeffery.to@gmail.com>
-> > +Date: Thu, 24 Aug 2023 20:22:50 +0800
-> > +Subject: [PATCH] gh-95855: Refactor platform triplet detection code, a=
-dd
-> > + detection for MIPS soft float and musl libc (#107221)
-> > +
-> > +- Move platform triplet detection code into Misc/platform_triplet.c
-> > +- Refactor MIPS detection, use defined(__mips64) to detect MIPS64
-> > +- Compute libc values in separate section
-> > +- Add detection for MIPS soft float
-> > +- Add detection for musl
-> > +
-> > +musl supports SPE with its soft-float ABI:
-> > +https://git.musl-libc.org/cgit/musl/commit/?id=3D7be59733d71ada3a32a98=
-622507399253f1d5e48
-> > +
-> > +Original patch by Christian Heimes.
-> > +
-> > +Co-authored-by: Christian Heimes <christian@python.org>
-> > +Co-authored-by: Erlend E. Aasland <erlend@python.org>
-> > +
-> > +Upstream-Status: Backport [https://github.com/kraj/cpython/commit/c163=
-d7f0b67a568e9b64eeb9c1cbbaa127818596]
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +---
-> > + ...3-07-25-02-30-00.gh-issue-95855.wA7rAf.rst |   2 +
-> > + Misc/platform_triplet.c                       | 255 +++++++++++++++++=
-+
-> > + configure.ac                                  | 192 +------------
-> > + 4 files changed, 265 insertions(+), 376 deletions(-)
-> > + create mode 100644 Misc/NEWS.d/next/Build/2023-07-25-02-30-00.gh-issu=
-e-95855.wA7rAf.rst
-> > + create mode 100644 Misc/platform_triplet.c
-> > +
-> > +--- /dev/null
-> > ++++ b/Misc/NEWS.d/next/Build/2023-07-25-02-30-00.gh-issue-95855.wA7rAf=
-.rst
-> > +@@ -0,0 +1,2 @@
-> > ++Refactor platform triplet detection code and add detection for MIPS s=
-oft
-> > ++float and musl libc.
-> > +--- /dev/null
-> > ++++ b/Misc/platform_triplet.c
-> > +@@ -0,0 +1,255 @@
-> > ++/* Detect platform triplet from builtin defines
-> > ++ * cc -E Misc/platform_triplet.c | grep '^PLATFORM_TRIPLET=3D' | tr -=
-d ' '
-> > ++ */
-> > ++#undef bfin
-> > ++#undef cris
-> > ++#undef fr30
-> > ++#undef linux
-> > ++#undef hppa
-> > ++#undef hpux
-> > ++#undef i386
-> > ++#undef mips
-> > ++#undef powerpc
-> > ++#undef sparc
-> > ++#undef unix
-> > ++#if defined(__ANDROID__)
-> > ++    # Android is not a multiarch system.
-> > ++#elif defined(__linux__)
-> > ++/*
-> > ++ * BEGIN of Linux block
-> > ++ */
-> > ++// Detect libc (based on config.guess)
-> > ++# include <features.h>
-> > ++# if defined(__UCLIBC__)
-> > ++#  error uclibc not supported
-> > ++# elif defined(__dietlibc__)
-> > ++#  error dietlibc not supported
-> > ++# elif defined(__GLIBC__)
-> > ++#  define LIBC gnu
-> > ++#  define LIBC_X32 gnux32
-> > ++#  if defined(__ARM_PCS_VFP)
-> > ++#   define LIBC_ARM gnueabihf
-> > ++#  else
-> > ++#   define LIBC_ARM gnueabi
-> > ++#  endif
-> > ++#  if defined(__loongarch__)
-> > ++#   if defined(__loongarch_soft_float)
-> > ++#    define LIBC_LA gnusf
-> > ++#   elif defined(__loongarch_single_float)
-> > ++#    define LIBC_LA gnuf32
-> > ++#   elif defined(__loongarch_double_float)
-> > ++#    define LIBC_LA gnu
-> > ++#   else
-> > ++#    error unknown loongarch floating-point base abi
-> > ++#   endif
-> > ++#  endif
-> > ++#  if defined(_MIPS_SIM)
-> > ++#   if defined(__mips_hard_float)
-> > ++#    if _MIPS_SIM =3D=3D _ABIO32
-> > ++#     define LIBC_MIPS gnu
-> > ++#    elif _MIPS_SIM =3D=3D _ABIN32
-> > ++#     define LIBC_MIPS gnuabin32
-> > ++#    elif _MIPS_SIM =3D=3D _ABI64
-> > ++#     define LIBC_MIPS gnuabi64
-> > ++#    else
-> > ++#     error unknown mips sim value
-> > ++#    endif
-> > ++#   else
-> > ++#    if _MIPS_SIM =3D=3D _ABIO32
-> > ++#     define LIBC_MIPS gnusf
-> > ++#    elif _MIPS_SIM =3D=3D _ABIN32
-> > ++#     define LIBC_MIPS gnuabin32sf
-> > ++#    elif _MIPS_SIM =3D=3D _ABI64
-> > ++#     define LIBC_MIPS gnuabi64sf
-> > ++#    else
-> > ++#     error unknown mips sim value
-> > ++#    endif
-> > ++#   endif
-> > ++#  endif
-> > ++#  if defined(__SPE__)
-> > ++#   define LIBC_PPC gnuspe
-> > ++#  else
-> > ++#   define LIBC_PPC gnu
-> > ++#  endif
-> > ++# else
-> > ++// Heuristic to detect musl libc
-> > ++#  include <stdarg.h>
-> > ++#  ifdef __DEFINED_va_list
-> > ++#   define LIBC musl
-> > ++#   define LIBC_X32 muslx32
-> > ++#   if defined(__ARM_PCS_VFP)
-> > ++#    define LIBC_ARM musleabihf
-> > ++#   else
-> > ++#    define LIBC_ARM musleabi
-> > ++#   endif
-> > ++#   if defined(__loongarch__)
-> > ++#    if defined(__loongarch_soft_float)
-> > ++#     define LIBC_LA muslsf
-> > ++#    elif defined(__loongarch_single_float)
-> > ++#     define LIBC_LA muslf32
-> > ++#    elif defined(__loongarch_double_float)
-> > ++#     define LIBC_LA musl
-> > ++#    else
-> > ++#     error unknown loongarch floating-point base abi
-> > ++#    endif
-> > ++#   endif
-> > ++#   if defined(_MIPS_SIM)
-> > ++#    if defined(__mips_hard_float)
-> > ++#     if _MIPS_SIM =3D=3D _ABIO32
-> > ++#      define LIBC_MIPS musl
-> > ++#     elif _MIPS_SIM =3D=3D _ABIN32
-> > ++#      define LIBC_MIPS musln32
-> > ++#     elif _MIPS_SIM =3D=3D _ABI64
-> > ++#      define LIBC_MIPS musl
-> > ++#     else
-> > ++#      error unknown mips sim value
-> > ++#     endif
-> > ++#    else
-> > ++#     if _MIPS_SIM =3D=3D _ABIO32
-> > ++#      define LIBC_MIPS muslsf
-> > ++#     elif _MIPS_SIM =3D=3D _ABIN32
-> > ++#      define LIBC_MIPS musln32sf
-> > ++#     elif _MIPS_SIM =3D=3D _ABI64
-> > ++#      define LIBC_MIPS muslsf
-> > ++#     else
-> > ++#      error unknown mips sim value
-> > ++#     endif
-> > ++#    endif
-> > ++#   endif
-> > ++#   if defined(_SOFT_FLOAT) || defined(__NO_FPRS__)
-> > ++#    define LIBC_PPC muslsf
-> > ++#   else
-> > ++#    define LIBC_PPC musl
-> > ++#   endif
-> > ++#  else
-> > ++#   error unknown libc
-> > ++#  endif
-> > ++# endif
-> > ++
-> > ++# if defined(__x86_64__) && defined(__LP64__)
-> > ++PLATFORM_TRIPLET=3Dx86_64-linux-LIBC
-> > ++# elif defined(__x86_64__) && defined(__ILP32__)
-> > ++PLATFORM_TRIPLET=3Dx86_64-linux-LIBC_X32
-> > ++# elif defined(__i386__)
-> > ++PLATFORM_TRIPLET=3Di386-linux-LIBC
-> > ++# elif defined(__aarch64__) && defined(__AARCH64EL__)
-> > ++#  if defined(__ILP32__)
-> > ++PLATFORM_TRIPLET=3Daarch64_ilp32-linux-LIBC
-> > ++#  else
-> > ++PLATFORM_TRIPLET=3Daarch64-linux-LIBC
-> > ++#  endif
-> > ++# elif defined(__aarch64__) && defined(__AARCH64EB__)
-> > ++#  if defined(__ILP32__)
-> > ++PLATFORM_TRIPLET=3Daarch64_be_ilp32-linux-LIBC
-> > ++#  else
-> > ++PLATFORM_TRIPLET=3Daarch64_be-linux-LIBC
-> > ++#  endif
-> > ++# elif defined(__alpha__)
-> > ++PLATFORM_TRIPLET=3Dalpha-linux-LIBC
-> > ++# elif defined(__ARM_EABI__)
-> > ++#  if defined(__ARMEL__)
-> > ++PLATFORM_TRIPLET=3Darm-linux-LIBC_ARM
-> > ++#  else
-> > ++PLATFORM_TRIPLET=3Darmeb-linux-LIBC_ARM
-> > ++#  endif
-> > ++# elif defined(__hppa__)
-> > ++PLATFORM_TRIPLET=3Dhppa-linux-LIBC
-> > ++# elif defined(__ia64__)
-> > ++PLATFORM_TRIPLET=3Dia64-linux-LIBC
-> > ++# elif defined(__loongarch__) && defined(__loongarch_lp64)
-> > ++PLATFORM_TRIPLET=3Dloongarch64-linux-LIBC_LA
-> > ++# elif defined(__m68k__) && !defined(__mcoldfire__)
-> > ++PLATFORM_TRIPLET=3Dm68k-linux-LIBC
-> > ++# elif defined(__mips__)
-> > ++#  if defined(__mips_isa_rev) && (__mips_isa_rev >=3D6)
-> > ++#   if defined(_MIPSEL) && defined(__mips64)
-> > ++PLATFORM_TRIPLET=3Dmipsisa64r6el-linux-LIBC_MIPS
-> > ++#   elif defined(_MIPSEL)
-> > ++PLATFORM_TRIPLET=3Dmipsisa32r6el-linux-LIBC_MIPS
-> > ++#   elif defined(__mips64)
-> > ++PLATFORM_TRIPLET=3Dmipsisa64r6-linux-LIBC_MIPS
-> > ++#   else
-> > ++PLATFORM_TRIPLET=3Dmipsisa32r6-linux-LIBC_MIPS
-> > ++#   endif
-> > ++#  else
-> > ++#   if defined(_MIPSEL) && defined(__mips64)
-> > ++PLATFORM_TRIPLET=3Dmips64el-linux-LIBC_MIPS
-> > ++#   elif defined(_MIPSEL)
-> > ++PLATFORM_TRIPLET=3Dmipsel-linux-LIBC_MIPS
-> > ++#   elif defined(__mips64)
-> > ++PLATFORM_TRIPLET=3Dmips64-linux-LIBC_MIPS
-> > ++#   else
-> > ++PLATFORM_TRIPLET=3Dmips-linux-LIBC_MIPS
-> > ++#   endif
-> > ++#  endif
-> > ++# elif defined(__or1k__)
-> > ++PLATFORM_TRIPLET=3Dor1k-linux-LIBC
-> > ++# elif defined(__powerpc64__)
-> > ++#  if defined(__LITTLE_ENDIAN__)
-> > ++PLATFORM_TRIPLET=3Dpowerpc64le-linux-LIBC
-> > ++#  else
-> > ++PLATFORM_TRIPLET=3Dpowerpc64-linux-LIBC
-> > ++#  endif
-> > ++# elif defined(__powerpc__)
-> > ++PLATFORM_TRIPLET=3Dpowerpc-linux-LIBC_PPC
-> > ++# elif defined(__s390x__)
-> > ++PLATFORM_TRIPLET=3Ds390x-linux-LIBC
-> > ++# elif defined(__s390__)
-> > ++PLATFORM_TRIPLET=3Ds390-linux-LIBC
-> > ++# elif defined(__sh__) && defined(__LITTLE_ENDIAN__)
-> > ++PLATFORM_TRIPLET=3Dsh4-linux-LIBC
-> > ++# elif defined(__sparc__) && defined(__arch64__)
-> > ++PLATFORM_TRIPLET=3Dsparc64-linux-LIBC
-> > ++# elif defined(__sparc__)
-> > ++PLATFORM_TRIPLET=3Dsparc-linux-LIBC
-> > ++# elif defined(__riscv)
-> > ++#  if __riscv_xlen =3D=3D 32
-> > ++PLATFORM_TRIPLET=3Driscv32-linux-LIBC
-> > ++#  elif __riscv_xlen =3D=3D 64
-> > ++PLATFORM_TRIPLET=3Driscv64-linux-LIBC
-> > ++#  else
-> > ++#   error unknown platform triplet
-> > ++#  endif
-> > ++# else
-> > ++#   error unknown platform triplet
-> > ++# endif
-> > ++/*
-> > ++ * END of Linux block
-> > ++ */
-> > ++#elif defined(__FreeBSD_kernel__)
-> > ++# if defined(__LP64__)
-> > ++PLATFORM_TRIPLET=3Dx86_64-kfreebsd-gnu
-> > ++# elif defined(__i386__)
-> > ++PLATFORM_TRIPLET=3Di386-kfreebsd-gnu
-> > ++# else
-> > ++#   error unknown platform triplet
-> > ++# endif
-> > ++#elif defined(__gnu_hurd__)
-> > ++PLATFORM_TRIPLET=3Di386-gnu
-> > ++#elif defined(__APPLE__)
-> > ++PLATFORM_TRIPLET=3Ddarwin
-> > ++#elif defined(__VXWORKS__)
-> > ++PLATFORM_TRIPLET=3Dvxworks
-> > ++#elif defined(__wasm32__)
-> > ++#  if defined(__EMSCRIPTEN__)
-> > ++PLATFORM_TRIPLET=3Dwasm32-emscripten
-> > ++#  elif defined(__wasi__)
-> > ++#    if defined(_REENTRANT)
-> > ++PLATFORM_TRIPLET=3Dwasm32-wasi-threads
-> > ++#    else
-> > ++PLATFORM_TRIPLET=3Dwasm32-wasi
-> > ++#    endif
-> > ++#  else
-> > ++#    error unknown wasm32 platform
-> > ++#  endif
-> > ++#elif defined(__wasm64__)
-> > ++#  if defined(__EMSCRIPTEN__)
-> > ++PLATFORM_TRIPLET=3Dwasm64-emscripten
-> > ++#  elif defined(__wasi__)
-> > ++PLATFORM_TRIPLET=3Dwasm64-wasi
-> > ++#  else
-> > ++#    error unknown wasm64 platform
-> > ++#  endif
-> > ++#else
-> > ++# error unknown platform triplet
-> > ++#endif
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -927,198 +927,14 @@ fi
-> > +
-> > +
-> > + AC_MSG_CHECKING([for the platform triplet based on compiler character=
-istics])
-> > +-cat > conftest.c <<EOF
-> > +-#undef bfin
-> > +-#undef cris
-> > +-#undef fr30
-> > +-#undef linux
-> > +-#undef hppa
-> > +-#undef hpux
-> > +-#undef i386
-> > +-#undef mips
-> > +-#undef powerpc
-> > +-#undef sparc
-> > +-#undef unix
-> > +-#if defined(__ANDROID__)
-> > +-    # Android is not a multiarch system.
-> > +-#elif defined(__linux__)
-> > +-# if defined(__x86_64__) && defined(__LP64__)
-> > +-        x86_64-linux-gnu
-> > +-# elif defined(__x86_64__) && defined(__ILP32__)
-> > +-        x86_64-linux-gnux32
-> > +-# elif defined(__i386__)
-> > +-        i386-linux-gnu
-> > +-# elif defined(__aarch64__) && defined(__AARCH64EL__)
-> > +-#  if defined(__ILP32__)
-> > +-        aarch64_ilp32-linux-gnu
-> > +-#  else
-> > +-        aarch64-linux-gnu
-> > +-#  endif
-> > +-# elif defined(__aarch64__) && defined(__AARCH64EB__)
-> > +-#  if defined(__ILP32__)
-> > +-        aarch64_be_ilp32-linux-gnu
-> > +-#  else
-> > +-        aarch64_be-linux-gnu
-> > +-#  endif
-> > +-# elif defined(__alpha__)
-> > +-        alpha-linux-gnu
-> > +-# elif defined(__ARM_EABI__) && defined(__ARM_PCS_VFP)
-> > +-#  if defined(__ARMEL__)
-> > +-        arm-linux-gnueabihf
-> > +-#  else
-> > +-        armeb-linux-gnueabihf
-> > +-#  endif
-> > +-# elif defined(__ARM_EABI__) && !defined(__ARM_PCS_VFP)
-> > +-#  if defined(__ARMEL__)
-> > +-        arm-linux-gnueabi
-> > +-#  else
-> > +-        armeb-linux-gnueabi
-> > +-#  endif
-> > +-# elif defined(__hppa__)
-> > +-        hppa-linux-gnu
-> > +-# elif defined(__ia64__)
-> > +-        ia64-linux-gnu
-> > +-# elif defined(__loongarch__)
-> > +-#  if defined(__loongarch_lp64)
-> > +-#   if defined(__loongarch_soft_float)
-> > +-        loongarch64-linux-gnusf
-> > +-#   elif defined(__loongarch_single_float)
-> > +-        loongarch64-linux-gnuf32
-> > +-#   elif defined(__loongarch_double_float)
-> > +-        loongarch64-linux-gnu
-> > +-#   else
-> > +-#    error unknown platform triplet
-> > +-#   endif
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# elif defined(__m68k__) && !defined(__mcoldfire__)
-> > +-        m68k-linux-gnu
-> > +-# elif defined(__mips_hard_float) && defined(__mips_isa_rev) && (__mi=
-ps_isa_rev >=3D6) && defined(_MIPSEL)
-> > +-#  if _MIPS_SIM =3D=3D _ABIO32
-> > +-        mipsisa32r6el-linux-gnu
-> > +-#  elif _MIPS_SIM =3D=3D _ABIN32
-> > +-        mipsisa64r6el-linux-gnuabin32
-> > +-#  elif _MIPS_SIM =3D=3D _ABI64
-> > +-        mipsisa64r6el-linux-gnuabi64
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# elif defined(__mips_hard_float) && defined(__mips_isa_rev) && (__mi=
-ps_isa_rev >=3D6)
-> > +-#  if _MIPS_SIM =3D=3D _ABIO32
-> > +-        mipsisa32r6-linux-gnu
-> > +-#  elif _MIPS_SIM =3D=3D _ABIN32
-> > +-        mipsisa64r6-linux-gnuabin32
-> > +-#  elif _MIPS_SIM =3D=3D _ABI64
-> > +-        mipsisa64r6-linux-gnuabi64
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# elif defined(__mips_hard_float) && defined(_MIPSEL)
-> > +-#  if _MIPS_SIM =3D=3D _ABIO32
-> > +-        mipsel-linux-gnu
-> > +-#  elif _MIPS_SIM =3D=3D _ABIN32
-> > +-        mips64el-linux-gnuabin32
-> > +-#  elif _MIPS_SIM =3D=3D _ABI64
-> > +-        mips64el-linux-gnuabi64
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# elif defined(__mips_hard_float)
-> > +-#  if _MIPS_SIM =3D=3D _ABIO32
-> > +-        mips-linux-gnu
-> > +-#  elif _MIPS_SIM =3D=3D _ABIN32
-> > +-        mips64-linux-gnuabin32
-> > +-#  elif _MIPS_SIM =3D=3D _ABI64
-> > +-        mips64-linux-gnuabi64
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# elif defined(__or1k__)
-> > +-        or1k-linux-gnu
-> > +-# elif defined(__powerpc__) && defined(__SPE__)
-> > +-        powerpc-linux-gnuspe
-> > +-# elif defined(__powerpc64__)
-> > +-#  if defined(__LITTLE_ENDIAN__)
-> > +-        powerpc64le-linux-gnu
-> > +-#  else
-> > +-        powerpc64-linux-gnu
-> > +-#  endif
-> > +-# elif defined(__powerpc__)
-> > +-        powerpc-linux-gnu
-> > +-# elif defined(__s390x__)
-> > +-        s390x-linux-gnu
-> > +-# elif defined(__s390__)
-> > +-        s390-linux-gnu
-> > +-# elif defined(__sh__) && defined(__LITTLE_ENDIAN__)
-> > +-        sh4-linux-gnu
-> > +-# elif defined(__sparc__) && defined(__arch64__)
-> > +-        sparc64-linux-gnu
-> > +-# elif defined(__sparc__)
-> > +-        sparc-linux-gnu
-> > +-# elif defined(__riscv)
-> > +-#  if __riscv_xlen =3D=3D 32
-> > +-        riscv32-linux-gnu
-> > +-#  elif __riscv_xlen =3D=3D 64
-> > +-        riscv64-linux-gnu
-> > +-#  else
-> > +-#   error unknown platform triplet
-> > +-#  endif
-> > +-# else
-> > +-#   error unknown platform triplet
-> > +-# endif
-> > +-#elif defined(__FreeBSD_kernel__)
-> > +-# if defined(__LP64__)
-> > +-        x86_64-kfreebsd-gnu
-> > +-# elif defined(__i386__)
-> > +-        i386-kfreebsd-gnu
-> > +-# else
-> > +-#   error unknown platform triplet
-> > +-# endif
-> > +-#elif defined(__gnu_hurd__)
-> > +-        i386-gnu
-> > +-#elif defined(__APPLE__)
-> > +-        darwin
-> > +-#elif defined(__VXWORKS__)
-> > +-        vxworks
-> > +-#elif defined(__wasm32__)
-> > +-#  if defined(__EMSCRIPTEN__)
-> > +-    wasm32-emscripten
-> > +-#  elif defined(__wasi__)
-> > +-#    if defined(_REENTRANT)
-> > +-    wasm32-wasi-threads
-> > +-#    else
-> > +-    wasm32-wasi
-> > +-#    endif
-> > +-#  else
-> > +-#    error unknown wasm32 platform
-> > +-#  endif
-> > +-#elif defined(__wasm64__)
-> > +-#  if defined(__EMSCRIPTEN__)
-> > +-    wasm64-emscripten
-> > +-#  elif defined(__wasi__)
-> > +-    wasm64-wasi
-> > +-#  else
-> > +-#    error unknown wasm64 platform
-> > +-#  endif
-> > +-#else
-> > +-# error unknown platform triplet
-> > +-#endif
-> > +-
-> > +-EOF
-> > +-
-> > +-if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
-> > +-  PLATFORM_TRIPLET=3D`grep -v '^#' conftest.out | grep -v '^ *$' | tr=
- -d '    '`
-> > +-  case "$build_os" in
-> > +-  linux-musl*)
-> > +-    PLATFORM_TRIPLET=3D`echo "$PLATFORM_TRIPLET" | sed 's/linux-gnu/l=
-inux-musl/'`
-> > +-    ;;
-> > +-  esac
-> > ++if $CPP $CPPFLAGS $srcdir/Misc/platform_triplet.c >conftest.out 2>/de=
-v/null; then
-> > ++  PLATFORM_TRIPLET=3D`grep '^PLATFORM_TRIPLET=3D' conftest.out | tr -=
-d '        '`
-> > ++  PLATFORM_TRIPLET=3D"${PLATFORM_TRIPLET@%:@PLATFORM_TRIPLET=3D}"
-> > +   AC_MSG_RESULT([$PLATFORM_TRIPLET])
-> > + else
-> > +   AC_MSG_RESULT([none])
-> > + fi
-> > +-rm -f conftest.c conftest.out
-> > ++rm -f conftest.out
-> > +
-> > + AC_MSG_CHECKING([for multiarch])
-> > + AS_CASE([$ac_sys_system],
-> > diff --git a/meta/recipes-devtools/python/python3_3.12.3.bb b/meta/reci=
-pes-devtools/python/python3_3.12.3.bb
-> > index 37afa442fa3..f5f311f61c9 100644
-> > --- a/meta/recipes-devtools/python/python3_3.12.3.bb
-> > +++ b/meta/recipes-devtools/python/python3_3.12.3.bb
-> > @@ -32,6 +32,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/P=
-ython-${PV}.tar.xz \
-> >             file://0001-gh-114492-Initialize-struct-termios-before-call=
-ing-t.patch \
-> >             file://0001-test_shutdown-skip-problematic-test.patch \
-> >             file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-=
-failu.patch \
-> > +           file://0001-gh-95855-Refactor-platform-triplet-detection-co=
-de-ad.patch \
-> >             "
-> >
-> >  SRC_URI:append:class-native =3D " \
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#200353): https://lists.openembedded.org/g/openembed=
-ded-core/message/200353
-> > Mute This Topic: https://lists.openembedded.org/mt/106498609/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Ross=
 
