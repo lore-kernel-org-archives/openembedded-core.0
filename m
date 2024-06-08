@@ -1,304 +1,189 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9A6C27C53
-	for <webhook@archiver.kernel.org>; Fri,  7 Jun 2024 22:51:54 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.56713.1717800709230521555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5962FC25B76
+	for <webhook@archiver.kernel.org>; Sat,  8 Jun 2024 03:58:25 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.104.1717819097057144407
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jun 2024 15:51:49 -0700
+ Fri, 07 Jun 2024 20:58:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gw+pCmOR;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ebd61d2071so530851fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 15:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717800707; x=1718405507; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HFkmbvEPL/zd4BZwfbzvEiHehUh8AEKjmCtVzvW3/4U=;
-        b=gw+pCmORsU/n9M4cDRjagRT/FI4ElNkmfnj0Iedn0T1eJ62QOmrEK6u4iK3HKERlsw
-         VIPKrXi1DqSLHsqhQsWL+hBpAUob0D/Lyd34BF+D4IBDvR1fDngYDKNzSepeC7KzEfir
-         5H34UdMHH79Sn/9VI7Q6uhxs0fMzeJO8qxB9Ru/FOIskAQNsbjuHC0bcCBPOtex3xv0C
-         WGyzf3GB9CzQsNSxFdQsGvxfFXEFmBCnq2ftWL5bAIoYI4AkJtjrwpIPE12Kp1PiqWG7
-         ilCdUrcLwQMnIEOJ07tNUgJW7WsNkiAnXzOBmLZcjYhVkNynSW6lc/Qu1EaFBfpjw52Q
-         mYag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717800707; x=1718405507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HFkmbvEPL/zd4BZwfbzvEiHehUh8AEKjmCtVzvW3/4U=;
-        b=buBXS0Od0ipZxlodAFFnwgFD1ySB+EeLxSD68bVa+nHj1crOrcI5TNigQ3hZ+OGK76
-         ILJ7SQF5mrppFtsYxOqauk0oSC6XYykpZZn3kphWyX3gjdr7aZnoYbr4+GCn/b0CvmN1
-         JSOTrwCQ1eQG9nPgaw3UURKQK1wXDMQDWlrNxEpD2vuE0OgStI/QGlBQkTRJKSXuXBVe
-         KEUAkE34AkGSHnAmi9O/DXZmyji/pUJWkfoSD3pzuk0dXXw6SLLDnzuOTAF2Pp3YsMIO
-         3Amvhy14JCTOda7imfwwrktlFSasPJ36T3IsG9g+0FNqT9tlHLm3OYjsXp+L5LpObL6t
-         ZIig==
-X-Forwarded-Encrypted: i=1; AJvYcCXWN6hjERuFlRsnxfjfg5qzgltmRW33i+uIPe5GzbNevcxWoK09J1Pm1WjHtWzsw2XXbuzP/DalM78XNzc92ARkdPIjYiE8FtFB1TC5FjynwhFHB8OQ3DZR
-X-Gm-Message-State: AOJu0YwahYxbPYcB03hRKWs9qM0KXCE7M6fDTI8ZxQgIwIheSFdtxY9Y
-	k5qTmWhaqsp140z+Ot9IwVxyW+zSouoaenhHNE8DwrrncmO4p8WD9mUnUBQGkCtdIJI7pA5G3i9
-	05B+wgqUdfkOE0A8V41VOtH0W0gw=
-X-Google-Smtp-Source: AGHT+IF+qRDp4xQljcc5nePPbM2Eb3QbAe190b9pXH/x9xf88OK0NUgkTiVPkKvF293ijkp2L7w/wWGlXTD2be9DctM=
-X-Received: by 2002:a2e:9e81:0:b0:2ea:e00d:cd52 with SMTP id
- 38308e7fff4ca-2eae00dd3aemr18180161fa.7.1717800706967; Fri, 07 Jun 2024
- 15:51:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240606105641.882362-1-simit.ghane@lge.com> <20240607223540bfeafc2c@mail.local>
- <17D6DA59940DBD3E.31248@lists.openembedded.org>
-In-Reply-To: <17D6DA59940DBD3E.31248@lists.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 8 Jun 2024 00:51:26 +0200
-Message-ID: <CA+chaQe8CKtvoYC8yFzWyxSOZCuVn-b+p+4YQkkfPe-GBVUX5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv3] libgcrypt: Fix building error with '-O2' in
- sysroot path
-To: martin.jansa@gmail.com
-Cc: alexandre.belloni@bootlin.com, "simit.ghane" <simit.ghane@lge.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6889680c14=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4583qiSO010767
+	for <openembedded-core@lists.openembedded.org>; Sat, 8 Jun 2024 03:58:16 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yme9601dk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 08 Jun 2024 03:58:16 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4583wFcL017823
+	for <openembedded-core@lists.openembedded.org>; Sat, 8 Jun 2024 03:58:15 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yme9601dj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Jun 2024 03:58:15 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L871LC2UZaVEOQVmTqVt6QqKO5L6pOzst7KBGhE4aDcBvy8OjqUok1taQO9htulZVu06drOM3iR7NPhXcjsOaiveeiqFnY0sZydDECPyqQUaYo6olaWmo4v9JsbclFgQlUOIoeS+1nH9miMwJeSmUizLbiESePFsdrfCsZov1dV35sNWCTGjIXyOZUZ62BgUJd79HDDgKXxpklTEYI8BkDXCSayS9AGRut7sCShZmLhDHewQdTy1/8HXidqZG/1w1/8/zGLyBiGC2gqFacvbD4acZPGnX+UcOgKA2ar5PGQSzgnPett7RqxKZXI6f/8NNLVKppDGXgMHHX3ubeNlNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2wcaBWjo2ZEl5nrr9H/wsNvB1UhgA6A6m3kWB2o+7xs=;
+ b=IZiHHZibSE6FhH6vGz1LEPfjNzubMrvdipZnKTtUyFzrjs4X4VE0U0pDFfcAs0GstynYNHD2IQbaoXDIL9eNSJCVGgUFwsckeXQTspmamXCmzuAzv1sJn+lnrTHXt/g9oK/8s7xD08ys1u3O1e67UeELq65tDrIA+X/IT183EISygfdV9fA/F17NQ+6as//bKuXGz3ij8QSI8L97RgxEjqACJshBxTThZkVG06tacNVqu6UcMqHWSn6cNt0VAnO+mf2UcIt6it7XLYyiWXWXvAJm4TG6Zp7mPtzA99MFf6sO7yxHjKY0m34otVhKdHlPn+HIn2HhEGsleg4ITyJqdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by IA0PR11MB7953.namprd11.prod.outlook.com (2603:10b6:208:40d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.30; Sat, 8 Jun
+ 2024 03:58:12 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7633.036; Sat, 8 Jun 2024
+ 03:58:12 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH 1/2] coreutils: split out coreutils-getlimits
+Thread-Topic: [OE-core][PATCH 1/2] coreutils: split out coreutils-getlimits
+Thread-Index: AQHauAvrr6OpDiBe8ESoHWLmXtKWGLG8TomAgAAAn5CAABOHAIAA2hug
+Date: Sat, 8 Jun 2024 03:58:11 +0000
+Message-ID: 
+ <CO6PR11MB5602F5C5DF57B9C661BE7727EDC42@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20240606122013.145187-1-Qi.Chen@windriver.com>
+ <F1C4FA48-6A4A-4471-8AE2-1C1E3AC20A97@arm.com>
+ <CO6PR11MB5602F9E6285EBA317395BB3BEDFB2@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <ED5C1C84-D389-451F-8D9A-242D4C7928FF@arm.com>
+In-Reply-To: <ED5C1C84-D389-451F-8D9A-242D4C7928FF@arm.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|IA0PR11MB7953:EE_
+x-ms-office365-filtering-correlation-id: 2773b0b4-b74d-4d95-1028-08dc876f3762
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?TZlOh/a2QCbSIqTbgGzVZeNAtfY6oyLJDxVClg7k6duG4ax0y5AkPWfJCSxx?=
+ =?us-ascii?Q?q4s+wKbuMCPb/uqkaMJtkD/ArPrXV8RwGBTKy3jRSkkLmE0hi6rYZNaiYrXI?=
+ =?us-ascii?Q?9wcimxlE0BBxJrN8a40RVZXHRffq1wgdr2NLkEW32aFjjPO5dHe1qGAZQam+?=
+ =?us-ascii?Q?7UxpLVQwl4L3NMcb8tjk+935jTEgKZa/9wDNOqV38GpYCFvxSp+6u1pM/Yko?=
+ =?us-ascii?Q?1ENO6Jo+ZdNLHyDwk8MAj2zg7Lvi5UBP0xDSEw1f87pdqnMqaw74uFcrM5PJ?=
+ =?us-ascii?Q?WhBo9pYKZKVkduPQEDG6PJ6Mb3O3X71UW/U+2aGOGL3mWLnUylQg3uQ0YrXD?=
+ =?us-ascii?Q?/nBMB42H9zuwPkH0qX/uCvVTMoeFHgzqTHVqlFH4KVhXrZ6FoDExvqItv6VO?=
+ =?us-ascii?Q?YZtzYDSCwG23bLM0jqCFHcAy3sDtUb0MHnOvI9ubtJjmopS2FBcGAnT8qnTV?=
+ =?us-ascii?Q?c6vHLnUG43CvPu+s+xcSORG0PBjVxHT/1jknIB9ls2KWJvZd6mQ16BiMDI37?=
+ =?us-ascii?Q?IBxDdXZCihjdasGzF8BipgN9FmHaUY7Yhk5ONY2PVSVo+vCgIVZFZb3L0lAn?=
+ =?us-ascii?Q?moS0h0n0QPdWpQqZ2POw5WaDil2tTTfMLxmMuK/Tq/9t9cBTFH3CFzqnLoHX?=
+ =?us-ascii?Q?7n7qWnswIrqtz07dEdVXdl79fG+QnY7TboltgUwgl4HKF/72qancKyIdUhvs?=
+ =?us-ascii?Q?wPZ2lgHaVDvVSsCkM785xE/h8f72NLSrvMvzgkiyA+SunsVq7o8zLRz4BCBa?=
+ =?us-ascii?Q?LPs8OT/lMw4AR/J3eGLjK9zmqNuCcoAmKM/C0TV2iyorz3rY3MRr+ULfIA+x?=
+ =?us-ascii?Q?L8b+P3xn7dsy/zWbCBS541MOcQmdYAorcS7pxJxRPJNw7JbdumqyzLvGni9/?=
+ =?us-ascii?Q?u9k3sG7Z01x6gP8CXyM4TAruzBd7zeI77/Bu1Eet0/hN0eTZJdblGkpcoCo7?=
+ =?us-ascii?Q?Q37K8K8rvxPIW8WKAj1YQJcI5k4Ynj/KzFDVaLnY7Rw1E2xiOM9DpaivEUdb?=
+ =?us-ascii?Q?UtKrOZQmfkx5d0u/vnmrsZ9eITrAbzcUzcQfAbQVkhE0BMskn23pvP1YDIk+?=
+ =?us-ascii?Q?+XYm26Ybh6Z1/LFFDFn03MYrcNLG2WLTXCqGDOB1Z9CHfMden6ywx9M/Mq7O?=
+ =?us-ascii?Q?D1GRM7Eq2Hh16L6d3D6J4MNhvTjTAmi7VpRJ6v+zejHFRiDr1vl9i6Pdyz3E?=
+ =?us-ascii?Q?EJ4MuPuOTbie6/VFLTTXXZG1KDJB0BTq7WRwyJPoFcBLeam4p5GcM2tm+Fx1?=
+ =?us-ascii?Q?f6G2NohAEAwMn7moO8aKpjLTI7LtIRmvyCWanTsLe4dVy2cCqif270PAk4jH?=
+ =?us-ascii?Q?Dwal1L56EPqChGG/8bIJHQSrmvgf6itKs4vDuGE0Mq2M5UyNYu2HZ9wKjdNP?=
+ =?us-ascii?Q?SyNIyBQ=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?eT4nk6jmsv7bJfSxXjaDmvs/Enw34AS3rvUDqcCkM7zwyeLxFBBISfuMcmCC?=
+ =?us-ascii?Q?N5936qfS91vTHryRrdpkfXKMWEk3iI12EdLT7kTMNOfAcy4rN+0OKStfFqx0?=
+ =?us-ascii?Q?JvDAdN901Ky28NBdeBZmYfT9YzZ0RcVdI6VLvJRqEJeY26cX5Hcdqz2mfO2e?=
+ =?us-ascii?Q?TJGloUOqvCvam+HTz7dOCgEf02pG5wKh35ZxHW6DNc/VQcSRGRM3iBkz+zND?=
+ =?us-ascii?Q?Ei4mVRt8uTlWdYeyjg8Rqe6Z1BSDefUCFzGTTZ+g2ByQrdkh32DflviRRhc0?=
+ =?us-ascii?Q?LDudBuWRaH7Rl82q6YZ96QhL5iUA3YLk3CSaj1aGQ49HSH403SqQbEg3dZAi?=
+ =?us-ascii?Q?gdYKT8tbF2Awdg6X6+5YJadk93NBmAm2uV81fZ/RRgh4w5Z92NR/xLuY3zMT?=
+ =?us-ascii?Q?5dk6p8gcyNAIfg19HvLqQPCQ+fEX0fpqxLyEDTVy7fH0NOs2MYFnoeoKX698?=
+ =?us-ascii?Q?y2az/pM4hbHj7/uKoHooLDfI06Fd/R5cBnhLRewqahJc3mPNk/F7Ebfq1QPc?=
+ =?us-ascii?Q?+HHeKGbPWoNddrY1EmPbUtODcNOS5UlNlCt4wEcQrKM6nLgmDLBN44MqlMXM?=
+ =?us-ascii?Q?bjN1hrxRMM0YAB5BC9riVvKZbFyV+Ui/Wv+W61QfNBlTZNA/MXgqZXztriuO?=
+ =?us-ascii?Q?6fc0xlVpdAzkaztm19ofMdDD+hw0GfVezsvWs86sfSEDkVQEI2QfcR9JP9Au?=
+ =?us-ascii?Q?vZGAT1kOHf2+UhbKz1t3Z9CKYQm57Hpb6G6c0WeOliHbPCVumsag3rovH1SP?=
+ =?us-ascii?Q?WZ76Zxg8SiFmftxLsQJdwJ2U9yOIuKpE4BFNU/lqXDxcWhqRswjkPn98DCOz?=
+ =?us-ascii?Q?PZ7RCCgWTdyN0qOAu0H/AHS6tGBKg6pls9uA7puuHTV8kMtxjWXtB5yruhJF?=
+ =?us-ascii?Q?R/ZB+SZ0wnuhVzxyDgF/xov6mcCWjUuQmIXNN5C6Qe++BmrpWVJH/8zpIcWh?=
+ =?us-ascii?Q?noP8/mFAMcnrvUj6TmoqHysCrphWkLETo/y95n0q0qck+MAPwkGy+bla9by+?=
+ =?us-ascii?Q?UjQjO6hidai9btEpM4PNB7yB+zP/Q4fkLmKtMJ/8/z1TkdjWIriL3K2T847K?=
+ =?us-ascii?Q?DRVZOMjf1hpczK/LX0x01OQP/lojWzQIOnGusRxf34zYW2InvteG3D7Fv8qU?=
+ =?us-ascii?Q?yPN5T2pkp1I0pdxa5My96SIGyKqcjE+7dMJz0uEGgbTMS5h8UQ20fg55YPuM?=
+ =?us-ascii?Q?TgFPJT01fmsmxeDE0KS6sGXwe5ZkGuZeBS2lwSGvyE2IMRIwuAetsJmwanbc?=
+ =?us-ascii?Q?jvk+jPECfOvSN/Ont2u1fUmIR/p/o6F76X4iTAPfVa+1k1akogYPmC+2wm1y?=
+ =?us-ascii?Q?osKfBxWTug3F66bDG3OwPYg6+Va1GDM9yxFLSpAaCsHDF1nLyZcFmXothVKK?=
+ =?us-ascii?Q?d1kMwfe04S42/3P/Bf3nc/K7Ur7X6iV6JoDzEjyg/FKjvbDDBCinrngj9BR9?=
+ =?us-ascii?Q?btmJERZAcA/W+TOdDXUBqljMbamBaDZ3E6fHgT1CYOhZWzu1HG/IpIYoolRK?=
+ =?us-ascii?Q?21gQVKUl0BCEm+WzkDXk7wVOnuQuUhrMSn5B89oSS3F+fNP+8JmZep8j6LfU?=
+ =?us-ascii?Q?8K+T492tF6OTOvJTOXvSmgGRxQvXixXYk4LWCtFQ?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2773b0b4-b74d-4d95-1028-08dc876f3762
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2024 03:58:11.9527
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XICFXsCMRzGYuhd4tdUNrZ9SUg5sf+TnmoEUqL4LKckfirGe2H6RoAMOA2cwzRXoQGp1iCwVbZTBPSEVPrFK5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7953
+X-Proofpoint-GUID: -QiBvP7H6ju6PSenUCzwRV3fKg4UPgCU
+X-Proofpoint-ORIG-GUID: HzXYYFxvD6-4wBFF2YWL141NkFm42Tkh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-07_16,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1015 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
+ phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2405170001 definitions=main-2406080027
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jun 2024 22:51:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200449
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Jun 2024 03:58:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200450
 
-On Sat, Jun 8, 2024 at 12:46=E2=80=AFAM Martin Jansa via
-lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> > > +-o_flag_munging =3D sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-=
-Ofast/-O0/g'
-> > > ++o_flag_munging =3D sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O=
-0 /' -e 's/[[:blank:]]-Ofast/ -O0 /g'
->
-> I guess the 1-9 should have stayed in this one (now it no longer
-> replaces -O1 with -O0) and also the "/g" got missing, so it replaced
-> the first -O* on command line, but not the 2nd one which stayed -O2.
->
-> To be safe you should add /g to the first sed call as well.
->
-> It should be fixed upstream as well as the issue is already in the
-> merged version:
-> https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibgcrypt.git;a=3Dblobdiff;f=
-=3Drandom/Makefile.am;h=3D340df38a798997b975d81a445cbc84cb23f5ea7a;hp=3D0c9=
-35a05952b5f1d91ef5992ec090912a77b03d2;hb=3D7d9817ca935a35fe6c8e2c2c7615825f=
-a08a3a19;hpb=3D75e9bcccb69a9dea67d90840bd295bbd1749cea3
->
+For OE, the finduitls package before 4.10.0 does not require getlimits to r=
+un its ptest. But for the new 4.10.0 version, its test cases need getlimits=
+.
 
-The 1-9 part was already fixed upstream:
-https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibgcrypt.git;a=3Dblobdiff;f=
-=3Drandom/Makefile.am;h=3Dc7100ef8b896f321c9f85249184a8e4a2ca38a1e;hp=3D340=
-df38a798997b975d81a445cbc84cb23f5ea7a;hb=3D5afadba008918d651afefb842ae123cc=
-18454c74;hpb=3D3f5989014a1b7c01aced88897d878ce5105d15df
+For other distros, I'm not sure if they have similar mechanisms like ptest =
+and I'm not sure if they have met this problem. I just checked debian:lates=
+t and its finduitls package is of version 4.9.0. So chances are that they h=
+aven't met this problem or that their build system will not reveal such pro=
+blem to them.
 
-> Regards,
->
-> On Sat, Jun 8, 2024 at 12:35=E2=80=AFAM Alexandre Belloni via
-> lists.openembedded.org
-> <alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > This seems to fail:
-> >
-> > | libtool: compile:  arm-poky-linux-gnueabi-gcc -mfpu=3Dneon -mfloat-ab=
-i=3Dhard -mcpu=3Dcortex-a8 -fstack-protector-strong -O0 -D_FORTIFY_SOURCE=
-=3D2 -Wformat -Wformat-security -Werror=3Dformat-security -D_TIME_BITS=3D64=
- -D_FILE_OFFSET_BITS=3D64 --sysroot=3D/home/pokybuild/yocto-worker/beaglebo=
-ne-alt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1.=
-10.3/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.3/random -I.=
-. -I../src -I../../libgcrypt-1.10.3/src -O2 -pipe -g -feliminate-unused-deb=
-ug-types -fcanon-prefix-map -fmacro-prefix-map=3D/home/pokybuild/yocto-work=
-er/beaglebone-alt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/l=
-ibgcrypt/1.10.3/libgcrypt-1.10.3=3D/usr/src/debug/libgcrypt/1.10.3 -fdebug-=
-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone-alt/build/build/tmp/wo=
-rk/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1.10.3/libgcrypt-1.10.3=3D/=
-usr/src/debug/libgcrypt/1.10.3 -fmacro-prefix-map=3D/home/pokybuild/yocto-w=
-orker/beaglebone-alt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueab=
-i/libgcrypt/1.10.3/build=3D/usr/src/debug/libgcrypt/1.10.3 -fdebug-prefix-m=
-ap=3D/home/pokybuild/yocto-worker/beaglebone-alt/build/build/tmp/work/corte=
-xa8hf-neon-poky-linux-gnueabi/libgcrypt/1.10.3/build=3D/usr/src/debug/libgc=
-rypt/1.10.3 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone-al=
-t/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1.10.3/=
-recipe-sysroot=3D -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beagleb=
-one-alt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1=
-.10.3/recipe-sysroot=3D -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/b=
-eaglebone-alt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgc=
-rypt/1.10.3/recipe-sysroot-native=3D -fvisibility=3Dhidden -fno-delete-null=
--pointer-checks -Wall -c ../../libgcrypt-1.10.3/random/rndjent.c  -fPIC -DP=
-IC -o .libs/rndjent.o
-> > | In file included from ../../libgcrypt-1.10.3/random/rndjent.c:99:
-> > | ../../libgcrypt-1.10.3/random/jitterentropy-base.c:58:3: error: #erro=
-r "The CPU Jitter random number generator must not be compiled with optimiz=
-ations. See documentation. Use the compiler switch -O0 for compiling jitter=
-entropy.c."
-> > |    58 |  #error "The CPU Jitter random number generator must not be c=
-ompiled with optimizations. See documentation. Use the compiler switch -O0 =
-for compiling jitterentropy.c."
-> > |       |   ^~~~~
-> > | make[2]: *** [Makefile:775: rndjent.lo] Error 1
-> > | make[2]: Leaving directory '/home/pokybuild/yocto-worker/beaglebone-a=
-lt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1.10.3=
-/build/random'
-> > | make[1]: *** [Makefile:500: all-recursive] Error 1
-> > | make[1]: Leaving directory '/home/pokybuild/yocto-worker/beaglebone-a=
-lt/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libgcrypt/1.10.3=
-/build'
-> > | make: *** [Makefile:432: all] Error 2
-> > | ERROR: oe_runmake failed
-> > | WARNING: exit code 1 from a shell command.
-> > NOTE: recipe libgcrypt-1.10.3-r0: task do_compile: Failed
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/8078=
-/steps/11/logs/stdio
-> >
-> >
-> >
-> > On 06/06/2024 16:26:41+0530, simit.ghane wrote:
-> > > Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
-> > > respectively when compiling cipher and random in the filesystem
-> > > paths as well if they happen to contain '-O2' or '-Ofast
-> > >
-> > > If we are cross compiling libgcrypt and sysroot contains such
-> > > characters, we would
-> > > get compile errors because the sysroot path has been modified.
-> > >
-> > > Fix this by adding blank spaces and tabs before the original matching
-> > > pattern in the sed command.
-> > >
-> > > It is difficult to control -O1 for cipher and -O0 for random
-> > > at the same time in OE environment along with patch file.
-> > > So, keeping same change as it is.
-> > >
-> > > Signed-off-by: simit.ghane <simit.ghane@lge.com>
-> > > ---
-> > > v3: No change
-> > >
-> > >  ...ilding-error-with-O2-in-sysroot-path.patch | 52 +++++++++++++----=
---
-> > >  1 file changed, 36 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-=
-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcry=
-pt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-> > > index cf9ebfb3e6..339bc9c563 100644
-> > > --- a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-buildin=
-g-error-with-O2-in-sysroot-path.patch
-> > > +++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-buildin=
-g-error-with-O2-in-sysroot-path.patch
-> > > @@ -1,31 +1,38 @@
-> > > -From 0f66e796a8522e1043dda03b88d5f6feae839d16 Mon Sep 17 00:00:00 20=
-01
-> > > -From: Chen Qi <Qi.Chen@windriver.com>
-> > > -Date: Wed, 16 Aug 2017 10:44:41 +0800
-> > > -Subject: [PATCH] libgcrypt: fix building error with '-O2' in sysroot=
- path
-> > > +From 7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 Mon Sep 17 00:00:00 20=
-01
-> > > +From: "simit.ghane" <simit.ghane@lge.com>
-> > > +Date: Tue, 7 May 2024 14:09:03 +0530
-> > > +Subject: [PATCHV2] Fix building error with '-O2' in sysroot path
-> > >
-> > > -Upstream-Status: Pending
-> > > +Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?=
-p=3Dlibgcrypt.git;a=3Dcommit;h=3D7d9817ca935a35fe6c8e2c2c7615825fa08a3a19]
-> > > +
-> > > +* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
-> > > +* random/Makefile.am (o_flag_munging): Ditto.
-> > > +--
-> > > +
-> > > +Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0=
-'
-> > > +respectively when compiling cipher and random in the filesystem
-> > > +paths as well if they happen to contain '-O2' or '-Ofast
-> > >
-> > > -Characters like '-O2' or '-Ofast' will be replaced by '-O1' when
-> > > -compiling cipher.
-> > >  If we are cross compiling libgcrypt and sysroot contains such
-> > >  characters, we would
-> > >  get compile errors because the sysroot path has been modified.
-> > >
-> > > -Fix this by adding blank spaces before and after the original matchi=
-ng
-> > > -pattern in the
-> > > -sed command.
-> > > +Fix this by adding blank spaces and tabs before the original matchin=
-g
-> > > +pattern in the sed command.
-> > >
-> > > -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > > +Signed-off-by: simit.ghane <simit.ghane@lge.com>
-> > >
-> > > -Rebase to 1.8.0
-> > > -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> > > +ChangeLog entries added by wk
-> > >
-> > > +Note that there is also the configure option --disable-O-flag-mungin=
-g;
-> > > +see the README.
-> > >  ---
-> > >   cipher/Makefile.am | 2 +-
-> > > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > + random/Makefile.am | 2 +-
-> > > + 2 files changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > >  diff --git a/cipher/Makefile.am b/cipher/Makefile.am
-> > > -index c3d642b..88c883a 100644
-> > > +index c3d642b2ac..f1c3971c40 100644
-> > >  --- a/cipher/Makefile.am
-> > >  +++ b/cipher/Makefile.am
-> > >  @@ -153,7 +153,7 @@ gost-s-box: gost-s-box.c
-> > > @@ -33,7 +40,20 @@ index c3d642b..88c883a 100644
-> > >
-> > >   if ENABLE_O_FLAG_MUNGING
-> > >  -o_flag_munging =3D sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-O=
-fast/-O1/g'
-> > > -+o_flag_munging =3D sed -e 's/ -O\([2-9sgz][2-9sgz]*\) / -O1 /' -e '=
-s/ -Ofast / -O1 /g'
-> > > ++o_flag_munging =3D sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O=
-1 /' -e 's/[[:blank:]]-Ofast/ -O1 /g'
-> > > + else
-> > > + o_flag_munging =3D cat
-> > > + endif
-> > > +diff --git a/random/Makefile.am b/random/Makefile.am
-> > > +index 0c935a0595..340df38a79 100644
-> > > +--- a/random/Makefile.am
-> > > ++++ b/random/Makefile.am
-> > > +@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy=
--base-user.h
-> > > +
-> > > + # The rndjent module needs to be compiled without optimization.  */
-> > > + if ENABLE_O_FLAG_MUNGING
-> > > +-o_flag_munging =3D sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-=
-Ofast/-O0/g'
-> > > ++o_flag_munging =3D sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O=
-0 /' -e 's/[[:blank:]]-Ofast/ -O0 /g'
-> > >   else
-> > >   o_flag_munging =3D cat
-> > >   endif
-> >
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200448): https://lists.openembedded.org/g/openembedde=
-d-core/message/200448
-> Mute This Topic: https://lists.openembedded.org/mt/106520599/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Regards,
+Qi
+
+-----Original Message-----
+From: Ross Burton <Ross.Burton@arm.com>=20
+Sent: Friday, June 7, 2024 10:46 PM
+To: Chen, Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 1/2] coreutils: split out coreutils-getlimits
+
+On 7 Jun 2024, at 14:41, Chen Qi via lists.openembedded.org <Qi.Chen=3Dwind=
+river.com@lists.openembedded.org> wrote:
+>=20
+> Because unlike other commands, getlimits is a noinst_PROGRAM. It's expect=
+ed to be used by its tests only. I checked Ubuntu, Debian and Fedora, none =
+of them provides getlimits. So if not for the ptest packages, we would not =
+be using this command either.
+
+So if nobody installs it, how does anyone else run the findutils test suite=
+?
+
+Ross
 
