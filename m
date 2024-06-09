@@ -1,207 +1,116 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B59A6C27C53
-	for <webhook@archiver.kernel.org>; Sun,  9 Jun 2024 08:43:33 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.69])
- by mx.groups.io with SMTP id smtpd.web11.14182.1717922609565720803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6314CC27C53
+	for <webhook@archiver.kernel.org>; Sun,  9 Jun 2024 11:19:04 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web10.15601.1717931934007727022
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jun 2024 01:43:30 -0700
+ Sun, 09 Jun 2024 04:18:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=UNDR5H8O;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.8.69, mailfrom: johannes.schneider@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X9fJ6tSqhRjLrroU6gTKNwbzpNYqTzpB7FUbke4DP7QFPKn8WAsMWK9LquYGFosOMTyxbStCXqe3joHlTbbSGq/dlC5h+cT4Bd3PKWl5KyFfbO7ZlUGnNkiE2+jzzGxD/jgPFQ4sgkyEk/8leWw8UD2zVBIW/sIkiNcYl2GdeEzZjDBft1KiVTJAYLgsUg3w0+x7Oiiwz2dq25C34iO9WPJuYJgRmeIRR/cLGBDo27pNTTO7hrPOl9m3REsyMPL4LfcociobEjIgCMMLmBVe3jA37UhoeEu/+FAHf6FFjqIhJaoy9Qahk9JERPQrPavTg5om1ojP0LsPp4hX3zOz1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cyuY71rHSSRxNmBOKl5D91v0oj+qw5iGguRDfaOc4vI=;
- b=ktWoRFQ27Az029tZrHPU2/WtMcbGuiYeNCXYbH3JpK9mz0qAHtGET8G2VApnOVOIxdvFc/RcFfuep7uTVWuUHY5+fPSCzmxQx82oCELGo4sYY2qwLcRTUJSQbO8/ksBdP5nl7Xv3DOB9SADdH02RtAfKPHQdwTHBVVM5oDCSANJDH4necgZuDuu0lOJyqKrFP905zl328rROwb4FLCzU7XDFlb46zAFWTLAgkPOSmp1PKIWA3AyhZtNeiagOLotnmpLonGEMQYvdTLe9VlEmrX6HRkbWfmI3DGKVaB9m+woO2DVRiyjhNM9wC4HRmsfaOMqKY8Ij8w2O43v9HpylsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=temperror action=none
- header.from=leica-geosystems.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cyuY71rHSSRxNmBOKl5D91v0oj+qw5iGguRDfaOc4vI=;
- b=UNDR5H8OYB51f1mw6aVmybVyQA2aNcl64ws6qrPPozvTtd0LaHYCg2EBrXFMbA9ryn1DSeUuaPxwRq/e9KLbxqu7x6aATweZ830lrGmrtrONjbIFO4c/jHwzlpZ2rEhJ1VxRVwzANHi9fJpTD+Ww/tHBoEPg9FfRSnalfvZMlvI=
-Received: from AS4PR09CA0002.eurprd09.prod.outlook.com (2603:10a6:20b:5e0::9)
- by VE1PR06MB6862.eurprd06.prod.outlook.com (2603:10a6:800:1a2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Sun, 9 Jun
- 2024 08:43:24 +0000
-Received: from AMS0EPF000001B0.eurprd05.prod.outlook.com
- (2603:10a6:20b:5e0:cafe::21) by AS4PR09CA0002.outlook.office365.com
- (2603:10a6:20b:5e0::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.22 via Frontend
- Transport; Sun, 9 Jun 2024 08:43:24 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is 193.8.40.94)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=leica-geosystems.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of leica-geosystems.com: DNS Timeout)
-Received: from hexagon.com (193.8.40.94) by
- AMS0EPF000001B0.mail.protection.outlook.com (10.167.16.164) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Sun, 9 Jun 2024 08:43:23 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Sun, 9 Jun 2024 10:43:22 +0200
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH v1 2/2] systemd: bpf-framework: pass STAGING_INCDIR to eBPF compiler
-Date: Sun,  9 Jun 2024 10:43:21 +0200
-Message-ID: <20240609084321.1070686-1-johannes.schneider@leica-geosystems.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 09 Jun 2024 08:43:22.0898 (UTC) FILETIME=[1637B720:01DABA49]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001B0:EE_|VE1PR06MB6862:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 480aa9b7-d688-438c-dd72-08dc886038d9
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|82310400017|1800799015|36860700004|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?GVCRdldiuv7Iix8ez+cIx9V1LJAJvfgXstQzmFVqLsb6EETvzT4rRGVeVn8c?=
- =?us-ascii?Q?rl0jWSNG2KZBxgHPqvgO6aIO7jB3yLu8VGMkCCMj2Y2Kzr4Xz4zkd+uGjDzY?=
- =?us-ascii?Q?ERSwD4NUHdYE+E9F6ecBQP3rRnPW2gdgxZQLd348D40rD8KzZu2TZ680CTMl?=
- =?us-ascii?Q?qnQ77hBbwwlEU3kbJa4Y1J+CKt0EEX02i1A055aYR1Y3WWi0aBGkyPmfgNN7?=
- =?us-ascii?Q?JZek7fu7g82g0pOZ3WEurVSGr5/aKtOaSKfXw1kLa02Zsjb4AaQ8PrBSj1Mm?=
- =?us-ascii?Q?RU6nuMZBhrUGn4oBOW1IIn73nbokWo+PzRD6lEZYCHae4DxS7p4yOzhOOBwp?=
- =?us-ascii?Q?Lw3OFwQKo9/5JMURxBECZA7ZxReFw/8J+yNdmcG7dLBsda6IDTJ2bTJw036M?=
- =?us-ascii?Q?0c3g0xJDLAVarji/VbxMA6gEmlRD61itRPQFeZzDBtHLtcKYPmWpAhg+JjwE?=
- =?us-ascii?Q?UnnP94UqNOEqI/nc909JBW5D2M2GVgMF1KS4NrwOWq6SdFxrJXyS4CLlXLig?=
- =?us-ascii?Q?45noYGtZCqoMlHQxESn+fo6VNlQtOPOsr/BVDbdSZjAcKCBQaveZs42Mo008?=
- =?us-ascii?Q?6LLqRVDx2EOqzwt8SUHApR6tAIxYrwtmG/xmLwEEfS2u1dZW5IuyjkzUjWoG?=
- =?us-ascii?Q?wkR1/xFxgsTo9xbJwHjPcNqUyVCT1oU9HZrtPnObmZPj/Qsd4WKdyTAIUYPR?=
- =?us-ascii?Q?z+WQYGSBBFw0ScT4HhbdjRjpn1RE2+KMxhBHig/tn9Qc8HxVeMO9SWHjRzU2?=
- =?us-ascii?Q?srYiqOT8jqBsn2MWD7lnC/sV97kEAr6IS+tt2LMA4wbMhG7egmaqZslWUK2f?=
- =?us-ascii?Q?NLfKhVrEf2k5ZAJ9pLJU8fXveIFcTMazUPVpfHmifQiLXx7P7aYwS2/oFeX0?=
- =?us-ascii?Q?JoKRwyBIGxHcUj/nQHBrhteRVX3qydfsETeSL8GthIAP0rwgjvZ8rPLIR2kb?=
- =?us-ascii?Q?Dybe8RAldv6cQzI8DvNfQQpvQkLOcFkPv2AB60RTOcSj2wJTYdLXlsKo5woT?=
- =?us-ascii?Q?8INhfhin+qUBADZ1RLRBbBPoF79GBlS9EoQOzruB780k67kEBZA8q9RDYT35?=
- =?us-ascii?Q?9uYRzt1LFFHf0jlLI/wH+2IiWf9WGV4xRnFgrTdmSLJJmm5bSNux4MoITl7j?=
- =?us-ascii?Q?S3WLaZtoiRSjVbl1HRl5JIarUaVypY9O2Gp04EHdOyAkyc6LAuDmgTUjmWhE?=
- =?us-ascii?Q?w00dADrSglEYZNITuXSXP3aCVCKb9UvmXPTkLjaGKZ1vsIpTqc8VQegQuuWs?=
- =?us-ascii?Q?Tl6OHuQ+OANRqNzRcnkkU+oxy0Ef1OIy2rkCjFDtdFFvc9dlKrY8QWRDOrpb?=
- =?us-ascii?Q?FffX4V9PpZ2juHPn3hqD4Ck+CgAisyiTMTJ+eNjFEl9ZAVOtMt5gp8BRZlMC?=
- =?us-ascii?Q?ChMMeEh/I+m5j8AUySbaVTon3OaeT4hxSSNysSIoqr4QI4IJcw=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230031)(82310400017)(1800799015)(36860700004)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2024 08:43:23.1495
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 480aa9b7-d688-438c-dd72-08dc886038d9
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001B0.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR06MB6862
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1XPz2aLF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.173, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-62a08091c2bso35316377b3.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jun 2024 04:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1717931933; x=1718536733; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lluUBM2XxR9tHFOxkdcqTBT8PG9MOBaIjbJRHT1D+38=;
+        b=1XPz2aLFgR3DrF1qrVIpYCHTlqlNMN8tuKKmryRN7/MnvLWawskhjj6dyPOuJb/zY9
+         Q1or3vVjFLopmkRudefqV+L0JKqT1QPBXK63qyz/AYNpK36TOZEDQXAYY+etUYEGWNan
+         1S6oIMt7PHlslpldslnJpAxyZOovrkZYzJIEQIhlNYcIWxSbY1jWFeW9rWxkRYbqx579
+         GQCHEKAk5RcWAZ9ZCAPrblgnS23n9hRkgLtHiMloalSdlyAitHIc/T2HU9MayVD7VbiG
+         BBtU6tGxK/5p8tUSSutIYcwXINIZJ9Rgk3RDMCyAe1hrxG2HpC3UU96Mieqe8nmxXb7q
+         MiNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717931933; x=1718536733;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lluUBM2XxR9tHFOxkdcqTBT8PG9MOBaIjbJRHT1D+38=;
+        b=v1nd0OCM6iSOQJKXiTXiCBZ6e07F6WtYklaLc7ngMiGrZcHb/tO2CqauE6A+NqdItj
+         fuSeDins+ECkNksWuKs42yQydcOUbybTLco0WKZz+PzmRcG2eWsdoWGcA2gCeywth5jt
+         viak1VR4bKL75M3Y2zSz66wObtN9KE9N8ErOFJ0BsJYYTpL4YwE7rGyLWnJup/SjvVgd
+         5ZqiCyj5jQZt90S9Geci/nkhmT7V/k3zn/pzLM8XIVFdZjpj0g0wsEY1WevOEnAts2WK
+         /laFMTpCQFdnNFhd4O73hzyg06NKV5dWJz6/ZxdUIvwZrVP9v1cvgP4zR8RhURvJzQFd
+         CLAA==
+X-Gm-Message-State: AOJu0YzCNQ5Cw+k5UEtwwprlHzsHYNOQHteqOM/82PUWhN6LpcJfFEgc
+	bZZMGCOha6tReZ7XGI6R8tQCQUmuFxXeGeZOI8C9YL48b3Tmb19axcSHp0inUsYQH8mUDI0cK7a
+	E
+X-Google-Smtp-Source: AGHT+IGm4wDdLuQdvOrItJ8j/OFvUDb0BQvUDxObAhjlPWq7WSZiQ2Y7smCatmH8YaAzDe4KawC6zQ==
+X-Received: by 2002:a81:764d:0:b0:61b:3356:a679 with SMTP id 00721157ae682-62cd55dddbdmr69025057b3.17.1717931932772;
+        Sun, 09 Jun 2024 04:18:52 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b0782266f4sm4522306d6.121.2024.06.09.04.18.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jun 2024 04:18:52 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 331A010038B; Sun,  9 Jun 2024 01:18:51 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 09 Jun 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  9 Jun 2024 01:18:51 -1000
+Message-Id: <20240609111851.331A010038B@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jun 2024 08:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200456
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jun 2024 11:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200457
 
-The eBPFs are pre-compiled during the systemd-build with a different
-compiler than the cross-compiler used to build systemd itself.
+Branch: master
 
-This is either a 'clang-native' or a gcc (bpf-unknown-none) which do
-not see the BUILD_CFLAGS set -isystem ${STAGING_INCDIR}. For this the
-meson.build file constructing the compiler call had to be patched to
-handle this bitbake specific setup.
+New this week: 0 CVEs
 
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
----
- ...bitbake-pass-STAGING_INCDIR-to-clang.patch | 42 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_255.6.bb    |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0023-bitbake-pass-STA=
-GING_INCDIR-to-clang.patch
+Removed this week: 1 CVEs
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
 
-diff --git a/meta/recipes-core/systemd/systemd/0023-bitbake-pass-STAGING_IN=
-CDIR-to-clang.patch b/meta/recipes-core/systemd/systemd/0023-bitbake-pass-S=
-TAGING_INCDIR-to-clang.patch
-new file mode 100644
-index 0000000000..a6d4d7a81d
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0023-bitbake-pass-STAGING_INCDIR-to=
--clang.patch
-@@ -0,0 +1,42 @@
-+From 4f4b3d662e5475b375808cea3a6a90d61b6c9522 Mon Sep 17 00:00:00 2001
-+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-+Date: Sat, 8 Jun 2024 18:19:39 +0200
-+Subject: [PATCH] bitbake: pass STAGING_INCDIR to clang
-+
-+Pass bitbakes STAGING_INCDIR as header searchpath to clang/gcc, where
-+it can&should look for the libbpf headers when it compiles the BPFs.
-+
-+This is "the least ugly hack", compared to other alternatives like for exa=
-mple
-+what '-Defi-includedir=3D...' did (creating an extra option to smuggle in =
-bitbake
-+variables).
-+
-+Ideally the compiler would use the BUILD_CFLAGS set by bitbake, which
-+set among other things also the corretc -isystem...; but haven't found
-+a good way to do so in meson (yet) :-P
-+
-+Upstream-Status: Inappropriate [oe specific]
-+Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com=
->
-+---
-+ meson.build | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 187e7b216d..dc1a464504 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1746,7 +1746,11 @@ if conf.get('BPF_FRAMEWORK') =3D=3D 1
-+=20
-+         bpf_o_unstripped_cmd +=3D ['-I.']
-+=20
-+-        if not meson.is_cross_build()
-++        if meson.is_cross_build()
-++                ## point 'clang'/'gcc' to the bitbake recipe sysroot, to =
-find the libbpf headers there.
-++                staging_incdir =3D join_paths(meson.source_root(), '../re=
-cipe-sysroot/usr/include')
-++                bpf_o_unstripped_cmd +=3D [ '-isystem', staging_incdir ]
-++        else
-+                 target_triplet_cmd =3D run_command('gcc', '-dumpmachine',=
- check: false)
-+                 if target_triplet_cmd.returncode() =3D=3D 0
-+                         target_triplet =3D target_triplet_cmd.stdout().st=
-rip()
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_255.6.bb b/meta/recipes-core=
-/systemd/systemd_255.6.bb
-index e70c9c738d..3fd4d5bc5b 100644
---- a/meta/recipes-core/systemd/systemd_255.6.bb
-+++ b/meta/recipes-core/systemd/systemd_255.6.bb
-@@ -28,6 +28,7 @@ SRC_URI +=3D " \
-            file://systemd-pager.sh \
-            file://0002-binfmt-Don-t-install-dependency-links-at-install-ti=
-m.patch \
-            file://0008-implment-systemd-sysv-install-for-OE.patch \
-+           file://0023-bitbake-pass-STAGING_INCDIR-to-clang.patch \
-            "
-=20
- # patches needed by musl
---=20
-2.34.1
+Full list:  Found 36 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
+CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
+CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
+CVE-2024-26900 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26900 *
+CVE-2024-26913 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26913 *
+CVE-2024-26949 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26949 *
+CVE-2024-26952 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26952 *
+CVE-2024-27012 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27012 *
+CVE-2024-27017 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27017 *
 
+Summary of CVE counts by recipe:
+  linux-yocto: 28
+  busybox: 4
+  gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial: 1
+  gnupg:gnupg-native: 1
+  openssh: 1
+  qemu:qemu-native:qemu-system-native: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
