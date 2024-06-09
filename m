@@ -1,155 +1,100 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A916AC27C55
-	for <webhook@archiver.kernel.org>; Sun,  9 Jun 2024 08:09:13 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.79])
- by mx.groups.io with SMTP id smtpd.web11.13870.1717920544082220674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D196C27C53
+	for <webhook@archiver.kernel.org>; Sun,  9 Jun 2024 08:21:03 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.13996.1717921261666908377
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jun 2024 01:09:04 -0700
+ Sun, 09 Jun 2024 01:21:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=mB/SLHHl;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.22.79, mailfrom: johannes.schneider@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OW+9+QiV3Fq0CJQBubNJPuKsL/Tez6RZ6u2IXCW+Ajc7Ih6oFHZUWCEfHpnBzgrR85CcPAPfjozmXGanYbD0eyUHjhYSp4TdYNZicoMhqrres9SGPBNLMN9roS2eERnOja6MqCpjpJQeYRyzKXnZI9rnhQqFfaCxEGpjQrdu8XiC395BR9EIU0vmocRToqnkeKevsIUw21cSH9peCU8VeOM+8xgSQkvtx7N6uhaQi+/KtfS/P8+O7uG+uB1RmfPuVOPHcOrstX5MTtwlklF9r7BVutJytXLE9V1sWbDX9TZax7ynbM44L1Zstm18hsiZ38m3cBmDb+Qlr1II/Mh3Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yVyFGlMF3xzMfpCEXXBwSMVEkxkghm1DjXidBDlpVeQ=;
- b=eCQrxRzasyb229e5nWdz4pCNcjug99ep+ByWiQysltHS5ETg3bLefPHaYjAx4ZrpouYV33Ohw4+b3L89TUxgrvSgqS4efOeyP+wP1jkQ82IF0ge9rh6tWOs8eA4hJzn67gwhdyZQdxC4duIbL1586VJRKho/u61Ro7nuYNRYt0sGZpHldXK8u7sMxSK42gmWTWZA7xqG0na+FNBAYf3djptFLR26Hh7LEyann7ym7ndg0SikTz9YFKiKEL4OmwowswKF0oPtGYwNp+wsKmtUrZxVTpD+BCgHt4PjZpqNMO3sXqXI+FfticAlVonH6Idv6K6tYrBZsQETEYmPFWJsWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yVyFGlMF3xzMfpCEXXBwSMVEkxkghm1DjXidBDlpVeQ=;
- b=mB/SLHHlDRTxy4xoLpYacvwvwhX4KiDa6j2HdSXpx4G0C6PNOoc705g923totHznODIjeiBUSMAGQ3veqm4McSpDewjF4eFjQY+5onx9tc1fmys56QT5DDOGS7e5RFVNnbO5f7DNx2wXLzYvCRqiPQm79cjj40euGAz8cIr04+g=
-Received: from DU2PR04CA0258.eurprd04.prod.outlook.com (2603:10a6:10:28e::23)
- by PA1PR06MB9251.eurprd06.prod.outlook.com (2603:10a6:102:464::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Sun, 9 Jun
- 2024 08:09:00 +0000
-Received: from DB1PEPF00039232.eurprd03.prod.outlook.com
- (2603:10a6:10:28e:cafe::f4) by DU2PR04CA0258.outlook.office365.com
- (2603:10a6:10:28e::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7656.23 via Frontend
- Transport; Sun, 9 Jun 2024 08:09:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.94; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.94) by
- DB1PEPF00039232.mail.protection.outlook.com (10.167.8.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Sun, 9 Jun 2024 08:09:00 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Sun, 9 Jun 2024 10:08:58 +0200
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH v1 1/2] systemd: add PACKAGECONFIG for bpf-framework
-Date: Sun,  9 Jun 2024 10:08:55 +0200
-Message-ID: <20240609080856.1020300-2-johannes.schneider@leica-geosystems.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240609080856.1020300-1-johannes.schneider@leica-geosystems.com>
-References: <20240609080856.1020300-1-johannes.schneider@leica-geosystems.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 09 Jun 2024 08:08:58.0775 (UTC) FILETIME=[47E78A70:01DABA44]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF00039232:EE_|PA1PR06MB9251:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 552e6c33-0fa9-4ef4-eed6-08dc885b6b39
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|82310400017|36860700004|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?wuBt1o7nODdqrsCfRhWyVK4G+TBZTpFyW0wT4sFny5qBvOQzm3AafKELTa2t?=
- =?us-ascii?Q?0mFkm8sD0iuu1AYY3AN8gmc35PpF3IdZ7E6doKeDRYjPvgWOO54h/3xl3R7w?=
- =?us-ascii?Q?uWxRekWbMNleZmZVdrW3eOOc536KPmSqrQlSG8hiZ90neuIIzDglKnbMgjkR?=
- =?us-ascii?Q?+BOrcmzgoQ/hzM2DXCiUAvEz8ACTeC379sn3Rz1Qijy1GFRrDPQV4mKdhBE6?=
- =?us-ascii?Q?4nPHdJ6+rc3VWUpPqGlrS3GiNamrRV21uNc2I0O4iz8hKBXVNejQpyIZjC1U?=
- =?us-ascii?Q?jTlJDMfLEErY4V+cqys6yElR36wJNYONeqo/caVF5c8UrsW8R+ZOnPT34d0+?=
- =?us-ascii?Q?IYmlnHj1Wt7bIxl12GbqFnHbrYlrQAL5yvK+4H5foMtQc/DcA9LdTBfbcec9?=
- =?us-ascii?Q?9qtEh+VUgSLFKOGO0grYdbNjVJ6AfsNbJbvRn7vYi/sfCLYfhEtl4/RNlcJE?=
- =?us-ascii?Q?m9ZDKdtMAzrdleoDHrjvRax9m4CoV7cI67p771yu0k1VzviYWflw/PEr1UMV?=
- =?us-ascii?Q?m0zQOKyFc4/aW4jbqasG9kwBtoMaxhuTP63TU2kS0rULCMCUrmcA26Af+ZsW?=
- =?us-ascii?Q?mQEeFXWh+Y+6uq1XebhwD4AItPXVG2tU4YnSFV1X4aJllp4PevHHMNa+lSFh?=
- =?us-ascii?Q?Aou6Vr3YhJ0b4E9HJEf8bmuypLDZoMZCMSV0hodLXvGaYzDKcAwkweyAqpIU?=
- =?us-ascii?Q?orPfCGFB38KGOH0FIgw8/9wdkkfpiflfVuUzQDRGlKuh+k3hOGkKuqmxf72h?=
- =?us-ascii?Q?XvSCo8O7z7X5maPzGPI3FxOSxxfo2hkKWHBxKAnxvw5b5TZsK94SpOeJW1bN?=
- =?us-ascii?Q?ABUMtASVFccY6fuV9qb2447R8SeVQVRX7DD1wdsuIRxjLtzwIi6xxXz3CcTH?=
- =?us-ascii?Q?4clh2UPL229kkuD2p8VZULOsVGU/FmZPiILr4IIMFBgadn6RLmUlwG3CyFvN?=
- =?us-ascii?Q?xSD9mcBZ11RDLWv2hUrbRJyA/NghAojMvxaghUDrs4alWzBCOSKP8ibpGUfY?=
- =?us-ascii?Q?mQKWNwhkGwfMnJhE54EPOjWbdnA2b6RRN0I4m6vYx2iW0wgQFVP9ns7+7IKB?=
- =?us-ascii?Q?MjDWSjG47ukL7yFTv6CM2GmUIaofjufxtSzelg/kRGWPYP80Gvvo3AnTZmLV?=
- =?us-ascii?Q?X0Gv2c+zX6yjVnWNbvLfKl+aUf2hhcYjTEKNUE7FE3DqtCwQlhb+LuPJZIWD?=
- =?us-ascii?Q?7Xg3yvePlo8w/JTM0Wc7Bdef7sXE7LXiZWeL8yH8efG4vrNwkZYZ1VefYWYO?=
- =?us-ascii?Q?dk+bWWxWnoElVtwOVGl0/bZwBhrfUwAuaIfY9HrjNLaTJOI2Eykn/YCFMbzn?=
- =?us-ascii?Q?L+hxaBTUCRXISLjEwW+Qx7ZjJZF1dOeE73UVSflfik4mY38NLHyXw/qctEeP?=
- =?us-ascii?Q?TqrJUEo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(82310400017)(36860700004)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2024 08:09:00.1502
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 552e6c33-0fa9-4ef4-eed6-08dc885b6b39
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF00039232.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR06MB9251
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MSvlSCLX;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GYWW9w6l;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018ffc16238c-89d5d903-b325-442b-a7a2-2fa1b5861cb4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1717921261; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=TwiIyQyFPHXGimzSAi2g1k50O/u4QMz2B4MGtunjd+M=;
+	b=MSvlSCLX4xO5iqsagS6Nc0Ghl9x3j1HJnmHBbTKJbLMIpmHf63SkBDpHRi5hwICY
+	ZDJVPQyX959BR9YUrplpmjzFnhDHj2Rth1O7noEj5QTL4ud99zjCFTZzq0ftIVp6HsO
+	syPAyBifjxi4ltvu1JT7e8t9u6ilVvZK2BGDGitQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1717921261;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=TwiIyQyFPHXGimzSAi2g1k50O/u4QMz2B4MGtunjd+M=;
+	b=GYWW9w6lHXTtJZQc1vg+8JeiIlQwFLz0y+3SnLp1gD7loFeuqkTIOrVPyP3MdR16
+	GzJBhlMMZevfT7qAwu0TMg3BlWePmk/cnrklhZHARs1FXdxDMANfEsurQL0RpnWLWxg
+	q6pQIUaQsIWH6p2kg+qIv+1TlBDEs7d3OLUQRYW0=
+From: patchtest@automation.yoctoproject.org
+To: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v1 2/2] systemd: bpf-framework: pass STAGING_INCDIR to eBPF
+ compiler
+In-Reply-To: <20240609080856.1020300-3-johannes.schneider@leica-geosystems.com>
+References: <20240609080856.1020300-3-johannes.schneider@leica-geosystems.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018ffc16238c-89d5d903-b325-442b-a7a2-2fa1b5861cb4-000000@us-west-2.amazonses.com>
+Date: Sun, 9 Jun 2024 08:21:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.09-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jun 2024 08:09:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200453
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jun 2024 08:21:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200455
 
-The bpf-framework is used to pre-compile eBPFs that required for the
-systemd.resource-control features RestrictFileSystems=3D[1] and
-RestrictNetworkInterfaces=3D[2] to work.
+--NextPart
+Content-Type: text/plain
 
-Apart from 'clang-native' to compile the eBPFs, the required kernel
-switches are described in [3].
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Link: https://www.freedesktop.org/software/systemd/man/latest/systemd.resou=
-rce-control.html#RestrictFileSystems=3D
-Link: https://www.freedesktop.org/software/systemd/man/latest/systemd.resou=
-rce-control.html#RestrictNetworkInterfaces=3D
-Link: https://kinvolk.io/blog/2021/04/extending-systemd-security-features-w=
-ith-ebpf/
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
 ---
- meta/recipes-core/systemd/systemd_255.6.bb | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/v1-2-2-systemd-bpf-framework-pass-STAGING_INCDIR-to-eBPF-compiler.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_255.6.bb b/meta/recipes-core=
-/systemd/systemd_255.6.bb
-index 62842d43c8..e70c9c738d 100644
---- a/meta/recipes-core/systemd/systemd_255.6.bb
-+++ b/meta/recipes-core/systemd/systemd_255.6.bb
-@@ -132,6 +132,7 @@ PACKAGECONFIG[acl] =3D "-Dacl=3Dtrue,-Dacl=3Dfalse,acl"
- PACKAGECONFIG[audit] =3D "-Daudit=3Dtrue,-Daudit=3Dfalse,audit"
- PACKAGECONFIG[backlight] =3D "-Dbacklight=3Dtrue,-Dbacklight=3Dfalse"
- PACKAGECONFIG[binfmt] =3D "-Dbinfmt=3Dtrue,-Dbinfmt=3Dfalse"
-+PACKAGECONFIG[bpf-framework] =3D "-Dbpf-framework=3Dtrue,-Dbpf-framework=
-=3Dfalse,clang-native bpftool-native libbpf,libbpf"
- PACKAGECONFIG[bzip2] =3D "-Dbzip2=3Dtrue,-Dbzip2=3Dfalse,bzip2"
- PACKAGECONFIG[cgroupv2] =3D "-Ddefault-hierarchy=3Dunified,-Ddefault-hiera=
-rchy=3Dhybrid"
- PACKAGECONFIG[coredump] =3D "-Dcoredump=3Dtrue,-Dcoredump=3Dfalse"
---=20
-2.34.1
+FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
