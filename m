@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5ABC27C55
-	for <webhook@archiver.kernel.org>; Mon, 10 Jun 2024 15:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B657C27C5F
+	for <webhook@archiver.kernel.org>; Mon, 10 Jun 2024 15:37:02 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.22673.1718033770744920374
+ by mx.groups.io with SMTP id smtpd.web11.22699.1718033818942283909
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jun 2024 08:36:11 -0700
+ Mon, 10 Jun 2024 08:36:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 944F311FB
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 08:36:34 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFBB612FC
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 08:37:22 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C2E0C3F64C
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 08:36:09 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 28BE93F64C
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 08:36:58 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] procps: fix build with new glibc but old kernel headers
-Date: Mon, 10 Jun 2024 15:36:07 +0000
-Message-Id: <20240610153607.2971604-1-ross.burton@arm.com>
+Subject: [PATCH scarthgap v2] procps: fix build with new glibc but old kernel headers
+Date: Mon, 10 Jun 2024 15:36:53 +0000
+Message-Id: <20240610153653.2972113-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 15:36:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200476
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 15:37:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200477
 
 If you're building procps with a newer glibc (with pidfd_open()) but
 older kernel headers (say 4.x, before __NR_pidfd_open) then procps will
@@ -95,7 +95,7 @@ requests/229]
 + #endif
 diff --git a/meta/recipes-extended/procps/procps_4.0.4.bb b/meta/recipes-=
 extended/procps/procps_4.0.4.bb
-index 789e0c27475..b02f74bd6bb 100644
+index 800384f22f7..ec8c4b0261b 100644
 --- a/meta/recipes-extended/procps/procps_4.0.4.bb
 +++ b/meta/recipes-extended/procps/procps_4.0.4.bb
 @@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
