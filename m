@@ -1,128 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2282C27C5E
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 06:00:24 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web10.3059.1718085623002821976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD75C25B76
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 06:19:04 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.3246.1718086741324045518
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jun 2024 23:00:23 -0700
+ Mon, 10 Jun 2024 23:19:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SKHmB9v0;
- spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c9cc681ee4so350989b6e.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jun 2024 23:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718085622; x=1718690422; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rmkCASFIZIYDAT+nJl+oI50L6O16FsdttMUPNshGTY=;
-        b=SKHmB9v0o789fQHX6flFTOUua/2fp4bIlRuoKF1CPtzGT7O+CZWtD0TIeTZ94zzwhQ
-         0bihvBx/n7GgVxbJIszN0BRSFbrUkrL/JfY5sYIusOgTnQXWZe5q6xZOcXeGfwN6S/sR
-         7AADLkExqLQknWPaceh6pFZDNhbrrirAbwartVLBkasVfgWQuFga3vLD1gXjBqtpbAwz
-         tRsDxoYukVbWbrmq3cjwtQv+JIKlPv+Qn6ztZrplSCsjiIKe+mZf4FjlnsF+J/wGH+s8
-         uwAq4gl07rojpi9v1W+cv44BxKYulgJ8O0Ux9nbR9xF3J3P+hru9JkyFj11HbfIB9nKZ
-         teQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718085622; x=1718690422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5rmkCASFIZIYDAT+nJl+oI50L6O16FsdttMUPNshGTY=;
-        b=eX9lc00GKIcDNuVUuykWw2OcPzUMDetA5bGbqtWqLwkEVecy3L9+r7zGWkZ1Dgpt57
-         +GKFBgzUsp2FQL6LZA2bZ/00DGiMt023rxES8DotKNN7d4yoRd1EW7dl5wsVG9IfUPqW
-         wm5gRO0iRaFhomB8okb4F9AmpEggndavULJnn9M2kjiAVQ69SDHdQ2ShosTenKtsbcT5
-         tjfBJZoW9e92/Y8mhrPNYGSdhTF3LoD8r9rgZ8G+H7w2NA40tZhHTPvti8ISRS7kvZ9G
-         xAOJByPyrRNnyQuHBRtFFCAwpjhWD7sBwLh9nt2n7c1GlgMeNssKm6PS8ywJnV5JS4Pp
-         rRLA==
-X-Gm-Message-State: AOJu0YyAVY8xGiSHL3ocGaLuG30RDfVwD/b1daBsb89y9ZhkySJTEVtP
-	jwOvGjTPKkcMS9aqSS+A899UGyZ2sc7QY9SLZbvd4LWWXQxRmEBtIWyUog==
-X-Google-Smtp-Source: AGHT+IFfV8RUcYQEqHvd3S7mmzG1AKLnZ5Q+tv6Gc/YTsEAbabJiy0WpX5Yae/FyuY1MN3hLgnTeZA==
-X-Received: by 2002:a05:6870:8186:b0:254:cbaf:1214 with SMTP id 586e51a60fabf-254cbaf17dcmr4768536fac.4.1718085621469;
-        Mon, 10 Jun 2024 23:00:21 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::9980])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703fd372a82sm7664741b3a.27.2024.06.10.23.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 23:00:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ltp: Fix build break with clang on risv64
-Date: Mon, 10 Jun 2024 23:00:17 -0700
-Message-ID: <20240611060017.618296-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OUz4m475;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=w97CeTva;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019005f329ba-89c14e25-444d-41fe-a087-1ecd17682c8a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1718086740; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=6UvyYq2CRfjdTC2o3pP7l5JPEdubsN3zViz37nZAfxA=;
+	b=OUz4m4755MyXVEls8i4U7niSJTiwbPmxA1i8vxVgMEHD7J7ae+CipKtaQbgQkHB9
+	pw4id3F1DvZfRAX0f4FdUBbOdG+z5Ej0QztiHlqRib/J7gBhw1kFc0Poa/G4MqKm8gz
+	9MLavu1p9UMcVb87d9j+qEq9WGIOlPNgOP5XfprM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718086740;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=6UvyYq2CRfjdTC2o3pP7l5JPEdubsN3zViz37nZAfxA=;
+	b=w97CeTvaaRY8dKe7e35iv/ZCBS9Fdxo472Ksb7/Dea5It+PHJtqcChegF8p/Ir4Z
+	YpaE/GFQavI1Jc+qvBEVdAZJ3F2Tcoecs+uO6FoAuk8FRS3jj7u0JHfm4J3K8aDxUYV
+	zHuBDRBMQL+VTYQvgoUiw1h6mRP1nlB5WH/DuRQY=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] ltp: Fix build break with clang on risv64
+In-Reply-To: <20240611060017.618296-1-raj.khem@gmail.com>
+References: <20240611060017.618296-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019005f329ba-89c14e25-444d-41fe-a087-1ecd17682c8a-000000@us-west-2.amazonses.com>
+Date: Tue, 11 Jun 2024 06:19:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:00:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200492
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200493
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...-__clear_cache-declaration-for-clang.patch | 32 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20240524.bb     |  2 ++
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
+Testing patch /home/patchtest/share/mboxes/ltp-Fix-build-break-with-clang-on-risv64.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
-new file mode 100644
-index 00000000000..ade6a52b63f
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
-@@ -0,0 +1,32 @@
-+From 2d384f268791ecd5ff0f26c8137dd4de0a1c4566 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 10 Jun 2024 22:52:56 -0700
-+Subject: [PATCH] Add __clear_cache declaration for clang
-+
-+__clear_cache was enabled on RISCV recently with 7352ba02390116f1cd6a9b583860ba28aa0a1b7a
-+however it fails to compile with clang19 on RISCV
-+With this error
-+
-+  hugemmap15.c:51:2: error: call to undeclared function '__clear_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-+      51 |         __clear_cache(p, p + COPY_SIZE);
-+         |         ^
-+
-+Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2024-June/038762.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Hui Min Mina Chou <minachou@andestech.com>
-+---
-+ testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-+index a84ba6476..856e22ff3 100644
-+--- a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-++++ b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-+@@ -21,6 +21,7 @@
-+ 
-+ #if defined(__clang__)
-+ 	#pragma clang optimize off
-++	void __clear_cache(void *start, void *end);
-+ #endif
-+ 
-+ #define _GNU_SOURCE
-diff --git a/meta/recipes-extended/ltp/ltp_20240524.bb b/meta/recipes-extended/ltp/ltp_20240524.bb
-index 1aafed0bf59..41d86b736ab 100644
---- a/meta/recipes-extended/ltp/ltp_20240524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20240524.bb
-@@ -14,6 +14,7 @@ DEPENDS:append:libc-musl = " fts "
- EXTRA_OEMAKE:append:libc-musl = " LIBC=musl "
- EXTRA_OECONF:append:libc-musl = " LIBS=-lfts "
- 
-+LDFLAGS:append:riscv64:toolchain-clang = " -rtlib=compiler-rt"
- # since ltp contains x86-64 assembler which uses the frame-pointer register,
- # set -fomit-frame-pointer x86-64 to handle cases where optimisation
- # is set to -O0 or frame pointers have been enabled by -fno-omit-frame-pointer
-@@ -28,6 +29,7 @@ SRCREV = "8f21ebba42216dbb7e8d44c23b4a977d6823f7a1"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-+           file://0001-Add-__clear_cache-declaration-for-clang.patch \
-            "
- 
- S = "${WORKDIR}/git"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
