@@ -1,109 +1,102 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 318EFC25B76
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:25:07 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.9502.1718112295021011689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2053CC27C5E
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:28:57 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.9579.1718112533521190372
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 06:24:55 -0700
+ Tue, 11 Jun 2024 06:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=aOb2h5i9;
- spf=pass (domain: snapchat.com, ip: 209.85.208.179, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2eaafda3b5cso72658771fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1718112292; x=1718717092; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+YOE77V0FRox6UNQJs0iifz/P+byRWI10ge43b2+T8=;
-        b=aOb2h5i9ymqJPZeQgTTS1MXqiF5nwhTjO0SqCrfifbW+ndKrV1rW+Jk9FNCrdcus8p
-         1WrmSTl9xsQAsz5pd6WvLJsMHAcLXVxOn6wBQfrb+5AltdmOD99m/EU1nXj7ec+tW1Qz
-         LjIlcaoO+VDFtNPrkMr+wFrQ8LNTFAnjvT0+g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718112292; x=1718717092;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M+YOE77V0FRox6UNQJs0iifz/P+byRWI10ge43b2+T8=;
-        b=elb7zxoy+5zH0/0Pud/DTE7fw+7Zi2RG/gJZrWVuSrYZ5LHUvVDOwD8UaJOMWr8ohl
-         LoKuB0ep4RzUieuX+qpBdvyPPXgkEd+OIXjy83oWzM+9OP6kU4q5Vhau3Hgnrx6FWcrA
-         MenLl1409kt4sKRXM+acE0VoRIhGPimt84c0+Up92tD1lx4YDX8wOiAm1yJsN5gmjRCf
-         PFT0GFZDvPOvAxXRT2BtdKvQav72le83uukLIoNEdbX4YSa25Flv2J/rv3IlYxPiU+Do
-         7I9S3mST0t/53+Y8CiFUVcQALr4/kqn9d2fGUiG3OjFKNNyn+/mL6GCGgPf6rnZA4r6P
-         kKZw==
-X-Gm-Message-State: AOJu0YytnDYwWwJzgoORC2jRU3zWGyM9z4HB9J9S54eEaarT1nmMTr6Z
-	HUzcsqkkGqrZrCVTxUz/I28Db3lfunXkcFfzDhxfbo9DFSC/VsuGL7/i8dr825As1nptnzlQf+a
-	BSYI=
-X-Google-Smtp-Source: AGHT+IFRe7KR4YezbHU0x93ECrkvwRgpai3F/1HDKU/ixtHZKhWDBtlkBOQ4PWtXhwh4+JMCsydV4A==
-X-Received: by 2002:a05:651c:4c6:b0:2ea:7d2f:415d with SMTP id 38308e7fff4ca-2eadce1f0d4mr88320831fa.1.1718112290338;
-        Tue, 11 Jun 2024 06:24:50 -0700 (PDT)
-Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe3cfsm209904575e9.9.2024.06.11.06.24.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 06:24:49 -0700 (PDT)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [OE-core][PATCH v4] oeqa/runtime: fix race-condition in minidebuginfo test
-Date: Tue, 11 Jun 2024 15:24:47 +0200
-Message-Id: <20240611132447.1497274-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JeW49eWa;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LfJeeGGU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010190077cb8f4-a0acd859-2a21-4850-8993-4515d04abc88-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1718112532; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=UZqGgbozTWjx8pUcw9kq3p1rUsBR4F68SsMSxsJ1s2Q=;
+	b=JeW49eWaOK9TUBNebPII8iOM8DUHPCzrQBipQiJmL8plkuxpfHOjEZLYirSxQcMk
+	5gX9M4dGVtslTsQDz9SaNeh15NLkiFdtnAxkljE1h58pAIJ8zhp2r8esaO4X/ZJrd/k
+	BCNAklAl0bJGcPQ/5GsBEbItwT1Od7HPx//A4SwQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718112532;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=UZqGgbozTWjx8pUcw9kq3p1rUsBR4F68SsMSxsJ1s2Q=;
+	b=LfJeeGGUbKEARHpM/lJkas9mazMA29CfmQ/y0izaY7NJYWRuPkz6a9n6d2LmKiGD
+	zmAnM6/7nV30rM6V/jEDz/SnlEeA37bn957LYfDGk83tyOPFun3hZUGup0FpmPLkWdA
+	I1CRUMdA2d8XyIpBG9WaSh8oyczeBQnrnIfzwK64=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][scarthgap 07/10] run-postinsts.service: Removed --no-reload
+ to fix reload warning when users execute systemctl in the first boot.
+In-Reply-To: 
+ <bdad9d3df6e9e4834803a60af24c072b39d5cbf8.1718111104.git.steve@sakoman.com>
+References: 
+ <bdad9d3df6e9e4834803a60af24c072b39d5cbf8.1718111104.git.steve@sakoman.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190077cb8f4-a0acd859-2a21-4850-8993-4515d04abc88-000000@us-west-2.amazonses.com>
+Date: Tue, 11 Jun 2024 13:28:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:25:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200521
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:28:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200522
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+--NextPart
+Content-Type: text/plain
 
-Fix this error where 'coredumpctl info' warns that the coredump is still being
-processed:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-```
-AssertionError: 1 != 0 : MiniDebugInfo Test failed: No match found.
--- Notice: 1 systemd-coredump@.service unit is running, output may be incomplete.
-```
-
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/lib/oeqa/runtime/cases/systemd.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+Testing patch /home/patchtest/share/mboxes/scarthgap-07-10-run-postinsts.service-Removed---no-reload-to-fix-reload-warning-when-users-execute-systemctl-in-the-first-boot..patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
-index 80fdae240a6..b399e2e279e 100644
---- a/meta/lib/oeqa/runtime/cases/systemd.py
-+++ b/meta/lib/oeqa/runtime/cases/systemd.py
-@@ -150,12 +150,21 @@ class SystemdServiceTests(SystemdTest):
-         t_thread.start()
-         time.sleep(1)
- 
--        status, output = self.target.run('pidof sleep')
-+        status, sleep_pid = self.target.run('pidof sleep')
-         # cause segfault on purpose
--        self.target.run('kill -SEGV %s' % output)
--        self.assertEqual(status, 0, msg = 'Not able to find process that runs sleep, output : %s' % output)
-+        self.target.run('kill -SEGV %s' % sleep_pid)
-+        self.assertEqual(status, 0, msg = 'Not able to find process that runs sleep, output : %s' % sleep_pid)
-+
-+        # Give some time to systemd-coredump@.service to process the coredump
-+        TIMEOUT_SEC = 20
-+        for x in range(TIMEOUT_SEC):
-+            status, output = self.target.run('coredumpctl list %s' % sleep_pid)
-+            if status == 0:
-+                break
-+            self.assertLess(x, TIMEOUT_SEC - 1, msg="Timed out waiting for coredump creation")
-+            time.sleep(1)
- 
--        (status, output) = self.target.run('coredumpctl info')
-+        (status, output) = self.target.run('coredumpctl info %s' % sleep_pid)
-         self.assertEqual(status, 0, msg='MiniDebugInfo Test failed: %s' % output)
-         self.assertEqual('sleep_for_duration (busybox.nosuid' in output or 'xnanosleep (sleep.coreutils' in output,
-                          True, msg='Call stack is missing minidebuginfo symbols (functions shown as "n/a"): %s' % output)
--- 
-2.36.1.vfs.0.0
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 130 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
