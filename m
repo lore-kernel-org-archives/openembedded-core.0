@@ -1,236 +1,117 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2400BC27C5E
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:35:17 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.9771.1718112906976510606
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EB4C27C5E
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:51:27 +0000 (UTC)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web11.10121.1718113884089675424
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 06:35:07 -0700
+ Tue, 11 Jun 2024 06:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=ZO+2ueO8;
- spf=pass (domain: snapchat.com, ip: 209.85.218.53, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f177b78dcso301173766b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:35:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=grC6hgCN;
+ spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6f98178ceb3so658565a34.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1718112905; x=1718717705; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1718113883; x=1718718683; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CZqnTYcP1roySkn7iOsrToYsVQ6/4YTuQbFJQVubYTU=;
-        b=ZO+2ueO8Xhc2oQKDXGzB8CGRcwuePbUhWhg4/PcnRDFxyUQ+oP1h6ZcegiSRq8phjn
-         5+/GjoWZQaK/XmmWOdK1fpRjCRMjM6Ro/Lld3dW1+DdLi9twzoL9J/sml4S4Wmc1fY53
-         d0B3d1ZVKPAtbLO3QmRFEvg3kBZPdgyhQO9oc=
+        bh=6hJZSwuuj8Q8EPkeXL4wi2ahL1hRraylfeHUzwQKOzg=;
+        b=grC6hgCNHMuhxYnpJ/HAy/ubonMbVd2Ebog6BPgYd7/i0XIYm5wcIno6I9lgAZwM75
+         nbKR4+LRXQLKVnlRbv50QvmjLyf68OJM3hq0jUg7lz8e4OEbUTYLrVHJNZdzDQ4LTIzC
+         d5RYrz/udTxH/0VkXmMeTvCjedWXjqk/UDLhheUIltvyE8AaD/CgrVeiMPKONqAFXq+q
+         Ehdi14xBNgnvZaMBebTM+5MNO3rnbeUQZvaDPzj/5Noa3hYskU3E8w17LKXaaU/gAUA/
+         tEUh0EFYHEqVrDGSVfVssWP4Xf4LxPMuIlDZ9mHTS9pUlTk2hpzqNs5RvIhPpsqVr02p
+         Xzug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718112905; x=1718717705;
+        d=1e100.net; s=20230601; t=1718113883; x=1718718683;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CZqnTYcP1roySkn7iOsrToYsVQ6/4YTuQbFJQVubYTU=;
-        b=e0cDxskKIofJffQ/zfnKOjlXAqapvCPrNNB3r8UBVziguJSIO0qK33ozm11yMZXA4N
-         XYT+UD0AN5Sc2zc4D4DZQQuupw02e6VcN0Ybamt1jPSCS1GUe4oE/rtou85eIeH4wEur
-         OBxCt/5HGCi278W2WBlQy1EhSZueaqlIdZusB3nC/p95EFjUzboN0x0Ktm36O9t38Q+B
-         n4n62VDtBU+bd4uvNRQD8oljbw6gS5dBE1rTcbkEQXEjAhpSrc7WXpn10R04Nz1vbFBD
-         XSnpCgMavfPXcfsx3elKKPA5j6z2VLRIL2kToDd/5Z5Qg6UL+CJVIBe5QxdGYNqKd/Nr
-         eTiQ==
-X-Gm-Message-State: AOJu0YxlJ0fv8AqV5xBnD+mK1O9S9f3AXuWem4gEBeAp526P2k9H1itr
-	zrnpCkVEC/WdPiVIJH7hsDOrO4LSq0Rho48liimlp28esYYf31QerdZ+7OFx8yLPxnu7pWL9CND
-	dGUm/nFgVccz4uYLschI/5eEkCmLBna1XpKqG4g==
-X-Google-Smtp-Source: AGHT+IE+ltSHHL62lvw6L+lS2UyujmYg07T7Xon5BhCaANiw7Uisxdsy+znbQezh3jWFgdqPPT/8z37NcQWbD4lu3Co=
-X-Received: by 2002:a17:907:9728:b0:a6f:1641:da55 with SMTP id
- a640c23a62f3a-a6f1641e656mr500808766b.46.1718112905272; Tue, 11 Jun 2024
- 06:35:05 -0700 (PDT)
+        bh=6hJZSwuuj8Q8EPkeXL4wi2ahL1hRraylfeHUzwQKOzg=;
+        b=qfX0fgSrGbH6RfU8QgmWN38Pv8K6cIf5SiN7ezezvbAxWbauvpMe/n4WMYIHCTGa+I
+         YG1F7JdYIvzy+ZA+JRR6MR1erbIelb5WZtXW1vau/7jF6nwy30TmtvpWRVccqRTIIGEJ
+         GIFIaVXc5YskccxCc1C4O1luC/d9PkzA1LPWFSTpCt7QOfkxVA29f4bM/QFC4QqwD3Xl
+         yX80dFwbK3libKtqV3iwCGwWIDzQDqPAz2p+435Dhwz0hHpimHg7dhHyYO96ivblFd2U
+         DIM27pG4Me3bAyVDmU8y5YN+1hYS1Sy2hg4ToSpDmrt59ZiOkT1clynTKtlfeYDxvwEU
+         gbXQ==
+X-Gm-Message-State: AOJu0YzhRbH+cF98y+g1PId9aoD0K9Iyc2VLB7HEhVKo1lk2NEb+xOly
+	HdSPqNVdrjpnXSVvUZ3X9UVFlN6RJooOqx6UwgJFbsokGmsnfKqzaLNgW5aAZJMX+nst8www9ay
+	SEi6lowwYDTGg1A4UcpQWG7DUu3iPyw==
+X-Google-Smtp-Source: AGHT+IH8s4nqnS+zn8tEyO9RgyM5eT2dkgV/akxvLvyHUl5EZAdaR4Crxp5lh/yV+WU+wEa8L7rC2ikYg2iLmsxGc5s=
+X-Received: by 2002:a05:6870:f684:b0:24f:ef6b:353e with SMTP id
+ 586e51a60fabf-254647f0819mr13269483fac.36.1718113883015; Tue, 11 Jun 2024
+ 06:51:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240610161642.257051-1-ecordonnier@snap.com> <D10F0112-192B-46C1-A9B3-6ED3F4F346D1@arm.com>
-In-Reply-To: <D10F0112-192B-46C1-A9B3-6ED3F4F346D1@arm.com>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Tue, 11 Jun 2024 15:34:54 +0200
-Message-ID: <CAHUKmYZoDBhGHXRNC=sSZDODXqGS8TbD5uKdQH9undyxw10VaQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3] oeqa/runtime: fix race-condition in
- minidebuginfo test
+References: <20240611060017.618296-1-raj.khem@gmail.com> <FF8B26CC-CB7E-40B5-A5E8-E4C4519F33D0@arm.com>
+In-Reply-To: <FF8B26CC-CB7E-40B5-A5E8-E4C4519F33D0@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Jun 2024 06:51:11 -0700
+Message-ID: <CAMKF1sohm5vAZYEE++7frTrEmQ-CzT32cVB9-aQYA32pLbojqA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ltp: Fix build break with clang on risv64
 To: Ross Burton <Ross.Burton@arm.com>
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000674c62061a9d55ee"
+Content-Type: multipart/alternative; boundary="000000000000ae528d061a9d8fd4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:35:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200523
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:51:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200524
 
---000000000000674c62061a9d55ee
+--000000000000ae528d061a9d8fd4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ross,
-OK, I addressed your feedback. On a side note, coredumpctl matches based on
-process names are really confusing when used with symlinks. I used a
-match based on pid to avoid the confusion:
-"
-# coredumpctl list
-TIME                         PID UID GID SIG     COREFILE EXE
-   SIZE
-Tue 2024-05-21 05:36:50 GMT 3442   0   0 SIGSEGV present
- /usr/bin/coreutils 109.0K
+On Tue, Jun 11, 2024 at 3:49=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
 
-# coredumpctl list coreutils
-No coredumps found.
-
-# coredumpctl list sleep
-TIME                         PID UID GID SIG     COREFILE EXE
-   SIZE
-Tue 2024-05-21 05:36:50 GMT 3442   0   0 SIGSEGV present
- /usr/bin/coreutils 109.0K
-"
-
-
-On Tue, Jun 11, 2024 at 12:47=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> =
-wrote:
-
-> On 10 Jun 2024, at 17:16, Etienne Cordonnier via lists.openembedded.org
-> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
+> On 11 Jun 2024, at 07:00, Khem Raj via lists.openembedded.org <raj.khem=
+=3D
+> gmail.com@lists.openembedded.org> wrote:
 > >
-> > From: Etienne Cordonnier <ecordonnier@snap.com>
-> >
-> > Fix this error where 'coredumpctl info' warns that the coredump is stil=
-l
-> being
-> > processed:
-> >
-> > ```
-> > AssertionError: 1 !=3D 0 : MiniDebugInfo Test failed: No match found.
-> > -- Notice: 1 systemd-coredump@.service unit is running, output may be
-> incomplete.
-> > ```
-> >
-> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> > ---
-> > meta/lib/oeqa/runtime/cases/systemd.py | 7 +++++++
-> > 1 file changed, 7 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/runtime/cases/systemd.py
-> b/meta/lib/oeqa/runtime/cases/systemd.py
-> > index 80fdae240a..aed230708e 100644
-> > --- a/meta/lib/oeqa/runtime/cases/systemd.py
-> > +++ b/meta/lib/oeqa/runtime/cases/systemd.py
-> > @@ -155,6 +155,13 @@ class SystemdServiceTests(SystemdTest):
-> >         self.target.run('kill -SEGV %s' % output)
-> >         self.assertEqual(status, 0, msg =3D 'Not able to find process t=
-hat
-> runs sleep, output : %s' % output)
-> >
-> > +        # Give some time to systemd-coredump@.service to process the
-> coredump
-> > +        for x in range(20):
-> > +            status, output =3D self.target.run('coredumpctl --quiet
-> --no-pager --no-legend | wc -l')
-> > +            if output =3D=3D "1":
-> > +                break
-> > +            time.sleep(1)
-> > +
-> >         (status, output) =3D self.target.run('coredumpctl info')
+> > +LDFLAGS:append:riscv64:toolchain-clang =3D " -rtlib=3Dcompiler-rt"
 >
-> As someone who spent too long staring at mysterious failures in the
-> debuginfod tests, I recommend you add an =E2=80=98else=E2=80=99 case to t=
-hat loop so that
-> you can explicitly fail if the timeout expires without breaking out.
+> Can you add a quick comment explaining what this is for?  Presumably it=
+=E2=80=99s
+> Yocto-specific as otherwise it would be upstream, so why.
+
+
+It=E2=80=99s a remnant which is not needed will send v2
+
 >
-> Also it feels like the test could be made more reliably by using matches
-> instead of just asking it to list all crashes and expecting it to be one
-> (what if something else crashed?), and assuming the latest crash is the o=
-ne
-> we=E2=80=99re after.   If you use matches then the exit code is set to no=
-n-zero if
-> the match isn=E2=80=99t found, so you could combine the retry loop and th=
-e actual
-> test into one.
 >
 > Ross
+>
+>
 
---000000000000674c62061a9d55ee
+--000000000000ae528d061a9d8fd4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Ross,<br>OK, I addressed your feedback. On a side note,=
- coredumpctl matches based on process names are really confusing when used =
-with symlinks. I used a match=C2=A0based on pid to avoid the confusion:<br>=
-&quot;<br># coredumpctl list<br>TIME =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PID UID GID SIG =C2=A0 =C2=A0=
- COREFILE EXE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0SIZE<br>Tue 2024-05-21 05:36:50 GMT 3442 =C2=A0 0 =C2=A0 0 SIGSEGV prese=
-nt =C2=A0/usr/bin/coreutils 109.0K<br><br># coredumpctl list coreutils<br>N=
-o coredumps found.<br><br># coredumpctl list sleep<br>TIME =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PID U=
-ID GID SIG =C2=A0 =C2=A0 COREFILE EXE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0SIZE<br>Tue 2024-05-21 05:36:50 GMT 3442 =C2=A0 =
-0 =C2=A0 0 SIGSEGV present =C2=A0/usr/bin/coreutils 109.0K<br>&quot;<br><br=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Tue, Jun 11, 2024 at 12:47=E2=80=AFPM Ross Burton &lt;<a href=3D"mailto=
-:Ross.Burton@arm.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 10 Jun 2024, =
-at 17:16, Etienne Cordonnier via <a href=3D"http://lists.openembedded.org" =
-rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> &lt;ecordon=
-nier=3D<a href=3D"mailto:snap.com@lists.openembedded.org" target=3D"_blank"=
->snap.com@lists.openembedded.org</a>&gt; wrote:<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jun 11, 2024 at 3:49=E2=80=AFAM Ross Burton &lt;<a =
+href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">On 11 Jun 2024, at 07:00, Khem Raj via =
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;raj.khem=3D<a href=3D"mailto:gmail.com@l=
+ists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</=
+a>&gt; wrote:<br>
 &gt; <br>
-&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
-arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; <br>
-&gt; Fix this error where &#39;coredumpctl info&#39; warns that the coredum=
-p is still being<br>
-&gt; processed:<br>
-&gt; <br>
-&gt; ```<br>
-&gt; AssertionError: 1 !=3D 0 : MiniDebugInfo Test failed: No match found.<=
-br>
-&gt; -- Notice: 1 systemd-coredump@.service unit is running, output may be =
-incomplete.<br>
-&gt; ```<br>
-&gt; <br>
-&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
-ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; ---<br>
-&gt; meta/lib/oeqa/runtime/cases/systemd.py | 7 +++++++<br>
-&gt; 1 file changed, 7 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/ru=
-ntime/cases/systemd.py<br>
-&gt; index 80fdae240a..aed230708e 100644<br>
-&gt; --- a/meta/lib/oeqa/runtime/cases/systemd.py<br>
-&gt; +++ b/meta/lib/oeqa/runtime/cases/systemd.py<br>
-&gt; @@ -155,6 +155,13 @@ class SystemdServiceTests(SystemdTest):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(&#39;kill -SEGV %s&#3=
-9; % output)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(status, 0, msg =3D &=
-#39;Not able to find process that runs sleep, output : %s&#39; % output)<br=
->
-&gt; <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Give some time to systemd-coredump@.ser=
-vice to process the coredump<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for x in range(20):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.tar=
-get.run(&#39;coredumpctl --quiet --no-pager --no-legend | wc -l&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if output =3D=3D &quot;1&qu=
-ot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 time.sleep(1)<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(status, output) =3D self.target.run(=
-&#39;coredumpctl info&#39;)<br>
+&gt; +LDFLAGS:append:riscv64:toolchain-clang =3D &quot; -rtlib=3Dcompiler-r=
+t&quot;<br>
 <br>
-As someone who spent too long staring at mysterious failures in the debugin=
-fod tests, I recommend you add an =E2=80=98else=E2=80=99 case to that loop =
-so that you can explicitly fail if the timeout expires without breaking out=
-.<br>
+Can you add a quick comment explaining what this is for?=C2=A0 Presumably i=
+t=E2=80=99s Yocto-specific as otherwise it would be upstream, so why.</bloc=
+kquote><div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=80=99s a remnant=
+ which is not needed will send v2</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=
+=3D"auto"><br>
 <br>
-Also it feels like the test could be made more reliably by using matches in=
-stead of just asking it to list all crashes and expecting it to be one (wha=
-t if something else crashed?), and assuming the latest crash is the one we=
-=E2=80=99re after.=C2=A0 =C2=A0If you use matches then the exit code is set=
- to non-zero if the match isn=E2=80=99t found, so you could combine the ret=
-ry loop and the actual test into one.<br>
+Ross<br>
 <br>
-Ross</blockquote></div>
+</blockquote></div></div>
 
---000000000000674c62061a9d55ee--
+--000000000000ae528d061a9d8fd4--
 
