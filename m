@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD12C27C79
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:07:36 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.9066.1718111256350251509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B98C4C25B76
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:07:46 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.9073.1718111266034094820
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 06:07:36 -0700
+ Tue, 11 Jun 2024 06:07:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aqbS7P8m;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-6818e31e5baso4626338a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:07:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UzF/PDMa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-704261a1f67so1140973b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718111255; x=1718716055; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718111265; x=1718716065; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rurq37VHP+VZlnX6UEosws9s1hS3I/Hxaj4HZgN5bYw=;
-        b=aqbS7P8m5nzDfLkcRlArZRl4j9X8DOksA66/GCrCNhsjND4nZsL8Q/DdGKHckOcHJB
-         fBKcDUP66GxMA6qZTK7YCWbP93zJrVhV0J+OkcOaYZCoF2BkyR06b6nDdBkZ2z2rb8hM
-         8LgRifdQIBZ1RFr/Kg82+i6HD+YJBPHMqJu4AM2lCMz8hBH0kL45F57nioQNtSAHtAJW
-         IXqFQqoXlezqZYFHyhXH4earVNeKiQRQgHxn3iCKyjDVp/KYaKkbTY9tgT16Dm7ptZXj
-         D6pNgujKecDf1aeQgBENPdH5qtETH8IFSn5SPZ0P+q7WEvAhqd9f5V4Wkk5Cn6nnUYuN
-         2E/g==
+        bh=FXcNPy4Z3bRdClAh+Cn6+AgXKGNd1kmXE2qAcsyLScE=;
+        b=UzF/PDMagbVv7uvp8hGMmX2zUq0tjuHQZUGnaAPmId/mTsp19W2o5XyvLJe1qZ1fdi
+         NTVPesniT2uS/Vp/LxyRkavx4gLelqCi4irEIk/cJZOfaUanW+99yYEKReAi6ncVGwaf
+         eBbig+ogttmWCtjoYekfyIAekl6OECVL3QmDWBQDktt7PS9I+tbUneL/YyaFjO4jodXI
+         6rze/5fzrCpmcm3/7P1iHGzTnPvw8YB/l1uzysMI863s9eIO35/Yh0MzVDAFFCQ/jh+9
+         DqKhLlnrKX2V0YdZr0xbO+T7j7aaJGO04TxvzFfFf5rNnRVptXR27fkgOMTbSNs+Vt9n
+         0OPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718111255; x=1718716055;
+        d=1e100.net; s=20230601; t=1718111265; x=1718716065;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rurq37VHP+VZlnX6UEosws9s1hS3I/Hxaj4HZgN5bYw=;
-        b=IqTY8K9NSioyUKYBxy+XKx8Yqr2Ne5djfCbrsaP7GOBa+z6b6xwb+egDE6ItDCAyFB
-         ARNFfTnycZM3t/i4Sp6p8RfRouXH7NaszPl8ZLuP7sdFVOUVUc53XWB6VtMRma5GRoKC
-         SDh/AcnqejLevv8AjAfS2pmXDH07p2z1FZ9qOHlfm6V3ODIcfisP0tI/Rzl5B9cOXv8f
-         jz+GB2sIn8ayeRoE6ojckzFyh0u8vdWMFDmVTV5Vs0ztSnnAFDtWszAobBnWcz5ITUk7
-         IPxYiuQitbN/7O34bOmuxorIofF3ZZ++UAx+TUDba/Wqo7KS4E6jAOToR2frJ0A7tJdM
-         Cjww==
-X-Gm-Message-State: AOJu0YzCyI6u3zFzV0gf5QrlK2m0D7Z8k2cPqD4oAa7mU5wPi5bqnMS6
-	fBlE7B0RsE+OyVH830sPg7QuiJFje/N5HM2dh2zUNQprGQyGD1uh8fFmX0zmk9DfX7wzCgptv8/
-	t
-X-Google-Smtp-Source: AGHT+IEHa1pKQ/Rb2scVtmf4KcVFY6vWtDy23p2y65wnDSX8HN7Vvuk2nGPy3b+rUMFPr/qO8sKJRQ==
-X-Received: by 2002:a17:90a:d397:b0:2bd:ef6b:c33b with SMTP id 98e67ed59e1d1-2c2bc7b4c69mr13476671a91.0.1718111255168;
-        Tue, 11 Jun 2024 06:07:35 -0700 (PDT)
+        bh=FXcNPy4Z3bRdClAh+Cn6+AgXKGNd1kmXE2qAcsyLScE=;
+        b=iRPRzjv22B8r8UbKs5ZILD5ZtJRsrmclrOLPLx7lhe3tPUS9WxbEnBa9cfGW9q5+ZM
+         0ZQQx9VyKzOl0HZOAa6t4A8xi8FGjImzC9KznZj92A39IQkNH8fXzSgUstE49eAFjFgi
+         Gx5jap4Es6MjFzcqH4Cp+DzUXlaocHMDaIlS7NJ3eS3lWf2IgKFXyRFpMcBeXg3R4MDH
+         KTfnMGdleLRKvXkXtlme90Sqi2bmnssmSrwDZIviIHaHEQtfXOKaR0ZQe5X/7RQ1zGnt
+         oY2Qx9kjvsJTMj8D/Bk2ev1wDARMRIeZgpAO6E7Ysv0Z+vrx9Qq0imCFsEcKjWJO8Y0k
+         nwLQ==
+X-Gm-Message-State: AOJu0YzGGCRi9k77ixCsxiiDrTn/UV7y8j7yWzkzL9TCgw1jhomN5K6G
+	avC8GtEOrFyt9vE6nbISX7Y+kMR2dHcVspXU/yw6ikahYgft1B+AqY0e2e85c6JdSFFEo5E+m4i
+	A
+X-Google-Smtp-Source: AGHT+IHEQ6NVtei6mQRcubtj2uNazRH/ltQdg1TChAXoejYqCKSWGN25n6qlRRx0hIYwRwYcfUuxAQ==
+X-Received: by 2002:a05:6a20:9147:b0:1b7:ffb9:fb30 with SMTP id adf61e73a8af0-1b7ffba0ae9mr5240217637.42.1718111265247;
+        Tue, 11 Jun 2024 06:07:45 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3076dcf04sm4380915a91.48.2024.06.11.06.07.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3076dcf04sm4380915a91.48.2024.06.11.06.07.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 06:07:34 -0700 (PDT)
+        Tue, 11 Jun 2024 06:07:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/10] openssl: Upgrade 3.2.1 -> 3.2.2
-Date: Tue, 11 Jun 2024 06:07:19 -0700
-Message-Id: <f99c9346c225b862cc26923e823c35484beb797f.1718111104.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/10] git: upgrade 2.44.0 -> 2.44.1
+Date: Tue, 11 Jun 2024 06:07:21 -0700
+Message-Id: <3a7ef46ebaf8d4b470ef5b6803dc3b76c22a97c2.1718111104.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718111104.git.steve@sakoman.com>
 References: <cover.1718111104.git.steve@sakoman.com>
@@ -61,438 +61,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:07:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200513
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:07:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200515
 
-From: Siddharth <sdoshi@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-CVE's Fixed by upgrade:
-CVE-2024-4741: Fixed potential use after free after SSL_free_buffers() is called
-CVE-2024-4603: Fixed an issue where checking excessively long DSA keys or parameters may be very slow
-CVE-2024-2511: Fixed unbounded memory growth with session handling in TLSv1.3
+Addresses the security issues - CVE-2024-32002, CVE-2024-32004,
+CVE-2024-32020,CVE-2024-32021 and CVE-2024-32465
 
-Bugs Fixed by upgrade:
-#23560: Fixed bug where SSL_export_keying_material() could not be used with QUIC connections
+Changelog:
+==========
+https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/2.44.1.txt
 
-Removed backports of CVE-2024-2511, CVE-2024-4603 and bti.patch as they
-are already fixed.
-
-Detailed Information:
-https://github.com/openssl/openssl/blob/openssl-3.2/CHANGES.md#changes-between-321-and-322-4-jun-2024
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 767f9515013790c9a6b945fae9de03c9e5b89b80)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/openssl/CVE-2024-2511.patch       | 120 ------------
- .../openssl/openssl/CVE-2024-4603.patch       | 179 ------------------
- .../openssl/openssl/bti.patch                 |  58 ------
- .../{openssl_3.2.1.bb => openssl_3.2.2.bb}    |   5 +-
- 4 files changed, 1 insertion(+), 361 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/bti.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.2.1.bb => openssl_3.2.2.bb} (97%)
+ meta/recipes-devtools/git/{git_2.44.0.bb => git_2.44.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/git/{git_2.44.0.bb => git_2.44.1.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
-deleted file mode 100644
-index 8772f716d5..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
-+++ /dev/null
-@@ -1,120 +0,0 @@
--From e9d7083e241670332e0443da0f0d4ffb52829f08 Mon Sep 17 00:00:00 2001
--From: Matt Caswell <matt@openssl.org>
--Date: Tue, 5 Mar 2024 15:43:53 +0000
--Subject: [PATCH] Fix unconstrained session cache growth in TLSv1.3
--
--In TLSv1.3 we create a new session object for each ticket that we send.
--We do this by duplicating the original session. If SSL_OP_NO_TICKET is in
--use then the new session will be added to the session cache. However, if
--early data is not in use (and therefore anti-replay protection is being
--used), then multiple threads could be resuming from the same session
--simultaneously. If this happens and a problem occurs on one of the threads,
--then the original session object could be marked as not_resumable. When we
--duplicate the session object this not_resumable status gets copied into the
--new session object. The new session object is then added to the session
--cache even though it is not_resumable.
--
--Subsequently, another bug means that the session_id_length is set to 0 for
--sessions that are marked as not_resumable - even though that session is
--still in the cache. Once this happens the session can never be removed from
--the cache. When that object gets to be the session cache tail object the
--cache never shrinks again and grows indefinitely.
--
--CVE-2024-2511
--
--Reviewed-by: Neil Horman <nhorman@openssl.org>
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/24043)
--
--CVE: CVE-2024-2511
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ffb52829f08]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- ssl/ssl_lib.c            |  5 +++--
-- ssl/ssl_sess.c           | 28 ++++++++++++++++++++++------
-- ssl/statem/statem_srvr.c |  5 ++---
-- 3 files changed, 27 insertions(+), 11 deletions(-)
--
--diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
--index 4afb43bc86e54..c51529ddab5bb 100644
----- a/ssl/ssl_lib.c
--+++ b/ssl/ssl_lib.c
--@@ -4457,9 +4457,10 @@ void ssl_update_cache(SSL_CONNECTION *s, int mode)
-- 
--     /*
--      * If the session_id_length is 0, we are not supposed to cache it, and it
---     * would be rather hard to do anyway :-)
--+     * would be rather hard to do anyway :-). Also if the session has already
--+     * been marked as not_resumable we should not cache it for later reuse.
--      */
---    if (s->session->session_id_length == 0)
--+    if (s->session->session_id_length == 0 || s->session->not_resumable)
--         return;
-- 
--     /*
--diff --git a/ssl/ssl_sess.c b/ssl/ssl_sess.c
--index 3dcc4d81e5bc6..1fa6d17c46863 100644
----- a/ssl/ssl_sess.c
--+++ b/ssl/ssl_sess.c
--@@ -127,16 +127,11 @@ SSL_SESSION *SSL_SESSION_new(void)
--     return ss;
-- }
-- 
---SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
---{
---    return ssl_session_dup(src, 1);
---}
---
-- /*
--  * Create a new SSL_SESSION and duplicate the contents of |src| into it. If
--  * ticket == 0 then no ticket information is duplicated, otherwise it is.
--  */
---SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
--+static SSL_SESSION *ssl_session_dup_intern(const SSL_SESSION *src, int ticket)
-- {
--     SSL_SESSION *dest;
-- 
--@@ -265,6 +260,27 @@ SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
--     return NULL;
-- }
-- 
--+SSL_SESSION *SSL_SESSION_dup(const SSL_SESSION *src)
--+{
--+    return ssl_session_dup_intern(src, 1);
--+}
--+
--+/*
--+ * Used internally when duplicating a session which might be already shared.
--+ * We will have resumed the original session. Subsequently we might have marked
--+ * it as non-resumable (e.g. in another thread) - but this copy should be ok to
--+ * resume from.
--+ */
--+SSL_SESSION *ssl_session_dup(const SSL_SESSION *src, int ticket)
--+{
--+    SSL_SESSION *sess = ssl_session_dup_intern(src, ticket);
--+
--+    if (sess != NULL)
--+        sess->not_resumable = 0;
--+
--+    return sess;
--+}
--+
-- const unsigned char *SSL_SESSION_get_id(const SSL_SESSION *s, unsigned int *len)
-- {
--     if (len)
--diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c
--index 853af8c0aa9f9..d5f0ab091dacc 100644
----- a/ssl/statem/statem_srvr.c
--+++ b/ssl/statem/statem_srvr.c
--@@ -2445,9 +2445,8 @@ CON_FUNC_RETURN tls_construct_server_hello(SSL_CONNECTION *s, WPACKET *pkt)
--      * so the following won't overwrite an ID that we're supposed
--      * to send back.
--      */
---    if (s->session->not_resumable ||
---        (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode & SSL_SESS_CACHE_SERVER)
---         && !s->hit))
--+    if (!(SSL_CONNECTION_GET_CTX(s)->session_cache_mode & SSL_SESS_CACHE_SERVER)
--+            && !s->hit)
--         s->session->session_id_length = 0;
-- 
--     if (usetls13) {
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
-deleted file mode 100644
-index 50fb969c03..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
-+++ /dev/null
-@@ -1,179 +0,0 @@
--From da343d0605c826ef197aceedc67e8e04f065f740 Mon Sep 17 00:00:00 2001
--From: Tomas Mraz <tomas@openssl.org>
--Date: Wed, 8 May 2024 15:23:45 +0200
--Subject: [PATCH] Check DSA parameters for excessive sizes before validating
--
--This avoids overly long computation of various validation
--checks.
--
--Fixes CVE-2024-4603
--
--Reviewed-by: Paul Dale <ppzgs1@gmail.com>
--Reviewed-by: Matt Caswell <matt@openssl.org>
--Reviewed-by: Neil Horman <nhorman@openssl.org>
--Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
--(Merged from https://github.com/openssl/openssl/pull/24346)
--
--(cherry picked from commit 85ccbab216da245cf9a6503dd327072f21950d9b)
--
--<dropped CHANGES.md modifications as it would need backport of all previous changes>
--
--CVE: CVE-2024-4603
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/da343d0605c826ef197aceedc67e8e04f065f740]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
-- .../invalid/p10240_q256_too_big.pem           | 57 +++++++++++++++++++
-- 2 files changed, 97 insertions(+), 4 deletions(-)
--
--diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
--index fb0e9129a2..122449a7bf 100644
----- a/crypto/dsa/dsa_check.c
--+++ b/crypto/dsa/dsa_check.c
--@@ -19,8 +19,34 @@
-- #include "dsa_local.h"
-- #include "crypto/dsa.h"
-- 
--+static int dsa_precheck_params(const DSA *dsa, int *ret)
--+{
--+    if (dsa->params.p == NULL || dsa->params.q == NULL) {
--+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_FFC_PARAMETERS);
--+        *ret = FFC_CHECK_INVALID_PQ;
--+        return 0;
--+    }
--+
--+    if (BN_num_bits(dsa->params.p) > OPENSSL_DSA_MAX_MODULUS_BITS) {
--+        ERR_raise(ERR_LIB_DSA, DSA_R_MODULUS_TOO_LARGE);
--+        *ret = FFC_CHECK_INVALID_PQ;
--+        return 0;
--+    }
--+
--+    if (BN_num_bits(dsa->params.q) >= BN_num_bits(dsa->params.p)) {
--+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_Q_VALUE);
--+        *ret = FFC_CHECK_INVALID_PQ;
--+        return 0;
--+    }
--+
--+    return 1;
--+}
--+
-- int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
-- {
--+    if (!dsa_precheck_params(dsa, ret))
--+        return 0;
--+
--     if (checktype == OSSL_KEYMGMT_VALIDATE_QUICK_CHECK)
--         return ossl_ffc_params_simple_validate(dsa->libctx, &dsa->params,
--                                                FFC_PARAM_TYPE_DSA, ret);
--@@ -39,6 +65,9 @@ int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
--  */
-- int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
-- {
--+    if (!dsa_precheck_params(dsa, ret))
--+        return 0;
--+
--     return ossl_ffc_validate_public_key(&dsa->params, pub_key, ret)
--            && *ret == 0;
-- }
--@@ -50,6 +79,9 @@ int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int *ret)
--  */
-- int ossl_dsa_check_pub_key_partial(const DSA *dsa, const BIGNUM *pub_key, int *ret)
-- {
--+    if (!dsa_precheck_params(dsa, ret))
--+        return 0;
--+
--     return ossl_ffc_validate_public_key_partial(&dsa->params, pub_key, ret)
--            && *ret == 0;
-- }
--@@ -58,8 +90,10 @@ int ossl_dsa_check_priv_key(const DSA *dsa, const BIGNUM *priv_key, int *ret)
-- {
--     *ret = 0;
-- 
---    return (dsa->params.q != NULL
---            && ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret));
--+    if (!dsa_precheck_params(dsa, ret))
--+        return 0;
--+
--+    return ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret);
-- }
-- 
-- /*
--@@ -72,8 +106,10 @@ int ossl_dsa_check_pairwise(const DSA *dsa)
--     BN_CTX *ctx = NULL;
--     BIGNUM *pub_key = NULL;
-- 
---    if (dsa->params.p == NULL
---        || dsa->params.g == NULL
--+    if (!dsa_precheck_params(dsa, &ret))
--+        return 0;
--+
--+    if (dsa->params.g == NULL
--         || dsa->priv_key == NULL
--         || dsa->pub_key == NULL)
--         return 0;
--diff --git a/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
--new file mode 100644
--index 0000000000..e85e2953b7
----- /dev/null
--+++ b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.pem
--@@ -0,0 +1,57 @@
--+-----BEGIN DSA PARAMETERS-----
--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
--+vKuje86bePD6kD/LH3wmkA==
--+-----END DSA PARAMETERS-----
---- 
--2.30.2
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/bti.patch b/meta/recipes-connectivity/openssl/openssl/bti.patch
-deleted file mode 100644
-index 748576c30c..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/bti.patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From ba8a599395f8b770c76316b5f5b0f3838567014f Mon Sep 17 00:00:00 2001
--From: Tom Cosgrove <tom.cosgrove@arm.com>
--Date: Tue, 26 Mar 2024 13:18:00 +0000
--Subject: [PATCH] aarch64: fix BTI in bsaes assembly code
--
--In Arm systems where BTI is enabled but the Crypto extensions are not (more
--likely in FVPs than in real hardware), the bit-sliced assembler code will
--be used. However, this wasn't annotated with BTI instructions when BTI was
--enabled, so the moment libssl jumps into this code it (correctly) aborts.
--
--Solve this by adding the missing BTI landing pads.
--
--Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/23982]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- crypto/aes/asm/bsaes-armv8.pl | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/crypto/aes/asm/bsaes-armv8.pl b/crypto/aes/asm/bsaes-armv8.pl
--index b3c97e439f..c3c5ff3e05 100644
----- a/crypto/aes/asm/bsaes-armv8.pl
--+++ b/crypto/aes/asm/bsaes-armv8.pl
--@@ -1018,6 +1018,7 @@ _bsaes_key_convert:
-- //   Initialisation vector overwritten with last quadword of ciphertext
-- //   No output registers, usual AAPCS64 register preservation
-- ossl_bsaes_cbc_encrypt:
--+        AARCH64_VALID_CALL_TARGET
--         cmp     x2, #128
--         bhs     .Lcbc_do_bsaes
--         b       AES_cbc_encrypt
--@@ -1270,7 +1271,7 @@ ossl_bsaes_cbc_encrypt:
-- //   Output text filled in
-- //   No output registers, usual AAPCS64 register preservation
-- ossl_bsaes_ctr32_encrypt_blocks:
---
--+        AARCH64_VALID_CALL_TARGET
--         cmp     x2, #8                      // use plain AES for
--         blo     .Lctr_enc_short             // small sizes
-- 
--@@ -1476,6 +1477,7 @@ ossl_bsaes_ctr32_encrypt_blocks:
-- //   Output ciphertext filled in
-- //   No output registers, usual AAPCS64 register preservation
-- ossl_bsaes_xts_encrypt:
--+        AARCH64_VALID_CALL_TARGET
--         // Stack layout:
--         // sp ->
--         //        nrounds*128-96 bytes: key schedule
--@@ -1921,6 +1923,7 @@ ossl_bsaes_xts_encrypt:
-- //   Output plaintext filled in
-- //   No output registers, usual AAPCS64 register preservation
-- ossl_bsaes_xts_decrypt:
--+        AARCH64_VALID_CALL_TARGET
--         // Stack layout:
--         // sp ->
--         //        nrounds*128-96 bytes: key schedule
---- 
--2.34.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-index 9bdf7e1ec6..1c92707144 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-@@ -12,16 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
--           file://bti.patch \
--           file://CVE-2024-2511.patch \
--           file://CVE-2024-4603.patch \
-            "
+diff --git a/meta/recipes-devtools/git/git_2.44.0.bb b/meta/recipes-devtools/git/git_2.44.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.44.0.bb
+rename to meta/recipes-devtools/git/git_2.44.1.bb
+index 78b00dd19f..53d67eb40a 100644
+--- a/meta/recipes-devtools/git/git_2.44.0.bb
++++ b/meta/recipes-devtools/git/git_2.44.1.bb
+@@ -164,4 +164,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
- SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "83c7329fe52c850677d75e5d0b0ca245309b97e8ecbcfdc1dfdc4ab9fac35b39"
-+SRC_URI[sha256sum] = "197149c18d9e9f292c43f0400acaba12e5f52cacfe050f3d199277ea738ec2e7"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+-SRC_URI[tarball.sha256sum] = "f9e36f085458fe9688fbbe7846b8c4770b13d161fcd8953655f36b2b85f06b76"
++SRC_URI[tarball.sha256sum] = "118214bb8d7ba971a62741416e757562b8f5451cefc087a407e91857897c92cc"
 -- 
 2.34.1
 
