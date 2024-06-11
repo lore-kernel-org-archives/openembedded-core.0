@@ -1,122 +1,135 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AA8C27C77
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:42:47 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.11343.1718116957682033084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E89AC27C75
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:44:17 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web10.11488.1718117047657120124
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 07:42:37 -0700
+ Tue, 11 Jun 2024 07:44:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Su6E74ZK;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f6fabe9da3so24274005ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718116957; x=1718721757; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9VtwgyvLIp5zwoVOs5xJf7euaGJjtJz97PKSM95BqvU=;
-        b=Su6E74ZK09QpMpXS1An4aQR/ZQ2CBiwwnAc0X7AoJQX6JN/sKWAt8wzqeXl1sXGAy2
-         u3CU7L4pDjU+Jc5m98QUyfWa4UxL7OFlNdBk0cA7h1zqS4X5GylsYMNqTmO6K77vSXm1
-         Sgj85Ptwey17wWpaO3mepjLpoYwJGhSzi0NKtqkN1mfqPzUPW7tBtFpGqTS+05cNlh3t
-         /nyAivzAwCoazaQ8Yu4O5JmBtkQPYhF1v5JOrND/xTtAEdUF/Mp/5I40Hbfu+ofs1evJ
-         xpXrpxP5Nfo5osE0qTchioTYFysmCENwGKSmdSGjjf/OzwLzWl3EybGIJre+lmIUmGgS
-         aPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718116957; x=1718721757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9VtwgyvLIp5zwoVOs5xJf7euaGJjtJz97PKSM95BqvU=;
-        b=YVHLvHc0ayTe/qFa/QLPuGjWmxm1b4o/MGPy+BYq+VqKnwmb6Gurmdm+/JNjpUuoHM
-         oEvx2VHFynBvdXW9+bCOOTY4nyozTwdg0FVBTpPjA5w62LVAqJG8D4Kow/qgygkTH4sK
-         NibJGFuP3DsApbMg3Wo7rhPVCKiJ4wenT+UP5gz+gofn2D9DLx1sthD5ml3ECy3tCHW4
-         KjyzYEne/4eR91yP8ZwFeKGJ1HFnFJ+q7BtZbBlAVYCZi1oZjpNxPccUo4A9/PZjP/Ow
-         qUp6qlCERWnRivzTXswYOklJdmvs1idEo0B3drqo9umt/RrPWJ7BOM9/EFQgKRrwQKiL
-         36xA==
-X-Gm-Message-State: AOJu0YxQDf1zvGRUCd1M0ItQvp9LBL7puAqqo/INAGGfeDwHY8qzrvD2
-	q3bEqFj0QOVOLs+Lyn9wcLnkJvp5PBpSDTXAIn6eCXGefM5bV770GfOoUg==
-X-Google-Smtp-Source: AGHT+IEP2ds5igvehNECx3lYZa/KehjXLBfmJD6rt2+D+SjKrPNqnmeb+Mfzc2ANXCWqvojdyDLitA==
-X-Received: by 2002:a17:903:2451:b0:1f7:178d:6990 with SMTP id d9443c01a7336-1f7178d6d08mr57847205ad.22.1718116956665;
-        Tue, 11 Jun 2024 07:42:36 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::9980])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6da30cc2asm81872895ad.236.2024.06.11.07.42.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 07:42:36 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] ltp: Fix build break with clang on risv64
-Date: Tue, 11 Jun 2024 07:42:34 -0700
-Message-ID: <20240611144234.1635459-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.2
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=jhAJAksq;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=cgz0uryOgodZXE80bFzc7ETUv2dOjUsOjvIB0LUPx1E=; b=jhAJAksq0C2C2HMScvulVK62GZ
+	az/z2MyZ7zbTBukiukFAObr7smoWFoaP+8Nt4WDXegN7tk9tpEzq0185fZHm96ooX0WV5CYMA7Ddn
+	VPGheybr1q8Qqa65oVxWIk9Ba0ucEK3qcZJDtcFcNgndbjMRL0phW3hAF365iSsSUF3JVHY7MLSAh
+	9PEeGEQ4AeQ+j8FFjdKORr53v6iN7W8Lz0YquyURaUv1dq+hDZnHDNrWaGg5o/yoDNMLdKyGW2pjY
+	4H0VfaM6ZAHDOexwZ0QgzduZsZIfWM80TqLGIQ7GLM5zurbLNeQkU6eq3DDeanVhndkjRQzAibBYw
+	KwTEeCeg==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <martin@geanix.com>)
+	id 1sH2jI-000EkZ-Ou; Tue, 11 Jun 2024 16:44:05 +0200
+Received: from [85.184.138.13] (helo=[192.168.8.223])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <martin@geanix.com>)
+	id 1sH2jE-0001wt-0a;
+	Tue, 11 Jun 2024 16:44:04 +0200
+Message-ID: <e21366a98f2769cb7460ad6ebfe86ad3a51c24cd.camel@geanix.com>
+Subject: Re: [OE-core] [PATCH v4 0/2] image-bootfiles: new class
+From: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, Ross Burton
+	 <Ross.Burton@arm.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Jun 2024 16:44:04 +0200
+In-Reply-To: <ZmhPsNk6T5PRxTbW@gmail.com>
+References: <20240530095314.407638-1-marcus.folkesson@gmail.com>
+	 <F9A4DF94-3431-46E0-A0BC-9804279DC91C@arm.com> <ZmhPsNk6T5PRxTbW@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: martin@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27303/Tue Jun 11 10:26:09 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:42:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200532
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:44:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200533
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Drop setting compiler-rt explicitly
+On Tue, 2024-06-11 at 15:22 +0200, Marcus Folkesson wrote:
+> Hi Ross,
+>=20
+> On Tue, Jun 11, 2024 at 10:37:06AM +0000, Ross Burton wrote:
+> > On 30 May 2024, at 10:53, Marcus Folkesson via
+> > lists.openembedded.org
+> > <marcus.folkesson=3Dgmail.com@lists.openembedded.org> wrote:
+> > > The image-bootfiles class is used to put all files listed in
+> > > IMAGE_BOOT_FILES into the root filesystem.
+> > >=20
+> > > IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to
+> > > put the
+> > > files into a boot partition.=20
+> > > Be able to list files as "boot files" in e.g. your .conf or image
+> > > files
+> > > instead of install those in every recipe is a good thing.
+> > >=20
+> > > It is not always desired to have a separate boot partition for
+> > > boot
+> > > files. Sometimes it could be good to have them as a part of the
+> > > root
+> > > filesystem.
+> > >=20
+> > > For example, if a double copy strategy is used for update the
+> > > system,
+> > > then you probably want to update both the boot files and root
+> > > filesystem
+> > > at the same time as there may be dependencies.
+> >=20
+> > In my mind, IMAGE_BOOT_FILES is a workaround for the fact that some
+> > /boot partitions (such as ones generated by wic) are not managed by
+> > bitbake directly.=C2=A0 If you have a setup where you just have a / tha=
+t
+> > contains /boot isn=E2=80=99t adding eg grub to IMAGE_INSTALL sufficient=
+ to
+> > get it in the right place in the rootfs?
+>=20
+> I don't know about the workaround, but it would'nt surprise me as it
+> is
+> not handled by bitbake as it is now.
+>=20
+> For some packages yes, but not for all. If you, for instance, have an
+> embedded
+> system where you depend on other files that are critical for the boot
+> process, there is no uniform way to specify that for those files.
+>=20
+> IMAGE_BOOT_FILES is good as it let you include e.g. ramdisks and such
+> that does not have installation scripts to the boot partition.
+>=20
+> The use case that I had was that I was first using a separate boot
+> partition using the bootimg-partition wic plugin. Everything was
+> good.
+> Then I wanted to include those files into the root filesystem instead
+> to
+> be able to do an atomic update on everything, but there is no good
+> way
+> to achive that.
 
- ...-__clear_cache-declaration-for-clang.patch | 32 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20240524.bb     |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
+I'd suggest updating the recipe providing those boot files, so it
+installs them into /boot (maybe in addition to deploying them to
+$DEPLOYDIR).
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
-new file mode 100644
-index 00000000000..ade6a52b63f
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
-@@ -0,0 +1,32 @@
-+From 2d384f268791ecd5ff0f26c8137dd4de0a1c4566 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 10 Jun 2024 22:52:56 -0700
-+Subject: [PATCH] Add __clear_cache declaration for clang
-+
-+__clear_cache was enabled on RISCV recently with 7352ba02390116f1cd6a9b583860ba28aa0a1b7a
-+however it fails to compile with clang19 on RISCV
-+With this error
-+
-+  hugemmap15.c:51:2: error: call to undeclared function '__clear_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-+      51 |         __clear_cache(p, p + COPY_SIZE);
-+         |         ^
-+
-+Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2024-June/038762.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Hui Min Mina Chou <minachou@andestech.com>
-+---
-+ testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-+index a84ba6476..856e22ff3 100644
-+--- a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-++++ b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
-+@@ -21,6 +21,7 @@
-+ 
-+ #if defined(__clang__)
-+ 	#pragma clang optimize off
-++	void __clear_cache(void *start, void *end);
-+ #endif
-+ 
-+ #define _GNU_SOURCE
-diff --git a/meta/recipes-extended/ltp/ltp_20240524.bb b/meta/recipes-extended/ltp/ltp_20240524.bb
-index 1aafed0bf59..7105154712f 100644
---- a/meta/recipes-extended/ltp/ltp_20240524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20240524.bb
-@@ -28,6 +28,7 @@ SRCREV = "8f21ebba42216dbb7e8d44c23b4a977d6823f7a1"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-+           file://0001-Add-__clear_cache-declaration-for-clang.patch \
-            "
- 
- S = "${WORKDIR}/git"
+> This image-class make the swap from bootimg-partition to rootfs
+> seamless as it uses the same mechanics for both implementations.
+
+I have always disliked the concept of recipes pulling files from
+${DEPLOY_DIR_IMAGE}. That folder is an output folder, and should not be
+used as input for other packages.
+
+Instead, a proper do_populate_deploy task similar to
+do_populate_sysroot would make it possible to DEPEND +=3D on deployed
+files from other recipes.
+
+But this is probably a discussion for another mail thread. Sorry for
+raising my opinion so late in the process.
+
+// Martin
 
