@@ -1,102 +1,236 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2053CC27C5E
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:28:57 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.9579.1718112533521190372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2400BC27C5E
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:35:17 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.9771.1718112906976510606
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 06:28:53 -0700
+ Tue, 11 Jun 2024 06:35:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JeW49eWa;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LfJeeGGU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010190077cb8f4-a0acd859-2a21-4850-8993-4515d04abc88-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1718112532; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=UZqGgbozTWjx8pUcw9kq3p1rUsBR4F68SsMSxsJ1s2Q=;
-	b=JeW49eWaOK9TUBNebPII8iOM8DUHPCzrQBipQiJmL8plkuxpfHOjEZLYirSxQcMk
-	5gX9M4dGVtslTsQDz9SaNeh15NLkiFdtnAxkljE1h58pAIJ8zhp2r8esaO4X/ZJrd/k
-	BCNAklAl0bJGcPQ/5GsBEbItwT1Od7HPx//A4SwQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718112532;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=UZqGgbozTWjx8pUcw9kq3p1rUsBR4F68SsMSxsJ1s2Q=;
-	b=LfJeeGGUbKEARHpM/lJkas9mazMA29CfmQ/y0izaY7NJYWRuPkz6a9n6d2LmKiGD
-	zmAnM6/7nV30rM6V/jEDz/SnlEeA37bn957LYfDGk83tyOPFun3hZUGup0FpmPLkWdA
-	I1CRUMdA2d8XyIpBG9WaSh8oyczeBQnrnIfzwK64=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][scarthgap 07/10] run-postinsts.service: Removed --no-reload
- to fix reload warning when users execute systemctl in the first boot.
-In-Reply-To: 
- <bdad9d3df6e9e4834803a60af24c072b39d5cbf8.1718111104.git.steve@sakoman.com>
-References: 
- <bdad9d3df6e9e4834803a60af24c072b39d5cbf8.1718111104.git.steve@sakoman.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190077cb8f4-a0acd859-2a21-4850-8993-4515d04abc88-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Jun 2024 13:28:52 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.11-54.240.27.33
+ dkim=pass header.i=@snap.com header.s=google header.b=ZO+2ueO8;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.53, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f177b78dcso301173766b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1718112905; x=1718717705; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CZqnTYcP1roySkn7iOsrToYsVQ6/4YTuQbFJQVubYTU=;
+        b=ZO+2ueO8Xhc2oQKDXGzB8CGRcwuePbUhWhg4/PcnRDFxyUQ+oP1h6ZcegiSRq8phjn
+         5+/GjoWZQaK/XmmWOdK1fpRjCRMjM6Ro/Lld3dW1+DdLi9twzoL9J/sml4S4Wmc1fY53
+         d0B3d1ZVKPAtbLO3QmRFEvg3kBZPdgyhQO9oc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718112905; x=1718717705;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CZqnTYcP1roySkn7iOsrToYsVQ6/4YTuQbFJQVubYTU=;
+        b=e0cDxskKIofJffQ/zfnKOjlXAqapvCPrNNB3r8UBVziguJSIO0qK33ozm11yMZXA4N
+         XYT+UD0AN5Sc2zc4D4DZQQuupw02e6VcN0Ybamt1jPSCS1GUe4oE/rtou85eIeH4wEur
+         OBxCt/5HGCi278W2WBlQy1EhSZueaqlIdZusB3nC/p95EFjUzboN0x0Ktm36O9t38Q+B
+         n4n62VDtBU+bd4uvNRQD8oljbw6gS5dBE1rTcbkEQXEjAhpSrc7WXpn10R04Nz1vbFBD
+         XSnpCgMavfPXcfsx3elKKPA5j6z2VLRIL2kToDd/5Z5Qg6UL+CJVIBe5QxdGYNqKd/Nr
+         eTiQ==
+X-Gm-Message-State: AOJu0YxlJ0fv8AqV5xBnD+mK1O9S9f3AXuWem4gEBeAp526P2k9H1itr
+	zrnpCkVEC/WdPiVIJH7hsDOrO4LSq0Rho48liimlp28esYYf31QerdZ+7OFx8yLPxnu7pWL9CND
+	dGUm/nFgVccz4uYLschI/5eEkCmLBna1XpKqG4g==
+X-Google-Smtp-Source: AGHT+IE+ltSHHL62lvw6L+lS2UyujmYg07T7Xon5BhCaANiw7Uisxdsy+znbQezh3jWFgdqPPT/8z37NcQWbD4lu3Co=
+X-Received: by 2002:a17:907:9728:b0:a6f:1641:da55 with SMTP id
+ a640c23a62f3a-a6f1641e656mr500808766b.46.1718112905272; Tue, 11 Jun 2024
+ 06:35:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240610161642.257051-1-ecordonnier@snap.com> <D10F0112-192B-46C1-A9B3-6ED3F4F346D1@arm.com>
+In-Reply-To: <D10F0112-192B-46C1-A9B3-6ED3F4F346D1@arm.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Tue, 11 Jun 2024 15:34:54 +0200
+Message-ID: <CAHUKmYZoDBhGHXRNC=sSZDODXqGS8TbD5uKdQH9undyxw10VaQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3] oeqa/runtime: fix race-condition in
+ minidebuginfo test
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000674c62061a9d55ee"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:28:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200522
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:35:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200523
 
---NextPart
-Content-Type: text/plain
+--000000000000674c62061a9d55ee
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Ross,
+OK, I addressed your feedback. On a side note, coredumpctl matches based on
+process names are really confusing when used with symlinks. I used a
+match based on pid to avoid the confusion:
+"
+# coredumpctl list
+TIME                         PID UID GID SIG     COREFILE EXE
+   SIZE
+Tue 2024-05-21 05:36:50 GMT 3442   0   0 SIGSEGV present
+ /usr/bin/coreutils 109.0K
 
----
-Testing patch /home/patchtest/share/mboxes/scarthgap-07-10-run-postinsts.service-Removed---no-reload-to-fix-reload-warning-when-users-execute-systemctl-in-the-first-boot..patch
+# coredumpctl list coreutils
+No coredumps found.
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 130 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+# coredumpctl list sleep
+TIME                         PID UID GID SIG     COREFILE EXE
+   SIZE
+Tue 2024-05-21 05:36:50 GMT 3442   0   0 SIGSEGV present
+ /usr/bin/coreutils 109.0K
+"
 
 
---NextPart--
+On Tue, Jun 11, 2024 at 12:47=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> =
+wrote:
+
+> On 10 Jun 2024, at 17:16, Etienne Cordonnier via lists.openembedded.org
+> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
+> >
+> > From: Etienne Cordonnier <ecordonnier@snap.com>
+> >
+> > Fix this error where 'coredumpctl info' warns that the coredump is stil=
+l
+> being
+> > processed:
+> >
+> > ```
+> > AssertionError: 1 !=3D 0 : MiniDebugInfo Test failed: No match found.
+> > -- Notice: 1 systemd-coredump@.service unit is running, output may be
+> incomplete.
+> > ```
+> >
+> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+> > ---
+> > meta/lib/oeqa/runtime/cases/systemd.py | 7 +++++++
+> > 1 file changed, 7 insertions(+)
+> >
+> > diff --git a/meta/lib/oeqa/runtime/cases/systemd.py
+> b/meta/lib/oeqa/runtime/cases/systemd.py
+> > index 80fdae240a..aed230708e 100644
+> > --- a/meta/lib/oeqa/runtime/cases/systemd.py
+> > +++ b/meta/lib/oeqa/runtime/cases/systemd.py
+> > @@ -155,6 +155,13 @@ class SystemdServiceTests(SystemdTest):
+> >         self.target.run('kill -SEGV %s' % output)
+> >         self.assertEqual(status, 0, msg =3D 'Not able to find process t=
+hat
+> runs sleep, output : %s' % output)
+> >
+> > +        # Give some time to systemd-coredump@.service to process the
+> coredump
+> > +        for x in range(20):
+> > +            status, output =3D self.target.run('coredumpctl --quiet
+> --no-pager --no-legend | wc -l')
+> > +            if output =3D=3D "1":
+> > +                break
+> > +            time.sleep(1)
+> > +
+> >         (status, output) =3D self.target.run('coredumpctl info')
+>
+> As someone who spent too long staring at mysterious failures in the
+> debuginfod tests, I recommend you add an =E2=80=98else=E2=80=99 case to t=
+hat loop so that
+> you can explicitly fail if the timeout expires without breaking out.
+>
+> Also it feels like the test could be made more reliably by using matches
+> instead of just asking it to list all crashes and expecting it to be one
+> (what if something else crashed?), and assuming the latest crash is the o=
+ne
+> we=E2=80=99re after.   If you use matches then the exit code is set to no=
+n-zero if
+> the match isn=E2=80=99t found, so you could combine the retry loop and th=
+e actual
+> test into one.
+>
+> Ross
+
+--000000000000674c62061a9d55ee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Ross,<br>OK, I addressed your feedback. On a side note,=
+ coredumpctl matches based on process names are really confusing when used =
+with symlinks. I used a match=C2=A0based on pid to avoid the confusion:<br>=
+&quot;<br># coredumpctl list<br>TIME =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PID UID GID SIG =C2=A0 =C2=A0=
+ COREFILE EXE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0SIZE<br>Tue 2024-05-21 05:36:50 GMT 3442 =C2=A0 0 =C2=A0 0 SIGSEGV prese=
+nt =C2=A0/usr/bin/coreutils 109.0K<br><br># coredumpctl list coreutils<br>N=
+o coredumps found.<br><br># coredumpctl list sleep<br>TIME =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PID U=
+ID GID SIG =C2=A0 =C2=A0 COREFILE EXE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0SIZE<br>Tue 2024-05-21 05:36:50 GMT 3442 =C2=A0 =
+0 =C2=A0 0 SIGSEGV present =C2=A0/usr/bin/coreutils 109.0K<br>&quot;<br><br=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Tue, Jun 11, 2024 at 12:47=E2=80=AFPM Ross Burton &lt;<a href=3D"mailto=
+:Ross.Burton@arm.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 10 Jun 2024, =
+at 17:16, Etienne Cordonnier via <a href=3D"http://lists.openembedded.org" =
+rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> &lt;ecordon=
+nier=3D<a href=3D"mailto:snap.com@lists.openembedded.org" target=3D"_blank"=
+>snap.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
+arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt; <br>
+&gt; Fix this error where &#39;coredumpctl info&#39; warns that the coredum=
+p is still being<br>
+&gt; processed:<br>
+&gt; <br>
+&gt; ```<br>
+&gt; AssertionError: 1 !=3D 0 : MiniDebugInfo Test failed: No match found.<=
+br>
+&gt; -- Notice: 1 systemd-coredump@.service unit is running, output may be =
+incomplete.<br>
+&gt; ```<br>
+&gt; <br>
+&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
+ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
+&gt; ---<br>
+&gt; meta/lib/oeqa/runtime/cases/systemd.py | 7 +++++++<br>
+&gt; 1 file changed, 7 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/ru=
+ntime/cases/systemd.py<br>
+&gt; index 80fdae240a..aed230708e 100644<br>
+&gt; --- a/meta/lib/oeqa/runtime/cases/systemd.py<br>
+&gt; +++ b/meta/lib/oeqa/runtime/cases/systemd.py<br>
+&gt; @@ -155,6 +155,13 @@ class SystemdServiceTests(SystemdTest):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(&#39;kill -SEGV %s&#3=
+9; % output)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(status, 0, msg =3D &=
+#39;Not able to find process that runs sleep, output : %s&#39; % output)<br=
+>
+&gt; <br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Give some time to systemd-coredump@.ser=
+vice to process the coredump<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for x in range(20):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.tar=
+get.run(&#39;coredumpctl --quiet --no-pager --no-legend | wc -l&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if output =3D=3D &quot;1&qu=
+ot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 time.sleep(1)<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(status, output) =3D self.target.run(=
+&#39;coredumpctl info&#39;)<br>
+<br>
+As someone who spent too long staring at mysterious failures in the debugin=
+fod tests, I recommend you add an =E2=80=98else=E2=80=99 case to that loop =
+so that you can explicitly fail if the timeout expires without breaking out=
+.<br>
+<br>
+Also it feels like the test could be made more reliably by using matches in=
+stead of just asking it to list all crashes and expecting it to be one (wha=
+t if something else crashed?), and assuming the latest crash is the one we=
+=E2=80=99re after.=C2=A0 =C2=A0If you use matches then the exit code is set=
+ to non-zero if the match isn=E2=80=99t found, so you could combine the ret=
+ry loop and the actual test into one.<br>
+<br>
+Ross</blockquote></div>
+
+--000000000000674c62061a9d55ee--
 
