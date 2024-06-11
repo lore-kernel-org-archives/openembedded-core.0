@@ -1,100 +1,121 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C503C27C75
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:38:07 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.11248.1718116683249697101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB47C27C75
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:42:37 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.11430.1718116948557979254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 07:38:03 -0700
+ Tue, 11 Jun 2024 07:42:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MMNeoFdW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PioZ8eGp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019007bc0ab6-86303cc9-eb32-42d3-a439-2b8f51651a28-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1718116682; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=c3LVD2Fq3jjHSUg9RdMnA6De4i4o8jHWJhhjGMx7lNw=;
-	b=MMNeoFdWLkkZLhV5r0DQX3Za+uLaa43ouWBXdeK+ZjW2YVNWFRmqyPgq73ETF5S6
-	bjrwaI+oJAmmk6c22calYatj/xRNl0z/OdqECjKlVRlNlUkHffTkkmAoKJexrQloOYQ
-	jiJCqxdaqQr61NkDhanY09apj06PUEkQVYBDDnx4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718116682;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=c3LVD2Fq3jjHSUg9RdMnA6De4i4o8jHWJhhjGMx7lNw=;
-	b=PioZ8eGpy7Em14n6V4I4Bm4xwAKKqxIPxOV1jnf4PYyQttsSWUTWujE7SZ3Nzawy
-	27ym4eHMqCjPtHedbQNq1+BfCJo2A8rJQJGa2PYS5UUhVuwPRYbiXpbonboAlK05SOO
-	k0cDkux192UZJNPwMZy5/uA1uHm2U8+67c1h7wjo=
-From: patchtest@automation.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/3] scripts/oe-replicate-build: add a script that packages
- and replicates a yocto build elsewhere
-In-Reply-To: <20240611141522.3075000-3-alex.kanavin@gmail.com>
-References: <20240611141522.3075000-3-alex.kanavin@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019007bc0ab6-86303cc9-eb32-42d3-a439-2b8f51651a28-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Jun 2024 14:38:02 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.11-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RMnEs4xE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52c32d934c2so3285935e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718116947; x=1718721747; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2rT64FhtuiNSViugpE5yI9XqtvwVF4NU7z/zYT4ghBA=;
+        b=RMnEs4xENQW7WcnxkAxkpgxcuatInov24pWI2LNCPTO6I1AUgEtW/TckW7oRaUV49l
+         fy2qlTr+VBIlpCBKYppKIOx6IVEacp3ME0vLmFtHBv0EUW8N1Y9Zn9wH1ERfy1sXvzrd
+         wflQjQfFDbuSGAXRBRpzCWXy4MmhYPYrh/u5fLNHjyIkVdnEytXfd6n7oalcWQIuc1+4
+         6UwOdjwOcXOjaEBozXnGp2Vm1KbNhOp0jERqXJip5Of+/DimsJGhoO01G279dDLUp2hF
+         OpdM27VkM3PLHap/Ma2pTI6FJD6Pt7IwtlG4jbkUbQLlnVTdvEpFS4qte/3cdLA11d+5
+         FGGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718116947; x=1718721747;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2rT64FhtuiNSViugpE5yI9XqtvwVF4NU7z/zYT4ghBA=;
+        b=YRmu2AABTBzQReduqMnGhw1NdISPf3xOaXekfU74xYLRhSCoN68OSIlMx3JY0eu8Nq
+         EcpcdtclI6xvSzwqTUrXH1D9+OMZ7bxCAYxzs8lrv5/P6EQNV5AGtc5RZHK6yMCOa7ya
+         ZlYlP3xbuCr2t3M/nZatOmkwWCdhxFYIg0/Pcsh7TSSipsYm1Ni5N1MrdGRRTGM2doir
+         br40n97i4C6dRWfiWlzb/u7de9MBH0yCzMxmMng/UzJXdpNu2KkOotbKCIuuBHIbfkVC
+         9NvQvJr/IxuRU6UXTFWo2bkoOyKUW81Jk+GGd68gLXpcZ/pVKsql1YiaHcOnim5MxgVY
+         u6pQ==
+X-Gm-Message-State: AOJu0YwUtf3vQPsjmK3oUNsKcI5T4fXW0juKst/uMN1J110AiP6a6wq9
+	R41pvbIJIi3v/xYtT/Up++Rx9RDFMQNrXFAPD9zYpej3K0mdDjsyLm3CNfEZLZbl2c2VrZPxT3L
+	ezNT0wthqBYn7eobCMzfy5o6tYPk=
+X-Google-Smtp-Source: AGHT+IH5qwsJiih2i3OQUKi1ULjRsPRA5GPtSaQTyXP4vFdIGaG+u/tJw/3ADA56GBXC30+IznTk9h5zfbDXD3rrR2U=
+X-Received: by 2002:a05:6512:239a:b0:52c:8b1a:5513 with SMTP id
+ 2adb3069b0e04-52c8b1a5670mr4290218e87.47.1718116946484; Tue, 11 Jun 2024
+ 07:42:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240610214456.2757397-1-JPEWhacker@gmail.com> <f92d6abb21f57454942351ff10ae808c5d109e64.camel@linuxfoundation.org>
+In-Reply-To: <f92d6abb21f57454942351ff10ae808c5d109e64.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 11 Jun 2024 08:42:12 -0600
+Message-ID: <CAJdd5GYnm3kSkvKR=fmXiRitKv-ez-3bZg1L3u_ot8Fe_FtYnw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/6] Add SPDX 3.0 support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:38:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200530
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:42:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200531
 
---NextPart
-Content-Type: text/plain
+On Tue, Jun 11, 2024 at 4:40=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2024-06-10 at 15:41 -0600, Joshua Watt via
+> lists.openembedded.org wrote:
+> > This patch series add support for SPDX 3.0. Currently it is not
+> > possible
+> > to have SPDX 2.2 and SPDX 3.0 enabled at the same time; users may
+> > choose
+> > to specifically use SPDX 3.0 instead of 2.2 by doing INHERIT +=3D
+> > "create-spdx-3.0"
+> >
+> > The default version is not changed yet, although that will likely
+> > happen
+> > soon
+> >
+> > Joshua Watt (6):
+> >   classes-recipe/image: Add image file manifest
+> >   classes/spdx-common: Move common SPDX to new class
+> >   classes/spdx-common: Add SPDX version to path
+> >   classes/spdx-common: Return empty list from extract_licenses
+> >   classes/create-spdx-3.0: Add class
+> >   classes-recipe/image_types: Add SPDX_IMAGE_PURPOSE to images
+>
+> I set 3.0 to the default for testing and there were some interesting
+> looking failures:
+>
+> https://valkyrie.yoctoproject.org/#/builders/43/builds/52/steps/11/logs/s=
+tdio
+>
+> I'm guessing:
+>
+> https://valkyrie.yoctoproject.org/#/builders/37/builds/60
+>
+> is due to a missing patch?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hah, I don't think so, I just neglected to test SDK builds. My bad.
 
----
-Testing patch /home/patchtest/share/mboxes/3-3-scripts-oe-replicate-build-add-a-script-that-packages-and-replicates-a-yocto-build-elsewhere.patch
+>
+> Other failures:
+>
+> https://valkyrie.yoctoproject.org/#/builders/74/builds/44/steps/13/logs/s=
+tdio
+> https://valkyrie.yoctoproject.org/#/builders/93/builds/51/steps/11/logs/s=
+tdio
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 93 characters) (test_mbox.TestMbox.test_shortlog_length)
+That one appears to be some corner case I need to figure out.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+>
+> but I stopped the build at this point.
 
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Thanks
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+>
+> Cheers,
+>
+> Richard
 
