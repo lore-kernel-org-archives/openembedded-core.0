@@ -1,121 +1,122 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB47C27C75
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:42:37 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.11430.1718116948557979254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AA8C27C77
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:42:47 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.11343.1718116957682033084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 07:42:28 -0700
+ Tue, 11 Jun 2024 07:42:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RMnEs4xE;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52c32d934c2so3285935e87.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:42:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Su6E74ZK;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f6fabe9da3so24274005ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718116947; x=1718721747; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2rT64FhtuiNSViugpE5yI9XqtvwVF4NU7z/zYT4ghBA=;
-        b=RMnEs4xENQW7WcnxkAxkpgxcuatInov24pWI2LNCPTO6I1AUgEtW/TckW7oRaUV49l
-         fy2qlTr+VBIlpCBKYppKIOx6IVEacp3ME0vLmFtHBv0EUW8N1Y9Zn9wH1ERfy1sXvzrd
-         wflQjQfFDbuSGAXRBRpzCWXy4MmhYPYrh/u5fLNHjyIkVdnEytXfd6n7oalcWQIuc1+4
-         6UwOdjwOcXOjaEBozXnGp2Vm1KbNhOp0jERqXJip5Of+/DimsJGhoO01G279dDLUp2hF
-         OpdM27VkM3PLHap/Ma2pTI6FJD6Pt7IwtlG4jbkUbQLlnVTdvEpFS4qte/3cdLA11d+5
-         FGGw==
+        d=gmail.com; s=20230601; t=1718116957; x=1718721757; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9VtwgyvLIp5zwoVOs5xJf7euaGJjtJz97PKSM95BqvU=;
+        b=Su6E74ZK09QpMpXS1An4aQR/ZQ2CBiwwnAc0X7AoJQX6JN/sKWAt8wzqeXl1sXGAy2
+         u3CU7L4pDjU+Jc5m98QUyfWa4UxL7OFlNdBk0cA7h1zqS4X5GylsYMNqTmO6K77vSXm1
+         Sgj85Ptwey17wWpaO3mepjLpoYwJGhSzi0NKtqkN1mfqPzUPW7tBtFpGqTS+05cNlh3t
+         /nyAivzAwCoazaQ8Yu4O5JmBtkQPYhF1v5JOrND/xTtAEdUF/Mp/5I40Hbfu+ofs1evJ
+         xpXrpxP5Nfo5osE0qTchioTYFysmCENwGKSmdSGjjf/OzwLzWl3EybGIJre+lmIUmGgS
+         aPfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718116947; x=1718721747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2rT64FhtuiNSViugpE5yI9XqtvwVF4NU7z/zYT4ghBA=;
-        b=YRmu2AABTBzQReduqMnGhw1NdISPf3xOaXekfU74xYLRhSCoN68OSIlMx3JY0eu8Nq
-         EcpcdtclI6xvSzwqTUrXH1D9+OMZ7bxCAYxzs8lrv5/P6EQNV5AGtc5RZHK6yMCOa7ya
-         ZlYlP3xbuCr2t3M/nZatOmkwWCdhxFYIg0/Pcsh7TSSipsYm1Ni5N1MrdGRRTGM2doir
-         br40n97i4C6dRWfiWlzb/u7de9MBH0yCzMxmMng/UzJXdpNu2KkOotbKCIuuBHIbfkVC
-         9NvQvJr/IxuRU6UXTFWo2bkoOyKUW81Jk+GGd68gLXpcZ/pVKsql1YiaHcOnim5MxgVY
-         u6pQ==
-X-Gm-Message-State: AOJu0YwUtf3vQPsjmK3oUNsKcI5T4fXW0juKst/uMN1J110AiP6a6wq9
-	R41pvbIJIi3v/xYtT/Up++Rx9RDFMQNrXFAPD9zYpej3K0mdDjsyLm3CNfEZLZbl2c2VrZPxT3L
-	ezNT0wthqBYn7eobCMzfy5o6tYPk=
-X-Google-Smtp-Source: AGHT+IH5qwsJiih2i3OQUKi1ULjRsPRA5GPtSaQTyXP4vFdIGaG+u/tJw/3ADA56GBXC30+IznTk9h5zfbDXD3rrR2U=
-X-Received: by 2002:a05:6512:239a:b0:52c:8b1a:5513 with SMTP id
- 2adb3069b0e04-52c8b1a5670mr4290218e87.47.1718116946484; Tue, 11 Jun 2024
- 07:42:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718116957; x=1718721757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9VtwgyvLIp5zwoVOs5xJf7euaGJjtJz97PKSM95BqvU=;
+        b=YVHLvHc0ayTe/qFa/QLPuGjWmxm1b4o/MGPy+BYq+VqKnwmb6Gurmdm+/JNjpUuoHM
+         oEvx2VHFynBvdXW9+bCOOTY4nyozTwdg0FVBTpPjA5w62LVAqJG8D4Kow/qgygkTH4sK
+         NibJGFuP3DsApbMg3Wo7rhPVCKiJ4wenT+UP5gz+gofn2D9DLx1sthD5ml3ECy3tCHW4
+         KjyzYEne/4eR91yP8ZwFeKGJ1HFnFJ+q7BtZbBlAVYCZi1oZjpNxPccUo4A9/PZjP/Ow
+         qUp6qlCERWnRivzTXswYOklJdmvs1idEo0B3drqo9umt/RrPWJ7BOM9/EFQgKRrwQKiL
+         36xA==
+X-Gm-Message-State: AOJu0YxQDf1zvGRUCd1M0ItQvp9LBL7puAqqo/INAGGfeDwHY8qzrvD2
+	q3bEqFj0QOVOLs+Lyn9wcLnkJvp5PBpSDTXAIn6eCXGefM5bV770GfOoUg==
+X-Google-Smtp-Source: AGHT+IEP2ds5igvehNECx3lYZa/KehjXLBfmJD6rt2+D+SjKrPNqnmeb+Mfzc2ANXCWqvojdyDLitA==
+X-Received: by 2002:a17:903:2451:b0:1f7:178d:6990 with SMTP id d9443c01a7336-1f7178d6d08mr57847205ad.22.1718116956665;
+        Tue, 11 Jun 2024 07:42:36 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::9980])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6da30cc2asm81872895ad.236.2024.06.11.07.42.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 07:42:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] ltp: Fix build break with clang on risv64
+Date: Tue, 11 Jun 2024 07:42:34 -0700
+Message-ID: <20240611144234.1635459-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240610214456.2757397-1-JPEWhacker@gmail.com> <f92d6abb21f57454942351ff10ae808c5d109e64.camel@linuxfoundation.org>
-In-Reply-To: <f92d6abb21f57454942351ff10ae808c5d109e64.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 11 Jun 2024 08:42:12 -0600
-Message-ID: <CAJdd5GYnm3kSkvKR=fmXiRitKv-ez-3bZg1L3u_ot8Fe_FtYnw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/6] Add SPDX 3.0 support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:42:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200531
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:42:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200532
 
-On Tue, Jun 11, 2024 at 4:40=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2024-06-10 at 15:41 -0600, Joshua Watt via
-> lists.openembedded.org wrote:
-> > This patch series add support for SPDX 3.0. Currently it is not
-> > possible
-> > to have SPDX 2.2 and SPDX 3.0 enabled at the same time; users may
-> > choose
-> > to specifically use SPDX 3.0 instead of 2.2 by doing INHERIT +=3D
-> > "create-spdx-3.0"
-> >
-> > The default version is not changed yet, although that will likely
-> > happen
-> > soon
-> >
-> > Joshua Watt (6):
-> >   classes-recipe/image: Add image file manifest
-> >   classes/spdx-common: Move common SPDX to new class
-> >   classes/spdx-common: Add SPDX version to path
-> >   classes/spdx-common: Return empty list from extract_licenses
-> >   classes/create-spdx-3.0: Add class
-> >   classes-recipe/image_types: Add SPDX_IMAGE_PURPOSE to images
->
-> I set 3.0 to the default for testing and there were some interesting
-> looking failures:
->
-> https://valkyrie.yoctoproject.org/#/builders/43/builds/52/steps/11/logs/s=
-tdio
->
-> I'm guessing:
->
-> https://valkyrie.yoctoproject.org/#/builders/37/builds/60
->
-> is due to a missing patch?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Drop setting compiler-rt explicitly
 
-Hah, I don't think so, I just neglected to test SDK builds. My bad.
+ ...-__clear_cache-declaration-for-clang.patch | 32 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20240524.bb     |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
 
->
-> Other failures:
->
-> https://valkyrie.yoctoproject.org/#/builders/74/builds/44/steps/13/logs/s=
-tdio
-> https://valkyrie.yoctoproject.org/#/builders/93/builds/51/steps/11/logs/s=
-tdio
-
-That one appears to be some corner case I need to figure out.
-
->
-> but I stopped the build at this point.
-
-Thanks
-
->
-> Cheers,
->
-> Richard
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
+new file mode 100644
+index 00000000000..ade6a52b63f
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-Add-__clear_cache-declaration-for-clang.patch
+@@ -0,0 +1,32 @@
++From 2d384f268791ecd5ff0f26c8137dd4de0a1c4566 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 10 Jun 2024 22:52:56 -0700
++Subject: [PATCH] Add __clear_cache declaration for clang
++
++__clear_cache was enabled on RISCV recently with 7352ba02390116f1cd6a9b583860ba28aa0a1b7a
++however it fails to compile with clang19 on RISCV
++With this error
++
++  hugemmap15.c:51:2: error: call to undeclared function '__clear_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
++      51 |         __clear_cache(p, p + COPY_SIZE);
++         |         ^
++
++Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2024-June/038762.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Hui Min Mina Chou <minachou@andestech.com>
++---
++ testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
++index a84ba6476..856e22ff3 100644
++--- a/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
+++++ b/testcases/kernel/mem/hugetlb/hugemmap/hugemmap15.c
++@@ -21,6 +21,7 @@
++ 
++ #if defined(__clang__)
++ 	#pragma clang optimize off
+++	void __clear_cache(void *start, void *end);
++ #endif
++ 
++ #define _GNU_SOURCE
+diff --git a/meta/recipes-extended/ltp/ltp_20240524.bb b/meta/recipes-extended/ltp/ltp_20240524.bb
+index 1aafed0bf59..7105154712f 100644
+--- a/meta/recipes-extended/ltp/ltp_20240524.bb
++++ b/meta/recipes-extended/ltp/ltp_20240524.bb
+@@ -28,6 +28,7 @@ SRCREV = "8f21ebba42216dbb7e8d44c23b4a977d6823f7a1"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
++           file://0001-Add-__clear_cache-declaration-for-clang.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 
