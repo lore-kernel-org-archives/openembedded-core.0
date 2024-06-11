@@ -2,54 +2,54 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7902C3DA40
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B77FEC27C77
 	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 15:55:34 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.217.1718121334527180044
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.226.1718121332394516273
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 08:55:34 -0700
+ Tue, 11 Jun 2024 08:55:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=HD36Sijv;
- spf=pass (domain: konsulko.com, ip: 209.85.210.175, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7041053c0fdso3070694b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 08:55:34 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=nyWIoIR3;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.180, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f6fabe9da3so25063445ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 08:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1718121333; x=1718726133; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1718121331; x=1718726131; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A6DpzbFnKKsu8zLPch/cMaTLlmqtWQxhi2v6vbPfHAM=;
-        b=HD36SijvuWqJmiexdufIt33ggqvTFHw9SKwHaC+iaOdPCa/BJTiu568281ccEi4REJ
-         nw540n4MVCPLb+E/2kqWBOjOIuzGzqjj/JdpDEquHDmcy2IE5v58NxcgaSLorJLuxbF9
-         6RX5CUUvw+MbvGCLc5KvtPeu6dPuqzKBsS+HY=
+        bh=xt5cYrIp+hoIyfs4uQE3a45uKICgSsuvr/pEGguhfbI=;
+        b=nyWIoIR3JzGFqlt7gmyfZudv5cH0QS8dS0HyJUFFlVIB+ipnpYZhXlv1Br+2dp8jpT
+         ehpTM625kVcFtYksu5PrHLbWJItpxE7TM+oSmRAIJaI4m0C/j/cDLkOWPcZ2z1hYSYZB
+         DSsnUARR5fVvPMbNt8g0NryNySWK7YmC1UdBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718121333; x=1718726133;
+        d=1e100.net; s=20230601; t=1718121331; x=1718726131;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A6DpzbFnKKsu8zLPch/cMaTLlmqtWQxhi2v6vbPfHAM=;
-        b=dsN9n9Ge9DB17d9HGLbQq8zxKfPcUOm/EPqnpTnevrGT9wNIBCiAj5/UIUhSpPzPj/
-         tan2s78kU/fCVfzTsmCXMXo6OYYn7Lso6aLgklPAq3UlwKpGEklh/BhBr6bdNAHNwG8a
-         ZETQRrLHacgcEmXsecLSkUMjctnAw6rbJX5D+bzgSndaqRZLfOC0TqHWMs723pak3u2c
-         W6PfLauRw1zpKq1K4FYUXiQXcNwCzHGBY1lnDvjZEmAxf4AT+9N3d7vIKX4eYDHsL02m
-         kZxdJLWc+PNKnpC53JE3F4Ab9sHl6gZh3+d+VefYVp1WwySBsPneS8jRZAZuIPIhMIUB
-         H8Nw==
-X-Gm-Message-State: AOJu0YxpiUC94yK9tL3okssuVhc3CfZbrx9ym4KDMsxCI2jteAcxw/qB
-	zGHYEhKhWMh3GUXXlnLylGn1/2vP8BsQ/hLZA3l4O+t8wpAHULsno0NeHeXCeiABwuGPlDRmCDr
-	KaBU=
-X-Google-Smtp-Source: AGHT+IEsufple8bTGDJTZeyRQig2Jh00LmrXt/xDeCjXXqBcXBn3JuLVor7pS4YnMYHy7yWs8onACQ==
-X-Received: by 2002:a05:6a20:1002:b0:1a7:7ac1:a3ba with SMTP id adf61e73a8af0-1b2f9e1450fmr11162865637.53.1718121333144;
-        Tue, 11 Jun 2024 08:55:33 -0700 (PDT)
+        bh=xt5cYrIp+hoIyfs4uQE3a45uKICgSsuvr/pEGguhfbI=;
+        b=AA6CS62EuBaMlpTEVy5YEcGJc6PgXuYqreuB6sWxHJWtrYmiWCSpdz2gvNMQXv46S9
+         JnDRY1usO5osyoIKjmGLD2/kKd5gupGiNAEPmhDtzxQq+oB80LaBSn76lGAEb/JMHLNQ
+         9BFf0otr8vL8/sNPkEBLE3Aaf4Ht2H0SIQ7zYF+7HwN0nE1mn+7ntleLpJTTFL5M37v9
+         xAbkZyeJ8OUXj/7ha/O4YEgETbPOtAu0hcDFEUFGhKEKAwbL5WjRzhlQZfahnmXm/P6+
+         FQ13HrnjgYtRr1WaTaqalBwMWVTlipb/MlLntUAL3x3UKb65VYWsxrsfOLQJATQEEu1e
+         4g+w==
+X-Gm-Message-State: AOJu0Yz3cA0j5zd4wJ4i4hDqZaz9mpyy+YMwQgK4B1pyYh7BgdArlilS
+	oL1pqI3m4K5EgpZcgMI/E3fxWn8xv/88+yBQRNF5hRiKe5JoZa5cNb/zZQnYUypb3Bvf6clshTa
+	RLsY=
+X-Google-Smtp-Source: AGHT+IEmZJuyFcVHDP5TJ0yXwlDf2pixF2S222lQYXq+nLCSGJSOe0PYX+PNue71W6cwTKBR1VGM4A==
+X-Received: by 2002:a17:903:2286:b0:1f7:42c6:50a5 with SMTP id d9443c01a7336-1f742c653a3mr5626315ad.28.1718121331008;
+        Tue, 11 Jun 2024 08:55:31 -0700 (PDT)
 Received: from localhost ([2601:1c2:c182:4da0::2bc4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70599bcac14sm3425833b3a.1.2024.06.11.08.55.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6da5d8a33sm82551735ad.193.2024.06.11.08.55.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 08:55:32 -0700 (PDT)
+        Tue, 11 Jun 2024 08:55:30 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 5/5] oe-selftest: add RECIPE_UPDATE_EXTRA_TASKS test
-Date: Tue, 11 Jun 2024 08:55:15 -0700
-Message-ID: <991123dcbcaa5a7459b19db7dd5c0f1fad682983.1718120117.git.tim.orling@konsulko.com>
+Subject: [PATCH v2 4/5] meta-selftest: add python3-guessing-game
+Date: Tue, 11 Jun 2024 08:55:14 -0700
+Message-ID: <8fc4c16ea348318031d65e4ef5fb280e41a52e32.1718120117.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <cover.1718120117.git.tim.orling@konsulko.com>
 References: <cover.1718120117.git.tim.orling@konsulko.com>
@@ -59,134 +59,118 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 15:55:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200542
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-Add test_devtool_upgrade_recipe_update_extra_tasks test case
-to test upgrade of python3-guessing-game from v0.1.0 to v0.2.0
-which will exercise the update_crates task during the upgrade.
-
-Add python3-guessing-game_git.bb.upgraded and
-python3-guessing-game-crates.inc.upgraded  which are the 0.2.0
-variants.
-
-Check that the new recipe file has the expected differences.
-
-Check that the new -crates.inc file has the expected differences,
-which should be reproducible because of Cargo.lock.
+Add v0.1.0 of python3-guessing-game which is used as the baseline
+for an upgrade to v0.2.0 in test_devtool_upgrade_recipe_update_extra_tasks
+test case.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
 Changes in v2:
-  * Switch to git.yoctoproject.org url
+  * Change to the git.yoctoproject.org url
 
- .../python3-guessing-game-crates.inc.upgraded | 88 +++++++++++++++++++
- .../python3-guessing-game_git.bb.upgraded     | 19 ++++
- meta/lib/oeqa/selftest/cases/devtool.py       | 46 ++++++++++
- 3 files changed, 153 insertions(+)
- create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
- create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+ .../python/python3-guessing-game-crates.inc   | 82 +++++++++++++++++++
+ .../python/python3-guessing-game_git.bb       | 19 +++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
 
-diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
+diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc
 new file mode 100644
-index 00000000000..b19b42832d9
+index 00000000000..7a1bfe101f0
 --- /dev/null
-+++ b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc.upgraded
-@@ -0,0 +1,88 @@
++++ b/meta-selftest/recipes-devtools/python/python3-guessing-game-crates.inc
+@@ -0,0 +1,82 @@
 +# Autogenerated with 'bitbake -c update_crates python3-guessing-game'
 +
 +# from Cargo.lock
 +SRC_URI += " \
-+    crate://crates.io/autocfg/1.3.0 \
-+    crate://crates.io/bitflags/2.5.0 \
++    crate://crates.io/autocfg/1.2.0 \
++    crate://crates.io/bitflags/1.3.2 \
 +    crate://crates.io/cfg-if/1.0.0 \
-+    crate://crates.io/getrandom/0.2.15 \
-+    crate://crates.io/heck/0.4.1 \
-+    crate://crates.io/indoc/2.0.5 \
-+    crate://crates.io/libc/0.2.155 \
-+    crate://crates.io/lock_api/0.4.12 \
-+    crate://crates.io/memoffset/0.9.1 \
++    crate://crates.io/getrandom/0.2.14 \
++    crate://crates.io/indoc/1.0.9 \
++    crate://crates.io/libc/0.2.153 \
++    crate://crates.io/lock_api/0.4.11 \
++    crate://crates.io/memoffset/0.9.0 \
 +    crate://crates.io/once_cell/1.19.0 \
-+    crate://crates.io/parking_lot/0.12.3 \
-+    crate://crates.io/parking_lot_core/0.9.10 \
-+    crate://crates.io/portable-atomic/1.6.0 \
++    crate://crates.io/parking_lot/0.12.1 \
++    crate://crates.io/parking_lot_core/0.9.9 \
 +    crate://crates.io/ppv-lite86/0.2.17 \
-+    crate://crates.io/proc-macro2/1.0.84 \
-+    crate://crates.io/pyo3/0.21.2 \
-+    crate://crates.io/pyo3-build-config/0.21.2 \
-+    crate://crates.io/pyo3-ffi/0.21.2 \
-+    crate://crates.io/pyo3-macros/0.21.2 \
-+    crate://crates.io/pyo3-macros-backend/0.21.2 \
-+    crate://crates.io/quote/1.0.36 \
++    crate://crates.io/proc-macro2/1.0.79 \
++    crate://crates.io/pyo3/0.19.2 \
++    crate://crates.io/pyo3-build-config/0.19.2 \
++    crate://crates.io/pyo3-ffi/0.19.2 \
++    crate://crates.io/pyo3-macros/0.19.2 \
++    crate://crates.io/pyo3-macros-backend/0.19.2 \
++    crate://crates.io/quote/1.0.35 \
 +    crate://crates.io/rand/0.8.5 \
 +    crate://crates.io/rand_chacha/0.3.1 \
 +    crate://crates.io/rand_core/0.6.4 \
-+    crate://crates.io/redox_syscall/0.5.1 \
++    crate://crates.io/redox_syscall/0.4.1 \
 +    crate://crates.io/scopeguard/1.2.0 \
 +    crate://crates.io/smallvec/1.13.2 \
-+    crate://crates.io/syn/2.0.66 \
++    crate://crates.io/syn/1.0.109 \
 +    crate://crates.io/target-lexicon/0.12.14 \
 +    crate://crates.io/unicode-ident/1.0.12 \
-+    crate://crates.io/unindent/0.2.3 \
++    crate://crates.io/unindent/0.1.11 \
 +    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
-+    crate://crates.io/windows-targets/0.52.5 \
-+    crate://crates.io/windows_aarch64_gnullvm/0.52.5 \
-+    crate://crates.io/windows_aarch64_msvc/0.52.5 \
-+    crate://crates.io/windows_i686_gnu/0.52.5 \
-+    crate://crates.io/windows_i686_gnullvm/0.52.5 \
-+    crate://crates.io/windows_i686_msvc/0.52.5 \
-+    crate://crates.io/windows_x86_64_gnu/0.52.5 \
-+    crate://crates.io/windows_x86_64_gnullvm/0.52.5 \
-+    crate://crates.io/windows_x86_64_msvc/0.52.5 \
++    crate://crates.io/windows-targets/0.48.5 \
++    crate://crates.io/windows_aarch64_gnullvm/0.48.5 \
++    crate://crates.io/windows_aarch64_msvc/0.48.5 \
++    crate://crates.io/windows_i686_gnu/0.48.5 \
++    crate://crates.io/windows_i686_msvc/0.48.5 \
++    crate://crates.io/windows_x86_64_gnu/0.48.5 \
++    crate://crates.io/windows_x86_64_gnullvm/0.48.5 \
++    crate://crates.io/windows_x86_64_msvc/0.48.5 \
 +"
 +
-+SRC_URI[autocfg-1.3.0.sha256sum] = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
-+SRC_URI[bitflags-2.5.0.sha256sum] = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
++SRC_URI[autocfg-1.2.0.sha256sum] = "f1fdabc7756949593fe60f30ec81974b613357de856987752631dea1e3394c80"
++SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 +SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-+SRC_URI[getrandom-0.2.15.sha256sum] = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
-+SRC_URI[heck-0.4.1.sha256sum] = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
-+SRC_URI[indoc-2.0.5.sha256sum] = "b248f5224d1d606005e02c97f5aa4e88eeb230488bcc03bc9ca4d7991399f2b5"
-+SRC_URI[libc-0.2.155.sha256sum] = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
-+SRC_URI[lock_api-0.4.12.sha256sum] = "07af8b9cdd281b7915f413fa73f29ebd5d55d0d3f0155584dade1ff18cea1b17"
-+SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
++SRC_URI[getrandom-0.2.14.sha256sum] = "94b22e06ecb0110981051723910cbf0b5f5e09a2062dd7663334ee79a9d1286c"
++SRC_URI[indoc-1.0.9.sha256sum] = "bfa799dd5ed20a7e349f3b4639aa80d74549c81716d9ec4f994c9b5815598306"
++SRC_URI[libc-0.2.153.sha256sum] = "9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd"
++SRC_URI[lock_api-0.4.11.sha256sum] = "3c168f8615b12bc01f9c17e2eb0cc07dcae1940121185446edc3744920e8ef45"
++SRC_URI[memoffset-0.9.0.sha256sum] = "5a634b1c61a95585bd15607c6ab0c4e5b226e695ff2800ba0cdccddf208c406c"
 +SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
-+SRC_URI[parking_lot-0.12.3.sha256sum] = "f1bf18183cf54e8d6059647fc3063646a1801cf30896933ec2311622cc4b9a27"
-+SRC_URI[parking_lot_core-0.9.10.sha256sum] = "1e401f977ab385c9e4e3ab30627d6f26d00e2c73eef317493c4ec6d468726cf8"
-+SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
++SRC_URI[parking_lot-0.12.1.sha256sum] = "3742b2c103b9f06bc9fff0a37ff4912935851bee6d36f3c02bcc755bcfec228f"
++SRC_URI[parking_lot_core-0.9.9.sha256sum] = "4c42a9226546d68acdd9c0a280d17ce19bfe27a46bf68784e4066115788d008e"
 +SRC_URI[ppv-lite86-0.2.17.sha256sum] = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
-+SRC_URI[proc-macro2-1.0.84.sha256sum] = "ec96c6a92621310b51366f1e28d05ef11489516e93be030060e5fc12024a49d6"
-+SRC_URI[pyo3-0.21.2.sha256sum] = "a5e00b96a521718e08e03b1a622f01c8a8deb50719335de3f60b3b3950f069d8"
-+SRC_URI[pyo3-build-config-0.21.2.sha256sum] = "7883df5835fafdad87c0d888b266c8ec0f4c9ca48a5bed6bbb592e8dedee1b50"
-+SRC_URI[pyo3-ffi-0.21.2.sha256sum] = "01be5843dc60b916ab4dad1dca6d20b9b4e6ddc8e15f50c47fe6d85f1fb97403"
-+SRC_URI[pyo3-macros-0.21.2.sha256sum] = "77b34069fc0682e11b31dbd10321cbf94808394c56fd996796ce45217dfac53c"
-+SRC_URI[pyo3-macros-backend-0.21.2.sha256sum] = "08260721f32db5e1a5beae69a55553f56b99bd0e1c3e6e0a5e8851a9d0f5a85c"
-+SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
++SRC_URI[proc-macro2-1.0.79.sha256sum] = "e835ff2298f5721608eb1a980ecaee1aef2c132bf95ecc026a11b7bf3c01c02e"
++SRC_URI[pyo3-0.19.2.sha256sum] = "e681a6cfdc4adcc93b4d3cf993749a4552018ee0a9b65fc0ccfad74352c72a38"
++SRC_URI[pyo3-build-config-0.19.2.sha256sum] = "076c73d0bc438f7a4ef6fdd0c3bb4732149136abd952b110ac93e4edb13a6ba5"
++SRC_URI[pyo3-ffi-0.19.2.sha256sum] = "e53cee42e77ebe256066ba8aa77eff722b3bb91f3419177cf4cd0f304d3284d9"
++SRC_URI[pyo3-macros-0.19.2.sha256sum] = "dfeb4c99597e136528c6dd7d5e3de5434d1ceaf487436a3f03b2d56b6fc9efd1"
++SRC_URI[pyo3-macros-backend-0.19.2.sha256sum] = "947dc12175c254889edc0c02e399476c2f652b4b9ebd123aa655c224de259536"
++SRC_URI[quote-1.0.35.sha256sum] = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
 +SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
 +SRC_URI[rand_chacha-0.3.1.sha256sum] = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
 +SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
-+SRC_URI[redox_syscall-0.5.1.sha256sum] = "469052894dcb553421e483e4209ee581a45100d31b4018de03e5a7ad86374a7e"
++SRC_URI[redox_syscall-0.4.1.sha256sum] = "4722d768eff46b75989dd134e5c353f0d6296e5aaa3132e776cbdb56be7731aa"
 +SRC_URI[scopeguard-1.2.0.sha256sum] = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 +SRC_URI[smallvec-1.13.2.sha256sum] = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
-+SRC_URI[syn-2.0.66.sha256sum] = "c42f3f41a2de00b01c0aaad383c5a45241efc8b2d1eda5661812fda5f3cdcff5"
++SRC_URI[syn-1.0.109.sha256sum] = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
 +SRC_URI[target-lexicon-0.12.14.sha256sum] = "e1fc403891a21bcfb7c37834ba66a547a8f402146eba7265b5a6d88059c9ff2f"
 +SRC_URI[unicode-ident-1.0.12.sha256sum] = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
-+SRC_URI[unindent-0.2.3.sha256sum] = "c7de7d73e1754487cb58364ee906a499937a0dfabd86bcb980fa99ec8c8fa2ce"
++SRC_URI[unindent-0.1.11.sha256sum] = "e1766d682d402817b5ac4490b3c3002d91dfa0d22812f341609f97b08757359c"
 +SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
-+SRC_URI[windows-targets-0.52.5.sha256sum] = "6f0713a46559409d202e70e28227288446bf7841d3211583a4b53e3f6d96e7eb"
-+SRC_URI[windows_aarch64_gnullvm-0.52.5.sha256sum] = "7088eed71e8b8dda258ecc8bac5fb1153c5cffaf2578fc8ff5d61e23578d3263"
-+SRC_URI[windows_aarch64_msvc-0.52.5.sha256sum] = "9985fd1504e250c615ca5f281c3f7a6da76213ebd5ccc9561496568a2752afb6"
-+SRC_URI[windows_i686_gnu-0.52.5.sha256sum] = "88ba073cf16d5372720ec942a8ccbf61626074c6d4dd2e745299726ce8b89670"
-+SRC_URI[windows_i686_gnullvm-0.52.5.sha256sum] = "87f4261229030a858f36b459e748ae97545d6f1ec60e5e0d6a3d32e0dc232ee9"
-+SRC_URI[windows_i686_msvc-0.52.5.sha256sum] = "db3c2bf3d13d5b658be73463284eaf12830ac9a26a90c717b7f771dfe97487bf"
-+SRC_URI[windows_x86_64_gnu-0.52.5.sha256sum] = "4e4246f76bdeff09eb48875a0fd3e2af6aada79d409d33011886d3e1581517d9"
-+SRC_URI[windows_x86_64_gnullvm-0.52.5.sha256sum] = "852298e482cd67c356ddd9570386e2862b5673c85bd5f88df9ab6802b334c596"
-+SRC_URI[windows_x86_64_msvc-0.52.5.sha256sum] = "bec47e5bfd1bff0eeaf6d8b485cc1074891a197ab4225d504cb7a1ab88b02bf0"
-diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
++SRC_URI[windows-targets-0.48.5.sha256sum] = "9a2fa6e2155d7247be68c096456083145c183cbbbc2764150dda45a87197940c"
++SRC_URI[windows_aarch64_gnullvm-0.48.5.sha256sum] = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
++SRC_URI[windows_aarch64_msvc-0.48.5.sha256sum] = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
++SRC_URI[windows_i686_gnu-0.48.5.sha256sum] = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
++SRC_URI[windows_i686_msvc-0.48.5.sha256sum] = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
++SRC_URI[windows_x86_64_gnu-0.48.5.sha256sum] = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
++SRC_URI[windows_x86_64_gnullvm-0.48.5.sha256sum] = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
++SRC_URI[windows_x86_64_msvc-0.48.5.sha256sum] = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
+diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
 new file mode 100644
-index 00000000000..f60a62718db
+index 00000000000..50246a8a118
 --- /dev/null
-+++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
++++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
 @@ -0,0 +1,19 @@
 +SUMMARY = "The guessing game from The Rust Book using pyo3."
 +DESCRIPTION = "Wrap a version of the guessing game from The Rust Book \
@@ -199,71 +183,14 @@ index 00000000000..f60a62718db
 +
 +SRC_URI = "git://git.yoctoproject.org/guessing-game.git;protocol=https;branch=main"
 +
-+PV = "0.2.0"
-+SRCREV = "40cf004c2772ffa20ea803fa3be1528a75be3e98"
++PV = "0.1.0"
++SRCREV = "469c9e2230ca4fa9e391c94be6e697733e769500"
 +
 +S = "${WORKDIR}/git"
 +
 +inherit python_maturin cargo-update-recipe-crates
 +
 +require ${BPN}-crates.inc
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 1cafb922ea4..432d9c9a673 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2017,6 +2017,52 @@ class DevtoolUpgradeTests(DevtoolBase):
-             newlines = f.readlines()
-         self.assertEqual(desiredlines, newlines)
- 
-+    def test_devtool_upgrade_recipe_update_extra_tasks(self):
-+        # Check preconditions
-+        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        recipe = 'python3-guessing-game'
-+        version = '0.2.0'
-+        commit = '40cf004c2772ffa20ea803fa3be1528a75be3e98'
-+        oldrecipefile = get_bb_var('FILE', recipe)
-+        oldcratesincfile = os.path.join(os.path.dirname(oldrecipefile), os.path.basename(oldrecipefile).strip('_git.bb') + '-crates.inc')
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        # Check that recipe is not already under devtool control
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        # Check upgrade
-+        result = runCmd('devtool upgrade %s %s --version %s --srcrev %s' % (recipe, tempdir, version, commit))
-+        # Check if srctree at least is populated
-+        self.assertTrue(len(os.listdir(tempdir)) > 0, 'srctree (%s) should be populated with new (%s) source code' % (tempdir, commit))
-+        # Check new recipe file and new -crates.inc files are present
-+        newrecipefile = os.path.join(self.workspacedir, 'recipes', recipe, os.path.basename(oldrecipefile))
-+        newcratesincfile = os.path.join(self.workspacedir, 'recipes', recipe, os.path.basename(oldcratesincfile))
-+        self.assertExists(newrecipefile, 'Recipe file should exist after upgrade')
-+        self.assertExists(newcratesincfile, 'Recipe crates.inc file should exist after upgrade')
-+        # Check devtool status and make sure recipe is present
-+        result = runCmd('devtool status')
-+        self.assertIn(recipe, result.output)
-+        self.assertIn(tempdir, result.output)
-+        # Check recipe got changed as expected
-+        with open(oldrecipefile + '.upgraded', 'r') as f:
-+            desiredlines = f.readlines()
-+        with open(newrecipefile, 'r') as f:
-+            newlines = f.readlines()
-+        self.assertEqual(desiredlines, newlines)
-+        # Check crates.inc got changed as expected
-+        with open(oldcratesincfile + '.upgraded', 'r') as f:
-+            desiredlines = f.readlines()
-+        with open(newcratesincfile, 'r') as f:
-+            newlines = f.readlines()
-+        self.assertEqual(desiredlines, newlines)
-+        # Check devtool reset recipe
-+        result = runCmd('devtool reset %s -n' % recipe)
-+        result = runCmd('devtool status')
-+        self.assertNotIn(recipe, result.output)
-+        self.assertNotExists(os.path.join(self.workspacedir, 'recipes', recipe), 'Recipe directory should not exist after resetting')
-+
-     def test_devtool_layer_plugins(self):
-         """Test that devtool can use plugins from other layers.
- 
 -- 
 2.45.2
 
