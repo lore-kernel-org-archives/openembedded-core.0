@@ -1,117 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EB4C27C5E
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 13:51:27 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.10121.1718113884089675424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B7AC25B76
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:02:17 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.10399.1718114527528466240
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 06:51:24 -0700
+ Tue, 11 Jun 2024 07:02:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=grC6hgCN;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6f98178ceb3so658565a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 06:51:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CfNFcXKO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so26200261fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718113883; x=1718718683; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6hJZSwuuj8Q8EPkeXL4wi2ahL1hRraylfeHUzwQKOzg=;
-        b=grC6hgCNHMuhxYnpJ/HAy/ubonMbVd2Ebog6BPgYd7/i0XIYm5wcIno6I9lgAZwM75
-         nbKR4+LRXQLKVnlRbv50QvmjLyf68OJM3hq0jUg7lz8e4OEbUTYLrVHJNZdzDQ4LTIzC
-         d5RYrz/udTxH/0VkXmMeTvCjedWXjqk/UDLhheUIltvyE8AaD/CgrVeiMPKONqAFXq+q
-         Ehdi14xBNgnvZaMBebTM+5MNO3rnbeUQZvaDPzj/5Noa3hYskU3E8w17LKXaaU/gAUA/
-         tEUh0EFYHEqVrDGSVfVssWP4Xf4LxPMuIlDZ9mHTS9pUlTk2hpzqNs5RvIhPpsqVr02p
-         Xzug==
+        d=gmail.com; s=20230601; t=1718114525; x=1718719325; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JIWqwxjDZG42tN4Uzn3i8rWsQmMMNXRIPKElIH6Nsic=;
+        b=CfNFcXKOPKgtgjGhlaK6vpin+SlsTi0tkE9YDuesVXiTgqHGEMX0irXEeDhJn8G8Ry
+         BC2E9dLsxINykGG2ij4cvT2mwP/mkPwCTR25Yb+Gwe1vFohDMmIByL2yxh+vvQkAObY4
+         VNFesnrpDgfBcnxtGhhftNeBERDcvRoBRL8YWC4IlEshtF56/uUzri62TgNzKa+bTnhi
+         XZkR/RO9Tlv17S3p/dx7+78RVJ77zgeciLZdUKlMtBAdX1PD3sSeaHpQRNuKEIkQIkLf
+         fEur16eMCmeIHIq8Y5uvLU/W9/nMgUtkApn11RTrHumYGdKWGso4eQm1TrFRJOvrCh+9
+         BJkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718113883; x=1718718683;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1718114525; x=1718719325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6hJZSwuuj8Q8EPkeXL4wi2ahL1hRraylfeHUzwQKOzg=;
-        b=qfX0fgSrGbH6RfU8QgmWN38Pv8K6cIf5SiN7ezezvbAxWbauvpMe/n4WMYIHCTGa+I
-         YG1F7JdYIvzy+ZA+JRR6MR1erbIelb5WZtXW1vau/7jF6nwy30TmtvpWRVccqRTIIGEJ
-         GIFIaVXc5YskccxCc1C4O1luC/d9PkzA1LPWFSTpCt7QOfkxVA29f4bM/QFC4QqwD3Xl
-         yX80dFwbK3libKtqV3iwCGwWIDzQDqPAz2p+435Dhwz0hHpimHg7dhHyYO96ivblFd2U
-         DIM27pG4Me3bAyVDmU8y5YN+1hYS1Sy2hg4ToSpDmrt59ZiOkT1clynTKtlfeYDxvwEU
-         gbXQ==
-X-Gm-Message-State: AOJu0YzhRbH+cF98y+g1PId9aoD0K9Iyc2VLB7HEhVKo1lk2NEb+xOly
-	HdSPqNVdrjpnXSVvUZ3X9UVFlN6RJooOqx6UwgJFbsokGmsnfKqzaLNgW5aAZJMX+nst8www9ay
-	SEi6lowwYDTGg1A4UcpQWG7DUu3iPyw==
-X-Google-Smtp-Source: AGHT+IH8s4nqnS+zn8tEyO9RgyM5eT2dkgV/akxvLvyHUl5EZAdaR4Crxp5lh/yV+WU+wEa8L7rC2ikYg2iLmsxGc5s=
-X-Received: by 2002:a05:6870:f684:b0:24f:ef6b:353e with SMTP id
- 586e51a60fabf-254647f0819mr13269483fac.36.1718113883015; Tue, 11 Jun 2024
- 06:51:23 -0700 (PDT)
+        bh=JIWqwxjDZG42tN4Uzn3i8rWsQmMMNXRIPKElIH6Nsic=;
+        b=hPKiRUkRKL/Vv1rRvbZtdwpwSym2XSXccl/Y2alWekTle7IPVsAk6mDcGYbcUaNupm
+         NAV5fr3kBVYVVR/KNMo9YMs9bAx8ed5zfCasNcKeaB5JZJPjBeoXFoHYbdg++Hhj5I5U
+         /YOY0fLvFgfTJzX4NWgmRMT9+jq+SDGIVRHdK4jxDV1sQIGvioTZ/RHNhgSRBva7OwdS
+         uJNn2bHMw02oabPzXL7A1ZZKn8pOTKTLYKe4tsyDBYz9x7bD4dZxMWzylO0VHIfsDQ6t
+         MdcQuhhRM2UtFDAG+AoqTurWEi5juVLxLp8yy8Mp0Hki1Zx++1jTJNEqn0UQm+0Qu+p+
+         Ycug==
+X-Gm-Message-State: AOJu0YwZQxFL4+jVD8YqM5E2r+//XlC+chPPNFzdRzdj8c5+xFpAj4my
+	QqH/zFY40Fq6XaglsDeK2lgaqrBDItS13i470+7a8XlVx/IPdgCEEMbSV1wL
+X-Google-Smtp-Source: AGHT+IGUnsKpB3vGLUdWdSNLnQfwxWJHWzsc5Np+WpGmywcKNVN3CPw/n02MK+afenXxj0/iOFOlHQ==
+X-Received: by 2002:a2e:8e92:0:b0:2eb:eef9:6d56 with SMTP id 38308e7fff4ca-2ebeef97646mr23351061fa.25.1718114523928;
+        Tue, 11 Jun 2024 07:02:03 -0700 (PDT)
+Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42217ff4302sm47618195e9.31.2024.06.11.07.02.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 07:02:03 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Daiane Angolini <daiane.angolini@foundries.io>,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][kirkstone][PATCH] gobject-introspection: Do not hardcode objdump name
+Date: Tue, 11 Jun 2024 15:01:59 +0100
+Message-ID: <20240611140159.4213-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-References: <20240611060017.618296-1-raj.khem@gmail.com> <FF8B26CC-CB7E-40B5-A5E8-E4C4519F33D0@arm.com>
-In-Reply-To: <FF8B26CC-CB7E-40B5-A5E8-E4C4519F33D0@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Jun 2024 06:51:11 -0700
-Message-ID: <CAMKF1sohm5vAZYEE++7frTrEmQ-CzT32cVB9-aQYA32pLbojqA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ltp: Fix build break with clang on risv64
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ae528d061a9d8fd4"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 13:51:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200524
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:02:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200525
 
---000000000000ae528d061a9d8fd4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Khem Raj <raj.khem@gmail.com>
 
-On Tue, Jun 11, 2024 at 3:49=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
+Use OBJDUMP variable in the script, this helps in using the lddwrapper
+with recipes which maybe using different objdump tools e.g.l
+llvm-objdump or vice-versa
 
-> On 11 Jun 2024, at 07:00, Khem Raj via lists.openembedded.org <raj.khem=
-=3D
-> gmail.com@lists.openembedded.org> wrote:
-> >
-> > +LDFLAGS:append:riscv64:toolchain-clang =3D " -rtlib=3Dcompiler-rt"
->
-> Can you add a quick comment explaining what this is for?  Presumably it=
-=E2=80=99s
-> Yocto-specific as otherwise it would be upstream, so why.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c04b3e0e371859c159b76bff87a5b1299b51d0c8)
+Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ .../gobject-introspection/gobject-introspection_1.72.0.bb       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+index 9a47e908b7..d935cbd905 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+@@ -103,7 +103,7 @@ EOF
+         # for a different architecture
+         cat > ${B}/g-ir-scanner-lddwrapper << EOF
+ #!/bin/sh
+-$OBJDUMP -p "\$@"
++\$OBJDUMP -p "\$@"
+ EOF
+         chmod +x ${B}/g-ir-scanner-lddwrapper
+ 
+-- 
+2.45.1
 
-It=E2=80=99s a remnant which is not needed will send v2
-
->
->
-> Ross
->
->
-
---000000000000ae528d061a9d8fd4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jun 11, 2024 at 3:49=E2=80=AFAM Ross Burton &lt;<a =
-href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">On 11 Jun 2024, at 07:00, Khem Raj via =
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;raj.khem=3D<a href=3D"mailto:gmail.com@l=
-ists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</=
-a>&gt; wrote:<br>
-&gt; <br>
-&gt; +LDFLAGS:append:riscv64:toolchain-clang =3D &quot; -rtlib=3Dcompiler-r=
-t&quot;<br>
-<br>
-Can you add a quick comment explaining what this is for?=C2=A0 Presumably i=
-t=E2=80=99s Yocto-specific as otherwise it would be upstream, so why.</bloc=
-kquote><div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=80=99s a remnant=
- which is not needed will send v2</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=
-=3D"auto"><br>
-<br>
-Ross<br>
-<br>
-</blockquote></div></div>
-
---000000000000ae528d061a9d8fd4--
 
