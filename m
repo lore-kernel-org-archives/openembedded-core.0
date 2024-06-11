@@ -2,156 +2,282 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0D8C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFE2C25B76
 	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:16:57 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.10723.1718115411586558852
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.10773.1718115412552159482
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 07:16:51 -0700
+ Tue, 11 Jun 2024 07:16:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0Kqtek9;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57864327f6eso1968168a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:16:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XlPualZ1;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so1494539a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718115410; x=1718720210; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+/zpwJd307h0VIOUObhyMPia3hdzN9VvluxH6MNJ/c=;
-        b=D0Kqtek9f609i/agf3oSNlEP0jRSq0zPr3sntNoPwOgnfbs8YeNHGj5FBz+mKijR0i
-         b1ieBqbO885WvHmWXN6ByoGfrgd+8GPTYaqj1ZHu5mX8R1D5toCxYhixZJWSVIaIynlE
-         3Mk0kFExuCxlS5vJWV4FBkWJiucKuQqsnRpL12gGb+UakWKSNd01YfH8Yj4ZoLP7yEHh
-         sNGBH/Lt+ggkJTDeJI1Fp9NFb4BvV992kTFSi8r2iW7s/WkVL4k1zJu61GiKkEGseKby
-         vvcQ3SIhGITR9+STHINh86RigsYbgEazOY/cDjchb8cewnu/9nz6geokmRu/5WKRgzcO
-         1hfA==
+        d=gmail.com; s=20230601; t=1718115411; x=1718720211; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z995T05ISb47KgmgTzr39IsqnmtZshO0nWV5RJ2oPB4=;
+        b=XlPualZ1PESyhOEcNC7S33VmZTgfx1M9lP2+j2kf9hVS1mZX+1pOox0nyY0BFb2g5j
+         OK+AOeoMymb6jOK9A1XGxc7q0mI8lyJzmvv6AbMdQzc+NwO0RYx9FYUBbFsyF6dlJ1mV
+         aeh99vB97q/sucEuR6lbzAqJy+7oEy3jwWrK3ASkoAcijFLvOaqSbWvnR+KNUTyZTNhh
+         8mZDTHoz0nMNoCS7zDftT+UMGydS/PdGekVcHSRq7xpcGdg8zIEx1I885yGeuRhhkIN1
+         Y2X42hWfiOvwGA0C8ILuho/sket5YG/0gAt6b0DDx1xKk6ptgcpUL6/qRz3pK1hazsmh
+         qPWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718115410; x=1718720210;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e+/zpwJd307h0VIOUObhyMPia3hdzN9VvluxH6MNJ/c=;
-        b=CWJJ4ZWZYSeZLZF0KiktiyUQ6WIfwWk0m1GShuzPKym1hcNHaJ/qMZbX9fGZjVdq6H
-         /hIiupBLK9PHYXrYJiUdhTB68Dhz9L/MU7p8yF30R5HHRe1PRqNvSrYGkjRvCnq5lT1q
-         60008VA4h7ffqhKhes4E0LwQbE/QvCG6KjdrtyZoPsxANoE4SJ8QGambKUYC7eOLKVHG
-         jHXcGspQo0fZ1KgN0+QrzsIUfMRXbBsJUDaRcul636yI8INDvYSiFsDgVgETRp2/Z2n3
-         w02Pl2T2wD6UvQexB6IBnqiH1s8AhHOLnjaDbHMRFIr7gTsfM5TFgFGMP9TYv+DCVGst
-         0ZSQ==
-X-Gm-Message-State: AOJu0YwU+FImLO8WCFXos7LMgMOvoMN/yLZNVsSWkp6VXqHKD6qlcs9d
-	VMr3eYHqU5apBYE3m8W8/8GDqEmG7c3soPqR9L9TqIPp0bLQsjus5o4VMA==
-X-Google-Smtp-Source: AGHT+IGh5dnAYMghJKrO4T3ISfVD1ebJ+qc/o6+prLj3AiblOiY2ef5nf8HcGHCA2f5Pfd6OeuI2GQ==
-X-Received: by 2002:a05:6402:1750:b0:57c:537a:49c5 with SMTP id 4fb4d7f45d1cf-57c90e7cc60mr1801518a12.18.1718115409414;
-        Tue, 11 Jun 2024 07:16:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718115411; x=1718720211;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z995T05ISb47KgmgTzr39IsqnmtZshO0nWV5RJ2oPB4=;
+        b=fkzxan8fPFCeZ77wv9R3hb0GBrFEerfOMOtNlIuPg5zCOGlCuMdfNuBv1z1MN45bMI
+         q/l6zqRpmD4hznMjwihgAUylifRtpkRaT/lFAwi+V5nQ9IjPNBcEuD2XlRou80N2J3lL
+         0scFIm7tPvm+K0TZN7rNp1HZdeVXtsLY8QdgfjSPBcyxBjUmWrFGJYv8lakYU6RYGHJ+
+         lmtKeJ7wtG3hmSiqZvKY1FCNnVBBWNyx9z+BBzxTzN0iC+rbw9TiXInJMBqd+6JtQw0C
+         LdnvMG6P6yB0xV5hh3w81NWAPmzSeofRivqXb77qg2LXJ6cyjaHZPC7gLyQdNec8AMn1
+         6yiA==
+X-Gm-Message-State: AOJu0YyfqPWBilXTGQOeX78REmxZKdMz2WnIpXp/WBUivBWdnYoJCQ4n
+	Enmd1UNRX/vC8iUg2XEqlgq79zYQPV6iiN6JdSHjTkOAIakc1C/5oEgrjQ==
+X-Google-Smtp-Source: AGHT+IGoBjx9PdW7XwIJdtPf3xpTGImlzCalx4nSlkEVFi0T73zY2+5FIwEmba94ppKMoPkAVwPAtw==
+X-Received: by 2002:a50:d5c8:0:b0:578:67db:7529 with SMTP id 4fb4d7f45d1cf-57c50878c53mr8046783a12.4.1718115410767;
+        Tue, 11 Jun 2024 07:16:50 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c7fcfc67fsm4311033a12.31.2024.06.11.07.16.48
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c7fcfc67fsm4311033a12.31.2024.06.11.07.16.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 07:16:49 -0700 (PDT)
+        Tue, 11 Jun 2024 07:16:50 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/3] bblayers/setupwriters/oe-local-copy: add a 'local copy' plugin for bitbake-layers create-layer-setup
-Date: Tue, 11 Jun 2024 16:15:20 +0200
-Message-Id: <20240611141522.3075000-1-alex.kanavin@gmail.com>
+Subject: [PATCH 3/3] scripts/oe-replicate-build: add a script that packages and replicates a yocto build elsewhere
+Date: Tue, 11 Jun 2024 16:15:22 +0200
+Message-Id: <20240611141522.3075000-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240611141522.3075000-1-alex.kanavin@gmail.com>
+References: <20240611141522.3075000-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:16:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200526
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200528
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-This plugin copies all currently configured layer respositories into
-a dedicated location on local disk. This is useful for entirely offline
-layer replication, when the layers are packed and then unpacked from
-an archive, rather than fetched from git (there can be situations
-where fetching from git is undesirable or impossible).
+This scripts takes an existing, active yocto build, and puts pieces of it
+into a bundle directory, which is then placed in a tarball, and that goes
+into a self-extracting shell archive. This allows moving the bundle to another
+machine, or placing it on a network server for downloads. It's like esdk
+bundles, except inside there is a regular, plain, direct yocto build.
 
-This plugin will also be used when replicating an entire yocto build
-(with build config and sstate cache), and is an element of that.
+The bundle includes:
+- copies of all layers used in a build, with their git histories
+- build configuration as a template in a special layer private to the bundle
+- (this is the best bit) all the sstate needed for the specified target,
+but *only* that sstate and not a complete copy of the local cache.
 
-This plugin is similar to what esdk does, and it provides that functionality
-outside of populate_sdk_ext task. It does not reuse esdk code,
-as that simply copies the layer tree; it's better to use 'git clone'
-with a path to original repo on local disk, as that will preserve
-commit history in the copy.
+When someone runs the self-extracting shell archive, everything
+should 'just work': the layers are restored, and the build
+set up to use them, the bundled sstate cache, and the template configuration.
+
+Alternatively, it's possible to not include the cache, and presumably it will come
+from a configured sstate mirror.
+
+This enables at least two*scratch*three interesting use cases:
+
+- moving builds around in single-step fashion: run the script, and give
+the artifact to someone else via file sharing or usb sticks.
+
+- publishing builds on the network, perhaps right next to the sstate
+cache that can fulfil them. This allows an alternative, much smoother
+entry point into 'doing yocto', as this guarantees availability of
+needed cache items, and so builds will be a lot faster than the typical
+'compile everything from scratch' yocto experience. Sstate is guaranteed
+to be available, as there's a record of needed items in each bundle, and
+that record can be used to prevent pruning of still-needed cache items.
+
+- this, in turn, can enable 'binary Yocto distro' implemented with
+sstate, if there's a higher level tool that creates bundles in a systematic,
+structured fashion, and another tool that iterates over available bundles, and
+lets users pick them for building locally.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../bblayers/setupwriters/oe-local-copy.py    | 41 +++++++++++++++++++
- meta/lib/oeqa/selftest/cases/bblayers.py      | 13 ++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/lib/bblayers/setupwriters/oe-local-copy.py
+ meta/files/bundle-shar-extract.sh           | 55 ++++++++++++++
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 13 ++++
+ scripts/oe-replicate-build                  | 79 +++++++++++++++++++++
+ 3 files changed, 147 insertions(+)
+ create mode 100644 meta/files/bundle-shar-extract.sh
+ create mode 100755 scripts/oe-replicate-build
 
-diff --git a/meta/lib/bblayers/setupwriters/oe-local-copy.py b/meta/lib/bblayers/setupwriters/oe-local-copy.py
+diff --git a/meta/files/bundle-shar-extract.sh b/meta/files/bundle-shar-extract.sh
 new file mode 100644
-index 00000000000..8c1ccb67368
+index 00000000000..ae10dbaf065
 --- /dev/null
-+++ b/meta/lib/bblayers/setupwriters/oe-local-copy.py
-@@ -0,0 +1,41 @@
++++ b/meta/files/bundle-shar-extract.sh
+@@ -0,0 +1,55 @@
++#!/bin/bash
++
++verbose=0
++listcontents=0
++prepare_buildsystem="yes"
++while getopts "Dln" OPT; do
++        case $OPT in
++        D)
++                verbose=1
++                ;;
++        l)
++                listcontents=1
++                ;;
++        n)
++                prepare_buildsystem="no"
++                ;;
++        *)
++                echo "Usage: $(basename "$0") [-D] [-l] [-n]"
++                echo "  -D         Use set -x to see what is going on"
++                echo "  -l         list files that will be extracted"
++                echo "  -n         Extract files but do not prepare the build system"
++                exit 1
++                ;;
++        esac
++done
++
++if [ $verbose = 1 ] ; then
++        set -x
++fi
++
++payload_offset=$(($(grep -na -m1 "^MARKER:$" "$0"|cut -d':' -f1) + 1))
++
++if [ "$listcontents" = "1" ] ; then
++    tail -n +$payload_offset "$0"| tar tv || exit 1
++    exit
++fi
++
++
++tail -n +$payload_offset "$0"| tar mx --zstd --checkpoint=.2500 || exit 1
++
++if [ $prepare_buildsystem = "no" ] ; then
++        exit
++fi
++
++target_dir=$(basename "$0" .sh)
++pushd $target_dir
++layers/setup-build setup -c build-config-default -b build --no-shell > setup-build.log
++popd
++
++echo "Each time you wish to use this build in a new shell session, you need to source the environment setup script:"
++echo " \$ . $target_dir/build/init-build-env"
++
++exit 0
++
++MARKER:
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 94ad6e38b68..b59d0d2d1e8 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -1007,3 +1007,16 @@ MACHINE = "{}"
+     def test_local_cache_qemuarm64(self):
+         exceptions = []
+         self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, check_cdn = False)
++
++class SStateBundles(SStateCheckObjectPresence):
++    def test_minimal_bundle(self):
++        targets = "core-image-minimal"
++        machine = get_bb_var('MACHINE')
++        bitbake("--runall build {}".format(targets))
++        runCmd("oe-replicate-build --targets {}".format(targets))
++        extractedbundledir = tempfile.mkdtemp(prefix='bundle-extracted-', dir=self.topdir)
++        runCmd("../build-bundle.sh", cwd=extractedbundledir)
++        result = runCmd(". build-bundle/build/init-build-env && MACHINE={} bitbake -DD -n {}".format(machine,targets), cwd=extractedbundledir, shell=True, executable='/bin/bash')
++
++        exceptions = []
++        self.check_bb_output(result.output, targets, exceptions, check_cdn=False)
+diff --git a/scripts/oe-replicate-build b/scripts/oe-replicate-build
+new file mode 100755
+index 00000000000..e13710f1d97
+--- /dev/null
++++ b/scripts/oe-replicate-build
+@@ -0,0 +1,79 @@
++#!/usr/bin/env python3
 +#
 +# Copyright OpenEmbedded Contributors
 +#
-+# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: MIT
 +#
 +
-+import logging
++import argparse
 +import json
++import os
++import subprocess
++import shutil
 +
-+logger = logging.getLogger('bitbake-layers')
++def _do_bundle(args):
++    bundledir = args.output_prefix or "build-bundle"
++    print("Making a self-extracting bundle archive in {}.sh ...".format(bundledir))
++    os.mkdir(bundledir)
 +
-+def plugin_init(plugins):
-+    return OeLocalCopyWriter()
++    builddir = os.path.join(bundledir, "build")
++    buildconfdir = os.path.join(builddir, "conf")
++    os.makedirs(buildconfdir)
 +
-+class OeLocalCopyWriter():
++    subprocess.check_output("bitbake -S outdir={} -S lockedsigs {}".format(os.path.abspath(buildconfdir),args.targets), shell=True)
++    sstate_dir = subprocess.check_output("bitbake-getvar --value SSTATE_DIR", shell=True).decode().strip()
++    nativelsbstring = subprocess.check_output("bitbake-getvar --value NATIVELSBSTRING", shell=True).decode().strip()
++    if not args.no_sstate:
++        subprocess.check_output("gen-lockedsig-cache {} {} {} {}".format("conf/locked-sigs.inc", sstate_dir, "sstate-cache", nativelsbstring), shell=True, cwd=builddir)
 +
-+    def __str__(self):
-+        return "oe-local-copy"
++    with open(os.path.join(buildconfdir, "bblock.conf"), 'w') as f:
++        f.write('require conf/locked-sigs.inc\n')
 +
-+    def do_write(self, parent, args):
-+        """ Writes out a local copy of all the metadata layers (and bitbake) included in a current build. """
-+        if not os.path.exists(args.destdir):
-+            os.makedirs(args.destdir)
-+        repos = parent.make_repo_config(args.destdir)
-+        if not repos:
-+            raise Exception("Could not determine layer sources")
-+        output = os.path.join(os.path.abspath(args.destdir), args.output_prefix or "layers")
-+        json_f = os.path.join(os.path.abspath(args.destdir), "bundle-repos.json")
++    layerdir = "meta-build-config"
++    subprocess.check_output("bitbake-layers create-layer --add-layer {}".format(layerdir), shell=True, cwd=bundledir)
++    subprocess.check_output("bitbake-layers save-build-conf {} default".format(layerdir), shell=True, cwd=bundledir)
++    shutil.copy(os.path.join(os.environ["BUILDDIR"],'conf',"conf-summary.txt"), os.path.join(bundledir,layerdir,'conf/templates/default'))
++    shutil.copy(os.path.join(os.environ["BUILDDIR"],'conf',"conf-notes.txt"), os.path.join(bundledir,layerdir,'conf/templates/default'))
++    subprocess.check_output("bitbake-layers remove-layer {}".format(layerdir), shell=True, cwd=bundledir)
 +
-+        for r in repos.values():
-+            r['git-remote']['remotes'] = {"origin":{"uri":r["originpath"]}}
++    # meta-build-config is then in bblayers.conf.sample, and should be removed from it as it wasn't in the actual build
++    bblayers = os.path.join(bundledir, layerdir, 'conf/templates/default/bblayers.conf.sample')
++    with open(bblayers) as f:
++        lines = f.readlines()
++        lines = [l for l in lines if os.path.join(bundledir, layerdir) not in l]
++    with open(bblayers,'w') as f:
++        f.write(''.join(lines))
 +
-+        json_data = {"version":"1.0","sources":repos}
-+        with open(json_f, 'w') as f:
-+            json.dump(json_data, f, sort_keys=True, indent=4)
++    subprocess.check_output("bitbake-layers create-layers-setup --writer oe-local-copy {}".format(bundledir), shell=True)
 +
-+        logger.info("Cloning repositories into {}".format(output))
-+        bb.process.run('oe-setup-layers --force-bootstraplayer-checkout --destdir {} --jsondata {}'.format(output, json_f))
++    # meta-build-config should however be present in .oe-layers.json, as otherwise oe-setup-build won't be able to discover
++    # the config template in it
++    oelayers = os.path.join(bundledir, 'layers', '.oe-layers.json')
++    with open(oelayers) as f:
++        json_f = json.load(f)
++    json_f["layers"].append("../meta-build-config")
++    with open(oelayers,'w') as f:
++        json.dump(json_f, f, sort_keys=True, indent=4)
 +
-+    def register_arguments(self, parser):
-+        pass
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 695d17377d4..8b2bc319d50 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -240,3 +240,16 @@ class BitbakeLayers(OESelftestTestCase):
-         self.assertEqual(first_desc_2, '', "Describe not cleared: '{}'".format(first_desc_2))
-         self.assertEqual(second_rev_2, second_rev_1, "Revision should not be updated: '{}'".format(second_rev_2))
-         self.assertEqual(second_desc_2, second_desc_1, "Describe should not be updated: '{}'".format(second_desc_2))
++    subprocess.check_output("tar caf {}.tar.zst {}".format(bundledir, bundledir), shell=True)
 +
-+    def test_bitbakelayers_setup_localcopy(self):
-+        testcopydir = os.path.join(self.builddir, 'test-layer-copy')
-+        result = runCmd('bitbake-layers create-layers-setup --writer oe-local-copy {}'.format(testcopydir))
-+        oe_core_found = False
-+        meta_selftest_found = False
-+        for topdir, subdirs, files in os.walk(testcopydir):
-+            if topdir.endswith('meta/conf') and 'layer.conf' in files:
-+                oe_core_found = True
-+            if topdir.endswith('meta-selftest/conf') and 'layer.conf' in files:
-+                meta_selftest_found = True
-+        self.assertTrue(oe_core_found, "meta/conf/layer.conf not found in {}".format(testcopydir))
-+        self.assertTrue(meta_selftest_found, "meta-selftest/conf/layer.conf not found in {}".format(testcopydir))
++    corebase = subprocess.check_output("bitbake-getvar --value COREBASE", shell=True).decode().strip()
++    subprocess.check_output("cp {}/meta/files/bundle-shar-extract.sh {}.sh".format(corebase, bundledir), shell=True)
++    subprocess.check_output("cat {}.tar.zst >> {}.sh".format(bundledir, bundledir), shell=True)
++    subprocess.check_output("chmod +x {}.sh".format(bundledir), shell=True)
++
++    if not args.keep_tmp:
++        shutil.rmtree(bundledir)
++        os.remove("{}.tar.zst".format(bundledir))
++
++parser = argparse.ArgumentParser(description="A script that bundles up everything needed to replicate a yocto build elsewhere (including appropriate portions of sstate cache) into a self-contained shell archive.")
++
++parser.add_argument('--targets', required=True, help="Bitbake targets that the bundle should be made for.")
++parser.add_argument('--output-prefix', help='File name prefix for the output files, if the default (build-bundle) is undesirable.')
++parser.add_argument('--no-sstate', action='store_true', help='Do not include sstate cache into the bundle.')
++parser.add_argument('--keep-tmp', action='store_true', help='Keep intermediate output: unpacked bundle directory, and compressed tarball (in addition to the final self-extracting shell archuve.')
++
++args = parser.parse_args()
++
++_do_bundle(args)
++
 -- 
 2.39.2
 
