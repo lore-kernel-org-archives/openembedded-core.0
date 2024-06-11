@@ -1,101 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C449C27C75
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:16:57 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.10772.1718115412199887946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D262C41513
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 14:38:07 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11246.1718116682710047629
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 07:16:52 -0700
+ Tue, 11 Jun 2024 07:38:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ltd2CK73;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6efacd25ecso215611866b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 07:16:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718115410; x=1718720210; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4FhiBxHIp4ag/+PIcjkNBZJe9HhG67ZETiQhe/puHes=;
-        b=Ltd2CK73d9Ykh896dUS3W46kZ0bGZWtpxe2/wQ7bV2MECRLQcWopON1d++4aBYD5nx
-         SFiF4T+R2Ll1H0gV5CWp9ctifJQ9G8Qh47WiWm+crqSLZKr0FFr1mtCjjTfhrlhYaRA6
-         PZQWzgIe3Cmqblomue1yxGfLHwEZzgSJSF6tkY3IAYyEuxPO5aparrRWBxt8Ghws9Uz2
-         fVo7FK9Jy9zacSJF6/K1MLvOFLvYTX9aQVA3ppn8ONYHo0lVl+1llCZT72Ie50vaZpss
-         m5rGViSCWRsNcsEdNlKrVIGr6xYXB1dmedFJqjXbtxugvrD7YMO+EehJvGJiXujYO6NQ
-         GLFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718115410; x=1718720210;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4FhiBxHIp4ag/+PIcjkNBZJe9HhG67ZETiQhe/puHes=;
-        b=fsPrrEXOiqnNu1PMDq182otR+sA5t/BsT7xz6WZoAOCr8Zqs6uMIbT6nKQxwseRZws
-         R+RAFOI6C1rjUiyBkRNkEISS32xHkiblrEmN0Deyuh7DBCYpUv5M7EdN6uCrLxlycfj9
-         CxBgLzUuZ5Wr2jZ1tvTzwG8/+9UkZmAn08x6E3qw+cmIOJu/3FH5otm0VwW+QMZgXFi4
-         3TqLTFR7m7Hu9oj/gwDNK4575uLW9KxqebM4Q5ntFcgdA+wy9lVAKx6RrANaq4UjMxkb
-         Ylumz3kVCV7Rx1gLpuoUy5E2rZ+8Cw0CeUEpz2V5sc5+5+vLJLdwu3STgkQiTji5RB1s
-         2Gmg==
-X-Gm-Message-State: AOJu0YysmUWQZFBHLTzHMlYsM2Qn79b+gd6fySXStB+BOqHyG2A3H05i
-	sBLHmAa1OHA4BVKzxCFAtIc1Lp5RIdkTdPUUls/l4ndgJ7CSNOcXSraJwA==
-X-Google-Smtp-Source: AGHT+IE0greqQddHH+UylABN0gWEIj1q3tBPJTO82B5bhd7x3DNOo5Q30F/pgyD95o8GGR8s8REtag==
-X-Received: by 2002:a50:8759:0:b0:57c:6031:8ebf with SMTP id 4fb4d7f45d1cf-57c60318ff4mr9032959a12.31.1718115410202;
-        Tue, 11 Jun 2024 07:16:50 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c7fcfc67fsm4311033a12.31.2024.06.11.07.16.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 07:16:49 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/3] sstatesig/dump_sigs: allow setting output directory explicitly from command line option
-Date: Tue, 11 Jun 2024 16:15:21 +0200
-Message-Id: <20240611141522.3075000-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ckPnNsvK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BYRRoowg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019007bc0812-d7dfc794-5667-427b-a8cd-6c57460c820f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1718116681; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=+QjVRf85HlTZ+M2DGJHwcrBj5yVAUSCfjFmBXPX/+VA=;
+	b=ckPnNsvKEJsow978PGga+Up5zFbrQRwJrl9H732xXlpI/mm0vuK09+tcP8w4/BNv
+	yIvEmKKwRf0awEjUoIouXVZjFcjSl/AFzWVEKItVtDMIzrG3xJTMYZpL/AQr6FHh5I7
+	Rh2EbJGtCdTqWbYik+a9oSkBQv/fLtWQhWBsH/j8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718116681;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=+QjVRf85HlTZ+M2DGJHwcrBj5yVAUSCfjFmBXPX/+VA=;
+	b=BYRRoowgX4pu25u9jq1nZZm9m0X0gkRH9uxycMarVw3DH3TS6LGUbieK7FEuR4Ac
+	tiHPU3OCCLIVZVQrI6VPSYUS9MFKewyO4B5F+vRr6gM3T8ma2nLCeyYaHpHvT2IeH8K
+	jawQdMINqEe70bjQthcLzB/vGBANcP+7rqYyKNCc=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] bblayers/setupwriters/oe-local-copy: add a 'local copy'
+ plugin for bitbake-layers create-layer-setup
 In-Reply-To: <20240611141522.3075000-1-alex.kanavin@gmail.com>
 References: <20240611141522.3075000-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019007bc0812-d7dfc794-5667-427b-a8cd-6c57460c820f-000000@us-west-2.amazonses.com>
+Date: Tue, 11 Jun 2024 14:38:01 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:16:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200527
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 14:38:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200529
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-The default (current directory) is unfortunately non-deterministic, as
-the operation is performed from bitbake-server and not from bitbake
-process directly. If the server was started in a different directory
-it will write the files there, and not where bitbake command requesting
-those files was started.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oe/sstatesig.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/1-3-bblayers-setupwriters-oe-local-copy-add-a-local-copy-plugin-for-bitbake-layers-create-layer-setup.patch
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index b6f8ab92cb6..f7dd211e89e 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -152,8 +152,13 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         super().set_taskdata(data[3:])
- 
-     def dump_sigs(self, dataCache, options):
-+        outdir = os.getcwd()
-+        for o in options:
-+            if o.startswith('outdir'):
-+                outdir = o.split('=')[1]
-+
-         if 'lockedsigs' in options:
--            sigfile = os.getcwd() + "/locked-sigs.inc"
-+            sigfile = outdir + "/locked-sigs.inc"
-             bb.plain("Writing locked sigs to %s" % sigfile)
-             self.dump_lockedsigs(sigfile)
-         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
--- 
-2.39.2
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 100 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
