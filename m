@@ -1,109 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3FDC25B76
-	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 10:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20130C27C5E
+	for <webhook@archiver.kernel.org>; Tue, 11 Jun 2024 10:45:46 +0000 (UTC)
 Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.6329.1718102441547520574
+ by mx.groups.io with SMTP id smtpd.web11.6417.1718102741458234125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 03:40:41 -0700
+ Tue, 11 Jun 2024 03:45:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=agW/5OKd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5295eb47b48so6459210e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 03:40:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=duucW59X;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52c815e8e9eso2892828e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 03:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1718102439; x=1718707239; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IuT0YyiHpJsrXbW/RYJFbOgYD6dYqSdbHO/TbPSSx2A=;
-        b=agW/5OKdpdB8lXJ7ZImjGawVgHQu2otueLSp0woFlwcvhsQTwD10JWtjNuphyz6kY1
-         rodk44HXoePY6kZEtAOWy5MujsKOlD+ntFiSL3/6Kx7q6zLMJLaCgbAFgFA7rPM6y8+x
-         iPPBGbIpv1nY/uxIvI8JSZnLta7txXG6tDblA=
+        d=gmail.com; s=20230601; t=1718102739; x=1718707539; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c//eS0oLrSFQLTrsPZfD8XuABqImnESKLVa46cjBN/g=;
+        b=duucW59XcvCjdUFCVyLbEYT3NoSg6g5GXG2TpZwb+9DtI21ODtYqvRq2EFggm0T6x0
+         lZn1d4/gJ2J/hW2KajD1SKlbTC3GEh5XuRTym+WSM8QiEdpG4qjXmaVgPsR3qeJ6e6ij
+         RHQSJ1PecfGyKtE8XLIqwHhwbwlLwM+gfkXoYyowfVWCD/TtljlRXJSM9x2zZ9UybkRL
+         DbVzuT2iUeTEmWZQeJmLAm3LmS/tIdVP+8e0nMJReuMtbRgUpYRqxIirprEdBFWdJlTT
+         2t9cXztSo7FUlndkeaUYHJtcYCppCOJqoPvSNrFV5OavsIHs2gnKyaga83enNlj3osyi
+         GH7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718102439; x=1718707239;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IuT0YyiHpJsrXbW/RYJFbOgYD6dYqSdbHO/TbPSSx2A=;
-        b=TvzLDy/PYbDYEp6P1k33lImvVb9eiyvWea8IwBApxWUAYWeNMbGotV89c3NN73zZ3r
-         U9gGb70l5gj+i+2oonUn3akfrLeII6d2ARd0RZ7GmqYHK3ExjctCWkPX549qnTEWW9d/
-         b4sPmH0XOWNWjgLDzInQbElQVe90xtTqcAugpD7xQhDRRSfD9m1P1MA+4cM2CGo++U7C
-         tt06w0dhdtFLOJ9bf5ZIcSKhzBn464XlxzL7SK/auacX/NJOWd2CsKz3I94YFAjh/5+a
-         JFXc3lVJsed1f+IhEp8ZW3TCPL2z4cFZUXCBzBu9jumt7b0Osuvr/rKCLh4VZLSOYhdD
-         VqUw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3bs8hLVBHU0JbJenXGMhh90utnFczUU5gbqJ1q+ocf37ui1BI0BuzlANT4RLGwrbxPXvcageulcikJxqpPQDYJg8j8KT8f3DlZX/Ss265J3U0fK0aLWGT
-X-Gm-Message-State: AOJu0YwmJffsv1ykblRP1SRn4Zl/CKlDRAJA3sF04ydqGS279tTCR96q
-	3w25aTmYmaREvzjnoUy6xIxtERTQBUfvWsh7N5AeXK8EeS6yHiNkbM/EyUyIAeU=
-X-Google-Smtp-Source: AGHT+IGh/ffiNk82JcrrjFmKhAxiXVpEhWOYpLk3w5E7lm2l+9Cp3iX8fVS6kQUYsYmBH4CO63y3iQ==
-X-Received: by 2002:a05:6512:3a8a:b0:52c:93f9:e757 with SMTP id 2adb3069b0e04-52c93f9f4e2mr1321302e87.34.1718102439529;
-        Tue, 11 Jun 2024 03:40:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d58d:9b4d:d265:3c2e? ([2001:8b0:aba:5f3c:d58d:9b4d:d265:3c2e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f27600519sm3950555f8f.32.2024.06.11.03.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 03:40:39 -0700 (PDT)
-Message-ID: <f92d6abb21f57454942351ff10ae808c5d109e64.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 0/6] Add SPDX 3.0 support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2024 11:40:38 +0100
-In-Reply-To: <20240610214456.2757397-1-JPEWhacker@gmail.com>
-References: <20240610214456.2757397-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1718102739; x=1718707539;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c//eS0oLrSFQLTrsPZfD8XuABqImnESKLVa46cjBN/g=;
+        b=faoU+5HdsSlAX/EcFvHLhZwBJWNNAyUyvDz75F40yDnXh0KxE3RnRxMP64PGoShyD2
+         A2t1Dw2vhnyxTbS0/ys797jGJi+YRKD7mb+eRs0lXKd+tHvotZUa3gxP7Qu1GuIq9ry+
+         OmZfTi4XVR3f3m9pLwBjllIyuDTTBDs23ZEQ7f5fs8WXI94tC2enEGxUySQF8TO2zKaa
+         kiCXU+3lN6bPdEUjvms3ikSuu5njDcXCq3org28voZ2yNU0NoH0UKZ2Curink5fFOxzW
+         0iz/fTp9/i0rDkO93BnJMe7/mwH3cTpKllpnNwLdphJCzsWi02L6CmmQxPng1fD84JfW
+         m2xQ==
+X-Gm-Message-State: AOJu0Ywml3itpxzYFDNt/mp29shq0SQJpSTwv6JrP6GP3j4zIK4GWlUF
+	XyUTqnh3wGZp00353kyWgz4kDrC74GWPeDJIixQ9r7iV5SQyT9D5uZ2PbkljvVqVmMJpYujrICf
+	p4BvvESM+l3hOumsMTXvGoXT47Nzoinex
+X-Google-Smtp-Source: AGHT+IFrrr+3HHhAK9JaGWxmYDncGmVVjeM5SCbSCuvqpI8wx/ehervtbiNFX/VhkBzYwmaGcYSdXJ/PSavkvyIXzjo=
+X-Received: by 2002:a05:6512:28a:b0:52c:7a2d:5d5d with SMTP id
+ 2adb3069b0e04-52c7a2d5f56mr5321405e87.3.1718102739194; Tue, 11 Jun 2024
+ 03:45:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240509160843.3283186-1-alex.kanavin@gmail.com>
+ <39d85fcd4e6a1b4bd439fdd7654b64ff69d4e646.camel@linuxfoundation.org>
+ <CANNYZj9Y=TjdofvxL32rWqPVZ9xLyryA9ic=FFeq+XveJcx7mg@mail.gmail.com> <43d73fb614b0d43974169a0f01f8837e08afcf5d.camel@linuxfoundation.org>
+In-Reply-To: <43d73fb614b0d43974169a0f01f8837e08afcf5d.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Jun 2024 12:45:39 +0200
+Message-ID: <CANNYZj-Qfaw6OPSoxLqv2HKa3ZTNozcfNnTfqyDqwtz0Epgh5g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bitbake-config-build: add a plugin for config fragments
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 10:40:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200502
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jun 2024 10:45:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200503
 
-On Mon, 2024-06-10 at 15:41 -0600, Joshua Watt via
-lists.openembedded.org wrote:
-> This patch series add support for SPDX 3.0. Currently it is not
-> possible
-> to have SPDX 2.2 and SPDX 3.0 enabled at the same time; users may
-> choose
-> to specifically use SPDX 3.0 instead of 2.2 by doing INHERIT +=3D
-> "create-spdx-3.0"
->=20
-> The default version is not changed yet, although that will likely
-> happen
-> soon
->=20
-> Joshua Watt (6):
-> =C2=A0 classes-recipe/image: Add image file manifest
-> =C2=A0 classes/spdx-common: Move common SPDX to new class
-> =C2=A0 classes/spdx-common: Add SPDX version to path
-> =C2=A0 classes/spdx-common: Return empty list from extract_licenses
-> =C2=A0 classes/create-spdx-3.0: Add class
-> =C2=A0 classes-recipe/image_types: Add SPDX_IMAGE_PURPOSE to images
+On Mon, 10 Jun 2024 at 16:51, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> > I don't quite follow. If BB_CONF_FRAGMENTS value is a space separated
+> > list of fragments, then how would the tooling
+> >
+> > - add to it?
+> > - remove from it?
+>
+> bb.utils.edit_metadata()/bb.utils.edit_metadata_file() ?
 
-I set 3.0 to the default for testing and there were some interesting
-looking failures:
+Right, I had no idea this exists :)
 
-https://valkyrie.yoctoproject.org/#/builders/43/builds/52/steps/11/logs/std=
-io
+> I'm wondering about whether having a variable makes it easier to users
+> to understand/edit.
 
-I'm guessing:
+I think there's benefit in having a variable that makes it separate
+and distinct from regular 'require' statements, but I can't form a
+clear preference for either option. Should this be taken to some kind
+of decision forum, e.g. oe-architecture or TSC?
 
-https://valkyrie.yoctoproject.org/#/builders/37/builds/60
+> I meant to also mention that I'm a bit concerned about using local.conf
+> specifically in the tool, I'd prefer not to require a specific conf
+> file.
 
-is due to a missing patch?
+I agree that local.conf should be left alone. It's something coming
+from templates and I would rather never touch it with tools after the
+fact.
 
-Other failures:
+But either the 'require' statements or the variable containing the
+fragment list has to be written into something that bitbake can see.
+Should they go to build/conf/fragments.conf ?
 
-https://valkyrie.yoctoproject.org/#/builders/74/builds/44/steps/13/logs/std=
-io
-https://valkyrie.yoctoproject.org/#/builders/93/builds/51/steps/11/logs/std=
-io
+> > Another option is to copy/symlink the fragments into
+> > build/conf/fragments/ and have bitbake pick them up with a glob.
+>
+> I don't like the copy idea, the symlink approach is interesting. The
+> main downside there is capturing the give config and ordering.
 
-but I stopped the build at this point.
+'give config'?
 
-Cheers,
+> That seems reasonable but I wanted to avoid every layer needing to nest
+> by a directory level to make it clear where the fragments come from. I
+> think some kind of naming standard might ultimately make things clearer
+> to the user?
+>
+> Requiring the first entry be a layer name doesn't preclude the rest...
 
-Richard
+Okay, I'll rework to include the layer name upfront.
+
+> I ask the questions since we have been trapped by choices in the past
+> and it since these are likely things which will arise, we might want to
+> at least consider them now.
+
+Hopefully the current code makes no choices for these things. It just
+adds/removes requested fragments, nothing else. But it can be extended
+to read fragment metadata, and armed with that (and the list of
+fragments already enabled) make decisions about what the new list
+should be, or whether the request should be declined.
+
+> We do have our parser which can easily handle:
+>
+> CONFFRAG[summary] = "some summary"
+> CONFFRAG[description] = "Longer description with \
+>     multiple \
+>     lines \
+> "
+
+I must be missing something here. If this is defined in two different
+fragments and both are included, how would one not step on the other
+with these assignments?
+
+> or
+>
+> CONFFRAGS += "myfragment_name"
+>
+> myfragment_name[summary] = "some summary"
+> myfragment_name[description] = "Longer description with \
+>     multiple \
+>     lines \
+> "
+
+Okay, this one in my opinion is a big readability (and write-ability)
+regression compared to #-comments. For extended metadata (such as
+dependencies/conflicts) something like this would be needed, but I'd
+rather not use it for summary/description.
+
+Alex
 
