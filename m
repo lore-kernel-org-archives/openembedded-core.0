@@ -1,103 +1,101 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE04C41513
-	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 05:33:28 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4364.1718170392069844295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F667C27C53
+	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 05:51:09 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.4517.1718171457923003672
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jun 2024 22:33:12 -0700
+ Tue, 11 Jun 2024 22:50:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6893383dff=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45C5Ho8Y023619
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 05:33:11 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yme963ed2-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 05:33:11 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 11 Jun 2024 22:32:54 -0700
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 11 Jun 2024 22:32:54 -0700
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2 2/2] fmt: Add it from meta-oe for ccache 4.10
-Date: Tue, 11 Jun 2024 22:32:54 -0700
-Message-ID: <c45b0dfd57c10bf1a1ad528e48ca5e4dfa73ad76.1718168026.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <cover.1718168026.git.liezhi.yang@windriver.com>
-References: <cover.1718168026.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: GxysNZfd-mFxlndWCv-0gh_Pgt0-s94C
-X-Proofpoint-ORIG-GUID: GxysNZfd-mFxlndWCv-0gh_Pgt0-s94C
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_02,2024-06-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
- phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2405170001 definitions=main-2406120038
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=b81R0cmP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AaXlQm27;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101900affd5a7-04458148-2bf5-4090-a425-4001c7f394c6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1718171457; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=WGF0rNm1PjDxsslx62kYY3zT20AL02+1NEQSHItHmHw=;
+	b=b81R0cmPVca5l/CJ6suubhwZrdmcKekZNr7wq172uw/PvDuwGs4cxtTskJcr54ln
+	bvQ5bNoY5nikOKw2Tj/ZScOMPwVC1fU1nG9JQ1nIHYA7bsfgVuWijM1GDEMjeIejxDm
+	1qGJ69IUm3+TxWLM+AXUBq9I8LGaunM5aEWwEI/4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718171457;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=WGF0rNm1PjDxsslx62kYY3zT20AL02+1NEQSHItHmHw=;
+	b=AaXlQm27E4l4vHkx55JhwOIGTA1VRJ5QS55/dPa0V4zKt2ruOpil/qdKm/GhSv2P
+	uVZ9tSKggFS6u0+MfVQxKdwXuLPKC0IUOwQdwxGwv+v60ZqQdqjgemDaCy5Zo1QS+zZ
+	fnlsCWaRetiHKf3tYJFgONiFMao4HytldGaJUlXo=
+From: patchtest@automation.yoctoproject.org
+To: liezhi.yang@windriver.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 1/2] ccache: 4.9.1 -> 4.10
+In-Reply-To: 
+ <cb1a3e14bd806b9603df4f0f772db86056fb57d5.1718168026.git.liezhi.yang@windriver.com>
+References: 
+ <cb1a3e14bd806b9603df4f0f772db86056fb57d5.1718168026.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101900affd5a7-04458148-2bf5-4090-a425-4001c7f394c6-000000@us-west-2.amazonses.com>
+Date: Wed, 12 Jun 2024 05:50:56 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.12-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 05:33:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200564
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 05:51:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200565
 
-From: Robert Yang <liezhi.yang@windriver.com>
+--NextPart
+Content-Type: text/plain
 
-It is required by ccache 4.10, from cmake/Dependencies.cmake:
-find_package(Fmt 8.0.0 MODULE REQUIRED)
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/distro/include/maintainers.inc |  1 +
- meta/recipes-devtools/fmt/fmt_10.2.1.bb  | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-devtools/fmt/fmt_10.2.1.bb
+Testing patch /home/patchtest/share/mboxes/v2-1-2-ccache-4.9.1---4.10.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 2977ca54f1e..42599267c1c 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -176,6 +176,7 @@ RECIPE_MAINTAINER:pn-file = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-flac = "Michael Opdenacker <michael@opdenacker.org>"
- RECIPE_MAINTAINER:pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
-+RECIPE_MAINTAINER:pn-fmt = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-font-alias = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-font-util = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-fontconfig = "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/recipes-devtools/fmt/fmt_10.2.1.bb b/meta/recipes-devtools/fmt/fmt_10.2.1.bb
-new file mode 100644
-index 00000000000..1437eb48034
---- /dev/null
-+++ b/meta/recipes-devtools/fmt/fmt_10.2.1.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "open-source formatting library for C++"
-+DESCRIPTION = "{fmt} is an open-source formatting library for C++. It can be used as a safe and fast alternative to (s)printf and iostreams."
-+HOMEPAGE = "https://fmt.dev"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
-+
-+SRC_URI = "git://github.com/fmtlib/fmt;branch=10.x;protocol=https"
-+SRCREV = "e69e5f977d458f2650bb346dadf2ad30c5320281"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit cmake
-+
-+EXTRA_OECMAKE += "-DBUILD_SHARED_LIBS=ON"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.45.1
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
