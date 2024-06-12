@@ -1,212 +1,192 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E714C27C75
-	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 09:32:00 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web11.7125.1718184715035151174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E8AC41513
+	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 11:07:10 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.8476.1718190421668671304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jun 2024 02:31:55 -0700
+ Wed, 12 Jun 2024 04:07:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gfo2Dnq5;
- spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-80b7c11aaf9so624280241.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 02:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718184714; x=1718789514; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Stf3xkQERbyiyKOmptPtHgVij2+eo+ncbWhm/7fAEkc=;
-        b=gfo2Dnq5QzUNNa8HUZM48H7PlnxS3i5S2fSJadUqRSzmgEqkmKLdaHnbwKSJcwl2AY
-         mx87ley6agZIsv5+2jknnoMIZObJkVxODujqWqjr8y51D4Luc4iahv/lYNDybduxXUoJ
-         llzRT2+hMBhqe6WaGx7RQytjFV9BmIMZ3IuKoRXVHChhN9uKu3mOd3Vv+XTwT6IazxfE
-         AMeFNTr+YiivCeiERC3mOfGm1zI0ELZ4WK2ZIfWMrlrHBe/QQvnTQHQuFW18l5nMWX7Z
-         NHCHWzTI3nZ2VA9WdTkvf8O6WdPYg3tsEZ0T9sOaQyd6EhERx1/E3C3BpYgbAk5dE5En
-         a2NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718184714; x=1718789514;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Stf3xkQERbyiyKOmptPtHgVij2+eo+ncbWhm/7fAEkc=;
-        b=N6wm7wB3iC+DrYhD+SyJEHCYXLegzsvEsKNJp1qRHJqngZGWDleNHzwncz/0AJBf+G
-         5UWKV0G4iiCEKMOa2CQe8UsFPKUJ82GrM1XMPdb09/LlJ3TJv1vh1fPSl06gMCM1GkoI
-         TsILkZ7lfINkn2tFyFoxsVG4lxkxVaMPZhy+x0/ImNOY/GUVTbiBe0jsfmkCiDf4GB22
-         kEZm2ZWypnTLBe6ll9pzdJ7PJB5cD4GlZ9nMq+uGOnEUqTm136vnSO+5Q5cqa04De6d2
-         QGdL2qLOAWCve/9Xo9gPjp/Sy45ZrgSk79jOGxiAaigigGzaIvVAWXSmxZPI+SljF/a1
-         xtJw==
-X-Gm-Message-State: AOJu0Yzq80DM+xA7VVafYSdjMMvzacSya0/fesuTLu2ycq8pFlXOFcEh
-	H5pIykmTCLfVMk32MB60rg/L2UKRprswEkiGImU45Tlxe2WCjmkvKQwnXWvexRIFIxe8HacoXo9
-	v8Z3X24Gr5YpJe6/FvLR2lHGE2NY=
-X-Google-Smtp-Source: AGHT+IEyi7jxbz4g/KY9rLvXMDo6cLT9dCSN/ZB7Dp29DqiWpdcgzavFS775VznP1KzYkSJDOX5vjNcan49mANiJWxI=
-X-Received: by 2002:a05:6102:4656:b0:48c:3c3f:3689 with SMTP id
- ada2fe7eead31-48d91e86866mr1352289137.26.1718184713965; Wed, 12 Jun 2024
- 02:31:53 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E89B916F2
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 04:07:25 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1879C3F73B
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 04:07:00 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] curl: rewrite ptest installation
+Date: Wed, 12 Jun 2024 11:06:59 +0000
+Message-Id: <20240612110659.2750133-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240612110659.2750133-1-ross.burton@arm.com>
+References: <20240612110659.2750133-1-ross.burton@arm.com>
 MIME-Version: 1.0
-References: <23837.1718148644454631767@lists.openembedded.org> <Groupsio.3.23837.1718148644454631767@lists.openembedded.org>
-In-Reply-To: <Groupsio.3.23837.1718148644454631767@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 12 Jun 2024 10:31:43 +0100
-Message-ID: <CANPvuRm4b5+=LiKksGny0TOU=MigiHzh81FYpuGQUfmM4MifGA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] archiver.bbclass: Fix work-shared checking for
- kernel recipes
-To: egyszeregy@freemail.hu
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000088d659061aae0df1"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 09:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200569
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 11:07:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200571
 
---00000000000088d659061aae0df1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The latest libtool upgrade appears to have resulted in intermediate files
+containing build paths. This wouldn't normally be a problem but the
+curl-ptest package is populated by copying ${B}/tests/ which includes all
+of the intermediate objects, so this causes buildpath warnings.
 
-Hi Livius,
+Rewrite the ptest installation to install just the pieces we need: the
+test harness, utility scripts, and the test data.  We do not need the
+libcurl unit tests nor the HTTP server tests, as we don't run those.
 
-In reality, although the kernel has its code in S =3D "${WORKDIR}/git" it
-ends up being moved to ${STAGING_KERNEL_DIR} in the do_symlink_kernsrc
-kernel.bbclass function.
-https://github.com/openembedded/openembedded-core/blob/07b4c7a2bd23f8645810=
-e13439e814caaaf9cd94/meta/classes-recipe/kernel.bbclass#L182C8-L199
+Remove all of the explicitly disabled tests, as many of these were for
+tests that run curl-config or scan the source code, neither of which are
+available at ptest time.  Instead use keyword exclusions to skip them.
 
-After this, the source S becomes a symbolic link for STAGING_KERNEL_DIR
-so I think if we check the real path following the symbolic link we solve
-the problem.
+Tell the test runner to use the system curl instead of symlinking in the
+binary.
 
-- return d.getVar('S').startswith(sharedworkdir)
-+ return os.path.realpath(d.getVar('S')).startswith(sharedworkdir)
+Don't copy curl-config, skipping these minor tests is acceptable.
 
-Could you try using os.path.realpath in S to see if it works?
+Remove the RDEPENDS on bash, nothing needs this now we're not shipping a
+build tree.
 
-Jose
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-support/curl/curl/disable-tests | 42 --------------------
+ meta/recipes-support/curl/curl/run-ptest     |  8 +++-
+ meta/recipes-support/curl/curl_8.8.0.bb      | 33 ++++++++-------
+ 3 files changed, 26 insertions(+), 57 deletions(-)
 
-Livius via lists.openembedded.org <egyszeregy=3D
-freemail.hu@lists.openembedded.org> escreveu (quarta, 12/06/2024 =C3=A0(s)
-00:35):
-
-> [Edited Message Follows]
->
-> S =3D "${WORKDIR}/git" does not contain "${TMPDIR}/work-shared" path,
-> therefore "def is_work_shared(d):" will be returned with False and archiv=
-er
-> is failed for linux kernel recipe (somewhy unpack is broken and kernel
-> source is missing in work-shared folder in this situation).
-> https://github.com/openembedded/bitbake/blob/master/conf/bitbake.conf#L45
->
-> In default S =3D "${STAGING_KERNEL_DIR}" is the source path for a kernel.
-> Now, archiver works only in this case when it is not changed to
-> "${WORKDIR}/git" symbolic link folder. We can see
-> "bb.data.inherits_class('kernel', d)" was in the old code for checking it
-> because of this situation, when somebody like to use this kind of symboli=
-c
-> link git source solution. This should not have been dropped in last commi=
-t.
->
->
-> https://github.com/openembedded/openembedded-core/commit/5fbb4ca8da4f4f1e=
-a426275c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace5292140dff66=
-5459bbc94e4e72a8e07L473
->
-> https://github.com/openembedded/openembedded-core/blob/master/meta/classe=
-s-recipe/kernel.bbclass#L26
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200551):
-> https://lists.openembedded.org/g/openembedded-core/message/200551
-> Mute This Topic: https://lists.openembedded.org/mt/106531570/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-=
+support/curl/curl/disable-tests
+index c4aa7783a17..e69de29bb2d 100644
+--- a/meta/recipes-support/curl/curl/disable-tests
++++ b/meta/recipes-support/curl/curl/disable-tests
+@@ -1,42 +0,0 @@
+-# Intermittently fails e.g. https://autobuilder.yocto.io/pub/non-release=
+/20231220-28/testresults/qemux86-64-ptest/curl.log
+-# https://autobuilder.yocto.io/pub/non-release/20231220-27/testresults/q=
+emux86-64-ptest/curl.log
+-337
+-# These CRL test (alt-avc) are failing
+-356
+-412
+-413
+-# These CRL tests are scanning docs
+-971
+-# Intermittently hangs e.g http://autobuilder.yocto.io/pub/non-release/2=
+0231228-18/testresults/qemux86-64-ptest/curl.log
+-1091
+-# Intermittently hangs e.g https://autobuilder.yocto.io/pub/non-release/=
+20231220-27/testresults/qemux86-64-ptest/curl.log
+-1096
+-# These CRL tests are scanning docs
+-1119
+-1132
+-1135
+-1478
+-# These CRL tests are scanning headers
+-1167
+-1477
+-# These CRL tests are scanning man pages
+-1139
+-1140
+-1173
+-1177
+-# This CRL test is looking for m4 files
+-1165
+-# This CRL test is looking for src files
+-1185
+-# This test is scanning the source tree
+-1222
+-# These CRL tests need --libcurl option to be enabled
+-1279
+-1400
+-1401
+-1402
+-1403
+-1404
+-1405
+-1465
+-1481
+diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-supp=
+ort/curl/curl/run-ptest
+index 579b3f4587e..597cf92dbbd 100644
+--- a/meta/recipes-support/curl/curl/run-ptest
++++ b/meta/recipes-support/curl/curl/run-ptest
+@@ -10,4 +10,10 @@ cd tests
+=20
+ # Don't run the flaky or timing dependent tests
+ # Until https://github.com/curl/curl/issues/13350 is resolved, don't run=
+ FTP tests
+-./runtests.pl -a -n -am -j4 -p !flaky !timing-dependent !FTP
++# We don't enable --libcurl
++# Don't assume curl-config exists
++# We don't have the source tree
++./runtests.pl \
++    -a -c curl -vc curl -n -am -j4 -p \
++    !flaky !timing-dependent !FTP \
++    !--libcurl !curl-config !source\ analysis !checksrc !documentation
+diff --git a/meta/recipes-support/curl/curl_8.8.0.bb b/meta/recipes-suppo=
+rt/curl/curl_8.8.0.bb
+index b9325941595..2b058e4e82d 100644
+--- a/meta/recipes-support/curl/curl_8.8.0.bb
++++ b/meta/recipes-support/curl/curl_8.8.0.bb
+@@ -101,23 +101,28 @@ do_compile_ptest() {
+ }
+=20
+ do_install_ptest() {
+-	cat  ${UNPACKDIR}/disable-tests >> ${S}/tests/data/DISABLED
+-	rm -f ${B}/tests/configurehelp.pm
+-	cp -rf ${B}/tests ${D}${PTEST_PATH}
+-        rm -f ${D}${PTEST_PATH}/tests/libtest/.libs/libhostname.la
+-        rm -f ${D}${PTEST_PATH}/tests/libtest/libhostname.la
+-        mv ${D}${PTEST_PATH}/tests/libtest/.libs/* ${D}${PTEST_PATH}/tes=
+ts/libtest/
+-        mv ${D}${PTEST_PATH}/tests/libtest/libhostname.so ${D}${PTEST_PA=
+TH}/tests/libtest/.libs/
+-        mv ${D}${PTEST_PATH}/tests/http/clients/.libs/* ${D}${PTEST_PATH=
+}/tests/http/clients/
+-	cp -rf ${S}/tests ${D}${PTEST_PATH}
+-	find ${D}${PTEST_PATH}/ -type f -name Makefile.am -o -name Makefile.in =
+-o -name Makefile -delete
+-	install -d ${D}${PTEST_PATH}/src
+-	ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
+-	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
++	install -d ${D}${PTEST_PATH}/tests
++	cp ${S}/tests/*.p[lmy] ${D}${PTEST_PATH}/tests/
++
++	install -d ${D}${PTEST_PATH}/tests/libtest
++	for name in $(makefile-getvar ${B}/tests/libtest/Makefile noinst_PROGRA=
+MS noinst_LTLIBRARIES); do
++		${B}/libtool --mode=3Dinstall install ${B}/tests/libtest/$name ${D}${P=
+TEST_PATH}/tests/libtest
++	done
++	cp ${S}/tests/libtest/notexists.pl ${D}${PTEST_PATH}/tests/libtest
++	rm -f ${D}${PTEST_PATH}/tests/libtest/libhostname.la
++
++	install -d ${D}${PTEST_PATH}/tests/server
++	for name in $(makefile-getvar ${B}/tests/server/Makefile noinst_PROGRAM=
+S); do
++		${B}/libtool --mode=3Dinstall install ${B}/tests/server/$name ${D}${PT=
+EST_PATH}/tests/server
++	done
++
++	cp -r ${S}/tests/data ${D}${PTEST_PATH}/tests/
++
++	# More tests that we disable for automated QA as they're not reliable
++	cat ${UNPACKDIR}/disable-tests >>${D}${PTEST_PATH}/tests/data/DISABLED
+ }
+=20
+ RDEPENDS:${PN}-ptest +=3D " \
+-	bash \
+ 	locale-base-en-us \
+ 	perl-module-b \
+ 	perl-module-base \
 --=20
-Best regards,
+2.34.1
 
-Jos=C3=A9 Quaresma
-
---00000000000088d659061aae0df1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Livius,<br><br>In reality, although th=
-e kernel has its code in S =3D &quot;${WORKDIR}/git&quot; it ends up being =
-moved to ${STAGING_KERNEL_DIR}=C2=A0in the do_symlink_kernsrc kernel.bbclas=
-s function.</div><div dir=3D"ltr"><a href=3D"https://github.com/openembedde=
-d/openembedded-core/blob/07b4c7a2bd23f8645810e13439e814caaaf9cd94/meta/clas=
-ses-recipe/kernel.bbclass#L182C8-L199">https://github.com/openembedded/open=
-embedded-core/blob/07b4c7a2bd23f8645810e13439e814caaaf9cd94/meta/classes-re=
-cipe/kernel.bbclass#L182C8-L199</a><br><br></div><div dir=3D"ltr">After thi=
-s, the source S becomes a symbolic link for STAGING_KERNEL_DIR</div><div di=
-r=3D"ltr">so I think if we check the real path following the symbolic link =
-we solve the problem.<br><br>- return d.getVar(&#39;S&#39;).startswith(shar=
-edworkdir)<br>+ return os.path.realpath(d.getVar(&#39;S&#39;)).startswith(s=
-haredworkdir)<br><br></div><div dir=3D"ltr">Could you try using os.path.rea=
-lpath in S to see if it works?<br></div><div><br></div>Jose<br><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Livius via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;egyszereg=
-y=3D<a href=3D"mailto:freemail.hu@lists.openembedded.org">freemail.hu@lists=
-.openembedded.org</a>&gt; escreveu (quarta, 12/06/2024 =C3=A0(s) 00:35):<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">[Edited Message Fo=
-llows]<br>
-<br>
-S =3D &quot;${WORKDIR}/git&quot; does not contain &quot;${TMPDIR}/work-shar=
-ed&quot; path, therefore &quot;def is_work_shared(d):&quot; will be returne=
-d with False and archiver is failed for linux kernel recipe (somewhy unpack=
- is broken and kernel source is missing in work-shared folder in this situa=
-tion).<br>
-<a href=3D"https://github.com/openembedded/bitbake/blob/master/conf/bitbake=
-.conf#L45" rel=3D"noreferrer" target=3D"_blank">https://github.com/openembe=
-dded/bitbake/blob/master/conf/bitbake.conf#L45</a><br>
-<br>
-In default S =3D &quot;${STAGING_KERNEL_DIR}&quot; is the source path for a=
- kernel. Now, archiver works only in this case when it is not changed to &q=
-uot;${WORKDIR}/git&quot; symbolic link folder. We can see &quot;bb.data.inh=
-erits_class(&#39;kernel&#39;, d)&quot; was in the old code for checking it =
-because of this situation, when somebody like to use this kind of symbolic =
-link git source solution. This should not have been dropped in last commit.=
-<br>
-<br>
-<a href=3D"https://github.com/openembedded/openembedded-core/commit/5fbb4ca=
-8da4f4f1ea426275c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace529=
-2140dff665459bbc94e4e72a8e07L473" rel=3D"noreferrer" target=3D"_blank">http=
-s://github.com/openembedded/openembedded-core/commit/5fbb4ca8da4f4f1ea42627=
-5c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace5292140dff665459bb=
-c94e4e72a8e07L473</a><br>
-<a href=3D"https://github.com/openembedded/openembedded-core/blob/master/me=
-ta/classes-recipe/kernel.bbclass#L26" rel=3D"noreferrer" target=3D"_blank">=
-https://github.com/openembedded/openembedded-core/blob/master/meta/classes-=
-recipe/kernel.bbclass#L26</a><br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#200551): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/200551" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/200551</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106531570/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/106531570/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---00000000000088d659061aae0df1--
 
