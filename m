@@ -1,132 +1,212 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 235E7C27C53
-	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 09:05:30 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.6706.1718183115177505514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E714C27C75
+	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 09:32:00 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web11.7125.1718184715035151174
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jun 2024 02:05:15 -0700
+ Wed, 12 Jun 2024 02:31:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h1kVHPzC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52962423ed8so7627196e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 02:05:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gfo2Dnq5;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-80b7c11aaf9so624280241.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 02:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1718183113; x=1718787913; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Go2Av4alBSh5JtGq6F2COEn6jCvGCBKnyKevojUEf6o=;
-        b=h1kVHPzCx2sOp0QVHXDHgI12u7uSTz/oqrSW6kWO/FG5c/UGrwcJhB53TTmRREX3DB
-         gXIBeG4ogbMADAAH/TIGuIT5+Qv+dv+co6YOZwdmcMMqCEEY4mlVa6/HZCVHPuYuatCQ
-         R9KHiEOHva2oVVdGD72DsQwMOHFKcwtVRvqug=
+        d=gmail.com; s=20230601; t=1718184714; x=1718789514; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Stf3xkQERbyiyKOmptPtHgVij2+eo+ncbWhm/7fAEkc=;
+        b=gfo2Dnq5QzUNNa8HUZM48H7PlnxS3i5S2fSJadUqRSzmgEqkmKLdaHnbwKSJcwl2AY
+         mx87ley6agZIsv5+2jknnoMIZObJkVxODujqWqjr8y51D4Luc4iahv/lYNDybduxXUoJ
+         llzRT2+hMBhqe6WaGx7RQytjFV9BmIMZ3IuKoRXVHChhN9uKu3mOd3Vv+XTwT6IazxfE
+         AMeFNTr+YiivCeiERC3mOfGm1zI0ELZ4WK2ZIfWMrlrHBe/QQvnTQHQuFW18l5nMWX7Z
+         NHCHWzTI3nZ2VA9WdTkvf8O6WdPYg3tsEZ0T9sOaQyd6EhERx1/E3C3BpYgbAk5dE5En
+         a2NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718183113; x=1718787913;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Go2Av4alBSh5JtGq6F2COEn6jCvGCBKnyKevojUEf6o=;
-        b=fPu1dmPkMlBN1kTR5jwlRprUyRxF1s2mlo1Oa1wySPXTRLO2O+MpY33CjPCHQzIzwR
-         b0vlbV4DBye1ROGWZ/yaRhUNdJCjtCz6evO9bbotFrywyz6hmTCa72sm65bu+Tk5L/v8
-         Q1aGypGjuvcxFN7wjrN027DaG8c36KNQoBtrfSi3pYCb8Ay8ePHg87FXel1iEzVNmN+K
-         9YArfGbZ07puIAPDMovAC98rvXH0+7ZYTpq4YOlRdp4rfwHfKZ3SFbJqvCFtqpTDIgQ1
-         9Gsx+Xj/r4iCCAyXcFEQpwtAF8KM+Sr54CaO2i0GOW2jqdVoF7EGzeS8NS9qV/l1cEYi
-         dOiw==
-X-Gm-Message-State: AOJu0YxVr4TFsUVOAYgwbMIa3Ljm8zjjnjN93mWP0Y+qMQSjaDCwnReQ
-	bHYl8tcnqUXNga99YqaoFDF6Xs8NbXZIKdra8PkjyPMhZe5fyIRs1t2uBbm5O4A=
-X-Google-Smtp-Source: AGHT+IHsQ59KihTa382K9equk3/EMwQblDj4mcIUGX6crwBIpSn06/l4W7AUF/e1/pSSD97/uMvkLw==
-X-Received: by 2002:a2e:a791:0:b0:2eb:d95f:10cb with SMTP id 38308e7fff4ca-2ebfca4cc05mr9918401fa.41.1718183112743;
-        Wed, 12 Jun 2024 02:05:12 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8b94:58f5:4551:6fef? ([2001:8b0:aba:5f3c:8b94:58f5:4551:6fef])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871f8f34sm17411925e9.42.2024.06.12.02.05.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 02:05:12 -0700 (PDT)
-Message-ID: <2f7d7ad9e539b65b2523d1426c68223dd61b2647.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Patchtest results for [PATCH v2 1/2] ccache: 4.9.1 ->
- 4.10
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.kjellerstedt@axis.com, "liezhi.yang@windriver.com"
- <liezhi.yang@windriver.com>, "patchtest@automation.yoctoproject.org"
- <patchtest@automation.yoctoproject.org>, Trevor Gamblin
- <tgamblin@baylibre.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Jun 2024 10:05:11 +0100
-In-Reply-To: <DB5PR02MB102133966EA39448EEB68B773EFC02@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: 
-	<cb1a3e14bd806b9603df4f0f772db86056fb57d5.1718168026.git.liezhi.yang@windriver.com>
-	 <010101900affd5a7-04458148-2bf5-4090-a425-4001c7f394c6-000000@us-west-2.amazonses.com>
-	 <4d377b0b-ea4b-47ad-8e34-23d6c5fbe6c1@windriver.com>
-	 <DB5PR02MB102133966EA39448EEB68B773EFC02@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1718184714; x=1718789514;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Stf3xkQERbyiyKOmptPtHgVij2+eo+ncbWhm/7fAEkc=;
+        b=N6wm7wB3iC+DrYhD+SyJEHCYXLegzsvEsKNJp1qRHJqngZGWDleNHzwncz/0AJBf+G
+         5UWKV0G4iiCEKMOa2CQe8UsFPKUJ82GrM1XMPdb09/LlJ3TJv1vh1fPSl06gMCM1GkoI
+         TsILkZ7lfINkn2tFyFoxsVG4lxkxVaMPZhy+x0/ImNOY/GUVTbiBe0jsfmkCiDf4GB22
+         kEZm2ZWypnTLBe6ll9pzdJ7PJB5cD4GlZ9nMq+uGOnEUqTm136vnSO+5Q5cqa04De6d2
+         QGdL2qLOAWCve/9Xo9gPjp/Sy45ZrgSk79jOGxiAaigigGzaIvVAWXSmxZPI+SljF/a1
+         xtJw==
+X-Gm-Message-State: AOJu0Yzq80DM+xA7VVafYSdjMMvzacSya0/fesuTLu2ycq8pFlXOFcEh
+	H5pIykmTCLfVMk32MB60rg/L2UKRprswEkiGImU45Tlxe2WCjmkvKQwnXWvexRIFIxe8HacoXo9
+	v8Z3X24Gr5YpJe6/FvLR2lHGE2NY=
+X-Google-Smtp-Source: AGHT+IEyi7jxbz4g/KY9rLvXMDo6cLT9dCSN/ZB7Dp29DqiWpdcgzavFS775VznP1KzYkSJDOX5vjNcan49mANiJWxI=
+X-Received: by 2002:a05:6102:4656:b0:48c:3c3f:3689 with SMTP id
+ ada2fe7eead31-48d91e86866mr1352289137.26.1718184713965; Wed, 12 Jun 2024
+ 02:31:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <23837.1718148644454631767@lists.openembedded.org> <Groupsio.3.23837.1718148644454631767@lists.openembedded.org>
+In-Reply-To: <Groupsio.3.23837.1718148644454631767@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Wed, 12 Jun 2024 10:31:43 +0100
+Message-ID: <CANPvuRm4b5+=LiKksGny0TOU=MigiHzh81FYpuGQUfmM4MifGA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] archiver.bbclass: Fix work-shared checking for
+ kernel recipes
+To: egyszeregy@freemail.hu
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000088d659061aae0df1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 09:05:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200568
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 09:32:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200569
 
-On Wed, 2024-06-12 at 08:54 +0000, Peter Kjellerstedt via
-lists.openembedded.org wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded-
-> > core@lists.openembedded.org> On Behalf Of Robert Yang via
-> > lists.openembedded.org
-> > Sent: den 12 juni 2024 07:54
-> > To: patchtest@automation.yoctoproject.org
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] Patchtest results for [PATCH v2 1/2] ccache:
-> > 4.9.1
-> > -> 4.10
-> >=20
-> > On 6/12/24 13:50, patchtest@automation.yoctoproject.org=C2=A0wrote:
-> > > Thank you for your submission. Patchtest identified one
-> > > or more issues with the patch. Please see the log below for
-> > > more information:
-> > >=20
-> > > ---
-> > > Testing patch /home/patchtest/share/mboxes/v2-1-2-ccache-4.9.1---
-> > 4.10.patch
-> > >=20
-> > > FAIL: test lic files chksum modified not mentioned:
-> > > LIC_FILES_CHKSUM
-> > changed without "License-Update:" tag and description in commit
-> > message
-> > (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_ment
-> > ioned)
-> >=20
-> > I did add "License-Update:" in V2:
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0 * License-Update:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Update LIC_FILES_CHKSUM becaue a=
- few third party licenses
-> > have
-> > been
-> > removed:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $ git diff --stat v4.9.1..v4.10 LI=
-CENSE.adoc
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LICENSE.adoc | 222 +++=
-++++++---------------------
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1 file changed, 15 ins=
-ertions(+), 207 deletions(-)
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 And add more licenses for third pa=
-rty files.
-> >=20
-> > // Robert
->=20
-> I believe it is expected to be at the start of the line, i.e., as a
-> Git trailer=20
-> (similar to, e.g., Signed-off-by).
+--00000000000088d659061aae0df1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think we can relax the constraint for Lincense-Update a little, the
-main point is that it gets mentioned somewhere in the commit.
+Hi Livius,
 
-Cheers,
+In reality, although the kernel has its code in S =3D "${WORKDIR}/git" it
+ends up being moved to ${STAGING_KERNEL_DIR} in the do_symlink_kernsrc
+kernel.bbclass function.
+https://github.com/openembedded/openembedded-core/blob/07b4c7a2bd23f8645810=
+e13439e814caaaf9cd94/meta/classes-recipe/kernel.bbclass#L182C8-L199
 
-Richard
+After this, the source S becomes a symbolic link for STAGING_KERNEL_DIR
+so I think if we check the real path following the symbolic link we solve
+the problem.
+
+- return d.getVar('S').startswith(sharedworkdir)
++ return os.path.realpath(d.getVar('S')).startswith(sharedworkdir)
+
+Could you try using os.path.realpath in S to see if it works?
+
+Jose
+
+Livius via lists.openembedded.org <egyszeregy=3D
+freemail.hu@lists.openembedded.org> escreveu (quarta, 12/06/2024 =C3=A0(s)
+00:35):
+
+> [Edited Message Follows]
+>
+> S =3D "${WORKDIR}/git" does not contain "${TMPDIR}/work-shared" path,
+> therefore "def is_work_shared(d):" will be returned with False and archiv=
+er
+> is failed for linux kernel recipe (somewhy unpack is broken and kernel
+> source is missing in work-shared folder in this situation).
+> https://github.com/openembedded/bitbake/blob/master/conf/bitbake.conf#L45
+>
+> In default S =3D "${STAGING_KERNEL_DIR}" is the source path for a kernel.
+> Now, archiver works only in this case when it is not changed to
+> "${WORKDIR}/git" symbolic link folder. We can see
+> "bb.data.inherits_class('kernel', d)" was in the old code for checking it
+> because of this situation, when somebody like to use this kind of symboli=
+c
+> link git source solution. This should not have been dropped in last commi=
+t.
+>
+>
+> https://github.com/openembedded/openembedded-core/commit/5fbb4ca8da4f4f1e=
+a426275c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace5292140dff66=
+5459bbc94e4e72a8e07L473
+>
+> https://github.com/openembedded/openembedded-core/blob/master/meta/classe=
+s-recipe/kernel.bbclass#L26
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200551):
+> https://lists.openembedded.org/g/openembedded-core/message/200551
+> Mute This Topic: https://lists.openembedded.org/mt/106531570/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000088d659061aae0df1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Livius,<br><br>In reality, although th=
+e kernel has its code in S =3D &quot;${WORKDIR}/git&quot; it ends up being =
+moved to ${STAGING_KERNEL_DIR}=C2=A0in the do_symlink_kernsrc kernel.bbclas=
+s function.</div><div dir=3D"ltr"><a href=3D"https://github.com/openembedde=
+d/openembedded-core/blob/07b4c7a2bd23f8645810e13439e814caaaf9cd94/meta/clas=
+ses-recipe/kernel.bbclass#L182C8-L199">https://github.com/openembedded/open=
+embedded-core/blob/07b4c7a2bd23f8645810e13439e814caaaf9cd94/meta/classes-re=
+cipe/kernel.bbclass#L182C8-L199</a><br><br></div><div dir=3D"ltr">After thi=
+s, the source S becomes a symbolic link for STAGING_KERNEL_DIR</div><div di=
+r=3D"ltr">so I think if we check the real path following the symbolic link =
+we solve the problem.<br><br>- return d.getVar(&#39;S&#39;).startswith(shar=
+edworkdir)<br>+ return os.path.realpath(d.getVar(&#39;S&#39;)).startswith(s=
+haredworkdir)<br><br></div><div dir=3D"ltr">Could you try using os.path.rea=
+lpath in S to see if it works?<br></div><div><br></div>Jose<br><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Livius via <a href=
+=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;egyszereg=
+y=3D<a href=3D"mailto:freemail.hu@lists.openembedded.org">freemail.hu@lists=
+.openembedded.org</a>&gt; escreveu (quarta, 12/06/2024 =C3=A0(s) 00:35):<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">[Edited Message Fo=
+llows]<br>
+<br>
+S =3D &quot;${WORKDIR}/git&quot; does not contain &quot;${TMPDIR}/work-shar=
+ed&quot; path, therefore &quot;def is_work_shared(d):&quot; will be returne=
+d with False and archiver is failed for linux kernel recipe (somewhy unpack=
+ is broken and kernel source is missing in work-shared folder in this situa=
+tion).<br>
+<a href=3D"https://github.com/openembedded/bitbake/blob/master/conf/bitbake=
+.conf#L45" rel=3D"noreferrer" target=3D"_blank">https://github.com/openembe=
+dded/bitbake/blob/master/conf/bitbake.conf#L45</a><br>
+<br>
+In default S =3D &quot;${STAGING_KERNEL_DIR}&quot; is the source path for a=
+ kernel. Now, archiver works only in this case when it is not changed to &q=
+uot;${WORKDIR}/git&quot; symbolic link folder. We can see &quot;bb.data.inh=
+erits_class(&#39;kernel&#39;, d)&quot; was in the old code for checking it =
+because of this situation, when somebody like to use this kind of symbolic =
+link git source solution. This should not have been dropped in last commit.=
+<br>
+<br>
+<a href=3D"https://github.com/openembedded/openembedded-core/commit/5fbb4ca=
+8da4f4f1ea426275c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace529=
+2140dff665459bbc94e4e72a8e07L473" rel=3D"noreferrer" target=3D"_blank">http=
+s://github.com/openembedded/openembedded-core/commit/5fbb4ca8da4f4f1ea42627=
+5c45634802dcb5a575#diff-7a2ccc0d645ec49c87c4956f90ab24ace5292140dff665459bb=
+c94e4e72a8e07L473</a><br>
+<a href=3D"https://github.com/openembedded/openembedded-core/blob/master/me=
+ta/classes-recipe/kernel.bbclass#L26" rel=3D"noreferrer" target=3D"_blank">=
+https://github.com/openembedded/openembedded-core/blob/master/meta/classes-=
+recipe/kernel.bbclass#L26</a><br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#200551): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/200551" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/200551</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106531570/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/106531570/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--00000000000088d659061aae0df1--
 
