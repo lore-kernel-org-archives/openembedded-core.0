@@ -1,99 +1,167 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B7AC27C77
-	for <webhook@archiver.kernel.org>; Wed, 12 Jun 2024 21:04:04 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.955.1718226242554887818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A67C27C53
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 02:00:46 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.5369.1718244041385784404
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jun 2024 14:04:02 -0700
+ Wed, 12 Jun 2024 19:00:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a4bzbfUN;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DCF/eNIV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101900e43c911-16dae235-0b54-426d-90c2-83396feda09e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1718226241; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=dDwkl5O8Iy5zeLDWVe4nrjBoXOPdyygIsp5lOjLkmoM=;
-	b=a4bzbfUNJHK6oizkLCZeS4u+GV+qhAmm5MukcQnV46WqNt/xW2bpRsxLvE1YlqzB
-	CjlsSl0T66/32ty1toYr0O06MwXHEHxVM9y4cllliR6i9pih6td5RIqNq7gNsOjnGpQ
-	qU0WoTdZw2Fxrn+aImeUOI3a0kX06XePP80uoHic=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718226241;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=dDwkl5O8Iy5zeLDWVe4nrjBoXOPdyygIsp5lOjLkmoM=;
-	b=DCF/eNIVaSar+i1ydIOYw2EhOA+oR5swudyheZ5jjCdZyYoYWBKuG0+e7uMlymWw
-	idcJNtH/nPdGc9u/5H0qcXDjaZwKeJo6TNwHet4dlH0a7VP7pgge7456RhRokz3jcpV
-	ASQ/5r3TYDkjx7T/HwDlb2efBkvRAZ+A4J/pM/j8=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gstreamer1.0-plugins-bad: Fix build with musl
-In-Reply-To: <20240612204640.3909981-1-raj.khem@gmail.com>
-References: <20240612204640.3909981-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101900e43c911-16dae235-0b54-426d-90c2-83396feda09e-000000@us-west-2.amazonses.com>
-Date: Wed, 12 Jun 2024 21:04:01 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.12-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jut9AyiZ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f44b45d6abso4435875ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 19:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718244040; x=1718848840; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jj3rmOMRK920xy38Px83Jf0pfVsmaURnezxGy1O3POM=;
+        b=Jut9AyiZ35v+NhcGM6XDw13s7fCnxY5AFdzF4L+U+wzX+7bxb+Am0FwfokYHr6RCdh
+         dYGDTkzXLI5bQu88B69OWzcJA2OZgghvUUqJ0rciKmAoeWiVaJ0t7jxpQzZurEJTyrMX
+         8zz0+RtNDkaEAK8sr79DhtsQOAwJwAiFxwoRPSt3d5kTNrCGe30cQFcl/dWnssd0e0nr
+         8acMsm1gW0JuExJ63JAWJ3iNHniyRVVuAm6erLUZ26mJnj7ciCpYv1vS4HE3aEi8x22h
+         5T+vKOXxqjMd6rDrxJlNNgXtX/cGdHawDBsON2C/z11sUXnUGCESar6OZ6ktjied90eK
+         RGNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718244040; x=1718848840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jj3rmOMRK920xy38Px83Jf0pfVsmaURnezxGy1O3POM=;
+        b=MwElovbJdiBN/m+AEwnDi1wX9E/emXU7ZCKlwZKu2em0s8tDzhpgMeZug3wid8Yt4z
+         zEUpwCGi788W+/JveLGNdU/ItKiUJ3Pbg+bUKusU3JE/GJJVsgMZw8oGOvhfQ8oMp257
+         598TibDz3PmQ0beJdgK8c47dDbxT9eAl8+ERs6EY+WdPJg1aLUo1wGz2yYEcnpkjm/vh
+         tZSl3NZ2A3n4S2UGwN6oiRL4kQBx6NZAERBrS5FN86dLUE3gK8rjIXOIcyRm42FQLkEK
+         dDYlIrjtdjmC6EE4dYFXisEM6Yn+ULWZC3+ZQjPrgKOAtMdFLpuXSnp1FCTy4I5yAij/
+         isZA==
+X-Gm-Message-State: AOJu0Yxr/6+1YAX11kNmjUszCSJS6eJ8L0Ctm4BW34tO69G0dPvnudAx
+	fRgrN6SWdE5kl/egf/DNJNliVt5uPNBmxIiQbFogA+W4lUT9NxqSlhnp9Q==
+X-Google-Smtp-Source: AGHT+IGbXT/Y8F2y6ok2zXvISelGvDqZwGpRgLNm/uJap5+Bt4Ruobf/3MlU9fPebTqKl4rk+i0EcA==
+X-Received: by 2002:a17:902:c40e:b0:1f4:8a01:283e with SMTP id d9443c01a7336-1f83b626368mr43290435ad.5.1718244040223;
+        Wed, 12 Jun 2024 19:00:40 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::9980])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5a0d5sm1539715ad.43.2024.06.12.19.00.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 19:00:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gcc: Fix typo in increment expression in unicode from libstdc++
+Date: Wed, 12 Jun 2024 19:00:37 -0700
+Message-ID: <20240613020037.522794-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 21:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200582
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 02:00:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200583
 
---NextPart
-Content-Type: text/plain
+This issue is seen when libstdc++ headers are used by clang18
+see - https://github.com/llvm/llvm-project/issues/92586
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/gstreamer1.0-plugins-bad-Fix-build-with-musl.patch
+ meta/recipes-devtools/gcc/gcc-14.1.inc        |  1 +
+ ...-in-_Grapheme_cluster_view-_Iterator.patch | 76 +++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/gcc/gcc-14.1.inc b/meta/recipes-devtools/gcc/gcc-14.1.inc
+index b057e570f3b..17a9c51d71a 100644
+--- a/meta/recipes-devtools/gcc/gcc-14.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-14.1.inc
+@@ -68,6 +68,7 @@ SRC_URI = "${BASEURI} \
+            file://0023-Fix-install-path-of-linux64.h.patch \
+            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
+            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
++           file://0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch \
+ "
+ 
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
+diff --git a/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch b/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
+new file mode 100644
+index 00000000000..5a465b8c959
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
+@@ -0,0 +1,76 @@
++From c9e05b03c18e898be604ab90401476e9c473cc52 Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <jwakely@redhat.com>
++Date: Thu, 16 May 2024 17:15:55 +0100
++Subject: [PATCH] libstdc++: Fix typo in _Grapheme_cluster_view::_Iterator
++ [PR115119]
++
++libstdc++-v3/ChangeLog:
++
++	PR libstdc++/115119
++	* include/bits/unicode.h (_Iterator::operator++(int)): Fix typo
++	in increment expression.
++	* testsuite/ext/unicode/grapheme_view.cc: Check post-increment
++	on view's iterator.
++
++Drop it when upgrading to 14.2
++
++Upstream-Status: Backport [https://github.com/gcc-mirror/gcc/commit/c9e05b03c18e898be604ab90401476e9c473cc52]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libstdc++-v3/include/bits/unicode.h                 |  6 ++++--
++ libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc | 11 +++++++++++
++ 2 files changed, 15 insertions(+), 2 deletions(-)
++
++diff --git a/libstdc++-v3/include/bits/unicode.h b/libstdc++-v3/include/bits/unicode.h
++index 46238143fb6..a14a17c5dfc 100644
++--- a/libstdc++-v3/include/bits/unicode.h
+++++ b/libstdc++-v3/include/bits/unicode.h
++@@ -34,10 +34,12 @@
++ #include <array>
++ #include <bit>      // bit_width
++ #include <charconv> // __detail::__from_chars_alnum_to_val_table
+++#include <string_view>
++ #include <cstdint>
++ #include <bits/stl_algo.h>
++ #include <bits/stl_iterator.h>
++-#include <bits/ranges_base.h>
+++#include <bits/ranges_base.h> // iterator_t, sentinel_t, input_range, etc.
+++#include <bits/ranges_util.h> // view_interface
++ 
++ namespace std _GLIBCXX_VISIBILITY(default)
++ {
++@@ -802,7 +804,7 @@ inline namespace __v15_1_0
++ 	operator++(int)
++ 	{
++ 	  auto __tmp = *this;
++-	  ++this;
+++	  ++*this;
++ 	  return __tmp;
++ 	}
++ 
++diff --git a/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc b/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
++index ac1e8c50b05..a3bb36e14b8 100644
++--- a/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
+++++ b/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
++@@ -83,10 +83,21 @@ test_breaks()
++   VERIFY( iter == gv.end() );
++ }
++ 
+++constexpr void
+++test_pr115119()
+++{
+++  // PR 115119 Typo in _Grapheme_cluster_view::_Iterator::operator++(int)
+++  uc::_Grapheme_cluster_view gv(" "sv);
+++  auto it = std::ranges::begin(gv);
+++  it++;
+++  VERIFY( it == std::ranges::end(gv) );
+++}
+++
++ int main()
++ {
++   auto run_tests = []{
++     test_breaks();
+++    test_pr115119();
++     return true;
++   };
++ 
 
