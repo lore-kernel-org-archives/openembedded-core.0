@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E54E9C3DA40
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:13 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.9695.1718288468273106520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE74C27C78
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:14 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.9993.1718288473792307959
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:21:08 -0700
+ Thu, 13 Jun 2024 07:21:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ohmei/CU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f68834bfdfso9196105ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SdSaIVjU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-6bce380eb9bso673970a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288467; x=1718893267; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288473; x=1718893273; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=34YiP9a3cNIN9kwswQSrOf+rUN/1nyiFKUXVDsWOw0U=;
-        b=ohmei/CU+A1hgDEXT4VKZ8sx4JTi1swhBYcuaec3s2zBmCniPMuSOy+SosOpiVH/dg
-         d76IVcMu8oPta+Bi0AC52bcGn3ZU9tEiOLDogLMMBYPdP+qJqcbp7H+TNPGPbqdtVSVw
-         2bqUMNSSYcTZyS8qQqpdrAK99tMHhJOO4M+faKDWrvPlZWpXqSL5wpMzJigug+ftbbaA
-         Q8d+pX1ql18/1ifunpL3D/xdoAG8ekSR79yA2/m2bvOa6PqENBEsExZfRsv+DkIedBn+
-         y3TzBSVP8ONdZb7Ls+4qAWwhJ+6H9Egm5Hb53tR0VGPpkMzdvY1QEWYShDamTGcu1Jbq
-         54Ig==
+        bh=M+GYDOeM5l940vZhy7Ybh4aBEFLkgRCUMiTLHNRSyMY=;
+        b=SdSaIVjUiEWf5XnemWTM7YlYhWaPNnBHj5BsUESjJWB15k1cOAFk7Zs1UOd/R9ZzoR
+         3rsOQdtcVXdAGSNTrYKjfAYTofkgYP0bN1ld2B+B0MHZqGfpxZ6jT4md8kHDoyyA0LS1
+         Onu4TMrIgs9e5uQb9yj+Os1+ZrjsqiFhetNpsLF47NuXix0lBZ2OUAoknH38wjwVIbq0
+         gfqzJnN3UUhEceqAlhaMgdMV8mxQbzDgBVvsvIFoKNUbCI8EtZERU8cZAja/KE90Ufbd
+         rrt77DqNL4kFp1h1PQyVKrG9ddcNnoMXZRjAM7PFGvPHjAj8qYJ7EekoAokQ7vSuxJIg
+         M4CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288467; x=1718893267;
+        d=1e100.net; s=20230601; t=1718288473; x=1718893273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=34YiP9a3cNIN9kwswQSrOf+rUN/1nyiFKUXVDsWOw0U=;
-        b=Absqol2zfYoh1FD1/rUY3F9aoASXxWTf7wbzYql1YFHIMBsKeFXNmpBpn7u2rRkuy5
-         3ZBMpLXU95udKbNPrXAW7YvxnHYYrgGPiqEBnSwLzWXxxGHepYXa2mvxMSitRhm5cUUP
-         rNsFwzB/yqdA1Afiwl81RMYg2N2rL8yY18ABWjQ0Bj5+OMvRGTC6Zqt8FuUZUeEmUwDD
-         Wk72FW5l3YOJ+TWu3Id/kfHRVHJptUv330py1jdhf0ZFZjjY57j7a6OH2ymsUQX29tHK
-         vWL5UcH5Hp+HU2e+rsQhsSlkQEQAAxMYKBcelQVhCj8GdgZe+QTM1rl2snK66KqCP5UO
-         5VNg==
-X-Gm-Message-State: AOJu0YwxXqhBH+WC+BA3i5VevIGorILyoi36Ht8XX5d60v0YeT5BwmUU
-	L2+m3myNx1IkjZZc8W8r9RguF8bsZAd5zVXJsoxu9vAKbLa2nvpwPnZIfVs7VzV2/drc/we7HXm
-	Q
-X-Google-Smtp-Source: AGHT+IELiVKMg78Z/E6T1r1IJ+v5TzZaPL8R90mriVTkMFZ5oFrI/hjxHTg/13Djx2mTbo9GFf2O6w==
-X-Received: by 2002:a17:902:c942:b0:1f8:44f8:a390 with SMTP id d9443c01a7336-1f844f8a69amr47764255ad.33.1718288467537;
-        Thu, 13 Jun 2024 07:21:07 -0700 (PDT)
+        bh=M+GYDOeM5l940vZhy7Ybh4aBEFLkgRCUMiTLHNRSyMY=;
+        b=bMTEJuqKhrowP5p87HCoWr9kAhJGbYmqi0EFjlocI3NlnQ7u7PHNr5SjdGbWyswpyN
+         ruP2peYQU5mO5iX9TKn27Qer8y/Mgh2y/iI2qOmF7+ZlSuyPlE6Di/1J8wXjenOYBvq8
+         o96HpsORU3CtPR01JxwT2b/CVQ45Q0+IEzqzF6d7NuO2Hldw1X31K/V2v5TT40aP6/Sw
+         CD3xsIdg4wnCLUErIl81SOL5sjZ65nxQuyneK6DN0Zeh3SjivZ+xgvhrVUDA3p0te1jm
+         SC6ANB90tVgMvAH/WQrOQ+L25lts9fAN68n7qotk1nesI3gfNbHrMDhyYTJ2pt3XVcDI
+         vMVw==
+X-Gm-Message-State: AOJu0Yy2TKrHQ1ewUa9U55inEFA52KvXJhgSkfF5eMluJ5bNuJP5nBka
+	KeIp3c8MK7TeTAZfixlf9xWPqd0tnp2VOpL2J5krz1cM4Z9VgH6JqQstK3+oEZKDKwjC+az0gqg
+	7
+X-Google-Smtp-Source: AGHT+IHiHyjHdpuDHdC2m4E/H4RZdLhrGRgPitHHeQ/BgmDxcZQ7fJcklOjKnXPEX8h+n7G0C1KBrw==
+X-Received: by 2002:a17:902:ec87:b0:1f7:1495:6ebd with SMTP id d9443c01a7336-1f83b5f06edmr61159025ad.18.1718288472995;
+        Thu, 13 Jun 2024 07:21:12 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:21:07 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/29] icu: add upstream submission links for fix-install-manx.patch
-Date: Thu, 13 Jun 2024 07:20:25 -0700
-Message-Id: <bebafda283f4ecf63994dfcc334e3bd0ac875e7e.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 24/29] iputils: splitting the ping6 as a package
+Date: Thu, 13 Jun 2024 07:20:29 -0700
+Message-Id: <964bdb0f8877a229ea34ab1d95dc5dabc564af51.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -61,34 +61,67 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200623
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200627
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 269a1a65d2526be5622b4c1f552b6f5541e0cb86)
+The iputils merged the ping4 and ping6 command into the ping since the
+commit ebad35fe[1], currently, iputils ping support being called using
+"ping -6" or "ping6" symlinks.
+
+In oe-core, there are two packages provide ipv6 ping, inetutils and iputils,
+the inetutils-ping6 doesn't support "-I" option to bind the interface, that
+cause some of scripts(e.g. LTP test[2]) which was based on iputils-ping6 fails.
+
+If someone or a package needs iputils-ping6, they can enable it in local.conf
+or add it into rdepends directly.
+
+Ref:
+[1] https://github.com/iputils/iputils/commit/e3de851b809c7b72ccc654a72b6af61d
+[2] https://github.com/linux-test-project/ltp/blob/master/testcases/kernel/ \
+    containers/netns/netns_comm.sh#L25
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 0b89bc2041f670af625829d061ce79e0840ac116)
+Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/icu/icu/fix-install-manx.patch | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/iputils/iputils_20240117.bb | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/icu/icu/fix-install-manx.patch b/meta/recipes-support/icu/icu/fix-install-manx.patch
-index 7526bde370..16cabc8264 100644
---- a/meta/recipes-support/icu/icu/fix-install-manx.patch
-+++ b/meta/recipes-support/icu/icu/fix-install-manx.patch
-@@ -11,7 +11,9 @@ and one process tries to chown a file that the other process has just deleted.
- Also install-manx should be a phony target, and for clarity use $^ instead of $?
- in the install command.
+diff --git a/meta/recipes-extended/iputils/iputils_20240117.bb b/meta/recipes-extended/iputils/iputils_20240117.bb
+index 5a5e15528e..3880689742 100644
+--- a/meta/recipes-extended/iputils/iputils_20240117.bb
++++ b/meta/recipes-extended/iputils/iputils_20240117.bb
+@@ -35,7 +35,11 @@ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE:${PN}-ping = "ping"
+ ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
  
--Upstream-Status: Pending
-+Upstream ticket: https://unicode-org.atlassian.net/jira/software/c/projects/ICU/issues/ICU-21172
+-SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff"
++ALTERNATIVE:${PN}-ping6 = "ping6"
++ALTERNATIVE_LINK_NAME[ping6] = "${base_bindir}/ping6"
 +
-+Upstream-Status: Submitted [https://github.com/unicode-org/icu/pull/2966]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- ---
-  Makefile.in | 8 ++++----
++SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff \
++             ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ping6', '', d)}"
+ PACKAGES += "${SPLITPKGS}"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+@@ -43,6 +47,13 @@ RDEPENDS:${PN} += "${SPLITPKGS}"
+ 
+ FILES:${PN} = ""
+ FILES:${PN}-ping = "${base_bindir}/ping.${BPN}"
++FILES:${PN}-ping6 = "${base_bindir}/ping6.${BPN}"
+ FILES:${PN}-arping = "${base_bindir}/arping"
+ FILES:${PN}-tracepath = "${base_bindir}/tracepath"
+ FILES:${PN}-clockdiff = "${base_bindir}/clockdiff"
++
++do_install:append() {
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false', d)}; then
++		ln -sf ping ${D}/${base_bindir}/ping6
++	fi
++}
 -- 
 2.34.1
 
