@@ -1,139 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1AFC27C4F
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 08:40:31 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.3500.1718268023533112170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F475C27C75
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 10:56:42 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web10.5397.1718276193352583550
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 01:40:24 -0700
+ Thu, 13 Jun 2024 03:56:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B/7G0XTG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42179dafd6bso11564985e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 01:40:23 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=YqCR/SPA;
+ spf=pass (domain: snapchat.com, ip: 209.85.208.50, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57a30dbdb7fso1035880a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 03:56:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1718268022; x=1718872822; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pLdPD8OjG29eSMH8zcUsch+x32sbCZ4BHAyt2vuqVRM=;
-        b=B/7G0XTGE6gcc8KZmLNvMYk3LXazMg1IXKUMXIf/ek2LUT+zO9l5w9V81UIFcR/f/W
-         I5C03EAekxisBOf/no9Gp8kbmcdLJ3gCIa6N+OqYal2ftA35VsyvpanL7VGzKgSxKAge
-         eyE5Bqll25CiPERW88vR4fYsOCYnr5G3l+hNI=
+        d=snap.com; s=google; t=1718276191; x=1718880991; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FVIME5QgE2e80l/RtzG1vcGoH7EarLchCXofVkVonFM=;
+        b=YqCR/SPAZcSNyh8foN3Nqrg3vtMTAtbw0z2lbTotHocwpRINSM3XBUPZZ07VdDv4+g
+         sLq526QfwGKAxDicP0QjyIaEg5HRW4mAyBSmoeUJu8kLam+oJaiczVBmoQr8pJ8OMJyR
+         aXGRPp55RPX4lsXCXhySyXkqO6+Ful0413BR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718268022; x=1718872822;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pLdPD8OjG29eSMH8zcUsch+x32sbCZ4BHAyt2vuqVRM=;
-        b=ihrXJTYqIfoAAHK+khvT6Tp87lU/ZSg3tySuzGbCRlRfMNwoD+8e1DgoZUiFGrsuKn
-         IIwyKaNDe814kUmdB/+797JlcX1yz8emGQOS3j5NSmKqbrI9j0FY6EfBZf09cx02uUYj
-         PaczC6EzGX+Kj+8K9k1l5zJwuIXk9uqsSOXPUgoxUFlyiZCi6EYOWj00RCdzG5IuIolA
-         cuRn+FLs5QMqCxfdLSiPLYd+XLhz8XcDydB/vOS3J7u16tQ0bjiTfRsSxhYn0wMMgV8M
-         N1/iCnJ+O6O/Bqp5f6lbADkO+Zb1h0w0g8ZLShi2RcnikLhuHE4Kr/ozua8iUayaLxm1
-         d2VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVq/EjiXl/uKluYK7EiQUJG/gbtFzAGhBlWgAdarch2xIQB74RnrfdpF461IgNJGnwL2gWXE5jI21GZfblu+clueSpfTtuMsK33QVIdmf/uZ3dm9uG7tUWi
-X-Gm-Message-State: AOJu0YxWcArnswLiaD6b8MVfSzViY5vsD1F73+rxNHVwAd8Pc7AHM2DR
-	IpGe9gfkWmbbdfzoV2mASVHvPpobjdC4YOrI5djkf8uSKXh9xtP/eI3wEZ1Kld27x2LiUfXh774
-	p
-X-Google-Smtp-Source: AGHT+IFaRvVsDqXL1nQzmey4SWHJS0W4k1qfSYvfY/L+SqIuCjzbffydonMB7deiYihPjkBnIGV5tQ==
-X-Received: by 2002:a05:600c:5102:b0:421:7dc3:9a15 with SMTP id 5b1f17b1804b1-422b6fc45a6mr18908585e9.11.1718268021753;
-        Thu, 13 Jun 2024 01:40:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fbe4:47b4:75ac:5e6d? ([2001:8b0:aba:5f3c:fbe4:47b4:75ac:5e6d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42303e892a1sm210835e9.22.2024.06.13.01.40.21
+        d=1e100.net; s=20230601; t=1718276191; x=1718880991;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FVIME5QgE2e80l/RtzG1vcGoH7EarLchCXofVkVonFM=;
+        b=veFGu3rlyaSx79U5ZgyTyW2WGfJH3awoYbEJbLJFXv7dWGQfUC7gBWG2Z5nJHrVxTP
+         1O1NxOOeLzz9tjX10I/i1NUdiugNQpTkylam0HcU0+xTcv9LiJxhFfEyC1ijYmpIlj1r
+         N9XY1GIdC0GVwdQD8Z72B3WQ62rc8066lQG1WMAVavA/EYwx/YnTZH+rETbW+bqxS0GO
+         mCErNwQbVO+bph11QRH5ZUiuudZLwxq0VhXeKJw5yzgVnIY//Jv4gkHUU+HkQD9ZVev5
+         /2aVW2pd7eI1TeAf7lMrUFcLxQzuTPMfGjfkk1Uhb5gbxTBjZF3H0jKqxuhWic2BGlTW
+         qxnw==
+X-Gm-Message-State: AOJu0Yyi5bqRziTJJLZH5o5mSM3ohxIP/MA7HhV+RFw0NsA9bf+t0oP2
+	0SJvAjYZSmrMb2qYkFoIjWltt4G8HY1BIqdFn/fL2JIA1PdH7atoiAn2i2nTOvYo1D5zVrTF/Pn
+	wx85Zpg==
+X-Google-Smtp-Source: AGHT+IGEyxG0y+QAijD3VJTh89lKxuXKMVGFrXZmxerHhxH+1q/7Z8BfueC28+RN+HcmP92HqUnW3w==
+X-Received: by 2002:a17:907:9722:b0:a6a:6ed0:fbd7 with SMTP id a640c23a62f3a-a6f47fac446mr368122766b.37.1718276190528;
+        Thu, 13 Jun 2024 03:56:30 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56db67cfsm59848766b.77.2024.06.13.03.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 01:40:21 -0700 (PDT)
-Message-ID: <df18afb1f26ccd4f7abfa6299b334641b7fa7665.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] expect-native: fix build with gcc-14
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2024 09:40:20 +0100
-In-Reply-To: <20240613061859.3777324-1-changqing.li@windriver.com>
-References: <20240613061859.3777324-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Thu, 13 Jun 2024 03:56:30 -0700 (PDT)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [OE-core][PATCH v4] oeqa/runtime: fix race-condition in minidebuginfo test
+Date: Thu, 13 Jun 2024 12:56:21 +0200
+Message-Id: <20240613105621.959146-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 08:40:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200594
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 10:56:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200595
 
-On Thu, 2024-06-13 at 14:18 +0800, Changqing Li via lists.openembedded.org =
-wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->=20
-> * do_configure failed with gcc-14:
-> error in build/config.log:
-> conftest.c:56:3: error: return type defaults to 'int' [-Wimplicit-int]
-> conftest.c:59:5: error: implicit declaration of function 'exit' [-Wimplic=
-it-function-declaration]
->=20
-> * this recipe set "BBCLASSEXTEND =3D "native nativesdk", causes "CFLAGS +=
-=3D"
-> setting not take effect, use append instead.
-> snip of bitbake expect-native -e:
-> =C2=A0=C2=A0 set /layers/oe-core/meta/conf/documentation.conf:110
-> =C2=A0=C2=A0=C2=A0=C2=A0 [doc] "Flags passed to the C compiler for the ta=
-rget system. This variable evaluates to the same as TARGET_CFLAGS."
-> =C2=A0=C2=A0 append /layers/oe-core/meta/recipes-devtools/expect/expect_5=
-.45.4.bb:87
-> =C2=A0=C2=A0=C2=A0=C2=A0 "-Wno-error=3Dincompatible-pointer-types"
-> =C2=A0=C2=A0 set /layers/oe-core/meta/classes-recipe/native.bbclass:44
-> =C2=A0=C2=A0=C2=A0=C2=A0 "${BUILD_CFLAGS}"
-> =C2=A0=C2=A0 override[pn-gtk4]::append[toolchain-clang] /layers/meta-clan=
-g/conf/nonclangable.conf:336
-> =C2=A0=C2=A0=C2=A0=C2=A0 " -Wno-error=3Dint-conversion"
-> =C2=A0=C2=A0 override[pn-pidgin-sipe]::append[toolchain-clang] /layers/me=
-ta-clang/conf/nonclangable.conf:340
-> =C2=A0=C2=A0=C2=A0=C2=A0 " -Wno-error=3Dcast-function-type-strict"
-> =C2=A0pre-expansion value:
-> =C2=A0=C2=A0 "${BUILD_CFLAGS}"
-> export CFLAGS=3D"-isystem/build/tmp-glibc/work/x86_64-linux/expect-native=
-/5.45.4/recipe-sysroot-native/usr/include -O2 -pipe"
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
-> =C2=A0meta/recipes-devtools/expect/expect_5.45.4.bb | 5 ++++-
-> =C2=A01 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes=
--devtools/expect/expect_5.45.4.bb
-> index 18904ebc10..5e7b352196 100644
-> --- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-> +++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-> @@ -84,4 +84,7 @@ BBCLASSEXTEND =3D "native nativesdk"
-> =C2=A0
-> =C2=A0# http://errors.yoctoproject.org/Errors/Details/766950/
-> =C2=A0# expect5.45.4/exp_chan.c:62:5: error: initialization of 'struct Tc=
-l_ChannelTypeVersion_ *' from incompatible pointer type 'int (*)(void *, in=
-t)' [-Wincompatible-pointer-types]
-> -CFLAGS +=3D "-Wno-error=3Dincompatible-pointer-types"
-> +CFLAGS:append =3D " -Wno-error=3Dincompatible-pointer-types"
-> +
-> +# Fix expect-native configure tests are failing with gcc-14
-> +CFLAGS:append:class-native =3D " -Wno-error=3Dimplicit-int -Wno-error=3D=
-implicit-function-declaration"
->=20
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-You have a valid problem here however I really don't like the "arms
-race" of making everything an append as the base definitions are
-problematic. It would be this recipe today but a quick search shows
-many other recipes which will have similar problems.
+Fix this error where 'coredumpctl info' warns that the coredump is still being
+processed:
 
-I think I'd prefer to see if we can drop the assignments in
-native/nativesdk bbclass and improve things that way even if it is a
-bit more invasive.
+```
+AssertionError: 1 != 0 : MiniDebugInfo Test failed: No match found.
+-- Notice: 1 systemd-coredump@.service unit is running, output may be incomplete.
+```
 
-I'm testing a patch on master-next to test this and see how bad the
-fallout is.
+(From OE-Core rev: ad1ce64f5c1f22a7b10025d8cba20dc74354ac81)
 
-Cheers,
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/lib/oeqa/runtime/cases/systemd.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Richard
-
+diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+index 80fdae240a6..640f28abe99 100644
+--- a/meta/lib/oeqa/runtime/cases/systemd.py
++++ b/meta/lib/oeqa/runtime/cases/systemd.py
+@@ -150,12 +150,21 @@ class SystemdServiceTests(SystemdTest):
+         t_thread.start()
+         time.sleep(1)
+ 
+-        status, output = self.target.run('pidof sleep')
++        status, sleep_pid = self.target.run('pidof sleep')
+         # cause segfault on purpose
+-        self.target.run('kill -SEGV %s' % output)
+-        self.assertEqual(status, 0, msg = 'Not able to find process that runs sleep, output : %s' % output)
++        self.target.run('kill -SEGV %s' % sleep_pid)
++        self.assertEqual(status, 0, msg = 'Not able to find process that runs sleep, output : %s' % sleep_pid)
+ 
+-        (status, output) = self.target.run('coredumpctl info')
++        # Give some time to systemd-coredump@.service to process the coredump
++        for x in range(20):
++            status, output = self.target.run('coredumpctl list %s' % sleep_pid)
++            if status == 0:
++                break
++            time.sleep(1)
++        else:
++            self.fail("Timed out waiting for coredump creation")
++
++        (status, output) = self.target.run('coredumpctl info %s' % sleep_pid)
+         self.assertEqual(status, 0, msg='MiniDebugInfo Test failed: %s' % output)
+         self.assertEqual('sleep_for_duration (busybox.nosuid' in output or 'xnanosleep (sleep.coreutils' in output,
+                          True, msg='Call stack is missing minidebuginfo symbols (functions shown as "n/a"): %s' % output)
+-- 
+2.36.1.vfs.0.0
 
 
