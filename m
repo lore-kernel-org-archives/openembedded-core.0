@@ -1,167 +1,92 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A67C27C53
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 02:00:46 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.5369.1718244041385784404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0113C27C53
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 02:05:46 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.5633.1718244343078494443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jun 2024 19:00:41 -0700
+ Wed, 12 Jun 2024 19:05:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jut9AyiZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f44b45d6abso4435875ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 19:00:41 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=iXYsajDr;
+ spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f717b3f2d8so11767385ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jun 2024 19:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718244040; x=1718848840; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1718244342; x=1718849142; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jj3rmOMRK920xy38Px83Jf0pfVsmaURnezxGy1O3POM=;
-        b=Jut9AyiZ35v+NhcGM6XDw13s7fCnxY5AFdzF4L+U+wzX+7bxb+Am0FwfokYHr6RCdh
-         dYGDTkzXLI5bQu88B69OWzcJA2OZgghvUUqJ0rciKmAoeWiVaJ0t7jxpQzZurEJTyrMX
-         8zz0+RtNDkaEAK8sr79DhtsQOAwJwAiFxwoRPSt3d5kTNrCGe30cQFcl/dWnssd0e0nr
-         8acMsm1gW0JuExJ63JAWJ3iNHniyRVVuAm6erLUZ26mJnj7ciCpYv1vS4HE3aEi8x22h
-         5T+vKOXxqjMd6rDrxJlNNgXtX/cGdHawDBsON2C/z11sUXnUGCESar6OZ6ktjied90eK
-         RGNQ==
+        bh=jrZi4HO28Wjtyp2TrF6FgDZewCPO14Hn7zD7TkcxDjc=;
+        b=iXYsajDr3r5/plWT35d9x3pO+sgSKMd/UkLxLDrkmvNR69at56tbi2vqDMemWHbIwM
+         KRZ8GqlJEeKss+om0upg/4jkYtd7NFkzpKa1IJ1WOxXkG7jcb6Tct6x80hN1bOF3XS2G
+         KyN1sCenRwDf9cXI3lPHpV9zolt8vrzsCMa3w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718244040; x=1718848840;
+        d=1e100.net; s=20230601; t=1718244342; x=1718849142;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jj3rmOMRK920xy38Px83Jf0pfVsmaURnezxGy1O3POM=;
-        b=MwElovbJdiBN/m+AEwnDi1wX9E/emXU7ZCKlwZKu2em0s8tDzhpgMeZug3wid8Yt4z
-         zEUpwCGi788W+/JveLGNdU/ItKiUJ3Pbg+bUKusU3JE/GJJVsgMZw8oGOvhfQ8oMp257
-         598TibDz3PmQ0beJdgK8c47dDbxT9eAl8+ERs6EY+WdPJg1aLUo1wGz2yYEcnpkjm/vh
-         tZSl3NZ2A3n4S2UGwN6oiRL4kQBx6NZAERBrS5FN86dLUE3gK8rjIXOIcyRm42FQLkEK
-         dDYlIrjtdjmC6EE4dYFXisEM6Yn+ULWZC3+ZQjPrgKOAtMdFLpuXSnp1FCTy4I5yAij/
-         isZA==
-X-Gm-Message-State: AOJu0Yxr/6+1YAX11kNmjUszCSJS6eJ8L0Ctm4BW34tO69G0dPvnudAx
-	fRgrN6SWdE5kl/egf/DNJNliVt5uPNBmxIiQbFogA+W4lUT9NxqSlhnp9Q==
-X-Google-Smtp-Source: AGHT+IGbXT/Y8F2y6ok2zXvISelGvDqZwGpRgLNm/uJap5+Bt4Ruobf/3MlU9fPebTqKl4rk+i0EcA==
-X-Received: by 2002:a17:902:c40e:b0:1f4:8a01:283e with SMTP id d9443c01a7336-1f83b626368mr43290435ad.5.1718244040223;
-        Wed, 12 Jun 2024 19:00:40 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::9980])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5a0d5sm1539715ad.43.2024.06.12.19.00.39
+        bh=jrZi4HO28Wjtyp2TrF6FgDZewCPO14Hn7zD7TkcxDjc=;
+        b=pW1DWHMvxRFrt3fb/PrxtDSppFi6SIohrXiv/4Sl8svd6C83t9m8nbheLGQbbzJ0r9
+         QuR9GLzMPGva7Dce3ujUTlgIyEFV/vpDQKhUqNeoT9STucF8QuW66Wb5pg356x0MZ10W
+         e1U0U0qWr3PPZ8oO4bSKNiZkBwmJ5joc/MZIx90KYSyDiGYnDkpoLp3ZRR6khdDN1qWu
+         b2q8SctHG6oy3RVESO/QHg3ub2a/E5J2fE8JuHYKL7tVjJxrJewiEUFS3tkiCJCfCCtG
+         wS7CoDwZlG2EzR84E9HanrTlevtwLRhKSjPdmOXoDd0CLWjuAecNsldHnDQBjjqPAb5s
+         YYDg==
+X-Gm-Message-State: AOJu0YyYr6SjZccsEMxTBxdTz/Ps1vhi6yhWPgYV6UUzyVb3n9oK+YGM
+	PrHIbvBCCAYPIGG3lYwvnQ3QHIzwfRQovctZP+Y72HpeCpgEG4DZ8wfkyDGKdn1Azj1OSNaXiYE
+	1
+X-Google-Smtp-Source: AGHT+IFsJTqmP058DLLU4YuRnTK257u2ICbZDQbCDsPF91DbYGcsKHlSda+R4ADru1Rs2/iIAM0dNQ==
+X-Received: by 2002:a17:902:f643:b0:1eb:e40:3f74 with SMTP id d9443c01a7336-1f84e42dd85mr20215045ad.32.1718244341752;
+        Wed, 12 Jun 2024 19:05:41 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([157.32.45.16])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f17f92sm1518045ad.221.2024.06.12.19.05.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 19:00:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Wed, 12 Jun 2024 19:05:41 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gcc: Fix typo in increment expression in unicode from libstdc++
-Date: Wed, 12 Jun 2024 19:00:37 -0700
-Message-ID: <20240613020037.522794-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.45.2
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][master][PATCH] cups: Upgrade 2.4.8 -> 2.4.9
+Date: Thu, 13 Jun 2024 07:35:33 +0530
+Message-Id: <20240613020533.83823-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 02:00:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200583
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 02:05:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200584
 
-This issue is seen when libstdc++ headers are used by clang18
-see - https://github.com/llvm/llvm-project/issues/92586
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+CVE's Fixed by upgrade:
+CVE-2024-35235 cups: Cupsd Listen arbitrary chmod 0140777
+
+Other Changes between 2.4.8 -> 2.4.9
+====================================
+https://github.com/OpenPrinting/cups/blob/2.4.x/CHANGES.md
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- meta/recipes-devtools/gcc/gcc-14.1.inc        |  1 +
- ...-in-_Grapheme_cluster_view-_Iterator.patch | 76 +++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
+ meta/recipes-extended/cups/{cups_2.4.8.bb => cups_2.4.9.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/cups/{cups_2.4.8.bb => cups_2.4.9.bb} (51%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-14.1.inc b/meta/recipes-devtools/gcc/gcc-14.1.inc
-index b057e570f3b..17a9c51d71a 100644
---- a/meta/recipes-devtools/gcc/gcc-14.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-14.1.inc
-@@ -68,6 +68,7 @@ SRC_URI = "${BASEURI} \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-+           file://0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch \
- "
+diff --git a/meta/recipes-extended/cups/cups_2.4.8.bb b/meta/recipes-extended/cups/cups_2.4.9.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.8.bb
+rename to meta/recipes-extended/cups/cups_2.4.9.bb
+index c0cddf7e99..e0a3522004 100644
+--- a/meta/recipes-extended/cups/cups_2.4.8.bb
++++ b/meta/recipes-extended/cups/cups_2.4.9.bb
+@@ -2,4 +2,4 @@ require cups.inc
  
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch b/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
-new file mode 100644
-index 00000000000..5a465b8c959
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0026-libstdc-Fix-typo-in-_Grapheme_cluster_view-_Iterator.patch
-@@ -0,0 +1,76 @@
-+From c9e05b03c18e898be604ab90401476e9c473cc52 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Thu, 16 May 2024 17:15:55 +0100
-+Subject: [PATCH] libstdc++: Fix typo in _Grapheme_cluster_view::_Iterator
-+ [PR115119]
-+
-+libstdc++-v3/ChangeLog:
-+
-+	PR libstdc++/115119
-+	* include/bits/unicode.h (_Iterator::operator++(int)): Fix typo
-+	in increment expression.
-+	* testsuite/ext/unicode/grapheme_view.cc: Check post-increment
-+	on view's iterator.
-+
-+Drop it when upgrading to 14.2
-+
-+Upstream-Status: Backport [https://github.com/gcc-mirror/gcc/commit/c9e05b03c18e898be604ab90401476e9c473cc52]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libstdc++-v3/include/bits/unicode.h                 |  6 ++++--
-+ libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc | 11 +++++++++++
-+ 2 files changed, 15 insertions(+), 2 deletions(-)
-+
-+diff --git a/libstdc++-v3/include/bits/unicode.h b/libstdc++-v3/include/bits/unicode.h
-+index 46238143fb6..a14a17c5dfc 100644
-+--- a/libstdc++-v3/include/bits/unicode.h
-++++ b/libstdc++-v3/include/bits/unicode.h
-+@@ -34,10 +34,12 @@
-+ #include <array>
-+ #include <bit>      // bit_width
-+ #include <charconv> // __detail::__from_chars_alnum_to_val_table
-++#include <string_view>
-+ #include <cstdint>
-+ #include <bits/stl_algo.h>
-+ #include <bits/stl_iterator.h>
-+-#include <bits/ranges_base.h>
-++#include <bits/ranges_base.h> // iterator_t, sentinel_t, input_range, etc.
-++#include <bits/ranges_util.h> // view_interface
-+ 
-+ namespace std _GLIBCXX_VISIBILITY(default)
-+ {
-+@@ -802,7 +804,7 @@ inline namespace __v15_1_0
-+ 	operator++(int)
-+ 	{
-+ 	  auto __tmp = *this;
-+-	  ++this;
-++	  ++*this;
-+ 	  return __tmp;
-+ 	}
-+ 
-+diff --git a/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc b/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
-+index ac1e8c50b05..a3bb36e14b8 100644
-+--- a/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
-++++ b/libstdc++-v3/testsuite/ext/unicode/grapheme_view.cc
-+@@ -83,10 +83,21 @@ test_breaks()
-+   VERIFY( iter == gv.end() );
-+ }
-+ 
-++constexpr void
-++test_pr115119()
-++{
-++  // PR 115119 Typo in _Grapheme_cluster_view::_Iterator::operator++(int)
-++  uc::_Grapheme_cluster_view gv(" "sv);
-++  auto it = std::ranges::begin(gv);
-++  it++;
-++  VERIFY( it == std::ranges::end(gv) );
-++}
-++
-+ int main()
-+ {
-+   auto run_tests = []{
-+     test_breaks();
-++    test_pr115119();
-+     return true;
-+   };
-+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRC_URI[sha256sum] = "75c326b4ba73975efcc9a25078c4b04cdb4ee333caaad0d0823dbd522c6479a0"
++SRC_URI[sha256sum] = "38fbf4535a10554113e013d54fedda03ee88007ea6a9761d626a04e1e4489e8c"
+-- 
+2.34.1
+
 
