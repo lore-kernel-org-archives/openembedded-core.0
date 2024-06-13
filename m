@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A30C2BA15
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:13 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.9987.1718288471114408888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C7DC2BA16
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:14 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.9693.1718288467290678556
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:21:11 -0700
+ Thu, 13 Jun 2024 07:21:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ou7J/N0T;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f6f031549bso10673335ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XPnTcQ1h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f6a837e9a3so7634785ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288470; x=1718893270; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288466; x=1718893266; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XD++L7OdwUd0xgkA71tNDV5lOODqzBnF9/mLiv3ZFB0=;
-        b=Ou7J/N0Tiyl+ftBRGPsyp7hNIcNq2Uw8T/J9dMOIaSuqKjEgmX1aL0et7bKmxQgNWV
-         LEG/PK9Wi+Zt7RcryPxqEf4sjvO3XQD75D6ZLQhlmkzLVcZvojA4KYv1TzP4CPj8K9db
-         CzFPPCypVqHo5uQUzMsDN5If6ftL+CXD8ttvdW3jp1C5yN1CUi5AVv2uxi9X/X3t2IzI
-         G8j8M4lHdutqLgcUGtTcYWMlHl+c8jombKMBlMCk/2mHn+mYUQOBCmqcoLZfE4O87VvQ
-         0RsbRnFSYBhlMJwrhBRLiNAz7SvS4A9KUf9VRMOrutAGL4xtq1E55mpnJUH2qM29fC+G
-         zhzA==
+        bh=WG1RerpZa3QVLhf/0Bs5a12z+kgMhczagZ2ZDx02T8c=;
+        b=XPnTcQ1hRcH8J+57gAlqeDuzSKk5JPzaz4bdFBhhdf2YReUyR+1wzUWm+OdQ8JBIJL
+         3J4T8jfzrKLV0+aQ8G2L08JZxKzyVnms2hG81flyiP/FRoCVzHL4iMKHXDBhiHm0uWHg
+         kSwUGxKWK3EclolD8M2XCW7hGch5cIiQLaYQt/FeZc/VSvi4PGCweQs9AdTvBELHBzgm
+         1affsZkDTr3/Fj+Los0mXFmFFJ9bdztQSTOc3HmMHfh7PiVp0F4t1zPgFi7OWmOBE0HY
+         ry05NYwaLk0wyWnGLhddJ+ge8U1B8KSdTXdsXjcUXr1ym1wpvyFFfehHLDl9w2+L+Zfu
+         DVNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288470; x=1718893270;
+        d=1e100.net; s=20230601; t=1718288466; x=1718893266;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XD++L7OdwUd0xgkA71tNDV5lOODqzBnF9/mLiv3ZFB0=;
-        b=m6KMteyrM8T/BEj/yKEjtX4H1jeeqHqKXMNTYjIMH4Rf/fvKL44UacJ8ZTv1Zz1GAg
-         byi+zIjnbJE7clHJkxtZP7RCRY/1W4jQY8a9xdUcniZqISLPgT0Txa+qOqC/SC0zF0eT
-         GxC1J0sJkIFHRWgytqj5vCGYlTYmhR9oYH5YIEz5FhYtF7ohPD6VjXZ/IDrjLMZl1adj
-         3bJ4Ks0mfyDOdsnMnaHHHJgIofCDzErSE5R2kLrqD0EK8Yslwt3VAecE6R26w/yloqBQ
-         U2ByOenMat1tHNA/gDC3vAUdVg9Ida0aYb5LoBQVdajkz0cU2vncj79sWYAvQTZFkmyl
-         FnVg==
-X-Gm-Message-State: AOJu0Yyw5bXQ/G18CZ/7MDy8h1US53FHYtykto9p8LY3QOEdhzZ8ue2X
-	r4EAyO1VtNmBJsbrAxYP09yTtG97pALLSq7cvgxRQCevfkjGPXQoqglEtg/5Ukqv4dQAli05wDI
-	H
-X-Google-Smtp-Source: AGHT+IF18xi8FKLwl2Uw6sH3wcSmXGwKQSqtBmEGNkp2QX066Bhxja94STn1VTCqX+fSCBSjcit9wg==
-X-Received: by 2002:a17:902:f54b:b0:1f7:ace:448c with SMTP id d9443c01a7336-1f83b56783emr52971495ad.23.1718288470302;
-        Thu, 13 Jun 2024 07:21:10 -0700 (PDT)
+        bh=WG1RerpZa3QVLhf/0Bs5a12z+kgMhczagZ2ZDx02T8c=;
+        b=Hos5VBrMDx7UE+CmoqZIgxWs3Yf9YWlkVfVUhFWXw63OFtp4gvG6ifoYDZkn+Qc/Gb
+         71+2GFAn4bqpQ2SgfLziHIgxvOnb8x4/H1mo0eeNry8B7BLguvaNLGF1zJtY/Q5I4taA
+         RmgVbotcFNxZWsVVLrtB5/tasWOvdTN8hHsZ3M+oy8snXQ/HnezgNniKIvxwfTciszZC
+         vOMAckQ8ghFK1Q7e4Kr6geL/kw2vA6e5R/W7+urB/EqNVQeBSf0zQaNZu2CM+NIb1kJu
+         rwsmOXTPGzJMwfA4hYjcPwbVt6GRG3EL/ZQvRMCx20i5t0jCLWHcFd4bzxXu+W812MeQ
+         rNxQ==
+X-Gm-Message-State: AOJu0Yx5gO4JaieEasmDjiri/6BAIT7wXeI5Xa+wbRXRA3mDc05dPg3U
+	M2/koudHeKlsJ+xbigW6ps8WQKAlUJ/k7P2DUCp6R3Knc/CnxO0TKD0xZo+7Gfq5wnGqqhrkP3T
+	8
+X-Google-Smtp-Source: AGHT+IE4ChRBHq/aOuGk6Pvr7+2H9OPBX3qksk8NMLVI11mCd9w9Nv77JrA+02G+JyZF4MXkCTRtVw==
+X-Received: by 2002:a17:902:ea12:b0:1f6:6de6:9274 with SMTP id d9443c01a7336-1f83b716bbamr58004185ad.59.1718288466249;
+        Thu, 13 Jun 2024 07:21:06 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:21:10 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/29] iproute2: drop obsolete patch
-Date: Thu, 13 Jun 2024 07:20:27 -0700
-Message-Id: <2e3588ce3f0f14e6e0e6d2f4b6d8a52b68309394.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 19/29] bash: mark build-tests.patch as Inappropriate
+Date: Thu, 13 Jun 2024 07:20:24 -0700
+Message-Id: <e796f05f243ac981082c63f816ce2e5e715bd347.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -61,85 +61,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200625
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200622
 
-From: "Maxin B. John" <maxin.john@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-libc-compat.h fix for musl was obsolete after 4.16.0 release of iproute2.
-Drop it.
-
-Signed-off-by: Maxin John <maxin.john@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ad57a1e124a1de7af7ef8479ed779230e923d3af)
+(cherry picked from commit 3d82d44ed6822b7a276df355311e384c02d36c43)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...01-libc-compat.h-add-musl-workaround.patch | 39 -------------------
- .../iproute2/iproute2_6.7.0.bb                |  4 +-
- 2 files changed, 1 insertion(+), 42 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
+ meta/recipes-extended/bash/bash/build-tests.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-deleted file mode 100644
-index 74e3de1ce9..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From c25f8d1f7a6203dfeb10b39f80ffd314bb84a58d Mon Sep 17 00:00:00 2001
--From: Baruch Siach <baruch@tkos.co.il>
--Date: Thu, 22 Dec 2016 15:26:30 +0200
--Subject: [PATCH] libc-compat.h: add musl workaround
--
--The libc-compat.h kernel header uses glibc specific macros (__GLIBC__ and
--__USE_MISC) to solve conflicts with libc provided headers. This patch makes
--libc-compat.h work for musl libc as well.
--
+diff --git a/meta/recipes-extended/bash/bash/build-tests.patch b/meta/recipes-extended/bash/bash/build-tests.patch
+index ea38bace9b..c1b9b8261f 100644
+--- a/meta/recipes-extended/bash/bash/build-tests.patch
++++ b/meta/recipes-extended/bash/bash/build-tests.patch
+@@ -4,7 +4,7 @@ Date: Wed, 19 Dec 2012 17:18:31 +0100
+ Subject: [PATCH] Add 'ptest' target to Makefile, to run tests without checking
+  dependencies.
+ 
 -Upstream-Status: Pending
--
--Taken From:
--https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-workaround-to-the-libc-compat.h-copy.patch
--
--Signed-off-by: Baruch Siach <baruch@tkos.co.il>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
--
-----
-- include/uapi/linux/libc-compat.h | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
--index a159991..22198fa 100644
----- a/include/uapi/linux/libc-compat.h
--+++ b/include/uapi/linux/libc-compat.h
--@@ -50,10 +50,12 @@
-- #define _LIBC_COMPAT_H
-- 
-- /* We have included glibc headers... */
---#if defined(__GLIBC__)
--+#if 1
--+#define __USE_MISC
-- 
-- /* Coordinate with glibc net/if.h header. */
-- #if defined(_NET_IF_H) && defined(__USE_MISC)
--+#define __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO 0
-- 
-- /* GLIBC headers included first so don't define anything
--  * that would already be defined. */
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.7.0.bb
-index 640b3013f1..442c6bdd4f 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.7.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.7.0.bb
-@@ -11,9 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
++Upstream-Status: Inappropriate [ptest specific]
+ Signed-off-by: Anders Roxell <anders.roxell@enea.com>
  
- DEPENDS = "flex-native bison-native iptables libcap"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
--           file://0001-libc-compat.h-add-musl-workaround.patch \
--           "
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz"
- 
- SRC_URI[sha256sum] = "ff942dd9828d7d1f867f61fe72ce433078c31e5d8e4a78e20f02cb5892e8841d"
- 
+ Rebase to 5.0
 -- 
 2.34.1
 
