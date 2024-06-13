@@ -2,100 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F43EC27C6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E209C27C75
 	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:24 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.9999.1718288479560618954
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.9709.1718288480803674833
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:21:19 -0700
+ Thu, 13 Jun 2024 07:21:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eOxt+3Sw;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f6a837e9a3so7636095ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bbrUYkHq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f4c7b022f8so10533165ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288479; x=1718893279; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288480; x=1718893280; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YS/T1YXJZJcdeEA6un7cCZgf/P+LtlSVknb/jwgkpt4=;
-        b=eOxt+3SwE61Xm5yLB93/yH6kcDXUkH+bnEGdqBlG2Tqi1ofDoEaJH/4VR+fYgpUPos
-         7GktyQsTAjVQT2zs+SnCJq3rAWZx65+TIIrsLi2DhfqnKMMm2TeeQB+osa9UxJIV2CV8
-         cPhwzWziAMGYUof0z0jhJPAf89hJMqnv7a3h4ng27T82itGiiZ9Ps6crXzP6aDjXf4Yc
-         wLFKIiOr2QGBW753xZVAZ12QhkKFwWPLNPP3ErJOW+4Z0Hby9jMhAWAwvivPT7cVT3Mw
-         Z5UxWOabizX5t2mrTuEkqjep9OosbteLDGBPXkp9bAAfzAqaPq9N7PigmvygHSIO38ms
-         kgtw==
+        bh=xsZUMYsc7m9agNqU2ydlndrHCNunRwE0xlEdqtF35Zo=;
+        b=bbrUYkHq/ShRQ+ABhLiKZlKIFpNAJk5D1jymWZATK5I9ZairmPXA0ZkWNqh9gs0qlu
+         H/bUU6WipdvEw1j/k70pSqr2EBoqhGFafEj01scRcT7XsPvttDWZhJthcd7lz5OQ8+kQ
+         U3K4st9Dw2uGpFiJVo55SifPfnD6zSXq3jzdaaEhi1vf3J4EWNit1ckiwmjqCnmExclI
+         m9uobWh/CUT3JDuOI9jeLfywDXpV5z69FRG1JS1EU0TvMjVoyDydpMoAgzfaFbc5MYXA
+         0NemHewynC6MTmaex+eX8Xo3S+HCs9bLvhDgZWQMdtGlox7oetp132b05pDQmR7SkyUq
+         hOHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288479; x=1718893279;
+        d=1e100.net; s=20230601; t=1718288480; x=1718893280;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YS/T1YXJZJcdeEA6un7cCZgf/P+LtlSVknb/jwgkpt4=;
-        b=t10NVsRQC+Si1OQYUIcdT3EEbewpCFnBVrD+R6fm+9v9ASVfEgVb5H3CDx+0pgJFMw
-         N26PGpK38hJbM6vVdxzPD83S7gDKMTK8lX85OPdJ53rvPVSMoE29eC/w2m3W3E78Iqcm
-         NVfkyCmfuU/2SrF28RIpPRyvIshEVRl+KWBq4YOh52agluvlB9fDxzl3pLYlCaq2Qhmh
-         4SGzY8d2Edt/hLqHq+GpBMaaDO9elgBhURrv7eH8upXeGDwRNF4Vc5Q91QjIPwCzm5qP
-         HwPZEKMkVch816m8vkpuxN2QzLLery+nOWvOJlNtgJ0ZSHGUY7PCeWAabd4++KUM+itj
-         /Fpg==
-X-Gm-Message-State: AOJu0YwCFQYButTDC110Tj/sMjUqUcdEtjmXqwhL8vCXZSUiaR/+Amrb
-	K0OETA2/ZMB4Oj6ySD9SeUNF7h1TBjFLk5ZkEUqz1+UTFPglRlvJJyOFkTFsmvKwo4qpgyAbawl
-	Q
-X-Google-Smtp-Source: AGHT+IFIz1fkvTnQHVCJFH9d8Yzug3JukIbax/wDAo+9sI06BUji80j0Lax8q5PfIrrOXiyiyzj1OQ==
-X-Received: by 2002:a17:902:ecc2:b0:1f3:266b:ea23 with SMTP id d9443c01a7336-1f83b565bb7mr59552225ad.13.1718288478777;
-        Thu, 13 Jun 2024 07:21:18 -0700 (PDT)
+        bh=xsZUMYsc7m9agNqU2ydlndrHCNunRwE0xlEdqtF35Zo=;
+        b=GK59RUq1VE2/HwiDCLxYpebEUcEiXLcKUThHX1A5gvf/Jqzx5BzSFcaJVkV/bq2Yp2
+         93C4HcEtbnHvsVcwJhXSWHzjFcQ1VmzGTYwmAqj3aPqk7Wu6wlZJquH5zlphBOBOoR+a
+         /Y/nW7ctMIbUgTndX4azjsN/aTN1bsFkRezLY84muwu4xQ6duOA7SSqcbie8uBaWV9Yy
+         6WxY8m2rOyjnjJgh4wyq3LPGHjo+f8decZ1b1BQpfXYHz126mqtWSRDyP+ha5JV8aodh
+         A+qmDM+4vbHr8NHaJeH3twbmGt5CYQn5DsjOpsn93aFUhUgurFKqIHUdpqU70AMHRU2k
+         v8ag==
+X-Gm-Message-State: AOJu0YzimMRE3YeVs1QlrHmBt09fM87pd93G2EVkTnosyjo0s383tTGW
+	/snMVBYyI+p42DI58SlgrslJMNY62x3paHGBShL2ge+K2WSht1Ze8khKSMsEuKj8sE+XhOPCDr3
+	/
+X-Google-Smtp-Source: AGHT+IH4SnsGJ8tAyQUiNLfs8AeExouTor9HUp6sXVPx9w6Hwf0CRkuZAwyXgqfbv8sGIhO5C2Z+Zg==
+X-Received: by 2002:a17:902:c401:b0:1f3:2b46:47c9 with SMTP id d9443c01a7336-1f83b609b25mr50765065ad.28.1718288480029;
+        Thu, 13 Jun 2024 07:21:20 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:21:18 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 28/29] Revert "oeqa/selftest/devtool: fix test_devtool_add_git_style2"
-Date: Thu, 13 Jun 2024 07:20:33 -0700
-Message-Id: <fd30cc2ab99fe6a8e4beb29d9cb46a772db8b8d8.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 29/29] cracklib: Modify patch to compile with GCC 14
+Date: Thu, 13 Jun 2024 07:20:34 -0700
+Message-Id: <50b9126cd8668d8c039e9bd61eaba458f7a22014.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200631
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200632
 
-From: Alexandre Truong <alexandre.truong@smile.fr>
+From: Zoltan Boszormenyi <zboszor@gmail.com>
 
-This reverts commit ab6d3e3d645ffc343f434bf731339fa237df027a
-from poky repository.
+GCC 14 implicitly turns a warning into a compiler error:
 
-The previous reverted commit was a workaround. The fix
-"oeqa/selftest/devtool: fix _test_devtool_add_git_url"
-tackle the issue. So, the workaround is not needed anymore.
+| ../../git/src/lib/packlib.c: In function ‘PWClose’:
+| ../../git/src/lib/packlib.c:554:40: error: passing argument 1 of ‘HwmsHostToBigEndian’ from incompatible pointer type [-Wincompatible-pointer-types]
+|   554 |             HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+|       |                                 ~~~~~~~^~~~~
+|       |                                        |
+|       |                                        uint32_t * {aka unsigned int *}
+| ../../git/src/lib/packlib.c:142:27: note: expected ‘char *’ but argument is of type ‘uint32_t *’ {aka ‘unsigned int *’}
+|   142 | HwmsHostToBigEndian(char *pHwms, int nLen,int nBitType)
+|       |                     ~~~~~~^~~~~
 
-Signed-off-by: Alexandre Truong <alexandre.truong@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+Add the cast to (char *) to silence it.
+
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 731f47ecfd8ad6558aac629806810789c623986b)
+(cherry picked from commit 914128f6bd988cde278e087fb9457a0c70c7e5ec)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+ ...0001-packlib.c-support-dictionary-byte-order-dependent.patch | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 1597aeedff..44a2a50f2e 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -486,7 +486,7 @@ class DevtoolAddTests(DevtoolBase):
-         pn = 'mbedtls'
-         # this will trigger reformat_git_uri with branch parameter in url
-         git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
--        resulting_src_uri = "gitsm://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-+        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
-         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri, srcrev)
- 
-     def test_devtool_add_library(self):
+diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+index 20572b55c4..35229ae890 100644
+--- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
++++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+@@ -303,7 +303,7 @@ index 9396e1d..d0bb181 100644
+ +	    PWDICT tmp_pwp;
+ +
+ +	    memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
+-+	    HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+++	    HwmsHostToBigEndian((char *)tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+ +	    fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
+  	}
+      }
 -- 
 2.34.1
 
