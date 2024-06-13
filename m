@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 479A0C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 681E5C27C78
 	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:20:53 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.9960.1718288443136940960
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.9965.1718288450355784517
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:20:43 -0700
+ Thu, 13 Jun 2024 07:20:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0CzJ0Inh;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7043102dcc1so892148b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z75Fvc03;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f65a3abd01so9940995ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288442; x=1718893242; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288449; x=1718893249; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y9M7OdfAn87gVHZodnM3UOoBQqOD2MMZ35tBmJySbgk=;
-        b=0CzJ0InhkW4+Nh/WNCfqviocJYuadDSSU8b64fVG1mf6Sn1eZ7ergl/ur9R1OJFXzW
-         /oLpXIRNiizizTIVlSy3YxNvlAA8GQfvrpPW4SLX24YG62qhqa7ozk/vEqgy+e8E0QgO
-         V2viSafpGR42OytjZ1/CymXEXDj2BuunuNLi7rwGGHrce4n8czagCwi06Mp+rayo/qi9
-         PcumHm4qMv4W9yql7ZJIDeNTDMYvUMZAKqK9b3+K2H82hsOQrTegIIyrFQSTNGEle31N
-         ag+j2pzXfbaKqTlDZXKgt0lw/S2usUNxSZKiXpJGmuw5A3PywWA99RYv+ye+x102fHTA
-         Qg6w==
+        bh=f2d5Fv2zhCe45b0vumu8v4PzSk8d9DfEpBFGq8y6R2c=;
+        b=z75Fvc03KMhuJF665YnjKILibOHJTU3eZBaS/77Erv7h6Dwtf/hPJsHqV8/4z7g3cN
+         tYiqUd/LWvlQAtiTT8CKdKYVkdU7heVeMhZP9GKlRxLpJljZbG0HQioWc2zjLuXZh06b
+         DKlh4OMfnRW5fCSKnAjgdJgtRSMjJIKb0RBBT6o4U4XKhxmkBUIoh0H3Mb3dF7PZ9zG6
+         fQdfMvXfEUEhs24KQSRgKRZ1hdkEnv09fEPLrh4Md+0Av9L6VWtwbAlO/JDk0eOVMZpv
+         Uzp1zEZigvYvtwWcfzQLhS/xyjzgnELJ8ftZ/9V+Rv/nxzvy+4EM8wmGEXDPYpHs0jc6
+         M1rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288442; x=1718893242;
+        d=1e100.net; s=20230601; t=1718288450; x=1718893250;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y9M7OdfAn87gVHZodnM3UOoBQqOD2MMZ35tBmJySbgk=;
-        b=U2RAKJ9PzGrGUJcafs+kYUCPv4mECfTFLdf1cDrZbPHbx5l/LWahJiZbS7CODUCFoi
-         96g9nW15oHq+YsPsafjuiDj+ekfUCrBb2FIo4nHYNyfjSu1QOYNBED4g2Tu5ov+fgjiT
-         yaZ+7PKiKMLAVaSP+oeiwNpkM7kf2JT7zoe8p+3BCUhub3b7Mm6kqq0BlXr6L6tJ97ZC
-         s68nmF7xbo+Eggof4MgYVYwcUtAGfFhPTXU+CrNVyuJcBjsq+kr/uqtprl+HWp4KThM1
-         /eqHPhDq78hWT+flHjQA0IEXY2pU8E4gU4SU8/4JzK5KffybgVhIBTYz9KPVhEgg0/kJ
-         ldFg==
-X-Gm-Message-State: AOJu0YyOfgf7alEJjiCgwqw7GHg7wgIzr6lrf5CFBdCK7ICms/MdZg9x
-	H/A1kVA10bpo+qyBaGKEj2fDhEvDs6iaWfXNMqST7kQJ/+fuhDs8A5DckZMRK3dJOfMoY4qgnUs
-	W
-X-Google-Smtp-Source: AGHT+IGrkuWz3NIMYlfMfovOb9h7LexIdqKvAbtW5Clk7mwgnku7aFHPM0/Mw0P05ulSiqLN6YooRQ==
-X-Received: by 2002:a05:6a20:728c:b0:1b4:772d:288a with SMTP id adf61e73a8af0-1b8a9ba7e8cmr6161484637.23.1718288442434;
-        Thu, 13 Jun 2024 07:20:42 -0700 (PDT)
+        bh=f2d5Fv2zhCe45b0vumu8v4PzSk8d9DfEpBFGq8y6R2c=;
+        b=OIl457P4CUuJozHlAnaB6Q2nogPAKnAhtJrTrwwdFLF8JEYn5r4w3wzq5cpoGFKGo7
+         ao1e2s470f86rWTFzn+Fo27TGj51eCgoMn+586c5u733KlYIIId49bf/LFUiowofmtgK
+         YZCKH3D6YdgbaNvTA6G4Nue0C8p5lw4s0AFulQwybDt/DqaF5eGCzWZ2s4K4Fx5jDRRn
+         SLI3VgrgDwTzqoP0U+oHuCO8tVPes76P8WpE/f3GQ6SqKhbJ02xDHpJOWYHoXs2Vj0nj
+         iuNxnhO2VgMkuhe4ypF35lXxU+3CZ/h8UxoEZLtPwAoosmh1fzZr022i08sJlRh2qw81
+         TkJQ==
+X-Gm-Message-State: AOJu0Yw13w1TFSpE52bLmn89nO/Ym+ADEvFeymaz5DM2dOMm3WCwlxb7
+	mQ3vdA+vvZltdgDryaL1gmXKjqXbY72UipsDLrTjRh7waoKgCy5BUQjzrsOrvWwDYf15xmBG7qb
+	d
+X-Google-Smtp-Source: AGHT+IELHlhC/bPOCgr0VGTdOlgracTRvP2xMqOAO8NFwFaMrNaZYAZ+wTzqRQs4YHOXYI8+h3aNNg==
+X-Received: by 2002:a17:902:d2c4:b0:1f7:13db:528c with SMTP id d9443c01a7336-1f83b56893emr60258845ad.13.1718288449628;
+        Thu, 13 Jun 2024 07:20:49 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:20:42 -0700 (PDT)
+        Thu, 13 Jun 2024 07:20:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/29] lttng-ust: upgrade 2.13.7 -> 2.13.8
-Date: Thu, 13 Jun 2024 07:20:07 -0700
-Message-Id: <a249a913f5f1d093e372be2e25f3e38d909d7ce4.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/29] oeqa/selftest/devtool: add test for modifying recipes using go.bbclass
+Date: Thu, 13 Jun 2024 07:20:12 -0700
+Message-Id: <71adf7c18215faf73454be79d7b51f2a0c338c0f.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -62,42 +62,55 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:20:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200605
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200610
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Ola x Nilsson <olani@axis.com>
 
-Changelog:
-============
-* Add close_range wrapper to liblttng-ust-fd.so
-* ust-tracepoint-event: Add static check of sequences length type
-* lttng-ust(3): Fix wrong len_type for sequence
-* Fix: libc wrapper: use initial-exec for malloc_nesting TLS
+go.bbclass uses a special do_unpack function that causes the git root
+to be different from S.  Verify that it unpacks as expected.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+[ YOCTO #15483 ]
+
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3dd02f741a151bcc1fe46e7fd6d585ca92c86c60)
+(cherry picked from commit fab0c737b95b8d0c0bbf58336bc308776c956406)
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lttng/{lttng-ust_2.13.7.bb => lttng-ust_2.13.8.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-ust_2.13.7.bb => lttng-ust_2.13.8.bb} (95%)
+ meta/lib/oeqa/selftest/cases/devtool.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb b/meta/recipes-kernel/lttng/lttng-ust_2.13.8.bb
-similarity index 95%
-rename from meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb
-rename to meta/recipes-kernel/lttng/lttng-ust_2.13.8.bb
-index 9509185bad..dddd3a5004 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.13.8.bb
-@@ -34,7 +34,7 @@ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://0001-Makefile.am-update-rpath-link.patch \
-            "
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 51949e3c93..cc4cbec5ae 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -749,6 +749,25 @@ class DevtoolModifyTests(DevtoolBase):
+         result = runCmd('devtool status')
+         self.assertNotIn('mdadm', result.output)
  
--SRC_URI[sha256sum] = "5fb4f17c307c8c1b79c68561e89be9562d07e7425bf40e728c4d66755342a5eb"
-+SRC_URI[sha256sum] = "d4ef98dab9a37ad4f524ccafdfd50af4f266039b528dd5afabce78e49024d937"
- 
- CVE_PRODUCT = "ust"
- 
++    def test_devtool_modify_go(self):
++        import oe.path
++        from tempfile import TemporaryDirectory
++        with TemporaryDirectory(prefix='devtoolqa') as tempdir:
++            self.track_for_cleanup(self.workspacedir)
++            self.add_command_to_tearDown('bitbake -c clean go-helloworld')
++            self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++            result = runCmd('devtool modify go-helloworld -x %s' % tempdir)
++            self.assertExists(
++                oe.path.join(tempdir, 'src', 'golang.org', 'x', 'example', 'go.mod'),
++                             'Extracted source could not be found'
++            )
++            self.assertExists(
++                oe.path.join(self.workspacedir, 'conf', 'layer.conf'),
++                'Workspace directory not created'
++            )
++            matches = glob.glob(oe.path.join(self.workspacedir, 'appends', 'go-helloworld_*.bbappend'))
++            self.assertTrue(matches, 'bbappend not created %s' % result.output)
++
+     def test_devtool_buildclean(self):
+         def assertFile(path, *paths):
+             f = os.path.join(path, *paths)
 -- 
 2.34.1
 
