@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8703DC2BA18
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:20:53 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.9963.1718288449415944902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 853D3C27C78
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:03 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.9977.1718288462760140815
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:20:49 -0700
+ Thu, 13 Jun 2024 07:21:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=R2I1vhSi;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f32a3b9491so10577995ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bg5mmivY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f44b5b9de6so9489095ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288449; x=1718893249; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288462; x=1718893262; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tYjPGVQ6122KAq/Vsn8njaLe5qFpJpX6th1YLqTFXck=;
-        b=R2I1vhSi0xNfmYdrJFcVHO1jJuyhMLLQLd4XXVCvtaMzTwofQCSdcPkFHQZNO9zidH
-         3wQB6PmD4J3ibdf7B+duIt9Fu096BtI3ldk1Hb6xRExOYPIkei3PU2OxdNMxP+E5csVd
-         GgFSVlFphwUcwbZnbT3umUQh6J/2Nhg90XYskcpqtz4Y2YcWYBo/UUK9DeNQnlrK06w/
-         vEiSLcwR1/JrSdrP6qgtZj/nZhKQ6/2ggYrIQNe5qgJd9+AyDUbLkLLyLrgOVuIJ+cem
-         Z5HFYh9lDOgnIwumKv6A/90BS1uv9L3STeeNJgwpbN65QHpQl+8mbwC7mMOjb+DmAerZ
-         ik9Q==
+        bh=6rESvianbuWka+O618C4vL6+3iu3Pv8TYaKWUw6mPcU=;
+        b=bg5mmivYnGhbcPjo4SqZGDs/bgAgFcF6RdAzBmsnPKlbJHMuc08fGTyFSWRrC2GFLB
+         OvX9zVkaWWUs2ir7yYIbRSkAtYk5WMhpNEytFEyOSqZBJlA6cUH5OmxUXSXzmJ606JS3
+         u6Z4I4sKipbbHI0BmXCCODDDtDSwfKl9zj+SpgJ+jOGqtYo6IQU5d6KJ4IBdKtqveNZs
+         S0OnkjhVzgEVoCPTrIfeeRdae3GNozi03CA/bo7SGvG2G73jiRR95E+qEvxAJv5exdIJ
+         kOzZ3hKYqLbsfcFne1mm2wwE9ZSOyi/SRpBGXjmcAJh6vKaLHCx6TmVNrFFiT4ke350K
+         kagQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288449; x=1718893249;
+        d=1e100.net; s=20230601; t=1718288462; x=1718893262;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tYjPGVQ6122KAq/Vsn8njaLe5qFpJpX6th1YLqTFXck=;
-        b=ZWHMjpCNaAt2KoWySpzEgpDD9jFtklETPFQ1iBKaGnoHLZSP7TKUjCUBp0bNEEgnYO
-         gVmjgjLLuBNQAIexWUpKNk+HlNv9eZO5EjUU3436DpApbZSHhm2/6ucgldbZ+LzXzjkR
-         AM4zgTr92cfLr8pBegrBTjermZIgqOcasHrCLg3zY4rZV/0PHyLw0AuWLW1RNYvjPc9f
-         Y8TfWl1w3E3jmFluubM/EejVkAn8PH6wNcVZI5ecia5UC+/NdIyKpPUI+Q2h9JZRS8J8
-         XxRZC7hErw9mJ+Y9Z746P2IRJQhSpDhgmnSLRuqq/k8aLjYqEzIXimlBQbR5malsQD0r
-         vhkQ==
-X-Gm-Message-State: AOJu0Yzv6mWVGQRk9tmrSzyHg+yF1Rj4kkDMCWweXXuHL6LLBn9f5ZN+
-	jyoCgjJXrQWYvlIH1DyWLl+4+as7MMSvch+QdrZocZUOJVK2spl19vE9Py87/WKcSdfn8mNWJuL
-	m
-X-Google-Smtp-Source: AGHT+IHwpP9/BKF2wI5fdx6lues/MAyYRMXcNv7E1rocJJtu5AO+Kqwj0PB5CwWmicf3tRZ4Dgmdpw==
-X-Received: by 2002:a17:902:d4d2:b0:1f3:dd7:ad42 with SMTP id d9443c01a7336-1f83b2456fdmr61162295ad.0.1718288448378;
-        Thu, 13 Jun 2024 07:20:48 -0700 (PDT)
+        bh=6rESvianbuWka+O618C4vL6+3iu3Pv8TYaKWUw6mPcU=;
+        b=StScLXD/HaPTdSiTcIIvboq5fL+jd8MU0M7JVl0eA/hVoAdaGvRoAVNHP++twO2Oj5
+         3HQuLRxfXpt6qVXAkPN0R81wHQBdmES7XYvs3j0yoTmQh+aq5n6j3GRn/yfmy6DF5jNp
+         v09GElQW3bSJUw2PBMpoDo96JMoH6jNofwPplo63/hzUwoRNQQNBl82TGx2Z/o/87dls
+         YC2WbMH1UMqCeudmGqH+2E5SXP346xdhGQhPB0Rvsvy3/28JJvYJWQin0L4so1mKCXAR
+         Q6TIRb32RnUimI+tNTbu5Q8udt7GRx4wcZWitZfcXQddLuz1vNMhYoL+pMRbYyKzH26e
+         HrzA==
+X-Gm-Message-State: AOJu0Yzenx55jPnPlTUywTm+KZkACfKK/P6vUXHuZdj4WrxnkbpJy3Ch
+	n8v5ucedA45iRaWglgfM2aEcC/QncDhSJ6OxLxJBMfRPH3Sy8a7bommouXHTvsI09JkbNbzI/N1
+	L
+X-Google-Smtp-Source: AGHT+IF9efGIhv/FGA3TC7CzI/LoMgDsPfLx9veAmo0QSDtmD2INf/IwVDNC+BxuZzt9zQIAb+ojpA==
+X-Received: by 2002:a17:902:f54f:b0:1f7:42de:e7e5 with SMTP id d9443c01a7336-1f83b6eaddamr55611935ad.45.1718288462056;
+        Thu, 13 Jun 2024 07:21:02 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:20:48 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/29] devtool: modify: Catch git submodule error for go code
-Date: Thu, 13 Jun 2024 07:20:11 -0700
-Message-Id: <1dc639353658496db5c5df802c0259e87fe2ca0f.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 16/29] apr: submit 0001-Add-option-to-disable-timed-dependant-tests.patch upstream
+Date: Thu, 13 Jun 2024 07:20:21 -0700
+Message-Id: <66fcd7e61607c2eaed58abfdff5a3197b5b564e6.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -61,50 +61,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:20:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200609
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200619
 
-From: Anton Almqvist <antonal@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-One of the git submodule commands failed for source extracted for
-recipes using go.bbclass.  The root cause is probably the path set up
-by go_do_unpack which makes S and gitroot not match.
-
-This patch does not fix the root problem, but at least it is no worse
-than before the git submodule support.
-
-The extracted source will still have two .git folders, one in S
-created by devtool and one in the go path which will contain the tru
-git history.
-
-[ YOCTO #15483 ]
-
-Signed-off-by: Anton Almqvist <antonal@axis.com>
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe242408af40dd1f6e47d9b2b232bdc76756c80a)
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+(cherry picked from commit 1bfe386e69d7a688815a78bd2d5766a4b0665e7f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/standard.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../apr/0001-Add-option-to-disable-timed-dependant-tests.patch  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 10d0cd3b7c..2beb058de8 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -893,7 +893,10 @@ def modify(args, config, basepath, workspace):
-                 (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_revs["."], cwd=srctree)
-                 commits["."] = stdout.split()
-                 check_commits = True
--                (stdout, _) = bb.process.run('git submodule --quiet foreach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=srctree)
-+                try:
-+                    (stdout, _) = bb.process.run('git submodule --quiet foreach --recursive  \'echo `git rev-parse devtool-base` $PWD\'', cwd=srctree)
-+                except bb.process.ExecutionError:
-+                    stdout = ""
-                 for line in stdout.splitlines():
-                     (rev, submodule_path) = line.split()
-                     submodule = os.path.relpath(submodule_path, srctree)
+diff --git a/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
+index a274f3a16e..b46dc76a86 100644
+--- a/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
++++ b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
+@@ -7,7 +7,7 @@ The disabled tests rely on timing to pass correctly. On a virtualized
+ system under heavy load, these tests randomly fail because they miss
+ a timer or other timing related issues.
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [https://github.com/apache/apr/pull/54]
+ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+ 
+ ---
 -- 
 2.34.1
 
