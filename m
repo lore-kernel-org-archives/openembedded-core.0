@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8CAAC27C4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1D3C27C75
 	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:13 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.9697.1718288469877867959
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.9982.1718288465639847964
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:21:09 -0700
+ Thu, 13 Jun 2024 07:21:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xK7ztDHL;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f32a3b9491so10580645ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qRCQ4bNi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f717608231so8690085ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288469; x=1718893269; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288465; x=1718893265; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YD/ikZ9hy+v93pU7O+nvvm31IDdBZAkNsY3kZSn/sjA=;
-        b=xK7ztDHLArkufGEITMhWP9sA7DpGE3OXS8HcfzUPuS+c5PvbLOuJCcuutUKwaZ6Wlp
-         Aq3vn5o/qDi25hCQupVzrdUPFmWvERy8ayv2mxltB0hXTGsb4n60g8M8LHloHg7A1WRt
-         fxO03mbmqmLMNvrJVR4gFiaAXjagPBAId5bhplkFISprLKxMb7fQMELxEIBFDAJkKLkN
-         Gn/X4KDBhLMV9W/TkoJ0iFmG6vg4RSbjk3J/FiKK6FPxhVPDQc+NqVjzfKWOB5mA2nKD
-         wOyPNC35iIFJn3KWiCJxWe8MLKfXvFJl5qDVRg9mgcPWkraW7UT4oVr31QS799hcjnkq
-         xFAA==
+        bh=U1jJfzYeZeAJSqufDhhIGpiiQi2CU2okxRAw3oEZ/Pw=;
+        b=qRCQ4bNijnZ6WZ2lkBKzT7MAh2QhnvIOwfbSyzYPkCCaF0qxPRdbZ6tmpodVSox3l+
+         RstCbxAHrwaSpZsW1rzYrwJDB6Y1PZMDFSNzF1XAXMTUrQrkj7elQ1PWiAfaEbLbeww3
+         8qbRl96wWp9LLiCH1p2ZBZnwl7kX/3cB4NNhPbyYYP+5stWd738ztbf9Bfi93pTKk6fr
+         IRDTo3UQcDyW5HoWIqgW7G/eWr9Bcr4NnTsct+aa1WnGIqf/WKATQQa4yWdaKL9r8zEM
+         MviVmykTUu9QBmmdQK8yuEwz7+HD/Ckzow1GR8T3fZdZWbqarThdqRMWEKlT9Rd37VGq
+         BKYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288469; x=1718893269;
+        d=1e100.net; s=20230601; t=1718288465; x=1718893265;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YD/ikZ9hy+v93pU7O+nvvm31IDdBZAkNsY3kZSn/sjA=;
-        b=lgnTpcQw+aOtgCZoyr3EpSbtqD886wzNwCns7hEtsMFHZffp+FK7/+QWCbxnUQMNl3
-         5OUwEvEafz0Pjgu2tU68fw6GqwPDngUMKfHoaUrRF6dwqc3bq6nXT7Jk6SIICxC5RK8t
-         WWW6tDKT5RmisONz2vR6KQ7RhBFRWaH+/KpO8dPjJxw2J77PMi82eEGpmk6c8mB2CzKB
-         t/mEyHaPvuNW5OWUidmSIhDgYszodUTpR9eylAglVvNhR+T7ItQysieWs/UHluZq7I84
-         3W9ySD1YKkRKrsKuzPmQ5B/XJ5Hd9okpkMmkGbQiHcW+FqLyvsNvxQf+wIXhf5jLP+zg
-         igsg==
-X-Gm-Message-State: AOJu0YzPuXyhygE4UL/WUVYjHsm1Y3Ka3umSIcaIl4W5RPRSd3m/LTEt
-	0liwzW5j+rVkV8bJpXe9lLgmkMzS2XlBicXdNyGfI/mpLsiqoauyv8zi9Et3EJXHLBcpOb9AK34
-	E
-X-Google-Smtp-Source: AGHT+IFh4RenBTO9RDopPDmM2jTppmBq7L7IIVxGB7nyqU9+zlifUlOq7aBXRbjRGhsYEfr+vqHK8A==
-X-Received: by 2002:a17:902:d507:b0:1f5:e635:21fc with SMTP id d9443c01a7336-1f83b5e5720mr56160005ad.21.1718288468941;
-        Thu, 13 Jun 2024 07:21:08 -0700 (PDT)
+        bh=U1jJfzYeZeAJSqufDhhIGpiiQi2CU2okxRAw3oEZ/Pw=;
+        b=jJsmcmXfjq1DOjmaBvglp7s5PcWbDG8Q9+grzgWmeOLTjwdveBLzbivhYCBdzWKE91
+         DztgegFyvKsOxT7gEI3Lsx8nNRv81JPPQ/8pTxdkOTRbHhWFi98cr38YKW2tVcXrzDxV
+         XNILB6L1o4RR/sU2CcnEhd+VtYLcqiRpH1U6wM7pv5s+fnv2YiKr7Yq67lbbBbq5Ka+8
+         H0S4wcD5eFcWZOfwF/BPHcednC7jlnDM28QvxTPIycaedXF+zl94/djR3dR0zJo/ELdg
+         N4B/fVsq/oWUOacaUWh30tDi/IPC6JNK+P7/T+YnZ4mpiiPgiwDw7J4fI2SZNKUaRtMF
+         4m8A==
+X-Gm-Message-State: AOJu0YyTA8B2PC8v1wYuGodSU5c92HzPcxReD3u8blnSw6z0egilnjDS
+	gSRFCn4y0hP2s3GWmoywjhOvkZJivRyj6Zo+zdtYznt1Xv+Rq5oSqPI3n4ZLFcE5AB8nQ393NSn
+	R
+X-Google-Smtp-Source: AGHT+IEgvJci4+YpaOmEjzZlHa1yb6F0twtTyZaFVGxPOXdXGHSJlO4PFEmIRuo1Nj0qJvhks2SdXQ==
+X-Received: by 2002:a17:902:e84d:b0:1f7:1821:77b2 with SMTP id d9443c01a7336-1f83b56bf1dmr60964155ad.9.1718288464804;
+        Thu, 13 Jun 2024 07:21:04 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.08
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:21:08 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 21/29] ppp: Add RSA-MD in LICENSE
-Date: Thu, 13 Jun 2024 07:20:26 -0700
-Message-Id: <5feddad534ecf97279dfe5ec076aa3ed2eec6456.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 18/29] xinput-calibrator: mark upstream as inactive in a patch
+Date: Thu, 13 Jun 2024 07:20:23 -0700
+Message-Id: <58eed3438981e594daa076193e6af0f9e0cad014.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -62,36 +62,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200624
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200621
 
-From: Poonam Jadhav <ppjadhav456@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-ppp package has "RSA Data Security" license text in
-Message-Digest Algorithm source file ppp-md5.c and ppp-md4.c
-Add RSA-MD in LICENSE field for ppp package
-
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9c58193c898b0ea28c3931a57dca5bb829a44051)
+(cherry picked from commit 959591615d18f636768671e1e14e5945a6cbb010)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/ppp/ppp_2.5.0.bb | 2 +-
+ .../Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.0.bb b/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
-index 4b052f8ed9..5f0c75de83 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.5.0.bb
-@@ -5,7 +5,7 @@ SECTION = "console/network"
- HOMEPAGE = "http://samba.org/ppp/"
- BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
- DEPENDS = "libpcap openssl virtual/crypt"
--LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD"
-+LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD & RSA-MD"
- LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77d87dc9c290a424dea \
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch
+index 86982924a8..de0862599d 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch
+@@ -1,4 +1,4 @@
+-Upstream-Status: Pending
++Upstream-Status: Inactive-Upstream [last commits over a decade ago]
+ 
+ From 14734a93bd3fc323325459e24b04795422e395e6 Mon Sep 17 00:00:00 2001
+ From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 -- 
 2.34.1
 
