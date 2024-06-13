@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8805C27C4F
-	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:03 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.9686.1718288457357800805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB64BC41513
+	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:21:13 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.9699.1718288472354349085
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:20:57 -0700
+ Thu, 13 Jun 2024 07:21:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NBi6eG8i;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f44b45d6abso9009405ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rDZtcUAB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f44b45d6abso9011495ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288456; x=1718893256; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288472; x=1718893272; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1lCsUZXzz1wPpOZB4v1wxAhFmq5JTCqqow3OSFMxSho=;
-        b=NBi6eG8iFzoN3bFaXWbSvbzPDk6MvByLzlsEJ7ukmrQaC8uedEHFtsSwVaE6ZT2Nqn
-         s0i/S7UwTjz5+rpwyzwK4qjw7j0CKoZTrFvDy/SkqcJW0nVdmNI61psl/h90sjmGaizG
-         Jx4Sdj4aGGDSp+1cHQtwHSsOGGoK10SJQlOReWah7eycCsYZr/BlF6GgU4OLyZ/kUYwR
-         pzpswSZfol8ZE55gf1lc+gMsRoI8NhZoeG0+AGlwSyFbs6PJ1lGPXZzRQ6K3UE3ENSPR
-         rxazOm+iPaJl+FyUfkT/MpSBheM2UqWHD3xnwqQlkr6yk+d4T3Pfp121rPsDoe83obX+
-         qwRA==
+        bh=6P6XvgOi1TYuoDce/PrilLLiYx+f3lS8ltolGJCycF4=;
+        b=rDZtcUABLiaHC/xuSDgqc2MNWu4JaQRaBHl2+ydXrGLGze3kKbtOks8gl5WTBDAOXG
+         js575+QRE2adEmBFe8vz+iv9vsQoHuIwhDnwZRJ0o9bLBOaRLpU1s/60Bg8LPZLDlU/x
+         gIg7lUnoR4WGf9zn6GwIoZOOijTNaksMre8smIiPRvUAdP2dcNqaKNFd5ySNyFpMSPY4
+         /k3uLPEtrNA4EKm+Wn6PWgPBAcSoNFpJOWkT7Ru2GGyvXWA04fs+VjCDtG3dIFAbzEao
+         jlEBSR+L+TqBbtfSIXVT5Z3+VdafAqIq7aFBGcDU6z7Ba750Lh9V7GdbtgJm4RGm9dWq
+         bYBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288456; x=1718893256;
+        d=1e100.net; s=20230601; t=1718288472; x=1718893272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1lCsUZXzz1wPpOZB4v1wxAhFmq5JTCqqow3OSFMxSho=;
-        b=fwzTfmqaVkIihDmk8WYQKg+LA/eVuAJzpH2grY9QcWbaJeToAi9WJrhj8pDnviv2r3
-         vvIS6Oy8nULuiYjux1qxtQACXy71A3HDDN9OlQQB1YMtIGtMswxEcocvrRtZnnBv9isH
-         vsnaEnqNl52Sj5CH44DkiVwF1X5Pw4pyvIEVF4HTSl6diNMc3Lf/RsvKEKtNxWC/BrUE
-         1GS/R5DDKV1DYp1AIIykt3MTYoWd7xZXJ9p0bRWQZAksPhuT28ZrgDyym0I70YVt9XFu
-         k8VTFWCmMUbNL9VlqTukL8mrON5BROFZBjoJHNOdY/DmkjlLNdSrzdVMWEKo9330bHTf
-         WA5g==
-X-Gm-Message-State: AOJu0YyMp00Xe8zQMWjFsawUY7DXczEU+kLV1hJZaz3nGXq8RvNIpstk
-	NbT/EE61jhOamugv1PeWe/YDRkhHg9MDOEsMJ17nXhmryhc2dPqOZQsl06yu/XrbnpKBAnBRHfn
-	Y
-X-Google-Smtp-Source: AGHT+IHDDoAExFhDdZGT74i2LOfhJqH19YaT8M9vTtW7LU0KDblzJWLIp2QE36rfMRNA9yQJrLfVIw==
-X-Received: by 2002:a17:902:dac7:b0:1f7:2c0c:4218 with SMTP id d9443c01a7336-1f83b7e575bmr50546145ad.62.1718288456468;
-        Thu, 13 Jun 2024 07:20:56 -0700 (PDT)
+        bh=6P6XvgOi1TYuoDce/PrilLLiYx+f3lS8ltolGJCycF4=;
+        b=K1Ief8CV0IZuZXr0bnf/PJYQT68ygchltgSYPRNoiBeQpBfEoSBbfw4TwpANV6Anrx
+         yj5NKPu6AAaQyaFOjgENXJkGN8ajEh1lJj7VM/3ckTq7XpthIwtuWan57P3zxj8g4gtg
+         JiUh6qYAQLk1iTybeb1h1UvXxWncVc+XcyZt/4TUDBy/bu4ukpM6TN1Mr2ylGSc9e0Ko
+         72muOlsrrwcJ0O8kQn4L7Fgc9bL3xyPUL3KrT1ceLUyf8YkYm2q5ZHqicqU7SOZVYh+5
+         3xPf/2GYU8rIj4/HAoqekE1YTkM0BuBpxYAVgRW5Ra1H18deKswJVDwkHrptPHvZiebE
+         +Qrg==
+X-Gm-Message-State: AOJu0YzjRlzc1tIRdzsB102PeMdoyjODGOrZwBxgC4QuBTt/isXeE8/0
+	paNK2K+8cNbcakEP6YL6ji8QKJs+3Dxb1FMRq6YDD2hwsycWWdCCv4QAl/aDPhY4WCRcp9Vg6SW
+	O
+X-Google-Smtp-Source: AGHT+IEV+e0d9Pv4ucZ0IFEYAt7IlbTb6xV2pdKobVhFxUGolp+7XhP92HDNyw7VHGuVTH18a483kQ==
+X-Received: by 2002:a17:902:f54f:b0:1f7:82b:903c with SMTP id d9443c01a7336-1f83b6f650emr58043925ad.32.1718288471627;
+        Thu, 13 Jun 2024 07:21:11 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.21.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:20:56 -0700 (PDT)
+        Thu, 13 Jun 2024 07:21:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/29] devtool: sync: Fix Execution error
-Date: Thu, 13 Jun 2024 07:20:17 -0700
-Message-Id: <ee712c8b3c32fedd6af0521d2e34ea655f8cd5ca.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 23/29] kernel.bbclass: check, if directory exists before removing empty module directory
+Date: Thu, 13 Jun 2024 07:20:28 -0700
+Message-Id: <63856721cab409ae0598cfbff4fcf55c90bfd7e7.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -61,56 +61,38 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200615
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:21:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200626
 
-From: Vincent Kriek <vincent@coelebs.dev>
+From: Heiko <heiko.thole@entwicklung.eq-3.de>
 
-When executing devtool sync on a recipe that was extract with devtool
-extract earlier the following error occured:
+If the kernel folder does not exist, find will result in an error.
+This can occur if the kernel has no modules but, for example, custom modules are created.
 
-    Traceback (most recent call last):
-    [...]
-    bb.process.ExecutionError: Execution of 'git fetch file:///home/vin/projects/poky/build/tmp/work/all-poky-linux/netbase/6.4/devtooltmp-figt1jmr/workdir/netbase devtool:devtool' failed with exit code 128:
-    fatal: refusing to fetch into branch 'refs/heads/devtool' checked out at '/home/vin/projects/poky/build/netbase-src'
+Add check before deleting.
 
-Fix this by adding --update-head-ok and --force to git fetch so it will
-override the current head even if it is checked out and has changes.
-Possible existing changes in the devtool branch can be retrieved by
-checking out the devtool.bak branch
-
-Signed-off-by: Vincent Kriek <vincent@coelebs.dev>
+Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 4c89b061003a0f4143c6d3838e39fc2643edc8d6)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7ef767d84d56b25498e45db83bb8f9d9caebeaf9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/standard.py | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes-recipe/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 2beb058de8..05161942b7 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -661,7 +661,18 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-         srctree_localdir = os.path.join(srctree, 'oe-local-files')
- 
-         if sync:
--            bb.process.run('git fetch file://' + srcsubdir + ' ' + devbranch + ':' + devbranch, cwd=srctree)
-+            try:
-+                logger.info('Backing up current %s branch as branch: %s.bak' % (devbranch, devbranch))
-+                bb.process.run('git branch -f ' + devbranch + '.bak', cwd=srctree)
-+
-+                # Use git fetch to update the source with the current recipe
-+                # To be able to update the currently checked out branch with
-+                # possibly new history (no fast-forward) git needs to be told
-+                # that's ok
-+                logger.info('Syncing source files including patches to git branch: %s' % devbranch)
-+                bb.process.run('git fetch --update-head-ok --force file://' + srcsubdir + ' ' + devbranch + ':' + devbranch, cwd=srctree)
-+            except bb.process.ExecutionError as e:
-+                raise DevtoolError("Error when syncing source files to local checkout: %s" % str(e))
- 
-             # Move the oe-local-files directory to srctree.
-             # As oe-local-files is not part of the constructed git tree,
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index b084d6d69d..c0a2056fec 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -463,7 +463,7 @@ kernel_do_install() {
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
+ 		# Remove empty module directories to prevent QA issues
+-		find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
++		[ -d "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" ] && find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
+ 	else
+ 		bbnote "no modules to install"
+ 	fi
 -- 
 2.34.1
 
