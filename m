@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 684DCC2BA16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FA1C2BA15
 	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:20:53 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.9677.1718288446500960956
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.9674.1718288444799021978
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:20:46 -0700
+ Thu, 13 Jun 2024 07:20:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=22JUsJfl;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f65a3abd01so9940335ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dtaxknjB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f480624d10so9417645ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288446; x=1718893246; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288444; x=1718893244; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qYBxI1mLPp1NB5ZcBioeN9K7ufnU2uGItuqpqkN+5Oo=;
-        b=22JUsJfla8jGQf3g6T/UL1yt96MwHi+Fa3x48Psy9LFQW98ikwnMMkYhvToPyLuJLs
-         A9R8asVvp0lDTKguqyc8PITwO6dOAyC+t1o+cZAWXwXwJVcgz1E+1imzfgLuKY60jkwG
-         33OvuuxbBYNc4MnDIIFqwXIJqfFO23vLyFrFMByknfNhUL3PalcHwtmZ03IuTMkSXTQi
-         MKljHsR1/ax1K1Di2u9vqWHlSPBR/RzrQZ5HZtCrqsUOvdfB77Fpai87fgWRzyq4tqbA
-         /Iho0zYZINYu/BL+1fi/RP4sz02cw2WlIndmmA3zRBFBFAXs9vw6G6zdPNlXzCVtXi11
-         OueQ==
+        bh=0kc2aRj56NOKWYLKnmAwzJ6XY3CYGAzhMC9pO1ImqvE=;
+        b=dtaxknjBnwKMX+T3Zp53tEuZVFgnTiO2b7LOxZYFKxOix2cmw5o2pSyF/N0i0Sjydi
+         KHoxYmzCbF3cYuliuPKp0TE7irGSMdMYqZCGTa7kOvy5LQAFJW3z8Dv5tbE//h5kpdQ6
+         ICotS10N4ffRnJBhGvWLDXurHAEJcgGgFUnrbJbPpt9XGFKQBAQzkY+PuEAZ31idl8C9
+         R3c9NG/jF54NjYnyDzQQixL91m1Qlij7LG2ETzGJclh25ikwOXikehwAd3NAxbzdnI7U
+         +usTnHAYrigS9dxmaUS/2rWcexoZ00bvz/7OrlLDeztc0/zDcIB60YrfeJcM8ZBamk5M
+         gQ3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288446; x=1718893246;
+        d=1e100.net; s=20230601; t=1718288444; x=1718893244;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qYBxI1mLPp1NB5ZcBioeN9K7ufnU2uGItuqpqkN+5Oo=;
-        b=hq7QpZ/6+c4IdQD02kXTtsoPIQiXsSl/MRJc3xe05RVMqT7RRzHm6wFzBL/+dtJSnJ
-         23x/2uSpZCoJm9N9nT14qHmkUpnlJzCuMPCPpQRJcg1ORvWB0AcAxtWnvanrsyaU65iB
-         i+YhZRe3mX78XYvcxGOWa/Sib0LmuEGWdjxNX5aEJkitUiem9b9jKjkYAzQTdsw2RK4x
-         05T6KI/rWhDwaq5mkTIMpny5VqLeahNF8341tMaJRx/SOPGQwcSEw6sFTkP7eNpbaRVV
-         Bt89Qxtb9hT/zmp+ri83ExdH1ZJFcckwVzlt8pg5mU8BVI63+Ka3TcSRYp8u7i0c5bk2
-         zmAw==
-X-Gm-Message-State: AOJu0YwJmtr8/7ApjRP9biel3f+GyGvP/MTXNmZnlcHpV1oNY/raHADz
-	pJQAk3TAQ3weLhqx5ZrTidk0YoHOvkOxouSqtspmDHRGPcmdaSyWnbHm6kji/PpxxgM+2VadO0V
-	a
-X-Google-Smtp-Source: AGHT+IEmsy+cVBruJexWDt1xdlv7XF5Z5vx1+M1ttBYPopGoxHAQx11uMs1XSautEEjcApqCyiRh2A==
-X-Received: by 2002:a17:903:32cd:b0:1f6:9181:47ac with SMTP id d9443c01a7336-1f83b5686e8mr67847475ad.1.1718288445776;
-        Thu, 13 Jun 2024 07:20:45 -0700 (PDT)
+        bh=0kc2aRj56NOKWYLKnmAwzJ6XY3CYGAzhMC9pO1ImqvE=;
+        b=G/Iz2fyzB4nKCjRFcInNTJHcjiIbyjQtWMnyirosNxwUvfbSiCvB29ZaQqQGXkAHGq
+         nFMk0vNhUylcZGi5yK42vJ/Kk1QboleO+PsYzlAFTYDgxLwuUQDffW8/4pvmDp1N+oL8
+         oDkWTvkSOS3wcwiOo2SSlatymN0xzjGleoQy8Qd9MKxK3ZGB88uRf+pwZ6aTJRb+JYxZ
+         8wARFwyjtwE5crjPqW+OGFt12lFCxGGb042AfXP210mmVj8sMJpZ4bZd4lfaP6zJjX63
+         M1WRT6thV7SsEmrQBB0vJaMLA9K1OUkZ9dgng9/gkF4mkHe2RXokr9WuN3fofN5nD6ii
+         jsZw==
+X-Gm-Message-State: AOJu0YweqeLDkXPJXmSB2F2aaJWWv8RjXq+oaCEInZbFxr8pyVuWbJ1E
+	i5XEzrps2Z2tMv8wl0eZQ2aCOcbhlj46LZuzgbe92NdUesKOUQpl3BKanOvuyypRkmsoPu5fbi+
+	Z
+X-Google-Smtp-Source: AGHT+IHtqqedhH657rJJJWTcVbymGMAtFy3ygBVGHAljIeApZcgq03vBWLstjMUU059DMza08eHlig==
+X-Received: by 2002:a17:902:64c9:b0:1f6:62cd:2c8e with SMTP id d9443c01a7336-1f83b74b8fbmr42757615ad.58.1718288444076;
+        Thu, 13 Jun 2024 07:20:44 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:20:45 -0700 (PDT)
+        Thu, 13 Jun 2024 07:20:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/29] mesa: upgrade 24.0.3 -> 24.0.5
-Date: Thu, 13 Jun 2024 07:20:09 -0700
-Message-Id: <98246b4de12d619f188bb38ecd0255ae1cb03ea7.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 03/29] taglib: upgrade 2.0 -> 2.0.1
+Date: Thu, 13 Jun 2024 07:20:08 -0700
+Message-Id: <0f4f4bc352589c475afcc16a4e375cd6fc4726e6.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -62,47 +62,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:20:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200607
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200606
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
- https://docs.mesa3d.org/relnotes/24.0.5.html
+===========
+* Fix aborting when _GLIBCXX_ASSERTIONS are enabled.
+* Fall back to utf8cpp header detection in the case that its CMake
+  configuration is removed.
+* Improve compatibility with the SWIG interface compiler.
+* Build system fixes for testing without bindings, Emscripten and Illumos.
+* C bindings: Fix setting UTF-8 encoded property values.
+* Windows: Fix opening long paths.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5933d099c339596f62e1237d4e738dbe9f386b10)
+(cherry picked from commit d3438bd2698dff19722123d7b2b5674ba40107eb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mesa/{mesa-gl_24.0.3.bb => mesa-gl_24.0.5.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_24.0.3.bb => mesa_24.0.5.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_24.0.3.bb => mesa-gl_24.0.5.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_24.0.3.bb => mesa_24.0.5.bb} (100%)
+ meta/recipes-support/taglib/{taglib_2.0.bb => taglib_2.0.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/taglib/{taglib_2.0.bb => taglib_2.0.1.bb} (95%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.3.bb b/meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_24.0.3.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 1c9fa66c72..77e9c80fcb 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
- "
+diff --git a/meta/recipes-support/taglib/taglib_2.0.bb b/meta/recipes-support/taglib/taglib_2.0.1.bb
+similarity index 95%
+rename from meta/recipes-support/taglib/taglib_2.0.bb
+rename to meta/recipes-support/taglib/taglib_2.0.1.bb
+index 4bf9be15ae..14f99aabbc 100644
+--- a/meta/recipes-support/taglib/taglib_2.0.bb
++++ b/meta/recipes-support/taglib/taglib_2.0.1.bb
+@@ -11,7 +11,7 @@ DEPENDS = "zlib utfcpp"
  
--SRC_URI[sha256sum] = "77aec9a2a37b7d3596ea1640b3cc53d0b5d9b3b52abed89de07e3717e91bfdbe"
-+SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
+ SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[sha256sum] = "e36ea877a6370810b97d84cf8f72b1e4ed205149ab3ac8232d44c850f38a2859"
++SRC_URI[sha256sum] = "08c0a27b96aa5c4e23060fe0b6f93102ee9091a9385257b9d0ddcf467de0d925"
  
-diff --git a/meta/recipes-graphics/mesa/mesa_24.0.3.bb b/meta/recipes-graphics/mesa/mesa_24.0.5.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_24.0.3.bb
-rename to meta/recipes-graphics/mesa/mesa_24.0.5.bb
+ UPSTREAM_CHECK_URI = "https://taglib.org/"
+ UPSTREAM_CHECK_REGEX = "taglib-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.34.1
 
