@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 681E5C27C78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55097C27C4F
 	for <webhook@archiver.kernel.org>; Thu, 13 Jun 2024 14:20:53 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.9965.1718288450355784517
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.9679.1718288448624801759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jun 2024 07:20:50 -0700
+ Thu, 13 Jun 2024 07:20:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z75Fvc03;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f65a3abd01so9940995ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ReyakETO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f70c457823so9046285ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 07:20:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288449; x=1718893249; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718288447; x=1718893247; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f2d5Fv2zhCe45b0vumu8v4PzSk8d9DfEpBFGq8y6R2c=;
-        b=z75Fvc03KMhuJF665YnjKILibOHJTU3eZBaS/77Erv7h6Dwtf/hPJsHqV8/4z7g3cN
-         tYiqUd/LWvlQAtiTT8CKdKYVkdU7heVeMhZP9GKlRxLpJljZbG0HQioWc2zjLuXZh06b
-         DKlh4OMfnRW5fCSKnAjgdJgtRSMjJIKb0RBBT6o4U4XKhxmkBUIoh0H3Mb3dF7PZ9zG6
-         fQdfMvXfEUEhs24KQSRgKRZ1hdkEnv09fEPLrh4Md+0Av9L6VWtwbAlO/JDk0eOVMZpv
-         Uzp1zEZigvYvtwWcfzQLhS/xyjzgnELJ8ftZ/9V+Rv/nxzvy+4EM8wmGEXDPYpHs0jc6
-         M1rw==
+        bh=GL4lKZm8E/b212henmNwlcd2elRv57d4M5Ny8tt7apA=;
+        b=ReyakETOcSIApsdIXkNpyyQaH6VTHCx0Y2gTNSGGNEYzDgI41qa+WQmGjVC059z1lk
+         V3ifvxrfpdvWfa4XHwj+yBD1Bx+XiqSR9ta8jHxzkzaWvO+pdOvbAqFsn2fFG/5fJDvt
+         fH+0uZFQutIZrUlZqKdU6mPxzP2GssYSieLUjE3suyGHYYi4YogA0BnrzRD254JBhDoL
+         TfbLCiLxxD4FtESwY31nJLAC+1vpcCjKDPCJo1jYJPLr+OMtzPhP9VoIJdYTEIPDkhBt
+         j655UBiv1fvvWTp65WH5rjuUXRjCL9f2HZe/7lS4maow7SDRgheNV6AJbK4TNdjknVlu
+         CB4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718288450; x=1718893250;
+        d=1e100.net; s=20230601; t=1718288447; x=1718893247;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f2d5Fv2zhCe45b0vumu8v4PzSk8d9DfEpBFGq8y6R2c=;
-        b=OIl457P4CUuJozHlAnaB6Q2nogPAKnAhtJrTrwwdFLF8JEYn5r4w3wzq5cpoGFKGo7
-         ao1e2s470f86rWTFzn+Fo27TGj51eCgoMn+586c5u733KlYIIId49bf/LFUiowofmtgK
-         YZCKH3D6YdgbaNvTA6G4Nue0C8p5lw4s0AFulQwybDt/DqaF5eGCzWZ2s4K4Fx5jDRRn
-         SLI3VgrgDwTzqoP0U+oHuCO8tVPes76P8WpE/f3GQ6SqKhbJ02xDHpJOWYHoXs2Vj0nj
-         iuNxnhO2VgMkuhe4ypF35lXxU+3CZ/h8UxoEZLtPwAoosmh1fzZr022i08sJlRh2qw81
-         TkJQ==
-X-Gm-Message-State: AOJu0Yw13w1TFSpE52bLmn89nO/Ym+ADEvFeymaz5DM2dOMm3WCwlxb7
-	mQ3vdA+vvZltdgDryaL1gmXKjqXbY72UipsDLrTjRh7waoKgCy5BUQjzrsOrvWwDYf15xmBG7qb
-	d
-X-Google-Smtp-Source: AGHT+IELHlhC/bPOCgr0VGTdOlgracTRvP2xMqOAO8NFwFaMrNaZYAZ+wTzqRQs4YHOXYI8+h3aNNg==
-X-Received: by 2002:a17:902:d2c4:b0:1f7:13db:528c with SMTP id d9443c01a7336-1f83b56893emr60258845ad.13.1718288449628;
-        Thu, 13 Jun 2024 07:20:49 -0700 (PDT)
+        bh=GL4lKZm8E/b212henmNwlcd2elRv57d4M5Ny8tt7apA=;
+        b=EHDMMXHIybpM3El8ITme7UCqaXpsSt5WNa0rJXk1v76fwCOTKKaLfxjYKdmnex/H7d
+         snUrnPUibs01git6tnrXXvfKEHU6TxsogzB5lrIa9a/dnK2LR0rpoMs+vs6dZNjGWH8f
+         chWr+FnTgvG2IA1ehYVV367QGu3eWAwm8gVJP3ookvLlK56nGHdRBvq4KsO+Fo6B3BdW
+         vJGew19P2UFlfoGYzBDh1NueDzllxjnN9iPZZnbu0OYK0x6aXq8PyfSH6vb8TosIDKYv
+         1EUU+xdLoVjrY8CvszW42eVQF2F4hwEXezVCQXHMixnAg8tgarMKT8GERh0isOWi+PTh
+         CaLg==
+X-Gm-Message-State: AOJu0YyehXVe1l5Y6oT/w/knB/cBNHGLvmZa5p0cQWP/TrZ36fE7qIel
+	H1WmXQXBg7K3yaI77iJEE3JrBnjO8J6nwlSxFr82vLvLfpT/nIUFn/y50f/sDQIrCRuY2cgU4ha
+	k
+X-Google-Smtp-Source: AGHT+IGIVUGB/Trby+RP+96/vlqWDzdQ7e2JXfnhqscsxMrvEy5LhVILe0bBo7Ke4vLQFCpISb66YA==
+X-Received: by 2002:a17:902:d4ca:b0:1f6:e8ee:54b7 with SMTP id d9443c01a7336-1f83b5e8a6cmr54322095ad.20.1718288447028;
+        Thu, 13 Jun 2024 07:20:47 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e5b0dfsm14414665ad.29.2024.06.13.07.20.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 07:20:49 -0700 (PDT)
+        Thu, 13 Jun 2024 07:20:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/29] oeqa/selftest/devtool: add test for modifying recipes using go.bbclass
-Date: Thu, 13 Jun 2024 07:20:12 -0700
-Message-Id: <71adf7c18215faf73454be79d7b51f2a0c338c0f.1718288230.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/29] procps: fix build with new glibc but old kernel headers
+Date: Thu, 13 Jun 2024 07:20:10 -0700
+Message-Id: <aaced482585fa32d2eadeeb3eb692b3c55666a2a.1718288230.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718288230.git.steve@sakoman.com>
 References: <cover.1718288230.git.steve@sakoman.com>
@@ -62,55 +62,82 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Jun 2024 14:20:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200610
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200608
 
-From: Ola x Nilsson <olani@axis.com>
+From: Ross Burton <ross.burton@arm.com>
 
-go.bbclass uses a special do_unpack function that causes the git root
-to be different from S.  Verify that it unpacks as expected.
+If you're building procps with a newer glibc (with pidfd_open()) but
+older kernel headers (say 4.x, before __NR_pidfd_open) then procps will
+fail to build because of a typo in configure.ac.
 
-[ YOCTO #15483 ]
-
-Signed-off-by: Ola x Nilsson <olani@axis.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fab0c737b95b8d0c0bbf58336bc308776c956406)
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ .../procps/procps/pidfd.patch                 | 42 +++++++++++++++++++
+ meta/recipes-extended/procps/procps_4.0.4.bb  |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/pidfd.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 51949e3c93..cc4cbec5ae 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -749,6 +749,25 @@ class DevtoolModifyTests(DevtoolBase):
-         result = runCmd('devtool status')
-         self.assertNotIn('mdadm', result.output)
- 
-+    def test_devtool_modify_go(self):
-+        import oe.path
-+        from tempfile import TemporaryDirectory
-+        with TemporaryDirectory(prefix='devtoolqa') as tempdir:
-+            self.track_for_cleanup(self.workspacedir)
-+            self.add_command_to_tearDown('bitbake -c clean go-helloworld')
-+            self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+            result = runCmd('devtool modify go-helloworld -x %s' % tempdir)
-+            self.assertExists(
-+                oe.path.join(tempdir, 'src', 'golang.org', 'x', 'example', 'go.mod'),
-+                             'Extracted source could not be found'
-+            )
-+            self.assertExists(
-+                oe.path.join(self.workspacedir, 'conf', 'layer.conf'),
-+                'Workspace directory not created'
-+            )
-+            matches = glob.glob(oe.path.join(self.workspacedir, 'appends', 'go-helloworld_*.bbappend'))
-+            self.assertTrue(matches, 'bbappend not created %s' % result.output)
+diff --git a/meta/recipes-extended/procps/procps/pidfd.patch b/meta/recipes-extended/procps/procps/pidfd.patch
+new file mode 100644
+index 0000000000..23d1a3cd3e
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/pidfd.patch
+@@ -0,0 +1,42 @@
++From c8f625e085b8249cc009e8b19c3a19100217eb35 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Thu, 25 Apr 2024 13:33:15 +0000
++Subject: [PATCH] Fix pidfd_open detection
 +
-     def test_devtool_buildclean(self):
-         def assertFile(path, *paths):
-             f = os.path.join(path, *paths)
++This check for pidfd_open uses AC_CHECK_FUNC which just runs the specified code, but 
++src/pgrep.c checks HAVE_PIDFD_OPEN which will only be defined by AC_CHECK_FUNCS.
++
++Also pidfd_open is defined in sys/pidfd.h so that needs including.
++
++Upstream-Status: Submitted [https://gitlab.com/procps-ng/procps/-/merge_requests/229]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++
++diff --git a/configure.ac b/configure.ac
++index fec27e3f..024731c7 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -170,7 +170,7 @@ AC_TRY_COMPILE([#include <errno.h>],
++ 		AC_MSG_RESULT(yes),
++ 		AC_MSG_RESULT(no))
++ 
++-AC_CHECK_FUNC([pidfd_open], [enable_pidwait=yes], [
+++AC_CHECK_FUNCS([pidfd_open], [enable_pidwait=yes], [
++   AC_MSG_CHECKING([for __NR_pidfd_open])
++   AC_COMPILE_IFELSE([AC_LANG_SOURCE([
++ #include <sys/syscall.h>
++diff --git a/src/pgrep.c b/src/pgrep.c
++index d8e57dff..c5211aec 100644
++--- a/src/pgrep.c
+++++ b/src/pgrep.c
++@@ -44,7 +44,9 @@
++
++ #ifdef ENABLE_PIDWAIT
++ #include <sys/epoll.h>
++-#ifndef HAVE_PIDFD_OPEN
+++#ifdef HAVE_PIDFD_OPEN
+++#include <sys/pidfd.h>
+++#else
++ #include <sys/syscall.h>
++ #endif /* !HAVE_PIDFD_OPEN */
++ #endif
+diff --git a/meta/recipes-extended/procps/procps_4.0.4.bb b/meta/recipes-extended/procps/procps_4.0.4.bb
+index 800384f22f..ec8c4b0261 100644
+--- a/meta/recipes-extended/procps/procps_4.0.4.bb
++++ b/meta/recipes-extended/procps/procps_4.0.4.bb
+@@ -14,6 +14,7 @@ inherit autotools gettext pkgconfig update-alternatives
+ 
+ SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master \
+            file://sysctl.conf \
++           file://pidfd.patch \
+            "
+ SRCREV = "4ddcef2fd843170c8e2d59a83042978f41037a2b"
+ 
 -- 
 2.34.1
 
