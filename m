@@ -1,67 +1,87 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D966C27C6E
-	for <webhook@archiver.kernel.org>; Fri, 14 Jun 2024 15:44:40 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.15088.1718379879275980840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4D4C27C6E
+	for <webhook@archiver.kernel.org>; Fri, 14 Jun 2024 19:03:31 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.2101.1718391806264359273
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jun 2024 08:44:39 -0700
+ Fri, 14 Jun 2024 12:03:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dLP++YKp;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 07BCB240007;
-	Fri, 14 Jun 2024 15:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718379877;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/pnYa36cUOO9rt3t3QIMMyUriosi8azjMZD8/UFLVaA=;
-	b=dLP++YKpobX5SYcofeCpJjsW9Htpf3L5AD9Axkelhk001i0TzB3OwyqHRyDUcYsiXXW6aD
-	eddXaABfqx+I/AZTa9GbBVUFbRS3pxENC3NpZh5WB/O06kTwKKdNiy1sfeISRZFuhWNT9q
-	ZhMKmUguVP5+7Ien/Ounw2e5uPT1UWMaXdBl+xV1rDww1KvYhjzv7PtBm6h45F5sTBSP4O
-	bGJsg1x8/bVBVU+uUJJiYUd1Ms/p3adJiz6XeNg/3ZGunWCTTT8DxaNKw7gK6OX2bo88ET
-	vYHayRWKmURHqCFgVNHfCEQM4t9hXOJPI5ew9L70nDUOS7QI0PdSTTiY4mneiQ==
-Date: Fri, 14 Jun 2024 17:44:36 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: SCHNEIDER Johannes <johannes.schneider@leica-geosystems.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-	"alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v11 0/3] pkg-database and systemd-sysext image
-Message-ID: <2024061415443651f86cd6@mail.local>
-References: <20240604065040.2771-1-johannes.schneider@leica-geosystems.com>
- <4a6b60ec8200956e25e031cd28bf1023cf02df3f.camel@linuxfoundation.org>
- <20240613130118d23ee04e@mail.local>
- <PAXPR06MB75346D4EB374F60FC978E6ABBCC12@PAXPR06MB7534.eurprd06.prod.outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KMppdUiZ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70432d3406bso2189665b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jun 2024 12:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718391805; x=1718996605; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XzBIahUvUolVVE2gM5gBdVa4RPo/aa7eUPTrS4OmJ3w=;
+        b=KMppdUiZbW3ucEUFRpQIg9EZq0fmWVeDNXzMZ6o69PbqpGzbYdj4c0dPjURdIK+84J
+         7O0DrNw1Vux/U+1anXl3c6dk7EBnfjfqjL8ukgyss1v5xoCiP6UxY866vPY228KNXOTe
+         qMiIRY7kzzwzj/yIee9xPTNHikCb/ZrPQugdVOO/eg3zU8WNzUYx27iUdjAhl4rqWb7v
+         TXv4Eyjf82Kv4SUbo6FxgJqTir/Ea55R4Rwr+pLYfPlCjuAUu9Q1iBSeo3jjRyZ7ZPic
+         YnHKYK8+z8eLogSZzzdboUiLZyP/8fprPzYdbRKL5xqsT2ZmwYfjNm588jmLI2rdzk4/
+         9KbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718391805; x=1718996605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XzBIahUvUolVVE2gM5gBdVa4RPo/aa7eUPTrS4OmJ3w=;
+        b=MroVYLu2YeoVbhF7R0BnW4gDqd+JVAeVIzBGdssmYKa8ctnzkQVi9wOReoeOGXCNMp
+         N+nVzKnHvuwZHTkVaS6n28yrF/a6PKxMKjOBGNyH5uD+TYz3cGYMyJorwMsy1lEon7Yu
+         C5M2p7hfpvoOolRHQrHU4zAEUHUxDdtDMdV6DBvczW/9QhR0U1cC3q7v+vYUqn4V8u+a
+         Uy3cAaJcD0hO8yJo0iPqrqUO+b7Xw8FMZk5sPV4yo+APcm13zp9NcMn/12pZbaV2WrFQ
+         wupaZq9Cf3yRCR2FWYJG2mtsLL4tqm7I7E0mJn8aydXYTa2ugiGXqr6QW7qKuMMbKCaa
+         xn9w==
+X-Gm-Message-State: AOJu0YzgSLXjfi8pmlbVrPf4+hiJ057wmMJaF8k0+FLi3w4zqqRCifwp
+	eSExQakwKtJgC/T3tMmKUO2wGDKW7DKFMgLRVnkhI8icIgzP8DUJCovqFA==
+X-Google-Smtp-Source: AGHT+IH+37PIrYlpembJRfmmEJ7mAIEeHfn2n+9vv8OEGsYJUA1299e3ekf8G/yaFpojNaUP1BEkOQ==
+X-Received: by 2002:a05:6a00:1c88:b0:704:16ec:4654 with SMTP id d2e1a72fcca58-705d70ebf8amr3968931b3a.6.1718391805351;
+        Fri, 14 Jun 2024 12:03:25 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::91d2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc91e133sm3376222b3a.24.2024.06.14.12.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 12:03:25 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gawk: Remove References to /usr/local/bin/gawk
+Date: Fri, 14 Jun 2024 12:03:22 -0700
+Message-ID: <20240614190322.726408-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR06MB75346D4EB374F60FC978E6ABBCC12@PAXPR06MB7534.eurprd06.prod.outlook.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jun 2024 15:44:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200657
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jun 2024 19:03:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200658
 
-On 14/06/2024 09:35:59+0000, SCHNEIDER Johannes wrote:
-> > I'm actually surprised it failed for you as v11 was successful on the AB
-> > for me. Anyway, In the meantime, I dropped the series.
-> 
-> Aww, we were getting close; so the last iteration fixed the one
-> remaining/troubling exception with the arm64+ipk? :-)
-> 
+Also replace the hashbangs using /bin/gawk to use
+${bindir}/gawk
 
-This had v11 and was successful:
+This fixes issues such as
+https://github.com/riscv/meta-riscv/issues/384
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7033
-in particular: https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3466
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/gawk/gawk_5.3.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+index e94cf19db48..ac9d8500d60 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -52,6 +52,8 @@ do_install_ptest() {
+ 		cp ${S}/test/$i* ${D}${PTEST_PATH}/test
+ 	done
+ 	sed -i \
++	    -e 's|#! /bin/gawk|#! ${bindir}/gawk|g' \
++	    -e 's|#! /usr/local/bin/gawk|#! ${bindir}/gawk|g' \
+ 	    -e 's|#!${base_bindir}/awk|#!${bindir}/awk|g' ${D}${PTEST_PATH}/test/*.awk
+ 
+ 	sed -i -e "s|GAWKLOCALE|LANG|g" ${D}${PTEST_PATH}/test/Maketests
 
