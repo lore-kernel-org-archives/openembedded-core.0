@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C5EC3814E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62231C3DA43
 	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 18:23:28 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.18613.1718475799757824033
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.18376.1718475799414397576
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jun 2024 11:23:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=E8FrKqVc;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZTRcQhst;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101901d23be31-bfd0cba5-cd72-4814-8c53-de1066e360b2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JpfGsxjh;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LNajLfuX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101901d23bbd4-cb9f3a70-f2c9-4d2a-b28f-1235fd8f9acc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1718475800;
+	t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Vs3rFINkKhcJg2088dAAVHxGBidUB4ZZWD71h3EDuOo=;
-	b=E8FrKqVcIKjenvd+7QBBSeBNkf7DCylizz2+rrJeK7STs9rv56ICMH6ShMK8P0Qp
-	Fme5GP9xgi2V5+lEYbN81yOmTbMkzdZX1xu5X9Rqr29AdwVyassZ2jSXZnkeZatfnq3
-	Vs+QQ5B4h5HNl5qyjRTGF9P/eqhG6WxaMMBdMUFY=
+	bh=KJpWUTdYsBnJ9Z7YbN7amL6KtmwwiVZH3xHzJHYByRo=;
+	b=JpfGsxjhOzazfV3MvJbtuIaMSlN21mawEwno+1q8uBFLxtd+176ln++C9JDdbMBS
+	o8MPCguHKgUthJ9fC4tdWE1yyexdQxkCOYzfKif6Yl0hXXdjTA5XXgKfYEKl9dJolCv
+	nalev/sAtIYV4Xt0JICM8UYogi16uswwsPeWoHWI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475800;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Vs3rFINkKhcJg2088dAAVHxGBidUB4ZZWD71h3EDuOo=;
-	b=ZTRcQhst4ORW2Se+aU2ritAI2uOyQAtV27k5l1IP9j9PC8a8XlT1pYLqakBtLyIA
-	VfKobh2sFddFbAehv8rENaKFpD2WCcLLuFX8gUWQ/TC6+3iOepND0LWQ3komCDoaRsK
-	EwokVL/hcG+bEwNQh0sVnXo/dgSXxLsbZFFjwHxk=
-Content-Type: multipart/mixed; boundary="===============8661819471449193094=="
+	bh=KJpWUTdYsBnJ9Z7YbN7amL6KtmwwiVZH3xHzJHYByRo=;
+	b=LNajLfuXNdpW5DFf7rPGUfW6NpIXDpfXYAqsRqKR4HuXa1B+DKSVnhH/X1HxLuWu
+	zvb3qzYDZF5mc70JhNdTqEsR2k79YIqxyFFXM4mqFo9WswGoH5GKRSW1cTg2xyKl2Kn
+	9Sy7I0E4YqS25eYEBJ7uFqu8arGZaAMkfr/8bCr8=
+Content-Type: multipart/mixed; boundary="===============1929228188301539227=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-ugly: upgrading to 1.24.4 SUCCEEDED
-Message-ID: <010101901d23be31-bfd0cba5-cd72-4814-8c53-de1066e360b2-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jun 2024 18:23:20 +0000
+Subject: [AUH] cups: upgrading to 2.4.9 SUCCEEDED
+Message-ID: <010101901d23bbd4-cb9f3a70-f2c9-4d2a-b28f-1235fd8f9acc-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jun 2024 18:23:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.15-54.240.27.193
+X-SES-Outgoing: 2024.06.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 18:23:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200727
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200724
 
---===============8661819471449193094==
+--===============1929228188301539227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-ugly* to *1.24.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *cups* to *2.4.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-plugins-ugly-upgrade-1.24.3-1.24.4.patch
+    - apply the patch: git am 0001-cups-upgrade-2.4.8-2.4.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,194 +72,361 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From bf218f6040d05aa2731f532c53ab4f290d9649f9 Mon Sep 17 00:00:00 2001
+From d692068951542b0af530324b2cc02733feabbe74 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jun 2024 15:42:05 +0000
-Subject: [PATCH] gstreamer1.0-plugins-ugly: upgrade 1.24.3 -> 1.24.4
+Date: Sat, 15 Jun 2024 11:24:39 +0000
+Subject: [PATCH] cups: upgrade 2.4.8 -> 2.4.9
 
 ---
- ...ugins-ugly_1.24.3.bb => gstreamer1.0-plugins-ugly_1.24.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.3.bb => gstreamer1.0-plugins-ugly_1.24.4.bb} (94%)
+ .../cups/cups/0001-use-echo-only-in-init.patch   | 11 ++++-------
+ ...002-don-t-try-to-run-generated-binaries.patch | 16 ++++++----------
+ ...ups-fix-multilib-install-file-conflicts.patch | 12 ++++--------
+ meta/recipes-extended/cups/cups/libexecdir.patch |  5 ++---
+ .../cups/{cups_2.4.8.bb => cups_2.4.9.bb}        |  2 +-
+ 5 files changed, 17 insertions(+), 29 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.4.8.bb => cups_2.4.9.bb} (51%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb
-index 533de0234f..37f870be59 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
+diff --git a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+index 80bbad0a44..d154b2e457 100644
+--- a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
++++ b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+@@ -1,7 +1,7 @@
+-From a3f4d8ba97f4669a95943a7e65eb61aa44ce7999 Mon Sep 17 00:00:00 2001
++From 16f3138abcf44c377ccce5ce8291b76219e4f604 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Thu, 13 Dec 2012 19:03:52 -0800
+-Subject: [PATCH 1/4] use echo only in init
++Subject: [PATCH] use echo only in init
  
--SRC_URI[sha256sum] = "4c951341c4c648630b6fe1234ec113d81dd2d248529bf2b5478e0ad077c80ed3"
-+SRC_URI[sha256sum] = "4604f8709c0bc4d6960ef6ae6fd91e0b20af011bfe22e103f5b85377cf3f1ef4"
+ Upstream-Status: Inappropriate [embedded specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ diff --git a/scheduler/cups.sh.in b/scheduler/cups.sh.in
+-index 89ac36d..6618a0f 100644
++index 74cce18..c57f0db 100644
+ --- a/scheduler/cups.sh.in
+ +++ b/scheduler/cups.sh.in
+-@@ -50,7 +50,7 @@ case "`uname`" in
++@@ -51,7 +51,7 @@ case "`uname`" in
+  		ECHO_ERROR=:
+  		;;
+  
+@@ -22,6 +22,3 @@ index 89ac36d..6618a0f 100644
+  		IS_ON=/bin/true
+  		if test -f /etc/init.d/functions; then
+  			. /etc/init.d/functions
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+index 2bc26edbfc..75596c0161 100644
+--- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
++++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+@@ -1,21 +1,20 @@
+-From 3e9a965dcd65ab2d40b753b6f792a1a4559182aa Mon Sep 17 00:00:00 2001
++From 189ac9522a5066e282a68ca0850335940d964bda Mon Sep 17 00:00:00 2001
+ From: Koen Kooi <koen@dominion.thruhere.net>
+ Date: Sun, 30 Jan 2011 16:37:27 +0100
+-Subject: [PATCH 2/4] don't try to run generated binaries
++Subject: [PATCH] don't try to run generated binaries
  
+ Upstream-Status: Inappropriate [embedded specific]
+ 
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+-
+ ---
+- ppdc/Makefile | 32 ++++++++++++++++----------------
+- 1 file changed, 16 insertions(+), 16 deletions(-)
++ ppdc/Makefile | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/ppdc/Makefile b/ppdc/Makefile
+-index 32e2e0b..f1478d4 100644
++index e36ed11..3fe97e1 100644
+ --- a/ppdc/Makefile
+ +++ b/ppdc/Makefile
+-@@ -186,8 +186,8 @@ genstrings:		genstrings.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) \
++@@ -187,8 +187,8 @@ genstrings:		genstrings.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) \
+  	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o genstrings genstrings.o \
+  		libcupsppdc.a $(LINKCUPSSTATIC)
+  	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
+@@ -26,6 +25,3 @@ index 32e2e0b..f1478d4 100644
+  
+  
+  #
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+index bc9260307c..c81497082f 100644
+--- a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
++++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+@@ -1,7 +1,7 @@
+-From 7dbda1887aa19ab720aff22312f4caff2d575f62 Mon Sep 17 00:00:00 2001
++From 4a4cb00a0ac65ffc31d1f89df7ae3f4d501cfc78 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Wed, 3 Oct 2018 00:27:11 +0800
+-Subject: [PATCH 4/4] cups: fix multilib install file conflicts
++Subject: [PATCH] cups: fix multilib install file conflicts
+ 
+ @CUPS_SERVERBIN@ is ${libdir} related that causes multilib install file
+ conflict. Remove @CUPS_SERVERBIN@ from the comment line of cups-files.conf to
+@@ -10,16 +10,15 @@ avoid the conflict.
+ Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+ ---
+  conf/cups-files.conf.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
+-index 4a78ba6..03c6582 100644
++index 93584a1..65b7052 100644
+ --- a/conf/cups-files.conf.in
+ +++ b/conf/cups-files.conf.in
+-@@ -73,7 +73,7 @@ PageLog @CUPS_LOGDIR@/page_log
++@@ -67,7 +67,7 @@ PageLog @CUPS_LOGDIR@/page_log
+  #RequestRoot @CUPS_REQUESTS@
+  
+  # Location of helper programs...
+@@ -28,6 +27,3 @@ index 4a78ba6..03c6582 100644
+  
+  # SSL/TLS keychain for the scheduler...
+  #ServerKeychain @CUPS_SERVERKEYCHAIN@
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
+index 7ccad94f0f..63b94884c3 100644
+--- a/meta/recipes-extended/cups/cups/libexecdir.patch
++++ b/meta/recipes-extended/cups/cups/libexecdir.patch
+@@ -1,4 +1,4 @@
+-From 1724f7bcdbcfdb445778f8a2e530c5c094c18c10 Mon Sep 17 00:00:00 2001
++From fafcca093061f21a56d09b4657fb9d66d8174b39 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Tue, 13 Jul 2021 12:56:30 +0100
+ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+@@ -6,13 +6,12 @@ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+ ---
+  config-scripts/cups-directories.m4 | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-directories.m4
+-index 2033d47..230166e 100644
++index 069ee7b..2f67e5b 100644
+ --- a/config-scripts/cups-directories.m4
+ +++ b/config-scripts/cups-directories.m4
+ @@ -239,7 +239,7 @@ AC_SUBST([CUPS_REQUESTS])
+diff --git a/meta/recipes-extended/cups/cups_2.4.8.bb b/meta/recipes-extended/cups/cups_2.4.9.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.8.bb
+rename to meta/recipes-extended/cups/cups_2.4.9.bb
+index c0cddf7e99..e0a3522004 100644
+--- a/meta/recipes-extended/cups/cups_2.4.8.bb
++++ b/meta/recipes-extended/cups/cups_2.4.9.bb
+@@ -2,4 +2,4 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRC_URI[sha256sum] = "75c326b4ba73975efcc9a25078c4b04cdb4ee333caaad0d0823dbd522c6479a0"
++SRC_URI[sha256sum] = "38fbf4535a10554113e013d54fedda03ee88007ea6a9761d626a04e1e4489e8c"
 -- 
 2.44.0
 
 
---===============8661819471449193094==
+--===============1929228188301539227==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-plugins-ugly-upgrade-1.24.3-1.24.4.patch"
+ filename="0001-cups-upgrade-2.4.8-2.4.9.patch"
 
-RnJvbSBiZjIxOGY2MDQwZDA1YWEyNzMxZjUzMmM1M2FiNGYyOTBkOTY0OWY5IE1vbiBTZXAgMTcg
+RnJvbSBkNjkyMDY4OTUxNTQyYjBhZjUzMDMyNGIyY2MwMjczM2ZlYWJiZTc0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTU6NDI6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5OiB1cGdyYWRlIDEuMjQuMyAtPiAxLjI0LjQKCi0tLQog
-Li4udWdpbnMtdWdseV8xLjI0LjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0
-LjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIx
-LjAtcGx1Z2lucy11Z2x5XzEuMjQuMy5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEu
-MjQuNC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
-ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjMuYmIgYi9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjQuYmIK
-c2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
-Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNC4zLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWds
-eV8xLjI0LjQuYmIKaW5kZXggNTMzZGUwMjM0Zi4uMzdmODcwYmU1OSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlf
-MS4yNC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjQuNC5iYgpAQCAtMTUsNyArMTUsNyBAQCBTUkNfVVJJID0g
-IiBcCiAgICAgICAgICAgICBodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dz
-dC1wbHVnaW5zLXVnbHkvZ3N0LXBsdWdpbnMtdWdseS0ke1BWfS50YXIueHogXAogICAgICAgICAg
-ICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGM5NTEzNDFjNGM2NDg2MzBiNmZlMTIzNGVj
-MTEzZDgxZGQyZDI0ODUyOWJmMmI1NDc4ZTBhZDA3N2M4MGVkMyIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI0NjA0Zjg3MDljMGJjNGQ2OTYwZWY2YWU2ZmQ5MWUwYjIwYWYwMTFiZmUyMmUxMDNmNWI4
-NTM3N2NmM2YxZWY0IgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtdWdseS0ke1BWfSIK
-IAotLSAKMi40NC4wCgo=
+CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTE6MjQ6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXBzOiB1cGdyYWRlIDIuNC44IC0+IDIuNC45CgotLS0KIC4uLi9jdXBzL2N1cHMvMDAwMS11c2Ut
+ZWNoby1vbmx5LWluLWluaXQucGF0Y2ggICB8IDExICsrKystLS0tLS0tCiAuLi4wMDItZG9uLXQt
+dHJ5LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2ggfCAxNiArKysrKystLS0tLS0tLS0t
+CiAuLi51cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2ggfCAxMiAr
+KysrLS0tLS0tLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5w
+YXRjaCB8ICA1ICsrLS0tCiAuLi4vY3Vwcy97Y3Vwc18yLjQuOC5iYiA9PiBjdXBzXzIuNC45LmJi
+fSAgICAgICAgfCAgMiArLQogNSBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAyOSBk
+ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy97Y3Vwc18yLjQu
+OC5iYiA9PiBjdXBzXzIuNC45LmJifSAoNTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9jdXBzL2N1cHMvMDAwMS11c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBh
+dGNoCmluZGV4IDgwYmJhZDBhNDQuLmQxNTRiMmU0NTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS11c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9ubHktaW4t
+aW5pdC5wYXRjaApAQCAtMSw3ICsxLDcgQEAKLUZyb20gYTNmNGQ4YmE5N2Y0NjY5YTk1OTQzYTdl
+NjVlYjYxYWE0NGNlNzk5OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTZmMzEzOGFi
+Y2Y0NGMzNzdjY2NlNWNlODI5MWI3NjIxOWU0ZjYwNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IFNhdWwgV29sZCA8c2d3QGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFRodSwgMTMgRGVj
+IDIwMTIgMTk6MDM6NTIgLTA4MDAKLVN1YmplY3Q6IFtQQVRDSCAxLzRdIHVzZSBlY2hvIG9ubHkg
+aW4gaW5pdAorU3ViamVjdDogW1BBVENIXSB1c2UgZWNobyBvbmx5IGluIGluaXQKIAogVXBzdHJl
+YW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtlbWJlZGRlZCBzcGVjaWZpY10KIFNpZ25lZC1vZmYt
+Ynk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgpAQCAtMTAsMTAg
+KzEwLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
+Z21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogCiBkaWZmIC0tZ2l0IGEvc2NoZWR1bGVyL2N1cHMuc2guaW4gYi9zY2hlZHVsZXIvY3Vwcy5z
+aC5pbgotaW5kZXggODlhYzM2ZC4uNjYxOGEwZiAxMDA2NDQKK2luZGV4IDc0Y2NlMTguLmM1N2Yw
+ZGIgMTAwNjQ0CiAtLS0gYS9zY2hlZHVsZXIvY3Vwcy5zaC5pbgogKysrIGIvc2NoZWR1bGVyL2N1
+cHMuc2guaW4KLUBAIC01MCw3ICs1MCw3IEBAIGNhc2UgImB1bmFtZWAiIGluCitAQCAtNTEsNyAr
+NTEsNyBAQCBjYXNlICJgdW5hbWVgIiBpbgogIAkJRUNIT19FUlJPUj06CiAgCQk7OwogIApAQCAt
+MjIsNiArMjIsMyBAQCBpbmRleCA4OWFjMzZkLi42NjE4YTBmIDEwMDY0NAogIAkJSVNfT049L2Jp
+bi90cnVlCiAgCQlpZiB0ZXN0IC1mIC9ldGMvaW5pdC5kL2Z1bmN0aW9uczsgdGhlbgogIAkJCS4g
+L2V0Yy9pbml0LmQvZnVuY3Rpb25zCi0tLSAKLTIuMTcuMQotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9uLXQtdHJ5LXRvLXJ1bi1nZW5lcmF0ZWQt
+YmluYXJpZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9u
+LXQtdHJ5LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2gKaW5kZXggMmJjMjZlZGJmYy4u
+NzU1OTZjMDE2MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8w
+MDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVuLWdlbmVyYXRl
+ZC1iaW5hcmllcy5wYXRjaApAQCAtMSwyMSArMSwyMCBAQAotRnJvbSAzZTlhOTY1ZGNkNjVhYjJk
+NDBiNzUzYjZmNzkyYTFhNDU1OTE4MmFhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAx
+ODlhYzk1MjJhNTA2NmUyODJhNjhjYTA4NTAzMzU5NDBkOTY0YmRhIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4KIERh
+dGU6IFN1biwgMzAgSmFuIDIwMTEgMTY6Mzc6MjcgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSCAyLzRd
+IGRvbid0IHRyeSB0byBydW4gZ2VuZXJhdGVkIGJpbmFyaWVzCitTdWJqZWN0OiBbUEFUQ0hdIGRv
+bid0IHRyeSB0byBydW4gZ2VuZXJhdGVkIGJpbmFyaWVzCiAKIFVwc3RyZWFtLVN0YXR1czogSW5h
+cHByb3ByaWF0ZSBbZW1iZWRkZWQgc3BlY2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IEtvZW4gS29v
+aSA8a29lbkBkb21pbmlvbi50aHJ1aGVyZS5uZXQ+Ci0KIC0tLQotIHBwZGMvTWFrZWZpbGUgfCAz
+MiArKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCAxNiBp
+bnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkKKyBwcGRjL01ha2VmaWxlIHwgNCArKy0tCisg
+MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL3BwZGMvTWFrZWZpbGUgYi9wcGRjL01ha2VmaWxlCi1pbmRleCAzMmUyZTBiLi5mMTQ3
+OGQ0IDEwMDY0NAoraW5kZXggZTM2ZWQxMS4uM2ZlOTdlMSAxMDA2NDQKIC0tLSBhL3BwZGMvTWFr
+ZWZpbGUKICsrKyBiL3BwZGMvTWFrZWZpbGUKLUBAIC0xODYsOCArMTg2LDggQEAgZ2Vuc3RyaW5n
+czoJCWdlbnN0cmluZ3MubyBsaWJjdXBzcHBkYy5hIC4uL2N1cHMvJChMSUJDVVBTU1RBVElDKSBc
+CitAQCAtMTg3LDggKzE4Nyw4IEBAIGdlbnN0cmluZ3M6CQlnZW5zdHJpbmdzLm8gbGliY3Vwc3Bw
+ZGMuYSAuLi9jdXBzLyQoTElCQ1VQU1NUQVRJQykgXAogIAkkKExEX0NYWCkgJChBUkNIRkxBR1Mp
+ICQoQUxMX0xERkxBR1MpIC1vIGdlbnN0cmluZ3MgZ2Vuc3RyaW5ncy5vIFwKICAJCWxpYmN1cHNw
+cGRjLmEgJChMSU5LQ1VQU1NUQVRJQykKICAJJChDT0RFX1NJR04pIC1zICIkKENPREVfU0lHTl9J
+REVOVElUWSkiICRACkBAIC0yNiw2ICsyNSwzIEBAIGluZGV4IDMyZTJlMGIuLmYxNDc4ZDQgMTAw
+NjQ0CiAgCiAgCiAgIwotLS0gCi0yLjE3LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25m
+bGljdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDQtY3Vwcy1m
+aXgtbXVsdGlsaWItaW5zdGFsbC1maWxlLWNvbmZsaWN0cy5wYXRjaAppbmRleCBiYzkyNjAzMDdj
+Li5jODE0OTcwODJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBz
+LzAwMDQtY3Vwcy1maXgtbXVsdGlsaWItaW5zdGFsbC1maWxlLWNvbmZsaWN0cy5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDQtY3Vwcy1maXgtbXVsdGlsaWIt
+aW5zdGFsbC1maWxlLWNvbmZsaWN0cy5wYXRjaApAQCAtMSw3ICsxLDcgQEAKLUZyb20gN2RiZGEx
+ODg3YWExOWFiNzIwYWZmMjIzMTJmNGNhZmYyZDU3NWY2MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNGE0Y2IwMGEwYWM2NWZmYzMxZDFmODlkZjdhZTNmNGQ1MDFjZmM3OCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29t
+PgogRGF0ZTogV2VkLCAzIE9jdCAyMDE4IDAwOjI3OjExICswODAwCi1TdWJqZWN0OiBbUEFUQ0gg
+NC80XSBjdXBzOiBmaXggbXVsdGlsaWIgaW5zdGFsbCBmaWxlIGNvbmZsaWN0cworU3ViamVjdDog
+W1BBVENIXSBjdXBzOiBmaXggbXVsdGlsaWIgaW5zdGFsbCBmaWxlIGNvbmZsaWN0cwogCiBAQ1VQ
+U19TRVJWRVJCSU5AIGlzICR7bGliZGlyfSByZWxhdGVkIHRoYXQgY2F1c2VzIG11bHRpbGliIGlu
+c3RhbGwgZmlsZQogY29uZmxpY3QuIFJlbW92ZSBAQ1VQU19TRVJWRVJCSU5AIGZyb20gdGhlIGNv
+bW1lbnQgbGluZSBvZiBjdXBzLWZpbGVzLmNvbmYgdG8KQEAgLTEwLDE2ICsxMCwxNSBAQCBhdm9p
+ZCB0aGUgY29uZmxpY3QuCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW09FIHNwZWNp
+ZmljXQogCiBTaWduZWQtb2ZmLWJ5OiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4K
+LQogLS0tCiAgY29uZi9jdXBzLWZpbGVzLmNvbmYuaW4gfCAyICstCiAgMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25mL2N1cHMt
+ZmlsZXMuY29uZi5pbiBiL2NvbmYvY3Vwcy1maWxlcy5jb25mLmluCi1pbmRleCA0YTc4YmE2Li4w
+M2M2NTgyIDEwMDY0NAoraW5kZXggOTM1ODRhMS4uNjViNzA1MiAxMDA2NDQKIC0tLSBhL2NvbmYv
+Y3Vwcy1maWxlcy5jb25mLmluCiArKysgYi9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgotQEAgLTcz
+LDcgKzczLDcgQEAgUGFnZUxvZyBAQ1VQU19MT0dESVJAL3BhZ2VfbG9nCitAQCAtNjcsNyArNjcs
+NyBAQCBQYWdlTG9nIEBDVVBTX0xPR0RJUkAvcGFnZV9sb2cKICAjUmVxdWVzdFJvb3QgQENVUFNf
+UkVRVUVTVFNACiAgCiAgIyBMb2NhdGlvbiBvZiBoZWxwZXIgcHJvZ3JhbXMuLi4KQEAgLTI4LDYg
+KzI3LDMgQEAgaW5kZXggNGE3OGJhNi4uMDNjNjU4MiAxMDA2NDQKICAKICAjIFNTTC9UTFMga2V5
+Y2hhaW4gZm9yIHRoZSBzY2hlZHVsZXIuLi4KICAjU2VydmVyS2V5Y2hhaW4gQENVUFNfU0VSVkVS
+S0VZQ0hBSU5ACi0tLSAKLTIuMTcuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vw
+cy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gKaW5kZXggN2NjYWQ5NGYwZi4uNjNiOTQ4ODRjMyAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy9saWJleGVjZGlyLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gMTcyNGY3YmNkYmNmZGI0NDU3NzhmOGEyZTUzMGM1YzA5NGMx
+OGMxMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZmFmY2NhMDkzMDYxZjIxYTU2ZDA5
+YjQ2NTdmYjlkNjZkODE3NGIzOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3Mg
+QnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogVHVlLCAxMyBKdWwgMjAyMSAxMjo1
+NjozMCArMDEwMAogU3ViamVjdDogW1BBVENIXSBVc2UgJGxpYmV4ZWNkaXIgaW5zdGVhZCBvZiBo
+YXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRoaXMKQEAgLTYsMTMgKzYsMTIgQEAgU3ViamVjdDog
+W1BBVENIXSBVc2UgJGxpYmV4ZWNkaXIgaW5zdGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGli
+IGFzIHRoaXMKIAogVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiBTaWduZWQtb2ZmLWJ5OiBSb3Nz
+IEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KLQogLS0tCiAgY29uZmlnLXNjcmlwdHMvY3Vw
+cy1kaXJlY3Rvcmllcy5tNCB8IDQgKystLQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWctc2NyaXB0cy9jdXBzLWRp
+cmVjdG9yaWVzLm00IGIvY29uZmlnLXNjcmlwdHMvY3Vwcy1kaXJlY3Rvcmllcy5tNAotaW5kZXgg
+MjAzM2Q0Ny4uMjMwMTY2ZSAxMDA2NDQKK2luZGV4IDA2OWVlN2IuLjJmNjdlNWIgMTAwNjQ0CiAt
+LS0gYS9jb25maWctc2NyaXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00CiArKysgYi9jb25maWctc2Ny
+aXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00CiBAQCAtMjM5LDcgKzIzOSw3IEBAIEFDX1NVQlNUKFtD
+VVBTX1JFUVVFU1RTXSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1
+cHNfMi40LjguYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzXzIuNC45LmJiCnNp
+bWlsYXJpdHkgaW5kZXggNTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBz
+L2N1cHNfMi40LjguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNf
+Mi40LjkuYmIKaW5kZXggYzBjZGRmN2U5OS4uZTBhMzUyMjAwNCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvY3Vwcy9jdXBzXzIuNC45LmJiCkBAIC0yLDQgKzIsNCBAQCByZXF1aXJlIGN1cHMuaW5j
+CiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0
+NjU1ZmM4NTRkZGMzYzZiZDU3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzVjMzI2YjRiYTcz
+OTc1ZWZjYzlhMjUwNzhjNGIwNGNkYjRlZTMzM2NhYWFkMGQwODIzZGJkNTIyYzY0NzlhMCIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICIzOGZiZjQ1MzVhMTA1NTQxMTNlMDEzZDU0ZmVkZGEwM2VlODgw
+MDdlYTZhOTc2MWQ2MjZhMDRlMWU0NDg5ZThjIgotLSAKMi40NC4wCgo=
 
---===============8661819471449193094==
+--===============1929228188301539227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.4.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PV changed from "1.24.3" to "1.24.4"
+packages/core2-64-poky-linux/cups/cups-dbg: PKGSIZE changed from 8117536 to 8119520 (+0%)
+packages/core2-64-poky-linux/cups/cups-dbg: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-dbg: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-dev: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-dev: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-doc: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-doc: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-lib: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-lib: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-libimage: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-libimage: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ca: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-ca: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-cs: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-cs: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-da: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-da: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-de: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-de: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-en: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-en: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-es: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-es: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-fr: PKGSIZE changed from 359770 to 361012 (+0%)
+packages/core2-64-poky-linux/cups/cups-locale-fr: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-fr: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-it: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-it: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ja: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-ja: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-pt-br: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-pt-br: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-ru: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-ru: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-locale-zh-cn: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-locale-zh-cn: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-src: PKGSIZE changed from 5969837 to 5972495 (+0%)
+packages/core2-64-poky-linux/cups/cups-src: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-src: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-staticdev: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-staticdev: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups-webif: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups-webif: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups/cups: PKGSIZE changed from 7319825 to 7323921 (+0%)
+packages/core2-64-poky-linux/cups/cups: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups/cups: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
+packages/core2-64-poky-linux/cups: PV changed from "2.4.8" to "2.4.9"
+packages/core2-64-poky-linux/cups: SRC_URI changed from "https://github.com/OpenPrinting/cups/releases/download/v2.4.8/cups-2.4.8-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf" to "https://github.com/OpenPrinting/cups/releases/download/v2.4.9/cups-2.4.9-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf"
+packages/core2-64-poky-linux/cups: PKGV changed from 2.4.8 [default] to 2.4.9 [default]
 
---===============8661819471449193094==--
+--===============1929228188301539227==--
 
