@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8747BC3DA44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982BAC3DA42
 	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 18:23:28 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.18606.1718475798910888158
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.18616.1718475800069203157
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jun 2024 11:23:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Lpa1qWmW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NKsCoWS8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101901d23bcf5-6ec0da3d-41b1-4154-9181-7fd3e3296f1a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i7CdEwNC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CB1nxfrl;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101901d23bbd0-9325d741-d1f3-4824-9330-4c0afa5030ea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1718475800;
+	t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Pqsce1M/2/cXVnYpxoM/nODI2ENH9PHnDGuMpV4Yg7A=;
-	b=Lpa1qWmWkGntCqjj9f5FgYavL8v/ky88hCBnKjpLGjyldn+0sBCBcjpL5Yd+jC/k
-	pGaoq4kb2hAytyeVW624HEiBQP8zZVIdXMfikTRiONR7JX1iDiRTOkxFNbxuaBliKPA
-	LUJBYFUPjNKD4bweqbKblr+oP/zaD0L31lR7XlDo=
+	bh=90RhZcLnk0+qnv2ZCiH4jBtYMl0zzlUkZFK1ZM/m9CM=;
+	b=i7CdEwNCf1Y1DPjJLAx/fWCyVnBtwBrcAkOHXMzNSHn0MtsBAtlNHH5I4rlpP6XJ
+	ZLWU2wgWI9ZNEvO/RUWs8uvO0338xUgzOdzuVNpV/8I0qFX+a3DZcXuKNQOfgo3OWY8
+	3mU6Z3BT9uyjmK0Xluk419IwisMatkM5C4zt/x+o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475800;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Pqsce1M/2/cXVnYpxoM/nODI2ENH9PHnDGuMpV4Yg7A=;
-	b=NKsCoWS8/+UOHeqioCNLOoAg983mxfS3/W1jwpXLS4pvvSPM6inSLCEYEJ+QsooT
-	7WXV8CjJyTVd2Mel5ALz3/O4tdpoVilXTJFW+bMuz/oZ8e69pBt0G9WN1EA+4Utwj1x
-	vND9ppbYj2OGTWNPwoukZg1xZjZkfOGm50e7uFjU=
-Content-Type: multipart/mixed; boundary="===============0557734091481189074=="
+	bh=90RhZcLnk0+qnv2ZCiH4jBtYMl0zzlUkZFK1ZM/m9CM=;
+	b=CB1nxfrl+EIqvgeJGlmHW4YOfarq+G4S05mq1axCOJ6fK9Q3hRKD9fbhtGvUMVuL
+	qUOea92TZi8ZnOEbnSMnVYn5QXY5m8CNw6VpKXG7kfTpcVUsUGXX52+CfUazExf7Aeg
+	tofZbtlbLFpgUsvy61dWr8mjthgjzbuF0b9DFVys=
+Content-Type: multipart/mixed; boundary="===============0923250151063371254=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libinput: upgrading to 1.26.0 SUCCEEDED
-Message-ID: <010101901d23bcf5-6ec0da3d-41b1-4154-9181-7fd3e3296f1a-000000@us-west-2.amazonses.com>
+Subject: [AUH] hicolor-icon-theme: upgrading to 0.18 FAILED
+Message-ID: <010101901d23bbd0-9325d741-d1f3-4824-9330-4c0afa5030ea-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Jun 2024 18:23:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.15-54.240.27.45
+X-SES-Outgoing: 2024.06.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 18:23:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200722
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200721
 
---===============0557734091481189074==
+--===============0923250151063371254==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libinput* to *1.26.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *hicolor-icon-theme* to *0.18* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libinput-upgrade-1.25.0-1.26.0.patch
+    - apply the patch: git am 0001-hicolor-icon-theme-upgrade-0.17-0.18.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,139 +78,171 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3e8ce7a00db7f22ac6bf78df7b17b83594dcc15b Mon Sep 17 00:00:00 2001
+From accd576831a625cda1ffb3ea833f7dd5f0e12611 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jun 2024 14:36:39 +0000
-Subject: [PATCH] libinput: upgrade 1.25.0 -> 1.26.0
+Date: Sat, 15 Jun 2024 13:54:44 +0000
+Subject: [PATCH] hicolor-icon-theme: upgrade 0.17 -> 0.18
 
 ---
- .../wayland/{libinput_1.25.0.bb => libinput_1.26.0.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.25.0.bb => libinput_1.26.0.bb} (97%)
+ .../{hicolor-icon-theme_0.17.bb => hicolor-icon-theme_0.18.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/hicolor-icon-theme/{hicolor-icon-theme_0.17.bb => hicolor-icon-theme_0.18.bb} (80%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.25.0.bb b/meta/recipes-graphics/wayland/libinput_1.26.0.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.25.0.bb
-rename to meta/recipes-graphics/wayland/libinput_1.26.0.bb
-index 894858e361..f6285826ad 100644
---- a/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.26.0.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
-            file://run-ptest \
-            "
--SRCREV = "3fd38d89276b679ac3565efd7c2150fd047902cb"
-+SRCREV = "98ba56fb31104e12a11220958f484158927ca093"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+similarity index 80%
+rename from meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
+rename to meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+index bb6cb000ab..0cbd00544b 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+@@ -8,8 +8,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ SRC_URI = "https://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "84eec8d6f810240a069c731f1870b474"
+-SRC_URI[sha256sum] = "317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8"
++SRC_URI[sha256sum] = "db0e50a80aa3bf64bb45cbca5cf9f75efd9348cf2ac690b907435238c3cf81d7"
+ 
+ inherit allarch autotools
+ 
 -- 
 2.44.0
 
 
---===============0557734091481189074==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/30-vendor-huion.quirks /usr/share/libinput/30-vendor-uniwill.quirks /usr/share/libinput/30-vendor-ite.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/30-vendor-huion.quirks was added
-  /usr/share/libinput/30-vendor-ite.quirks was added
-  /usr/share/libinput/30-vendor-uniwill.quirks was added
-
---===============0557734091481189074==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libinput: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 6290824 to 6414912 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 209299 to 219686 (+5%)
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGSIZE changed from 45504 to 45584 (+0%)
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1113430 to 1143590 (+3%)
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3516121 to 3581993 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: FILELIST: directory renamed /usr/src/debug/libinput/1.25.0/tools -> /usr/src/debug/libinput/1.26.0/tools, directory renamed /usr/src/debug/libinput/1.25.0/include/linux/linux -> /usr/src/debug/libinput/1.26.0/include/linux/linux, directory renamed /usr/src/debug/libinput/1.25.0/include/valgrind -> /usr/src/debug/libinput/1.26.0/include/valgrind, directory renamed /usr/src/debug/libinput/1.25.0/udev -> /usr/src/debug/libinput/1.26.0/udev, removed "/usr/src/debug/libinput/1.25.0/src/filter-private.h /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.25.0/test/litest-device-yubikey.c /usr/src/debug/libinput/1.25.0/test/litest-device-thinkpad-extrabuttons.c /usr/src/debug/libinput/1.25.0/src/evdev.c /usr/src/debug/libinput/1.25.0/src/timer.c /usr/src/debug/libinput/1.25.0/src/timer.h /usr/src/debug/libinput/1.25.0/src/evdev.h /usr/src/debug/libinput/1.25.0/src/util-strings.h /usr/src/debug/libinput/1.25
- .0/src/util-strings.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-hover.c /usr/src/debug/libinput/1.25.0/test/test-pointer.c /usr/src/debug/libinput/1.25.0/test/litest-device-tablet-mode-switch.c /usr/src/debug/libinput/1.25.0/test/test-trackball.c /usr/src/debug/libinput/1.25.0/test/litest-device-apple-appletouch.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-e6-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-lid-switch-surface3.c /usr/src/debug/libinput/1.25.0/src/util-bits.h /usr/src/debug/libinput/1.25.0/test/litest.c /usr/src/debug/libinput/1.25.0/test/test-udev.c /usr/src/debug/libinput/1.25.0/src/builddir.h /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-gestures.c /usr/src/debug/libinput/1.25.0/test/litest.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos5-finger.c /usr/src/debug/libinput/1.25.0/src/filter-flat.c /usr/src/debug/libinput/1.25.0/test/test-touch.c /usr/src/debug/libinput/1.25.0/test/litest-device-waco
- m-bamboo-2fg-finger.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-12wx-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchpad-palm-threshold-zero.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos5-pen.c /usr/src/debug/libinput/1.25.0/src/util-list.h /usr/src/debug/libinput/1.25.0/test/litest-device-acer-hawaii-touchpad.c /usr/src/debug/libinput/1.25.0/test/test-touchpad-tap.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blackwidow.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-e6-finger.c /usr/src/debug/libinput/1.25.0/test/test-switch.c /usr/src/debug/libinput/1.25.0/test/test-quirks.c /usr/src/debug/libinput/1.25.0/src/util-list.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-i2c.c /usr/src/debug/libinput/1.25.0/test/litest-device-sony-vaio-keys.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-cyborg-rat-5.c /usr/src/debug/libi
- nput/1.25.0/src/evdev-fallback.h /usr/src/debug/libinput/1.25.0/src/util-input-event.h /usr/src/debug/libinput/1.25.0/src/evdev-fallback.c /usr/src/debug/libinput/1.25.0/src/util-time.h /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-roccat.c /usr/src/debug/libinput/1.25.0/test/test-touchpad-buttons.c /usr/src/debug/libinput/1.25.0/test/litest-device-anker-mouse-kbd.c /usr/src/debug/libinput/1.25.0/test/litest-device-uclogic-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-huion-pentablet.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet-pad.c /usr/src/debug/libinput/1.25.0/src/filter.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-fuzz.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.25.0/test/litest-device-touch-screen.c /usr/src/debug/libinput/1.25.0/src/filter.h /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-phantomclicks.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-2fg-pen.c /usr
- /src/debug/libinput/1.25.0/src/libinput.h /usr/src/debug/libinput/1.25.0/test/litest-device-aiptek-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-waltop-tablet.c /usr/src/debug/libinput/1.25.0/src/libinput.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-finger.c /usr/src/debug/libinput/1.25.0/test/litest-device-absinfo-override.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blade-stealth.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos3-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos5-pad.c /usr/src/debug/libinput/1.25.0/test/test-touchpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-alps-3fg.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.25.0/src/evdev-debounce.c /usr/src/debug/libinput/1.25.0/src/filter-trackpoint.c /usr/src/debug/
- libinput/1.25.0/test/litest-device-wacom-bamboo-16fg-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-x1-carbon-3rd.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-13hdt-finger.c /usr/src/debug/libinput/1.25.0/src/quirks.h /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.25.0/src/quirks.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-524c-pen.c /usr/src/debug/libinput/1.25.0/test/test-totem.c /usr/src/debug/libinput/1.25.0/test/litest-device-magic-trackpad.c /usr/src/debug/libinput/1.25.0/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.25.0/src/filter-touchpad-x230.c /usr/src/debug/libinput/1.25.0/test/litest-device-logitech-trackball.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-click-count.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-pressurepad.c /usr/src/debug/libinput/1.25.0/test/test-g
- estures.c /usr/src/debug/libinput/1.25.0/test/litest-device-alps-semi-mt.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-mobilestudio-pro-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-xen-virtual-pointer.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-ekr.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-4200-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-invalid-range.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-hid4800-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-elantech-touchpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-24hdt-pad.c /usr/src/debug/libinput/1.25.0/src/libinput-private.h /usr/src/debug/libinput/1.25.0/test/litest-device-bcm5974.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-tilt.c /usr/src/debug/libinput/1.25.0/src/util-prop-parsers.h /usr/src/debug/libinput/1.25.
- 0/test/litest-device-synaptics-st.c /usr/src/debug/libinput/1.25.0/test/litest-device-dell-canvas-totem-touch.c /usr/src/debug/libinput/1.25.0/test/test-misc.c /usr/src/debug/libinput/1.25.0/src/evdev-totem.c /usr/src/debug/libinput/1.25.0/src/util-prop-parsers.c /usr/src/debug/libinput/1.25.0/test/litest-device-asus-rog-gladius.c /usr/src/debug/libinput/1.25.0/test/litest-device-generic-singletouch.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-low-dpi.c /usr/src/debug/libinput/1.25.0/src/udev-seat.h /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-all-codes.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-rmi4.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-t440.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-x220.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-pad.c /usr/src/debug/libinput/1.25.0/src/util-matrix.h /usr/src/debug/libinput/1.25.0/src/path-seat.c /usr/src/debug/libinput/1.25.0/src/
- udev-seat.c /usr/src/debug/libinput/1.25.0/test/test-log.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.25.0/src/libinput-private-config.c /usr/src/debug/libinput/1.25.0/test/test-path.c /usr/src/debug/libinput/1.25.0/test/litest-device-ignored-mouse.c /usr/src/debug/libinput/1.25.0/src/libinput-private-config.h /usr/src/debug/libinput/1.25.0/test/litest-device-atmel-hover.c /usr/src/debug/libinput/1.25.0/test/litest-device-elan-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-ms-surface-cover.c /usr/src/debug/libinput/1.25.0/test/test-trackpoint.c /usr/src/debug/libinput/1.25.0/src/evdev-middle-button.c /usr/src/debug/libinput/1.25.0/src/filter-touchpad.c /usr/src/debug/libinput/1.25.0/src/filter-mouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-gpio-keys.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-int.h /usr/src/debug/libinput/1.25.0/test/test-device.c /usr/src/d
- ebug/libinput/1.25.0/test/test-tablet.c /usr/src/debug/libinput/1.25.0/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.25.0/test/litest-device-generic-pressurepad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wheel-only.c /usr/src/debug/libinput/1.25.0/test/litest-device-hp-wmi-hotkeys.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-quirked.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-mt-tool.c /usr/src/debug/libinput/1.25.0/src/evdev-wheel.c /usr/src/debug/libinput/1.25.0/test/litest-device-trackpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-alps-dualpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-protocol-a-touch-screen.c /usr/src/debug/libinput/1.25.0/test/test-utils.c /usr/src/debug/libinput/1.25.0/src/filter-low-dpi.c /usr/src/debug/libinput/1.25.0/test/litest-device-acer-hawaii-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-device-ms-nano-transceiver-mouse.c /usr/src/debug/libinput/1.25.0/test/litest-devi
- ce-wacom-cintiq-13hdt-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-13hdt-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-2fg-pad.c /usr/src/debug/libinput/1.25.0/src/libinput-versionsort.h /usr/src/debug/libinput/1.25.0/test/litest-device-vmware-virtual-usb-mouse.c /usr/src/debug/libinput/1.25.0/src/filter-custom.c /usr/src/debug/libinput/1.25.0/src/filter-tablet.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet.c /usr/src/debug/libinput/1.25.0/test/test-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-calibrated-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-apple-magicmouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-apple-internal-keyboard.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet.h /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-click-angle.c /usr/src/debug/libinput/1.25.0/test/litest-device-format-string.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blade-ste
- alth-videoswitch.c /usr/src/debug/libinput/1.25.0/test/litest-device-logitech-media-keyboard-elite.c /usr/src/debug/libinput/1.25.0/src/util-ratelimit.h /usr/src/debug/libinput/1.25.0/test/litest-device-lenovo-scrollpoint.c /usr/src/debug/libinput/1.25.0/test/test-keyboard.c /usr/src/debug/libinput/1.25.0/src/util-ratelimit.c /usr/src/debug/libinput/1.25.0/test/litest-device-calibrated-touchscreen.c /usr/src/debug/libinput/1.25.0/test/litest-device-dell-canvas-totem.c /usr/src/debug/libinput/1.25.0/test/litest-device-qemu-usb-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-24hd-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-lid-switch.c /usr/src/debug/libinput/1.25.0/test/litest-device-nexus4-touch-screen.c", added "/usr/src/debug/libinput/1.26.0/src/filter-private.h /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.26.0/test/litest-device-yubikey.c /usr/src/debug/libinput/1.26.0/test/litest-device-thinkpad-extrabut
- tons.c /usr/src/debug/libinput/1.26.0/src/evdev.c /usr/src/debug/libinput/1.26.0/src/timer.c /usr/src/debug/libinput/1.26.0/src/timer.h /usr/src/debug/libinput/1.26.0/src/evdev.h /usr/src/debug/libinput/1.26.0/src/util-strings.h /usr/src/debug/libinput/1.26.0/src/util-strings.c /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-hover.c /usr/src/debug/libinput/1.26.0/test/test-pointer.c /usr/src/debug/libinput/1.26.0/test/litest-device-tablet-mode-switch.c /usr/src/debug/libinput/1.26.0/test/test-trackball.c /usr/src/debug/libinput/1.26.0/test/litest-device-apple-appletouch.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-isdv4-e6-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-lid-switch-surface3.c /usr/src/debug/libinput/1.26.0/src/util-bits.h /usr/src/debug/libinput/1.26.0/test/litest.c /usr/src/debug/libinput/1.26.0/test/test-udev.c /usr/src/debug/libinput/1.26.0/src/builddir.h /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad-gestures.c /usr/src/debu
- g/libinput/1.26.0/test/litest.h /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-intuos5-finger.c /usr/src/debug/libinput/1.26.0/src/filter-flat.c /usr/src/debug/libinput/1.26.0/test/test-touch.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-bamboo-2fg-finger.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-12wx-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-touchpad-palm-threshold-zero.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-intuos5-pen.c /usr/src/debug/libinput/1.26.0/src/util-list.h /usr/src/debug/libinput/1.26.0/test/litest-device-acer-hawaii-touchpad.c /usr/src/debug/libinput/1.26.0/test/test-touchpad-tap.c /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard-razer-blackwidow.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-isdv4-e6-finger.c /usr/src/debug/libinput/1.26.0/test/test-switch.c /usr/src/debug/libinput/1.26.0/test/test-quirks.c /usr/src/debug/libinput/1.26.0/src/util-list.c /usr/src/debug/lib
- input/1.26.0/test/litest-device-synaptics-i2c.c /usr/src/debug/libinput/1.26.0/test/litest-device-sony-vaio-keys.c /usr/src/debug/libinput/1.26.0/test/litest-device-mouse.c /usr/src/debug/libinput/1.26.0/test/litest-device-cyborg-rat-5.c /usr/src/debug/libinput/1.26.0/src/evdev-fallback.h /usr/src/debug/libinput/1.26.0/src/util-input-event.h /usr/src/debug/libinput/1.26.0/src/evdev-fallback.c /usr/src/debug/libinput/1.26.0/src/util-time.h /usr/src/debug/libinput/1.26.0/test/litest-device-mouse-roccat.c /usr/src/debug/libinput/1.26.0/test/test-touchpad-buttons.c /usr/src/debug/libinput/1.26.0/test/litest-device-anker-mouse-kbd.c /usr/src/debug/libinput/1.26.0/test/litest-device-uclogic-tablet.c /usr/src/debug/libinput/1.26.0/test/litest-device-huion-pentablet.c /usr/src/debug/libinput/1.26.0/src/evdev-tablet-pad.c /usr/src/debug/libinput/1.26.0/src/filter.c /usr/src/debug/libinput/1.26.0/test/litest-device-touchscreen-fuzz.c /usr/src/debug/libinput/1.26.0/test/litest-device-huion-q62
- 0m-dial.c /usr/src/debug/libinput/1.26.0/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.26.0/test/litest-device-touch-screen.c /usr/src/debug/libinput/1.26.0/src/filter.h /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-phantomclicks.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-bamboo-2fg-pen.c /usr/src/debug/libinput/1.26.0/src/libinput.h /usr/src/debug/libinput/1.26.0/test/litest-device-aiptek-tablet.c /usr/src/debug/libinput/1.26.0/test/litest-device-waltop-tablet.c /usr/src/debug/libinput/1.26.0/src/libinput.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-pro-16-finger.c /usr/src/debug/libinput/1.26.0/test/litest-device-absinfo-override.c /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard-razer-blade-stealth.c /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-intuos3-pad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-intuos5-pad.c /usr/src/debug/libinput/1.2
- 6.0/test/test-touchpad.c /usr/src/debug/libinput/1.26.0/test/litest-device-alps-3fg.c /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.26.0/src/evdev-debounce.c /usr/src/debug/libinput/1.26.0/src/filter-trackpoint.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-bamboo-16fg-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-tablet-doubledial.c /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-x1-carbon-3rd.c /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-13hdt-finger.c /usr/src/debug/libinput/1.26.0/src/quirks.h /usr/src/debug/libinput/1.26.0/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.26.0/src/quirks.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-isdv4-524c-pen.c /usr/src/debug/libinput/1.26.0/test/test-totem.c /usr/src/debug/libinput/1.26.0/test/litest-device-
- magic-trackpad.c /usr/src/debug/libinput/1.26.0/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.26.0/src/filter-touchpad-x230.c /usr/src/debug/libinput/1.26.0/test/litest-device-logitech-trackball.c /usr/src/debug/libinput/1.26.0/test/litest-device-mouse-wheel-click-count.c /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-pressurepad.c /usr/src/debug/libinput/1.26.0/test/test-gestures.c /usr/src/debug/libinput/1.26.0/test/litest-device-alps-semi-mt.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-mobilestudio-pro-pad.c /usr/src/debug/libinput/1.26.0/test/litest-device-xen-virtual-pointer.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-ekr.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-isdv4-4200-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-touchscreen-invalid-range.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-pro-16-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-hid4800-pen.c /usr/src/debug/l
- ibinput/1.26.0/test/litest-device-elantech-touchpad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-24hdt-pad.c /usr/src/debug/libinput/1.26.0/src/libinput-private.h /usr/src/debug/libinput/1.26.0/test/litest-device-bcm5974.c /usr/src/debug/libinput/1.26.0/test/litest-device-mouse-wheel-tilt.c /usr/src/debug/libinput/1.26.0/src/util-prop-parsers.h /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-st.c /usr/src/debug/libinput/1.26.0/test/litest-device-dell-canvas-totem-touch.c /usr/src/debug/libinput/1.26.0/test/test-misc.c /usr/src/debug/libinput/1.26.0/src/evdev-totem.c /usr/src/debug/libinput/1.26.0/src/util-prop-parsers.c /usr/src/debug/libinput/1.26.0/test/litest-device-asus-rog-gladius.c /usr/src/debug/libinput/1.26.0/test/litest-device-generic-singletouch.c /usr/src/debug/libinput/1.26.0/test/litest-device-mouse-low-dpi.c /usr/src/debug/libinput/1.26.0/src/udev-seat.h /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard-all-codes.c /usr/src/deb
- ug/libinput/1.26.0/test/litest-device-synaptics-rmi4.c /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-t440.c /usr/src/debug/libinput/1.26.0/test/litest-device-synaptics-x220.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-pro-16-pad.c /usr/src/debug/libinput/1.26.0/src/util-matrix.h /usr/src/debug/libinput/1.26.0/src/path-seat.c /usr/src/debug/libinput/1.26.0/src/udev-seat.c /usr/src/debug/libinput/1.26.0/test/test-log.c /usr/src/debug/libinput/1.26.0/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.26.0/src/libinput-private-config.c /usr/src/debug/libinput/1.26.0/test/test-path.c /usr/src/debug/libinput/1.26.0/test/litest-device-ignored-mouse.c /usr/src/debug/libinput/1.26.0/src/libinput-private-config.h /usr/src/debug/libinput/1.26.0/test/litest-device-atmel-hover.c /usr/src/debug/libinput/1.26.0/test/litest-device-elan-tablet.c /usr/src/debug/libinput/1.26.0/test/litest-device-ms-surface-cover.c /usr/src/debug/libinput/1.26.0/test/test-trackpoin
- t.c /usr/src/debug/libinput/1.26.0/src/evdev-middle-button.c /usr/src/debug/libinput/1.26.0/src/filter-touchpad.c /usr/src/debug/libinput/1.26.0/src/filter-mouse.c /usr/src/debug/libinput/1.26.0/test/litest-device-gpio-keys.c /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard.c /usr/src/debug/libinput/1.26.0/test/litest-int.h /usr/src/debug/libinput/1.26.0/test/test-device.c /usr/src/debug/libinput/1.26.0/test/test-tablet.c /usr/src/debug/libinput/1.26.0/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.26.0/test/litest-device-generic-pressurepad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wheel-only.c /usr/src/debug/libinput/1.26.0/test/litest-device-hp-wmi-hotkeys.c /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard-quirked.c /usr/src/debug/libinput/1.26.0/test/litest-device-touchscreen-mt-tool.c /usr/src/debug/libinput/1.26.0/src/evdev-wheel.c /usr/src/debug/libinput/1.26.0/test/litest-device-trackpoint.c /usr/src/debug/libinput/1.26.0/test/litest-dev
- ice-alps-dualpoint.c /usr/src/debug/libinput/1.26.0/test/litest-device-protocol-a-touch-screen.c /usr/src/debug/libinput/1.26.0/test/test-utils.c /usr/src/debug/libinput/1.26.0/src/filter-low-dpi.c /usr/src/debug/libinput/1.26.0/test/litest-device-acer-hawaii-keyboard.c /usr/src/debug/libinput/1.26.0/test/litest-device-ms-nano-transceiver-mouse.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-13hdt-pad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-cintiq-13hdt-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-bamboo-2fg-pad.c /usr/src/debug/libinput/1.26.0/src/libinput-versionsort.h /usr/src/debug/libinput/1.26.0/test/litest-device-vmware-virtual-usb-mouse.c /usr/src/debug/libinput/1.26.0/src/filter-custom.c /usr/src/debug/libinput/1.26.0/src/filter-tablet.c /usr/src/debug/libinput/1.26.0/src/evdev-tablet.c /usr/src/debug/libinput/1.26.0/test/test-pad.c /usr/src/debug/libinput/1.26.0/test/litest-device-wacom-calibrated-tablet.c /usr/src/debug/
- libinput/1.26.0/test/litest-device-apple-magicmouse.c /usr/src/debug/libinput/1.26.0/test/litest-device-apple-internal-keyboard.c /usr/src/debug/libinput/1.26.0/src/evdev-tablet.h /usr/src/debug/libinput/1.26.0/test/litest-device-mouse-wheel-click-angle.c /usr/src/debug/libinput/1.26.0/test/litest-device-format-string.c /usr/src/debug/libinput/1.26.0/test/litest-device-keyboard-razer-blade-stealth-videoswitch.c /usr/src/debug/libinput/1.26.0/test/litest-device-logitech-media-keyboard-elite.c /usr/src/debug/libinput/1.26.0/src/util-ratelimit.h /usr/src/debug/libinput/1.26.0/src/util-files.h /usr/src/debug/libinput/1.26.0/test/litest-device-lenovo-scrollpoint.c /usr/src/debug/libinput/1.26.0/test/test-keyboard.c /usr/src/debug/libinput/1.26.0/src/util-ratelimit.c /usr/src/debug/libinput/1.26.0/test/litest-device-calibrated-touchscreen.c /usr/src/debug/libinput/1.26.0/test/litest-device-dell-canvas-totem.c /usr/src/debug/libinput/1.26.0/test/litest-device-qemu-usb-tablet.c /usr/src/deb
- ug/libinput/1.26.0/test/litest-device-wacom-cintiq-24hd-pen.c /usr/src/debug/libinput/1.26.0/test/litest-device-lid-switch.c /usr/src/debug/libinput/1.26.0/test/litest-device-nexus4-touch-screen.c /usr/src/debug/libinput/1.26.0/test/litest-device-tablet-rel-dial.c"
-packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.25.0" to "1.26.0"
-packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1201985 to 1212862 (+1%)
-packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/30-vendor-huion.quirks /usr/share/libinput/30-vendor-ite.quirks /usr/share/libinput/30-vendor-uniwill.quirks"
-packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.25.0" to "1.26.0"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/30-vendor-huion.quirks was added
-  /usr/share/libinput/30-vendor-ite.quirks was added
-  /usr/share/libinput/30-vendor-uniwill.quirks was added
-
---===============0557734091481189074==
+--===============0923250151063371254==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libinput-upgrade-1.25.0-1.26.0.patch"
+ filename="0001-hicolor-icon-theme-upgrade-0.17-0.18.patch"
 
-RnJvbSAzZThjZTdhMDBkYjdmMjJhYzZiZjc4ZGY3YjE3YjgzNTk0ZGNjMTViIE1vbiBTZXAgMTcg
+RnJvbSBhY2NkNTc2ODMxYTYyNWNkYTFmZmIzZWE4MzNmN2RkNWYwZTEyNjExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTQ6MzY6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJpbnB1dDogdXBncmFkZSAxLjI1LjAgLT4gMS4yNi4wCgotLS0KIC4uLi93YXlsYW5kL3tsaWJp
-bnB1dF8xLjI1LjAuYmIgPT4gbGliaW5wdXRfMS4yNi4wLmJifSAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3tsaWJpbnB1dF8xLjI1LjAuYmIgPT4gbGliaW5wdXRf
-MS4yNi4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXls
-YW5kL2xpYmlucHV0XzEuMjUuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xp
-YmlucHV0XzEuMjYuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9saWJpbnB1dF8xLjI1LjAuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjYuMC5iYgppbmRleCA4OTQ4NThl
-MzYxLi5mNjI4NTgyNmFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFu
-ZC9saWJpbnB1dF8xLjI1LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQv
-bGliaW5wdXRfMS4yNi4wLmJiCkBAIC0xNSw3ICsxNSw3IEBAIERFUEVORFMgPSAibGliZXZkZXYg
-dWRldiBtdGRldiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9saWJp
-bnB1dC9saWJpbnB1dC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAg
-ICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjNmZDM4ZDg5Mjc2
-YjY3OWFjMzU2NWVmZDdjMjE1MGZkMDQ3OTAyY2IiCitTUkNSRVYgPSAiOThiYTU2ZmIzMTEwNGUx
-MmExMTIyMDk1OGY0ODQxNTg5MjdjYTA5MyIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFVQU1RS
-RUFNX0NIRUNLX1JFR0VYID0gImxpYmlucHV0LSg/UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxk
-KykiCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTM6NTQ6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+aWNvbG9yLWljb24tdGhlbWU6IHVwZ3JhZGUgMC4xNyAtPiAwLjE4CgotLS0KIC4uLi97aGljb2xv
+ci1pY29uLXRoZW1lXzAuMTcuYmIgPT4gaGljb2xvci1pY29uLXRoZW1lXzAuMTguYmJ9IHwgMyAr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL3toaWNvbG9yLWljb24tdGhl
+bWVfMC4xNy5iYiA9PiBoaWNvbG9yLWljb24tdGhlbWVfMC4xOC5iYn0gKDgwJSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hpY29sb3ItaWNvbi10
+aGVtZV8wLjE3LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2hpY29sb3ItaWNvbi10aGVtZS9oaWNv
+bG9yLWljb24tdGhlbWVfMC4xOC5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hpY29sb3ItaWNvbi10aGVtZV8w
+LjE3LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hp
+Y29sb3ItaWNvbi10aGVtZV8wLjE4LmJiCmluZGV4IGJiNmNiMDAwYWIuLjBjYmQwMDU0NGIgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9oaWNvbG9yLWljb24tdGhlbWUvaGljb2xvci1p
+Y29uLXRoZW1lXzAuMTcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2hpY29sb3ItaWNvbi10
+aGVtZS9oaWNvbG9yLWljb24tdGhlbWVfMC4xOC5iYgpAQCAtOCw4ICs4LDcgQEAgTElDRU5TRSA9
+ICJHUEwtMi4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1m
+MDhhNDQ2ODA5OTEzZmM5YjNjNzE4ZjBlYWVhMDQyNiIKIAogU1JDX1VSSSA9ICJodHRwczovL2lj
+b24tdGhlbWUuZnJlZWRlc2t0b3Aub3JnL3JlbGVhc2VzLyR7QlBOfS0ke1BWfS50YXIueHoiCi1T
+UkNfVVJJW21kNXN1bV0gPSAiODRlZWM4ZDZmODEwMjQwYTA2OWM3MzFmMTg3MGI0NzQiCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiMzE3NDg0MzUyMjcxZDE4Y2JiY2ZhYzM4NjhlYWI3OThkNjdmZmYx
+Yjg0MDJlNzQwYmFhNmZmNDFkNTg4YTlkOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkYjBlNTBh
+ODBhYTNiZjY0YmI0NWNiY2E1Y2Y5Zjc1ZWZkOTM0OGNmMmFjNjkwYjkwNzQzNTIzOGMzY2Y4MWQ3
+IgogCiBpbmhlcml0IGFsbGFyY2ggYXV0b3Rvb2xzCiAKLS0gCjIuNDQuMAoK
 
---===============0557734091481189074==--
+--===============0923250151063371254==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1884 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (919 cached, 1 parsed). 1881 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the allarch sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-4095ba24153cd270e02be9e3b43eccfd34f2a68d"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:4095ba24153cd270e02be9e3b43eccfd34f2a68d"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 67 Local 55 Mirrors 0 Missed 12 Current 153 (82% match, 94% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 450 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_recipe_qa)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_recipe_qa: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_recipe_qa: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_recipe_qa unihash changed to d175cc31d5db0aec40798fc0475be45464d6c99e061aa8f7e18ca5dbeebe11ae
+NOTE: Setscene tasks completed
+NOTE: Running task 688 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_fetch)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_fetch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_unpack)
+NOTE: Running task 690 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_unpack: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_unpack: Succeeded
+NOTE: Running task 691 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_patch)
+NOTE: Running task 692 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_collect_spdx_deps)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_collect_spdx_deps: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_patch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_patch: Succeeded
+NOTE: Running task 693 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 694 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_lic)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_populate_lic: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_lic unihash changed to de450911c07f2d5ab1071b64965c38596eea11713c0a71a39697def95ea467ac
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_deploy_source_date_epoch unihash changed to aa7d69513862deebe12d974f806d1a82c33823db113d9b737d410232c85f8335
+NOTE: Setscene tasks completed
+NOTE: Running task 695 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_configure)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_configure: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_configure: Succeeded
+NOTE: Running task 696 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'common-linux', 'common-glibc', 'allarch-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75
+| make: *** No targets specified and no makefile found.  Stop.
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608:182 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 182
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 166
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 161
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 156
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 151
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608, line 195
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 696 tasks of which 686 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240615135425.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240615135425.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: hicolor-icon-theme-0.18-r0 do_compile: oe_runmake failed
+ERROR: hicolor-icon-theme-0.18-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.422608', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/log.do_compile.422608
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile) failed with exit code '1'
+
+--===============0923250151063371254==--
 
