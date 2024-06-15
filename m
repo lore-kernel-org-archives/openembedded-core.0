@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7224C3DA59
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E96AC3DA56
 	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 18:23:29 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.18374.1718475799230531369
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.18612.1718475799730404806
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jun 2024 11:23:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Iq8Yillx;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qHNg8uV/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101901d23b914-cfb26b64-c659-4c65-bb43-d2db218adbe6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PVEdnZv1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sXY9BDzz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101901d23ba61-ed4f51dc-c494-483f-9d36-f02416ff9672-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lgVNy6zTGJofY7DuGKOqq6st9di/LbluMvgCZXC+Idg=;
-	b=Iq8Yillxr5Xa30TJzxj0A2qJ2uPXNe6mkuSKFWmT+GSiGIqMKiTSGvk9M4wJAvtw
-	5bNCXT7iceOC9jfhbOUB1j749/Lutl59nmqZi7uZWtfjEvAozzutaNCk27CH6O8q9aj
-	Y+oNWycKyKizOHFV1HVfFQp9A4LG/CZUrXSKnmco=
+	bh=IUyqlie1tEonLOFwMKB0oFmgWJOuFeKkzC50WtUR9Ao=;
+	b=PVEdnZv1iGuvJ7VRsLwZ3Nvv/uuXEdooboJHxc6JCqvleNGNWSZK+nIroem83XpZ
+	LdzQmMKTL83s6lUNp4zrQCPEJ5WBEscIdeZHgg6Hjg3Kym4qkW5qW8UsW6r2ql8Qnlb
+	ELjcZG4oYO+JnrPYu6jAHWzRTle/URcU49UdkDbM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lgVNy6zTGJofY7DuGKOqq6st9di/LbluMvgCZXC+Idg=;
-	b=qHNg8uV/ayP+PA9WYqRWBJppZQlLrZ/a28+qbphtZyhIx8WNE4nAGx5e9v31m4C4
-	lRN02MrsBvRnp9nVI9cVeo7OaPfw3YvP/u8Nsz/194296yRWKvOgA/qnqcO+YOOg2On
-	jy9aY4k8CnKenLCb8t+6AoQCxGl4Qzvnu3I5UxIM=
-Content-Type: multipart/mixed; boundary="===============8148062576636152941=="
+	bh=IUyqlie1tEonLOFwMKB0oFmgWJOuFeKkzC50WtUR9Ao=;
+	b=sXY9BDzzwe4iEPU8T8ICYVyV212vV6kfCxydB77sjfUgnqY2l1woFkLxceGfvR8R
+	QMNlDf/CoSuHwnu8Pp0KskqdrcsAaQ3lZUaETwBDbBGN7LRENKbhEr5sZPgzuNeuQ5l
+	mxENtWJB0daFuKIZ7kNiakRt0g7O0EBQhPSyhBL8=
+Content-Type: multipart/mixed; boundary="===============8248382544726558442=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtschema: upgrading to 2024.5 SUCCEEDED
-Message-ID: <010101901d23b914-cfb26b64-c659-4c65-bb43-d2db218adbe6-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jun 2024 18:23:18 +0000
+Subject: [AUH] libstd-rs: upgrading to 1.79.0 FAILED
+Message-ID: <010101901d23ba61-ed4f51dc-c494-483f-9d36-f02416ff9672-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jun 2024 18:23:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.15-54.240.27.45
+X-SES-Outgoing: 2024.06.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 18:23:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200705
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200706
 
---===============8148062576636152941==
+--===============8248382544726558442==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,122 +51,143 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dtschema* to *2024.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *libstd-rs* to *1.79.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-dtschema-upgrade-2024.4-2024.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade libstd-rs -V 1.79.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1882 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1882 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (919 cached, 2 parsed). 1882 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-lfhk8q73: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-2o_tzz4y/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-2o_tzz4y/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:18:02
+Adding changed files:   0% |                                    | ETA:  0:13:33
+Adding changed files:   0% |                                    | ETA:  0:11:59
+Adding changed files:   0% |                                    | ETA:  0:11:20
+Adding changed files:   0% |                                    | ETA:  0:10:55
+Adding changed files:   0% |                                    | ETA:  0:10:19
+Adding changed files:   0% |                                    | ETA:  0:10:04
+Adding changed files:   0% |                                    | ETA:  0:09:53
+Adding changed files:   0% |                                    | ETA:  0:09:35
+Adding changed files:   0% |                                    | ETA:  0:09:23
+Adding changed files:   0% |                                    | ETA:  0:09:16
+Adding changed files:   0% |                                    | ETA:  0:09:09
+Adding changed files:   0% |                                    | ETA:  0:09:01
+Adding changed files:   0% |                                    | ETA:  0:08:59
+Adding changed files:   1% |                                    | ETA:  0:08:52
+Adding changed files:   1% |                                    | ETA:  0:08:50
+Adding changed files:   1% |                                    | ETA:  0:08:47
+Adding changed files:   1% |                                    | ETA:  0:08:44
+Adding changed files:   1% |                                    | ETA:  0:08:42
+Adding changed files:   1% |                                    | ETA:  0:08:40
+Adding changed files:   1% |                                    | ETA:  0:08:37
+Adding changed files:   1% |                                    | ETA:  0:08:33
+Adding changed files:   1% |                                    | ETA:  0:08:32
+Adding changed files:   1% |                                    | ETA:  0:08:31
+Adding changed files:   1% |                                    | ETA:  0:08:30
+Adding changed files:   1% |                                    | ETA:  0:08:29
+Adding changed files:   1% |                                    | ETA:  0:08:26
+Adding changed files:   1% |                                    | ETA:  0:08:23
+Adding changed files:   2% |                                    | ETA:  0:08:20
+Adding changed files:   2% |                                    | ETA:  0:08:19
+Adding changed files:   2% |                                    | ETA:  0:08:20
+Adding changed files:   2% |                                    | ETA:  0:08:21
+Adding changed files:   2% |                                    | ETA:  0:08:20
+Adding changed files:   2% |                                    | ETA:  0:08:19
+Adding changed files:   2% |                                    | ETA:  0:08:17
+Adding changed files:   2% |                                    | ETA:  0:08:19
+Adding changed files:   2% |                                    | ETA:  0:08:17
+Adding changed files:   2% |                                    | ETA:  0:08:15
+Adding changed files:   2% |                                    | ETA:  0:08:13
+Adding changed files:   2% |#                                   | ETA:  0:08:11
+Adding changed files:   2% |#                                   | ETA:  0:08:11
+Adding changed files:   2% |#                                   | ETA:  0:08:11
+Adding changed files:   2% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:10
+Adding changed files:   3% |#                                   | ETA:  0:08:10
+Adding changed files:   3% |#                                   | ETA:  0:08:10
+Adding changed files:   3% |#                                   | ETA:  0:08:10
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:12
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:10
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.79.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "tests/rustdoc/doc-hidden-private-67851-private.rs" "tests/rustdoc/doctest/auxiliary/empty.rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/duplicated-glob-reexport-60522.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-
+ private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/hide-mut-methods-if-no-derefmut-impl-74083.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/implementors-unstable-75588.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-57180.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inlin
+ e_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/ice-import-crate-57180.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_cross/issue-76736-4.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc-link-method-trait-impl-72340.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$name.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/markdown-60482.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "
+ tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sidebar-trait-impl-disambiguate-78701.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/synthetic_auto/auto-trait-lifetimes-56822.rs" "tests/rustdoc/synthetic_auto/bounds.rs" "tests/rustdoc/synthetic_auto/send-impl-conditional-60726.rs" "tests/rustdoc/synthetic_auto/supertrait-bounds.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/rustdoc/underscore-import-61592.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_binop.rs" "tests/ui-fulldeps/stable-mir/check_defs.rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_intrinsics.rs" "
+ tests/ui-fulldeps/stable-mir/check_item_kind.rs" "tests/ui-fulldeps/stable-mir/check_normalization.rs" "tests/ui-fulldeps/stable-mir/check_trait_queries.rs" "tests/ui-fulldeps/stable-mir/check_transform.rs" "tests/ui-fulldeps/stable-mir/check_ty_fold.rs" "tests/ui-fulldeps/stable-mir/projections.rs" "tests/ui/README.md" "tests/ui/abi/arm-unadjusted-intrinsic.rs" "tests/ui/abi/extern/extern-pass-FiveU16s.rs" "tests/ui/abi/extern/extern-return-FiveU16s.rs" "tests/ui/abi/statics/static-mut-foreign.stderr" "tests/ui/abi/unsized-args-in-c-abi-issues-94223-115845.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.stderr" "tests/ui/argfile/commandline-argfile-badutf8.args" "tests/ui/argfile/commandline-argfile-badutf8.rs" "tests/ui/argfile/commandline-argfile-badutf8.stderr" "tests/ui/argfile/commandline-argfile-missing-windows.rs" "tests/ui/argfile/commandline-argfile-missing-windows.stderr" "tests/ui/argfile/commandline-arg
+ file-missing.rs" "tests/ui/argfile/commandline-argfile-missing.stderr" "tests/ui/argfile/commandline-argfile-multiple-windows.rs"' failed with exit code 128:
+fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 25c5888aabf7005445fc59a105b96ab763d42e2c Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jun 2024 09:40:09 +0000
-Subject: [PATCH] python3-dtschema: upgrade 2024.4 -> 2024.5
-
----
- .../{python3-dtschema_2024.4.bb => python3-dtschema_2024.5.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dtschema_2024.4.bb => python3-dtschema_2024.5.bb} (85%)
-
-diff --git a/meta/recipes-devtools/python/python3-dtschema_2024.4.bb b/meta/recipes-devtools/python/python3-dtschema_2024.5.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-dtschema_2024.4.bb
-rename to meta/recipes-devtools/python/python3-dtschema_2024.5.bb
-index 9583cd57b9..1eb24eca23 100644
---- a/meta/recipes-devtools/python/python3-dtschema_2024.4.bb
-+++ b/meta/recipes-devtools/python/python3-dtschema_2024.5.bb
-@@ -7,7 +7,7 @@ inherit pypi python_setuptools_build_meta
- 
- PYPI_PACKAGE = "dtschema"
- 
--SRC_URI[sha256sum] = "18dd1d34b4a5e451291e5444e9ceb4a6febc605871cdaef22673b6f80aa4a131"
-+SRC_URI[sha256sum] = "ea259a9ba4d1e1eff44ac8d362950361e46750bdeaf30a437a7ed33159c35fd8"
- 
- DEPENDS += "python3-setuptools-scm-native"
- RDEPENDS:${PN} += "\
--- 
-2.44.0
-
-
---===============8148062576636152941==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-dtschema-upgrade-2024.4-2024.5.patch"
-
-RnJvbSAyNWM1ODg4YWFiZjcwMDU0NDVmYzU5YTEwNWI5NmFiNzYzZDQyZTJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMDk6NDA6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWR0c2NoZW1hOiB1cGdyYWRlIDIwMjQuNCAtPiAyMDI0LjUKCi0tLQogLi4uL3tweXRo
-b24zLWR0c2NoZW1hXzIwMjQuNC5iYiA9PiBweXRob24zLWR0c2NoZW1hXzIwMjQuNS5iYn0gIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1kdHNjaGVtYV8yMDI0LjQu
-YmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDI0LjUuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjQuNC5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDI0LjUuYmIKc2lt
-aWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWR0c2NoZW1hXzIwMjQuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjQuNS5iYgppbmRleCA5NTgzY2Q1N2I5Li4x
-ZWIyNGVjYTIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtZHRzY2hlbWFfMjAyNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1kdHNjaGVtYV8yMDI0LjUuYmIKQEAgLTcsNyArNyw3IEBAIGluaGVyaXQgcHlwaSBw
-eXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKIFBZUElfUEFDS0FHRSA9ICJkdHNjaGVtYSIK
-IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4ZGQxZDM0YjRhNWU0NTEyOTFlNTQ0NGU5Y2ViNGE2
-ZmViYzYwNTg3MWNkYWVmMjI2NzNiNmY4MGFhNGExMzEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-ZWEyNTlhOWJhNGQxZTFlZmY0NGFjOGQzNjI5NTAzNjFlNDY3NTBiZGVhZjMwYTQzN2E3ZWQzMzE1
-OWMzNWZkOCIKIAogREVQRU5EUyArPSAicHl0aG9uMy1zZXR1cHRvb2xzLXNjbS1uYXRpdmUiCiBS
-REVQRU5EUzoke1BOfSArPSAiXAotLSAKMi40NC4wCgo=
-
---===============8148062576636152941==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.12/site-packages/dtschema-2024.4.dist-info moved to /usr/lib/python3.12/site-packages/dtschema-2024.5.dist-info
-
---===============8148062576636152941==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-dtschema: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2024.4.tar.gz;downloadfilename=dtschema-2024.4.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2024.5.tar.gz;downloadfilename=dtschema-2024.5.tar.gz"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2024.4" to "2024.5"
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2024.4 [default] to 2024.5 [default]
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 359119 to 362571 (+1%)
-packages/core2-64-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2024.4" to "2024.5"
-Changes to packages/core2-64-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.12/site-packages/dtschema-2024.4.dist-info moved to /usr/lib/python3.12/site-packages/dtschema-2024.5.dist-info
-
---===============8148062576636152941==--
+--===============8248382544726558442==--
 
