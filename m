@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BBEBC2BBCA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774E8C2BD05
 	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 18:23:24 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.18629.1718475800876193850
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.18611.1718475799703250644
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jun 2024 11:23:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BjHu7sJw;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=z9ciRHfZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101901d23be6e-c34ae6fd-f20f-4575-8b05-fcb1a0d54075-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LzUOU9RJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pm/VHnCB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101901d23bf42-b0e045d6-131c-40d3-b704-3d63cc202688-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1718475800;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Q5PLNq6/Ff2Cr7L0MzpTwOgbyXjx491sSACU8SZhZEY=;
-	b=BjHu7sJwzSxIsc9RIX0u/+FGl2/sqxHYYUBJihUpCtxYLMhING1dUNzeWJCVdveY
-	vKiVsUKB0DQPJy33rkPGi2vOc9GZbkS1L3+BtJLO7WyIcqkTES9E91f6nOVBB2pggHj
-	++S3vHM6ucSZ84tm3CMBpZg4+smTSGVJILXzQvzE=
+	bh=7KaSQYFhNYhq45uxDWJw1iD5Fewy0bx6vCJb5gLbF7g=;
+	b=LzUOU9RJckf0CaSHpO1p3RdCPk5z5X8poOszVU1zfmv0lHryFo8ZFL/VSaVL4Qn7
+	ZgRXkkxCqpsvfxY2C39YlQz9DM48hfzuyLWmkxkfdqCIb6ejvE8pV+jopEfVvofypns
+	xJDgtQPeCiTB+uqzWod4rc3z4wncHdI6CrlbMiQ0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475800;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Q5PLNq6/Ff2Cr7L0MzpTwOgbyXjx491sSACU8SZhZEY=;
-	b=z9ciRHfZ9y8uuI6UoER0gKboP5Tr3ZCjpVrNidNQBFiQl+j1EwhWaaAEWYG0nTbO
-	ETd/hQT5jkqMyPOQE733cDZ638DaOKXuIyQoarOdfZLmggFiNe6OaBw9GGDhW12Js9e
-	Ha8qgczJ/ZOVOwLhcaewpGwB/5d3RKVmSL741Eyo=
-Content-Type: multipart/mixed; boundary="===============4204440783783155297=="
+	bh=7KaSQYFhNYhq45uxDWJw1iD5Fewy0bx6vCJb5gLbF7g=;
+	b=pm/VHnCBhZoR9Xt76QahNIfK1xSINFdrFL4yy1yvrfQ3KaVKFAUUJM905EaUJEnf
+	hgXKW1FbGAgrk01DOPE0NFaJWDC8lyR7APmSAF55E+41Vqg/BSimGdYeQrryNcLhU1W
+	rD2gEqWXfRMPBXdB8m0n3xvfuLl3EvEBgOkuq/Yc=
+Content-Type: multipart/mixed; boundary="===============6221061759912558673=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.24.4 SUCCEEDED
-Message-ID: <010101901d23be6e-c34ae6fd-f20f-4575-8b05-fcb1a0d54075-000000@us-west-2.amazonses.com>
+Subject: [AUH] diffoscope: upgrading to 271 SUCCEEDED
+Message-ID: <010101901d23bf42-b0e045d6-131c-40d3-b704-3d63cc202688-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Jun 2024 18:23:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.15-54.240.27.192
+X-SES-Outgoing: 2024.06.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 18:23:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200755
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200754
 
---===============4204440783783155297==
+--===============6221061759912558673==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.24.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *diffoscope* to *271* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-upgrade-1.24.3-1.24.4.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-267-271.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,120 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0550a117f451c9161b1cfa0ca27528fd906f2ca0 Mon Sep 17 00:00:00 2001
+From 24cebb779fc6ad50f5d54c2bac78d34873032bf7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jun 2024 15:50:48 +0000
-Subject: [PATCH] gstreamer1.0-rtsp-server: upgrade 1.24.3 -> 1.24.4
+Date: Sat, 15 Jun 2024 17:28:53 +0000
+Subject: [PATCH] diffoscope: upgrade 267 -> 271
 
 ---
- ...rtsp-server_1.24.3.bb => gstreamer1.0-rtsp-server_1.24.4.bb} | 2 +-
+ .../diffoscope/{diffoscope_267.bb => diffoscope_271.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.3.bb => gstreamer1.0-rtsp-server_1.24.4.bb} (90%)
+ rename meta/recipes-support/diffoscope/{diffoscope_267.bb => diffoscope_271.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb
-index f63d61b2c9..13431ed788 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_267.bb b/meta/recipes-support/diffoscope/diffoscope_271.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_267.bb
+rename to meta/recipes-support/diffoscope/diffoscope_271.bb
+index 69bad508cd..a8443183ec 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_267.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_271.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ inherit pypi setuptools3
  
--SRC_URI[sha256sum] = "62628ecca78b8f5b51c59a4d602c65e9205ffc50c3c83cd61fab1f6348b63565"
-+SRC_URI[sha256sum] = "eeca811cef6312fa21433294ae216b3c6fa0a389d8980727102516bdcf973eae"
+-SRC_URI[sha256sum] = "c0a807aa66e18eae88c1adca28988675c9749d3ad1a8db3d2eb7e2afb8763568"
++SRC_URI[sha256sum] = "7690f284a84a866c6f89fa5bb33a867574417ee1c5f2c6d49655cd3761d0fe2c"
  
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.44.0
 
 
---===============4204440783783155297==
+--===============6221061759912558673==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (0 cached, 920 parsed). 1882 targets, 46 skipped, 0 masked, 0 errors.
+Removing 115 recipes from the core2-64 sysroot...done.
+Removing 128 recipes from the qemux86_64 sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============6221061759912558673==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-rtsp-server-upgrade-1.24.3-1.24.4.patch"
+ filename="0001-diffoscope-upgrade-267-271.patch"
 
-RnJvbSAwNTUwYTExN2Y0NTFjOTE2MWIxY2ZhMGNhMjc1MjhmZDkwNmYyY2EwIE1vbiBTZXAgMTcg
+RnJvbSAyNGNlYmI3NzlmYzZhZDUwZjVkNTRjMmJhYzc4ZDM0ODczMDMyYmY3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTU6NTA6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXI6IHVwZ3JhZGUgMS4yNC4zIC0+IDEuMjQuNAoKLS0tCiAu
-Li5ydHNwLXNlcnZlcl8xLjI0LjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
-NC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
-MC1ydHNwLXNlcnZlcl8xLjI0LjMuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
-NC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuMy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yNC40LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
-YW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yNC4zLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
-NC5iYgppbmRleCBmNjNkNjFiMmM5Li4xMzQzMWVkNzg4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuMy5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0
-c3Atc2VydmVyXzEuMjQuNC5iYgpAQCAtMTAsNyArMTAsNyBAQCBQTlJFQUwgPSAiZ3N0LXJ0c3At
-c2VydmVyIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9z
-cmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI2MjYyOGVjY2E3OGI4ZjViNTFjNTlhNGQ2MDJjNjVlOTIwNWZmYzUwYzNjODNjZDYxZmFi
-MWY2MzQ4YjYzNTY1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImVlY2E4MTFjZWY2MzEyZmEyMTQz
-MzI5NGFlMjE2YjNjNmZhMGEzODlkODk4MDcyNzEwMjUxNmJkY2Y5NzNlYWUiCiAKIFMgPSAiJHtX
-T1JLRElSfS8ke1BOUkVBTH0tJHtQVn0iCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTc6Mjg6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aWZmb3Njb3BlOiB1cGdyYWRlIDI2NyAtPiAyNzEKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
+c2NvcGVfMjY3LmJiID0+IGRpZmZvc2NvcGVfMjcxLmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yNjcuYmIgPT4gZGlmZm9zY29wZV8y
+NzEuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzI2Ny5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
+Zm9zY29wZV8yNzEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI2Ny5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI3MS5iYgppbmRleCA2OWJhZDUw
+OGNkLi5hODQ0MzE4M2VjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
+b3BlL2RpZmZvc2NvcGVfMjY3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8yNzEuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
+ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiYzBhODA3YWE2NmUxOGVhZTg4YzFhZGNhMjg5ODg2NzVjOTc0OWQzYWQxYThkYjNkMmVi
+N2UyYWZiODc2MzU2OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3NjkwZjI4NGE4NGE4NjZjNmY4
+OWZhNWJiMzNhODY3NTc0NDE3ZWUxYzVmMmM2ZDQ5NjU1Y2QzNzYxZDBmZTJjIgogCiBSREVQRU5E
+Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ0LjAKCg==
 
---===============4204440783783155297==
+--===============6221061759912558673==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2403.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2404.0"
-Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2403.0 to libgstrtspserver-1.0.so.0.2404.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2403.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2404.0
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.12/site-packages/diffoscope-267.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-271.dist-info
 
---===============4204440783783155297==
+--===============6221061759912558673==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2403.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2404.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.4.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.24.3" to "1.24.4"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2403.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2404.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.24.3 [default] to 1.24.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2403.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2404.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.24.3" to "1.24.4"
-Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2403.0 to libgstrtspserver-1.0.so.0.2404.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2403.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2404.0
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1357812 to 1357778 (-0%)
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 267 [default] to 271 [default]
+packages/core2-64-poky-linux/diffoscope: PV changed from "267" to "271"
+packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-267.tar.gz;downloadfilename=diffoscope-267.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-271.tar.gz;downloadfilename=diffoscope-271.tar.gz"
+packages/core2-64-poky-linux/diffoscope: PKGV changed from 267 [default] to 271 [default]
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.12/site-packages/diffoscope-267.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-271.dist-info
 
---===============4204440783783155297==--
+--===============6221061759912558673==--
 
