@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 216C5C3DA4D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7A7C3DA4A
 	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 18:23:29 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.18389.1718475800258853654
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.18365.1718475798471897618
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jun 2024 11:23:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dsrYRszy;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AstRd8D2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101901d23bb02-8b5b5c09-f6da-43c5-a066-de6c9626ff3f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LWwnV5p/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oOdCwkxL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101901d23ba98-652adde8-c7f5-4e18-9c76-7537001f3506-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7IbrENm1po1Ztq6jqdVLo3opbKhtk1Xw+KhkGn4fJOE=;
-	b=dsrYRszyM5dDOscQEAyTclsRCsAUgvETf1GrNz0+8vOOsRz3C+BqPsMl1i4yTFwD
-	/R4epe9c+03QAKbscDso21wJBY9ubqAKDvpBDkTIoxbZ8+WSC4Tk/pkwaDJZW2Pugcb
-	RaHDg26VwU32Lsts9+X233tz+VitbwD6utHuWeIo=
+	bh=Thr/heXEUtoQk/0+McBB9EEW5nisb3DwkMwxO9tEiIc=;
+	b=LWwnV5p/bULv8UnlcWG+Wf6cefH0t6kq3XjVBSmduga6vyikjZm9bW1O+EJ7wNc1
+	IKAA2/PaZDR1lVzzkUNC+5cNKoQAEyBkLrzEsZmFHhhuh9Hs/seudZHNSSD2f44eQWQ
+	HMpL5l9OFljHP/CBXDpWowjHuxu0I6pJWHZ+MJ4g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718475799;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7IbrENm1po1Ztq6jqdVLo3opbKhtk1Xw+KhkGn4fJOE=;
-	b=AstRd8D24SEDTuAjdmT156sfIr4W41bZ/9aC8iiBUcqgAXcRd+hZr/4TOUSAv/Cl
-	TPaay54t0nGqdciloS+JR6XvJAA+98+zdE+NKkAByw5XXAXx1OpXd7ZWjBMaTsqE5uW
-	ccL51xyE8ARYi9XkAadAmY3nlPXKiKp3Y+pgqRvU=
-Content-Type: multipart/mixed; boundary="===============0824139490433212862=="
+	bh=Thr/heXEUtoQk/0+McBB9EEW5nisb3DwkMwxO9tEiIc=;
+	b=oOdCwkxLQpfHCp7MDLq8dXXrAgHPT/m2mZTq9MtO4M6tbROuVj52a2/IY2lANEMK
+	WRwa0laDLgcdJrxWjf3nvNix2yR5KPyk8GwnMRinXMzXL8MTTQcFLJ0nOmBEvKS1aak
+	j7Y0pZNHR3HuG3j+Rsr8zgeQcAS8RuwvDc1hECEo=
+Content-Type: multipart/mixed; boundary="===============0967460499066052638=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.9 SUCCEEDED
-Message-ID: <010101901d23bb02-8b5b5c09-f6da-43c5-a066-de6c9626ff3f-000000@us-west-2.amazonses.com>
+Subject: [AUH] rust: upgrading to 1.79.0 FAILED
+Message-ID: <010101901d23ba98-652adde8-c7f5-4e18-9c76-7537001f3506-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Jun 2024 18:23:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.06.15-54.240.27.45
+X-SES-Outgoing: 2024.06.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 18:23:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200714
 
---===============0824139490433212862==
+--===============0967460499066052638==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,171 +51,144 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *rust* to *1.79.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.7-6.9.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade rust -V 1.79.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1884 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1884 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (919 cached, 2 parsed). 1882 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3c36597549ea58d0c45cd062006ef734cd5b8cf9"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-mz6clf62: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f11rcg5g/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f11rcg5g/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:17:49
+Adding changed files:   0% |                                    | ETA:  0:13:28
+Adding changed files:   0% |                                    | ETA:  0:11:57
+Adding changed files:   0% |                                    | ETA:  0:11:17
+Adding changed files:   0% |                                    | ETA:  0:10:54
+Adding changed files:   0% |                                    | ETA:  0:10:18
+Adding changed files:   0% |                                    | ETA:  0:10:00
+Adding changed files:   0% |                                    | ETA:  0:09:51
+Adding changed files:   0% |                                    | ETA:  0:09:32
+Adding changed files:   0% |                                    | ETA:  0:09:20
+Adding changed files:   0% |                                    | ETA:  0:09:12
+Adding changed files:   0% |                                    | ETA:  0:09:07
+Adding changed files:   0% |                                    | ETA:  0:08:57
+Adding changed files:   0% |                                    | ETA:  0:08:56
+Adding changed files:   1% |                                    | ETA:  0:08:50
+Adding changed files:   1% |                                    | ETA:  0:08:48
+Adding changed files:   1% |                                    | ETA:  0:08:46
+Adding changed files:   1% |                                    | ETA:  0:08:42
+Adding changed files:   1% |                                    | ETA:  0:08:40
+Adding changed files:   1% |                                    | ETA:  0:08:38
+Adding changed files:   1% |                                    | ETA:  0:08:35
+Adding changed files:   1% |                                    | ETA:  0:08:32
+Adding changed files:   1% |                                    | ETA:  0:08:30
+Adding changed files:   1% |                                    | ETA:  0:08:29
+Adding changed files:   1% |                                    | ETA:  0:08:28
+Adding changed files:   1% |                                    | ETA:  0:08:26
+Adding changed files:   1% |                                    | ETA:  0:08:24
+Adding changed files:   1% |                                    | ETA:  0:08:21
+Adding changed files:   2% |                                    | ETA:  0:08:18
+Adding changed files:   2% |                                    | ETA:  0:08:17
+Adding changed files:   2% |                                    | ETA:  0:08:18
+Adding changed files:   2% |                                    | ETA:  0:08:19
+Adding changed files:   2% |                                    | ETA:  0:08:18
+Adding changed files:   2% |                                    | ETA:  0:08:16
+Adding changed files:   2% |                                    | ETA:  0:08:15
+Adding changed files:   2% |                                    | ETA:  0:08:17
+Adding changed files:   2% |                                    | ETA:  0:08:15
+Adding changed files:   2% |                                    | ETA:  0:08:13
+Adding changed files:   2% |                                    | ETA:  0:08:11
+Adding changed files:   2% |#                                   | ETA:  0:08:09
+Adding changed files:   2% |#                                   | ETA:  0:08:09
+Adding changed files:   2% |#                                   | ETA:  0:08:09
+Adding changed files:   2% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:07
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:09
+Adding changed files:   3% |#                                   | ETA:  0:08:08
+Adding changed files:   3% |#                                   | ETA:  0:08:06
+Adding changed files:   3% |#                                   | ETA:  0:08:06
+Adding changed files:   3% |#                                   | ETA:  0:08:07
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.79.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "tests/rustdoc/doc-hidden-private-67851-private.rs" "tests/rustdoc/doctest/auxiliary/empty.rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/duplicated-glob-reexport-60522.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-
+ private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/hide-mut-methods-if-no-derefmut-impl-74083.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/implementors-unstable-75588.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-57180.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inlin
+ e_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/ice-import-crate-57180.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_cross/issue-76736-4.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc-link-method-trait-impl-72340.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$name.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/markdown-60482.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "
+ tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sidebar-trait-impl-disambiguate-78701.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/synthetic_auto/auto-trait-lifetimes-56822.rs" "tests/rustdoc/synthetic_auto/bounds.rs" "tests/rustdoc/synthetic_auto/send-impl-conditional-60726.rs" "tests/rustdoc/synthetic_auto/supertrait-bounds.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/rustdoc/underscore-import-61592.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_binop.rs" "tests/ui-fulldeps/stable-mir/check_defs.rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_intrinsics.rs" "
+ tests/ui-fulldeps/stable-mir/check_item_kind.rs" "tests/ui-fulldeps/stable-mir/check_normalization.rs" "tests/ui-fulldeps/stable-mir/check_trait_queries.rs" "tests/ui-fulldeps/stable-mir/check_transform.rs" "tests/ui-fulldeps/stable-mir/check_ty_fold.rs" "tests/ui-fulldeps/stable-mir/projections.rs" "tests/ui/README.md" "tests/ui/abi/arm-unadjusted-intrinsic.rs" "tests/ui/abi/extern/extern-pass-FiveU16s.rs" "tests/ui/abi/extern/extern-return-FiveU16s.rs" "tests/ui/abi/statics/static-mut-foreign.stderr" "tests/ui/abi/unsized-args-in-c-abi-issues-94223-115845.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.stderr" "tests/ui/argfile/commandline-argfile-badutf8.args" "tests/ui/argfile/commandline-argfile-badutf8.rs" "tests/ui/argfile/commandline-argfile-badutf8.stderr" "tests/ui/argfile/commandline-argfile-missing-windows.rs" "tests/ui/argfile/commandline-argfile-missing-windows.stderr" "tests/ui/argfile/commandline-arg
+ file-missing.rs" "tests/ui/argfile/commandline-argfile-missing.stderr" "tests/ui/argfile/commandline-argfile-multiple-windows.rs"' failed with exit code 128:
+fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From ba61b7f94dfacccfaf0ee7fd9b3e946d0b6341f0 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jun 2024 11:28:06 +0000
-Subject: [PATCH] ethtool: upgrade 6.7 -> 6.9
-
----
- .../ethtool/ethtool/avoid_parallel_tests.patch             | 7 +++----
- .../ethtool/{ethtool_6.7.bb => ethtool_6.9.bb}             | 2 +-
- 2 files changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_6.7.bb => ethtool_6.9.bb} (93%)
-
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 69df8632f2..c3913c96e5 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From 758fde7186730ee331a0ee6149276cd412766ee0 Mon Sep 17 00:00:00 2001
-+From 4361d0a3eb421c797e2748b835d379d2a2b41949 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -9,16 +9,15 @@ serial-tests is required to generate those targets.
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Inappropriate
- (default automake behavior incompatible with ptest)
--
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index c871558..8ea1eaa 100644
-+index e494aac..42dd40f 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.7, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.9, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
-diff --git a/meta/recipes-extended/ethtool/ethtool_6.7.bb b/meta/recipes-extended/ethtool/ethtool_6.9.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_6.7.bb
-rename to meta/recipes-extended/ethtool/ethtool_6.9.bb
-index 33df0e0e80..1837b1ed1e 100644
---- a/meta/recipes-extended/ethtool/ethtool_6.7.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_6.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
- 
--SRC_URI[sha256sum] = "ace0e95a03b38208af4ebacb415244568ace44c5d5a279ea434844f900179c75"
-+SRC_URI[sha256sum] = "0011fb1b20101879f2d01d39cd2bc1d9646990d07d64de893415404a3afc53ef"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
--- 
-2.44.0
-
-
---===============0824139490433212862==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.7-6.9.patch"
-
-RnJvbSBiYTYxYjdmOTRkZmFjY2NmYWYwZWU3ZmQ5YjNlOTQ2ZDBiNjM0MWYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVuIDIwMjQgMTE6Mjg6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDYuNyAtPiA2LjkKCi0tLQogLi4uL2V0aHRvb2wvZXRodG9vbC9hdm9p
-ZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCAgICAgICAgICAgICB8IDcgKysrLS0tLQogLi4uL2V0aHRv
-b2wve2V0aHRvb2xfNi43LmJiID0+IGV0aHRvb2xfNi45LmJifSAgICAgICAgICAgICB8IDIgKy0K
-IDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL3tldGh0b29sXzYuNy5iYiA9PiBldGh0b29s
-XzYuOS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAppbmRleCA2OWRm
-ODYzMmYyLi5jMzkxM2M5NmU1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRo
-dG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIDc1OGZkZTcxODY3MzBlZTMzMWEwZWU2MTQ5Mjc2Y2Q0MTI3NjZl
-ZTAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQzNjFkMGEzZWI0MjFjNzk3ZTI3NDhi
-ODM1ZDM3OWQyYTJiNDE5NDkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBUdWRvciBG
-bG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IFdlZCwgMjggTWF5IDIwMTQgMTg6
-NTk6NTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXRodG9vbDogdXNlIHNlcmlhbC10ZXN0cyBj
-b25maWcgbmVlZGVkIGJ5IHB0ZXN0LgpAQCAtOSwxNiArOSwxNSBAQCBzZXJpYWwtdGVzdHMgaXMg
-cmVxdWlyZWQgdG8gZ2VuZXJhdGUgdGhvc2UgdGFyZ2V0cy4KIFNpZ25lZC1vZmYtYnk6IFR1ZG9y
-IEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
-cHJpYXRlCiAoZGVmYXVsdCBhdXRvbWFrZSBiZWhhdmlvciBpbmNvbXBhdGlibGUgd2l0aCBwdGVz
-dCkKLQogLS0tCiAgY29uZmlndXJlLmFjIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29u
-ZmlndXJlLmFjCi1pbmRleCBjODcxNTU4Li44ZWExZWFhIDEwMDY0NAoraW5kZXggZTQ5NGFhYy4u
-NDJkZDQwZiAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCi1A
-QCAtMyw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjcsIG5ldGRldkB2Z2VyLmtlcm5lbC5v
-cmcpCitAQCAtMyw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjksIG5ldGRldkB2Z2VyLmtl
-cm5lbC5vcmcpCiAgQUNfUFJFUkVRKDIuNTIpCiAgQUNfQ09ORklHX01BQ1JPX0RJUihbbTRdKQog
-IEFDX0NPTkZJR19TUkNESVIoW2V0aHRvb2wuY10pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuNy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9l
-dGh0b29sL2V0aHRvb2xfNi45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi43LmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuOS5iYgppbmRleCAzM2RmMGUwZTgw
-Li4xODM3YjFlZDFlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9l
-dGh0b29sXzYuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29s
-XzYuOS5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0v
-c29mdHdhcmUvbmV0d29yay9ldGh0b29sL2V0aHRvb2wtJHtQVn0udGFyLmd6IFwKICAgICAgICAg
-ICAgZmlsZTovL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiYWNlMGU5NWEwM2IzODIwOGFmNGViYWNiNDE1MjQ0NTY4YWNl
-NDRjNWQ1YTI3OWVhNDM0ODQ0ZjkwMDE3OWM3NSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwMDEx
-ZmIxYjIwMTAxODc5ZjJkMDFkMzljZDJiYzFkOTY0Njk5MGQwN2Q2NGRlODkzNDE1NDA0YTNhZmM1
-M2VmIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIv
-c29mdHdhcmUvbmV0d29yay9ldGh0b29sLyIKIAotLSAKMi40NC4wCgo=
-
---===============0824139490433212862==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 24621 to 24728 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 4447336 to 4458416 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 48101 to 48871 (+2%)
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1709290 to 1713386 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-src: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1401782 to 1427444 (+2%)
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.7.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.9.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
-packages/core2-64-poky-linux/ethtool: PKGV changed from 6.7 [default] to 6.9 [default]
-
---===============0824139490433212862==--
+--===============0967460499066052638==--
 
