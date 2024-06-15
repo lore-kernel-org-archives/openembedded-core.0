@@ -1,312 +1,599 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CEF1C27C53
-	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 03:41:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.5922.1718422890964399555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA1DC27C4F
+	for <webhook@archiver.kernel.org>; Sat, 15 Jun 2024 03:45:09 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.5880.1718423099385663843
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jun 2024 20:41:31 -0700
+ Fri, 14 Jun 2024 20:44:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=689688d2a9=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45F3eYth025939
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 03:41:30 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ys1x6g15j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 03:41:29 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45F3fTVL027495
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 03:41:29 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2173.outbound.protection.outlook.com [104.47.73.173])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ys1x6g15h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 15 Jun 2024 03:41:29 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VsmVLIir3KwYHJxs/CzCRGro0eMyA6SR8dOKiXzO5AeuoqHxngYaBpOYpktFG8gcdEJ15HMVOfBmRFYgprX/Ct4TvIsoOFSu6CxseRDPXHOaQYRnr4QZoWlerKbXJ2RLBl4vGdIIOPvyr67Il16wf++TnnRawgG81HZqd01gIMWnaQ1qMe3xMPdjW1h1lOEI5K2gMmvw8SL9VuVDCUWNIoThnzPWKcz87slXEomf1CrnQUvEJTsxZ3JsPFy6kuI1hWfnoukRjyHEx8Wvk2W8CkFAW9LpGhRI76K5bw9MBflvTNRgxgTet2pH5DPGr1qokPtV9d8n5XgM7G3TGWs2CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SvMjbdtfKRIt2/GoxuFHPPXcAeFpB8lqPD3VC+0qv5g=;
- b=L+BJRUosRX+B1fzmJ/fQgB+osyJSxfTk83b4akemecHk+G8nQrQn/3qLuhx0ay0dzJKuZRSf/B3eWhjjU1lApVhcznZkg6a4az7VmDpNIXk/D3K2s2Eeazbn/Oze9cPqiD6/UDeSBn1azv0sqMXGsnO8U0QaGFf/C4biCs4ZU6fS9AhwgzHO3unxz1u5o2dXssHDl/8voRO4VIckiF0x/IFSGNeagsdF+/YeNxrvTl93+k3BO9tK+/XLuRQU74jaAkDUqD8MMInUxommllq10JBXm1ji8/VJjdcTtkui589ikqk4cbqyutcOXYfADYKieior86O6ezR4Y3hcKDB2pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.24; Sat, 15 Jun
- 2024 03:41:24 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7677.024; Sat, 15 Jun 2024
- 03:41:23 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH 2/2] findutils: upgrade from 4.9.0 to 4.10.0
-Thread-Topic: [OE-core][PATCH 2/2] findutils: upgrade from 4.9.0 to 4.10.0
-Thread-Index: AQHauAvstBdRQPJ5JEyl8kOI64aJOLHH7FYAgABOpHA=
-Date: Sat, 15 Jun 2024 03:41:23 +0000
-Message-ID: 
- <CO6PR11MB5602E08A795C01D661173BA4EDC32@CO6PR11MB5602.namprd11.prod.outlook.com>
-References: <20240606122013.145187-1-Qi.Chen@windriver.com>
- <20240606122013.145187-2-Qi.Chen@windriver.com>
- <CAMKF1so7WataSnd5UAWVLD0mbjnSXeCseaEg_Qs95Kxuqu-4qA@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1so7WataSnd5UAWVLD0mbjnSXeCseaEg_Qs95Kxuqu-4qA@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|DS0PR11MB7529:EE_
-x-ms-office365-filtering-correlation-id: ed382fdc-3901-4895-eb54-08dc8ced0761
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230037|366013|4022899006|376011|1800799021|38070700015;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?Qnd1WW5vWlorenhKM25BSEZCQ0pVT3BvNkkxZFBaUWJtSE90L0xMa0NpckZX?=
- =?utf-8?B?VTBmdUE4amk1ZUdrUXJpazFDUVNVMUlPZ245U3ZmVjFHOE1ZQW52b3VOcHhD?=
- =?utf-8?B?dzZ5ZjNZczNxczhtNlhRa3ZRdzNHdS8ySWpYTzNadzRDcWovdmM0cmErRHgw?=
- =?utf-8?B?eWJTZE1naU8xd3BvTEcvb01zSWRqYnFZbE9IYnNhK1NoRmQ3Z0JnY1JIN3lQ?=
- =?utf-8?B?bkpRZmdJUUI1Ykh6M2wrM1JBUmRIZUlPQnFoZ3lWV0ZTOWVVQVhOUWJ6RXQ1?=
- =?utf-8?B?MjZSUEFWakxmRVJxMHRER21NYXRJckVxSThZQUN3eHEybE5xSVZjbTRZNmJq?=
- =?utf-8?B?czVycmhhR1ZaRUZBUEFNaXQwaDJKaDhoVXV1TW5aNG4rRjJsUFUrRndtVE5t?=
- =?utf-8?B?UEpyVWY4MnFOZk5nZlFGbjI5V21tRGxRakdybEdoSGwwM2ZwNXVTRENGdVBt?=
- =?utf-8?B?SXpMWi84a1U2MERNK1E4YU9QYWtJaWtWTVRsWENpM3Y0dDR0WmVBUkE4TnZU?=
- =?utf-8?B?UzdleFJRREhTN0YyMVg1eTlrN3Z0TXQwWEtLek5FbW9MYnNBRGNheXdoVk8y?=
- =?utf-8?B?aS8xWE5FZjhiNUxicy9VbkNvTjlrdDhsdkNzYW85QmRrcjBXQXVvbEMzTjVm?=
- =?utf-8?B?M0IxWmlFRTNNN0ViVlhPYVVTYmRPclROSDFqY1ViQW5FTzlXMEZkeFV0SFNW?=
- =?utf-8?B?aGlOaG01ZU1vYVhMNGMxOERMNWNiTXV1U3NqYS9CVFp3YnNyeGg3Mzh1ZXN6?=
- =?utf-8?B?L2F1U0VnMUQxMGNOWUo3WWwrR2FGMS9ick9HK2VjOTgxQnVSZys5d2lVWFc1?=
- =?utf-8?B?WldZYlFOMk55SnVuRzRUNzRqc1VVQzIvcHpXZXIwVHVYTXVGVkpPUi9jZXVG?=
- =?utf-8?B?S1dDNHVJU1dOZE14NGZxK0tOZlA1dk5reWtManFUSSs5U1J0M2h5QWJ3ZHdp?=
- =?utf-8?B?ak8vbHlnSkp2V2srM3MzK2VpdXFGaitDcmlMZ1hmWTBMMVBsajA1aXA0L3I0?=
- =?utf-8?B?dUVKWE5nR3dkb3NvMTBSNGNkNDcwd2ZnQU9UNVZIcTVaZkthcHlwR1FrVE5M?=
- =?utf-8?B?M3ZKQWY5ZTJsVnc2RTgza0FTK1Y4ZmR6OFIxN1lTdksvYlBQMVBMdXd3NzBP?=
- =?utf-8?B?T2QzUjhHSUREd1dMZWNsYWxXS2xDdVJiWGhDT296R25saTBwOXFINXVpaDBz?=
- =?utf-8?B?dkRjcDdXU1lma0RzNTBWTGdkTGY4QUdiNFlQdVp1Yzl4UmlBNDFYZHBodmFi?=
- =?utf-8?B?QWV5aWVHZ2czd1RoNjVZNFZERnBxanBtc2ZSTWJsZmI3NzNjSkJLb2N1VWJq?=
- =?utf-8?B?KzZxWlpZb29Dd2E1c0U1dVZlRUVUVEVxRFdxaDROVlVRZlJtQXAzNTBwc1hZ?=
- =?utf-8?B?QTBoM0JVMXFhaDVRN24wRzlwZzFuanM0Y0pEUTRjZWJ4cXBUWSt3WkFpbW1o?=
- =?utf-8?B?Y1V3RXMyd2o5RzljK0RkdjRGNXFnVGdrQjVEN0lHOHlicDlLWE0rb29OQ0RR?=
- =?utf-8?B?bjFnakMwcWpiRSsrUjNFMDZXMnh1SGlVbm5CNFZLTTFkWENqRlpUQ1Q1RU8z?=
- =?utf-8?B?TkhnSkhCSU9pYWROM2VqOXI2R2txK2M3OEl6VHUzWlFGTk5SUngvcnlUNDRh?=
- =?utf-8?B?NG9lSUZOQ09TMldLWXVTTTBOTWU3TUkvR3o3U1docEQ3TnZyK2hCVm1DbGJs?=
- =?utf-8?B?RmlLOXFzSVpDcEozUzhUaGtmVWhZamwwWm1iYWtZWnlkOUZNdDh1dHpCRGtm?=
- =?utf-8?Q?LYlJ5D3V/6mVYNtlFN011NvuNLU04Fp7e35yf0q?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(4022899006)(376011)(1800799021)(38070700015);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YllPYzNPY0gvMXhFSloyczJJZ2tQSlBTVzNMRThxR0FjUWRxM0FjbG1GVCtH?=
- =?utf-8?B?T2ZvSVM2dXFEV3FtQ2VxbEZ2NkJMZEJBTzZCM0F2STFCaHlJQlp4S1kzY3Vw?=
- =?utf-8?B?KzlBU3NIMHR0WVFDSjN1OTExN3RTQW9iRklXMXYycGt0dloxOTZHQyttRlhZ?=
- =?utf-8?B?UUJUWjQyZk12Y0JhMW14aGlxTjI0QzNQNU9qVnFYcjlZWW5MVFgzRTdrUFN5?=
- =?utf-8?B?Y1l4WG5LUjkrMStXT054dTQ0NldoaGJJMHdxVUpST1FEcDNDT0YyVmhkUC90?=
- =?utf-8?B?ZGlpa2paV09qcUI1VWJCZ21Jd2FCYlFTMGpvSTQ1ZFhoM0xkQW5uWkY5dDg5?=
- =?utf-8?B?blZic2F1b2VmT0g0S3FobC9PREVEQkx2L1h1aEU1K3hZNW44eDNFRlhIZnZu?=
- =?utf-8?B?UW5FTTNwcmxlKzVkRHVtazJrNEM4aS91b2luY1ZIODY0S2ZRVkNNZGlLRVBr?=
- =?utf-8?B?NkliZW1XY1RWQnBORS9wVHQxYjlVb0Z0bmV6dHVNMFlvVHBBTVNIQ3RmY0tt?=
- =?utf-8?B?dS81RWxRODlXL0NqbnAwTWdSN1p6RmxIemRKSVVmRENOcnBJcFl3SmlpVmZV?=
- =?utf-8?B?bmlydnN2amJwek9kblZJRVNEbWVrZGZpMDU3T2krZ3M4dWIxbkZkbytPMFZh?=
- =?utf-8?B?TG11OWRxVmovbGdoeExnNkdzWWU2RHVOeFFBYkVzNGNnaHlNeFg1NXI4RmlO?=
- =?utf-8?B?eXhXd1pTaTVRV2o4U2t5VjdZeDE4Z1lHOGJsTVYweTdhZnVZZUkvdHY3dkFZ?=
- =?utf-8?B?NVJMNktiUG9oUDVaWS8zTEhhbG0rUmN6STZaa0U2cWFOb2lvVlRPbjh1cEtn?=
- =?utf-8?B?UjVIL0k4ekdxajhxY1FGYURHaU1PT1BJcGRDZnhoQ0xlNjUzdzF0QTFUN3J0?=
- =?utf-8?B?TW1FbVZWMXhpdHY0TXhSV09YSlN0NmNldHFaQkRBR2hRTU1yYkpqREllbFho?=
- =?utf-8?B?bE5Wd1loT0liOXB5UlFpeldXU2dyUVdtamRRWlBSTnBVZEczK3Y0MHJQV1NP?=
- =?utf-8?B?bVN4Z2tYTUI1UnBDWXMxQmFjZy83NlZZQ1Rrb09pMS9ud0x0S3FFaUJwN3ZQ?=
- =?utf-8?B?MFloVjhOQktrQjZ6WEg4WXhzdXRXSkRELzUrcEpDSTNOb0ZnbWZ6TWRTZjhQ?=
- =?utf-8?B?UDFxSDAvSmp0bVRvV2Y5KzFFYlZPR0lneFA2NmNoMXRXbVVzdHFTWkZDVFdk?=
- =?utf-8?B?UkNlUEVVMXNqK08rZk8wNlUrRFVFYXM5QXBtUEtCUXIzMDUzVEt4Z293TWtu?=
- =?utf-8?B?SExpQWV5dkNKZlpNMm9oM1EyaFBvZzQzTWRuZVhRaWRpbmFQQ0xCK3BYd21C?=
- =?utf-8?B?a1dFVm4xa1h0OVpWT0llNGJYOW1ud2ZrVVA0OTV6ZEQzWTh3UHJ3OVNUM2kz?=
- =?utf-8?B?dDUxUWxmT0tTUU5YdFZPRGJlN1ozTHowdUdUVW1QNHJobEV5SXlkdEdKWVBZ?=
- =?utf-8?B?VzgzTFFyR1VMcEFaNkZOdHZzVGFva1ZSQmJWVDRvNk84cWlqR3VXNXZJMkM5?=
- =?utf-8?B?dktpTUJzVm4xREdwQXZjdStYQmZzNDVpbzBydmpzaDBUUnJJemdDb1FMa3hV?=
- =?utf-8?B?YWlONk1Cdkw5Ry8vNzd4S2pmTzZkbG1za3ZnNlpwR0MxczV2ZFk3cTVPdmtL?=
- =?utf-8?B?amRUUUJZeXdIZDNKemNyMjhtOExHQlRHK2lsZ0g2QVk2T0w3Zlh5R1grZk9B?=
- =?utf-8?B?dW5pTmNTMHZNUzVHLzZLZUZWaU9KcFp3K05mN0lRd29yMXVoVHh0TjhXUkp3?=
- =?utf-8?B?QkZtT3ZhTjVwT2FGenJpKzdyU053VGlLTEpaaFJ1OXo3aEllaGhJZkUrbjIx?=
- =?utf-8?B?YnB2SCtWSkJFc2JtT09ZMHlhdEZXbng1QlMyRDNmSlcveDFSUDBxSTUyT3Bm?=
- =?utf-8?B?Wk8veHByVjA1eHI2WWY0K3RPaitpQ09uQ0NPZ3hORTBrSU80WSthUEtnTFVR?=
- =?utf-8?B?WXpLWUtneU4xVHErVnlBdjVweXIyeW8xemkrZGRhS24wb3FEQlpoQUljYmdo?=
- =?utf-8?B?UGVBMk4rQUVSUjJvUmNVYi94TTlOaWJUK1JjbHZHSUgwVjdlWE53MWYxU2hH?=
- =?utf-8?B?YlRwMTZwcTNHQ2FVMWpicndlK2tpYnhibXJUME1RYUFYZHhhWE5WSTBsbWZa?=
- =?utf-8?Q?jfQD+ahCskiDM9iszH0YJxkqt?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j4Y9m7TG;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-24cbb884377so1527055fac.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jun 2024 20:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718423098; x=1719027898; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yYMckClb3jdo/oDJhwWxo78bcKAIgAtyxgBiA7I6CwM=;
+        b=j4Y9m7TGjpo/G+6GZ3Wm5e5XAyTvelLqzceRAwUA810PLshAstgn7afAeEAtWHcxcX
+         t0cf/K+r/61QmbgybidZCLTiOKxUNGmRwkOwpj6v86B4cNnDBCcZw3u5tuNC6cCHRwJz
+         YcJVVKS/wOjbsvjv4nZtx9QPnauKJRLzu+LoxADDERv+AdxaoVGuqOlU3ARsaDnTcNWg
+         C60soB9Fzu/n7C+EXDO0XHSaG1qs8wghej21KRv11T9I7mFiCZhLVCmAFcURTIWPuDyH
+         RYVZxU/73Dx67gJWAW5aG7UzOokaoRKnjLG5n5OEEVrKNr7HzF27CEDJZlTreAf+jTUK
+         1KLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718423098; x=1719027898;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yYMckClb3jdo/oDJhwWxo78bcKAIgAtyxgBiA7I6CwM=;
+        b=pAQsFjOeN1sPvfXBaeRWRKq5WYpQphDSbcxPilHOYFyy27ZQPZ6MgiswdPJlgOFk4i
+         66kBCMVfzCAEf9DguVG5ihQapakLDuiiSKcSAsNUFQ9FMq3bBdjkDm1+KFKES9gHKHHL
+         J5BL5OSH237C07rZFhmvLGTzMJiNiQSzGKxXHcH7GW23aq8awsod2cliDnPDRdM3tfnO
+         tdo17OuidvipoUOI5FykVr5sGLc49MW/BLePFjZG7phFby3V9Q1HWLyU9/Y31iC2owjM
+         pCh+vF1kCAkpc7aB5qAzWEBcvWRh3LANqGsIUdNEATU5i91pOa3sKkIQU1WwvWCdj+SW
+         40tg==
+X-Gm-Message-State: AOJu0Yy+PngiN6Mw+169Fjbbm47PlNOL+w6Eccz9H1WY1hRcUm8Y3a5Z
+	khMGopaEc1uhKoovJlhmNgfoQcWL0G5ENebPZsfuBJEJOpayEorcT+lyrxa6gk3Yn47m9jWvzxs
+	kQjfNmMNpfv0JAK4MHM07f+ODqe3Yaw==
+X-Google-Smtp-Source: AGHT+IHM2I8jCD3pKnuseQragJJgNdtFUdU9Nub2KKDsYH2vGo3kiUWEXlI7XFj2fRJHo8SihxIV1mkGSQTc4KVyBvU=
+X-Received: by 2002:a05:6870:472c:b0:250:7a43:af02 with SMTP id
+ 586e51a60fabf-2584288ca96mr4713080fac.11.1718423098365; Fri, 14 Jun 2024
+ 20:44:58 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed382fdc-3901-4895-eb54-08dc8ced0761
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2024 03:41:23.8691
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PjRbSP5hwbKodSOCCx96PdkmrQbdDhWsH+VSLXJvpZuJrsGDzZ9ZL+xpTgm7Zsw6J7VXHhdGbzWtSCEhU01dBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7529
-X-Proofpoint-GUID: pv_MtsfZcaFUIf8kUzRJ90rulq2TLFZk
-X-Proofpoint-ORIG-GUID: BLMYdLOHpxTsa6JJpGtdoW-zas4YPNfD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-14_19,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=999
- suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.21.0-2405170001
- definitions=main-2406150027
+References: <20240606122013.145187-1-Qi.Chen@windriver.com>
+ <20240606122013.145187-2-Qi.Chen@windriver.com> <CAMKF1so7WataSnd5UAWVLD0mbjnSXeCseaEg_Qs95Kxuqu-4qA@mail.gmail.com>
+ <CO6PR11MB5602E08A795C01D661173BA4EDC32@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB5602E08A795C01D661173BA4EDC32@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Jun 2024 20:44:47 -0700
+Message-ID: <CAMKF1soAvPZM3g=cXzxMNRYH+JqV7-CmrEUnzcFbwpwpesbH5Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/2] findutils: upgrade from 4.9.0 to 4.10.0
+To: "Chen, Qi" <Qi.Chen@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005a1c62061ae58ea0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 03:41:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200664
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Jun 2024 03:45:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200665
 
-SSBqdXN0IGNoZWNrZWQuIFRoZSBwcm9ibGVtIGNvdWxkIG5vdCBiZSByZXByb2R1Y2VkIG9uIG15
-IHNpZGUuIENvbW1hbmRzIGFuZCBvdXRwdXQgYXJlIGFzIGJlbG93Og0KDQpyb290QHFlbXV4ODYt
-NjQ6L3Vzci9saWIvZmluZHV0aWxzL3B0ZXN0IyBncmVwIEZBSUwgbG9nDQpyb290QHFlbXV4ODYt
-NjQ6L3Vzci9saWIvZmluZHV0aWxzL3B0ZXN0IyBncmVwIFBBU1MgbG9nDQpQQVNTOiB0ZXN0cy9m
-aW5kL2FyZy1uYW4uc2gNClBBU1M6IHRlc3RzL2ZpbmQvZGVidWctbWlzc2luZy1hcmcuc2gNClBB
-U1M6IHRlc3RzL2ZpbmQvZXhlYy1wbHVzLWxhc3QtZmlsZS5zaA0KUEFTUzogdGVzdHMvZmluZC9l
-eGVjZGlyLWZkLWxlYWsuc2gNClBBU1M6IHRlc3RzL2ZpbmQvZmlsZXMwLWZyb20uc2gNClBBU1M6
-IHRlc3RzL2ZpbmQvbmFtZS1sYnJhY2tldC1saXRlcmFsLnNoDQpQQVNTOiB0ZXN0cy9maW5kL25h
-bWUtc2xhc2guc2gNClBBU1M6IHRlc3RzL2ZpbmQvbmV3ZXIuc2gNClBBU1M6IHRlc3RzL2ZpbmQv
-b3B0LW51bWVyaWMtYXJnLnNoDQpQQVNTOiB0ZXN0cy9maW5kL3ByaW50Zl9lc2NhcGVfYy5zaA0K
-UEFTUzogdGVzdHMvZmluZC9wcmludGZfZXNjYXBlY2hhcnMuc2gNClBBU1M6IHRlc3RzL2ZpbmQv
-cHJpbnRmX2lub2RlLnNoDQpQQVNTOiB0ZXN0cy9maW5kL3JlZnVzZS1ub29wLnNoDQpQQVNTOiB0
-ZXN0cy9maW5kL3R5cGVfbGlzdC5zaA0KUEFTUzogdGVzdHMvZmluZC91c2VkLnNoDQpQQVNTOiB0
-ZXN0cy9maW5kL3VzZXItZ3JvdXAtbWF4LnNoDQpQQVNTOiB0ZXN0cy9taXNjL2hlbHAtdmVyc2lv
-bi5zaA0KUEFTUzogdGVzdHMveGFyZ3MvY29uZmxpY3Rpbmdfb3B0cy5zaA0KUEFTUzogdGVzdHMv
-eGFyZ3MvdmVyYm9zZS1xdW90ZS5zaA0Kcm9vdEBxZW11eDg2LTY0Oi91c3IvbGliL2ZpbmR1dGls
-cy9wdGVzdCMgcnBtDQpycG0gICAgICAgIHJwbWJ1aWxkICAgcnBtZ3JhcGggICBycG1sdWEgICAg
-IHJwbXNpZ24gICAgcnBtc3BlYw0KcnBtMmNwaW8gICBycG1kYiAgICAgIHJwbWtleXMgICAgcnBt
-cXVlcnkgICBycG1zb3J0ICAgIHJwbXZlcmlmeQ0Kcm9vdEBxZW11eDg2LTY0Oi91c3IvbGliL2Zp
-bmR1dGlscy9wdGVzdCMgcnBtIC1xYSB8IGdyZXAgbXVzbA0KbXVzbC0xLjIuNCtnaXQwKzc5YmRh
-Y2ZmODMtcjAuY29yZTJfNjQNCg0KUmVnYXJkcywNClFpDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQpGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPiANClNlbnQ6IFNhdHVy
-ZGF5LCBKdW5lIDE1LCAyMDI0IDY6NTcgQU0NClRvOiBDaGVuLCBRaSA8UWkuQ2hlbkB3aW5kcml2
-ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1
-YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0ggMi8yXSBmaW5kdXRpbHM6IHVwZ3JhZGUgZnJvbSA0
-LjkuMCB0byA0LjEwLjANCg0KVGhpcyBmYWlscyBwdGVzdHMgd2l0aCBxZW11eDg2XzY0L211c2wN
-Cg0KYml0YmFrZSBjb3JlLWltYWdlLXB0ZXN0LWZpbmR1dGlscw0KcmVzdWx0cyBpbg0KDQotZmlu
-ZDogaW52YWxpZCB1c2VyIG5hbWUgb3IgVUlEIGFyZ3VtZW50IHRvIC11c2VyOiAnNDI5NDk2NzI5
-NicNCitmaW5kOiBpbnZhbGlkIHVzZXIgbmFtZSBvciBVSUQgYXJndW1lbnQgdG8gLXVzZXI6IOKA
-mDQyOTQ5NjcyOTbigJkNCi0tLSBleHANCisrKyBlcnINCkBAIC0xICsxIEBADQotZmluZDogaW52
-YWxpZCBncm91cCBuYW1lIG9yIEdJRCBhcmd1bWVudCB0byAtZ3JvdXA6ICc0Mjk0OTY3Mjk2Jw0K
-K2ZpbmQ6IGludmFsaWQgZ3JvdXAgbmFtZSBvciBHSUQgYXJndW1lbnQgdG8gLWdyb3VwOiDigJg0
-Mjk0OTY3Mjk24oCZDQpGQUlMOiB0ZXN0cy9maW5kL3VzZXItZ3JvdXAtbWF4LnNoDQoNCg0KT24g
-VGh1LCBKdW4gNiwgMjAyNCBhdCA1OjIw4oCvQU0gQ2hlbiBRaSB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyA8UWkuQ2hlbj13aW5kcml2ZXIuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdy
-b3RlOg0KPg0KPiBGcm9tOiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+DQo+IGF1
-dG9jb25mLTIuNzMucGF0Y2ggaXMgZHJvcHBlZCBhcyBpdCdzIG5vdCBuZWVkZWQgYW55IG1vcmUu
-DQo+DQo+IFRoZSBydW4tcHRlc3Qgc2NyaXB0IGlzIGZpeGVkLiBJbnN0ZWFkIGNvcHlpbmcgZnVu
-Y3Rpb24gZGVmaW5pdGlvbnMgDQo+IGZyb20gaW5pdC5jZmcgZmlsZSwgd2Ugc2hvdWxkIGp1c3Qg
-aW5zdGFsbCBpbml0LmNmZyBmaWxlIGluIHRoZSBwdGVzdCANCj4gcGFja2FnZS4gVGhlIGNvcmV1
-dGlscy1nZXRsaW1pdHMgaXMgYWRkZWQgYXMgYSBydW50aW1lIGRlcGVuZGVuY3kgb2YgDQo+IHRo
-ZSBwdGVzdCBwYWNrYWdlIGJlY2F1c2UgdGhlIGdldGxpbWl0cyBjb21tYW5kIGlzIG5lZWRlZC4N
-Cj4NCj4gU2lnbmVkLW9mZi1ieTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KPiAt
-LS0NCj4gIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzLmluYyB8ICAx
-IC0NCj4gIC4uLi9maW5kdXRpbHMvZmluZHV0aWxzL2F1dG9jb25mLTIuNzMucGF0Y2ggICB8IDI0
-IC0tLS0tLS0tLS0tLS0tLS0NCj4gIC4uLi9maW5kdXRpbHMvZmluZHV0aWxzL3J1bi1wdGVzdCAg
-ICAgICAgICAgICB8IDI4IC0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gIC4uLmZpbmR1dGlsc180Ljku
-MC5iYiA9PiBmaW5kdXRpbHNfNC4xMC4wLmJifSB8ICA2ICsrLS0NCj4gIDQgZmlsZXMgY2hhbmdl
-ZCwgMyBpbnNlcnRpb25zKCspLCA1NiBkZWxldGlvbnMoLSkgIGRlbGV0ZSBtb2RlIDEwMDY0NCAN
-Cj4gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2ZpbmR1dGlscy9maW5kdXRpbHMvYXV0b2NvbmYtMi43
-My5wYXRjaA0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMve2ZpbmR1
-dGlsc180LjkuMC5iYiA9PiANCj4gZmluZHV0aWxzXzQuMTAuMC5iYn0gKDc4JSkNCj4NCj4gZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzLmluYyAN
-Cj4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZmluZHV0aWxzL2ZpbmR1dGlscy5pbmMNCj4gaW5k
-ZXggMDNjZjJhOGQ3Mi4uZGRjYzA1NzUwYiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL2ZpbmR1dGlscy9maW5kdXRpbHMuaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9maW5kdXRpbHMvZmluZHV0aWxzLmluYw0KPiBAQCAtNyw3ICs3LDYgQEAgQlVHVFJBQ0tF
-UiA9ICJodHRwOi8vc2F2YW5uYWguZ251Lm9yZy9idWdzLz9ncm91cD1maW5kdXRpbHMiDQo+ICBT
-RUNUSU9OID0gImNvbnNvbGUvdXRpbHMiDQo+DQo+ICBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0v
-JHtCUE59LyR7QlB9LnRhci54eiBcDQo+IC0gICAgICAgICAgZmlsZTovL2F1dG9jb25mLTIuNzMu
-cGF0Y2ggXA0KPiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXA0KPiAgICAgICAgICAgICIN
-Cj4NCj4gZGlmZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZmluZHV0aWxzL2Zp
-bmR1dGlscy9hdXRvY29uZi0yLjczLnBhdGNoIA0KPiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9m
-aW5kdXRpbHMvZmluZHV0aWxzL2F1dG9jb25mLTIuNzMucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1v
-ZGUgMTAwNjQ0DQo+IGluZGV4IDYzNzI4YjVmOTEuLjAwMDAwMDAwMDANCj4gLS0tIGEvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2ZpbmR1dGlscy9maW5kdXRpbHMvYXV0b2NvbmYtMi43My5wYXRjaA0K
-PiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDI0ICswLDAgQEANCj4gLVRoZSBnbnVsaWIgbGFyZ2Vm
-aWxlIG1hY3JvIG5lZWRzIHVwZGF0aW5nIHRvIHdvcmsgd2l0aCBhdXRvY29uZiAyLjczLiANCj4g
-UmF0aGVyIC10aGFuIHRoZSBmdWxsIGNvZGU6DQo+IC0NCj4gLWh0dHBzOi8vZ2l0LnNhdmFubmFo
-LmdudS5vcmcvY2dpdC9nbnVsaWIuZ2l0L2NvbW1pdC9tNC9sYXJnZWZpbGUubTQ/aQ0KPiBkPWY5
-MWY2MzM4NThjZjEzMmU1MDkyNDIyNGM1MGQ2MjY0YTkyY2FhYmINCj4gLQ0KPiAtSnVzdCB0d2Vh
-ayB0aGUgZXhpdGluZyBjb2RlIHRvIHdvcmsgd2l0aCAyLjczLiBUaGUgbmV4dCBmaW5kdXRpbHMg
-DQo+IHVwZ3JhZGUgc2hvdWxkIC11cGRhdGUgdG8gbmV3IGdudWxpYg0KPiAtDQo+IC1VcHN0cmVh
-bS1TdGF0dXM6IEluYXBwcm9wcmlhdGUNCj4gLVNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGll
-IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiAtDQo+IC1JbmRleDogZmlu
-ZHV0aWxzLTQuOS4wL2dsL200L2xhcmdlZmlsZS5tNA0KPiAtPT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiAtLS0tIGZp
-bmR1dGlscy00LjkuMC5vcmlnL2dsL200L2xhcmdlZmlsZS5tNA0KPiAtKysrIGZpbmR1dGlscy00
-LjkuMC9nbC9tNC9sYXJnZWZpbGUubTQNCj4gLUBAIC0yNiw3ICsyNiw3IEBAIEFDX0RFRlVOKFtn
-bF9TRVRfTEFSR0VGSUxFX1NPVVJDRV0sDQo+IC0gIyB3aXRoIF9USU1FX0JJVFMuICBBbHNvLCB3
-b3JrIGFyb3VuZCBhIHByb2JsZW0gaW4gYXV0b2NvbmYgPD0gMi42OToNCj4gLSAjIEFDX1NZU19M
-QVJHRUZJTEUgZG9lcyBub3QgY29uZmlndXJlIGZvciBsYXJnZSBpbm9kZXMgb24gTWFjIE9TIFgg
-DQo+IDEwLjUsDQo+IC0gIyBvciBjb25maWd1cmVzIHRoZW0gaW5jb3JyZWN0bHkgaW4gc29tZSBj
-YXNlcy4NCj4gLS1tNF92ZXJzaW9uX3ByZXJlcShbMi43MF0sIFtdLCBbDQo+IC0rbTRfdmVyc2lv
-bl9wcmVyZXEoWzIuNzNdLCBbXSwgWw0KPiAtDQo+IC0gIyBfQUNfU1lTX0xBUkdFRklMRV9URVNU
-X0lOQ0xVREVTDQo+IC0gIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZmluZHV0aWxzL2ZpbmR1dGlscy9ydW4tcHRl
-c3QgDQo+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2ZpbmR1dGlscy9maW5kdXRpbHMvcnVuLXB0
-ZXN0DQo+IGluZGV4IGVjNzE1ODNjNTEuLjNkZWMxMTcwNjcgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
-cmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzL3J1bi1wdGVzdA0KPiArKysgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZmluZHV0aWxzL2ZpbmR1dGlscy9ydW4tcHRlc3QNCj4gQEAg
-LTEwLDM0ICsxMCw2IEBAIGV4cG9ydCBidWlsdF9wcm9ncmFtcz0iZmluZCB4YXJncyBsb2NhdGUg
-dXBkYXRlZGIiDQo+ICAjIHRoaXMgZ2V0cyBzdWJzdGl0dXRlZCBieSBzZWQgZHVyaW5nIGJ1aWxk
-ICBleHBvcnQgDQo+IFZFUlNJT049Il9fcnVuX3B0ZXN0X3ZlcnNpb25fXyINCj4NCj4gLSMgZGVm
-aW5lIG1pc3NpbmcgZnVuY3Rpb25zIGZvciB0ZXN0cy9pbml0LnNoIC1mdV9wYXRoX3ByZXBlbmRf
-ICgpIHsNCj4gLSAgICAgICBwYXRoX3ByZXBlbmRfICRADQo+IC19DQo+IC0NCj4gLXByaW50X3Zl
-cl8gKCkgew0KPiAtICAgICAgIDoNCj4gLX0NCj4gLQ0KPiAtc2tpcF9pZl9yb290XyAoKSB7DQo+
-IC0gICAgICAgWyAkKGlkIC11KSA9IDAgXSAmJiBleGl0IDc3Ow0KPiAtfQ0KPiAtDQo+IC1yZXF1
-aXJlX3Jvb3RfICgpIHsNCj4gLSAgICAgICBbICQoaWQgLXUpID0gMCBdIHx8IGV4aXQgNzc7DQo+
-IC19DQo+IC0NCj4gLWV4cGVuc2l2ZV8gKCkgew0KPiAtICAgICAgIDoNCj4gLX0NCj4gLQ0KPiAt
-ZXhwb3J0IC1mIGZ1X3BhdGhfcHJlcGVuZF8NCj4gLWV4cG9ydCAtZiBwcmludF92ZXJfDQo+IC1l
-eHBvcnQgLWYgc2tpcF9pZl9yb290Xw0KPiAtZXhwb3J0IC1mIHJlcXVpcmVfcm9vdF8NCj4gLWV4
-cG9ydCAtZiBleHBlbnNpdmVfDQo+IC0NCj4gLQ0KPiAgZm9yIGYgaW4gdGVzdHMvKi8qLnNoOyBk
-bw0KPiAgICAgICAgIGJhc2ggJGYgOw0KPiAgICAgICAgIGNhc2UgJD8gaW4NCj4gZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzXzQuOS4wLmJiIA0K
-PiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzXzQuMTAuMC5iYg0K
-PiBzaW1pbGFyaXR5IGluZGV4IDc4JQ0KPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvZmluZHV0aWxzL2ZpbmR1dGlsc180LjkuMC5iYg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL2ZpbmR1dGlscy9maW5kdXRpbHNfNC4xMC4wLmJiDQo+IGluZGV4IDA3NDgxN2Rm
-MjcuLjU3Zjc3ZGUxNmYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5k
-dXRpbHMvZmluZHV0aWxzXzQuOS4wLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9m
-aW5kdXRpbHMvZmluZHV0aWxzXzQuMTAuMC5iYg0KPiBAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVT
-X0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MWViYmQzZTM0MjM3YWYyNmRhNWRjMDhhNGU0
-NDA0NjQiDQo+DQo+ICBERVBFTkRTID0gImJpc29uLW5hdGl2ZSINCj4NCj4gLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICJhMmJmYjhjMDlkNDM2NzcwZWRjNTlmNTBmYTQ4M2U3ODViMTYxYTNiN2I5ZDU0
-NzU3M2NiMDgwNjVmZDQ2MmZlIg0KPiArU1JDX1VSSVtzaGEyNTZzdW1dID0gIjEzODdlMGI2N2Zm
-MjQ3ZDJhYmRlOTk4ZjkwZGZiZjcwYzE0OTEzOTFhNTlkZGZlY2I4YWU2OTg3ODlmMGE0ZjUiDQo+
-DQo+ICBQQUNLQUdFQ09ORklHW3NlbGludXhdID0gIi0td2l0aC1zZWxpbnV4LC0td2l0aG91dC1z
-ZWxpbnV4LGxpYnNlbGludXgiDQo+ICAjIGh0dHA6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzI3
-Mjk5DQo+IEBAIC0xNSwxMyArMTUsMTMgQEAgQ0FDSEVEX0NPTkZJR1VSRVZBUlMgKz0gImdsX2N2
-X2Z1bmNfd2N3aWR0aF93b3Jrcz15ZXMiDQo+ICBFWFRSQV9PRUNPTkYgKz0gImFjX2N2X3BhdGhf
-U09SVD0ke2JpbmRpcn0vc29ydCINCj4NCj4gICMgbmVlZCBvZCBmcm9tIGNvcmV1dGlscyBmb3Ig
-LXQgb3B0aW9uIC1SREVQRU5EUzoke1BOfS1wdGVzdCArPSAiYmFzaCANCj4gc2VkIGdyZXAgY29y
-ZXV0aWxzIg0KPiArUkRFUEVORFM6JHtQTn0tcHRlc3QgKz0gImJhc2ggc2VkIGdyZXAgY29yZXV0
-aWxzIGNvcmV1dGlscy1nZXRsaW1pdHMiDQo+DQo+ICBkb19pbnN0YWxsX3B0ZXN0OmNsYXNzLXRh
-cmdldCgpIHsNCj4gICAgICAgICBta2RpciAtcCAke0R9JHtQVEVTVF9QQVRIfS90ZXN0cy8NCj4g
-KyAgICAgICBjcCAke1N9L2luaXQuY2ZnICR7RH0ke1BURVNUX1BBVEh9DQo+ICAgICAgICAgY3Ag
-LXIgJHtTfS90ZXN0cy8qICR7RH0ke1BURVNUX1BBVEh9L3Rlc3RzLw0KPg0KPiAgICAgICAgICMg
-c3Vic3RpdHV0ZSB2YWx1ZSBpbiBydW4tcHRlc3Qgd2l0aCBhY3R1YWwgdmVyc2lvbg0KPiAgICAg
-ICAgIHNlZCAtaSAtZSAncy9fX3J1bl9wdGVzdF92ZXJzaW9uX18vJHtQVn0vJyANCj4gJHtEfSR7
-UFRFU1RfUEFUSH0vcnVuLXB0ZXN0DQo+IC0NCj4gIH0NCj4gLS0NCj4gMi4zNC4xDQo+DQo+DQo+
-IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2Fn
-ZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5IE9ubGluZSAoIzIwMDM5OSk6IA0K
-PiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNz
-YWdlLzIwMDM5OQ0KPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tdC8xMDY1MjE3NDcvMTk5NzkxNA0KPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNv
-cmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBVbnN1YnNjcmliZTogaHR0cHM6Ly9s
-aXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIgDQo+IFtyYWou
-a2hlbUBnbWFpbC5jb21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+DQo=
+--0000000000005a1c62061ae58ea0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jun 14, 2024 at 8:41=E2=80=AFPM Chen, Qi <Qi.Chen@windriver.com> wr=
+ote:
+
+> I just checked. The problem could not be reproduced on my side. Commands
+> and output are as below:
+>
+> root@qemux86-64:/usr/lib/findutils/ptest# grep FAIL log
+> root@qemux86-64:/usr/lib/findutils/ptest# grep PASS log
+> PASS: tests/find/arg-nan.sh
+> PASS: tests/find/debug-missing-arg.sh
+> PASS: tests/find/exec-plus-last-file.sh
+> PASS: tests/find/execdir-fd-leak.sh
+> PASS: tests/find/files0-from.sh
+> PASS: tests/find/name-lbracket-literal.sh
+> PASS: tests/find/name-slash.sh
+> PASS: tests/find/newer.sh
+> PASS: tests/find/opt-numeric-arg.sh
+> PASS: tests/find/printf_escape_c.sh
+> PASS: tests/find/printf_escapechars.sh
+> PASS: tests/find/printf_inode.sh
+> PASS: tests/find/refuse-noop.sh
+> PASS: tests/find/type_list.sh
+> PASS: tests/find/used.sh
+> PASS: tests/find/user-group-max.sh
+> PASS: tests/misc/help-version.sh
+> PASS: tests/xargs/conflicting_opts.sh
+> PASS: tests/xargs/verbose-quote.sh
+> root@qemux86-64:/usr/lib/findutils/ptest# rpm
+> rpm        rpmbuild   rpmgraph   rpmlua     rpmsign    rpmspec
+> rpm2cpio   rpmdb      rpmkeys    rpmquery   rpmsort    rpmverify
+> root@qemux86-64:/usr/lib/findutils/ptest# rpm -qa | grep musl
+> musl-1.2.4+git0+79bdacff83-r0.core2_64
+>
+
+I have musl updated staged in contrib/yoe/mut I wonder if it=E2=80=99s seen=
+ with
+newer musl I also use clang and libc++ so could be that too
+
+>
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: Khem Raj <raj.khem@gmail.com>
+> Sent: Saturday, June 15, 2024 6:57 AM
+> To: Chen, Qi <Qi.Chen@windriver.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH 2/2] findutils: upgrade from 4.9.0 to 4.10.0
+>
+> This fails ptests with qemux86_64/musl
+>
+> bitbake core-image-ptest-findutils
+> results in
+>
+> -find: invalid user name or UID argument to -user: '4294967296'
+> +find: invalid user name or UID argument to -user: =E2=80=984294967296=E2=
+=80=99
+> --- exp
+> +++ err
+> @@ -1 +1 @@
+> -find: invalid group name or GID argument to -group: '4294967296'
+> +find: invalid group name or GID argument to -group: =E2=80=984294967296=
+=E2=80=99
+> FAIL: tests/find/user-group-max.sh
+>
+>
+> On Thu, Jun 6, 2024 at 5:20=E2=80=AFAM Chen Qi via lists.openembedded.org
+> <Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
+> >
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >
+> > autoconf-2.73.patch is dropped as it's not needed any more.
+> >
+> > The run-ptest script is fixed. Instead copying function definitions
+> > from init.cfg file, we should just install init.cfg file in the ptest
+> > package. The coreutils-getlimits is added as a runtime dependency of
+> > the ptest package because the getlimits command is needed.
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >  meta/recipes-extended/findutils/findutils.inc |  1 -
+> >  .../findutils/findutils/autoconf-2.73.patch   | 24 ----------------
+> >  .../findutils/findutils/run-ptest             | 28 -------------------
+> >  ...findutils_4.9.0.bb =3D> findutils_4.10.0.bb} |  6 ++--
+> >  4 files changed, 3 insertions(+), 56 deletions(-)  delete mode 100644
+> > meta/recipes-extended/findutils/findutils/autoconf-2.73.patch
+> >  rename meta/recipes-extended/findutils/{findutils_4.9.0.bb =3D>
+> > findutils_4.10.0.bb} (78%)
+> >
+> > diff --git a/meta/recipes-extended/findutils/findutils.inc
+> > b/meta/recipes-extended/findutils/findutils.inc
+> > index 03cf2a8d72..ddcc05750b 100644
+> > --- a/meta/recipes-extended/findutils/findutils.inc
+> > +++ b/meta/recipes-extended/findutils/findutils.inc
+> > @@ -7,7 +7,6 @@ BUGTRACKER =3D "
+> http://savannah.gnu.org/bugs/?group=3Dfindutils"
+> >  SECTION =3D "console/utils"
+> >
+> >  SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.xz \
+> > -          file://autoconf-2.73.patch \
+> >            file://run-ptest \
+> >            "
+> >
+> > diff --git
+> > a/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch
+> > b/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch
+> > deleted file mode 100644
+> > index 63728b5f91..0000000000
+> > --- a/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch
+> > +++ /dev/null
+> > @@ -1,24 +0,0 @@
+> > -The gnulib largefile macro needs updating to work with autoconf 2.73.
+> > Rather -than the full code:
+> > -
+> > -https://git.savannah.gnu.org/cgit/gnulib.git/commit/m4/largefile.m4?i
+> > d=3Df91f633858cf132e50924224c50d6264a92caabb
+> > -
+> > -Just tweak the exiting code to work with 2.73. The next findutils
+> > upgrade should -update to new gnulib
+> > -
+> > -Upstream-Status: Inappropriate
+> > -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > -
+> > -Index: findutils-4.9.0/gl/m4/largefile.m4
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > ---- findutils-4.9.0.orig/gl/m4/largefile.m4
+> > -+++ findutils-4.9.0/gl/m4/largefile.m4
+> > -@@ -26,7 +26,7 @@ AC_DEFUN([gl_SET_LARGEFILE_SOURCE],
+> > - # with _TIME_BITS.  Also, work around a problem in autoconf <=3D 2.69=
+:
+> > - # AC_SYS_LARGEFILE does not configure for large inodes on Mac OS X
+> > 10.5,
+> > - # or configures them incorrectly in some cases.
+> > --m4_version_prereq([2.70], [], [
+> > -+m4_version_prereq([2.73], [], [
+> > -
+> > - # _AC_SYS_LARGEFILE_TEST_INCLUDES
+> > - # -------------------------------
+> > diff --git a/meta/recipes-extended/findutils/findutils/run-ptest
+> > b/meta/recipes-extended/findutils/findutils/run-ptest
+> > index ec71583c51..3dec117067 100644
+> > --- a/meta/recipes-extended/findutils/findutils/run-ptest
+> > +++ b/meta/recipes-extended/findutils/findutils/run-ptest
+> > @@ -10,34 +10,6 @@ export built_programs=3D"find xargs locate updatedb"
+> >  # this gets substituted by sed during build  export
+> > VERSION=3D"__run_ptest_version__"
+> >
+> > -# define missing functions for tests/init.sh -fu_path_prepend_ () {
+> > -       path_prepend_ $@
+> > -}
+> > -
+> > -print_ver_ () {
+> > -       :
+> > -}
+> > -
+> > -skip_if_root_ () {
+> > -       [ $(id -u) =3D 0 ] && exit 77;
+> > -}
+> > -
+> > -require_root_ () {
+> > -       [ $(id -u) =3D 0 ] || exit 77;
+> > -}
+> > -
+> > -expensive_ () {
+> > -       :
+> > -}
+> > -
+> > -export -f fu_path_prepend_
+> > -export -f print_ver_
+> > -export -f skip_if_root_
+> > -export -f require_root_
+> > -export -f expensive_
+> > -
+> > -
+> >  for f in tests/*/*.sh; do
+> >         bash $f ;
+> >         case $? in
+> > diff --git a/meta/recipes-extended/findutils/findutils_4.9.0.bb
+> > b/meta/recipes-extended/findutils/findutils_4.10.0.bb
+> > similarity index 78%
+> > rename from meta/recipes-extended/findutils/findutils_4.9.0.bb
+> > rename to meta/recipes-extended/findutils/findutils_4.10.0.bb
+> > index 074817df27..57f77de16f 100644
+> > --- a/meta/recipes-extended/findutils/findutils_4.9.0.bb
+> > +++ b/meta/recipes-extended/findutils/findutils_4.10.0.bb
+> > @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440464"
+> >
+> >  DEPENDS =3D "bison-native"
+> >
+> > -SRC_URI[sha256sum] =3D
+> "a2bfb8c09d436770edc59f50fa483e785b161a3b7b9d547573cb08065fd462fe"
+> > +SRC_URI[sha256sum] =3D
+> "1387e0b67ff247d2abde998f90dfbf70c1491391a59ddfecb8ae698789f0a4f5"
+> >
+> >  PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinu=
+x"
+> >  # http://savannah.gnu.org/bugs/?27299
+> > @@ -15,13 +15,13 @@ CACHED_CONFIGUREVARS +=3D
+> "gl_cv_func_wcwidth_works=3Dyes"
+> >  EXTRA_OECONF +=3D "ac_cv_path_SORT=3D${bindir}/sort"
+> >
+> >  # need od from coreutils for -t option -RDEPENDS:${PN}-ptest +=3D "bas=
+h
+> > sed grep coreutils"
+> > +RDEPENDS:${PN}-ptest +=3D "bash sed grep coreutils coreutils-getlimits=
+"
+> >
+> >  do_install_ptest:class-target() {
+> >         mkdir -p ${D}${PTEST_PATH}/tests/
+> > +       cp ${S}/init.cfg ${D}${PTEST_PATH}
+> >         cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> >
+> >         # substitute value in run-ptest with actual version
+> >         sed -i -e 's/__run_ptest_version__/${PV}/'
+> > ${D}${PTEST_PATH}/run-ptest
+> > -
+> >  }
+> > --
+> > 2.34.1
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#200399):
+> > https://lists.openembedded.org/g/openembedded-core/message/200399
+> > Mute This Topic: https://lists.openembedded.org/mt/106521747/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> > [raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+--0000000000005a1c62061ae58ea0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Jun 14, 2024 at 8:41=E2=80=AFPM Chen, Qi &lt;<a hre=
+f=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">I just checked. The problem could not =
+be reproduced on my side. Commands and output are as below:<br>
+<br>
+root@qemux86-64:/usr/lib/findutils/ptest# grep FAIL log<br>
+root@qemux86-64:/usr/lib/findutils/ptest# grep PASS log<br>
+PASS: tests/find/arg-nan.sh<br>
+PASS: tests/find/debug-missing-arg.sh<br>
+PASS: tests/find/exec-plus-last-file.sh<br>
+PASS: tests/find/execdir-fd-leak.sh<br>
+PASS: tests/find/files0-from.sh<br>
+PASS: tests/find/name-lbracket-literal.sh<br>
+PASS: tests/find/name-slash.sh<br>
+PASS: tests/find/newer.sh<br>
+PASS: tests/find/opt-numeric-arg.sh<br>
+PASS: tests/find/printf_escape_c.sh<br>
+PASS: tests/find/printf_escapechars.sh<br>
+PASS: tests/find/printf_inode.sh<br>
+PASS: tests/find/refuse-noop.sh<br>
+PASS: tests/find/type_list.sh<br>
+PASS: tests/find/used.sh<br>
+PASS: tests/find/user-group-max.sh<br>
+PASS: tests/misc/help-version.sh<br>
+PASS: tests/xargs/conflicting_opts.sh<br>
+PASS: tests/xargs/verbose-quote.sh<br>
+root@qemux86-64:/usr/lib/findutils/ptest# rpm<br>
+rpm=C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmbuild=C2=A0 =C2=A0rpmgraph=C2=A0 =C2=A0rp=
+mlua=C2=A0 =C2=A0 =C2=A0rpmsign=C2=A0 =C2=A0 rpmspec<br>
+rpm2cpio=C2=A0 =C2=A0rpmdb=C2=A0 =C2=A0 =C2=A0 rpmkeys=C2=A0 =C2=A0 rpmquer=
+y=C2=A0 =C2=A0rpmsort=C2=A0 =C2=A0 rpmverify<br>
+root@qemux86-64:/usr/lib/findutils/ptest# rpm -qa | grep musl<br>
+musl-1.2.4+git0+79bdacff83-r0.core2_64<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I have musl upda=
+ted staged in contrib/yoe/mut I wonder if it=E2=80=99s seen with newer musl=
+ I also use clang and libc++ so could be that too=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><br>
+Regards,<br>
+Qi<br>
+<br>
+-----Original Message-----<br>
+From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">=
+raj.khem@gmail.com</a>&gt; <br>
+Sent: Saturday, June 15, 2024 6:57 AM<br>
+To: Chen, Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank"=
+>Qi.Chen@windriver.com</a>&gt;<br>
+Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
+blank">openembedded-core@lists.openembedded.org</a><br>
+Subject: Re: [OE-core][PATCH 2/2] findutils: upgrade from 4.9.0 to 4.10.0<b=
+r>
+<br>
+This fails ptests with qemux86_64/musl<br>
+<br>
+bitbake core-image-ptest-findutils<br>
+results in<br>
+<br>
+-find: invalid user name or UID argument to -user: &#39;4294967296&#39;<br>
++find: invalid user name or UID argument to -user: =E2=80=984294967296=E2=
+=80=99<br>
+--- exp<br>
++++ err<br>
+@@ -1 +1 @@<br>
+-find: invalid group name or GID argument to -group: &#39;4294967296&#39;<b=
+r>
++find: invalid group name or GID argument to -group: =E2=80=984294967296=E2=
+=80=99<br>
+FAIL: tests/find/user-group-max.sh<br>
+<br>
+<br>
+On Thu, Jun 6, 2024 at 5:20=E2=80=AFAM Chen Qi via <a href=3D"http://lists.=
+openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.o=
+rg</a> &lt;Qi.Chen=3D<a href=3D"mailto:windriver.com@lists.openembedded.org=
+" target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_=
+blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; autoconf-2.73.patch is dropped as it&#39;s not needed any more.<br>
+&gt;<br>
+&gt; The run-ptest script is fixed. Instead copying function definitions <b=
+r>
+&gt; from init.cfg file, we should just install init.cfg file in the ptest =
+<br>
+&gt; package. The coreutils-getlimits is added as a runtime dependency of <=
+br>
+&gt; the ptest package because the getlimits command is needed.<br>
+&gt;<br>
+&gt; Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" ta=
+rget=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-extended/findutils/findutils.inc |=C2=A0 1 -<br>
+&gt;=C2=A0 .../findutils/findutils/autoconf-2.73.patch=C2=A0 =C2=A0| 24 ---=
+-------------<br>
+&gt;=C2=A0 .../findutils/findutils/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 28 -------------------<br>
+&gt;=C2=A0 ...<a href=3D"http://findutils_4.9.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">findutils_4.9.0.bb</a> =3D&gt; <a href=3D"http://findutils_4.=
+10.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.10.0.bb</a>} |=C2=
+=A0 6 ++--<br>
+&gt;=C2=A0 4 files changed, 3 insertions(+), 56 deletions(-)=C2=A0 delete m=
+ode 100644 <br>
+&gt; meta/recipes-extended/findutils/findutils/autoconf-2.73.patch<br>
+&gt;=C2=A0 rename meta/recipes-extended/findutils/{<a href=3D"http://findut=
+ils_4.9.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.9.0.bb</a> =
+=3D&gt; <br>
+&gt; <a href=3D"http://findutils_4.10.0.bb" rel=3D"noreferrer" target=3D"_b=
+lank">findutils_4.10.0.bb</a>} (78%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-extended/findutils/findutils.inc <br>
+&gt; b/meta/recipes-extended/findutils/findutils.inc<br>
+&gt; index 03cf2a8d72..ddcc05750b 100644<br>
+&gt; --- a/meta/recipes-extended/findutils/findutils.inc<br>
+&gt; +++ b/meta/recipes-extended/findutils/findutils.inc<br>
+&gt; @@ -7,7 +7,6 @@ BUGTRACKER =3D &quot;<a href=3D"http://savannah.gnu.or=
+g/bugs/?group=3Dfindutils" rel=3D"noreferrer" target=3D"_blank">http://sava=
+nnah.gnu.org/bugs/?group=3Dfindutils</a>&quot;<br>
+&gt;=C2=A0 SECTION =3D &quot;console/utils&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;${GNU_MIRROR}/${BPN}/${BP}.tar.xz \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoconf-2.73.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;<br>
+&gt; diff --git <br>
+&gt; a/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch <br>
+&gt; b/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index 63728b5f91..0000000000<br>
+&gt; --- a/meta/recipes-extended/findutils/findutils/autoconf-2.73.patch<br=
+>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,24 +0,0 @@<br>
+&gt; -The gnulib largefile macro needs updating to work with autoconf 2.73.=
+ <br>
+&gt; Rather -than the full code:<br>
+&gt; -<br>
+&gt; -<a href=3D"https://git.savannah.gnu.org/cgit/gnulib.git/commit/m4/lar=
+gefile.m4?i" rel=3D"noreferrer" target=3D"_blank">https://git.savannah.gnu.=
+org/cgit/gnulib.git/commit/m4/largefile.m4?i</a><br>
+&gt; d=3Df91f633858cf132e50924224c50d6264a92caabb<br>
+&gt; -<br>
+&gt; -Just tweak the exiting code to work with 2.73. The next findutils <br=
+>
+&gt; upgrade should -update to new gnulib<br>
+&gt; -<br>
+&gt; -Upstream-Status: Inappropriate<br>
+&gt; -Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@li=
+nuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>=
+&gt;<br>
+&gt; -<br>
+&gt; -Index: findutils-4.9.0/gl/m4/largefile.m4<br>
+&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+&gt; ---- findutils-4.9.0.orig/gl/m4/largefile.m4<br>
+&gt; -+++ findutils-4.9.0/gl/m4/largefile.m4<br>
+&gt; -@@ -26,7 +26,7 @@ AC_DEFUN([gl_SET_LARGEFILE_SOURCE],<br>
+&gt; - # with _TIME_BITS.=C2=A0 Also, work around a problem in autoconf &lt=
+;=3D 2.69:<br>
+&gt; - # AC_SYS_LARGEFILE does not configure for large inodes on Mac OS X <=
+br>
+&gt; 10.5,<br>
+&gt; - # or configures them incorrectly in some cases.<br>
+&gt; --m4_version_prereq([2.70], [], [<br>
+&gt; -+m4_version_prereq([2.73], [], [<br>
+&gt; -<br>
+&gt; - # _AC_SYS_LARGEFILE_TEST_INCLUDES<br>
+&gt; - # -------------------------------<br>
+&gt; diff --git a/meta/recipes-extended/findutils/findutils/run-ptest <br>
+&gt; b/meta/recipes-extended/findutils/findutils/run-ptest<br>
+&gt; index ec71583c51..3dec117067 100644<br>
+&gt; --- a/meta/recipes-extended/findutils/findutils/run-ptest<br>
+&gt; +++ b/meta/recipes-extended/findutils/findutils/run-ptest<br>
+&gt; @@ -10,34 +10,6 @@ export built_programs=3D&quot;find xargs locate upd=
+atedb&quot;<br>
+&gt;=C2=A0 # this gets substituted by sed during build=C2=A0 export <br>
+&gt; VERSION=3D&quot;__run_ptest_version__&quot;<br>
+&gt;<br>
+&gt; -# define missing functions for tests/init.sh -fu_path_prepend_ () {<b=
+r>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0path_prepend_ $@<br>
+&gt; -}<br>
+&gt; -<br>
+&gt; -print_ver_ () {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
+&gt; -}<br>
+&gt; -<br>
+&gt; -skip_if_root_ () {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0[ $(id -u) =3D 0 ] &amp;&amp; exit 77;<br>
+&gt; -}<br>
+&gt; -<br>
+&gt; -require_root_ () {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0[ $(id -u) =3D 0 ] || exit 77;<br>
+&gt; -}<br>
+&gt; -<br>
+&gt; -expensive_ () {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
+&gt; -}<br>
+&gt; -<br>
+&gt; -export -f fu_path_prepend_<br>
+&gt; -export -f print_ver_<br>
+&gt; -export -f skip_if_root_<br>
+&gt; -export -f require_root_<br>
+&gt; -export -f expensive_<br>
+&gt; -<br>
+&gt; -<br>
+&gt;=C2=A0 for f in tests/*/*.sh; do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bash $f ;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case $? in<br>
+&gt; diff --git a/meta/recipes-extended/findutils/<a href=3D"http://finduti=
+ls_4.9.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.9.0.bb</a> <b=
+r>
+&gt; b/meta/recipes-extended/findutils/<a href=3D"http://findutils_4.10.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">findutils_4.10.0.bb</a><br>
+&gt; similarity index 78%<br>
+&gt; rename from meta/recipes-extended/findutils/<a href=3D"http://findutil=
+s_4.9.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.9.0.bb</a><br>
+&gt; rename to meta/recipes-extended/findutils/<a href=3D"http://findutils_=
+4.10.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.10.0.bb</a><br>
+&gt; index 074817df27..57f77de16f 100644<br>
+&gt; --- a/meta/recipes-extended/findutils/<a href=3D"http://findutils_4.9.=
+0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.9.0.bb</a><br>
+&gt; +++ b/meta/recipes-extended/findutils/<a href=3D"http://findutils_4.10=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">findutils_4.10.0.bb</a><br>
+&gt; @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1ebbd3=
+e34237af26da5dc08a4e440464&quot;<br>
+&gt;<br>
+&gt;=C2=A0 DEPENDS =3D &quot;bison-native&quot;<br>
+&gt;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;a2bfb8c09d436770edc59f50fa483e785b161a3b=
+7b9d547573cb08065fd462fe&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;1387e0b67ff247d2abde998f90dfbf70c1491391=
+a59ddfecb8ae698789f0a4f5&quot;<br>
+&gt;<br>
+&gt;=C2=A0 PACKAGECONFIG[selinux] =3D &quot;--with-selinux,--without-selinu=
+x,libselinux&quot;<br>
+&gt;=C2=A0 # <a href=3D"http://savannah.gnu.org/bugs/?27299" rel=3D"norefer=
+rer" target=3D"_blank">http://savannah.gnu.org/bugs/?27299</a><br>
+&gt; @@ -15,13 +15,13 @@ CACHED_CONFIGUREVARS +=3D &quot;gl_cv_func_wcwidth=
+_works=3Dyes&quot;<br>
+&gt;=C2=A0 EXTRA_OECONF +=3D &quot;ac_cv_path_SORT=3D${bindir}/sort&quot;<b=
+r>
+&gt;<br>
+&gt;=C2=A0 # need od from coreutils for -t option -RDEPENDS:${PN}-ptest +=
+=3D &quot;bash <br>
+&gt; sed grep coreutils&quot;<br>
+&gt; +RDEPENDS:${PN}-ptest +=3D &quot;bash sed grep coreutils coreutils-get=
+limits&quot;<br>
+&gt;<br>
+&gt;=C2=A0 do_install_ptest:class-target() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}${PTEST_PATH}/tests/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${S}/init.cfg ${D}${PTEST_PATH}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${S}/tests/* ${D}${PTEST_PATH}/=
+tests/<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# substitute value in run-ptest with =
+actual version<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s/__run_ptest_version_=
+_/${PV}/&#39; <br>
+&gt; ${D}${PTEST_PATH}/run-ptest<br>
+&gt; -<br>
+&gt;=C2=A0 }<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#200399): <br>
+&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/=
+200399" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org=
+/g/openembedded-core/message/200399</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10652174=
+7/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/106521747/1997914</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> <br>
+&gt; [<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmai=
+l.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div></div>
+
+--0000000000005a1c62061ae58ea0--
 
