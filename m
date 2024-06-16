@@ -1,293 +1,117 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2761FC27C6E
-	for <webhook@archiver.kernel.org>; Sun, 16 Jun 2024 04:26:55 +0000 (UTC)
-Subject: Re: [PATCH v4 2/2] image-bootfiles.bbclass: new class, copy boot files to root filesystem
-To: openembedded-core@lists.openembedded.org
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-X-Originating-Location: Berlin, Land Berlin, DE (89.12.182.18)
-X-Originating-Platform: Linux Chrome 124
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Sat, 15 Jun 2024 21:26:49 -0700
-References: <20240530095314.407638-3-marcus.folkesson@gmail.com>
-In-Reply-To: <20240530095314.407638-3-marcus.folkesson@gmail.com>
-Message-ID: <20106.1718512009844562919@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="VLRZVXlNL9C7H4mMTSOA"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6E6C27C53
+	for <webhook@archiver.kernel.org>; Sun, 16 Jun 2024 11:20:07 +0000 (UTC)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+ by mx.groups.io with SMTP id smtpd.web11.31859.1718536799968536926
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 16 Jun 2024 04:20:00 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aHNFORMZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.171, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dff06b3f413so3238861276.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 04:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718536799; x=1719141599; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pWIohhhHniFzaw08gmUasHY35yjqsU0kXSdgzSjsH3c=;
+        b=aHNFORMZ/3oTcuga7SYhOj+rtTpYvLqy6AKnVJCl8mqR81twYsL7W6HUOHJ1iAcZ5M
+         627jFj4sZO2YPtohE7yJ8YSVDSZEisemWdkQcl9coO8RXMGmZ2yR0MhgszJTZLK1HPeb
+         4ydrt8UOPeCAOFBL7s2IMu0gBnZ1jPhYaWPEJejPpMZmEvfnRqnSK6l9mSlJ+ch5V1i8
+         E/y6t9U6Wf6JHKAFcrU+btAoXo7PfB7MfTvzEPfekDoTFN25n97pDWSRijPVL5u4U4MK
+         8k0DJRH6L76vaGJUTtUAUZIOwBcrwc/p4WJf427VDnd3VKHy64eBJnwxDh/MsInzE7Wi
+         Mbiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718536799; x=1719141599;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pWIohhhHniFzaw08gmUasHY35yjqsU0kXSdgzSjsH3c=;
+        b=uottHozZ4VvGQTG4lCuSY4hcwoUHkCYcsuhNNmhbbcGOstfVNHqiQ9FVUXRDMeEZBH
+         V8+DTHRPD3e6xhVjN56c7kmQsVHb3MaNHDCy8LWYujkmPgul35rGmd4gZUauLwy2vyUz
+         7Vu233FM9dFzkHA3XiNqO6IeDEpz+x1Hfjz3iQbTRQMBDyki5UNSIio6acFyzK0B4m84
+         c+rVK04Wa/LOPaAmjRHRUwYt4f5t/EqRYVhUOCrkxoWRi2qkKfEYiTZSB//MSrm6N6o2
+         b9yAjdBvivtin4Rq4uLtrQKFKEJDL8y21Mt4nYku5lnBgUiDQHCneS0NBVmnHuMWrAOm
+         E9Gg==
+X-Gm-Message-State: AOJu0YxNxo+NuSrVgSANy+0hp1O+gWeqcNDuXVJtLSgmcUAHgEwC0CI9
+	0s3+6pAM+o9mTDbNBn26ekSpdeyNkLumlfTbjtQYOLnDNtJUq0htR2zcPhdmO3WWfTqikKmdOqh
+	Q
+X-Google-Smtp-Source: AGHT+IEh3i58sZDtRnJmflaSp4gdipKM1VZLMocXtxWHWnYiR+UJVvIGOTrMSosVxV9IdS+KFahqiQ==
+X-Received: by 2002:a25:d816:0:b0:deb:42d2:c299 with SMTP id 3f1490d57ef6-dff154e0609mr5303608276.55.1718536798878;
+        Sun, 16 Jun 2024 04:19:58 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5ee56cdsm43092816d6.113.2024.06.16.04.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jun 2024 04:19:58 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 82A42100255; Sun, 16 Jun 2024 01:19:57 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 16 Jun 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 16 Jun 2024 01:19:57 -1000
+Message-Id: <20240616111957.82A42100255@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 04:26:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200772
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 11:20:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200773
 
---VLRZVXlNL9C7H4mMTSOA
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-Looking at the combination of the patches and the following
+New this week: 1 CVEs
+CVE-2024-36971 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36971 *
 
-+ boot_files =3D d.getVar("IMAGE_BOOT_FILES")
-+ if boot_files is None:
-+ return
-+
-+ install_files =3D get_boot_files(deploy_image_dir, boot_files)
-+ if install_files is None:
-+ bb.warn("Could not find any boot files to install even though IMAGE_BOOT_=
-FILES is not empty")
-+ return
+Removed this week: 0 CVEs
 
-get_boot_files only returns None if boot_files is None, which is caught alr=
-eady earlier on here, so the bb.warn clause likely will not be reached
+Full list:  Found 37 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
+CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
+CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
+CVE-2024-26900 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26900 *
+CVE-2024-26913 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26913 *
+CVE-2024-26949 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26949 *
+CVE-2024-26952 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26952 *
+CVE-2024-27012 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27012 *
+CVE-2024-27017 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27017 *
+CVE-2024-36971 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36971 *
 
-Personally a check like `if install_files:` would make more sense
+Summary of CVE counts by recipe:
+  linux-yocto: 29
+  busybox: 4
+  gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial: 1
+  gnupg:gnupg-native: 1
+  openssh: 1
+  qemu:qemu-native:qemu-system-native: 1
 
-IMAGE_PREPROCESS_COMMAND +=3D "bootfiles_populate;"
-
-I'm not sure if that wouldn't raise issues if any of the packages would ins=
-tall a file by the same path/name as also set here.
-
-In my opinion moving it to a POSTPROCESS function with some checks that it =
-won't overwrite any files/folders might be the better option
-
---VLRZVXlNL9C7H4mMTSOA
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;">Looking at the combination of the patches and the following</s=
-pan></p>
-<p>&nbsp;</p>
-<p><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;">+ boot_files =3D d.getVar("IMAGE_BOOT_FILES")</span><br style=
-=3D"box-sizing: border-box; overflow-wrap: break-word !important; color: #3=
-33333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto =
-Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI=
- Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style=
-: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-w=
-eight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-ind=
-ent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-=
-stroke-width: 0px; white-space: pre-wrap; background-color: #ffffff; text-d=
-ecoration-thickness: initial; text-decoration-style: initial; text-decorati=
-on-color: initial;" /><span style=3D"color: #333333; font-family: system-ui=
-, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ari=
-al, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', '=
-Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-ligatu=
-res: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: n=
-ormal; orphans: 2; text-align: start; text-indent: 0px; text-transform: non=
-e; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-spac=
-e: pre-wrap; background-color: #ffffff; text-decoration-thickness: initial;=
- text-decoration-style: initial; text-decoration-color: initial; display: i=
-nline !important; float: none;">+ if boot_files is None:</span><br style=3D=
-"box-sizing: border-box; overflow-wrap: break-word !important; color: #3333=
-33; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto San=
-s', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Em=
-oji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: n=
-ormal; font-variant-ligatures: normal; font-variant-caps: normal; font-weig=
-ht: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent=
-: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-str=
-oke-width: 0px; white-space: pre-wrap; background-color: #ffffff; text-deco=
-ration-thickness: initial; text-decoration-style: initial; text-decoration-=
-color: initial;" /><span style=3D"color: #333333; font-family: system-ui, '=
-Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial,=
- sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Not=
-o Color Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures=
-: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
-al; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: =
-pre-wrap; background-color: #ffffff; text-decoration-thickness: initial; te=
-xt-decoration-style: initial; text-decoration-color: initial; display: inli=
-ne !important; float: none;">+ return</span><br style=3D"box-sizing: border=
--box; overflow-wrap: break-word !important; color: #333333; font-family: sy=
-stem-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation San=
-s', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sym=
-bol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant=
--ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spa=
-cing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfo=
-rm: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; whi=
-te-space: pre-wrap; background-color: #ffffff; text-decoration-thickness: i=
-nitial; text-decoration-style: initial; text-decoration-color: initial;" />=
-<span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto, =
-'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple=
- Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; fon=
-t-size: 16px; font-style: normal; font-variant-ligatures: normal; font-vari=
-ant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; tex=
-t-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spa=
-cing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgroun=
-d-color: #ffffff; text-decoration-thickness: initial; text-decoration-style=
-: initial; text-decoration-color: initial; display: inline !important; floa=
-t: none;">+</span><br style=3D"box-sizing: border-box; overflow-wrap: break=
--word !important; color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial;" /><span style=3D"color: #333=
-333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sa=
-ns', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI E=
-moji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: =
-normal; font-variant-ligatures: normal; font-variant-caps: normal; font-wei=
-ght: 400; letter-spacing: normal; orphans: 2; text-align: start; text-inden=
-t: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-st=
-roke-width: 0px; white-space: pre-wrap; background-color: #ffffff; text-dec=
-oration-thickness: initial; text-decoration-style: initial; text-decoration=
--color: initial; display: inline !important; float: none;">+ install_files =
-=3D get_boot_files(deploy_image_dir, boot_files)</span><br style=3D"box-siz=
-ing: border-box; overflow-wrap: break-word !important; color: #333333; font=
--family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Lib=
-eration Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'S=
-egoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; f=
-ont-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; t=
-ext-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-widt=
-h: 0px; white-space: pre-wrap; background-color: #ffffff; text-decoration-t=
-hickness: initial; text-decoration-style: initial; text-decoration-color: i=
-nitial;" /><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI=
-', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-se=
-rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color =
-Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: normal=
-; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orph=
-ans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: =
-2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap=
-; background-color: #ffffff; text-decoration-thickness: initial; text-decor=
-ation-style: initial; text-decoration-color: initial; display: inline !impo=
-rtant; float: none;">+ if install_files is None:</span><br style=3D"box-siz=
-ing: border-box; overflow-wrap: break-word !important; color: #333333; font=
--family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Lib=
-eration Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'S=
-egoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; f=
-ont-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;=
- letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; t=
-ext-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-widt=
-h: 0px; white-space: pre-wrap; background-color: #ffffff; text-decoration-t=
-hickness: initial; text-decoration-style: initial; text-decoration-color: i=
-nitial;" /><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI=
-', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-se=
-rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color =
-Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: normal=
-; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orph=
-ans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: =
-2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap=
-; background-color: #ffffff; text-decoration-thickness: initial; text-decor=
-ation-style: initial; text-decoration-color: initial; display: inline !impo=
-rtant; float: none;">+ bb.warn("Could not find any boot files to install ev=
-en though IMAGE_BOOT_FILES is not empty")</span><br style=3D"box-sizing: bo=
-rder-box; overflow-wrap: break-word !important; color: #333333; font-family=
-: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation=
- Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI=
- Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-var=
-iant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter=
--spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tra=
-nsform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;=
- white-space: pre-wrap; background-color: #ffffff; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
-" /><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robo=
-to, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'A=
-pple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';=
- font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-=
-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2;=
- text-align: start; text-indent: 0px; text-transform: none; widows: 2; word=
--spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backg=
-round-color: #ffffff; text-decoration-thickness: initial; text-decoration-s=
-tyle: initial; text-decoration-color: initial; display: inline !important; =
-float: none;">+ return</span></p>
-<p>&nbsp;</p>
-<p><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;"><span style=3D"color: #333333; font-family: system-ui, 'Segoe =
-UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-=
-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Colo=
-r Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: norm=
-al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; or=
-phans: 2; text-align: start; text-indent: 0px; text-transform: none; widows=
-: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wr=
-ap; background-color: #ffffff; text-decoration-thickness: initial; text-dec=
-oration-style: initial; text-decoration-color: initial; display: inline !im=
-portant; float: none;">get_boot_files only returns None if boot_files is No=
-ne, which is caught already earlier on here, so the bb.warn clause likely w=
-ill not be reached</span></span></p>
-<p><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;"><span style=3D"color: #333333; font-family: system-ui, 'Segoe =
-UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-=
-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Colo=
-r Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: norm=
-al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; or=
-phans: 2; text-align: start; text-indent: 0px; text-transform: none; widows=
-: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wr=
-ap; background-color: #ffffff; text-decoration-thickness: initial; text-dec=
-oration-style: initial; text-decoration-color: initial; display: inline !im=
-portant; float: none;">Personally a check like `if install_files:` would ma=
-ke more sense</span></span></p>
-<p>&nbsp;</p>
-<p><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Robot=
-o, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Ap=
-ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; =
-font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-=
-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;"><span style=3D"color: #333333; font-family: system-ui, 'Segoe =
-UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-=
-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Colo=
-r Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: norm=
-al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; or=
-phans: 2; text-align: start; text-indent: 0px; text-transform: none; widows=
-: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wr=
-ap; background-color: #ffffff; text-decoration-thickness: initial; text-dec=
-oration-style: initial; text-decoration-color: initial; display: inline !im=
-portant; float: none;"><span style=3D"color: #333333; font-family: system-u=
-i, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ar=
-ial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', =
-'Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-ligat=
-ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
-normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
-ne; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-spa=
-ce: pre-wrap; background-color: #ffffff; text-decoration-thickness: initial=
-; text-decoration-style: initial; text-decoration-color: initial; display: =
-inline !important; float: none;">IMAGE_PREPROCESS_COMMAND +=3D "bootfiles_p=
-opulate;"</span></span></span></p>
-<p>&nbsp;</p>
-<p>I'm not sure if that wouldn't raise issues if any of the packages would =
-install a file by the same path/name as also set here.</p>
-<p>In my opinion moving it to a POSTPROCESS function with some checks that =
-it won't overwrite any files/folders might be the better option</p>
-
---VLRZVXlNL9C7H4mMTSOA--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
