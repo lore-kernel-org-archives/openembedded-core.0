@@ -1,639 +1,464 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C5DC27C6E
-	for <webhook@archiver.kernel.org>; Sun, 16 Jun 2024 19:39:59 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.40705.1718566796490628833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7CC1C27C53
+	for <webhook@archiver.kernel.org>; Sun, 16 Jun 2024 22:39:00 +0000 (UTC)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+ by mx.groups.io with SMTP id smtpd.web10.44147.1718577538328110406
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Jun 2024 12:39:56 -0700
+ Sun, 16 Jun 2024 15:38:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NDjXGmAK;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-35f225ac23bso3640402f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 12:39:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IzBMUSKh;
+ spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5bdbbc37664so1460845eaf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 15:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718566794; x=1719171594; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qN1xInct08gjxMM+eeJHMCsXqG2cuYpMJe66z28T+r0=;
-        b=NDjXGmAKpxUTJ3TyzNpUB9gcSzLgLzMyhJDdWITVSzcfBS80yoP7OJw18lNBiPBRyR
-         HcJyUKDLIKFybqBc4kqrmI+J+5xjzWYDnVZEfFYejHA+G3JE4+Rfpn9guqMK9n51exZ/
-         PH7icVMKeDRdXHyfXzRtG71a1LQNmko+ahQ0YQ10bgVpzFed5LLocxb+lklXv8+4EX5q
-         zW/EHt8HKUO14WE5NbhXXMikQg3/MCLiJCXTk2M5v9pDy/f7oQ4fNA42cOLiupW780zF
-         E7vTr/4142QPzKczIlBHCgiGOVp0FuL3yvX7PyPYJgyeNIZbU40v8CKhnQskaNlUvDQ4
-         GkzQ==
+        d=gmail.com; s=20230601; t=1718577537; x=1719182337; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CQJpqICdOXaq0pJt3eKpkRpCLGZFtQv44wIjNr4A7cc=;
+        b=IzBMUSKhCGof/Ocrd/dDgP9Io2gtlgPRFj5kiEtc8AhlpQ6xBSHop98N5wI6Ne/0Gi
+         IP7RWVHp2tPGzrJ1RCZ8dV0TO6pei9NnsXuTyWwMCBHD/NATeWrwnwp+leoIEaVvIypy
+         WomCX0Ai/S8LZDuSujh6/cHi+T4qH8QbZZ+ZKTh0M2A4INpGKDjgvn+wmzQggi1fjMFF
+         4zNlfwqAZL5AUxXf8T+7cYhSoTF9LnwQl0B/p8L+Vwzi0lYu45DjN6di7yIU3P7V1IeM
+         P5J6U7LO6dhTrchIeHQoTHRea+HUmzsgEz4dG2o5z1upCfPTRgWqRJ/mYbkukkZMb1rq
+         TJ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718566794; x=1719171594;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qN1xInct08gjxMM+eeJHMCsXqG2cuYpMJe66z28T+r0=;
-        b=k/oI/CF7pHB6tA2H10GyS/hZ9MiXY0MN4ph2ah4XJkkb6edYX13EQ3FHG0GIS8wVxM
-         lu6W82BzxnkM3Nr7d1eiOHrm89gpQMdf3kuC5IpsVXBMsu9yXPNnEEk8IgkJ78gY2+gi
-         78iXFZaHdoUJ7d96ORymZsAuCKItzWT4nHFTm8M9K6QwENa741jVNaB1zIAXUKyWZY5n
-         b/4OR9O4tiNCgm0125bbFS6SwlyogFYj/MVf9ng5YuO/hNw1mzKJ662Th7mrux8bwIWW
-         VtnyuOEqhEWi/C+h2PuYum50P2HM5KtdhIGx2d1MfYHKKaR2VurUiVPE+oQ+lBQb4dvk
-         pQ5Q==
-X-Gm-Message-State: AOJu0YyodOsYI2RKJUn9MZaETSVpowC+CDOk0NKrOdI6w//LBF3uzk33
-	7cDmWdStgzoR48viRgM1QXzHqC0HyqadmJL4Z3BlFRO5kG8ax7/vSS/dOkWV
-X-Google-Smtp-Source: AGHT+IEDNtvZjRC+D471RKLoEGK1QuWUHqSGiPUxzVr90lw8gT83Rltnp3Loa8rYTjA5tiBLFItDug==
-X-Received: by 2002:adf:efcb:0:b0:35f:1ed7:f1fd with SMTP id ffacd0b85a97d-3607a7606f1mr6632243f8f.19.1718566794227;
-        Sun, 16 Jun 2024 12:39:54 -0700 (PDT)
-Received: from localhost.localdomain (ptr-fij45qxtdobqrxrcewr.18120a2.ip6.access.telenet.be. [2a02:1812:512:2c00:6021:e9a4:5aa0:257b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509353csm10252932f8f.22.2024.06.16.12.39.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jun 2024 12:39:53 -0700 (PDT)
-From: Jan Vermaete <jan.vermaete@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan Vermaete <jan.vermaete@gmail.com>
-Subject: [PATCH] python3-mako: added ptest
-Date: Sun, 16 Jun 2024 21:39:32 +0200
-Message-Id: <20240616193932.1572432-1-jan.vermaete@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1718577537; x=1719182337;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CQJpqICdOXaq0pJt3eKpkRpCLGZFtQv44wIjNr4A7cc=;
+        b=Ga366bRyMMtKEgQshdNLKJS/oMkZrKF4KSxh1DStrlPmpSqv1tnXYPk598dOFYO+Tn
+         9Z6PHRIVlB37zJi0cZ8aZ1f8a2tkaRJ/iQkNMQLpzhdLbvLX3tqFnFlbgT0ZfiMcIZj5
+         ASVjhIXpNtD05qGPY7CXMMBOYgvKIqSYuQdsOqifZZvO2h5Oq8EuVa9O2mP/TgBh4dyl
+         HwXYetofejOieM1O1uyFqlOZlv4kDgAls0QhVCFgLhzCZFT9Uu/hRz8+vXkhhu9o+WDH
+         9a02pzDOkwBTxeEDwHteJlmsYxYMgk/t75Eyb98EaxsdkWB7CwLrB05E0O+e/kCuqfig
+         Wj2Q==
+X-Gm-Message-State: AOJu0YzI3eh+VsNTxN5EAm94kCGKJnHt/daDjNpyQ7NqYw4Py9DV9qMD
+	/8PnPaGbCHAvP1Y5iUtjBUFJ/PMWqx5f5UtzamvCE6GmgL8wV57m5T31pZ8hufH1LR56bd/awZg
+	6R0Tb+jryTtldFl1QTyLHatg8txo=
+X-Google-Smtp-Source: AGHT+IH9hc9vmbpttkCD/9AW1BurB4E5QEtuVR3fLZcwBUWzJnrM+evLJfjCSdM2D7tByCW4tm8F14q6lmodz73RFb0=
+X-Received: by 2002:a05:6870:6391:b0:24f:f45e:5541 with SMTP id
+ 586e51a60fabf-2584298e6d6mr9261462fac.24.1718577537258; Sun, 16 Jun 2024
+ 15:38:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240613202152.1032014-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240613202152.1032014-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 16 Jun 2024 15:38:31 -0700
+Message-ID: <CAMKF1srkZqbp2eiLyw4R13PVAUvh-fEsyxJ9yyX7btaXDYECeg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] native/nativesdk: Stop overriding unprefixed
+ *FLAGS variables
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 19:39:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200782
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 22:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200783
 
-root@qemux86-64:~# ptest-runner python3-mako
-START: ptest-runner
-2024-06-16T19:21
-BEGIN: /usr/lib/python3-mako/ptest
-SKIP: test/ext/test_babelplugin.py:PluginExtractTest.test_parse_python_expression # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_babelplugin.py:PluginExtractTest.test_python_gettext_call # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_babelplugin.py:PluginExtractTest.test_translator_comment # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_babelplugin.py:MakoExtractTest.test_extract # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_babelplugin.py:MakoExtractTest.test_extract_utf8 # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_babelplugin.py:MakoExtractTest.test_extract_cp1251 # SKIP babel not installed: skipping babelplugin test
-SKIP: test/ext/test_linguaplugin.py:MakoExtractTest.test_extract # SKIP lingua not installed: skipping linguaplugin test
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_2
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_3
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_4
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_5
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_6
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_7
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_8
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_9
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_10
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_11
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_12
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_13
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_14
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_16
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_17
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_18
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_19
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_20
-PASS: test/test_ast.py:AstParseTest.test_locate_identifiers_21
-PASS: test/test_ast.py:AstParseTest.test_no_global_imports
-PASS: test/test_ast.py:AstParseTest.test_python_fragment
-PASS: test/test_ast.py:AstParseTest.test_argument_list
-PASS: test/test_ast.py:AstParseTest.test_function_decl
-PASS: test/test_ast.py:AstParseTest.test_function_decl_2
-PASS: test/test_ast.py:AstParseTest.test_function_decl_3
-PASS: test/test_ast.py:AstParseTest.test_expr_generate
-PASS: test/test_block.py:BlockTest.test_anonymous_block_namespace_raises
-PASS: test/test_block.py:BlockTest.test_anonymous_block_in_call
-PASS: test/test_block.py:BlockTest.test_named_block_in_call
-PASS: test/test_block.py:BlockTest.test_name_collision_blocks_toplevel
-PASS: test/test_block.py:BlockTest.test_name_collision_blocks_nested_block
-PASS: test/test_block.py:BlockTest.test_name_collision_blocks_nested_def
-PASS: test/test_block.py:BlockTest.test_name_collision_block_def_toplevel
-PASS: test/test_block.py:BlockTest.test_name_collision_def_block_toplevel
-PASS: test/test_block.py:BlockTest.test_named_block_renders
-PASS: test/test_block.py:BlockTest.test_inherited_block_no_render
-PASS: test/test_block.py:BlockTest.test_no_named_in_def
-PASS: test/test_block.py:BlockTest.test_inherited_block_nested_both
-PASS: test/test_block.py:BlockTest.test_inherited_block_nested_inner_only
-PASS: test/test_block.py:BlockTest.test_noninherited_block_no_render
-PASS: test/test_block.py:BlockTest.test_no_conflict_nested_one
-PASS: test/test_block.py:BlockTest.test_nested_dupe_names_raise
-PASS: test/test_block.py:BlockTest.test_two_levels_one
-PASS: test/test_block.py:BlockTest.test_filter
-PASS: test/test_block.py:BlockTest.test_anon_in_named
-PASS: test/test_block.py:BlockTest.test_named_in_anon
-PASS: test/test_block.py:BlockTest.test_anon_in_anon
-PASS: test/test_block.py:BlockTest.test_named_in_named
-PASS: test/test_block.py:BlockTest.test_iteration
-PASS: test/test_block.py:BlockTest.test_conditional
-PASS: test/test_block.py:BlockTest.test_block_overridden_by_def
-PASS: test/test_block.py:BlockTest.test_def_overridden_by_block
-PASS: test/test_block.py:BlockTest.test_block_args
-PASS: test/test_block.py:BlockTest.test_block_variables_contextual
-PASS: test/test_block.py:BlockTest.test_block_args_contextual
-PASS: test/test_block.py:BlockTest.test_block_pageargs_contextual
-PASS: test/test_block.py:BlockTest.test_block_pageargs
-PASS: test/test_cache.py:CacheTest.test_def
-PASS: test/test_cache.py:CacheTest.test_cache_enable
-PASS: test/test_cache.py:CacheTest.test_nested_def
-PASS: test/test_cache.py:CacheTest.test_page
-PASS: test/test_cache.py:CacheTest.test_dynamic_key_with_context
-PASS: test/test_cache.py:CacheTest.test_dynamic_key_with_funcargs
-PASS: test/test_cache.py:CacheTest.test_dynamic_key_with_imports
-PASS: test/test_cache.py:CacheTest.test_fileargs_implicit
-PASS: test/test_cache.py:CacheTest.test_fileargs_deftag
-PASS: test/test_cache.py:CacheTest.test_fileargs_pagetag
-PASS: test/test_cache.py:CacheTest.test_args_complete
-PASS: test/test_cache.py:CacheTest.test_fileargs_lookup
-PASS: test/test_cache.py:CacheTest.test_buffered
-PASS: test/test_cache.py:CacheTest.test_load_from_expired
-PASS: test/test_cache.py:CacheTest.test_namespace_access
-PASS: test/test_cache.py:CacheTest.test_lookup
-PASS: test/test_cache.py:CacheTest.test_invalidate
-PASS: test/test_cache.py:CacheTest.test_custom_args_def
-PASS: test/test_cache.py:CacheTest.test_custom_args_block
-PASS: test/test_cache.py:CacheTest.test_custom_args_page
-PASS: test/test_cache.py:CacheTest.test_pass_context
-SKIP: test/test_cache.py:BeakerCacheTest.test_def # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_cache_enable # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_nested_def # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_page # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_dynamic_key_with_context # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_dynamic_key_with_funcargs # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_dynamic_key_with_imports # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_fileargs_implicit # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_fileargs_deftag # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_fileargs_pagetag # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_args_complete # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_fileargs_lookup # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_buffered # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_load_from_expired # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_namespace_access # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_lookup # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_invalidate # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_custom_args_def # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_custom_args_block # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_custom_args_page # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_pass_context # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_cache_uses_current_context # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:BeakerCacheTest.test_region # SKIP Beaker is required for these tests.
-SKIP: test/test_cache.py:DogpileCacheTest.test_def # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_cache_enable # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_nested_def # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_page # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_dynamic_key_with_context # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_dynamic_key_with_funcargs # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_dynamic_key_with_imports # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_fileargs_implicit # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_fileargs_deftag # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_fileargs_pagetag # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_args_complete # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_fileargs_lookup # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_buffered # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_load_from_expired # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_namespace_access # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_lookup # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_invalidate # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_custom_args_def # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_custom_args_block # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_custom_args_page # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_pass_context # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_cache_uses_current_context # SKIP dogpile.cache is required to run these tests
-SKIP: test/test_cache.py:DogpileCacheTest.test_region # SKIP dogpile.cache is required to run these tests
-PASS: test/test_call.py:CallTest.test_call
-PASS: test/test_call.py:CallTest.test_compound_call
-PASS: test/test_call.py:CallTest.test_new_syntax
-PASS: test/test_call.py:CallTest.test_ccall_caller
-PASS: test/test_call.py:CallTest.test_stack_pop
-PASS: test/test_call.py:CallTest.test_conditional_call
-PASS: test/test_call.py:CallTest.test_chained_call
-PASS: test/test_call.py:CallTest.test_nested_call
-PASS: test/test_call.py:CallTest.test_nested_call_2
-PASS: test/test_call.py:CallTest.test_nested_call_3
-PASS: test/test_call.py:CallTest.test_nested_call_4
-PASS: test/test_call.py:CallTest.test_chained_call_in_nested
-PASS: test/test_call.py:CallTest.test_call_in_nested
-PASS: test/test_call.py:CallTest.test_composed_def
-PASS: test/test_call.py:CallTest.test_regular_defs
-PASS: test/test_call.py:CallTest.test_call_in_nested_2
-PASS: test/test_call.py:SelfCacheTest.test_basic
-PASS: test/test_cmd.py:CmdTest.test_stdin_success
-PASS: test/test_cmd.py:CmdTest.test_stdin_syntax_err
-PASS: test/test_cmd.py:CmdTest.test_stdin_rt_err
-PASS: test/test_cmd.py:CmdTest.test_file_success
-PASS: test/test_cmd.py:CmdTest.test_file_syntax_err
-PASS: test/test_cmd.py:CmdTest.test_file_rt_err
-PASS: test/test_cmd.py:CmdTest.test_file_notfound
-PASS: test/test_decorators.py:DecoratorTest.test_toplevel
-PASS: test/test_decorators.py:DecoratorTest.test_toplevel_contextual
-PASS: test/test_decorators.py:DecoratorTest.test_nested
-PASS: test/test_decorators.py:DecoratorTest.test_toplevel_decorated_name
-PASS: test/test_decorators.py:DecoratorTest.test_nested_decorated_name
-PASS: test/test_def.py:DefTest.test_def_noargs
-PASS: test/test_def.py:DefTest.test_def_blankargs
-PASS: test/test_def.py:DefTest.test_def_args
-PASS: test/test_def.py:DefTest.test_def_py3k_args
-PASS: test/test_def.py:DefTest.test_inter_def
-PASS: test/test_def.py:DefTest.test_toplevel
-PASS: test/test_def.py:DefTest.test_def_operations
-PASS: test/test_def.py:ScopeTest.test_scope_one
-PASS: test/test_def.py:ScopeTest.test_scope_two
-PASS: test/test_def.py:ScopeTest.test_scope_four
-PASS: test/test_def.py:ScopeTest.test_scope_five
-PASS: test/test_def.py:ScopeTest.test_scope_six
-PASS: test/test_def.py:ScopeTest.test_scope_seven
-PASS: test/test_def.py:ScopeTest.test_scope_eight
-PASS: test/test_def.py:ScopeTest.test_scope_nine
-PASS: test/test_def.py:ScopeTest.test_scope_ten
-PASS: test/test_def.py:ScopeTest.test_scope_eleven
-PASS: test/test_def.py:ScopeTest.test_unbound_scope
-PASS: test/test_def.py:ScopeTest.test_unbound_scope_two
-PASS: test/test_def.py:ScopeTest.test_canget_kwargs
-PASS: test/test_def.py:ScopeTest.test_inline_expression_from_arg_one
-PASS: test/test_def.py:ScopeTest.test_interpret_expression_from_arg_two
-PASS: test/test_def.py:NestedDefTest.test_nested_def
-PASS: test/test_def.py:NestedDefTest.test_nested_2
-PASS: test/test_def.py:NestedDefTest.test_nested_with_args
-PASS: test/test_def.py:NestedDefTest.test_nested_def_2
-PASS: test/test_def.py:NestedDefTest.test_nested_nested_def
-PASS: test/test_def.py:NestedDefTest.test_nested_nested_def_2
-PASS: test/test_def.py:NestedDefTest.test_outer_scope
-PASS: test/test_def.py:ExceptionTest.test_raise
-PASS: test/test_def.py:ExceptionTest.test_handler
-PASS: test/test_exceptions.py:ExceptionsTest.test_html_error_template
-PASS: test/test_exceptions.py:ExceptionsTest.test_text_error_template
-PASS: test/test_exceptions.py:ExceptionsTest.test_utf8_html_error_template_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_utf8_html_error_template_no_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_format_closures
-PASS: test/test_exceptions.py:ExceptionsTest.test_py_utf8_html_error_template
-PASS: test/test_exceptions.py:ExceptionsTest.test_py_unicode_error_html_error_template
-PASS: test/test_exceptions.py:ExceptionsTest.test_format_exceptions_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_format_exceptions_no_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_utf8_format_exceptions_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_utf8_format_exceptions_no_pygments
-PASS: test/test_exceptions.py:ExceptionsTest.test_mod_no_encoding
-PASS: test/test_exceptions.py:ExceptionsTest.test_custom_tback
-PASS: test/test_exceptions.py:ExceptionsTest.test_tback_no_trace_from_py_file
-PASS: test/test_exceptions.py:ExceptionsTest.test_tback_trace_from_py_file
-PASS: test/test_exceptions.py:ExceptionsTest.test_code_block_line_number
-PASS: test/test_exceptions.py:ExceptionsTest.test_module_block_line_number
-PASS: test/test_exceptions.py:ExceptionsTest.test_alternating_file_names
-PASS: test/test_filters.py:FilterTest.test_basic
-PASS: test/test_filters.py:FilterTest.test_expr
-PASS: test/test_filters.py:FilterTest.test_convert_str
-PASS: test/test_filters.py:FilterTest.test_quoting
-PASS: test/test_filters.py:FilterTest.test_url_escaping
-PASS: test/test_filters.py:FilterTest.test_entity
-PASS: test/test_filters.py:FilterTest.test_def
-PASS: test/test_filters.py:FilterTest.test_import
-PASS: test/test_filters.py:FilterTest.test_import_2
-PASS: test/test_filters.py:FilterTest.test_encode_filter
-PASS: test/test_filters.py:FilterTest.test_encode_filter_non_str
-PASS: test/test_filters.py:FilterTest.test_custom_default
-PASS: test/test_filters.py:FilterTest.test_global
-PASS: test/test_filters.py:FilterTest.test_block_via_context
-PASS: test/test_filters.py:FilterTest.test_def_via_context
-PASS: test/test_filters.py:FilterTest.test_text_via_context
-PASS: test/test_filters.py:FilterTest.test_nflag
-PASS: test/test_filters.py:FilterTest.test_global_json
-PASS: test/test_filters.py:FilterTest.test_non_expression
-PASS: test/test_filters.py:FilterTest.test_builtins
-PASS: test/test_filters.py:BufferTest.test_buffered_def
-PASS: test/test_filters.py:BufferTest.test_unbuffered_def
-PASS: test/test_filters.py:BufferTest.test_capture
-PASS: test/test_filters.py:BufferTest.test_capture_exception
-PASS: test/test_filters.py:BufferTest.test_buffered_exception
-PASS: test/test_filters.py:BufferTest.test_capture_ccall
-PASS: test/test_inheritance.py:InheritanceTest.test_basic
-PASS: test/test_inheritance.py:InheritanceTest.test_multilevel_nesting
-PASS: test/test_inheritance.py:InheritanceTest.test_includes
-PASS: test/test_inheritance.py:InheritanceTest.test_namespaces
-PASS: test/test_inheritance.py:InheritanceTest.test_pageargs
-PASS: test/test_inheritance.py:InheritanceTest.test_pageargs_2
-PASS: test/test_inheritance.py:InheritanceTest.test_pageargs_err
-PASS: test/test_inheritance.py:InheritanceTest.test_toplevel
-PASS: test/test_inheritance.py:InheritanceTest.test_dynamic
-PASS: test/test_inheritance.py:InheritanceTest.test_in_call
-PASS: test/test_lexer.py:LexerTest.test_text_and_tag
-PASS: test/test_lexer.py:LexerTest.test_unclosed_tag
-PASS: test/test_lexer.py:LexerTest.test_onlyclosed_tag
-PASS: test/test_lexer.py:LexerTest.test_noexpr_allowed
-PASS: test/test_lexer.py:LexerTest.test_closing_tag_many_spaces
-PASS: test/test_lexer.py:LexerTest.test_opening_tag_many_quotes
-PASS: test/test_lexer.py:LexerTest.test_unmatched_tag
-PASS: test/test_lexer.py:LexerTest.test_nonexistent_tag
-PASS: test/test_lexer.py:LexerTest.test_wrongcase_tag
-PASS: test/test_lexer.py:LexerTest.test_percent_escape
-PASS: test/test_lexer.py:LexerTest.test_percent_escape2
-PASS: test/test_lexer.py:LexerTest.test_percent_escape_with_control_block
-PASS: test/test_lexer.py:LexerTest.test_inline_percent
-PASS: test/test_lexer.py:LexerTest.test_old_multiline_comment
-PASS: test/test_lexer.py:LexerTest.test_text_tag
-PASS: test/test_lexer.py:LexerTest.test_def_syntax
-PASS: test/test_lexer.py:LexerTest.test_def_syntax_2
-PASS: test/test_lexer.py:LexerTest.test_whitespace_equals
-PASS: test/test_lexer.py:LexerTest.test_ns_tag_closed
-PASS: test/test_lexer.py:LexerTest.test_ns_tag_empty
-PASS: test/test_lexer.py:LexerTest.test_ns_tag_open
-PASS: test/test_lexer.py:LexerTest.test_expr_in_attribute
-PASS: test/test_lexer.py:LexerTest.test_pagetag[,-48]
-PASS: test/test_lexer.py:LexerTest.test_pagetag[-47]
-PASS: test/test_lexer.py:LexerTest.test_nesting
-PASS: test/test_lexer.py:LexerTest.test_code
-PASS: test/test_lexer.py:LexerTest.test_code_and_tags
-PASS: test/test_lexer.py:LexerTest.test_expression
-PASS: test/test_lexer.py:LexerTest.test_tricky_expression
-PASS: test/test_lexer.py:LexerTest.test_dict_expression_issue_400_regression
-PASS: test/test_lexer.py:LexerTest.test_tricky_code
-PASS: test/test_lexer.py:LexerTest.test_tricky_code_2
-PASS: test/test_lexer.py:LexerTest.test_tricky_code_3
-PASS: test/test_lexer.py:LexerTest.test_tricky_code_4
-PASS: test/test_lexer.py:LexerTest.test_tricky_code_5
-PASS: test/test_lexer.py:LexerTest.test_tricky_code_6
-PASS: test/test_lexer.py:LexerTest.test_control_lines
-PASS: test/test_lexer.py:LexerTest.test_control_lines_2
-PASS: test/test_lexer.py:LexerTest.test_long_control_lines
-PASS: test/test_lexer.py:LexerTest.test_unmatched_control
-PASS: test/test_lexer.py:LexerTest.test_unmatched_control_2
-PASS: test/test_lexer.py:LexerTest.test_unmatched_control_3
-PASS: test/test_lexer.py:LexerTest.test_ternary_control
-PASS: test/test_lexer.py:LexerTest.test_integration
-PASS: test/test_lexer.py:LexerTest.test_comment_after_statement
-PASS: test/test_lexer.py:LexerTest.test_crlf
-PASS: test/test_lexer.py:LexerTest.test_comments
-PASS: test/test_lexer.py:LexerTest.test_docs
-PASS: test/test_lexer.py:LexerTest.test_preprocess
-PASS: test/test_lookup.py:LookupTest.test_basic
-PASS: test/test_lookup.py:LookupTest.test_subdir
-PASS: test/test_lookup.py:LookupTest.test_updir
-PASS: test/test_lookup.py:LookupTest.test_directory_lookup
-PASS: test/test_lookup.py:LookupTest.test_no_lookup
-PASS: test/test_lookup.py:LookupTest.test_uri_adjust
-PASS: test/test_lookup.py:LookupTest.test_uri_cache
-PASS: test/test_lookup.py:LookupTest.test_check_not_found
-PASS: test/test_lookup.py:LookupTest.test_dont_accept_relative_outside_of_root
-PASS: test/test_lookup.py:LookupTest.test_checking_against_bad_filetype
-PASS: test/test_loop.py:TestLoop.test__FOR_LOOP
-PASS: test/test_loop.py:TestLoop.test_loop_demo
-PASS: test/test_loop.py:TestLoop.test_nested_loops
-PASS: test/test_loop.py:TestLoop.test_no_loop
-PASS: test/test_loop.py:TestLoop.test_out_of_context_access
-PASS: test/test_loop.py:TestLoop.test_parent_loops
-PASS: test/test_loop.py:TestLoopStack.test__pop
-PASS: test/test_loop.py:TestLoopStack.test__push
-PASS: test/test_loop.py:TestLoopStack.test__top
-PASS: test/test_loop.py:TestLoopStack.test_enter
-PASS: test/test_loop.py:TestLoopStack.test_exit
-PASS: test/test_loop.py:TestLoopContext.test___len__
-PASS: test/test_loop.py:TestLoopContext.test_cycle
-PASS: test/test_loop.py:TestLoopContext.test_even
-PASS: test/test_loop.py:TestLoopContext.test_first
-PASS: test/test_loop.py:TestLoopContext.test_index
-PASS: test/test_loop.py:TestLoopContext.test_last
-PASS: test/test_loop.py:TestLoopContext.test_odd
-PASS: test/test_loop.py:TestLoopContext.test_reverse_index
-PASS: test/test_loop.py:TestLoopFlags.test_loop_disabled_template
-PASS: test/test_loop.py:TestLoopFlags.test_loop_disabled_lookup
-PASS: test/test_loop.py:TestLoopFlags.test_loop_disabled_override_template
-PASS: test/test_loop.py:TestLoopFlags.test_loop_disabled_override_lookup
-PASS: test/test_loop.py:TestLoopFlags.test_loop_enabled_override_template
-PASS: test/test_loop.py:TestLoopFlags.test_loop_enabled_override_lookup
-PASS: test/test_lru.py:LRUTest.testlru
-PASS: test/test_namespace.py:NamespaceTest.test_inline_crossreference
-PASS: test/test_namespace.py:NamespaceTest.test_inline_assignment
-PASS: test/test_namespace.py:NamespaceTest.test_inline_arguments
-PASS: test/test_namespace.py:NamespaceTest.test_inline_not_duped
-PASS: test/test_namespace.py:NamespaceTest.test_dynamic
-PASS: test/test_namespace.py:NamespaceTest.test_template
-PASS: test/test_namespace.py:NamespaceTest.test_module
-PASS: test/test_namespace.py:NamespaceTest.test_module_2
-PASS: test/test_namespace.py:NamespaceTest.test_module_imports
-PASS: test/test_namespace.py:NamespaceTest.test_module_imports_2
-PASS: test/test_namespace.py:NamespaceTest.test_context
-PASS: test/test_namespace.py:NamespaceTest.test_overload
-PASS: test/test_namespace.py:NamespaceTest.test_getattr
-PASS: test/test_namespace.py:NamespaceTest.test_in_def
-PASS: test/test_namespace.py:NamespaceTest.test_in_remote_def
-PASS: test/test_namespace.py:NamespaceTest.test_dont_pollute_self
-PASS: test/test_namespace.py:NamespaceTest.test_inheritance
-PASS: test/test_namespace.py:NamespaceTest.test_inheritance_two
-PASS: test/test_namespace.py:NamespaceTest.test_attr
-PASS: test/test_namespace.py:NamespaceTest.test_attr_raise
-PASS: test/test_namespace.py:NamespaceTest.test_custom_tag_1
-PASS: test/test_namespace.py:NamespaceTest.test_custom_tag_2
-PASS: test/test_namespace.py:NamespaceTest.test_custom_tag_3
-PASS: test/test_namespace.py:NamespaceTest.test_custom_tag_case_sensitive
-PASS: test/test_namespace.py:NamespaceTest.test_expr_grouping
-PASS: test/test_namespace.py:NamespaceTest.test_ccall
-PASS: test/test_namespace.py:NamespaceTest.test_ccall_2
-PASS: test/test_namespace.py:NamespaceTest.test_import
-PASS: test/test_namespace.py:NamespaceTest.test_import_calledfromdef
-PASS: test/test_namespace.py:NamespaceTest.test_closure_import
-PASS: test/test_namespace.py:NamespaceTest.test_import_local
-PASS: test/test_namespace.py:NamespaceTest.test_ccall_import
-PASS: test/test_namespace.py:NamespaceTest.test_nonexistent_namespace_uri
-PASS: test/test_pygen.py:GeneratePythonTest.test_generate_normal
-PASS: test/test_pygen.py:GeneratePythonTest.test_generate_adjusted
-PASS: test/test_pygen.py:GeneratePythonTest.test_generate_combo
-PASS: test/test_pygen.py:GeneratePythonTest.test_multi_line
-PASS: test/test_pygen.py:GeneratePythonTest.test_false_unindentor
-PASS: test/test_pygen.py:GeneratePythonTest.test_backslash_line
-PASS: test/test_pygen.py:WhitespaceTest.test_basic
-PASS: test/test_pygen.py:WhitespaceTest.test_blank_lines
-PASS: test/test_pygen.py:WhitespaceTest.test_open_quotes_with_pound
-PASS: test/test_pygen.py:WhitespaceTest.test_quote_with_comments
-PASS: test/test_pygen.py:WhitespaceTest.test_quotes_with_pound
-PASS: test/test_pygen.py:WhitespaceTest.test_quotes
-PASS: test/test_runtime.py:ContextTest.test_locals_kwargs
-PASS: test/test_template.py:MiscTest.test_crlf_linebreaks
-PASS: test/test_template.py:EncodingTest.test_escapes_html_tags
-PASS: test/test_template.py:EncodingTest.test_unicode
-PASS: test/test_template.py:EncodingTest.test_encoding_doesnt_conflict
-PASS: test/test_template.py:EncodingTest.test_unicode_arg
-PASS: test/test_template.py:EncodingTest.test_unicode_file
-PASS: test/test_template.py:EncodingTest.test_unicode_file_code
-PASS: test/test_template.py:EncodingTest.test_unicode_file_lookup
-PASS: test/test_template.py:EncodingTest.test_unicode_bom
-PASS: test/test_template.py:EncodingTest.test_unicode_memory
-PASS: test/test_template.py:EncodingTest.test_unicode_text
-PASS: test/test_template.py:EncodingTest.test_unicode_text_ccall
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_expr
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_expr_file
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_code
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_controlline
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_tag
-PASS: test/test_template.py:EncodingTest.test_unicode_literal_in_def
-PASS: test/test_template.py:EncodingTest.test_input_encoding
-PASS: test/test_template.py:EncodingTest.test_encoding
-PASS: test/test_template.py:EncodingTest.test_encoding_errors
-PASS: test/test_template.py:EncodingTest.test_read_unicode
-PASS: test/test_template.py:PageArgsTest.test_basic
-PASS: test/test_template.py:PageArgsTest.test_inherits
-PASS: test/test_template.py:PageArgsTest.test_includes
-PASS: test/test_template.py:PageArgsTest.test_context_small
-PASS: test/test_template.py:PageArgsTest.test_with_context
-PASS: test/test_template.py:PageArgsTest.test_overrides_builtins
-PASS: test/test_template.py:PageArgsTest.test_canuse_builtin_names
-PASS: test/test_template.py:PageArgsTest.test_builtin_names_dont_clobber_defaults_in_includes
-PASS: test/test_template.py:PageArgsTest.test_dict_locals
-PASS: test/test_template.py:IncludeTest.test_basic
-PASS: test/test_template.py:IncludeTest.test_localargs
-PASS: test/test_template.py:IncludeTest.test_viakwargs
-PASS: test/test_template.py:IncludeTest.test_include_withargs
-PASS: test/test_template.py:IncludeTest.test_within_ccall
-PASS: test/test_template.py:IncludeTest.test_include_error_handler
-PASS: test/test_template.py:UndefinedVarsTest.test_undefined
-PASS: test/test_template.py:UndefinedVarsTest.test_strict
-PASS: test/test_template.py:UndefinedVarsTest.test_expression_declared
-PASS: test/test_template.py:UndefinedVarsTest.test_list_comprehensions_plus_undeclared_nonstrict
-PASS: test/test_template.py:UndefinedVarsTest.test_traditional_assignment_plus_undeclared
-PASS: test/test_template.py:UndefinedVarsTest.test_list_comprehensions_plus_undeclared_strict
-PASS: test/test_template.py:UndefinedVarsTest.test_dict_comprehensions_in_function_plus_undeclared_strict
-PASS: test/test_template.py:StopRenderingTest.test_return_in_template
-PASS: test/test_template.py:ReservedNameTest.test_names_on_context
-PASS: test/test_template.py:ReservedNameTest.test_names_in_template
-PASS: test/test_template.py:ReservedNameTest.test_exclude_loop_context
-PASS: test/test_template.py:ReservedNameTest.test_exclude_loop_template
-PASS: test/test_template.py:ControlTest.test_control
-PASS: test/test_template.py:ControlTest.test_blank_control_1
-PASS: test/test_template.py:ControlTest.test_blank_control_2
-PASS: test/test_template.py:ControlTest.test_blank_control_3
-PASS: test/test_template.py:ControlTest.test_blank_control_4
-PASS: test/test_template.py:ControlTest.test_blank_control_5
-PASS: test/test_template.py:ControlTest.test_blank_control_6
-PASS: test/test_template.py:ControlTest.test_blank_control_7
-PASS: test/test_template.py:ControlTest.test_blank_control_8
-PASS: test/test_template.py:ControlTest.test_blank_control_9
-PASS: test/test_template.py:ControlTest.test_blank_control_10
-PASS: test/test_template.py:ControlTest.test_blank_control_11
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_1
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_2
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_3
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_4
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_5
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_6
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_7
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_8
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_9
-PASS: test/test_template.py:ControlTest.test_commented_blank_control_10
-PASS: test/test_template.py:ControlTest.test_multiline_control
-PASS: test/test_template.py:GlobalsTest.test_globals
-PASS: test/test_template.py:RichTracebackTest.test_utf8_memory_syntax
-PASS: test/test_template.py:RichTracebackTest.test_utf8_memory_runtime
-PASS: test/test_template.py:RichTracebackTest.test_utf8_file_syntax
-PASS: test/test_template.py:RichTracebackTest.test_utf8_file_runtime
-PASS: test/test_template.py:RichTracebackTest.test_unicode_memory_syntax
-PASS: test/test_template.py:RichTracebackTest.test_unicode_memory_runtime
-PASS: test/test_template.py:RichTracebackTest.test_unicode_file_syntax
-PASS: test/test_template.py:RichTracebackTest.test_unicode_file_runtime
-PASS: test/test_template.py:ModuleDirTest.test_basic
-PASS: test/test_template.py:ModuleDirTest.test_callable
-PASS: test/test_template.py:ModuleDirTest.test_custom_writer
-PASS: test/test_template.py:FilenameToURITest.test_windows_paths
-PASS: test/test_template.py:FilenameToURITest.test_posix_paths
-PASS: test/test_template.py:FilenameToURITest.test_dont_accept_relative_outside_of_root
-PASS: test/test_template.py:ModuleTemplateTest.test_module_roundtrip
-PASS: test/test_template.py:TestTemplateAPI.test_metadata
-PASS: test/test_template.py:TestTemplateAPI.test_metadata_two
-PASS: test/test_template.py:PreprocessTest.test_old_comments
-PASS: test/test_template.py:LexerTest.test_via_template
-PASS: test/test_template.py:LexerTest.test_via_lookup
-PASS: test/test_template.py:FuturesTest.test_future_import
-PASS: test/test_template.py:EscapeTest.test_percent_escape
-PASS: test/test_template.py:EscapeTest.test_percent_escape2
-PASS: test/test_template.py:EscapeTest.test_inline_percent
-PASS: test/test_template.py:EscapeTest.test_listcomp_in_func_strict
-PASS: test/test_template.py:EscapeTest.test_setcomp_in_func_strict
-PASS: test/test_template.py:EscapeTest.test_generator_in_func_strict
-PASS: test/test_template.py:EscapeTest.test_dictcomp_in_func_strict
-PASS: test/test_tgplugin.py:TestTGPlugin.test_basic
-PASS: test/test_tgplugin.py:TestTGPlugin.test_subdir
-PASS: test/test_tgplugin.py:TestTGPlugin.test_basic_dot
-PASS: test/test_tgplugin.py:TestTGPlugin.test_subdir_dot
-PASS: test/test_tgplugin.py:TestTGPlugin.test_string
-PASS: test/test_tgplugin.py:TestTGPlugin.test_render
-PASS: test/test_util.py:UtilTest.test_fast_buffer_write
-PASS: test/test_util.py:UtilTest.test_fast_buffer_truncate
-PASS: test/test_util.py:UtilTest.test_fast_buffer_encoded
-PASS: test/test_util.py:UtilTest.test_read_file
-PASS: test/test_util.py:UtilTest.test_load_module
-PASS: test/test_util.py:UtilTest.test_load_plugin_failure
-PASS: test/testing/test_config.py:BasicConfigTest.test_coercions
-PASS: test/testing/test_config.py:BasicConfigTest.test_values
-PASS: test/testing/test_config.py:BasicConfigTest.test_error_on_loading_from_nonexistent_file
-PASS: test/testing/test_config.py:BasicConfigTest.test_error_on_loading_from_nonexistent_section
-PASS: test/testing/test_config.py:BooleanConfigTest.test_values
-PASS: test/testing/test_config.py:UnsupportedTypesConfigTest.test_values
-PASS: test/testing/test_config.py:SupportedTypesConfigTest.test_values
-PASS: test/testing/test_config.py:TypeMismatchConfigTest.test_error_on_load
-PASS: test/testing/test_config.py:MissingItemConfigTest.test_error_on_load
-============================================================================
-Testsuite summary
-DURATION: 40
-END: /usr/lib/python3-mako/ptest
-2024-06-16T19:21
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+I have narrowed down python3-bcrypt build failure to this change on
+qemuriscv64 see
 
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
----
- meta/conf/distro/include/ptest-packagelists.inc |  1 +
- .../python/python3-mako/run-ptest               |  3 +++
- .../python/python3-mako_1.3.5.bb                | 17 ++++++++++++++++-
- 3 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-mako/run-ptest
+https://errors.yoctoproject.org/Errors/Details/786877/
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index da6fa6ee97..d7d711383c 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -63,6 +63,7 @@ PTESTS_FAST = "\
-     python3-jinja2 \
-     python3-jsonpointer \
-     python3-license-expression \
-+    python3-mako \
-     python3-markupsafe \
-     python3-more-itertools \
-     python3-pluggy \
-diff --git a/meta/recipes-devtools/python/python3-mako/run-ptest b/meta/recipes-devtools/python/python3-mako/run-ptest
-new file mode 100644
-index 0000000000..8d2017d39c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-mako/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-mako_1.3.5.bb b/meta/recipes-devtools/python/python3-mako_1.3.5.bb
-index d27fb121a6..d52f72f458 100644
---- a/meta/recipes-devtools/python/python3-mako_1.3.5.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.3.5.bb
-@@ -6,7 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d0995d6f7ba3f186a03118f244e88f57"
- 
- PYPI_PACKAGE = "Mako"
- 
--inherit pypi python_setuptools_build_meta
-+inherit pypi python_setuptools_build_meta ptest
-+
-+SRC_URI:append = " \
-+    file://run-ptest \
-+"
- 
- SRC_URI[sha256sum] = "48dbc20568c1d276a2698b36d968fa76161bf127194907ea6fc594fa81f943bc"
- 
-@@ -17,4 +21,15 @@ RDEPENDS:${PN} = "python3-html \
-                   python3-threading \
- "
- 
-+RDEPENDS:${PN}-ptest += "\
-+    python3-pytest \
-+    python3-unittest-automake-output \
-+"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/test
-+    install -m 0644 ${S}/setup.cfg ${D}${PTEST_PATH}/
-+    cp -rf ${S}/test/* ${D}${PTEST_PATH}/test/
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.39.2
 
+
+On Thu, Jun 13, 2024 at 1:22=E2=80=AFPM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> We're currently encouraging an "arms race" with the FLAGS variables since
+> a recipe might want to set a specific flag for all variants but to do so,
+> +=3D won't work due to the assignment in the native/nativesdk class files=
+. This
+> means recipes are using append.
+>
+> Since the default variables are constructed out of TARGET_XXX variables a=
+nd
+> we redefine these, there is no need to re-define the un-prefixed variable=
+s. If
+> we drop that, the +=3D appends and similar work and recipes don't have to=
+ resort
+> to append.
+>
+> Change the classes and cleanup a number of recipes to adapt to the change=
+. This
+> change will result in some flags appearing to some native/nativesdk varia=
+nts
+> but that is probably what was originally expected anyway.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-recipe/native.bbclass                     | 5 -----
+>  meta/classes-recipe/nativesdk.bbclass                  | 5 -----
+>  meta/recipes-connectivity/bind/bind_9.18.27.bb         | 2 +-
+>  meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb | 2 +-
+>  meta/recipes-core/systemd/systemd-boot_255.6.bb        | 4 ++--
+>  meta/recipes-devtools/python/python3-bcrypt_4.1.3.bb   | 2 +-
+>  meta/recipes-devtools/python/python3-maturin_1.6.0.bb  | 2 +-
+>  meta/recipes-devtools/python/python3_3.12.4.bb         | 2 +-
+>  meta/recipes-devtools/qemu/qemu-native.inc             | 2 +-
+>  meta/recipes-devtools/rust/libstd-rs_1.75.0.bb         | 2 +-
+>  meta/recipes-devtools/rust/rust_1.75.0.bb              | 2 +-
+>  meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb   | 2 +-
+>  meta/recipes-extended/bzip2/bzip2_1.0.8.bb             | 2 +-
+>  meta/recipes-extended/ltp/ltp_20240524.bb              | 4 ++--
+>  meta/recipes-extended/pam/libpam_1.6.1.bb              | 2 +-
+>  meta/recipes-gnome/gtk+/gtk4_4.14.4.bb                 | 2 +-
+>  meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb         | 2 +-
+>  meta/recipes-kernel/powertop/powertop_2.15.bb          | 2 +-
+>  meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc        | 2 +-
+>  meta/recipes-support/sqlite/sqlite3.inc                | 6 +++---
+>  20 files changed, 22 insertions(+), 32 deletions(-)
+>
+> diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/nat=
+ive.bbclass
+> index 84a3ec65da0..d9651a7f22d 100644
+> --- a/meta/classes-recipe/native.bbclass
+> +++ b/meta/classes-recipe/native.bbclass
+> @@ -40,11 +40,6 @@ HOST_CC_ARCH =3D "${BUILD_CC_ARCH}"
+>  HOST_LD_ARCH =3D "${BUILD_LD_ARCH}"
+>  HOST_AS_ARCH =3D "${BUILD_AS_ARCH}"
+>
+> -CPPFLAGS =3D "${BUILD_CPPFLAGS}"
+> -CFLAGS =3D "${BUILD_CFLAGS}"
+> -CXXFLAGS =3D "${BUILD_CXXFLAGS}"
+> -LDFLAGS =3D "${BUILD_LDFLAGS}"
+> -
+>  STAGING_BINDIR =3D "${STAGING_BINDIR_NATIVE}"
+>  STAGING_BINDIR_CROSS =3D "${STAGING_BINDIR_NATIVE}"
+>
+> diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/=
+nativesdk.bbclass
+> index de6debda93c..b0634de5829 100644
+> --- a/meta/classes-recipe/nativesdk.bbclass
+> +++ b/meta/classes-recipe/nativesdk.bbclass
+> @@ -66,11 +66,6 @@ TARGET_FPU =3D ""
+>  EXTRA_OECONF_GCC_FLOAT =3D ""
+>  TUNE_FEATURES =3D ""
+>
+> -CPPFLAGS =3D "${BUILDSDK_CPPFLAGS}"
+> -CFLAGS =3D "${BUILDSDK_CFLAGS}"
+> -CXXFLAGS =3D "${BUILDSDK_CXXFLAGS}"
+> -LDFLAGS =3D "${BUILDSDK_LDFLAGS}"
+> -
+>  # Change to place files in SDKPATH
+>  base_prefix =3D "${SDKPATHNATIVE}"
+>  prefix =3D "${SDKPATHNATIVE}${prefix_nativesdk}"
+> diff --git a/meta/recipes-connectivity/bind/bind_9.18.27.bb b/meta/recipe=
+s-connectivity/bind/bind_9.18.27.bb
+> index 98b8bb5513a..0d22bace6f3 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.18.27.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.18.27.bb
+> @@ -44,7 +44,7 @@ EXTRA_OECONF =3D " --disable-auto-validation \
+>                   --sysconfdir=3D${sysconfdir}/bind \
+>                   --with-openssl=3D${STAGING_DIR_HOST}${prefix} \
+>                 "
+> -LDFLAGS:append =3D " -lz"
+> +LDFLAGS +=3D "-lz"
+>
+>  # dhcp needs .la so keep them
+>  REMOVE_LIBTOOL_LA =3D "0"
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/met=
+a/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> index af7a74a5fb0..9aa8bc4eabf 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> @@ -62,7 +62,7 @@ EXTRA_OECONF =3D "--with-statduser=3Drpcuser \
+>                  --with-rpcgen=3D${HOSTTOOLS_DIR}/rpcgen \
+>                 "
+>
+> -LDFLAGS:append =3D " -lsqlite3 -levent"
+> +LDFLAGS +=3D "-lsqlite3 -levent"
+>
+>  PACKAGECONFIG ??=3D "tcp-wrappers \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+> diff --git a/meta/recipes-core/systemd/systemd-boot_255.6.bb b/meta/recip=
+es-core/systemd/systemd-boot_255.6.bb
+> index 4ee25ee72f8..9a6d8e9d6e3 100644
+> --- a/meta/recipes-core/systemd/systemd-boot_255.6.bb
+> +++ b/meta/recipes-core/systemd/systemd-boot_255.6.bb
+> @@ -8,10 +8,10 @@ DEPENDS =3D "intltool-native libcap util-linux gperf-na=
+tive python3-jinja2-native
+>  inherit meson pkgconfig gettext
+>  inherit deploy
+>
+> -LDFLAGS:prepend =3D "${@ " ".join(d.getVar('LD').split()[1:])} "
+> +LDFLAGS =3D+ "${@ " ".join(d.getVar('LD').split()[1:])} "
+>
+>  EFI_LD =3D "bfd"
+> -LDFLAGS:append =3D " -fuse-ld=3D${EFI_LD}"
+> +LDFLAGS +=3D "-fuse-ld=3D${EFI_LD}"
+>
+>  do_write_config[vardeps] +=3D "EFI_LD"
+>  do_write_config:append() {
+> diff --git a/meta/recipes-devtools/python/python3-bcrypt_4.1.3.bb b/meta/=
+recipes-devtools/python/python3-bcrypt_4.1.3.bb
+> index deb5cbdee3d..9bed5ee148e 100644
+> --- a/meta/recipes-devtools/python/python3-bcrypt_4.1.3.bb
+> +++ b/meta/recipes-devtools/python/python3-bcrypt_4.1.3.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8f7bb094c7232b=
+058c7e9f2e431f389c"
+>  HOMEPAGE =3D "https://pypi.org/project/bcrypt/"
+>
+>  DEPENDS +=3D "python3-cffi-native"
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' -=
+fuse-ld=3Dbfd', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '-fuse-ld=
+=3Dbfd', '', d)}"
+>
+>  SRC_URI[sha256sum] =3D "2ee15dd749f5952fe3f0430d0ff6b74082e159c50332a141=
+3d51b5689cf06623"
+>
+> diff --git a/meta/recipes-devtools/python/python3-maturin_1.6.0.bb b/meta=
+/recipes-devtools/python/python3-maturin_1.6.0.bb
+> index 1d62671bb90..ea8cf468ff0 100644
+> --- a/meta/recipes-devtools/python/python3-maturin_1.6.0.bb
+> +++ b/meta/recipes-devtools/python/python3-maturin_1.6.0.bb
+> @@ -9,7 +9,7 @@ SRC_URI[sha256sum] =3D "b955025c24c8babc808db49e0ff90db8b=
+4b1320dcc16b14eb261328417
+>
+>  S =3D "${WORKDIR}/maturin-${PV}"
+>
+> -CFLAGS:append =3D " -fdebug-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC=
+_DIR}/cargo_home"
+> +CFLAGS +=3D "-fdebug-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC_DIR}/c=
+argo_home"
+>
+>  DEPENDS +=3D "\
+>      python3-setuptools-rust-native \
+> diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipe=
+s-devtools/python/python3_3.12.4.bb
+> index 64cd5d0bc07..901f88b079e 100644
+> --- a/meta/recipes-devtools/python/python3_3.12.4.bb
+> +++ b/meta/recipes-devtools/python/python3_3.12.4.bb
+> @@ -118,7 +118,7 @@ ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', '_tki=
+nter', d)}
+>  EOF
+>  }
+>
+> -CPPFLAGS:append =3D " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/u=
+uid"
+> +CPPFLAGS +=3D "-I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/uuid"
+>
+>  # COMPILEALL_OPTS=3D ensures that .pyc are not compiled in parallel
+>  # This was found to lock up builds, break reproducibility, and produce s=
+trange file ownership
+> diff --git a/meta/recipes-devtools/qemu/qemu-native.inc b/meta/recipes-de=
+vtools/qemu/qemu-native.inc
+> index 891dc5e2a10..d074d7d1818 100644
+> --- a/meta/recipes-devtools/qemu/qemu-native.inc
+> +++ b/meta/recipes-devtools/qemu/qemu-native.inc
+> @@ -4,4 +4,4 @@ inherit_defer native
+>
+>  EXTRA_OEMAKE:append =3D " LD=3D'${LD}' AR=3D'${AR}' OBJCOPY=3D'${OBJCOPY=
+}' LDFLAGS=3D'${LDFLAGS}'"
+>
+> -LDFLAGS:append =3D " -fuse-ld=3Dbfd"
+> +LDFLAGS +=3D "-fuse-ld=3Dbfd"
+> diff --git a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb b/meta/recipe=
+s-devtools/rust/libstd-rs_1.75.0.bb
+> index d2bf266f9dd..5fc6fb97bb2 100644
+> --- a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
+> +++ b/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
+> @@ -50,4 +50,4 @@ BBCLASSEXTEND =3D "nativesdk"
+>  # Since 1.70.0 upgrade this fails to build with gold:
+>  # http://errors.yoctoproject.org/Errors/Details/708194/
+>  # ld: error: version script assignment of  to symbol __rust_alloc_error_=
+handler_should_panic failed: symbol not defined
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold'=
+, ' -fuse-ld=3Dbfd', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fu=
+se-ld=3Dbfd', '', d)}"
+> diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-dev=
+tools/rust/rust_1.75.0.bb
+> index c66c14cc5a5..bb10c852b4d 100644
+> --- a/meta/recipes-devtools/rust/rust_1.75.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+> @@ -365,4 +365,4 @@ BBCLASSEXTEND =3D "native nativesdk"
+>  # Since 1.70.0 upgrade this fails to build with gold:
+>  # http://errors.yoctoproject.org/Errors/Details/708196/
+>  # ld: error: version script assignment of  to symbol __rust_alloc_error_=
+handler_should_panic failed: symbol not defined
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold'=
+, ' -fuse-ld=3Dbfd', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fu=
+se-ld=3Dbfd', '', d)}"
+> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/=
+recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> index c8e7f25d2b0..d75aa95c1fd 100644
+> --- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> +++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> @@ -48,7 +48,7 @@ TARGET_LDFLAGS =3D ""
+>  SECURITY_LDFLAGS =3D ""
+>  LDFLAGS_SECTION_REMOVAL =3D ""
+>
+> -CFLAGS:append =3D " -DNO_INLINE_FUNCS -Wno-error=3Dimplicit-function-dec=
+laration"
+> +CFLAGS +=3D "-DNO_INLINE_FUNCS -Wno-error=3Dimplicit-function-declaratio=
+n"
+>
+>  EXTRA_OEMAKE =3D " \
+>         BINDIR=3D${bindir} SBINDIR=3D${sbindir} LIBDIR=3D${libdir} \
+> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-ex=
+tended/bzip2/bzip2_1.0.8.bb
+> index 7d7ab3856b4..adb6ded5812 100644
+> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> @@ -36,7 +36,7 @@ UPSTREAM_CHECK_URI =3D "https://www.sourceware.org/pub/=
+bzip2/"
+>
+>  PACKAGES =3D+ "libbz2"
+>
+> -CFLAGS:append =3D " -fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OF=
+FSET_BITS=3D64"
+> +CFLAGS +=3D "-fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFSET_BI=
+TS=3D64"
+>
+>  inherit autotools update-alternatives ptest relative_symlinks
+>
+> diff --git a/meta/recipes-extended/ltp/ltp_20240524.bb b/meta/recipes-ext=
+ended/ltp/ltp_20240524.bb
+> index 7105154712f..6b46723478d 100644
+> --- a/meta/recipes-extended/ltp/ltp_20240524.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20240524.bb
+> @@ -39,8 +39,8 @@ inherit autotools-brokensep pkgconfig
+>  # SORT_NONE in linker script which isn't supported by gold:
+>  # https://sourceware.org/bugzilla/show_bug.cgi?id=3D18097
+>  # https://github.com/linux-test-project/ltp/commit/3fce2064b54843218d085=
+aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6=
+b0f5a8785c0dd6R36
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold'=
+, ' -fuse-ld=3Dbfd', '', d)}"
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld',=
+ ' -fuse-ld=3Dbfd', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-fu=
+se-ld=3Dbfd', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fus=
+e-ld=3Dbfd', '', d)}"
+>
+>  # After 0002-kvm-use-LD-instead-of-hardcoding-ld.patch
+>  # https://github.com/linux-test-project/ltp/commit/f94e0ef3b7280f8863847=
+03ef9019aaf2f2dfebb
+> diff --git a/meta/recipes-extended/pam/libpam_1.6.1.bb b/meta/recipes-ext=
+ended/pam/libpam_1.6.1.bb
+> index 9f2106ea730..b9ef564f564 100644
+> --- a/meta/recipes-extended/pam/libpam_1.6.1.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.6.1.bb
+> @@ -37,7 +37,7 @@ EXTRA_OECONF =3D "--includedir=3D${includedir}/security=
+ \
+>                  --disable-doc \
+>                 --disable-prelude"
+>
+> -CFLAGS:append =3D " -fPIC "
+> +CFLAGS +=3D "-fPIC "
+>
+>  S =3D "${WORKDIR}/Linux-PAM-${PV}"
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.14.4.bb
+> index cda0552f7cf..fdeb5eb1ec7 100644
+> --- a/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb
+> +++ b/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb
+> @@ -78,7 +78,7 @@ PACKAGECONFIG[vulkan] =3D "-Dvulkan=3Denabled,-Dvulkan=
+=3Ddisabled, vulkan-loader vulka
+>
+>  # Disable int-conversion warning as error until [1] is fixed
+>  # [1] https://gitlab.gnome.org/GNOME/gtk/-/issues/6033
+> -CFLAGS:append =3D " -Wno-error=3Dint-conversion"
+> +CFLAGS +=3D "-Wno-error=3Dint-conversion"
+>
+>  LIBV =3D "4.0.0"
+>
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb b/meta/recipe=
+s-kernel/lttng/babeltrace2_2.0.6.bb
+> index d6c75d75801..a50ba8fcdf1 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.6.bb
+> @@ -28,7 +28,7 @@ FILES:${PN}-staticdev +=3D "${libdir}/babeltrace2/plugi=
+ns/*.a"
+>  FILES:${PN} +=3D "${libdir}/babeltrace2/plugins/*.so"
+>
+>  ASNEEDED =3D ""
+> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld p=
+test', ' -fuse-ld=3Dbfd ', '', d)}"
+> +LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest',=
+ '-fuse-ld=3Dbfd ', '', d)}"
+>
+>  # coreutils since we need full mktemp
+>  RDEPENDS:${PN}-ptest +=3D "bash gawk python3 make grep coreutils finduti=
+ls"
+> diff --git a/meta/recipes-kernel/powertop/powertop_2.15.bb b/meta/recipes=
+-kernel/powertop/powertop_2.15.bb
+> index 65c6d0fcd37..ec81d546a86 100644
+> --- a/meta/recipes-kernel/powertop/powertop_2.15.bb
+> +++ b/meta/recipes-kernel/powertop/powertop_2.15.bb
+> @@ -13,7 +13,7 @@ SRCREV =3D "d51ad395436d4d1dcc3ca46e1519ffeb475bf651"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> -LDFLAGS:append =3D " -pthread"
+> +LDFLAGS +=3D "-pthread"
+>
+>  inherit autotools gettext pkgconfig bash-completion
+>
+> diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recip=
+es-sato/rxvt-unicode/rxvt-unicode.inc
+> index 95cc140e9ea..5193eebb0bc 100644
+> --- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+> @@ -19,7 +19,7 @@ PROVIDES =3D "virtual/x-terminal-emulator"
+>  ALTERNATIVE:${PN} =3D "x-terminal-emulator"
+>  ALTERNATIVE_TARGET[x-terminal-emulator] =3D "${bindir}/rxvt"
+>
+> -CFLAGS:append =3D " -fpermissive"
+> +CFLAGS +=3D "-fpermissive"
+>
+>  EXTRA_OECONF =3D "--enable-xim \
+>                 --with-term=3Drxvt --enable-keepscrolling \
+> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-suppo=
+rt/sqlite/sqlite3.inc
+> index 9a0de085533..d093ec5859e 100644
+> --- a/meta/recipes-support/sqlite/sqlite3.inc
+> +++ b/meta/recipes-support/sqlite/sqlite3.inc
+> @@ -45,14 +45,14 @@ EXTRA_OECONF =3D " \
+>  "
+>
+>  # pread() is in POSIX.1-2001 so any reasonable system must surely suppor=
+t it
+> -CFLAGS:append =3D " -DUSE_PREAD"
+> +CFLAGS +=3D "-DUSE_PREAD"
+>
+>  # Provide column meta-data API
+> -CFLAGS:append =3D " -DSQLITE_ENABLE_COLUMN_METADATA"
+> +CFLAGS +=3D "-DSQLITE_ENABLE_COLUMN_METADATA"
+>
+>  # Unless SQLITE_BYTEORDER is predefined, the code falls back to build ti=
+me
+>  # huristics, which are not always correct
+> -CFLAGS:append =3D " ${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le',=
+ '-DSQLITE_BYTEORDER=3D1234', '-DSQLITE_BYTEORDER=3D4321', d)}"
+> +CFLAGS +=3D "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DSQL=
+ITE_BYTEORDER=3D1234', '-DSQLITE_BYTEORDER=3D4321', d)}"
+>
+>  PACKAGES =3D "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-=
+staticdev ${PN}"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200637): https://lists.openembedded.org/g/openembedde=
+d-core/message/200637
+> Mute This Topic: https://lists.openembedded.org/mt/106659253/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
