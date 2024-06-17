@@ -1,92 +1,127 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 334E4C27C79
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 15:34:57 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.59524.1718638488985248628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F56C27C79
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 15:54:07 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web11.60078.1718639644583885057
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 08:34:49 -0700
+ Mon, 17 Jun 2024 08:54:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=huuGV1Or;
- spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: sdoshi@mvista.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-6819b3c92bbso3628986a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 08:34:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l78OWgNH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-250c0555a63so2238952fac.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 08:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1718638488; x=1719243288; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYuGscRn+TJ3SpSraaXI8B+fgwp1JlKkoYlSpQjClks=;
-        b=huuGV1OrFmHZdxpqpHP8hnFV3jTsLc8iMK8FOTgt1FkDlSSG2zkzXzyLe8ktg+jtTl
-         5n2yykZBQWqkf9ivbqCcmjdbnyIcPm2SYmD/j1znmxHYU10nlPNfRV7mF7LfIa1R4rJD
-         dbNXgGKWPU50t+ZvmgUI0cjUGUM3D0npLJYIk=
+        d=gmail.com; s=20230601; t=1718639644; x=1719244444; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KQXC4+BoQ87bU1z28+pdAevAbxswigePyxaqpxLTcsk=;
+        b=l78OWgNHr7NYzwJZz7+c4IWXq4WbvPk4Vif0e7NnxO7G6RZdAuG6RRuy3AEKAzhPk0
+         BYrYfwv0b/DAJoHSuqE8w63uDgz7swLvmLGlcCdQ9lfsUC8nCSTQjNuvitrvBKVZIc7a
+         Pw4YNklAongDSQ5/TMJ244DmK2VspeKYhXcAAp8Au10HCORTt/EPGBVqCnDFo0eJJxBu
+         tChaevA4oEbRvb+by6dZGuifVH0eU7RNKKdif2FcDdqdtmB2CQGHyEMzBP1iQNyrl4ZO
+         4GM5/XjcNpfnZnhb3H1mcX348kn3320I4pPwABMb7Cn+keHfB81z+C6uQRnFKzrEriZI
+         7xgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718638488; x=1719243288;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aYuGscRn+TJ3SpSraaXI8B+fgwp1JlKkoYlSpQjClks=;
-        b=CvvUwkK6/aR83kYFySmrB9dXIbzmB4vlKI6trvpFP3H9freFdDmiVEjGclpN5w6nL8
-         GY2cB2bktIvtgbbqwXyIJyaNN6S8+m+a19gm0jwOXFisG2q5f0VRkDv2b/joOoM6rblW
-         VBGk43AFhnS8hhQogtO8j5oBerQxImZ74K+Qa/aPhAgs+0DJ7i2zvSZYm4bGS4W6gvZx
-         6Gb/XVSjS1LACMq3aQwyyt9CBFtdAvSlPo2kqaZJqGvKYP2avs2+b52wROT0kAvV2LHB
-         hA0ZAPlhtdovbcrjkI15w/oQsx566jvQOJzul7Uhgzj6UryTxf3yPIgRa1qSm869DmUI
-         2Tig==
-X-Gm-Message-State: AOJu0Yxuyj4Aorcj1c1WMul5dpveWMN++Lay6LfsDza8mg7XyZvQAZum
-	ZHEDWlgILT/ccV4vLCUO6kZ4nNiXK8G0yNigfzXXbPLhcsUGNynfnGfsCWkuIX7j/O2rm34aidB
-	5
-X-Google-Smtp-Source: AGHT+IFY21Rt2vhsIsToF90oHscTwwUFmkRo59MMtGSUlfJE5VLgnkyVbtk63CQwPbyKYbI1m61Opg==
-X-Received: by 2002:a17:90a:5996:b0:2c3:195d:8cc1 with SMTP id 98e67ed59e1d1-2c4dbb41a95mr10830898a91.37.1718638487991;
-        Mon, 17 Jun 2024 08:34:47 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([117.228.116.231])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4cab602e3sm8796298a91.8.2024.06.17.08.34.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 08:34:47 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][master][PATCH] libxml2: Upgrade 2.12.7 -> 2.12.8
-Date: Mon, 17 Jun 2024 21:04:37 +0530
-Message-Id: <20240617153437.9089-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1718639644; x=1719244444;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KQXC4+BoQ87bU1z28+pdAevAbxswigePyxaqpxLTcsk=;
+        b=qEp7qAOUzIWLKmqjUE0uUH9XRfPG+IT/O+pYnAJl5kVHY7DVSO7WXpfz7l89F2+kPe
+         F7UTcnFn4kWIiusLvVRdwVK+tnONGqaouGZgQb1PWRBYWZMTBJINs89jyw7IoU1mcvtQ
+         0ZWEdUCet5Nol56FQjtH0etshtxVp23Ubu40MNM2z2uJxQmQTaeJQU+PKf1NEzFYgr38
+         aRKEaN6NdmGpKP+sndT5Cz7vddxuj3ULicfrgHeE0/y04iuKp20lVWiohqEbUq/Buxli
+         Cb+VWlXCLqkjMxzRwwAzhg0lutviCXQ7fy3KUXPKpNEz0dcHCq7K9Ar85vj6Vj3jZZDh
+         IArA==
+X-Gm-Message-State: AOJu0YwkNPTTnx/p0pJ01RPeBnaGNikJre3atNIHgZfWHNieGzhWXiMS
+	ScyVbh+YdeVyMKACmA8XVYEIDh5Mk6fOX1zfhBNqT49c2vs5EGoQdmcGd7ZW7Vq8qGMRMhfxZit
+	7l5ETxdL+J1658wFcf1e1y2hPD7A=
+X-Google-Smtp-Source: AGHT+IHGkdFzbeKamP2HaFxvzqkCuU2TczUBzYcZuyso1Io43Pbuqzk43THTTIrhXxnCZzosx+zYbf4cMf6i3IFsStM=
+X-Received: by 2002:a05:6870:a406:b0:24c:b4da:725d with SMTP id
+ 586e51a60fabf-25842a1d172mr11567844fac.33.1718639643700; Mon, 17 Jun 2024
+ 08:54:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CALT56yPWE=nTn7jAPps+A7YCZ17Aw-U_OpfonSTYD90j5rwOAg@mail.gmail.com>
+In-Reply-To: <CALT56yPWE=nTn7jAPps+A7YCZ17Aw-U_OpfonSTYD90j5rwOAg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 17 Jun 2024 08:53:38 -0700
+Message-ID: <CAMKF1sq-LnWx2fWMH5gQgpkofWqAwdQhDQCdEdKtNg0XEW4FLQ@mail.gmail.com>
+Subject: Re: [OE-core] QemuPPC64 machine status
+To: dbaryshkov@gmail.com
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 15:34:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200846
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 15:54:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200847
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+On Mon, Jun 17, 2024 at 2:51=E2=80=AFAM Dmitry Baryshkov via
+lists.openembedded.org <dbaryshkov=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> Hello,
+>
+> Is qemuppc64 considered to be supported? We have been running CI over
+> a set of machines, it seems that PPC64 kernel build is broken for
+> quite some time:
+>
+> https://storage.tuxsuite.com/public/linaro/dmitry.baryshkov/oebuilds/2hzr=
+cO3QvnkeNPVouoptwe4sFZf/build.log
+>
+> | /tmp/ccJSLBgE.s: Assembler messages:
+> | /tmp/ccJSLBgE.s:765: Error: operand out of domain (18 is not a multiple=
+ of 4)
+> | /tmp/ccJSLBgE.s:790: Error: operand out of domain (18 is not a multiple=
+ of 4)
+> | /tmp/ccJSLBgE.s:815: Error: operand out of domain (18 is not a multiple=
+ of 4)
+> | /tmp/ccJSLBgE.s:2435: Error: operand out of domain (19 is not a multipl=
+e of 4)
+> | /tmp/ccJSLBgE.s:2461: Error: operand out of domain (19 is not a multipl=
+e of 4)
+> | /tmp/ccJSLBgE.s:2486: Error: operand out of domain (19 is not a multipl=
+e of 4)
+> | /tmp/ccJSLBgE.s:3590: Error: operand out of domain (18 is not a multipl=
+e of 4)
+> | /tmp/ccJSLBgE.s:3616: Error: operand out of domain (18 is not a multipl=
+e of 4)
+> | /tmp/ccJSLBgE.s:3641: Error: operand out of domain (18 is not a multipl=
+e of 4)
+> | make[3]: *** [/oe/build/tmp/work-shared/qemuppc64/kernel-source/scripts=
+/Makefile.build:243:
+> fs/readdir.o] Error 1
+> | make[2]: *** [/oe/build/tmp/work-shared/qemuppc64/kernel-source/scripts=
+/Makefile.build:480:
+> fs] Error 2
+> | make[2]: *** Waiting for unfinished jobs....
+>
 
-Changes between 2.12.7 -> 2.12.8
-================================
-Regression Fixed: parser: Fix performance regression when parsing namespaces
+This is fixed in master -
+https://github.com/torvalds/linux/commit/2d43cc701b96f910f50915ac4c2a0cae5d=
+eb734c
+you might request a backport into 6.6 if its not already done and also
+into linux-yocto, Bruce generally accepts
+backport requests which are accepted in master.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../libxml/{libxml2_2.12.7.bb => libxml2_2.12.8.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxml/{libxml2_2.12.7.bb => libxml2_2.12.8.bb} (97%)
-
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.7.bb b/meta/recipes-core/libxml/libxml2_2.12.8.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.12.7.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.8.bb
-index 84601c282f..fb103f0273 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.7.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.8.bb
-@@ -20,7 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
- 
--SRC_URI[archive.sha256sum] = "24ae78ff1363a973e6d8beba941a7945da2ac056e19b53956aeb6927fd6cfb56"
-+SRC_URI[archive.sha256sum] = "43ad877b018bc63deb2468d71f95219c2fac196876ef36d1bee51d226173ec93"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
--- 
-2.34.1
-
+>
+> --
+> With best wishes
+> Dmitry
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200800): https://lists.openembedded.org/g/openembedde=
+d-core/message/200800
+> Mute This Topic: https://lists.openembedded.org/mt/106717814/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
