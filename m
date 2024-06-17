@@ -1,252 +1,151 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 637BCC27C77
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 05:00:12 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web11.49046.1718600406243554607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA658C27C77
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 06:17:52 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.50429.1718605062507557940
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Jun 2024 22:00:06 -0700
+ Sun, 16 Jun 2024 23:17:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: aehs29@gmail.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3d21c4eec2dso2123449b6e.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 22:00:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FUiPDGQh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52bc274f438so4318414e87.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 23:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718605061; x=1719209861; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bFtGNrA9UrIk61H2JY7bdEc+9Vn2M62RS/ljtlnCCNs=;
+        b=FUiPDGQhyexYyaaxhr4/fs0gbfQehh3yzuNNKFrWrPWof2nX8DxEukvzGGxQxLdhHl
+         oRSoGQSxSbG5Wc/CHEnA+eMTSorJi81ju6ZVZKC6U8oazC1sElqVDMinKWLewMSFJmxZ
+         7FJt/otKmSX8eOpUIeEx+4wbfN+T4rcMZ66nS/SlPGz7LTS/yxa380sqZ0MEEL3inxQO
+         nFBa7kuF2Ix4DJDFhy96NkXol0RzDDFfThzpUjPu7jRaO4tDdLPYDxtKR0hi52i7ANxU
+         R4klJYVseS3EPY/j/ULuxS7KdDuOhZw21O0XJm/UFCU3zkcUUY5inoKZdSdc8kxao2+6
+         v8Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718600405; x=1719205205;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zqnOPPZui68qX5pe2MbZKvX+f1tiKo1N5Fa5R7C2wBQ=;
-        b=QvGyMOwpn7GWPGVdQlvFoY0s+gkTccxMSD+6+8OqP9jWXYr85UuqHUzXWUSf6MJYEo
-         JS+QUaLeEnDA9hZKS8H7lG3QzyNp9j33rG03S1kb7k/cuJbzJrEsQ0e6p8kIC3KB16Te
-         YdhbUAZALmDO37Xk831u6QVts/qlWL98AFhNmTcSt20RQkGPZlwa6Il2M1IjYNzTnhv0
-         m0TiIUfrMtr+El1TktaNCdV0TjN0gL0KOHOJRJnxoDOxzocgz3pc2i6Ahhs9X5TlO/aQ
-         YGb4cs1Eum5Dnvx0o/knZaHhTA4nnHfkjctsiOQmqccm/b15ciLmQQUy7ROyi4R5BGLW
-         POBA==
-X-Gm-Message-State: AOJu0YyGxx1W6AtIFNvVlPKzbo5ziHBAxcX0g7Bj7FlByxbWCKrwzo++
-	MicpWRBgqE+440GsEhBgILxvI3dmiG/9V1puxW1k2qlt11FrOR9CzJCc3KvFpZk=
-X-Google-Smtp-Source: AGHT+IH1dsg/IS5AgTfTUZEor+qAfWQ6k85++1LHHT1cXO7IzGb7GZbvpu6j4B4uYIiLRi0JmLuW3A==
-X-Received: by 2002:a05:6808:10c4:b0:3d2:2334:67e5 with SMTP id 5614622812f47-3d24e8a6debmr12527552b6e.4.1718600404300;
-        Sun, 16 Jun 2024 22:00:04 -0700 (PDT)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com. [209.85.161.52])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d24763f571sm1406749b6e.34.2024.06.16.22.00.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jun 2024 22:00:04 -0700 (PDT)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5b9778bb7c8so2040423eaf.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jun 2024 22:00:03 -0700 (PDT)
-X-Received: by 2002:a05:6820:555:b0:5bb:672:405f with SMTP id
- 006d021491bc7-5bdadc577acmr8557156eaf.7.1718600403718; Sun, 16 Jun 2024
- 22:00:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718605061; x=1719209861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bFtGNrA9UrIk61H2JY7bdEc+9Vn2M62RS/ljtlnCCNs=;
+        b=Y8EIdEVvFEwW1ND4ao0LF7gNaiXDc0waJ3UDDFsTdnWWb9BddK206vZzhVfa2fGiKS
+         IMd5N7ALcLKP0FhJqbIeEUcThB7AGkatpChiE7/6dbd7KJ6J8TpHCW4NKYMmA+6Hm0sR
+         XbrNtk2TXOTk11vRmeCupqg6ezcA42wsIBlZXib+JtU5OLjIoIMrDBXba0Pvd76tbMyz
+         ear7WLtKQkg7oa+MTeTVXaYO0PY3ibeJr/wqZ5AfeEZWab3uzqe+H3FWsaJYO6v01N6T
+         xk4LQQ8Fpco4JMX5Lvh1zqq1ak4GqSFOzdNn9CEMVW6Sv37hAttRvqcGiLLuWivbTluC
+         DACQ==
+X-Gm-Message-State: AOJu0YwluzW5yLF3BMyWnhOs+uDqfoRb1n1ImnobMmq8HAUwzCh5pnUL
+	wqbO4ExPUpb/RpvG6FDQCukQMTK5DbpAnTxQvWAMFzF9RTIC8z+J
+X-Google-Smtp-Source: AGHT+IGSRJS7lQ/rzH6AriEOKvdl6iqxJIY2mEPw6M2lAuiDp5mz8Is2xmcQQoRiZSO9MUnAaiTf8g==
+X-Received: by 2002:a19:9108:0:b0:52c:8786:8aee with SMTP id 2adb3069b0e04-52ca6e9eca0mr5619762e87.56.1718605060351;
+        Sun, 16 Jun 2024 23:17:40 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca287aac1sm1147253e87.212.2024.06.16.23.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jun 2024 23:17:39 -0700 (PDT)
+Date: Mon, 17 Jun 2024 08:23:53 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: kweihmann@outlook.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v4 2/2] image-bootfiles.bbclass: new class,
+ copy boot files to root filesystem
+Message-ID: <Zm_WeSIfRTx9T5o9@gmail.com>
+References: <20240530095314.407638-3-marcus.folkesson@gmail.com>
+ <20106.1718512009844562919@lists.openembedded.org>
 MIME-Version: 1.0
-References: <20240522061016.1763718-1-alejandro@enedino.org> <07A133B8-E8E5-4BDC-B37E-EEEB77361F59@arm.com>
-In-Reply-To: <07A133B8-E8E5-4BDC-B37E-EEEB77361F59@arm.com>
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Date: Sun, 16 Jun 2024 22:59:52 -0600
-X-Gmail-Original-Message-ID: <CAHMutra=FmPAKzkx1-TjfcviOpk-SY-0eM3rRbcgxcnGiVpkyQ@mail.gmail.com>
-Message-ID: <CAHMutra=FmPAKzkx1-TjfcviOpk-SY-0eM3rRbcgxcnGiVpkyQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4 v2] meson.bbclass: Allow early compiler
- tests to be bypassed if necessary
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000933353061b0ed679"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="L2L4pl54NKwgjKy4"
+Content-Disposition: inline
+In-Reply-To: <20106.1718512009844562919@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:00:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200784
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 06:17:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200785
 
---000000000000933353061b0ed679
-Content-Type: text/plain; charset="UTF-8"
+
+--L2L4pl54NKwgjKy4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hey Ross,
+
+Hi Konrad,
+
+Thanks for your comments!
+
+On Sat, Jun 15, 2024 at 09:26:49PM -0700, Konrad Weihmann via lists.openemb=
+edded.org wrote:
+> Looking at the combination of the patches and the following
+>=20
+> + boot_files =3D d.getVar("IMAGE_BOOT_FILES")
+> + if boot_files is None:
+> + return
+> +
+> + install_files =3D get_boot_files(deploy_image_dir, boot_files)
+> + if install_files is None:
+> + bb.warn("Could not find any boot files to install even though IMAGE_BOO=
+T_FILES is not empty")
+> + return
+>=20
+> get_boot_files only returns None if boot_files is None, which is caught a=
+lready earlier on here, so the bb.warn clause likely will not be reached
+
+You are right. The case i wanted to cover was if install_files was an
+empty list.
+This could occour if using asterix, e.g. IMAGE_BOOT_FILES =3D "bootfile.*" =
+and there is
+no "bootfile.*" in the DEPLOY_DIR.
+
+>=20
+> Personally a check like `if install_files:` would make more sense
+
+I think I will keep the check but change it to
+if not install_files:
+
+Does that make sense?
+>=20
+> IMAGE_PREPROCESS_COMMAND +=3D "bootfiles_populate;"
+>=20
+> I'm not sure if that wouldn't raise issues if any of the packages would i=
+nstall a file by the same path/name as also set here.
+>=20
+> In my opinion moving it to a POSTPROCESS function with some checks that i=
+t won't overwrite any files/folders might be the better option
 
 
-This was addressed and simplified by the v3 I sent by only including a
-cross file for the recipe without modifying the class.
+Looking through the documentation, I think ROOTFS_POSTPROCESS_COMMAND
+could be a candidate.
+I'm not sure which one I prefer though.
 
-I see that the v3 wont work anymore due to the recent UNPACKDIR changes.
+Check that it won't overwrite any files/folder could be a good thing. I
+will implement that and raise an error if the file/folder already
+exists.
 
-Will rebase and send v4.
+Best regards,
+Marcus Folkesson
 
-Thanks!
+--L2L4pl54NKwgjKy4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Alejandro
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZv1nQACgkQiIBOb1ld
+UjL0YxAAlHSB4+20f/FlNSKnnHa2NlQa1r2/0yHibA+VHfr5J5RNAQgd4xOdabnU
+Jx45ciDUyLqWtJR6M7XZa2lTLBtiemob14wo5DfOiYBQOv1iNCRezNmDcd0JxVeM
+CX3s3lImweAhaLkd/gN/qYBooz2U9sKbRX8nQFewR0ZSmR4Q1yeIjdb9tUHY559U
+qJYfdgD0k013JpW88JVWtRpkJk5T4WYFCx31LHu1Na4DrXxfbOauE7ueeR2oN2zF
+rpjBYU2KkhHazK3Cumf9XtWqyCuQgeiKSH1loz+9kZ2pzvU/3N7w51xiSxUBSjfv
+KzK3s2AeC0new7nGoFhs3DZR2EU0/t3XVHrLPaeAdhmQM0zxOjMz7079grgmecVn
+lhqKz8DnmG9aPRU+KukyCl3y2L6AlUqX9KMrD38M9XTbNbXKoz6O5WCpIp+6GrXw
+nMQ/4Gf0ZBS/8qESx5DZO1uV/O6wu/4eMwhjCwm1vR3XVBnYq0KznphBpGk8OHxX
+Dm5X86LQbNWW+dWtVwKxwE8UL3SVhl/Cxd4lnBgW+QCChcRmGpqOddwa0gon4f71
+jIDLf/XyuZ1x3ShYoz+/SKIe2n3edlbfqrga89HAuWg4SPlnVHnRyVI33I/2FG/I
+fzRr8/07K3R5QaLyL3fR3ZTT4H4hemUMcE8GdR1wbzXPwc4S6ao=
+=7+gl
+-----END PGP SIGNATURE-----
 
-On Tue, Jun 4, 2024, 6:09=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wrot=
-e:
-
-> This is pretty niche behaviour - is it worth adding to the increasingly
-> complex meson.bbclass?  Can it just be added to the picolibc recipe inste=
-ad?
->
-> Ross
->
-> > On 22 May 2024, at 07:10, Alejandro Hernandez Samaniego via
-> lists.openembedded.org <alejandro=3Denedino.org@lists.openembedded.org>
-> wrote:
-> >
-> > Setting skip_sanity_check=3Dtrue in the [properties] section of
-> meson.cross allows
-> > early compiler tests to be skipped on cross compilation environments
-> where
-> > sanity applications cant be compiled or tested.
-> >
-> > Setting MESON_SKIP_SANITY_CHECK=3D1 enables this behavior.
-> >
-> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <
-> alejandro@enedino.org>
-> > ---
-> > meta/classes-recipe/meson.bbclass | 3 ++-
-> > 1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes-recipe/meson.bbclass
-> b/meta/classes-recipe/meson.bbclass
-> > index 03fa2c06eb..492243c3c0 100644
-> > --- a/meta/classes-recipe/meson.bbclass
-> > +++ b/meta/classes-recipe/meson.bbclass
-> > @@ -61,7 +61,7 @@ def rust_tool(d, target_var):
-> >     return "rust =3D %s" % repr(cmd)
-> >
-> > addtask write_config before do_configure
-> > -do_write_config[vardeps] +=3D "CC CXX AR NM STRIP READELF OBJCOPY CFLA=
-GS
-> CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED"
-> > +do_write_config[vardeps] +=3D "CC CXX AR NM STRIP READELF OBJCOPY CFLA=
-GS
-> CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED MESON_SKIP_SANITY_CHE=
-CK"
-> > do_write_config() {
-> >     # This needs to be Py to split the args into single-element lists
-> >     cat >${WORKDIR}/meson.cross <<EOF
-> > @@ -89,6 +89,7 @@ cpp_args =3D ${@meson_array('CXXFLAGS', d)}
-> > cpp_link_args =3D ${@meson_array('LDFLAGS', d)}
-> >
-> > [properties]
-> > +${@"skip_sanity_check =3D true" if d.getVar('MESON_SKIP_SANITY_CHECK')=
- =3D=3D
-> '1' else ""}
-> > needs_exe_wrapper =3D true
-> > sys_root =3D '${STAGING_DIR_HOST}'
-> >
-> > --
-> > 2.45.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#199686):
-> https://lists.openembedded.org/g/openembedded-core/message/199686
-> > Mute This Topic: https://lists.openembedded.org/mt/106238394/6875888
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ross.burton@arm.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
->
-
---000000000000933353061b0ed679
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hey Ross,<div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">This was addressed and simplified by the v3 =
-I sent by only including a cross file for the recipe without modifying the =
-class.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I see that the v3=
- wont work anymore due to the recent UNPACKDIR changes.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Will rebase and send v4.</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Thanks!</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Alejandro=C2=A0</div><br><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 4, 2024, 6:09=E2=80=AFAM Ro=
-ss Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thi=
-s is pretty niche behaviour - is it worth adding to the increasingly comple=
-x meson.bbclass?=C2=A0 Can it just be added to the picolibc recipe instead?=
-<br>
-<br>
-Ross<br>
-<br>
-&gt; On 22 May 2024, at 07:10, Alejandro Hernandez Samaniego via <a href=3D=
-"http://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">lists.openembedded.org</a> &lt;alejandro=3D<a href=3D"mailto:enedino.o=
-rg@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">enedino.org=
-@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; Setting skip_sanity_check=3Dtrue in the [properties] section of meson.=
-cross allows<br>
-&gt; early compiler tests to be skipped on cross compilation environments w=
-here<br>
-&gt; sanity applications cant be compiled or tested.<br>
-&gt; <br>
-&gt; Setting MESON_SKIP_SANITY_CHECK=3D1 enables this behavior.<br>
-&gt; <br>
-&gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego &lt;<a href=3D"ma=
-ilto:alejandro@enedino.org" target=3D"_blank" rel=3D"noreferrer">alejandro@=
-enedino.org</a>&gt;<br>
-&gt; ---<br>
-&gt; meta/classes-recipe/meson.bbclass | 3 ++-<br>
-&gt; 1 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/m=
-eson.bbclass<br>
-&gt; index 03fa2c06eb..492243c3c0 100644<br>
-&gt; --- a/meta/classes-recipe/meson.bbclass<br>
-&gt; +++ b/meta/classes-recipe/meson.bbclass<br>
-&gt; @@ -61,7 +61,7 @@ def rust_tool(d, target_var):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0return &quot;rust =3D %s&quot; % repr(cmd)<br>
-&gt; <br>
-&gt; addtask write_config before do_configure<br>
-&gt; -do_write_config[vardeps] +=3D &quot;CC CXX AR NM STRIP READELF OBJCOP=
-Y CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED&quot;<br>
-&gt; +do_write_config[vardeps] +=3D &quot;CC CXX AR NM STRIP READELF OBJCOP=
-Y CFLAGS CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED MESON_SKIP_SAN=
-ITY_CHECK&quot;<br>
-&gt; do_write_config() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0# This needs to be Py to split the args into single=
--element lists<br>
-&gt;=C2=A0 =C2=A0 =C2=A0cat &gt;${WORKDIR}/meson.cross &lt;&lt;EOF<br>
-&gt; @@ -89,6 +89,7 @@ cpp_args =3D ${@meson_array(&#39;CXXFLAGS&#39;, d)}<=
-br>
-&gt; cpp_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<br>
-&gt; <br>
-&gt; [properties]<br>
-&gt; +${@&quot;skip_sanity_check =3D true&quot; if d.getVar(&#39;MESON_SKIP=
-_SANITY_CHECK&#39;) =3D=3D &#39;1&#39; else &quot;&quot;}<br>
-&gt; needs_exe_wrapper =3D true<br>
-&gt; sys_root =3D &#39;${STAGING_DIR_HOST}&#39;<br>
-&gt; <br>
-&gt; -- <br>
-&gt; 2.45.1<br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#199686): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/199686" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1996=
-86</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10623839=
-4/6875888" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.op=
-enembedded.org/mt/106238394/6875888</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
-ts.openembedded.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:ross.burto=
-n@arm.com" target=3D"_blank" rel=3D"noreferrer">ross.burton@arm.com</a>]<br=
->
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000933353061b0ed679--
+--L2L4pl54NKwgjKy4--
 
