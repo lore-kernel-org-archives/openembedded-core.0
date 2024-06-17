@@ -1,89 +1,122 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE63C27C79
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:55:45 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.55521.1718628942290064309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BE5C41513
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 13:37:06 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web10.56936.1718631416995712825
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 05:55:42 -0700
+ Mon, 17 Jun 2024 06:36:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J9CJxaUr;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52c525257feso5614275e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:55:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718628940; x=1719233740; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MVf2J505rBilzGspQVfnkhZxzIgpsQ1h4mVOPqtpepA=;
-        b=J9CJxaUr0dFjowO6nj1KOX/ixA7fhLc5683OwS5aFkeboVVK3+ynoKZhn3UQ+z1ilB
-         W9j52Nh8tRHfUbXL8M2kQKG8Hyg5R1Ql4ki6RJd668lZDPhSU53rbvOwrsx0TH0OSY8V
-         ZiLjxNtwUSdmdUtNMlwPgNtjufI5qwin/dekC12fj6WuRDkEZ81DBjAladkXRBAz626h
-         8UUlz8CEouHffgI5jiPctQfppCgLSTOoTLUt+YA1jK9omIxZE7KtoX3pHgZjEFro253v
-         MkBDWZxsQ+6NjScYGHsUeGXUtGiXmmKrfclDFxw+HuTOscxf3kPu6ONJYEjq11tCxCmW
-         CbPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718628940; x=1719233740;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MVf2J505rBilzGspQVfnkhZxzIgpsQ1h4mVOPqtpepA=;
-        b=sTzNEKcKmNYZ4wvNEpG4GifJUrXoxj8lRBF8ie39vmqjzrhuTRCPRNanP8wlBJ9CR6
-         povHQRGRD2z3vCkssvAag567189V+UgrRcF44m0ixxyIpPfkc7nmUrWaH4czrWb0TEaZ
-         sX5VPKZXcCE8KLi5rIE9ZVlzIDwFb7NlKOST+k09nguDn1yJ229wKJjLtp6WD8QaF1+C
-         iUL4yMMby+NmY7q/RdSEfgJ4pEmf62fNW1HBengXKFiBiIei3oNmtLmAXy2X1QUW1yRt
-         YdScvVcoMZUqqGXyG7ttph/CMdpRsjV0qH5vLS+7+JH09oi7zJNbmiQgThBCUTdBTjvM
-         5wYw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Mnc4s7Sel+UvNHYJAI+5stKrtpGZV3GuNUgJvhSnA59ekrVaYDWov0yd7rdqMwW+7XRSYQj39xHLV4FdQ4tH91Fx5wGNpja5ZW7NIf9rigI579UZ31NT
-X-Gm-Message-State: AOJu0YyIyVLRSNSK1lTuagmvtIc2WXZiVsd6lcBdVlXR3fx56gDsTFS/
-	OeOexS7zgtqO+MzYvi2rujxHy8kf2LYHaRK8G87T8A60aPlZ0rEk2XUky7r82voCo9h67QQmeDM
-	tOL7jC3SxvdFeMhwSwmkc0CrAybk=
-X-Google-Smtp-Source: AGHT+IEdkagyL9pq+9OIzOCqUzipim/hPpwWiLeNHjfPfzH0ujiduIRf44giAYAeD/a5KQm71VPnTp4mhCCiyLNABlI=
-X-Received: by 2002:ac2:4e04:0:b0:52c:ab2c:19d0 with SMTP id
- 2adb3069b0e04-52cab2c243bmr6494951e87.1.1718628940182; Mon, 17 Jun 2024
- 05:55:40 -0700 (PDT)
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=WiShe4dP;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=i7A5IOW1YuIk98fmZ9oDyPtKgMH6zl4tC23EXrDMAvs=; b=WiShe4dPrbK9K68tGu4vpPzYch
+	Kry/Ld9pnfVHpaqW8++NmRoJUhwhdVH6m2fG4+6AN30h2NFog6kuobtN3aKj+A8/zE9ymCUzw5zGt
+	TBzoIjbYeqRK73BrWq7YWqzZt4O/YLaUHk46Ax9qA+858LNFaPaf6d9Qsv1NccukcGkZvt3kBevwM
+	3dEjIYnhh5QJ5k0AxBvGwXE1mg5SUv+pOhm4gSdlekrTeHW8CoZWjwVjfb65hZ52orjdjdJyBgNQG
+	mIL87A+5AyCQI8kK7vdg1q+9mVG583XpMrhGn/f0N0w57F30T+8B0Cf6Dcox+g/v/VG/uxEjgfp3S
+	W1rL1kTg==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <martin@geanix.com>)
+	id 1sJCXa-0009hz-Qp; Mon, 17 Jun 2024 15:36:55 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <martin@geanix.com>)
+	id 1sJCXW-0002IR-2O;
+	Mon, 17 Jun 2024 15:36:55 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+Subject: [PATCH 1/3] ofono: upgrade 2.7 -> 2.8
+Date: Mon, 17 Jun 2024 15:36:40 +0200
+Message-ID: <20240617133643.1856546-1-martin@geanix.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240617095954.10982-1-rasmus.villemoes@prevas.dk>
- <D4F6D0D8-F070-43A7-81A2-EF8F2C4520B1@arm.com> <be5f8301-f4a5-45fc-b784-9209d904c591@prevas.dk>
- <CANNYZj9QZPAm+3kow-jxW6XZi+hZG4BGiG2F2oB=_tBqhC1-hg@mail.gmail.com> <e9960d69-16f1-48a9-89e5-037df6530357@prevas.dk>
-In-Reply-To: <e9960d69-16f1-48a9-89e5-037df6530357@prevas.dk>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Jun 2024 14:55:28 +0200
-Message-ID: <CANNYZj-sV-Z385_NxMqawJ-+76QNywHKLHgpaR3iz2J1LUv89A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] findutils: split into packages
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: martin@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27309/Mon Jun 17 10:30:25 2024)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:55:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200835
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 13:37:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200837
 
-On Mon, 17 Jun 2024 at 14:29, Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
-> I really don't see how this is any different from any of the dozens of
-> the existing recipes that show up if you do "git grep 'FILES.*bindir'".
-> iproute2, e2fsprogs, psmisc, openssh, mtd-utils and lots of others
-> package binaries in distinct packages (not necessarily
-> one-executable-per-package, e.g. mtd-utils collects the ubifs and jffs2
-> related ones).
+Changelog:
+ * Release 2.8
+ * build: Require at least version 0.66 when building with external ELL
+ * qmi: Remove unused shutdown members in qmi_device_qrtr
+ * drivers: Use the new license header format
+ * plugins: Use the new license header format
+ * isimodem: Use the new license header format
+ * rilmodem: Use the new license header format
+ * mbimmodem: Use the new license header format
+ * unit: Use the new license header format
+ * tools: Use the new license header format
+ * include: Use the new license header format
+ * dundee: Use the new license header format
+ * core: Use the new license header format
+ * qmimodem: Use the new license header format
+ * atmodem: Use the new license header format
+ * build: Add notifylist.[ch] from ell
+ * udevng: Fix detection of USB attached tty devices
+ * udevng: Don't crash for non-QMI devices
+ * qmimodem: Remove the create exclusive service API
+ * voicecall: Fix use after free
+ * atmodem: gprs-context: use default PPP ACCM for Quectel serial modems
+ * atmodem: sim: Fix CRSM result handling
+ * qmi: gprs-context: support bind_mux for pcie devices
+ * udevng: Add mhi subsystem detection
+ * udevng: add and use get_ifname() for netdev nodes
+ * gobi: ensure required properties are provided
+ * gobi: Rename KernelDriver to NetworkInterfaceDriver
+ * gobi: add / use DeviceProtocol property
+ * qmi: Use l_basename instead of basename
+ * log: Use l_basename instead of basename
+ * build: link dundee with ell
+ * log: Handle dladdr failure
 
-Yes, there are a few recipes that do this (not dozens). There are far
-more recipes that do not.
+License-Update: license header replaced with spdx identifier
+Signed-off-by: Martin Hundebøll <martin@geanix.com>
+---
+ .../recipes-connectivity/ofono/{ofono_2.7.bb => ofono_2.8.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_2.7.bb => ofono_2.8.bb} (89%)
 
-The given reasoning is essentially 'I can't be bothered to configure
-busybox correctly and test my script with it in a systematic way',
-which does rub me the wrong way. Usually executables are split to
-avoid licensing issues in a product, avoid installing both client and
-server, or to satisfy space constraints if there's no smaller
-alternative - and in this case there is.
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.7.bb b/meta/recipes-connectivity/ofono/ofono_2.8.bb
+similarity index 89%
+rename from meta/recipes-connectivity/ofono/ofono_2.7.bb
+rename to meta/recipes-connectivity/ofono/ofono_2.8.bb
+index bc1f3efd04db..809485d42178 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.7.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.8.bb
+@@ -4,14 +4,14 @@ HOMEPAGE = "http://www.ofono.org"
+ BUGTRACKER = "https://01.org/jira/browse/OF"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+-                    file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
++                    file://src/ofono.h;beginline=1;endline=6;md5=13e42133935ceecfc9bcb547f256e277"
+ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+     file://ofono \
+ "
+-SRC_URI[sha256sum] = "dabf6ef06b94beaad65253200abe3887046a4e722f4fe373c4264f357ae47ad3"
++SRC_URI[sha256sum] = "b5aef455b3a374ce43bad43c2ade9d0430d9c0d28952385c44ac7d0dc933bbb8"
+ 
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ 
+-- 
+2.45.2
 
-A change to the default busybox configuration in oe-core is a better
-way out perhaps? Enable the needed options, and send a patch.
-
-Alex
 
