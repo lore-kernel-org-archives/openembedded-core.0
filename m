@@ -2,166 +2,112 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5099EC27C79
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:06:05 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.55035.1718625957044174298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 794C9C41513
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:06:35 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.54605.1718625992969632037
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 05:05:57 -0700
+ Mon, 17 Jun 2024 05:06:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LMTZDzAZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-703ed15b273so3245826b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=icE9ZroH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-705cffc5bcfso3749180b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625956; x=1719230756; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625992; x=1719230792; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rXhUlZpr5hTZNJDosNBnqHymqWy9UU7XoU/9r+Agub0=;
-        b=LMTZDzAZdlzLgKXVkO3q7o52VeHkqPbNcblXb7fsTzAllCOL5QIbsB0yU92YeRYxPi
-         bRKi/Mt+VWE9cWYqTblPC7Dzo4bbb8ca9WxPruVji3iIrDwwLDZDHD6PNIh5ASo4s0WW
-         GIsfHxRTR+7/LJsWc2EM+HBCLKj4v5+zYDzaESEPspf8VLhEYq6Jh7AuPqAnLDlw3Nls
-         ChBFjm3KEKAnzW45LFxR3k9vQFM0pItqxlGfQrX8jT3Sj5xgZ2XUeIKwdUSsI5jEFfLK
-         6zISem6Zrv3kRsQukNQOD0d+WpszTPJvZn5rbmqOxJu8fHBl7ulAv3SK2V0H9nA/4C1y
-         hooQ==
+        bh=Snp5+Jv/HGvwtnhePHLj/VcKjF9ogerzr+v4toW65rc=;
+        b=icE9ZroHz0YGosTz2xlQSC/8alIJkbs1mPPZ9vwDoTtqDUwb7W+fHdAbXWg3s+eu+M
+         w7qyB13P8OdTUQTr8GwoNQsKVSz5LX/kjM0nZr0HPtPbgU3KyVmbZUn44ecSHp9yT8PO
+         BEdm183snaqNVbjvCQH1htLtogIqxaY8debuv7bdhfDTb6P8SzDasUt3fYbqndVQxklI
+         uqBik/jMMWKsChs+4hT9cmu2nbcMp3jWXtBGvGuW/HdLSc7qYk9KUZJqAMkXCe0EIYaD
+         SnZh2NsunOZ4xC8Tzv5MYCoWPFZ7GPaMsYP11gwCPp65ZLFVviLMQxcGvnVmrLCvmZSI
+         KjKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718625956; x=1719230756;
+        d=1e100.net; s=20230601; t=1718625992; x=1719230792;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rXhUlZpr5hTZNJDosNBnqHymqWy9UU7XoU/9r+Agub0=;
-        b=Lxc0AqxbWoD+c5a5su2YrPV2PrlUuqF8QUIRuCumclD6MLLaqA8DgLZlhGtnFaqRPn
-         vCoto9wbZQwy8fOeXEjfGN6yIkMYb2fM3j3bLY8DQZISyeABs8q59pu38f1TaEI5Rr60
-         Tu5hRXHLvq7+u9zZXN4bARBLeu1x/ekNsZsm+O9xu/rXazEIuDkiGtkmkuRs+kxQsVbu
-         V+EG8LiLKrqv132Jj2zQ21hY0psg+Hf9fii14HxPDHA+ud50uB2DOjeS6rt7fWTTb9xY
-         z6cMm4bkDdqy0lmLeP0wb8CKwg8tjymdtRu5MnIVY4l5VG/qm2KE2Keg7T/n0H2yqemA
-         KwYQ==
-X-Gm-Message-State: AOJu0YwTbn4crqV2XkI+NBkHjuTrExwngrqwDt1yL+POQZeBm4oSnG+v
-	tI3D7H9BbjMsYYKWfwyJE1MqEFJ3lonk3i4oxzl38Nk2xsSw0jui7F0JZAxJI6PfVIcTUpsu+M5
-	R9eg=
-X-Google-Smtp-Source: AGHT+IF9bXeGe20eXXREX5LE/G5sojZvD2KpbxdI0eiQgMFVKNa9kWV5e+cwrpIr+armDDEHXV21fw==
-X-Received: by 2002:aa7:919a:0:b0:705:9d5d:d819 with SMTP id d2e1a72fcca58-705d722bc38mr9108085b3a.32.1718625956256;
-        Mon, 17 Jun 2024 05:05:56 -0700 (PDT)
+        bh=Snp5+Jv/HGvwtnhePHLj/VcKjF9ogerzr+v4toW65rc=;
+        b=TH8OVyFkqV6wV3Xr743d03mNB2k+o+PeL6JFK39k/GvgqW8hh+bcQu6e2K8DjveWti
+         o9feJ3Waih7q9rt/V/AJNArD7SGGA8RynSuqVHHUazWGX6O44gWl4///pdsObION6yYm
+         Zgn+mWB80aVKzJx7O9NqCa9sIL89J1lVeL3yReXPEtXJyUW6URe9Y4K/cRaqAebB+4Ew
+         SUM+fA+gcyK+sm39eZXLGBlCWw6ivYoMWQrhvRZat4Fji/kTcjJHq460+4GSgmZE2e9W
+         8Tmvn63f6//AsBccHCoMwJA2wbbsgTCVZQES5V5HYt/MwPHebwWpZTRIxhEBQMMLXg8R
+         2JAA==
+X-Gm-Message-State: AOJu0YzcScJ/ca2yWLxNyClSrPzNmTNyLH6cedjBafxMNjPE4cUaw6tq
+	8Zseanw3I6dcarJpWgaex3vUflUzVAwtRqx3a7yukC2plsI0hXRhbv98SCtg2oVl6Q8KYBZy5Mt
+	q9ik=
+X-Google-Smtp-Source: AGHT+IEAhq5p7uXIlRTJcxCqjG+gpBulFmnX6glP9haZooDib/uJhTzlkVuDlZ3AjW+7lrg1YRHPlg==
+X-Received: by 2002:a05:6a20:6a21:b0:1b5:4c70:d682 with SMTP id adf61e73a8af0-1bae7d853a3mr13032464637.6.1718625992240;
+        Mon, 17 Jun 2024 05:06:32 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.06.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 05:05:56 -0700 (PDT)
+        Mon, 17 Jun 2024 05:06:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/22] db: ignore implicit-int and implicit-function-declaration issues fatal with gcc-14
-Date: Mon, 17 Jun 2024 05:04:58 -0700
-Message-Id: <4d3ce333c10fadf746b6d8b55a88777c97e11ffa.1718625680.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 21/22] expect-native: fix build with gcc-14
+Date: Mon, 17 Jun 2024 05:04:59 -0700
+Message-Id: <9104d68ce54c870b4c8f4fd1b8dd5e250ca48fb1.1718625680.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718625680.git.steve@sakoman.com>
 References: <cover.1718625680.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:06:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200831
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:06:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200832
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-* many configure tests (which might not fail before) are failing with gcc-1=
-4:
-  # grep implicit build/config.log
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-  conftest.c:50:17: error: implicit declaration of function 'exit' [-Wimpli=
-cit-function-declaration]
-  conftest.c:50:17: warning: incompatible implicit declaration of built-in =
-function 'exit' [-Wbuiltin-declaration-mismatch]
-  conftest.c:53:9: error: implicit declaration of function 'msem_init' [-Wi=
-mplicit-function-declaration]
-  conftest.c:54:9: error: implicit declaration of function 'msem_lock' [-Wi=
-mplicit-function-declaration]
-  conftest.c:55:9: error: implicit declaration of function 'msem_unlock' [-=
-Wimplicit-function-declaration]
-  conftest.c:56:9: error: implicit declaration of function 'exit' [-Wimplic=
-it-function-declaration]
-  conftest.c:56:9: warning: incompatible implicit declaration of built-in f=
-unction 'exit' [-Wbuiltin-declaration-mismatch]
-  conftest.c:50:9: error: implicit declaration of function '_spin_lock_try'=
- [-Wimplicit-function-declaration]
-  conftest.c:51:9: error: implicit declaration of function '_spin_unlock' [=
--Wimplicit-function-declaration]
+* do_configure failed with gcc-14:
+error in build/config.log:
+conftest.c:56:3: error: return type defaults to 'int' [-Wimplicit-int]
+conftest.c:59:5: error: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
 
-* I have noticed this on db-native build on host with gcc-14
-  where it caused fatal do_configure error:
-  http://errors.yoctoproject.org/Errors/Details/784164/
+* this recipe set "BBCLASSEXTEND = "native nativesdk", causes "CFLAGS +="
+setting not take effect, use append instead.
+snip of bitbake expect-native -e:
+   set /layers/oe-core/meta/conf/documentation.conf:110
+     [doc] "Flags passed to the C compiler for the target system. This variable evaluates to the same as TARGET_CFLAGS."
+   append /layers/oe-core/meta/recipes-devtools/expect/expect_5.45.4.bb:87
+     "-Wno-error=incompatible-pointer-types"
+   set /layers/oe-core/meta/classes-recipe/native.bbclass:44
+     "${BUILD_CFLAGS}"
+   override[pn-gtk4]::append[toolchain-clang] /layers/meta-clang/conf/nonclangable.conf:336
+     " -Wno-error=int-conversion"
+   override[pn-pidgin-sipe]::append[toolchain-clang] /layers/meta-clang/conf/nonclangable.conf:340
+     " -Wno-error=cast-function-type-strict"
+ pre-expansion value:
+   "${BUILD_CFLAGS}"
+export CFLAGS="-isystem/build/tmp-glibc/work/x86_64-linux/expect-native/5.45.4/recipe-sysroot-native/usr/include -O2 -pipe"
 
-  checking for mutexes... UNIX/fcntl
-  configure: error: Support for FCNTL mutexes was removed in BDB 4.8.
-
-  the config.log confirms it's because implicit-int:
-
-  configure:22798: checking for mutexes
-  configure:22925: gcc  -o conftest -isystem/OE/build/oe-core/tmp-glibc/wor=
-k/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/include -O2 -pipe=
-  -isystem/OE/build/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28/re=
-cipe-sysroot-native/usr/include -D_GNU_SOURCE -D_REENTRANT -L/OE/build/oe-c=
-ore/tmp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/=
-lib                         -L/OE/build/oe-core/tmp-glibc/work/x86_64-linux=
-/db-native/5.3.28/recipe-sysroot-native/lib                         -Wl,--e=
-nable-new-dtags                         -Wl,-rpath-link,/OE/build/oe-core/t=
-mp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/lib  =
-                       -Wl,-rpath-link,/OE/build/oe-core/tmp-glibc/work/x86=
-_64-linux/db-native/5.3.28/recipe-sysroot-native/lib                       =
-  -Wl,-rpath,/OE/build/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28=
-/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/OE/build=
-/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native=
-/lib                         -Wl,-O1 conftest.c  -lpthread >&5
-  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
-     47 | main() {
-        | ^~~~
-  configure:22925: $? =3D 1
-  configure: program exited with status 1
-
-* comparing target db with and without this change shows following diff
-  in log.do_configure:
-
-  db $ diff 5.3.28*/temp/log.do_configure
-  268c268
-  < checking for mutexes... POSIX/pthreads/library
-  ---
-  > checking for mutexes... POSIX/pthreads/library/x86_64/gcc-assembly
-  271c271
-  < checking for atomic operations... no
-  ---
-  > checking for atomic operations... x86/gcc-assembly
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6108da955e7c553247ff5356cf1c990b3d334edf)
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/db/db_5.3.28.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/expect/expect_5.45.4.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db=
-/db_5.3.28.bb
-index a99d5cea62..a7d061e0da 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -116,3 +116,7 @@ INSANE_SKIP:${PN} =3D "dev-so"
- INSANE_SKIP:${PN}-cxx =3D "dev-so"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 18904ebc10..5e7b352196 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -84,4 +84,7 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/766950/
+ # expect5.45.4/exp_chan.c:62:5: error: initialization of 'struct Tcl_ChannelTypeVersion_ *' from incompatible pointer type 'int (*)(void *, int)' [-Wincompatible-pointer-types]
+-CFLAGS += "-Wno-error=incompatible-pointer-types"
++CFLAGS:append = " -Wno-error=incompatible-pointer-types"
 +
-+# many configure tests are failing with gcc-14
-+CFLAGS +=3D "-Wno-error=3Dimplicit-int -Wno-error=3Dimplicit-function-decl=
-aration"
-+BUILD_CFLAGS +=3D "-Wno-error=3Dimplicit-int -Wno-error=3Dimplicit-functio=
-n-declaration"
---=20
++# Fix expect-native configure tests are failing with gcc-14
++CFLAGS:append:class-native = " -Wno-error=implicit-int -Wno-error=implicit-function-declaration"
+-- 
 2.34.1
 
 
