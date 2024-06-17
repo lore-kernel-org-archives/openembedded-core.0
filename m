@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3A9C2BC81
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:05:44 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.54582.1718625944331554533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10888C2BD05
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:05:45 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.54578.1718625940102720979
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 05:05:44 -0700
+ Mon, 17 Jun 2024 05:05:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oftgNJTt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-704090c11easo3526899b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gThwG7Kn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70423e8e6c9so3742963b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625944; x=1719230744; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625939; x=1719230739; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gubhcDeHQybf37Ub4w491RJyZqZG1EgnJExVYU7Lbs0=;
-        b=oftgNJTtARfaZbu5QBVzw4HU/+yyyjbeBXBmomov7PMqxtu0s90WvOPO/9+EvO3wd8
-         peo49HvwgpMdEVSorGIUE+1uo2jtrsHInlMk8iIV/1ETg7o8rpACXnTM9FhgziZtkTs8
-         UWwrYRlkHSwBgjYrjQuu7S/aH6irkqU8CcIMgzs6N91b6UrdvnTFsVfa2uYmBLq7be5f
-         jT9hp/wXW8KmtxuUrU9zu3wG875jKa0Q9PHG9Eh3lXoQkxM5/sf1rdWQl7W5N418S4o2
-         el8YnHIOeWT2HyJuLLJ1eNdqeuZZxU0CpTLnoOA12itdSTPbrjT0ATUlNnlqZHktUxRA
-         tghA==
+        bh=UEEoKM6+jnqNs9JTbtMF9rUJIhSdXDkKIqB7uStbbhk=;
+        b=gThwG7Kn+uYEVpmLFEQ9nQb8JrD/qfMxYLpepM5xszAhRwAAWlTTslG3iMCz+IKL4i
+         yl8E+ahgcaAovKTL6eXZ4hWcNabzA+eV2vqgdd30UL9iwko8/A/GoGQt33ehNaWYszMr
+         YBoOdUqMl6M3NXVS7oqhEkXSjgleiR4GPTvrKmY7TcD06JkGHb0HnN+1+Qn9LCVnmtVA
+         5W4RvPtXAPKolx1Nt0EQQ1a0bnO/nDJfAouhhZ2fs2q4rSmCmUaK8sPFuTLhoOh1nFxl
+         ZC3H6tp9TCytuwhXub4kqOU6Vc8fV/bGM8B8VBeVJmglCLRBls0IjLWgUadOkUKWwgfq
+         3aEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718625944; x=1719230744;
+        d=1e100.net; s=20230601; t=1718625939; x=1719230739;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gubhcDeHQybf37Ub4w491RJyZqZG1EgnJExVYU7Lbs0=;
-        b=YFZdhDcMxSYEnoT5o3w1t9I9JCmR+0BqT3NeTOtGl7SJhVpXuUqTmyOxR77NI6y/Lg
-         pTrwHsfmeObOPVpcCL8amWpliQbbnbU6b7LDoPE/d8PqGy8ZsSMmAzVex0mxzl0canXG
-         4z47JUpzudKyVfJydaRIg9NGiwOFR/kdG/S++zRZBm2u85kEZpjIaSBP+Wy1cOU0bGnw
-         iysu/aiwJnj1C8WkrddNbh00M0IUFg1bQJa0q7HJaAQlHrQnvFggzWgs8ukGlhl7ZrBi
-         nfvSLjUxDRotb75ZJ/FLfEc07KlOEtkEA6NZlgAZJ42r8kUJIOJ90gvKxi13Vuwtg4pa
-         7p9Q==
-X-Gm-Message-State: AOJu0YxKgHk1CWNTMO3n2b5dljmRqciIDHOg3bBnRfvoTLooKNye9WTl
-	5SaHUs1EYn9u9iVlZJ8J695rXkPz+v+uahr9JMbg6m7GIt7yVUU8cm0UopMmeCUnARIDsqY9iep
-	ApT4=
-X-Google-Smtp-Source: AGHT+IHwqR6wpo/MXSIz763vGVj6tQwKWs7pNfoc3dEdxqAv353E4oIUBojFF+kY8mFfPYNfKm6DiA==
-X-Received: by 2002:a05:6a20:914a:b0:1b6:d9fa:8cd with SMTP id adf61e73a8af0-1bae83c697amr9972191637.46.1718625943549;
-        Mon, 17 Jun 2024 05:05:43 -0700 (PDT)
+        bh=UEEoKM6+jnqNs9JTbtMF9rUJIhSdXDkKIqB7uStbbhk=;
+        b=VMRL4SVmPtC3CFXQCrrIfWGgb/Tf3jjx6dgMxeucNuf/GBWNK+dyLhaNxjnGQMIqUn
+         PRzbD4/j6FhgqXimIW0Gr+Nw9R6ObnQBVr6FH3nSlj9cKN3PMVXy48KPyz0Or5mSKHXK
+         9g5BsrMZNZS1+WxSud9he1nqNaBXlagpUHzivWEVnlUNrMYm6Zmm880ossGPua0wUXLM
+         zdJz4IS7wvaeriHpS/sZyvD1R6Np/ur4U3Dz27RN7iL7sk4yO7VhdraVDlpdHJj+0vW5
+         fv7p2vd0fxvR8dQyI/Q8/R0z5v8DClToWOykEC5x9iipFRI6wCU2DiaYs+EfkqtUv+Fc
+         EOOw==
+X-Gm-Message-State: AOJu0Yy2Ag2BdZpfz0TeakYTBZVK33lm81zEpRFmX0h2ivLBiETAC/iK
+	m/yumwjkt+kIHQ7M8eyPJyuZ9aiCuhEevqTKqvuD30cYYjn5O3M5zlbeuwbMQ7e5yKrJA0HWOR3
+	pnwc=
+X-Google-Smtp-Source: AGHT+IG7SGjGilF5+j/30RnkZ5OnOlSdYsJ1+ZWvADBXLYYezIvnus8lfg3qporu9RZv4eDoipSQ8Q==
+X-Received: by 2002:a05:6a20:7491:b0:1b6:23ae:b295 with SMTP id adf61e73a8af0-1bae83c6cb5mr9003206637.38.1718625939318;
+        Mon, 17 Jun 2024 05:05:39 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 05:05:43 -0700 (PDT)
+        Mon, 17 Jun 2024 05:05:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/22] kea: Remove -fvisibility-inlines-hidden from C++ flags
-Date: Mon, 17 Jun 2024 05:04:49 -0700
-Message-Id: <a68a3d40bf9226158d2c6433d3124be82eb02c63.1718625680.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 08/22] expect: ignore various issues now fatal with gcc-14
+Date: Mon, 17 Jun 2024 05:04:46 -0700
+Message-Id: <454c48eac61f8e690b148e1c598aeb25912b1ec9.1718625680.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718625680.git.steve@sakoman.com>
 References: <cover.1718625680.git.steve@sakoman.com>
@@ -61,50 +61,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:05:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200822
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:05:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200818
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-This fixes build with gcc-14, where default visibility is extended to
-inline functions and getAll() function now falls into this category
-and functions are marked hidden resulting in linking errors
-
-Fixes
-/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::Dhcpv4Srv::appendRequestedVendorOptions(isc::dhcp::Dhcpv4Exchange&)':
-/usr/src/debug/kea/2.5.8/src/bin/dhcp4/dhcp4_srv.cc:2356:(.text+0xaac2): undefined reference to `isc::dhcp::CfgOption::getAll(unsigned int) const'
-/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::OptionDescriptor isc::dhcp::CfgOption::get<unsigned int>(unsigned int const&, unsigned short) const':
-/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:609:(.text+0xb288): undefined reference to `isc::dhcp::CfgOption::getAll(unsigned int) const'
-/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::Dhcpv4Srv::appendRequestedOptions(isc::dhcp::Dhcpv4Exchange&)':
-/usr/src/debug/kea/2.5.8/src/bin/dhcp4/dhcp4_srv.cc:2128:(.text+0xc556): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
-/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `std::vector<isc::dhcp::OptionDescriptor, std::allocator<isc::dhcp::OptionDescriptor> > isc::dhcp::CfgOption::getList<char [6]>(char const (&) [6], unsigned short) const':
-/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:641:(.text._ZNK3isc4dhcp9CfgOption7getListIA6_cEESt6vectorINS0_16OptionDescriptorESaIS5_EERKT_t[_ZNK3isc4dhcp9CfgOption7getListIA6_cEESt6vectorINS0_16OptionDescriptorESaIS5_EERKT_t]+0x86): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
-/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/kea/2.5.8/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/14.0.1/ld: ./.libs/libdhcp4.a(dhcp4_srv.o): in function `isc::dhcp::OptionDescriptor isc::dhcp::CfgOption::get<char [6]>(char const (&) [6], unsigned short) const':
-/usr/src/debug/kea/2.5.8/src/lib/dhcpsrv/cfg_option.h:609:(.text._ZNK3isc4dhcp9CfgOption3getIA6_cEENS0_16OptionDescriptorERKT_t[_ZNK3isc4dhcp9CfgOption3getIA6_cEENS0_16OptionDescriptorERKT_t]+0x77): undefined reference to `isc::dhcp::CfgOption::getAll(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const'
-collect2: error: ld returned 1 exit status
-make[5]: *** [Makefile:651: kea-dhcp4] Error 1
-
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 584940c2f3234bfaf579429e162e683934e86538)
+(cherry picked from commit 83e9790fe27c310a4f5a66fedb29b232d23a22e5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/kea/kea_2.4.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/expect/expect_5.45.4.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectivity/kea/kea_2.4.1.bb
-index 9f8758f379..fcdb4889d9 100644
---- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
-+++ b/meta/recipes-connectivity/kea/kea_2.4.1.bb
-@@ -38,6 +38,7 @@ DEBUG_OPTIMIZATION:append:mipsel = " -O"
- BUILD_OPTIMIZATION:remove:mipsel = " -Og"
- BUILD_OPTIMIZATION:append:mipsel = " -O"
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 7b610b1ff2..18904ebc10 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -81,3 +81,7 @@ FILES:${PN} += "${libdir}/libexpect${PV}.so \
+                "
  
-+CXXFLAGS:remove = "-fvisibility-inlines-hidden"
- EXTRA_OECONF = "--with-boost-libs=-lboost_system \
-                 --with-log4cplus=${STAGING_DIR_TARGET}${prefix} \
-                 --with-openssl=${STAGING_DIR_TARGET}${prefix}"
+ BBCLASSEXTEND = "native nativesdk"
++
++# http://errors.yoctoproject.org/Errors/Details/766950/
++# expect5.45.4/exp_chan.c:62:5: error: initialization of 'struct Tcl_ChannelTypeVersion_ *' from incompatible pointer type 'int (*)(void *, int)' [-Wincompatible-pointer-types]
++CFLAGS += "-Wno-error=incompatible-pointer-types"
 -- 
 2.34.1
 
