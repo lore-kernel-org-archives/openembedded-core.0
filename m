@@ -2,129 +2,97 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE55AC27C79
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 11:55:44 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web10.54801.1718625340626938821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C4DC2BA18
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:05:14 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.54561.1718625907344508986
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 04:55:40 -0700
+ Mon, 17 Jun 2024 05:05:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qYp7s9sn;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.181, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-63127fc434aso34761437b3.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 04:55:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dZht3QKk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7041e39a5beso3128877b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625340; x=1719230140; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NdZolZ88EploPG4GBicxn1lXIGGRk/XANduveGBCBvU=;
-        b=qYp7s9snCz73XgvEQz38X1YBaRqCZZ8wJdT8+/S7P5fYFeOJTJwLsHTshy2y3ry7UJ
-         xkfN/TeDhpgFYN1cAQtuJWhBiaG7I6PFmZTYBvDajc/0y03wcatSyR3W7jBZz/Ze0F3X
-         FGvlRB1k7uVYGpJ5OUdDWcWU2BV9AWQmzPb1nc2k/W1pMNZgKFAswuMu2MZR6w2Jts9Z
-         1TkDXz/6rxQei6zxhvsb3pr1P3os2Y55Yu9T67wd7NxQeOPEsxFHC4hrBQNA1nPFnVMd
-         4PJSOuFw/58VnsaTGzxbuRmPWWVEbXZcXIslq85NnXo5HhbDp1GyhxY0BLjOIaiVIlhV
-         8u3A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625907; x=1719230707; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7okafwD+4Reob3oeJ5DUXS/6Ngpjbkcs5SArx6m6VMU=;
+        b=dZht3QKk9zBm9XiZNZWqHhLHwvuXXUqJAGIL8d3XicFBb/osORd2a3IBuBYq9yDWVl
+         JAdM8mhkUpeZPfHJTL42QirEnaDZS+KtzIJXcq/MeftH8hh2rG01s2Y/8Hq8RKVCQm4G
+         6Au80xfnD1zJJoYeNfF7P/hSabtjcGag4SayHSJRk1+JeycXSnFKYB3cUKrykaUJHLzR
+         /b1xTEPghnLw0U49bj6/k7vvI/4TmS3/1Em4Sm0kGoNfxZ09jp+5iwNYapw+vDbkCoes
+         Kir79OUmWT5GQmk+PbTMGW6DeybpTR0Th4vYLOxdjcVdxqBtKkbdUn8/LjsypQP0Mlhp
+         I3Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718625340; x=1719230140;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718625907; x=1719230707;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NdZolZ88EploPG4GBicxn1lXIGGRk/XANduveGBCBvU=;
-        b=igf1Xkl8UCDqFcMyKOXZ5+SjyCVCrj6hI3wFfaManC/7EJCDJhJ3hhG0zLGR7EfOkt
-         xlWuzDgjiSLEQhd1mhUBkLNjIzVTJf14t2vXQRmnRRrDiFRgrF2Hp8h/xSRWARyT3Zjs
-         yTyAJr8LoDqKnF78GA3r/dNn41hQoVtoHuVyVwrlIvkw2tDK8A/BMoDy8KaasQ4bo9TG
-         7v2a6a5K2OrCBcx+sDUm+hBNJT+xOVVRVJsAt1L9Yo+7cSo54qNj23xGhs6h+ykaBw24
-         FV/juE0wsg1gF5lU+YhP+Vlmr4bI/4LVD0dM3CLVJ3UpxhSFeNTZxeKgtVn0TsDZvrHQ
-         gvfg==
-X-Gm-Message-State: AOJu0Yz9xvfo4kR/JWCUf993aBC9M+gNdBKKdjLZN4P1+WKEREW0VkAg
-	9rbOULzE3F+PkzlyUTmpzwsdmnoXdvH0FjdqWBX+6wr+apSjIR0s2InswcBM/OaIjP7T1jzuRxd
-	VsXzgeuzMZd5VpcTdmzqth+WorEulte2h3ldkrA==
-X-Google-Smtp-Source: AGHT+IFJGIDums4wsFtlU7G9nVA5MYYBxax1Jcbc4VE3efb1YTZSVIvyOEcaE3LXeNsaS4HAdQ0UFpWov2Lor5ijx74=
-X-Received: by 2002:a81:cf01:0:b0:631:3f2d:289c with SMTP id
- 00721157ae682-63222d6124cmr86560497b3.26.1718625339615; Mon, 17 Jun 2024
- 04:55:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240617063431.2221035-1-changqing.li@windriver.com>
-In-Reply-To: <20240617063431.2221035-1-changqing.li@windriver.com>
+        bh=7okafwD+4Reob3oeJ5DUXS/6Ngpjbkcs5SArx6m6VMU=;
+        b=YU2jJvSG/PVVLszUIL4pN4xkT+muZSTlwF8lJzGXwVrNrsELTt/TS2rmvWhgI3zKMF
+         KmiB5IGKGC+slG9Jl7eUq2bbcUeplJJrZw0xiJ5mCdN4Ym4EEzhcltaMDIEioet62q0i
+         jEIG2GFQxDpDVhWqLW4SjoAn30c994XbSp8WSWIqBwPVZpMw98c/V/l0IYdkAfCrGkHi
+         S+F5VyEn8UD++LM9V9fZb0m10B1c2xMFyIq8sbVVy2si1vtq9/1ixaOKliAg64euN+aT
+         04GC17QEk58gE3n5a9E+Vhl9S3vLm4OGZ6v0lHq5FA5AYcIhIPpYVSLiPdxEMU/CqLJt
+         TwUA==
+X-Gm-Message-State: AOJu0YyF+rKDwWLpygfZWtbhPilCXA7q5LAAA3hcrOIF1iEJq4t5+HQz
+	QbsdBqGJlgTQ4AfSFt0thBkxyKk+ZwqzqtMK2p9ajoTn16NMA2/SrXC8F0S0Rdsvwk68qhnOsUr
+	fsF0=
+X-Google-Smtp-Source: AGHT+IGEbew02HmABBij6eO8Ss4fiUKCjjCHZB2qtGzjIAvCjF4kNqPA3fzmXwmVCTZGuP+0+FMvVg==
+X-Received: by 2002:aa7:8e8f:0:b0:704:24fb:11b8 with SMTP id d2e1a72fcca58-705d70eb625mr10630410b3a.7.1718625906473;
+        Mon, 17 Jun 2024 05:05:06 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.06
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 05:05:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 17 Jun 2024 04:55:27 -0700
-Message-ID: <CAOSpxda2zT7E_hJ4gm=M8EnJ1F3Ygo+j7+OA+nbUBA8Dj64e=Q@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH 0/8] backports from master
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 01/22] yocto-uninative: Update to 4.5 for gcc 14
+Date: Mon, 17 Jun 2024 05:04:39 -0700
+Message-Id: <335d11ad2dd4207e5927f1938c449547a3a2975b.1718625680.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1718625680.git.steve@sakoman.com>
+References: <cover.1718625680.git.steve@sakoman.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 11:55:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200810
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:05:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200812
 
-All of these patches (as well as other f40/gcc-14 related patches) are
-included in the patchset I will be sending out for review later this
-morning.
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Steve
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f5638681cef7e250ac64832dbe791418d97f05ba)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On Sun, Jun 16, 2024 at 11:34=E2=80=AFPM Changqing Li via
-lists.openembedded.org
-<changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> * backport 7 patches from master, so we can build scarthgap on
->   host with gcc-14, like fedora 40
-> * Add one patch for fixing build failure for expect-native
->
-> Changqing Li (1):
->   expect-native: fix build with gcc-14
->
-> Khem Raj (1):
->   zip: Fix build with gcc-14
->
-> Martin Jansa (3):
->   db: ignore implicit-int and implicit-function-declaration issues fatal
->     with gcc-14
->   cdrtools-native: fix build with gcc-14
->   expect: ignore various issues now fatal with gcc-14
->
-> Michael Halstead (1):
->   yocto-uninative: Update to 4.5 for gcc 14
->
-> Zoltan Boszormenyi (2):
->   cracklib: Modify patch to compile with GCC 14
->   cdrtools-native: Fix build with GCC 14
->
->  meta/conf/distro/include/yocto-uninative.inc  |  8 ++--
->  .../cdrtools/cdrtools-native_3.01.bb          | 12 ++++-
->  .../cdrtools/cdrtools/gcc14-fix.patch         | 13 ++++++
->  meta/recipes-devtools/expect/expect_5.45.4.bb |  7 +++
->  ...port-dictionary-byte-order-dependent.patch |  2 +-
->  ...e-dirent.h-for-closedir-opendir-APIs.patch | 45 +++++++++++++++++++
->  ...2-unix.c-Do-not-redefine-DIR-as-FILE.patch | 35 ---------------
->  meta/recipes-extended/zip/zip_3.0.bb          |  2 +-
->  meta/recipes-support/db/db_5.3.28.bb          |  4 ++
->  9 files changed, 85 insertions(+), 43 deletions(-)
->  create mode 100644 meta/recipes-devtools/cdrtools/cdrtools/gcc14-fix.pat=
-ch
->  create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Incl=
-ude-dirent.h-for-closedir-opendir-APIs.patch
->  delete mode 100644 meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-=
-redefine-DIR-as-FILE.patch
->
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200786): https://lists.openembedded.org/g/openembedde=
-d-core/message/200786
-> Mute This Topic: https://lists.openembedded.org/mt/106716173/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 4ac66fd506..657c1032f9 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,9 +7,9 @@
+ #
+ 
+ UNINATIVE_MAXGLIBCVERSION = "2.39"
+-UNINATIVE_VERSION = "4.4"
++UNINATIVE_VERSION = "4.5"
+ 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "b61876130f494f75092f21086b4a64ea5fb064045769bf1d32e9cb6af17ea8ec"
+-UNINATIVE_CHECKSUM[i686] ?= "9f28627828f0082cc0344eede4d9a861a9a064bfa8f36e072e46212f0fe45fcc"
+-UNINATIVE_CHECKSUM[x86_64] ?= "d81c54284be2bb886931fc87281d58177a2cd381cf99d1981f8923039a72a302"
++UNINATIVE_CHECKSUM[aarch64] ?= "df2e29e2e6feb187a3499abf3b1322a3b251da819c77a7b19d4fe952351365ab"
++UNINATIVE_CHECKSUM[i686] ?= "8ef3eda53428b484c20157f6ec3c130b03080b3d4b3889067e0e184e05102d35"
++UNINATIVE_CHECKSUM[x86_64] ?= "43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473"
+-- 
+2.34.1
+
 
