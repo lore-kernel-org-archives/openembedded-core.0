@@ -2,131 +2,202 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B47BC2BB9A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F578C2BA15
 	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 12:05:55 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.55028.1718625948313535380
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.54590.1718625952451273467
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 05:05:48 -0700
+ Mon, 17 Jun 2024 05:05:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=034FwAZo;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70601bcfddcso756649b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aIl8Z7na;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-704189f1225so3786605b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 05:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625947; x=1719230747; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625952; x=1719230752; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HsO2HrPMav64sypImiinY7KQuBcmf8Uk7DzqdqzJ/Zg=;
-        b=034FwAZoGhrz1NeHmJMPFOU40YPetuG0vF4yLSV+to9ViiyJira9gmXGnF4Sb8sK1o
-         lnrJdjln6dlwdUzjAHt8Wcdp/KbCq/jZXm2t+YL5/fOMAFOmnN2YW57sMhV6MW0w+CXn
-         XStQzNjyQJ4uUBm46H4rE9OZ8S+22KlLlOIdnB8aRtz400croF+SkcY+8ccd1WhWdzua
-         /h0x4+ukqEDZAjoU0WkChYGkojmp9IeT8D9TqcgmRZyCTuWKlGlNVmHZakfpGmcPHf5S
-         qy87SK3dPWW9x+fcb9cNek3+VLiJ92JYrwdgfYUqdPuj1pFFjN0QbuMsHg4pGx1vdYcp
-         cg7w==
+        bh=GVlxdP51uqmt8V/hYcxzn9OiIxxFFIT1B0IhP+WFgYU=;
+        b=aIl8Z7narCYYKP87R10v72JzJRNiCvJGwmBXWufEVsN8sSZnMcvjqf3yjWC0ivAQtN
+         U5H/ydIbB4kAHelHfWA09Hdm/bGp0/9J8dQPesX1PPjK+TOZqYa3wKcKiEAMeM4xecp9
+         r+ZA6wfmonba8xqppyrTMUH0Dft0IUMf2iir/3veEmvoCx7AdmwQDTsLPjYkwM+945G9
+         s80Lj0OqPoe9kjPAq6+EjDHFI19qKlbvYu/mdbzpFyIRj+ucxxn/3jSG/J2P5yiaWDoJ
+         X/0DCtcp4MxUGwldfgA9p0Yk+CWl8GinXR8h2mVdOftwLRrEmcByWdnSKRUhv19n92Yp
+         YHdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718625947; x=1719230747;
+        d=1e100.net; s=20230601; t=1718625952; x=1719230752;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HsO2HrPMav64sypImiinY7KQuBcmf8Uk7DzqdqzJ/Zg=;
-        b=K6Tdg1D6b/dpDzuRxpDc3naB3GMsy2xrlP7SuzQp9kICfkxYgbgxVaJLYfneqqNB8G
-         CTxroGxT+TxGTbUNXtefB2XwgmQ/KpFta+guG+sWxY5W4mdBLfQaS2niAVgPIvQcqx/k
-         6QHHb9cRlPvxn+PfAnZADhxdqjNR/59ToDAD3+iEfNvJ+JTdsTyHCRUDiQnMGTff+jiS
-         Y1hVuzInpI8Rl9sxvhMqTwGwnDt8mHq4hL//c5rSgQE2nYcNNy1MXe7ZkT19SUtBiam+
-         D/9gZ9JN3EloHQjcO+EkMb7LfMgPrdHxz+LtIqGgWRpBjStguHaAbixUq0wU+MJA07an
-         +z+g==
-X-Gm-Message-State: AOJu0YwXYfqF1RRS1cwFIvOBJIPVKwLnKlvtyDu5rbu/OjHlZ+xvLNVf
-	2SPmjW6K2DavDYZMBO6XSn8/D3BTxRmJsya38NKGPQmMtmwiAS9wwZ5vn2KM+pK3W9xX/sAIOfM
-	MS2c=
-X-Google-Smtp-Source: AGHT+IGHBWKoxwAqGTFD9SqPj8Vmp4HM4fRp+69ngnl1g5JGRRpeWkDbh+FOeSCBqc4dCccQk4GXTg==
-X-Received: by 2002:a05:6a00:1e0e:b0:705:a7a6:6d11 with SMTP id d2e1a72fcca58-705d71e1cc6mr9520577b3a.24.1718625947572;
-        Mon, 17 Jun 2024 05:05:47 -0700 (PDT)
+        bh=GVlxdP51uqmt8V/hYcxzn9OiIxxFFIT1B0IhP+WFgYU=;
+        b=IYH7oyYdt9HBJIXWVXDTl1ah4Ia6+QmeKkZ43uRLrG0EnhOjucfu2ElGVyG9Lx5R3w
+         sIYmaPnss60DOb4rg6Doa5C5ueOxnYzF9mWRurRlYribjWCa6cpXLyJq4Te0ADciJpX4
+         AvaiqlnEvzWWvsaiUsBRLjHbUZHO1dVoaiZvwfQlaTZcVyWs5MB6gm8w6fTL8FhEo7gD
+         wGNFNFeq5aItD5Hjd2NjLzSAoT/n9oyYGfu5MGh8j48xyJtbScCFn6sUPfwRfNHHz+3C
+         yrLSNAq/X6KIQZTlJtDFuISWz7+WVoUFLEPrBvnjRUZ74vCfdDNX4L5dAvmyGlyvcZKj
+         SfaA==
+X-Gm-Message-State: AOJu0Yx+xqdoavQBo79apDgogv3Jeu/bHBnr+3OdsK403aPjxHKhxRyl
+	A6IVNo9S2NRZqxaHSuhhhGX2vWCwU9PAvgRfKEa5ksZwfg/Q8HD2Kad3GAg3CqSTeLuDoTqgra4
+	itJg=
+X-Google-Smtp-Source: AGHT+IGatIbwL8WgKxHATsZBqP0GlCN/6BkFQSaaRALZxjXJ0Bauxo+uSZKyLSUGo8zoj5rtnXCfUQ==
+X-Received: by 2002:a05:6a20:6a21:b0:1b6:d8bd:c42d with SMTP id adf61e73a8af0-1bae7d98214mr9694253637.4.1718625951595;
+        Mon, 17 Jun 2024 05:05:51 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.47
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc925fe7sm7482348b3a.19.2024.06.17.05.05.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 05:05:47 -0700 (PDT)
+        Mon, 17 Jun 2024 05:05:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/22] lrzsz connman-gnome libfm: ignore various issues fatal with gcc-14
-Date: Mon, 17 Jun 2024 05:04:52 -0700
-Message-Id: <924dc9bd3b1b21a60ebb117b0abf81d2650aedd0.1718625680.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 17/22] zip: Fix build with gcc-14
+Date: Mon, 17 Jun 2024 05:04:55 -0700
+Message-Id: <82d58f8bf63d6af80b5a4ad03d5121f1541ae15d.1718625680.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1718625680.git.steve@sakoman.com>
 References: <cover.1718625680.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 12:05:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200825
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200828
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-work arounds for:
-oe-core/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb:do_compile
-oe-core/meta/recipes-connectivity/connman/connman-gnome_0.7.bb:do_compile
-oe-core/meta/recipes-support/libfm/libfm_1.3.2.bb:do_compile
+zip's configure fails to link this piece of test code:
 
-http://errors.yoctoproject.org/Errors/Build/183127/
+  int main() { return closedir(opendir(".")); }
 
-More fixes on ML (especially for -native with gcc-14 on host)
-cdrtools: https://lists.openembedded.org/g/openembedded-core/message/198899
-syslinux: https://lists.openembedded.org/g/openembedded-core/message/198901
+with GCC-14 because it now treats implicit declaration of function
+as error, unline older GCC version where it was just a warning
+and this test would build fine.
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Remove 0002-unix.c-Do-not-redefine-DIR-as-FILE.patch which
+is now unnecessary.
+
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 856ffc7d0893c1dc549baf401899947f70d31896)
+(cherry picked from commit 3422411eb750c7e960b81676637cfb321dbadefb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb                | 6 ++++++
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 4 ++++
- meta/recipes-support/libfm/libfm_1.3.2.bb              | 4 ++++
- 3 files changed, 14 insertions(+)
+ ...e-dirent.h-for-closedir-opendir-APIs.patch | 45 +++++++++++++++++++
+ ...2-unix.c-Do-not-redefine-DIR-as-FILE.patch | 35 ---------------
+ meta/recipes-extended/zip/zip_3.0.bb          |  2 +-
+ 3 files changed, 46 insertions(+), 36 deletions(-)
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
+ delete mode 100644 meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
 
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-index 63edcbd864..3024ddcaf0 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-@@ -46,3 +46,9 @@ ALTERNATIVE_TARGET[rb] = "${bindir}/lrz"
- ALTERNATIVE_TARGET[sz] = "${bindir}/lsz"
- ALTERNATIVE_TARGET[sx] = "${bindir}/lsz"
- ALTERNATIVE_TARGET[sb] = "${bindir}/lsz"
+diff --git a/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch b/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
+new file mode 100644
+index 0000000000..0d3af37ded
+--- /dev/null
++++ b/meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
+@@ -0,0 +1,45 @@
++From 9db2f8cdbbc0dfb359d3b4e5dfe48c18652ce531 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 8 May 2024 19:02:46 -0700
++Subject: [PATCH] configure: Include dirent.h for closedir/opendir APIs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+# http://errors.yoctoproject.org/Errors/Details/766929/
-+# lrzsz-0.12.20/src/tcp.c:75:56: error: passing argument 3 of 'getsockname' from incompatible pointer type [-Wincompatible-pointer-types]
-+# lrzsz-0.12.20/src/tcp.c:83:52: error: passing argument 3 of 'getsockname' from incompatible pointer type [-Wincompatible-pointer-types]
-+# lrzsz-0.12.20/src/tcp.c:103:51: error: passing argument 3 of 'accept' from incompatible pointer type [-Wincompatible-pointer-types]
-+CFLAGS += "-Wno-error=incompatible-pointer-types"
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index fcd154b4b0..8875cdc02c 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -28,3 +28,7 @@ RDEPENDS:${PN} = "connman"
- do_install:append() {
-     install -m 0644 ${WORKDIR}/images/* ${D}/usr/share/icons/hicolor/22x22/apps/
- }
++GCC-14 is strict about function prototypes and since the
++testcase tries to compile/link opendir/closedir functions
++without including signatures, it fails to build the test
++due to missing signatures which come from dirent.h
 +
-+# http://errors.yoctoproject.org/Errors/Details/766926/
-+# connman-client.c:200:15: error: assignment to 'GtkTreeModel *' {aka 'struct _GtkTreeModel *'} from incompatible pointer type 'GtkTreeStore *' {aka 'struct _GtkTreeStore *'} [-Wincompatible-pointer-types]
-+CFLAGS += "-Wno-error=incompatible-pointer-types"
-diff --git a/meta/recipes-support/libfm/libfm_1.3.2.bb b/meta/recipes-support/libfm/libfm_1.3.2.bb
-index 057c737029..1d7609165b 100644
---- a/meta/recipes-support/libfm/libfm_1.3.2.bb
-+++ b/meta/recipes-support/libfm/libfm_1.3.2.bb
-@@ -53,3 +53,7 @@ do_install:append () {
-     rm -f ${D}${libdir}/libfm-extra.a
-     rm -f ${D}${libdir}/libfm-extra.la
- }
++Therefore include the needed system header and make it more
++robust.
 +
-+# http://errors.yoctoproject.org/Errors/Details/766924/
-+# libfm-1.3.2/src/actions/action.c:2050:25: error: assignment to 'gchar **' {aka 'char **'} from incompatible pointer type 'const gchar * const*' {aka 'const char * const*'} [-Wincompatible-pointer-types]
-+CFLAGS += "-Wno-error=incompatible-pointer-types"
++Fixes
++a.c:2:21: error: implicit declaration of function ‘closedir’ [-Wimplicit-function-declaration]
++    2 | int main() { return closedir(opendir(".")); }
++      |                     ^~~~~~~~
++a.c:2:30: error: implicit declaration of function ‘opendir’ [-Wimplicit-function-declaration]
++    2 | int main() { return closedir(opendir(".")); }
++      |                              ^~~~~~~
++
++Upstream-Status: Inactive-Upstream
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ unix/configure | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/unix/configure b/unix/configure
++index f917086..1dd98c6 100644
++--- a/unix/configure
+++++ b/unix/configure
++@@ -591,6 +591,7 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
++ 
++ echo Check for directory libraries
++ cat > conftest.c << _EOF_
+++#include <dirent.h>
++ int main() { return closedir(opendir(".")); }
++ _EOF_
++ 
++-- 
++2.45.0
++
+diff --git a/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch b/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
+deleted file mode 100644
+index a86e03e620..0000000000
+--- a/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 76f5bf3546d826dcbc03acbefcf0b10b972bf136 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 10 Aug 2022 17:19:38 -0700
+-Subject: [PATCH 2/2] unix.c: Do not redefine DIR as FILE
+-
+-DIR is already provided on Linux via
+-/usr/include/dirent.h system header
+-
+-Upstream-Status: Inactive-Upstream
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- unix/unix.c | 2 --
+- 1 file changed, 2 deletions(-)
+-
+-diff --git a/unix/unix.c b/unix/unix.c
+-index ba87614..6e6f4d2 100644
+---- a/unix/unix.c
+-+++ b/unix/unix.c
+-@@ -61,13 +61,11 @@ local time_t label_utim = 0;
+- /* Local functions */
+- local char *readd OF((DIR *));
+- 
+--
+- #ifdef NO_DIR                    /* for AT&T 3B1 */
+- #include <sys/dir.h>
+- #ifndef dirent
+- #  define dirent direct
+- #endif
+--typedef FILE DIR;
+- /*
+- **  Apparently originally by Rich Salz.
+- **  Cleaned up and modified by James W. Birdsall.
+--- 
+-2.37.1
+-
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+index 70df5ab872..ec54206335 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -17,8 +17,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
+            file://0002-configure-support-PIC-code-build.patch \
+            file://0001-configure-Use-CFLAGS-and-LDFLAGS-when-doing-link-tes.patch \
+            file://0001-configure-Specify-correct-function-signatures-and-de.patch \
+-           file://0002-unix.c-Do-not-redefine-DIR-as-FILE.patch \
+            file://0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch \
++           file://0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch \
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
 -- 
 2.34.1
 
