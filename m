@@ -1,256 +1,130 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D69C27C79
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 11:51:14 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.54737.1718625070613148462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE55AC27C79
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 11:55:44 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web10.54801.1718625340626938821
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jun 2024 04:51:11 -0700
+ Mon, 17 Jun 2024 04:55:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I89bajfL;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so76936391fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 04:51:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qYp7s9sn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.181, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-63127fc434aso34761437b3.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 04:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718625069; x=1719229869; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DwbIocCLPk4ULhbT8jSNawa9ydceqYlHrZWXu6YGijQ=;
-        b=I89bajfL5Vdyyxl9bmCQVhkDmAQCFkPl2CiYv9dSAT2YmTiehL6oIw9Xpa1xVLzPRJ
-         R57wyFZSfXt7eDQP03uisLkic28Y662D652ogW8M4PTEs8/1Y/YMiybE8tMYtSAODt+H
-         q5dJyjSuJSOZj1RJYEOsNQIJg2OCoxSlUaHSpRVKcgh+BquDpJUdAfrWw4eOS2pMAGgC
-         idAOhXZzqXZJb//UoNI6YRCM+pUlrODNzINknnuL5ubJleciZhMKS+zk8lrC9HddICux
-         YgPcLsfKWIq9jaDF9ofqVHbX3UjKiLg1m++2SjesNFih5KPWQKPufAanc9mH5iosumjU
-         lm6A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1718625340; x=1719230140; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NdZolZ88EploPG4GBicxn1lXIGGRk/XANduveGBCBvU=;
+        b=qYp7s9snCz73XgvEQz38X1YBaRqCZZ8wJdT8+/S7P5fYFeOJTJwLsHTshy2y3ry7UJ
+         xkfN/TeDhpgFYN1cAQtuJWhBiaG7I6PFmZTYBvDajc/0y03wcatSyR3W7jBZz/Ze0F3X
+         FGvlRB1k7uVYGpJ5OUdDWcWU2BV9AWQmzPb1nc2k/W1pMNZgKFAswuMu2MZR6w2Jts9Z
+         1TkDXz/6rxQei6zxhvsb3pr1P3os2Y55Yu9T67wd7NxQeOPEsxFHC4hrBQNA1nPFnVMd
+         4PJSOuFw/58VnsaTGzxbuRmPWWVEbXZcXIslq85NnXo5HhbDp1GyhxY0BLjOIaiVIlhV
+         8u3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718625069; x=1719229869;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DwbIocCLPk4ULhbT8jSNawa9ydceqYlHrZWXu6YGijQ=;
-        b=MrdlOMXHzzUsZUc1VAmF5P56KEJfF8NNgNYTfVXaYRUXuQXLrLai7l3BsB2PJeFEse
-         rOaThekGVwasaEhkCg7lJIOfFZIQTmMrU9J471y4GtA8pirixxyVgqzDoXECGBTFchRa
-         +y25GiVVSGBb1Nmh2y7YXMovafLLBE8VAerqv1P48+oV75VjdXdqGI7Qa05jrw44QazW
-         1+L2iaNgSV5nE4Y2GvxaciOK1nsv/5VnpZI9R/x6jJgH1t70KM6MKGb4wpgEOtkVBo2x
-         y3QSYtNSjL6SxZLZ8yxRyPN70vychuEG4d9IquI0q37OtpuxkiV3hB8D9wmp4zLJ2cAP
-         U29w==
-X-Gm-Message-State: AOJu0Ywowbj8C+aVR5GTDu2SbBSyCGc/WxmfPOICtGtMT/CyPH+IoMP9
-	BOSCkTEIlvjAbHf70k0C8hzrF3wZY7MO4TAXoeLM3PWsnkYzO/EPYVHOY3tS+6/S+X1CXGiuGri
-	70F37SDkmQTrOBDSOsKAYaG2w3Xo=
-X-Google-Smtp-Source: AGHT+IGc+1D1LsfpfQ4+YaqL4PL3tjLP96wWfGG5YT6A5g52zC2pKeaJ8ESPvw6yRQ843YjXjDgsox9JZnI5Bh1f15A=
-X-Received: by 2002:ac2:5105:0:b0:52c:826f:f3f1 with SMTP id
- 2adb3069b0e04-52ca6e56e6amr7246485e87.2.1718625068290; Mon, 17 Jun 2024
- 04:51:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718625340; x=1719230140;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NdZolZ88EploPG4GBicxn1lXIGGRk/XANduveGBCBvU=;
+        b=igf1Xkl8UCDqFcMyKOXZ5+SjyCVCrj6hI3wFfaManC/7EJCDJhJ3hhG0zLGR7EfOkt
+         xlWuzDgjiSLEQhd1mhUBkLNjIzVTJf14t2vXQRmnRRrDiFRgrF2Hp8h/xSRWARyT3Zjs
+         yTyAJr8LoDqKnF78GA3r/dNn41hQoVtoHuVyVwrlIvkw2tDK8A/BMoDy8KaasQ4bo9TG
+         7v2a6a5K2OrCBcx+sDUm+hBNJT+xOVVRVJsAt1L9Yo+7cSo54qNj23xGhs6h+ykaBw24
+         FV/juE0wsg1gF5lU+YhP+Vlmr4bI/4LVD0dM3CLVJ3UpxhSFeNTZxeKgtVn0TsDZvrHQ
+         gvfg==
+X-Gm-Message-State: AOJu0Yz9xvfo4kR/JWCUf993aBC9M+gNdBKKdjLZN4P1+WKEREW0VkAg
+	9rbOULzE3F+PkzlyUTmpzwsdmnoXdvH0FjdqWBX+6wr+apSjIR0s2InswcBM/OaIjP7T1jzuRxd
+	VsXzgeuzMZd5VpcTdmzqth+WorEulte2h3ldkrA==
+X-Google-Smtp-Source: AGHT+IFJGIDums4wsFtlU7G9nVA5MYYBxax1Jcbc4VE3efb1YTZSVIvyOEcaE3LXeNsaS4HAdQ0UFpWov2Lor5ijx74=
+X-Received: by 2002:a81:cf01:0:b0:631:3f2d:289c with SMTP id
+ 00721157ae682-63222d6124cmr86560497b3.26.1718625339615; Mon, 17 Jun 2024
+ 04:55:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <CALT56yPWE=nTn7jAPps+A7YCZ17Aw-U_OpfonSTYD90j5rwOAg@mail.gmail.com>
- <CANNYZj_okQmP9Lrruik2ekQ9k6B6_fyYmRToSuODC3BRP1apUA@mail.gmail.com> <CALT56yPY8+y39saaGXi36i5ZOQo7fkGn66WmWuDBpDZFkxw7-w@mail.gmail.com>
-In-Reply-To: <CALT56yPY8+y39saaGXi36i5ZOQo7fkGn66WmWuDBpDZFkxw7-w@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Jun 2024 13:50:54 +0200
-Message-ID: <CANNYZj-q7hWSC9QxjOe1kbN0pF_O+WZ-KZ6VE_vqH4H0QRs8-g@mail.gmail.com>
-Subject: Re: [OE-core] QemuPPC64 machine status
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b29900061b14945d"
+References: <20240617063431.2221035-1-changqing.li@windriver.com>
+In-Reply-To: <20240617063431.2221035-1-changqing.li@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 17 Jun 2024 04:55:27 -0700
+Message-ID: <CAOSpxda2zT7E_hJ4gm=M8EnJ1F3Ygo+j7+OA+nbUBA8Dj64e=Q@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH 0/8] backports from master
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 11:51:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200809
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jun 2024 11:55:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200810
 
---000000000000b29900061b14945d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+All of these patches (as well as other f40/gcc-14 related patches) are
+included in the patchset I will be sending out for review later this
+morning.
 
-RESOLVED WONTFIX I=E2=80=99m afraid. The set of tested targets is defined b=
-y YP
-members. If other targets regress, it=E2=80=99s on those who need them to p=
-rovide
-fixes.
+Steve
 
-Alex
-
-On Mon 17. Jun 2024 at 13.47, Dmitry Baryshkov <dbaryshkov@gmail.com> wrote=
-:
-
-> On Mon, 17 Jun 2024 at 12:53, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > No. It's not tested on the autobuilder.
+On Sun, Jun 16, 2024 at 11:34=E2=80=AFPM Changqing Li via
+lists.openembedded.org
+<changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> I see. Then consider it to be a bug report :-D
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> >
-> > Alex
-> >
-> > On Mon, 17 Jun 2024 at 11:51, Dmitry Baryshkov via
-> > lists.openembedded.org <dbaryshkov=3Dgmail.com@lists.openembedded.org>
-> > wrote:
-> > >
-> > > Hello,
-> > >
-> > > Is qemuppc64 considered to be supported? We have been running CI over
-> > > a set of machines, it seems that PPC64 kernel build is broken for
-> > > quite some time:
-> > >
-> > >
-> https://storage.tuxsuite.com/public/linaro/dmitry.baryshkov/oebuilds/2hzr=
-cO3QvnkeNPVouoptwe4sFZf/build.log
-> > >
-> > > | /tmp/ccJSLBgE.s: Assembler messages:
-> > > | /tmp/ccJSLBgE.s:765: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:790: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:815: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:2435: Error: operand out of domain (19 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:2461: Error: operand out of domain (19 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:2486: Error: operand out of domain (19 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:3590: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:3616: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | /tmp/ccJSLBgE.s:3641: Error: operand out of domain (18 is not a
-> multiple of 4)
-> > > | make[3]: ***
-> [/oe/build/tmp/work-shared/qemuppc64/kernel-source/scripts/Makefile.build=
-:243:
-> > > fs/readdir.o] Error 1
-> > > | make[2]: ***
-> [/oe/build/tmp/work-shared/qemuppc64/kernel-source/scripts/Makefile.build=
-:480:
-> > > fs] Error 2
-> > > | make[2]: *** Waiting for unfinished jobs....
-> > >
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
-> > >
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#200800):
-> https://lists.openembedded.org/g/openembedded-core/message/200800
-> > > Mute This Topic: https://lists.openembedded.org/mt/106717814/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [alex.kanavin@gmail.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >
+> * backport 7 patches from master, so we can build scarthgap on
+>   host with gcc-14, like fedora 40
+> * Add one patch for fixing build failure for expect-native
 >
+> Changqing Li (1):
+>   expect-native: fix build with gcc-14
 >
+> Khem Raj (1):
+>   zip: Fix build with gcc-14
+>
+> Martin Jansa (3):
+>   db: ignore implicit-int and implicit-function-declaration issues fatal
+>     with gcc-14
+>   cdrtools-native: fix build with gcc-14
+>   expect: ignore various issues now fatal with gcc-14
+>
+> Michael Halstead (1):
+>   yocto-uninative: Update to 4.5 for gcc 14
+>
+> Zoltan Boszormenyi (2):
+>   cracklib: Modify patch to compile with GCC 14
+>   cdrtools-native: Fix build with GCC 14
+>
+>  meta/conf/distro/include/yocto-uninative.inc  |  8 ++--
+>  .../cdrtools/cdrtools-native_3.01.bb          | 12 ++++-
+>  .../cdrtools/cdrtools/gcc14-fix.patch         | 13 ++++++
+>  meta/recipes-devtools/expect/expect_5.45.4.bb |  7 +++
+>  ...port-dictionary-byte-order-dependent.patch |  2 +-
+>  ...e-dirent.h-for-closedir-opendir-APIs.patch | 45 +++++++++++++++++++
+>  ...2-unix.c-Do-not-redefine-DIR-as-FILE.patch | 35 ---------------
+>  meta/recipes-extended/zip/zip_3.0.bb          |  2 +-
+>  meta/recipes-support/db/db_5.3.28.bb          |  4 ++
+>  9 files changed, 85 insertions(+), 43 deletions(-)
+>  create mode 100644 meta/recipes-devtools/cdrtools/cdrtools/gcc14-fix.pat=
+ch
+>  create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Incl=
+ude-dirent.h-for-closedir-opendir-APIs.patch
+>  delete mode 100644 meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-=
+redefine-DIR-as-FILE.patch
 >
 > --
-> With best wishes
-> Dmitry
+> 2.25.1
 >
-
---000000000000b29900061b14945d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">RESOLVED WONTFIX I=E2=80=99m afraid. The set of tested ta=
-rgets is defined by YP members. If other targets regress, it=E2=80=99s on t=
-hose who need them to provide fixes.</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Alex=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon 17. Jun 2024 at 13.47, Dmitry Baryshko=
-v &lt;<a href=3D"mailto:dbaryshkov@gmail.com">dbaryshkov@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
-der-left-color:rgb(204,204,204)">On Mon, 17 Jun 2024 at 12:53, Alexander Ka=
-navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
-kanavin@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; No. It&#39;s not tested on the autobuilder.<br>
-<br>
-I see. Then consider it to be a bug report :-D<br>
-<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt; On Mon, 17 Jun 2024 at 11:51, Dmitry Baryshkov via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a> &lt;dbaryshkov=3D<a href=3D"mailto:gmai=
-l.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedde=
-d.org</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hello,<br>
-&gt; &gt;<br>
-&gt; &gt; Is qemuppc64 considered to be supported? We have been running CI =
-over<br>
-&gt; &gt; a set of machines, it seems that PPC64 kernel build is broken for=
-<br>
-&gt; &gt; quite some time:<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://storage.tuxsuite.com/public/linaro/dmitry.bary=
-shkov/oebuilds/2hzrcO3QvnkeNPVouoptwe4sFZf/build.log" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://storage.tuxsuite.com/public/linaro/dmitry.baryshkov=
-/oebuilds/2hzrcO3QvnkeNPVouoptwe4sFZf/build.log</a><br>
-&gt; &gt;<br>
-&gt; &gt; | /tmp/ccJSLBgE.s: Assembler messages:<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:765: Error: operand out of domain (18 is not a =
-multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:790: Error: operand out of domain (18 is not a =
-multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:815: Error: operand out of domain (18 is not a =
-multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:2435: Error: operand out of domain (19 is not a=
- multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:2461: Error: operand out of domain (19 is not a=
- multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:2486: Error: operand out of domain (19 is not a=
- multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:3590: Error: operand out of domain (18 is not a=
- multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:3616: Error: operand out of domain (18 is not a=
- multiple of 4)<br>
-&gt; &gt; | /tmp/ccJSLBgE.s:3641: Error: operand out of domain (18 is not a=
- multiple of 4)<br>
-&gt; &gt; | make[3]: *** [/oe/build/tmp/work-shared/qemuppc64/kernel-source=
-/scripts/Makefile.build:243:<br>
-&gt; &gt; fs/readdir.o] Error 1<br>
-&gt; &gt; | make[2]: *** [/oe/build/tmp/work-shared/qemuppc64/kernel-source=
-/scripts/Makefile.build:480:<br>
-&gt; &gt; fs] Error 2<br>
-&gt; &gt; | make[2]: *** Waiting for unfinished jobs....<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; With best wishes<br>
-&gt; &gt; Dmitry<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#200800): <a href=3D"https://lists.openembedde=
-d.org/g/openembedded-core/message/200800" rel=3D"noreferrer" target=3D"_bla=
-nk">https://lists.openembedded.org/g/openembedded-core/message/200800</a><b=
-r>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106=
-717814/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/mt/106717814/1686489</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gma=
-il.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
-<br>
-<br>
-<br>
--- <br>
-With best wishes<br>
-Dmitry<br>
-</blockquote></div></div>
-
---000000000000b29900061b14945d--
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200786): https://lists.openembedded.org/g/openembedde=
+d-core/message/200786
+> Mute This Topic: https://lists.openembedded.org/mt/106716173/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
