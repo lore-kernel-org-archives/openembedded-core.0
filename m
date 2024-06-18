@@ -2,112 +2,758 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0610FC2BA15
-	for <webhook@archiver.kernel.org>; Tue, 18 Jun 2024 08:01:52 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.80866.1718697708965751396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB1B1C27C4F
+	for <webhook@archiver.kernel.org>; Tue, 18 Jun 2024 08:05:51 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.81395.1718697950808065539
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jun 2024 01:01:49 -0700
+ Tue, 18 Jun 2024 01:05:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A+48mchO;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ec1e5505abso22238631fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jun 2024 01:01:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KqJn0Re0;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52bc3130ae6so5594042e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jun 2024 01:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718697707; x=1719302507; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+Q5fR+PwH1Q14X5qiG/1RhEXlH0LSUKpGx0Q5NPbdo=;
-        b=A+48mchOUW+64JMy4a93RjLcMbQjq8pfjKO6WjaOy3KRyUqqPVH0rnGM3fhtKfZzLq
-         Z2qO7KxpKfPpX80b1Egn3USXINozAuUSz6EOSTpeHWMarKpGgZ+AIX6j23VVf4Bolz98
-         SFUh1jfGZ1/rRffSb+BhdtufTl+dX/+bvk5n99Zz2uvkwW2OXhNeBF7wbX/P5gUnFwKr
-         30pETnJjhdzFkupV4TJEupnJYvnBIbgqFmWJD787E6uOylCsklpYOt9C4A4gHK9Uy0E3
-         7C0Q8JNF8QWLIzNz1Xhi9j1t6KpNPnGX7UqrDcjXUDJZf0WPsD8BMS7jbnWX90Qlv/RZ
-         0DUA==
+        d=gmail.com; s=20230601; t=1718697949; x=1719302749; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vBxpZV2j70RrKXvEhGAs+FIJ9W9hndBaqoR3/6G5AgU=;
+        b=KqJn0Re0qdtDw1P6epALal1EBVPuXC6k8eQ95jt9SjsBvJRr/BpUwtxpBbohPm68yn
+         rV9Onf/YuRfVCVFEO4QFWEqSwm8w2/W/4/DLwrmSZE0pmr3GxQKmRPEpwgz+1DiFqIe0
+         UHg8DRz+y1CW6GM2SkvQCue3LVVYlv/ORz9TwYJYAoUImxRCmKHUk3Ljz/0INQUhtOHG
+         ZkM85NYg2oUYd/ewYj26zqTc4enc8YThKMVmacxmOhWP/nFbj4feL7q0689QFtZsrrd4
+         +MiNv770cazhRBqCm/4E4J25t/At4OjkeDo6ClX71If/BGL7Ct2YvV6ZPeQr1P97/JGu
+         q6hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718697707; x=1719302507;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v+Q5fR+PwH1Q14X5qiG/1RhEXlH0LSUKpGx0Q5NPbdo=;
-        b=XG/zXT5oZUrHsS1hA4//rd/p8wYo4blUVdTVok6mfzYCnJcB7xOf/DXU8X7UPPzpcX
-         L7WSKmvN9g6/PbsgVM9hnp6Q+KXkHPG2/mISxy6SCmQXUhKYa1T3gOHd7GxUQJtyLS5x
-         lFVBAoin4aVHWI6t2RwlsxBX2sR3bHJox/OYuyQ5K2d00Qq3VfKs8McgFEYq+abY2C8O
-         2zpOsp2wvAKBJK1KNDGgKHt/FbNR32MEfvnmeiIZGEkv42SMG6WOyd0srloz8Y5VdOla
-         eKwbCbv90opWqddV+abEnXP+4WE0JktGYQ9IYNZlqPG3uXFIhvP2+Tvvhy8UYJads/Hv
-         ZElg==
-X-Gm-Message-State: AOJu0YwdHg9nhBVTopPGa/HbWvMP46NWuSXA1YccWakzT4OcboPYzksx
-	xzIaCSrJz921wO5PKTv6UdHHodfJ8lL+pcwYGF9wo6qtY0cDeFwdwb8Vidtz5O8rkPnZSwuHRRE
-	+Tuv5cB4eV1CT4lwgPWnc55XLPis=
-X-Google-Smtp-Source: AGHT+IE5T8wG+kb6NWr+D3E5vLvO0/m28Art0WtH8fD+vu5SqCoW6pHHwih+RHo5VnpAFRlo+m3A5NqDdi45mj61DkU=
-X-Received: by 2002:a2e:9f51:0:b0:2ec:39ec:d0b5 with SMTP id
- 38308e7fff4ca-2ec39ecd0e7mr1815341fa.18.1718697706300; Tue, 18 Jun 2024
- 01:01:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718697949; x=1719302749;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vBxpZV2j70RrKXvEhGAs+FIJ9W9hndBaqoR3/6G5AgU=;
+        b=t+XCMsNakGIoo4VzY5ygEqoop/dlQc25Tn6ywEjsWeeigvbodygYeE9BZZ7Gskozdi
+         seaSeqkDX7sMsc68+0RXI47oTX/6LktWy2gwvjitFRHEBEqV40DcHqbAZufyMw9y+FHr
+         0ATI37YTRE5Rx0kCn3xT6VWXljCbbOCoUc6RMNUx9KdlV1DQTxTDpTLAAQW3UXtve3Cy
+         urVzk/+/VUHLO1uOKLmeQMssOKrYjbX5jQ3wHtycyAaa/ra5g5Mal2DEnPLLpuaUqxbE
+         W3NSWzFSl/V86yySmpzq5MLipY7LanQ7S4sLned2aohvPdf1O8XoO9kwLNXEBdSksrDY
+         ErJA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8KQIJy+ObPjhIFZYfs1szxHu1NPsKXRn2xc8eMvODjueMdMMV5tAANVwTDRg+a9Q2j79gqFxtMIGXSvHpp9XT0aD6knftJnWD94kWqbgkPAUREJaAkqjO
+X-Gm-Message-State: AOJu0YxnOwrVlUiZPFFRay0VVIjEOemfigF0v4XV5k0iu5kn50QkmpTe
+	Fh+Q7JTWZimW2s+sji4BJMvCFSZ3p7/KYldjaHJBZgntOhkwIK1GC1XEsvwbzzu1Kfh6mtd2PW7
+	o/lFz5rR3Krt3WsyTc4p2MmGoVDCyHzVe
+X-Google-Smtp-Source: AGHT+IHQEoQUYPbaaoF4YpxP7c0IOqKkEVYhmiVw/B0TylyjQ/7sqkBTozmwOeviMffVBcHMbZt+AsSH9+psMw5USaM=
+X-Received: by 2002:a05:6512:2396:b0:52c:a9ba:d7f6 with SMTP id
+ 2adb3069b0e04-52ca9bad95fmr7667608e87.51.1718697948288; Tue, 18 Jun 2024
+ 01:05:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240618033019.1181198-1-changqing.li@windriver.com> <20240618033019.1181198-3-changqing.li@windriver.com>
-In-Reply-To: <20240618033019.1181198-3-changqing.li@windriver.com>
+References: <20240606033233.2634220-1-yi.zhao@windriver.com>
+ <CAOSpxdZ_U3=ot4HZtqph3U2RN3e7bK+PgHdmwzB_WG8JxuQn8g@mail.gmail.com> <9ca83d43-f53f-465d-9a4e-6fa1df2d4b9c@windriver.com>
+In-Reply-To: <9ca83d43-f53f-465d-9a4e-6fa1df2d4b9c@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Jun 2024 10:01:43 +0200
-Message-ID: <CANNYZj-S7gkEHb+mc9jjZxXn1xfs+V=eAtTgdJ_G_fa3KfZmtw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][master][PATCH 2/2] apt: runtime error:
- filename too long (tmpdir length)
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2024 10:05:45 +0200
+Message-ID: <CANNYZj-AJkzUc76J1YRC7gRHcAmY5txJp7pDe35R+AAhPVeojA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] dpkg: upgrade 1.21.4 -> 1.21.22
+To: randy.macleod@windriver.com
+Cc: steve@sakoman.com, yi.zhao@eng.windriver.com, 
+	openembedded-core@lists.openembedded.org, Ross Burton <ross.burton@arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jun 2024 08:01:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200862
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jun 2024 08:05:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200863
 
-On Tue, 18 Jun 2024 at 05:30, Changqing Li via lists.openembedded.org
-<changqing.li=windriver.com@lists.openembedded.org> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> when the tmpdir dir is longer than 220, there is no files saved in
-> tmp/sysroots/x86_64-linux/var/lib/apt/lists/ after run apt-get update,
-> this is because apt-get uses the path as the file name, but the file
-> name can't be longer than 255 according to /usr/include/linux/limits.h.
->
-> [YOCTO #2688]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->
-> Take back from https://git.openembedded.org/openembedded-core/commit/?id=9a0c0393871eda4bbcecfdd4b595f0c1b8e42edf
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  ...he-filename-can-t-be-longer-than-255.patch | 40 +++++++++++++++++++
->  meta/recipes-devtools/apt/apt_2.6.1.bb        |  1 +
->  2 files changed, 41 insertions(+)
->  create mode 100644 meta/recipes-devtools/apt/apt/0001-strutl.cc-the-filename-can-t-be-longer-than-255.patch
->
-> diff --git a/meta/recipes-devtools/apt/apt/0001-strutl.cc-the-filename-can-t-be-longer-than-255.patch b/meta/recipes-devtools/apt/apt/0001-strutl.cc-the-filename-can-t-be-longer-than-255.patch
-> new file mode 100644
-> index 0000000000..c88efa3aae
-> --- /dev/null
-> +++ b/meta/recipes-devtools/apt/apt/0001-strutl.cc-the-filename-can-t-be-longer-than-255.patch
-> @@ -0,0 +1,40 @@
-> +From 918295aa1320718d342116f76c98d2289d377800 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Tue, 18 Jun 2024 10:32:55 +0800
-> +Subject: [PATCH] strutl.cc: the filename can't be longer than 255
-> +
-> +The URItoFileName translates the path into the filename, but the
-> +filename can't be longer than 255 according to
-> +/usr/include/linux/limits.h.
-> +
-> +Truncate it when it is longer than 240 (leave some spaces for
-> +".Packages" and "._Release" suffix)
-> +
-> +Upstream-Status: Submitted [submit@bugs.debian.org]
+I'm not sure I follow what you say Randy. The stable branch policy for
+oe-core is clear: no new features, only bugfixes or security fixes.
+It's equally clear this update doesn't follow the policy, and so can't
+be accepted in kirkstone proper.
 
-Was this submitted just now, or is the status from the original patch?
-
-In any case, we need to trace the submissions, so please include a
-link to the bug page if there is one, or (better) re-submit as a pull
-request:
-https://salsa.debian.org/apt-team/apt
+The correct destination for this update is a new LTS mixin branch:
+https://git.yoctoproject.org/meta-lts-mixins/
 
 Alex
+
+On Mon, 17 Jun 2024 at 23:42, Randy MacLeod via lists.openembedded.org
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> On 2024-06-06 8:27 a.m., Steve Sakoman via lists.openembedded.org wrote:
+>
+> After reviewing the very large number of changes from 1.21.4 to
+> 1.21.22 I don't think this appropriate for an LTS release:
+>
+> https://launchpad.net/debian/+source/dpkg/+changelog
+>
+> Getting caught up...
+>
+>
+> If you can't trust Debian to adhere to semantic versioning for dpkg, who =
+can you trust? !!
+>
+> ;-)
+>
+> I'm not certain that this update makes sense but I think it's worth some =
+discussion.
+>
+> I've CCed Ross since he may know more about how  dpkg is maintained.
+>
+>
+> We're mostly looking for support for zstd (1), which was added, due to an=
+ Ubuntu change,
+> in 1.21.18 but unless the package really isn't using semantic versioning,=
+ we should be keeping it up to date regardless.
+>
+> I'm trying to understand if there's something about dpkg maintenance that=
+ I've missed.
+>
+>
+> FYI, Mickledore had version 1.21.22:
+>
+>    https://layers.openembedded.org/layerindex/branch/mickledore/recipes/?=
+q=3Ddpkg
+>
+> so at least it has seen some YP soaking and testing.
+>
+>
+> You can see that Debian developers do a good job of having a branch for e=
+ach major.minor release:
+>
+> =E2=9D=AF rg url .git/config
+> 8:    url =3D https://salsa.debian.org/dpkg-team/dpkg.git
+>
+> dpkg.git on main
+> =E2=9D=AF git branch -a | rg 1.[12]
+>   remotes/origin/1.13.x
+>   remotes/origin/1.14.x
+>   remotes/origin/1.15.x
+>   remotes/origin/1.16.x
+>   remotes/origin/1.17.x
+>   remotes/origin/1.18.x
+>   remotes/origin/1.19.x
+>   remotes/origin/1.20.x
+>   remotes/origin/1.21.x
+>   remotes/origin/next/1.16.x
+>
+> =E2=9D=AF git branch -a --contains 1.22.6
+>   main
+>   remotes/origin/main
+>
+> =E2=9D=AF git co 1.21.x
+> Your branch is up to date with 'origin/1.21.x'.
+>
+> # alias gl=3D'git log --pretty=3Dformat:'\''%C(auto)%h %C(blue) %<|(20) %=
+as %C(auto) %d %s'\'''
+>
+> =E2=9D=AF gl 1.21.4..1.21.22 | wc -l
+> 526
+>
+> ~ 1/6 are i18n updates:
+>
+> =E2=9D=AF gl 1.21.4..1.21.22 | rg  " po: "   | wc -l
+>
+> 93
+>
+> version updates:
+>
+> =E2=9D=AF gl 1.21.4..1.21.22 | rg -v " po: "| rg "Bump version" | wc -l
+> 18
+>
+>
+> and if you look, we've missed updates for 2022 and 2023 since dpkg hasn't=
+ been a priority for
+> any of the Yocto users it seems:
+>
+> CommitDate: Sat Mar 26 08:53:31 2022
+>
+> dpkg.git on 1.21.x
+>
+> =E2=9D=AF git log --pretty=3Dfuller 1.21.4..1.21.22  | rg CommitDate |  c=
+ut -d" " -f6  | uniq -c
+>     105 2023
+>     422 2022
+>
+> Any thoughts Ross?
+>
+> Steve,
+>
+> What can Yi do to help us understand the risk of code that worked with
+> 1.21.4 not working with 1.21.22 ?
+>
+> We should certainly add ptest support on oe-core/master and
+> depending on how this discussion goes, backport it to scarthgap and kirks=
+tone.
+>
+>
+> ../Randy
+>
+>
+> 1)
+>
+> commit 2c2f7066bd8c3209762762fa6905fa567b08ca5a
+> Author: Guillem Jover <guillem@debian.org>
+> Date:   Sun Jan 8 20:32:42 2023
+>
+>     libdpkg: Add zstd support for .deb archives
+>
+>     This adds support for .deb ZStandard compression and decompression.
+>     The main reason for this addition is due to Ubuntu having forked the
+>     .deb ecosystem when they added support for this unilaterally, so now
+>     there are many .deb in the wild using this compression format, which
+>     cannot be handled by the upstream dpkg-deb tool.
+>
+>     Although at least now the ZStandard format is widely used on many
+>     projects, has been specified within the IETF as RFC8878, so backwards
+>     compatibility and format stability are no longer a concern, and it ha=
+s
+>     good trade offs between size and speed.
+>
+>     This has been implemented from scratch, based on the initial prototyp=
+e
+>     code used during the early request evaluation. Using the new advanced
+>     API, with support for multi-threading, and using an I/O loop resembli=
+ng
+>     the one used with liblzma, as the plan is to eventually switch all
+>     compressors to use a single I/O loop implementation.
+>
+>     Closes: #892664
+>
+>
+> =E2=9D=AF git tag --contains 2c2f7066b
+> 1.21.18
+> 1.21.19
+> 1.21.20
+> 1.21.21
+> 1.21.22
+> 1.22.0
+> 1.22.1
+> 1.22.2
+> 1.22.3
+> 1.22.4
+> 1.22.5
+> 1.22.6
+>
+>
+>
+> Steve
+>
+> On Wed, Jun 5, 2024 at 8:32=E2=80=AFPM Yi Zhao via lists.openembedded.org
+> <yi.zhao=3Deng.windriver.com@lists.openembedded.org> wrote:
+>
+> ChangeLog:
+> https://salsa.debian.org/dpkg-team/dpkg/-/raw/1.21.x/debian/changelog
+>
+> * Add new dependency libmd
+> * Update SRC_URI
+> * Refresh patch
+> * Drop backport patch
+>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/recipes-devtools/dpkg/dpkg.inc           |   4 +-
+>  ...ive-Prevent-directory-traversal-for-.patch | 328 ------------------
+>  ...s-expect-D-to-be-set-when-running-in.patch |  14 +-
+>  .../dpkg/{dpkg_1.21.4.bb =3D> dpkg_1.21.22.bb}  |   5 +-
+>  4 files changed, 11 insertions(+), 340 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Arch=
+ive-Prevent-directory-traversal-for-.patch
+>  rename meta/recipes-devtools/dpkg/{dpkg_1.21.4.bb =3D> dpkg_1.21.22.bb} =
+(86%)
+>
+> diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/=
+dpkg/dpkg.inc
+> index 0d17a98b80..b3e8c05d62 100644
+> --- a/meta/recipes-devtools/dpkg/dpkg.inc
+> +++ b/meta/recipes-devtools/dpkg/dpkg.inc
+> @@ -4,8 +4,8 @@ HOMEPAGE =3D "https://salsa.debian.org/dpkg-team/dpkg"
+>  DESCRIPTION =3D "The primary interface for the dpkg suite is the dselect=
+ program. A more low-level and less user-friendly interface is available in=
+ the form of the dpkg command."
+>  SECTION =3D "base"
+>
+> -DEPENDS =3D "zlib bzip2 perl ncurses"
+> -DEPENDS:class-native =3D "bzip2-replacement-native zlib-native virtual/u=
+pdate-alternatives-native gettext-native perl-native"
+> +DEPENDS =3D "zlib bzip2 perl ncurses libmd"
+> +DEPENDS:class-native =3D "bzip2-replacement-native zlib-native virtual/u=
+pdate-alternatives-native gettext-native perl-native libmd-native"
+>  RDEPENDS:${PN} =3D "${VIRTUAL-RUNTIME_update-alternatives} perl"
+>  RDEPENDS:${PN}:class-native =3D ""
+>
+> diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Pre=
+vent-directory-traversal-for-.patch b/meta/recipes-devtools/dpkg/dpkg/0001-=
+Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
+> deleted file mode 100644
+> index d249d854fb..0000000000
+> --- a/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-di=
+rectory-traversal-for-.patch
+> +++ /dev/null
+> @@ -1,328 +0,0 @@
+> -From 6d8a6799639f8853a2af1f9036bc70fddbfdd2a2 Mon Sep 17 00:00:00 2001
+> -From: Guillem Jover <guillem@debian.org>
+> -Date: Tue, 3 May 2022 02:09:32 +0200
+> -Subject: [PATCH] Dpkg::Source::Archive: Prevent directory traversal for
+> - in-place extracts
+> -
+> -For untrusted v2 and v3 source package formats that include a debian.tar
+> -archive, when we are extracting it, we do that as an in-place extraction=
+,
+> -which can lead to directory traversal situations on specially crafted
+> -orig.tar and debian.tar tarballs.
+> -
+> -GNU tar replaces entries on the filesystem by the entries present on
+> -the tarball, but it will follow symlinks when the symlink pathname
+> -itself is not present as an actual directory on the tarball.
+> -
+> -This means we can create an orig.tar where there's a symlink pointing
+> -out of the source tree root directory, and then a debian.tar that
+> -contains an entry within that symlink as if it was a directory, without
+> -a directory entry for the symlink pathname itself, which will be
+> -extracted following the symlink outside the source tree root.
+> -
+> -This is currently noted as expected in GNU tar documentation. But even
+> -if there was a new extraction mode avoiding this problem we'd need such
+> -new version. Using perl's Archive::Tar would solve the problem, but
+> -switching to such different pure perl implementation, could cause
+> -compatibility or performance issues.
+> -
+> -What we do is when we are requested to perform an in-place extract, we
+> -instead still use a temporary directory, then walk that directory and
+> -remove any matching entry in the destination directory, replicating what
+> -GNU tar would do, but in addition avoiding the directory traversal issue
+> -for symlinks. Which should work with any tar implementation and be safe.
+> -
+> -Reported-by: Max Justicz <max@justi.cz>
+> -Stable-Candidates: 1.18.x 1.19.x 1.20.x
+> -Fixes: commit 0c0057a27fecccab77d2b3cffa9a7d172846f0b4 (1.14.17)
+> -Fixes: CVE-2022-1664
+> -
+> -CVE: CVE-2022-1664
+> -Upstream-Status: Backport [7a6c03cb34d4a09f35df2f10779cbf1b70a5200b]
+> -
+> -Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> ----
+> - scripts/Dpkg/Source/Archive.pm  | 122 +++++++++++++++++++++++++-------
+> - scripts/t/Dpkg_Source_Archive.t | 110 +++++++++++++++++++++++++++-
+> - 2 files changed, 204 insertions(+), 28 deletions(-)
+> -
+> -diff --git a/scripts/Dpkg/Source/Archive.pm b/scripts/Dpkg/Source/Archiv=
+e.pm
+> -index 33c181b20..2ddd04af8 100644
+> ---- a/scripts/Dpkg/Source/Archive.pm
+> -+++ b/scripts/Dpkg/Source/Archive.pm
+> -@@ -21,9 +21,11 @@ use warnings;
+> - our $VERSION =3D '0.01';
+> -
+> - use Carp;
+> -+use Errno qw(ENOENT);
+> - use File::Temp qw(tempdir);
+> - use File::Basename qw(basename);
+> - use File::Spec;
+> -+use File::Find;
+> - use Cwd;
+> -
+> - use Dpkg ();
+> -@@ -110,19 +112,13 @@ sub extract {
+> -     my %spawn_opts =3D (wait_child =3D> 1);
+> -
+> -     # Prepare destination
+> --    my $tmp;
+> --    if ($opts{in_place}) {
+> --        $spawn_opts{chdir} =3D $dest;
+> --        $tmp =3D $dest; # So that fixperms call works
+> --    } else {
+> --        my $template =3D basename($self->get_filename()) .  '.tmp-extra=
+ct.XXXXX';
+> --        unless (-e $dest) {
+> --            # Kludge so that realpath works
+> --            mkdir($dest) or syserr(g_('cannot create directory %s'), $d=
+est);
+> --        }
+> --        $tmp =3D tempdir($template, DIR =3D> Cwd::realpath("$dest/.."),=
+ CLEANUP =3D> 1);
+> --        $spawn_opts{chdir} =3D $tmp;
+> -+    my $template =3D basename($self->get_filename()) .  '.tmp-extract.X=
+XXXX';
+> -+    unless (-e $dest) {
+> -+        # Kludge so that realpath works
+> -+        mkdir($dest) or syserr(g_('cannot create directory %s'), $dest)=
+;
+> -     }
+> -+    my $tmp =3D tempdir($template, DIR =3D> Cwd::realpath("$dest/.."), =
+CLEANUP =3D> 1);
+> -+    $spawn_opts{chdir} =3D $tmp;
+> -
+> -     # Prepare stuff that handles the input of tar
+> -     $self->ensure_open('r', delete_sig =3D> [ 'PIPE' ]);
+> -@@ -145,22 +141,94 @@ sub extract {
+> -     # have to be calculated using mount options and other madness.
+> -     fixperms($tmp) unless $opts{no_fixperms};
+> -
+> --    # Stop here if we extracted in-place as there's nothing to move aro=
+und
+> --    return if $opts{in_place};
+> --
+> --    # Rename extracted directory
+> --    opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
+> --    my @entries =3D grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
+> --    closedir($dir_dh);
+> --    my $done =3D 0;
+> --    erasedir($dest);
+> --    if (scalar(@entries) =3D=3D 1 && ! -l "$tmp/$entries[0]" && -d _) {
+> --      rename("$tmp/$entries[0]", $dest)
+> --          or syserr(g_('unable to rename %s to %s'),
+> --                    "$tmp/$entries[0]", $dest);
+> -+    # If we are extracting "in-place" do not remove the destination dir=
+ectory.
+> -+    if ($opts{in_place}) {
+> -+        my $canon_basedir =3D Cwd::realpath($dest);
+> -+        # On Solaris /dev/null points to /devices/pseudo/mm@0:null.
+> -+        my $canon_devnull =3D Cwd::realpath('/dev/null');
+> -+        my $check_symlink =3D sub {
+> -+            my $pathname =3D shift;
+> -+            my $canon_pathname =3D Cwd::realpath($pathname);
+> -+            if (not defined $canon_pathname) {
+> -+                return if $! =3D=3D ENOENT;
+> -+
+> -+                syserr(g_("pathname '%s' cannot be canonicalized"), $pa=
+thname);
+> -+            }
+> -+            return if $canon_pathname eq $canon_devnull;
+> -+            return if $canon_pathname eq $canon_basedir;
+> -+            return if $canon_pathname =3D~ m{^\Q$canon_basedir/\E};
+> -+            warning(g_("pathname '%s' points outside source root (to '%=
+s')"),
+> -+                    $pathname, $canon_pathname);
+> -+        };
+> -+
+> -+        my $move_in_place =3D sub {
+> -+            my $relpath =3D File::Spec->abs2rel($File::Find::name, $tmp=
+);
+> -+            my $destpath =3D File::Spec->catfile($dest, $relpath);
+> -+
+> -+            my ($mode, $atime, $mtime);
+> -+            lstat $File::Find::name
+> -+                or syserr(g_('cannot get source pathname %s metadata'),=
+ $File::Find::name);
+> -+            ((undef) x 2, $mode, (undef) x 5, $atime, $mtime) =3D lstat=
+ _;
+> -+            my $src_is_dir =3D -d _;
+> -+
+> -+            my $dest_exists =3D 1;
+> -+            if (not lstat $destpath) {
+> -+                if ($! =3D=3D ENOENT) {
+> -+                    $dest_exists =3D 0;
+> -+                } else {
+> -+                    syserr(g_('cannot get target pathname %s metadata')=
+, $destpath);
+> -+                }
+> -+            }
+> -+            my $dest_is_dir =3D -d _;
+> -+            if ($dest_exists) {
+> -+                if ($dest_is_dir && $src_is_dir) {
+> -+                    # Refresh the destination directory attributes with=
+ the
+> -+                    # ones from the tarball.
+> -+                    chmod $mode, $destpath
+> -+                        or syserr(g_('cannot change directory %s mode')=
+, $File::Find::name);
+> -+                    utime $atime, $mtime, $destpath
+> -+                        or syserr(g_('cannot change directory %s times'=
+), $File::Find::name);
+> -+
+> -+                    # We should do nothing, and just walk further tree.
+> -+                    return;
+> -+                } elsif ($dest_is_dir) {
+> -+                    rmdir $destpath
+> -+                        or syserr(g_('cannot remove destination directo=
+ry %s'), $destpath);
+> -+                } else {
+> -+                    $check_symlink->($destpath);
+> -+                    unlink $destpath
+> -+                        or syserr(g_('cannot remove destination file %s=
+'), $destpath);
+> -+                }
+> -+            }
+> -+            # If we are moving a directory, we do not need to walk it.
+> -+            if ($src_is_dir) {
+> -+                $File::Find::prune =3D 1;
+> -+            }
+> -+            rename $File::Find::name, $destpath
+> -+                or syserr(g_('cannot move %s to %s'), $File::Find::name=
+, $destpath);
+> -+        };
+> -+
+> -+        find({
+> -+            wanted =3D> $move_in_place,
+> -+            no_chdir =3D> 1,
+> -+            dangling_symlinks =3D> 0,
+> -+        }, $tmp);
+> -     } else {
+> --      rename($tmp, $dest)
+> --          or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+> -+        # Rename extracted directory
+> -+        opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $t=
+mp);
+> -+        my @entries =3D grep { $_ ne '.' && $_ ne '..' } readdir($dir_d=
+h);
+> -+        closedir($dir_dh);
+> -+
+> -+        erasedir($dest);
+> -+
+> -+        if (scalar(@entries) =3D=3D 1 && ! -l "$tmp/$entries[0]" && -d =
+_) {
+> -+            rename("$tmp/$entries[0]", $dest)
+> -+                or syserr(g_('unable to rename %s to %s'),
+> -+                          "$tmp/$entries[0]", $dest);
+> -+        } else {
+> -+            rename($tmp, $dest)
+> -+                or syserr(g_('unable to rename %s to %s'), $tmp, $dest)=
+;
+> -+        }
+> -     }
+> -     erasedir($tmp);
+> - }
+> -diff --git a/scripts/t/Dpkg_Source_Archive.t b/scripts/t/Dpkg_Source_Arc=
+hive.t
+> -index 7b70da68e..504fbe1d4 100644
+> ---- a/scripts/t/Dpkg_Source_Archive.t
+> -+++ b/scripts/t/Dpkg_Source_Archive.t
+> -@@ -16,12 +16,120 @@
+> - use strict;
+> - use warnings;
+> -
+> --use Test::More tests =3D> 1;
+> -+use Test::More tests =3D> 4;
+> -+use Test::Dpkg qw(:paths);
+> -+
+> -+use File::Spec;
+> -+use File::Path qw(make_path rmtree);
+> -
+> - BEGIN {
+> -     use_ok('Dpkg::Source::Archive');
+> - }
+> -
+> -+use Dpkg;
+> -+
+> -+my $tmpdir =3D test_get_temp_path();
+> -+
+> -+rmtree($tmpdir);
+> -+
+> -+sub test_touch
+> -+{
+> -+    my ($name, $data) =3D @_;
+> -+
+> -+    open my $fh, '>', $name
+> -+        or die "cannot touch file $name\n";
+> -+    print { $fh } $data if $data;
+> -+    close $fh;
+> -+}
+> -+
+> -+sub test_path_escape
+> -+{
+> -+    my $name =3D shift;
+> -+
+> -+    my $treedir =3D File::Spec->rel2abs("$tmpdir/$name-tree");
+> -+    my $overdir =3D File::Spec->rel2abs("$tmpdir/$name-overlay");
+> -+    my $outdir =3D "$tmpdir/$name-out";
+> -+    my $expdir =3D "$tmpdir/$name-exp";
+> -+
+> -+    # This is the base directory, where we are going to be extracting s=
+tuff
+> -+    # into, which include traps.
+> -+    make_path("$treedir/subdir-a");
+> -+    test_touch("$treedir/subdir-a/file-a");
+> -+    test_touch("$treedir/subdir-a/file-pre-a");
+> -+    make_path("$treedir/subdir-b");
+> -+    test_touch("$treedir/subdir-b/file-b");
+> -+    test_touch("$treedir/subdir-b/file-pre-b");
+> -+    symlink File::Spec->abs2rel($outdir, $treedir), "$treedir/symlink-e=
+scape";
+> -+    symlink File::Spec->abs2rel("$outdir/nonexistent", $treedir), "$tre=
+edir/symlink-nonexistent";
+> -+    symlink "$treedir/file", "$treedir/symlink-within";
+> -+    test_touch("$treedir/supposed-dir");
+> -+
+> -+    # This is the overlay directory, which we'll pack and extract over =
+the
+> -+    # base directory.
+> -+    make_path($overdir);
+> -+    make_path("$overdir/subdir-a/aa");
+> -+    test_touch("$overdir/subdir-a/aa/file-aa", 'aa');
+> -+    test_touch("$overdir/subdir-a/file-a", 'a');
+> -+    make_path("$overdir/subdir-b/bb");
+> -+    test_touch("$overdir/subdir-b/bb/file-bb", 'bb');
+> -+    test_touch("$overdir/subdir-b/file-b", 'b');
+> -+    make_path("$overdir/symlink-escape");
+> -+    test_touch("$overdir/symlink-escape/escaped-file", 'escaped');
+> -+    test_touch("$overdir/symlink-nonexistent", 'nonexistent');
+> -+    make_path("$overdir/symlink-within");
+> -+    make_path("$overdir/supposed-dir");
+> -+    test_touch("$overdir/supposed-dir/supposed-file", 'something');
+> -+
+> -+    # Generate overlay tar.
+> -+    system($Dpkg::PROGTAR, '-cf', "$overdir.tar", '-C', $overdir, qw(
+> -+        subdir-a subdir-b
+> -+        symlink-escape/escaped-file symlink-nonexistent symlink-within
+> -+        supposed-dir
+> -+        )) =3D=3D 0
+> -+        or die "cannot create overlay tar archive\n";
+> -+
+> -+   # This is the expected directory, which we'll be comparing against.
+> -+    make_path($expdir);
+> -+    system('cp', '-a', $overdir, $expdir) =3D=3D 0
+> -+        or die "cannot copy overlay hierarchy into expected directory\n=
+";
+> -+
+> -+    # Store the expected and out reference directories into a tar to co=
+mpare
+> -+    # its structure against the result reference.
+> -+    system($Dpkg::PROGTAR, '-cf', "$expdir.tar", '-C', $overdir, qw(
+> -+        subdir-a subdir-b
+> -+        symlink-escape/escaped-file symlink-nonexistent symlink-within
+> -+        supposed-dir
+> -+        ), '-C', $treedir, qw(
+> -+        subdir-a/file-pre-a
+> -+        subdir-b/file-pre-b
+> -+        )) =3D=3D 0
+> -+        or die "cannot create expected tar archive\n";
+> -+
+> -+    # This directory is supposed to remain empty, anything inside impli=
+es a
+> -+    # directory traversal.
+> -+    make_path($outdir);
+> -+
+> -+    my $warnseen;
+> -+    local $SIG{__WARN__} =3D sub { $warnseen =3D $_[0] };
+> -+
+> -+    # Perform the extraction.
+> -+    my $tar =3D Dpkg::Source::Archive->new(filename =3D> "$overdir.tar"=
+);
+> -+    $tar->extract($treedir, in_place =3D> 1);
+> -+
+> -+    # Store the result into a tar to compare its structure against a re=
+ference.
+> -+    system($Dpkg::PROGTAR, '-cf', "$treedir.tar", '-C', $treedir, '.');
+> -+
+> -+    # Check results
+> -+    ok(length $warnseen && $warnseen =3D~ m/points outside source root/=
+,
+> -+       'expected warning seen');
+> -+    ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $=
+treedir) =3D=3D 0,
+> -+       'expected directory matches');
+> -+    ok(! -e "$outdir/escaped-file",
+> -+       'expected output directory is empty, directory traversal');
+> -+}
+> -+
+> -+test_path_escape('in-place');
+> -+
+> - # TODO: Add actual test cases.
+> -
+> - 1;
+> ---
+> -2.33.0
+> -
+> diff --git a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expec=
+t-D-to-be-set-when-running-in.patch b/meta/recipes-devtools/dpkg/dpkg/0003-=
+Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
+> index 75ae848264..5e52427caf 100644
+> --- a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-=
+be-set-when-running-in.patch
+> +++ b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-=
+be-set-when-running-in.patch
+> @@ -1,4 +1,4 @@
+> -From dd11ed66640f79143e42d778b58fdd5a61fb5836 Mon Sep 17 00:00:00 2001
+> +From 115fed94be9c61d2a8de21e7d169b5872e9ebd09 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Wed, 26 Aug 2015 16:25:45 +0300
+>  Subject: [PATCH] Our pre/postinsts expect $D to be set when running in a
+> @@ -12,21 +12,21 @@ ALIMON 2016/05/26
+>  ALIMON 2017/02/21
+>  KKang 2019/02/20
+>  ---
+> - src/main/script.c | 54 +++--------------------------------------------
+> - 1 file changed, 3 insertions(+), 51 deletions(-)
+> + src/main/script.c | 53 +++--------------------------------------------
+> + 1 file changed, 3 insertions(+), 50 deletions(-)
+>
+>  diff --git a/src/main/script.c b/src/main/script.c
+> -index abe65b6..0edb8f1 100644
+> +index b4f369dfa..559a49cc5 100644
+>  --- a/src/main/script.c
+>  +++ b/src/main/script.c
+> -@@ -96,58 +96,10 @@ setexecute(const char *path, struct stat *stab)
+> - static const char *
+> +@@ -97,58 +97,11 @@ static const char *
+>   maintscript_pre_exec(struct command *cmd)
+>   {
+> +       const char *instdir =3D dpkg_fsys_get_dir();
+>  -      const char *admindir =3D dpkg_db_get_dir();
+>  -      const char *changedir;
+>  -      size_t instdirlen =3D strlen(instdir);
+> --
+> +
+>  -      if (instdirlen > 0 && in_force(FORCE_SCRIPT_CHROOTLESS))
+>  -              changedir =3D instdir;
+>  -      else
+> diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-dev=
+tools/dpkg/dpkg_1.21.22.bb
+> similarity index 86%
+> rename from meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+> rename to meta/recipes-devtools/dpkg/dpkg_1.21.22.bb
+> index 7ef6233ee4..04bcc93321 100644
+> --- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+> +++ b/meta/recipes-devtools/dpkg/dpkg_1.21.22.bb
+> @@ -1,7 +1,7 @@
+>  require dpkg.inc
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe"
+>
+> -SRC_URI =3D "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=3Dhttps;=
+branch=3Dmain \
+> +SRC_URI =3D "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=3Dhttps;=
+branch=3D1.21.x \
+>             file://noman.patch \
+>             file://remove-tar-no-timestamp.patch \
+>             file://arch_pm.patch \
+> @@ -14,11 +14,10 @@ SRC_URI =3D "git://salsa.debian.org/dpkg-team/dpkg.gi=
+t;protocol=3Dhttps;branch=3Dmain
+>             file://0001-dpkg-Support-muslx32-build.patch \
+>             file://pager.patch \
+>             file://0001-Add-support-for-riscv32-CPU.patch \
+> -           file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-f=
+or-.patch \
+>             "
+>
+>  SRC_URI:append:class-native =3D " file://0001-build.c-ignore-return-of-1=
+-from-tar-cf.patch"
+>
+> -SRCREV =3D "5563bdb608b3413639b69f1c76567cb66ff1a961"
+> +SRCREV =3D "48482e4f16467e05a08aa3b3b8048e08f0024609"
+>
+>  S =3D "${WORKDIR}/git"
+> --
+> 2.25.1
+>
+>
+>
+>
+>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200851): https://lists.openembedded.org/g/openembedde=
+d-core/message/200851
+> Mute This Topic: https://lists.openembedded.org/mt/106517331/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
