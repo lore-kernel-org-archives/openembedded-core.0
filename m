@@ -2,110 +2,210 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74635C27C79
-	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 14:50:04 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.23084.1718808599207882969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B10C27C79
+	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 15:01:14 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.23185.1718809264009258989
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jun 2024 07:49:59 -0700
+ Wed, 19 Jun 2024 08:01:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iMgucp9U;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6ef64b092cso838860766b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 07:49:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J29I2wEa;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52caebc6137so4190009e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 08:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718808597; x=1719413397; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9B7A21j0wdGNEZFSQiQqIOZ4KJE9t8wcNaAKp5XN4c=;
-        b=iMgucp9UiPPZ0/7WkrHWuR1z7i9sO0oOv3afZpGjO03b8TPU3rlqCc3VzFnc6mzby0
-         OaFvva4WBTbWWE0GdOkuXJTuIWALYFVQJGnAuh8BzI4eC7Kn0yZi1JgFqKXh40dCKR0Q
-         OKaLULuEqgXzsRvQBYb1Q3itbC/gIRfOKEBvKif0f5p+qCEdG0uK6UQRZME+AtDnAI7T
-         mqJgktRovJTgHx7rQ7Bu98s78qnKPHYlUigQ3fCRsaB9WjBaUE0VcL5AQwAa8VHUrL48
-         vyvkigYt026MTcrPvDud+6om14Lk76KkpHRFepeH/Y3VasVeVFuspradCqD21FrW36NS
-         m2lA==
+        d=gmail.com; s=20230601; t=1718809262; x=1719414062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z1GIwbbON5YNHv6ot9KgNt8qiEKAirWP4RlpZJGLCC0=;
+        b=J29I2wEakhoqHi2epCNruLbeHlG9SqFqOmP70Y82MiWLIafX8Dh7l9QuuGSj9aEXd6
+         vt5f/r4bU+JbiU+hCXW9Edhu3UW618LT6GzybXQeAu4jMZDiAlgaecv6kq6NAOCxEcVg
+         a7k1WIWw0T5xAKT7N+d1AOj5gUeCD5XqJAMxZdaT44ZuPGQ4+x2fFHOF+ckmA6aY7uAd
+         8UHj9iD4yNarCskViQpQejKDKd6vIhk+CzpeDnFeven3BjJmHyxvnFQuuVKbvZslAI5A
+         DyWsKpwibyMHaOW+A18HWWP6+nZBzbdHP/V5gzX9grbknCINsjPMNMyp5rFae4pOUKva
+         oiOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718808597; x=1719413397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W9B7A21j0wdGNEZFSQiQqIOZ4KJE9t8wcNaAKp5XN4c=;
-        b=B311CpB46HJfcXUo8ZttNiCdZtms2/uEQD6LdxM7e1YHzV3bPH1CihUz7HAArS94PC
-         7tLlpswsPbmUNoirUlJgPyeR8SPJn6YLkhJ+6hcu2PxBKdgtBlOANQm7sOwoTy70bcpx
-         P0SPEOSjv49N5SYl3x0pvC2Sv/aD7DZcbsUDoT8fPhG3oP70UWu4VyQcu6mBfr3URRXC
-         qEx+pRQgQp2Xov23lrDpcK0hhjp83UnwqB01YWw1LCLkNx1OZAx9aT3gGYC9mLrrkg7n
-         nZojXtowuAsb1jntZ05cjz0Rw6dv0n9oPLApzMRjTCpEZ024lUygcEhhzbYvAC5meo7+
-         YTUA==
-X-Gm-Message-State: AOJu0Yz2lmyckEwfi1tFxxb+fMFv5gG/NnjJLZXsExdcsWrSbvv4+hiX
-	WRg4Sagy10Dcb67y0nDGveI1q2On6XmMsPlN8s6Y/NpYMcig9nIa+8yuBg==
-X-Google-Smtp-Source: AGHT+IEHcDkv2dUZtjmp00vio39Z8M5L0Y0vj/IMABJorVROZ+lpKPZx5dW0KEkF2uZ3EIARWdd1pw==
-X-Received: by 2002:a17:906:6a25:b0:a6f:1cf9:9b56 with SMTP id a640c23a62f3a-a6fab60bc7fmr214004066b.9.1718808597394;
-        Wed, 19 Jun 2024 07:49:57 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fb688727bsm24866966b.20.2024.06.19.07.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 07:49:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [RFC PATCH] libgfortran.inc: fix nativesdk-libgfortran dependencies
-Date: Wed, 19 Jun 2024 16:47:55 +0200
-Message-ID: <20240619144755.2200541-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1718809262; x=1719414062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z1GIwbbON5YNHv6ot9KgNt8qiEKAirWP4RlpZJGLCC0=;
+        b=HioUEueBFDSm75IwcxN85nQgl61d0eXBQJnau/+C8oRUSyr5PEkWANJi5AXcYs4UTA
+         9izWgX8S3Y9TGDJfSh+w8+Ufu2aQijFpbNbrcX+Ger/j7J3g5iOb2ddgKCsLAUB3XcAk
+         XV8foW3c+RYsDL2//5jPksiYvXYWIXyi/Ch1flEXUdBt9lwhARNfHH7A1q/h4nnbUC5m
+         W4wtS+iI8xicp2MlTzZUPXPCS5rqBSutRy+7Vkcm2bep7dqDycKRsJwq+RyJOuVvOTWH
+         HFGydAfbNtrf2pgjkCWlB2b5Qb0mLS51WdpGT+gjKjt2s3J/OFIAfiZdbuveKMY16CLJ
+         uoXw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjnzhW6pkoQATo/f3JZ6EtTRXfUpj2T4+0FtKHfSjAu1vpLtWwUTP90nfSmPGddciL/9PgJiXBElV/haPbxUZFp2Rs4rrsfkIZuiVm0p2kRa+YfDV5R2P9
+X-Gm-Message-State: AOJu0Ywd57DDWYqf6sh5HvdgeNFfVGSEQBgLHMCWA8KAtVzFuTsYpQGu
+	+XccQNK7IA1Vv2p/rIEO3PJecTbjVW/21um8mNPhL+7mPEph8itGy97H+V9Q+6Lc5mWl70gHrYR
+	0s6jnap8V7nOQoxkkvFNPAip1op0=
+X-Google-Smtp-Source: AGHT+IHUPtZRXn2272ziXpe/qibYtnDIZKYIEstdWkhR2NWhxZ4w3A0v7TN0/zqrBqITw59OO6OcvD+9sCfSvz2RM+0=
+X-Received: by 2002:a19:5518:0:b0:52c:7f9a:5053 with SMTP id
+ 2adb3069b0e04-52ccaa5d811mr1626145e87.23.1718809261850; Wed, 19 Jun 2024
+ 08:01:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240616153135.3058410-1-kai.kang@windriver.com>
+ <20240616153135.3058410-2-kai.kang@windriver.com> <17DA6AA6C1087792.28936@lists.openembedded.org>
+In-Reply-To: <17DA6AA6C1087792.28936@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 19 Jun 2024 17:00:41 +0200
+Message-ID: <CA+chaQexmQso_xy45yCMU_EsVDq9RsX+qmmuuVb3r8ur3XQe4A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/1] gfortran: update runtime dependencies
+To: martin.jansa@gmail.com
+Cc: kai.kang@windriver.com, richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 14:50:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200915
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 15:01:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200916
 
-* use virtual/* variables as INHIBIT_DEFAULT_DEPS does to avoid dependency on gcc-cross-
-  from nativesdk-libgfortran
+See https://lists.openembedded.org/g/openembedded-core/message/200915
+which allows to me to build nativesdk-gcc again.
 
-* the dependency was added in:
-  https://git.openembedded.org/openembedded-core/commit/?id=00fba52c8a6f6383137cf89fc7aa34cc3e2ff45f
-  causing:
+I've built nativesdk-libgfortran and libgfortran with the patch, but
+haven't used fortran in runtime at all, that's why it's an RFC, there
+were also 2 warnings:
+WARNING: nativesdk-libgfortran-14.1.0-r0 do_package_qa: QA Issue: File
+/opt/.../usr/lib/.debug/libgfortran.so.5.0.0 in package
+nativesdk-libgfortran-dbg contains reference to TMPDIR [buildpaths]
+WARNING: libgfortran-14.1.0-r0 do_package_qa: QA Issue: File
+/usr/lib/.debug/libgfortran.so.5.0.0 in package libgfortran-dbg
+contains reference to TMPDIR [buildpaths]
+which I guess were already there.
 
-  build/oe-core $ bitbake -g nativesdk-libgfortran
-  NOTE: Resolving any missing task queue dependencies
-  ERROR: Nothing PROVIDES 'gcc-cross-x86_64' (but virtual:nativesdk:/OE/build/oe-core/openembedded-core/meta/recipes-devtools/gcc/libgfortran_14.1.bb DEPENDS on or otherwise requires it). Close matches:
-  gcc-cross-aarch64
-  ...
-
-  with:
-  MACHINE=qemuarm64
-  FORTRAN:forcevariable = ",fortran"
-
-* after:
-  https://git.openembedded.org/openembedded-core/commit/?id=44fc7aa1468ff042739cc5a91c84ef5c2a09e0a3
-  nativesdk-libgfortran is pulled as dependency of nativesdk-gcc so this affects
-  more people who didn't explicitly use nativesdk-libgfortran before
-
-* the INHIBIT_DEFAULT_DEPS and gcc-runtime was there since gcc-4.8:
-  https://git.openembedded.org/openembedded-core/commit/?id=a5e7ee5770b9e0cf719c573efffd874440f74289
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- meta/recipes-devtools/gcc/libgfortran.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
-index e810146d4d..c68645e392 100644
---- a/meta/recipes-devtools/gcc/libgfortran.inc
-+++ b/meta/recipes-devtools/gcc/libgfortran.inc
-@@ -47,8 +47,9 @@ do_install () {
- 	chown -R root:root ${D}
- }
- 
-+# avoid virtual/libc
- INHIBIT_DEFAULT_DEPS = "1"
--DEPENDS = "gcc-runtime gcc-cross-${TARGET_ARCH}"
-+DEPENDS = "virtual/${HOST_PREFIX}gcc virtual/${HOST_PREFIX}compilerlibs"
- 
- BBCLASSEXTEND = "nativesdk"
- 
--- 
-2.45.2
-
+On Wed, Jun 19, 2024 at 3:24=E2=80=AFPM Martin Jansa via
+lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> Something seems wrong with this change which was merged today, now with:
+> MACHINE=3Dqemuarm64
+> FORTRAN:forcevariable =3D ",fortran"
+>
+> I'm seeing:
+> build/oe-core $ bitbake -g nativesdk-libgfortran
+> NOTE: Resolving any missing task queue dependencies
+> ERROR: Nothing PROVIDES 'gcc-cross-x86_64' (but
+> virtual:nativesdk:/OE/build/oe-core/openembedded-core/meta/recipes-devtoo=
+ls/gcc/libgfortran_14.1.bb
+> DEPENDS on or otherwise requires it). Close matches:
+>   gcc-cross-aarch64
+> ...
+>
+> This might have been broken even before this change, but now it got
+> included in dependency tree of nativesdk-gcc (as shown in bitbake -g
+> nativesdk-gcc now failing when host and target arch don't match):
+>
+> "nativesdk-gcc.do_package_qa" -> "nativesdk-libgfortran.do_packagedata"
+> nativesdk-gcc.do_package_write_ipk" -> "nativesdk-libgfortran.do_packaged=
+ata"
+>
+> Missing or unbuildable dependency chain was: ['image',
+> 'nativesdk-packagegroup-sdk-host', 'nativesdk-lcov',
+> 'nativesdk-gcov-symlinks', 'nativesdk-libgfortran-dev',
+> 'gcc-cross-x86_64']
+>
+> I guess the easiest fix would be in:
+> meta/recipes-devtools/gcc/libgfortran.inc:DEPENDS =3D "gcc-runtime
+> gcc-cross-${TARGET_ARCH}"
+> but I'm not very familiar with fortran (we've enabled it long time ago
+> to build lapack(blas) for snowboy, but wasn't actively used for couple
+> years).
+>
+> Regards,
+>
+>
+>
+> On Sun, Jun 16, 2024 at 5:32=E2=80=AFPM Kai Kang via lists.openembedded.o=
+rg
+> <kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
+> >
+> > From: Kai Kang <kai.kang@windriver.com>
+> >
+> > It fails to run both `gcc` and `gfortran` with errors:
+> >
+> > | root@qemux86-64:~# x86_64-poky-linux-gcc a.c
+> > | x86_64-poky-linux-gcc: fatal error: cannot execute 'as': posix_spawnp=
+: No such file or directory
+> >
+> > then add binutils which provides `as` to RDEPENDS of gcc.
+> >
+> > libgfortran-dev provides libgfortran.spec which required by gfortran:
+> >
+> > | root@qemux86-64:~# gfortran hello.f95
+> > | gfortran: fatal error: cannot read spec file 'libgfortran.spec': No s=
+uch file or directory
+> >
+> > And gcc provides liblto_plugin.so:
+> >
+> > | root@qemux86-64:~# gfortran hello.f95
+> > | gfortran: fatal error: '-fuse-linker-plugin', but liblto_plugin.so no=
+t found
+> >
+> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-target.inc | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-de=
+vtools/gcc/gcc-target.inc
+> > index 8e9693b4cb..e9187fc444 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> > @@ -33,7 +33,7 @@ PACKAGES =3D "\
+> >      ${PN} ${PN}-plugins ${PN}-symlinks \
+> >      g++ g++-symlinks \
+> >      cpp cpp-symlinks \
+> > -    gfortran gfortran-symlinks \
+> > +    ${@bb.utils.contains('FORTRAN', ',fortran', 'gfortran gfortran-sym=
+links', '', d)} \
+> >      gcov gcov-symlinks \
+> >      ${PN}-doc \
+> >      ${PN}-dev \
+> > @@ -60,7 +60,7 @@ RRECOMMENDS:${PN} +=3D "\
+> >      libssp \
+> >      libssp-dev \
+> >  "
+> > -RDEPENDS:${PN} +=3D "cpp"
+> > +RDEPENDS:${PN} +=3D "binutils cpp"
+> >
+> >  FILES:${PN}-dev =3D "\
+> >      ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
+> > @@ -80,10 +80,15 @@ FILES:${PN}-plugins =3D "\
+> >  "
+> >  ALLOW_EMPTY:${PN}-plugins =3D "1"
+> >
+> > +INSANE_SKIP:${MLPREFIX}gfortran +=3D "dev-deps"
+> >  FILES:gfortran =3D "\
+> >      ${bindir}/${TARGET_PREFIX}gfortran \
+> >      ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
+> >  "
+> > +RDEPENDS:gfortran =3D "\
+> > +    gcc \
+> > +    libgfortran-dev \
+> > +"
+> >  RRECOMMENDS:gfortran =3D "\
+> >      libquadmath \
+> >      libquadmath-dev \
+> > --
+> > 2.34.1
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200913): https://lists.openembedded.org/g/openembedde=
+d-core/message/200913
+> Mute This Topic: https://lists.openembedded.org/mt/106704990/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
