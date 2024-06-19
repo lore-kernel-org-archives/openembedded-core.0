@@ -2,209 +2,303 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E00C2D0D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D077C30658
 	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 09:00:12 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.16479.1718787605407247632
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.16251.1718787603966750330
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jun 2024 02:00:05 -0700
+ Wed, 19 Jun 2024 02:00:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NRKy9QXz;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4218008c613so48551005e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 02:00:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c/7cCUw8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-361b376236fso1300326f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 02:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718787604; x=1719392404; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1718787602; x=1719392402; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uEfillKjX83+nGsyRCONQq1I/fn967HUa4cfman2ZaU=;
-        b=NRKy9QXz12Bep486aMa4CT7ZL5OxON/9CpM6AN0Aa6CFlodhhvdeo+2cMxqV9KaOWi
-         Y2PaiPaDhOGCsbvN5UjlBuJYSFizvA0hpIfSj1JRTONytGYJ/Uzgtu4NyxQrmFffriyc
-         +Pjj+LHn/b3ms/Mu2a+a1vgxoOQnKjTPNHRCmFsc2ihE/RFRPmXYwj3zivLUMS98AyQv
-         trAZ8V63jBnzsZ1OjvO1ONUoNA3y/tGjx+uao7Y94A0TCWzGY0QlCogpS/eg+hfqEGMx
-         M2q5NR8CKwEkuQk67yTLMlRbtinNLry4Xu+fDyWhZpALs1CnRdRI7F5sW2U45lX2N/Bm
-         qrpA==
+        bh=b/LSuEamG45G+Vm6WSbCzBf50hzKaLK3Yo8mPHlG4I0=;
+        b=c/7cCUw8Ym7oX9V3JcCjdv9NjELJrl89glL1mpiRsjX10BwTqQMKkiyjBtvj3P0wHq
+         QZvWftoVhjK4yMcvRoDKHQYpbxs916RpSpklD3aNAn2asC2dJIXl42XH0avRoerz7Lx6
+         jsszzEWodI1ZWdcR3YsFYCwXmsI1Rl03i5dMG2p4DfY8WMFWX5BQGfpM+G5sVS6UyM2z
+         GJh8buOREt7Ogc20efXHxRp45Z0Kv8Kavy+ctXTLwYA8tniY0248jfxA/3m9Zty6T0qF
+         rG9gz5v436glP+ief3WzUI0sbh6s4Rcz2HXms/LVGBWqrNiX7GXiorjidWC3yTZZhWKF
+         96Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718787604; x=1719392404;
+        d=1e100.net; s=20230601; t=1718787602; x=1719392402;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uEfillKjX83+nGsyRCONQq1I/fn967HUa4cfman2ZaU=;
-        b=NxQ4vlbD5vcf92TZ06s0iTRQb1oZOrBHK47U3ha5L+wQkabVar7ZAFTVr0BpCuxl1d
-         0w1CUXTKTZmux/Yan9ck0MvZFdOog+drTXmggW72zN1Ay84l9Jytl7sM3nc+5yJqjD10
-         CaNiskck0t49J260rrs9qTrMzl8X4EvmqhGYzkpm0GMQ0LlK5ISmqY7xjpXISCgx2YTO
-         EXe2j/BHiAQsEr9YfAH6w1DWsGmqF/SAxJ6Qvukz1Stsu7fY44KvkasT1XNGx9YCVhEJ
-         3J3wvTGLluIr0rpbIy+ZHTCDhuyZOJqb24chasVnfdYQCaBU9+ixXQHfii0V5B9L6dUz
-         sfPw==
-X-Gm-Message-State: AOJu0YxCizrjNQcrR2LG8i8VPsjqXbgsWdxz1vY2ktnd6/LKgNTtrjkj
-	aBs3xO0TqGjmNq7koGuFmxWiu18r2tmPfUGpDFhueTWcw9VXlbBNRO5dzw==
-X-Google-Smtp-Source: AGHT+IEA+n/sq0XYTvz8Iy5vxjkkwSL2BAmALXYu+6UJrcs2OFSHUj6KzNBB8xtzVq6VMhIxqHoxiA==
-X-Received: by 2002:a05:600c:4baa:b0:424:761f:edbb with SMTP id 5b1f17b1804b1-424761fef16mr10235305e9.31.1718787603761;
-        Wed, 19 Jun 2024 02:00:03 -0700 (PDT)
+        bh=b/LSuEamG45G+Vm6WSbCzBf50hzKaLK3Yo8mPHlG4I0=;
+        b=jpk/xeyevjWKcTF0EBxtH2LeU4IqO1bfwR69XLbkfRQLOuvk/unzqY62J45RdakTyF
+         waD1/1N9Ydqk5hEHS8Rhm1Q75tFmVYjt3kQxRSu/i2qg90OKkERYN121WtvlP9dOF6zI
+         j4OQhQZecjzlk52FcrR7yHbGZ5dxgfRk4dnTg4ZhZEZrXGubcpFYXdEdsEgNsfA08Wlz
+         QSpUMBkIOdFYBc1O2ZkMt5/KmxoB090+FlFxCuESKHJyKUM0L4xac9zH09ZOGBMbAy7h
+         bA2RC1IAkzC4qWcFjwvsbFXk0bz+TyivQByxUi/E8Kwj2t3/IzLr4RQW17dxrXHXt3M3
+         jczQ==
+X-Gm-Message-State: AOJu0YxTGU9cl2Sd+iDOu9atjgC1zXX7OBNDrWmdpZ50gMvcfM7fI+EH
+	rRf2ZOT+87XTii0kd9gSz22trjkKq9dHdoV3vX8p5410I1WCq8d/kcgh3g==
+X-Google-Smtp-Source: AGHT+IF4ypu4EMXJj9V2fwjgL15HKb9fIcAnQE4OuuT/IWf+cVzhih2Q1qUXMU0SvS2ztx1/a3XKhw==
+X-Received: by 2002:adf:f0cc:0:b0:360:7506:2b8 with SMTP id ffacd0b85a97d-363195b1f0dmr1404955f8f.52.1718787601981;
+        Wed, 19 Jun 2024 02:00:01 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm16401876f8f.76.2024.06.19.02.00.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm16401876f8f.76.2024.06.19.02.00.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 02:00:03 -0700 (PDT)
+        Wed, 19 Jun 2024 02:00:01 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/15] psmisc: merge .inc into .bb
-Date: Wed, 19 Jun 2024 10:59:47 +0200
-Message-Id: <20240619085957.2787700-5-alex.kanavin@gmail.com>
+Subject: [PATCH 02/15] libnewt: move to meta-oe
+Date: Wed, 19 Jun 2024 10:59:44 +0200
+Message-Id: <20240619085957.2787700-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240619085957.2787700-1-alex.kanavin@gmail.com>
 References: <20240619085957.2787700-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 09:00:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200891
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200888
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+There are no consumers in oe-core (after obsolete perf dependency was dropped),
+and so no reason to keep it there.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/psmisc/psmisc.inc     | 59 --------------------
- meta/recipes-extended/psmisc/psmisc_23.7.bb | 60 ++++++++++++++++++++-
- 2 files changed, 59 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-extended/psmisc/psmisc.inc
+ meta/conf/distro/include/distro_alias.inc     |  2 -
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../0001-detect-gold-as-GNU-linker-too.patch  | 29 ----------
+ ...tinfo-library-to-the-linking-librari.patch | 26 ---------
+ .../newt/files/cross_ar.patch                 | 56 -------------------
+ meta/recipes-extended/newt/libnewt_0.52.24.bb | 56 -------------------
+ 6 files changed, 170 deletions(-)
+ delete mode 100644 meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
+ delete mode 100644 meta/recipes-extended/newt/files/Makefile.in-Add-tinfo-library-to-the-linking-librari.patch
+ delete mode 100644 meta/recipes-extended/newt/files/cross_ar.patch
+ delete mode 100644 meta/recipes-extended/newt/libnewt_0.52.24.bb
 
-diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index ccbc1d1969f..58163a9f7a8 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -147,8 +147,6 @@ DISTRO_PN_ALIAS:pn-libjson = "Ubuntu=libjson0-dev Debian=libjson0-dev"
+ DISTRO_PN_ALIAS:pn-libksba = "Fedora=libksba Debian=libksba8 Ubuntu=libksba"
+ DISTRO_PN_ALIAS:pn-libmatchbox = "Ubuntu=libmatchbox Fedora=libmatchbox"
+ DISTRO_PN_ALIAS:pn-libmpc = "Fedora=libmpc OpenSuse=libmpc2"
+-DISTRO_PN_ALIAS:pn-libnewt = "Debian=libnewt0.52 Fedora=newt"
+-DISTRO_PN_ALIAS:pn-libnewt-python = "Ubuntu=python-newt Fedora=newt-python"
+ DISTRO_PN_ALIAS:pn-libnl = "Mandriva=libnl Fedora=libnl"
+ DISTRO_PN_ALIAS:pn-libnss-mdns = "Meego=nss-mdns OpenSuSE=nss-mdns Ubuntu=nss-mdns Mandriva=nss_mdns Debian=nss-mdns"
+ DISTRO_PN_ALIAS:pn-libowl = "Debian=owl OpenedHand"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 42599267c1c..14e0637c838 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -359,7 +359,6 @@ RECIPE_MAINTAINER:pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libmodule-build-perl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-libmodulemd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER:pn-libnewt = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-libnl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libnotify = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libnsl2 = "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch b/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
 deleted file mode 100644
-index 23e98d21bed..00000000000
---- a/meta/recipes-extended/psmisc/psmisc.inc
+index 090ed5c1c9e..00000000000
+--- a/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
 +++ /dev/null
-@@ -1,59 +0,0 @@
--SUMMARY = "Utilities for managing processes on your system"
--HOMEPAGE = "http://psmisc.sf.net/"
--DESCRIPTION = "The psmisc package contains utilities for managing processes on your \
--system: pstree, killall and fuser.  The pstree command displays a tree \
--structure of all of the running processes on your system.  The killall \
--command sends a specified signal (SIGTERM if nothing is specified) to \
--processes identified by name.  The fuser command identifies the PIDs \
--of processes that are using specified files or filesystems."
--SECTION = "base"
--DEPENDS = "ncurses virtual/libintl"
--LICENSE = "GPL-2.0-only"
+@@ -1,29 +0,0 @@
+-From 08ba909500412611953aea0fa2fe0d8fe76b6e24 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+-Date: Wed, 21 Sep 2016 21:14:40 +0200
+-Subject: [PATCH] detect gold as GNU linker too
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
+-Upstream-Status: Pending
 -
--S = "${WORKDIR}/psmisc-${PV}"
+-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 -
--inherit autotools gettext
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--# Upstream has a custom autogen.sh which invokes po/update-potfiles as they 
--# don't ship a po/POTFILES.in (which is silly).  Without that file gettext 
--# doesn't believe po/ is a gettext directory and won't generate po/Makefile.
+-diff --git a/configure.ac b/configure.ac
+-index 468c718..cd93f30 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -28,7 +28,7 @@ AC_CHECK_SIZEOF([void *])
+- AC_MSG_CHECKING([for GNU ld])
+- LD=$($CC -print-prog-name=ld 2>&5)
+- 
+--if test $($LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ld") = 0; then
+-+if test $($LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ") = 0; then
+-   # Not
+-   GNU_LD=""
+-   AC_MSG_RESULT([no])
+diff --git a/meta/recipes-extended/newt/files/Makefile.in-Add-tinfo-library-to-the-linking-librari.patch b/meta/recipes-extended/newt/files/Makefile.in-Add-tinfo-library-to-the-linking-librari.patch
+deleted file mode 100644
+index bc55582fd90..00000000000
+--- a/meta/recipes-extended/newt/files/Makefile.in-Add-tinfo-library-to-the-linking-librari.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From fad40cfc18a42946a9a9e440c3434cd6b847ff9d Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Mon, 18 Jan 2016 17:05:19 +0000
+-Subject: [PATCH] Makefile.in: Add tinfo library to the linking libraries
+-Organization: O.S. Systems Software LTDA.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- Makefile.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile.in b/Makefile.in
+-index a85d00f..98b85f9 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -1,4 +1,4 @@
+--LIBS = -lslang @LIBS@
+-+LIBS = -lslang -ltinfo @LIBS@
+- LIBTCL = @TCL_LIB_FLAG@
+- 
+- CC = @CC@
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
+deleted file mode 100644
+index 86cc0be1d38..00000000000
+--- a/meta/recipes-extended/newt/files/cross_ar.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Fix cross link using autoconf detected AR
+-
+-If building on 32bit host and creating 64bit libraries, the target
+-package builds should not invoke the 32bit hosts's ar.  Specifically
+-you will get an error message like:
+-
+-x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
+-libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
+-collect2: error: ld returned 1 exit status
+-
+-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- Makefile.in  | 3 ++-
+- configure.ac | 4 ++++
+- 2 files changed, 6 insertions(+), 1 deletion(-)
+-
+-Index: newt-0.52.20/Makefile.in
+-===================================================================
+---- newt-0.52.20.orig/Makefile.in
+-+++ newt-0.52.20/Makefile.in
+-@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
+- LDFLAGS = @LDFLAGS@
+- CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@
+- GNU_LD = @GNU_LD@
+-+AR = @AR@
+- 
+- VERSION = @VERSION@
+- TAG = r$(subst .,-,$(VERSION))
+-@@ -109,7 +110,7 @@ whiptcl.$(SOEXT): $(WHIPTCLOBJS) $(LIBNE
+- 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.$(SOEXT) $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
+- 
+- $(LIBNEWT): $(LIBOBJS)
+--	ar rv $@ $^
+-+	$(AR) rv $@ $^
+- 
+- newt.o $(SHAREDDIR)/newt.o: newt.c Makefile
+- 
+-Index: newt-0.52.20/configure.ac
+-===================================================================
+---- newt-0.52.20.orig/configure.ac
+-+++ newt-0.52.20/configure.ac
+-@@ -15,6 +15,10 @@ AC_PROG_INSTALL
+- AC_PROG_LN_S
+- AC_PROG_GREP
+- AC_SYS_LARGEFILE
+-+AN_MAKEVAR([AR], [AC_PROG_AR])
+-+AN_PROGRAM([ar], [AC_PROG_AR])
+-+AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
+-+AC_PROG_AR
+- 
+- AC_CHECK_SIZEOF([long])
+- AC_CHECK_SIZEOF([long long])
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.24.bb b/meta/recipes-extended/newt/libnewt_0.52.24.bb
+deleted file mode 100644
+index 1e39a1c5cae..00000000000
+--- a/meta/recipes-extended/newt/libnewt_0.52.24.bb
++++ /dev/null
+@@ -1,56 +0,0 @@
+-SUMMARY = "A library for text mode user interfaces"
+-
+-DESCRIPTION = "Newt is a programming library for color text mode, widget based user \
+-interfaces.  Newt can be used to add stacked windows, entry widgets, \
+-checkboxes, radio buttons, labels, plain text fields, scrollbars, \
+-etc., to text mode user interfaces.  This package also contains the \
+-shared library needed by programs built with newt, as well as a \
+-/usr/bin/dialog replacement called whiptail.  Newt is based on the \
+-slang library."
+-
+-HOMEPAGE = "https://releases.pagure.org/newt/"
+-SECTION = "libs"
+-
+-LICENSE = "LGPL-2.0-only"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+-
+-# slang needs to be >= 2.2
+-DEPENDS = "slang popt python3"
+-
+-SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
+-           file://cross_ar.patch \
+-           file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch \
+-           file://0001-detect-gold-as-GNU-linker-too.patch \
+-           "
+-
+-SRC_URI[sha256sum] = "5ded7e221f85f642521c49b1826c8de19845aa372baf5d630a51774b544fbdbb"
+-
+-S = "${WORKDIR}/newt-${PV}"
+-
+-inherit autotools-brokensep python3native python3-dir python3targetconfig
+-
+-EXTRA_OECONF = "--without-tcl --with-python"
+-
+-EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+-
+-CLEANBROKEN = "1"
+-
+-export CPPFLAGS
+-
+-PACKAGES:prepend = "whiptail ${PN}-python "
+-
+-RDEPENDS:${PN}-python += "python3-core"
+-FILES:${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
+-
 -do_configure:prepend() {
--    ( cd ${S} && po/update-potfiles )
+-    sh autogen.sh
 -}
 -
+-do_compile:prepend() {
+-    # Make sure the recompile is OK
+-    rm -f ${B}/.depend
+-}
 -
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
--PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
--PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+-FILES:whiptail = "${bindir}/whiptail"
 -
--ALLOW_EMPTY:${PN} = "1"
--
--PACKAGES =+ "fuser fuser-doc killall killall-doc pstree pstree-doc"
--PACKAGES += "psmisc-extras"
--
--FILES:${PN} = ""
--RDEPENDS:${PN} = "fuser killall pstree"
--
--FILES:fuser = "${bindir}/fuser.${BPN}"
--FILES:fuser-doc = "${mandir}/man1/fuser*"
--
--FILES:killall = "${bindir}/killall.${BPN}"
--FILES:killall-doc = "${mandir}/man1/killall*"
--
--FILES:pstree = "${bindir}/pstree"
--FILES:pstree-doc = "${mandir}/man1/pstree*"
--
--FILES:psmisc-extras = "${bindir}"
--FILES:psmisc-extras-doc = "${mandir}"
--
--inherit update-alternatives
--
--ALTERNATIVE_PRIORITY = "90"
--
--ALTERNATIVE:killall = "killall"
--
--ALTERNATIVE:fuser = "fuser"
--
--ALTERNATIVE:pstree = "pstree"
-diff --git a/meta/recipes-extended/psmisc/psmisc_23.7.bb b/meta/recipes-extended/psmisc/psmisc_23.7.bb
-index ea272cd92d5..e1dde7dafb4 100644
---- a/meta/recipes-extended/psmisc/psmisc_23.7.bb
-+++ b/meta/recipes-extended/psmisc/psmisc_23.7.bb
-@@ -1,4 +1,62 @@
--require psmisc.inc
-+SUMMARY = "Utilities for managing processes on your system"
-+HOMEPAGE = "http://psmisc.sf.net/"
-+DESCRIPTION = "The psmisc package contains utilities for managing processes on your \
-+system: pstree, killall and fuser.  The pstree command displays a tree \
-+structure of all of the running processes on your system.  The killall \
-+command sends a specified signal (SIGTERM if nothing is specified) to \
-+processes identified by name.  The fuser command identifies the PIDs \
-+of processes that are using specified files or filesystems."
-+SECTION = "base"
-+DEPENDS = "ncurses virtual/libintl"
-+LICENSE = "GPL-2.0-only"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
-+
-+S = "${WORKDIR}/psmisc-${PV}"
-+
-+inherit autotools gettext
-+
-+# Upstream has a custom autogen.sh which invokes po/update-potfiles as they 
-+# don't ship a po/POTFILES.in (which is silly).  Without that file gettext 
-+# doesn't believe po/ is a gettext directory and won't generate po/Makefile.
-+do_configure:prepend() {
-+    ( cd ${S} && po/update-potfiles )
-+}
-+
-+
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
-+PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
-+
-+ALLOW_EMPTY:${PN} = "1"
-+
-+PACKAGES =+ "fuser fuser-doc killall killall-doc pstree pstree-doc"
-+PACKAGES += "psmisc-extras"
-+
-+FILES:${PN} = ""
-+RDEPENDS:${PN} = "fuser killall pstree"
-+
-+FILES:fuser = "${bindir}/fuser.${BPN}"
-+FILES:fuser-doc = "${mandir}/man1/fuser*"
-+
-+FILES:killall = "${bindir}/killall.${BPN}"
-+FILES:killall-doc = "${mandir}/man1/killall*"
-+
-+FILES:pstree = "${bindir}/pstree"
-+FILES:pstree-doc = "${mandir}/man1/pstree*"
-+
-+FILES:psmisc-extras = "${bindir}"
-+FILES:psmisc-extras-doc = "${mandir}"
-+
-+inherit update-alternatives
-+
-+ALTERNATIVE_PRIORITY = "90"
-+
-+ALTERNATIVE:killall = "killall"
-+
-+ALTERNATIVE:fuser = "fuser"
-+
-+ALTERNATIVE:pstree = "pstree"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
- 
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 2.39.2
 
