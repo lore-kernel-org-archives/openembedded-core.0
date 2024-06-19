@@ -1,81 +1,86 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F52C27C53
-	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 16:51:35 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.26187.1718815891350929876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 277ADC27C79
+	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 17:03:45 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.26499.1718816619680684843
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jun 2024 09:51:31 -0700
+ Wed, 19 Jun 2024 10:03:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Id6zDj1g;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52ccc40e72eso748526e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 09:51:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VnlK0Xa0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so70770411fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 10:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718815889; x=1719420689; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yJf4YYz41WZKlpJWRHz/0qHB90DGUB/9kJK2mun0l+4=;
-        b=Id6zDj1gqhsElTYPc8cTwirseN7z8dgxUGK14zRCDqP0eRruRpmZ8cI7qS5FKC91ez
-         AhtvjpHAG4jBfgB4pTrgCBYHit4y4nU/bZ2dDWQUIMyhm7/4npHblc2hr6VOMmKQVCDY
-         ngGlBIgydDLBuzK1olPzXi48O71dnpPczg5Sd46a/igP9P77QSWA76dN9TAbaYkxyAH0
-         Q5VR6xpud2WXEF+uNnCJWYdrpvzDypRF6yWWnoU9rn38Ig1TKDLEbCSCo+PAlD4ZmGp/
-         livygQ34BRrcLRJb6mYKXQN6yXCiOAvh7HIO/4dRlKb2eKmCdWNabFYUmstbXrPNln7z
-         Ucgw==
+        d=gmail.com; s=20230601; t=1718816617; x=1719421417; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMf3iNxr6ekd6L7L8uc8vj3OmFTtOs8pCq/Yts1t+mY=;
+        b=VnlK0Xa0l7bIzRcFRhdg+KH3MJUL9g3F3S2ZCXV8oWWc9ls0Kk4AoRN71mTrkg4ugT
+         +pEx73Vyf1birA4G9IzVPvumQdb+PfZU5Tb+s7/FE1l/Iz+Ml/nQIt9aGHOg1lAvpIjI
+         AfaxhcwUzUsA/Zcz4J9lXQ9qB+HkwVr7QPqaStaMKK69nMGz2mvpigPjTXhuGw3HWrbD
+         re88+W47nnr3ZJAWih/If30blj6IS2sh7zrDwXIMlXb/gfDKDLLCICPUouafdsrQhEu6
+         Y/NBYR8UdXpR7Lc7phqJrFuSX6SPEHH2zpjoQ6/TDse8JU+pzi1KT0WI8rliqw0ws2fn
+         Pn2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718815889; x=1719420689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yJf4YYz41WZKlpJWRHz/0qHB90DGUB/9kJK2mun0l+4=;
-        b=nt2Bkvcylh/OPronPMy/xEpIW1cgOs8eS4BS3HXNZCGwpnvbBy9n+c4/ad0CUxp/wm
-         KYLM/va2pZZdZqBGhM8C7o2Rf9vQSYvm6KiN4SlRwPzseuBi/ninBzUl777g+pC90LkB
-         7Z71a1OQ4cC+X7gbU0GEYyPxpJCKeB1EPZNhF5dS96BfXorKA5UwdZbW0OAWLW9+5wKq
-         oqlXVMXecsDwn/WMROVA6iJF1us8as7ECWjYq1kk5P/vs6k81HpOJSGRpZsdG8SOA4kS
-         /qTyNXFMn3OgkyScbb+SRFf6KCvd+ZZ3kBUUoZU2gZ6+RB+eTa5DxIqAOWSVMZD7HQHr
-         ypQA==
-X-Gm-Message-State: AOJu0YwYCKq6xBahTvfTa8Zo/U2OQ7ev1o3uv1zrBTxj0VCrZc5WTU0X
-	JI5cCD/CV99FqMb0YUhM2srGiek4H97eZeYaa/PHi2yzDxtMl8ub2geSTmfknkrISnD0vskNq9E
-	TE/gN1iwTtRZ8vaiF3KlyoPznuNlxUw==
-X-Google-Smtp-Source: AGHT+IGHzvZmNK/hFyLMk5NmT2RRSEysQqDzNJAaxeM0tSuKMMgRH+nKjcO1Ws+i2/jCq+DturH1nLXJiRvF8W5d1cg=
-X-Received: by 2002:a19:8c12:0:b0:52c:99fe:3133 with SMTP id
- 2adb3069b0e04-52ccaa5a120mr1924810e87.63.1718815889282; Wed, 19 Jun 2024
- 09:51:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718816617; x=1719421417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WMf3iNxr6ekd6L7L8uc8vj3OmFTtOs8pCq/Yts1t+mY=;
+        b=qPV0Bgc5ECE5nu4olVY6THlPBVjtZD3Ohqgq4H18mWcQSSahUjv1YZYcMehg32pK8B
+         1R/vquQIkQDgb9NLrtQxa1RMKWFym2j5jIZ4gCMTc7i5InD+VC6TC7ebMTKoSZJhrw6f
+         d1r2ainT3UJlRzxJ5sofWO9zlDmqDnUOb0A5M8CS7OPTX8OH5Hpmd3GU+yrJ80R4xDxr
+         hrsbBrQebdBMVES5PGUdGKb02bEz+RNZK5WkiCxcO5wdH68DffGo7ofU6nVV0llrHnBN
+         EviXWl7nzpif0WiyAiaooxuMAHfy7W7GuVl6yFt/bTVpLuHd9d8xjgD+QWNneprFxaMZ
+         ZqpA==
+X-Gm-Message-State: AOJu0YwR7hqxjwTDfwdL1LystcF08lYRtbRotlSJQCEc6V30dF1C24cY
+	CDNGc1l2sduUuaeau+Ufdx27aIwZd2PzCRMnXzo3NkiZyXWO0jQcRVR8Ig==
+X-Google-Smtp-Source: AGHT+IEJdy4a/xFWsHoT9rxx0R32e7CLUThN6ZuGW8D7lkaFHIWt46llndMMB31vQekeSxo84w7Rcg==
+X-Received: by 2002:a2e:9c95:0:b0:2ec:1042:fafc with SMTP id 38308e7fff4ca-2ec3ce27719mr19994891fa.0.1718816617025;
+        Wed, 19 Jun 2024 10:03:37 -0700 (PDT)
+Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286eef970sm270901475e9.10.2024.06.19.10.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 10:03:36 -0700 (PDT)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [PATCH] python3-setuptools: drop python3-2to3 from RDEPENDS
+Date: Wed, 19 Jun 2024 17:03:07 +0000
+Message-Id: <20240619170307.4351-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240619085957.2787700-1-alex.kanavin@gmail.com>
- <20240619085957.2787700-10-alex.kanavin@gmail.com> <CANPvuRkyyjavWQn2gynunhJpXxAG42+DmKNZ6+eTyumCoUCQog@mail.gmail.com>
- <CANNYZj-ZUTSpxwpycadiwnAyWkK2SbvX7BguE5hr3ZY0Kq6XWQ@mail.gmail.com>
- <D479E782-0AE4-45EE-A0B7-A7277B728857@arm.com> <CANNYZj-Ynnex=dPFv+yD_pvV8VFafv5Mwmvyeik_5VCH_YqCqw@mail.gmail.com>
- <35E7A1F3-A630-4F6F-B65C-65391C0B7F32@arm.com>
-In-Reply-To: <35E7A1F3-A630-4F6F-B65C-65391C0B7F32@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Jun 2024 18:51:17 +0200
-Message-ID: <CANNYZj9amqsdRYvK605tSaz-Nx8FDa+ZJxLs9_WDUcuZav+6gg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 10/15] glslang: mark 0001-generate-glslang-pkg-config.patch
- as Inappropriate
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 16:51:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200925
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 17:03:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200926
 
-On Wed, 19 Jun 2024 at 18:35, Ross Burton <Ross.Burton@arm.com> wrote:
-> > It's right at the bottom. Visible here as well:
-> > https://github.com/KhronosGroup/glslang/pull/3371/files
->
-> Did you press Start a Review?  You need to submit the review (this is so =
-you can incrementally review a PR and send all the comments in one go, inst=
-ead of spamming people=E2=80=99s inbox).
+2to3 module was dropped as a dependency in setuptools 58.0
 
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+---
+ meta/recipes-devtools/python/python3-setuptools_69.5.1.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Done now.
+diff --git a/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb b/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb
+index 8261b09d16..cc6256db80 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_69.5.1.bb
+@@ -16,7 +16,6 @@ SRC_URI[sha256sum] = "6c1fccdac05a97e598fb0ae3bbed5904ccb317337a51139dcd51453611
+ DEPENDS += "python3"
+ 
+ RDEPENDS:${PN} = "\
+-    python3-2to3 \
+     python3-compile \
+     python3-compression \
+     python3-ctypes \
+-- 
+2.34.1
 
-Alex
 
