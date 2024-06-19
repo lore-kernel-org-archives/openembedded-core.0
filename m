@@ -1,109 +1,188 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B548CC27C53
-	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 12:38:43 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.19684.1718800723188275497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A307C27C53
+	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 13:24:34 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web10.21070.1718803471806397467
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jun 2024 05:38:43 -0700
+ Wed, 19 Jun 2024 06:24:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 593B81042
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 05:39:07 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 53BB53F6A8
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 05:38:42 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libxcrypt: correct the check for a working libucontext.h
-Date: Wed, 19 Jun 2024 12:38:41 +0000
-Message-Id: <20240619123841.463797-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=km1u6ruf;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5295e488248so7115460e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 06:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718803470; x=1719408270; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ugMCKgSi/U1V7xQusJBUEqJqTodq8YM63nqP159KYB8=;
+        b=km1u6ruf9ZKnm+37IApr8EGuo9yCDiffbu8uTcSWMj12iptyn39b4YRKcHOaxjEMLz
+         mY9i4johgkAnAlNPYN6zxckIu3UUl+okTMZH0aeoFJVQjcWD9gSWHb5XjS5PdayMAwZb
+         fBqCqSsl4Jtfpll0rxFoJxiL3dheu36dhPAha/sQ1q6rAcjVfQNqX9Jj1xX/WIWD5XmX
+         2zs6HZrQhOXH0fpbIOV6Nj0hoRU2Q4QO3gb+poAsNZmjKi0P1Z0QCe8fEAO9hYZPpisz
+         r10oQL8C8dIUbRqK+etIN9mrWd99j9RClHAi8yertput8JBvk40eIJGvEDaq/SuIcenT
+         GjwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718803470; x=1719408270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ugMCKgSi/U1V7xQusJBUEqJqTodq8YM63nqP159KYB8=;
+        b=cfiRaT/WLA842d2nSLryOuMuwQFb9ZIVSb3NUZyyVYc7a6vG4Li0xTLDN61RrWAdvU
+         jQ41RSGp4Hqp7FQSJpxiBFGzyPumSytHwxAd71Prr5/JVWjO6kYhiMBORWJQQAGbqLY7
+         iF3B2bIJXtmIYi2MqJqyE6cWtnsZ+Yq6hN+J5wca69TSlJOOnL1wN7s0uPTpqxKIDOsL
+         LK1GWIex0JrOvSkSEPDgV/sXmFvQZADB5CpwiEwlT8c9h8LqlaCqWzn2R3jZLOv/+8ew
+         TPQXNHq875jzpa8Q2QqXX8mvWExzibyOYlVkzmzRkrVk30jWQ0C2YRWE49tCFKppHhWO
+         naMA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/erCxvxaBAKhsepSNpN0FlKaN2W4D4ndSmLG/VALg6g1zR+aU1MM651YazakFm4xkQVt415CShGwidB32V33Q+xUP4BLzJFCA0g4Jd69JvJIei4ojZd3R
+X-Gm-Message-State: AOJu0YyscyUbbfrXbKjpfNXQRCMNYYYSgEUU4gExK3KfF3k1ZBqhnRvZ
+	3oSWpxVbDv8Va802PcvxCPHctRHxeNI44pPy6i2FN91TEXm56MI4rRSuc+ffJwQq110GcmdI/ZO
+	/bYoKsoQuAXJ6U+xyszmd0hP4J98=
+X-Google-Smtp-Source: AGHT+IFuAIqPWWJ7qouRivGmiyfQq+qa7gH0GrlUBBd14gaNhFphZBgtUEALhMiwJGdBWXBGTiyeIO3soej+9AvfS48=
+X-Received: by 2002:a05:6512:3c9a:b0:52c:82c7:7181 with SMTP id
+ 2adb3069b0e04-52ccaa57964mr1736280e87.46.1718803469559; Wed, 19 Jun 2024
+ 06:24:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240616153135.3058410-1-kai.kang@windriver.com> <20240616153135.3058410-2-kai.kang@windriver.com>
+In-Reply-To: <20240616153135.3058410-2-kai.kang@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 19 Jun 2024 15:24:09 +0200
+Message-ID: <CA+chaQebei7LOk4R12MxDHRTw2q-EUHGtE9_g5WjRB6SOK7U0g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/1] gfortran: update runtime dependencies
+To: kai.kang@windriver.com
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 12:38:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200912
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 13:24:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200913
 
-The test fails with GCC 14.1 due to an incompatible pointer assignment,
-take a patch submitted upstream to fix this.
+Something seems wrong with this change which was merged today, now with:
+MACHINE=3Dqemuarm64
+FORTRAN:forcevariable =3D ",fortran"
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../libxcrypt/files/configure-c99.patch       | 39 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/configure-c99.patch
+I'm seeing:
+build/oe-core $ bitbake -g nativesdk-libgfortran
+NOTE: Resolving any missing task queue dependencies
+ERROR: Nothing PROVIDES 'gcc-cross-x86_64' (but
+virtual:nativesdk:/OE/build/oe-core/openembedded-core/meta/recipes-devtools=
+/gcc/libgfortran_14.1.bb
+DEPENDS on or otherwise requires it). Close matches:
+  gcc-cross-aarch64
+...
 
-diff --git a/meta/recipes-core/libxcrypt/files/configure-c99.patch b/meta=
-/recipes-core/libxcrypt/files/configure-c99.patch
-new file mode 100644
-index 00000000000..b77ea7af077
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/configure-c99.patch
-@@ -0,0 +1,39 @@
-+From cfe9f4d6b0a5d10a15e10e987d528c5c513a42f1 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Tue, 19 Dec 2023 11:00:11 +0100
-+Subject: [PATCH] configure: Only text the makecontext signature we need
-+
-+The test/explicit-bzero.c test uses a start routine without any
-+arguments.  There is no need for the multi-argument version.
-+
-+This avoids a build failure with glibc and future compilers.
-+The GNU C library declares the makecontext callback of
-+type void (*) (void), so no cast is needed.  On other systems,
-+the type may be the (currently distinct) type void (*) (),
-+but given that this only affects the ability to execute a test,
-+no further machinery is added here to detect that different type.
-+
-+Upstream-Status: Submitted [https://github.com/besser82/libxcrypt/pull/1=
-78/]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ configure.ac | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 016997c..4b8afd8 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -303,13 +303,11 @@ AS_IF([test $ac_cv_header_ucontext_h =3D yes],
-+ #include <ucontext.h>
-+ static int x;
-+ static void fn1(void) {}
-+-static void fn2(int a, int b) { x =3D a - b; }
-+ ]], [[
-+   ucontext_t uc1, uc2;
-+   if (getcontext(&uc1)) return 1;
-+   if (setcontext(&uc1)) return 1;
-+   makecontext(&uc1, fn1, 0);
-+-  makecontext(&uc2, fn2, 2, 1, 1);
-+   if (swapcontext(&uc1, &uc2)) return 1;
-+   return x;
-+ ]])],
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-cor=
-e/libxcrypt/libxcrypt.inc
-index ba93d91aef1..ee6875aa05d 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -13,7 +13,8 @@ SRC_URI =3D "git://github.com/besser82/libxcrypt.git;br=
-anch=3D${SRCBRANCH};protocol=3D
- SRCREV =3D "f531a36aa916a22ef2ce7d270ba381e264250cbf"
- SRCBRANCH ?=3D "master"
-=20
--SRC_URI +=3D "file://fix_cflags_handling.patch"
-+SRC_URI +=3D "file://fix_cflags_handling.patch \
-+            file://configure-c99.patch"
-=20
- PROVIDES =3D "virtual/crypt"
-=20
---=20
-2.34.1
+This might have been broken even before this change, but now it got
+included in dependency tree of nativesdk-gcc (as shown in bitbake -g
+nativesdk-gcc now failing when host and target arch don't match):
 
+"nativesdk-gcc.do_package_qa" -> "nativesdk-libgfortran.do_packagedata"
+nativesdk-gcc.do_package_write_ipk" -> "nativesdk-libgfortran.do_packagedat=
+a"
+
+Missing or unbuildable dependency chain was: ['image',
+'nativesdk-packagegroup-sdk-host', 'nativesdk-lcov',
+'nativesdk-gcov-symlinks', 'nativesdk-libgfortran-dev',
+'gcc-cross-x86_64']
+
+I guess the easiest fix would be in:
+meta/recipes-devtools/gcc/libgfortran.inc:DEPENDS =3D "gcc-runtime
+gcc-cross-${TARGET_ARCH}"
+but I'm not very familiar with fortran (we've enabled it long time ago
+to build lapack(blas) for snowboy, but wasn't actively used for couple
+years).
+
+Regards,
+
+
+
+On Sun, Jun 16, 2024 at 5:32=E2=80=AFPM Kai Kang via lists.openembedded.org
+<kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> It fails to run both `gcc` and `gfortran` with errors:
+>
+> | root@qemux86-64:~# x86_64-poky-linux-gcc a.c
+> | x86_64-poky-linux-gcc: fatal error: cannot execute 'as': posix_spawnp: =
+No such file or directory
+>
+> then add binutils which provides `as` to RDEPENDS of gcc.
+>
+> libgfortran-dev provides libgfortran.spec which required by gfortran:
+>
+> | root@qemux86-64:~# gfortran hello.f95
+> | gfortran: fatal error: cannot read spec file 'libgfortran.spec': No suc=
+h file or directory
+>
+> And gcc provides liblto_plugin.so:
+>
+> | root@qemux86-64:~# gfortran hello.f95
+> | gfortran: fatal error: '-fuse-linker-plugin', but liblto_plugin.so not =
+found
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-target.inc | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devt=
+ools/gcc/gcc-target.inc
+> index 8e9693b4cb..e9187fc444 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -33,7 +33,7 @@ PACKAGES =3D "\
+>      ${PN} ${PN}-plugins ${PN}-symlinks \
+>      g++ g++-symlinks \
+>      cpp cpp-symlinks \
+> -    gfortran gfortran-symlinks \
+> +    ${@bb.utils.contains('FORTRAN', ',fortran', 'gfortran gfortran-symli=
+nks', '', d)} \
+>      gcov gcov-symlinks \
+>      ${PN}-doc \
+>      ${PN}-dev \
+> @@ -60,7 +60,7 @@ RRECOMMENDS:${PN} +=3D "\
+>      libssp \
+>      libssp-dev \
+>  "
+> -RDEPENDS:${PN} +=3D "cpp"
+> +RDEPENDS:${PN} +=3D "binutils cpp"
+>
+>  FILES:${PN}-dev =3D "\
+>      ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
+> @@ -80,10 +80,15 @@ FILES:${PN}-plugins =3D "\
+>  "
+>  ALLOW_EMPTY:${PN}-plugins =3D "1"
+>
+> +INSANE_SKIP:${MLPREFIX}gfortran +=3D "dev-deps"
+>  FILES:gfortran =3D "\
+>      ${bindir}/${TARGET_PREFIX}gfortran \
+>      ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
+>  "
+> +RDEPENDS:gfortran =3D "\
+> +    gcc \
+> +    libgfortran-dev \
+> +"
+>  RRECOMMENDS:gfortran =3D "\
+>      libquadmath \
+>      libquadmath-dev \
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200780): https://lists.openembedded.org/g/openembedde=
+d-core/message/200780
+> Mute This Topic: https://lists.openembedded.org/mt/106704990/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
