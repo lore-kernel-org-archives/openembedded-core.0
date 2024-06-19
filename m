@@ -1,144 +1,109 @@
-Return-Path: <marcus.folkesson@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD77C27C53
-	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 12:32:53 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.19809.1718800364555474024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B548CC27C53
+	for <webhook@archiver.kernel.org>; Wed, 19 Jun 2024 12:38:43 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.19684.1718800723188275497
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jun 2024 05:32:44 -0700
+ Wed, 19 Jun 2024 05:38:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0rzyWmj;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52c85a7f834so8256155e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 05:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718800362; x=1719405162; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wIOEMMgj54vIUlMv/AXgE2zNDST1X6/V8oKGPH9Wsxo=;
-        b=D0rzyWmjcr6zkwF6cN7mio2o5DTRm5k/nnp6uC205xLtdEIFHqimfpuKdN/HS5VlpP
-         v/ZY5JkykFRfqAujyqFwlclXhFqn9nfa5h8n8IV1QdiE5USGumieAicp9RXADxe8fq2d
-         VP2HWU8XlL//1vNHIbdBLD47T9QJyss52fgciYS4fxj47635InVdjnkVJo7xE/8RduKK
-         HGU+bFHEIs8amfNwPB1gry8FVVDn6NKDGTn75h6o1/IfU4hoASq/uMJGuyp+VGw+2roB
-         xtp6RblQNgWMrT3er4jdv0ESeb/vf2mLRIVDxrGKM1EYWrT8B/WIRjzgAu1fPKro1WWv
-         laPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718800362; x=1719405162;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wIOEMMgj54vIUlMv/AXgE2zNDST1X6/V8oKGPH9Wsxo=;
-        b=mS7QNVqIxW/S+XYI4sWPQTvtuONuDvyJUv/DLM3pzxMhMtm2gm0no16N7Ycot7gehU
-         OVuz7J5CbZfc8U9Ew3t13S1KzrsQQ04wdoJUjFXP23IKyoIvNR8TBOE9BV/8w8qesixV
-         xQCOzaV9W67tuJ0MHWmSMeCffEGN09qsqWtECTkwZMG3dxFYquzOSx8N4E8WM90bid4O
-         q5TIzR7gKGHI9LcZwDKo66IAg4g8OlpyX4LauAljDAFYdFctX4M1v4lWdk2wBhLkWvGF
-         J5txafQSP2bpTw+6v6Et6B/hbibM8dOw+ubxtvpCPdIZm0kAx4hYpII+wnBfKAerISxX
-         boSg==
-X-Gm-Message-State: AOJu0YxNqZcdc4bhL6UftRF/Y1mdDWvDJpzlTIYkQmAX7+CfBhGyQHGx
-	AMLF/2MEqW70ZiH1cStWzQD/UaEpNbZUUJ4TJzMQ4P31fJH0apy6iMbsWA==
-X-Google-Smtp-Source: AGHT+IGmBZ9L+aM5gsy0W5foUDhazzTLrYCeZdPmLUtsz/dmgPS6brV0YK4uRtvM8jSbmmFWeAG9yg==
-X-Received: by 2002:a05:6512:114b:b0:52b:bf8e:ffea with SMTP id 2adb3069b0e04-52ccaa61388mr1472541e87.40.1718800362036;
-        Wed, 19 Jun 2024 05:32:42 -0700 (PDT)
-Received: from localhost.localdomain (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca2872274sm1748092e87.140.2024.06.19.05.32.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 05:32:41 -0700 (PDT)
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Quentin Schulz <quentin.schulz@cherry.de>,
-	kweihmann@outlook.com
-Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: [PATCH v5 2/2] image-bootfiles.bbclass: new class, copy boot files to root filesystem
-Date: Wed, 19 Jun 2024 14:38:53 +0200
-Message-ID: <20240619123853.2144538-3-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
-References: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 593B81042
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 05:39:07 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 53BB53F6A8
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 05:38:42 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libxcrypt: correct the check for a working libucontext.h
+Date: Wed, 19 Jun 2024 12:38:41 +0000
+Message-Id: <20240619123841.463797-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 12:32:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200911
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jun 2024 12:38:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200912
 
-image-bootfiles class copy files listed in IMAGE_BOOT_FILES
-to the IMAGE_BOOT_FILES_DIR directory of the root filesystem.
+The test fails with GCC 14.1 due to an incompatible pointer assignment,
+take a patch submitted upstream to fix this.
 
-This is useful when there is no explicit boot partition but all boot
-files should instead reside inside the root filesystem.
-
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
+ .../libxcrypt/files/configure-c99.patch       | 39 +++++++++++++++++++
+ meta/recipes-core/libxcrypt/libxcrypt.inc     |  3 +-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libxcrypt/files/configure-c99.patch
 
-Notes:
-    v3:
-            - Skip the intermediate bootfiles() function
-            - Rename variable names to be consistent
-            - Various python optimizations
-    v4:
-            - Correct usage description
-            - Create image_dst before copy
-    v5:
-            - Check if install_files is [] rather than None
-            - Print warning if overwriting files
-            - run as ROOTFS_POSTPROCESS_COMMAND instead
-
- meta/classes/image-bootfiles.bbclass | 41 ++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
- create mode 100644 meta/classes/image-bootfiles.bbclass
-
-diff --git a/meta/classes/image-bootfiles.bbclass b/meta/classes/image-bootfiles.bbclass
+diff --git a/meta/recipes-core/libxcrypt/files/configure-c99.patch b/meta=
+/recipes-core/libxcrypt/files/configure-c99.patch
 new file mode 100644
-index 0000000000..a17c92f66b
+index 00000000000..b77ea7af077
 --- /dev/null
-+++ b/meta/classes/image-bootfiles.bbclass
-@@ -0,0 +1,41 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+# Copyright (C) 2024 Marcus Folkesson
-+# Author: Marcus Folkesson <marcus.folkesson@gmail.com>
-+#
-+# Writes IMAGE_BOOT_FILES to the IMAGE_BOOT_FILES_DIR directory.
-+#
-+# Usage: add "inherit image-bootfiles" to your image.
-+#
++++ b/meta/recipes-core/libxcrypt/files/configure-c99.patch
+@@ -0,0 +1,39 @@
++From cfe9f4d6b0a5d10a15e10e987d528c5c513a42f1 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Tue, 19 Dec 2023 11:00:11 +0100
++Subject: [PATCH] configure: Only text the makecontext signature we need
 +
-+IMAGE_BOOT_FILES_DIR ?= "boot"
++The test/explicit-bzero.c test uses a start routine without any
++arguments.  There is no need for the multi-argument version.
 +
-+python bootfiles_populate() {
-+    import shutil
-+    from oe.bootfiles import get_boot_files
++This avoids a build failure with glibc and future compilers.
++The GNU C library declares the makecontext callback of
++type void (*) (void), so no cast is needed.  On other systems,
++the type may be the (currently distinct) type void (*) (),
++but given that this only affects the ability to execute a test,
++no further machinery is added here to detect that different type.
 +
-+    deploy_image_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+    boot_dir = os.path.join(d.getVar("IMAGE_ROOTFS"), d.getVar("IMAGE_BOOT_FILES_DIR"))
++Upstream-Status: Submitted [https://github.com/besser82/libxcrypt/pull/1=
+78/]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ configure.ac | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+    boot_files = d.getVar("IMAGE_BOOT_FILES")
-+    if boot_files is None:
-+        return
-+
-+    install_files = get_boot_files(deploy_image_dir, boot_files)
-+    if not install_files:
-+        bb.warn("Could not find any boot files to install even though IMAGE_BOOT_FILES is not empty")
-+        return
-+
-+    os.makedirs(boot_dir, exist_ok=True)
-+    for src, dst  in install_files:
-+        image_src = os.path.join(deploy_image_dir, src)
-+        image_dst = os.path.join(boot_dir, dst)
-+        if os.path.exists(image_dst):
-+            bb.warn("%s does already exist and will be overwritten" % image_dst)
-+
-+        os.makedirs(os.path.dirname(image_dst), exist_ok=True)
-+        shutil.copyfile(image_src, image_dst)
-+}
-+
-+ROOTFS_POSTPROCESS_COMMAND += "bootfiles_populate;"
--- 
-2.45.1
++diff --git a/configure.ac b/configure.ac
++index 016997c..4b8afd8 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -303,13 +303,11 @@ AS_IF([test $ac_cv_header_ucontext_h =3D yes],
++ #include <ucontext.h>
++ static int x;
++ static void fn1(void) {}
++-static void fn2(int a, int b) { x =3D a - b; }
++ ]], [[
++   ucontext_t uc1, uc2;
++   if (getcontext(&uc1)) return 1;
++   if (setcontext(&uc1)) return 1;
++   makecontext(&uc1, fn1, 0);
++-  makecontext(&uc2, fn2, 2, 1, 1);
++   if (swapcontext(&uc1, &uc2)) return 1;
++   return x;
++ ]])],
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-cor=
+e/libxcrypt/libxcrypt.inc
+index ba93d91aef1..ee6875aa05d 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -13,7 +13,8 @@ SRC_URI =3D "git://github.com/besser82/libxcrypt.git;br=
+anch=3D${SRCBRANCH};protocol=3D
+ SRCREV =3D "f531a36aa916a22ef2ce7d270ba381e264250cbf"
+ SRCBRANCH ?=3D "master"
+=20
+-SRC_URI +=3D "file://fix_cflags_handling.patch"
++SRC_URI +=3D "file://fix_cflags_handling.patch \
++            file://configure-c99.patch"
+=20
+ PROVIDES =3D "virtual/crypt"
+=20
+--=20
+2.34.1
 
 
