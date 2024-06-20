@@ -1,98 +1,99 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F02C27C79
-	for <webhook@archiver.kernel.org>; Thu, 20 Jun 2024 14:08:21 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.48414.1718892492147298185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8819C2BA1A
+	for <webhook@archiver.kernel.org>; Thu, 20 Jun 2024 14:29:01 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.49090.1718893740893433041
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jun 2024 07:08:12 -0700
+ Thu, 20 Jun 2024 07:29:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=YB/r9kW8;
- spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-797f1287aa3so53324585a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 07:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718892491; x=1719497291; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rsAx0yloNp2SnBm+qDd4AIelvSguPq+KPxevaC9TvVY=;
-        b=YB/r9kW8IsjiQicc1sOBp6lN7lMK6B+tyvWui8kkeJ38MjrdaIzHBj15CUCN5JUrXB
-         BCkcX7VKtn7uuzAhNbTfT7LdX8UuRjrQ+ayn9Hg5AcZ9ATSDgDddV/buFUpID/arcV6/
-         luyydb0PiC00LByEZ0+4UeetVy1RTpetOSWhk5+zZF2lyvbzt5Z0+tm8waqEXtSrFqSp
-         oQOmF6Jgl12Vo6X7HdL/m4Hk5C9dlTvn95vQtcwGS3B4GfRZhM6xqTkbpx/PZ2jePWIs
-         iSn1fg/JLqgp5iKqCOsLk3p+5PAPJtVWZS4g3TUWbHZfBZ/xHrpfGS9oZdNAxfF6RFs0
-         ILfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718892491; x=1719497291;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rsAx0yloNp2SnBm+qDd4AIelvSguPq+KPxevaC9TvVY=;
-        b=TBT0Fp3NBLyPpEbvmFf22e3c3xLPkihXJc7KGObEoAuuh8a5N6XSowq1vcVqwTR+lV
-         FCUnKO1T0uEXy+jfgcsMkFmK5zZ5g3LfbgPfr4JtCje1fmaTx8wTK7mc7o+4QLEc3FnR
-         K5PWJAxk/fZ645z1+ke6/Uba/87F7/Xq/N+4IUtKd6q+g364VwhDCYwkBKlTmLViMU03
-         XDSxw+dBzxsu5fMK0Ix/sdGVkhUe+Rnu4kISj5Zu8wT3ez/LTnXmXuuKYloOL+pK1ulD
-         s7PfdWYr467wJNL0A9m8nwCUz830gLfCBnFg9V1tW4s+4vvf3tLKA65xSZEL+Jt6TFM2
-         yP6Q==
-X-Gm-Message-State: AOJu0YwJhWSzG8QUq5EdmxZUtisGj8NHKCYibIltStIVHr9xth95noKD
-	oirWoIWlBWaOnhn15TdTRg1wcF6PMD3kx57nyvl8pqbjpxUgwLDBOQ4FfDiVnY8Z5EUcWUP4i67
-	9
-X-Google-Smtp-Source: AGHT+IHGjlPsH+o4irxTfCZCA9tY6vN/RuOr4fnvp8UZBTOIBkTmpGaM4pe9wMfkG0DpK3IXdRwFKA==
-X-Received: by 2002:a05:620a:2490:b0:795:a500:aa99 with SMTP id af79cd13be357-79bb3ebd6c2mr589601685a.57.1718892491015;
-        Thu, 20 Jun 2024 07:08:11 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-798abe6efc7sm691579185a.131.2024.06.20.07.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 07:08:09 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [OE-core][PATCH 6/6] MAINTAINERS.md: fix patchtest entry
-Date: Thu, 20 Jun 2024 10:07:53 -0400
-Message-ID: <20240620140753.392220-6-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240620140753.392220-1-tgamblin@baylibre.com>
-References: <20240620140753.392220-1-tgamblin@baylibre.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JNDkfnOU;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zi7yxcbj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010190360d001e-da281d87-dfae-47b6-87a7-8c37280f9861-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1718893740; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=sOTqNbhQrOV3knCrTbus4O69tKMdyCe9bT519pGM5r4=;
+	b=JNDkfnOUKJpd2RHgAwabp4bAWKeDFVk2Vd+WbLkg7EeSIbltoBo0OEI3gErAYTMc
+	NWkAXBVDUWUn+XnJYn5pIf939r2PUB1JezpoqFpmipyT70ifWgp8D66059AOxE5MOG/
+	Ax/7vBsM/RXWwH8eEcngfKLtR9tbuDyKu5opfIL4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1718893740;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=sOTqNbhQrOV3knCrTbus4O69tKMdyCe9bT519pGM5r4=;
+	b=zi7yxcbjyVrCoZPJ74PyGF+s8nKlqEqQG44ld9Z6uTUgHjjsUvR4hlecOD2mt1lK
+	1RN2ZYpHylroBSxRF8YcRvQsiP1dv8JQVP5Zrl2uFW8BKwEy+FxjsE0qQeBZBLoCjg3
+	3pU4AWvErSeKQPvgO/qWjypAMBeZp9E9fy2jbZ/w=
+From: patchtest@automation.yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH 4/6] python3-urllib3: upgrade 2.2.1 -> 2.2.2
+In-Reply-To: <20240620140753.392220-4-tgamblin@baylibre.com>
+References: <20240620140753.392220-4-tgamblin@baylibre.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190360d001e-da281d87-dfae-47b6-87a7-8c37280f9861-000000@us-west-2.amazonses.com>
+Date: Thu, 20 Jun 2024 14:29:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.06.20-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 14:08:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200961
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 14:29:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200962
 
-It still says that patchtest is unmaintained, so remove that line and
-clarify the maintainer in the list.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- MAINTAINERS.md | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/4-6-python3-urllib3-upgrade-2.2.1---2.2.2.patch
 
-diff --git a/MAINTAINERS.md b/MAINTAINERS.md
-index 505c2e234d..fe706a19a3 100644
---- a/MAINTAINERS.md
-+++ b/MAINTAINERS.md
-@@ -41,6 +41,7 @@ Component/Subsystem Maintainers
- * devtool: Saul Wold
- * eSDK: Saul Wold
- * overlayfs: Vyacheslav Yurkov
-+* Patchtest: Trevor Gamblin
- 
- Maintainers needed
- ------------------
-@@ -52,7 +53,6 @@ Maintainers needed
- * error reporting system/web UI
- * wic
- * Patchwork
--* Patchtest
- * Matchbox
- * Sato
- * Autobuilder
--- 
-2.45.2
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
