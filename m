@@ -1,128 +1,98 @@
-Return-Path: <dse@thaumatec.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11523C2BA18
-	for <webhook@archiver.kernel.org>; Thu, 20 Jun 2024 13:40:31 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.47744.1718890824490948567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 945B9C27C79
+	for <webhook@archiver.kernel.org>; Thu, 20 Jun 2024 14:08:01 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web10.48590.1718892480053739721
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jun 2024 06:40:24 -0700
+ Thu, 20 Jun 2024 07:08:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=F6jXJH6v;
- spf=pass (domain: thaumatec.com, ip: 209.85.208.51, mailfrom: dse@thaumatec.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57d1679ee83so890870a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 06:40:24 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=I4M+zstD;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-79baa4e8531so93484085a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 07:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1718890823; x=1719495623; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9vMZJYnIH1UnZYHoReFAh6LSf5qfXXocQ1aVFBZEL28=;
-        b=F6jXJH6vDGAUUuxgUvki7bR5vOoI+LvRxZNGwJ8zAlbmUG9qwYg6cuE4faIjlu/Lq+
-         /kTcBnP8vDJeSrdCLxFPvDDV/dcGGPrZ3mRmI3c94tjDOB+83fzD2yQHYdgkZbdmSIW9
-         6FyE4DTTHcHG5ZdDrBQUdEMuv4bMdhHXslksI0RW6NmLTjnfhwMj+c+3vtfZT4ZEarAu
-         X2MuLKDGgqkH68DP4bG4iaFfQgS4zP4NnwDhJ162nVjTrBhDI3PIWbFKnlWA6YwoQqyg
-         02t4pY1/3xcoe734t1+1L2O3/POmK44NBjsDoBp6WM33SsxHv0IGtq9Tn083rlfsZHE1
-         74Ug==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718892479; x=1719497279; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=exW5yZ7nCTRpcyjpe8RwVGGRImAMHilGdnrM1ZXUy1g=;
+        b=I4M+zstDapE0m/cgCQqxj087cfG+WTrYRfpym8M12eXZp5n+2x5ivKGTiAhEs2N5Od
+         hiLVdtfUpMTAtnPKSqxRx1Y4DB/Sn0doXecqWlQpjhcIMPmRlIzIlI1LcIrmE5El1uiZ
+         iFGV4VUSh57nGU2WL5HLwA+3vWey+DEwWlDTrA+OpFZRegJw+GOjri77YgCF9dBd6j/A
+         JeN0i61MULjoM356stJh8mvc8Lszf6YlfaO8SdalDF+Lwkd6Hk7wSMhrxAhUG1CWU46y
+         QaFnoej2+Pq7+vLKehisruzmQGq3kjbx6H8tCz4a86BBCFV8BtVkcrzCNCtBtgPcWmq5
+         yMxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718890823; x=1719495623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9vMZJYnIH1UnZYHoReFAh6LSf5qfXXocQ1aVFBZEL28=;
-        b=hP88zvM0n9T9m7VMY6EowKxvVIRFklj7T+X8jq6SjDLmHbGd0udLuR7Hh8oWGZmcSr
-         FkHm0quOpE9uiM5t4AVvah9/2IMJPl7DcwJGTJx0wH/jk8vg8DHcqZqhZm8svypd0OFU
-         fzzFRL0G19EUaSOFc28Rwwio8LBd5rBfOc47Idi7EaI7mtRWkg6mMA/EkRrN8ftntUWl
-         KscENST/ef+mLp6AJjMXiLBjQRRRx82ky07kYScyoFXdcN2bK6ADPp+HkX+81SFP3CpC
-         AY54/SnNl0JMkPENmBPsMLvtLbs4ZMfuy3HDrrHLNReyGlGcKRMv8E8GIVxpsI0UbQz4
-         xOrg==
-X-Gm-Message-State: AOJu0YyIQzMi16b2w+Rxb2qovyCdkgtTt9lW5yyUVdH6KDmt0qo8kezT
-	xZHiw4mtpn9yVujS8oZthdoORgBx5JU/2ZOYoSkvdaaSsDbs1b/wggnO85wWPpr8va3AZBnWyeM
-	Q3DmzUEJa1MOp8S7zZ42LnFRaz9JnF0IrViUkkA==
-X-Google-Smtp-Source: AGHT+IFFAqUjyPOuIeeKADfdj5vK3e0l68oahwDwSOrif54pNvs3fyVIMezobKp1uXFBGm/TqHMrLZnOYSngYnV5T5w=
-X-Received: by 2002:a50:9f67:0:b0:57c:6d58:e1f1 with SMTP id
- 4fb4d7f45d1cf-57d07e6bab3mr3229486a12.9.1718890822639; Thu, 20 Jun 2024
- 06:40:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718892479; x=1719497279;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=exW5yZ7nCTRpcyjpe8RwVGGRImAMHilGdnrM1ZXUy1g=;
+        b=bbXUTpjpfFCPic033cp86bz3q0k5bR4gZV1zBdmlt1k8G7oLOxMve2TZyHdkWkIo5U
+         LppAdrvtx3HZT4A8ZKRDD2ob2xHEXsSVS3bS0dRlYifIvfqCJYEGsmXY6L49WlGepZSn
+         FBQs2z4ks4+04XObd2fuHYaJy36b+XdY44ztkwkZ5hdOSWW4jc8KNEQ9wtSehVCYm3PQ
+         2q9b2mNU8nsyHsakSfpOmUbjnvbZ5hy02sAMjIlKH6gSSScPtyGfpC5Ok2sLn9IZJWFa
+         ibF3cpps53+/jZZoWDqk+SoP9DEj5TAFekejSAANCgqwzs1nS2CCOLriFNHwqqomvUmu
+         AtdQ==
+X-Gm-Message-State: AOJu0YxJDFJHL2+g5dmec05UKlDvsxOopS8cgKSdQn2RUHtTauMlW52m
+	Q2+STMhMJoNE4+fEJsPGLISAq9RxTXqnQilfq/E0giQoHRACoZqwOMMkqPVhS9yEa+j7/YDRn3o
+	8
+X-Google-Smtp-Source: AGHT+IHBr3FBxZhFVCJB473exOzBDb8arxp0p/k1LnV5bSw6Eao9Idd/MEleA5r460qP4OMcvhvn9A==
+X-Received: by 2002:a05:620a:44c4:b0:79b:b8ef:15f1 with SMTP id af79cd13be357-79bb8ef1a32mr413619585a.56.1718892478943;
+        Thu, 20 Jun 2024 07:07:58 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-798abe6efc7sm691579185a.131.2024.06.20.07.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 07:07:58 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Trevor Gamblin <tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 1/6] python3-hypothesis: upgrade 6.103.0 -> 6.103.2
+Date: Thu, 20 Jun 2024 10:07:48 -0400
+Message-ID: <20240620140753.392220-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240620130343.220397-1-dse@thaumatec.com> <CA+chaQfDn=N8vh0r6m+bCSZkpdoOOPvxku6q=ygWUnFt0HUK+w@mail.gmail.com>
-In-Reply-To: <CA+chaQfDn=N8vh0r6m+bCSZkpdoOOPvxku6q=ygWUnFt0HUK+w@mail.gmail.com>
-From: Daniel Semkowicz <dse@thaumatec.com>
-Date: Thu, 20 Jun 2024 15:40:11 +0200
-Message-ID: <CAHgnY3mxKa3Ca1_aUYn=hE5E+Q=NdqmNdx-iZ5vrh=uXG6OoeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] os-release: Fix VERSION_CODENAME in case it is empty
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 13:40:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200955
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jun 2024 14:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/200956
 
-Unfortunately, settings DISTRO_CODENAME to empty string triggers
-VERSION variable to be suffixed with "()", because:
+Changelog (https://hypothesis.readthedocs.io/en/latest/changes.html):
 
-  VERSION =3D "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if
-'DISTRO_CODENAME' in d else ''}"
+6.103.2 - 2024-06-14
+- This patch improves our deduplication tracking across all strategies (pull request #4007). Hypothesis is now less likely to generate the same input twice.
 
-Which is not a desirable effect.
+6.103.1 - 2024-06-05
+- Account for time spent in garbage collection during tests, to avoid flaky DeadlineExceeded errors as seen in issue #3975.
+- Also fixes overcounting of stateful run times, a minor observability bug dating to version 6.98.9 (pull request #3890).
 
-On Thu, Jun 20, 2024 at 3:16=E2=80=AFPM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> If you want to set VERSION_CODENAME to empty you can just add:
-> DISTRO_CODENAME ??=3D ""
-> to make sure it's always expanded to at least empty string.
->
-> On Thu, Jun 20, 2024 at 3:04=E2=80=AFPM Daniel Semkowicz via
-> lists.openembedded.org <dse=3Dthaumatec.com@lists.openembedded.org>
-> wrote:
-> >
-> > If DISTRO_CODENAME was not set, VERSION_CODENAME field was populated
-> > with unparsed string. This resulted in the following line in os-release
-> > file:
-> >
-> >   VERSION_CODENAME=3D"${DISTRO_CODENAME}"
-> >
-> > According to systemd documentation, this field is optional.
-> > Fix the problem by setting VERSION_CODENAME conditionally, only if
-> > DISTRO_CODENAME was set.
-> >
-> > Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
-> > ---
-> >  meta/recipes-core/os-release/os-release.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-=
-core/os-release/os-release.bb
-> > index 8906906bc3..93af08c182 100644
-> > --- a/meta/recipes-core/os-release/os-release.bb
-> > +++ b/meta/recipes-core/os-release/os-release.bb
-> > @@ -24,7 +24,7 @@ ID =3D "${DISTRO}"
-> >  NAME =3D "${DISTRO_NAME}"
-> >  VERSION =3D "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_=
-CODENAME' in d else ''}"
-> >  VERSION_ID =3D "${DISTRO_VERSION}"
-> > -VERSION_CODENAME =3D "${DISTRO_CODENAME}"
-> > +VERSION_CODENAME =3D "${@d.getVar('DISTRO_CODENAME') or ''}"
-> >  PRETTY_NAME =3D "${DISTRO_NAME} ${VERSION}"
-> >
-> >  # The vendor field is hardcoded to "openembedded" deliberately. We'd
-> > --
-> > 2.45.2
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#200952): https://lists.openembedded.org/g/openembed=
-ded-core/message/200952
-> > Mute This Topic: https://lists.openembedded.org/mt/106779331/3617156
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-martin.jansa@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...hon3-hypothesis_6.103.0.bb => python3-hypothesis_6.103.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.103.0.bb => python3-hypothesis_6.103.2.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.103.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.103.0.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb
+index 18ef7992a1..b935bb02cf 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.103.0.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "7fe91917b99fc98ac150ec295775a687448c7c42c2276ab6e4a6969a4b285bb5"
++SRC_URI[sha256sum] = "83504e31e90a0d7d6e8eb93e51525dc1a48d79c932a50ad6035e29f8295328cd"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.45.2
+
 
