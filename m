@@ -1,145 +1,269 @@
-Return-Path: <peron.clem@gmail.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B584C27C4F
-	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:10:48 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.69652.1718964642122075573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0116C27C4F
+	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:29:08 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.69843.1718965744074690747
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 03:10:42 -0700
+ Fri, 21 Jun 2024 03:29:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ewuwBMTb;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: peron.clem@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ec1ac1aed2so20885531fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718964640; x=1719569440; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZGa8AsWbn6IBjtu6soeRt6Y34fKd7/2jA6+6WAk8jlE=;
-        b=ewuwBMTbgzu4ZvEcXoAh5xqavoBG07R6xCjPllHbaPIu5iJ42ILswLzZsoPen1eJCv
-         sa7/BAMA0GTtIcaYgtvdavp2mWOQEJ9e/91mkCDA/Bipaem2O3oQZnEemeh/Ci5+Ezuu
-         byfdWEafIdN80P5kg/XOKN9W1LpIBiJrBPr6TRfCzigZie6HMcCMaf/r6lA/RQFQQd4f
-         Yz8dFR4K3cfdlCdI9xES8DpygzDAGq5VqiWA/KGTxSy1I3M2QdJ72QdlNTD7d+onX2Kb
-         gKREhdirRf+rA6P7qHucZB1tZzXQOESxtco8Td3o2TMoF/J9F+6A8nciL0vGnlvTiXB7
-         7ZWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718964640; x=1719569440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZGa8AsWbn6IBjtu6soeRt6Y34fKd7/2jA6+6WAk8jlE=;
-        b=vy+OmfNnFwI8fFvLeqCD8yfjG7EQjlbzsxoEsU9hBA/P5UHZQnBL5IQPp0U6zWEJNr
-         4/E793yLIo+XAJYDLMIqXtDYwZDaFu5vXZXPEbWwKHfHBL5kyR98wM3ikMP6gLDs5rrB
-         9Zi8fXtneR0/9DpIDm4SBs9bKLPCC42uvWmK7k4Ia9pDb9FRGU8Ds4xtqE3ENUJ0wQ0e
-         TnPcHAYCSYO3sfNgn88YYlpCxaMV8utv0I/6pjxXBOLNb0pcYneSNDpzH7Sjw5S8Raw5
-         ZS6KiV99Tm50SGuFI28GdtjFcmLihp30yIqOK/MgqC/sLcxVOWAxRaGOzCLRAXECIGOV
-         P+bg==
-X-Forwarded-Encrypted: i=1; AJvYcCWeQG8943LnvyUV7IUcVvfT48Y+5ToqP1EiHtF54SOFFpnPxUD0ZNKL4z3NQrPcro15YeUgPEh7krgS6ocMZIWDnYGR+oMkokOCEzhEtwXM+wlIcmai0K0u
-X-Gm-Message-State: AOJu0YzcWjoZ9vMnwnFnAVabaA2EH3krEx31b9VjgGJDCjZr4qFX4xpi
-	2qOEAMe2zmzXk6ToZMkNkryUHkHXMPXLlrHBRe19NHI1qNv4apbL
-X-Google-Smtp-Source: AGHT+IFPmNbZLg7Kzn5jLEO+gOX/dIzxbpgXmOf7aDJlADaTV4AZLBf5sKM7SwaCvM+LdqQfwX8wog==
-X-Received: by 2002:ac2:4c35:0:b0:52c:910b:9c87 with SMTP id 2adb3069b0e04-52ccaa38026mr4022407e87.36.1718964639614;
-        Fri, 21 Jun 2024 03:10:39 -0700 (PDT)
-Received: from clements-macbook-pro.home (2a01cb0004909300e598541db2dfe8f7.ipv6.abo.wanadoo.fr. [2a01:cb00:490:9300:e598:541d:b2df:e8f7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0c54besm57214105e9.25.2024.06.21.03.10.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 21 Jun 2024 03:10:39 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To: peter.marko@siemens.com,
-	openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH] openssl: Remove patch already upstreamed
-Date: Fri, 21 Jun 2024 12:10:34 +0200
-Message-Id: <20240621101034.83232-1-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dnebKbRh;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: joaomarcos.costa@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 17EB7C0005;
+	Fri, 21 Jun 2024 10:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1718965742;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jUnJPvqZ08UBWeBuygL4TrUYOErrV7FV8vpKMhPR7Pc=;
+	b=dnebKbRhe1dFY4Vvw8ABOVW/ia/EWJk7r5//56V616yMzgSqTj1ePnLT6pbzL1kYTHL9Bc
+	asn+E/E2pwEvdF2RrP4jvvZlYTsNymE2CJGcYXSjEhH567PR9vw6eVcd9mAnWjMPIhpyd7
+	Jj/id3WHZLmRMdQADWnwvNK3FYc0BlKXNXYo+DsUpZaHmJj511cFfkzmI9DeM3Br+OGoMn
+	W7i7LtlzmDxM8MjZfmxMZ356vS1wEoEIt4mZbUUFq9Kkm8+dyu2cId3qikZXRPwgYH6Ytd
+	jC4CA/g2cFIx1pizw2xEDfpdyR/M/K/3GBFUO580dEfiTPVTufvIJT44fZdaqQ==
+Content-Type: multipart/alternative;
+ boundary="------------BWnFDcQnNEmh0dKXy2YNAEtv"
+Message-ID: <2a775a76-43da-4139-ace1-d28e35a66504@bootlin.com>
+Date: Fri, 21 Jun 2024 12:29:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] acl: Fix nfs ptest failure
+Content-Language: en-US, fr
+To: openembedded-core@lists.openembedded.org
+References: <20240619091703.1410186-1-mingli.yu@windriver.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20240619091703.1410186-1-mingli.yu@windriver.com>
+X-GND-Sasl: joaomarcos.costa@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:10:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201004
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:29:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201005
 
-Since the bump to OpenSSL 3.3.1, riscv32 doesn't build anymore due to
-the folowing error:
-crypto/riscv32cpuid.s:77: Error: symbol `riscv_vlen_asm' is already
-defined
+This is a multi-part message in MIME format.
+--------------BWnFDcQnNEmh0dKXy2YNAEtv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This is due to the patch beeing already applied upstream:
-Commit: 8702320db98d1346c230aff1282ade3ecdca681a
+Hello,
 
-Signed-off-by: Clément Péron <peron.clem@gmail.com>
----
- ...Implement-riscv_vlen_asm-for-riscv32.patch | 43 -------------------
- .../openssl/openssl_3.3.1.bb                  |  1 -
- 2 files changed, 44 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Implement-riscv_vlen_asm-for-riscv32.patch
+On 6/19/24 11:17, Yu, Mingli wrote:
+> From: Mingli Yu<mingli.yu@windriver.com>
+>
+> * The date such as "Jun 13" should take 2 columns, so the expected check
+> item "test/sub2" should the column 9.
+>   # ls test/sub2 -dl
+>   drwxr-xr-x 2 root root 4096 Jun 13 06:01 test/sub2
+>
+>    Corret the check item to fix the below failure in the test/nfsacl.test.
+>    [11] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}' -- failed
+>    drwxr-xr-x 07:23                      != drwxr-xr-x test/sub2
+>    -rw-r--r-- 07:23                      != -rw-r--r-- test/sub2/blah
+>
+> * Use the abosulte path otherwise we won't find the expected file blah.
+>
+> * The calls to getgrnam_r would always fail because the size of the
+> buffer was smaller than the minimum (170000) specified in the test
+> implementations of getgrnam_r and getpwnam_r.  Use test_get*_match directly
+> because getpwnam and getgrnam should never fail on ERANGE.
+>
+> This commit fixes the following failure in the test/nfs/nfs-dir.test test:
+>
+> [16] $ su bin -- failed
+> su: user bin does not exist           != ~
+>
+>   # ./run-ptest
+> PASS: test/cp.test
+> PASS: test/getfacl-lfs.test
+> PASS: test/getfacl-noacl.test
+> PASS: test/getfacl-recursive.test
+> PASS: test/malformed-restore.test
+> PASS: test/misc.test
+> PASS: test/sbits-restore.test
+> PASS: test/setfacl-X.test
+> PASS: test/utf8-filenames.test
+> PASS: test/root/getfacl.test
+> PASS: test/root/permissions.test
+> PASS: test/root/restore.test
+> PASS: test/root/setfacl.test
+> PASS: test/nfs/nfsacl.test
+> PASS: test/nfs/nfs-dir.test
+> ============================================================================
+> Testsuite summary for acl 2.3.2
+> ============================================================================
+>   # TOTAL: 15
+>   # PASS:  15
+>   # SKIP:  0
+>   # XFAIL: 0
+>   # FAIL:  0
+>   # XPASS: 0
+>   # ERROR: 0
+> ============================================================================
+>
+> Signed-off-by: Mingli Yu<mingli.yu@windriver.com>
+> ---
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Implement-riscv_vlen_asm-for-riscv32.patch b/meta/recipes-connectivity/openssl/openssl/0001-Implement-riscv_vlen_asm-for-riscv32.patch
-deleted file mode 100644
-index e398d1074a..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-Implement-riscv_vlen_asm-for-riscv32.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 725b1530456545e8511adc9cbdd265309dffad53 Mon Sep 17 00:00:00 2001
--From: Hongren Zheng <i@zenithal.me>
--Date: Fri, 26 Apr 2024 06:03:43 +0000
--Subject: [PATCH] Implement riscv_vlen_asm for riscv32
--
--riscvcap.c: undefined reference to 'riscv_vlen_asm'
--
--Upstream-Status: Backport [https://github.com/openssl/openssl/pull/24270]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- crypto/riscv32cpuid.pl | 17 +++++++++++++++++
-- 1 file changed, 17 insertions(+)
--
--diff --git a/crypto/riscv32cpuid.pl b/crypto/riscv32cpuid.pl
--index 20694e7..ac1c043 100644
----- a/crypto/riscv32cpuid.pl
--+++ b/crypto/riscv32cpuid.pl
--@@ -84,5 +84,22 @@ OPENSSL_cleanse:
-- ___
-- }
-- 
--+{
--+my ($ret) = ('a0');
--+$code .= <<___;
--+################################################################################
--+# size_t riscv_vlen_asm(void)
--+# Return VLEN (i.e. the length of a vector register in bits).
--+.p2align 3
--+.globl riscv_vlen_asm
--+.type riscv_vlen_asm,\@function
--+riscv_vlen_asm:
--+    csrr $ret, vlenb
--+    slli $ret, $ret, 3
--+    ret
--+.size riscv_vlen_asm,.-riscv_vlen_asm
--+___
--+}
--+
-- print $code;
-- close STDOUT or die "error closing STDOUT: $!";
---- 
--2.45.0
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.3.1.bb b/meta/recipes-connectivity/openssl/openssl_3.3.1.bb
-index a8746842b2..0ad84951e6 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.3.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.3.1.bb
-@@ -12,7 +12,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
--           file://0001-Implement-riscv_vlen_asm-for-riscv32.patch \
-            "
- 
- SRC_URI:append:class-nativesdk = " \
+The patch is intended to fix a ptest failure, but could it be causing 
+this nfsacl.test failure?
+
+Please, check the following output:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6734/steps/13/logs/stdio
+
+and from the autobuilder logs:
+
+FAIL: test/nfs/nfsacl
+=====================
+
+[6] $ umask 022 -- ok
+[7] $ mkdir -p test/sub -- ok
+[8] $ echo blah > test/sub/blah -- ok
+[10] $ cp -rp test/sub test/sub2 -- ok
+[11] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}' -- ok
+[15] $ rm -rf test/sub2 -- ok
+[17] $ setfacl -m u:daemon:rwx test/sub -- ok
+[18] $ setfacl -dm u:daemon:rwx test/sub -- ok
+[19] $ getfattr -m- test/sub -- failed
+Can't exec "getfattr": No such file or directory at ./test/run line 369, 
+<TEST_FILE> line 24. != # file: test/sub
+getfattr: No such file or directory   != system.posix_acl_access
+~                                     != system.posix_acl_default
+~                                     !=
+[25] $ cp -rp test/sub test/sub2 -- ok
+[26] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}' -- ok
+[30] $ rm -rf test/sub2 -- ok
+[32] $ setfacl -m u:daemon:rw test/sub/blah -- ok
+[33] $ cp -rp test/sub test/sub2 -- ok
+[34] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}' -- ok
+[38] $ rm -rf test/sub2 -- ok
+[42] $ rm -rf test -- ok
+17 commands (16 passed, 1 failed)
+FAIL test/nfs/nfsacl.test (exit status: 1)
+
 -- 
-2.39.3 (Apple Git-146)
+Best regards,
+João Marcos Costa
 
+--------------BWnFDcQnNEmh0dKXy2YNAEtv
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font face="monospace">Hello,</font><br>
+    </p>
+    <div class="moz-cite-prefix">On 6/19/24 11:17, Yu, Mingli wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20240619091703.1410186-1-mingli.yu@windriver.com">
+      <pre class="moz-quote-pre" wrap="">From: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com">&lt;mingli.yu@windriver.com&gt;</a>
+
+* The date such as "Jun 13" should take 2 columns, so the expected check
+item "test/sub2" should the column 9.
+ # ls test/sub2 -dl
+ drwxr-xr-x 2 root root 4096 Jun 13 06:01 test/sub2
+
+  Corret the check item to fix the below failure in the test/nfsacl.test.
+  [11] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}' -- failed
+  drwxr-xr-x 07:23                      != drwxr-xr-x test/sub2
+  -rw-r--r-- 07:23                      != -rw-r--r-- test/sub2/blah
+
+* Use the abosulte path otherwise we won't find the expected file blah.
+
+* The calls to getgrnam_r would always fail because the size of the
+buffer was smaller than the minimum (170000) specified in the test
+implementations of getgrnam_r and getpwnam_r.  Use test_get*_match directly
+because getpwnam and getgrnam should never fail on ERANGE.
+
+This commit fixes the following failure in the test/nfs/nfs-dir.test test:
+
+[16] $ su bin -- failed
+su: user bin does not exist           != ~
+
+ # ./run-ptest
+PASS: test/cp.test
+PASS: test/getfacl-lfs.test
+PASS: test/getfacl-noacl.test
+PASS: test/getfacl-recursive.test
+PASS: test/malformed-restore.test
+PASS: test/misc.test
+PASS: test/sbits-restore.test
+PASS: test/setfacl-X.test
+PASS: test/utf8-filenames.test
+PASS: test/root/getfacl.test
+PASS: test/root/permissions.test
+PASS: test/root/restore.test
+PASS: test/root/setfacl.test
+PASS: test/nfs/nfsacl.test
+PASS: test/nfs/nfs-dir.test
+============================================================================
+Testsuite summary for acl 2.3.2
+============================================================================
+ # TOTAL: 15
+ # PASS:  15
+ # SKIP:  0
+ # XFAIL: 0
+ # FAIL:  0
+ # XPASS: 0
+ # ERROR: 0
+============================================================================
+
+Signed-off-by: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com">&lt;mingli.yu@windriver.com&gt;</a>
+---</pre>
+    </blockquote>
+    <p><font face="monospace">The patch is intended to fix a ptest
+        failure, but could it be causing this nfsacl.test failure?</font></p>
+    <p><font face="monospace">Please, check the following output:<br>
+      </font></p>
+    <p><font face="monospace"><a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6734/steps/13/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6734/steps/13/logs/stdio</a></font></p>
+    <p><font face="monospace">and from the autobuilder logs:</font></p>
+    <p><font face="monospace">FAIL: test/nfs/nfsacl<br>
+        =====================<br>
+        <br>
+        [6] $ umask 022 -- ok<br>
+        [7] $ mkdir -p test/sub -- ok<br>
+        [8] $ echo blah &gt; test/sub/blah -- ok<br>
+        [10] $ cp -rp test/sub test/sub2 -- ok<br>
+        [11] $ find test/sub2 | sort | xargs ls -dl | awk '{print
+        $1,$9}' -- ok<br>
+        [15] $ rm -rf test/sub2 -- ok<br>
+        [17] $ setfacl -m u:daemon:rwx test/sub -- ok<br>
+        [18] $ setfacl -dm u:daemon:rwx test/sub -- ok<br>
+        [19] $ getfattr -m- test/sub -- failed<br>
+        Can't exec "getfattr": No such file or directory at ./test/run
+        line 369, &lt;TEST_FILE&gt; line 24. != # file: test/sub<br>
+        getfattr: No such file or directory   != system.posix_acl_access<br>
+        ~                                     !=
+        system.posix_acl_default<br>
+        ~                                     != <br>
+        [25] $ cp -rp test/sub test/sub2 -- ok<br>
+        [26] $ find test/sub2 | sort | xargs ls -dl | awk '{print
+        $1,$9}' -- ok<br>
+        [30] $ rm -rf test/sub2 -- ok<br>
+        [32] $ setfacl -m u:daemon:rw test/sub/blah -- ok<br>
+        [33] $ cp -rp test/sub test/sub2 -- ok<br>
+        [34] $ find test/sub2 | sort | xargs ls -dl | awk '{print
+        $1,$9}' -- ok<br>
+        [38] $ rm -rf test/sub2 -- ok<br>
+        [42] $ rm -rf test -- ok<br>
+        17 commands (16 passed, 1 failed)<br>
+        FAIL test/nfs/nfsacl.test (exit status: 1)<br>
+        <br>
+      </font></p>
+    <pre class="moz-signature" cols="72">-- 
+Best regards,
+João Marcos Costa</pre>
+  </body>
+</html>
+
+--------------BWnFDcQnNEmh0dKXy2YNAEtv--
 
