@@ -1,206 +1,433 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4BCC2BA1A
-	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 15:09:51 +0000 (UTC)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web10.75652.1718982588918663257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB2FC27C4F
+	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 15:15:51 +0000 (UTC)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web11.75904.1718982947782097662
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 08:09:49 -0700
+ Fri, 21 Jun 2024 08:15:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Kr4Q1qwZ;
- spf=pass (domain: baylibre.com, ip: 209.85.210.45, mailfrom: tgamblin@baylibre.com)
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6f9ca219760so1089840a34.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 08:09:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jcaRG1Ex;
+ spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5ba70a0ed75so1048926eaf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 08:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718982588; x=1719587388; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UBZtNpGfArKrIkVCkz6znLuuJwfkl0N4qdak2ifu2cs=;
-        b=Kr4Q1qwZ5wSeODIIsjhL+fkq63skdX3dLNmOTegMfLYwqKc3VuDe8RRQWaaY7pDvMY
-         Eh3m41BXojSh811Kx97f4VwVL+yH+t1WVnwVaEbp6b/DpSZruTTiKnsd2LDBmYTkuT0N
-         m/NgD2nPRbq+TdPlSefoDpyaOzNCouEkZucK2/sENfOUo/OgBLeKPiK1xoEPmUshxHz+
-         LLDdlz9kTYKdyj6ehlKP2kfvP7nx1xHoauyeyRlFfpIK2HhOU8FtcMkfuWTZGaAwXkaY
-         UXYY/Y3FULa8n9YzxPmy3K9WHqK6Kp6HaMN5RgsJuDvyzEVjtrCs6C4ALFPQaR3fP+KD
-         mJzQ==
+        d=gmail.com; s=20230601; t=1718982947; x=1719587747; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RtPn7DD9RP59k5BclQKw8sAskSLzCcOdCNeGYFEN2BE=;
+        b=jcaRG1ExZVWvr8fAh2OWFuG5dANXP9HOu43LzNjkc9TBfBu798pPYkiXVQq0cORCI7
+         PY0ftcsZNMln1knw1YwJ68T+5N5wsbqKOzrdpRsbgD49mMHsPFMA6PEZ6EwuQP3GDD9A
+         zM2T0fCa1krOIpWRF1TjZEPNH/zCEDcOBjG0z6JpDsdyb4UcOC21nt7+/fXCytBS7F1C
+         ZfbddcTV2wtSgM1EVZnF1XbqzYRx1Y1S7/+KHKMHN0ODl632dnVZVBL8yB2EFO4XVKsI
+         MBLFh3x7PtdSJfaZ9u/3lrQn9tF8GFHb5bIsYJgy3Kp/nD6Es9LQhzwiPAcWyliNKCGf
+         MXWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718982588; x=1719587388;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UBZtNpGfArKrIkVCkz6znLuuJwfkl0N4qdak2ifu2cs=;
-        b=oxsuuGDji8V+QuCD5gMiuelLykqFcG88J/6aHPtpWo0szw7lr+LK9AIXRNfr2A5Syh
-         ZzoS/+ZYDxjmeezBOYZv/D7Ws4eTDZD9wArh+WR78Ikv2F5dyiHouAN/tUPEAA1/VWnx
-         WYIFsP1oH4IjCRXNk/MmmUytGB0qox357TQs6hfNtZeKOM2UI+YiohBP+PwzG6LdqrpJ
-         HtsIpPVsKbsVONZ/JUXCQnfF9sO+FSf1kHdsV7QIm4GVsKQ5RosxRQzITsMYsnWnqnyy
-         4NzGOPA6/1Lm1DHq/NoS1BB1Mxdn7KipzCN3379kmQtUBwTNpuu+4Ra+LwIzoLEfhNl5
-         mueg==
-X-Gm-Message-State: AOJu0Yyq1fq1yBqfSjVt8pqCrTyx+lrQAdpu7rOncL8+2iG5pkqVnJ+q
-	tu6dZ5rsBhAhIpKNfiddwhKcng4Pku7TW1Gj4jQgdlOuK+MBlWJdXLOTut242S0OHFaiAih5Ur+
-	P
-X-Google-Smtp-Source: AGHT+IG6LlYceh5RP5voII+VEXeeI+/5xMiwwAl8SE/teeAWA1/psGFVPeuncpOIsMDMdHw0FD2ykA==
-X-Received: by 2002:a05:6830:14d6:b0:6fa:1312:49ed with SMTP id 46e09a7af769-7007420c129mr9136417a34.20.1718982587840;
-        Fri, 21 Jun 2024 08:09:47 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b51ef498b3sm9332696d6.107.2024.06.21.08.09.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 08:09:47 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com,
-	Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [OE-core][PATCH] python3-numpy: upgrade 1.26.4 -> 2.0.0
-Date: Fri, 21 Jun 2024 11:09:43 -0400
-Message-ID: <20240621150943.479535-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1718982947; x=1719587747;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RtPn7DD9RP59k5BclQKw8sAskSLzCcOdCNeGYFEN2BE=;
+        b=A4zL6TlRE5o557qy59gBtRQnu8nZGXOB2AayQ9fTJS6B2hwZw4Dvs47MCCnkfrC18n
+         E/8Apz2PZBkOTZqswd71yk6aEGHjMNJPJVX+ejk5kdcr8LVeA5MCEcFNU2RaYVomAvGn
+         cpmoValVksAEBdhEFFN+qfsukGsO76dvh0uBXFEay7vy/SCGJVw0cmybk1EhG1zkWTs+
+         Wddpj/yphN5P2jNiSOznKhkfhhsTtpY7y0kk1JW1a/QuZCTCnQQN3Xybdh577r3D4pZB
+         Rx7Rb/PTJz77ADaCDunlwldwHRA7teKaVp72xK9pvHeAKVNvnqygw9w+yIL46mgw9MY6
+         5i+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWlslym5S3bxSc6vbSzJuEpBPdxK3x5S5dUOiAz+ojI0GeeF7xkovuLDyCWDzSVXJFLSCCRoKr3Rskcb0Rxd+YVML7TLeAgrd1AGpPFeuHiP9hBopqe6v44
+X-Gm-Message-State: AOJu0YwRQ818X9yx5nb2hNfINCO7qW+D6K13u4aOp1q9xhkGxMZqps34
+	9yy7lfn4GQcJxqDfcK4iaOd3A3jhq1zLnwuE08edd/XYnQNApnBIviawNqe+XN17LgdTOl868FG
+	KlRISx4lIW51pu6bkjE5g+/DX65k=
+X-Google-Smtp-Source: AGHT+IGhPnZB0hjS04KKXqjauc6VLr16OSNMU3COeZWiJDdlJTF4Y+ux129XJin5tlzU+zG4ecRgAW/LLa6a0WABoA0=
+X-Received: by 2002:a05:6871:216:b0:254:85e0:51c3 with SMTP id
+ 586e51a60fabf-25c94dfe84dmr10362896fac.47.1718982946825; Fri, 21 Jun 2024
+ 08:15:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240604203700.1155138-1-peter.marko@siemens.com> <CAJiuCcdvXNhhCzhOTxziL_Zf7Hx9MXk6b-LiS3B9=Hp=MRhvug@mail.gmail.com>
+In-Reply-To: <CAJiuCcdvXNhhCzhOTxziL_Zf7Hx9MXk6b-LiS3B9=Hp=MRhvug@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 21 Jun 2024 08:15:20 -0700
+Message-ID: <CAMKF1sr-V833BZSYnC85uVRQ5Nvp_zmox6XLWBmHEz9zgYhm3w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] openssl: Upgrade 3.3.0 -> 3.3.1
+To: peron.clem@gmail.com
+Cc: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 15:09:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201028
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 15:15:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201029
 
-- This release contains numerous API changes and bug fixes.
-  Changelog: https://github.com/numpy/numpy/releases/tag/v2.0.0
+On Fri, Jun 21, 2024 at 3:03=E2=80=AFAM Cl=C3=A9ment P=C3=A9ron via
+lists.openembedded.org <peron.clem=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> Hi,
+>
+> I got an issue with riscv32
+>
+> | crypto/riscv32cpuid.s:77: Error: symbol `riscv_vlen_asm' is already
+> defined 6703
+>
+> It seems that it's due to OE that is applying a patch that has been upstr=
+eameder
+>  https://github.com/openssl/openssl/commit/8702320db98d1346c230aff1282ade=
+3ecdca681a
+>
 
-- Notably, the build backend has switched to mesonpy.
+Good catch. yes we backported it as
+0001-Implement-riscv_vlen_asm-for-riscv32.patch
+it should be removed along with this upgrade.
 
-- Patch 0001-numpy-core-Define-RISCV-32-support.patch had to be updated to
-  change the paths for the target files. It's still waiting to be merged
-  upstream and will need a rebase, so I've added a comment on the PR:
-
-  https://github.com/numpy/numpy/pull/17780
-
-  Note that the riscv32 test build didn't complete because openssl failed
-  on do_compile, but the patch applies cleanly now.
-
-- For numpy, add 'pkgconfig' to inherit to avoid the following error at
-  do_compile:
-
-  | Found Pkg-config: NO
-  | Run-time dependency python found: YES 3.12
-  | Has header "Python.h" with dependency python: NO
-  |
-  | ../numpy-2.0.0/meson.build:44:2: ERROR: Problem encountered: Cannot compile `Python.h`. Perhaps you need to install python-dev|python-devel
-  |
-  | A full log can be found at /home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/2.0.0/build/meson-logs/meson-log.txt
-
-- Also modify the FILES:${PN}-staticdev line to fix a QA issue at the end.
-
-License-Update: Change copyright year to 2024
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...1-numpy-core-Define-RISCV-32-support.patch | 28 +++++++++++--------
- ...numpy_1.26.4.bb => python3-numpy_2.0.0.bb} | 10 ++++---
- 2 files changed, 22 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.26.4.bb => python3-numpy_2.0.0.bb} (83%)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-index 676bdbb3af..8dfb20edbb 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-@@ -1,4 +1,4 @@
--From eb6d6579150bf4684603ce377c51e90ad3bb8109 Mon Sep 17 00:00:00 2001
-+From df38843aaa7184115d262f14eae23ff38a20372a Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 15 Nov 2020 15:32:39 -0800
- Subject: [PATCH] numpy/core: Define RISCV-32 support
-@@ -7,15 +7,19 @@ Helps compile on riscv32
- 
- Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> On Tue, 4 Jun 2024 at 22:37, Peter Marko via lists.openembedded.org
+> <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> >
+> > From: Peter Marko <peter.marko@siemens.com>
+> >
+> > Handles CVE-2024-4741
+> >
+> > Removed included backports.
+> >
+> > Release information:
+> > https://github.com/openssl/openssl/blob/openssl-3.3/NEWS.md#major-chang=
+es-between-openssl-330-and-openssl-331-4-jun-2024
+> >
+> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > ---
+> >  .../openssl/openssl/CVE-2024-4603.patch       | 179 ------------------
+> >  .../openssl/openssl/bti.patch                 |  58 ------
+> >  .../{openssl_3.3.0.bb =3D> openssl_3.3.1.bb}    |   4 +-
+> >  3 files changed, 1 insertion(+), 240 deletions(-)
+> >  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-=
+4603.patch
+> >  delete mode 100644 meta/recipes-connectivity/openssl/openssl/bti.patch
+> >  rename meta/recipes-connectivity/openssl/{openssl_3.3.0.bb =3D> openss=
+l_3.3.1.bb} (98%)
+> >
+> > diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.pa=
+tch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+> > deleted file mode 100644
+> > index cdc3d0d503..0000000000
+> > --- a/meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+> > +++ /dev/null
+> > @@ -1,179 +0,0 @@
+> > -From 53ea06486d296b890d565fb971b2764fcd826e7e Mon Sep 17 00:00:00 2001
+> > -From: Tomas Mraz <tomas@openssl.org>
+> > -Date: Wed, 8 May 2024 15:23:45 +0200
+> > -Subject: [PATCH] Check DSA parameters for excessive sizes before valid=
+ating
+> > -
+> > -This avoids overly long computation of various validation
+> > -checks.
+> > -
+> > -Fixes CVE-2024-4603
+> > -
+> > -Reviewed-by: Paul Dale <ppzgs1@gmail.com>
+> > -Reviewed-by: Matt Caswell <matt@openssl.org>
+> > -Reviewed-by: Neil Horman <nhorman@openssl.org>
+> > -Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
+> > -(Merged from https://github.com/openssl/openssl/pull/24346)
+> > -
+> > -(cherry picked from commit 85ccbab216da245cf9a6503dd327072f21950d9b)
+> > -
+> > -<dropped CHANGES.md modifications as it would need backport of all pre=
+vious changes>
+> > -
+> > -CVE: CVE-2024-4603
+> > -Upstream-Status: Backport [https://github.com/openssl/openssl/commit/5=
+3ea06486d296b890d565fb971b2764fcd826e7e]
+> > -Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > ----
+> > - crypto/dsa/dsa_check.c                        | 44 ++++++++++++--
+> > - .../invalid/p10240_q256_too_big.pem           | 57 ++++++++++++++++++=
 +
-+Update the patch with the new paths for numpy release 2.0.0.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-- numpy/core/include/numpy/npy_cpu.h    | 3 +++
-- numpy/core/include/numpy/npy_endian.h | 1 +
-+ numpy/_core/include/numpy/npy_cpu.h    | 3 +++
-+ numpy/_core/include/numpy/npy_endian.h | 1 +
-  2 files changed, 4 insertions(+)
- 
--diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
--index 78d229e..04be511 100644
----- a/numpy/core/include/numpy/npy_cpu.h
--+++ b/numpy/core/include/numpy/npy_cpu.h
-+diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
-+index a19f8e6bbd..d824d4efb6 100644
-+--- a/numpy/_core/include/numpy/npy_cpu.h
-++++ b/numpy/_core/include/numpy/npy_cpu.h
- @@ -19,6 +19,7 @@
-   *              NPY_CPU_ARCEB
-   *              NPY_CPU_RISCV64
-@@ -33,10 +37,10 @@ index 78d229e..04be511 100644
-  #elif defined(__loongarch__)
-      #define NPY_CPU_LOONGARCH
-  #elif defined(__EMSCRIPTEN__)
--diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
--index 5e58a7f..0926212 100644
----- a/numpy/core/include/numpy/npy_endian.h
--+++ b/numpy/core/include/numpy/npy_endian.h
-+diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
-+index 5e58a7f52c..09262120bf 100644
-+--- a/numpy/_core/include/numpy/npy_endian.h
-++++ b/numpy/_core/include/numpy/npy_endian.h
- @@ -49,6 +49,7 @@
-              || defined(NPY_CPU_PPC64LE)       \
-              || defined(NPY_CPU_ARCEL)         \
-@@ -46,5 +50,5 @@ index 5e58a7f..0926212 100644
-              || defined(NPY_CPU_WASM)
-          #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
- -- 
--2.20.1
-+2.45.2
- 
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/recipes-devtools/python/python3-numpy_2.0.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.0.0.bb
-index ccd08147af..38aebdbce0 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.0.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://numpy.org/"
- DESCRIPTION = "NumPy is the fundamental package needed for scientific computing with Python."
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF-2.0 & Apache-2.0 & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=a752eb20459cf74a9d84ee4825e8317c"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1de863c37a83e71b1e97b64d036ea78b"
- 
- SRCNAME = "numpy"
- 
-@@ -13,14 +13,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"
-+SRC_URI[sha256sum] = "cf5d1c9e6837f8af9f92b6bd3e86d513cdc11f60fd62185cc49ec7d1aba34864"
- 
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
- 
- DEPENDS += "python3-cython-native"
- 
--inherit ptest setuptools3 github-releases
-+inherit ptest python_mesonpy pkgconfig github-releases
- 
- S = "${WORKDIR}/numpy-${PV}"
- 
-@@ -30,7 +30,9 @@ do_compile:prepend() {
-     export NPY_DISABLE_SVML=1
- }
- 
--FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
-+FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/_core/lib/*.a \
-+                          ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a \
-+"
- 
- # install what is needed for numpy.test()
- RDEPENDS:${PN} = "python3-unittest \
--- 
-2.45.2
-
+> > - 2 files changed, 97 insertions(+), 4 deletions(-)
+> > -
+> > -diff --git a/crypto/dsa/dsa_check.c b/crypto/dsa/dsa_check.c
+> > -index 7b6d7df88f..e1375dfad9 100644
+> > ---- a/crypto/dsa/dsa_check.c
+> > -+++ b/crypto/dsa/dsa_check.c
+> > -@@ -19,8 +19,34 @@
+> > - #include "dsa_local.h"
+> > - #include "crypto/dsa.h"
+> > -
+> > -+static int dsa_precheck_params(const DSA *dsa, int *ret)
+> > -+{
+> > -+    if (dsa->params.p =3D=3D NULL || dsa->params.q =3D=3D NULL) {
+> > -+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_FFC_PARAMETERS);
+> > -+        *ret =3D FFC_CHECK_INVALID_PQ;
+> > -+        return 0;
+> > -+    }
+> > -+
+> > -+    if (BN_num_bits(dsa->params.p) > OPENSSL_DSA_MAX_MODULUS_BITS) {
+> > -+        ERR_raise(ERR_LIB_DSA, DSA_R_MODULUS_TOO_LARGE);
+> > -+        *ret =3D FFC_CHECK_INVALID_PQ;
+> > -+        return 0;
+> > -+    }
+> > -+
+> > -+    if (BN_num_bits(dsa->params.q) >=3D BN_num_bits(dsa->params.p)) {
+> > -+        ERR_raise(ERR_LIB_DSA, DSA_R_BAD_Q_VALUE);
+> > -+        *ret =3D FFC_CHECK_INVALID_PQ;
+> > -+        return 0;
+> > -+    }
+> > -+
+> > -+    return 1;
+> > -+}
+> > -+
+> > - int ossl_dsa_check_params(const DSA *dsa, int checktype, int *ret)
+> > - {
+> > -+    if (!dsa_precheck_params(dsa, ret))
+> > -+        return 0;
+> > -+
+> > -     if (checktype =3D=3D OSSL_KEYMGMT_VALIDATE_QUICK_CHECK)
+> > -         return ossl_ffc_params_simple_validate(dsa->libctx, &dsa->par=
+ams,
+> > -                                                FFC_PARAM_TYPE_DSA, re=
+t);
+> > -@@ -39,6 +65,9 @@ int ossl_dsa_check_params(const DSA *dsa, int checkt=
+ype, int *ret)
+> > -  */
+> > - int ossl_dsa_check_pub_key(const DSA *dsa, const BIGNUM *pub_key, int=
+ *ret)
+> > - {
+> > -+    if (!dsa_precheck_params(dsa, ret))
+> > -+        return 0;
+> > -+
+> > -     return ossl_ffc_validate_public_key(&dsa->params, pub_key, ret)
+> > -            && *ret =3D=3D 0;
+> > - }
+> > -@@ -50,6 +79,9 @@ int ossl_dsa_check_pub_key(const DSA *dsa, const BIG=
+NUM *pub_key, int *ret)
+> > -  */
+> > - int ossl_dsa_check_pub_key_partial(const DSA *dsa, const BIGNUM *pub_=
+key, int *ret)
+> > - {
+> > -+    if (!dsa_precheck_params(dsa, ret))
+> > -+        return 0;
+> > -+
+> > -     return ossl_ffc_validate_public_key_partial(&dsa->params, pub_key=
+, ret)
+> > -            && *ret =3D=3D 0;
+> > - }
+> > -@@ -58,8 +90,10 @@ int ossl_dsa_check_priv_key(const DSA *dsa, const B=
+IGNUM *priv_key, int *ret)
+> > - {
+> > -     *ret =3D 0;
+> > -
+> > --    return (dsa->params.q !=3D NULL
+> > --            && ossl_ffc_validate_private_key(dsa->params.q, priv_key,=
+ ret));
+> > -+    if (!dsa_precheck_params(dsa, ret))
+> > -+        return 0;
+> > -+
+> > -+    return ossl_ffc_validate_private_key(dsa->params.q, priv_key, ret=
+);
+> > - }
+> > -
+> > - /*
+> > -@@ -72,8 +106,10 @@ int ossl_dsa_check_pairwise(const DSA *dsa)
+> > -     BN_CTX *ctx =3D NULL;
+> > -     BIGNUM *pub_key =3D NULL;
+> > -
+> > --    if (dsa->params.p =3D=3D NULL
+> > --        || dsa->params.g =3D=3D NULL
+> > -+    if (!dsa_precheck_params(dsa, &ret))
+> > -+        return 0;
+> > -+
+> > -+    if (dsa->params.g =3D=3D NULL
+> > -         || dsa->priv_key =3D=3D NULL
+> > -         || dsa->pub_key =3D=3D NULL)
+> > -         return 0;
+> > -diff --git a/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_to=
+o_big.pem b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.=
+pem
+> > -new file mode 100644
+> > -index 0000000000..e85e2953b7
+> > ---- /dev/null
+> > -+++ b/test/recipes/15-test_dsaparam_data/invalid/p10240_q256_too_big.p=
+em
+> > -@@ -0,0 +1,57 @@
+> > -+-----BEGIN DSA PARAMETERS-----
+> > -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
+> > -+vKuje86bePD6kD/LH3wmkA=3D=3D
+> > -+-----END DSA PARAMETERS-----
+> > ---
+> > -2.30.2
+> > -
+> > diff --git a/meta/recipes-connectivity/openssl/openssl/bti.patch b/meta=
+/recipes-connectivity/openssl/openssl/bti.patch
+> > deleted file mode 100644
+> > index 748576c30c..0000000000
+> > --- a/meta/recipes-connectivity/openssl/openssl/bti.patch
+> > +++ /dev/null
+> > @@ -1,58 +0,0 @@
+> > -From ba8a599395f8b770c76316b5f5b0f3838567014f Mon Sep 17 00:00:00 2001
+> > -From: Tom Cosgrove <tom.cosgrove@arm.com>
+> > -Date: Tue, 26 Mar 2024 13:18:00 +0000
+> > -Subject: [PATCH] aarch64: fix BTI in bsaes assembly code
+> > -
+> > -In Arm systems where BTI is enabled but the Crypto extensions are not =
+(more
+> > -likely in FVPs than in real hardware), the bit-sliced assembler code w=
+ill
+> > -be used. However, this wasn't annotated with BTI instructions when BTI=
+ was
+> > -enabled, so the moment libssl jumps into this code it (correctly) abor=
+ts.
+> > -
+> > -Solve this by adding the missing BTI landing pads.
+> > -
+> > -Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/23=
+982]
+> > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ----
+> > - crypto/aes/asm/bsaes-armv8.pl | 5 ++++-
+> > - 1 file changed, 4 insertions(+), 1 deletion(-)
+> > -
+> > -diff --git a/crypto/aes/asm/bsaes-armv8.pl b/crypto/aes/asm/bsaes-armv=
+8.pl
+> > -index b3c97e439f..c3c5ff3e05 100644
+> > ---- a/crypto/aes/asm/bsaes-armv8.pl
+> > -+++ b/crypto/aes/asm/bsaes-armv8.pl
+> > -@@ -1018,6 +1018,7 @@ _bsaes_key_convert:
+> > - //   Initialisation vector overwritten with last quadword of cipherte=
+xt
+> > - //   No output registers, usual AAPCS64 register preservation
+> > - ossl_bsaes_cbc_encrypt:
+> > -+        AARCH64_VALID_CALL_TARGET
+> > -         cmp     x2, #128
+> > -         bhs     .Lcbc_do_bsaes
+> > -         b       AES_cbc_encrypt
+> > -@@ -1270,7 +1271,7 @@ ossl_bsaes_cbc_encrypt:
+> > - //   Output text filled in
+> > - //   No output registers, usual AAPCS64 register preservation
+> > - ossl_bsaes_ctr32_encrypt_blocks:
+> > --
+> > -+        AARCH64_VALID_CALL_TARGET
+> > -         cmp     x2, #8                      // use plain AES for
+> > -         blo     .Lctr_enc_short             // small sizes
+> > -
+> > -@@ -1476,6 +1477,7 @@ ossl_bsaes_ctr32_encrypt_blocks:
+> > - //   Output ciphertext filled in
+> > - //   No output registers, usual AAPCS64 register preservation
+> > - ossl_bsaes_xts_encrypt:
+> > -+        AARCH64_VALID_CALL_TARGET
+> > -         // Stack layout:
+> > -         // sp ->
+> > -         //        nrounds*128-96 bytes: key schedule
+> > -@@ -1921,6 +1923,7 @@ ossl_bsaes_xts_encrypt:
+> > - //   Output plaintext filled in
+> > - //   No output registers, usual AAPCS64 register preservation
+> > - ossl_bsaes_xts_decrypt:
+> > -+        AARCH64_VALID_CALL_TARGET
+> > -         // Stack layout:
+> > -         // sp ->
+> > -         //        nrounds*128-96 bytes: key schedule
+> > ---
+> > -2.34.1
+> > -
+> > diff --git a/meta/recipes-connectivity/openssl/openssl_3.3.0.bb b/meta/=
+recipes-connectivity/openssl/openssl_3.3.1.bb
+> > similarity index 98%
+> > rename from meta/recipes-connectivity/openssl/openssl_3.3.0.bb
+> > rename to meta/recipes-connectivity/openssl/openssl_3.3.1.bb
+> > index a361185b65..a8746842b2 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl_3.3.0.bb
+> > +++ b/meta/recipes-connectivity/openssl/openssl_3.3.1.bb
+> > @@ -13,15 +13,13 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-=
+${PV}.tar.gz \
+> >             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+> >             file://0001-Added-handshake-history-reporting-when-test-fai=
+ls.patch \
+> >             file://0001-Implement-riscv_vlen_asm-for-riscv32.patch \
+> > -           file://bti.patch \
+> > -           file://CVE-2024-4603.patch \
+> >             "
+> >
+> >  SRC_URI:append:class-nativesdk =3D " \
+> >             file://environment.d-openssl.sh \
+> >             "
+> >
+> > -SRC_URI[sha256sum] =3D "53e66b043322a606abf0087e7699a0e033a37fa13feb97=
+42df35c3a33b18fb02"
+> > +SRC_URI[sha256sum] =3D "777cd596284c883375a2a7a11bf5d2786fc5413255efab=
+20c50d6ffe6d020b7e"
+> >
+> >  inherit lib_package multilib_header multilib_script ptest perlnative m=
+anpages
+> >  MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+> > --
+> > 2.30.2
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201003): https://lists.openembedded.org/g/openembedde=
+d-core/message/201003
+> Mute This Topic: https://lists.openembedded.org/mt/106490812/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
