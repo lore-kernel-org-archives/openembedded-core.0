@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E13C27C4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BF0C2BA1A
 	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:43:08 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.70012.1718966579179358516
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.70016.1718966582234322609
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 03:42:59 -0700
+ Fri, 21 Jun 2024 03:43:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OLomlBeG;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6fd513f18bso38979366b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:42:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aXmidSPG;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111b0so1025403a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718966577; x=1719571377; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1718966580; x=1719571380; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ocosHAnEnei3QFnbg28O87Bb5abGSmGvAHsPTrUFKA=;
-        b=OLomlBeGsYcCUb4VCO850E8Y+2mEyamahcIYsczsHCOj2McnLFH8kw57RZeXqhNh9x
-         6Gmgas3El+ARiaVMPHVq/0+FzUD7qwv8CnEciwVSPvVLSfns+ob5K/m8g+3AS7JgjM7d
-         XDSgc3Zig0hP/NpFmbYqNt++jhlqEO2xUsLlij0K0GdOMxHtDNAy29i7Db/9e+abCHXp
-         VyAWOSx0ulhVRpotYUgvf+mIzZHTwX/1cqlYM1OGKhV00VolUMbr9n9qSIkMpFZKW7r6
-         X480hvEUaa1cgyTzQXpJhWQXUISOQK7tDMQzZZKEmdlX8YFRu/0VSg2v2FD2pw24AgjG
-         KfBQ==
+        bh=7E4DbSCEm/iWbCf3JV/zUfFKEOzkjLcsQbJXJXMY1Yc=;
+        b=aXmidSPGnN6L5h8GCOlWzaVoEFT4gosoDOTj90TvUtiIZgz38mLe/wxLhWFICVMo1U
+         tIBdFCclb5vipuuVs85ZKidIKX7+X8tYaovo64AqNir/ZeerFqkLN0UiTjMUqa/miJ1R
+         NgooxgqDo7k2MlBLOjH9hoW6/Bv+py5fwffpys7aP+akmpjFDjxDjJgDqKTfb5AsBkje
+         vSQF1z7DPLj5I5YaCI4HHPqkL7dK35deJLGS5rbwC3q1kmZcTZlyjry3vl5FnkJ7gqC4
+         hqvkfgucBKcJLTEglFs/pNqfT6FASFBdEhlj3W5KaDqOIuh6ybs1h3TFYrEt01F8kMBg
+         23OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718966577; x=1719571377;
+        d=1e100.net; s=20230601; t=1718966580; x=1719571380;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7ocosHAnEnei3QFnbg28O87Bb5abGSmGvAHsPTrUFKA=;
-        b=L37tz/UxVG1xkCwf0sMup5bW72QBr+M8Mb8o1/hYMCtvnSwtFafiPOCs8Q7wz6B2E+
-         iexHmk2/DrJEi9Va/2Jxb5MNG63ovumzIOVD7fPTxwVPFab9jEnuXetlEN+A8gKuwTkM
-         ErPj9y6RNBl06CoWfDQCus15TObIOKb2rUStU+cAdiE6N0f9s3S8X9/XQu6A3Y6gqTw+
-         IhcuUL29ves3fmql9subD2kxuQdux4DyfezwNeT2oug4K+YaXyJtf6S85zc9GXsvmAIm
-         ubVEjmqdxGkmtNV2HT6lmwLOOZBgGv8jz8Z5bvflT00XJWDzArK6WEjHIHqq3RQQYxKU
-         xT4w==
-X-Gm-Message-State: AOJu0YzAPCDDukIGjoQEWxo8Z0vDfDCfCuOAIlnYjuAS4zHF39W+cgls
-	eDcnxa+LPS+BVxfo9J0zo7B67Px+wYF21gJnKvx0wRWxQIyJT5FAhs5nqQ==
-X-Google-Smtp-Source: AGHT+IHQDZK4cmyewG3VMluIejLz1+RuZGm9XH7+GH2Zd711A/H9SEuZXtobMSuC4P58GZcyXohbVg==
-X-Received: by 2002:a17:907:c713:b0:a6f:61c7:dead with SMTP id a640c23a62f3a-a6fab61398amr674795666b.17.1718966577289;
-        Fri, 21 Jun 2024 03:42:57 -0700 (PDT)
+        bh=7E4DbSCEm/iWbCf3JV/zUfFKEOzkjLcsQbJXJXMY1Yc=;
+        b=Dc4e6kmKjgSpBXRkZMGCaICpQF2V2qqB9b8a7khMxn+gVNGGDy/MPVrCZBYj2dkawm
+         4/aDqQ8jSNH6Vu5WnpN97yXhyc9F1fSnuHl0Z/I303Gcl9H3KPiQUjVM6Xba+uXNO/GM
+         e04NavVWaVadTrKZCJw1oj1ik5xETW/nW6ly2XsXvhGyDHlPp68G0hyDaVcsrRF0r/Xy
+         vJa8MLNhsv24IYDU08Yp2Ro6bsvLqVfMO1oojGEliB7gK9kmJwHvGE17UC3iVESH9plr
+         cfRSts2taiVtd4EZSQ96a2LPXieUr8pVtXi1GSdzoA7ZuSlhYj5tmNJJnT0nE7O0MWrb
+         5bGQ==
+X-Gm-Message-State: AOJu0Yy6/dZdeHGzsNwd+tJlMktu0AgCAquSv0A3JsQ7gjX6+R0BmazP
+	NVn51N2kRgdSEDrh/m8fh3N3PMOW/VJvmUsZNS7iXOtYOAu7n3daHrk2ew==
+X-Google-Smtp-Source: AGHT+IHKTXPIpAAOV+mndul2WWBZAr+0S4K9M9GVmo/ZWT1PitCl5wG6ipCO7k+lE6R4Puftlwjt4w==
+X-Received: by 2002:a05:6402:947:b0:57d:10c7:96b0 with SMTP id 4fb4d7f45d1cf-57d10c7983cmr5218444a12.38.1718966580374;
+        Fri, 21 Jun 2024 03:43:00 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560addsm71378066b.175.2024.06.21.03.42.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560addsm71378066b.175.2024.06.21.03.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 03:42:57 -0700 (PDT)
+        Fri, 21 Jun 2024 03:42:59 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/11] devtool/upgrade: add RECIPE_UPGRADE_FINISH_EXTRA_TASKS
-Date: Fri, 21 Jun 2024 12:34:05 +0200
-Message-Id: <20240621103414.2842509-2-alex.kanavin@gmail.com>
+Subject: [PATCH 06/11] qemu: rename qemu-native and qemu-system-native recipes on version upgrades
+Date: Fri, 21 Jun 2024 12:34:09 +0200
+Message-Id: <20240621103414.2842509-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240621103414.2842509-1-alex.kanavin@gmail.com>
 References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
@@ -61,56 +61,26 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:43:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201007
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201011
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-This is modeled on RECIPE_UPGRADE_EXTRA_TASKS with the difference
-being that the tasks run in 'devtool finish', and only when
-finishing an upgrade operation. This allows recipes to define
-custom operations, such as renaming additional supplementary
-recipes (such as *-initial, *-native etc), or any other custom
-handling that devtool cannot know about.
-
-The idea is to teach glib, cmake, mesa, systemd, libva, rt-tests,
-go, rust, etc etc about upgrading themselves properly with this,
-improving success rates in AUH.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/lib/devtool/standard.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu_9.0.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 1d0fe137887..d22bfe8e4a9 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -2088,7 +2088,6 @@ def _get_layer(layername, d):
-         logger.warning("Consider using path instead of base name to specify layer:\n\t\t%s" % '\n\t\t'.join(layer_paths))
-         return os.path.abspath(layer_paths[0])
- 
--
- def finish(args, config, basepath, workspace):
-     """Entry point for the devtool 'finish' subcommand"""
-     import bb
-@@ -2120,6 +2119,7 @@ def finish(args, config, basepath, workspace):
- 
-         destlayerdir = _get_layer(args.destination, tinfoil.config_data)
-         recipefile = rd.getVar('FILE')
-+        upgrade_finish_tasks = (rd.getVar('RECIPE_UPGRADE_FINISH_EXTRA_TASKS') or '').split()
-         recipedir = os.path.dirname(recipefile)
-         origlayerdir = oe.recipeutils.find_layerdir(recipefile)
- 
-@@ -2265,6 +2265,9 @@ def finish(args, config, basepath, workspace):
-     else:
-         _reset([args.recipename], no_clean=no_clean, remove_work=remove_work, config=config, basepath=basepath, workspace=workspace)
- 
-+        if removing_original:
-+            for t in upgrade_finish_tasks:
-+                exec_build_env_command(config.init_path, basepath, 'bitbake -c {} {}'.format(t, args.recipename))
-     return 0
- 
- 
+diff --git a/meta/recipes-devtools/qemu/qemu_9.0.0.bb b/meta/recipes-devtools/qemu/qemu_9.0.0.bb
+index dc1352232ef..da9b5bc679d 100644
+--- a/meta/recipes-devtools/qemu/qemu_9.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_9.0.0.bb
+@@ -25,3 +25,6 @@ PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie slirp \
+ "
+ # ppc32 hosts are no longer supported in qemu
+ COMPATIBLE_HOST:powerpc = "null"
++
++inherit recipe-upgrade-additional-rename
++RECIPE_UPGRADE_ADDITIONAL_RENAME = "qemu-native_{pv}.bb qemu-system-native_{pv}.bb"
 -- 
 2.39.2
 
