@@ -2,88 +2,110 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2798C27C4F
-	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 19:41:12 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.82588.1718998868868430296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D7CC27C4F
+	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 19:51:42 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.82669.1718999496996880788
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 12:41:09 -0700
+ Fri, 21 Jun 2024 12:51:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RHJj7dsZ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 914DEE0002;
-	Fri, 21 Jun 2024 19:41:06 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=d5YdyJTe;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CDDB7FF802;
+	Fri, 21 Jun 2024 19:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718998867;
+	t=1718999495;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/muhHLRrdkzmfJm9p9SDj9eOmYMmjiMfpsFseTeytfs=;
-	b=RHJj7dsZNEh8RFwxYXyX+Q4HOvvx0OX6J0mVf9jSz2jZ7p0Wde1csg82QGv17HOEakZncz
-	U7wNF+AarLWjFobjYUFdNBDd4EhUlQlYBP5yfN6+G7m3skizUY2fhl+tQiOjboGHBVwT0t
-	L2u4Ygbv6Xgzc7s+N3Z83ffSQtf7BXx5oh4zUxlGQBNDvl12UDgdN93bTk0kQRvTjUx1dM
-	8fCrHA13pStPVr2jSL0dszFYa+FdlDuPtICMzO3C8qvFePSqvabbY3HXQl9o/RtFL6dByV
-	7HHi5I3zs1TTBfOU/RT4HG9cL+ha7GyOIQbw9XFOqC3bU1OEfFS1cDdtwWd7bw==
-Date: Fri, 21 Jun 2024 21:41:06 +0200
+	bh=RxlLPmQSG/ZSelNDgjKRAxNvMZJFpprxWRMucASbBtU=;
+	b=d5YdyJTe056oL41CDpZePkYTGySrbrwbNQPEVR74gYi+I2ksKVAsP5XUl48MnP5MM6QJZI
+	8jxIKU2m6l6QHn+2ewUWr8BmZn9fBimeH6IxA5a6duwut4iIVM5cW4shFENAtCMJ1bTDdz
+	KMEe+UXcLbds1wrcpQ9suj8RIkEWPaVBNjIsOF+/L2LFl2NZmBPGo1CuxWbzoEtCZuLDny
+	EN6C9l0wvCjiScuB5J/I4pLXLzbYofL79DRfIw48K/GdLxt0Zr3IzIIzOb6KOTHWeE92MX
+	UXmyulUzCyRQXmgQP/UzMR+hlQTY2TpxidSHEGu9TbBmBcfzQ0HwDWPKvEdx7w==
+Date: Fri, 21 Jun 2024 21:51:34 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ross Burton <Ross.Burton@arm.com>,
-	Alejandro Hernandez Samaniego <alejandro@enedino.org>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v4] tclibc-picolibc: Adds a new TCLIBC variant
- to build with picolibc as C library
-Message-ID: <20240621194106c034589f@mail.local>
-References: <20240618181226.2693197-1-alejandro@enedino.org>
- <202406192003378ecde446@mail.local>
- <040A68B5-AF86-4553-B98C-8CF2F1BBA509@arm.com>
- <17DAC434B1B38A4A.28936@lists.openembedded.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: Re: [OE-core][PATCH 3/3] go: move to a single binary bootstrap option
+Message-ID: <202406211951348908bcd0@mail.local>
+References: <20240619103406.276716-1-jose.quaresma@foundries.io>
+ <20240619103406.276716-3-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <17DAC434B1B38A4A.28936@lists.openembedded.org>
+In-Reply-To: <20240619103406.276716-3-jose.quaresma@foundries.io>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 19:41:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201033
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 19:51:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201034
 
-On 20/06/2024 18:45:35+0200, Alexandre Belloni via lists.openembedded.org wrote:
-> On 20/06/2024 16:10:41+0000, Ross Burton wrote:
-> > 
-> > 
-> > > On 19 Jun 2024, at 21:03, Alexandre Belloni via lists.openembedded.org <alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
-> > > 
-> > > Hello,
-> > > 
-> > > This causes selftest failures:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6833/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6877/steps/15/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6902/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6888/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3495/steps/15/logs/stdio
-> > 
-> > Those look a lot like they’re Josh’s SPDX changes not this.  Can we pick these back into your master-next branch Alex?
+Hello,
+
+This caused:
+AssertionError: 
+Unable to find recipes for the following entries in maintainers.inc:
+go-binary-native
+
+On 19/06/2024 11:34:06+0100, Jose Quaresma wrote:
+> With the drop of the old 1.4 bootstrap C version we can
+> move the go-binary-native to go-binary and drop the PREFERRED_PROVIDER
 > 
-> I can but I never had Josh's changes in my branch so unless this
-> assumption is that the sstate is poisoned, I'm pretty sure it s caused
-> by this patch.
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc                   | 4 ----
+>  .../go/{go-binary-native_1.22.4.bb => go-native_1.22.4.bb}    | 2 --
+>  2 files changed, 6 deletions(-)
+>  rename meta/recipes-devtools/go/{go-binary-native_1.22.4.bb => go-native_1.22.4.bb} (98%)
 > 
-> This was the only change between
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7058
-> and https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7056
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index 4fb6e47b7f..a9724d7621 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -62,10 +62,6 @@ PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
+>  
+> -# Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
+> -# from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
+> -# go-native.
+> -PREFERRED_PROVIDER_go-native ?= "go-binary-native"
+>  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+>  PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
+>  PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
+> diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.4.bb b/meta/recipes-devtools/go/go-native_1.22.4.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/go/go-binary-native_1.22.4.bb
+> rename to meta/recipes-devtools/go/go-native_1.22.4.bb
+> index 61da51be3a..ee094435a7 100644
+> --- a/meta/recipes-devtools/go/go-binary-native_1.22.4.bb
+> +++ b/meta/recipes-devtools/go/go-native_1.22.4.bb
+> @@ -5,8 +5,6 @@ HOMEPAGE = " http://golang.org/"
+>  LICENSE = "BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+>  
+> -PROVIDES = "go-native"
+> -
+>  # Checksums available at https://go.dev/dl/
+>  SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+>  SRC_URI[go_linux_amd64.sha256sum] = "ba79d4526102575196273416239cca418a651e049c2b099f3159db85e7bade7d"
+> -- 
+> 2.45.2
+> 
 
-So, tested v4 of Josh's patches, then I dropped them again, I included
-this patch and I got the same failure:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6882/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6838/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6907/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6893/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3503/steps/15/logs/stdio
-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200907): https://lists.openembedded.org/g/openembedded-core/message/200907
+> Mute This Topic: https://lists.openembedded.org/mt/106757823/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
 -- 
