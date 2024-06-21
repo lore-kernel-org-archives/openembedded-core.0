@@ -1,87 +1,128 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C2DC30653
-	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:43:09 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.70014.1718966581358290888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 605ADC27C4F
+	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:47:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.70077.1718966866281513000
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 03:43:01 -0700
+ Fri, 21 Jun 2024 03:47:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RAEzS9+L;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so35226431fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718966579; x=1719571379; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DW4ifLrCYa0FRZwMvxxTL3RV9p7o6PIThroXLZk/PDk=;
-        b=RAEzS9+LtymlBYBRyPwLbVTeG+ZDkcEjtGXJOxc4W08WeZIFtzFCFWHG55TEjaFp1m
-         l85RObYZti7reR+gjzGgxB4m6H+DliT2EcnayUz94XYBVhpmsUsP1W6YsO8AGKLE+u84
-         0L6DVM2GCO4oN8Pkbusae1HN7DEhqkXlqLu6RmHg8GmDr057Qc8wnErRtLAjehGQjR8a
-         QBH80YyBw/Yr2sj+3SK+Qosvvd38YazYxFlkWi96EbFzT0UqO+cLRG5qjdMnQV/BFq8Z
-         wYmr8rSD71wT5DoCPol6l7sBcAbfkwTPdklZLIrrXSuem3+BlaiH2ez/OaMcvM0akV3Y
-         qGJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718966579; x=1719571379;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DW4ifLrCYa0FRZwMvxxTL3RV9p7o6PIThroXLZk/PDk=;
-        b=bTUkdKckCNeeM8+HcdOA2FiZjcvbK6gMmT4P0BzSq538q2MYJcIZ3hYGSmlKVAEUYJ
-         39cpqjWPLZPiP6B9M2uuHOF3vb/GpNASRselMKQmpMCXRwvvSMGcA8PeWALi2tGGGvYZ
-         GRhOB+kppMFJhYibS/Jh0VuXBMi5cuYotSEI5O1r38GuIstaovab1Xsoo6AkoJxuw0YP
-         xsP7ACqy7JCfk/qAb5kMwv1wgJZufxZlr1Kfpm0gBAxHCRpn/r/lLfE6F4tQgjGRaCNH
-         Pwq+OfcOp6QYPZyPPYaXVgRyFOMqhaftWBsJ3Umr5JiBTWo6mm+FBi2zUlmIpSyNY1Sg
-         8iQw==
-X-Gm-Message-State: AOJu0Yw7Lre+/55DZ1bM3ieFdSOqNWJ/LFmb3Gvi5ckNoL9irsOZP2qt
-	nbcSpH4TNyg4LwPrPKhHGe/Rgy4YZmqLv9I3kLgnpRW+dF4Yo9DsALSoew==
-X-Google-Smtp-Source: AGHT+IF5cfnUt6CER/2j81p87zPz85S1xHGS81VqgLQay637WjbvM8jxc5wJq2uThitWOWNIBVCPuw==
-X-Received: by 2002:a2e:8011:0:b0:2ec:575:bf9f with SMTP id 38308e7fff4ca-2ec3cfe9355mr64389981fa.37.1718966579054;
-        Fri, 21 Jun 2024 03:42:59 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560addsm71378066b.175.2024.06.21.03.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 03:42:58 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/11] cmake: rename cmake-native recipe on version upgrades
-Date: Fri, 21 Jun 2024 12:34:08 +0200
-Message-Id: <20240621103414.2842509-5-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240621103414.2842509-1-alex.kanavin@gmail.com>
-References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=690294a050=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45L5K6SV008071
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:47:45 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yvrmrgrbu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:47:45 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 21 Jun 2024 03:47:42 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] acpica: fix CVE-2024-24856
+Date: Fri, 21 Jun 2024 10:47:25 +0000
+Message-ID: <20240621104725.2511730-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: JZif9Bmq5ONQd-zW9svd2SJRqUVCFhqr
+X-Proofpoint-ORIG-GUID: JZif9Bmq5ONQd-zW9svd2SJRqUVCFhqr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-21_04,2024-06-20_04,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 mlxlogscore=776
+ phishscore=0 impostorscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2406140001 definitions=main-2406210079
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201010
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:47:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201017
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+The memory allocation function ACPI_ALLOCATE_ZEROED does not
+guarantee a successful allocation, but the subsequent code
+directly dereferences the pointer that receives it, which may
+lead to null pointer dereference. To fix this issue, a null
+pointer check should be added. If it is null, return exception
+code AE_NO_MEMORY.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-24856
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- meta/recipes-devtools/cmake/cmake_3.29.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ .../acpica/acpica/CVE-2024-24856.patch        | 33 +++++++++++++++++++
+ .../acpica/acpica_20211217.bb                 |  4 ++-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.29.3.bb b/meta/recipes-devtools/cmake/cmake_3.29.3.bb
-index 9146fa8c0f9..50f760f1c51 100644
---- a/meta/recipes-devtools/cmake/cmake_3.29.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.29.3.bb
-@@ -66,3 +66,6 @@ FILES:${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
- FILES:${PN}-dev = ""
- 
- BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch b/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
+new file mode 100644
+index 0000000000..beb6a79c8e
+--- /dev/null
++++ b/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
+@@ -0,0 +1,33 @@
++From 4d4547cf13cca820ff7e0f859ba83e1a610b9fd0 Mon Sep 17 00:00:00 2001
++From: Huai-Yuan Liu <qq810974084@gmail.com>
++Date: Tue, 4 Jun 2024 11:52:15 +0000
++Subject: [PATCH] check null return of ACPI_ALLOCATE_ZEROED in
 +
-+inherit recipe-upgrade-additional-rename
-+RECIPE_UPGRADE_ADDITIONAL_RENAME = "cmake-native_{pv}.bb"
++AcpiDbConvertToPackage ACPI_ALLOCATE_ZEROED may fails, Elements
++might be null and will cause null pointer dereference later.
++
++Signed-off-by: Huai-Yuan Liu <qq810974084@gmail.com>
++
++CVE: CVE-2024-24856
++Upstream-Status: Backport [https://github.com/acpica/acpica/commit/4d4547cf13cca820ff7e0f859ba83e1a610b9fd0]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ source/components/debugger/dbconvert.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/source/components/debugger/dbconvert.c b/source/components/debugger/dbconvert.c
++index 55307d0..c17a5ab 100644
++--- a/source/components/debugger/dbconvert.c
+++++ b/source/components/debugger/dbconvert.c
++@@ -354,6 +354,8 @@ AcpiDbConvertToPackage (
++
++     Elements = ACPI_ALLOCATE_ZEROED (
++         DB_DEFAULT_PKG_ELEMENTS * sizeof (ACPI_OBJECT));
+++    if (!Elements)
+++        return (AE_NO_MEMORY);
++
++     This = String;
++     for (i = 0; i < (DB_DEFAULT_PKG_ELEMENTS - 1); i++)
++--
++2.40.0
+diff --git a/meta/recipes-extended/acpica/acpica_20211217.bb b/meta/recipes-extended/acpica/acpica_20211217.bb
+index d1727c1dab..ec253b998f 100644
+--- a/meta/recipes-extended/acpica/acpica_20211217.bb
++++ b/meta/recipes-extended/acpica/acpica_20211217.bb
+@@ -16,7 +16,9 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ 
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+-SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
++SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz \
++           file://CVE-2024-24856.patch \
++          "
+ SRC_URI[sha256sum] = "2511f85828820d747fa3e2c3433d3a38c22db3d9c2fd900e1a84eb4173cb5992"
+ 
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
 -- 
-2.39.2
+2.40.0
 
 
