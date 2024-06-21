@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56111C3064D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56538C30658
 	for <webhook@archiver.kernel.org>; Fri, 21 Jun 2024 10:43:09 +0000 (UTC)
 Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.70013.1718966580204314215
+ by mx.groups.io with SMTP id smtpd.web11.69897.1718966583184669489
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jun 2024 03:43:00 -0700
+ Fri, 21 Jun 2024 03:43:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dRqsZLJi;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HJtjy5Y4;
  spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a6e43dad8ecso316521266b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:42:59 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a6f1da33826so233887166b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 03:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718966578; x=1719571378; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1718966581; x=1719571381; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L6i+Bp/AhSY1B5o+skPkcM+qXtna3pmcV6e76qqoMNg=;
-        b=dRqsZLJiCjuOa9lrMGYdWf90mK6XMBeWxfSR6A9+2Qhibx8BiN0Wtvon+D4fXSIXMo
-         jC9Aj1yQavd5Kva6eob2+4xAolsNwRlNfCYrSH0Z6Z8tYHtyZmd6tjD2DVMHDSSQtn1J
-         8ffd/bKadLZAK6eaTz5x3gLFQP0pZFpLI/wjbQKB3Vcy7FbBsZfXmNjVt0qVy8tY42VH
-         9VRqv9nSMsU/bo6jD4e8PVAHH2HdodtJs5c/A+KuSuardLenprdI+a+JpSug4b54mIm+
-         Lo54IjwIm7HEPaFwqkNccnyHWqFIRQt9bSScm27MYyYX4HchPCo8fEw/a7vURH9/DySI
-         M5WA==
+        bh=8G1XbNbm7xAHoii6+XEhdCShnB3kGhZD9anq0eD+XFk=;
+        b=HJtjy5Y4fcoeIEUnYKEsZlwxgfd6Yfx73gaK5u0WPdq8KLh9on9r/+5nY4Mia8IPru
+         IljikwWM9nA4x7+kqNvoB5NjZUaGmXxE4JXEZaXUC4bzk8IhLNj3/nUcyOlvllf0MzIb
+         gXK9cOaIQUjmy6A0dvUH7PfA8Kv4UEnCvmxU4kiDbbuiFitPdCs38DJ5t+8wBMM7AW5D
+         se6vPKU8sdznpdMlSMv1TA0oWn/n918NS+3P7jWSSp+VXgyQK/NobZLWqpj1hv/EJ3WH
+         JSO7NcUtPlPnmeEiOIIMakXBuTIneTj3/1pGUeciWB9SZEdt176ZOI3cH6qgub4BjVGu
+         t9pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718966578; x=1719571378;
+        d=1e100.net; s=20230601; t=1718966581; x=1719571381;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L6i+Bp/AhSY1B5o+skPkcM+qXtna3pmcV6e76qqoMNg=;
-        b=QmPQpChCaMygVXhpMXHs56ZBkwRW05OT1fwXMSXgeOOC8V4OFZdFPNBkQ3AZAd5D+f
-         FxScmaqRuW/Bc8/NQ81oyPHpDUZ5qTRsnUGFZj0Bfv0wQ5rAQsJVT0xjkmJ7hjf1L3DF
-         2cmXpdetJdbjM1HKjJQ/yFkzNp125I/knx69LAhnqXbKDXL4I289gHJ/H07mTxGIzsKL
-         zH2tfw7BHwocKD6bS19hT1V+PdHHD3ARnBPw07hj6CKSkcBHrnDwg7mLvRnUc5aCwDUq
-         Je/9VssTI7/ywFRNZzEoc8LTzCbGnSueJWVfU45ySZTdoXzDDBQOHTKeKb0BvDxNaQ7Y
-         GfNQ==
-X-Gm-Message-State: AOJu0YydnMSSkKUj4Pup0po0aMhK8uduBJykRNK8S4EpvwlIpJok6Kwl
-	0Eiv+WziXGQwQzDNni3XmQUkwXFs2RI7lHpcjQG4hagYhRMlP0OGVVV/ng==
-X-Google-Smtp-Source: AGHT+IFV9qrr8MNtxPzZWc7wk33iwzRNE/cNkk1Phzx7jsddTQPso+M9vle25KIGqHKt2ygjrQd56g==
-X-Received: by 2002:a17:906:27d0:b0:a6d:fbed:7953 with SMTP id a640c23a62f3a-a6f9506efe1mr752529866b.27.1718966578517;
-        Fri, 21 Jun 2024 03:42:58 -0700 (PDT)
+        bh=8G1XbNbm7xAHoii6+XEhdCShnB3kGhZD9anq0eD+XFk=;
+        b=ArqD+dSIIZaDdHDakWVWX1li305/5rQ42AZ35qchrdM/qp51QZkvvy7AWhhTJR8aVw
+         ZbeQuFrCQ1VS9qX0wX7erFJUgdKK9J2ZLfOmngK1MXryFhmVaQBuchxkn8jsLwB3tDDA
+         kJD6jEpTfUOdhaMRxydbz5fkMAaUN3laBVaT97loe/DdXldXWE8AE/2a6grcO3gIEze8
+         5Ld5qtRHRwyv9vBK/xHpmHdhoOT2WYdukRgY1LcOP9XLwdhA1XwrI4GplZzVwVooAAjO
+         KdwlI2fn7JuLKHr/9FWS1wh4QAfBJImBU70xk9RH+u6llr9KUoXV89OxJ3QWzE7ozlcQ
+         KZ5Q==
+X-Gm-Message-State: AOJu0YzjrfqRF8MFP1dtKtqHNQ98AJnN+zQI9TdTIdsg/1Qhd0K+MZ+0
+	y36PoJ2we8RBIc0Lh4QiwkanhHqYkaY2EGMHvAhIWVchx41eObwWrxr2zw==
+X-Google-Smtp-Source: AGHT+IHhktyEwX0qHxIXwbksYrA1EQRj9q+3JSplX4P/AJXnYF/tSIUZwnvUCguQMuZSbPydy5pmzA==
+X-Received: by 2002:a17:907:a809:b0:a6f:b29f:8304 with SMTP id a640c23a62f3a-a6fb29f835amr600214666b.29.1718966581512;
+        Fri, 21 Jun 2024 03:43:01 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560addsm71378066b.175.2024.06.21.03.42.58
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf560addsm71378066b.175.2024.06.21.03.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 03:42:58 -0700 (PDT)
+        Fri, 21 Jun 2024 03:43:01 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/11] glib-2.0: rename glib-initial recipe as well on version upgrades
-Date: Fri, 21 Jun 2024 12:34:07 +0200
-Message-Id: <20240621103414.2842509-4-alex.kanavin@gmail.com>
+Subject: [PATCH 08/11] util-linux: rename util-linux-libuuid on recipe version upgrades
+Date: Fri, 21 Jun 2024 12:34:11 +0200
+Message-Id: <20240621103414.2842509-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240621103414.2842509-1-alex.kanavin@gmail.com>
 References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
@@ -61,37 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Jun 2024 10:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201009
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201013
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-This makes use of all the facilities introduced in the previous commits.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb | 2 +-
- meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb         | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb | 2 ++
+ meta/recipes-core/util-linux/util-linux_2.39.3.bb         | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb
-index 7da28382650..d9ad8698be2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb
-@@ -2,4 +2,4 @@ require glib.inc
- PACKAGES = ""
- PACKAGECONFIG = ""
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
+index ec04c1d3843..71af69e7b9e 100644
+--- a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
++++ b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
+@@ -17,3 +17,5 @@ do_install:append() {
+ }
  
--
-+RECIPE_NO_UPDATE_REASON = "Upgrades are handled in base glib-2.0 recipe"
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb
-index ef80cc47cfb..9f3022ea772 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb
-@@ -1,2 +1,4 @@
- require glib.inc
- 
+ BBCLASSEXTEND = "native nativesdk"
++
++RECIPE_NO_UPDATE_REASON = "Upgrades are handled in base util-linux recipe"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
+index 2cd7750afce..dec4b513087 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
+@@ -346,3 +346,6 @@ do_install_ptest:append:libc-musl() {
+         rm -rf ${D}${PTEST_PATH}/$t
+     done
+ }
++
 +inherit recipe-upgrade-additional-rename
-+RECIPE_UPGRADE_ADDITIONAL_RENAME = "glib-2.0-initial_{pv}.bb"
++RECIPE_UPGRADE_ADDITIONAL_RENAME = "util-linux-libuuid_{pv}.bb"
 -- 
 2.39.2
 
