@@ -1,110 +1,164 @@
-Return-Path: <marcus.folkesson@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5805CC27C53
-	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 08:10:56 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.93491.1719043849964621167
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B28C27C53
+	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 11:57:47 +0000 (UTC)
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+ by mx.groups.io with SMTP id smtpd.web11.95897.1719057464802836917
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Jun 2024 01:10:50 -0700
+ Sat, 22 Jun 2024 04:57:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KS99ZHKb;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ec17eb4493so37706181fa.2;
-        Sat, 22 Jun 2024 01:10:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1sqzeXlq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.54, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5b97a9a9b4bso1371823eaf.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 04:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719043847; x=1719648647; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rbj/InpxG5WG7BWFLCu/9rDM2Rn0hUdyP3qBsjXF2ZM=;
-        b=KS99ZHKbHZYhWd2+JBSPdDu5Feoy2GAkEgrKmzrqViVfTWBp6xpU8VX119EPUfi3gg
-         jCPYqOEKNpInwVCbiQtR6S6ndIrRnCxVO6AXZyTJx+A7HpMBrUuakmVi+kTxTqVNkVaD
-         cAsE6t/Hk47W6L7OW4TUKdzJxuz4rGMvR+MZWoBTYbfuuytex+TnhhFj8Xa8tEz9gevj
-         PHWDuApKdoI2UThE27t2chiuXmmi+zVltFML6tKyPquCLk3VvOaPPauWa4ug12KO6m9a
-         TcJauivT2qhDvD0FhPDMbsCeWI3AzkYcq3hvbl7h+SrFElMWvetadNGUhYEaWoxQUmrq
-         qEow==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719057464; x=1719662264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tclfdrPMHzE4gkK20jvGml30B2xd/JqLEUrdro9g8Ks=;
+        b=1sqzeXlqC+aOcN0In+BLUJyE5CdtDTclPIxLwFNPSFC+lIn5E+uJ4+t+/N8bW/okYH
+         8SA9YSLJF6Hnly+VW8w++3vEp4+i134+4FMbo3Zm1Xc3GfAShncMfzQF4xjrmliGK8ol
+         5lPy3j6GeJumtmyL8WZ4IYAPPMvDkqQoGVSc8lLQWu1JuCfUm+BMpERFnadC6Pzyg5Am
+         AFYDQqCAJDwyFJ3Xr2ciQ7LpG9qnINI6W7XAi/6qzFKuTV0/K7MPlzn02p/VdQSarb9j
+         FRF9/mV39K7V9aRDOmQprfLHEb6elJXGCqm+R5vze2wtYM0nry3/2BgfkDkQUxP5YHE9
+         zLcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719043847; x=1719648647;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rbj/InpxG5WG7BWFLCu/9rDM2Rn0hUdyP3qBsjXF2ZM=;
-        b=WKcFpN2runrqOtD4/Gzerq/qSeaV7zonL0Nk4UDeqTJIrZ3RCapdl/2UcDxV1kOLd+
-         jUqK0rrcNp6xHNVy2D6O5o7fSzUkc1QwczMga3cwonFRqmBWgICqXulb9ciUCPQyE/Hd
-         oq4uvqIONr0KXUCz+eoJFX57fJ7RM+N2VScZLqvhgdKRYwRykOBlgh1zzXmhwt5ADEGA
-         Tqg96Ol51kNJoAPtRPRFarVGgNrYFXaNKLKh6MhC+jLirIzVGpYMZ3na0Lf1SDiQNxLB
-         +S0RaEeVT9alL/cfhkgpwnvYQfcbE8ULIQarYl6+jX/WVjDW/Raq9UTl+QyM/QD2eMAt
-         9NKw==
-X-Gm-Message-State: AOJu0YyQdjrffIKTT7u8VfLnrTGrbPfyBEzymfDsOKeSmOz9E8rekMGs
-	MGwyogUbWKFL5rjDNOq0uvXkhbW5GcsDL3N9flDf1ZBqZ0EFIMQnSoJTqA==
-X-Google-Smtp-Source: AGHT+IEjotX0hhy0QH9/s1bsRWtzUrLcuMbVfkxgYEKk6BYZK6jJ6QFIZTsxN5AxhCn8hh42y5pdyw==
-X-Received: by 2002:a05:6512:b1d:b0:52c:df9b:9fc6 with SMTP id 2adb3069b0e04-52cdf9b9fe3mr342613e87.32.1719043847003;
-        Sat, 22 Jun 2024 01:10:47 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd810d633sm387139e87.165.2024.06.22.01.10.45
+        d=1e100.net; s=20230601; t=1719057464; x=1719662264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tclfdrPMHzE4gkK20jvGml30B2xd/JqLEUrdro9g8Ks=;
+        b=adctl0wXGRza8+p/xNZPhQcFt9BBzBI+tGn9SSl9LFxjagfSwlmB3r3vhRIDL0URLV
+         oM6XeroTmVA/tYQGuJQNYeAYjHRxNDytnOWGSCTs5vPgXzF1DD1uOAURvc9I8G3Q+KrW
+         6JONA1QNFRbVczFeMceGCKANEN5Dy0//nBJ8KVQVL2qlcl3cqPyE0pFhNg/uljjjtJEV
+         pw9pv33Nt+rG0VE0T+ntq7YF/wK8PY9L72kVOj2+Ax2DR0GusJHh1BlUC1h9uW2XnKg0
+         rmc3o3ErLfI1N8uFnywqeJD3ksvyeZx3NLWcl9MM4kZCVfyPUlhBY40i0OCdY7T4svf/
+         NmXg==
+X-Gm-Message-State: AOJu0Yzb9QGePI5SVnjbCf2Yux+GCQeUA8TQKXErYAFFEmiPXncsz/cw
+	Du1deNlOK2/Gcjh32KgaLxFs9ZEw2wk7e9tOsw1dcOyxbe6aQXIpcoEQg8jM+s9LVyt2+ZwuVT8
+	f
+X-Google-Smtp-Source: AGHT+IGxrMXtUbcEOFLIaIk8ahsb4hTTcZjrZ5dXB3qBWsqHIcTaAB1eHxoSlCI9U7kD2QfUFI65+g==
+X-Received: by 2002:a05:6358:4709:b0:1a2:89:298c with SMTP id e5c5f4694b2df-1a23c02a874mr29948955d.14.1719057463474;
+        Sat, 22 Jun 2024 04:57:43 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b364687bsm2101074a12.12.2024.06.22.04.57.42
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Jun 2024 01:10:46 -0700 (PDT)
-Date: Sat, 22 Jun 2024 10:16:59 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: "Marcus Folkesson via lists.openembedded.org" <marcus.folkesson=gmail.com@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Quentin Schulz <quentin.schulz@cherry.de>, kweihmann@outlook.com
-Subject: Re: [OE-core] [PATCH v5 2/2] image-bootfiles.bbclass: new class,
- copy boot files to root filesystem
-Message-ID: <ZnaIe0NiNTev-yVG@gmail.com>
-References: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
- <17DA67D349FBA8A0.21660@lists.openembedded.org>
+        Sat, 22 Jun 2024 04:57:42 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/9] Patch review
+Date: Sat, 22 Jun 2024 04:57:27 -0700
+Message-Id: <cover.1719057291.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a2lwBgBF62lY3L9o"
-Content-Disposition: inline
-In-Reply-To: <17DA67D349FBA8A0.21660@lists.openembedded.org>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 08:10:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201037
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 11:57:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201038
 
+Please review this set of changes for kirkstone and hjave comments back by
+end of day Tuesday, June 25
 
---a2lwBgBF62lY3L9o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Passed a-full on autobuilder:
 
-On Wed, Jun 19, 2024 at 02:38:53PM +0200, Marcus Folkesson via lists.openem=
-bedded.org wrote:
-> image-bootfiles class copy files listed in IMAGE_BOOT_FILES
-> to the IMAGE_BOOT_FILES_DIR directory of the root filesystem.
->=20
-> This is useful when there is no explicit boot partition but all boot
-> files should instead reside inside the root filesystem.
->=20
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7065
 
-Sorry, I forgot the Reviewed-by tag from v4:
+The following changes since commit ab2649ef6c83f0ae7cac554a72e6bea4dcda0e99:
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+  build-appliance-image: Update to kirkstone head revision (2024-06-01 19:12:27 -0700)
 
---a2lwBgBF62lY3L9o
-Content-Type: application/pgp-signature; name="signature.asc"
+are available in the Git repository at:
 
------BEGIN PGP SIGNATURE-----
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmZ2iHYACgkQiIBOb1ld
-UjLW4BAAyFq8Yd508s3mh6KS3ct0ssTMDO4FqLgOTxHM73Ff9dqZcYrEQl/LbIhq
-zVVafj0voZxHJ/m2ud78NyrLi4q3waXwbOPKXQlqeAFigFNTFOsjH+uA6vtTHWdQ
-VqD2Ar0qJ6FCxp3tU6wT5q5WuBYtbWQ4tzyVhZ9Vaqwy3bsfLrmcub9j5GkLriYb
-fAvaK7yTREuVMoOgWAP0GktLnaPkTIbNY+yAxIuXFp7UBMno5hAq2jHBUH1WP+XN
-Nxy29SOk3Ib6b1J30T+F23HztfPX/CIEoj8GAV49rj6yj2ldaFHbee5+mVHQnGAR
-bN+C+hmsnF+B4lMhGVoeeKiOXdUcczJRWqkItPmukwR/OU9Pztr2MnTnVSkfVpfx
-MH4f3pkXqZOYlPGnvRlb7AFcZmupiG5mtrVjYkh0KqTXBE/Of6ER+yvtAkNWVkq/
-FQvghQSDcsOPoteIMDTylNjswRoQT/5PmaTS39TrE3Bw00Y/glBYQCy6JATwkUWI
-45KIqpvNScfhVzv3088Lw9oey6JsSKUx5ypNGm6NNVziKnObvVV7nnTC+aXaE7E1
-FudNffNPu+KsFvmKm/AbEjSpXSNdvaT0IR6A1N6OUdNXoDrsf0IcddVnrsMEK3dn
-+HJm7mjvUbqKYo3qBvSSZYC+fHjeZTpNNrJuqfcUNP2mbSTYwsA=
-=n7Xj
------END PGP SIGNATURE-----
+Changqing Li (1):
+  man-pages: remove conflict pages
 
---a2lwBgBF62lY3L9o--
+Deepthi Hemraj (1):
+  glibc: stable 2.35 branch updates
+
+Khem Raj (1):
+  gobject-introspection: Do not hardcode objdump name
+
+Peter Marko (1):
+  glib-2.0: patch CVE-2024-34397
+
+Siddharth (1):
+  openssl: Upgrade 3.0.13 -> 3.0.14
+
+Siddharth Doshi (1):
+  libxml2: Security fix for CVE-2024-34459
+
+Thomas Perrot (1):
+  man-pages: add an alternative link name for crypt_r.3
+
+Yogita Urade (2):
+  acpica: fix CVE-2024-24856
+  ruby: fix CVE-2024-27280
+
+ .../openssl/openssl/CVE-2024-2511.patch       | 122 ---
+ .../openssl/openssl/CVE-2024-4603.patch       | 180 ----
+ .../{openssl_3.0.13.bb => openssl_3.0.14.bb}  |   4 +-
+ .../glib-2.0/glib-2.0/CVE-2024-34397_01.patch | 129 +++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_02.patch |  62 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_03.patch | 985 ++++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_04.patch | 253 +++++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_05.patch |  88 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_06.patch | 263 +++++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_07.patch |  45 +
+ .../glib-2.0/glib-2.0/CVE-2024-34397_08.patch | 168 +++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_09.patch |  81 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_10.patch | 108 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_11.patch | 133 +++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_12.patch | 173 +++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_13.patch | 513 +++++++++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_14.patch |  75 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_15.patch |  47 +
+ .../glib-2.0/glib-2.0/CVE-2024-34397_16.patch |  62 ++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_17.patch | 121 +++
+ .../glib-2.0/glib-2.0/CVE-2024-34397_18.patch |  50 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  18 +
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../libxml/libxml2/CVE-2024-34459.patch       |  30 +
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ .../ruby/ruby/CVE-2024-27280.patch            |  87 ++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |   1 +
+ .../acpica/acpica/CVE-2024-24856.patch        |  33 +
+ .../acpica/acpica_20211217.bb                 |   4 +-
+ .../man-pages/man-pages_5.13.bb               |  12 +-
+ .../gobject-introspection_1.72.0.bb           |   2 +-
+ 31 files changed, 3536 insertions(+), 316 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-2511.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-4603.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.13.bb => openssl_3.0.14.bb} (98%)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_02.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_03.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_04.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_05.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_06.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_07.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_08.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_09.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_10.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_11.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_12.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_13.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_14.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_15.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_16.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_17.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-34397_18.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-34459.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27280.patch
+ create mode 100644 meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
+
+-- 
+2.34.1
+
 
