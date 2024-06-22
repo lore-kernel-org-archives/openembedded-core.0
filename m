@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AECC2BD05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A36AC27C78
 	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 11:58:07 +0000 (UTC)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
- by mx.groups.io with SMTP id smtpd.web11.95900.1719057484513280435
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.95901.1719057485914362883
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Jun 2024 04:58:04 -0700
+ Sat, 22 Jun 2024 04:58:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ewoyGIWq;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.46, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5c1bf0649a5so1408441eaf.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 04:58:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TMpZxatx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.49, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-25c9ef2701fso1689503fac.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 04:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719057483; x=1719662283; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719057485; x=1719662285; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DD/rlgNwpdpXqrRTS7VbxsipN1zVEEiJDgiupMefOWU=;
-        b=ewoyGIWqXGTUp4yO8zafwzsc4jpfzDgr5dfH8vl1ldHKrHrhUBbeiAfG0rgCd5PsUn
-         2H9i2mevO1+zgmL064spJBLnxz2QwyVFZQvYUFglryV5YiluCnz4JY8/eio2rW6mEqoZ
-         fW3vDasACAdrH+XR8UGPQXDJDUjUEiCTXcq7SaMBVueSWGb5/busuobru0/UYJUWxZkV
-         D34qskt3iJrdWff/+TMSXcagjhy7skLr0Jy28rYHcIb9IL9gTrSMF+fTAI/nL7k9mcRm
-         USk5gX4yVGzMdY4ga+fBsOu8LXBED056N97gbocFYJZvZ2H54eTn24LoYnR6zEB2GrbD
-         op/g==
+        bh=zquHSGFLVaZZ1bfwZXi4gigPrpW2zKfmgXuzty8XSes=;
+        b=TMpZxatxqM389PS9Xf9+PQsxe3PqRuYsjAvkWLDObolHRuGGcpBXsgnMsRq8pbFFrG
+         eZLUXVOaZflVn8lbAFNYZ1fS8jzUYvy13oj/urqdHY29apAO667yl3k85XJTEFLLLyPI
+         DeQmAigvDYU1Wf7Lu64VIUPuwNvHF3BHN7s8ZlKp6PFZ0lngn1FTavIQm+3kaMvPiyL4
+         6v02AM+hQl1ovi/UOGzdFNAkjKRgkv8Kwh9ppCfwtVNCZ2RHX3vQKfOWwKV94DxdlOGV
+         Ox3huA4vaqIjDHogY//TRFtEspjBQSJb1WqYmXoVOlo8oDUxAFaRLRCjfWi5WJbLY8pW
+         d2BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719057483; x=1719662283;
+        d=1e100.net; s=20230601; t=1719057485; x=1719662285;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DD/rlgNwpdpXqrRTS7VbxsipN1zVEEiJDgiupMefOWU=;
-        b=ZrYpke3FSW/zP1JbWu2ZNaqjAtg+wEyT9YP/n9MB/591GRxKfcPY4+hRRXt1zFG4Nm
-         Ea0qkVPis1P6SB58GBqSxYcJrwkwHHblqL0dNNXZTnSnldCnkL76yKq1qg44eEifQL15
-         nMQ96CQ0SJgoM4CFixLDvBp/Ih/2dfAGQ4H5HHkQ850j6Y1AGp27a4gdNfrwwHy/YqVE
-         X3QKWRi+FPO3HZkiJC58BD+4GLkXrQtKrKAYD5Pn+fhm4RWMxAoS/Lur8JXBonk90Qr9
-         zDmVWm08wLxe4DZEKJ72Q1s2t/LnTdbexiqer1zWNEXT8PYkoz7/aKG0nIrPaklVxmvf
-         zGaQ==
-X-Gm-Message-State: AOJu0YxdxEyLg6Ywcn0q9QLWpD94zOLFbGM9KiPI/OI1zRh03C1hYoZh
-	m4tEHrH8Wxy1C/Gnk5lteng/LrNBY4HNdvee8xgaD8TD94hg9NnZ+0s4Mc0U7h98r6YdZNZjEbx
-	r
-X-Google-Smtp-Source: AGHT+IHrBjB9ng8JX7DgugEnIZS7h11ttOBunuG83ikaFFLTz07HPtFX/l3yeSz0Nd0KrlCCJWWQBQ==
-X-Received: by 2002:a05:6358:2921:b0:19f:7265:fa36 with SMTP id e5c5f4694b2df-1a1fd65661bmr1046932855d.27.1719057483433;
-        Sat, 22 Jun 2024 04:58:03 -0700 (PDT)
+        bh=zquHSGFLVaZZ1bfwZXi4gigPrpW2zKfmgXuzty8XSes=;
+        b=sJODdCEbepCK6duv0xeTeAHuxWbbU/riAOMo8jzgAdbxBrFZCwdtT7OUQRIsvBdQFq
+         WZlO4E/p3xo1X2fXXN/wSAPokFjFGnHOC4yjr62uXeQwkEUlpyV2RTTviSAhQIFqmdIt
+         HQ9tBQFpbcdizk/i85akSFQSWT7AnN1mXGLfUHOzdBf4fARSD34ywTaMR0QmxgmvZg1T
+         /0QM6syKOktWCcdbVznE6tDA690lp3LXAgczbH/IWkk6BM3CIIov3jXMUZO7SNVoUGu8
+         XoKKwqPo6pDHAi0Wz2nGytPSf0eoS8cT2IP7wSqqyv4as0oHwZPBeor0RetGEuvLDPxe
+         jz1w==
+X-Gm-Message-State: AOJu0Yw0OWY3bscMfeswRaGGHoxgrhF2/d3Ekk3SkEEPEfykFF4htdrY
+	8ilJN7WSRYvLcRAWvP7HRjgXvE4vhmSuQ4FiPq9P8fXZoTQezLC3Hu55IjQnr37ti2EWDRHB4oP
+	i
+X-Google-Smtp-Source: AGHT+IFRTdXTax8jBSghi/ljoJFmhZIre/FWNaJHpgmqgNT4z92rsQ7JNyZ7M0Bkl0ZktjY0OM1BLg==
+X-Received: by 2002:a05:6870:b022:b0:254:b7d9:2dcb with SMTP id 586e51a60fabf-25c948e44b4mr11041747fac.8.1719057484869;
+        Sat, 22 Jun 2024 04:58:04 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b364687bsm2101074a12.12.2024.06.22.04.58.02
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b364687bsm2101074a12.12.2024.06.22.04.58.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Jun 2024 04:58:03 -0700 (PDT)
+        Sat, 22 Jun 2024 04:58:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/9] acpica: fix CVE-2024-24856
-Date: Sat, 22 Jun 2024 04:57:30 -0700
-Message-Id: <0920aacb2a042e10e54db949428471ef9b20c96d.1719057291.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/9] ruby: fix CVE-2024-27280
+Date: Sat, 22 Jun 2024 04:57:31 -0700
+Message-Id: <729310d17310dff955c51811ff3339fdbc017b95.1719057291.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1719057291.git.steve@sakoman.com>
 References: <cover.1719057291.git.steve@sakoman.com>
@@ -62,82 +62,135 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 11:58:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201041
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201042
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
-The memory allocation function ACPI_ALLOCATE_ZEROED does not
-guarantee a successful allocation, but the subsequent code
-directly dereferences the pointer that receives it, which may
-lead to null pointer dereference. To fix this issue, a null
-pointer check should be added. If it is null, return exception
-code AE_NO_MEMORY.
+A buffer-overread issue was discovered in StringIO 3.0.1, as
+distributed in Ruby 3.0.x through 3.0.6 and 3.1.x through
+3.1.4. The ungetbyte and ungetc methods on a StringIO can
+read past the end of a string, and a subsequent call to
+StringIO.gets may return the memory value. 3.0.3 is the main
+fixed version; however, for Ruby 3.0 users, a fixed version
+is stringio 3.0.1.1, and for Ruby 3.1 users, a fixed version
+is stringio 3.0.1.2.
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2024-24856
+https://nvd.nist.gov/vuln/detail/CVE-2024-27280
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../acpica/acpica/CVE-2024-24856.patch        | 33 +++++++++++++++++++
- .../acpica/acpica_20211217.bb                 |  4 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
+ .../ruby/ruby/CVE-2024-27280.patch            | 87 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27280.patch
 
-diff --git a/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch b/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27280.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-27280.patch
 new file mode 100644
-index 0000000000..beb6a79c8e
+index 0000000000..2595feb6e9
 --- /dev/null
-+++ b/meta/recipes-extended/acpica/acpica/CVE-2024-24856.patch
-@@ -0,0 +1,33 @@
-+From 4d4547cf13cca820ff7e0f859ba83e1a610b9fd0 Mon Sep 17 00:00:00 2001
-+From: Huai-Yuan Liu <qq810974084@gmail.com>
-+Date: Tue, 4 Jun 2024 11:52:15 +0000
-+Subject: [PATCH] check null return of ACPI_ALLOCATE_ZEROED in
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27280.patch
+@@ -0,0 +1,87 @@
++From a35268a3ac1b5f0058e5b7c1a041a7e86d9da067 Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Mon, 10 Jun 2024 11:46:53 +0000
++Subject: [PATCH] Fix expanding size at ungetc/ungetbyte
 +
-+AcpiDbConvertToPackage ACPI_ALLOCATE_ZEROED may fails, Elements
-+might be null and will cause null pointer dereference later.
-+
-+Signed-off-by: Huai-Yuan Liu <qq810974084@gmail.com>
-+
-+CVE: CVE-2024-24856
-+Upstream-Status: Backport [https://github.com/acpica/acpica/commit/4d4547cf13cca820ff7e0f859ba83e1a610b9fd0]
++CVE: CVE-2024-27280
++Upstream-Status: Backport [https://github.com/ruby/stringio/commit/a35268a3ac1b5f0058e5b7c1a041a7e86d9da067]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ source/components/debugger/dbconvert.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ ext/stringio/stringio.c        |  2 +-
++ test/stringio/test_stringio.rb | 25 +++++++++++++++++++++----
++ 2 files changed, 22 insertions(+), 5 deletions(-)
 +
-+diff --git a/source/components/debugger/dbconvert.c b/source/components/debugger/dbconvert.c
-+index 55307d0..c17a5ab 100644
-+--- a/source/components/debugger/dbconvert.c
-++++ b/source/components/debugger/dbconvert.c
-+@@ -354,6 +354,8 @@ AcpiDbConvertToPackage (
++diff --git a/ext/stringio/stringio.c b/ext/stringio/stringio.c
++index 8df07e8..b2e8632 100644
++--- a/ext/stringio/stringio.c
+++++ b/ext/stringio/stringio.c
++@@ -984,7 +984,7 @@ strio_unget_bytes(struct StringIO *ptr, const char *cp, long cl)
++     len = RSTRING_LEN(str);
++     rest = pos - len;
++     if (cl > pos) {
++-	long ex = (rest < 0 ? cl-pos : cl+rest);
+++        long ex = cl - (rest < 0 ? pos : len);
++	rb_str_modify_expand(str, ex);
++	rb_str_set_len(str, len + ex);
++	s = RSTRING_PTR(str);
++diff --git a/test/stringio/test_stringio.rb b/test/stringio/test_stringio.rb
++index e0b4504..4853513 100644
++--- a/test/stringio/test_stringio.rb
+++++ b/test/stringio/test_stringio.rb
++@@ -757,6 +757,15 @@ class TestStringIO < Test::Unit::TestCase
++     assert_equal("b""\0""a", s.string)
++   end
 +
-+     Elements = ACPI_ALLOCATE_ZEROED (
-+         DB_DEFAULT_PKG_ELEMENTS * sizeof (ACPI_OBJECT));
-++    if (!Elements)
-++        return (AE_NO_MEMORY);
+++  def test_ungetc_fill
+++    count = 100
+++    s = StringIO.new
+++    s.print 'a' * count
+++    s.ungetc('b' * (count * 5))
+++    assert_equal((count * 5), s.string.size)
+++    assert_match(/\Ab+\z/, s.string)
+++  end
+++
++   def test_ungetbyte_pos
++     b = '\\b00010001 \\B00010001 \\b1 \\B1 \\b000100011'
++     s = StringIO.new( b )
++@@ -782,6 +791,15 @@ class TestStringIO < Test::Unit::TestCase
++     assert_equal("b""\0""a", s.string)
++   end
 +
-+     This = String;
-+     for (i = 0; i < (DB_DEFAULT_PKG_ELEMENTS - 1); i++)
+++  def test_ungetbyte_fill
+++    count = 100
+++    s = StringIO.new
+++    s.print 'a' * count
+++    s.ungetbyte('b' * (count * 5))
+++    assert_equal((count * 5), s.string.size)
+++    assert_match(/\Ab+\z/, s.string)
+++  end
+++
++   def test_frozen
++     s = StringIO.new
++     s.freeze
++@@ -825,18 +843,17 @@ class TestStringIO < Test::Unit::TestCase
++   end
++
++   def test_overflow
++-    omit if RbConfig::SIZEOF["void*"] > RbConfig::SIZEOF["long"]
+++    return if RbConfig::SIZEOF["void*"] > RbConfig::SIZEOF["long"]
++     limit = RbConfig::LIMITS["INTPTR_MAX"] - 0x10
++     assert_separately(%w[-rstringio], "#{<<-"begin;"}\n#{<<-"end;"}")
++     begin;
++       limit = #{limit}
++       ary = []
++-      while true
+++      begin
++         x = "a"*0x100000
++         break if [x].pack("p").unpack("i!")[0] < 0
++         ary << x
++-        omit if ary.size > 100
++-      end
+++      end while ary.size <= 100
++       s = StringIO.new(x)
++       s.gets("xxx", limit)
++       assert_equal(0x100000, s.pos)
 +--
 +2.40.0
-diff --git a/meta/recipes-extended/acpica/acpica_20211217.bb b/meta/recipes-extended/acpica/acpica_20211217.bb
-index d1727c1dab..ec253b998f 100644
---- a/meta/recipes-extended/acpica/acpica_20211217.bb
-+++ b/meta/recipes-extended/acpica/acpica_20211217.bb
-@@ -16,7 +16,9 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+index 2ad3c9e207..d4b977cdfe 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://CVE-2023-36617_1.patch \
+            file://CVE-2023-36617_2.patch \
+            file://CVE-2024-27281.patch \
++           file://CVE-2024-27280.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
- DEPENDS = "m4-native flex-native bison-native"
- 
--SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
-+SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz \
-+           file://CVE-2024-24856.patch \
-+          "
- SRC_URI[sha256sum] = "2511f85828820d747fa3e2c3433d3a38c22db3d9c2fd900e1a84eb4173cb5992"
- 
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
 -- 
 2.34.1
 
