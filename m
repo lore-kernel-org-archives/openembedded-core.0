@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A63C2D0CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C2C4C2BD09
 	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 11:58:17 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web11.95904.1719057491367317943
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.95802.1719057489927922750
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Jun 2024 04:58:11 -0700
+ Sat, 22 Jun 2024 04:58:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=V/MooF7m;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5ba33b08550so1309723eaf.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 04:58:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pSTQvu1g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70665289275so295932b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 04:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719057490; x=1719662290; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719057489; x=1719662289; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oRL0ZXchDHh5ELXs605rXYjvRkB5oE2y0YQvBZM0BRM=;
-        b=V/MooF7mc+cHC+2B+p/7aTc/79lHT07Wl46fG8v+Gbr+mUkrmZ9REoaWck8dLjLJL1
-         NL3j0F4GTiw3r/WupLtWQJS/fBCpIAcV0T9RkbdNJ8/R57SXBASQMdpWkg6cjgLSXCoF
-         4uJmrEpxO3JvDkWP1D7Wgaykn4A11vbXqY9Xe42mNkcsXFBfXJUUA/pJXQ0fZBh4YlJk
-         3YWvC/bnEC3FMRBklTp30SD4VTdXpAYTr76KXHH+yGNGsYgreyE4iZLpvfY8hMha/uB8
-         0ytDaOZE2rh7HW01RgKMTSjwcgjxmpS1j0En+Z1uVdVLYcmC8GpR40asCJJ7PWyNtOCN
-         jq7w==
+        bh=Gt2CnEw/jhOtezDwRE7UNBRYsYwls2bbNgXEWcmXr9w=;
+        b=pSTQvu1g3rAHbYc7MYjTLNGI9hTeNb5gnNFF9S5pqklogHX4yerwMF2UOvj4aU30p8
+         jVQJ9nyrc8f8A/aoytD++2WJZ5viRHpjEUIrsCXKfAJOXlR+c5DHWjcLoz/G3CtfFvmL
+         kcKJN9tLc/xAoal1JANP+P5iNqh2iBVyqkjkFcyWFWO7uqIFKikRv6DAOHvOzgrXglQT
+         HlMwCIU2oUm6NgjBo3+hFyQGJ6iH7wYJ+xChAsi0812c4RWjIHvT5u33qRHrDjpQC/Mz
+         5Ga0G0pem/R4xt+oAavgWEFVbxneAjrWb+2RpTJSoynA30N2HKyyscbd2GpBWlxDyH8h
+         xVfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719057490; x=1719662290;
+        d=1e100.net; s=20230601; t=1719057489; x=1719662289;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oRL0ZXchDHh5ELXs605rXYjvRkB5oE2y0YQvBZM0BRM=;
-        b=HKfSVw97bRcHrqd2dYpc0UbV+tAetUgK+CVk4urbFk4NsSC/xnHUCzAwQa476QVe++
-         W93wX71xCUWJrqQgsAlFf4swKewN3Ty+WXuDK+/9y8D3chm7biziseWIy3W2m2CMBF73
-         Gfa393vbYuHmjDQ1DKs4QotZCZQ3Y4chitRQuXHjs8R91lGcrql/totZ1QRPtpyKBA6O
-         LyqbSkJgPdbqaEQum7IsJ/yx2w0FOL12xtCdzHbAwbqdIsAuUQfmA4PfV8OL9ZADa72v
-         wssbe0pkC91R+sc0aSOhfFkzzVGTzXFrymWoUVUSK5WuJTKWkRxMa+LMIkiEWLg+ISiI
-         5A+g==
-X-Gm-Message-State: AOJu0Yw9ijVzJmzoOjshMA2JVZlNLtpE+K8Ecn5Lm55lUfNmzaqnZbOO
-	w1dWGC7pOTetSCnVEiPULRcOgg/IdFPHjX5dVs7l6hsZL4yrf7KziGGd+I0gn8O59Ibr/xhxnoz
-	r
-X-Google-Smtp-Source: AGHT+IG7NAUCr+qdxMAfc09WG7au5JEU1VGnthAcb4OXe6CYvn4y4KlUZEQ59luNjiY7qlQylqjs/g==
-X-Received: by 2002:a05:6358:94a1:b0:19f:54a7:4f0b with SMTP id e5c5f4694b2df-1a1fd45b46amr1219290755d.19.1719057490415;
-        Sat, 22 Jun 2024 04:58:10 -0700 (PDT)
+        bh=Gt2CnEw/jhOtezDwRE7UNBRYsYwls2bbNgXEWcmXr9w=;
+        b=RVuNumprIjqLOfPPcumKDI7tmSv//bcVz2B+my3t1umnUuZptjAKK/1OnLZ2cTyxJ1
+         LvUBGe306UxvNmv/RkS86NFB1JOAq9WsMKvHfcob8lf97KltwoPqYtPEpvNYB6ibl2Gp
+         4ES9dGRzFLn5GHnTFTCHBdTsTADe4sSSH+RKSt5yC90O361MM9uimVCQp0tqIYnDaEA0
+         zFiKwOkfleB9LZVTtdk8UBbvOWdUnf7Y0Zo23ahGm+zRdOyx1YGWrNq4ZTJY87uB8fUR
+         mZ/Do7xhrRDtf0NUGpgh+ehiujO+pdeN283mcuLTVrwVNEkubCJT8eWyqev7QVPjScOF
+         FG/A==
+X-Gm-Message-State: AOJu0YzVv9hAxKW6iAgHVsUJ9XN4nudrfEIJE9KC4CbsVXIRztnR1Llh
+	g2HYfjdDLIxUBtJcTchP2pZfGZrpnyE5KMI3FC4xt8RlJD5tf6FFiU0wRuIAqSfb4ltDemHESZ0
+	T
+X-Google-Smtp-Source: AGHT+IHtY1wX0JdyB/2x/kyc+FxEq6PQjAnZjurukR/IvX1bQVM4bshKBjZ/uy1E9v24haQcZ62Nbg==
+X-Received: by 2002:a05:6a20:918c:b0:1b8:27dc:10c7 with SMTP id adf61e73a8af0-1bcec92c0b0mr1900142637.12.1719057489092;
+        Sat, 22 Jun 2024 04:58:09 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b364687bsm2101074a12.12.2024.06.22.04.58.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b364687bsm2101074a12.12.2024.06.22.04.58.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Jun 2024 04:58:10 -0700 (PDT)
+        Sat, 22 Jun 2024 04:58:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/9] man-pages: add an alternative link name for crypt_r.3
-Date: Sat, 22 Jun 2024 04:57:35 -0700
-Message-Id: <5160fb6bf6ef49c0c33b000f377a56effd398fd0.1719057291.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/9] gobject-introspection: Do not hardcode objdump name
+Date: Sat, 22 Jun 2024 04:57:34 -0700
+Message-Id: <bbbb515f7df240b8679567cd3e04d6b4ccc65f6d.1719057291.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1719057291.git.steve@sakoman.com>
 References: <cover.1719057291.git.steve@sakoman.com>
@@ -62,38 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 11:58:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201046
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201045
 
-From: Thomas Perrot <thomas.perrot@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Because crypt_r.3 is also provided by libxcrypt-doc.
+Use OBJDUMP variable in the script, this helps in using the lddwrapper
+with recipes which maybe using different objdump tools e.g.l
+llvm-objdump or vice-versa
 
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ae5a8629ea72d6b3567047c7b858deae28623aba)
-Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
+(cherry picked from commit c04b3e0e371859c159b76bff87a5b1299b51d0c8)
+Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/man-pages/man-pages_5.13.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../gobject-introspection/gobject-introspection_1.72.0.bb       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.13.bb b/meta/recipes-extended/man-pages/man-pages_5.13.bb
-index c0198b77be..f8602c699e 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.13.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.13.bb
-@@ -30,7 +30,8 @@ FILES:${PN} = "${mandir}/*"
- inherit update-alternatives
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+index 9a47e908b7..d935cbd905 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
+@@ -103,7 +103,7 @@ EOF
+         # for a different architecture
+         cat > ${B}/g-ir-scanner-lddwrapper << EOF
+ #!/bin/sh
+-$OBJDUMP -p "\$@"
++\$OBJDUMP -p "\$@"
+ EOF
+         chmod +x ${B}/g-ir-scanner-lddwrapper
  
- ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE:${PN} = "passwd.5 getspnam.3 crypt.3"
--ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
--ALTERNATIVE_LINK_NAME[getspnam.3] = "${mandir}/man3/getspnam.3"
-+ALTERNATIVE:${PN} = "crypt.3 crypt_r.3 getspnam.3 passwd.5"
- ALTERNATIVE_LINK_NAME[crypt.3] = "${mandir}/man3/crypt.3"
-+ALTERNATIVE_LINK_NAME[crypt_r.3] = "${mandir}/man3/crypt_r.3"
-+ALTERNATIVE_LINK_NAME[getspnam.3] = "${mandir}/man3/getspnam.3"
-+ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
 -- 
 2.34.1
 
