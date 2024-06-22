@@ -1,1107 +1,622 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8F2C27C53
-	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 12:26:57 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.web11.96331.1719059215840895728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A69BC27C53
+	for <webhook@archiver.kernel.org>; Sat, 22 Jun 2024 14:33:38 +0000 (UTC)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web10.98539.1719066814245039465
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Jun 2024 05:26:56 -0700
+ Sat, 22 Jun 2024 07:33:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3V4XxrJF;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-63bdb089ffdso24223607b3.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 05:26:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OjmAapDp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-24542b8607fso1478237fac.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 07:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719059215; x=1719664015; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1719066813; x=1719671613; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aGcY2Pmr87T2fB9pst9O+WSM7P8wqRIAooPb7ESHMQs=;
-        b=3V4XxrJFHF+DbCKcfTEcQC+T3V00185CPONESiq2KN8Bf0ym7UMvf1FFyup1KevRjE
-         3THMGN1Br4ihdxIycmLym13dUPf3pyuK4Abpove9B2S+G3VD6ISYLvbMaC3kIptq9FHY
-         1lXhLCezUubSnsrgxwvZ6kYvwlueohdbllT6pZaNj8mhqIhT4LwKD0CyxJNyAt9Tpbek
-         IBcn5zoE4ey/1S/03L1D9UVj7v1K4+xTtxfh1UsT7ZfO9y3RSSr8Ivc7tj1tSpLs+pTI
-         H5CATO2lYykkeQFt74dORKPb2xYV0MHtt3GRyaNlcR+zg9P51Lkjo+dxvlPuVwQgFYea
-         QcAA==
+        bh=tWJiKlXaN3Q0SQ1UCAYpss5mJk/v9ea/+sgcklz5iIU=;
+        b=OjmAapDpJaKcuRCiHm/nedNu7U79bnv9lzik79jBOr1ViNQhpNu8S0+zIBBYK+Y4/7
+         DQ1DT67rkbWBoFHYebi6e1/ECaIqhxUzW0izypHFzB/+yaQxHqn4zt71K0Ty3+UAYWuF
+         +IngkVT+v4GwNuizxPcOCp3MlGMdUXB8WyaR1KOywUHy+HD8wpbp0vIrbI7y4jhgdBZP
+         HJO8fKl2ZvWrgKcW9HOhpZUkYuqNnZlkWX5FMAd54Zv0dGhQ2MlrpBI2UmasDOryk8ue
+         Qu3pvFGjBpF2a7pXYSyDAbzJBnskE7fVOALuRhiJb4qDzsZZtrxCUd2ViXz1/IesjsuR
+         hlIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719059215; x=1719664015;
+        d=1e100.net; s=20230601; t=1719066813; x=1719671613;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aGcY2Pmr87T2fB9pst9O+WSM7P8wqRIAooPb7ESHMQs=;
-        b=QFlgBHhN+Ns4yRCDLQoeRlbkB1KItUdh0J3pthylB29AdUi7POiKmZNKgbgdwiA1+t
-         xgZo3Z93irv3dwHALZnOkmdOm0mNSxwsgQB237a+TM+Jddz6BLcKSOfj07NDrpuPT6pj
-         jMk7JARx4aOPt40RKNvVTii8cIv0+bGVtIOIgeN78Vfh2TArt9PQYYtZzoN8/6OLGyTZ
-         B7zscLJ/1Ut61BtfLPLsxdjbw7I0eYEZHMpz9B3PnO88xM5nvxMFJ4L4bLNDp6OSIvwv
-         AouRYsSHDZuA6lujnld3OyeQ8NXpdkfTNxW5KfIpkIsv2kIzQPj/PifJHYlWLURBEKQD
-         eiNQ==
-X-Gm-Message-State: AOJu0YysLHgAUv7X3pxBWqPDTDiRTjZJvKNFqrxgu3rsqk6p4rdZ1/j0
-	kAqd7buVBT5bJc4UgWNBHDEvplufAP8XITe1Gj5Wn9/6BeyaKbaemCnbIEtZ2yeS2oI/IQLOVp+
-	gy4p5ld2SMZOYD1CWIJs/z/SkU4wRRgNohvquWA==
-X-Google-Smtp-Source: AGHT+IGngtf0Cr3E/zTUiCU/J+g+AvSbES/SDxm5GAS/ZjSp0elKLfeORPN+DtXy9hFCdOhdR/yppT3o+Mk89uN76rY=
-X-Received: by 2002:a81:92d7:0:b0:61a:b199:9313 with SMTP id
- 00721157ae682-6433f0e52a0mr2828147b3.16.1719059214578; Sat, 22 Jun 2024
- 05:26:54 -0700 (PDT)
+        bh=tWJiKlXaN3Q0SQ1UCAYpss5mJk/v9ea/+sgcklz5iIU=;
+        b=X/G99GeKUIbqJiGvRse+MyzHa0VzYHFtzFSgM7awaEfhLCIqkPg/Ew6kJI9XfEz+jl
+         2pTV6quAFDNYUTPrZbQubwlRifJ+gQwdTW0F/4/1yQX62RMbQmPlMPi0pg4aNl5DYwNY
+         OxpwA41XTDhie6oB8Xdda0N6tTaidbqkgk4u8sFBIydPeV6ps48SfbIEsyvOwn+Jdgeb
+         MF6Hiq+0X9STRzh8o0hCbAcNhTsJmayBXv/CQJMAGPTWJyeryGDBciQdQj5Hq1Er+9k+
+         VmHaBKmsWLGRdggLfsAip1uOCaFlxpmV4NM8yUQnDbjIqkDGN2SWSZGFZNx9Ur4+xY9H
+         dskw==
+X-Gm-Message-State: AOJu0Yw/xgoqdCbMwTDqWE689jD2zOmGychUMov72DYxrb5E7v1cOc/n
+	k7RXER+XGwv6K1ddvx4yTBY1vHi/oIu+obiabEG8mFTm6zwWAgzyvy0hhk41+X01gLQv9dF9nH+
+	wxIdLPHn7XHhVW2ptG0rNCk2sZYg=
+X-Google-Smtp-Source: AGHT+IGbyqIxkBm5M3cUFPiH9E5OhoxWUEiO/pG50jwf+23Dd+RKfnhRkZj5WXijo0T2G1L1dn/eKOxrSDNwoPDIdyw=
+X-Received: by 2002:a05:6870:955c:b0:254:ae17:c30b with SMTP id
+ 586e51a60fabf-25d06e366cbmr109947fac.36.1719066813078; Sat, 22 Jun 2024
+ 07:33:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240621121621.1315054-1-yogita.urade@windriver.com>
-In-Reply-To: <20240621121621.1315054-1-yogita.urade@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sat, 22 Jun 2024 05:26:43 -0700
-Message-ID: <CAOSpxdYM+Bsy_tJOZ3kAjfphPk1-MTzNu3P6BzgQj-=YE73+Lg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH 1/1] qemu: fix CVE-2024-3446 and CVE-2024-3447
-To: Yogita.Urade@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+References: <20240619085957.2787700-1-alex.kanavin@gmail.com> <20240619085957.2787700-11-alex.kanavin@gmail.com>
+In-Reply-To: <20240619085957.2787700-11-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 22 Jun 2024 07:33:06 -0700
+Message-ID: <CAMKF1spAE1aDRspPZcLbCy_Po7USfwHR4U=zdRaRoR+T9CrYiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/15] tcp-wrappers: mark all patches as inactive-upstream
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 12:26:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201048
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Jun 2024 14:33:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201049
 
-Unfortunately this patch caused multiple instances of:
+This caught my eye, I think we should plan on removing this recipe,
+several other distros have moved to alternatives like firewalld etc.
+Looking into its uses in OE-core and meta-openembedded, most of places
+it is mentioned via packageconfig which means we can easily turn it
+off, one place where its being used as direct runtime dependency is
+rshd in inetutils and rshd is disabled in build, I think if there are
+other uses of libwrap we should look to disable them.
 
-AssertionError: False is not true : Failed: qemux86 does not shutdown
-within timeout(120)
-
-See:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7063
-
-Removing the patch resulted in a succesful a-full build.
-
-Steve
-
-On Fri, Jun 21, 2024 at 5:16=E2=80=AFAM Urade, Yogita via
-lists.openembedded.org
-<Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
+On Wed, Jun 19, 2024 at 2:00=E2=80=AFAM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> From: Yogita Urade <yogita.urade@windriver.com>
+> From: Alexander Kanavin <alex@linutronix.de>
 >
-> CVE-2024-3446:
-> A double free vulnerability was found in QEMU virtio devices
-> (virtio-gpu, virtio-serial-bus, virtio-crypto), where the
-> mem_reentrancy_guard flag insufficiently protects against DMA
-> reentrancy issues. This issue could allow a malicious privileged
-> guest to crash the QEMU process on the host, resulting in a d
-> enial of service or allow arbitrary code execution within the
-> context of the QEMU process on the host.
->
-> CVE-2024-3447:
-> QEMU: sdhci: heap buffer overflow in sdhci_write_dataport()
->
-> Fix indent issue in qemu.inc file.
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2024-3446
-> https://security-tracker.debian.org/tracker/CVE-2024-3447
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  meta/recipes-devtools/qemu/qemu.inc           |  23 +-
->  .../qemu/qemu/CVE-2024-3446-0001.patch        | 136 +++++++++++
->  .../qemu/qemu/CVE-2024-3446-0002.patch        | 218 ++++++++++++++++++
->  .../qemu/qemu/CVE-2024-3446-0003.patch        |  68 ++++++
->  .../qemu/qemu/CVE-2024-3446-0004.patch        | 141 +++++++++++
->  .../qemu/qemu/CVE-2024-3446-0005.patch        |  41 ++++
->  .../qemu/qemu/CVE-2024-3446-0006.patch        |  42 ++++
->  .../qemu/qemu/CVE-2024-3447.patch             | 135 +++++++++++
->  8 files changed, 796 insertions(+), 8 deletions(-)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0001.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0002.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0003.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0004.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0005.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0006.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch
+>  .../tcp-wrappers-7.6/0001-Fix-build-with-clang.patch            | 2 +-
+>  .../0001-Fix-implicit-function-declaration-warnings.patch       | 2 +-
+>  .../tcp-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/00_man_quoting.diff           | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/01_man_portability.patch      | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/05_wildcard_matching.patch    | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/06_fix_gethostbyname.patch    | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/10_usagi-ipv6.patch           | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/11_tcpd_blacklist.patch       | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/11_usagi_fix.patch            | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/12_makefile_config.patch      | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/13_shlib_weaksym.patch        | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/14_cidr_support.patch         | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/15_match_clarify.patch        | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/expand_remote_port.patch      | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch            | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch           | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/have_strerror.patch           | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/ldflags.patch                 | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/makefile-fix-parallel.patch   | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/man_fromhost.patch            | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/musl-decls.patch              | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/rename_strings_variable.patch | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/restore_sigalarm.patch        | 2 +-
+>  meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rfc931.diff | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/safe_finger.patch             | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/sig_fix.patch                 | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/siglongjmp.patch              | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/socklen_t.patch               | 2 +-
+>  .../tcp-wrappers/tcp-wrappers-7.6/tcpdchk_libwrapped.patch      | 2 +-
+>  30 files changed, 30 insertions(+), 30 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index 4747310ae4..dba7c76f95 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -97,18 +97,25 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
-ar.xz \
->             file://CVE-2023-3301.patch \
->             file://CVE-2023-3255.patch \
->             file://CVE-2023-2861.patch \
-> -          file://CVE-2020-14394.patch \
-> -          file://CVE-2023-3354.patch \
-> -          file://CVE-2023-3180.patch \
-> -          file://CVE-2021-3638.patch \
-> -          file://CVE-2023-1544.patch \
-> -          file://CVE-2023-5088.patch \
-> -          file://CVE-2024-24474.patch \
-> -          file://CVE-2023-6693.patch \
-> +           file://CVE-2020-14394.patch \
-> +           file://CVE-2023-3354.patch \
-> +           file://CVE-2023-3180.patch \
-> +           file://CVE-2021-3638.patch \
-> +           file://CVE-2023-1544.patch \
-> +           file://CVE-2023-5088.patch \
-> +           file://CVE-2024-24474.patch \
-> +           file://CVE-2023-6693.patch \
->             file://scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the=
--block-size.patch \
->             file://scsi-disk-ensure-block-size-is-non-zero-and-changes-li=
-mited-to-bits-8-15.patch \
->             file://CVE-2023-42467.patch \
->             file://CVE-2023-6683.patch \
-> +           file://CVE-2024-3446-0001.patch \
-> +           file://CVE-2024-3446-0002.patch \
-> +           file://CVE-2024-3446-0003.patch \
-> +           file://CVE-2024-3446-0004.patch \
-> +           file://CVE-2024-3446-0005.patch \
-> +           file://CVE-2024-3446-0006.patch \
-> +           file://CVE-2024-3447.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix=
+-build-with-clang.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7=
+.6/0001-Fix-build-with-clang.patch
+> index 9d1e05d7f4e..9ca227d68d1 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-=
+with-clang.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-=
+with-clang.patch
+> @@ -6,7 +6,7 @@ Subject: [PATCH] Fix build with clang
+>  Fix "error: non-void function 'fix_options' should return a value".
+>  Add function prototype to tcpd.c and miscd.c.
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0001.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0001.patch
-> new file mode 100644
-> index 0000000000..6c27751fac
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0001.patch
-> @@ -0,0 +1,136 @@
-> +From a2e1753b8054344f32cf94f31c6399a58794a380 Mon Sep 17 00:00:00 2001
-> +From: Alexander Bulekov <alxndr@bu.edu>
-> +Date: Mon, 27 May 2024 10:12:28 +0000
-> +Subject: [PATCH] memory: prevent dma-reentracy issues
-> +
-> +Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> +This flag is set/checked prior to calling a device's MemoryRegion
-> +handlers, and set when device code initiates DMA.  The purpose of this
-> +flag is to prevent two types of DMA-based reentrancy issues:
-> +
-> +1.) mmio -> dma -> mmio case
-> +2.) bh -> dma write -> mmio case
-> +
-> +These issues have led to problems such as stack-exhaustion and
-> +use-after-frees.
-> +
-> +Summary of the problem from Peter Maydell:
-> +https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5=
-KcknhPRD5fPBZA@mail.gmail.com
-> +
-> +Resolves: #62
-> +Resolves: #540
-> +Resolves: #541
-> +Resolves: #556
-> +Resolves: #557
-> +Resolves: #827
-> +Resolves: #1282
-> +
-> +Resolves: CVE-2023-0330
-> +
-> +Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reviewed-by: Thomas Huth <thuth@redhat.com>
-> +Message-Id: <20230427211013.2994127-2-alxndr@bu.edu>
-> +[thuth: Replace warn_report() with warn_report_once()]
-> +Signed-off-by: Thomas Huth <thuth@redhat.com>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/a2e1753b8054344f32cf94f31c6399a58794a380]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + include/exec/memory.h  |  5 +++++
-> + include/hw/qdev-core.h |  7 +++++++
-> + softmmu/memory.c       | 16 ++++++++++++++++
-> + 3 files changed, 28 insertions(+)
-> +
-> +diff --git a/include/exec/memory.h b/include/exec/memory.h
-> +index 20f1b2737..e089f90f9 100644
-> +--- a/include/exec/memory.h
-> ++++ b/include/exec/memory.h
-> +@@ -734,6 +734,8 @@ struct MemoryRegion {
-> +     bool is_iommu;
-> +     RAMBlock *ram_block;
-> +     Object *owner;
-> ++    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR access h=
-otpath */
-> ++    DeviceState *dev;
-> +
-> +     const MemoryRegionOps *ops;
-> +     void *opaque;
-> +@@ -757,6 +759,9 @@ struct MemoryRegion {
-> +     unsigned ioeventfd_nb;
-> +     MemoryRegionIoeventfd *ioeventfds;
-> +     RamDiscardManager *rdm; /* Only for RAM */
-> ++
-> ++    /* For devices designed to perform re-entrant IO into their own IO =
-MRs */
-> ++    bool disable_reentrancy_guard;
-> + };
-> +
-> + struct IOMMUMemoryRegion {
-> +diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> +index 20d306659..14226f860 100644
-> +--- a/include/hw/qdev-core.h
-> ++++ b/include/hw/qdev-core.h
-> +@@ -162,6 +162,10 @@ struct NamedClockList {
-> +     QLIST_ENTRY(NamedClockList) node;
-> + };
-> +
-> ++typedef struct {
-> ++    bool engaged_in_io;
-> ++} MemReentrancyGuard;
-> ++
-> + /**
-> +  * DeviceState:
-> +  * @realized: Indicates whether the device has been fully constructed.
-> +@@ -193,6 +197,9 @@ struct DeviceState {
-> +     int instance_id_alias;
-> +     int alias_required_for_version;
-> +     ResettableState reset;
-> ++
-> ++    /* Is the device currently in mmio/pio/dma? Used to prevent re-entr=
-ancy */
-> ++    MemReentrancyGuard mem_reentrancy_guard;
-> + };
-> +
-> + struct DeviceListener {
-> +diff --git a/softmmu/memory.c b/softmmu/memory.c
-> +index 7340e19ff..102f0a424 100644
-> +--- a/softmmu/memory.c
-> ++++ b/softmmu/memory.c
-> +@@ -541,6 +541,18 @@ static MemTxResult access_with_adjusted_size(hwaddr=
- addr,
-> +         access_size_max =3D 4;
-> +     }
-> +
-> ++    /* Do not allow more than one simultaneous access to a device's IO =
-Regions */
-> ++    if (mr->dev && !mr->disable_reentrancy_guard &&
-> ++        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly=
-) {
-> ++        if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
-> ++            warn_report_once("Blocked re-entrant IO on MemoryRegion: "
-> ++                             "%s at addr: 0x%" HWADDR_PRIX,
-> ++                             memory_region_name(mr), addr);
-> ++            return MEMTX_ACCESS_ERROR;
-> ++        }
-> ++        mr->dev->mem_reentrancy_guard.engaged_in_io =3D true;
-> ++    }
-> ++
-> +     /* FIXME: support unaligned access? */
-> +     access_size =3D MAX(MIN(size, access_size_max), access_size_min);
-> +     access_mask =3D MAKE_64BIT_MASK(0, access_size * 8);
-> +@@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr =
-addr,
-> +                         access_mask, attrs);
-> +         }
-> +     }
-> ++    if (mr->dev) {
-> ++        mr->dev->mem_reentrancy_guard.engaged_in_io =3D false;
-> ++    }
-> +     return r;
-> + }
-> +
-> +@@ -1169,6 +1184,7 @@ static void memory_region_do_init(MemoryRegion *mr=
-,
-> +     }
-> +     mr->name =3D g_strdup(name);
-> +     mr->owner =3D owner;
-> ++    mr->dev =3D (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEV=
-ICE);
-> +     mr->ram_block =3D NULL;
-> +
-> +     if (name) {
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0002.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0002.patch
-> new file mode 100644
-> index 0000000000..f33934bf85
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0002.patch
-> @@ -0,0 +1,218 @@
-> +From 9c86c97f12c060bf7484dd931f38634e166a81f0 Mon Sep 17 00:00:00 2001
-> +From: Alexander Bulekov <alxndr@bu.edu>
-> +Date: Mon, 27 May 2024 07:29:20 +0000
-> +Subject: [PATCH] async: Add an optional reentrancy guard to the BH API
-> +
-> +Devices can pass their MemoryReentrancyGuard (from their DeviceState),
-> +when creating new BHes. Then, the async API will toggle the guard
-> +before/after calling the BH call-back. This prevents bh->mmio reentrancy
-> +issues.
-> +
-> +Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> +Message-Id: <20230427211013.2994127-3-alxndr@bu.edu>
-> +[thuth: Fix "line over 90 characters" checkpatch.pl error]
-> +Signed-off-by: Thomas Huth <thuth@redhat.com>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/9c86c97f12c060bf7484dd931f38634e166a81f0]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + docs/devel/multiple-iothreads.txt |  7 +++++++
-> + include/block/aio.h               | 18 ++++++++++++++++--
-> + include/qemu/main-loop.h          |  8 +++++---
-> + tests/unit/ptimer-test-stubs.c    |  3 ++-
-> + util/async.c                      | 18 +++++++++++++++++-
-> + util/main-loop.c                  |  6 ++++--
-> + util/trace-events                 |  1 +
-> + 7 files changed, 52 insertions(+), 9 deletions(-)
-> +
-> +diff --git a/docs/devel/multiple-iothreads.txt b/docs/devel/multiple-iot=
-hreads.txt
-> +index aeb997bed..a11576bc7 100644
-> +--- a/docs/devel/multiple-iothreads.txt
-> ++++ b/docs/devel/multiple-iothreads.txt
-> +@@ -61,6 +61,7 @@ There are several old APIs that use the main loop AioC=
-ontext:
-> +  * LEGACY qemu_aio_set_event_notifier() - monitor an event notifier
-> +  * LEGACY timer_new_ms() - create a timer
-> +  * LEGACY qemu_bh_new() - create a BH
-> ++ * LEGACY qemu_bh_new_guarded() - create a BH with a device re-entrancy=
- guard
-> +  * LEGACY qemu_aio_wait() - run an event loop iteration
-> +
-> + Since they implicitly work on the main loop they cannot be used in code=
- that
-> +@@ -72,8 +73,14 @@ Instead, use the AioContext functions directly (see i=
-nclude/block/aio.h):
-> +  * aio_set_event_notifier() - monitor an event notifier
-> +  * aio_timer_new() - create a timer
-> +  * aio_bh_new() - create a BH
-> ++ * aio_bh_new_guarded() - create a BH with a device re-entrancy guard
-> +  * aio_poll() - run an event loop iteration
-> +
-> ++The qemu_bh_new_guarded/aio_bh_new_guarded APIs accept a "MemReentrancy=
-Guard"
-> ++argument, which is used to check for and prevent re-entrancy problems. =
-For
-> ++BHs associated with devices, the reentrancy-guard is contained in the
-> ++corresponding DeviceState and named "mem_reentrancy_guard".
-> ++
-> + The AioContext can be obtained from the IOThread using
-> + iothread_get_aio_context() or for the main loop using qemu_get_aio_cont=
-ext().
-> + Code that takes an AioContext argument works both in IOThreads or the m=
-ain
-> +diff --git a/include/block/aio.h b/include/block/aio.h
-> +index 47fbe9d81..c7da15298 100644
-> +--- a/include/block/aio.h
-> ++++ b/include/block/aio.h
-> +@@ -22,6 +22,8 @@
-> + #include "qemu/event_notifier.h"
-> + #include "qemu/thread.h"
-> + #include "qemu/timer.h"
-> ++#include "hw/qdev-core.h"
-> ++
-> +
-> + typedef struct BlockAIOCB BlockAIOCB;
-> + typedef void BlockCompletionFunc(void *opaque, int ret);
-> +@@ -321,9 +323,11 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, =
-QEMUBHFunc *cb, void *opaque,
-> +  * is opaque and must be allocated prior to its use.
-> +  *
-> +  * @name: A human-readable identifier for debugging purposes.
-> ++ * @reentrancy_guard: A guard set when entering a cb to prevent
-> ++ * device-reentrancy issues
-> +  */
-> + QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> +-                        const char *name);
-> ++                        const char *name, MemReentrancyGuard *reentranc=
-y_guard);
-> +
-> + /**
-> +  * aio_bh_new: Allocate a new bottom half structure
-> +@@ -332,7 +336,17 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc=
- *cb, void *opaque,
-> +  * string.
-> +  */
-> + #define aio_bh_new(ctx, cb, opaque) \
-> +-    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)))
-> ++    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), NULL)
-> ++
-> ++/**
-> ++ * aio_bh_new_guarded: Allocate a new bottom half structure with a
-> ++ * reentrancy_guard
-> ++ *
-> ++ * A convenience wrapper for aio_bh_new_full() that uses the cb as the =
-name
-> ++ * string.
-> ++ */
-> ++#define aio_bh_new_guarded(ctx, cb, opaque, guard) \
-> ++    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), guard)
-> +
-> + /**
-> +  * aio_notify: Force processing of pending events.
-> +diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-> +index 8dbc6fcb8..0a8f512be 100644
-> +--- a/include/qemu/main-loop.h
-> ++++ b/include/qemu/main-loop.h
-> +@@ -293,10 +293,12 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, =
-int ms);
-> + /* internal interfaces */
-> +
-> + void qemu_fd_register(int fd);
-> +-
-> ++#define qemu_bh_new_guarded(cb, opaque, guard) \
-> ++    qemu_bh_new_full((cb), (opaque), (stringify(cb)), guard)
-> + #define qemu_bh_new(cb, opaque) \
-> +-    qemu_bh_new_full((cb), (opaque), (stringify(cb)))
-> +-QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-);
-> ++    qemu_bh_new_full((cb), (opaque), (stringify(cb)), NULL)
-> ++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-,
-> ++                         MemReentrancyGuard *reentrancy_guard);
-> + void qemu_bh_schedule_idle(QEMUBH *bh);
-> +
-> + enum {
-> +diff --git a/tests/unit/ptimer-test-stubs.c b/tests/unit/ptimer-test-stu=
-bs.c
-> +index 2a3ef5879..a7a2d08e7 100644
-> +--- a/tests/unit/ptimer-test-stubs.c
-> ++++ b/tests/unit/ptimer-test-stubs.c
-> +@@ -108,7 +108,8 @@ int64_t qemu_clock_deadline_ns_all(QEMUClockType typ=
-e, int attr_mask)
-> +     return deadline;
-> + }
-> +
-> +-QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-)
-> ++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-,
-> ++                         MemReentrancyGuard *reentrancy_guard)
-> + {
-> +     QEMUBH *bh =3D g_new(QEMUBH, 1);
-> +
-> +diff --git a/util/async.c b/util/async.c
-> +index 6f6717a34..3eb6b5016 100644
-> +--- a/util/async.c
-> ++++ b/util/async.c
-> +@@ -62,6 +62,7 @@ struct QEMUBH {
-> +     void *opaque;
-> +     QSLIST_ENTRY(QEMUBH) next;
-> +     unsigned flags;
-> ++    MemReentrancyGuard *reentrancy_guard;
-> + };
-> +
-> + /* Called concurrently from any thread */
-> +@@ -123,7 +124,7 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, Q=
-EMUBHFunc *cb,
-> + }
-> +
-> + QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> +-                        const char *name)
-> ++                        const char *name, MemReentrancyGuard *reentranc=
-y_guard)
-> + {
-> +     QEMUBH *bh;
-> +     bh =3D g_new(QEMUBH, 1);
-> +@@ -132,13 +133,28 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFun=
-c *cb, void *opaque,
-> +         .cb =3D cb,
-> +         .opaque =3D opaque,
-> +         .name =3D name,
-> ++        .reentrancy_guard =3D reentrancy_guard,
-> +     };
-> +     return bh;
-> + }
-> +
-> + void aio_bh_call(QEMUBH *bh)
-> + {
-> ++    bool last_engaged_in_io =3D false;
-> ++
-> ++    if (bh->reentrancy_guard) {
-> ++        last_engaged_in_io =3D bh->reentrancy_guard->engaged_in_io;
-> ++        if (bh->reentrancy_guard->engaged_in_io) {
-> ++            trace_reentrant_aio(bh->ctx, bh->name);
-> ++        }
-> ++        bh->reentrancy_guard->engaged_in_io =3D true;
-> ++    }
-> ++
-> +     bh->cb(bh->opaque);
-> ++
-> ++    if (bh->reentrancy_guard) {
-> ++        bh->reentrancy_guard->engaged_in_io =3D last_engaged_in_io;
-> ++    }
-> + }
-> +
-> + /* Multiple occurrences of aio_bh_poll cannot be called concurrently. *=
-/
-> +diff --git a/util/main-loop.c b/util/main-loop.c
-> +index 06b18b195..1eacf0469 100644
-> +--- a/util/main-loop.c
-> ++++ b/util/main-loop.c
-> +@@ -544,9 +544,11 @@ void main_loop_wait(int nonblocking)
-> +
-> + /* Functions to operate on the main QEMU AioContext.  */
-> +
-> +-QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-)
-> ++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name=
-,
-> ++                         MemReentrancyGuard *reentrancy_guard)
-> + {
-> +-    return aio_bh_new_full(qemu_aio_context, cb, opaque, name);
-> ++    return aio_bh_new_full(qemu_aio_context, cb, opaque, name,
-> ++                           reentrancy_guard);
-> + }
-> +
-> + /*
-> +diff --git a/util/trace-events b/util/trace-events
-> +index c8f53d7d9..dc3b1eb3b 100644
-> +--- a/util/trace-events
-> ++++ b/util/trace-events
-> +@@ -11,6 +11,7 @@ poll_remove(void *ctx, void *node, int fd) "ctx %p nod=
-e %p fd %d"
-> + # async.c
-> + aio_co_schedule(void *ctx, void *co) "ctx %p co %p"
-> + aio_co_schedule_bh_cb(void *ctx, void *co) "ctx %p co %p"
-> ++reentrant_aio(void *ctx, const char *name) "ctx %p name %s"
-> +
-> + # thread-pool.c
-> + thread_pool_submit(void *pool, void *req, void *opaque) "pool %p req %p=
- opaque %p"
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0003.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0003.patch
-> new file mode 100644
-> index 0000000000..8f7fa1a569
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0003.patch
-> @@ -0,0 +1,68 @@
-> +From ec0504b989ca61e03636384d3602b7bf07ffe4da Mon Sep 17 00:00:00 2001
-> +From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Date: Mon, 27 May 2024 11:52:53 +0000
-> +Subject: [PATCH] hw/virtio: Introduce virtio_bh_new_guarded() helper
-> +
-> +Introduce virtio_bh_new_guarded(), similar to qemu_bh_new_guarded()
-> +but using the transport memory guard, instead of the device one
-> +(there can only be one virtio device per virtio bus).
-> +
-> +Inspired-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20240409105537.18308-2-philmd@linaro.org>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/ec0504b989ca61e03636384d3602b7bf07ffe4da]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + hw/virtio/virtio.c         | 10 ++++++++++
-> + include/hw/virtio/virtio.h |  7 +++++++
-> + 2 files changed, 17 insertions(+)
-> +
-> +diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> +index e11a8a0db..be0b3ff9d 100644
-> +--- a/hw/virtio/virtio.c
-> ++++ b/hw/virtio/virtio.c
-> +@@ -3876,3 +3876,13 @@ static void virtio_register_types(void)
-> + }
-> +
-> + type_init(virtio_register_types)
-> ++
-> ++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
-> ++                                   QEMUBHFunc *cb, void *opaque,
-> ++                                   const char *name)
-> ++{
-> ++    DeviceState *transport =3D qdev_get_parent_bus(dev)->parent;
-> ++
-> ++    return qemu_bh_new_full(cb, opaque, name,
-> ++                            &transport->mem_reentrancy_guard);
-> ++}
-> +diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> +index 8bab9cfb7..731c631a8 100644
-> +--- a/include/hw/virtio/virtio.h
-> ++++ b/include/hw/virtio/virtio.h
-> +@@ -22,6 +22,7 @@
-> + #include "standard-headers/linux/virtio_config.h"
-> + #include "standard-headers/linux/virtio_ring.h"
-> + #include "qom/object.h"
-> ++#include "block/aio.h"
-> +
-> + /* A guest should never accept this.  It implies negotiation is broken.=
- */
-> + #define VIRTIO_F_BAD_FEATURE          30
-> +@@ -397,4 +398,10 @@ static inline bool virtio_device_disabled(VirtIODev=
-ice *vdev)
-> + bool virtio_legacy_allowed(VirtIODevice *vdev);
-> + bool virtio_legacy_check_disabled(VirtIODevice *vdev);
-> +
-> ++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
-> ++                                   QEMUBHFunc *cb, void *opaque,
-> ++                                   const char *name);
-> ++#define virtio_bh_new_guarded(dev, cb, opaque) \
-> ++    virtio_bh_new_guarded_full((dev), (cb), (opaque), (stringify(cb)))
-> ++
-> + #endif
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0004.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0004.patch
-> new file mode 100644
-> index 0000000000..8b209491d8
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0004.patch
-> @@ -0,0 +1,141 @@
-> +From ba28e0ff4d95b56dc334aac2730ab3651ffc3132 Mon Sep 17 00:00:00 2001
-> +From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Date: Tue, 28 May 2024 05:50:35 +0000
-> +Subject: [PATCH] hw/display/virtio-gpu: Protect from DMA re-entrancy bug=
-s
-> +
-> +Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
-> +so the bus and device use the same guard. Otherwise the
-> +DMA-reentrancy protection can be bypassed:
-> +
-> +  $ cat << EOF | qemu-system-i386 -display none -nodefaults \
-> +                                  -machine q35,accel=3Dqtest \
-> +                                  -m 512M \
-> +                                  -device virtio-gpu \
-> +                                  -qtest stdio
-> +  outl 0xcf8 0x80000820
-> +  outl 0xcfc 0xe0004000
-> +  outl 0xcf8 0x80000804
-> +  outw 0xcfc 0x06
-> +  write 0xe0004030 0x4 0x024000e0
-> +  write 0xe0004028 0x1 0xff
-> +  write 0xe0004020 0x4 0x00009300
-> +  write 0xe000401c 0x1 0x01
-> +  write 0x101 0x1 0x04
-> +  write 0x103 0x1 0x1c
-> +  write 0x9301c8 0x1 0x18
-> +  write 0x105 0x1 0x1c
-> +  write 0x107 0x1 0x1c
-> +  write 0x109 0x1 0x1c
-> +  write 0x10b 0x1 0x00
-> +  write 0x10d 0x1 0x00
-> +  write 0x10f 0x1 0x00
-> +  write 0x111 0x1 0x00
-> +  write 0x113 0x1 0x00
-> +  write 0x115 0x1 0x00
-> +  write 0x117 0x1 0x00
-> +  write 0x119 0x1 0x00
-> +  write 0x11b 0x1 0x00
-> +  write 0x11d 0x1 0x00
-> +  write 0x11f 0x1 0x00
-> +  write 0x121 0x1 0x00
-> +  write 0x123 0x1 0x00
-> +  write 0x125 0x1 0x00
-> +  write 0x127 0x1 0x00
-> +  write 0x129 0x1 0x00
-> +  write 0x12b 0x1 0x00
-> +  write 0x12d 0x1 0x00
-> +  write 0x12f 0x1 0x00
-> +  write 0x131 0x1 0x00
-> +  write 0x133 0x1 0x00
-> +  write 0x135 0x1 0x00
-> +  write 0x137 0x1 0x00
-> +  write 0x139 0x1 0x00
-> +  write 0xe0007003 0x1 0x00
-> +  EOF
-> +  ...
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+>  ---
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix=
+-implicit-function-declaration-warnings.patch b/meta/recipes-extended/tcp-w=
+rappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.pa=
+tch
+> index 474703885d9..85031779261 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implic=
+it-function-declaration-warnings.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implic=
+it-function-declaration-warnings.patch
+> @@ -5,7 +5,7 @@ Subject: [PATCH] Fix implicit-function-declaration warnin=
+gs
+>
+>  These are seen with clang-15+
+>
+> -Upstream-Status: Inappropriate [upstream is dead]
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>  ---
+>   hosts_access.c | 3 +++
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Rem=
+ove-fgets-extern-declaration.patch b/meta/recipes-extended/tcp-wrappers/tcp=
+-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch
+> index 88c8d9cae7f..f485fe3fb6d 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fge=
+ts-extern-declaration.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fge=
+ts-extern-declaration.patch
+> @@ -6,7 +6,7 @@ Subject: [PATCH] Remove fgets() extern declaration
+>  These sources already include <stdio.h> which should bring the correct
+>  declaration
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>  ---
+>   hosts_access.c | 1 -
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/00_man_q=
+uoting.diff b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/00_man_qu=
+oting.diff
+> index 16d6719cbc1..c5ba3af3067 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/00_man_quoting.=
+diff
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/00_man_quoting.=
+diff
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/hosts_access.5 tcp_wrappers_7.6/hosts_ac=
+cess.5
+>  --- tcp_wrappers_7.6.orig/hosts_access.5       1995-01-30 19:51:47.00000=
+0000 +0100
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/01_man_p=
+ortability.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/01_m=
+an_portability.patch
+> index 9a735bff6d1..fea8ab9d7af 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/01_man_portabil=
+ity.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/01_man_portabil=
+ity.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruNp tcp_wrappers_7.6.orig/hosts_access.3 tcp_wrappers_7.6/hosts_a=
+ccess.3
+>  --- tcp_wrappers_7.6.orig/hosts_access.3       2005-03-09 18:30:25.00000=
+0000 +0100
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/05_wildc=
+ard_matching.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/05=
+_wildcard_matching.patch
+> index 9e188027fc0..525cd3531ba 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/05_wildcard_mat=
+ching.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/05_wildcard_mat=
+ching.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  See https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=3D17847
+>
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/06_fix_g=
+ethostbyname.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/06=
+_fix_gethostbyname.patch
+> index 725f4b59578..1f3f9e24acd 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/06_fix_gethostb=
+yname.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/06_fix_gethostb=
+yname.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  * Mon Feb  5 2001 Preston Brown <pbrown@redhat.com>
+>  - fix gethostbyname to work better with dot "." notation (#16949)
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/10_usagi=
+-ipv6.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/10_usagi-=
+ipv6.patch
+> index 96d47c39f40..ea45777734d 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/10_usagi-ipv6.p=
+atch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/10_usagi-ipv6.p=
+atch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/fix_options.c tcp_wrappers_7.6/fix_optio=
+ns.c
+>  --- tcp_wrappers_7.6.orig/fix_options.c        1997-04-08 02:29:19.00000=
+0000 +0200
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_tcpd_=
+blacklist.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_tc=
+pd_blacklist.patch
+> index 226106f4ff8..77d5b423421 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_tcpd_blackli=
+st.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_tcpd_blackli=
+st.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Path: news.porcupine.org!news.porcupine.org!not-for-mail
+>  From: Wietse Venema <wietse@((no)(spam)(please))wzv.win.tue.nl>
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_usagi=
+_fix.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_usagi_f=
+ix.patch
+> index 260e8d31387..09a1e0527e3 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_usagi_fix.pa=
+tch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/11_usagi_fix.pa=
+tch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -uN tcp_wrappers_7.6/hosts_access.c tcp_wrappers_7.6.new/hosts_acce=
+ss.c
+>  --- tcp_wrappers_7.6/hosts_access.c    Mon May 20 14:00:56 2002
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/12_makef=
+ile_config.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/12_m=
+akefile_config.patch
+> index d473fb63429..895a72e6b4b 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/12_makefile_con=
+fig.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/12_makefile_con=
+fig.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Index: tcp_wrappers_7.6/Makefile
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  =3D=3D276099=3D=3DERROR: AddressSanitizer: heap-use-after-free on addr=
-ess 0x60d000011178
-> +  at pc 0x562cc3b736c7 bp 0x7ffed49dee60 sp 0x7ffed49dee58
-> +  READ of size 8 at 0x60d000011178 thread T0
-> +      #0 0x562cc3b736c6 in virtio_gpu_ctrl_response hw/display/virtio-gp=
-u.c:180:42
-> +      #1 0x562cc3b7c40b in virtio_gpu_ctrl_response_nodata hw/display/vi=
-rtio-gpu.c:192:5
-> +      #2 0x562cc3b7c40b in virtio_gpu_simple_process_cmd hw/display/virt=
-io-gpu.c:1015:13
-> +      #3 0x562cc3b82873 in virtio_gpu_process_cmdq hw/display/virtio-gpu=
-.c:1050:9
-> +      #4 0x562cc4a85514 in aio_bh_call util/async.c:169:5
-> +      #5 0x562cc4a85c52 in aio_bh_poll util/async.c:216:13
-> +      #6 0x562cc4a1a79b in aio_dispatch util/aio-posix.c:423:5
-> +      #7 0x562cc4a8a2da in aio_ctx_dispatch util/async.c:358:5
-> +      #8 0x7f36840547a8 in g_main_context_dispatch (/lib/x86_64-linux-gn=
-u/libglib-2.0.so.0+0x547a8)
-> +      #9 0x562cc4a8b753 in glib_pollfds_poll util/main-loop.c:290:9
-> +      #10 0x562cc4a8b753 in os_host_main_loop_wait util/main-loop.c:313:=
-5
-> +      #11 0x562cc4a8b753 in main_loop_wait util/main-loop.c:592:11
-> +      #12 0x562cc3938186 in qemu_main_loop system/runstate.c:782:9
-> +      #13 0x562cc43b7af5 in qemu_default_main system/main.c:37:14
-> +      #14 0x7f3683a6c189 in __libc_start_call_main csu/../sysdeps/nptl/l=
-ibc_start_call_main.h:58:16
-> +      #15 0x7f3683a6c244 in __libc_start_main csu/../csu/libc-start.c:38=
-1:3
-> +      #16 0x562cc2a58ac0 in _start (qemu-system-i386+0x231bac0)
-> +
-> +  0x60d000011178 is located 56 bytes inside of 136-byte region [0x60d000=
-011140,0x60d0000111c8)
-> +  freed by thread T0 here:
-> +      #0 0x562cc2adb662 in __interceptor_free (qemu-system-i386+0x239e66=
-2)
-> +      #1 0x562cc3b86b21 in virtio_gpu_reset hw/display/virtio-gpu.c:1524=
-:9
-> +      #2 0x562cc416e20e in virtio_reset hw/virtio/virtio.c:2145:9
-> +      #3 0x562cc37c5644 in virtio_pci_reset hw/virtio/virtio-pci.c:2249:=
-5
-> +      #4 0x562cc4233758 in memory_region_write_accessor system/memory.c:=
-497:5
-> +      #5 0x562cc4232eea in access_with_adjusted_size system/memory.c:573=
-:18
-> +
-> +  previously allocated by thread T0 here:
-> +      #0 0x562cc2adb90e in malloc (qemu-system-i386+0x239e90e)
-> +      #1 0x7f368405a678 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.s=
-o.0+0x5a678)
-> +      #2 0x562cc4163ffc in virtqueue_split_pop hw/virtio/virtio.c:1612:1=
-2
-> +      #3 0x562cc4163ffc in virtqueue_pop hw/virtio/virtio.c:1783:16
-> +      #4 0x562cc3b91a95 in virtio_gpu_handle_ctrl hw/display/virtio-gpu.=
-c:1112:15
-> +      #5 0x562cc4a85514 in aio_bh_call util/async.c:169:5
-> +      #6 0x562cc4a85c52 in aio_bh_poll util/async.c:216:13
-> +      #7 0x562cc4a1a79b in aio_dispatch util/aio-posix.c:423:5
-> +
-> +  SUMMARY: AddressSanitizer: heap-use-after-free hw/display/virtio-gpu.c=
-:180:42 in virtio_gpu_ctrl_response
-> +
-> +With this change, the same reproducer triggers:
-> +
-> +  qemu-system-i386: warning: Blocked re-entrant IO on MemoryRegion: virt=
-io-pci-common-virtio-gpu at addr: 0x6
-> +
-> +Fixes: CVE-2024-3446
-> +Cc: qemu-stable@nongnu.org
-> +Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reported-by: Yongkang Jia <kangel@zju.edu.cn>
-> +Reported-by: Xiao Lei <nop.leixiao@gmail.com>
-> +Reported-by: Yiming Tao <taoym@zju.edu.cn>
-> +Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
-> +
-> +Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20240409105537.18308-3-philmd@linaro.org>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/ba28e0ff4d95b56dc334aac2730ab3651ffc3132]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + hw/display/virtio-gpu.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> +index c6dc81898..5719ef6f1 100644
-> +--- a/hw/display/virtio-gpu.c
-> ++++ b/hw/display/virtio-gpu.c
-> +@@ -1334,8 +1334,8 @@ void virtio_gpu_device_realize(DeviceState *qdev, =
-Error **errp)
-> +
-> +     g->ctrl_vq =3D virtio_get_queue(vdev, 0);
-> +     g->cursor_vq =3D virtio_get_queue(vdev, 1);
-> +-    g->ctrl_bh =3D qemu_bh_new(virtio_gpu_ctrl_bh, g);
-> +-    g->cursor_bh =3D qemu_bh_new(virtio_gpu_cursor_bh, g);
-> ++    g->ctrl_bh =3D virtio_bh_new_guarded(qdev, virtio_gpu_ctrl_bh, g);
-> ++    g->cursor_bh =3D virtio_bh_new_guarded(qdev, virtio_gpu_cursor_bh, =
-g);
-> +     QTAILQ_INIT(&g->reslist);
-> +     QTAILQ_INIT(&g->cmdq);
-> +     QTAILQ_INIT(&g->fenceq);
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0005.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0005.patch
-> new file mode 100644
-> index 0000000000..0fe9554820
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0005.patch
-> @@ -0,0 +1,41 @@
-> +From b4295bff25f7b50de1d9cc94a9c6effd40056bca Mon Sep 17 00:00:00 2001
-> +From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Date: Tue, 28 May 2024 06:55:51 +0000
-> +Subject: [PATCH] hw/char/virtio-serial-bus: Protect from DMA re-entrancy=
- bugs
-> +
-> +Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
-> +so the bus and device use the same guard. Otherwise the
-> +DMA-reentrancy protection can be bypassed.
-> +
-> +Fixes: CVE-2024-3446
-> +Cc: qemu-stable@nongnu.org
-> +Suggested-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20240409105537.18308-4-philmd@linaro.org>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/b4295bff25f7b50de1d9cc94a9c6effd40056bca]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + hw/char/virtio-serial-bus.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-> +index f01ec2137..791b7ac59 100644
-> +--- a/hw/char/virtio-serial-bus.c
-> ++++ b/hw/char/virtio-serial-bus.c
-> +@@ -985,7 +985,7 @@ static void virtser_port_device_realize(DeviceState =
-*dev, Error **errp)
-> +         return;
-> +     }
-> +
-> +-    port->bh =3D qemu_bh_new(flush_queued_data_bh, port);
-> ++    port->bh =3D virtio_bh_new_guarded(dev, flush_queued_data_bh, port)=
-;
-> +     port->elem =3D NULL;
-> + }
-> +
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0006.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-3446-0006.patch
-> new file mode 100644
-> index 0000000000..ad1a8fc202
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-0006.patch
-> @@ -0,0 +1,42 @@
-> +From f4729ec39ad97a42ceaa7b5697f84f440ea6e5dc Mon Sep 17 00:00:00 2001
-> +From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Date: Tue, 28 May 2024 09:22:58 +0000
-> +Subject: [PATCH] hw/virtio/virtio-crypto: Protect from DMA re-entrancy b=
-ugs
-> +
-> +Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
-> +so the bus and device use the same guard. Otherwise the
-> +DMA-reentrancy protection can be bypassed.
-> +
-> +Fixes: CVE-2024-3446
-> +Cc: qemu-stable@nongnu.org
-> +Suggested-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20240409105537.18308-5-philmd@linaro.org>
-> +
-> +CVE: CVE-2024-3446
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/f4729ec39ad97a42ceaa7b5697f84f440ea6e5dc]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + hw/virtio/virtio-crypto.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> +index 274c7b4de..5b0b71008 100644
-> +--- a/hw/virtio/virtio-crypto.c
-> ++++ b/hw/virtio/virtio-crypto.c
-> +@@ -822,7 +822,8 @@ static void virtio_crypto_device_realize(DeviceState=
- *dev, Error **errp)
-> +         vcrypto->vqs[i].dataq =3D
-> +                  virtio_add_queue(vdev, 1024, virtio_crypto_handle_data=
-q_bh);
-> +         vcrypto->vqs[i].dataq_bh =3D
-> +-                 qemu_bh_new(virtio_crypto_dataq_bh, &vcrypto->vqs[i]);
-> ++               virtio_bh_new_guarded(dev, virtio_crypto_dataq_bh,
-> ++                                       &vcrypto->vqs[i]);
-> +         vcrypto->vqs[i].vcrypto =3D vcrypto;
-> +     }
-> +
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch b/meta/r=
-ecipes-devtools/qemu/qemu/CVE-2024-3447.patch
-> new file mode 100644
-> index 0000000000..174011c6b1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch
-> @@ -0,0 +1,135 @@
-> +From: 35a67d2aa8caf8eb0bee7d38515924c95417047e Mon Sep 17 00:00:00 2001
-> +From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Date: Tue, 28 May 2024 11:04:06 +0000
-> +Subject: [PATCH] hw/sd/sdhci: Do not update TRNMOD when Command Inhibit =
-(DAT)
-> + is set Per "SD Host Controller Standard Specification Version 3.00":
-> +
-> +  * 2.2.5 Transfer Mode Register (Offset 00Ch)
-> +
-> +    Writes to this register shall be ignored when the Command
-> +    Inhibit (DAT) in the Present State register is 1.
-> +
-> +Do not update the TRNMOD register when Command Inhibit (DAT)
-> +bit is set to avoid the present-status register going out of
-> +sync, leading to malicious guest using DMA mode and overflowing
-> +the FIFO buffer:
-> +
-> +  $ cat << EOF | qemu-system-i386 \
-> +                     -display none -nographic -nodefaults \
-> +                     -machine accel=3Dqtest -m 512M \
-> +                     -device sdhci-pci,sd-spec-version=3D3 \
-> +                     -device sd-card,drive=3Dmydrive \
-> +                     -drive if=3Dnone,index=3D0,file=3Dnull-co://,format=
-=3Draw,id=3Dmydrive \
-> +                     -qtest stdio
-> +  outl 0xcf8 0x80001013
-> +  outl 0xcfc 0x91
-> +  outl 0xcf8 0x80001001
-> +  outl 0xcfc 0x06000000
-> +  write 0x9100002c 0x1 0x05
-> +  write 0x91000058 0x1 0x16
-> +  write 0x91000005 0x1 0x04
-> +  write 0x91000028 0x1 0x08
-> +  write 0x16 0x1 0x21
-> +  write 0x19 0x1 0x20
-> +  write 0x9100000c 0x1 0x01
-> +  write 0x9100000e 0x1 0x20
-> +  write 0x9100000f 0x1 0x00
-> +  write 0x9100000c 0x1 0x00
-> +  write 0x91000020 0x1 0x00
-> +  EOF
-> +
-> +Stack trace (part):
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/13_shlib=
+_weaksym.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/13_shl=
+ib_weaksym.patch
+> index bd1396bc795..9503fb3c881 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/13_shlib_weaksy=
+m.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/13_shlib_weaksy=
+m.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/Makefile tcp_wrappers_7.6/Makefile
+>  --- tcp_wrappers_7.6.orig/Makefile     2004-05-02 15:37:59.000000000 +02=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/14_cidr_=
+support.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/14_cidr=
+_support.patch
+> index eb5685c5761..b6681df8ce4 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/14_cidr_support=
+.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/14_cidr_support=
+.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/hosts_access.5 tcp_wrappers_7.6/hosts_ac=
+cess.5
+>  --- tcp_wrappers_7.6.orig/hosts_access.5       2003-08-21 03:15:36.00000=
+0000 +0200
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/15_match=
+_clarify.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/15_mat=
+ch_clarify.patch
+> index 3ca6874119e..0c8594cac3a 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/15_match_clarif=
+y.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/15_match_clarif=
+y.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/hosts_access.5 tcp_wrappers_7.6/hosts_ac=
+cess.5
+>  --- tcp_wrappers_7.6.orig/hosts_access.5       2004-04-25 12:17:59.00000=
+0000 +0200
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/expand_r=
+emote_port.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/expa=
+nd_remote_port.patch
+> index 30873779760..0c54ba6d35b 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/expand_remote_p=
+ort.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/expand_remote_p=
+ort.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/eval.c tcp_wrappers_7.6/eval.c
+>  --- tcp_wrappers_7.6.orig/eval.c       1995-01-30 19:51:46.000000000 +01=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warn=
+ings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnin=
+gs.patch
+> index 965544cc0bd..0fd2ca7b2b5 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.pa=
+tch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.pa=
+tch
+> @@ -1,7 +1,7 @@
+>  Compile warning fixes from Debian
+>
+>  Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> -Upstream-Status: Inappropriate [upstream is dead]
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  --- a/options.c
+>  +++ b/options.c
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warn=
+ings2.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warni=
+ngs2.patch
+> index 27157a2e6dc..d9a6909db70 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.p=
+atch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.p=
+atch
+> @@ -1,7 +1,7 @@
+>  Compile warning fixes from Debian
+>
+>  Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> -Upstream-Status: Inappropriate [upstream is dead]
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  --- a/clean_exit.c
+>  +++ b/clean_exit.c
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/have_str=
+error.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/have_stre=
+rror.patch
+> index 4cc554fc380..9b1a3c0fa1a 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/have_strerror.p=
+atch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/have_strerror.p=
+atch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/percent_m.c tcp_wrappers_7.6/percent_m.c
+>  --- tcp_wrappers_7.6.orig/percent_m.c  1994-12-28 17:42:37.000000000 +01=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/ldflags.=
+patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/ldflags.patch
+> index 3ba214d241b..79b677f456c 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/ldflags.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/ldflags.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Index: tcp_wrappers_7.6.orig/Makefile
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=3D=3D89993=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s
-> +0x615000029900 at pc 0x55d5f885700d bp 0x7ffc1e1e9470 sp 0x7ffc1e1e9468
-> +WRITE of size 1 at 0x615000029900 thread T0
-> +    #0 0x55d5f885700c in sdhci_write_dataport hw/sd/sdhci.c:564:39
-> +    #1 0x55d5f8849150 in sdhci_write hw/sd/sdhci.c:1223:13
-> +    #2 0x55d5fa01db63 in memory_region_write_accessor system/memory.c:49=
-7:5
-> +    #3 0x55d5fa01d245 in access_with_adjusted_size system/memory.c:573:1=
-8
-> +    #4 0x55d5fa01b1a9 in memory_region_dispatch_write system/memory.c:15=
-21:16
-> +    #5 0x55d5fa09f5c9 in flatview_write_continue system/physmem.c:2711:2=
-3
-> +    #6 0x55d5fa08f78b in flatview_write system/physmem.c:2753:12
-> +    #7 0x55d5fa08f258 in address_space_write system/physmem.c:2860:18
-> +    ...
-> +0x615000029900 is located 0 bytes to the right of 512-byte region
-> +[0x615000029700,0x615000029900) allocated by thread T0 here:
-> +    #0 0x55d5f7237b27 in __interceptor_calloc
-> +    #1 0x7f9e36dd4c50 in g_malloc0
-> +    #2 0x55d5f88672f7 in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
-> +    #3 0x55d5f844b582 in pci_qdev_realize hw/pci/pci.c:2092:9
-> +    #4 0x55d5fa2ee74b in device_set_realized hw/core/qdev.c:510:13
-> +    #5 0x55d5fa325bfb in property_set_bool qom/object.c:2358:5
-> +    #6 0x55d5fa31ea45 in object_property_set qom/object.c:1472:5
-> +    #7 0x55d5fa332509 in object_property_set_qobject om/qom-qobject.c:28=
-:10
-> +    #8 0x55d5fa31f6ed in object_property_set_bool qom/object.c:1541:15
-> +    #9 0x55d5fa2e2948 in qdev_realize hw/core/qdev.c:292:12
-> +    #10 0x55d5f8eed3f1 in qdev_device_add_from_qdict system/qdev-monitor=
-.c:719:10
-> +    #11 0x55d5f8eef7ff in qdev_device_add system/qdev-monitor.c:738:11
-> +    #12 0x55d5f8f211f0 in device_init_func system/vl.c:1200:11
-> +    #13 0x55d5fad0877d in qemu_opts_foreach util/qemu-option.c:1135:14
-> +    #14 0x55d5f8f0df9c in qemu_create_cli_devices system/vl.c:2638:5
-> +    #15 0x55d5f8f0db24 in qmp_x_exit_preconfig system/vl.c:2706:5
-> +    #16 0x55d5f8f14dc0 in qemu_init system/vl.c:3737:9
-> +    ...
-> +SUMMARY: AddressSanitizer: heap-buffer-overflow hw/sd/sdhci.c:564:39
-> +in sdhci_write_dataport
-> +
-> +Add assertions to ensure the fifo_buffer[] is not overflowed by
-> +malicious accesses to the Buffer Data Port register.
-> +
-> +Fixes: CVE-2024-3447
-> +Cc: qemu-stable@nongnu.org
-> +Fixes: d7dfca08 ("hw/sdhci: introduce standard SD host controller")
-> +Buglink: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D58813
-> +
-> +Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> +Reported-by: Chuhong Yuan <hslester96@gmail.com>
-> +Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> +Message-Id: <CAFEAcA9iLiv1XGTGKeopgMa8Y9+8kvptvsb8z2OBeuy+5=3DNUfg@mail.=
-gmail.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Message-Id: <20240409145524.27913-1-philmd@linaro.org>
-> +
-> +CVE: CVE-2024-3447
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/35a67d2aa8caf8eb0bee7d38515924c95417047e]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + hw/sd/sdhci.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
-> +diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> +index e0bbc9034..211daa4bb 100644
-> +--- a/hw/sd/sdhci.c
-> ++++ b/hw/sd/sdhci.c
-> +@@ -471,6 +471,7 @@ static uint32_t sdhci_read_dataport(SDHCIState *s, u=
-nsigned size)
-> +     }
-> +
-> +     for (i =3D 0; i < size; i++) {
-> ++        assert(s->data_count < s->buf_maxsz);
-> +         value |=3D s->fifo_buffer[s->data_count] << i * 8;
-> +         s->data_count++;
-> +         /* check if we've read all valid data (blksize bytes) from buff=
-er */
-> +@@ -559,6 +560,7 @@ static void sdhci_write_dataport(SDHCIState *s, uint=
-32_t value, unsigned size)
-> +     }
-> +
-> +     for (i =3D 0; i < size; i++) {
-> ++        assert(s->data_count < s->buf_maxsz);
-> +         s->fifo_buffer[s->data_count] =3D value & 0xFF;
-> +         s->data_count++;
-> +         value >>=3D 8;
-> +@@ -1184,6 +1186,12 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t=
- val, unsigned size)
-> +         if (!(s->capareg & R_SDHC_CAPAB_SDMA_MASK)) {
-> +             value &=3D ~SDHC_TRNS_DMA;
-> +         }
-> ++
-> ++        /* TRNMOD writes are inhibited while Command Inhibit (DAT) is t=
-rue */
-> ++        if (s->prnsts & SDHC_DATA_INHIBIT) {
-> ++            mask |=3D 0xffff;
-> ++        }
-> ++
-> +         MASKED_WRITE(s->trnmod, mask, value & SDHC_TRNMOD_MASK);
-> +         MASKED_WRITE(s->cmdreg, mask >> 16, value >> 16);
-> +
-> +--
-> +2.40.0
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile=
+-fix-parallel.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/m=
+akefile-fix-parallel.patch
+> index 797352579b6..23762449ac4 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-pa=
+rallel.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/makefile-fix-pa=
+rallel.patch
+> @@ -12,7 +12,7 @@ problem.
+>  Also fixed:
+>  Fatal error: can't create shared/hosts_access.o: No such file or directo=
+ry
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>  ---
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/man_from=
+host.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/man_fromho=
+st.patch
+> index 19bd7d3c0fa..30e74a1de11 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/man_fromhost.pa=
+tch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/man_fromhost.pa=
+tch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/hosts_access.3 tcp_wrappers_7.6/hosts_ac=
+cess.3
+>  --- tcp_wrappers_7.6.orig/hosts_access.3       2004-04-25 00:10:48.00000=
+0000 +0200
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/musl-dec=
+ls.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/musl-decls.p=
+atch
+> index eee640e8a82..b998675aa0b 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/musl-decls.patc=
+h
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/musl-decls.patc=
+h
+> @@ -1,7 +1,7 @@
+>  __BEGIN_DECLS/__END_DECLS are BSD specific and not defined in musl
+>  glibc and uclibc had sys/cdefs.h doing it.
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+>  Index: tcp_wrappers_7.6/tcpd.h
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_s=
+trings_variable.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6=
+/rename_strings_variable.patch
+> index 7650600ab53..f42b9d2799a 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_=
+variable.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_=
+variable.patch
+> @@ -1,6 +1,6 @@
+>  STRINGS name conflicts with variable for strings tools (e.g. i586-oe-lin=
+ux-strings)
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/restore_=
+sigalarm.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/restor=
+e_sigalarm.patch
+> index 5875b81b2fc..a864e381298 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/restore_sigalar=
+m.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/restore_sigalar=
+m.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/rfc931.c tcp_wrappers_7.6/rfc931.c
+>  --- tcp_wrappers_7.6.orig/rfc931.c     2004-08-29 18:40:08.000000000 +02=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rfc931.d=
+iff b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rfc931.diff
+> index 723f4f136a8..2d0f548f89f 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rfc931.diff
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rfc931.diff
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruNp tcp_wrappers_7.6.orig/scaffold.c tcp_wrappers_7.6/scaffold.c
+>  --- tcp_wrappers_7.6.orig/scaffold.c   2005-03-09 18:22:04.000000000 +01=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/safe_fin=
+ger.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/safe_finger=
+.patch
+> index fc2afeef15d..b6543fc92e5 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/safe_finger.pat=
+ch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/safe_finger.pat=
+ch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  --- tcp-wrappers-7.6-ipv6.1.orig/safe_finger.c
+>  +++ tcp-wrappers-7.6-ipv6.1/safe_finger.c
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/sig_fix.=
+patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/sig_fix.patch
+> index 9d7ea042b26..843063fd7cf 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/sig_fix.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/sig_fix.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  * Mon Feb 10 2003 Harald Hoyer <harald@redhat.de> 7.6-29
+>  - added security patch tcp_wrappers-7.6-sig.patch
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/siglongj=
+mp.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/siglongjmp.p=
+atch
+> index 76dd6340b21..d4a1146594c 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/siglongjmp.patc=
+h
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/siglongjmp.patc=
+h
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruNp tcp_wrappers_7.6.orig/rfc931.c tcp_wrappers_7.6/rfc931.c
+>  --- tcp_wrappers_7.6.orig/rfc931.c     2004-08-29 18:42:25.000000000 +02=
+00
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/socklen_=
+t.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/socklen_t.pat=
+ch
+> index cf4f993c1aa..fb64f93f1d1 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/socklen_t.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/socklen_t.patch
+> @@ -7,7 +7,7 @@ Date:   Tue Feb 12 09:53:50 2013 -0500
+>      Added support for socklen_t type to len argument passed to socket re=
+lated
+>      calls. This fixes a bug that causes tcp wrappers to fail when using =
+sshd.
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>  Signed-off-by: farrah rashid <farrah.rashid@windriver.com>
+>
+>  diff --git a/fix_options.c b/fix_options.c
+> diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/tcpdchk_=
+libwrapped.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/tcpd=
+chk_libwrapped.patch
+> index be29bdcfaa8..2e3b1719fd3 100644
+> --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/tcpdchk_libwrap=
+ped.patch
+> +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/tcpdchk_libwrap=
+ped.patch
+> @@ -1,4 +1,4 @@
+> -Upstream-Status: Backport
+> +Upstream-Status: Inactive-Upstream [current release is from 1997; no vcs=
+ anywhere]
+>
+>  diff -ruN tcp_wrappers_7.6.orig/tcpdchk.c tcp_wrappers_7.6/tcpdchk.c
+>  --- tcp_wrappers_7.6.orig/tcpdchk.c    2003-08-21 02:50:37.000000000 +02=
+00
 > --
-> 2.23.0
+> 2.39.2
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#201021): https://lists.openembedded.org/g/openembedde=
-d-core/message/201021
-> Mute This Topic: https://lists.openembedded.org/mt/106797289/3620601
+> View/Reply Online (#200897): https://lists.openembedded.org/g/openembedde=
+d-core/message/200897
+> Mute This Topic: https://lists.openembedded.org/mt/106757096/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
