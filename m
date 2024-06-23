@@ -2,123 +2,163 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71DA6C27C4F
-	for <webhook@archiver.kernel.org>; Sun, 23 Jun 2024 12:18:54 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.116353.1719145128986896193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0977C27C4F
+	for <webhook@archiver.kernel.org>; Sun, 23 Jun 2024 13:20:14 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web10.117414.1719148812039882587
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jun 2024 05:18:49 -0700
+ Sun, 23 Jun 2024 06:20:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=g6AGApqi;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.175, mailfrom: steve@sakoman.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4405e343dd8so15334591cf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 05:18:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=M4el3WMa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.51, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-25980546baeso1712386fac.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 06:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719145128; x=1719749928; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719148811; x=1719753611; darn=lists.openembedded.org;
         h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nI0G5xOxGDKYN2hbK27xqyPsIc+F/P+V57k2lEXKSJs=;
-        b=g6AGApqitft/rL6ZM2xHLTR9yfzvGW5lTz3h4zMr22E+uHP9UpAXCqN67lxwAjYrXY
-         fPm9BE8mzRMSL9XwHq5HM11hEJAKPcxzco/hRISqYm/HeCBIbprQxv5gf5MF8iKhyHfW
-         J8/zPQxwHd2rggbvDSGxoaS2ArvSK6E9PpH8CjFKBG4XO3A33f4odHetdKoRYrszFecd
-         DkIGcok7vsvLdeNpQHiZ9YlKuKkdbDoan4XmHqtVkKospyiqrLbIxg8FGkH1AYKtgWCp
-         SdxlkqEFAEH155bPFnQsDZlWZS1EcroC8Pi1gPq4M8CJRFfIwBYbtIlYP8wEI+D6cl8m
-         Yh2w==
+        bh=j9KH+L4AUSku2kgqAwFiYkXQSW3s7jD2PgJjLTAvxCg=;
+        b=M4el3WMaSNsrONv8lmaUeS7OVyWtj8A1FLXK1vvt7I0jAjxxB19eSW0favTEfJ+bfU
+         IJ2vmH2zml0ux3dv9wIN4+V0IoES/0n1hZ97xjrv5umQuUv5VtaDH8oMU8ZmSJ8BOdYm
+         lOElNhEiFAxwIXOzlmPs49vjHe2qAR37dAe3TwR6ifeQQ2h34gp7ris/r4ONWspsnH8L
+         2i0zQc4ANekcXmGIrw7hX7W5E2h5jeVZ5+VoB/G2nvWqf1lZY8weO7bZCfaneUEr9bg5
+         8u5MdKrlIVjrfEnFOHjSpLzLM+ic1CNiu6ILb6imMQBJhMwDvrZ8SGvo7QaMUz1s68Di
+         2aYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719145128; x=1719749928;
+        d=1e100.net; s=20230601; t=1719148811; x=1719753611;
         h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nI0G5xOxGDKYN2hbK27xqyPsIc+F/P+V57k2lEXKSJs=;
-        b=mhQ8qfwKwTi7XRmTn6j9jBA47rqS33mLLXIJqhQ7RaSBVMLVCoPGR4AHf8qiUB9Vqw
-         MX/apLH2kTLvkwxlvCmH71+zudD16n/XbAHx7YR8MYoM1CbSDhGoYnfwlIvWfP/05NRV
-         FrVCjo4+ppeUPtXjMeRB21gz4F8Sm8YFGjsbzZN9KfwfgVw/XC69s1vgjfOdXBns82Dh
-         mcfEZ2wP7DSx16b/KMwuM1iS4sphZRGgkg/gULTfftfpc9qbyPRQ8jRJzwNfG9OBwVzL
-         8M7Qk6GeP5RJHFMPF65QP8TWuncsR6VQoJdpVpCXc0kC3Tken3fsgoB983Z/S++2f05M
-         ZBwA==
-X-Gm-Message-State: AOJu0Yzdpf5bozegqwovNIdus5ruicRECYLLnzJNlSb3cIiaVpQtjFBZ
-	k4pfTCjSc0yBPAzZW3rMDguQa3Fi5FJtKAyHq529Im88m8YgLXlQY4U9W+6pHxuAUEe3ebjHACx
-	0CqU=
-X-Google-Smtp-Source: AGHT+IEW5JoMga690/wOa4lJP0iEJvPRjuIIjHUV8j+8Lm5192Ae1pEUBV5M+nUc5dEHYFdPzg5AHg==
-X-Received: by 2002:a05:622a:2a09:b0:444:e35f:a861 with SMTP id d75a77b69052e-444e35fa8dbmr1549801cf.31.1719145127844;
-        Sun, 23 Jun 2024 05:18:47 -0700 (PDT)
+        bh=j9KH+L4AUSku2kgqAwFiYkXQSW3s7jD2PgJjLTAvxCg=;
+        b=Fxg2hGZ9SidTuI8sMhSfT73nFnpawRnN9ZIcaaQuE6dpOibwX8ybvPIse0Y71zMbqD
+         0uc9zFleHNI5y/n34s0Pkzw/O6+0gFB4SmFtb6VGhPVzjGnb6HesukeJ27rxoEhSMauh
+         7OHkMWhDxSiKVXs4l5Hycs+bzbD/zx8LnH4RyCblMhisH/zTlR+ihegaIjJrOa6fLc2m
+         2eU3ENOtO5X/EV08ZVQQz9kVfV/RKwsBxVnrbXHpjRDO3gtBtCB8/JVw6nEYs6LgFt+L
+         SXZmecu1OyyMp4OwLACezxFyYuSlvhaumTwgJVwxde0ArC4/yeAkv88JPTYJBQ1LV29K
+         vf8A==
+X-Gm-Message-State: AOJu0YxlshO3nurTnBVRjeWshP04usqSvqfHD/kpwPWiMcM7chN2KIZ1
+	l/E7pwtrNHrs5eBsa+cvcoY2Ds4BZnjgHEpdvo51Q+GUYuWeWaMM8FLyTUaA0qP3NtusPjxjnVA
+	SsRI=
+X-Google-Smtp-Source: AGHT+IEEifHui+roo2iFL/2S9g7lPTuG/yUTdLiKJaBtFT4HIpa4+3YmFViqGfbpnjJ1jc6TRiBYIg==
+X-Received: by 2002:a05:6870:4709:b0:254:9501:db80 with SMTP id 586e51a60fabf-25cfcdfd05emr3521697fac.14.1719148810830;
+        Sun, 23 Jun 2024 06:20:10 -0700 (PDT)
 Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-444c2b68c8bsm31479041cf.35.2024.06.23.05.18.47
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79bce9427e8sm234139785a.126.2024.06.23.06.20.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 05:18:47 -0700 (PDT)
+        Sun, 23 Jun 2024 06:20:10 -0700 (PDT)
 Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 7CF8310039F; Sun, 23 Jun 2024 02:18:46 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 23 Jun 2024 02:00:01 AM HST
+	id 5C64D10039F; Sun, 23 Jun 2024 03:20:09 -1000 (HST)
+Subject: OE-core CVE metrics for scarthgap on Sun 23 Jun 2024 03:00:01 AM HST
 FROM: steve@sakoman.com
 To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
 User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 23 Jun 2024 02:18:46 -1000
-Message-Id: <20240623121846.7CF8310039F@builder.sakoman.com>
+Date: Sun, 23 Jun 2024 03:20:09 -1000
+Message-Id: <20240623132009.5C64D10039F@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 12:18:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201052
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 13:20:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201053
 
-Branch: kirkstone
+Branch: scarthgap
 
 New this week: 2 CVEs
-CVE-2024-24789 (CVSS3: 5.5 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24789 *
-CVE-2024-24790 (CVSS3: 9.8 CRITICAL): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24790 *
+CVE-2024-24789 (CVSS3: 5.5 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24789 *
+CVE-2024-24790 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24790 *
 
 Removed this week: 0 CVEs
 
-Full list:  Found 35 unpatched CVEs
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+Full list:  Found 81 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
 CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
 CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-28198 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28198 *
-CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-32370 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32370 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-39323 (CVSS3: 8.1 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39323 *
-CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
-CVE-2023-40397 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40397 *
-CVE-2023-44487 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-44487 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52425 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52425 *
-CVE-2023-5380 (CVSS3: 4.7 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5380 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6356 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6356 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2023-6536 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6536 *
+CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
 CVE-2023-7216 (CVSS3: 5.3 MEDIUM): cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7216 *
-CVE-2024-1048 (CVSS3: 3.3 LOW): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-1048 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
-CVE-2024-24789 (CVSS3: 5.5 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24789 *
-CVE-2024-24790 (CVSS3: 9.8 CRITICAL): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24790 *
+CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-24789 (CVSS3: 5.5 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24789 *
+CVE-2024-24790 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24790 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
+CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
+CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
+CVE-2024-26900 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26900 *
+CVE-2024-26913 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26913 *
+CVE-2024-26929 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26929 *
+CVE-2024-26930 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26930 *
+CVE-2024-26933 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26933 *
+CVE-2024-26934 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26934 *
+CVE-2024-26949 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26949 *
+CVE-2024-26952 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26952 *
+CVE-2024-26978 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26978 *
+CVE-2024-26986 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26986 *
+CVE-2024-26987 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26987 *
+CVE-2024-27012 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27012 *
+CVE-2024-27013 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27013 *
+CVE-2024-27014 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27014 *
+CVE-2024-27015 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27015 *
+CVE-2024-27016 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27016 *
+CVE-2024-27017 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27017 *
+CVE-2024-27018 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27018 *
+CVE-2024-27019 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27019 *
+CVE-2024-27020 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27020 *
+CVE-2024-27022 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27022 *
+CVE-2024-3567 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-3567 *
+CVE-2024-35972 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35972 *
+CVE-2024-35978 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35978 *
+CVE-2024-35982 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35982 *
+CVE-2024-35984 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35984 *
+CVE-2024-35990 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35990 *
+CVE-2024-35992 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35992 *
+CVE-2024-35997 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35997 *
+CVE-2024-36008 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36008 *
+CVE-2024-36023 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36023 *
+CVE-2024-36891 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36891 *
+CVE-2024-36893 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36893 *
+CVE-2024-36897 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36897 *
+CVE-2024-36901 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36901 *
+CVE-2024-36902 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36902 *
+CVE-2024-36925 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36925 *
+CVE-2024-36926 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36926 *
+CVE-2024-36930 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36930 *
+CVE-2024-36938 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36938 *
+CVE-2024-36971 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36971 *
 
 Summary of CVE counts by recipe:
-  go: 7
-  ffmpeg: 5
-  qemu:qemu-native:qemu-system-native: 4
-  rpm:rpm-native: 3
-  tiff: 3
-  webkitgtk: 3
-  gnupg:gnupg-native: 2
-  grub:grub-efi:grub-native: 2
+  linux-yocto: 69
+  busybox: 4
+  go:go-binary-native:go-cross-core2-64:go-runtime: 2
+  qemu:qemu-native:qemu-system-native: 2
   cpio: 1
-  expat:expat-native: 1
-  pixman:pixman-native: 1
-  python3:python3-native: 1
-  xserver-xorg: 1
-  xwayland: 1
+  gnupg:gnupg-native: 1
+  nasm:nasm-native: 1
+  openssh: 1
 
 For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
