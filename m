@@ -2,140 +2,238 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76666C27C4F
-	for <webhook@archiver.kernel.org>; Sun, 23 Jun 2024 19:19:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6780C27C4F
+	for <webhook@archiver.kernel.org>; Sun, 23 Jun 2024 20:05:06 +0000 (UTC)
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.124416.1719170346739080562
+ by mx.groups.io with SMTP id smtpd.web11.125265.1719173100084280409
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jun 2024 12:19:07 -0700
+ Sun, 23 Jun 2024 13:05:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ebk3w2k2;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=A5Q7SAgO;
  spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 97A98240003;
-	Sun, 23 Jun 2024 19:19:04 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 13BC4240002;
+	Sun, 23 Jun 2024 20:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719170344;
+	t=1719173098;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=POA7+fqKvWGmUAC/u6Dwrfda9d4gwwCz9xYx3LfwcYU=;
-	b=ebk3w2k2hXv3/SNc36EltxuQo2TBMixEYjGzzWnRFiN5FVOHLkajIYxmB9fN1N/QwOxkim
-	FYub3ZelsrjX3tQPkK9YNdHQKUiubmzq+Hd4OpZaojrT5xPIWOAaqmliW4IhkgjrjWqYh2
-	fhuGFEQ5snWo6ynulahRM+HCI17Rl+2S83ANj5Ng2cU80YVK12NLmDo+Rv3hQaIabUeXuz
-	0/2EmfKB33E9AY80YKPnMHsOosqkdVsHA1jdeO9UlpREb1R7PcsPxSrV+dS1xcFU3+G90o
-	3AZFOFhl5m3fZKo4pMCbrtOenjmOohjVto5gHUermAn5R+y6NKu5IPE2KcCKkg==
-Date: Sun, 23 Jun 2024 21:19:04 +0200
+	bh=jGNcyA3/DMBQzGTOv4xf9xojx7fqR6F26eKTuxPpVVs=;
+	b=A5Q7SAgONbe6EzNHhs6xw9Vtq5ndRleHpa39a4AZyTqtCsFntM6HRKi9vVtZcFGMLPbMfs
+	yAd1qsexerSHoAgrsgCeZYbu5DaOpptMplWnKj6UHuelJey1+AAq2tuQ1C6p76HOE4HYXr
+	9oSVpyQlp/2O6/ttArTtLXAscHHHJ7kPynRSDENZDnfLQKu6uIdoiqsxE2pwEs+5dUhYKK
+	vKcUGaOYnxtrN2Uhyqrp+sojpqAUcC1xvUNXd5bGLhUWgFPZLbiCsRFLPwQ6z7Zu26oNbS
+	nDvcBt+z2R22ogl4kPJjqbeh3GZcffms9lsvK+DjEsahYG4fy/gURrSYDbZU9w==
+Date: Sun, 23 Jun 2024 22:04:57 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org,
-	=?iso-8859-1?Q?Jo=E3o?= Marcos Costa <joaomarcos.costa@bootlin.com>
-Subject: Re: [OE-core] [PATCH 11/22] glib-networking: upgrade 2.78.1 -> 2.80.0
-Message-ID: <202406231919041d8454c9@mail.local>
-References: <1718936206-8080-1-git-send-email-wangmy@fujitsu.com>
- <1718936206-8080-11-git-send-email-wangmy@fujitsu.com>
- <202406231916228eeeda40@mail.local>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com
+Subject: Re: [OE-core][PATCH] python3-numpy: upgrade 1.26.4 -> 2.0.0
+Message-ID: <20240623200457ab19d015@mail.local>
+References: <20240621150943.479535-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406231916228eeeda40@mail.local>
+In-Reply-To: <20240621150943.479535-1-tgamblin@baylibre.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 19:19:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201058
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 20:05:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201059
 
-Note that I already did test and replied this to you back in march:
+Hello,
 
-https://lore.kernel.org/all/20240326165030a736ab19@mail.local/
+I think this break piglit:
 
-And in this submission:
+ERROR: piglit-1.0+gitr-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/temp/run.do_compile.1337318', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/temp/log.do_compile.1337318
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build --target all --
+| Change Dir: '/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| [1/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests asmparser /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests/asmparser.list
+| [2/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests vkrunner /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests/vkrunner.list
+| [3/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests shader /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests/shader.list
+| [4/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/tests glslparser /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/target_api/no_api/tests/glslparser.list
+| [5/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_interface_block_tests.py > interface_block_tests.list
+| [6/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_inout_fp64.py > inout_fp64.list
+| [7/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_const_builtin_equal_tests.py > const_builtin_equal_tests.list
+| [8/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/interpolation-qualifier-built-in-variable.py > interpolation-qualifier-built-in-variable.list
+| [9/4291] cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py > intel_shader_integer_functions2_tests.list
+| FAILED: generated_tests/intel_shader_integer_functions2_tests.list /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests/intel_shader_integer_functions2_tests.list
+| cd /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py > intel_shader_integer_functions2_tests.list
+| Traceback (most recent call last):
+|   File "/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py", line 800, in <module>
+|     main()
+|   File "/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py", line 794, in main
+|     results=attrib['results'](attrib['sources'](), attrib['operator']),
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py", line 42, in generate_results_commutative
+|     results.append(operator(srcs[i], srcs[j]))
+|                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py", line 78, in abs_isub32
+|     a = np.int32(np.uint32(_a))
+|                  ^^^^^^^^^^^^^
+| OverflowError: Python integer -2147483648 out of bounds for uint32
 
-https://lore.kernel.org/all/20240518215929c3418ae7@mail.local/
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/9171/steps/12/logs/stdio
 
-So this is the third time this is submitted and not fixed...
-
-On 23/06/2024 21:16:23+0200, Alexandre Belloni wrote:
-> This causes new ptest failures:
+On 21/06/2024 11:09:43-0400, Trevor Gamblin wrote:
+> - This release contains numerous API changes and bug fixes.
+>   Changelog: https://github.com/numpy/numpy/releases/tag/v2.0.0
 > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6563/steps/13/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6740/steps/12/logs/stdio
+> - Notably, the build backend has switched to mesonpy.
 > 
-> Failed ptests:
-> {'glib-networking': ['glib-networking/connection-gnutls.test',
->                      'glib-networking/file-database-gnutls.test']}
+> - Patch 0001-numpy-core-Define-RISCV-32-support.patch had to be updated to
+>   change the paths for the target files. It's still waiting to be merged
+>   upstream and will need a rebase, so I've added a comment on the PR:
 > 
+>   https://github.com/numpy/numpy/pull/17780
 > 
+>   Note that the riscv32 test build didn't complete because openssl failed
+>   on do_compile, but the patch applies cleanly now.
 > 
-> (/usr/libexec/installed-tests/glib-networking/connection-gnutls:400): GLib-Net-WARNING **: 21:17:59.992: Failed to load TLS database: System trust contains zero trusted certificates; please investigate your GnuTLS configuration
-> FAIL: glib-networking/connection-gnutls.test (Child process killed by signal 5)
-> Running test: glib-networking/certificate-gnutls.test
+> - For numpy, add 'pkgconfig' to inherit to avoid the following error at
+>   do_compile:
 > 
-> (/usr/libexec/installed-tests/glib-networking/file-database-gnutls:406): GLib-Net-WARNING **: 21:18:00.068: Failed to load TLS database: System trust contains zero trusted certificates; please investigate your GnuTLS configuration
-> FAIL: glib-networking/file-database-gnutls.test (Child process killed by signal 5)
-> SUMMARY: total=4; passed=2; skipped=0; failed=2; user=0.1s; system=0.0s; maxrss=8684
-> FAIL: glib-networking/connection-gnutls.test (Child process killed by signal 5)
-> FAIL: glib-networking/file-database-gnutls.test (Child process killed by signal 5)
+>   | Found Pkg-config: NO
+>   | Run-time dependency python found: YES 3.12
+>   | Has header "Python.h" with dependency python: NO
+>   |
+>   | ../numpy-2.0.0/meson.build:44:2: ERROR: Problem encountered: Cannot compile `Python.h`. Perhaps you need to install python-dev|python-devel
+>   |
+>   | A full log can be found at /home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/2.0.0/build/meson-logs/meson-log.txt
 > 
+> - Also modify the FILES:${PN}-staticdev line to fix a QA issue at the end.
 > 
-> https://autobuilder.yocto.io/pub/non-release/20240622-19/testresults/qemux86-64-ptest/glib-networking.log
+> License-Update: Change copyright year to 2024
 > 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  ...1-numpy-core-Define-RISCV-32-support.patch | 28 +++++++++++--------
+>  ...numpy_1.26.4.bb => python3-numpy_2.0.0.bb} | 10 ++++---
+>  2 files changed, 22 insertions(+), 16 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-numpy_1.26.4.bb => python3-numpy_2.0.0.bb} (83%)
 > 
-> On 21/06/2024 10:16:35+0800, wangmy via lists.openembedded.org wrote:
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> > 
-> > Changelog:
-> > ===========
-> > - Mark plugin functions as exports on Windows
-> > - Updated translations
-> > - GnuTLS: fix improper use of IP address in SNI extension
-> > - GnuTLS: major performance improvement: reduce unnecessary trust list creation
-> > - OpenSSL: properly handle BIO_CTRL_EOF
-> > - GnuTLS: Add warning when system has no trusted certificates
-> > - OpenSSL: Fix bug when populating trust store
-> > - Fix license on dtls-connection.c test
-> > 
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  .../{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb}    | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-core/glib-networking/{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb} (95%)
-> > 
-> > diff --git a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> > similarity index 95%
-> > rename from meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
-> > rename to meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> > index 5060d9fd7a..c8a1355548 100644
-> > --- a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
-> > +++ b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> > @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-> >  SECTION = "libs"
-> >  DEPENDS = "glib-2.0-native glib-2.0"
-> >  
-> > -SRC_URI[archive.sha256sum] = "e48f2ddbb049832cbb09230529c5e45daca9f0df0eda325f832f7379859bf09f"
-> > +SRC_URI[archive.sha256sum] = "d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf"
-> >  
-> >  # Upstream note that for the openssl backend, half the tests where this backend don't return
-> >  # the expected error code or don't work as expected so default to gnutls
-> > -- 
-> > 2.34.1
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#200988): https://lists.openembedded.org/g/openembedded-core/message/200988
-> > Mute This Topic: https://lists.openembedded.org/mt/106792587/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
+> diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+> index 676bdbb3af..8dfb20edbb 100644
+> --- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+> +++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+> @@ -1,4 +1,4 @@
+> -From eb6d6579150bf4684603ce377c51e90ad3bb8109 Mon Sep 17 00:00:00 2001
+> +From df38843aaa7184115d262f14eae23ff38a20372a Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Sun, 15 Nov 2020 15:32:39 -0800
+>  Subject: [PATCH] numpy/core: Define RISCV-32 support
+> @@ -7,15 +7,19 @@ Helps compile on riscv32
+>  
+>  Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +
+> +Update the patch with the new paths for numpy release 2.0.0.
+> +
+> +Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>  ---
+> - numpy/core/include/numpy/npy_cpu.h    | 3 +++
+> - numpy/core/include/numpy/npy_endian.h | 1 +
+> + numpy/_core/include/numpy/npy_cpu.h    | 3 +++
+> + numpy/_core/include/numpy/npy_endian.h | 1 +
+>   2 files changed, 4 insertions(+)
+>  
+> -diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
+> -index 78d229e..04be511 100644
+> ---- a/numpy/core/include/numpy/npy_cpu.h
+> -+++ b/numpy/core/include/numpy/npy_cpu.h
+> +diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
+> +index a19f8e6bbd..d824d4efb6 100644
+> +--- a/numpy/_core/include/numpy/npy_cpu.h
+> ++++ b/numpy/_core/include/numpy/npy_cpu.h
+>  @@ -19,6 +19,7 @@
+>    *              NPY_CPU_ARCEB
+>    *              NPY_CPU_RISCV64
+> @@ -33,10 +37,10 @@ index 78d229e..04be511 100644
+>   #elif defined(__loongarch__)
+>       #define NPY_CPU_LOONGARCH
+>   #elif defined(__EMSCRIPTEN__)
+> -diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
+> -index 5e58a7f..0926212 100644
+> ---- a/numpy/core/include/numpy/npy_endian.h
+> -+++ b/numpy/core/include/numpy/npy_endian.h
+> +diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
+> +index 5e58a7f52c..09262120bf 100644
+> +--- a/numpy/_core/include/numpy/npy_endian.h
+> ++++ b/numpy/_core/include/numpy/npy_endian.h
+>  @@ -49,6 +49,7 @@
+>               || defined(NPY_CPU_PPC64LE)       \
+>               || defined(NPY_CPU_ARCEL)         \
+> @@ -46,5 +50,5 @@ index 5e58a7f..0926212 100644
+>               || defined(NPY_CPU_WASM)
+>           #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
+>  -- 
+> -2.20.1
+> +2.45.2
+>  
+> diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/recipes-devtools/python/python3-numpy_2.0.0.bb
+> similarity index 83%
+> rename from meta/recipes-devtools/python/python3-numpy_1.26.4.bb
+> rename to meta/recipes-devtools/python/python3-numpy_2.0.0.bb
+> index ccd08147af..38aebdbce0 100644
+> --- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
+> +++ b/meta/recipes-devtools/python/python3-numpy_2.0.0.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE = "https://numpy.org/"
+>  DESCRIPTION = "NumPy is the fundamental package needed for scientific computing with Python."
+>  SECTION = "devel/python"
+>  LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF-2.0 & Apache-2.0 & MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=a752eb20459cf74a9d84ee4825e8317c"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1de863c37a83e71b1e97b64d036ea78b"
+>  
+>  SRCNAME = "numpy"
+>  
+> @@ -13,14 +13,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+>             file://fix_reproducibility.patch \
+>             file://run-ptest \
+>             "
+> -SRC_URI[sha256sum] = "2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"
+> +SRC_URI[sha256sum] = "cf5d1c9e6837f8af9f92b6bd3e86d513cdc11f60fd62185cc49ec7d1aba34864"
+>  
+>  GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+>  UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+>  
+>  DEPENDS += "python3-cython-native"
+>  
+> -inherit ptest setuptools3 github-releases
+> +inherit ptest python_mesonpy pkgconfig github-releases
+>  
+>  S = "${WORKDIR}/numpy-${PV}"
+>  
+> @@ -30,7 +30,9 @@ do_compile:prepend() {
+>      export NPY_DISABLE_SVML=1
+>  }
+>  
+> -FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
+> +FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/_core/lib/*.a \
+> +                          ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a \
+> +"
+>  
+>  # install what is needed for numpy.test()
+>  RDEPENDS:${PN} = "python3-unittest \
 > -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> 2.45.2
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201028): https://lists.openembedded.org/g/openembedded-core/message/201028
+> Mute This Topic: https://lists.openembedded.org/mt/106800625/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
 -- 
 Alexandre Belloni, co-owner and COO, Bootlin
