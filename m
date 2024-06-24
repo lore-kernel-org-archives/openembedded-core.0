@@ -1,77 +1,56 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04130C2BD09
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 12:53:22 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.139825.1719233595849780487
- for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 05:53:16 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bazdPpAW;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52ce09b76e0so1285668e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 05:53:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719233594; x=1719838394; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+rUAlU3NsZSBIgrlpCSX/thu2blA2qiqV9H8Q3EJ/o=;
-        b=bazdPpAW22O9W/zULHJuL5WXNRj052q2ZtkFx7nfwqFtZBxZ5XgKyCQK+PVLcxMceR
-         iqpEMw8svhmHDA/oeddbqgS21v+5+yLla1o2vc0bzF4AbLeh+2vTxMSRRWul6++aVgpr
-         S3EveJO2j2UD/XErMxcfrT7JDNB9VcEkUmPXT+7q747wh+GsXP2uEiMZgvnKKrmpaW3e
-         ukLgyIvUAsNFyZ9Az6veEjyFEU10Rk5oyqzzEy8XoDdQiGbhdXSRs9chirVN/+TqmdwB
-         95jXEz2tClM+LV/cTRe94US2K+v0h+Y5uqqyot+d7k8aWlfrDAwqvxsCQEP8Zl10PaiK
-         82YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719233594; x=1719838394;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W+rUAlU3NsZSBIgrlpCSX/thu2blA2qiqV9H8Q3EJ/o=;
-        b=qSLhwTfrIVh0jA8qMnB8NDMnJfgKwdOEOSlJ9bmN+SedYQFXgnJCAHv9+SvSB9zzbW
-         KYalt9mJio+h7OTg/QuPQSZgHKXbcaqhghHsunejqaZAEk/AY3JANBeN/T4pUMjpPbH0
-         JWOpkPhH45rq6dIn2ij6gSO4r8i5ZEARDxyWVjwNY/kL0cR1tKOgaF/kJYoTPb0oqmvc
-         E06t9eoQptU3z0n+0m9oEjODex1KAb04hHR8wfu7NO8Q6ytQx6BMq3Uvuytm3i01bDoG
-         bZVgLCH9FQWcTI8Asvr5b52Ux2nRDVYG6IhPtqQs6FD70xok0PmgWT8b0Drx4m9sZIdz
-         MbCw==
-X-Gm-Message-State: AOJu0YzslBjrURJ7bsFrpAVlVZPZvXQGvWnRLG4iB5MbLI9459Q4Aef/
-	2mvVgvaXLfYxxV8THRz4ebnNsP2bJHkHYyHKXO4yc3EBRcwQhTjJX0HeYHvP5rmphaQ6DB3vS8u
-	1oxpGF+iGXutVquTd2aDh8BJ7NVhpzw==
-X-Google-Smtp-Source: AGHT+IFSMmkK0a86f3JkM8xziqDlxBumw3wbnfU46m4Vup3i1mkUXUhFtDsczYZx/IfHO0itClPSSok8k9bazhuOXcc=
-X-Received: by 2002:a19:f618:0:b0:52c:dba9:55ff with SMTP id
- 2adb3069b0e04-52cdf15b006mr1705700e87.25.1719233593781; Mon, 24 Jun 2024
- 05:53:13 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFCEC2BD09
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 13:02:12 +0000 (UTC)
+Subject: Re: [PATCH] package.bbclass: Fix broken dev package dependency.
+To: openembedded-core@lists.openembedded.org
+From: "Sreejith Ravi" <sreejith.ravi087@gmail.com>
+X-Originating-Location: Richmond, England, GB (90.216.150.195)
+X-Originating-Platform: Windows Chrome 126
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <CANNYZj-Osdn=hM8zjVbPhEQcU7ukR_zyY5xqZAWnp64FEa2SjA@mail.gmail.com>
- <2056.1719233236740863995@lists.openembedded.org>
-In-Reply-To: <2056.1719233236740863995@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 24 Jun 2024 14:53:02 +0200
-Message-ID: <CANNYZj8LT7JyO1731na1c0a8+_rfoCSjwyr=QfMC4124QAT2kw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package.bbclass: Fix broken dev package dependency.
-To: sreejith.ravi087@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 24 Jun 2024 06:02:02 -0700
+References: <CANNYZj8LT7JyO1731na1c0a8+_rfoCSjwyr=QfMC4124QAT2kw@mail.gmail.com>
+In-Reply-To: <CANNYZj8LT7JyO1731na1c0a8+_rfoCSjwyr=QfMC4124QAT2kw@mail.gmail.com>
+Message-ID: <2056.1719234122993514513@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="m4CiDRCdwNPSo0uID1uq"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 12:53:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201083
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 13:02:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201084
 
-On Mon, 24 Jun 2024 at 14:47, Sreejith Ravi via lists.openembedded.org
-<sreejith.ravi087=gmail.com@lists.openembedded.org> wrote:
->
-> What is the purpose of the dev IPKs generated by Yocto? As I understand, we can use them to resolve build dependencies.
+--m4CiDRCdwNPSo0uID1uq
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-The purpose is to generate a SDK for cross-builds with a toolchain, or
-a target image for native development on the target, but in both cases
-recommended packages are enabled and installed.
+We should be able to install the dev IPK and resolve its corresponding depe=
+ndency chain. As I mentioned earlier, enabling recommended packages and ins=
+talling them increases hard disk usage and installation time when installin=
+g a lot of unnecessary recommended packages.
 
-Resolving build dependencies in a yocto build is done with DEPENDS
-lists specified in recipes, which bitbake will handle in
-prepare_recipe_sysroot.
+Yocto handles the dev dependency chain by parsing the 'Requires' field from=
+ the .pc file in the package_do_pkgconfig function. However, there is one m=
+ore field, 'Requires.private', which also needs to be considered when creat=
+ing the dependency chain for the dev IPKs. With this, the dev IPK has the p=
+roper dependencies listed and there is no need to install the recommended p=
+ackages.
 
-Alex
+--m4CiDRCdwNPSo0uID1uq
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+We should be able to install the dev IPK and resolve its corresponding depe=
+ndency chain. As I mentioned earlier, enabling recommended packages and ins=
+talling them increases hard disk usage and installation time when installin=
+g a lot of unnecessary recommended packages.<br /><br />Yocto handles the d=
+ev dependency chain by parsing the 'Requires' field from the .pc file in th=
+e package_do_pkgconfig function. However, there is one more field, 'Require=
+s.private', which also needs to be considered when creating the dependency =
+chain for the dev IPKs. With this, the dev IPK has the proper dependencies =
+listed and there is no need to install the recommended packages.
+
+--m4CiDRCdwNPSo0uID1uq--
 
