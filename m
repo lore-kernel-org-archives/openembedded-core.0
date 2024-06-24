@@ -1,124 +1,103 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D97EFC2BD09
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 20:32:40 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.152631.1719261154965001902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2ED0C2BD09
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 20:33:50 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.152667.1719261223778632762
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 13:32:35 -0700
+ Mon, 24 Jun 2024 13:33:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UuDtk8pN;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-421d32fda86so52788385e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 13:32:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dfqHrnCE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42278f3aea4so39524045e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 13:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719261153; x=1719865953; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/W8tc5hoV+ZE8koDHMkuUW8EXGfqu1ZTlrXugw5P8M=;
-        b=UuDtk8pNn0sXk5PZH5+rz7gWcgXFXokFlO0j49ZarWoRHEoY2gg8jcjAMzXoBJMlBC
-         xfvr0rB/4Sj2iJWcRYgp/y5awGBq9Rxrq1zecGGgWflz/N+kElqUHQD/ua6hG7i9Q+v9
-         qLGJ5gGcMWITXzC+C7soflHfk2Hd15omb1wlRnq6nqvNyJJt0MoUaoMvZ9LTREZQJpa2
-         Cwm3tew4IiwkLt9COqycE1dyTydSIC2hS2RmLLqk5EbXpfV74zeNLw5g9mKznQdkuCLF
-         z0grvV4K3Ck/NxuUvtWzOEs1Ss5HFRi2DVkXufodvdAR7P1l8WxQ7NOQNggZhE/3o/qf
-         HMYg==
+        d=linuxfoundation.org; s=google; t=1719261222; x=1719866022; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sOEPx0h8+IfZ37Ta6p3BtDDeFE4ju2ix95e4tLFEaJ4=;
+        b=dfqHrnCEu0FZuPykhVvPbTtLwsbpTvy/gvYvuIRFxR64Ro+vetVuKDcbFqRmDEMfCU
+         MjhZ7/n/pYJyjx27/wZG86v3PU/IceJGPI8C3dDb3eT1hS9ElGAN3MyyoKiS1Yv5x7rq
+         PnftLnbOYw5wfQVRwM+vg9R0/c5c04jYOwqdQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719261153; x=1719865953;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K/W8tc5hoV+ZE8koDHMkuUW8EXGfqu1ZTlrXugw5P8M=;
-        b=LB11IPcPzBK93T+7uQfh3B10XJuQtoCadVstJO3erket7Fh0NH6WinfVPkU+v5hoXc
-         AjqkkE8UcqMQBFhr1ZFCepMrCGCvqFiko6upm9gmvoEuCLsiUd3J8Bloe7Fqr6kpCDut
-         GSNDTSrcDvlIbPs9rXr0E4xZx8nFNp18sYtZ5jufs50bx73ocd+GvN+X12D/VuFwmJ47
-         sDeOugd6zGPAzJX8z85tGM1TihCH7BnDheTs78ZL9HtKDHIYWWe6xNhCzPb9HRohNMBu
-         L4aMP8pkzj/19NL0rELFhlcxvtaOBvt1ZXjE8XboC7EFDoPtoraUninR6NWv6pY3Z9z/
-         th/g==
-X-Gm-Message-State: AOJu0YwSkd+FfMEy0FP2JKNgetthZPp6U0OLCikQ8bQ+s/Okpnsx8d1D
-	9xh2b9A5Qm+sOZIFVRdgij74xGLdcnTNUChhb8H3+/WjJzZJ5guC8K5IAw==
-X-Google-Smtp-Source: AGHT+IFRoOzxbe2VBtlHDbsrozWvj9Rp8yx7J1VMZsyau7/7wbcsSeB+QOIB3Ao17APoYKEg+uh9Mg==
-X-Received: by 2002:a05:600c:354f:b0:424:798a:f803 with SMTP id 5b1f17b1804b1-4248cc586f7mr45906305e9.30.1719261152824;
-        Mon, 24 Jun 2024 13:32:32 -0700 (PDT)
-Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817a9981sm151199155e9.17.2024.06.24.13.32.31
+        d=1e100.net; s=20230601; t=1719261222; x=1719866022;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sOEPx0h8+IfZ37Ta6p3BtDDeFE4ju2ix95e4tLFEaJ4=;
+        b=f5r7b4mmk4BK5OiTAz5IvcnVUo7Q4aJrKrbBSXwHLycc/w/nMmrq51+PlwAOgJ3cyg
+         LaPbT91/Qd+tlJg8rjy1XnAWGJYrKcHCJsN5xNFoyic0gU4Qg2G+8d4Y/nTqtqqaKAPC
+         iVVptPjHxVfA8Hc8A7G9nOuT285+so29HpeEX/4M3B60vSPaatur9FlniIDyy0E/M+CQ
+         a2EkmJestXtdeoARjEFCiH3cLiv2osU0qDwEa/qCVRY9JmrB5VqmOEdda21zGC58+QYR
+         Vz8HfccOXns6dr0r4Vu2KNyLSZwh3ldW6ZGxOKbYtnpsbIzytBwpQ9zBJ9jC3SUgWMiO
+         JcJA==
+X-Forwarded-Encrypted: i=1; AJvYcCW80WmWrdo1TPVoNC5kYp5A/bQXIwF/tzLaV1PR8DTE7sAvSxzXGugY08txzIHn22IECZhIxGwa7mYzy5KfWCuP6Mwolu8lq234aAbQxADFisQTdZZaKNfb
+X-Gm-Message-State: AOJu0YzsEg1uTm9sdqpxCqVHtc3rUu5Wd2/J41PoW9kpnG3rbInBuEPe
+	nZmbBzmfC8WGhQnSCqSL2HSv3ly3jcLDxPyTzU2dzQgN5i/TVP1rm+fxi0WBS6E=
+X-Google-Smtp-Source: AGHT+IGkOev9gzBOlEBJMrLvX5RL0TDPgsWMT3dXVYqCR7wzNHmFQ8wCkxX+aws1223qbcsmECng9w==
+X-Received: by 2002:a05:600c:4a99:b0:421:29e1:998 with SMTP id 5b1f17b1804b1-4248cc67376mr35883565e9.39.1719261221805;
+        Mon, 24 Jun 2024 13:33:41 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a414:f157:db24:7df7? ([2001:8b0:aba:5f3c:a414:f157:db24:7df7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0be9fasm187552835e9.16.2024.06.24.13.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 13:32:32 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] gobject-introspection: split tools and giscanner into a separate package
-Date: Mon, 24 Jun 2024 20:32:15 +0000
-Message-Id: <20240624203215.2470081-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 24 Jun 2024 13:33:41 -0700 (PDT)
+Message-ID: <de66e3216fb54cf24171e800ea032770517fab69.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 02/11] devtool/upgrade: add
+ RECIPE_UPGRADE_FINISH_EXTRA_TASKS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Mon, 24 Jun 2024 21:33:40 +0100
+In-Reply-To: <20240621103414.2842509-2-alex.kanavin@gmail.com>
+References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
+	 <20240621103414.2842509-2-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 20:32:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201113
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 20:33:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201114
 
-The tools and giscanner require python3-setuptools at runtime. This increases
-the image size quite a bit (on my end ~1.7MB compressed). Most users don't need
-these tools in the final image so make them optional.
+On Fri, 2024-06-21 at 12:34 +0200, Alexander Kanavin via
+lists.openembedded.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>=20
+> This is modeled on RECIPE_UPGRADE_EXTRA_TASKS with the difference
+> being that the tasks run in 'devtool finish', and only when
+> finishing an upgrade operation. This allows recipes to define
+> custom operations, such as renaming additional supplementary
+> recipes (such as *-initial, *-native etc), or any other custom
+> handling that devtool cannot know about.
+>=20
+> The idea is to teach glib, cmake, mesa, systemd, libva, rt-tests,
+> go, rust, etc etc about upgrading themselves properly with this,
+> improving success rates in AUH.
 
-This commit introduces a new packcage gobject-introspection-tools
+Whilst I understand the desire, I'm not sure this lives up to way
+devtool works.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- .../gobject-introspection_1.80.1.bb           | 21 +++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+By that I mean that devtool upgrade usually does testing of the result
+but with what you implement here, the second recipe is never actually
+tested so things could easily break after devtool finish and you
+wouldn't know without further testing.
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-index 582ac248fd..9c1945d639 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-@@ -26,7 +26,8 @@ GTKDOC_MESON_OPTION = "gtk_doc"
- 
- MULTILIB_SCRIPTS = "${PN}:${bindir}/g-ir-annotation-tool ${PN}:${bindir}/g-ir-scanner"
- 
--DEPENDS += " libffi zlib python3 flex-native bison-native"
-+# setuptools are required to provide distutils to build the tools
-+DEPENDS += " libffi zlib python3 python3-setuptools flex-native bison-native"
- DEPENDS:append:class-native = " glib-2.0"
- DEPENDS:append:class-target = " glib-2.0-initial"
- 
-@@ -169,6 +170,20 @@ gi_package_preprocess() {
- 
- SSTATE_SCAN_FILES += "g-ir-scanner-qemuwrapper g-ir-scanner-wrapper g-ir-compiler-wrapper g-ir-scanner-lddwrapper Gio-2.0.gir postinst-ldsoconf-${PN}"
- 
-+PACKAGES =+ "\
-+        ${PN}-tools \
-+"
-+
-+FILES:${PN}-tools = "\
-+        ${bindir}/g-ir-annotation-tool \
-+        ${bindir}/g-ir-compiler \
-+        ${bindir}/g-ir-generate \
-+        ${bindir}/g-ir-generate \
-+        ${bindir}/g-ir-inspect \
-+        ${bindir}/g-ir-scanner \
-+        ${libdir}/gobject-introspection/giscanner \
-+"
-+
- # .typelib files are needed at runtime and so they go to the main package
- FILES:${PN}:append = " ${libdir}/girepository-*/*.typelib"
- 
-@@ -190,7 +205,9 @@ FILES:${PN}-dev:append = " ${datadir}/gobject-introspection-1.0/tests/*.c \
- FILES:${PN}-dbg += "${libdir}/gobject-introspection/giscanner/.debug/"
- FILES:${PN}-staticdev += "${libdir}/gobject-introspection/giscanner/*.a"
- 
-+RDEPENDS:${PN} = "python3-pickle python3-xml glib-2.0"
-+
- # setuptools can be removed when upstream removes all uses of distutils
--RDEPENDS:${PN} = "python3-pickle python3-xml python3-setuptools glib-2.0"
-+RDEPENDS:${PN}-tools = "${PN} python3-setuptools"
- 
- BBCLASSEXTEND = "native"
--- 
-2.34.1
+Thinking about this a bit more, we should be able to ask bitbake which
+other recipes "share" files since I think the list of included files is
+actually cached by bitbake. Yes, we may need API but in theory this
+means devtool can know which other recipes it needs to upgrade at the
+same time, and when doing so, run them through the same process as
+normal upgrades.
 
+So yes, it will be a bit more work but the end result should be more
+generic and scalable?
+
+Cheers,
+
+Richard
 
