@@ -2,118 +2,106 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65389C2D0D1
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 19:32:00 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web10.151206.1719257515472540923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2FFC2BD09
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 19:32:10 +0000 (UTC)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web11.150917.1719257528238910337
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 12:31:55 -0700
+ Mon, 24 Jun 2024 12:32:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iTyDvN2I;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3d35f1dfda2so2580642b6e.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 12:31:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SX+fWjKc;
+ spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3d21f7cc6c0so2658012b6e.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 12:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719257514; x=1719862314; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1719257526; x=1719862326; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s87HPNAA0xYDfO2sl8Bah4bETU479O0bFbWYHXGFmaU=;
-        b=iTyDvN2I5I1QAr94eEPraRKS66Kun3tbJnHNCCTTnSqCOsVtiXML10IyiZ57CU5xae
-         z87nEhjkvI5Hs5WFU+n6BbdqDenuoWZNK2jIo0J69QGsgDh1OgqnBQ44viWRdJsWDtAb
-         Or1PwQlSrlUVbnRhDViYkm+a+5vNHYmMbG2GmqtEWRxZSkXwz+iyjbkUDB9KQrWP71ph
-         3YXl1J/2JTtnewMYqEsJpNufdjPcWhYE05BY9maGZ6hrymcy++VP4B4cunU5icgAtDCo
-         s2Vp6uglU/E2fdKaJt/u+BKzpgnjO4xiJ5UVuGEu7dWRzMRwa7Fd7Sgr2QKIYSE9EFKI
-         hjFQ==
+        bh=1umlNIyxvuUMaI+gYEzgZHiHArD0JPLN7b6s2b4Hs7g=;
+        b=SX+fWjKci63FgT10KTaHobOpu8lV35VLrmEQZ6M4yRCuIhniWL8BbLUFn+aSF8SFAb
+         jm5D5ZBgOiQO3LdmHwwR3hNJSTqs9bFrETIAL97SiPbBBWKa6UDmXnWztWUH1NWKYgFM
+         xU7Q3HO6d+b6+bc5xD23Ib9+Pfoy5Zc9SxW7otfQyMf0A8wI96dhMjKO6UeWIXzpH+m/
+         f3gor1h88LQmrX3ghaorqeeV8uxZx7W86N0kDvSqpIKCZUYQgmhPyh7TPOGkREDh613M
+         fb7sbsqlvitDX3b2YH3k5yB6pS1VTMuO4THVKJvlnRG/PzYNCTnSrzej7ce1v/2jF0IM
+         apkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719257514; x=1719862314;
+        d=1e100.net; s=20230601; t=1719257526; x=1719862326;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s87HPNAA0xYDfO2sl8Bah4bETU479O0bFbWYHXGFmaU=;
-        b=Vkg1ZweWo8r5B0i/1BvXLVKhebEkj0CXtZsAYF4I1aMgM0oHgcNuZw7kqP5vfGezmx
-         TMonSB2dN5nFdOefM9OEuKbnmXKwVUNbB1BQLP8dYtStSrCZmRQjOwkrxEEVfSzpYa2F
-         PZ6b0Yz5ozxzdfzH4Tl4VGgHFQOeiCrYViWFCLVadPTJj/6PJs7/CPwRD/qfD7JGlkIT
-         AhSkZHEgP/4ssDwULw2kIYJNu+yEgxfJ13Fgs3FvCGOLgBc1j5LTqp9lFj2aS+F8YXvt
-         YqGhXi+Ot8vnyGBZKiel51OGW8M+TaIZXeGFQ07mY6SWQhdHpaGq8gLHpqUj/10DM2um
-         n0Pw==
-X-Gm-Message-State: AOJu0Yzf4ezdb3NKhUTmhaS6RAyPH2LHa9w4l03eM+pvRKvAIEoN+wIY
-	FsjItQILF5ig/DIh21fqP33N0n/pf7xpyqyD+r8FjugBZiGP9xRb6L9V9g==
-X-Google-Smtp-Source: AGHT+IGtzmZ2GWpbZKHxba226ZeNqhb/GaqG03zBObyWmVf9c+nmvVIS5evgDD04EaXV+HqR0DkLTw==
-X-Received: by 2002:a05:6808:2226:b0:3d5:3d91:a7ca with SMTP id 5614622812f47-3d541c9333cmr7813366b6e.32.1719257514030;
-        Mon, 24 Jun 2024 12:31:54 -0700 (PDT)
+        bh=1umlNIyxvuUMaI+gYEzgZHiHArD0JPLN7b6s2b4Hs7g=;
+        b=VQwlLH7pXkR/Hb0ocTxTLuq94EX7SDUmC7BY8tBozpf6l6SdbYElTxA83T0oonavOx
+         yIE13beQlMRUTrpjDPnp6k7WxW5uo8a+JN1uzGuj6cQYejVaybQU4pO6NXaZt30RHL+d
+         j2Z8xJ2e9nyFBWkrk8Tf/pMq7z4BiDPNbKZtMekM6M58A6W0uu5xhV+z130/svGfMEeg
+         02lO4Bk446ojSw47FbRX7VPZs/3EvmHflcfVVOQ3Lgr7Pw4DjJlLOg3Tg9gADkyFeIKX
+         42lAJAhmRqF5GVUS1kYVJd6dSfZcfLDw8z/XbUaDPy0o8ybwx2DyoKk3E5xh6Y7Fzc/d
+         Sfrw==
+X-Gm-Message-State: AOJu0Ywhe4SxrkvPnIMsd3NZvyf86y2fAdIfOf/naP9TyU7QvBQzzAiz
+	0OSDRPGwlbFTvUzE3qfjuDOsOpJ2rxhj36rFN4U7tla3kq6b/u3OLkX9lA==
+X-Google-Smtp-Source: AGHT+IEoObl72vOkPLPceQpdcaRE47USX8IeyyyfEZeZr6djQ1UEEl+biFVLn8MOnwwiVMXcbHMPDQ==
+X-Received: by 2002:a05:6808:200b:b0:3d2:27c7:21b8 with SMTP id 5614622812f47-3d541d35650mr7361842b6e.37.1719257526315;
+        Mon, 24 Jun 2024 12:32:06 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::80e1])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d5344fa91csm1586711b6e.19.2024.06.24.12.31.53
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d5344fa91csm1586711b6e.19.2024.06.24.12.32.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 12:31:53 -0700 (PDT)
+        Mon, 24 Jun 2024 12:32:05 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v4 00/10] Add SPDX 3.0 support
-Date: Mon, 24 Jun 2024 13:10:50 -0600
-Message-ID: <20240624193151.1645802-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v4 04/10] classes-global/staging: Exclude do_create_spdx from automatic sysroot extension
+Date: Mon, 24 Jun 2024 13:10:54 -0600
+Message-ID: <20240624193151.1645802-5-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240619221805.3038528-1-JPEWhacker@gmail.com>
+In-Reply-To: <20240624193151.1645802-1-JPEWhacker@gmail.com>
 References: <20240619221805.3038528-1-JPEWhacker@gmail.com>
+ <20240624193151.1645802-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 19:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201102
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 19:32:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201105
 
-This patch series add support for SPDX 3.0 and sets it as the default.
-Currently it is not possible to have SPDX 2.2 and SPDX 3.0 enabled at
-the same time
+do_create_spdx is a outlier in that it doesn't need the RSS to be
+extended just because it depends on do_populate_sysroot. In fact, it
+only depends on do_populate_sysroot so it can see the actual recipes
+sysroot, and attempting to extend the sysroot can cause problems for
+some recipes (e.g. if a recipe does do_populate_sysroot[noexec] = "1")
 
-v2: Added tests and addressed feedback
-v3: Fixed several oe-selftest and build failures
-v4: Fixed silly typo mistake in staging.bbclass
+As such, explicitly exclude do_create_spdx from extending the sysroot
+just because it depends on do_populate_sysroot.
 
-Joshua Watt (10):
-  classes-recipe/image: Add image file manifest
-  classes-recipe/baremetal-image: Add image file manifest
-  classes/create-spdx-3.0: Add classes
-  classes-global/staging: Exclude do_create_spdx from automatic sysroot
-    extension
-  binutils-cross-testsuite: Rename to binutils-testsuite
-  classes-recipe/image_types: Add SPDX_IMAGE_PURPOSE to images
-  selftest: spdx: Add SPDX 3.0 test cases
-  classes-recipe: nospdx: Add class
-  classes/spdx-common: Move SPDX_SUPPLIER
-  Switch default spdx version to 3.0
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes-global/staging.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- meta/classes-global/mirrors.bbclass           |    2 +-
- meta/classes-global/staging.bbclass           |    9 +-
- meta/classes-recipe/baremetal-image.bbclass   |   30 +-
- meta/classes-recipe/image.bbclass             |   58 +
- meta/classes-recipe/image_types.bbclass       |    2 +
- meta/classes-recipe/image_types_wic.bbclass   |    1 +
- meta/classes-recipe/nospdx.bbclass            |   13 +
- meta/classes-recipe/packagegroup.bbclass      |    2 +
- meta/classes/create-spdx-2.2.bbclass          |    8 +
- meta/classes/create-spdx-3.0.bbclass          | 1179 ++++
- meta/classes/create-spdx-image-3.0.bbclass    |  224 +
- meta/classes/create-spdx.bbclass              |    2 +-
- meta/classes/spdx-common.bbclass              |   13 +-
- meta/conf/distro/include/maintainers.inc      |    2 +-
- meta/lib/oe/sbom30.py                         | 1122 +++
- meta/lib/oe/spdx30.py                         | 5996 +++++++++++++++++
- meta/lib/oeqa/selftest/cases/binutils.py      |    2 +-
- meta/lib/oeqa/selftest/cases/spdx.py          |  119 +-
- meta/recipes-core/meta/build-sysroots.bb      |    5 +-
- meta/recipes-core/meta/meta-world-pkgdata.bb  |    3 +-
- ...ite_2.42.bb => binutils-testsuite_2.42.bb} |    3 +
- 21 files changed, 8765 insertions(+), 30 deletions(-)
- create mode 100644 meta/classes-recipe/nospdx.bbclass
- create mode 100644 meta/classes/create-spdx-3.0.bbclass
- create mode 100644 meta/classes/create-spdx-image-3.0.bbclass
- create mode 100644 meta/lib/oe/sbom30.py
- create mode 100644 meta/lib/oe/spdx30.py
- rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.42.bb => binutils-testsuite_2.42.bb} (95%)
-
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 3678a1b4415..c2213ffa2b4 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -652,10 +652,17 @@ python do_prepare_recipe_sysroot () {
+ addtask do_prepare_recipe_sysroot before do_configure after do_fetch
+ 
+ python staging_taskhandler() {
++    EXCLUDED_TASKS = (
++        "do_prepare_recipe_sysroot",
++        "do_create_spdx",
++    )
+     bbtasks = e.tasklist
+     for task in bbtasks:
++        if task in EXCLUDED_TASKS:
++            continue
++
+         deps = d.getVarFlag(task, "depends")
+-        if task != 'do_prepare_recipe_sysroot' and (task == "do_configure" or (deps and "populate_sysroot" in deps)):
++        if task == "do_configure" or (deps and "populate_sysroot" in deps):
+             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
+ }
+ staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
 -- 
 2.43.2
 
