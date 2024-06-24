@@ -1,103 +1,143 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFA1C27C4F
-	for <webhook@archiver.kernel.org>; Sun, 23 Jun 2024 21:33:06 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.126928.1719178379008675770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311A1C27C4F
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 01:51:18 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.131233.1719193870856986560
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jun 2024 14:32:59 -0700
+ Sun, 23 Jun 2024 18:51:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=bqf8Egrr;
- spf=pass (domain: konsulko.com, ip: 209.85.128.41, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42172ed3487so27264355e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 14:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1719178377; x=1719783177; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A75lSVHMpqk7dj4Jhh3/QM4C2ZPRjtF++YUGh7onceQ=;
-        b=bqf8EgrrIQoc7o7aWBDNZmA4MSnuUBW7BXSyzlcWh+bbrusRXL7395OECOe4FpPy8i
-         WS+Ha4meZx1T/HFfMWI1RcN9H1NkkIJnV2E0r0E5HgymVSopTMdkcs9cEL8m/xNzsZTT
-         eIEgdInpk57HSLECK5gVmDRyvFRmagKu+BH8U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719178377; x=1719783177;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A75lSVHMpqk7dj4Jhh3/QM4C2ZPRjtF++YUGh7onceQ=;
-        b=iyKZbWBdb9JwjLgMZhSHeUzlhTqe1g6jwSqYlLLZ8MiysIayvIsjx2vlIDGqeCfbnz
-         H2SBCbJzDbkMiCSwPraTArjV4u9aWfFj7cZfuv9K+0xpGAbol9rkQGko79BTJl/5pepF
-         Ye5m2xcfu0FDMw18sgXLEFfHf9stYIPxXcxmCe6woJ8p/CQW54jkQ8XpkPAaETSQ0ky4
-         dbETDVnUDaOHt4MYiaI9X+j+4OP2JpwMLvqs0/90oM0DirGPbDoxI1dU3fgYJdI2OxbE
-         hQO0TY75fU433Lvbelh2Dy9aFe8DPUJetr+I+DS0O48VRsLdynV0v8HxpOi5FBLVtecA
-         jtbA==
-X-Gm-Message-State: AOJu0YyhIosdq6Osb1tDJ9dbMh5tJ+/a7sU6+dnBvG8EwGUwb+f7ADDS
-	CiDsCTWCF3uLhGkJTvSf8lACJkhPCiTtFGo5MCNNejByUKJdc5Y+kwn49cCjo+XIowhAGOpzwGF
-	U
-X-Google-Smtp-Source: AGHT+IGTp8FyFXIgBma00RKy4NZy45fPcpnNBWfZiB3KHBzo+X03QEiuwu+hJUNBApczjnhhWNIyhg==
-X-Received: by 2002:a05:600c:434a:b0:421:7f4d:5280 with SMTP id 5b1f17b1804b1-42489e46d51mr25441455e9.21.1719178377112;
-        Sun, 23 Jun 2024 14:32:57 -0700 (PDT)
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-366389b863fsm8167021f8f.47.2024.06.23.14.32.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 14:32:56 -0700 (PDT)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH] u-boot.inc: WORKDIR -> UNPACKDIR transition
-Date: Mon, 24 Jun 2024 00:32:54 +0300
-Message-Id: <20240623213254.3215897-1-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nTCC+M/m;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 51DB31BF204;
+	Mon, 24 Jun 2024 01:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719193868;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qsixKJRxs0IFhzNZ3lcBFph7tuUsjhJN6WNQUmNG4Xw=;
+	b=nTCC+M/mFFhTcI8Ah3LfmtC/UqeBNPTfNYiaJEbUVTH0KZnV+Ozk/MAElnQizkL2K9mPdN
+	phrw88KeS1o4uaW5BYihFxLCOiCL3ouT1kMBsdeLhdUjxtZt2QNpSxs7IJ94vgOu4rR4uc
+	4nZiwx9jDPu4BilWWWqIIa7GAxSxCUrlnhVAQSKOH8b270xe6egRc+MaPZ+fNFVLZAZd8V
+	sQlLQuksGjGuUDpetxdf2kP4sCGkdIfT/mw3MpqKc95HagbN59TK7Npoqc/XxIf2Dw/odU
+	obcvdfK0b6xCPdzhH6rNyWx4mrkbzLCRyD5L96gkqvg9p3OHO4ZtmXjC+t6cdw==
+Date: Mon, 24 Jun 2024 03:51:07 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 14/22] kea: upgrade 2.4.1 -> 2.6.0
+Message-ID: <202406240151079fe3c9db@mail.local>
+References: <1718936206-8080-1-git-send-email-wangmy@fujitsu.com>
+ <1718936206-8080-14-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1718936206-8080-14-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 21:33:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201061
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 01:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201062
 
-Replace references of WORKDIR with UNPACKDIR for U-Boot script
-and variable UBOOT_ENV_BINARY, for example for boot.scr.
+This fails the reproducibility tests:
 
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4982/steps/13/logs/stdio
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 45d700fbdd..9a91a0e3d8 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -92,7 +92,7 @@ do_compile () {
- 
-     if [ -n "${UBOOT_ENV}" ] && [ "${UBOOT_ENV_SUFFIX}" = "scr" ]
-     then
--        ${UBOOT_MKIMAGE} -C none -A ${UBOOT_ARCH} -T script -d ${WORKDIR}/${UBOOT_ENV_SRC} ${WORKDIR}/${UBOOT_ENV_BINARY}
-+        ${UBOOT_MKIMAGE} -C none -A ${UBOOT_ARCH} -T script -d ${UNPACKDIR}/${UBOOT_ENV_SRC} ${UNPACKDIR}/${UBOOT_ENV_BINARY}
-     fi
- }
- 
-@@ -188,7 +188,7 @@ do_install () {
- 
-     if [ -n "${UBOOT_ENV}" ]
-     then
--        install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
-+        install -m 644 ${UNPACKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
-         ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
-     fi
- 
-@@ -324,7 +324,7 @@ do_deploy () {
- 
-     if [ -n "${UBOOT_ENV}" ]
-     then
--        install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
-+        install -m 644 ${UNPACKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-     fi
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240623-__4telvd/packages/diff-html/
+
+On 21/06/2024 10:16:38+0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> License-Update: Copyright year updated to 2024.
+> 
+> fix_pid_keactrl.patch
+> refreshed for 2.6.0
+> 
+> Changelog:
+>  https://gitlab.isc.org/isc-projects/kea/-/wikis/Release-Notes/release-notes-2.6.0
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch  | 7 +++----
+>  .../kea/{kea_2.4.1.bb => kea_2.6.0.bb}                     | 4 ++--
+>  2 files changed, 5 insertions(+), 6 deletions(-)
+>  rename meta/recipes-connectivity/kea/{kea_2.4.1.bb => kea_2.6.0.bb} (94%)
+> 
+> diff --git a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
+> index 63a6a2805b..e206805688 100644
+> --- a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
+> +++ b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
+> @@ -1,4 +1,4 @@
+> -From c878a356712606549f7f188b62f7d1cae08a176e Mon Sep 17 00:00:00 2001
+> +From d297e8ae315e14ae4c5c5ad98183a57f9c43b2de Mon Sep 17 00:00:00 2001
+>  From: Armin kuster <akuster808@gmail.com>
+>  Date: Wed, 14 Oct 2020 22:48:31 -0700
+>  Subject: [PATCH] Busybox does not support ps -p so use pgrep
+> @@ -7,16 +7,15 @@ Upstream-Status: Inappropriate [embedded specific]
+>  Based on changes from Diego Sueiro <Diego.Sueiro@arm.com>
+>  
+>  Signed-off-by: Armin kuster <akuster808@gmail.com>
+> -
+>  ---
+>   src/bin/keactrl/keactrl.in | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>  
+>  diff --git a/src/bin/keactrl/keactrl.in b/src/bin/keactrl/keactrl.in
+> -index 450e997..c353ca9 100644
+> +index cccfdac..20ae2e6 100644
+>  --- a/src/bin/keactrl/keactrl.in
+>  +++ b/src/bin/keactrl/keactrl.in
+> -@@ -149,8 +149,8 @@ check_running() {
+> +@@ -146,8 +146,8 @@ check_running() {
+>       # Get the PID from the PID file (if it exists)
+>       get_pid_from_file "${proc_name}"
+>       if [ ${_pid} -gt 0 ]; then
+> diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectivity/kea/kea_2.6.0.bb
+> similarity index 94%
+> rename from meta/recipes-connectivity/kea/kea_2.4.1.bb
+> rename to meta/recipes-connectivity/kea/kea_2.6.0.bb
+> index 19309ce314..0f9e7b6891 100644
+> --- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
+> +++ b/meta/recipes-connectivity/kea/kea_2.6.0.bb
+> @@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
+>  HOMEPAGE = "http://kea.isc.org"
+>  SECTION = "connectivity"
+>  LICENSE = "MPL-2.0"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=ea061fa0188838072c4248c1318ec131"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=618093ea9de92c70a115268c1d53421f"
+>  
+>  DEPENDS = "boost log4cplus openssl"
+>  
+> @@ -18,7 +18,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+>             file://fix_pid_keactrl.patch \
+>             file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+>             "
+> -SRC_URI[sha256sum] = "815c61f5c271caa4a1db31dd656eb50a7f6ea973da3690f7c8581408e180131a"
+> +SRC_URI[sha256sum] = "207ceae33eb3b81ec4e6ac5605249a85b93779333b62aadf39e489f11dbcdc8d"
+>  
+>  inherit autotools systemd update-rc.d upstream-version-is-even
+>  
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#200989): https://lists.openembedded.org/g/openembedded-core/message/200989
+> Mute This Topic: https://lists.openembedded.org/mt/106792588/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.39.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
