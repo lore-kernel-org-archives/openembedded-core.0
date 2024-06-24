@@ -1,80 +1,161 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3FFFC2D0D1
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 09:11:50 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.136198.1719220304683314830
- for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 02:11:45 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l4cLZGwr;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ec50d4e47bso24955651fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 02:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719220303; x=1719825103; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVMKeFlDxqiRg2DAdxadXkbVs2h3vcD2qoqE3oeSyRs=;
-        b=l4cLZGwru3nOXVE8zCfptU5vQQhSr22PRzxSE4egjuGwQT1IIGS29RPy326LRFtVqa
-         MgpcyDThg3Wp9VLoINOo8ul0ndtFerWLdusKvfRvf2YcDHWay1e5+RSWd655T14wGaJK
-         cY3ND5WVN97DHy5IhgFl5kC2ix2H00ZFt27umpYp5UfSk4RH/8QA3XxSpu3f7H8GOU2Z
-         TnDgKXHMKGK9MFZoIrblqxxa1ixdveIPW3UJBplGdoGlkxWSrZFEzgRcKBcYSqJ9r+BT
-         G42wZ62TDtNhKYUB3JNuMBwYy8iTcMkRIEzGm0/APab71ESoTvVaRw3cA0HvwFoRYcjv
-         LJbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719220303; x=1719825103;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lVMKeFlDxqiRg2DAdxadXkbVs2h3vcD2qoqE3oeSyRs=;
-        b=UNkVb16qKgNwx7vApqAQO7NKs9g9Es9AZ+MZOrgBNa1nnZscFqB94He4QEkvlLoDnm
-         Q+pHRLIkMGaVJBaFELTqUZgQKMgvUyIModXNlm5P3/HHhBZEnBwB6ieAHoVFD7FRr9ez
-         GpQ40YU2CkI6Gor1AiFggTh4Wbc8PdWb3zHnT5OPmspfwSWmy38NLgrSiasU/jYddSEw
-         mgeoPGna1NrYKLqrsrpNGcUt954Qk82cr7VnFmY6U77Z2UccfnzGSlfNpcgVtNOnwT+3
-         OKtOJJzot0jXSjdwjmPALB987av61HKjvHUxMj9lBAQfS1kQ0ZjdCBv7qkoUXIxc8YyD
-         BR8g==
-X-Gm-Message-State: AOJu0YwukihfYZrU30LCk7YljZEhOTvUk/P8mYbYuNBQ9IPdfH8uRAnx
-	9H1vnHgf2DHP1JoMkxt3FyoS2Gddsc+569pZzUL/IbSsfmGcBT+4gT0xEuIp0o3pyi6uV3qnEmW
-	02YqHN97X70yS1OFN7DK+KTfxqf8=
-X-Google-Smtp-Source: AGHT+IGpzBzmWRuPzLZPKlwL+m65mo/PdIASWjOYbkxTf9eY5Je+UC3FX+LS6sfnQ5gYyi41EoW16KpNnr5W7Was7DI=
-X-Received: by 2002:a2e:83d0:0:b0:2ec:4399:9c0f with SMTP id
- 38308e7fff4ca-2ec5b1b3d86mr27177851fa.0.1719220302532; Mon, 24 Jun 2024
- 02:11:42 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 249A2C2D0D1
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 09:56:41 +0000 (UTC)
+Subject: [PATCH] package.bbclass: Fix broken dev package dependency.
+To: openembedded-core@lists.openembedded.org
+From: "Sreejith Ravi" <sreejith.ravi087@gmail.com>
+X-Originating-Location: Richmond, England, GB (90.216.150.195)
+X-Originating-Platform: Windows Chrome 126
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <CANNYZj-3XSUJ5S+ewGE9owxtd4CmOps-D=5kU+MrRXoJN0pDpw@mail.gmail.com>
- <2056.1719220048661049006@lists.openembedded.org>
-In-Reply-To: <2056.1719220048661049006@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 24 Jun 2024 11:11:36 +0200
-Message-ID: <CANNYZj-9Ky0Rw1022XDSuTxnABHjkxg0vtJYYi6pxATwqwCGxw@mail.gmail.com>
-Subject: Re: [OE-core] Rust reproducibility issue summary
-To: sundeep.kokkonda@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 24 Jun 2024 02:56:31 -0700
+Message-ID: <QrUS.1719222991270481706.aFEU@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="A8dN7aIC2I5Uxm8k77j7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 09:11:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201071
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 09:56:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201072
 
-On Mon, 24 Jun 2024 at 11:07, Sundeep KOKKONDA via
-lists.openembedded.org
-<sundeep.kokkonda=windriver.com@lists.openembedded.org> wrote:
-> This is not the case. I just built rust (without sstate, from sources)
-> in two different build directories on the same machine, and indeed
->
-> Thanks for sharing this... Unfortunately I couldn't see this happening during my testing. If this is the case, the issue might be there in rust.
->
-> for me diff is not there...
-> > diff -uNr build-b/tmp/work/core2-64-poky-linux/rust/1.75.0/image/ build-c/tmp/work/core2-64-poky-linux/rust/1.75.0/image/
-> > diff build-b/tmp/work/core2-64-poky-linux/rust/1.75.0/image/usr/bin/rustdoc build-c/tmp/work/core2-64-poky-linux/rust/1.75.0/image/usr/bin/rustdoc
-> > diff -uNr build-b/tmp/deploy/deb/core2-64/ build-c/tmp/deploy/deb/core2-64/
+--A8dN7aIC2I5Uxm8k77j7
+Content-Type: multipart/alternative; boundary="QovvOq6GOsD0ewGYx1R6"
 
-I can share the two different build directories for your further
-inspection perhaps? Let me upload the tarballs somewhere public.
+--QovvOq6GOsD0ewGYx1R6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Currently, the process_pkgconfig() would process only the "Requires" key fi=
+eld and ignore "Requires.private" while generating the dev dependency chain=
+.
+
+Example: usr/lib/pkgconfig/libical.pc
+----------
+Libs: -L${libdir} -lical -licalss -licalvcal
+Libs.private: -lpthread
+Requires.private: icu-i18n
+----------
+Depends field generated for libical-dev
+Depends: glib-2.0-dev, libical (=3D 3.0.7-r0)
+------------
+
+When trying to resolve the build time dependency with libical package using=
+ =E2=80=9C-dev=E2=80=9D ipk generated, it will throw the below error.
+-----------
+Package icu-i18n was not found in the pkg-config search path.
+Perhaps you should add the directory containing `icu-i18n.pc'
+to the PKG_CONFIG_PATH environment variable
+Package 'icu-i18n', required by 'libical', not found
+-----------
+
+This patch will add the packages listed in "Requires.private" to the depend=
+ency chain.
+
+-------
+Depends field generated with this change for libical-dev
+Depends: glib-2.0-dev, icu-dev, libical (=3D 3.0.7-r0)
+-------
+
+Other examples of packages generated with broken dev dependency.
+
+libflac-dev : https://packages.debian.org/sid/libflac-dev
+Without patch:
+Depends: flac (=3D 1.3.3-r0), libflac, libflac++
+with patch:
+Depends: flac (=3D 1.3.3-r0), libflac, libflac++, libogg-dev
+
+libglib2.0-dev : https://packages.debian.org/buster/libglib2.0-dev
+without patch:
+Depends: libffi-dev, libglib-2.0-0 (=3D 1:2.62.6-r0), libpcre-dev
+with patch:
+Depends: libffi-dev, libglib-2.0-0 (=3D 1:2.62.6-r0), libpcre-dev,
+util-linux-dev, zlib-dev
+
+--QovvOq6GOsD0ewGYx1R6
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Currently, the process_pkgconfig() would process only the "Requires" key fi=
+eld and ignore "Requires.private" while generating the dev dependency chain=
+.<br /><br />Example: usr/lib/pkgconfig/libical.pc<br />----------<br />Lib=
+s: -L${libdir} -lical -licalss -licalvcal<br />Libs.private: -lpthread<br /=
+>Requires.private: icu-i18n<br />----------<br />Depends field generated fo=
+r libical-dev<br />Depends: glib-2.0-dev, libical (=3D 3.0.7-r0)<br />-----=
+-------<br /><br />When trying to resolve the build time dependency with li=
+bical package using &ldquo;-dev&rdquo; ipk generated, it will throw the bel=
+ow error.<br />-----------<br />Package icu-i18n was not found in the pkg-c=
+onfig search path.<br />Perhaps you should add the directory containing `ic=
+u-i18n.pc'<br />to the PKG_CONFIG_PATH environment variable<br />Package 'i=
+cu-i18n', required by 'libical', not found<br />-----------<br /><br />This=
+ patch will add the packages listed in "Requires.private" to the dependency=
+ chain.<br /><br />-------<br />Depends field generated with this change fo=
+r libical-dev<br />Depends: glib-2.0-dev, icu-dev, libical (=3D 3.0.7-r0)<b=
+r />-------<br /><br />Other examples of packages generated with broken dev=
+ dependency.<br /><br />libflac-dev : https://packages.debian.org/sid/libfl=
+ac-dev<br />Without patch:<br />Depends: flac (=3D 1.3.3-r0), libflac, libf=
+lac++<br />with patch:<br />Depends: flac (=3D 1.3.3-r0), libflac, libflac+=
++, libogg-dev<br /><br />libglib2.0-dev : https://packages.debian.org/buste=
+r/libglib2.0-dev<br />without patch:<br />Depends: libffi-dev, libglib-2.0-=
+0 (=3D 1:2.62.6-r0), libpcre-dev<br />with patch:<br />Depends: libffi-dev,=
+ libglib-2.0-0 (=3D 1:2.62.6-r0), libpcre-dev,<br />&nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp;util-linux-dev, zlib-dev
+
+--QovvOq6GOsD0ewGYx1R6--
+
+--A8dN7aIC2I5Uxm8k77j7
+Content-Type: application/octet-stream; name="0001-package.bbclass-Fix-broken-dev-package-dependency.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-package.bbclass-Fix-broken-dev-package-dependency.patch"
+
+RnJvbSBiNTU5YmU4MmZmYzE2YTAxMmQ0MGQ1ZjE1NzIyZWYwYmI4NDBlZTllIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBTcmVlaml0aCBSYXZpIDxzcmVlaml0LnJhdmkwODdAZ21haWwu
+Y29tPgpEYXRlOiBNb24sIDI0IEp1biAyMDI0IDEwOjE4OjEwICswMTAwClN1YmplY3Q6IFtQQVRD
+SF0gcGFja2FnZS5iYmNsYXNzOiBGaXggYnJva2VuIGRldiBwYWNrYWdlIGRlcGVuZGVuY3kuCk1J
+TUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApD
+b250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0CgpDdXJyZW50bHksIHRoZSBwcm9jZXNzX3Br
+Z2NvbmZpZygpIHdvdWxkIHByb2Nlc3Mgb25seSB0aGUKIlJlcXVpcmVzIiBrZXkgZmllbGQgYW5k
+IGlnbm9yZSAiUmVxdWlyZXMucHJpdmF0ZSIgd2hpbGUKZ2VuZXJhdGluZyB0aGUgZGV2IGRlcGVu
+ZGVuY3kgY2hhaW4uCgpFeGFtcGxlOiB1c3IvbGliL3BrZ2NvbmZpZy9saWJpY2FsLnBjCi0tLS0t
+LS0tLS0KTGliczogLUwke2xpYmRpcn0gLWxpY2FsIC1saWNhbHNzIC1saWNhbHZjYWwKTGlicy5w
+cml2YXRlOiAtbHB0aHJlYWQKUmVxdWlyZXMucHJpdmF0ZTogaWN1LWkxOG4KLS0tLS0tLS0tLQpE
+ZXBlbmRzIGZpZWxkIGdlbmVyYXRlZCBmb3IgbGliaWNhbC1kZXYKRGVwZW5kczogZ2xpYi0yLjAt
+ZGV2LCBsaWJpY2FsICg9IDMuMC43LXIwKQotLS0tLS0tLS0tLS0KCldoZW4gdHJ5aW5nIHRvIHJl
+c29sdmUgdGhlIGJ1aWxkIHRpbWUgZGVwZW5kZW5jeSB3aXRoIGxpYmljYWwKcGFja2FnZSB1c2lu
+ZyDigJwtZGV24oCdIGlwayBnZW5lcmF0ZWQsIGl0IHdpbGwgdGhyb3cgdGhlIGJlbG93IGVycm9y
+LgotLS0tLS0tLS0tLQpQYWNrYWdlIGljdS1pMThuIHdhcyBub3QgZm91bmQgaW4gdGhlIHBrZy1j
+b25maWcgc2VhcmNoIHBhdGguClBlcmhhcHMgeW91IHNob3VsZCBhZGQgdGhlIGRpcmVjdG9yeSBj
+b250YWluaW5nIGBpY3UtaTE4bi5wYycKdG8gdGhlIFBLR19DT05GSUdfUEFUSCBlbnZpcm9ubWVu
+dCB2YXJpYWJsZQpQYWNrYWdlICdpY3UtaTE4bicsIHJlcXVpcmVkIGJ5ICdsaWJpY2FsJywgbm90
+IGZvdW5kCi0tLS0tLS0tLS0tCgpUaGlzIHBhdGNoIHdpbGwgYWRkIHRoZSBwYWNrYWdlcyBsaXN0
+ZWQgaW4gIlJlcXVpcmVzLnByaXZhdGUiCnRvIHRoZSBkZXBlbmRlbmN5IGNoYWluLgoKLS0tLS0t
+LQpEZXBlbmRzIGZpZWxkIGdlbmVyYXRlZCB3aXRoIHRoaXMgY2hhbmdlIGZvciBsaWJpY2FsLWRl
+dgpEZXBlbmRzOiBnbGliLTIuMC1kZXYsIGljdS1kZXYsIGxpYmljYWwgKD0gMy4wLjctcjApCi0t
+LS0tLS0KCk90aGVyIGV4YW1wbGVzIG9mIHBhY2thZ2VzIGdlbmVyYXRlZCB3aXRoIGJyb2tlbiBk
+ZXYgZGVwZW5kZW5jeS4KCmxpYmZsYWMtZGV2IDogaHR0cHM6Ly9wYWNrYWdlcy5kZWJpYW4ub3Jn
+L3NpZC9saWJmbGFjLWRldgpXaXRob3V0IHBhdGNoOgpEZXBlbmRzOiBmbGFjICg9IDEuMy4zLXIw
+KSwgbGliZmxhYywgbGliZmxhYysrCndpdGggcGF0Y2g6CkRlcGVuZHM6IGZsYWMgKD0gMS4zLjMt
+cjApLCBsaWJmbGFjLCBsaWJmbGFjKyssIGxpYm9nZy1kZXYKCmxpYmdsaWIyLjAtZGV2IDogaHR0
+cHM6Ly9wYWNrYWdlcy5kZWJpYW4ub3JnL2J1c3Rlci9saWJnbGliMi4wLWRldgp3aXRob3V0IHBh
+dGNoOgpEZXBlbmRzOiBsaWJmZmktZGV2LCBsaWJnbGliLTIuMC0wICg9IDE6Mi42Mi42LXIwKSwg
+bGlicGNyZS1kZXYKd2l0aCBwYXRjaDoKRGVwZW5kczogbGliZmZpLWRldiwgbGliZ2xpYi0yLjAt
+MCAoPSAxOjIuNjIuNi1yMCksIGxpYnBjcmUtZGV2LAogICAgICAgICB1dGlsLWxpbnV4LWRldiwg
+emxpYi1kZXYKClNpZ25lZC1vZmYtYnk6IFNyZWVqaXRoIFJhdmkgPHNyZWVqaXQucmF2aTA4N0Bn
+bWFpbC5jb20+Ci0tLQogbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcyB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21l
+dGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNz
+CmluZGV4IDY3MzUxYjI1MTAuLjA4NGZlNDI4ZTUgMTAwNjQ0Ci0tLSBhL21ldGEvY2xhc3Nlcy9w
+YWNrYWdlLmJiY2xhc3MKKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcwpAQCAtMjE4
+Miw3ICsyMTgyLDcgQEAgcHl0aG9uIHBhY2thZ2VfZG9fcGtnY29uZmlnICgpIHsKICAgICAgICAg
+ICAgICAgICAgICAgICAgIGlmIG06CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaGRyID0g
+bS5ncm91cCgxKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIGV4cCA9IHBkLmV4cGFuZCht
+Lmdyb3VwKDIpKQotICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIGhkciA9PSAnUmVxdWly
+ZXMnOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIGhkciA9PSAnUmVxdWlyZXMnIG9y
+IGhkciA9PSAnUmVxdWlyZXMucHJpdmF0ZSc6CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHBrZ2NvbmZpZ19uZWVkZWRbcGtnXSArPSBleHAucmVwbGFjZSgnLCcsICcgJykuc3BsaXQo
+KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICAg
+ICAgICAgICAgICAgbSA9IHZhcl9yZS5tYXRjaChsKQotLSAKMi4zNC4xCgo=
+
+--A8dN7aIC2I5Uxm8k77j7--
 
