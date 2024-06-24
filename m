@@ -2,57 +2,57 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8845C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FB2C2D0D1
 	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 15:23:12 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.143799.1719242583237174835
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web11.143626.1719242584846038622
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 08:23:03 -0700
+ Mon, 24 Jun 2024 08:23:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ksiWnvd6;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2598ae41389so2460516fac.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 08:23:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ox7x5eKa;
+ spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-25980546baeso2178877fac.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 08:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719242582; x=1719847382; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1719242583; x=1719847383; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9BX3JFyWRrOq5y8Kk3XhFgQtn8A2teoTxGHGkYJnwV8=;
-        b=ksiWnvd6Kn5KnOw/2vyOT26m1FI0buArbV2S1Aln4hrf8daYB8iSVTGMnLc4lR8kxa
-         I+rIZqx9zQLWg+5594k58L+7zUxyfClRnJD6zCsL+Mu6eRYqUa3MQeBoEzIlQRQLwQyX
-         jovOgEIEzf8z+l02HA5P1yx7iTKfiPmZ6xZ4QguLs4RXtEnO3VEBRS89kop7A1pRy3fi
-         Cy6XmouJ2cITCPGjLI5qkpiBoxQYn6Zb1WrRvI37381Aku3FkwqFIYTrs89vprzpJ4l5
-         XT7ChhO7FUO+Uw0AnMsWO+zwMIsuPYTnvJ573K+WYmmsrLovlE+UIJwVoktEkLVxU2Ee
-         oDhQ==
+        bh=X3rFm5LzyeYIMSAZ2s+xbcgesuUxyJtIKwVd8qwSc+0=;
+        b=Ox7x5eKa8F+Ip7T0eFjNvUYUWDO5ZEdm2/qzFm7ylunjpg9EcMaADFNjn3V0wnP2Mr
+         Pz6GWpZy4Y9IPcVWzm1d5AnGXpHHxfFbjFhHwkHvD/cMl7lVu15D+MmToBEXC/l9LVkd
+         oXHV/Tm7ZsQDZQhn6Sswm0hOcvQIxHSdNqcNuS7zPAf857a72Vk/KLgO2GsnRCdtjtlY
+         40ioPz/Q1DKMd5M9PVUvKV2P8s/0QJNjaHLStLyqAVGZLf38B2CkcQLWawkt3W8MTwbM
+         O8rU/8nqi+7n9S3MqxSuC5GpL5aDwpLyADxJX2TH5thhUHEktdaWDLcBGJHeErmuqxkv
+         Rmbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719242582; x=1719847382;
+        d=1e100.net; s=20230601; t=1719242583; x=1719847383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9BX3JFyWRrOq5y8Kk3XhFgQtn8A2teoTxGHGkYJnwV8=;
-        b=NSOFft2dZgdvAc/28GDmij/EdrBZenlw1phFoSSKlRrPT7zma1K7h+PlNZ0XB3pS4S
-         5zBahyP2dNZaWdfBHHeftXnehJQk1vv6qHhqOqjFtbpSo6RtOE4Rnk4+d2wLwiYBpNJP
-         ZlN0pgDHKhvYjpRHHIr2gbooDCLqTUPRPhf62alMrk0C2YMN8ARk21iFFxATbo08ECHC
-         IPX5k3NB47zkT1RZ7U7qOEUt0kU5kS8zP4NvjINsoH3t1tVq9+Tq8hp0frfTzMKHFKwJ
-         6dRnVhmt8A9PGaJdo6BqXh/Izd7zypkncBHZwdnmqce+ucmt/VikzrVVVIGfju3LpGG8
-         FytA==
-X-Gm-Message-State: AOJu0YyaNSUnlYqLhgTdoCt+7DtV6Oj+1CysWD93DbXTrGJtyufxa8Bg
-	1LaNSbMZpqaXw7ALmsbUA7qmisuLf3nHSRs8yim1qxsocAJGYIq2D61Dug==
-X-Google-Smtp-Source: AGHT+IGluRXOmOvUSyZietVM9QZOucWJuP+0/Wt2RD91Be/0qtquQFSfNV9kLlJEpTrIuY919m6XzA==
-X-Received: by 2002:a05:6871:614:b0:254:963e:cc3f with SMTP id 586e51a60fabf-25d06bc8062mr5028690fac.1.1719242581900;
-        Mon, 24 Jun 2024 08:23:01 -0700 (PDT)
+        bh=X3rFm5LzyeYIMSAZ2s+xbcgesuUxyJtIKwVd8qwSc+0=;
+        b=kD9HNBxcO7ChnHip365Srb8Ezq+12g7s/EKn6AWYu/lpW3g2UtI3uwionSPsy5sP5i
+         t1VNb4Sieiuwd+6c014ZfAh397FDfaYRNPEdhb5p7ZjyKtSaZGxZKRU+NZA1SkumWqaV
+         srsnRhf0fb41LANPRDfVQJu8b4dY3e4s8NPVz9LtxOM6SrXlGztEGNx6MoeuuENe7WyM
+         oFN+mB0+QF9ZQiJ8IsAUsWyNz4juUZ3KkJyBwMgyS6wNMNtzIH5kANxyLpmQMkX18M48
+         jv72so+VGrgcfXeN/9la9BqZ6XmgNyMTpy0vYWh17wxFpBQVXn8VmJDNkgb7JWFugKyh
+         XITg==
+X-Gm-Message-State: AOJu0YxBYfC/OouaAnn+T8vqYcmN9DHbMegw10ORlOaeaacAn07mhFrP
+	Ev4iBkPy0sZSEngKu+8gUz6DKDbzDgebK1CxfUGFUcZKBYZqVyiQJMmgtA==
+X-Google-Smtp-Source: AGHT+IE2NUXbqlhgou2EyiNUhn8bMRAOLwGW1+0QOcvB5JO3ZtTv9Cxbfj8wMezy2DCxEyb+PBmHgw==
+X-Received: by 2002:a05:6870:a446:b0:254:7211:424b with SMTP id 586e51a60fabf-25cfcda35d5mr6163814fac.6.1719242583489;
+        Mon, 24 Jun 2024 08:23:03 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::80e1])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4b80c47sm1890279fac.39.2024.06.24.08.23.00
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4b80c47sm1890279fac.39.2024.06.24.08.23.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 08:23:00 -0700 (PDT)
+        Mon, 24 Jun 2024 08:23:02 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v3 08/10] classes-recipe: nospdx: Add class
-Date: Mon, 24 Jun 2024 09:20:37 -0600
-Message-ID: <20240624152236.1019980-9-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v3 09/10] classes/spdx-common: Move SPDX_SUPPLIER
+Date: Mon, 24 Jun 2024 09:20:38 -0600
+Message-ID: <20240624152236.1019980-10-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240624152236.1019980-1-JPEWhacker@gmail.com>
 References: <20240619221805.3038528-1-JPEWhacker@gmail.com>
@@ -63,79 +63,54 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 15:23:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201098
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201099
 
-Adds a class that allows recipes to opt out of generating SPDX
+Move the SPDX_SUPPLIER variable to create-spdx-2.2 since it's format
+only has meaning in SPDX 2.2 (SPDX 3 uses SPDX_PACKAGE_SUPPLIER with a
+different format)
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-recipe/nospdx.bbclass           | 13 +++++++++++++
- meta/recipes-core/meta/build-sysroots.bb     |  5 +----
- meta/recipes-core/meta/meta-world-pkgdata.bb |  3 +--
- 3 files changed, 15 insertions(+), 6 deletions(-)
- create mode 100644 meta/classes-recipe/nospdx.bbclass
+ meta/classes/create-spdx-2.2.bbclass | 8 ++++++++
+ meta/classes/spdx-common.bbclass     | 7 -------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/nospdx.bbclass
-new file mode 100644
-index 00000000000..b20e28218be
---- /dev/null
-+++ b/meta/classes-recipe/nospdx.bbclass
-@@ -0,0 +1,13 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 3ebf92b5e12..99061320e53 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -8,6 +8,14 @@ inherit spdx-common
+ 
+ SPDX_VERSION = "2.2"
+ 
++SPDX_ORG ??= "OpenEmbedded ()"
++SPDX_SUPPLIER ??= "Organization: ${SPDX_ORG}"
++SPDX_SUPPLIER[doc] = "The SPDX PackageSupplier field for SPDX packages created from \
++    this recipe. For SPDX documents create using this class during the build, this \
++    is the contact information for the person or organization who is doing the \
++    build."
 +
-+deltask do_collect_spdx_deps
-+deltask do_create_spdx
-+deltask do_create_spdx_runtime
-+deltask do_create_package_spdx
-+deltask do_create_rootfs_spdx
-+deltask do_create_image_spdx
-+deltask do_create_image_sbom
-diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
-index db05c111ab2..b0b8fb3c79a 100644
---- a/meta/recipes-core/meta/build-sysroots.bb
-+++ b/meta/recipes-core/meta/build-sysroots.bb
-@@ -7,7 +7,7 @@ STANDALONE_SYSROOT_NATIVE = "${STAGING_DIR}/${BUILD_ARCH}"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- EXCLUDE_FROM_WORLD = "1"
++
+ def get_namespace(d, name):
+     import uuid
+     namespace_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, d.getVar("SPDX_UUID_NAMESPACE"))
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index 9dee325ba6b..6dfc1fd9e4c 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -37,13 +37,6 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
  
--inherit nopackages
-+inherit nopackages nospdx
- deltask fetch
- deltask unpack
- deltask patch
-@@ -17,9 +17,6 @@ deltask configure
- deltask compile
- deltask install
- deltask populate_sysroot
--deltask create_spdx
--deltask collect_spdx_deps
--deltask create_runtime_spdx
- deltask recipe_qa
+ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
  
- do_build_warn () {
-diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
-index 0438bf61387..244175ddd44 100644
---- a/meta/recipes-core/meta/meta-world-pkgdata.bb
-+++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
-@@ -27,14 +27,13 @@ python do_collect_packagedata() {
-     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
- }
- 
-+inherit nospdx
- deltask do_fetch
- deltask do_unpack
- deltask do_patch
- deltask do_configure
- deltask do_compile
- deltask do_install
--deltask do_create_spdx
--deltask do_create_spdx_runtime
- 
- do_prepare_recipe_sysroot[deptask] = ""
+-SPDX_ORG ??= "OpenEmbedded ()"
+-SPDX_SUPPLIER ??= "Organization: ${SPDX_ORG}"
+-SPDX_SUPPLIER[doc] = "The SPDX PackageSupplier field for SPDX packages created from \
+-    this recipe. For SPDX documents create using this class during the build, this \
+-    is the contact information for the person or organization who is doing the \
+-    build."
+-
+ def extract_licenses(filename):
+     import re
  
 -- 
 2.43.2
