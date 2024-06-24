@@ -1,244 +1,300 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E37C2BD05
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 06:47:19 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.134677.1719211638901282925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D7FC2BD05
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 07:28:09 +0000 (UTC)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web11.135124.1719214082979527669
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jun 2024 23:47:18 -0700
+ Mon, 24 Jun 2024 00:28:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6905e5654b=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45O5P3Vt003223
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 23:47:18 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywx4fs3f6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Jun 2024 23:47:18 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45O6lHMl021132;
-	Sun, 23 Jun 2024 23:47:17 -0700
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywx4fs3f5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 23 Jun 2024 23:47:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GuqVSDufGvS03r+ohRpYH0+hGa9aDa0L+0S5WvWNeoUZWBeIGS1jJZvCL/u7jboFoPExL2MNqkg6kZfExl7cPva0IogLgXauXB1h84SrARsynthLRvhhth5YFrjNkKN2PDThsE2W6R6dInpzW95Qb9Z21zHRpjoIK9GzpfXsDadfVXQH3gKqfDJqwYwkQwI+SWpwWjMTBysLCZbVLeC6oqqATjEP79UAojq/ESCeThzFCxpV+XDmLLLJt4A5eLeEN8lQxU82vhbDjjwVFRnxyKSsFx4zB2JIpwWuCiN2Bx3w4aA42baw9T0TZfXY6mW419FHtquIOFJ9z71T8Xn9zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fOG3qVwBP4ScqwmDf5SjtePMIBHC/c2Ol1Eq8r3Yms4=;
- b=EM7F5ZZDpqC08PllPaf9d791YOB40CLyRxEnm+drLaDLBoiXfd83747ZSWnQtRoRLd25+NEsnzm2F18Hz9L69pqp91zD6BiRH7MMd9GHMXE21wDSfvY8yZQQVrTDu9K/6kmu5Dz/1nJxju8wdHHOs4tGkLYyCGFkiYkUZ/ZD2UtmvDso1uiBSpYDfRd/DzPo/1RGyj5NBuX+ap963JD8mTaq3AhBiVPwsBXcajYP186flfr5Mu7frW8J4EVlVIESrgc3SxipsEwLnxnGyFp9FmkmhVsxIbrHFs/lENCuAb48rhnkm0fOX785QQvsLMIQtxnVlWZiEI+sVNIK1gQlNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by MW4PR11MB6809.namprd11.prod.outlook.com (2603:10b6:303:1e9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.26; Mon, 24 Jun
- 2024 06:47:13 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::b03a:b02:c24e:b976]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::b03a:b02:c24e:b976%6]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 06:47:13 +0000
-Message-ID: <6a1d0acf-efcd-4ccf-b023-65eb9a2d7696@windriver.com>
-Date: Mon, 24 Jun 2024 14:47:07 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] acl: Fix nfs ptest failure
-Content-Language: en-US
-To: Ross Burton <Ross.Burton@arm.com>,
-        "mingli.yu@eng.windriver.com" <mingli.yu@eng.windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20240619091703.1410186-1-mingli.yu@windriver.com>
- <1AA24A74-8081-48D5-AFA3-9CFF5657988F@arm.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-In-Reply-To: <1AA24A74-8081-48D5-AFA3-9CFF5657988F@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SG2PR02CA0057.apcprd02.prod.outlook.com
- (2603:1096:4:54::21) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VoLNNHDM;
+ spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-48f531f925dso477207137.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 00:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719214082; x=1719818882; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3lwpeYRxz31CgwQ7KVlZUEFxLCh7rY9i1s0q6YJ1IEw=;
+        b=VoLNNHDMjoff9VMhpf2pc/NUVIkOmiH2Kc3JY18mA8TvNidJRquz/lvQsP8ddzYD7r
+         AaUN3KA49Ijly2/HxAcsg8CH734oMSTLisPBctt73uxa34LQbmO3R3YhB7Qw7Ik0FJM3
+         OuxJMzXlVxhK7F8RDzNl2dNMoyzmeH2RsvKtdrqEAVoL17T5CHBRsfPBRER5jLNtKwoQ
+         i9jKVhP36XavWOYarLqE9mMOO7NWo0+pQ6rkpuwJWdW3FmSa5HmxZw1nzw0+zkc8AQ8a
+         TBE2Jd75iwAsX3rfGkqK5TJRMfOhrBsoEWFbAiRgOySdnaQEz2I4/OJ3O1WLGULzhrzq
+         CkDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719214082; x=1719818882;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3lwpeYRxz31CgwQ7KVlZUEFxLCh7rY9i1s0q6YJ1IEw=;
+        b=N8eLHN/2BK/PFBtRMBKg2mtyLvbgYDY+vH/Rn5PtkgI1pyeFIMyOqyTgtelb0iZuK3
+         j8zifZHr9jZYYpqmw5ETYLRIHwkp59B8Ty17xsli9gv38FkNED8A/65xzHsdqEpn0Vnn
+         fJxYpuUom9kMuWPnDOKv3mvWrP9DIeGbNzwGNpYyjrhylomQvAF6GGAOT96+ano/LDrG
+         Ht2y8QgCUn35SYJvqtjhI78Mdq5PlFcG+7Fh3IrWYeRw6RGOmv1QzvTPfZFUUoQ6RBRp
+         m2m32NYDqgQRKZ0EN9FzRE6Ezy4XCk2NJUKuf2At+9KfwjR+Dp/KRWDSELUcwUkR2mKW
+         BnQA==
+X-Gm-Message-State: AOJu0YwXiWavzj5cKvHERfsYDQE/8K2InYK6SsiAdgUqytZcME0ESo4N
+	/DTZGBqA6iE3CNx048i6rBHP7fA58dhk/l+hXxBjinBCyj0tLCYA42rhzy66GJdLjgY9AiCzGW1
+	Y4pds/mm3zI3fkCOvooRwTZ2UBn8=
+X-Google-Smtp-Source: AGHT+IHF0SLF5TKQD1gW+Cz/sXRjiOCRyI8MOyXEwOIB4ja/yNJnANM53pmCka8EDDgfEBW2gx7NPPA0s+LSfjGNOyE=
+X-Received: by 2002:a05:6102:828:b0:48d:993b:c03e with SMTP id
+ ada2fe7eead31-48f4c063e4fmr3914113137.6.1719214081843; Mon, 24 Jun 2024
+ 00:28:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|MW4PR11MB6809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ee34c30-c28c-4de6-296b-08dc94197a63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|366013|376011;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?cTdFRS9TMk1JczdyNmZURWVVVVNBK0s3eUU0c243ZTFLRVVEalVpeWI3Tytq?=
- =?utf-8?B?MXNtUEZSenE2MU81NG1QYW1hTC9Ja3Y0ZTJHZ25Ud0h5SnVFSGt4OWNZQnlE?=
- =?utf-8?B?bWdGSGdhQU5JbjBoSEVSc0pTN1VSUm1sNVdnMithd3lqR2c0NlJKRTFaMjBB?=
- =?utf-8?B?R21KMUczdDUxKzBIYjJja0xOZTQ5V0JZWUYza2gxbmIyYTg0R3VjMlpzb25N?=
- =?utf-8?B?MXYyL2FXdnZTRFZHeUxpWmpLeG1HQml1VTB3RFJlNEkvMjVDZ252ckQwclha?=
- =?utf-8?B?ZjRyOGtlU3kzL2tkRVdBUWl6MWFuL05kUUR2UlVzNmpWTVI2TXo4TG95WXJY?=
- =?utf-8?B?M0RqMWhIbDFESHIwdGs4NGtFTjNFaWw3ZFpPU3FtZTNrKzl6OHZ5T0tBcDNL?=
- =?utf-8?B?WHZ2c0tuVDFYUE81M3FpTllLdUN6eldjVm9WdllnVmEvelk3bG5DYnlTSWQ2?=
- =?utf-8?B?Yld2bWV1TlRLM3lnOUZaOXMrcjduQ1lSTDd3TXEzNGxaazVIYUx4enVKUWJx?=
- =?utf-8?B?Mi9ocXNvR2RqSVh5aWxzeVcvQ0ExbEg2VW9rSEI3ZDNYdGdpSGh5U1hsdTAx?=
- =?utf-8?B?SXJRYmdHU1l4Wng1aTc3dU5rbEhGdmJpWFl0VTNRcUdZSjVRTzcwWGxRRERx?=
- =?utf-8?B?Q0ZodjQ1NGVWRG5qQk8wQ1RROTRXTWZlbC9ubjVQR085aklrcy9NZUorV3Vu?=
- =?utf-8?B?U1VzamIyWFZmay9kbTVCVHdxajhuUFo4ZHVubjF6TEc4cHJxRXF4ZnEyZU5p?=
- =?utf-8?B?QkZhempJeVF2Q2oyck01VmU3ZmpNUFNpUnRGekllNjJxcjJjS2VnRnp1L0hi?=
- =?utf-8?B?dkxXREtabmVXbmJ3U2wxZkFoL3hEQk43ZktuekhOS3FPSmU0aCtyOEVPWUhE?=
- =?utf-8?B?SkxqS095S1NueVhHMmpQVEhtUVhuRVl1U203TGlva3hzcHJRcEZDdC90N3Js?=
- =?utf-8?B?SVE2YTNOSnYvMFZUdmdCTHJPMmFhVFRsUWVjcktPb1RXMjk5cEZwcDdBc2dy?=
- =?utf-8?B?RGdYMk9ycWN2UTFmZ0lMcElZQkYwWTQvYkFYQ0ZtZmcxR3BGd0NkWlZKcG0r?=
- =?utf-8?B?c0ZoN0xlOEhub29lTXFuTk9CTFpFekQxQ1QzeFdFK2xyY0dHcWw1MVV3eUtX?=
- =?utf-8?B?a0hsZFJpSkFCZ2RzM1Y5cktCN1RsY3NKVEEwbTZJL1pubkFQaGxxRDhqY2Zn?=
- =?utf-8?B?ZVl0M0Zlb0FTQnc5aE4wU09zZnI1TEJzMmdpeHJIYWdsbGRqOXk3ZE5yQjBE?=
- =?utf-8?B?UTdNUUs0MklqalRITld2MnVPd3czUWZoejRjYk8xaE5BVVM3cWUwUlFoV2wz?=
- =?utf-8?B?Z1l5ZE1HMGdaZXZqZWhiYitZRElSd3E0R2JsOWtRSk1EdUtMbWx6ZkowaE9Z?=
- =?utf-8?B?cWc4VlU2UWhPTGRPZDZNZDhja3Fnb3lIZ0J2U1lES1VtVmR0Zit4MllhNnNK?=
- =?utf-8?B?Rm9JT2dTSHFoZEZFMGF0NEsvS3pRaUE1TXpOY1BYd2tFMHRweExhS3lvWUdW?=
- =?utf-8?B?eDFJb1VhelNhNll1OWR5MEFhK0RCeGdmU2VRN1pTT0hYKzdUdU5ob3YvYUlw?=
- =?utf-8?B?ME5XM3NwUnNHNUw5UHc1Um92Q2pTRk9zSUM5UUd5Wk9sVjVvUDJwTThCNERQ?=
- =?utf-8?B?d281UFJkd2g2VnV4WFNOM1dQT0M4d3VEL21aZTJRdTRaZkxxK3F5QWlXbmE1?=
- =?utf-8?Q?fOeBBRhI5wBN91K+WKFp?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(1800799021)(366013)(376011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Q2pUTkMzaGl0MkhTaDlHN21Fd2xrOUR6SlQ4Vy9DVTFwWUlJdmp4NTBta2dj?=
- =?utf-8?B?c1gxYjhXazVhOHlHemUyNjRyL1VpN0k3aUJrN3JhbGFzOFlLQmx2b09JRXJz?=
- =?utf-8?B?emJpbXpRaDdrMzZ4Tms2a3c5di9ORzBPbUpmMzlnNUJ4djRoM2t2QmR2TVRW?=
- =?utf-8?B?NHc0VW5qN3h3S2Z6cUhGR203OVZlOEgyNHljWTNlOWY4cVJyMWNUL1hZU2pw?=
- =?utf-8?B?cHM2ZFRvd1ljWUZJaGs0bXVRbElwWkVZRkZZU2Q4eFk3Ty9xZWh2dU9qSWY5?=
- =?utf-8?B?eG1QbEx2OW4wN0FVWTB4TkRncEtxYWloSElleEoxODNhU1MyVHB6QWtQRloz?=
- =?utf-8?B?VTVCSzUrWnlvbkxNdVlBbWMrbVNiK2lESzZWQWVTUlBDdGpaUi83enlaU0tI?=
- =?utf-8?B?QVdvM0NVSUJMNlRmWlZrQ0QxMVpsSXI2QkNTS2MyWW9rdzV4a1UzK1RYMHA3?=
- =?utf-8?B?UnRJN0ttczVhVFljbENXQnBsdCtpTHJJdVl3ZXJMQVlMRG14bjlmZzQwTzJW?=
- =?utf-8?B?MFRRazlEUTA5Tjh4U0VIVDV3d2RaNlJkenc0Y2ZMZGNaVTZCS1NMWjlvc2Fh?=
- =?utf-8?B?VlNuY3NVa0JiTllSRnlFUjJhMTF4R1U4OU9HVTVMU0NuNnoyS0lVM2NaZnoy?=
- =?utf-8?B?VVdJdHZJMitNcW9iWXFBMjZobDdXYU52eVVkL2w3Mm1Va1ljRlZWNUcxemlv?=
- =?utf-8?B?bm43Q2g2bGNZclJDSlFCYVdOcHp3U21VUit0bFMzcGVQSW5OeGZIM1NCR0l2?=
- =?utf-8?B?WUxGTFJxczh3WFJUdkphZmxNOVV6aWI2eEFKbTc2TVFUN1pJRktiRE1waXFl?=
- =?utf-8?B?d3FRQ1JzMEM4NzkvVzRXMmlJTlhVMzNqeG9xTDRZWS9qbXY5eDFUYi81bDVs?=
- =?utf-8?B?UlhzMSs0dGgvbG5KNm93ZUt1QkQ1UHNncGdnd0dYY0htRGdZMHMxSlZPV3Zi?=
- =?utf-8?B?VHhWZDN5d2k2dE1sMzdES3YvOU4zN2dkVm5jVG91bERnWW5OaUVnNGNyYmd4?=
- =?utf-8?B?bXJCc0Q5OWZ4Ymc0amV2RkhlM2liczlQdll6S0tFYWRsWm1XamRsWk1xUlRX?=
- =?utf-8?B?M3BseE5FZW9CMm53Ym5uNC9CMmF3T2VUZjJic0hPZElZQllhRUt3K1RIMGVa?=
- =?utf-8?B?eXZDRTBNc3FXd2pTQ2V4MTZTUW5jY1IrSG5hWEVuNXVDSWlsakJRVWdQbE0y?=
- =?utf-8?B?K0FCczJMMmg5Z3ZFcHdYUjVTK1lwblFSR1NXeFVHNWpnaUxkQVJtdExWejd0?=
- =?utf-8?B?Qy9oYmt0Q1piVytUVEs4U2hOL3M1MzNwbWNGOHZ2RWxEVWoxeWlsWGxUdC9Y?=
- =?utf-8?B?Sk1aRzNKV2pWdVlGS0hCMzZYNWM2REp6ekIyVnR1NC91Y0ttdGlGYkpTazJY?=
- =?utf-8?B?RzJVam5YYWtBZEY3WXJydlFBVUJjMWo0cmd1UGxhNExrNUhrUGt5VEU3UGk5?=
- =?utf-8?B?VWpLNno5bHM2NmpJQTl2NFhtVkw1TWgvK1RGSmllVDdCc2JhK01zclczSC9q?=
- =?utf-8?B?UXl4cGR0MDR6TWRoODdwMVVkdFVsZDcrVmN4eUJjdUpMS2daOFZGYWRTamJx?=
- =?utf-8?B?dmdlNms4Y0pVN0l3UDVFam4ybHVHcHRVbEFJVkFUYnRTakRXWGhKL0kvNXM3?=
- =?utf-8?B?ZVNnVy9OWktlemttV3RSY29zc2VHRC93T00xUHFSQXlyWWNhcVVGM1BLdEtz?=
- =?utf-8?B?MEI5elNpRjByT1RML1ljNGt0a1hhM2NpZzFSWVdieFpQL0lNV25ZVGNVclZn?=
- =?utf-8?B?WEttMGh5VTd1RjVkQ2l6SG5YL0pFeE9QTmxwZFc4bitoeUhhd0ZTUFNDTmMy?=
- =?utf-8?B?b0FKY1NjUGpHOHBYZVdVaXdrVXMyMTVDOElwbFVTWE1DK04wYlBXZE9nNG9k?=
- =?utf-8?B?OVUzYTdEcjVXWG1xamxvcll2eFpNRzREb01MVHJVUkpFWEhVVTJuYUlhV21i?=
- =?utf-8?B?ZFhuVytPeG15NnhUMVNCTDNtZG1SbEFyekk5RCtVNGNpcy92dmFIT1FqbTBK?=
- =?utf-8?B?M2NBcDJReHduVXd2MHVyL3VSRVpYWFZZeG01Qi9pUTdUa3BudHMzWFNUYkdj?=
- =?utf-8?B?bTN6UW4xWkRYM09kbENmMFhGUVZvOVh5WWdVQlJjNE5EdmZIV1VZZ0MvQTFq?=
- =?utf-8?Q?hkuR9jzk7cSSRvrigBd39kY9q?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ee34c30-c28c-4de6-296b-08dc94197a63
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 06:47:13.0413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YKBCFY9tpvZuWGf+pbiZ6E0SIsBuRS14JwZ5u/1uFZyMtMDcRJoMckDGMW8OMLWqQ1FmlYEHZgrHNIya/tyXQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6809
-X-Proofpoint-GUID: P4LHvtU5uYQ55qj-rOGHM9Nkt-E6dmc8
-X-Proofpoint-ORIG-GUID: QbaB_G5i2EsypnZE6CPCs7ImJlsvVzRi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-24_06,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2406240053
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 45O5P3Vt003223
+References: <20240619103406.276716-1-jose.quaresma@foundries.io>
+ <20240619103406.276716-3-jose.quaresma@foundries.io> <202406211951348908bcd0@mail.local>
+In-Reply-To: <202406211951348908bcd0@mail.local>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 24 Jun 2024 08:27:45 +0100
+Message-ID: <CANPvuRnUiBHZJY=j1gEzzQK8C6+F9CJkGY6Ho=Bc-zPamrNDOQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 3/3] go: move to a single binary bootstrap option
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="000000000000a43b86061b9db84d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 06:47:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201065
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 07:28:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201066
+
+--000000000000a43b86061b9db84d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Alexandre Belloni <alexandre.belloni@bootlin.com> escreveu (sexta,
+21/06/2024 =C3=A0(s) 20:51):
+
+> Hello,
+>
+> This caused:
+> AssertionError:
+> Unable to find recipes for the following entries in maintainers.inc:
+> go-binary-native
+>
+
+I noticed that you have fixed what was missing in maintainers.inc.
+Thanks
+
+Jose
 
 
+>
+> On 19/06/2024 11:34:06+0100, Jose Quaresma wrote:
+> > With the drop of the old 1.4 bootstrap C version we can
+> > move the go-binary-native to go-binary and drop the PREFERRED_PROVIDER
+> >
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > ---
+> >  meta/conf/distro/include/tcmode-default.inc                   | 4 ----
+> >  .../go/{go-binary-native_1.22.4.bb =3D> go-native_1.22.4.bb}    | 2 --
+> >  2 files changed, 6 deletions(-)
+> >  rename meta/recipes-devtools/go/{go-binary-native_1.22.4.bb =3D>
+> go-native_1.22.4.bb} (98%)
+> >
+> > diff --git a/meta/conf/distro/include/tcmode-default.inc
+> b/meta/conf/distro/include/tcmode-default.inc
+> > index 4fb6e47b7f..a9724d7621 100644
+> > --- a/meta/conf/distro/include/tcmode-default.inc
+> > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > @@ -62,10 +62,6 @@ PREFERRED_VERSION_qemu ?=3D "${QEMUVERSION}"
+> >  PREFERRED_VERSION_qemu-native ?=3D "${QEMUVERSION}"
+> >  PREFERRED_VERSION_nativesdk-qemu ?=3D "${QEMUVERSION}"
+> >
+> > -# Bootstrap Go using a binary release from golang.org.  If you want to
+> bootstrap
+> > -# from source using the C-implemented Go 1.4 (only supports x86-64
+> hosts) then use
+> > -# go-native.
+> > -PREFERRED_PROVIDER_go-native ?=3D "go-binary-native"
+> >  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?=3D "${GOVERSION}"
+> >  PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?=3D "${GOVERSION}"
+> >  PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?=3D "${GOVERSION}"
+> > diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.4.bb
+> b/meta/recipes-devtools/go/go-native_1.22.4.bb
+> > similarity index 98%
+> > rename from meta/recipes-devtools/go/go-binary-native_1.22.4.bb
+> > rename to meta/recipes-devtools/go/go-native_1.22.4.bb
+> > index 61da51be3a..ee094435a7 100644
+> > --- a/meta/recipes-devtools/go/go-binary-native_1.22.4.bb
+> > +++ b/meta/recipes-devtools/go/go-native_1.22.4.bb
+> > @@ -5,8 +5,6 @@ HOMEPAGE =3D " http://golang.org/"
+> >  LICENSE =3D "BSD-3-Clause"
+> >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0dd=
+74707"
+> >
+> > -PROVIDES =3D "go-native"
+> > -
+> >  # Checksums available at https://go.dev/dl/
+> >  SRC_URI =3D "
+> https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;nam=
+e=3Dgo_${BUILD_GOTUPLE}
+> "
+> >  SRC_URI[go_linux_amd64.sha256sum] =3D
+> "ba79d4526102575196273416239cca418a651e049c2b099f3159db85e7bade7d"
+> > --
+> > 2.45.2
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#200907):
+> https://lists.openembedded.org/g/openembedded-core/message/200907
+> > Mute This Topic: https://lists.openembedded.org/mt/106757823/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
-On 6/20/24 00:45, Ross Burton wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->=20
-> On 19 Jun 2024, at 10:17, Yu, Mingli via lists.openembedded.org <mingli=
-.yu=3Deng.windriver.com@lists.openembedded.org> wrote:
->> +The nfs tests will be put into XPASS/XFAIL category as it defined in
->> +XFAIL_TESTS target, group all the test only in TESTS target as we pre=
-fer
->> +use PASS/FAIL/SKIP to indicate the result.
->=20
-> XPASS/XFAIL is fine, we don=E2=80=99t need to change the tests.
 
-Okay, I will move back these two cases to XPASS/XFAIL.
+--=20
+Best regards,
 
->=20
->> diff --git a/meta/recipes-support/attr/acl/0001-test-nfs-nfsacl.test-C=
-orrect-the-check-item.patch b/meta/recipes-support/attr/acl/0001-test-nfs=
--nfsacl.test-Correct-the-check-item.patch
->> new file mode 100644
->> index 0000000000..f990ca4a31
->> --- /dev/null
->> +++ b/meta/recipes-support/attr/acl/0001-test-nfs-nfsacl.test-Correct-=
-the-check-item.patch
->> @@ -0,0 +1,51 @@
->> +From dfc6328f02821f9c6703f764ec6f53cf81daaab6 Mon Sep 17 00:00:00 200=
-1
->> +From: Mingli Yu <mingli.yu@windriver.com>
->> +Date: Mon, 17 Jun 2024 11:00:43 +0800
->> +Subject: [PATCH] test/nfs/nfsacl.test: Correct the check item
->> +
->> +The date such as "Jun 13" should take 2 columns, so the expected chec=
-k
->> +item "test/sub2" should the column 9.
->> + # ls test/sub2 -dl
->> +drwxr-xr-x 2 root root 4096 Jun 13 06:01 test/sub2
->> +
->> +Upstream-Status: Submitted [https://lists.nongnu.org/archive/html/acl=
--devel/2024-06/msg00002.html]
->=20
-> What this why the test is an XFAIL?  In which case the previous patch s=
-hould make it clear that we=E2=80=99re not removing XFAIL because we don=E2=
-=80=99t like it, but because the tests are now fixed.
+Jos=C3=A9 Quaresma
 
-That's okay, will move back these two cases to XPASS/XFAIL.
+--000000000000a43b86061b9db84d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->=20
->> diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-su=
-pport/attr/acl/run-ptest
->> index 3af75c84fe..7d88cc8484 100644
->> --- a/meta/recipes-support/attr/acl/run-ptest
->> +++ b/meta/recipes-support/attr/acl/run-ptest
->> @@ -6,6 +6,7 @@
->>
->> mkdir -p /tmp/acl-ptest/test
->> cp test/test.* /tmp/acl-ptest/test
->> +export EXPORT_PATH=3D"/tmp/acl-ptest/test=E2=80=9D
->=20
-> Whilst you=E2=80=99re here, this looks fragile.  Can you use mktemp -d =
-to make a fresh directory for each run?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Alexandre Belloni &lt;<a href=3D"mail=
+to:alexandre.belloni@bootlin.com">alexandre.belloni@bootlin.com</a>&gt; esc=
+reveu (sexta, 21/06/2024 =C3=A0(s) 20:51):<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">Hello,<br>
+<br>
+This caused:<br>
+AssertionError: <br>
+Unable to find recipes for the following entries in maintainers.inc:<br>
+go-binary-native<br></blockquote><div><br></div><div>I noticed that you hav=
+e fixed what was missing in maintainers.inc.</div><div>Thanks<br></div><div=
+><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
+<br>
+On 19/06/2024 11:34:06+0100, Jose Quaresma wrote:<br>
+&gt; With the drop of the old 1.4 bootstrap C version we can<br>
+&gt; move the go-binary-native to go-binary and drop the PREFERRED_PROVIDER=
+<br>
+&gt; <br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
+ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/distro/include/tcmode-default.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ----<br>
+&gt;=C2=A0 .../go/{<a href=3D"http://go-binary-native_1.22.4.bb" rel=3D"nor=
+eferrer" target=3D"_blank">go-binary-native_1.22.4.bb</a> =3D&gt; <a href=
+=3D"http://go-native_1.22.4.bb" rel=3D"noreferrer" target=3D"_blank">go-nat=
+ive_1.22.4.bb</a>}=C2=A0 =C2=A0 | 2 --<br>
+&gt;=C2=A0 2 files changed, 6 deletions(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-binary-nat=
+ive_1.22.4.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.4=
+.bb</a> =3D&gt; <a href=3D"http://go-native_1.22.4.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">go-native_1.22.4.bb</a>} (98%)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/d=
+istro/include/tcmode-default.inc<br>
+&gt; index 4fb6e47b7f..a9724d7621 100644<br>
+&gt; --- a/meta/conf/distro/include/tcmode-default.inc<br>
+&gt; +++ b/meta/conf/distro/include/tcmode-default.inc<br>
+&gt; @@ -62,10 +62,6 @@ PREFERRED_VERSION_qemu ?=3D &quot;${QEMUVERSION}&qu=
+ot;<br>
+&gt;=C2=A0 PREFERRED_VERSION_qemu-native ?=3D &quot;${QEMUVERSION}&quot;<br=
+>
+&gt;=C2=A0 PREFERRED_VERSION_nativesdk-qemu ?=3D &quot;${QEMUVERSION}&quot;=
+<br>
+&gt;=C2=A0 <br>
+&gt; -# Bootstrap Go using a binary release from <a href=3D"http://golang.o=
+rg" rel=3D"noreferrer" target=3D"_blank">golang.org</a>.=C2=A0 If you want =
+to bootstrap<br>
+&gt; -# from source using the C-implemented Go 1.4 (only supports x86-64 ho=
+sts) then use<br>
+&gt; -# go-native.<br>
+&gt; -PREFERRED_PROVIDER_go-native ?=3D &quot;go-binary-native&quot;<br>
+&gt;=C2=A0 PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?=3D &quot;${GOVERS=
+ION}&quot;<br>
+&gt;=C2=A0 PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?=3D &quot;${GOVERSIO=
+N}&quot;<br>
+&gt;=C2=A0 PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?=3D &quot;${GOVERSION=
+}&quot;<br>
+&gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-binary-nati=
+ve_1.22.4.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.4.=
+bb</a> b/meta/recipes-devtools/go/<a href=3D"http://go-native_1.22.4.bb" re=
+l=3D"noreferrer" target=3D"_blank">go-native_1.22.4.bb</a><br>
+&gt; similarity index 98%<br>
+&gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-binary-nativ=
+e_1.22.4.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.4.b=
+b</a><br>
+&gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-native_1.22.4.=
+bb" rel=3D"noreferrer" target=3D"_blank">go-native_1.22.4.bb</a><br>
+&gt; index 61da51be3a..ee094435a7 100644<br>
+&gt; --- a/meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.22=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.4.bb</a><=
+br>
+&gt; +++ b/meta/recipes-devtools/go/<a href=3D"http://go-native_1.22.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">go-native_1.22.4.bb</a><br>
+&gt; @@ -5,8 +5,6 @@ HOMEPAGE =3D &quot; <a href=3D"http://golang.org/" rel=
+=3D"noreferrer" target=3D"_blank">http://golang.org/</a>&quot;<br>
+&gt;=C2=A0 LICENSE =3D &quot;BSD-3-Clause&quot;<br>
+&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5d4950ecb7b26d2c=
+5e4e7b4e0dd74707&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -PROVIDES =3D &quot;go-native&quot;<br>
+&gt; -<br>
+&gt;=C2=A0 # Checksums available at <a href=3D"https://go.dev/dl/" rel=3D"n=
+oreferrer" target=3D"_blank">https://go.dev/dl/</a><br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://dl.google.com/go/go$%7BPV%7=
+D.$%7BBUILD_GOOS%7D-$%7BBUILD_GOARCH%7D.tar.gz;name=3Dgo_$%7BBUILD_GOTUPLE%=
+7D" rel=3D"noreferrer" target=3D"_blank">https://dl.google.com/go/go${PV}.$=
+{BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=3Dgo_${BUILD_GOTUPLE}</a>&quot;<br=
+>
+&gt;=C2=A0 SRC_URI[go_linux_amd64.sha256sum] =3D &quot;ba79d452610257519627=
+3416239cca418a651e049c2b099f3159db85e7bade7d&quot;<br>
+&gt; -- <br>
+&gt; 2.45.2<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#200907): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/200907" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/200907</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10675782=
+3/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/106757823/3617179</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
+tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
 
-The directory which used to include not only the test file, but also the=20
-file used for test such as test.passwd and test.group, and this=20
-directory is preconfigured during build as
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-support/=
-attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch.
-
-Thanks,
-
->=20
-> Ross
->=20
+--000000000000a43b86061b9db84d--
 
