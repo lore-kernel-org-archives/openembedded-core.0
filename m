@@ -1,143 +1,156 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 311A1C27C4F
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 01:51:18 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.131233.1719193870856986560
- for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jun 2024 18:51:11 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nTCC+M/m;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 51DB31BF204;
-	Mon, 24 Jun 2024 01:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719193868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qsixKJRxs0IFhzNZ3lcBFph7tuUsjhJN6WNQUmNG4Xw=;
-	b=nTCC+M/mFFhTcI8Ah3LfmtC/UqeBNPTfNYiaJEbUVTH0KZnV+Ozk/MAElnQizkL2K9mPdN
-	phrw88KeS1o4uaW5BYihFxLCOiCL3ouT1kMBsdeLhdUjxtZt2QNpSxs7IJ94vgOu4rR4uc
-	4nZiwx9jDPu4BilWWWqIIa7GAxSxCUrlnhVAQSKOH8b270xe6egRc+MaPZ+fNFVLZAZd8V
-	sQlLQuksGjGuUDpetxdf2kP4sCGkdIfT/mw3MpqKc95HagbN59TK7Npoqc/XxIf2Dw/odU
-	obcvdfK0b6xCPdzhH6rNyWx4mrkbzLCRyD5L96gkqvg9p3OHO4ZtmXjC+t6cdw==
-Date: Mon, 24 Jun 2024 03:51:07 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 14/22] kea: upgrade 2.4.1 -> 2.6.0
-Message-ID: <202406240151079fe3c9db@mail.local>
-References: <1718936206-8080-1-git-send-email-wangmy@fujitsu.com>
- <1718936206-8080-14-git-send-email-wangmy@fujitsu.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B867AC2BD09
+	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 03:59:58 +0000 (UTC)
+Subject: Re: Rust reproducibility issue summary
+To: openembedded-core@lists.openembedded.org
+From: "Sundeep KOKKONDA" <sundeep.kokkonda@windriver.com>
+X-Originating-Location: Hyderabad, Telangana, IN (49.205.251.137)
+X-Originating-Platform: Windows Chrome 126
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1718936206-8080-14-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Date: Sun, 23 Jun 2024 20:59:57 -0700
+References: <CANNYZj8ya8btVw9JspAHGA_iHpsydRTncHyLoGmPW-9=rpEhTQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8ya8btVw9JspAHGA_iHpsydRTncHyLoGmPW-9=rpEhTQ@mail.gmail.com>
+Message-ID: <2056.1719201597345518399@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="NxkOZlL3FhgtgKn9kM6P"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 01:51:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201062
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 03:59:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201063
 
-This fails the reproducibility tests:
+--NxkOZlL3FhgtgKn9kM6P
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4982/steps/13/logs/stdio
+Hello,
 
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240623-__4telvd/packages/diff-html/
+I've a local reproducer for this issue. Below are a few observations with m=
+y analysis.
+- The deviation in rustdoc binary are because of the different hash-id gene=
+rated between the build (as explained above - https://lists.openembedded.or=
+g/g/openembedded-core/message/200238)
+- The hash-id generates identically when the rust built from it's sources e=
+very time.
+- During the oe-selftest triggered, when the issue reproduced I can see the=
+re are reproducibleA & reproducibleB directories are generated.
+But, the rust is not built from sources on both directories beacuse of Sets=
+cene Tasks and Shared State. (reproducibleB directory has rust sources buil=
+t and reproducibleA has setscene realted data copied the files into it from=
+ sstate and so, no rust sources are cloned & build into it)
+- The above case not always happening with oe-selftest, when the test passe=
+d I can see the reproducibleA also has rust sources pulled and built, in th=
+is case rustdoc generates identically.
+- When the issue reproduced, I did a check on the sstate sigdata to find an=
+y deviations but those sig's are identical.
+- Also, when the test failed, I tried to find the unique hash-id's generate=
+d in rustdoc in the generated rlibs of rust. I could only find one hash-id =
+in rlibs where the rust sources are actually built. The other hash-id not f=
+ound in rlibs of reproducibleA/B.
+- The ' diff .../reproducibleA/tmp/work/core2-64-poky-linux/rust/1.75.0/tem=
+p/depsig.do_package_write_deb .../reproducibleB/tmp/work/core2-64-poky-linu=
+x/rust/1.75.0/temp/depsig.do_package_write_deb ' shows -
+8c8
+< -rw-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A015932884 6a6618ccfc17=
+1ea507ad39eb95bc239116b5f5c9e85a50ce9de3b43c73ff17d7./deploy-debs/core2-64/=
+rust-dbg_1.75.0-r0_amd64.deb
+---
+> -rw-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A015932940 4dcbe007aa8d=
+46e658f95a3651938d67ca5cd55409c503861f365cb9c38f14e7./deploy-debs/core2-64/=
+rust-dbg_1.75.0-r0_amd64.deb
+11c11
+< -rw-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2902068 564925753476=
+842ea9052311afa27cbc099136113ea9f5394b5554eccb09e8f3./deploy-debs/core2-64/=
+rust-rustdoc_1.75.0-r0_amd64.deb
+---
+> -rw-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2901612 c0cd05fe3444=
+00c0a9d31fecd808c3152481f35dacc0556c006b88a239209358./deploy-debs/core2-64/=
+rust-rustdoc_1.75.0-r0_amd64.deb
 
-On 21/06/2024 10:16:38+0800, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> License-Update: Copyright year updated to 2024.
-> 
-> fix_pid_keactrl.patch
-> refreshed for 2.6.0
-> 
-> Changelog:
->  https://gitlab.isc.org/isc-projects/kea/-/wikis/Release-Notes/release-notes-2.6.0
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch  | 7 +++----
->  .../kea/{kea_2.4.1.bb => kea_2.6.0.bb}                     | 4 ++--
->  2 files changed, 5 insertions(+), 6 deletions(-)
->  rename meta/recipes-connectivity/kea/{kea_2.4.1.bb => kea_2.6.0.bb} (94%)
-> 
-> diff --git a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-> index 63a6a2805b..e206805688 100644
-> --- a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-> +++ b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-> @@ -1,4 +1,4 @@
-> -From c878a356712606549f7f188b62f7d1cae08a176e Mon Sep 17 00:00:00 2001
-> +From d297e8ae315e14ae4c5c5ad98183a57f9c43b2de Mon Sep 17 00:00:00 2001
->  From: Armin kuster <akuster808@gmail.com>
->  Date: Wed, 14 Oct 2020 22:48:31 -0700
->  Subject: [PATCH] Busybox does not support ps -p so use pgrep
-> @@ -7,16 +7,15 @@ Upstream-Status: Inappropriate [embedded specific]
->  Based on changes from Diego Sueiro <Diego.Sueiro@arm.com>
->  
->  Signed-off-by: Armin kuster <akuster808@gmail.com>
-> -
->  ---
->   src/bin/keactrl/keactrl.in | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->  
->  diff --git a/src/bin/keactrl/keactrl.in b/src/bin/keactrl/keactrl.in
-> -index 450e997..c353ca9 100644
-> +index cccfdac..20ae2e6 100644
->  --- a/src/bin/keactrl/keactrl.in
->  +++ b/src/bin/keactrl/keactrl.in
-> -@@ -149,8 +149,8 @@ check_running() {
-> +@@ -146,8 +146,8 @@ check_running() {
->       # Get the PID from the PID file (if it exists)
->       get_pid_from_file "${proc_name}"
->       if [ ${_pid} -gt 0 ]; then
-> diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectivity/kea/kea_2.6.0.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/kea/kea_2.4.1.bb
-> rename to meta/recipes-connectivity/kea/kea_2.6.0.bb
-> index 19309ce314..0f9e7b6891 100644
-> --- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
-> +++ b/meta/recipes-connectivity/kea/kea_2.6.0.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
->  HOMEPAGE = "http://kea.isc.org"
->  SECTION = "connectivity"
->  LICENSE = "MPL-2.0"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=ea061fa0188838072c4248c1318ec131"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=618093ea9de92c70a115268c1d53421f"
->  
->  DEPENDS = "boost log4cplus openssl"
->  
-> @@ -18,7 +18,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
->             file://fix_pid_keactrl.patch \
->             file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
->             "
-> -SRC_URI[sha256sum] = "815c61f5c271caa4a1db31dd656eb50a7f6ea973da3690f7c8581408e180131a"
-> +SRC_URI[sha256sum] = "207ceae33eb3b81ec4e6ac5605249a85b93779333b62aadf39e489f11dbcdc8d"
->  
->  inherit autotools systemd update-rc.d upstream-version-is-even
->  
-> -- 
-> 2.34.1
-> 
+I am not sure of what that diff indicates.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#200989): https://lists.openembedded.org/g/openembedded-core/message/200989
-> Mute This Topic: https://lists.openembedded.org/mt/106792588/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Can I get some pointers on -
+1. Why only sometimes the setscene setting on reproducibleA (which causes r=
+ust sources not to rebuilt)
+2. Is there any way/tool to analyze the above depsig data or what is going-=
+on with setscene.
 
+This helps to identify the issue is happening due to sstate? if not I can l=
+ook into rust.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--NxkOZlL3FhgtgKn9kM6P
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hello,</div>
+<div>&nbsp;</div>
+<div>I've a local reproducer for this issue. Below are a few observations w=
+ith my analysis.</div>
+<div>- The deviation in <em>rustdoc </em>binary are because of the differen=
+t hash-id generated between the build (as explained above - https://lists.o=
+penembedded.org/g/openembedded-core/message/200238)</div>
+<div>- The hash-id generates identically when the rust built from it's sour=
+ces every time.</div>
+<div>- During the oe-selftest triggered, when the issue reproduced I can se=
+e there are reproducibleA &amp; reproducibleB directories are generated.</d=
+iv>
+<div>&nbsp; But, the rust is not built from sources on both directories bea=
+cuse of Setscene Tasks and Shared State. (reproducibleB directory has rust =
+sources built and reproducibleA has setscene realted data copied the files =
+into it from sstate and so, no rust sources are cloned &amp; build into it)=
+</div>
+<div>- The above case not always happening with oe-selftest, when the test =
+passed I can see the reproducibleA also has rust sources pulled and built, =
+in this case <em>rustdoc </em>generates identically.</div>
+<div>- When the issue reproduced, I did a check on the sstate sigdata to fi=
+nd any deviations but those sig's are identical.</div>
+<div>- Also, when the test failed, I tried to find the unique hash-id's gen=
+erated in rustdoc in the generated rlibs of rust. I could only find one has=
+h-id in rlibs where the rust sources are actually built. The other hash-id =
+not found in rlibs of reproducibleA/B.</div>
+<div>- The '<em>diff .../reproducibleA/tmp/work/core2-64-poky-linux/rust/1.=
+75.0/temp/depsig.do_package_write_deb .../reproducibleB/tmp/work/core2-64-p=
+oky-linux/rust/1.75.0/temp/depsig.do_package_write_deb</em>' shows -</div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>8c8</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>&lt; -rw-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;15932884 =
+<em>6a6618ccfc171ea507ad39eb95bc239116b5f5c9e85a50ce9de3b43c73ff17d7 </em>.=
+/deploy-debs/core2-64/rust-dbg_1.75.0-r0_amd64.deb</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>---</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>&gt; -rw-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;15932940 =
+<em>4dcbe007aa8d46e658f95a3651938d67ca5cd55409c503861f365cb9c38f14e7 </em>.=
+/deploy-debs/core2-64/rust-dbg_1.75.0-r0_amd64.deb</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>11c11</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>&lt; -rw-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2902068 =
+<em>564925753476842ea9052311afa27cbc099136113ea9f5394b5554eccb09e8f3 </em>.=
+/deploy-debs/core2-64/rust-rustdoc_1.75.0-r0_amd64.deb</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>---</span></div>
+<div><span style=3D"white-space: normal;"><span style=3D"white-space: pre;"=
+> </span>&gt; -rw-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2901612 =
+<em>c0cd05fe344400c0a9d31fecd808c3152481f35dacc0556c006b88a239209358 </em>.=
+/deploy-debs/core2-64/rust-rustdoc_1.75.0-r0_amd64.deb</span></div>
+<div>&nbsp;</div>
+<div>I am not sure of what that diff indicates.</div>
+<div>&nbsp;</div>
+<div><span style=3D"text-decoration: underline;">Can I get some pointers on=
+ -</span></div>
+<div>1. Why only sometimes the setscene setting on reproducibleA (which cau=
+ses rust sources not to rebuilt)</div>
+<div>2. Is there any way/tool to analyze the above depsig data or what is g=
+oing-on with setscene.</div>
+<div>&nbsp;</div>
+<div>This helps to identify the issue is happening due to sstate? if not I =
+can look into rust.</div>
+<div>&nbsp;</div>
+
+--NxkOZlL3FhgtgKn9kM6P--
 
