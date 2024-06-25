@@ -2,85 +2,88 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3C9C2BBCA
-	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 09:02:47 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.166984.1719306158233302712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E86C2BBCA
+	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 09:06:47 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.167411.1719306402543277738
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jun 2024 02:02:38 -0700
+ Tue, 25 Jun 2024 02:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YlG9xky/;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52cdf9f934fso2755775e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 02:02:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BvJgeaEo;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec5fad1984so28301261fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 02:06:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719306156; x=1719910956; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLQcjpb5xNlAkmTy7DXMfy9wKocIZUZgI1EiaXcZYvE=;
-        b=YlG9xky/0JOE58lyUP24t/sVY6dy+pIBFeO0x6cUkkGMfYOjxO7peUDxydSXPC026R
-         eWqKpuwAQpWOv9X5QpMPQEYm8Zom/hNq1vgCfusGS2dD6mBOuQsYNe4v1SUmOAxdg0d/
-         gvj38YjLJsY3rDdd7rQWrCEvcARjcAXHSA1Hq7T/ypaLV3cp6Itr64qCPzK+m71J+9Mu
-         du0zWNNN0SFTPt+oGQJyvonO3QUShZ7A9usHq+x7IospH/r2/o+EsmENriZxCevb7iWW
-         imWpQ0xr6bOidPMp1yyHbZ4TufhFmg+FfWuxsASNdZv9Wg/ksh9DICZwXvmP9aqxg/1P
-         KsCA==
+        d=gmail.com; s=20230601; t=1719306400; x=1719911200; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Dvp7DCeDoLBjdp1R6Z+74YcPi1wQb/av2sJwyWt3LY=;
+        b=BvJgeaEogBvoqBnJTOQmrki3rqgrRE9ocBMnPaXK8JvSYb6jaLu6DywHIV1G+80Si9
+         g/4YVPGLjLF9mrWYolembgQXlQPP4cfVY/b5TjRAxLZFVq734HZmYQDoUqxv2WKWmkPk
+         p8mOcBD4cucIGXWVwMCsnn/AnQhpy5CY1tugGSEfjg+uBk6GTjGXztiI7oItwbwWQQK0
+         UKUmxrT1e3FPzWJskBXcSEYtXx+V46niGtEIMk2As/yakbTxxevAQsjj1Dr2r+FESF4F
+         +BmUclUpn4YpEpraw7WWVaO/5ND15k6kXskFMTswAhThpiE33lhs+qBBe05mWuYwJF2N
+         aiJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719306156; x=1719910956;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iLQcjpb5xNlAkmTy7DXMfy9wKocIZUZgI1EiaXcZYvE=;
-        b=ZKDK4ULrgCxtlpOL3P27R21FkfZkxFYFPUMoLuFmxyeTGZkOsNQElwhz1R7BW2u+S/
-         V7u/jCy8d1ltfLL/MI424cUM8DYO+6zIhovWIy5gqfp9+Axs/jCE3fBPvctpcIA+M8T5
-         z44r2E7A9qKGwfhZXm06gn05uWtU0PYe3YXKSMEojChVUN00DS1VJvGygRRztvwC91Rj
-         68wrNY12AwVfy5gMkcBUCa9DpdCnrRVrN7BPi/iRtp3R4zYPtzrq8Hzaz5ZxYurP+nak
-         j0c5om7Jy5jGEFB1pgj2awo4PyUbKj2wuxt45NwnxvztXJnMfsn5fFhKwX39QnVy+CGa
-         /2Bg==
-X-Gm-Message-State: AOJu0YxogQjpkTOQ2yzURHNR45o7xiB/ou5Onz6nwmCKA/xASnb18fGd
-	7DHdteBhrdoa3o2iedcfp8T3ObBrEy0skhgF/C2BGh5fI3kd9knRMNktbYip+jXu05MGT9Qj6I5
-	P48a1xMZgHjJY9X2+VN76mXgQg4Y=
-X-Google-Smtp-Source: AGHT+IG4xtBnU3PRdYqzXWzxQ3JqTX5GPYn7Xyu6uWgkG0X8S2nGrRqpYvklCG6KVbzKnteP4Sl+qPahcbVCAuMx4Dg=
-X-Received: by 2002:ac2:53a8:0:b0:52c:c174:4bc3 with SMTP id
- 2adb3069b0e04-52ce064ecf0mr3961770e87.35.1719306156119; Tue, 25 Jun 2024
- 02:02:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719306400; x=1719911200;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Dvp7DCeDoLBjdp1R6Z+74YcPi1wQb/av2sJwyWt3LY=;
+        b=qxdDFp7KpVE56kFcIOQr7zUmAKwGvcGc4aEegrF+1NthjSVdvMGU36SLQHQ75n7qo4
+         1uZAkhktsuYzqKBI8w9V77z1tpBzsqq5LReSUGk4VoMgFlah/bVPCLalul51eii+4B4a
+         vby+7/+7F6YrHDJ2kx1ueuGTaNz26i8CETwoJXIbybsnct1pfgDbdmsptjzfsUOV5d0A
+         Fegd/Kx1oW8fOJU7uE4Ldo/l3JRZODLvhjI4u6iSRHNE+z2I82tIcuFqW0DzzB1JN9lG
+         fN/yvZqmVdVTwZ88ZQ8HeV1D5T/ir9E3ifYV/gkJW7e33jpKZvF0N1zFbBcYfCyvuQly
+         EOLA==
+X-Gm-Message-State: AOJu0Yw3/Kci9ZMHHrE/V5CZ5Bbj0ckcOHVijcsgjeRZBC61kYd9RlW2
+	fVSk8Eb8y+TkSqIajcv6NPt0Kz/zoHAslUuZehpICoKnQ077QV5QohXWrcsflEoRhkSNBpBPVRo
+	o9+h0KM+ZplkS/nYf845z4Z95CMaV1Q==
+X-Google-Smtp-Source: AGHT+IERAIpaZNpQ+NlTqT/l4yZwW/8A9jdeP3lMtZh09frlxMlenCRxI0V8b6M9Ecw5MIccKoqqTKVHGf8XHYOdqaU=
+X-Received: by 2002:a2e:3518:0:b0:2ec:56b9:2593 with SMTP id
+ 38308e7fff4ca-2ec5b357aa3mr56479411fa.37.1719306400220; Tue, 25 Jun 2024
+ 02:06:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240624203215.2470081-1-gudni.m.g@gmail.com>
-In-Reply-To: <20240624203215.2470081-1-gudni.m.g@gmail.com>
+References: <CANNYZj-3XSUJ5S+ewGE9owxtd4CmOps-D=5kU+MrRXoJN0pDpw@mail.gmail.com>
+ <2056.1719220048661049006@lists.openembedded.org> <17DBE5C236FF6606.28936@lists.openembedded.org>
+ <CANNYZj_A5UX7vt6cnS981HMOkSh-0BOs0z1sfk6M8odsbjkCuQ@mail.gmail.com> <6d0399e6-14a9-4746-b88c-c6c8db59818d@windriver.com>
+In-Reply-To: <6d0399e6-14a9-4746-b88c-c6c8db59818d@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 25 Jun 2024 11:02:24 +0200
-Message-ID: <CANNYZj-sOYcMDhuMhrqOLUw_BrHnkBbW+9=b_jRZD30FvKFYzg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gobject-introspection: split tools and
- giscanner into a separate package
-To: gudni.m.g@gmail.com
+Date: Tue, 25 Jun 2024 11:06:28 +0200
+Message-ID: <CANNYZj9FQg_J_FJj=MZ51crg1JnfKc7XXe_DNhxFZptsEaibWw@mail.gmail.com>
+Subject: Re: [OE-core] Rust reproducibility issue summary
+To: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 09:02:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201122
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 09:06:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201123
 
-On Mon, 24 Jun 2024 at 22:32, Gu=C3=B0ni M=C3=A1r Gilbert via
-lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
-wrote:
-> +FILES:${PN}-tools =3D "\
-> +        ${bindir}/g-ir-annotation-tool \
-> +        ${bindir}/g-ir-compiler \
-> +        ${bindir}/g-ir-generate \
-> +        ${bindir}/g-ir-generate \
-> +        ${bindir}/g-ir-inspect \
-> +        ${bindir}/g-ir-scanner \
+On Tue, 25 Jun 2024 at 05:02, Sundeep KOKKONDA
+<Sundeep.Kokkonda@windriver.com> wrote:
+> I can share the two different build directories for your further
+> inspection perhaps? Let me upload the tarballs somewhere public.
+>
+> They're here:
+> https://drive.google.com/file/d/1kKhHoC3oMFPFjvuLvM4glQzKX8JeXNue/view?usp=drive_link
+> https://drive.google.com/file/d/1RCoZipt6i9wWG3j-j2rilWCNW_NMNCk9/view?usp=drive_link
+>
+> Please let me know when you have downloaded them because I'm nearly
+> out of space there, and need to delete them ASAP.
+>
+> Hi Alex,
+>
+> Copied. Thnx.
 
-Simply ${bindir} is enough, no need to list the tools separately (also
-that is prone to becoming mismatched on version updates when upstream
-changes the set).
-
-> +RDEPENDS:${PN} =3D "python3-pickle python3-xml glib-2.0"
-
-I guess pickle and xml modules, and glib are needed only by the tools
-as well, so they should be moving to RDEPENDS:${PN}-tools too?
+The idea is that these tarballs contain a complete build directory of
+rust, with all the intermediate artefacts (e.g. individual object
+files). So you could try to look into it to see where things start to
+diverge between them. It has to be something specific to rustdoc,
+possibly iterating over a non-deterministic list, such as a file
+listing that hasn't been sorted, or a list of keys in a hash table
+that hasn't been sorted either.
 
 Alex
 
