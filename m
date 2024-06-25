@@ -1,122 +1,99 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49829C2BD09
-	for <webhook@archiver.kernel.org>; Mon, 24 Jun 2024 22:20:31 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web10.156084.1719267626787920936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56208C30659
+	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 02:03:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.160561.1719280991750252748
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jun 2024 15:20:26 -0700
+ Mon, 24 Jun 2024 19:03:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=Ia8S6kLD;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.173, mailfrom: jdmason@kudzu.us)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dff0712ede2so4722150276.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 15:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1719267626; x=1719872426; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rX8rRR689xnmdQ0maUPQEQwof8vHRu4mgi+sLAui6+k=;
-        b=Ia8S6kLDJqga155n/lHlxsS0IS4G/GYXCvPIGnLAkg1Khpd4bEvh21ZRhZOWjkofP/
-         wQZPB+LwbaCsriYT9aCKcnpYjxjV8U5S5zj6Gwll6g6bxssRIKbZA6xGRK613FTCd8zc
-         4uVsVtaOU9dHwgUpEEug0cao+/ngyIDtOOmHx1O4Vnx/6lRx3DKl+CDAFAI+wlN051Ke
-         cG+ntpe39m+5bCRriMTuqJ55K6WdAeyx8eJHEd3BCylzzEdgonpB58SzXiEk1445MbRa
-         MxqpxnzZtq2vbR9wufwgxm9JjgU5l5zQP+n29K8ZvYtcUGpoc71ZpRk+dkiSjtYAoagA
-         n4Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719267626; x=1719872426;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rX8rRR689xnmdQ0maUPQEQwof8vHRu4mgi+sLAui6+k=;
-        b=JaKAePsipYl1/y2LS6fa2aBPJj5IlQT8iD8rnTGLK6+uVKFGb60gZ3+iapaKI5LD32
-         ImawpMSPaNoXFh0SBFkMBHNZRPx4AE5Xw8jD9JOviIPTE0r6r80VZRdMq+KkH/cdce9q
-         ko+Wo0uKBiPTb9QiADES4zcVJN1RtBMVaAwD4c6dMbT1jRT2xnrdwnfS3Oyxjhu7wNSt
-         ERpbqNhq8NoZhGw/uvNGFllCjLCzlwkXWQVLdkVRbwA6ZqMDI2rQkY1FE7FhROQZGX1D
-         Zz20Z8/xjM1zykG+XVhvJZxTn+/6R+dXE1J2lvj2HbmSdCA9WxYZW01H9KjPXWb5hLkC
-         oCKg==
-X-Gm-Message-State: AOJu0Yx55MhoNjnl50iia4GLMVZft7k5vtF662uusjlgS6R4Jl5bc9kd
-	lguBxfzULFsdXAC7DCLuosSG9COh6u2qR3MmPreRnPTvDrZ1xyOsbP11xa+ojfijSPb8KG2ZWe4
-	=
-X-Google-Smtp-Source: AGHT+IF4CBvU9LYFw8jednoKkt6JBPPV3xmw7C85+ZCqhpFNwernEX/wzmtiRi8trneJafTfqymmcA==
-X-Received: by 2002:a25:c585:0:b0:dfa:6bfb:e19a with SMTP id 3f1490d57ef6-e0303f753b3mr5705916276.39.1719267625640;
-        Mon, 24 Jun 2024 15:20:25 -0700 (PDT)
-Received: from localhost ([136.54.20.50])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e623c597sm3658910276.14.2024.06.24.15.20.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 15:20:25 -0700 (PDT)
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/ssh: add retry logic and sleeps to allow for slower systems
-Date: Mon, 24 Jun 2024 18:20:24 -0400
-Message-Id: <20240624222024.731269-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.30.2
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6906a44fcf=kai.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45P1oaoB015157
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 02:03:11 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywnk5t8au-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 02:03:10 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 24 Jun 2024 19:03:09 -0700
+Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Mon, 24 Jun 2024 19:03:08 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3 1/1] glibc: fix fortran header file conflict for arm
+Date: Tue, 25 Jun 2024 10:02:49 +0800
+Message-ID: <20240625020249.767760-2-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240625020249.767760-1-kai.kang@windriver.com>
+References: <20240625020249.767760-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: vSm730uRyxJR006bgqiKxQu65gG4rgT8
+X-Proofpoint-GUID: vSm730uRyxJR006bgqiKxQu65gG4rgT8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-24_22,2024-06-24_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.21.0-2406140001
+ definitions=main-2406250015
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jun 2024 22:20:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201116
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 02:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201118
 
-On exceptionally slow systems, the ssh test can intermittently fail due
-to a race between when ping works and the networking applications being
-brought up.  To work around this issue, add some retry logic when ssh
-fails to connect.  According to the man page of ssh, "ssh exits
-with the exit status of the remote command or with 255 if an error
-occurred."  So, only retry if the return code is 255, and limit the
-number of retries to prevent it looping forever.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+There is a file conflict for arm when multilib enabled:
+
+| Error: Transaction test error:
+|   file /usr/include/finclude/math-vector-fortran.h conflicts between attempted installs of
+    lib32-libc6-dev-2.39+git0+312e159626-r0.armv7at2hf_neon and libc6-dev-2.39+git0+312e159626-r0.cortexa72
+
+Install math-vector-fortran.h to the gfortran default search directory
+which is arch specific to avoid the conflict.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/lib/oeqa/runtime/cases/ssh.py | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ meta/recipes-core/glibc/glibc-package.inc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/cases/ssh.py
-index cdbef595008c..ae92bb34cd9c 100644
---- a/meta/lib/oeqa/runtime/cases/ssh.py
-+++ b/meta/lib/oeqa/runtime/cases/ssh.py
-@@ -4,6 +4,8 @@
- # SPDX-License-Identifier: MIT
- #
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 0c5e3b4c3d..3352f3e2f5 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -39,7 +39,7 @@ FILES:sln = "${base_sbindir}/sln"
+ FILES:${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
+ FILES:libsotruss = "${libdir}/audit/sotruss-lib.so"
+ FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
+-FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
++FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal ${libdir}/gcc/${TARGET_SYS}/*/finclude"
+ RDEPENDS:${PN}-dev = "linux-libc-headers-dev"
+ FILES:${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES:nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_system_unitdir}/nscd* ${nonarch_libdir}/tmpfiles.d/nscd.conf \
+@@ -169,6 +169,12 @@ do_install_armmultilib () {
+ 	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys/user.h
+ }
  
-+import time
-+
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
-@@ -13,12 +15,20 @@ class SSHTest(OERuntimeTestCase):
-     @OETestDepends(['ping.PingTest.test_ping'])
-     @OEHasPackage(['dropbear', 'openssh-sshd'])
-     def test_ssh(self):
--        (status, output) = self.target.run('sleep 20', timeout=2)
--        msg='run() timed out but return code was zero.'
--        self.assertNotEqual(status, 0, msg=msg)
--        (status, output) = self.target.run('uname -a')
--        self.assertEqual(status, 0, msg='SSH Test failed: %s' % output)
--        (status, output) = self.target.run('cat /etc/controllerimage')
--        msg = "This isn't the right image  - /etc/controllerimage " \
--              "shouldn't be here %s" % output
--        self.assertEqual(status, 1, msg=msg)
-+        for i in range(5):
-+          status, output = self.target.run("uname -a", timeout=5)
-+          if status == 0:
-+              break
-+          elif status == 255:
-+              # ssh returns 255 only if a ssh error occurs.  This could
-+              # be an issue with "Connection refused" because the port
-+              # isn't open yet, and this could check explicitly for that
-+              # here.  However, let's keep it simple and just retry for
-+              # all errors a limited amount of times with a sleep to
-+              # give it time for the port to open.
-+              time.sleep(5)
-+              continue
-+          else:
-+              self.fail("uname failed with \"%s\"" %output)
-+        if status == 255:
-+            self.fail("ssh error %s" %output)
++do_install_armmultilib:append:class-target() {
++    gcc_version=$($CC -dumpversion)
++    mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${gcc_version}/finclude
++    mv ${D}${includedir}/finclude/math-vector-fortran.h ${D}${libdir}/gcc/${TARGET_SYS}/${gcc_version}/finclude/
++    rmdir --ignore-fail-on-non-empty ${D}${includedir}/finclude
++}
+ 
+ LOCALESTASH = "${WORKDIR}/stashed-locale"
+ bashscripts = "mtrace sotruss xtrace"
 -- 
-2.30.2
+2.34.1
 
 
