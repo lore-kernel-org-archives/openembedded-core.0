@@ -1,56 +1,56 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7297C2BBCA
-	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 18:50:44 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.4599.1719341434547645506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 101E9C2BBCA
+	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 19:15:25 +0000 (UTC)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.5253.1719342918659719745
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jun 2024 11:50:34 -0700
+ Tue, 25 Jun 2024 12:15:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L6gQIwra;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52cd6784aa4so5035842e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 11:50:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TEILCjFt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: sreejith.ravi087@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-421bb51d81aso48761595e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 12:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719341432; x=1719946232; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1719342917; x=1719947717; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a4EnXBC4YibyCd/Cm9in6z4EXbtHqCPtbvb/o9EqFi0=;
-        b=L6gQIwra9TzpIRAr2vfDVJwfEV+bq4orlEJ++vhZaX6yN5J26M+UAp7FruAORDoKj/
-         6MaQATaqh6+Ls/1Z9PiMblCoOhFL7mF91qgrUItMAyEu2vuy21M+9H5lIBReYt3BtFNL
-         2K8RA9NfoLtpHb/0DG+DdwdqP51BCOMenfb/1U6q4ijoP9ZqJKlP1N8q6yI2RiBNxHNj
-         QmRsXmVqJQtoo1w6mFS914Z+Y+zy1hEHmR0GfmIG2Jn0dd3ttJVjH7qb2tdERykmVWiS
-         j/71Qq/smS8qi10VfDhkAE+tv9XoVL7dC6YJAVYj5X+OuO+N9zSQcFglL+8CCiS/5qlU
-         eoAw==
+        bh=45bPqRXbvKtcD1R/zm1bRAvlC39uvYNqSnQoIKkAmC4=;
+        b=TEILCjFtCpbyJyCVUhcAM2oXco+cyDINUtAA6bt5/efRFZ8aLeTBXxujxXjAvNNKlP
+         oCepiaJEzzbvMZ5s9AJf2DmGtlCdZdcsq6StP7aS2o7gU2AiN5F2d48S5wKg/fzSf8Ma
+         e6KE5nxR/qS8+Bpdmqs9xzvDCMlkpaL5xOPERgm5W76w9mWKuWB+XqBT5p+WB24oqZf0
+         Y36ygIA2CG5CLRoctQZ+jMoTFnBc3GYOr84kBieFQ54Y2x41V486o6pzrsGIfLZnMNYp
+         kzxooMkyR5qE5Swpr/zl7PTuAX4h/VnMq76aHVvqxzOW7ty62abwS+elOMpHtVJ2iaUz
+         OG4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719341432; x=1719946232;
+        d=1e100.net; s=20230601; t=1719342917; x=1719947717;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a4EnXBC4YibyCd/Cm9in6z4EXbtHqCPtbvb/o9EqFi0=;
-        b=p65CVsC4+qsJtMRfX6os3wSh+PdhIX+7C3Q6Uf+04HNV5T1laCtZ1SYcemTfNrKNli
-         JWPtcCq5iYlq0TBnERiSyniwGTF12oVlt0S2W2i/gtjks21sntgTYFQfObgdbBeuEkFs
-         7HmqpoG06zUEp6cKMr5W5tNydprCbd5+9OhB/DGYg4JZitF2Sttf7GuFrIzAhioBfw5d
-         9CUtCegKDAaaf58Ssv0albslkSs7Knx9Fc4mjtw0WkNt/lWYcR3LZ9NQ0DK7e/d5v2LQ
-         lfrFrBdht9sHBS1dijdJKL89eXpQt5VXSQrtNDQlZRdefF5OjT43s4kQm92KEhAW93U5
-         0xfA==
-X-Gm-Message-State: AOJu0YzXe0912ZmXJLa6FVU4j28kxaYvCSuFl8hjFjavVftbUaoTH8Uw
-	FNdAADb2F1mZIUUrU4rrTPgRhGETsyi4Q/doDd3d5hFDcF2+avFzsD0nYg==
-X-Google-Smtp-Source: AGHT+IHwUgOhw7tkcJwBOc/KtjIiIsi8d7Kz4bkAawSnfvOsNYaVrp/rAtNRVK8v8WJcXwBMshUTdg==
-X-Received: by 2002:ac2:5299:0:b0:52c:c9ce:be8d with SMTP id 2adb3069b0e04-52ce186482cmr5310051e87.57.1719341432095;
-        Tue, 25 Jun 2024 11:50:32 -0700 (PDT)
-Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b4682sm180201525e9.22.2024.06.25.11.50.31
+        bh=45bPqRXbvKtcD1R/zm1bRAvlC39uvYNqSnQoIKkAmC4=;
+        b=iQ5Z7RT6vw08WtnSToOu50ygIqHuaW+MhXDlsfWLsfy7t4G0hQ09UD37FHPNm3ocpA
+         c8vqA+mnhZebymvlNHPBQ4tfY82FbVurUUyXa9tjjAduqxWwqrAfUq3J9Ayjp4PPkkKY
+         QxLO2G9ONvKp47/FUwuB2P3bzW5e4jfnI6grojl0OOn5ULzE7rWNEwjMXAYh3IYMrBEf
+         j8qPw9f3PeL+uZe+dQp6h+nNA1xGOK4CtofPjMg/FRxVvKzYloJIR4z6Nrs3BenL+Gtb
+         VvKAkOtbMDKPqjvWx+SLIbPAH2uN6CJLMQ9vBxfLmhLn1adCRASK+f1FBGXNGyeXeHHP
+         rtYw==
+X-Gm-Message-State: AOJu0YwohJgLiTSU+4+m+PNlnhpMIXr+36RkCFApVqLb8o7k7R/SCKEY
+	7t/B+vkYwvS8JEeQV+n5hlHapSp57CIUwW9sVGNCCoBmreSFpy07wepHARW0aYE=
+X-Google-Smtp-Source: AGHT+IHuAL4GfI70QPtvIqK2LEcZ6k8PKqAcrwGdCKE7VsYuO0R99BOoh2Y2MY5lNcWyZMrGcgJsIQ==
+X-Received: by 2002:a05:600c:993:b0:424:a5d6:6512 with SMTP id 5b1f17b1804b1-424a5d665f9mr14014785e9.20.1719342916668;
+        Tue, 25 Jun 2024 12:15:16 -0700 (PDT)
+Received: from ubuntu-jammy.qtasks.com (178.72-31-62.static.virginmediabusiness.co.uk. [62.31.72.178])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247fe1b5desm205836585e9.4.2024.06.25.12.15.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 11:50:31 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+        Tue, 25 Jun 2024 12:15:16 -0700 (PDT)
+From: Sreejith Ravi <sreejith.ravi087@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCHv2] gobject-introspection: split tools and giscanner into a separate package
-Date: Tue, 25 Jun 2024 18:50:02 +0000
-Message-Id: <20240625185002.1407358-1-gudni.m.g@gmail.com>
+Cc: Sreejith Ravi <sreejith.ravi087@gmail.com>
+Subject: [PATCH] package.bbclass: Add Requires.private field in package_do_pkgconfig()
+Date: Tue, 25 Jun 2024 19:15:13 +0000
+Message-Id: <20240625191513.22142-1-sreejith.ravi087@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,67 +58,81 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 18:50:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201144
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 19:15:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201145
 
-The tools and giscanner require python3-setuptools at runtime. This increases
-the image size quite a bit (on my end ~1.7MB compressed). Most users don't need
-these tools in the final image so make them optional.
+Currently, the package_do_pkgconfig() only handles the "Requires" key
+field from the .pc file and ignores the "Requires.private" field while
+generating the dev dependency chain. This results in a broken dependency
+list and requires the installation of recommended packages to resolve
+the build dependencies when using the dev IPKs. This increases the
+hard disk space usage and download time and installs many unnecessary
+packages as part of the recommendations.
 
-This commit introduces a new packcage gobject-introspection-tools
+This patch ensures that the "Requires.private" field is also considered
+when creating the dependency list for the dev IPKs. With this, the dev
+IPK will have the proper dependencies listed, eliminating the need to
+install recommended packages to resolve the build time dependencies.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Example: usr/lib/pkgconfig/libical.pc
+----------
+Libs: -L${libdir} -lical -licalss -licalvcal
+Libs.private: -lpthread
+Requires.private: icu-i18n
+----------
+Depends field generated for libical-dev
+Depends: glib-2.0-dev, libical (= 3.0.7-r0)
+------------
+
+When trying to resolve the build time dependency with libical
+package using “-dev” ipk generated, it will throw the below error.
+-----------
+Package icu-i18n was not found in the pkg-config search path.
+Perhaps you should add the directory containing `icu-i18n.pc'
+to the PKG_CONFIG_PATH environment variable
+Package 'icu-i18n', required by 'libical', not found
+-----------
+
+This patch will fix the broken dependency list.
+
+-------
+libical-dev depends field generated with this patch
+Depends: glib-2.0-dev, icu-dev, libical (= 3.0.7-r0)
+-------
+
+Other examples of packages generated with broken dev dependency.
+
+libflac-dev : https://packages.debian.org/sid/libflac-dev
+Without patch:
+Depends: flac (= 1.3.3-r0), libflac, libflac++
+with patch:
+Depends: flac (= 1.3.3-r0), libflac, libflac++, libogg-dev
+
+libglib2.0-dev : https://packages.debian.org/buster/libglib2.0-dev
+without patch:
+Depends: libffi-dev, libglib-2.0-0 (= 1:2.62.6-r0), libpcre-dev
+with patch:
+Depends: libffi-dev, libglib-2.0-0 (= 1:2.62.6-r0), libpcre-dev,
+         util-linux-dev, zlib-dev
+
+Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
 ---
- .../gobject-introspection_1.80.1.bb           | 22 +++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-index 582ac248fd..e161f3ca2d 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb
-@@ -26,7 +26,8 @@ GTKDOC_MESON_OPTION = "gtk_doc"
- 
- MULTILIB_SCRIPTS = "${PN}:${bindir}/g-ir-annotation-tool ${PN}:${bindir}/g-ir-scanner"
- 
--DEPENDS += " libffi zlib python3 flex-native bison-native"
-+# setuptools are required to provide distutils to build the tools
-+DEPENDS += " libffi zlib python3 python3-setuptools flex-native bison-native"
- DEPENDS:append:class-native = " glib-2.0"
- DEPENDS:append:class-target = " glib-2.0-initial"
- 
-@@ -169,6 +170,15 @@ gi_package_preprocess() {
- 
- SSTATE_SCAN_FILES += "g-ir-scanner-qemuwrapper g-ir-scanner-wrapper g-ir-compiler-wrapper g-ir-scanner-lddwrapper Gio-2.0.gir postinst-ldsoconf-${PN}"
- 
-+PACKAGES =+ "\
-+    ${PN}-tools \
-+"
-+
-+FILES:${PN}-tools = "\
-+    ${bindir} \
-+    ${libdir}/gobject-introspection/giscanner \
-+"
-+
- # .typelib files are needed at runtime and so they go to the main package
- FILES:${PN}:append = " ${libdir}/girepository-*/*.typelib"
- 
-@@ -190,7 +200,15 @@ FILES:${PN}-dev:append = " ${datadir}/gobject-introspection-1.0/tests/*.c \
- FILES:${PN}-dbg += "${libdir}/gobject-introspection/giscanner/.debug/"
- FILES:${PN}-staticdev += "${libdir}/gobject-introspection/giscanner/*.a"
- 
-+# glib-2.0 is required for libgirepository
-+RDEPENDS:${PN} = "glib-2.0"
-+
- # setuptools can be removed when upstream removes all uses of distutils
--RDEPENDS:${PN} = "python3-pickle python3-xml python3-setuptools glib-2.0"
-+RDEPENDS:${PN}-tools = "\
-+    glib-2.0 \
-+    python3-pickle \
-+    python3-setuptools \
-+    python3-xml \
-+"
- 
- BBCLASSEXTEND = "native"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 67351b2510..084fe428e5 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2182,7 +2182,7 @@ python package_do_pkgconfig () {
+                         if m:
+                             hdr = m.group(1)
+                             exp = pd.expand(m.group(2))
+-                            if hdr == 'Requires':
++                            if hdr == 'Requires' or hdr == 'Requires.private':
+                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
+                                 continue
+                         m = var_re.match(l)
 -- 
 2.34.1
 
