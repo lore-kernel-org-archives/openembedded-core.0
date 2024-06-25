@@ -2,214 +2,174 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0A3C3064D
-	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 12:33:58 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.171610.1719318831881830447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 930E9C2BBCA
+	for <webhook@archiver.kernel.org>; Tue, 25 Jun 2024 12:41:38 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.171293.1719319292029784798
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jun 2024 05:33:51 -0700
+ Tue, 25 Jun 2024 05:41:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=b+GSG1rh;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: rybczynska@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-6bce380eb96so3541185a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 05:33:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dGlxSJvM;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f480624d0fso42726665ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 05:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719318831; x=1719923631; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1719319291; x=1719924091; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=A5zDxIQ7I5U1TucrC2/Ol89w7Gj8XvexmVaafLYbD6A=;
-        b=b+GSG1rhch6u2IpBXk9q0s3bsXKsYrvWcIMzPfeI6eQDJfGiOAXE/KFFLM1NHlzQe5
-         0GP1QO88XRHTQFTdNXxbwOFuOVRxjpl9pyu1+UcW48uN3zFB/LZFqg3dLTugao1FC9yG
-         tAqeLVdH+/FO3X3ky31IS/CyE8nlW5HZiKDmzDH+DPxfowC1GLqPQ+E3jpWMzi7z0Z8H
-         HcU+QxU/Fr5ixueJKkgVghICxXjW7VqkN+K3K63dw8AtWmOTfXGTtb4L1wvxEqmTvfvZ
-         ZwPhH6Hg22bs8tl1ue225fEJwWgayHyxGAcGUReIgOv30icrPm6BGRmMLDqvzAgho1CO
-         UbHw==
+        bh=UQumRwlnZObQeaOGh03NoMN/YLxYH4qRdecMfRHASlo=;
+        b=dGlxSJvMZiMRmdT4+RcmH4VDM2q1pK9rRwLU68rO7gLY3Xo7fCSvovsiHolVfbgHXn
+         Qt/7CFeTn4u5vPPG7zJnqiABxP7JiYr9EWWhlFo3kWr8sQQvTPW2PZpmiujqGC0Cn98q
+         uTr4GAToF13nCGx6oI1kEJQwQb1cs97QHghA0iZvQncC8N39bHPz07vemXPTCmJFaqbL
+         BJX8zNDMGBWc7PEKK34tvDeuADA8F1wDymerF6adw8pnqX81EteNqNzXtlQa3tIKNnRM
+         IUlit8hvmr7ApH/IHrr0+eIggmqH+6hx201hY1ANhB409ZE/iXYBbEYfJ97VCa3h9rkU
+         u3eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719318831; x=1719923631;
+        d=1e100.net; s=20230601; t=1719319291; x=1719924091;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A5zDxIQ7I5U1TucrC2/Ol89w7Gj8XvexmVaafLYbD6A=;
-        b=XXo3wWHALE6yNtU2uTHHZZrMjHMemfIreg4j92qy8Xs/Do8zN3nWGRYeqDqX5NWNU5
-         AWFBHE1SCMas+X2Co47OwX9nIJ5a8Vx7Uf9NgXirxgi3GaJ2t/lHkt5pAcVMIA/YFIuw
-         pARUpDPP1RIB/tQJ3tPpSM0BxnYKZBNP6JwqNGtQQX4klVPMb4kT9jlanfdtZb9PYJQz
-         Sv2PiA9NHLe40wgf1akiLpwafLx/KLYBYdhlKmQKsC07zGJ/7l4NfDnPxxx3AmBERgWR
-         H5Cwo51K4RN1NfrCdw7Rrjy2xSL+HMDLMBteEHchgBRDFjvj6fHjsd9e3JgplH0T1InD
-         4MMg==
-X-Gm-Message-State: AOJu0YwN5cZ7s6cOMlmAW6hWstwpAxKiD5emcwBqEyIhaNzpJLW7GamG
-	Er4AcrqM/fk2eekF0eLjlLh90GX9pKBzdxcN4ewvtJ2PL1Hvss9SkvAvzSJTEpFaj3imOs/EEVD
-	bwdLhX065j6D+E4jzHCFA2wkLe2Q=
-X-Google-Smtp-Source: AGHT+IE15lnnzq+BdEOY1Ce3XHypX02w6Eie7oDLloaXgBQ7QmI+YJO4qLYManmLWstoNwRZ0px/3xN7a/yDokfv7Rw=
-X-Received: by 2002:a17:90b:1b0a:b0:2c2:d6f3:6353 with SMTP id
- 98e67ed59e1d1-2c86124c99cmr5752550a91.14.1719318830888; Tue, 25 Jun 2024
- 05:33:50 -0700 (PDT)
+        bh=UQumRwlnZObQeaOGh03NoMN/YLxYH4qRdecMfRHASlo=;
+        b=g6+x7mUsLJH0okbJfQ+wiznW/ATlec53zu/htlDUzuFPnvPvUeOaSvL0SQ3sy/+WXO
+         jfvUMTxe6C7SqODfTaUx+PibwG10ZUCHnUpaMasmvOX4j9eug1hPpbv35+69wwkjXYD8
+         PdDjx3NhEkaG+pimKBiYIhCXMj/NGGyEsCfAErIQ3KvX8o9Zx7ftP9h95ZZz45HFkspy
+         iy06JyClsZ81zCOcUFpYfimMouZucHBXMlMSuP/AWUl+Rwc7kn/NU8dXf58dSYm8y/As
+         Fw1Zy0zSAxqn34NMrCuQ0d7YK+3mVwFtwnDrkGyLfE1hzVobjbTIodXcP9kMMllqEQur
+         2abw==
+X-Gm-Message-State: AOJu0Yzb5C2+hueHfo5BgkFg0Lph2ISgFnFKx7pKhfzVk9Sg7ukLrhLy
+	p4+e8yhlY9JrjiDEC0D0mrmJ4NpnCIINzNQeW+o6BAQqdDvWBv022EXQGsaHnsSX1YeALgGKsjt
+	wEiVHaGcmwgh+Xs3Ipfsv69h9ssnUF9kd
+X-Google-Smtp-Source: AGHT+IEHl1HMzaJIQ/k0H8q+t7iTTqvrYkO4Yuw4VVnIxK0AQZN8JpVHN+uYrDHin1U9aU5cKZgMyXKmJuvTq3WYesY=
+X-Received: by 2002:a17:90b:4a86:b0:2b1:b1a1:1310 with SMTP id
+ 98e67ed59e1d1-2c861436110mr6054312a91.29.1719319291279; Tue, 25 Jun 2024
+ 05:41:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240531130128.1258909-1-marta.rybczynska@syslinbit.com>
- <20240531130128.1258909-2-marta.rybczynska@syslinbit.com> <181943DB-2E43-4328-B4EC-B90E0A1F9CE8@arm.com>
-In-Reply-To: <181943DB-2E43-4328-B4EC-B90E0A1F9CE8@arm.com>
+References: <CAApg2=RLRbMABzs=WV-6vzYBGFvQbuVf14trJGAD=P14+Mt7aQ@mail.gmail.com>
+ <3067A608-B538-438F-B270-5A6F2234C800@arm.com>
+In-Reply-To: <3067A608-B538-438F-B270-5A6F2234C800@arm.com>
 From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 25 Jun 2024 14:33:38 +0200
-Message-ID: <CAApg2=SuLizUXb2ShWgQhHa2HPx1QhwXy7ZQWXP31D-ZsYytWQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC][OE-core 2/3] vex.bbclass: add a new class
-To: Ross Burton <Ross.Burton@arm.com>
+Date: Tue, 25 Jun 2024 14:41:19 +0200
+Message-ID: <CAApg2=RTTHOLFSKapCTbPy4_r_vc+GwiK6L706j2mORCT-+4pg@mail.gmail.com>
+Subject: Re: [yocto-security] RFC: CVE check standalone (introducing yocto-vex-check)
+To: ross.burton@arm.com
 Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Marta Rybczynska <marta.rybczynska@syslinbit.com>, 
+	"yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Samantha Jalabert <samantha.jalabert@syslinbit.com>
-Content-Type: multipart/alternative; boundary="0000000000002bc517061bb61c42"
+Content-Type: multipart/alternative; boundary="0000000000009cc9a2061bb6376f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 12:33:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201132
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jun 2024 12:41:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201133
 
---0000000000002bc517061bb61c42
+--0000000000009cc9a2061bb6376f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 21, 2024 at 6:16=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> w=
-rote:
+On Fri, Jun 21, 2024 at 3:18=E2=80=AFPM Ross Burton via lists.yoctoproject.=
+org
+<ross.burton=3Darm.com@lists.yoctoproject.org> wrote:
 
 > Hi Marta,
 >
-> On 31 May 2024, at 14:01, Marta Rybczynska via lists.openembedded.org
-> <rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
-> > The "vex" class generates the minimum information that is necessary
-> > by an external CVE checking tool. It is a drop-in replacement of
-> "cve-check".
-> > It uses the same variables from recipes.
+> On 31 May 2024, at 15:06, Marta Rybczynska via lists.yoctoproject.org
+> <rybczynska=3Dgmail.com@lists.yoctoproject.org> wrote:
 > >
-> > It generates the JSON output format only.
+> >  How to use:
+> >  1. Download the database to use:
+> >  - for NVD, use cve-update-nvd2-native.py
+> >  - for the CVE database, get the CVEv5 git repository: either the
+> upsteam one at https://github.com/CVEProject/cvelistV5 or the one with
+> OE-related fixes at https://github.com/mrybczyn/cvelistV5-overrides
+> (recommended)
 >
-> This appears to be a trimmed down version of the cve-check class which
-> outputs the same JSON file, so what this is really missing is the greater
-> context.  For example, the comments still talk about the cve-check
-> behaviour, not this new vex class=E2=80=99s behaviour.  Understanding wha=
-t this
-> class is doing and how it=E2=80=99s meant to be used isn=E2=80=99t obviou=
-s.
->
-> Correct me if I'm wrong, but this class writes a JSON file per recipe (in
-> the same bespoke JSON format as cve-check) that contains _just_ the
-> assertions in the recipe: that is any CVE_STATUS assignments and resolved
-> statements from patches.  It does not include all known issues, because
-> that changes over time this is the responsibility of external tooling.
-> This explanation should be in the comments.
->
-
-Yes, this is true. I'll update the description in the next version.
-
-
->
-> Is this bespoke JSON format still the best format to use, or should we
-> adopt an existing format such as OpenVEX?
+> This is the biggest issue that=E2=80=99s bothering me right now - the nee=
+d for a
+> fork.  Would it be possible to load the canonical cvelist and then augmen=
+t
+> it with extra data (using the Authorized Data Publisher schema?) from
+> another repository that just contains that extra data?  Having a fork of
+> cvelistV5 and having to rebase it feels like it will lead to problems and
+> be fragile.
 >
 
-At this time I was unable to export some information directly in a format
-like OpenVEX, especially linked to the priority of analysis (eg. that the
-"cpe-incorrect" assessment has a priority over the direct scan result; in
-fact "cpe-incorrect" doesn't exist in any VEX format I am aware of). There
-is a bit of code on handling that in the standalone tool. What I want to do
-so is to assemble the list and go see the OpenVEX people (easier to reach
-than CSAF from my experience) to figure out if they have an idea on how to
-handle all our cases. The standalone tool has a CVE JSON to OpenVEX
-converter. Without extensions, it's a lossy conversion, however.
 
+Applying ADP (we'll add support just after finishing the tests in progress
+now) requires modifying JSONs for each affected entry. The only ADP today
+is CISA and their entries have been merged in the cvelistV5 repo. For us
+becoming an ADP would likely take time. Adding ADP clauses separately
+requires you to modify the entry, so you need to keep it somewhere. I see
+two options: either fork and modify, or copy separate files and modify in
+place. I didn't go for the second solution, because entries do actually
+change, and copies would likely mean more work (for example, they have
+recently converted all entries automatically to the 5.1 schema). For now,
+the rebase is actually working well (had a few issues after the 5.1 update
+but that was my fault).
 
->
-> There=E2=80=99s a chunk of code in cve_write_data_json() to write CVE met=
-adata,
-> that appears to be dead code that can be deleted.  Also the vex_clean eve=
-nt
-> is entirely dead code as the variables defining the files to clean are
-> never assigned.
->
-> Also I=E2=80=99m unconvinced that we need to write so many files.  We end=
- up with
-> a file inside WORKDIR, LOG_DIR, and DEPLOY_DIR.  Can we just reduce that
-> down to DEPLOY_DIR?
->
+What I haven't done yet is submitting fixes for old entries - the number of
+affected CNAs is quite small so maybe we can lower the backlog quite
+rapidly.
 
-We tried to remove all the dead code, but there might be some places left.
-Will verify that.
-
-BTW We have solved the issue you have seen with ninja CVEs and I have
-builds + scans running. I want to verify results manually to make sure it
-is OK. Will be submitting another version after the verification are done.
+BTW The CISA extension adds a notion of the exploitability of the
+vulnerability - this is additional information we can report. Unfixed CVE
+that is exploited vs not exploited, this is well a different class of
+useful information.
 
 Kind regards,
 Marta
 
---0000000000002bc517061bb61c42
+--0000000000009cc9a2061bb6376f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 21, 2024 at 6:16=E2=80=AF=
-PM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Hi Marta,<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 21, 2024 at 3:18=E2=80=AF=
+PM Ross Burton via <a href=3D"http://lists.yoctoproject.org">lists.yoctopro=
+ject.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.yoctoproject=
+.org">arm.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">Hi Marta,<br>
 <br>
-On 31 May 2024, at 14:01, Marta Rybczynska via <a href=3D"http://lists.open=
-embedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</=
-a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" tar=
-get=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; The &quot;vex&quot; class generates the minimum information that is ne=
-cessary<br>
-&gt; by an external CVE checking tool. It is a drop-in replacement of &quot=
-;cve-check&quot;.<br>
-&gt; It uses the same variables from recipes.<br>
+On 31 May 2024, at 15:06, Marta Rybczynska via <a href=3D"http://lists.yoct=
+oproject.org" rel=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</=
+a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org" tar=
+get=3D"_blank">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br>
 &gt; <br>
-&gt; It generates the JSON output format only.<br>
+&gt;=C2=A0 How to use:<br>
+&gt;=C2=A0 1. Download the database to use:<br>
+&gt;=C2=A0 - for NVD, use cve-update-nvd2-native.py<br>
+&gt;=C2=A0 - for the CVE database, get the CVEv5 git repository: either the=
+ upsteam one at <a href=3D"https://github.com/CVEProject/cvelistV5" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/CVEProject/cvelistV5</a> o=
+r the one with OE-related fixes at <a href=3D"https://github.com/mrybczyn/c=
+velistV5-overrides" rel=3D"noreferrer" target=3D"_blank">https://github.com=
+/mrybczyn/cvelistV5-overrides</a> (recommended) <br>
 <br>
-This appears to be a trimmed down version of the cve-check class which outp=
-uts the same JSON file, so what this is really missing is the greater conte=
-xt.=C2=A0 For example, the comments still talk about the cve-check behaviou=
-r, not this new vex class=E2=80=99s behaviour.=C2=A0 Understanding what thi=
-s class is doing and how it=E2=80=99s meant to be used isn=E2=80=99t obviou=
-s.<br>
-<br>
-Correct me if I&#39;m wrong, but this class writes a JSON file per recipe (=
-in the same bespoke JSON format as cve-check) that contains _just_ the asse=
-rtions in the recipe: that is any CVE_STATUS assignments and resolved state=
-ments from patches.=C2=A0 It does not include all known issues, because tha=
-t changes over time this is the responsibility of external tooling.=C2=A0 T=
-his explanation should be in the comments.<br></blockquote><div><br></div><=
-div>Yes, this is true. I&#39;ll update the description in the next version.=
-<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
-<br>
-Is this bespoke JSON format still the best format to use, or should we adop=
-t an existing format such as OpenVEX?<br></blockquote><div><br></div><div>A=
-t this time I was unable to export some information directly in a format li=
-ke OpenVEX, especially linked to the priority of analysis (eg. that the &qu=
-ot;cpe-incorrect&quot; assessment has a priority over the direct scan resul=
-t; in fact &quot;cpe-incorrect&quot; doesn&#39;t exist in any VEX format I =
-am aware of). There is a bit of code on handling that in the standalone too=
-l. What I want to do so is to assemble the list and go see the OpenVEX peop=
-le (easier to reach than CSAF from my experience) to figure out if they hav=
-e an idea on how to handle all our cases. The standalone tool has a CVE JSO=
-N to OpenVEX converter. Without extensions, it&#39;s a lossy conversion, ho=
-wever.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-<br>
-There=E2=80=99s a chunk of code in cve_write_data_json() to write CVE metad=
-ata, that appears to be dead code that can be deleted.=C2=A0 Also the vex_c=
-lean event is entirely dead code as the variables defining the files to cle=
-an are never assigned. <br>
-<br>
-Also I=E2=80=99m unconvinced that we need to write so many files.=C2=A0 We =
-end up with a file inside WORKDIR, LOG_DIR, and DEPLOY_DIR.=C2=A0 Can we ju=
-st reduce that down to DEPLOY_DIR?<br></blockquote><div><br></div><div>We t=
-ried to remove all the dead code, but there might be some places left. Will=
- verify that.</div></div><div class=3D"gmail_quote"><br></div><div class=3D=
-"gmail_quote">BTW We have solved the issue you have seen with ninja CVEs an=
-d I have builds + scans running. I want to verify results manually to make =
-sure it is OK. Will be submitting another version after the verification ar=
-e done.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote=
-">Kind regards,</div><div class=3D"gmail_quote">Marta<br></div></div>
+This is the biggest issue that=E2=80=99s bothering me right now - the need =
+for a fork.=C2=A0 Would it be possible to load the canonical cvelist and th=
+en augment it with extra data (using the Authorized Data Publisher schema?)=
+ from another repository that just contains that extra data?=C2=A0 Having a=
+ fork of cvelistV5 and having to rebase it feels like it will lead to probl=
+ems and be fragile.<br></blockquote><div><br></div><div><br></div><div>Appl=
+ying ADP (we&#39;ll add support just after finishing the tests in progress =
+now) requires modifying JSONs for each affected entry. The only ADP today i=
+s CISA and their entries have been merged in the cvelistV5 repo. For us bec=
+oming an ADP would likely take time. Adding ADP clauses separately requires=
+ you to modify the entry, so you need to keep it somewhere. I see two optio=
+ns: either fork and modify, or copy separate files and modify in place. I d=
+idn&#39;t go for the second solution, because entries do actually change, a=
+nd copies would likely mean more work (for example, they have recently conv=
+erted all entries automatically to the 5.1 schema). For now, the rebase is =
+actually working well (had a few issues after the 5.1 update but that was m=
+y fault).<br></div><div><br></div><div>What I haven&#39;t done yet is submi=
+tting fixes for old entries - the number of affected CNAs is quite small so=
+ maybe we can lower the backlog quite rapidly.</div><div><br></div><div>BTW=
+ The CISA extension adds a notion of the exploitability of the vulnerabilit=
+y - this is additional information we can report. Unfixed CVE that is explo=
+ited vs not exploited, this is well a different class of useful information=
+.</div><div><br></div><div>Kind regards,</div><div>Marta<br></div></div></d=
+iv>
 
---0000000000002bc517061bb61c42--
+--0000000000009cc9a2061bb6376f--
 
