@@ -1,68 +1,56 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C82EC3064D
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 16:35:12 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.32191.1719419705680289456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0D6C30659
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 17:17:33 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.33103.1719422247636373818
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jun 2024 09:35:05 -0700
+ Wed, 26 Jun 2024 10:17:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7DEB339
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 09:35:29 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 898003F73B
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 09:35:04 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gstreamer1.0: disable flaky baseparser tests
-Date: Wed, 26 Jun 2024 17:35:02 +0100
-Message-Id: <20240626163502.2169017-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 91C9840C06;
+	Wed, 26 Jun 2024 17:17:26 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yS2R-ee6uN1J; Wed, 26 Jun 2024 17:17:26 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 11BCE40BA8;
+	Wed, 26 Jun 2024 17:17:22 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id C5007163FCE; Wed, 26 Jun 2024 13:17:21 -0400 (EDT)
+Date: Wed, 26 Jun 2024 13:17:21 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour June 26 9pm/2100 UTC
+Message-ID: <20240626171721.GJ18231@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 16:35:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201175
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 17:17:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201176
 
-There are three baseparser tests which are causing trouble on the AB,
-so disable them as we've filed an upstream bug.
+All,
 
-Also fix a typo when we were attempting to disable parser_pull_short_read
-where a colon was used instead of a comma.
+You are invited to our regularly scheduled OpenEmbedded Happy Hour later 
+today, June 26 for Asia/Pacific timezones at 2100/9pm UTC (5pm ET/2pm PT)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+June+26&iso=20240626T21
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/m=
-eta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-index ab2df80dcc2..7fee5a3d09c 100755
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-@@ -16,6 +16,11 @@ GST_CHECKS_IGNORE=3D"$GST_CHECKS_IGNORE,test_functioni=
-ng"
- GST_CHECKS_IGNORE=3D"$GST_CHECKS_IGNORE,test_infinite_seek_50_src_live"
-=20
- # Known unreliable tests as per subprojects/gst-devtools/validate/launch=
-er/testsuites/check.py:
--GST_CHECKS_IGNORE=3D"$GST_CHECKS_IGNORE:parser_pull_short_read"
-+GST_CHECKS_IGNORE=3D"$GST_CHECKS_IGNORE,parser_pull_short_read"
-+
-+# These tests are fragile
-+# https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14884
-+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3524
-+GST_CHECKS_IGNORE=3D"$GST_CHECKS_IGNORE,parser_convert_duration,parser_p=
-ull_frame_growth,parser_reverse_playback"
-=20
- gnome-desktop-testing-runner gstreamer
---=20
-2.34.1
-
+Best regards,
+Denys Dmytriyenko
+OpenEmbedded Board of Directors
 
