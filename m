@@ -2,62 +2,62 @@ Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C033CC27C4F
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 15:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF96BC27C4F
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 15:20:11 +0000 (UTC)
 Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web10.29316.1719414515913942977
+ by mx.groups.io with SMTP id smtpd.web10.29637.1719415205039021433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jun 2024 08:08:36 -0700
+ Wed, 26 Jun 2024 08:20:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=e7BFgm3F;
+ dkim=pass header.i=@mvista.com header.s=google header.b=XoX/v4Gy;
  spf=pass (domain: mvista.com, ip: 209.85.214.195, mailfrom: asharma@mvista.com)
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-1f8395a530dso53232245ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 08:08:35 -0700 (PDT)
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-1f4c7b022f8so58740375ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 08:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1719414515; x=1720019315; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1719415204; x=1720020004; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YoWWqOXD1wMc/n4t7o7tOZBdov7Q8pA/1dKH7WiH/Do=;
-        b=e7BFgm3FUqrMr3Wu2CI/XjYB/y0lkLFg0IzzH7kWNdj70qFntXKv7a9cUhOIfn5MfK
-         fCxzbMwdLv58L3nCGzJcJUKe8bPXMHP8R0j/9Izm0R8l+7ZFDzz3o5UqVWrN6FnZ9m4y
-         SsXLui92t68yeQ/UBNXzu96xyQX/KZKvOw9d4=
+        bh=ecGamO4tYdgZl6TJZV+hc/cfJrkBHNWgW3VFQbUoZlA=;
+        b=XoX/v4GygIVeHjA/rmw61oajhu/gLxrIL810Sx8bdniWby70SS2J6hfLm5cLDheQGS
+         JGbi/Fsry+vvCcOV+Wlj7+tfvx6JGBSS1VeyJzRb1DXkM0+UrXBVmyHCJ3mSk3ULa7q9
+         57pUjSUEMWjedehnQvGbz7jc11n00tCXBRHWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719414515; x=1720019315;
+        d=1e100.net; s=20230601; t=1719415204; x=1720020004;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YoWWqOXD1wMc/n4t7o7tOZBdov7Q8pA/1dKH7WiH/Do=;
-        b=lO3Xny9GaLXdusv3RBGRTihtq1ajiAe5ax2VRtR9pwQIQJ7En2ehLDspGVfouQX+Qr
-         0MuZxqAeGgwYfveXARrwARe2DBJ2lmGh4lpEu8ztyn/isBWGICIXStfKWv4Hy5lPK8Vv
-         aT0/3N7gO5jypH0oLKHjWsC1fiIFsycEQp/ckORg8OASw+XrVZMeYCWDc4FRasoep3PR
-         mYNW1Dq3bYur9CiQS2Lj+A+4tXHwnaxdZ5Btp/JcpEy6kpjtivTWzxge1CfMjsqARQM0
-         s5Xy7bR8esSVWKBpiaBDQZDIA0AhEf3O7DYA4/X5nOsTDhnmBPnXggzSs4g7m+LG96c+
-         4JUQ==
-X-Gm-Message-State: AOJu0Ywelc5eKTpTi+WmojUdN88vix2yJ3Iqbgyv+SHmFJDv2OKAD3zH
-	vmXylf9gtoN1Du8VER4xahG9bARZwpHDmremhsA3hbg9yI8jh3EzdBluWH04y7Rk7J0tHRMAo9a
-	u6EU=
-X-Google-Smtp-Source: AGHT+IGNCjCgs8n6fRR1W+Uomw8tSn1PEYLebOV6bfWgDzut7svIcZV4PXtAC/tMDL/PtqapkZKOiA==
-X-Received: by 2002:a17:902:f685:b0:1fa:d3d:a681 with SMTP id d9443c01a7336-1fa23ed7128mr124331095ad.24.1719414514563;
-        Wed, 26 Jun 2024 08:08:34 -0700 (PDT)
+        bh=ecGamO4tYdgZl6TJZV+hc/cfJrkBHNWgW3VFQbUoZlA=;
+        b=gHFtGQ2f6fqf5KllE08AhQ1yfykyWi6+9IN25xQtJvAlMVujia5qDdZHdKja3b0Sdc
+         +lNAxomIkK10cbLD/NgiQt4C96j9t1DCTanx09fbzYp7tOwVdJfbahw0R+77p6CPZ7cS
+         nI6hYWSddiyxKh+ZK8t9N1kkGUiERrvCC1W2Y93V11c95/iaDwrKXDfGuqCp31mrOfrr
+         f/oH96aXgL12WjY2CtWgPEPRbCXQN1i11dB68agZmdgG0HstU8DnVBsMssc+5kn+8e08
+         WKgxN4S5yAo7yPJoPIQ6noDflzAgV4nBXtXTB2A27GjznJ6zrs7P9enXow8OVc9ybDDC
+         DuCg==
+X-Gm-Message-State: AOJu0Yym4fJNl0YZvpYLHVZctCvbh5TyR7Q8FNZ3bwjkeduPcFVzGjAV
+	6V2X22FlL8hVY2ey6qIdYwqY+D4hHjWIFHcCy5lsY1/zoD4qa/XdiVbSgDtN1Y4DRVV0DLvc9P5
+	R13k=
+X-Google-Smtp-Source: AGHT+IG34Z+5MRZijLx78vbLRJ/vQcYsXhAPrRoxiyWV+EKodyKUwOhw/1FWkbn5HSIhzjMUeiffSA==
+X-Received: by 2002:a17:902:e846:b0:1fa:4b9:d002 with SMTP id d9443c01a7336-1fa23bdf6c0mr141576455ad.23.1719415201500;
+        Wed, 26 Jun 2024 08:20:01 -0700 (PDT)
 Received: from asharma-Latitude-3400 ([223.190.82.48])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3c5ccasm101241365ad.171.2024.06.26.08.08.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb2f01fesm100995035ad.24.2024.06.26.08.19.58
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Jun 2024 08:08:33 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Wed, 26 Jun 2024 20:36:16 +0530
+        Wed, 26 Jun 2024 08:20:01 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Wed, 26 Jun 2024 20:47:44 +0530
 From: Ashish Sharma <asharma@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] python3: Fix CVE-2024-4032
-Date: Wed, 26 Jun 2024 20:36:14 +0530
-Message-Id: <20240626150614.19870-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.35.7
+Subject: [OE-core][scarthgap][PATCH] python3: Fix CVE-2024-4032
+Date: Wed, 26 Jun 2024 20:47:42 +0530
+Message-ID: <20240626151743.21115-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 15:08:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201172
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 15:20:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201173
 
 Upstream-Status: Backport from [https://github.com/python/cpython/commit/ba431579efdcbaed7a96f2ac4ea0775879a332fb]
 CVE: CVE-2024-4032
@@ -65,13 +65,13 @@ CVE: CVE-2024-4032
 Signed-off-by: Ashish Sharma <asharma@mvista.com>
 ---
  .../python/python3/CVE-2024-4032.patch        | 346 ++++++++++++++++++
- .../python/python3_3.10.14.bb                 |   1 +
+ .../recipes-devtools/python/python3_3.12.3.bb |   1 +
  2 files changed, 347 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2024-4032.patch
 
 diff --git a/meta/recipes-devtools/python/python3/CVE-2024-4032.patch b/meta/recipes-devtools/python/python3/CVE-2024-4032.patch
 new file mode 100644
-index 0000000000..d29ed01c1f
+index 00000000000..d29ed01c1fa
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3/CVE-2024-4032.patch
 @@ -0,0 +1,346 @@
@@ -421,19 +421,19 @@ index 0000000000..d29ed01c1f
 ++
 ++Also in the corresponding :class:`ipaddress.IPv4Network` and :class:`ipaddress.IPv6Network`
 ++attributes.
-diff --git a/meta/recipes-devtools/python/python3_3.10.14.bb b/meta/recipes-devtools/python/python3_3.10.14.bb
-index 31c458c09a..7d8fb76103 100644
---- a/meta/recipes-devtools/python/python3_3.10.14.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.14.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.12.3.bb b/meta/recipes-devtools/python/python3_3.12.3.bb
+index 9f41cd1e6b8..1ea7aba372f 100644
+--- a/meta/recipes-devtools/python/python3_3.12.3.bb
++++ b/meta/recipes-devtools/python/python3_3.12.3.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
             file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
+            file://0001-test_shutdown-skip-problematic-test.patch \
 +           file://CVE-2024-4032.patch \
             "
  
  SRC_URI:append:class-native = " \
 -- 
-2.35.7
+2.44.0
 
 
