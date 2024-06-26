@@ -1,56 +1,50 @@
-Return-Path: <denis@denix.org>
+Return-Path: <gudnimar@noxmedical.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0D6C30659
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 17:17:33 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.33103.1719422247636373818
- for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jun 2024 10:17:28 -0700
-Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 91C9840C06;
-	Wed, 26 Jun 2024 17:17:26 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yS2R-ee6uN1J; Wed, 26 Jun 2024 17:17:26 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 11BCE40BA8;
-	Wed, 26 Jun 2024 17:17:22 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id C5007163FCE; Wed, 26 Jun 2024 13:17:21 -0400 (EDT)
-Date: Wed, 26 Jun 2024 13:17:21 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@lists.yoctoproject.org>,
-	openembedded-members@lists.openembedded.org
-Subject: OpenEmbedded Happy Hour June 26 9pm/2100 UTC
-Message-ID: <20240626171721.GJ18231@denix.org>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D2D5C27C4F
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 18:22:13 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH] python3: Fix CVE-2024-4032
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudnimar@noxmedical.com>
+X-Originating-Location: Kopavogur, Capital Region, IS (81.15.100.92)
+X-Originating-Platform: Windows Chrome 126
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.20 (2009-06-14)
+Date: Wed, 26 Jun 2024 11:22:03 -0700
+References: <20240626151743.21115-1-asharma@mvista.com>
+In-Reply-To: <20240626151743.21115-1-asharma@mvista.com>
+Message-ID: <22089.1719426123332569606@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="lO5mqib08NHcFDKRtX8g"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 17:17:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201176
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 18:22:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201177
 
-All,
+--lO5mqib08NHcFDKRtX8g
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-You are invited to our regularly scheduled OpenEmbedded Happy Hour later 
-today, June 26 for Asia/Pacific timezones at 2100/9pm UTC (5pm ET/2pm PT)
+Isn't this fixed in Python 3.12.4? gh-113171 is referenced in the release n=
+otes: https://docs.python.org/3.12/whatsnew/changelog.html#python-3-12-4-fi=
+nal
 
-https://www.openembedded.org/wiki/Calendar
-https://www.openembedded.org/wiki/Happy_Hours
-https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+June+26&iso=20240626T21
+( https://docs.python.org/3.12/whatsnew/changelog.html#python-3-12-4-final =
+)
+Python 3.12.4 has been merged into master, perhaps it can be backported to =
+Scarthgap as well. It contains some more security fixes.
 
-Best regards,
-Denys Dmytriyenko
-OpenEmbedded Board of Directors
+--lO5mqib08NHcFDKRtX8g
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Isn't this fixed in Python 3.12.4? gh-113171 is referenced in the release n=
+otes: <a href=3D"https://docs.python.org/3.12/whatsnew/changelog.html#pytho=
+n-3-12-4-final" target=3D"_blank" rel=3D"noopener">https://docs.python.org/=
+3.12/whatsnew/changelog.html#python-3-12-4-final<br /><br /></a><br />Pytho=
+n 3.12.4 has been merged into master, perhaps it can be backported to Scart=
+hgap as well. It contains some more security fixes.
+
+--lO5mqib08NHcFDKRtX8g--
 
