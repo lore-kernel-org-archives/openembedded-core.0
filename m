@@ -1,139 +1,132 @@
-Return-Path: <sreejith.ravi087@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6FEC27C4F
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 14:05:11 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.27676.1719410710560127334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F33AC27C4F
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 14:09:11 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.27617.1719410949233873823
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jun 2024 07:05:10 -0700
+ Wed, 26 Jun 2024 07:09:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nZ7QjaQy;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: sreejith.ravi087@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ec002caf3eso101739831fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 07:05:10 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CSWnWocw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a72510ebc3fso533985466b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 07:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719410708; x=1720015508; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8MyO20STI4HxvjDr2/9gG+/ttO0g1ZmxZRerP2rqpQQ=;
-        b=nZ7QjaQyAC67GjBeC+hSliHNdG5BEP/PgIBfm+2XK9iO2wLQufrjExl842+/nG/zdr
-         RsDP/AdgM/vodL+QXR2DxzJlmZgF3Ee+nG67zfjmN7aJO+ywMW9pq2AaCiEtyzBMUVTf
-         EJQBce8tw3rx7ITtj0EgUItEEP9ijRSByYDxOMCIMYCV1yBqA0tM+TcYV5TJt7n42T3a
-         mwrRk/jTq8ZwC6kt+2soZGGlKaxip04LHACBby/aD3vuM27woTmW3XXnjR9j33whKN8v
-         A3vGJSqW++ORhlv4KzVWip3WDACuDpbeShbZhzyyDy+iHtAJ/2fIA/NFa/Sg6OKqRiyX
-         Y9DQ==
+        d=linuxfoundation.org; s=google; t=1719410948; x=1720015748; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fTk+Yyl3aX+QExaogybfumBUuq4c9pR0Fm2tiBrBw54=;
+        b=CSWnWocwkpCG/AulU9k6+dzcu9QNgFJ1+RZPpxsB2ETgsaWRfHn1Op2phblR1FeWwS
+         vD2yqEBv3N92lP1SgbOZZl5mN5++SFiJkR3iQdnybcpPNriPKStnEdiq+G/mRX3GyGW9
+         EDpgqu3cwTBmto2J2to2PYC2t8Auih0d1fZR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719410708; x=1720015508;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8MyO20STI4HxvjDr2/9gG+/ttO0g1ZmxZRerP2rqpQQ=;
-        b=DhS6/AkwLwyWr100idXKJaa4pxV8a4PqzxJj+fdpVJ5Vw82cBTofdyQ2elM4EXOagg
-         mMPODxhDjDQ+oMNefYh0ZtWlJFhTQdPTSKcak/nbzCS1VCOII/kSOC1qjyQgr0dvpxuc
-         Z8kkoPuwA94S1u1HYGBoYJq4zLE7B4tw5OWLSZ5nXsnepepIYNFnzLv36mUUr8k7MO/8
-         kb7xW534AZu6NHa+5BM76SHr8SzvqG6Gn6PCTVFHnR1XfcjUD3HLW5PK6CkBveqH9INO
-         bFIgpYwQtZxqybAnr1gj0jxSDmP468QaGM6jFk101IWloleJkjTteHESfrDdxMEKXI6q
-         lPXg==
-X-Gm-Message-State: AOJu0Yx4g8CTa9GVGEWfIcwy9oGevKORpNE2hmO6npNog4j4qAx7/Vav
-	oyJZvyE98OWRAppQzLo9eHVwDra4x4ce9YIJtOlE0wGmpzhXlYT+5FUung==
-X-Google-Smtp-Source: AGHT+IFZhQKXwCran+aDFimItGP6qxYs6+DgyIiuaiN4xPKozVDzW2GPaeOh58dPghUZrkttnLbAJw==
-X-Received: by 2002:a2e:87c8:0:b0:2ec:a022:880c with SMTP id 38308e7fff4ca-2eca022884fmr25558631fa.22.1719410707456;
-        Wed, 26 Jun 2024 07:05:07 -0700 (PDT)
-Received: from ubuntu-jammy.qtasks.com (178.72-31-62.static.virginmediabusiness.co.uk. [62.31.72.178])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c823c1a7sm26639535e9.2.2024.06.26.07.05.06
+        d=1e100.net; s=20230601; t=1719410948; x=1720015748;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fTk+Yyl3aX+QExaogybfumBUuq4c9pR0Fm2tiBrBw54=;
+        b=xNYw6nTX4YHenshrBY1VovDTi2zjG4dy+N5nuGejP05ptYf6FS//Pw4ZTsUWHJyqcS
+         9Y+UloAsYnn+94TbiAbRsKx+hkd7aqrnPkopTSzo+BUAnh0PrPEhGOLA/KhM4duF4jrV
+         hN+BSNlyhXNiVIXCBZjSpgxAuTIbvRqh0Qqs47M3Ut0ez2Z38xBcR0zXd2V7kJVc+l4H
+         gCNLbvX0UNhKlXzhDQKkFXW0fCRefqLwe/YIyQfgStWL2XTD9NPLAeEGMQMowOGb1JHk
+         5/ZJR/KtfYiGURccGgRuMdka7Jxcdnjd1OXSjlqKZtpEO0dSTZKKE0ATBbD6YNn1Prvv
+         30MA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvLoJgTtXOlA5zTPfNkjUFg7diGTodkVg9D1KbXh/pjwtY3+h/ZwnkFxdWqexFhZByZnOLkz2sP2n4ki/L8MDujf2WbgdezX0EKDC8EUaCU4RLFctzFvg7
+X-Gm-Message-State: AOJu0YxrTCjLWtLOAxabLc94hbvvZfDalMLbcSGWyP2ptFnG8hNC++2T
+	BQmJCHSevf8qKHpVc/J1TPrhH3AW/h82MvxNvZZrt5dfL+wyNoyY6UNwHw3NS94=
+X-Google-Smtp-Source: AGHT+IG1974HL5oKeXESZEdLyL+pzqhn/yUlPAd3R6KMykcDhBrg8x2do7dK0L/t6nd5zC1lciMi2A==
+X-Received: by 2002:a17:907:104b:b0:a72:554d:82af with SMTP id a640c23a62f3a-a72554d8570mr693018066b.20.1719410947564;
+        Wed, 26 Jun 2024 07:09:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1693:fa63:dd08:d447? ([2001:8b0:aba:5f3c:1693:fa63:dd08:d447])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a724ccb4ddesm370469366b.64.2024.06.26.07.09.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 07:05:06 -0700 (PDT)
-From: Sreejith Ravi <sreejith.ravi087@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sreejith Ravi <sreejith.ravi087@gmail.com>
-Subject: [PATCH] package.py: Add Requires.private field in process_pkgconfig
-Date: Wed, 26 Jun 2024 14:05:00 +0000
-Message-Id: <20240626140500.1857-1-sreejith.ravi087@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 26 Jun 2024 07:09:07 -0700 (PDT)
+Message-ID: <925ec48934b53e9f53d6998fe730078c6e5de365.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] u-boot.inc: WORKDIR -> UNPACKDIR transition
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Quentin Schulz <quentin.schulz@cherry.de>, leon.anavi@konsulko.com, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 26 Jun 2024 15:09:06 +0100
+In-Reply-To: <c38d4947-f02b-4e4a-982a-131a27ed0941@cherry.de>
+References: <20240623213254.3215897-1-leon.anavi@konsulko.com>
+	 <88f54166e39db5b6035f21bfad5f08f7a1008007.camel@linuxfoundation.org>
+	 <c38d4947-f02b-4e4a-982a-131a27ed0941@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 14:05:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201166
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 14:09:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201167
 
-Currently, the process_pkgconfig() only handles the "Requires" key
-field from the .pc file and ignores the "Requires.private" field while
-generating the dev dependency chain. This results in a broken dependency
-list and requires the installation of recommended packages to resolve
-the build dependencies when using the dev IPKs. This increases the
-hard disk space usage and download time and installs many unnecessary
-packages as part of the recommendations.
+On Wed, 2024-06-26 at 15:34 +0200, Quentin Schulz wrote:
+> Hi Richard,
+>=20
+> On 6/26/24 3:20 PM, Richard Purdie via lists.openembedded.org wrote:
+> > On Mon, 2024-06-24 at 00:32 +0300, Leon Anavi via lists.openembedded.or=
+g wrote:
+> > > Replace references of WORKDIR with UNPACKDIR for U-Boot script
+> > > and variable UBOOT_ENV_BINARY, for example for boot.scr.
+> > >=20
+> > > Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+> > > ---
+> > > =C2=A0=C2=A0meta/recipes-bsp/u-boot/u-boot.inc | 6 +++---
+> > > =C2=A0=C2=A01 file changed, 3 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-=
+boot/u-boot.inc
+> > > index 45d700fbdd..9a91a0e3d8 100644
+> > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > > @@ -92,7 +92,7 @@ do_compile () {
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ -n "${UBOOT_ENV}" ] && [ "${UBOOT=
+_ENV_SUFFIX}" =3D "scr" ]
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 then
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${UBOOT_MKIMAGE} -C none =
+-A ${UBOOT_ARCH} -T script -d ${WORKDIR}/${UBOOT_ENV_SRC} ${WORKDIR}/${UBOO=
+T_ENV_BINARY}
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${UBOOT_MKIMAGE} -C none =
+-A ${UBOOT_ARCH} -T script -d ${UNPACKDIR}/${UBOOT_ENV_SRC} ${UNPACKDIR}/${=
+UBOOT_ENV_BINARY}
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> > > =C2=A0=C2=A0}
+> >=20
+> >=20
+> > If that command is writing a file, the written file should remain in
+> > WORKDIR, not UNPACKDIR. I suspect the SRC should probably therefore be
+> > changed but not the BINARY?
+>=20
+> WORKDIR still isn't cleaned between builds of a recipe I assume? While=
+=20
+> migrating to UNPACKDIR gets rid of patches that were once in SRC_URI but=
+=20
+> aren't anymore (or other files for that matter), using WORKDIR as a=20
+> temporary directory between tasks is going to be an issue depending on=
+=20
+> how the other tasks are going to behave. If the logic using the file is=
+=20
+> the same as the logic for creating the file then it shouldn't be an=20
+> issue. But if the logic using the file is just checking whether the file=
+=20
+> exists, then using WORKDIR is an issue since it won't be cleaned between=
+=20
+> builds of the same recipe.
 
-This patch ensures that the "Requires.private" field is also considered
-when creating the dependency list for the dev IPKs. With this, the dev
-IPK will have the proper dependencies listed, eliminating the need to
-install recommended packages to resolve the build time dependencies.
+Correct.
 
-Example: usr/lib/pkgconfig/libical.pc
-----------
-Libs: -L${libdir} -lical -licalss -licalvcal
-Libs.private: -lpthread
-Requires.private: icu-i18n
-----------
-Depends field generated for libical-dev
-Depends: glib-2.0-dev, libical (= 3.0.7-r0)
-------------
+> Maybe we should go for ${B} instead?
 
-When trying to resolve the build time dependency with libical
-package using “-dev” ipk generated, it will throw the below error.
------------
-Package icu-i18n was not found in the pkg-config search path.
-Perhaps you should add the directory containing `icu-i18n.pc'
-to the PKG_CONFIG_PATH environment variable
-Package 'icu-i18n', required by 'libical', not found
------------
+${B} would probably be an improvement, yes.
 
-This patch will fix the broken dependency list.
+Cheers,
 
--------
-libical-dev depends field generated with this patch
-Depends: glib-2.0-dev, icu-dev, libical (= 3.0.7-r0)
--------
+Richard
 
-Other examples of packages generated with broken dev dependency.
-
-libflac-dev : https://packages.debian.org/sid/libflac-dev
-Without patch:
-Depends: flac (= 1.3.3-r0), libflac, libflac++
-with patch:
-Depends: flac (= 1.3.3-r0), libflac, libflac++, libogg-dev
-
-libglib2.0-dev : https://packages.debian.org/buster/libglib2.0-dev
-without patch:
-Depends: libffi-dev, libglib-2.0-0 (= 1:2.62.6-r0), libpcre-dev
-with patch:
-Depends: libffi-dev, libglib-2.0-0 (= 1:2.62.6-r0), libpcre-dev,
-         util-linux-dev, zlib-dev
-
-Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
----
- meta/lib/oe/package.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index d1303f32bf..e6b46a0dc5 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1853,7 +1853,7 @@ def process_pkgconfig(pkgfiles, d):
-                         if m:
-                             hdr = m.group(1)
-                             exp = pd.expand(m.group(2))
--                            if hdr == 'Requires':
-+                            if hdr == 'Requires' or hdr == 'Requires.private':
-                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
-                                 continue
-                         m = var_re.match(l)
--- 
-2.34.1
 
 
