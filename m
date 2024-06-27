@@ -2,35 +2,28 @@ Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE7C6C3064D
-	for <webhook@archiver.kernel.org>; Thu, 27 Jun 2024 06:16:10 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.1811.1719468966250513306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0998C2BD09
+	for <webhook@archiver.kernel.org>; Thu, 27 Jun 2024 06:18:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.1824.1719469077890054482
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jun 2024 23:16:06 -0700
+ Wed, 26 Jun 2024 23:17:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=69087085fa=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45R5JKQC010039
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 23:16:05 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywx4fve0d-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=69087085fa=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45R1efYB003514
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jun 2024 06:17:57 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywnk5vnft-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 23:16:05 -0700 (PDT)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45R6FXCX023789
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jun 2024 23:16:05 -0700
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywx4fve0c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 23:16:05 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jun 2024 06:17:57 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jYfJYqyynxl1FlvSQDlLfaT8Za6ZW60mLzAxaHjqxReW81eqO7Wv0JXE65cuTP3PcZwBOj6DFZ6AKQ24HM7oTYYsB5Ljh1/tOfVJhVDRk3BKIG6otKoJKzoG3PfnrZbx63RxH0vDNg/PzCQI6FAgD1G6F4NLBTr2EHE/4QL5I3YKfOnOXOtcglOXvqKBKtHCpCSvrX1zLzj6GECEP3rcE3NjAdKuBm/2UJzkzoGKYdoY4vYhdKrt4hbk7RMFCOc3ui2hOQ870HQd2AZbX6s9W6cpyjKWBQIrYid07gtw8sJLnQaJZ970+jBEKtpQmHVsT+JLKCqHhk/AvwdfU76hyQ==
+ b=ftuoJeviWp4r2ZIeBWgz0ecYxkieduNk+GJmaUshl8CUPrG+xUdYO0xI2MxYUAM5igpvQHCa1M9HTtt2GRAQO/AXSKayoO2VetoNQivfJhrhhLjGnVuP2fifZ24JnTHArkYY+38mXxsXaQvF8m2CB640w1JDm+HQk6VTuUG8mgZHzWCKOB3ox59IoBVOKrGDP+fPsKtzEamGZOd3CacByOebVul+N4dI16y2NUqEKd860SOqhpsZ0gauSlhr4DNQGd+cTu7Gi2ESpMdjoOBV+ZDiO695GEhGPgqUHorDz+7Jn9iDj2vz8ebW32kO2fkLHmdBqgSQYDsx3F8QILjGig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V848CmXauklkUMQ1eJaoAQ1myCMkZ+a5EuB093XWVYQ=;
- b=nk6FcrSXmsFVjn9isyqrnhVzy9oBaHLXNYuGVkBRdAueP4Fw8zWlbYscMFQpxD8kjKcngP1ffiA4wYJLpXDl/Q62sHh33ie9mREfkDlk+crd6cbxRjUh6rWYA6S0Fb0xsuUqIc5GxjwxaxahtOE0BSMYY+AzrCnjeIECGA2c9yS7kJciptUVJJ4X4wH5SvGQjnejA41OxyEbdXmSH8dhAFJbW4dKSUK1u2Njhe3oRX8//MMnxjRyqgda21gNs0Idnk8rakoeqs0Rqmjkxoxa8N0qULmSXElIJDVcng0NnjF53LWxLbHP6FxNh7cuPAS5OLZIcF+AdyoNLVcDcIVkKg==
+ bh=u/G2xrEH95jioTtHTt0daiYqFDOsXsMWULtnWksErS8=;
+ b=Qj0vVMLrPw0rn5DRHMZx3BUV4gskn4f193iKLCUvcSNx2fg9eeRz0KLbqA6j4MPhaEpy+fFuM2y2G7o8U8Wki8QcpiAYb7hWyg0ib7z2mWgaJwe68b8SrvqxMdDxgGElSLgvZyPRRxLIzyenRJRkV2lnvDAJaMkM79PXtZ87lhxyAik/9e4+pM4vVPbZtJtCyaoYT9cu/NIP6wqAWlt90cByu5waMZgwTMEa1a5DfZgpFo2tQVg7fo1KqVy0QRksMnpaT4zVBNp6JDpht7cF1/SDV6ZFKordr+iim22yaKwnjmDhgNwr3+UTwLtTVbeTwhWLaO2auAbE/9Zkflqb+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -38,470 +31,144 @@ Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
  by CY8PR11MB7058.namprd11.prod.outlook.com (2603:10b6:930:52::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Thu, 27 Jun
- 2024 06:16:02 +0000
+ 2024 06:17:55 +0000
 Received: from CO1PR11MB5009.namprd11.prod.outlook.com
  ([fe80::b03a:b02:c24e:b976]) by CO1PR11MB5009.namprd11.prod.outlook.com
  ([fe80::b03a:b02:c24e:b976%6]) with mapi id 15.20.7698.025; Thu, 27 Jun 2024
- 06:16:02 +0000
-Message-ID: <55d756d2-990e-492b-a299-a1c13186ff6f@windriver.com>
-Date: Thu, 27 Jun 2024 14:15:56 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] acl: Fix nfs ptest failure
-Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com,
-        =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>
-References: <20240626055637.2195328-1-mingli.yu@windriver.com>
- <20240626230938fc033ae6@mail.local>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+ 06:17:55 +0000
+From: mingli.yu@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] acl: Add attr to RDEPENDS:${PN}-ptest
+Date: Thu, 27 Jun 2024 14:17:35 +0800
+Message-Id: <20240627061735.1942404-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240626230938fc033ae6@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: TYCP286CA0171.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::6) To CO1PR11MB5009.namprd11.prod.outlook.com
+References: <20240626230938fc033ae6@mail.local>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0256.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:455::14) To CO1PR11MB5009.namprd11.prod.outlook.com
  (2603:10b6:303:9e::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|CY8PR11MB7058:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3256fe54-7407-410c-f1f2-08dc96709e44
+X-MS-Office365-Filtering-Correlation-Id: 67074595-1109-4a61-b3af-08dc9670e207
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|4022899009|1800799024;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?emhwRlhnL3ZTb25uV1N0alZjQ0wwcjJHTWNsQ3FaZWkvaEoyWmdBRElZb3lG?=
- =?utf-8?B?bWdBQy96RWpYcWJPU09xZVBuWkVnRUE3V2cvTUtVemhWSmZVT3ljTGRJcVpu?=
- =?utf-8?B?bnlpV0xsZjdvS1d0djl4Y25NYThjVlFNaXgyZHc4eTE3R3MvVGdyQlkzTWxz?=
- =?utf-8?B?SCtEbXJ0QnlWUnNyN1NYOENiUzJXQU84YnhvVkFMcXVUSENlb0s1Wkc0TjAz?=
- =?utf-8?B?c0wyUUV0VHMyMURJTDhTSytQVjVsRWIwRDkyOTJaeFJCS3h0RFVkRUQvcW0v?=
- =?utf-8?B?UTRaaVREVzVVeEZuRzA3aWFOaHdRZ2JmS0lWSldkakJNU0ZDb1hvZzNmUWdu?=
- =?utf-8?B?Mm04eGhOT1Jib3BXc2ExNktKc0FDV2lESDZERGJQZGRhcmtwdXc2TnJESXlw?=
- =?utf-8?B?TlRsTmErMlVyblRCOHNvMVRoTjNvYnEwVHQxTmFmNmhBNFhKajZJQlZON3Nn?=
- =?utf-8?B?SkRWTWFJTVVxMHN5SWpBVmNUMHViVWNhM09wanIyTzVIbVdoZVNRQU9wOHR5?=
- =?utf-8?B?MXRvSTh3MnR3UmI0aFZYK2RVWXovV1hzNkluN3JtOWlpVG5kMjJ3cFJ3czg5?=
- =?utf-8?B?WFNGTTFaYUpFdkc3S0YzVnJmZ0lJNndpR0RjUzdCdC9aTXlqM0ZzK3d0TDhP?=
- =?utf-8?B?MlptNWlkcUkxZkFDQ3JUeVVqcUtSd0k0eThMMHBweHpXRXZieStTZGdEMThj?=
- =?utf-8?B?Wm9CdjR2Ymx4MFZNQnB3OUVxdmhmTHRaNGhOcjlDbm9naitUT3JXVnVkSjhF?=
- =?utf-8?B?dHNuU1IxVUkzOUx2NWRlUTZuSUw4OVB2bTQyeVVxaXBLcHFMZ3F4WDl4MjRN?=
- =?utf-8?B?Z1R2bzZOR3Q1YVJIQUhsamY4QWloTXJybWNxZTNxRmI5a2VMampZVm1sL0pS?=
- =?utf-8?B?ejNCMjQ1cURVY2IvaTgwZVl6d2M1Q0lQUStkZkVJSHpFTVR5SWU4REVoN3Bz?=
- =?utf-8?B?bW9uSlNGMERzVHloSEh3d2FaTDNjMkVkaC82eHpCc1V4cVVScStwcldZU0Ir?=
- =?utf-8?B?bjZmcEw5ZWdFNkdid0YySXFCWE9mVFhia3lXZjZRZWthdkt3UnhidFZnNjJu?=
- =?utf-8?B?TDg3OWJOK0xlZ1IwVVdkWld5Nm91OXc2bmhZVE5pSVJ6dTR4d1dqZXZyeWFC?=
- =?utf-8?B?bkVzeCsvU1NZenA3OFpjY1V1UWFUTnhQWjdINGFDc29pNmZTNzRncEVSVGwy?=
- =?utf-8?B?S29HeVlKYjBIRE5penhrUHA4eTJINkQxRlZteFU1WkJZbjJQVURMbVh6QzRN?=
- =?utf-8?B?ZUhGelh0SnNsdXZaWkZVSjFjQXMyTGFuRllRMzdMdTd3NUxlNUJoSE9URlB4?=
- =?utf-8?B?MUZoZnQ4bFY2cnVTanhKd3RVeDZvUll2bDdFdGw5NzNpek5iNG8rS0lRSlhy?=
- =?utf-8?B?V1VCMjFiVVJPeUs4NVZDeUZaeGU1Y1AyY01oNVIzM2g3Q0oxNDI2Skp2dktD?=
- =?utf-8?B?NFplQUs4RmtuYmlRK2YzekNJVi9OL2o1bi90WXVZdnkwVjVsWHVxb1BRQVN3?=
- =?utf-8?B?Tkg2ZXBFeTNZNVpuRVRmWXhPMnh3SllsNGF0SXEweVJ3RVVqRU5oQXRESmJG?=
- =?utf-8?B?QVJRY2gwTEMrR0lrUnhKeThSQmI4WER0UlhYd3pKNlV3YzVQdTNwYUd4Y0dn?=
- =?utf-8?B?eG0reGFuRi9zenllcXNjeDZTRE92OXR1ejJodVZHNU9jbXVvNTQ2TjBoRWpZ?=
- =?utf-8?B?WGQ5OWNNSkx0UTZOSm5EckhoR3pmSmZWZGUzR1FiOWNBL2NCcDk2L1diamxJ?=
- =?utf-8?Q?4BNqo9uaiHUjtYkCik=3D?=
+	=?us-ascii?Q?tNHmakzqW/N8aNThNtlkrKxp8CKaajOgxgRwTY1Mv8WFXna37Mg9Ex41CQRs?=
+ =?us-ascii?Q?4qEJZ2spb6G1fyB11v6SO9lL3mkwK7jKUR+z//O5c4g49VYbEnf4v3d10eT8?=
+ =?us-ascii?Q?lX2lr2Ya00BIrRYSaO0iRdtMZfGr+xGlFDSGFA8sNVHgn2W/EeBNILN/R71t?=
+ =?us-ascii?Q?HxRNfHJH+7/cgnbuILFg7HjF9zY+e04WicshnHSIMDKpR+Yq4wN1eVqOOrR+?=
+ =?us-ascii?Q?8zF1AjTjfbGw+1bRgN/bTVCbOa/bChA+V5GacLrzc0M+psQDZssk2uyVKc6m?=
+ =?us-ascii?Q?eGQ280jLmChKBS4BfcRHFzyMo32BAjqyH6ptoYQtJYjaFcOaj9ur2rGPlteg?=
+ =?us-ascii?Q?JfO/AgAFtAqfrt98CfyIOwEHvqDsmAxdkq1Z6LeP4bwRzh61K++sVF0zEhs7?=
+ =?us-ascii?Q?RiGib0furJHrgctS8K3qbRmZVJ9OMsB2YjXypbrnkabm8aA/XD1DLbPPxfKI?=
+ =?us-ascii?Q?FFEiKGiRnrTSpFWAP9B97IooMb07AV23OC7H2VsxlN/WM8EBPOyUE3PweFOk?=
+ =?us-ascii?Q?LZfBpcIq1s1ndHtODfpuBbUAO/Tf02m9kU9YzHDtSqMoPLeYkPNM95SmdWoU?=
+ =?us-ascii?Q?rwhfDtpyX3wRCYmJ/k6gwFzeIy+vtDLsVIxOUHxSFYiPuIcpA0c7QTR9QG00?=
+ =?us-ascii?Q?IRlGngfLGowwP6WJfP82DNBSVPgZNxSmFy7Fr1c0+TNHfgWX6zZaekNJklhx?=
+ =?us-ascii?Q?EXgn2OSKPS8v4Kd3NJS3ccopUYEsFX/EXhA+UQhyU4YiWta/MNrpoNF4wfnh?=
+ =?us-ascii?Q?sA5YXDeppVtcH/E77Et77+OTiGtQv9z2tmQ1N+z6u/L2BYFpz9E+JOJ8t6Hs?=
+ =?us-ascii?Q?1OQ8EEj5gBmd1bp8fOkxP3gjX6NTAcT/80zZcft3rniJlZT2+21SVPcWuPxv?=
+ =?us-ascii?Q?YuLXL8NCUnP/HTcy8zOueP51O95AfE+Ct12bl5zUUBL2ILgZ/QJW9KJT/eOv?=
+ =?us-ascii?Q?hryQE7PxCQaaWU/c8oMUVss29G+SCZTZwhyNNFUd79K88PM0/SycISIagfjd?=
+ =?us-ascii?Q?ba+rt9iP17JhddieFuzXl2c1a2tT3W3t5v6DtGbVTRvWnXBi7/LXY3uC4fb/?=
+ =?us-ascii?Q?v1RueMHw+v4845UZ/ePf6IaWZVYMLCxxeNWfIMb2rm02canCF+xb3XKfUkp/?=
+ =?us-ascii?Q?AVug09KLbbZ3gBY3MmqIPwllGCQKMlGtb4gV0YVnDgCr2U8lkdXo4Zsnk267?=
+ =?us-ascii?Q?o9A679QuX1LrsoQRRGeX+/mJlojJci0jfUx0qrz0KXzAvyzx4Zc1wDqrpbfC?=
+ =?us-ascii?Q?Bv4R1EvliDDkz5HufX98e5xnYNfsX4Eflc9sVZF55J1GEKrL14o6u2hoYseS?=
+ =?us-ascii?Q?HUlFxU6U7XLae6+fbHidI7b7h7jM6Xh43Gc4MGuOkX6twi8jthg7mNkqFBUe?=
+ =?us-ascii?Q?JwZzDYbOwJ/+5wP3UJuFSriQs7/1cuqVyccPVdh9qcvMsV0CKQ=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(4022899009)(1800799024);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SGNiekJ4dmlHYzd2a3E2amVjQ05DeWRncDUyM2x0Y1RPaHF3bTh6SDZIU3Zu?=
- =?utf-8?B?SEFhYXEwTlNQSkszMGN4S2kxcVY5THpiZCtMY0xyVFQ2K0liZWpMUUVZZmRO?=
- =?utf-8?B?Q2MwZlJYSERZTk1ITHNzZ3d3Ymk0UTNoa2k1ZWpmUXd5UVZSSjRnY3owOUM5?=
- =?utf-8?B?ZVNoUUNiZXVSeHNMNW1UbDIwdzJYMDhBQzkweHg2YUdPbnpnZVlNQkcwU010?=
- =?utf-8?B?TFFvczNtSHczajVTN2lmdkwrcGNNcSs0bXAxeDdzcS9qQVZtcGY2Tks4ZkFE?=
- =?utf-8?B?K25WMVNPK0JDazdoSXMwN010dG5UdWkzM0dLdzVHWEwyRkhUNEszTDljSUdQ?=
- =?utf-8?B?VW96U3l2QzlTR09yQnBOcW1wUWUxT2V6cFRiRFArQzdudUYvWE94TzY1UVRQ?=
- =?utf-8?B?V2xyTDJZd3VtcjNkU3p3Y043Rk5oc1hiVWFHUUtja05PYll1cTVYajN4N1VC?=
- =?utf-8?B?UHhNTTJRODBWVzVXZXFNNkRzQllZTDlsSDNCenF1eGh3WlpRK3RVZUZWYWN2?=
- =?utf-8?B?cENOaGxXVzBjTHczMW0ybG5JS05XYTJzUmI0ZjhkQXE4YTZobHo1bnhCcThJ?=
- =?utf-8?B?UU90NlcrOS9JQWZ1M0dYOTducUpTVDVXVnl3dmJEbDMrbW9mZzAvRi9xaDR1?=
- =?utf-8?B?Y0lhajhVZEJOWm83ZVhwd00zSUUxeGZRTlBiNWVlQ1hNbFZ4Sk9RZzBOUlJS?=
- =?utf-8?B?Q3RxTHYzTGwzaU9iblNWWFR1QTJpSVM1SnRwWXhOYlpBdU5JYWVzcWtpUXV4?=
- =?utf-8?B?NVBzak01emovdHJZcC82YjVsZkl0Q1FBbTBUaHJtb25oNC9sd3Q0TytvQWdi?=
- =?utf-8?B?SmdLeUZ4T3gzV2ZhUmZiV01sRG55WlpGSVlmMFJxenRBZkUwcENiRlc5eTJh?=
- =?utf-8?B?M2VRekZ6bmZ1MUJhSExUckxNU1diQ1RjTkdHM0FQaHBIMUVtZWNBbVkzYTR2?=
- =?utf-8?B?eTdQeW1CbUhzc3ViNXFGcjIrWExxNll6VDBtcVoyYk5wNmxPQmlILzI5Tzc0?=
- =?utf-8?B?bmlWRUhJZGRUSmgvU085MTFLUlRHbDZtd2N6SGNhWERxZFdiZHNiWXJrK0xa?=
- =?utf-8?B?OFRYVEhHaE1ZcFlmMUFqTndneUdKRVpMZi96cUV1UGRWSkJidDRYVk1mWmtO?=
- =?utf-8?B?clhQRVB4ZnZaL3Fub3N0dVVYd0tFQ1dmYTFCYk1ZeGwxMERvMTVzU3hSdHFY?=
- =?utf-8?B?UiswUkg0Tkpaeis3V3Z6NGRwRE9ZR1BpLzR2WVgwL3djZm1oYlFYSlRVN01W?=
- =?utf-8?B?dnZtMHM2VTAxZXozWDdsTVpFYXlCb29OWFdkMHNMZkdTRC9lV3M3N0RxQXZw?=
- =?utf-8?B?SUhtVU56MlNVTWZSamRVbDV0NzZBL0JUc2NDeWJBR21WNTY0QTRGQVVjc1RJ?=
- =?utf-8?B?ZlhLV2t6SEFSRWhHWUMxbFNaUk10UEpCdmVxWHc3ckVVbUNFc2lRT2hwN0lw?=
- =?utf-8?B?R0dtdnBwZnh0eVFvOXArU0hKYUJHVEMyalpOelB2TTY3THlGY09XQUZKS0ND?=
- =?utf-8?B?S0JPckg3SGg2WnJNV0JpMmlWWlgzb1MzWFZUN3dTMnBOM0YrRVduc0NhQW5r?=
- =?utf-8?B?T2MvWW15aXJWS3VtdENJYjY1ZWo1ZHRjNG14eW0rU213U2VHbzhLZ0dqWk9T?=
- =?utf-8?B?VXNnUmpYNk1qelF2VHhNazZPWlJQenVmQWJVM09raG9tdUY2TXhNb0NJcDhq?=
- =?utf-8?B?RjY1TW5FN01OSTlNQUtHTDlJaVhabWlOT254cXRORldkR04wOWNlVW9UVFpi?=
- =?utf-8?B?eG1jejB3dTFVek92WnZGZWV3ZUpRbHc0TDF3dktVMTU2VUJEZ21adnBFaHZY?=
- =?utf-8?B?S0xhbVJXSjFHK0J1RG5ZUHVyL3h2OXpoM0ZVdVVyTjJhcStQS2d6bWczL21I?=
- =?utf-8?B?SkRzNkowQzkyKzhxVCtxUVpuWXdvYlhGZEZyWmhlcm5uMXFWZkltcDQ2TS9Y?=
- =?utf-8?B?NnIvcFZDN0NrQ3BZZm9CRDd4b3I0b3hTbXFVODRXTXhUenNiN0JmS0dqSFZC?=
- =?utf-8?B?N0l0YUVRMi9DczF5K3FkNTdleVowenQxckt4TUFjS3ltNVJiSGZqdGk5SFpz?=
- =?utf-8?B?YnRNTlkvWnhFK1RNc2ptNXdqWmhaTjZETHhMMFlWZlFnc1YzNGRlS3NUZ2pY?=
- =?utf-8?Q?RffWiKlGm09RVNWZCgUglrnUO?=
+	=?us-ascii?Q?eXlCv4uF8OVAYWDf7pa6rG5G5AgKjVYKZCLVmgw0BQjckRQx030r6mtYANCt?=
+ =?us-ascii?Q?1esUA3r7zybBaD9+9ge923VAXo2IgV7NmIaTaJsprjYHZktPnZHKxE9jlsZK?=
+ =?us-ascii?Q?1ZpuSzurtad67Hg0Efv36Wpa7Mb+TJzDxYxsBZG4xIntmTLri6ZVGppP2xqJ?=
+ =?us-ascii?Q?IXaFqtVhrWCG8o7l2ZNaUR+eM2Qcf/ezkuj1GwT9hWNiUbCw5Fv0HPWCvVOk?=
+ =?us-ascii?Q?UC8FAu5u7aViLdYaiYfGs1bWmt2Gs+fEMMFSmFsZV1SQ9sX730P9IrDhGw6r?=
+ =?us-ascii?Q?U3DrI1N5+mAsheV7QC5S5icP69JLsNpklaVwZPvpwtsO1puYG+H9s/Tg91mz?=
+ =?us-ascii?Q?jLbryG/rPeZ0kTOoYkWmv5EucT3OR3THCHRCwK6Pk5cri0R6vI7XXHuaXAe/?=
+ =?us-ascii?Q?WPS58rYXOwi2FDACsS4gBPq5rwm9548SsQ3p244UzOa9F0/Nw/tgqeY7tXi7?=
+ =?us-ascii?Q?u7jFE57+hfP5mHTJuVzdTfIETvC+/ml9Yylx6djydlGWDQL8RaM+3fMccS+E?=
+ =?us-ascii?Q?YlyN+MaofZMdS5O4i995PU3U0Q6nVXuQoAXYc7bSuRKHZUz/2dT7lC3/pRML?=
+ =?us-ascii?Q?UGl9QH4NS8dPi76nDCQx0ajDtEePXWjPUpjP+J7Sm+JN8S7dNlCcKlHW5DAM?=
+ =?us-ascii?Q?Jd9rJsSDGcYRdLY4invzDjWd0LzEXhPLQj92N7QD1m6mq5TqW6s0He67Onbu?=
+ =?us-ascii?Q?Q7UqedHxas8CsNwkod4s9vUNia4V8151KsQJ/vq3vgeqYMHhelninToVjOhP?=
+ =?us-ascii?Q?vEAFUwju9+cBRLhBEBypokvAkOI3HYXpUeoX2Yiz4Bjl1ePKZJfudWGqtLnR?=
+ =?us-ascii?Q?F7o/wUqfKIIaFe8Td4tz79Wx1FryEjM6xskjBCUomeOt6mJIAwKp9nchjxNs?=
+ =?us-ascii?Q?nc0bD+Y6yN+3uxI6UxiIKuTwbJHeUhQ+hTIMC/lRBjCfJWtVcOaWMzyVU0cy?=
+ =?us-ascii?Q?q2CfammPl//GyTYVCicXgWazFyeFd9l3V8gxhyj2NAPsTZqY+xapA4+DRRXS?=
+ =?us-ascii?Q?N5R3RxkRoN1Qb74L1zyN0l2tKbmkUlYyXCDpHXGa6Ba2701Zsv5BtLWyZnot?=
+ =?us-ascii?Q?JG7nIOI+n6t1oc0yY7Y+yNt6SX3yo0XgD4wd5FsiL3NGce5qUhJlAn9BaHw2?=
+ =?us-ascii?Q?zTyeTSK982bHUebpbnB3ryUy5PGViY4rMWBJh46/ldJvPkjgpFrhVsK3YYo5?=
+ =?us-ascii?Q?DL7snm8OPWcHcYRMBVXmetGz2mplamBoYjRTZ3MojGzh6jbw4giJLfoGEOIx?=
+ =?us-ascii?Q?4mI6p5ZbLMwWZ+y3WZFu6mK/QIJ1vRPV74v0tYkp8s6Nqavy/EByLuxJDEZN?=
+ =?us-ascii?Q?pOmHzsI88ePQJqkgxqvpvGi9Oj+kNLzGAncKV/17+94m79rdEhRs4ZUFjj3c?=
+ =?us-ascii?Q?8Mg6AACVn2uSnfeWVfNkiNXMNvOt+tY+zZ8u8B9hKU+/9P4B8bANoIfVll6e?=
+ =?us-ascii?Q?qasn0IUeFOvLNZinB9KO0C4fRlo9wVXxjGKGGfquZUBaWj7RZDfCBqjKt136?=
+ =?us-ascii?Q?KAPNzSOWqk+R3+p0AAnTIa8JyYTLphO40XeK6O2yXXFOs+IjTIl1gfCvWgc0?=
+ =?us-ascii?Q?KdU33crQBVbSBvhSxAgv2A/gV8d+IDmwoFisG+rA?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3256fe54-7407-410c-f1f2-08dc96709e44
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67074595-1109-4a61-b3af-08dc9670e207
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 06:16:01.9191
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 06:17:55.4326
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jmigjn61u/JmQrOJ32BWw8f5fOQiyY6/Hj/nL4MHM1zOUz1dmCNI1kochMhAW8wB3URyfJDKPX6mxJMtxQqslQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: wucXtLN6snvdLHb08fCfi7spN3ZBU+eZYix9ipErGte3qq0X6WZa0TnmfKHhT3THQYTs6VZgMvxLMiWvUx2WVA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7058
-X-Proofpoint-GUID: qni95Tpq2rCAQm4YeqqjgLTkPwLI_eib
-X-Proofpoint-ORIG-GUID: iJgFwM0LTppgMyq-ZDFmZZbGtEE88pfH
+X-Proofpoint-ORIG-GUID: rA1BUl6eRHUzYc3bOD4i_6hJPHD43CmJ
+X-Proofpoint-GUID: rA1BUl6eRHUzYc3bOD4i_6hJPHD43CmJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-27_02,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2406270045
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 45R5JKQC010039
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 mlxlogscore=766
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.21.0-2406140001
+ definitions=main-2406270046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jun 2024 06:16:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201182
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jun 2024 06:18:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201183
 
+From: Mingli Yu <mingli.yu@windriver.com>
 
+* Add attr which provides getfattr to RDEPENDS:${PN}-ptest to fix below
+test/nfs/nfsacl failure.
+  [19] $ getfattr -m- test/sub -- failed\n'
+        'Can\'t exec "getfattr": Nosuch file or directory at ./test/run line '
+        369, <TEST_FILE> line 24. != # file: test/sub\n'
+        'getfattr: No such file or directory   != system.posix_acl_access\n'
+        '~                                 != system.posix_acl_default\n'
+        '~
 
-On 6/27/24 07:09, Alexandre Belloni wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->=20
-> Hello, this fails on the autobuilders:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6574/=
-steps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6751/=
-steps/12/logs/stdio
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-support/attr/acl_2.3.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Noticed the patch already in master-next, will send a follow-up patch to=20
-fix the issue monitored by autobuilder.
+diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.3.2.bb
+index ee86ce2cae..5ac085c322 100644
+--- a/meta/recipes-support/attr/acl_2.3.2.bb
++++ b/meta/recipes-support/attr/acl_2.3.2.bb
+@@ -68,6 +68,7 @@ do_install_ptest:append:libc-musl() {
+ }
+ 
+ RDEPENDS:${PN}-ptest = "acl \
++                        attr \
+                         bash \
+                         coreutils \
+                         perl \
+-- 
+2.34.1
 
-Thanks,
-
->=20
-> On 26/06/2024 13:56:37+0800, Yu, Mingli wrote:
->> From: Mingli Yu <mingli.yu@windriver.com>
->>
->> * The date such as "Jun 13" should take 2 columns, so the expected che=
-ck
->> item "test/sub2" should the column 9.
->>   # ls test/sub2 -dl
->>   drwxr-xr-x 2 root root 4096 Jun 13 06:01 test/sub2
->>
->>    Corret the check item to fix the below failure in the test/nfsacl.t=
-est.
->>    [11] $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}' -=
-- failed
->>    drwxr-xr-x 07:23                      !=3D drwxr-xr-x test/sub2
->>    -rw-r--r-- 07:23                      !=3D -rw-r--r-- test/sub2/bla=
-h
->>
->> * Use the abosulte path otherwise we won't find the expected file blah.
->>
->> * The calls to getgrnam_r would always fail because the size of the
->> buffer was smaller than the minimum (170000) specified in the test
->> implementations of getgrnam_r and getpwnam_r.  Use test_get*_match dir=
-ectly
->> because getpwnam and getgrnam should never fail on ERANGE.
->>
->> This commit fixes the following failure in the test/nfs/nfs-dir.test t=
-est:
->>
->> [16] $ su bin -- failed
->> su: user bin does not exist           !=3D ~
->>
->> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->> ---
->>   ...s-nfs-dir.test-Use-the-abosulte-path.patch | 46 +++++++++++++
->>   ...s-nfsacl.test-Correct-the-check-item.patch | 51 ++++++++++++++
->>   ...0001-tests-fix-getpwnam-and-getgrnam.patch | 67 +++++++++++++++++=
-++
->>   meta/recipes-support/attr/acl/run-ptest       |  2 +
->>   meta/recipes-support/attr/acl_2.3.2.bb        |  3 +
->>   5 files changed, 169 insertions(+)
->>   create mode 100644 meta/recipes-support/attr/acl/0001-test-nfs-nfs-d=
-ir.test-Use-the-abosulte-path.patch
->>   create mode 100644 meta/recipes-support/attr/acl/0001-test-nfs-nfsac=
-l.test-Correct-the-check-item.patch
->>   create mode 100644 meta/recipes-support/attr/acl/0001-tests-fix-getp=
-wnam-and-getgrnam.patch
->>
->> diff --git a/meta/recipes-support/attr/acl/0001-test-nfs-nfs-dir.test-=
-Use-the-abosulte-path.patch b/meta/recipes-support/attr/acl/0001-test-nfs=
--nfs-dir.test-Use-the-abosulte-path.patch
->> new file mode 100644
->> index 0000000000..c48ee9f820
->> --- /dev/null
->> +++ b/meta/recipes-support/attr/acl/0001-test-nfs-nfs-dir.test-Use-the=
--abosulte-path.patch
->> @@ -0,0 +1,46 @@
->> +From e87562e4e03450e380bd1ce8e11c561e8f9653d2 Mon Sep 17 00:00:00 200=
-1
->> +From: Mingli Yu <mingli.yu@windriver.com>
->> +Date: Mon, 17 Jun 2024 11:22:21 +0800
->> +Subject: [PATCH] test/nfs/nfs-dir.test: Use the abosulte path
->> +
->> +Use the abosulte path otherwise we won't find the expected file blah.
->> +
->> +Upstream-Status: Submitted [https://lists.nongnu.org/archive/html/acl=
--devel/2024-06/msg00001.html]
->> +
->> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->> +---
->> + test/nfs/nfs-dir.test | 8 ++++----
->> + 1 file changed, 4 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/test/nfs/nfs-dir.test b/test/nfs/nfs-dir.test
->> +index 33e5f5f..7216a6e 100644
->> +--- a/test/nfs/nfs-dir.test
->> ++++ b/test/nfs/nfs-dir.test
->> +@@ -14,7 +14,7 @@ EXPORT_PATH =3D> the path that is mounted at the wo=
-rking directory.
->> +     Make sure the file can be accessed before.
->> +
->> +     $ su bin
->> +-    $ cat test/blah
->> ++    $ cat %{EXPORT_PATH}/test/blah
->> +     > blah
->> +
->> +     Set up a situation that triggers the bug.
->> +@@ -36,12 +36,12 @@ EXPORT_PATH =3D> the path that is mounted at the =
-working directory.
->> +     fail with "Stale NFS file handle" or "Input/output error".
->> +
->> +     $ su bin
->> +-    $ cat test/blah
->> ++    $ cat %{EXPORT_PATH}/test/blah
->> +     > blah
->> +     $ sleep 3
->> +-    $ cat test/blah
->> ++    $ cat %{EXPORT_PATH}/test/blah
->> +     > blah
->> +-    $ cat test/blah
->> ++    $ cat %{EXPORT_PATH}/test/blah
->> +     > blah
->> +
->> +     Clean up.
->> +--
->> +2.34.1
->> +
->> diff --git a/meta/recipes-support/attr/acl/0001-test-nfs-nfsacl.test-C=
-orrect-the-check-item.patch b/meta/recipes-support/attr/acl/0001-test-nfs=
--nfsacl.test-Correct-the-check-item.patch
->> new file mode 100644
->> index 0000000000..f990ca4a31
->> --- /dev/null
->> +++ b/meta/recipes-support/attr/acl/0001-test-nfs-nfsacl.test-Correct-=
-the-check-item.patch
->> @@ -0,0 +1,51 @@
->> +From dfc6328f02821f9c6703f764ec6f53cf81daaab6 Mon Sep 17 00:00:00 200=
-1
->> +From: Mingli Yu <mingli.yu@windriver.com>
->> +Date: Mon, 17 Jun 2024 11:00:43 +0800
->> +Subject: [PATCH] test/nfs/nfsacl.test: Correct the check item
->> +
->> +The date such as "Jun 13" should take 2 columns, so the expected chec=
-k
->> +item "test/sub2" should the column 9.
->> + # ls test/sub2 -dl
->> +drwxr-xr-x 2 root root 4096 Jun 13 06:01 test/sub2
->> +
->> +Upstream-Status: Submitted [https://lists.nongnu.org/archive/html/acl=
--devel/2024-06/msg00002.html]
->> +
->> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->> +---
->> + test/nfs/nfsacl.test | 6 +++---
->> + 1 file changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/test/nfs/nfsacl.test b/test/nfs/nfsacl.test
->> +index 4f37322..dfcc323 100644
->> +--- a/test/nfs/nfsacl.test
->> ++++ b/test/nfs/nfsacl.test
->> +@@ -8,7 +8,7 @@ The test should be run on an NFS export mount with AC=
-L support.
->> +     $ echo blah > test/sub/blah
->> +
->> +     $ cp -rp test/sub test/sub2
->> +-    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}'
->> ++    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}'
->> +     > drwxr-xr-x test/sub2
->> +     > -rw-r--r-- test/sub2/blah
->> +
->> +@@ -23,7 +23,7 @@ The test should be run on an NFS export mount with =
-ACL support.
->> +     >
->> +
->> +     $ cp -rp test/sub test/sub2
->> +-    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}'
->> ++    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}'
->> +     > drwxrwxr-x+ test/sub2
->> +     > -rw-r--r-- test/sub2/blah
->> +
->> +@@ -31,7 +31,7 @@ The test should be run on an NFS export mount with =
-ACL support.
->> +
->> +     $ setfacl -m u:daemon:rw test/sub/blah
->> +     $ cp -rp test/sub test/sub2
->> +-    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$8}'
->> ++    $ find test/sub2 | sort | xargs ls -dl | awk '{print $1,$9}'
->> +     > drwxrwxr-x+ test/sub2
->> +     > -rw-rw-r--+ test/sub2/blah
->> +
->> +--
->> +2.34.1
->> +
->> diff --git a/meta/recipes-support/attr/acl/0001-tests-fix-getpwnam-and=
--getgrnam.patch b/meta/recipes-support/attr/acl/0001-tests-fix-getpwnam-a=
-nd-getgrnam.patch
->> new file mode 100644
->> index 0000000000..2fea254fec
->> --- /dev/null
->> +++ b/meta/recipes-support/attr/acl/0001-tests-fix-getpwnam-and-getgrn=
-am.patch
->> @@ -0,0 +1,67 @@
->> +From 6398d3fe7a766b4e3cd15bb77fd0f15f7dba52b2 Mon Sep 17 00:00:00 200=
-1
->> +From: =3D?UTF-8?q?Luk=3DC3=3DA1=3DC5=3DA1=3D20Zaoral?=3D <lzaoral@red=
-hat.com>
->> +Date: Wed, 19 Jun 2024 11:11:30 +0800
->> +Subject: [PATCH] tests: fix getpwnam and getgrnam
->> +MIME-Version: 1.0
->> +Content-Type: text/plain; charset=3DUTF-8
->> +Content-Transfer-Encoding: 8bit
->> +
->> +The calls to these functions would always fail because the size of th=
-e buffer
->> +was smaller than the minimum (170000) specified in the test implement=
-ations
->> +of getgrnam_r and getpwnam_r.  Use test_get*_match directly because g=
-etpwnam
->> +and getgrnam should never fail on ERANGE.
->> +
->> +This commit fixes the following failure in the test/root/restore.test=
- test:
->> +
->> +[21] $ chown bin passwd -- failed
->> +chown: invalid user: =E2=80=98bin=E2=80=99        !=3D ~
->> +
->> +Fixes: 3737f000d3f17cd283f51eeacac21a71a3472053 ("use thread-safe get=
-pwnam_r
->> +and getgrnam_r")
->> +
->> +Upstream-Status: Submitted [https://lists.nongnu.org/archive/html/acl=
--devel/2024-06/msg00000.html]
->> +
->> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->> +---
->> + test/test_group.c  | 2 +-
->> + test/test_passwd.c | 4 ++--
->> + 2 files changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/test/test_group.c b/test/test_group.c
->> +index 96dd612..42d6b07 100644
->> +--- a/test/test_group.c
->> ++++ b/test/test_group.c
->> +@@ -136,7 +136,7 @@ struct group *getgrnam(const char *name)
->> +     static struct group grp;
->> +     struct group *result;
->> +
->> +-    (void) getgrnam_r(name, &grp, buf, sizeof(buf), &result);
->> ++    (void) test_getgr_match(&grp, buf, sizeof buf, &result, match_na=
-me, name);
->> +     return result;
->> + }
->> +
->> +diff --git a/test/test_passwd.c b/test/test_passwd.c
->> +index 9428bf8..97f2673 100644
->> +--- a/test/test_passwd.c
->> ++++ b/test/test_passwd.c
->> +@@ -119,7 +119,7 @@ int getpwnam_r(const char *name, struct passwd *p=
-wd, char *buf, size_t buflen,
->> +             *result =3D NULL;
->> +             return ERANGE;
->> +     }
->> +-    last_buflen =3D- 1;
->> ++    last_buflen =3D -1;
->> +
->> +     return test_getpw_match(pwd, buf, buflen, result, match_name, na=
-me);
->> + }
->> +@@ -131,7 +131,7 @@ struct passwd *getpwnam(const char *name)
->> +     static struct passwd pwd;
->> +     struct passwd *result;
->> +
->> +-    (void) getpwnam_r(name, &pwd, buf, sizeof(buf), &result);
->> ++    (void) test_getpw_match(&pwd, buf, sizeof(buf), &result, match_n=
-ame, name);
->> +     return result;
->> + }
->> +
->> +--
->> +2.34.1
->> +
->> diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-su=
-pport/attr/acl/run-ptest
->> index 3af75c84fe..bc7947c3ad 100644
->> --- a/meta/recipes-support/attr/acl/run-ptest
->> +++ b/meta/recipes-support/attr/acl/run-ptest
->> @@ -6,8 +6,10 @@
->>
->>   mkdir -p /tmp/acl-ptest/test
->>   cp test/test.* /tmp/acl-ptest/test
->> +export EXPORT_PATH=3D"/tmp/acl-ptest/test"
->>
->>   set +e
->> +rm -rf test-suite.log
->>   make test-suite.log
->>   exitcode=3D$?
->>   if [ $exitcode -ne 0 -a -e test-suite.log ]; then
->> diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-sup=
-port/attr/acl_2.3.2.bb
->> index 6178473873..ee86ce2cae 100644
->> --- a/meta/recipes-support/attr/acl_2.3.2.bb
->> +++ b/meta/recipes-support/attr/acl_2.3.2.bb
->> @@ -19,6 +19,9 @@ SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz=
- \
->>              file://run-ptest \
->>              file://0001-tests-do-not-hardcode-the-build-path-into-a-h=
-elper-l.patch \
->>              file://0001-test-patch-out-failing-bits.patch \
->> +           file://0001-test-nfs-nfsacl.test-Correct-the-check-item.pa=
-tch \
->> +           file://0001-test-nfs-nfs-dir.test-Use-the-abosulte-path.pa=
-tch \
->> +           file://0001-tests-fix-getpwnam-and-getgrnam.patch \
->>              "
->>
->>   SRC_URI[sha256sum] =3D "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73d=
-e5205bac0bf6058a2f7c"
->> --
->> 2.34.1
->>
->=20
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#201151): https://lists.openembedded.org/g/openembe=
-dded-core/message/201151
->> Mute This Topic: https://lists.openembedded.org/mt/106885245/3617179
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alexandre.belloni@bootlin.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->=20
->=20
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
 
