@@ -1,150 +1,143 @@
-Return-Path: <simit.ghane@lge.com>
+Return-Path: <dse@thaumatec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00DCC2BBCA
-	for <webhook@archiver.kernel.org>; Fri, 28 Jun 2024 05:07:23 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web10.10322.1719551229037761382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA4C5C2BBCA
+	for <webhook@archiver.kernel.org>; Fri, 28 Jun 2024 07:46:24 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web11.12137.1719560781862733037
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jun 2024 22:07:09 -0700
+ Fri, 28 Jun 2024 00:46:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: simit.ghane@lge.com)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-	by 156.147.23.52 with ESMTP; 28 Jun 2024 14:07:07 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: simit.ghane@lge.com
-Received: from unknown (HELO si-rd23-bld64.lge.net) (10.221.31.64)
-	by 156.147.1.151 with ESMTP; 28 Jun 2024 14:07:06 +0900
-X-Original-SENDERIP: 10.221.31.64
-X-Original-MAILFROM: simit.ghane@lge.com
-From: "simit.ghane" <simit.ghane@lge.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "simit.ghane" <simit.ghane@lge.com>
-Subject: [PATCHv4] libgcrypt: Fix building error with '-O2' in sysroot path
-Date: Fri, 28 Jun 2024 10:37:00 +0530
-Message-Id: <20240628050700.3845701-1-simit.ghane@lge.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=ladp5hlD;
+ spf=pass (domain: thaumatec.com, ip: 209.85.208.45, mailfrom: dse@thaumatec.com)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-584ee8da49aso2611031a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jun 2024 00:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1719560780; x=1720165580; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RlVfT4QtjFAN0BnsYUCFa64AGJn2CYOpOW7IbZcXJCY=;
+        b=ladp5hlDkJV8hkXUnPa4ljwQofPubKl04czP+pvqYC16zvhzEdD7IVPLeVI5Bb7MPz
+         ou7DjYiYcOO/YDLXu5uMduyBol6/L/efYSXiW3mrp0a8KhWW7W5zOUZVdOVTKscNuX5T
+         ZAR2Zqq2JGfSnefJFEg0mwSRnvGQDevJX4wmi0Er9Z0RlLKdYC7wL5D7eSqHMTrdD2dG
+         k0hajk/Yrhk4d+WxHaX7YZ26sVFob4hz/Vy7zLGc1rVqTXIpOhNzlLXUEpnFxU7GHBNH
+         G4n5LacgBufbhlNe01QyeDBDktPxZKYvQbP00j8OMH3AJtS4vIjv4uKMvKZfmoeEAcmn
+         YyCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719560780; x=1720165580;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RlVfT4QtjFAN0BnsYUCFa64AGJn2CYOpOW7IbZcXJCY=;
+        b=fN1CYPjo2uEt5iSxipo5ozCxAZ7x3bAiShWs/O7SyqfJ/igJuxht4c5Azrw/6w6sim
+         CO5XSKzqWJbojnNfDbASuPtFySTdpGbjXTLo/Jsx72ODbhDy8QTDLIeJ4juH05Wh2I+a
+         OX9MdKL49w+aAf+AZCovfuPTOoDCbxpKN9z6ETZgZGyUMtevE70JZarUQbRZSB0EEXm+
+         QWg19j1dhpK5svUOGHT2qr3Ag30ByXwthbd2B4kgu87QjsskijWW/KpKkBwCGN8N2rDL
+         eNt6lNdCmKW3sl/+jzr300oG4Jc4ZwLC5L2cXWQAu/MfgFqgKOrx4mqHicyWHJeRbUP/
+         lnCQ==
+X-Gm-Message-State: AOJu0YwvWfbuOboorTWDjAAjK216FxeCYy/RMr/HhVH45IpL7bWN8rHJ
+	5r778aDv/SFkvD7lkkKSrPpXfYqMiptiAUGa3fF7zs6OEX8fQ6JjWfz+jEhF+sCbgL9ieZ9rbZW
+	Iwz4xBHibfNxZ/erEnu0aSYc7pkLBHhmhgHR2rS1NHdUmRFpgiIU=
+X-Google-Smtp-Source: AGHT+IECKgmV3eJGsMwB43PkenK68ajYnnv/ncC5XIy0Uica/8glRB2M6TZMhLoCrZXGezJdSHS9o9v9B6UM1TKIe5A=
+X-Received: by 2002:a17:907:987:b0:a72:83ad:f087 with SMTP id
+ a640c23a62f3a-a72aee6574amr88643566b.10.1719560780030; Fri, 28 Jun 2024
+ 00:46:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240620130343.220397-1-dse@thaumatec.com> <CA+chaQfDn=N8vh0r6m+bCSZkpdoOOPvxku6q=ygWUnFt0HUK+w@mail.gmail.com>
+ <CAHgnY3mxKa3Ca1_aUYn=hE5E+Q=NdqmNdx-iZ5vrh=uXG6OoeQ@mail.gmail.com>
+In-Reply-To: <CAHgnY3mxKa3Ca1_aUYn=hE5E+Q=NdqmNdx-iZ5vrh=uXG6OoeQ@mail.gmail.com>
+From: Daniel Semkowicz <dse@thaumatec.com>
+Date: Fri, 28 Jun 2024 09:46:09 +0200
+Message-ID: <CAHgnY3=E1MMt+VtQTAfERbnPHmoDS+SGu+MaoAySDj4tZDURQw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] os-release: Fix VERSION_CODENAME in case it is empty
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jun 2024 05:07:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201218
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jun 2024 07:46:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201219
 
-Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
-respectively when compiling cipher and random in the filesystem
-paths as well if they happen to contain '-O2' or '-Ofast
+Hello Steve,
 
-If we are cross compiling libgcrypt and sysroot contains such
-characters, we would
-get compile errors because the sysroot path has been modified.
+Would it be possible to backport this fix to scarthgap branch? The same
+problem occurs also there.
 
-Fix this by adding blank spaces and tabs before the original matching
-pattern in the sed command.
+Commit on master branch: 70a0b8bc1d846c857be90ce2e97e60c5ee32558e
 
-It is difficult to control -O1 for cipher and -O0 for random
-at the same time in OE environment along with patch file.
-So, keeping same change as it is.
+Best regards
+Daniel Semkowicz
 
-Signed-off-by: simit.ghane <simit.ghane@lge.com>
----
-v3: No change
-v4: Addressed comments related to /g and revered change for sed command
-
- ...ilding-error-with-O2-in-sysroot-path.patch | 63 ++++++++++++++-----
- 1 file changed, 47 insertions(+), 16 deletions(-)
-
-diff --git a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-index cf9ebfb3e6..ea5bba8891 100644
---- a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-+++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-@@ -1,31 +1,49 @@
--From 0f66e796a8522e1043dda03b88d5f6feae839d16 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Wed, 16 Aug 2017 10:44:41 +0800
--Subject: [PATCH] libgcrypt: fix building error with '-O2' in sysroot path
-+From 7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 Mon Sep 17 00:00:00 2001
-+From: "simit.ghane" <simit.ghane@lge.com>
-+Date: Tue, 7 May 2024 14:09:03 +0530
-+Subject: [PATCHV2] Fix building error with '-O2' in sysroot path
- 
--Upstream-Status: Pending
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 
-+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=e96df0c82e086bf348753d2d0fa37fa6191b4b14
-+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=5afadba008918d651afefb842ae123cc18454c74]
-+
-+* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
-+* random/Makefile.am (o_flag_munging): Ditto.
-+--
-+
-+Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
-+respectively when compiling cipher and random in the filesystem
-+paths as well if they happen to contain '-O2' or '-Ofast
- 
--Characters like '-O2' or '-Ofast' will be replaced by '-O1' when
--compiling cipher.
- If we are cross compiling libgcrypt and sysroot contains such
- characters, we would
- get compile errors because the sysroot path has been modified.
- 
--Fix this by adding blank spaces before and after the original matching
--pattern in the
--sed command.
-+Fix this by adding blank spaces and tabs before the original matching
-+pattern in the sed command.
-+
-+Signed-off-by: simit.ghane <simit.ghane@lge.com>
-+
-+ChangeLog entries added by wk
-+
-+Note that there is also the configure option --disable-O-flag-munging;
-+see the README.
- 
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+random:cipher: handle substitution in sed command
- 
--Rebase to 1.8.0
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+* cipher/Makefile.am (o_flag_munging): Add 'g' flag for first sed
-+expression.
-+* random/Makefile.am (o_flag_munging): Likewise.
- 
-+[jk: add changelog to commit message]
-+Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
- ---
-  cipher/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ random/Makefile.am | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/cipher/Makefile.am b/cipher/Makefile.am
--index c3d642b..88c883a 100644
-+index c3d642b2ac..f1c3971c40 100644
- --- a/cipher/Makefile.am
- +++ b/cipher/Makefile.am
- @@ -153,7 +153,7 @@ gost-s-box: gost-s-box.c
-@@ -33,7 +51,20 @@ index c3d642b..88c883a 100644
-  
-  if ENABLE_O_FLAG_MUNGING
- -o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
--+o_flag_munging = sed -e 's/ -O\([2-9sgz][2-9sgz]*\) / -O1 /' -e 's/ -Ofast / -O1 /g'
-++o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
-+ else
-+ o_flag_munging = cat
-+ endif
-+diff --git a/random/Makefile.am b/random/Makefile.am
-+index 0c935a0595..340df38a79 100644
-+--- a/random/Makefile.am
-++++ b/random/Makefile.am
-+@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
-+ 
-+ # The rndjent module needs to be compiled without optimization.  */
-+ if ENABLE_O_FLAG_MUNGING
-+-o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
-++o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
-  else
-  o_flag_munging = cat
-  endif
+On Thu, Jun 20, 2024 at 3:40=E2=80=AFPM Daniel Semkowicz <dse@thaumatec.com=
+> wrote:
+>
+> Unfortunately, settings DISTRO_CODENAME to empty string triggers
+> VERSION variable to be suffixed with "()", because:
+>
+>   VERSION =3D "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if
+> 'DISTRO_CODENAME' in d else ''}"
+>
+> Which is not a desirable effect.
+>
+> On Thu, Jun 20, 2024 at 3:16=E2=80=AFPM Martin Jansa <martin.jansa@gmail.=
+com> wrote:
+> >
+> > If you want to set VERSION_CODENAME to empty you can just add:
+> > DISTRO_CODENAME ??=3D ""
+> > to make sure it's always expanded to at least empty string.
+> >
+> > On Thu, Jun 20, 2024 at 3:04=E2=80=AFPM Daniel Semkowicz via
+> > lists.openembedded.org <dse=3Dthaumatec.com@lists.openembedded.org>
+> > wrote:
+> > >
+> > > If DISTRO_CODENAME was not set, VERSION_CODENAME field was populated
+> > > with unparsed string. This resulted in the following line in os-relea=
+se
+> > > file:
+> > >
+> > >   VERSION_CODENAME=3D"${DISTRO_CODENAME}"
+> > >
+> > > According to systemd documentation, this field is optional.
+> > > Fix the problem by setting VERSION_CODENAME conditionally, only if
+> > > DISTRO_CODENAME was set.
+> > >
+> > > Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
+> > > ---
+> > >  meta/recipes-core/os-release/os-release.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipe=
+s-core/os-release/os-release.bb
+> > > index 8906906bc3..93af08c182 100644
+> > > --- a/meta/recipes-core/os-release/os-release.bb
+> > > +++ b/meta/recipes-core/os-release/os-release.bb
+> > > @@ -24,7 +24,7 @@ ID =3D "${DISTRO}"
+> > >  NAME =3D "${DISTRO_NAME}"
+> > >  VERSION =3D "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTR=
+O_CODENAME' in d else ''}"
+> > >  VERSION_ID =3D "${DISTRO_VERSION}"
+> > > -VERSION_CODENAME =3D "${DISTRO_CODENAME}"
+> > > +VERSION_CODENAME =3D "${@d.getVar('DISTRO_CODENAME') or ''}"
+> > >  PRETTY_NAME =3D "${DISTRO_NAME} ${VERSION}"
+> > >
+> > >  # The vendor field is hardcoded to "openembedded" deliberately. We'd
+> > > --
+> > > 2.45.2
+> > >
+> > >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#200952): https://lists.openembedded.org/g/openemb=
+edded-core/message/200952
+> > > Mute This Topic: https://lists.openembedded.org/mt/106779331/3617156
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [martin.jansa@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
 
