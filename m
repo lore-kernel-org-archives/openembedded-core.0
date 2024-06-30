@@ -1,376 +1,137 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0919C27C4F
-	for <webhook@archiver.kernel.org>; Sun, 30 Jun 2024 05:25:34 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web10.20845.1719725109079183598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D4EC27C4F
+	for <webhook@archiver.kernel.org>; Sun, 30 Jun 2024 09:25:35 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.92.59.91])
+ by mx.groups.io with SMTP id smtpd.web11.22263.1719739531334073290
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Jun 2024 22:25:09 -0700
+ Sun, 30 Jun 2024 02:25:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hgN77x/A;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-64b417e1511so17052317b3.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Jun 2024 22:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719725108; x=1720329908; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BykLWGTd2FTObbua4Eit3VK+b2LSk1G1jnTZ9kqd3n4=;
-        b=hgN77x/AZUOlT8ILnTZHMU/8XdKSyMx+1gKw0bHZqvg4hoSU/PxeHxlAlhRGU3z66K
-         iJHABD4YtBFSHW/+PHkeqbob+LZ8XMxN9j3bx1ycJZ65qPIJssbXTaa6ArK76qbqQR8T
-         1Q073pwjuF70vDjDShk2HUNu1uOzX/A9WZWJ28DfG38xsDJ1f1UsN7sY3nHNaAaJaKh8
-         3M6iy6XksycrVzYAI7a3Rv76A1g7lLJ/dRq0BkKnnZwErYr0UUW44EBKUf/MnYAjGh4M
-         ELed4wYzMbGZB/HZFr/AGguDIKlndE0uKJOe++47yotpw51nuTFyTFY+eTffkZA69P+A
-         iW8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719725108; x=1720329908;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BykLWGTd2FTObbua4Eit3VK+b2LSk1G1jnTZ9kqd3n4=;
-        b=klk9pendJWL86auoRW6aZeBJnHfHGt6dtOOAV4IzfouUMHBnSMDqvF7vcPVVulr7Nl
-         dpvCQHF9SUmm+p29PGue8oaN4CzMGCZz+aSWiRXybaVGAe71QsUU/gIUQBcR0V5eN0Iy
-         oCSgaSSbFP6n7J9wN3X1DLzyhu8rP72f2te3Tv9oui8E8xKDbXTeTMb7crnsjCzEmify
-         z9F5IxvM41Omn55/RT0WMxUhixeWMtahEy9EXWNJJq/jQnTWQFbqgispm2mLPx74Rjk3
-         lReAU5in6S+r9+Lhs6bVXEuXIwD23M9ixtRJvUawuGxS1AMRSMwy+izprWCOeo9IwSqH
-         62tw==
-X-Forwarded-Encrypted: i=1; AJvYcCVF3hTe9Q1/NBHsqRXtUyyipuwFZtnBbQ5HJvkbTrWIcjEe4lpzTKsYFyYEW6mQ9bEGXbMFXiRAhXR4KxBuhPtlHQfxmrsiST7RzV7FlCnvoBV95rmp3oEd
-X-Gm-Message-State: AOJu0YxUHlgDzxzaHk+X5aFvlhUObR/mixmtjPjWU6foKQZmHt/qeqLQ
-	YicIemRJZlikZiD8HFGf/c73g0RP/4ZKsi2gwEkC6coNY7R1yGm+qY3o3MaWjuCAm/nBO+bdONa
-	DsxvLZlKSybSGFF7dttjNK6EpwsU=
-X-Google-Smtp-Source: AGHT+IGlMK/9DQhFM3altdOioBGktPWsjGGKquOrwMjIRCyM18RKqYZ6FHORGmIq+iuXlPT/sPxFKzzctXGwLrwYtMU=
-X-Received: by 2002:a05:690c:a05:b0:64b:4a32:850a with SMTP id
- 00721157ae682-64c71dd0ff3mr23087637b3.29.1719725108099; Sat, 29 Jun 2024
- 22:25:08 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=h/8vvLrS;
+ spf=pass (domain: outlook.com, ip: 40.92.59.91, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k7yLuhhpekB6X9G0flfIuUPmV2+thA/8lXhCMVaUSOABsMZ5AVDHom33SDZK5KU8VQqk6UtEvcxqSlxH+D+Sc8mLONXd3NjA134DY6ofmHk1IVm2DLh6mGBVIjvBkYAeF6Q0rMc9bKnI4g/SqY3gqdqmilAwlBY/y0wM33Dka2PCzid+W0M5QMf+4LVUnogIq5sJu72S0DEyOp7j8NGIr3JKnOuSNBfJdmvVM/OoKT1kflzuh+Uuft23Gu3lXwNsssElwpfzaUte8GmGGqWjo8CNmOh28jp+vME780HQ9gvyFUhUUe/nMwOaZQDaTYIfAVSfuiBte/Hnf8M7yBaypQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YdBTqDtSuqtQGrslXhGKD2SLQoIoCcjqeC02+8hteW4=;
+ b=d6F5PQOc6UyjiDlDgWDk4MUpM2Tt/iQLaygsyJ3JrOzLoDijx3izdaVfcbQkzjTmm1OFKJ0rRrkrTHuXdJuK8/4QrWZkqcNpIxxs1YBQUWNzr6/EbL2aSkvsfRDS2cvn0fflCthNMbiLfSpEVaZYTzJJOEh4Ma+rUFKAq7taBlCb6wkMz2xUnuHce7pOKi1tFuZNOF0MgEnFBv8Ga1f2+z29QWt0pWAQHc2XBtJDnqPKMvA+xwNU4Dt1OWhpfkW+5xCHatULbOYyL3pEfwDg2DG1yibLBkb9qAcZleMBe6K1mVpVrn5V5Im5guTcRnwW2LZ+ZxuvyJS2vwAU/lGXDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YdBTqDtSuqtQGrslXhGKD2SLQoIoCcjqeC02+8hteW4=;
+ b=h/8vvLrSUG+0OneeYCqgPXuVeQoSycB2A47ZVak9DdQCJvY+Sn9NHFyjH+5GOp4Udp03d/cmZK01fpMwHiSK1C/vuu98jaytyyTUhW4zgT64AyOFCpoD41FMgBlOMwWTN5nVulG2aSqyZvf1GYtiAQZMb9KX8/igAJO9VpeKHPiJFzsaFZhvKxsEUP5S4ddEFpl5nNZpv/ANF0Q+eC8+Lr3rcdBKpDfNgyGN9CPsCdoabL1fUbJyCPuScBLz/jNbpBkB7ntftkUtcJPUnouOXvm3j/N6ryzi9l5eQIPo5EGP461Yeyb9v9TZ/TotBdWvQGpkK9eDbubYsDTKdyxqNw==
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
+ by AM9PR07MB7300.eurprd07.prod.outlook.com (2603:10a6:20b:2c3::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.16; Sun, 30 Jun
+ 2024 09:25:28 +0000
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a%4]) with mapi id 15.20.7741.017; Sun, 30 Jun 2024
+ 09:25:27 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] python3-docutils: fix interpreter lines
+Date: Sun, 30 Jun 2024 09:25:10 +0000
+Message-ID: <GV1PR07MB91203857CFAC6393A256F929A8D22@GV1PR07MB9120.eurprd07.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [xcsdLyoJ+AupItZgqSLOGdC2jh+6GGmuyLCL3V5XHzfrD02H2ATjWp5yYl6nc21H]
+X-ClientProxiedBy: FR0P281CA0188.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ab::9) To GV1PR07MB9120.eurprd07.prod.outlook.com
+ (2603:10a6:150:80::7)
+X-Microsoft-Original-Message-ID: <20240630092510.17696-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-References: <20240628150116.3799311-1-alex.kanavin@gmail.com>
-In-Reply-To: <20240628150116.3799311-1-alex.kanavin@gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sat, 29 Jun 2024 22:24:56 -0700
-Message-ID: <CANx9H-DyHHy1rOE+MpyC7KYkQV+tyU8V0UcJDoV=Lw8TswzQpw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3: drop deterministic_imports.patch
-To: alex.kanavin@gmail.com
-Cc: Alexander Kanavin <alex@linutronix.de>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002e00ce061c14b4c8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|AM9PR07MB7300:EE_
+X-MS-Office365-Filtering-Correlation-Id: 966c67aa-cff2-4eac-bb30-08dc98e6940e
+X-Microsoft-Antispam: 
+	BCL:0;ARA:14566002|8060799006|461199028|440099028|3412199025|1710799026;
+X-Microsoft-Antispam-Message-Info: 
+	/4gsUZ9s17DnPopdTIcZUg8EJBYUQx8FL0DffJOpYx8r2K01dOF6B0CWS8g1lEVEySh/O8nZzf7Pn5cJIIPp2F9lMh1VEgUWFKyojDPBrp5TlrBWQCGfPTJA8uxgtFcIRDDpUIIpTXan2YOMAHp/9THlLZlYWA49S6reEF0pIkKfg6siLXNjneKzWAXRaCrcBeElZb4AFyf0GgDJ7zJtxsEXxkn3qu5jdcNvYfQ8BBR6dYnMIeqSHHhUZR7diDnTzD+kkFr9B+HMRmBB7hvaFTczyf8ihuk3JOmD9Tg4RUSG+MrQedbUoploZe0y8+dkOVakMXlbw0WCmwJMenZgOdyyTbZkaN78ZMnBawz+e7NP6lviOyexQWPzeZ7GalPCUmvwAUCmNI2sRyqpzFhRK+/pylqmbLF72Hqf7zptTdKjoyPMqKJuSdEvZogGyueQFgAodiWQnIxODtpsN3yvbGZfgoTXmx0ytPUjnShNA85xTg/scfacgfHEckyPGggg5siYBF0dVJS+cGxeeNKXm8z3MACZ/cnLowNOsChrWG7OxOQJ+o4BCJXPriXBstmgqNNxz/9bTQDSB+U1GMStMekohtnYVE9DRNL5ak6Fmvtan2c8NoqGJHQiAN2lhJeCKDo8j+g6MbSfrwc6iv1EkQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?yl2yh3LLlP7fTwAlsjrE+mcT4/MF7laen4qax0AwM7OTGHi9pCHb0rfI9iBz?=
+ =?us-ascii?Q?FpD9LHResmMHuUlz6ABeBei6nYuK42Xz+7dFwCB7MuKbsr8OgQcE+YPeiW5r?=
+ =?us-ascii?Q?G9IbTooul3JRkjYvz+RSSwdgm+kxpkkcVSMGd/a8bFRYn4LaXxwp0oxzsQX/?=
+ =?us-ascii?Q?kBbu9IdzwycfmwaZ9WhdhSZNdEs1F+rmZ+MFBEDA9ke8ewyQQp7bC2K2Et8I?=
+ =?us-ascii?Q?0PdcXMAE2qohQS3dTMrDg5GHWDOc8xvzLh7kQoOqGVFLTBoap1EMW1BP/VRS?=
+ =?us-ascii?Q?JKY5sxwc1bfhSCDr5f7TMDl9otUKQaUmcqjv6B8wHNRuEmL239d1Kp8HTvYp?=
+ =?us-ascii?Q?Y2lTEn9wGh9k9VC+MpCw12vKijmZ5+9ClV5AMAchLPZmhhQXFTWuhTl7Hg0E?=
+ =?us-ascii?Q?aO1RPXSpUYdtazuFJXWsAnRDGfneJy+xpo1i+2nV4qJZXod8MLHD17bkfiSS?=
+ =?us-ascii?Q?9luIQ0JQhqwMv3jXXwADFK3zhrF6xLdkkUz+Rtx6pHSnPbbvR1qZ5tvaIEzN?=
+ =?us-ascii?Q?ctn2koB8Or1SH5BNaYOvqnqexLt3otnnXW/2rpW5fj7oQ3bu2wjHS9wfzaQN?=
+ =?us-ascii?Q?lJ6J2IMDwDH8XyoAfp0+5yo2FfOjtDLNaNyeJeH30dxwz5zowRctdgrySGsM?=
+ =?us-ascii?Q?DsK2E8ssxUyd28yIFwftqiC8Ufdfdspoc7m2ooFfh27WT1CVCVcLSGn3LPx9?=
+ =?us-ascii?Q?/r7jm4ci7BUxOre3PxjUJUgXfMdkNt/LH2AgqAhhawdZKKvuiU9NubFpDwDy?=
+ =?us-ascii?Q?m4W3wLJibGarV9it05rUcHlgtQ5oPqehw3IBPPxD4HyIBw4WW+Q1ZaCMAG9k?=
+ =?us-ascii?Q?42UO0WKzUDtMYZG+GfnV+jLL5SoTzl/M3Ni+gKGpQK4MPJmLwcHsXQOpsX9d?=
+ =?us-ascii?Q?lN4bC+KGfWy3mZuv9uQ6g/pSeQ6khI4WePhimgvQ65F0IGCmAR8C5DhKR5az?=
+ =?us-ascii?Q?ryVyFmA/7g8P3bsQUa7n9Fpcv9lFpAdP0cW0QXsVGLZ8R3B2ldWFbjrE2cpl?=
+ =?us-ascii?Q?iFZt3d9+gm8okIM7XpCu9BS01rJBEaX6FnVE6ODKwbv8v/641cp6IdrMhXqP?=
+ =?us-ascii?Q?pkBOjSEnG/yizJATbCPTu1jvjY1GeN2frn5JCZHx697WiNM7gIl+U+MtZOx2?=
+ =?us-ascii?Q?lOT+KoB6XSORpTVFRDU92FLUiTir2YPUQWdQR966636VzPYna+FZx4r2UFRd?=
+ =?us-ascii?Q?B+ugIfHKJI+mDY3uXSr2/P9Uo28tMOwnZlBP9TzZblStQsifWAYzQahSJ55n?=
+ =?us-ascii?Q?wyzE0HRfVFLkxvWmsB47PED0wB32Y6x/b8Ahxe682/sXbD+qH//jdFKsYqE6?=
+ =?us-ascii?Q?C7w=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 966c67aa-cff2-4eac-bb30-08dc98e6940e
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2024 09:25:27.5915
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7300
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 05:25:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201231
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 09:25:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201232
 
---0000000000002e00ce061c14b4c8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+when compiling a non native variant, latest update
+introduced package-qa errors like
 
-On Fri, Jun 28, 2024 at 8:01=E2=80=AFAM Alexander Kanavin via lists.openemb=
-edded.org
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+ERROR: QA Issue: .../docutils/utils/smartquotes.py contained in package
+nativesdk-python3-docutils requires /usr/bin/python3, but no providers
+found in RDEPENDS:nativesdk-python3-docutils? [file-rdeps]
 
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> https://github.com/python/importlib_metadata/issues/489
->
+Fix that by patching the interpreter lines after install
 
-Interesting read. Dropping the patch is clearly the correct thing to do.
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/recipes-devtools/python/python3-docutils_0.21.2.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thank you for following through with upstream.
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.21.2.bb b/meta=
+/recipes-devtools/python/python3-docutils_0.21.2.bb
+index ac41ef6858..d9f8160913 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
+@@ -11,4 +11,12 @@ inherit pypi python_setuptools_build_meta
+ RDEPENDS:${PN} +=3D " \
+                    python3-pprint \
+ "
++
++do_install:append() {
++	# Make sure we use /usr/bin/env python3
++	for PYTHSCRIPT in `grep -rIl '^#!.*python' ${D}`; do
++		sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
++	done
++}
++
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
->
-> Upstream discussion revealed that:
->
-> - the issue was happening due to a bug in setuptools
->
-> - the bug was fixed in setuptools 63 (I confirmed this: empty dist-info
-> directories no longer seem to trigger any issues if the patch is dropped)
->
-> - the patch would obscure any further issues of this kind instead of
-> exposing them
-> for easy fixing, so they suggest we drop it and report if anything else
-> pops up
-
-
-Like you, I suspect we won=E2=80=99t see issues until something else =E2=80=
-=9Cbreaks=E2=80=9D in
-the future.
-
-
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-
-Reviewed-by: Tim Orling <tim.orling@konsulko.com>
-
->
-> ---
->  .../python3/deterministic_imports.patch       | 40 -------------------
->  .../recipes-devtools/python/python3_3.12.4.bb |  1 -
->  2 files changed, 41 deletions(-)
->  delete mode 100644
-> meta/recipes-devtools/python/python3/deterministic_imports.patch
->
-> diff --git
-> a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-> b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-> deleted file mode 100644
-> index 2de6ae2e981..00000000000
-> --- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -From 039d5e652796b55f1132afa568c7432b6ed89afd Mon Sep 17 00:00:00 2001
-> -From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Date: Fri, 27 May 2022 17:05:44 +0100
-> -Subject: [PATCH] python3: Ensure stale empty python module directories
-> don't
-> -
-> -There are two issues here. Firstly, the modules are accessed in on disk
-> order. This
-> -means behaviour seen on one system might not reproduce on another and is
-> a real headache.
-> -
-> -Secondly, empty directories left behind by previous modules might be
-> looked at. This
-> -has caused a long string of different issues for us.
-> -
-> -As a result, patch this to a behaviour which works for us.
-> -
-> -Upstream-Status: Submitted [
-> https://github.com/python/cpython/issues/120492; need to first talk to
-> upstream to see if they'll take one or both fixes]
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -
-> ----
-> - Lib/importlib/metadata/__init__.py | 9 ++++++++-
-> - 1 file changed, 8 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/Lib/importlib/metadata/__init__.py
-> b/Lib/importlib/metadata/__init__.py
-> -index 82e0ce1..969cac4 100644
-> ---- a/Lib/importlib/metadata/__init__.py
-> -+++ b/Lib/importlib/metadata/__init__.py
-> -@@ -710,7 +710,14 @@ class Lookup:
-> -         self.infos =3D FreezableDefaultDict(list)
-> -         self.eggs =3D FreezableDefaultDict(list)
-> -
-> --        for child in path.children():
-> -+        for child in sorted(path.children()):
-> -+            childpath =3D pathlib.Path(path.root, child)
-> -+            try:
-> -+                if childpath.is_dir() and not any(childpath.iterdir()):
-> -+                    # Empty directories aren't interesting
-> -+                    continue
-> -+            except PermissionError:
-> -+                continue
-> -             low =3D child.lower()
-> -             if low.endswith((".dist-info", ".egg-info")):
-> -                 # rpartition is faster than splitext and suitable for
-> this purpose.
-> diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb
-> b/meta/recipes-devtools/python/python3_3.12.4.bb
-> index 8b5e7bd99cb..eb3866d9be7 100644
-> --- a/meta/recipes-devtools/python/python3_3.12.4.bb
-> +++ b/meta/recipes-devtools/python/python3_3.12.4.bb
-> @@ -24,7 +24,6 @@ SRC_URI =3D "
-> http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->             file://makerace.patch \
->             file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patc=
-h
-> \
->
-> file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
-> -           file://deterministic_imports.patch \
->             file://0001-Avoid-shebang-overflow-on-python-config.py.patch =
-\
->             file://0001-Update-test_sysconfig-for-posix_user-purelib.patc=
-h
-> \
->
-> file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201224):
-> https://lists.openembedded.org/g/openembedded-core/message/201224
-> Mute This Topic: https://lists.openembedded.org/mt/106929238/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---0000000000002e00ce061c14b4c8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Jun 28, 2024 at 8:01=E2=80=AFAM Alexander Kanavin v=
-ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
-;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.c=
-om@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
-t-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Al=
-exander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=3D"_blank"=
->alex@linutronix.de</a>&gt;<br>
-<br>
-<a href=3D"https://github.com/python/importlib_metadata/issues/489" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/python/importlib_metadata/=
-issues/489</a><br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Interesting read=
-. Dropping the patch is clearly the correct thing to do.</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Thank you for following through with upstr=
-eam.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-le=
-ft-color:rgb(204,204,204)"><br>
-Upstream discussion revealed that:<br>
-<br>
-- the issue was happening due to a bug in setuptools<br>
-<br>
-- the bug was fixed in setuptools 63 (I confirmed this: empty dist-info<br>
-directories no longer seem to trigger any issues if the patch is dropped)<b=
-r>
-<br>
-- the patch would obscure any further issues of this kind instead of exposi=
-ng them<br>
-for easy fixing, so they suggest we drop it and report if anything else pop=
-s up</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Like you, I =
-suspect we won=E2=80=99t see issues until something else =E2=80=9Cbreaks=E2=
-=80=9D in the future.</div><div dir=3D"auto"><br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
-r-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=
-=3D"auto"><br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;</blockquote><div dir=3D"auto">=
-Reviewed-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com">tim.=
-orling@konsulko.com</a>&gt;</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;pad=
-ding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
----<br>
-=C2=A0.../python3/deterministic_imports.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 4=
-0 -------------------<br>
-=C2=A0.../recipes-devtools/python/<a href=3D"http://python3_3.12.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.12.4.bb</a> |=C2=A0 1 -<br>
-=C2=A02 files changed, 41 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/deterministic=
-_imports.patch<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.pat=
-ch b/meta/recipes-devtools/python/python3/deterministic_imports.patch<br>
-deleted file mode 100644<br>
-index 2de6ae2e981..00000000000<br>
---- a/meta/recipes-devtools/python/python3/deterministic_imports.patch<br>
-+++ /dev/null<br>
-@@ -1,40 +0,0 @@<br>
--From 039d5e652796b55f1132afa568c7432b6ed89afd Mon Sep 17 00:00:00 2001<br>
--From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.=
-org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>
--Date: Fri, 27 May 2022 17:05:44 +0100<br>
--Subject: [PATCH] python3: Ensure stale empty python module directories don=
-&#39;t<br>
--<br>
--There are two issues here. Firstly, the modules are accessed in on disk or=
-der. This<br>
--means behaviour seen on one system might not reproduce on another and is a=
- real headache.<br>
--<br>
--Secondly, empty directories left behind by previous modules might be looke=
-d at. This<br>
--has caused a long string of different issues for us.<br>
--<br>
--As a result, patch this to a behaviour which works for us.<br>
--<br>
--Upstream-Status: Submitted [<a href=3D"https://github.com/python/cpython/i=
-ssues/120492" rel=3D"noreferrer" target=3D"_blank">https://github.com/pytho=
-n/cpython/issues/120492</a>; need to first talk to upstream to see if they&=
-#39;ll take one or both fixes]<br>
--Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
--<br>
-----<br>
-- Lib/importlib/metadata/__init__.py | 9 ++++++++-<br>
-- 1 file changed, 8 insertions(+), 1 deletion(-)<br>
--<br>
--diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata/_=
-_init__.py<br>
--index 82e0ce1..969cac4 100644<br>
----- a/Lib/importlib/metadata/__init__.py<br>
--+++ b/Lib/importlib/metadata/__init__.py<br>
--@@ -710,7 +710,14 @@ class Lookup:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.infos =3D FreezableDefaultDict(list=
-)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.eggs =3D FreezableDefaultDict(list)=
-<br>
-- <br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 for child in path.children():<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for child in sorted(path.children()):<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 childpath =3D pathlib.Path(path=
-.root, child)<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if childpath.is_d=
-ir() and not any(childpath.iterdir()):<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # E=
-mpty directories aren&#39;t interesting<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 con=
-tinue<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except PermissionError:<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0low =3D child.lower()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if low.endswith((&quot;.di=
-st-info&quot;, &quot;.egg-info&quot;)):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# rpartition=
- is faster than splitext and suitable for this purpose.<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.12.4.=
-bb" rel=3D"noreferrer" target=3D"_blank">python3_3.12.4.bb</a> b/meta/recip=
-es-devtools/python/<a href=3D"http://python3_3.12.4.bb" rel=3D"noreferrer" =
-target=3D"_blank">python3_3.12.4.bb</a><br>
-index 8b5e7bd99cb..eb3866d9be7 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.12.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.12.4.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.12.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.12.4.bb</a><br>
-@@ -24,7 +24,6 @@ SRC_URI =3D &quot;<a href=3D"http://www.python.org/ftp/py=
-thon/$%7BPV%7D/Python-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank=
-">http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://makerace.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-sysconfig.py-use-plat=
-libdir-also-for-purelib.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Lib-pty.py-handle-std=
-in-I-O-errors-same-way-as-maste.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://deterministic_imports.patc=
-h \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Avoid-shebang-overflo=
-w-on-python-config.py.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Update-test_sysconfig=
--for-posix_user-purelib.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-skip-no_stdout_fileno=
--test-due-to-load-variability.patch \<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#201224): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/201224" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/201224</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/106929238/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/106929238/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000002e00ce061c14b4c8--
 
