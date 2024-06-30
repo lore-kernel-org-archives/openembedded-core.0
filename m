@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B172C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BB1C30653
 	for <webhook@archiver.kernel.org>; Sun, 30 Jun 2024 20:08:49 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web10.4267.1719778123854445280
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web10.4269.1719778126223532171
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jun 2024 13:08:43 -0700
+ Sun, 30 Jun 2024 13:08:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xUpMwgCp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.41, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-700cd43564eso1212737a34.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:08:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Bg9lPmE+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.53, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7f63db7a69cso20364039f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778123; x=1720382923; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778125; x=1720382925; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=68iYALERIzOz1LwXjcOa9bbEZOOKZChvhU6B7ZQb/IY=;
-        b=xUpMwgCp1VNaR0+K7JST9ZwcSsLVfNEAU/taAaIEBYbWnI6zqwLe8LcwUK9ZMT6wDW
-         EKO4xuGENsIlD6ioBBz7XLlXJ/ZODzxItz2ubAbsebrPE56yoMAfIqrR3r9qaw1nWV70
-         VOvsOz1xf7ok7EWsfmeEfRwgL1aZDxdr/g6WBMg9kVN5GHkHI+Tr57I2kv/ChyblxFXW
-         sXe3n2UQMYJb3EL+z+TELCU5yKqykmpWpr+MM4t3jy7MUJJTCDC2sFXPACZzHo6dwHbw
-         D8XngLZ8x9ChYqolFeWUoDJ/REXXKLE9exPDpzYvvpq9OqKCIvoiOoWrz+rDxH+FzoqA
-         kuuQ==
+        bh=dVRmKdmfxa0MZz5kyWWcuWEVwB0jH/nlZvjhz5yC4fU=;
+        b=Bg9lPmE+YA4+mopA+fn8Xab7Fs13Rz22iKmV6b+jYDFU/svXxMtT1e2Nb+kw9pdc6D
+         sCukBpZ2hM53MH2tECc64Izyp9P3n3dmFcrrhfsuKKoJT/5DQVULNOlSgH6DAP1y7ykA
+         m+Q5jlYCwLM68cRyAAmQr1lIhhMlqWctRZa+LW9KxweeMkQwNQBFI2YRpcR9m5u3rA/9
+         ldYMCalFOWpP43We1M5fm251RKwlQvZwTawTMh7rs9hGPIHF0GRVqGx8jzQh5TS7NfLO
+         emzLVTeEDLecuv3A/i3puwVNjnbRFlbx9Pd0IiX4ywl3Wuhrsn0EvzwUa7k76ezy/7Uu
+         KVNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719778123; x=1720382923;
+        d=1e100.net; s=20230601; t=1719778125; x=1720382925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=68iYALERIzOz1LwXjcOa9bbEZOOKZChvhU6B7ZQb/IY=;
-        b=BUAYuLNSoUoWSI8dmwQNeSz7apqy6fKaQQccKqFsz/hG7q9MST61FJXzR8WM8fBakA
-         gdWeaV+UOtiPebzZ4Unh3aoMEXulI0yGW9Bwc2XImq0i3Ua2nH66Stkn0VcUgsN6P/+a
-         86f76ZeFs4o6P4knT6NCDJIizxVllo+lDD8VIhCTHhj+YBYnQpWr1pqRy3TrmugIa4GU
-         Imv50btqdQPfSk31mVt3Yt1ojcBupucxiyHUmfkzhvXa5bYPbdxEUmKJMGM8P53HSU0T
-         RamFmcYpnGVTZ5KBEWCMtDv/HpeiCDoapPbKowHfoui+8PE2uXQtK8nisGLKW+E8J0Bf
-         D/Gg==
-X-Gm-Message-State: AOJu0YzwT+e7RvRBaVHPAyUZq0Ne8zcF9UWyfIMdDf6sHfilGIqsi9Ye
-	3+zTs7iYN1EzfjVRIaY46V+0SGO7HJGfyKpf8XTmrnd88IpsSFgyC1adY6EwjizH+waf7z//BJs
-	gnZs=
-X-Google-Smtp-Source: AGHT+IGh5pboao/hNlC/SAYdclNYBIdHHI6EJKqwUGLFUwqOuJdJ31bJkCo6w6R2bpe6DjFBYnK1gg==
-X-Received: by 2002:a9d:6f87:0:b0:700:d638:c28f with SMTP id 46e09a7af769-7020765dcb4mr5061690a34.21.1719778123036;
-        Sun, 30 Jun 2024 13:08:43 -0700 (PDT)
+        bh=dVRmKdmfxa0MZz5kyWWcuWEVwB0jH/nlZvjhz5yC4fU=;
+        b=p3DiDXFjVCTY2vvzCDLcJ3HoNPG5xHO8QQlFSLmUxwyycQ6m6/Q/YHOz2Zp/pKAuMs
+         MZ0QKd1qLOYpaVPR6R1fsktSgt6gRQR6V5tr7R8yjNIojDqm2zcdSqu12iqn2UlO0NMt
+         ryMXX5l+OgyiYmK+Lhy/IC0l3OTTP0GTKkaTviO3H/VxwHUTIuaosLw+tNZj7/xbCofa
+         7jBKiXjw4gggUKhotOSivCj78tb+xemOC5upGk+PqFp5VjLxy2t5Ir0EXBpxSQ6kILCB
+         s3btJSpw+WpgTC+a2CSI0Lz0m1mQI12+O10LZ4eGpVKZnt21SJPIJC5uuxyWKHELIbNA
+         vKNw==
+X-Gm-Message-State: AOJu0YwxlI5w+CXGIdMTVXTuU28kBoRrwSCq/hNYEQE9otWIx/4Xo+SK
+	CcstHlAHHoEyezcyIdhSr37dCpxWsk51S0fi+mvacP7Rc0aqSp4tN7+we8wx5Quw2wEBez2wX8G
+	02sk=
+X-Google-Smtp-Source: AGHT+IFnfOZMmrLc5RS0cruvPt4K3tLbZMHk43gdfobhZ/yQCAGaRnXWjVR8rsyjzzIpEeIleqB89Q==
+X-Received: by 2002:a6b:4412:0:b0:7f6:2da3:91e5 with SMTP id ca18e2360f4ac-7f62ee6e90cmr436471139f.15.1719778124368;
+        Sun, 30 Jun 2024 13:08:44 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.08.42
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.08.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 13:08:42 -0700 (PDT)
+        Sun, 30 Jun 2024 13:08:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 27/35] linuxloader: add -armhf on arm only for TARGET_FPU 'hard'
-Date: Sun, 30 Jun 2024 13:07:39 -0700
-Message-Id: <f8d96f091844bf4cc0fa3bd3104573533841259a.1719777887.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 28/35] wic/partition.py: Set hash_seed for empty ext partition
+Date: Sun, 30 Jun 2024 13:07:40 -0700
+Message-Id: <a4e7334a4b87f1bb1947f6b10f71ddb445c91d0c.1719777887.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1719777887.git.steve@sakoman.com>
 References: <cover.1719777887.git.steve@sakoman.com>
@@ -62,40 +62,89 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 20:08:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201264
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201265
 
-From: Jonas Gorski <jonas.gorski@bisdn.de>
+From: Adithya Balakumar <adithya.balakumar@toshiba-tsip.com>
 
-There are two types of soft FPU options for arm, soft and softfp, and if
-using the latter the wrong dynamic loader will be used.
+Although setting hash_seed is handled for the rootfs plugin case, but
+this is missed when deploying an empty ext partition.
 
-E.g. go will link against ld-linux-armhf.so.3, but libc6 will only ship
-a ld-linux.so.3, so go programs will fail to start.
-
-Fix this by instead checking for TARGET_FPU being 'hard' and then
-applying the suffix.
-
-Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
+Signed-off-by: Adithya Balakumar <adithya.balakumar@toshiba-tsip.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 07b4c7a2bd23f8645810e13439e814caaaf9cd94)
+(cherry picked from commit 0202fb594fb05098cb8d8b6088e63beb40b5906e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/linuxloader.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/partition.py | 37 ++++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
 
-diff --git a/meta/classes-recipe/linuxloader.bbclass b/meta/classes-recipe/linuxloader.bbclass
-index 2ea1b62254..a2e8f9837b 100644
---- a/meta/classes-recipe/linuxloader.bbclass
-+++ b/meta/classes-recipe/linuxloader.bbclass
-@@ -57,7 +57,7 @@ def get_glibc_loader(d):
-     elif re.search("i.86", targetarch):
-         dynamic_loader = "${base_libdir}/ld-linux.so.2"
-     elif targetarch == "arm":
--        dynamic_loader = "${base_libdir}/ld-linux${@['-armhf', ''][d.getVar('TARGET_FPU') == 'soft']}.so.3"
-+        dynamic_loader = "${base_libdir}/ld-linux${@['', '-armhf'][d.getVar('TARGET_FPU') == 'hard']}.so.3"
-     elif targetarch.startswith("aarch64"):
-         dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-     elif targetarch.startswith("riscv64"):
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 795707ec5d..bf2c34d594 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -284,19 +284,8 @@ class Partition():
+ 
+         extraopts = self.mkfs_extraopts or "-F -i 8192"
+ 
+-        if os.getenv('SOURCE_DATE_EPOCH'):
+-            sde_time = int(os.getenv('SOURCE_DATE_EPOCH'))
+-            if pseudo:
+-                pseudo = "export E2FSPROGS_FAKE_TIME=%s;%s " % (sde_time, pseudo)
+-            else:
+-                pseudo = "export E2FSPROGS_FAKE_TIME=%s; " % sde_time
+-
+-            # Set hash_seed to generate deterministic directory indexes
+-            namespace = uuid.UUID("e7429877-e7b3-4a68-a5c9-2f2fdf33d460")
+-            if self.fsuuid:
+-                namespace = uuid.UUID(self.fsuuid)
+-            hash_seed = str(uuid.uuid5(namespace, str(sde_time)))
+-            extraopts += " -E hash_seed=%s" % hash_seed
++        # use hash_seed to generate reproducible ext4 images
++        (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, pseudo)
+ 
+         label_str = ""
+         if self.label:
+@@ -344,6 +333,23 @@ class Partition():
+ 
+         self.check_for_Y2038_problem(rootfs, native_sysroot)
+ 
++    def get_hash_seed_ext4(self, extraopts, pseudo):
++        if os.getenv('SOURCE_DATE_EPOCH'):
++            sde_time = int(os.getenv('SOURCE_DATE_EPOCH'))
++            if pseudo:
++                pseudo = "export E2FSPROGS_FAKE_TIME=%s;%s " % (sde_time, pseudo)
++            else:
++                pseudo = "export E2FSPROGS_FAKE_TIME=%s; " % sde_time
++
++            # Set hash_seed to generate deterministic directory indexes
++            namespace = uuid.UUID("e7429877-e7b3-4a68-a5c9-2f2fdf33d460")
++            if self.fsuuid:
++                namespace = uuid.UUID(self.fsuuid)
++            hash_seed = str(uuid.uuid5(namespace, str(sde_time)))
++            extraopts += " -E hash_seed=%s" % hash_seed
++
++        return (extraopts, pseudo)
++
+     def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+         """
+@@ -437,13 +443,16 @@ class Partition():
+ 
+         extraopts = self.mkfs_extraopts or "-i 8192"
+ 
++        # use hash_seed to generate reproducible ext4 images
++        (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, None)
++
+         label_str = ""
+         if self.label:
+             label_str = "-L %s" % self.label
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s -U %s %s" % \
+             (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
++        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+         self.check_for_Y2038_problem(rootfs, native_sysroot)
+ 
 -- 
 2.34.1
 
