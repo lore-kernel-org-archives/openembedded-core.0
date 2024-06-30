@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE68C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1C3C30659
 	for <webhook@archiver.kernel.org>; Sun, 30 Jun 2024 20:07:58 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.4343.1719778077056596080
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.4342.1719778075733421509
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jun 2024 13:07:57 -0700
+ Sun, 30 Jun 2024 13:07:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=l9lG6CkX;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-701b0b0be38so1845482b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:07:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EumtBytW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-70aaab1cb72so1008593b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778076; x=1720382876; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778075; x=1720382875; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9Y3TRaX/wZLLmTLR6sVG+dWBa1DgAlYJIi/A09sGp58=;
-        b=l9lG6CkXdxzE1ZPSTIdHw/Xfw6tS/HB1d8dlL3WdtX0dgrt8XGNr3DLU03OFnpnMpr
-         E1zRkDAfxu64U6xB2lpbKV23H/8fnxIx9OPz+o/C01/r9julvnr3d0fnN717yOZvVj9s
-         eyBJREtC2MtPU41T97KlMKWQFix8lhSjSj0bKCeZHudUbvKCbWYtJJa1VLSHptPQzWG1
-         ezaOGc4XhQ9w6ClVbDwVcg6YwUN2GKtMrLeOK77uH1WA+9mwU1h7BpQxI/l/MncDUZy/
-         hnWZcKmGSOf32ogqSTNJljC17zUsEFKCOo4uZd7k+yBgmEAAlQdwkRrojFs8CXRN9a5T
-         7g2Q==
+        bh=g1rPyCz04l1wi9w+whzIXVVHYQDS/dTHQ0yNcyOmUUg=;
+        b=EumtBytWRZVkEJi+8ed7U/cwxV5zYNoZoZ3RKohMM1Q2U6yOB8QFvzxssy0Hy6O5pR
+         jk6PiiU5jHn3BugTCUF4OFOaFa5nz2/S3aj/TJwW8nsbocPpxE5a7GcDe00aYcvfil5P
+         TtXrArbCUyUXrrXTGmStYNUaRA/pVN1BWNB+Rv0AVA814lGmf76V8T5s/Fr685GNpyl2
+         k4XetPGUSlhip/ukpAdzvyZsOJUFSlasUY2MwMGzJMLig3/BLFD6E0HwhDEudlAP6P7x
+         j77oSFGsFAbVncUFRRJ6ZjEbUs1smMK/pTc3bBDAHUGFfji9hiZC4SLFPeP3BWziTHjg
+         hEZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719778076; x=1720382876;
+        d=1e100.net; s=20230601; t=1719778075; x=1720382875;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9Y3TRaX/wZLLmTLR6sVG+dWBa1DgAlYJIi/A09sGp58=;
-        b=jPGY+uhLuF1z82wmS/NqqyF6SpncuwUR3ZXg67/hOgwr2jFvZaVLChYTr7CWtjABmu
-         GxQVAB4AyMr3BTff63J8cHh4xCjV8J41ly88C8N/Zh2mzT4GA5R0r5uEgQ0JlK9dsLL6
-         bhzTKdafuoDhs+DDotwkcKAIkwvO+Kzpcl0wRHISBBHTyCXJLdgNk/HJybN1p1iufvj1
-         RMFOuaksjVRZLAsY7pYb9ODqUKhVH3pj265gJfCbeUzXdELCh98mGLno9CcmS3JuMRv1
-         /cBnsjrtTOdXS/nEFQA97T1qTxDORZe/A7wx4pDoEcocL5ZlLtXSg9ydcKF/zf9ISTF0
-         PJpQ==
-X-Gm-Message-State: AOJu0YzGrbKNf24ilhaGzUaAVHFg3kiLpB9c5m29TzBpdA7UOlHBgRDv
-	0xIVUupi9eQC9k9HphoIKKdLKeeCaOupy4neGp/lBAU409NIsZDChxgS7ef6YqbXqlFUhjxsIJc
-	gVtM=
-X-Google-Smtp-Source: AGHT+IFZCmGEuSn/Lca0a3mVr7js21IvnQJ2E7C0lVkD7X1cgNAQwIeJf2qg7gYlQpGRu6RhlrSKSw==
-X-Received: by 2002:a05:6a20:a124:b0:1be:c7f4:b42e with SMTP id adf61e73a8af0-1bef611cefbmr6595888637.20.1719778076293;
-        Sun, 30 Jun 2024 13:07:56 -0700 (PDT)
+        bh=g1rPyCz04l1wi9w+whzIXVVHYQDS/dTHQ0yNcyOmUUg=;
+        b=Ihq5BUi/MngCZoPXBEcDHpxOCPLuR+4d4Vqjx/7QOmtf2SacsmrX/pSdrcQbEp0Him
+         SrlEyW48sjrGH/K9wq9sMf5fK9CTxwi0rKCmew2egWZ1D7c0j/OFofDYD4q8vH2dLvb6
+         Hk0zZXbURKj90mBnVAYZHcaUKzE/XPPtr+jpmnVzNo/q6ppGsfbt+WUwD7gqLrSCg9GQ
+         Xayvasqgq2L0n2ZTrvyJfOFGXqUiElt1bRGaplySOyMqhx6aBkQofbvV/f/YYLdI8/yM
+         f3ElrzuTBCbdGQsrVfz6VWAiqgjL4FhisGHwfJS/2kB5FRtjAVZoMw5Wq7HzwC7nLDxy
+         qgLw==
+X-Gm-Message-State: AOJu0YwyeUEG8DhNX64btT9iylzpkUE4Rc3xUQSg7pYL8QsldoblGldW
+	NSHNw/GSC67oaF14PB4/yZ1RcIyPyczqthUEsOpGxAPeho91TJW/Kb9HfzKdLNkrCxRoNtNEG0T
+	27gE=
+X-Google-Smtp-Source: AGHT+IGe6NnZ2zLS0NBh7t//hH6YrcE6C5cStK9uxvksjjlW4vCSIqRZYLgW2s1cBzUgD53nOkfSHg==
+X-Received: by 2002:a05:6a00:807:b0:706:7943:b9aa with SMTP id d2e1a72fcca58-70aaad2a1bfmr6648630b3a.5.1719778074632;
+        Sun, 30 Jun 2024 13:07:54 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.07.55
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.07.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 13:07:56 -0700 (PDT)
+        Sun, 30 Jun 2024 13:07:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/35] libxml2: Upgrade 2.12.6 -> 2.12.8
-Date: Sun, 30 Jun 2024 13:07:14 -0700
-Message-Id: <0dc695fe1f6deffc65d61257009bbfed4f2c53e9.1719777887.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/35] wget: Fix for CVE-2024-38428
+Date: Sun, 30 Jun 2024 13:07:13 -0700
+Message-Id: <3c6e147f57e44d473fbd5fe5a11746150e561937.1719777887.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1719777887.git.steve@sakoman.com>
 References: <cover.1719777887.git.steve@sakoman.com>
@@ -62,40 +62,117 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 20:07:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201239
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201238
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-CVE's Fixed by upgrade:
-CVE-2024-34459 libxml2: buffer over-read in xmlHTMLPrintFileContext in xmllint.c
+Upstream-Status: Backport
+[https://git.savannah.gnu.org/cgit/wget.git/commit/?id=ed0c7c7e0e8f7298352646b2fd6e06a11e242ace]
 
-Other Changes between 2.12.6 -> 2.12.8
-======================================
-https://gitlab.gnome.org/GNOME/libxml2/-/blob/2.12/NEWS?ref_type=heads
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxml/{libxml2_2.12.6.bb => libxml2_2.12.8.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxml/{libxml2_2.12.6.bb => libxml2_2.12.8.bb} (97%)
+ .../wget/wget/CVE-2024-38428.patch            | 79 +++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.21.4.bb     |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-38428.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.6.bb b/meta/recipes-core/libxml/libxml2_2.12.8.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.12.6.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.8.bb
-index 14fcff7fa4..fb103f0273 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.6.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.8.bb
-@@ -20,7 +20,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
+diff --git a/meta/recipes-extended/wget/wget/CVE-2024-38428.patch b/meta/recipes-extended/wget/wget/CVE-2024-38428.patch
+new file mode 100644
+index 0000000000..ed99a05464
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2024-38428.patch
+@@ -0,0 +1,79 @@
++From ed0c7c7e0e8f7298352646b2fd6e06a11e242ace Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Sun, 2 Jun 2024 12:40:16 +0200
++Subject: Properly re-implement userinfo parsing (rfc2396)
++
++* src/url.c (url_skip_credentials): Properly re-implement userinfo parsing (rfc2396)
++
++The reason why the implementation is based on RFC 2396, an outdated standard,
++is that the whole file is based on that RFC, and mixing standard here might be
++dangerous.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/wget.git/commit/?id=ed0c7c7e0e8f7298352646b2fd6e06a11e242ace]
++CVE: CVE-2024-38428
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/url.c | 40 ++++++++++++++++++++++++++++++++++------
++ 1 file changed, 34 insertions(+), 6 deletions(-)
++
++diff --git a/src/url.c b/src/url.c
++index 69e948b..07c3bc8 100644
++--- a/src/url.c
+++++ b/src/url.c
++@@ -41,6 +41,7 @@ as that of the covered work.  */
++ #include "url.h"
++ #include "host.h"  /* for is_valid_ipv6_address */
++ #include "c-strcase.h"
+++#include "c-ctype.h"
++ 
++ #ifdef HAVE_ICONV
++ # include <iconv.h>
++@@ -526,12 +527,39 @@ scheme_leading_string (enum url_scheme scheme)
++ static const char *
++ url_skip_credentials (const char *url)
++ {
++-  /* Look for '@' that comes before terminators, such as '/', '?',
++-     '#', or ';'.  */
++-  const char *p = (const char *)strpbrk (url, "@/?#;");
++-  if (!p || *p != '@')
++-    return url;
++-  return p + 1;
+++  /*
+++   * This whole file implements https://www.rfc-editor.org/rfc/rfc2396 .
+++   * RFC 2396 is outdated since 2005 and needs a rewrite or a thorough re-visit.
+++   *
+++   * The RFC says
+++   * server        = [ [ userinfo "@" ] hostport ]
+++   * userinfo      = *( unreserved | escaped | ";" | ":" | "&" | "=" | "+" | "$" | "," )
+++   * unreserved    = alphanum | mark
+++   * mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+++   */
+++  static const char *allowed = "-_.!~*'();:&=+$,";
+++
+++  for (const char *p = url; *p; p++)
+++    {
+++      if (c_isalnum(*p))
+++        continue;
+++
+++      if (strchr(allowed, *p))
+++        continue;
+++
+++      if (*p == '%' && c_isxdigit(p[1]) && c_isxdigit(p[2]))
+++        {
+++          p += 2;
+++          continue;
+++        }
+++
+++      if (*p == '@')
+++        return p + 1;
+++
+++      break;
+++    }
+++
+++  return url;
++ }
++ 
++ /* Parse credentials contained in [BEG, END).  The region is expected
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
+index 1d31b0116d..bc65a8f7c8 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.21.4.bb
+@@ -1,5 +1,6 @@
+ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
++           file://CVE-2024-38428.patch \
+           "
  
--SRC_URI[archive.sha256sum] = "889c593a881a3db5fdd96cc9318c87df34eb648edfc458272ad46fd607353fbb"
-+SRC_URI[archive.sha256sum] = "43ad877b018bc63deb2468d71f95219c2fac196876ef36d1bee51d226173ec93"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
+ SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
 -- 
 2.34.1
 
