@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED9EC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A69BC3065C
 	for <webhook@archiver.kernel.org>; Sun, 30 Jun 2024 20:08:59 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web10.4271.1719778131122483114
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+ by mx.groups.io with SMTP id smtpd.web10.4272.1719778134239931253
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jun 2024 13:08:51 -0700
+ Sun, 30 Jun 2024 13:08:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jMNTtzyd;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.48, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-701ef03185fso1370029a34.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:08:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BNhXcfmV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.175, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-375daa47685so9318065ab.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 13:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778130; x=1720382930; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1719778133; x=1720382933; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FRXrs4+LBnz8ul/HppPGhv9lc3LC0c7OwCjhLy6j3rI=;
-        b=jMNTtzydu3OgQWRnZ/3qC2QjlWKqIqTSIc+X18poAV+yWkTkr64UiJWlfa8wTBajRd
-         ObCUrWobxO3zVDCnPxNimOG0BSWblS2d783VW37py99+d79dpwWImz5RqcFZwsfSW6KA
-         edkw5sul4xvixLhuLElU3IIA8l4no3m9/bq4ZLC1MQFUwvTpnYpoBe9eQW72Am/GH7Od
-         wKKtN+AaHYTu9Fevs2hqyX8RMY2GdDviGtt2QgZ33o+D5C8tLQIZ1jHSuQE7ay93z1TU
-         fwhkn0unYZFDvDEKkcB/yXjR6PQLdVXhC71RNy4AHbw4GC2rcYqt6snydoex9tLGl9QF
-         A6SQ==
+        bh=cQxq2Bx6aVz3oGHJLOOwHrGYUoJct/wEXxqf8EyWJV0=;
+        b=BNhXcfmVA9mARt5ema/IOkwAMJfzj+kubmxQxrN4SziYy06SdDt7xW0pxjbIhogQ4Z
+         QiaoKDd+LGYU8YPp79BiXJWf88/f5MiVnSr8odnob+irwAP4pKqxBCqglVSskPISzeFi
+         dGcrRmQmJMjZYGUrMntgpDCWO5zvPvbQ7Nq13mpY2wpNPyU5FvBOOQPjXt2alndxMNqG
+         KMsXJ5mHDPgCxtQiJv1GK3yHWVkmefkg/u2lkR/yIRqRqjGTnEm5K9L7B0FVaAQePzuX
+         pScUx+n5A/97Xdy/Kz6MH3jNKGWN8cSAiu/+poXiLnNBnEwzmFT2Hw56C1sTmxPbpH7P
+         Vvig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719778130; x=1720382930;
+        d=1e100.net; s=20230601; t=1719778133; x=1720382933;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FRXrs4+LBnz8ul/HppPGhv9lc3LC0c7OwCjhLy6j3rI=;
-        b=YbHpgjWquMxYmxvdDRZBafl7Je/5hsQLS1bmWpbqJY6V0AJXFHkRTRjDnDddLUVgxa
-         t2sUW7lTyPzpOWxXkdpL+xYRhG96SXRNU02pNvKYIdYosA8pWj/QQENd8WxeuUUR+FkL
-         wLoubHSBOE7b3ulSQMRslTSTpHJXr1PfCe0TfOye7EYg3VQd2NjGQLvsB1GitYd6ZimO
-         +QSPrX30StkU8i1pgMlpMHaPImEQOpp1a4rAw6IHKeFdt537SVoOIBdXsITpz7st0R6N
-         xXgF9tToDCxU1uSnyYG98Dx3t82zhdkrms4lD6ZzqZdTIji6SO+6Q7K3bXLewGhE/nhv
-         /JeA==
-X-Gm-Message-State: AOJu0YzQleJt9vu/AJxY10dJjIu68cN2j7XFY4MSCab/CEeCGR5LSTy8
-	YXz31fCt7PSV6T6XtZAz1JncM3K4+Vn/9x7LeRjuuI8ssw4v3JI59tPAtPrz+3EcmzrJpXODxIx
-	WL70=
-X-Google-Smtp-Source: AGHT+IFLJoinl9wUg20TETPS7DGpJi6iYWjbLU5odKJOjmME3ggqr50NqNvS9U471lQBbIr99uT+KQ==
-X-Received: by 2002:a05:6358:6f93:b0:1a5:bbe2:5060 with SMTP id e5c5f4694b2df-1a6acd26d34mr437724255d.17.1719778130098;
-        Sun, 30 Jun 2024 13:08:50 -0700 (PDT)
+        bh=cQxq2Bx6aVz3oGHJLOOwHrGYUoJct/wEXxqf8EyWJV0=;
+        b=B+z10mMigjVG/nkTcGuNphX2+LQIXiAWWbRNrazaUW0TevUIp/EpBsGivO3xydh0B+
+         kV+F3th6IWnv9M3bZb4800wf/ynz2ufJqj1G8NxKI2/STYU0ZB5f4NAxo0dXSn/LR6BF
+         qEfps7qJmD0/pcxTCaEOkk6pgRNGQUPLdV5Y5tzaF+ZTCUlueHbOyZxkmBrS8HhXv2Bk
+         bhlV8nM/1XNi5bgr+SvFLxyfp18Jwi+tC6dZiUbV4E+Gms+GIybp/8ZCmHrHKLTD9a7K
+         sjlVAkMAO6Sh/u041w/53rsFjz6iP40Eb8dK0mge6wSSe2PMoPW1rKaMpskbzZ3g1PhQ
+         tGcw==
+X-Gm-Message-State: AOJu0YykskWjKnifruFcE43e1MtykwC/vMKfOHAW05nsiFkDHQcbCs4H
+	7LA4D19jG2dkBOvzbiH9PyYpNHAxoR5R+B/oYi1p4SWn4pQiGFRx9G9KrUvs/967v+XAK+UoVfT
+	Eseo=
+X-Google-Smtp-Source: AGHT+IFxI0dq+RM60WSfAAX+N1zYoYJDhAvv5TIwsGBw8c9aCk5tgnooaQbhdoH1m7bmjFXfMBJtkw==
+X-Received: by 2002:a05:6e02:17c5:b0:375:deb0:4c4f with SMTP id e9e14a558f8ab-37cd31b7cb5mr47808415ab.31.1719778133273;
+        Sun, 30 Jun 2024 13:08:53 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.08.49
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6a6f0817sm3340835a12.27.2024.06.30.13.08.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 13:08:49 -0700 (PDT)
+        Sun, 30 Jun 2024 13:08:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 31/35] expect: fix configure with GCC 14
-Date: Sun, 30 Jun 2024 13:07:43 -0700
-Message-Id: <5c6630e61ad85a4bf9eecd94005e14f0e34df463.1719777887.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 33/35] bash: fix configure checks that fail with GCC 14.1
+Date: Sun, 30 Jun 2024 13:07:45 -0700
+Message-Id: <fbb297b34566b9cf7416b5ffeb296f892b5543a0.1719777887.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1719777887.git.steve@sakoman.com>
 References: <cover.1719777887.git.steve@sakoman.com>
@@ -62,243 +62,83 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 20:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201268
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201270
 
 From: Ross Burton <ross.burton@arm.com>
 
-The configure script has many fragments that fail to compile with GCC 14,
-take a patch submitted upstream to fix these issues.
+These configure checks cause compiler errors with GCC 14.1, so they always
+fail.  Backport fixes from upstream to solve this.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5c21ca789c288662aa3d307b30813cd03cc8c158)
+(cherry picked from commit 921479032720707f4817e3398e516724bc48b33c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../expect/expect/expect-configure-c99.patch  | 201 ++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.4.bb |   1 +
- 2 files changed, 202 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/expect-configure-c99.patch
+ .../bash/bash/0001-fix-c99.patch              | 41 +++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.2.21.bb     |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/0001-fix-c99.patch
 
-diff --git a/meta/recipes-devtools/expect/expect/expect-configure-c99.patch b/meta/recipes-devtools/expect/expect/expect-configure-c99.patch
+diff --git a/meta/recipes-extended/bash/bash/0001-fix-c99.patch b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
 new file mode 100644
-index 0000000000..09bf180df7
+index 0000000000..aa810f7d4e
 --- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/expect-configure-c99.patch
-@@ -0,0 +1,201 @@
-+Avoid calling exit without declaring the function.
++++ b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
+@@ -0,0 +1,41 @@
++From e9ed388e760ec33dcf9e72c639946c0d0abeec26 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Wed, 19 Jun 2024 12:57:39 +0000
++Subject: [PATCH] Fix C99 problems
 +
-+Add missing <string.h> include for memcpy.
++Backport some fixes from upstream to fix configure checks that fail with GCC 14.1.
 +
-+Use AC_TYPE_SIGNAL to fix REARM_SIG check.  Add missing includes.
-+
-+Fix various implicit int return types of main.
-+
-+Upstream-Status: Submitted [https://sourceforge.net/p/expect/patches/24/]
++Upstream-Status: Backport [devel branch]
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ aclocal.m4   | 3 +++
++ configure.ac | 2 +-
++ 2 files changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/configure.in b/configure.in
-+index 51558fa14d2bcf7e..055c88fbd8797eaa 100755
-+--- a/configure.in
-++++ b/configure.in
-+@@ -452,7 +452,11 @@ AC_CHECK_FUNC(siglongjmp, AC_DEFINE(HAVE_SIGLONGJMP))
-+ # because Unixware 2.0 handles it specially and refuses to compile
-+ # autoconf's automatic test that is a call with no arguments
-+ AC_MSG_CHECKING([for memcpy])
-+-AC_TRY_LINK(,[
-++AC_TRY_LINK([
-++#ifdef HAVE_STRING_H
-++#include <string.h>
-++#endif
-++],[
-+ char *s1, *s2;
-+ memcpy(s1,s2,0);
-+ ],
-+@@ -469,6 +473,7 @@ memcpy(s1,s2,0);
-+ AC_MSG_CHECKING([if WNOHANG requires _POSIX_SOURCE])
-+ AC_TRY_RUN([
-+ #include <sys/wait.h>
-++int
-+ main() {
-+ #ifndef WNOHANG
-+ 	return 0;
-+@@ -489,6 +494,7 @@ rm -rf wnohang
-+ AC_TRY_RUN([
-+ #include <stdio.h>
-+ #include <sys/wait.h>
-++int
-+ main() {
-+ #ifdef WNOHANG
-+ 	FILE *fp = fopen("wnohang","w");
-+@@ -527,16 +533,21 @@ else
-+   AC_DEFINE(SELECT_MASK_TYPE, fd_set)
-+ fi
-+ 
-+-dnl # Check for the data type of the function used in signal(). This
-+-dnl # must be before the test for rearming.
-+-dnl # echo checking return type of signal handlers
-+-dnl AC_HEADER_EGREP([(void|sighandler_t).*signal], signal.h, retsigtype=void,AC_DEFINE(RETSIGTYPE, int) retsigtype=int)
-++AC_TYPE_SIGNAL
-+ 
-+ # FIXME: check if alarm exists
-+ AC_MSG_CHECKING([if signals need to be re-armed])
-+ AC_TRY_RUN([
-+ #include <signal.h>
-+-#define RETSIGTYPE $retsigtype
-++#ifdef HAVE_STDLIB_H
-++# include <stdlib.h>
-++#endif
++diff --git a/aclocal.m4 b/aclocal.m4
++index cc97bd4..7423b99 100644
++--- a/aclocal.m4
+++++ b/aclocal.m4
++@@ -238,6 +238,9 @@ AC_CACHE_VAL(bash_cv_dup2_broken,
++ #include <sys/types.h>
++ #include <fcntl.h>
++ #include <stdlib.h>
 ++#ifdef HAVE_UNISTD_H
 ++# include <unistd.h>
-++#endif
-++#ifndef NO_SYS_WAIT_H
-++# include <sys/wait.h>
-++#endif
-+ 
-+ int signal_rearms = 0;
-+ 
-+@@ -553,6 +564,7 @@ int n;
-+ signal_rearms++;
-+ }
-+ 
-++int
+++#endif /* HAVE_UNISTD_H */
++ int
 + main()
 + {
-+ 	signal(SIGINT,parent_sigint_handler);
-+@@ -714,10 +726,11 @@ fi
-+ AC_MSG_CHECKING([for struct sgttyb])
-+ AC_TRY_RUN([
-+ #include <sgtty.h>
-++int
-+ main()
-+ {
-+   struct sgttyb tmp;
-+-  exit(0);
-++  return 0;
-+ }],
-+         AC_MSG_RESULT(yes)
-+         AC_DEFINE(HAVE_SGTTYB)
-+@@ -738,10 +751,11 @@ if test $mach -eq 0 ; then
-+   # pty_termios.c is set up to handle pty_termio.
-+   AC_MSG_CHECKING([for struct termio])
-+   AC_TRY_RUN([#include <termio.h>
-++  int
-+   main()
-+   {
-+     struct termio tmp;
-+-    exit(0);
-++    return 0;
-+   }],
-+         AC_DEFINE(HAVE_TERMIO)
-+         PTY_TYPE=termios
-+@@ -760,10 +774,11 @@ if test $mach -eq 0 ; then
-+ #  include <inttypes.h>
-+ #  endif
-+ #  include <termios.h>
-++  int
-+   main()
-+   {
-+     struct termios tmp;
-+-    exit(0);
-++    return 0;
-+   }],
-+         AC_DEFINE(HAVE_TERMIOS)
-+         PTY_TYPE=termios
-+@@ -782,6 +797,7 @@ AC_TRY_RUN([
-+ #include <inttypes.h>
-+ #endif
-+ #include <termios.h>
-++int
-+ main() {
-+ #if defined(TCGETS) || defined(TCGETA)
-+ 	return 0;
-+@@ -804,6 +820,7 @@ AC_TRY_RUN([
-+ #include <inttypes.h>
-+ #endif
-+ #include <termios.h>
-++int
-+ main() {
-+ #ifdef TIOCGWINSZ
-+ 	return 0;
-+@@ -823,6 +840,7 @@ main() {
-+ AC_MSG_CHECKING([for Cray-style ptys])
-+ SETUID=":"
-+ AC_TRY_RUN([
-++int
-+ main(){
-+ #ifdef CRAY
-+ 	return 0;
-+@@ -878,12 +896,13 @@ AC_MSG_CHECKING([for SV-style timezone])
-+ AC_TRY_RUN([
-+ extern char *tzname[2];
-+ extern int daylight;
-++int
-+ main()
-+ {
-+   int *x = &daylight;
-+   char **y = tzname;
-+ 
-+-  exit(0);
-++  return 0;
-+ }],
-+ 	AC_DEFINE(HAVE_SV_TIMEZONE)
-+ 	AC_MSG_RESULT(yes),
-+diff --git a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
-+index 0689cab3da994068..ebe839e5553ba520 100644
-+--- a/tclconfig/tcl.m4
-++++ b/tclconfig/tcl.m4
-+@@ -2400,7 +2400,7 @@ AC_DEFUN([TEA_TIME_HANDLER], [
-+ 	AC_TRY_COMPILE([#include <time.h>],
-+ 	    [extern long timezone;
-+ 	    timezone += 1;
-+-	    exit (0);],
-++	    return 0;],
-+ 	    tcl_cv_timezone_long=yes, tcl_cv_timezone_long=no)])
-+     if test $tcl_cv_timezone_long = yes ; then
-+ 	AC_DEFINE(HAVE_TIMEZONE_VAR, 1, [Should we use the global timezone variable?])
-+@@ -2412,7 +2412,7 @@ AC_DEFUN([TEA_TIME_HANDLER], [
-+ 	    AC_TRY_COMPILE([#include <time.h>],
-+ 		[extern time_t timezone;
-+ 		timezone += 1;
-+-		exit (0);],
-++		return 0;],
-+ 		tcl_cv_timezone_time=yes, tcl_cv_timezone_time=no)])
-+ 	if test $tcl_cv_timezone_time = yes ; then
-+ 	    AC_DEFINE(HAVE_TIMEZONE_VAR, 1, [Should we use the global timezone variable?])
-+@@ -2452,17 +2452,17 @@ AC_DEFUN([TEA_BUGGY_STRTOD], [
-+ 		    double value;
-+ 		    value = strtod(infString, &term);
-+ 		    if ((term != infString) && (term[-1] == 0)) {
-+-			exit(1);
-++			return 1;
-+ 		    }
-+ 		    value = strtod(nanString, &term);
-+ 		    if ((term != nanString) && (term[-1] == 0)) {
-+-			exit(1);
-++			return 1;
-+ 		    }
-+ 		    value = strtod(spaceString, &term);
-+ 		    if (term == (spaceString+1)) {
-+-			exit(1);
-++			return 1;
-+ 		    }
-+-		    exit(0);
-++		    return 0;
-+ 		}], tcl_cv_strtod_buggy=ok, tcl_cv_strtod_buggy=buggy,
-+ 		    tcl_cv_strtod_buggy=buggy)])
-+ 	if test "$tcl_cv_strtod_buggy" = buggy; then
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index 18904ebc10..174b35ec73 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -27,6 +27,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch \
-            file://0001-fixline1-fix-line-1.patch \
-            file://0001-Add-prototype-to-function-definitions.patch \
-+           file://expect-configure-c99.patch \
-            file://run-ptest \
++diff --git a/configure.ac b/configure.ac
++index a3b5bd7..2a38c6b 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -842,7 +842,7 @@ AC_CHECK_DECLS([strtold], [
++ 	[AC_COMPILE_IFELSE(
++ 		[AC_LANG_PROGRAM(
++ 		[[#include <stdlib.h>]],
++-		[[long double r; char *foo, bar; r = strtold(foo, &bar);]]
+++		[[long double r; char *foo, *bar; r = strtold(foo, &bar);]]
++ 	)],
++ 	[bash_cv_strtold_broken=no],[bash_cv_strtold_broken=yes])
++         ]
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.21.bb
+index 532adf4c1a..ccfe5c47a7 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.21.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://use_aclocal.patch \
+            file://0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch \
+            file://fix-filesubst-errexit.patch \
++           file://0001-fix-c99.patch \
             "
- SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
+ 
+ SRC_URI[tarball.sha256sum] = "c8e31bdc59b69aaffc5b36509905ba3e5cbb12747091d27b4b977f078560d5b8"
 -- 
 2.34.1
 
