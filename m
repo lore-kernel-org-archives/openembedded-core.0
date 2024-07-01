@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6652DC3DA65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC9DC3DA6C
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:00 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.2173.1719853075645059463
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.2112.1719853076172001320
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bahcyNji;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CmKk5kNZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101906f3b4d9a-0c6807d4-028f-4305-a937-1cfa26599aec-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dHRqr6l6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mriQrd9e;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101906f3b4b72-cab1f86e-8876-486e-a614-c663d04afa74-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1719853076;
+	t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nSBR/KDDex1T5uD4UnEzr9To3jElDZVoy4lGbeFq23s=;
-	b=bahcyNjibKKXpscX5nepNEmy65iub/m0qGd7hCXf1b5Wm7JQ+pxJQEQ3jHqrBys8
-	EGWFNt5maHY6zf/jWFE8WhecaMPimQQFflkpu7ts39QQaALzvIEODMFtURi+gzwR2Uy
-	bnUaC/JVK0zxqISupruDt6Zy3vpCcSK0Aw7vIxe8=
+	bh=pa4gIXTCWM6YBNs5JIXUPDREnvPLcm5ihzr3anEOETE=;
+	b=dHRqr6l6ct3SixsPCK0UFXzBy09xiOTOuxYnZr/1aeE4uY4HUXCirHrNo3Qp+XAr
+	d4hYZLCEPMJBeemuHouJdOS5KGtcyhHq7OJsER053naNeLWX4c3Ytah/JE9aryl9DUa
+	QvH8pGZIfVjT6IHR0xQQ+IZWQOTluqFlh+sQAhPU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nSBR/KDDex1T5uD4UnEzr9To3jElDZVoy4lGbeFq23s=;
-	b=CmKk5kNZ76P/r4WYN9VJe8+0WSvH2IYywQkoyq4WMC1zKmJyccjo8vNMjNuS7VU4
-	DWJI1Jj2uG278+o8tMt7AiqAE23f9aKZo8eQAh6kgFXy1rGlhXRYx5Uq+Fk73HiQlpE
-	GaU3XKvYQ4AaBnS0JouyLBkFi7SPHvoLJAxUmUtw=
-Content-Type: multipart/mixed; boundary="===============9014228927763822648=="
+	bh=pa4gIXTCWM6YBNs5JIXUPDREnvPLcm5ihzr3anEOETE=;
+	b=mriQrd9egiVyKe2FMbASb079J4BFOixgAcQz2RGbDc2vKJA56KXNN0ToHI0fq/ay
+	7jVlqQrsewjNQnz8DefigpSqIU0SpR++qUM5Z9t8U7wUVhFXFdfSEn3bBmpyQT7xOye
+	geKmmfJcOAi38eQYJGTwOyeaGbs73iiwtJh0bahQ=
+Content-Type: multipart/mixed; boundary="===============5355181971592500840=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.79.0 FAILED
-Message-ID: <010101906f3b4d9a-0c6807d4-028f-4305-a937-1cfa26599aec-000000@us-west-2.amazonses.com>
+Subject: [AUH] meson: upgrading to 1.4.1 SUCCEEDED
+Message-ID: <010101906f3b4b72-cab1f86e-8876-486e-a614-c663d04afa74-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.30
+X-SES-Outgoing: 2024.07.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201338
 
---===============9014228927763822648==
+--===============5355181971592500840==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,144 +51,239 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.79.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *meson* to *1.4.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-meson-upgrade-1.4.0-1.4.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade cargo -V 1.79.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-2401868f49ce52c2dd2146cc0454bddbaa01b205"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:2401868f49ce52c2dd2146cc0454bddbaa01b205"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1878 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (917 cached, 2 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-2401868f49ce52c2dd2146cc0454bddbaa01b205"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:2401868f49ce52c2dd2146cc0454bddbaa01b205"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-b1iiyhio: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r5yydosq/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-r5yydosq/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:18:00
-Adding changed files:   0% |                                    | ETA:  0:13:29
-Adding changed files:   0% |                                    | ETA:  0:11:58
-Adding changed files:   0% |                                    | ETA:  0:11:17
-Adding changed files:   0% |                                    | ETA:  0:10:55
-Adding changed files:   0% |                                    | ETA:  0:10:23
-Adding changed files:   0% |                                    | ETA:  0:10:07
-Adding changed files:   0% |                                    | ETA:  0:09:56
-Adding changed files:   0% |                                    | ETA:  0:09:41
-Adding changed files:   0% |                                    | ETA:  0:09:31
-Adding changed files:   0% |                                    | ETA:  0:09:24
-Adding changed files:   0% |                                    | ETA:  0:09:19
-Adding changed files:   0% |                                    | ETA:  0:09:09
-Adding changed files:   0% |                                    | ETA:  0:09:11
-Adding changed files:   1% |                                    | ETA:  0:09:05
-Adding changed files:   1% |                                    | ETA:  0:09:07
-Adding changed files:   1% |                                    | ETA:  0:09:07
-Adding changed files:   1% |                                    | ETA:  0:09:05
-Adding changed files:   1% |                                    | ETA:  0:09:01
-Adding changed files:   1% |                                    | ETA:  0:08:59
-Adding changed files:   1% |                                    | ETA:  0:08:54
-Adding changed files:   1% |                                    | ETA:  0:08:50
-Adding changed files:   1% |                                    | ETA:  0:08:48
-Adding changed files:   1% |                                    | ETA:  0:08:46
-Adding changed files:   1% |                                    | ETA:  0:08:44
-Adding changed files:   1% |                                    | ETA:  0:08:42
-Adding changed files:   1% |                                    | ETA:  0:08:40
-Adding changed files:   1% |                                    | ETA:  0:08:36
-Adding changed files:   2% |                                    | ETA:  0:08:33
-Adding changed files:   2% |                                    | ETA:  0:08:31
-Adding changed files:   2% |                                    | ETA:  0:08:31
-Adding changed files:   2% |                                    | ETA:  0:08:32
-Adding changed files:   2% |                                    | ETA:  0:08:31
-Adding changed files:   2% |                                    | ETA:  0:08:29
-Adding changed files:   2% |                                    | ETA:  0:08:27
-Adding changed files:   2% |                                    | ETA:  0:08:29
-Adding changed files:   2% |                                    | ETA:  0:08:26
-Adding changed files:   2% |                                    | ETA:  0:08:24
-Adding changed files:   2% |                                    | ETA:  0:08:22
-Adding changed files:   2% |#                                   | ETA:  0:08:20
-Adding changed files:   2% |#                                   | ETA:  0:08:19
-Adding changed files:   2% |#                                   | ETA:  0:08:20
-Adding changed files:   2% |#                                   | ETA:  0:08:20
-Adding changed files:   3% |#                                   | ETA:  0:08:19
-Adding changed files:   3% |#                                   | ETA:  0:08:20
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:19
-Adding changed files:   3% |#                                   | ETA:  0:08:18
-Adding changed files:   3% |#                                   | ETA:  0:08:17
-Adding changed files:   3% |#                                   | ETA:  0:08:15
-Adding changed files:   3% |#                                   | ETA:  0:08:15
-Adding changed files:   3% |#                                   | ETA:  0:08:15
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://static.rust-lang.org/dist/rustc-1.79.0-src.tar.xz;name=rust...
-ERROR: Execution of 'git add -f -A "tests/rustdoc/doc-hidden-private-67851-private.rs" "tests/rustdoc/doctest/auxiliary/empty.rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/duplicated-glob-reexport-60522.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-
- private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/hide-mut-methods-if-no-derefmut-impl-74083.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/implementors-unstable-75588.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-57180.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inlin
- e_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/ice-import-crate-57180.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_cross/issue-76736-4.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc-link-method-trait-impl-72340.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$name.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/markdown-60482.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "
- tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sidebar-trait-impl-disambiguate-78701.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/synthetic_auto/auto-trait-lifetimes-56822.rs" "tests/rustdoc/synthetic_auto/bounds.rs" "tests/rustdoc/synthetic_auto/send-impl-conditional-60726.rs" "tests/rustdoc/synthetic_auto/supertrait-bounds.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/rustdoc/underscore-import-61592.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_binop.rs" "tests/ui-fulldeps/stable-mir/check_defs.rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_intrinsics.rs" "
- tests/ui-fulldeps/stable-mir/check_item_kind.rs" "tests/ui-fulldeps/stable-mir/check_normalization.rs" "tests/ui-fulldeps/stable-mir/check_trait_queries.rs" "tests/ui-fulldeps/stable-mir/check_transform.rs" "tests/ui-fulldeps/stable-mir/check_ty_fold.rs" "tests/ui-fulldeps/stable-mir/projections.rs" "tests/ui/README.md" "tests/ui/abi/arm-unadjusted-intrinsic.rs" "tests/ui/abi/extern/extern-pass-FiveU16s.rs" "tests/ui/abi/extern/extern-return-FiveU16s.rs" "tests/ui/abi/statics/static-mut-foreign.stderr" "tests/ui/abi/unsized-args-in-c-abi-issues-94223-115845.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.stderr" "tests/ui/argfile/commandline-argfile-badutf8.args" "tests/ui/argfile/commandline-argfile-badutf8.rs" "tests/ui/argfile/commandline-argfile-badutf8.stderr" "tests/ui/argfile/commandline-argfile-missing-windows.rs" "tests/ui/argfile/commandline-argfile-missing-windows.stderr" "tests/ui/argfile/commandline-arg
- file-missing.rs" "tests/ui/argfile/commandline-argfile-missing.stderr" "tests/ui/argfile/commandline-argfile-multiple-windows.rs"' failed with exit code 128:
-fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============9014228927763822648==--
+
+-- >8 --
+From 317c96be4ccb02a02fb3939426cf96f9e0af427a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 1 Jul 2024 08:15:58 +0000
+Subject: [PATCH] meson: upgrade 1.4.0 -> 1.4.1
+
+---
+ .../meson/meson/0001-Make-CPU-family-warnings-fatal.patch   | 6 +++---
+ ...thon-module-do-not-manipulate-the-environment-when.patch | 4 ++--
+ .../meson/0002-Support-building-allarch-recipes-again.patch | 2 +-
+ .../meson/{meson_1.4.0.bb => meson_1.4.1.bb}                | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.4.0.bb => meson_1.4.1.bb} (98%)
+
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 94129b2f25..d78f783ce8 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From c61c93f43b70ba0670d41e841bff9f2a7186cc2f Mon Sep 17 00:00:00 2001
++From ee52b8c26b470fdbe4a5dc0e373ddda2ed28fe46 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -26,10 +26,10 @@ index 0e9cd23..b44e60c 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index af69f64..248d6dd 100644
++index 156d329..e443dd2 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -379,10 +379,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++@@ -380,10 +380,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+          if compilers and not any_compiler_has_define(compilers, '__mips64'):
+              trial = 'mips'
+  
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+index 9f3f516a5c..930b777668 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From b4c0602a56d3517ab66b98a7dbb69defe77d29a3 Mon Sep 17 00:00:00 2001
++From e490e123f766a7f3eb0111a5975255964ecf0dc3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when calling
+@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
+ 
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
+-index b9b17f8..a305afb 100644
++index a0a22c1..6fc0453 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+ @@ -381,9 +381,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index fa5ea57d5b..32befa2fd3 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From 7f69bfabb87d311d7409ea6699f7dee8e9b3a95b Mon Sep 17 00:00:00 2001
++From d10a8fd5c4281593177bb740bb9f5628b5e283b9 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_1.4.0.bb b/meta/recipes-devtools/meson/meson_1.4.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.4.0.bb
+rename to meta/recipes-devtools/meson/meson_1.4.1.bb
+index 5db100ff1c..6686b99d31 100644
+--- a/meta/recipes-devtools/meson/meson_1.4.0.bb
++++ b/meta/recipes-devtools/meson/meson_1.4.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] = "8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d"
++SRC_URI[sha256sum] = "1b8aad738a5f6ae64294cc8eaba9a82988c1c420204484ac02ef782e5bba5f49"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)$"
+ 
+ inherit python_setuptools_build_meta github-releases
+-- 
+2.44.0
+
+
+--===============5355181971592500840==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/meson: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.4.0/meson-1.4.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.4.1/meson-1.4.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
+packages/core2-64-poky-linux/meson/meson-dbg: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-dbg: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-dev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-dev: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-doc: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-doc: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-doc: PKGSIZE changed from 5356 to 5354 (-0%)
+packages/core2-64-poky-linux/meson/meson-locale: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-locale: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-src: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-src: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson-staticdev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson-staticdev: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
+packages/core2-64-poky-linux/meson/meson: PV changed from "1.4.0" to "1.4.1"
+packages/core2-64-poky-linux/meson/meson: PKGSIZE changed from 7974951 to 7993533 (+0%)
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.1.dist-info
+
+--===============5355181971592500840==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.12/site-packages/meson-1.4.0.dist-info moved to /usr/lib/python3.12/site-packages/meson-1.4.1.dist-info
+
+--===============5355181971592500840==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-meson-upgrade-1.4.0-1.4.1.patch"
+
+RnJvbSAzMTdjOTZiZTRjY2IwMmEwMmZiMzkzOTQyNmNmOTZmOWUwYWY0MjdhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwODoxNTo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c29uOiB1cGdyYWRlIDEuNC4wIC0+IDEuNC4xCgotLS0KIC4uLi9tZXNvbi9tZXNvbi8wMDAxLU1h
+a2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCAgIHwgNiArKystLS0KIC4uLnRob24t
+bW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1lbnZpcm9ubWVudC13aGVuLnBhdGNoIHwgNCAr
+Ky0tCiAuLi4vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fp
+bi5wYXRjaCB8IDIgKy0KIC4uLi9tZXNvbi97bWVzb25fMS40LjAuYmIgPT4gbWVzb25fMS40LjEu
+YmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMo
+KyksIDcgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL3tt
+ZXNvbl8xLjQuMC5iYiA9PiBtZXNvbl8xLjQuMS5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1NYWtlLUNQVS1mYW1pbHktd2Fybmlu
+Z3MtZmF0YWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1N
+YWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwucGF0Y2gKaW5kZXggOTQxMjliMmYyNS4uZDc4
+Zjc4M2NlOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAw
+MDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRh
+bC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzYxYzkzZjQzYjcwYmEwNjcwZDQxZTg0MWJm
+ZjlmMmE3MTg2Y2MyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZWU1MmI4YzI2YjQ3
+MGZkYmU0YTVkYzBlMzczZGRkYTJlZDI4ZmU0NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBUdWUsIDMgSnVs
+IDIwMTggMTM6NTk6MDkgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gTWFrZSBDUFUgZmFtaWx5IHdh
+cm5pbmdzIGZhdGFsCkBAIC0yNiwxMCArMjYsMTAgQEAgaW5kZXggMGU5Y2QyMy4uYjQ0ZTYwYyAx
+MDA2NDQKICAgICAgICAgIGVuZGlhbiA9IGxpdGVyYWxbJ2VuZGlhbiddCiAgICAgICAgICBpZiBl
+bmRpYW4gbm90IGluICgnbGl0dGxlJywgJ2JpZycpOgogZGlmZiAtLWdpdCBhL21lc29uYnVpbGQv
+ZW52aXJvbm1lbnQucHkgYi9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5Ci1pbmRleCBhZjY5ZjY0
+Li4yNDhkNmRkIDEwMDY0NAoraW5kZXggMTU2ZDMyOS4uZTQ0M2RkMiAxMDA2NDQKIC0tLSBhL21l
+c29uYnVpbGQvZW52aXJvbm1lbnQucHkKICsrKyBiL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkK
+LUBAIC0zNzksMTAgKzM3OSw4IEBAIGRlZiBkZXRlY3RfY3B1X2ZhbWlseShjb21waWxlcnM6IENv
+bXBpbGVyc0RpY3QpIC0+IHN0cjoKK0BAIC0zODAsMTAgKzM4MCw4IEBAIGRlZiBkZXRlY3RfY3B1
+X2ZhbWlseShjb21waWxlcnM6IENvbXBpbGVyc0RpY3QpIC0+IHN0cjoKICAgICAgICAgIGlmIGNv
+bXBpbGVycyBhbmQgbm90IGFueV9jb21waWxlcl9oYXNfZGVmaW5lKGNvbXBpbGVycywgJ19fbWlw
+czY0Jyk6CiAgICAgICAgICAgICAgdHJpYWwgPSAnbWlwcycKICAKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1h
+bmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbWVzb24vbWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1l
+bnZpcm9ubWVudC13aGVuLnBhdGNoCmluZGV4IDlmM2Y1MTZhNWMuLjkzMGI3Nzc2NjggMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1
+bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3Qt
+bWFuaXB1bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gYjRjMDYwMmE1NmQzNTE3YWI2NmI5OGE3ZGJiNjlkZWZlNzdkMjlhMyBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gZTQ5MGUxMjNmNzY2YTdmM2ViMDExMWE1OTc1MjU1OTY0ZWNmMGRj
+MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogTW9uLCAxOSBOb3YgMjAxOCAxNDoyNDoyNiArMDEw
+MAogU3ViamVjdDogW1BBVENIXSBweXRob24gbW9kdWxlOiBkbyBub3QgbWFuaXB1bGF0ZSB0aGUg
+ZW52aXJvbm1lbnQgd2hlbiBjYWxsaW5nCkBAIC0xMSw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgNSBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29u
+YnVpbGQvZGVwZW5kZW5jaWVzL3B5dGhvbi5weSBiL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5
+dGhvbi5weQotaW5kZXggYjliMTdmOC4uYTMwNWFmYiAxMDA2NDQKK2luZGV4IGEwYTIyYzEuLjZm
+YzA0NTMgMTAwNjQ0CiAtLS0gYS9tZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkKICsr
+KyBiL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5dGhvbi5weQogQEAgLTM4MSw5ICszODEsNiBA
+QCBkZWYgcHl0aG9uX2ZhY3RvcnkoZW52OiAnRW52aXJvbm1lbnQnLCBmb3JfbWFjaGluZTogJ01h
+Y2hpbmVDaG9pY2UnLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFs
+bGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAppbmRleCBmYTVlYTU3ZDViLi4zMmJlZmEyZmQzIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0
+LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBl
+cy1hZ2Fpbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2Y2OWJmYWJiODdkMzExZDc0MDll
+YTY2OTlmN2RlZThlOWIzYTk1YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDEwYThm
+ZDVjNDI4MTU5MzE3N2JiNzQwYmI5ZjU2MjhiNWUyODNiOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29tPgogRGF0ZTogVGh1LCAy
+NiBKdWwgMjAxOCAxNjozMjo0OSArMDIwMAogU3ViamVjdDogW1BBVENIXSBTdXBwb3J0IGJ1aWxk
+aW5nIGFsbGFyY2ggcmVjaXBlcyBhZ2FpbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21lc29uL21lc29uXzEuNC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21l
+c29uXzEuNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21lc29uL21lc29uXzEuNC4xLmJiCmluZGV4IDVkYjEwMGZmMWMuLjY2ODZiOTlkMzEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjQuMC5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS40LjEuYmIKQEAgLTE1LDcg
+KzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vbWVz
+b24tJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtTWFrZS1DUFUtZmFtaWx5
+LXdhcm5pbmdzLWZhdGFsLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDItU3VwcG9ydC1i
+dWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiOGZkNjYzMGMyNWMyN2YxNDg5YThhMDM5MmIzMTFhNjA0ODFhM2Mx
+NjFhYTY5OWIzMzBlMjU5MzViNzUwMTM4ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxYjhhYWQ3
+MzhhNWY2YWU2NDI5NGNjOGVhYmE5YTgyOTg4YzFjNDIwMjA0NDg0YWMwMmVmNzgyZTViYmE1ZjQ5
+IgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIKIAogaW5o
+ZXJpdCBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIGdpdGh1Yi1yZWxlYXNlcwotLSAKMi40
+NC4wCgo=
+
+--===============5355181971592500840==--
 
