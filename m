@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 716EDC53205
-	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:02 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.2115.1719853076387912522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14CA3C53211
+	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:03 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.2184.1719853076441872467
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fTWX9Ek1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pofhy3rF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101906f3b4fc8-c871a134-8a33-4880-8900-a2ecf35a7c13-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MjbFyFE1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UrXgqTOI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101906f3b5004-d0ec2b0f-99a5-43cf-8601-c88fb905d289-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QgrBjN91Fyg+cUJ5JO7qPO6uqcmnl2q742YqXinuRyA=;
-	b=fTWX9Ek1bFGPgjLPfMdgohTSUA1X5p/u9jim/4ermjUgEIRBQXKx+Bb2k+yd5cjn
-	w7XcjqHIO6dHm2Rlf6L1hISUyehFrSHgUTWnB5eyWXalHUcbX1S12wNbPuq4m5JkEgD
-	i39zEtsqxJRdlfrs+3BMyJYMpljc95B6IFbjygYM=
+	bh=K2avNh4/UGclTiiGnM/0mlDsGCGS3JokemZGIZkV2nw=;
+	b=MjbFyFE1tfzIolpfTkJPFuAfqFvjEiTgSH4nBYoS9YiPBix5kZMmLBMwfWHvMhkG
+	ATx/qyAiAIrhxxqTMveR+HpdPuE9mBlTgw4nYIxwynvRvzv1IObRKymKFPzKch6a09U
+	dd170/SkTlsyfbAmN9frNDqXAsLA9Ns8UBUDIVaE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QgrBjN91Fyg+cUJ5JO7qPO6uqcmnl2q742YqXinuRyA=;
-	b=pofhy3rFhXSp2RHHaCI5KDEyJ2k4I8bVszl+SxCV5M9B/ZasD5kIyMq9Qp2Nu3xR
-	DBwxriBrpW8iBI+BkYsqJjDFMzgzaotJ8a58+tXK8SIiQEJdk4Jup2Bmxa9sT1hlT89
-	BFvkBdAAscoPC+blPjypaJChwL3vGzJUD+A/rIQA=
-Content-Type: multipart/mixed; boundary="===============2098681221886233011=="
+	bh=K2avNh4/UGclTiiGnM/0mlDsGCGS3JokemZGIZkV2nw=;
+	b=UrXgqTOIxQH3yh3ko0snh5ivHyAeQRMqjwUSXBGqUQAJWUImVxBmRk89FGARTMz+
+	omDvXvXmREjIAN6sGotTrkqFMB6HFwTVvMUue1uZF/LDSH2wfMGKK/MN6YoaxTIW8n9
+	eEgtiM8e4hLnZ97teE5j+L/qzhIltz3e5/yr6pKw=
+Content-Type: multipart/mixed; boundary="===============3963321585922356109=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] harfbuzz: upgrading to 9.0.0 SUCCEEDED
-Message-ID: <010101906f3b4fc8-c871a134-8a33-4880-8900-a2ecf35a7c13-000000@us-west-2.amazonses.com>
+Subject: [AUH] libsdl2: upgrading to 2.30.4 SUCCEEDED
+Message-ID: <010101906f3b5004-d0ec2b0f-99a5-43cf-8601-c88fb905d289-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.192
+X-SES-Outgoing: 2024.07.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201404
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201403
 
---===============2098681221886233011==
+--===============3963321585922356109==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *harfbuzz* to *9.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsdl2* to *2.30.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-8.5.0-9.0.0.patch
+    - apply the patch: git am 0001-libsdl2-upgrade-2.30.3-2.30.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,112 +72,71 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 49251297385fe0c0053aadd2848038699dbb085b Mon Sep 17 00:00:00 2001
+From fbe99f49bdca80180b86fce1049e87a3ef907eec Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 13:19:46 +0000
-Subject: [PATCH] harfbuzz: upgrade 8.5.0 -> 9.0.0
+Date: Mon, 1 Jul 2024 13:28:14 +0000
+Subject: [PATCH] libsdl2: upgrade 2.30.3 -> 2.30.4
 
 ---
- .../harfbuzz/{harfbuzz_8.5.0.bb => harfbuzz_9.0.0.bb}           | 2 +-
+ .../libsdl2/{libsdl2_2.30.3.bb => libsdl2_2.30.4.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_8.5.0.bb => harfbuzz_9.0.0.bb} (95%)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.30.3.bb => libsdl2_2.30.4.bb} (97%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
-index 6b0eb12046..01ea6ca86d 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
+similarity index 97%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
+index 68cc2790e5..a6a3f4ef52 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "77e4f7f98f3d86bf8788b53e6832fb96279956e1c3961988ea3d4b7ca41ddc27"
-+SRC_URI[sha256sum] = "a41b272ceeb920c57263ec851604542d9ec85ee3030506d94662067c7b6ab89e"
+ S = "${WORKDIR}/SDL2-${PV}"
  
- DEPENDS += "glib-2.0-native"
+-SRC_URI[sha256sum] = "820440072f8f5b50188c1dae104f2ad25984de268785be40c41a099a510f0aec"
++SRC_URI[sha256sum] = "59c89d0ed40d4efb23b7318aa29fe7039dbbc098334b14f17f1e7e561da31a26"
+ 
+ inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
  
 -- 
 2.44.0
 
 
---===============2098681221886233011==
+--===============3963321585922356109==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-icu.so.0.60850.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.60850.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60850.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60850.0 /usr/lib/.debug/libharfbuzz.so.0.60850.0", added "/usr/lib/.debug/libharfbuzz-cairo.so.0.60900.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60900.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60900.0 /usr/lib/.debug/libharfbuzz-icu.so.0.60900.0 /usr/lib/.debug/libharfbuzz.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 76556360 to 77609336 (+1%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60850.0", added "/usr/lib/libharfbuzz-icu.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/sbix, directory renamed /usr/src/debug/harfbuzz/8.5.0/util -> /usr/src/debug/harfbuzz/9.0.0/util, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GDEF, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/graph -> /usr/src/debug/harfbuzz/9.0.0/src/graph, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/name -> /usr/src/debug/harfbuzz/9.0.0/src/OT/name, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GSUB, directory renamed /usr/src/debug/har
- fbuzz/8.5.0/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/svg -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/svg, removed "/usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/VarCompositeGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ft.h /usr/src/debug/harfbuzz/8.
- 5.0/src/hb-ot-layout.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-outline.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-repacker.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-number.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-glib.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-fac
- e.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-font.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta.h /usr/src/debug/harfbuzz/8.5.0/src/hb-shape.h /usr/src/debug/harfbuzz/8.5.0/src/hb-version.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-mutex.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-dispatch.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-debug.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-icu.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-map.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ucd.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gsubgpos.hh /usr/src/debug
- /harfbuzz/8.5.0/src/hb-subset-input.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-iter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-face.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var.cc /usr/src/debug/harfb
- uzz/8.5.0/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-use.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.h /usr/src/debug/harfbuzz/8.5.0/src/hb-multimap.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-pua.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-cache.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-common.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-string-array.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.hh /usr/src/debug/h
- arfbuzz/8.5.0/src/OT/glyf/GlyphHeader.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-atomic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face-builder.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-common.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-number.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/SimpleGlyph.hh /us
- r/src/debug/harfbuzz/8.5.0/src/OT/glyf/SubsetGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/coord-setter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-paint-extents.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-color.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-font.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.
- cc /usr/src/debug/harfbuzz/8.5.0/src/hb-bimap.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-color.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-machinery.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-algs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-enums.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.cc /usr/src/debug/harfbuzz
- /8.5.0/src/hb-ot-shaper-arabic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-font.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-static.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-deprecated.h /usr/src/debug/harfbuzz/8.5.0/src/hb-pool.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-null.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/Glyph.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/CompositeGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/co
- mposite-iter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/path-builder.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-shape.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-sanitize.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-style.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-input.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.h /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.h /usr/src/debug/harfbuzz/8.5.0/src/hb-outline.hh
-  /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-style.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-kern.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-meta.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.h /usr/src/debug/harfbuzz/8.5.0/src/hb-open-file.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-open-type.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbu
- zz/8.5.0/src/OT/glyf/glyf-helpers.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/glyf.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/loca.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set-digest.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-utf.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var.h /usr/src/debug/harfbuzz/8.5.0/src/hb-font.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ft.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-set.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-fallback-shape.cc /
- usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-page.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-array.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.h /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-object.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-use-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-vector.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-font.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-serialize.hh", added "/usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-table.hh /
- usr/src/debug/harfbuzz/9.0.0/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name.h /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-input.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/path-builder.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-set.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/9.0.0/sr
- c/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.h /usr/src/debug/harfbuzz/9.0.0/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.h /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-use.cc /usr/
- src/debug/harfbuzz/9.0.0/src/hb-ft.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-deprecated.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-sanitize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-use-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.h /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-page.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-s
- haper-arabic-pua.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-set-digest.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-serialize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-dispatch.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-string-array.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-set.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-math.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-utf.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-repacker.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-math.h /usr/src/debug/harfbuzz/9.
- 0.0/src/hb-outline.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-number.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-paint-extents.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-icu.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-set.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ucd.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-meta.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/9.0.0/src/
- hb-ot-var.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/GlyphHeader.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-iter.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-machinery.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-null.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-font.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-pool.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-array.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-geometry.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-debug.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/glyf-helpers.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-
- layout-morx-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-font.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-input.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-kern.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-number.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ft.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-algs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-common.h /usr/src/debug/harfbuzz/9.0.0/src/hb-glib.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-color.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.h /usr/
- src/debug/harfbuzz/9.0.0/src/hb-set.h /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/CompositeGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/composite-iter.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-multimap.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.h /usr/src/debug/harfbuzz/9.0.0/src/hb-style.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-object.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/glyf.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/loca.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-hmtx-table.hh /usr/sr
- c/debug/harfbuzz/9.0.0/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-static.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-open-file.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-open-type.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo.h /usr/src/debug/harfbuzz/9.0.0/src
- /hb-gobject-enums.h /usr/src/debug/harfbuzz/9.0.0/src/hb-mutex.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-vector.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-style.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cache.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-common.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/SimpleGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/SubsetGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-met
- rics.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/9.0.0/src/hb-version.h /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-font.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-atomic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/Glyph.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-bimap.hh /usr/src/debug/harfbu
- zz/9.0.0/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-color.h /usr/src/debug/harfbuzz/9.0.0/src/hb-font.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var.h /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-font.h /usr/src/debug/harfbuzz/9.0.0/src/hb-outline.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shape.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-ind
- ic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-face-builder.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face.hh"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4880971 to 4895646 (+0%)
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60850.0", added "/usr/lib/libharfbuzz-subset.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.60850.0 /usr/lib/libharfbuzz.so.0.60850.0 /usr/lib/libharfbuzz-gobject.so.0.60850.0", added "/usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-cairo.so.0.60900.0 /usr/lib/libharfbuzz-gobject.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1630578 to 1634674 (+0%)
-packages/core2-64-poky-linux/harfbuzz: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
-packages/core2-64-poky-linux/harfbuzz: PV changed from "8.5.0" to "9.0.0"
-packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/8.5.0/harfbuzz-8.5.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/9.0.0/harfbuzz-9.0.0.tar.xz"
-Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60850.0 to libharfbuzz-cairo.so.0.60900.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60850.0 to libharfbuzz-gobject.so.0.60900.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60850.0 to libharfbuzz-icu.so.0.60900.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60850.0 to libharfbuzz.so.0.60900.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60850.0 to libharfbuzz-subset.so.0.60900.0
-  /usr/lib/libharfbuzz-cairo.so.0.60850.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60900.0
-  /usr/lib/libharfbuzz-gobject.so.0.60850.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60900.0
-  /usr/lib/libharfbuzz-icu.so.0.60850.0 moved to /usr/lib/libharfbuzz-icu.so.0.60900.0
-  /usr/lib/libharfbuzz.so.0.60850.0 moved to /usr/lib/libharfbuzz.so.0.60900.0
-  /usr/lib/libharfbuzz-subset.so.0.60850.0 moved to /usr/lib/libharfbuzz-subset.so.0.60900.0
+packages/core2-64-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.30.3.tar.gz" to "http://www.libsdl.org/release/SDL2-2.30.4.tar.gz"
+packages/core2-64-poky-linux/libsdl2: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 7271320 to 7272048 (+0%)
+packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.3000.3", added "/usr/lib/.debug/libSDL2-2.0.so.0.3000.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PKGSIZE changed from 2451282 to 2451468 (+0%)
+packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-src: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10521652 to 10528678 (+0%)
+packages/core2-64-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 14470468 to 14472276 (+0%)
+packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+packages/core2-64-poky-linux/libsdl2/libsdl2: PV changed from "2.30.3" to "2.30.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2: PKGSIZE changed from 1922979 to 1923043 (+0%)
+packages/core2-64-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.3000.3", added "/usr/lib/libSDL2-2.0.so.0.3000.4"
+packages/core2-64-poky-linux/libsdl2/libsdl2: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
+Changes to packages/core2-64-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.3000.3 to libSDL2-2.0.so.0.3000.4
+  /usr/lib/libSDL2-2.0.so.0.3000.3 moved to /usr/lib/libSDL2-2.0.so.0.3000.4
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1688,26 +1647,45 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============2098681221886233011==
+--===============3963321585922356109==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libsdl2-upgrade-2.30.3-2.30.4.patch"
+
+RnJvbSBmYmU5OWY0OWJkY2E4MDE4MGI4NmZjZTEwNDllODdhM2VmOTA3ZWVjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMzoyODoxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnNkbDI6IHVwZ3JhZGUgMi4zMC4zIC0+IDIuMzAuNAoKLS0tCiAuLi4vbGlic2RsMi97bGlic2Rs
+Ml8yLjMwLjMuYmIgPT4gbGlic2RsMl8yLjMwLjQuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbGlic2RsMi97bGlic2RsMl8yLjMwLjMuYmIgPT4gbGlic2RsMl8yLjMw
+LjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIv
+bGlic2RsMl8yLjMwLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlic2RsMi9saWJzZGwy
+XzIuMzAuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvbGlic2RsMi9saWJzZGwyXzIuMzAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjMwLjQuYmIKaW5kZXggNjhjYzI3OTBlNS4uYTZh
+M2Y0ZWY1MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
+Ml8yLjMwLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8y
+LjMwLjQuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3LmxpYnNkbC5v
+cmcvcmVsZWFzZS9TREwyLSR7UFZ9LnRhci5neiIKIAogUyA9ICIke1dPUktESVJ9L1NETDItJHtQ
+Vn0iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MjA0NDAwNzJmOGY1YjUwMTg4YzFkYWUxMDRm
+MmFkMjU5ODRkZTI2ODc4NWJlNDBjNDFhMDk5YTUxMGYwYWVjIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjU5Yzg5ZDBlZDQwZDRlZmIyM2I3MzE4YWEyOWZlNzAzOWRiYmMwOTgzMzRiMTRmMTdmMWU3
+ZTU2MWRhMzFhMjYiCiAKIGluaGVyaXQgY21ha2UgbGliX3BhY2thZ2UgYmluY29uZmlnLWRpc2Fi
+bGVkIHBrZ2NvbmZpZyB1cHN0cmVhbS12ZXJzaW9uLWlzLWV2ZW4KIAotLSAKMi40NC4wCgo=
+
+--===============3963321585922356109==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60850.0", added "/usr/lib/libharfbuzz-icu.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60850.0", added "/usr/lib/libharfbuzz-subset.so.0.60900.0"
-packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.60850.0 /usr/lib/libharfbuzz-gobject.so.0.60850.0 /usr/lib/libharfbuzz-cairo.so.0.60850.0", added "/usr/lib/libharfbuzz-cairo.so.0.60900.0 /usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-gobject.so.0.60900.0"
-Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60850.0 to libharfbuzz-cairo.so.0.60900.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60850.0 to libharfbuzz-gobject.so.0.60900.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60850.0 to libharfbuzz-icu.so.0.60900.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60850.0 to libharfbuzz.so.0.60900.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60850.0 to libharfbuzz-subset.so.0.60900.0
-  /usr/lib/libharfbuzz-cairo.so.0.60850.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60900.0
-  /usr/lib/libharfbuzz-gobject.so.0.60850.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60900.0
-  /usr/lib/libharfbuzz-icu.so.0.60850.0 moved to /usr/lib/libharfbuzz-icu.so.0.60900.0
-  /usr/lib/libharfbuzz.so.0.60850.0 moved to /usr/lib/libharfbuzz.so.0.60900.0
-  /usr/lib/libharfbuzz-subset.so.0.60850.0 moved to /usr/lib/libharfbuzz-subset.so.0.60900.0
+packages/core2-64-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.3000.3", added "/usr/lib/libSDL2-2.0.so.0.3000.4"
+Changes to packages/core2-64-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.3000.3 to libSDL2-2.0.so.0.3000.4
+  /usr/lib/libSDL2-2.0.so.0.3000.3 moved to /usr/lib/libSDL2-2.0.so.0.3000.4
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3218,35 +3196,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============2098681221886233011==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-8.5.0-9.0.0.patch"
-
-RnJvbSA0OTI1MTI5NzM4NWZlMGMwMDUzYWFkZDI4NDgwMzg2OTlkYmIwODViIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMzoxOTo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
-cmZidXp6OiB1cGdyYWRlIDguNS4wIC0+IDkuMC4wCgotLS0KIC4uLi9oYXJmYnV6ei97aGFyZmJ1
-enpfOC41LjAuYmIgPT4gaGFyZmJ1enpfOS4wLjAuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfOC41LjAuYmIgPT4gaGFyZmJ1enpfOS4w
-LjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
-L2hhcmZidXp6XzguNS4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZi
-dXp6XzkuMC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el84LjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6XzkuMC4wLmJiCmluZGV4IDZiMGViMTIwNDYu
-LjAxZWE2Y2E4NmQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9o
-YXJmYnV6el84LjUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFy
-ZmJ1enpfOS4wLjAuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0NPUFlJTkc7bWQ1PWI5ODQyOWI4ZThlM2MyYTY3Y2ZlZjAxZTk5ZTQ4OTNkIFwKICAgICAgICAg
-ICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8k
-e1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc3ZTRmN2Y5
-OGYzZDg2YmY4Nzg4YjUzZTY4MzJmYjk2Mjc5OTU2ZTFjMzk2MTk4OGVhM2Q0YjdjYTQxZGRjMjci
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTQxYjI3MmNlZWI5MjBjNTcyNjNlYzg1MTYwNDU0MmQ5
-ZWM4NWVlMzAzMDUwNmQ5NDY2MjA2N2M3YjZhYjg5ZSIKIAogREVQRU5EUyArPSAiZ2xpYi0yLjAt
-bmF0aXZlIgogCi0tIAoyLjQ0LjAKCg==
-
---===============2098681221886233011==--
+--===============3963321585922356109==--
 
