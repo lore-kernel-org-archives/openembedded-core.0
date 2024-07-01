@@ -1,87 +1,75 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9690C2BD09
-	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 09:49:14 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.15799.1719827344072233165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71F5C2BD09
+	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 09:50:54 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.15851.1719827450791559242
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jul 2024 02:49:04 -0700
+ Mon, 01 Jul 2024 02:50:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lwgm7MeC;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ec408c6d94so28342221fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 02:49:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YM9xK2IG;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ec002caeb3so33618141fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 02:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719827342; x=1720432142; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DtpQpCt6KKrJXFEApOhI3h4ZamfFrTKmxefboNyyhkg=;
-        b=lwgm7MeCjeqpXhmJnRO7oDRBWz73WLFV9NlY2Qavn2H3VTMcTLd3GzhCF91C1VxXtF
-         C5/dBr8n6b0IcPRv6TFcywAytbLExR1Ata7zV8SgqF6UxsglpzJ372InYIBl6s65hyrR
-         3C5Ufbnfip9bmMbAnDzri2NPDGgde4KjzI+GmFMoBf9WB3kN5qf6N3I3u1upDLchkzlr
-         rnDolKCi3JvfJvjJWNu+gjYiJdFRm9j23DttBghXgn1VVIl8X//FWcm9KBfOCHJlqd0w
-         nbF9Qtgf0Yu4wfP52oJxENwC4Ad20yDbeAX+mZ+He078b1LERqpqc1wpN9PjsKzqnZr9
-         4clQ==
+        d=gmail.com; s=20230601; t=1719827449; x=1720432249; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VYVy4JgwlygZfP2mu+VfkVxf5vonT77ClyAPoG1bYWI=;
+        b=YM9xK2IGBVSjrp4M5m0CX/WOwNuW+5HF1q/tp9vMMlXF2VFUJEKpg1/gbSLiXBuqak
+         +7peGCMhVTA1mkwut+jAq2HYwaqZP3j32W1HWFRK9Vpna1mH0hzhEx+XozqAwOQ+5NdU
+         RsNce6uB2az4EF4pAkUgjOa/FEJbdh3RMimt3tClZrEg4+b9YJBHI8f7Z1C89VUL673y
+         KRsFYUNZsQ8/adDLC4FCRSBpa3Xj5a0LHXbfDdLOjJmOF4sm1Xly83G9gk4qP2WAh9Wi
+         xP/lh0zRDP4bhVTbI89kUmWMzlla6eC+sjtryEXp4RoLsVY0Z4F+hGZhgFuwCITdOahI
+         sOIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719827342; x=1720432142;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DtpQpCt6KKrJXFEApOhI3h4ZamfFrTKmxefboNyyhkg=;
-        b=R1DDIahTNuSmnXviifAQ5BGa/k80Gqssfgk/W9RFdRdS/Vat9/Jbefz3TlWVj06fog
-         2dlEKel9cwYQy6JIpmxRJ6YAx+sfPH0VFyYf6nVPKpJ2EVH3Uwyl9mnEjA6hT/n02kF4
-         g7lvV0oJqyyJMg3W398cETOdZs2CJ5InvOdEHom6qwRKxvYbuk1vqQmQmSImM3txNnnB
-         XgKI7WLr7zo4zKGEYmOJPbk0V5TOQ8iDjNvfpKnUcttSCN/2D4bKDFCCk75H+BklKeWJ
-         RJ4xJBRwb2Iy1Ce7/iJU/Gojzt7IXHAt8HpNR8mwcmCFivQPTnc5zF00Skoge+67oWvo
-         /YEw==
-X-Gm-Message-State: AOJu0YwfnyOSbGXCu9Qe5iKdD+jB/O9TCN/OmsyDLlMRybq2hXRCIBmN
-	XXeHqgwRfaK3wEqpN1USKDV1hDBa7hMnTOZ4y2snZjE41IvT+4lVDgwe+8pdnPcRvFE1afzjd3p
-	YKspJFWwZ63XUA8pUdjVtabQ40Y8=
-X-Google-Smtp-Source: AGHT+IEz3PrdH2eRVAqcNTE7soiNyLlL3EVY26NsOzvU21rCuxlTnGu4cHiNbYqgoySyqBUGHomtrUIKhk9m9xv8BKs=
-X-Received: by 2002:a05:651c:2c6:b0:2ec:543f:6013 with SMTP id
- 38308e7fff4ca-2ee5e3acd8dmr30594161fa.13.1719827341980; Mon, 01 Jul 2024
- 02:49:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719827449; x=1720432249;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VYVy4JgwlygZfP2mu+VfkVxf5vonT77ClyAPoG1bYWI=;
+        b=DWViG7BpiUyU2DfiTDUXIJcD43/KsZ+GvvM8GEwLOMwxN3fBrw2rYkPmWZo1YSvYIT
+         qb+jFXXOKj65klVi7joQ06SBJIAcbeuYoa4AUAldpTTkiZXYcTigBiTlDa6yVW9wr6Lt
+         osnCOF5EIhIwqxjIWj4dskaiBURJQcxPiqp7E2gXmqYZJLnDNFbgAdpYlkM2Z5lFdWnb
+         aOk4zvVYvjfjogqSjBGuMiTDfZHwuwd+QbWJPDEwvdOz5Pa563GEhepJY09EMd0i/48C
+         uUd+wsVlrYZ+tq3tS53svaJOmoFR5sLa6P98vSf/QyPUKmxT8Qz9qT4o9Ydua22OHKPT
+         dHLQ==
+X-Gm-Message-State: AOJu0Yz0jWMI5bd40KqqoETRQGPz0GD5FIB8CLBU1Dn8JInCMII1awL4
+	ewYUowN+gzmo0tcWgGLzKNfttijj6TM0wFW1Ct6j3ELLhKt6gYpz/TnwQa6S/5GktamF00457gb
+	FqfxRYUZWcSB3J+27Ht8goV/ki5M=
+X-Google-Smtp-Source: AGHT+IE+qDcLaOowohmUpodW+bbMX7+LCdX5IF7MyVXtzdeuYfeHf7iTTG8VnTYOLTeDuW/vW6zzMOUpuwTRlPeDlKI=
+X-Received: by 2002:a05:651c:2229:b0:2ec:637a:c212 with SMTP id
+ 38308e7fff4ca-2ee5e6e7256mr37219041fa.39.1719827448695; Mon, 01 Jul 2024
+ 02:50:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240701092639.1498856-1-Yash.Shinde@windriver.com>
-In-Reply-To: <20240701092639.1498856-1-Yash.Shinde@windriver.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 1 Jul 2024 10:48:50 +0100
-Message-ID: <CAO5Uq5R6ts__ZR1Gz70NR2DMSJ6WO7Mhvt=w8wy6YMztqD1P1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/9] rust: Oe-selftest fixes for rust v1.76.
+References: <20240701092639.1498856-1-Yash.Shinde@windriver.com> <20240701092639.1498856-2-Yash.Shinde@windriver.com>
+In-Reply-To: <20240701092639.1498856-2-Yash.Shinde@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Jul 2024 11:50:35 +0200
+Message-ID: <CANNYZj8BGFdzu3Og12jrNLya+pA2-jQ0d+b1SG25ZUMHAaU7=A@mail.gmail.com>
+Subject: Re: [PATCH 2/9] rust: Upgrade 1.75.0->1.76.0
 To: Yash.Shinde@windriver.com
 Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
 	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com, 
-	Shivaprasad.Moodalappa@windriver.com, alex.kanavin@gmail.com, 
-	alexandre.belloni@bootlin.com
+	Shivaprasad.Moodalappa@windriver.com, alexandre.belloni@bootlin.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 09:49:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201296
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 09:50:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201297
 
-On Mon, Jul 1, 2024 at 10:27=E2=80=AFAM Yash Shinde via lists.openembedded.=
-org
-<Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->
-> Add the failing tests in rust v1.76 to the exclude list
-> and add "ignore" tags to ignore failing unit test cases.
->
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
+On Mon, 1 Jul 2024 at 11:27, <Yash.Shinde@windriver.com> wrote:
 
-Well done getting all of this in place (and fingers crossed it makes
-it through the autobuilders) - this stuff is incredibly painful to
-move forwards!
+> * Drop 'rust-rustdoc' and 'rust-dbg' from 'exclude_packages' list
+> to check for rust reproducibility.
+
+If the reproducibility issue in rustdoc has not been solved, then this
+will only cause fails in CI and the patchset will be rejected. Have
+you done local testing for it?
 
 
-
---
-Alex Kiernan
+Alex
 
