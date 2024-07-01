@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E13C3DA6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C16C2BD09
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:00 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.2180.1719853076154796170
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.2111.1719853076169140178
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YRiN+UeR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=E7FzmwLp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101906f3b4bb9-d4b00e72-cc09-42e5-b004-dbd5777d674b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Tb7ixYXj;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aa1cp9+7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101906f3b4b5d-96fde283-ffc0-4f5b-8a9b-8976cdc763d3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gmRb6r6RJQNK4OjsIby0GAJlojEn57UIPNJcdC8U+eI=;
-	b=YRiN+UeRE54FFJo3G1SyIGJVU6HRMrKGGuES+AAYmNAmINFzSQcJXiV5YUtbrV9u
-	rJ6E6djEQ5ohPoCoby394hvShQPp+XwRG5LykBU9rke8ol1wr0f8DYrFXvg1Kb1yFdB
-	mVJFvBj7aW1ho423WHvPZvq+75L3MHlZKvwGPhng=
+	bh=3QdeFKjwk8gi/iDnJtmjNwJuZa/0nwckyWk8l+EDx5w=;
+	b=Tb7ixYXj4X9tPaE4/WWeVBUTMqQxzhijU8HlW7r5p9GAU6uvyEXiradw33ATzErQ
+	P6ALm0WGMEc4VPdVJeNQSBqDqBctI52SsYggYzi5xgzQhW3doLcMYUrjAlcjrOt1Ccd
+	ibIVMVn1m9UzqCrV//SQ4kBCNQQYNFc2nSJZk0/8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gmRb6r6RJQNK4OjsIby0GAJlojEn57UIPNJcdC8U+eI=;
-	b=E7FzmwLpYKHxHLkx2aJ/UrMU3jjFbv05LOU42mtu2KK9Eqtzk7ygZ0J4Eo6P0akZ
-	VSqhvxHi/RPk1wWAOuaVaQndYQK9xQiNMmABHg1my+q+TK8B2tfQfc9dIIrPjWfdnxG
-	niIA8LjYXOFO/fJauI8Vb/Itk6M2j5jtp3mB3Kvo=
-Content-Type: multipart/mixed; boundary="===============8733232171993597540=="
+	bh=3QdeFKjwk8gi/iDnJtmjNwJuZa/0nwckyWk8l+EDx5w=;
+	b=aa1cp9+7EKld1GME0xCLsdnX+yxQmAwT/YfWkSGTWa9M+3MpRxbRRD/5kZ71/OUo
+	fu6DbGnFgE0ljQD7oOg6js0Xi0SuTApnYIrpRCig3s3qKtKjZG3oOM3Jdz+BX1TZZbn
+	LFITB+6MZnJIxQUSrqsjHvnDFJeHQ5xOxj3HEZmI=
+Content-Type: multipart/mixed; boundary="===============7628086521225425408=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alex Stewart <alex.stewart@ni.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] opkg-utils: upgrading to 0.7.0 SUCCEEDED
-Message-ID: <010101906f3b4bb9-d4b00e72-cc09-42e5-b004-dbd5777d674b-000000@us-west-2.amazonses.com>
+Subject: [AUH] e2fsprogs: upgrading to 1.47.1 SUCCEEDED
+Message-ID: <010101906f3b4b5d-96fde283-ffc0-4f5b-8a9b-8976cdc763d3-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.29
+X-SES-Outgoing: 2024.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201339
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201340
 
---===============8733232171993597540==
+--===============7628086521225425408==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *opkg-utils* to *0.7.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *e2fsprogs* to *1.47.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-opkg-utils-upgrade-0.6.3-0.7.0.patch
+    - apply the patch: git am 0001-e2fsprogs-upgrade-1.47.0-1.47.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,367 +72,333 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 847531ab7739efdfae6483293cebd677f096c585 Mon Sep 17 00:00:00 2001
+From b642d73e94a1eb37b70a71b0feff6f10673d08d1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 08:24:29 +0000
-Subject: [PATCH] opkg-utils: upgrade 0.6.3 -> 0.7.0
+Date: Mon, 1 Jul 2024 07:49:28 +0000
+Subject: [PATCH] e2fsprogs: upgrade 1.47.0 -> 1.47.1
 
 ---
- ...e-numeric-owner-parameter-overzealou.patch | 34 -------------------
- ...lternatives-correctly-match-priority.patch |  2 +-
- ...pkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} |  3 +-
- 3 files changed, 2 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} (94%)
+ ...-fix-missing-check-for-permission-denied.patch |  3 +--
+ .../e2fsprogs/e2fsprogs/mkdir_p.patch             |  7 +++----
+ .../e2fsprogs/e2fsprogs/ptest.patch               |  8 ++++----
+ .../e2fsprogs/e2fsprogs/quiet-debugfs.patch       |  7 +++----
+ .../e2fsprogs/remove.ldconfig.call.patch          | 15 ++++++---------
+ .../{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb}  |  2 +-
+ 6 files changed, 18 insertions(+), 24 deletions(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb} (99%)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-deleted file mode 100644
-index 0cdeb9574a..0000000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 19c2c6a14c8760c3595f5dc6cc89cde85fbdbac1 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
--Date: Tue, 9 Jan 2024 09:20:55 +0100
--Subject: [PATCH] opkg-build: remove `--numeric-owner` parameter overzealously
-- added
--
--In some corner cases this parameter has been added overzealously.
--All discussion on this topic can be read in here:
--https://bugzilla.yoctoproject.org/show_bug.cgi?id=15334
--
--Upstream-Status: Backport [https://git.yoctoproject.org/opkg-utils/commit/?id=68a969f0e867ace0d94faf8ebe7c7bb67f59d386]
--
--Signed-off-by: Alex Stewart <alex.stewart@ni.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- opkg-build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/opkg-build b/opkg-build
--index 6edd938..0582958 100755
----- a/opkg-build
--+++ b/opkg-build
--@@ -337,7 +337,7 @@ export LANG=C
-- export LC_ALL=C
-- ( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
-- ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
---( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --numeric-owner --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
--+( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-- ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
-- rm $tmp_dir/file_list
-- rm $tmp_dir/control_list
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
-index 556d4ce5f5..5db0213873 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
+index b038e61eb7..c1c972aa2c 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
 @@ -1,4 +1,4 @@
--From 26206005dacd61380663bb4fd9b18178bb33665b Mon Sep 17 00:00:00 2001
-+From 4f3804db2bb3d436b40559073fd349ba02bddcd9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Sat, 24 Oct 2020 21:59:27 +0200
- Subject: [PATCH] update-alternatives: correctly match priority
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-index e138bc24af..44958b442e 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-@@ -9,9 +9,8 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
+-From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
++From 7333e431d7eb2c31d9ceb76407d95756e5d00dba Mon Sep 17 00:00:00 2001
+ From: Jackie Huang <jackie.huang@windriver.com>
+ Date: Wed, 10 Aug 2016 11:19:44 +0800
+ Subject: [PATCH] Fix missing check for permission denied.
+@@ -13,7 +13,6 @@ Upstream-Status: Pending
+ Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
  
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master \
-            file://0001-update-alternatives-correctly-match-priority.patch \
--           file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch \
+ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+-
+ ---
+  lib/support/profile.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+index f6916a1112..945d1c6e4f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+@@ -1,4 +1,4 @@
+-From e3a30baa5c1e2f0ac7e246539db1c7db5a2fe302 Mon Sep 17 00:00:00 2001
++From 8adf7fd048ad7f9c0e09e1b9b45fb1796bdb00b2 Mon Sep 17 00:00:00 2001
+ From: Joe Slater <jslater@windriver.com>
+ Date: Tue, 7 Mar 2017 14:53:19 -0800
+ Subject: [PATCH] e2fsprogs: expand @mkdir_p@
+@@ -9,16 +9,15 @@ not expanded so no locale data is written into usr/share/locale.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Joe Slater <jslater@windriver.com>
+-
+ ---
+  configure.ac | 2 ++
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4c4b5523..3475c707 100644
++index 131caef3..ca448d97 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -919,6 +919,8 @@ AC_SUBST(PACKAGE)
++@@ -938,6 +938,8 @@ AC_SUBST(PACKAGE)
+  AC_SUBST(VERSION)
+  
+  AM_GNU_GETTEXT([external])
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index 20839b7286..0046239b26 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -1,4 +1,4 @@
+-From b8842065ad621a03a971dfd50db862c5bffdeb49 Mon Sep 17 00:00:00 2001
++From 2f0479d6c06fa71fd1437085c8f5bd172eaadf6b Mon Sep 17 00:00:00 2001
+ From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+ Date: Sat, 18 Apr 2015 17:58:17 +0300
+ Subject: [PATCH] e2fsprogs: add ptest
+@@ -14,10 +14,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  2 files changed, 18 insertions(+), 18 deletions(-)
+ 
+ diff --git a/tests/Makefile.in b/tests/Makefile.in
+-index 8c4d2048..e021af32 100644
++index ba06b3b6..5a3e48f4 100644
+ --- a/tests/Makefile.in
+ +++ b/tests/Makefile.in
+-@@ -19,7 +19,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
++@@ -20,7 +20,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf test_data.tmp
+  	@echo "#!/bin/sh" > test_one
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+@@ -26,7 +26,7 @@ index 8c4d2048..e021af32 100644
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
+  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
+  	@echo "DD=@DD@" >>test_one
+-@@ -30,7 +30,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf
++@@ -31,7 +31,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf test_data.tmp
+  	@echo "Creating test_script..."
+  	@[ -f test_script ] && chmod u+w test_script || true
+  	@echo "#!/bin/sh" > test_script
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+index 0a6904208d..814c414a9c 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+@@ -1,4 +1,4 @@
+-From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
++From 9e25b5cf01a4e06dfd61bd71779b3f6b5f3e4e88 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 23 Dec 2013 13:38:34 +0000
+ Subject: [PATCH] e2fsprogs: silence debugfs
+@@ -8,16 +8,15 @@ filesystems at rootfs time.
+ 
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+ ---
+  debugfs/debugfs.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+-index 9b6321dc..8ebf3ddb 100644
++index 909c1df3..0842369e 100644
+ --- a/debugfs/debugfs.c
+ +++ b/debugfs/debugfs.c
+-@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int ss_idx)
++@@ -2529,7 +2529,7 @@ static int source_file(const char *cmd_file, int ss_idx)
+  		cp = strchr(buf, '\r');
+  		if (cp)
+  			*cp = 0;
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
+index f3e6eb778f..0c615f35e1 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
+@@ -1,10 +1,10 @@
+-From b139e03ac2f72e644e547c7ee9b1514383af4d97 Mon Sep 17 00:00:00 2001
++From 7735c8775bd1fa62ebb9a0bcd334c26d5f07bade Mon Sep 17 00:00:00 2001
+ From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ Date: Wed, 30 Jan 2013 15:22:04 +0200
+ Subject: [PATCH] When /etc/ld.so.cache is writeable by user running bitbake
+- then it creates invalid cache (in my case libstdc++.so
+- cannot be found after building zlib(-native) and I have to
+- call touch */libstdc++.so && /sbin/ldconfig to fix it.
++ then it creates invalid cache (in my case libstdc++.so cannot be found after
++ building zlib(-native) and I have to call touch */libstdc++.so &&
++ /sbin/ldconfig to fix it.
+ 
+ So remove ldconfig call from make install-libs
+ 
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [disable feature]
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+ Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ ---
+- lib/Makefile.elf-lib |    3 ---
++ lib/Makefile.elf-lib | 3 ---
+  1 file changed, 3 deletions(-)
+ 
+ diff --git a/lib/Makefile.elf-lib b/lib/Makefile.elf-lib
+-index 78479d3..4a4a5ac 100644
++index f850f3dd..cc1e6a70 100644
+ --- a/lib/Makefile.elf-lib
+ +++ b/lib/Makefile.elf-lib
+ @@ -50,8 +50,6 @@ install-shlibs install:: $(ELF_LIB) installdirs-elf-lib $(DEP_INSTALL_SYMLINK)
+@@ -39,6 +39,3 @@ index 78479d3..4a4a5ac 100644
+  
+  clean::
+  	$(RM) -rf elfshared
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+similarity index 99%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+index 940b47c155..bd6ac92cb1 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " \
+            file://quiet-debugfs.patch \
             "
--SRCREV = "589880d01969eb9af1e66120e731d43193504718"
-+SRCREV = "68a969f0e867ace0d94faf8ebe7c7bb67f59d386"
  
- S = "${WORKDIR}/git"
+-SRCREV = "f4c9cc4bedacde8408edda3520a32d3842290112"
++SRCREV = "b571b9b4240739a982e8bca62cfc914a3b50190a"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
  
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
 -- 
 2.44.0
 
 
---===============8733232171993597540==
+--===============7628086521225425408==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/opkg-utils: SRC_URI changed from "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch" to "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch"
-packages/core2-64-poky-linux/opkg-utils: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-badblocks: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-badblocks: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PKGSIZE changed from 5444592 to 5500200 (+1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PKGSIZE changed from 211303 to 214981 (+2%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PKGSIZE changed from 229602 to 230292 (+0%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dumpe2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dumpe2fs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PKGSIZE changed from 360520 to 360680 (+0%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PKGSIZE changed from 12708 to 12581 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PKGSIZE changed from 138233 to 137879 (-0%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PKGSIZE changed from 187318 to 194288 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PKGSIZE changed from 139525 to 138241 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PKGSIZE changed from 174877 to 173516 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PKGSIZE changed from 87621 to 87445 (-0%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PKGSIZE changed from 192760 to 191246 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fi: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fi: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PKGSIZE changed from 191387 to 198645 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fur: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fur: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PKGSIZE changed from 172240 to 170827 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PKGSIZE changed from 79593 to 79436 (-0%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PKGSIZE changed from 55778 to 55385 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGSIZE changed from 34318 to 38084 (+11%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PKGSIZE changed from 181862 to 180360 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PKGSIZE changed from 183887 to 190784 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PKGSIZE changed from 181221 to 179847 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PKGSIZE changed from 243724 to 241885 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PKGSIZE changed from 179148 to 185970 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-tr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-tr: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PKGSIZE changed from 248181 to 257172 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PKGSIZE changed from 183915 to 182379 (-1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PKGSIZE changed from 167075 to 173287 (+4%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-mke2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-mke2fs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: FILELIST: added "/usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/name /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/name /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/image.gz /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/name /usr/lib/e2fsprogs/ptest/test/m_roottar/expect /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/image.gz /usr/lib/e2fsprogs/ptest/test/m_roottar/mktar.pl /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.1 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/script /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.2 /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spur
+ ious_flag_dir/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image.gz /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/mkgnutar.pl /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/mkpaxtar.pl /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/name /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/image.gz /usr/lib/e2fsprogs/ptest/test/m_roottar/output.sed /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/name /usr/lib/e2fsprogs/ptest/test/m_root_perms/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.1 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/expect /u
+ sr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/name /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/script /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/expect /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/name /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/image.gz /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.2 /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/image.gz /usr/lib/e2fsprogs/ptest/test/m_roottar/script /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.2 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/output.sed /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/output.sed /usr/lib/e2fsprogs/ptest/test/m_root_perms/expect.1 /usr/lib/e2fsprogs/ptest/test/f_desc_siz
+ e_zero/script /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.1 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.2"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGSIZE changed from 16839531 to 19156882 (+14%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-resize2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-resize2fs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: FILELIST: directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/e2p -> /usr/src/debug/e2fsprogs/1.47.1/lib/e2p, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/support -> /usr/src/debug/e2fsprogs/1.47.1/lib/support, directory renamed /usr/src/debug/e2fsprogs/1.47.0/resize -> /usr/src/debug/e2fsprogs/1.47.1/resize, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/ss -> /usr/src/debug/e2fsprogs/1.47.1/lib/ss, directory renamed /usr/src/debug/e2fsprogs/1.47.0/e2fsck -> /usr/src/debug/e2fsprogs/1.47.1/e2fsck, directory renamed /usr/src/debug/e2fsprogs/1.47.0/tests/progs -> /usr/src/debug/e2fsprogs/1.47.1/tests/progs, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/et -> /usr/src/debug/e2fsprogs/1.47.1/lib/et, directory renamed /usr/src/debug/e2fsprogs/1.47.0/debugfs -> /usr/src/debug/e2fsprogs/1.47.1/debugfs, removed "/usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/kernel-list.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/e
+ xt2_types.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dirhash.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/blknum.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fast_commit.h /usr/src/debug/e2fsprogs/1.47.0/misc/default_profile.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/csum.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/link.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/unlink.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/llseek.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2initrd_helper.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mkjournal.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fallocate.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc16.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/qcow2.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mkdir.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/block.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inode.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/
+ crc16.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dupfs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext_attr.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/namei.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/punch.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/qcow2.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/write_bb_file.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ind_block.c /usr/src/debug/e2fsprogs/1.47.0/misc/util.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bmap64.h /usr/src/debug/e2fsprogs/1.47.0/misc/util.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/blkmap64_ba.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_err.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inline.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/native.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_ext_attr.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_err.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rbtree.c /usr/src/debug/e2fsprogs/1.47.0/misc/e4crypt.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ismount
+ ed.c /usr/src/debug/e2fsprogs/1.47.0/misc/logsave.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rbtree.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/sha512.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc32c.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc_stats.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rw_bitmaps.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/sparse_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/atexit.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bb_compat.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dblist.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/extent.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/icount.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/res_gdt.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/io_manager.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/hashmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext3_extents.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/imager.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/hashmap.h /usr/src/debug/e2fsprogs/1.47.0/l
+ ib/ext2fs/newdir.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc_tables.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fiemap.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/badblocks.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/lookup.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/utf8data.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dblist_dir.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext4_acl.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/symlink.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/closefs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/kernel-jbd.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dir_iterate.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2image.c /usr/src/debug/e2fsprogs/1.47.0/misc/e4defrag.c /usr/src/debug/e2fsprogs/1.47.0/misc/filefrag.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/expanddir.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2fsP.h /usr/src/debug/e2fsprogs/1.47.0/misc/e2freefrag.c /usr/src/debug/e2fsprogs
+ /1.47.0/misc/e2freefrag.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/check_desc.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitops.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/freefs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/openfs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/swapfs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/gen_bitmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitops.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/read_bb.c /usr/src/debug/e2fsprogs/1.47.0/misc/create_inode.h /usr/src/debug/e2fsprogs/1.47.0/misc/create_inode.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc32c_table.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/progress.c /usr/src/debug/e2fsprogs/1.47.0/misc/dumpe2fs.c /usr/src/debug/e2fsprogs/1.47.0/misc/mk_hugefiles.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/getsize.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inline_data.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/e2image.h /usr/src/debug/
+ e2fsprogs/1.47.0/lib/ext2fs/alloc_sb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/get_num_dirs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/initialize.c /usr/src/debug/e2fsprogs/1.47.0/misc/mke2fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bb_inode.c /usr/src/debug/e2fsprogs/1.47.0/misc/mke2fs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/blkmap64_rb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/orphan.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitmaps.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/version.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/get_pathname.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2undo.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/gen_bitmap64.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/test_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/undo_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/unix_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_io.h /usr/src/debug/e2fsprogs/1.47.0/misc/mklost+found.c /usr/src/debug/e2fsprogs/1.47.0/misc/tune2fs.c /usr/src/d
+ ebug/e2fsprogs/1.47.0/lib/ext2fs/finddev.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/valid_blk.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/jfs_compat.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mmp.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/nls_utf8.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inode_io.c /usr/src/debug/e2fsprogs/1.47.0/misc/chattr.c /usr/src/debug/e2fsprogs/1.47.0/misc/lsattr.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/read_bb_file.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/getsectsize.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/tdb.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/i_block.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/flushb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/tdb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dirblock.c /usr/src/debug/e2fsprogs/1.47.0/misc/badblocks.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fileio.c", added "/usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/kernel-list.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_types.h
+  /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dirhash.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/blknum.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fast_commit.h /usr/src/debug/e2fsprogs/1.47.1/misc/default_profile.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/csum.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/link.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/unlink.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/llseek.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2initrd_helper.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/mkjournal.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fallocate.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc16.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/qcow2.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/block.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inode.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc16.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dupfs.c /us
+ r/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext_attr.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/mkdir.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/namei.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/punch.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/qcow2.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/write_bb_file.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ind_block.c /usr/src/debug/e2fsprogs/1.47.1/misc/util.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bmap64.h /usr/src/debug/e2fsprogs/1.47.1/misc/util.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/blkmap64_ba.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_err.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inline.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/native.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_ext_attr.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_err.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rbtree.c /usr/src/debug/e2fsprogs/1.47.1/misc/e4crypt.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ismounted.c /usr/s
+ rc/debug/e2fsprogs/1.47.1/misc/logsave.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rbtree.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/sha512.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc32c.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_stats.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rw_bitmaps.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/sparse_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/atexit.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bb_compat.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dblist.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/extent.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/icount.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/res_gdt.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/io_manager.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/hashmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext3_extents.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/imager.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/hashmap.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/n
+ ewdir.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_tables.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fiemap.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/badblocks.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/lookup.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/utf8data.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dblist_dir.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext4_acl.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/getenv.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/symlink.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/closefs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/kernel-jbd.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dir_iterate.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2image.c /usr/src/debug/e2fsprogs/1.47.1/misc/e4defrag.c /usr/src/debug/e2fsprogs/1.47.1/misc/filefrag.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/expanddir.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2fsP.h /usr/src/debug/e2fsprogs/1.47.1/m
+ isc/e2freefrag.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2freefrag.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/check_desc.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitops.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/freefs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/openfs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/swapfs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/gen_bitmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitops.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/read_bb.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode.h /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc32c_table.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/progress.c /usr/src/debug/e2fsprogs/1.47.1/misc/dumpe2fs.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode_libarchive.c /usr/src/debug/e2fsprogs/1.47.1/misc/mk_hugefiles.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode_libarchive.h /usr/src/de
+ bug/e2fsprogs/1.47.1/lib/ext2fs/getsize.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inline_data.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/e2image.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_sb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/get_num_dirs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/initialize.c /usr/src/debug/e2fsprogs/1.47.1/misc/mke2fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bb_inode.c /usr/src/debug/e2fsprogs/1.47.1/misc/mke2fs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/blkmap64_rb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/orphan.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitmaps.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/version.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/get_pathname.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2undo.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/gen_bitmap64.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/test_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/undo_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/unix_
+ io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_io.h /usr/src/debug/e2fsprogs/1.47.1/misc/mklost+found.c /usr/src/debug/e2fsprogs/1.47.1/misc/tune2fs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/finddev.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/valid_blk.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/jfs_compat.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/mmp.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/nls_utf8.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inode_io.c /usr/src/debug/e2fsprogs/1.47.1/misc/chattr.c /usr/src/debug/e2fsprogs/1.47.1/misc/lsattr.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/read_bb_file.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/getsectsize.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/tdb.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/i_block.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/flushb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/tdb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dirblock.c /usr/src/debug/e2fsprogs/1.47.1/misc/badblocks.c /usr/s
+ rc/debug/e2fsprogs/1.47.1/lib/ext2fs/fileio.c"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PKGSIZE changed from 3711490 to 3749801 (+1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PKGSIZE changed from 3371796 to 3401542 (+1%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PKGSIZE changed from 121160 to 125256 (+3%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PKGSIZE changed from 499433 to 503529 (+1%)
+packages/core2-64-poky-linux/e2fsprogs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs: PACKAGES: added "e2fsprogs-locale-ro"
+packages/core2-64-poky-linux/e2fsprogs/libcomerr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/libcomerr: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/libe2p: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/libe2p: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/libext2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/libext2fs: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/e2fsprogs/libss: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
+packages/core2-64-poky-linux/e2fsprogs/libss: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dev: RDEPENDS: added "libxdmcp-dev libxau-dev"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: RDEPENDS: added "libxml2-dev libxcb-dev"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: RDEPENDS: added "zlib-dev"
+packages/core2-64-poky-linux/readline/readline-dbg: RRECOMMENDS: added "ncurses-dbg"
+packages/core2-64-poky-linux/readline/readline-dev: RDEPENDS: added "ncurses-dev"
+packages/core2-64-poky-linux/wayland/wayland-dev: RDEPENDS: added "libffi-dev"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1943,354 +1909,25 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============8733232171993597540==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-opkg-utils-upgrade-0.6.3-0.7.0.patch"
-
-RnJvbSA4NDc1MzFhYjc3MzllZmRmYWU2NDgzMjkzY2ViZDY3N2YwOTZjNTg1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwODoyNDoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
-a2ctdXRpbHM6IHVwZ3JhZGUgMC42LjMgLT4gMC43LjAKCi0tLQogLi4uZS1udW1lcmljLW93bmVy
-LXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoIHwgMzQgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
-bHRlcm5hdGl2ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNoIHwgIDIgKy0KIC4uLnBr
-Zy11dGlsc18wLjYuMy5iYiA9PiBvcGtnLXV0aWxzXzAuNy4wLmJifSB8ICAzICstCiAzIGZpbGVz
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMzcgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
-MDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLW9w
-a2ctYnVpbGQtcmVtb3ZlLW51bWVyaWMtb3duZXItcGFyYW1ldGVyLW92ZXJ6ZWFsb3UucGF0Y2gK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy97b3BrZy11dGlsc18wLjYu
-My5iYiA9PiBvcGtnLXV0aWxzXzAuNy4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1vcGtnLWJ1aWxkLXJlbW92
-ZS1udW1lcmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLW9wa2ctYnVpbGQtcmVtb3ZlLW51
-bWVyaWMtb3duZXItcGFyYW1ldGVyLW92ZXJ6ZWFsb3UucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUg
-MTAwNjQ0CmluZGV4IDBjZGViOTU3NGEuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLW9wa2ctYnVpbGQtcmVtb3ZlLW51bWVy
-aWMtb3duZXItcGFyYW1ldGVyLW92ZXJ6ZWFsb3UucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwz
-NCArMCwwIEBACi1Gcm9tIDE5YzJjNmExNGM4NzYwYzM1OTVmNWRjNmNjODljZGU4NWZiZGJhYzEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiA9P1VURi04P3E/UGlvdHI9MjA9QzU9ODFv
-YmFjej89IDxwLmxvYmFjekB3ZWxvdGVjLmNvbT4KLURhdGU6IFR1ZSwgOSBKYW4gMjAyNCAwOToy
-MDo1NSArMDEwMAotU3ViamVjdDogW1BBVENIXSBvcGtnLWJ1aWxkOiByZW1vdmUgYC0tbnVtZXJp
-Yy1vd25lcmAgcGFyYW1ldGVyIG92ZXJ6ZWFsb3VzbHkKLSBhZGRlZAotCi1JbiBzb21lIGNvcm5l
-ciBjYXNlcyB0aGlzIHBhcmFtZXRlciBoYXMgYmVlbiBhZGRlZCBvdmVyemVhbG91c2x5LgotQWxs
-IGRpc2N1c3Npb24gb24gdGhpcyB0b3BpYyBjYW4gYmUgcmVhZCBpbiBoZXJlOgotaHR0cHM6Ly9i
-dWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD0xNTMzNAotCi1VcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL29wa2ctdXRp
-bHMvY29tbWl0Lz9pZD02OGE5NjlmMGU4NjdhY2UwZDk0ZmFmOGViZTdjN2JiNjdmNTlkMzg2XQot
-Ci1TaWduZWQtb2ZmLWJ5OiBBbGV4IFN0ZXdhcnQgPGFsZXguc3Rld2FydEBuaS5jb20+Ci1TaWdu
-ZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gb3BrZy1idWls
-ZCB8IDIgKy0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-LQotZGlmZiAtLWdpdCBhL29wa2ctYnVpbGQgYi9vcGtnLWJ1aWxkCi1pbmRleCA2ZWRkOTM4Li4w
-NTgyOTU4IDEwMDc1NQotLS0tIGEvb3BrZy1idWlsZAotKysrIGIvb3BrZy1idWlsZAotQEAgLTMz
-Nyw3ICszMzcsNyBAQCBleHBvcnQgTEFORz1DCi0gZXhwb3J0IExDX0FMTD1DCi0gKCBjZCAkcGtn
-X2Rpci8kQ09OVFJPTCAmJiBmaW5kIC4gLXR5cGUgZiB8IHNvcnQgPiAkdG1wX2Rpci9jb250cm9s
-X2xpc3QgKQotICggY2QgJHBrZ19kaXIgJiYgZmluZCAuIC1wYXRoIC4vJENPTlRST0wgLXBydW5l
-IC1vIC1wYXRoIC4gLW8gLXByaW50ICB8IHNvcnQgPiAkdG1wX2Rpci9maWxlX2xpc3QgKQotLSgg
-Y2QgJHBrZ19kaXIgJiYgdGFyICRhdHRyaWJ1dGVzYXJncyAkb2dhcmdzICR0c29ydGFyZ3MgLS1u
-dW1lcmljLW93bmVyIC0tbm8tcmVjdXJzaW9uICRtdGltZV9hcmdzIC1jICR0YXJmb3JtYXQgLVQg
-JHRtcF9kaXIvZmlsZV9saXN0IHwgJGNvbXByZXNzb3IgJGNvbXByZXNzb3JhcmdzID4gJHRtcF9k
-aXIvZGF0YS50YXIuJGNleHQgKQotKyggY2QgJHBrZ19kaXIgJiYgdGFyICRhdHRyaWJ1dGVzYXJn
-cyAkb2dhcmdzICR0c29ydGFyZ3MgLS1uby1yZWN1cnNpb24gJG10aW1lX2FyZ3MgLWMgJHRhcmZv
-cm1hdCAtVCAkdG1wX2Rpci9maWxlX2xpc3QgfCAkY29tcHJlc3NvciAkY29tcHJlc3NvcmFyZ3Mg
-PiAkdG1wX2Rpci9kYXRhLnRhci4kY2V4dCApCi0gKCBjZCAkcGtnX2Rpci8kQ09OVFJPTCAmJiB0
-YXIgJG9nYXJncyAkdHNvcnRhcmdzIC0tbm8tcmVjdXJzaW9uICRtdGltZV9hcmdzIC1jICR0YXJm
-b3JtYXQgLVQgJHRtcF9kaXIvY29udHJvbF9saXN0IHwgZ3ppcCAkemlwYXJncyA+ICR0bXBfZGly
-L2NvbnRyb2wudGFyLmd6ICkKLSBybSAkdG1wX2Rpci9maWxlX2xpc3QKLSBybSAkdG1wX2Rpci9j
-b250cm9sX2xpc3QKLS0tIAotMi40My4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS11cGRhdGUtYWx0ZXJuYXRpdmVzLWNvcnJl
-Y3RseS1tYXRjaC1wcmlvcml0eS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0
-aWxzL29wa2ctdXRpbHMvMDAwMS11cGRhdGUtYWx0ZXJuYXRpdmVzLWNvcnJlY3RseS1tYXRjaC1w
-cmlvcml0eS5wYXRjaAppbmRleCA1NTZkNGNlNWY1Li41ZGIwMjEzODczIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAwMDEtdXBkYXRlLWFs
-dGVybmF0aXZlcy1jb3JyZWN0bHktbWF0Y2gtcHJpb3JpdHkucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLXVwZGF0ZS1hbHRlcm5hdGl2
-ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAy
-NjIwNjAwNWRhY2Q2MTM4MDY2M2JiNGZkOWIxODE3OGJiMzM2NjViIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQorRnJvbSA0ZjM4MDRkYjJiYjNkNDM2YjQwNTU5MDczZmQzNDliYTAyYmRkY2Q5IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
-YXZpbkBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDI0IE9jdCAyMDIwIDIxOjU5OjI3ICswMjAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIHVwZGF0ZS1hbHRlcm5hdGl2ZXM6IGNvcnJlY3RseSBtYXRjaCBwcmlv
-cml0eQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11
-dGlsc18wLjYuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRp
-bHNfMC43LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlsc18wLjYuMy5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlsc18wLjcuMC5iYgppbmRleCBlMTM4
-YmMyNGFmLi40NDk1OGI0NDJlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3Br
-Zy11dGlscy9vcGtnLXV0aWxzXzAuNi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9v
-cGtnLXV0aWxzL29wa2ctdXRpbHNfMC43LjAuYmIKQEAgLTksOSArOSw4IEBAIFBST1ZJREVTICs9
-ICIke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICd1cGRhdGUtYWx0ZXJuYXRp
-dmVzJywgJ3ZpcnR1CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvb3Br
-Zy11dGlscztwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIFwKICAgICAgICAgICAgZmlsZTov
-LzAwMDEtdXBkYXRlLWFsdGVybmF0aXZlcy1jb3JyZWN0bHktbWF0Y2gtcHJpb3JpdHkucGF0Y2gg
-XAotICAgICAgICAgICBmaWxlOi8vMDAwMS1vcGtnLWJ1aWxkLXJlbW92ZS1udW1lcmljLW93bmVy
-LXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjU4
-OTg4MGQwMTk2OWViOWFmMWU2NjEyMGU3MzFkNDMxOTM1MDQ3MTgiCitTUkNSRVYgPSAiNjhhOTY5
-ZjBlODY3YWNlMGQ5NGZhZjhlYmU3YzdiYjY3ZjU5ZDM4NiIKIAogUyA9ICIke1dPUktESVJ9L2dp
-dCIKIAotLSAKMi40NC4wCgo=
-
---===============8733232171993597540==
+--===============7628086521225425408==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGSIZE changed from 34318 to 38084 (+11%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGSIZE changed from 16839531 to 19156882 (+14%)
+packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: FILELIST: added "/usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.2 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/output.sed /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/output.sed /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.1 /usr/lib/e2fsprogs/ptest/test/m_roottar/mktar.pl /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/expect.1 /usr/lib/e2fsprogs/ptest/test/m_roottar/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.1 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/mkgnutar.pl /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/mkpax
+ tar.pl /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/name /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/script /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/name /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/image.gz /usr/lib/e2fsprogs/ptest/test/m_roottar/expect /usr/lib/e2fsprogs/ptest/test/m_roottar/output.sed /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/script /usr/lib/e2fsprogs/ptest/test/m_root_perms/script /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/name /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/name /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/image.gz /usr/lib/e2fsprogs/ptest/t
+ est/f_inlinedir_bad_symlink/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/name /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/script /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/script /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/expect /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/image.gz /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/expect /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image.gz /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/name /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/image.gz /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.2 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_
+ disconnected/image /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/name /usr/lib/e2fsprogs/ptest/test/m_root_perms/expect.1"
+packages/core2-64-poky-linux/e2fsprogs: PACKAGES: added "e2fsprogs-locale-ro"
+packages/core2-64-poky-linux/libxcb/libxcb-dev: RDEPENDS: added "libxau-dev libxdmcp-dev"
+packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: RDEPENDS: added "libxcb-dev libxml2-dev"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: RDEPENDS: added "zlib-dev"
+packages/core2-64-poky-linux/readline/readline-dbg: RRECOMMENDS: added "ncurses-dbg"
+packages/core2-64-poky-linux/readline/readline-dev: RDEPENDS: added "ncurses-dev"
+packages/core2-64-poky-linux/wayland/wayland-dev: RDEPENDS: added "libffi-dev"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3801,5 +3438,156 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============8733232171993597540==--
+--===============7628086521225425408==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-e2fsprogs-upgrade-1.47.0-1.47.1.patch"
+
+RnJvbSBiNjQyZDczZTk0YTFlYjM3YjcwYTcxYjBmZWZmNmYxMDY3M2QwOGQxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwNzo0OToyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGUy
+ZnNwcm9nczogdXBncmFkZSAxLjQ3LjAgLT4gMS40Ny4xCgotLS0KIC4uLi1maXgtbWlzc2luZy1j
+aGVjay1mb3ItcGVybWlzc2lvbi1kZW5pZWQucGF0Y2ggfCAgMyArLS0KIC4uLi9lMmZzcHJvZ3Mv
+ZTJmc3Byb2dzL21rZGlyX3AucGF0Y2ggICAgICAgICAgICAgfCAgNyArKystLS0tCiAuLi4vZTJm
+c3Byb2dzL2UyZnNwcm9ncy9wdGVzdC5wYXRjaCAgICAgICAgICAgICAgIHwgIDggKysrKy0tLS0K
+IC4uLi9lMmZzcHJvZ3MvZTJmc3Byb2dzL3F1aWV0LWRlYnVnZnMucGF0Y2ggICAgICAgfCAgNyAr
+KystLS0tCiAuLi4vZTJmc3Byb2dzL3JlbW92ZS5sZGNvbmZpZy5jYWxsLnBhdGNoICAgICAgICAg
+IHwgMTUgKysrKysrLS0tLS0tLS0tCiAuLi4ve2UyZnNwcm9nc18xLjQ3LjAuYmIgPT4gZTJmc3By
+b2dzXzEuNDcuMS5iYn0gIHwgIDIgKy0KIDYgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygr
+KSwgMjQgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9n
+cy97ZTJmc3Byb2dzXzEuNDcuMC5iYiA9PiBlMmZzcHJvZ3NfMS40Ny4xLmJifSAoOTklKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL2UyZnNw
+cm9ncy1maXgtbWlzc2luZy1jaGVjay1mb3ItcGVybWlzc2lvbi1kZW5pZWQucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9lMmZzcHJvZ3MtZml4LW1pc3Np
+bmctY2hlY2stZm9yLXBlcm1pc3Npb24tZGVuaWVkLnBhdGNoCmluZGV4IGIwMzhlNjFlYjcuLmMx
+Yzk3MmFhMmMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJm
+c3Byb2dzL2UyZnNwcm9ncy1maXgtbWlzc2luZy1jaGVjay1mb3ItcGVybWlzc2lvbi1kZW5pZWQu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvZTJm
+c3Byb2dzLWZpeC1taXNzaW5nLWNoZWNrLWZvci1wZXJtaXNzaW9uLWRlbmllZC5wYXRjaApAQCAt
+MSw0ICsxLDQgQEAKLUZyb20gNWJjNzU2NTQ2OTBhMmQ5MTYxOTAxNjhiODY1NzcwYTdjOTNlNjVk
+ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzMzM2U0MzFkN2ViMmMzMWQ5Y2ViNzY0
+MDdkOTU3NTZlNWQwMGRiYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEphY2tpZSBI
+dWFuZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDEwIEF1ZyAyMDE2
+IDExOjE5OjQ0ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIEZpeCBtaXNzaW5nIGNoZWNrIGZvciBw
+ZXJtaXNzaW9uIGRlbmllZC4KQEAgLTEzLDcgKzEzLDYgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5k
+aW5nCiBXcml0dGVuLWJ5OiBIZW5yaWsgV2FsbGluIDxoZW5yaWsuYi53YWxsaW5AZXJpY3Nzb24u
+Y29tPgogCiBTaWduZWQtb2ZmLWJ5OiBKYWNraWUgSHVhbmcgPGphY2tpZS5odWFuZ0B3aW5kcml2
+ZXIuY29tPgotCiAtLS0KICBsaWIvc3VwcG9ydC9wcm9maWxlLmMgfCAyICstCiAgMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9ta2Rpcl9wLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvbWtkaXJfcC5wYXRjaAppbmRleCBm
+NjkxNmExMTEyLi45NDVkMWM2ZTRmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+ZTJmc3Byb2dzL2UyZnNwcm9ncy9ta2Rpcl9wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL21rZGlyX3AucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIGUzYTMwYmFhNWMxZTJmMGFjN2UyNDY1MzlkYjFjN2RiNWEyZmUzMDIgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIDhhZGY3ZmQwNDhhZDdmOWMwZTA5ZTFiOWI0NWZiMTc5NmJkYjAw
+YjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb2UgU2xhdGVyIDxqc2xhdGVyQHdp
+bmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDcgTWFyIDIwMTcgMTQ6NTM6MTkgLTA4MDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gZTJmc3Byb2dzOiBleHBhbmQgQG1rZGlyX3BACkBAIC05LDE2ICs5LDE1IEBA
+IG5vdCBleHBhbmRlZCBzbyBubyBsb2NhbGUgZGF0YSBpcyB3cml0dGVuIGludG8gdXNyL3NoYXJl
+L2xvY2FsZS4KIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBKb2Ug
+U2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb20+Ci0KIC0tLQogIGNvbmZpZ3VyZS5hYyB8IDIg
+KysKICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9jb25m
+aWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDRjNGI1NTIzLi4zNDc1YzcwNyAxMDA2NDQK
+K2luZGV4IDEzMWNhZWYzLi5jYTQ0OGQ5NyAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysr
+IGIvY29uZmlndXJlLmFjCi1AQCAtOTE5LDYgKzkxOSw4IEBAIEFDX1NVQlNUKFBBQ0tBR0UpCitA
+QCAtOTM4LDYgKzkzOCw4IEBAIEFDX1NVQlNUKFBBQ0tBR0UpCiAgQUNfU1VCU1QoVkVSU0lPTikK
+ICAKICBBTV9HTlVfR0VUVEVYVChbZXh0ZXJuYWxdKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcHRlc3QucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9wdGVzdC5wYXRjaAppbmRleCAyMDgzOWI3Mjg2
+Li4wMDQ2MjM5YjI2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dz
+L2UyZnNwcm9ncy9wdGVzdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3By
+b2dzL2UyZnNwcm9ncy9wdGVzdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYjg4NDIwNjVh
+ZDYyMWEwM2E5NzFkZmQ1MGRiODYyYzViZmZkZWI0OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gMmYwNDc5ZDZjMDZmYTcxZmQxNDM3MDg1YzhmNWJkMTcyZWFhZGY2YiBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IERtaXRyeSBFcmVtaW4tU29sZW5pa292IDxkbWl0cnlfZXJl
+bWluQG1lbnRvci5jb20+CiBEYXRlOiBTYXQsIDE4IEFwciAyMDE1IDE3OjU4OjE3ICswMzAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIGUyZnNwcm9nczogYWRkIHB0ZXN0CkBAIC0xNCwxMCArMTQsMTAgQEAg
+U2lnbmVkLW9mZi1ieTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+CiAgMiBmaWxl
+cyBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdp
+dCBhL3Rlc3RzL01ha2VmaWxlLmluIGIvdGVzdHMvTWFrZWZpbGUuaW4KLWluZGV4IDhjNGQyMDQ4
+Li5lMDIxYWYzMiAxMDA2NDQKK2luZGV4IGJhMDZiM2I2Li41YTNlNDhmNCAxMDA2NDQKIC0tLSBh
+L3Rlc3RzL01ha2VmaWxlLmluCiArKysgYi90ZXN0cy9NYWtlZmlsZS5pbgotQEAgLTE5LDcgKzE5
+LDcgQEAgdGVzdF9vbmU6ICQoc3JjZGlyKS90ZXN0X29uZS5pbiBNYWtlZmlsZSBta2UyZnMuY29u
+ZgorQEAgLTIwLDcgKzIwLDcgQEAgdGVzdF9vbmU6ICQoc3JjZGlyKS90ZXN0X29uZS5pbiBNYWtl
+ZmlsZSBta2UyZnMuY29uZiB0ZXN0X2RhdGEudG1wCiAgCUBlY2hvICIjIS9iaW4vc2giID4gdGVz
+dF9vbmUKICAJQGVjaG8gIkhUUkVFPXkiID4+IHRlc3Rfb25lCiAgCUBlY2hvICJRVU9UQT15IiA+
+PiB0ZXN0X29uZQpAQCAtMjYsNyArMjYsNyBAQCBpbmRleCA4YzRkMjA0OC4uZTAyMWFmMzIgMTAw
+NjQ0CiAgCUBlY2hvICJESUZGX09QVFM9QFVOSV9ESUZGX09QVFNAIiA+PiB0ZXN0X29uZQogIAlA
+ZWNobyAiU0laRU9GX1RJTUVfVD1AU0laRU9GX1RJTUVfVEAiID4+IHRlc3Rfb25lCiAgCUBlY2hv
+ICJERD1ARERAIiA+PnRlc3Rfb25lCi1AQCAtMzAsNyArMzAsNyBAQCB0ZXN0X3NjcmlwdDogdGVz
+dF9vbmUgdGVzdF9zY3JpcHQuaW4gTWFrZWZpbGUgbWtlMmZzLmNvbmYKK0BAIC0zMSw3ICszMSw3
+IEBAIHRlc3Rfc2NyaXB0OiB0ZXN0X29uZSB0ZXN0X3NjcmlwdC5pbiBNYWtlZmlsZSBta2UyZnMu
+Y29uZiB0ZXN0X2RhdGEudG1wCiAgCUBlY2hvICJDcmVhdGluZyB0ZXN0X3NjcmlwdC4uLiIKICAJ
+QFsgLWYgdGVzdF9zY3JpcHQgXSAmJiBjaG1vZCB1K3cgdGVzdF9zY3JpcHQgfHwgdHJ1ZQogIAlA
+ZWNobyAiIyEvYmluL3NoIiA+IHRlc3Rfc2NyaXB0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9xdWlldC1kZWJ1Z2ZzLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcXVpZXQtZGVidWdmcy5wYXRjaApp
+bmRleCAwYTY5MDQyMDhkLi44MTRjNDE0YTljIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9xdWlldC1kZWJ1Z2ZzLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3F1aWV0LWRlYnVnZnMucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIDU4MGVmNmNhZTJkMzUzZjNhYTVkNWM1MmQ2NjE0YmRjMWRm
+NTBmMDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDllMjViNWNmMDFhNGUwNmRmZDYx
+YmQ3MTc3OWIzZjZiNWYzZTRlODggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb3Nz
+IEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogRGF0ZTogTW9uLCAyMyBEZWMgMjAxMyAx
+MzozODozNCArMDAwMAogU3ViamVjdDogW1BBVENIXSBlMmZzcHJvZ3M6IHNpbGVuY2UgZGVidWdm
+cwpAQCAtOCwxNiArOCwxNSBAQCBmaWxlc3lzdGVtcyBhdCByb290ZnMgdGltZS4KIAogVXBzdHJl
+YW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9z
+cy5idXJ0b25AaW50ZWwuY29tPgotCiAtLS0KICBkZWJ1Z2ZzL2RlYnVnZnMuYyB8IDIgKy0KICAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdp
+dCBhL2RlYnVnZnMvZGVidWdmcy5jIGIvZGVidWdmcy9kZWJ1Z2ZzLmMKLWluZGV4IDliNjMyMWRj
+Li44ZWJmM2RkYiAxMDA2NDQKK2luZGV4IDkwOWMxZGYzLi4wODQyMzY5ZSAxMDA2NDQKIC0tLSBh
+L2RlYnVnZnMvZGVidWdmcy5jCiArKysgYi9kZWJ1Z2ZzL2RlYnVnZnMuYwotQEAgLTI1MTYsNyAr
+MjUxNiw3IEBAIHN0YXRpYyBpbnQgc291cmNlX2ZpbGUoY29uc3QgY2hhciAqY21kX2ZpbGUsIGlu
+dCBzc19pZHgpCitAQCAtMjUyOSw3ICsyNTI5LDcgQEAgc3RhdGljIGludCBzb3VyY2VfZmlsZShj
+b25zdCBjaGFyICpjbWRfZmlsZSwgaW50IHNzX2lkeCkKICAJCWNwID0gc3RyY2hyKGJ1ZiwgJ1xy
+Jyk7CiAgCQlpZiAoY3ApCiAgCQkJKmNwID0gMDsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3JlbW92ZS5sZGNvbmZpZy5jYWxsLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcmVtb3ZlLmxkY29uZmln
+LmNhbGwucGF0Y2gKaW5kZXggZjNlNmViNzc4Zi4uMGM2MTVmMzVlMSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcmVtb3ZlLmxkY29uZmlnLmNh
+bGwucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3Mv
+cmVtb3ZlLmxkY29uZmlnLmNhbGwucGF0Y2gKQEAgLTEsMTAgKzEsMTAgQEAKLUZyb20gYjEzOWUw
+M2FjMmY3MmU2NDRlNTQ3YzdlZTliMTUxNDM4M2FmNGQ5NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNzczNWM4Nzc1YmQxZmE2MmViYjlhMGJjZDMzNGMyNmQ1ZjA3YmFkZSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJlaSBEaW51IDxhbmRyZWkuYWRyaWFueC5kaW51
+QGludGVsLmNvbT4KIERhdGU6IFdlZCwgMzAgSmFuIDIwMTMgMTU6MjI6MDQgKzAyMDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gV2hlbiAvZXRjL2xkLnNvLmNhY2hlIGlzIHdyaXRlYWJsZSBieSB1c2VyIHJ1
+bm5pbmcgYml0YmFrZQotIHRoZW4gaXQgY3JlYXRlcyBpbnZhbGlkIGNhY2hlIChpbiBteSBjYXNl
+IGxpYnN0ZGMrKy5zbwotIGNhbm5vdCBiZSBmb3VuZCBhZnRlciBidWlsZGluZyB6bGliKC1uYXRp
+dmUpIGFuZCBJIGhhdmUgdG8KLSBjYWxsIHRvdWNoICovbGlic3RkYysrLnNvICYmIC9zYmluL2xk
+Y29uZmlnIHRvIGZpeCBpdC4KKyB0aGVuIGl0IGNyZWF0ZXMgaW52YWxpZCBjYWNoZSAoaW4gbXkg
+Y2FzZSBsaWJzdGRjKysuc28gY2Fubm90IGJlIGZvdW5kIGFmdGVyCisgYnVpbGRpbmcgemxpYigt
+bmF0aXZlKSBhbmQgSSBoYXZlIHRvIGNhbGwgdG91Y2ggKi9saWJzdGRjKysuc28gJiYKKyAvc2Jp
+bi9sZGNvbmZpZyB0byBmaXggaXQuCiAKIFNvIHJlbW92ZSBsZGNvbmZpZyBjYWxsIGZyb20gbWFr
+ZSBpbnN0YWxsLWxpYnMKIApAQCAtMTUsMTEgKzE1LDExIEBAIFVwc3RyZWFtLVN0YXR1czogSW5h
+cHByb3ByaWF0ZSBbZGlzYWJsZSBmZWF0dXJlXQogU2lnbmVkLW9mZi1ieTogU2NvdHQgR2FybWFu
+IDxzY290dC5hLmdhcm1hbkBpbnRlbC5jb20+CiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWkgRGludSA8
+YW5kcmVpLmFkcmlhbnguZGludUBpbnRlbC5jb20+CiAtLS0KLSBsaWIvTWFrZWZpbGUuZWxmLWxp
+YiB8ICAgIDMgLS0tCisgbGliL01ha2VmaWxlLmVsZi1saWIgfCAzIC0tLQogIDEgZmlsZSBjaGFu
+Z2VkLCAzIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbGliL01ha2VmaWxlLmVsZi1saWIg
+Yi9saWIvTWFrZWZpbGUuZWxmLWxpYgotaW5kZXggNzg0NzlkMy4uNGE0YTVhYyAxMDA2NDQKK2lu
+ZGV4IGY4NTBmM2RkLi5jYzFlNmE3MCAxMDA2NDQKIC0tLSBhL2xpYi9NYWtlZmlsZS5lbGYtbGli
+CiArKysgYi9saWIvTWFrZWZpbGUuZWxmLWxpYgogQEAgLTUwLDggKzUwLDYgQEAgaW5zdGFsbC1z
+aGxpYnMgaW5zdGFsbDo6ICQoRUxGX0xJQikgaW5zdGFsbGRpcnMtZWxmLWxpYiAkKERFUF9JTlNU
+QUxMX1NZTUxJTkspCkBAIC0zOSw2ICszOSwzIEBAIGluZGV4IDc4NDc5ZDMuLjRhNGE1YWMgMTAw
+NjQ0CiAgCiAgY2xlYW46OgogIAkkKFJNKSAtcmYgZWxmc2hhcmVkCi0tLSAKLTEuNy45LjUKLQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3NfMS40
+Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3NfMS40Ny4x
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3NfMS40Ny4xLmJiCmluZGV4IDk0MGI0N2MxNTUuLmJk
+NmFjOTJjYjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJm
+c3Byb2dzXzEuNDcuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2Uy
+ZnNwcm9nc18xLjQ3LjEuYmIKQEAgLTEwLDcgKzEwLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3Mt
+bmF0aXZlID0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly9xdWlldC1kZWJ1Z2ZzLnBhdGNoIFwKICAg
+ICAgICAgICAgIgogCi1TUkNSRVYgPSAiZjRjOWNjNGJlZGFjZGU4NDA4ZWRkYTM1MjBhMzJkMzg0
+MjI5MDExMiIKK1NSQ1JFViA9ICJiNTcxYjliNDI0MDczOWE5ODJlOGJjYTYyY2ZjOTE0YTNiNTAx
+OTBhIgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPlxkK1wuXGQrKFwu
+XGQrKSopJCIKIAogRVhUUkFfT0VDT05GICs9ICItLWxpYmRpcj0ke2Jhc2VfbGliZGlyfSAtLXNi
+aW5kaXI9JHtiYXNlX3NiaW5kaXJ9IFwKLS0gCjIuNDQuMAoK
+
+--===============7628086521225425408==--
 
